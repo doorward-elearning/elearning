@@ -1,8 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import Router from './routes';
+import store from './redux/store';
+import { Provider } from 'react-redux';
+
+const App: React.FC = () => {
+  return (
+    <Provider store={store}>
+      <Router/>
+    </Provider>
+  );
+};
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -93,7 +93,7 @@
     "react/react-in-jsx-scope": 1,
     "react/require-extension": 0,
     "react/self-closing-comp": 1,
-    "react/sort-comp": 1,
+    "react/sort-comp": 0,
     "react/wrap-multilines": 0,
     "jsx-a11y/label-has-for": 0
   },
