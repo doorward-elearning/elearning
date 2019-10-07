@@ -8,7 +8,7 @@ const Api = {
     }
   },
   registration: {
-    register: (email: string): Promise<any> => Request.put(`registration?${querystring.stringify({email})}`)
+    register: (email: string): Promise<any> => Request.put(`registration?email=${email}`)
   }
 };
 

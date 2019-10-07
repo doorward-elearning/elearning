@@ -7,7 +7,7 @@ const Login: React.FC = () => {
   const initialState = {};
 
   const onSubmit = () => {
-    Api.registration.register('moses.gitau@andela.com').then(console.log).catch(console.error);
+    Api.users.roles.getRoles(327680).then(console.log).catch(console.error);
   };
   return (
     <div className="limiter">

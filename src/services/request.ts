@@ -14,18 +14,18 @@ export default class Request {
   }
 
   public static get<T = any, R = AxiosResponse<T>>(url: string): Promise<R>{
-    return axios.get(url, { withCredentials: true });
+    return axios.get(url);
   }
 
   public static post<T = any, R = AxiosResponse<T>>(url: string, data?: any): Promise<R>{
-    return axios.post(url, data, { withCredentials: true });
+    return axios.post(url, data);
   }
 
   public static put<T = any, R = AxiosResponse<T>>(url: string, data?: any): Promise<R>{
-    return axios.put(url, data, { withCredentials: true });
+    return axios.put(url, data);
   }
 
   public static delete<T = any, R = AxiosResponse<T>>(url: string): Promise<R>{
-    return axios.delete(url, { withCredentials : true});
+    return axios.delete(url);
   }
 }
