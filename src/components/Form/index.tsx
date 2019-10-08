@@ -1,8 +1,8 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Formik } from 'formik';
-import { FormProps } from '../../@types/types';
+import {FormProps} from "../../types";
 
-const Form: FunctionComponent<FormProps> = ({
+const Form: FunctionComponent<FormProps<any>> = ({
   children,
   initialValues,
   onSubmit,
@@ -11,7 +11,7 @@ const Form: FunctionComponent<FormProps> = ({
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      render={(props): ReactNode=> {
+      render={(props): ReactNode | JSX.Element => {
         return children(props);
       }}
     />

@@ -1,5 +1,5 @@
 import React from 'react';
-import Form from '../../util/Form';
+import Form from '../../components/Form';
 import LoginForm from '../../components/LoginForm';
 import Api from '../../services/api';
 

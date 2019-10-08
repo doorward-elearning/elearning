@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
-import { LoginFormState } from '../../@types/types';
+import {LoginFormState} from "../../types";
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (
