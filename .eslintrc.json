@@ -78,6 +78,7 @@
     "react/jsx-no-literals": 0,
     "react/jsx-no-undef": 1,
     "react/jsx-pascal-case": 1,
+    "@typescript-eslint/no-empty-interface": 0,
     "react/jsx-sort-prop-types": 0,
     "react/jsx-sort-props": 0,
     "react/jsx-uses-react": 1,

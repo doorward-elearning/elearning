@@ -1,12 +1,16 @@
 import React, { FunctionComponent } from 'react';
 import { InputProps } from '../../types';
 
-const Input: FunctionComponent<InputProps> = (props): JSX.Element => {
-  return (
-    <>
-      <input {...props} />
-    </>
-  );
-};
 
-export default Input;
+function withInput<R extends InputProps> (Input: FunctionComponent ): FunctionComponent<R>{
+  return (props): JSX.Element => {
+    return (
+      <>
+        <Input {...props}/>
+      </>
+    );
+  };
+}
+
+
+export default withInput;

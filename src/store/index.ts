@@ -1,11 +1,11 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import rootSaga from './middleware';
-import rootReducer from './reducers';
+import { rootSaga, rootReducer} from './middleware';
 
 const sagaMiddleware = createSagaMiddleware();
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const middleware = composeEnhancers(applyMiddleware(sagaMiddleware));
 

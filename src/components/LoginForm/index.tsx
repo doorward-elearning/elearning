@@ -1,6 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
-import {LoginFormState} from "../../types";
+import { LoginFormState } from '../../types';
+import TextField from '../Input/TextField';
+import PasswordField from '../Input/PasswordField';
+import Checkbox from '../Input/Checkbox';
+import { Link } from 'react-router-dom';
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (
@@ -9,50 +13,36 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
         <img alt="" src="../assets/img/logo-2.png" />
       </span>
       <span className="login100-form-title p-b-34 p-t-27">Log in</span>
-      <div
-        className="wrap-input100 validate-input"
-        data-validate="Enter username"
-      >
-        <input
-          className="input100"
-          type="text"
-          name="username"
-          placeholder="Username"
-        />
-        <span className="focus-input100" data-placeholder="&#xf207;" />
-      </div>
-      <div
-        className="wrap-input100 validate-input"
-        data-validate="Enter password"
-      >
-        <input
-          className="input100"
-          type="password"
-          name="pass"
-          placeholder="Password"
-        />
-        <span className="focus-input100" data-placeholder="&#xf191;" />
-      </div>
-      <div className="contact100-form-checkbox">
-        <input
-          className="input-checkbox100"
-          id="ckb1"
-          type="checkbox"
-          name="remember-me"
-        />
-        <label className="label-checkbox100" htmlFor="ckb1">
-          Remember me
-        </label>
-      </div>
+      <TextField
+        name="username"
+        placeholder="Username"
+        emptyMessage="Enter username"
+        icon="&#xf207;"
+        onChange={props.handleChange}
+        onBlur={props.handleBlur}
+        value={props.values.username}
+        error={props.errors.username}
+      />
+      <PasswordField
+        name="password"
+        placeholder="Password"
+        emptyMessage="Enter password"
+        icon="&#xf191;"
+        onChange={props.handleChange}
+        onBlur={props.handleBlur}
+        value={props.values.password}
+        error={props.errors.password}
+      />
+      <Checkbox name="remember-me" label="Remember me" />
       <div className="container-login100-form-btn">
-        <button className="login100-form-btn" type="submit">
+        <button className="login100-form-btn" type="submit" disabled={false}>
           Login
         </button>
       </div>
       <div className="text-center p-t-30">
-        <a className="txt1" href="forgot_password.html">
+        <Link className="txt1" to="/forgotPassword">
           Forgot Password?
-        </a>
+        </Link>
       </div>
     </form>
   );

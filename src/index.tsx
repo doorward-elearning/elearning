@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import Router from './routes';
-import store from './redux/store';
 import { Provider } from 'react-redux';
 import Request from './services/request';
+import store from './store';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // to prevent auth basic popup
-Request.setHeader('X-Requested-With','XMLHttpRequest');
+
 Request.setAuth('administrator', 'openolat');
 
 const App: React.FC = () => {

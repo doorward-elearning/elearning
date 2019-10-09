@@ -1,19 +1,34 @@
 import React from 'react';
 import Form from '../../components/Form';
 import LoginForm from '../../components/LoginForm';
-import Api from '../../services/api';
+import { LOGIN_USER } from '../../reducers/login';
+import { createAction } from '../../reducers/builder';
+import { useDispatch, useSelector } from 'react-redux';
+import { LoginFormState, State, WebComponentState } from '../../types';
+import { FormikActions } from 'formik';
+import * as Yup from 'yup';
+
+const Validation = Yup.object().shape({
+  username: Yup.string().required('Required'),
+  password: Yup.string().required('Required')
+});
 
 const Login: React.FC = () => {
   const initialState = {};
+  const dispatch = useDispatch();
+  const login: WebComponentState = useSelector((state: State) => state.login);
 
-  const onSubmit = () => {
-    Api.users.roles.getRoles(327680).then(console.log).catch(console.error);
+  const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
+    dispatch(
+      createAction(LOGIN_USER, values.username)
+    );
   };
+
   return (
     <div className="limiter">
       <div className="container-login100 page-background">
         <div className="wrap-login100">
-          <Form initialValues={initialState} onSubmit={onSubmit}>
+          <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
             {LoginForm}
           </Form>
         </div>
