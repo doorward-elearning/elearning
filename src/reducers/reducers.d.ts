@@ -14,7 +14,7 @@ export type WebComponentState = {
   fetched: boolean;
   submitting: boolean;
   submitted: boolean;
-  data: object;
+  data?: object | null;
   errors: any;
 };
 

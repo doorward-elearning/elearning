@@ -1,13 +1,6 @@
 import { Reducer } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import {
-  Action,
-  ActionCreator,
-  BuiltReducer,
-  ReducerBuilder,
-  SagaFunction,
-  WebComponentState,
-} from './reducers';
+import { Action, ActionCreator, BuiltReducer, ReducerBuilder, SagaFunction, WebComponentState } from './reducers';
 import { ApiCall } from '../services/services';
 
 export const action: ActionCreator = (type: string, data: any): Action => {
@@ -19,54 +12,48 @@ const defaultState: WebComponentState = {
   fetching: false,
   submitted: false,
   submitting: false,
-  data: {},
+  data: null,
   errors: null,
 };
 
-function createReducer<T extends WebComponentState>(
-  initialState: T | WebComponentState,
-  actionType: string
-): Reducer {
+function createReducer<T extends WebComponentState>(initialState: T | WebComponentState, actionType: string): Reducer {
   return (state = initialState, action: Action): T => {
     switch (action.type) {
-      case actionType:
-        return {
-          ...state,
-          fetched: false,
-          fetching: true,
-          submitted: false,
-          submitting: true,
-          errors: null,
-        };
-      case `${actionType}_SUCCESS`:
-        return {
-          ...state,
-          fetched: true,
-          fetching: false,
-          submitted: true,
-          submitting: false,
-          data: action.payload,
-          errors: null,
-        };
-      case `${actionType}_FAILURE`:
-        return {
-          ...state,
-          fetched: false,
-          fetching: false,
-          submitted: true,
-          submitting: false,
-          errors: action.payload,
-        };
-      default:
-        return state;
+    case actionType:
+      return {
+        ...state,
+        fetched: false,
+        fetching: true,
+        submitted: false,
+        submitting: true,
+        errors: null,
+      };
+    case `${actionType}_SUCCESS`:
+      return {
+        ...state,
+        fetched: true,
+        fetching: false,
+        submitted: true,
+        submitting: false,
+        data: action.payload,
+        errors: null,
+      };
+    case `${actionType}_FAILURE`:
+      return {
+        ...state,
+        fetched: false,
+        fetching: false,
+        submitted: true,
+        submitting: false,
+        errors: action.payload,
+      };
+    default:
+      return state;
     }
   };
 }
 
-const createMiddleware = (
-  actionType: string,
-  endpoint: ApiCall
-): SagaFunction => {
+const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction => {
   function* makeApiCall(action: Action): IterableIterator<any> {
     try {
       const payload = action.payload || {};
@@ -108,9 +95,7 @@ const createMiddleware = (
   return watchForAction;
 };
 
-export default function reducerBuilder<
-  T extends WebComponentState = WebComponentState
->({
+export default function reducerBuilder<T extends WebComponentState = WebComponentState>({
   actionType,
   initialState = defaultState,
   endpoint,

@@ -37,7 +37,7 @@ class Tools {
   }
 
   static isLoggedIn(): boolean {
-    return Tools.getToken() != null;
+    return !!Tools.getToken();
   }
 }
 

@@ -29,7 +29,11 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     dispatch(action(LOGIN_USER, { username: values.username }));
   };
 
-  return login.data ? (
+  if(login.errors){
+    Tools.clearToken();
+  }
+
+  return Tools.isLoggedIn() ? (
     <Redirect to="/" />
   ) : (
     <div className="limiter">
