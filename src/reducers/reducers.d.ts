@@ -1,30 +1,32 @@
-import {ApiCall} from "../types";
-import {Action as ReduxAction, AnyAction, Reducer} from 'redux';
+import { ApiCall } from '../types';
+import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 
-export type SagaFunction = () => IterableIterator<any>
+export type SagaFunction = () => IterableIterator<any>;
 
 export interface Action extends ReduxAction {
-    payload?: object;
+  payload?: object;
 }
 
-export type ActionCreator = (...args: any[]) => AnyAction
+export type ActionCreator = (...args: any[]) => AnyAction;
 
 export type WebComponentState = {
-    fetching: boolean;
-    fetched: boolean;
-    submitting: boolean;
-    submitted: boolean;
-    data: object;
-    errors: any;
+  fetching: boolean;
+  fetched: boolean;
+  submitting: boolean;
+  submitted: boolean;
+  data: object;
+  errors: any;
 };
 
 export type ReducerBuilder<T extends WebComponentState> = {
-    actionType: string;
-    endpoint: ApiCall;
-    initialState?: T | WebComponentState;
-}
+  actionType: string;
+  endpoint: ApiCall;
+  initialState?: T | WebComponentState;
+  name: string;
+};
 
 export type BuiltReducer = {
-    reducer: Reducer;
-    watcher: SagaFunction;
-}
+  reducer: Reducer;
+  watcher: SagaFunction;
+  name: string;
+};

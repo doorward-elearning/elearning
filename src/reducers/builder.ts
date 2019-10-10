@@ -109,6 +109,7 @@ export default function reducerBuilder<
   actionType,
   initialState = defaultState,
   endpoint,
+  name
 }: ReducerBuilder<T>): BuiltReducer {
   const reducer = createReducer<T>(initialState, actionType);
   const watcher = createMiddleware(actionType, endpoint);
@@ -116,5 +117,6 @@ export default function reducerBuilder<
   return {
     reducer,
     watcher,
+    name
   };
 }
