@@ -1,13 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import { Formik } from 'formik';
-import { FormProps } from '../components';
+import { Formik, FormikConfig, FormikProps } from 'formik';
 
-const Form: FunctionComponent<FormProps<any>> = ({
-  children,
-  initialValues,
-  onSubmit,
-  validationSchema,
-}) => {
+const Form: FunctionComponent<FormProps<any>> = ({ children, initialValues, onSubmit, validationSchema }) => {
   return (
     <Formik
       initialValues={initialValues}
@@ -19,5 +13,9 @@ const Form: FunctionComponent<FormProps<any>> = ({
     />
   );
 };
+
+export interface FormProps<Values> extends FormikConfig<Values> {
+  children: (props: FormikProps<Values>) => React.ReactNode | JSX.Element;
+}
 
 export default Form;

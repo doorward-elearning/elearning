@@ -1,9 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { InputProps } from '../components';
 
-function withInput<R extends InputProps>(
-  Input: FunctionComponent
-): FunctionComponent<R> {
+function withInput<R extends InputProps>(Input: FunctionComponent): FunctionComponent<R> {
   return (props): JSX.Element => {
     return (
       <>
@@ -12,5 +9,8 @@ function withInput<R extends InputProps>(
     );
   };
 }
+
+export interface InputProps
+  extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {}
 
 export default withInput;

@@ -7,14 +7,15 @@ const { GET, PUT } = Request;
 const Api = {
   users: {
     roles: {
-      getRoles: (identityKey: number) => GET(`users/${identityKey}/roles`),
+      getRoles: (identityKey: number): Promise<any> => GET(`users/${identityKey}/roles`),
     },
     auth: {
-      getAuth: (username: string) => GET(`users/${username}/auth`),
+      getAuth: (username: string): Promise<any> => GET(`users/${username}/auth`),
     },
+    search: (params: object): Promise<any> => GET('users/'),
   },
   registration: {
-    register: (email: string) => PUT(`registration?email=${email}`),
+    register: (email: string): Promise<any> => PUT(`registration?email=${email}`),
   },
 };
 

@@ -7,8 +7,8 @@ import Dashboard from '../views/Dashboard';
 const Router: React.FC = () => (
   <BrowserRouter>
     <Switch>
-      <Route path="/dashboard"  exact compponent={Dashboard}/>
-      <Route path="/login" exact component={Login}/>
+      <Route path="/" exact component={Dashboard} />
+      <Route path="/login" exact component={Login} />
     </Switch>
   </BrowserRouter>
 );

@@ -1,9 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import TextField from './TextField';
-import { PasswordFieldProps } from '../components';
+import TextField, { TextFieldProps } from './TextField';
 
-const PasswordField: FunctionComponent<PasswordFieldProps> = props => (
-  <TextField {...props} type="password" />
-);
+const PasswordField: FunctionComponent<PasswordFieldProps> = props => <TextField {...props} type="password" />;
+
+export interface PasswordFieldProps extends TextFieldProps {}
 
 export default PasswordField;

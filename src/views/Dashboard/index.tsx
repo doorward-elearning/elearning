@@ -1,11 +1,8 @@
 import React from 'react';
+import Layout from '../Layout';
 
 const Dashboard: React.FC = () => {
-  return (
-    <div>
-      Dashboard
-    </div>
-  );
+  return <Layout />;
 };
 
 export default Dashboard;

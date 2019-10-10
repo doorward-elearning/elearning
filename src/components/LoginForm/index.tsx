@@ -4,7 +4,6 @@ import TextField from '../Input/TextField';
 import PasswordField from '../Input/PasswordField';
 import Checkbox from '../Input/Checkbox';
 import { Link } from 'react-router-dom';
-import { LoginFormState } from '../components';
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (
@@ -46,6 +45,11 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
       </div>
     </form>
   );
+};
+
+export declare type LoginFormState = {
+  username: string;
+  password: string;
 };
 
 export default LoginForm;
