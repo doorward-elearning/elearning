@@ -1,41 +1,52 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 import SideBarSubMenu from './SideBarSubMenu';
+import { MemoryHistory, Location } from 'history';
+import { MenuItem, SubMenuItem } from './schema';
+import { Link } from 'react-router-dom';
 
-const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({ active, open, link, icon, title, subMenu }) => {
+const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, subMenu, location }) => {
+  const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find((item: SubMenuItem): boolean =>
+    location.pathname.startsWith(item.link)
+  );
+
+  const classes = classNames({
+    'nav-item': true,
+    open: !!activeSubItem,
+    start: !!activeSubItem,
+    active: !!activeSubItem,
+  });
+
   return (
-    <li
-      className={classNames({
-        'nav-item': true,
-        start: true,
-        active,
-        open: active || open,
-      })}
-    >
-      <Link to={link}>
+    <li className={classes}>
+      <Link to={link} className="nav-link nav-toggle">
         <i className="material-icons">{icon}</i>
         <span className="title">{title}</span>
-        {active && <span className="selected" />}
-        <span
-          className={classNames({
-            arrow: true,
-            open,
-          })}
-        />
-        {subMenu && <SideBarSubMenu menu={subMenu} />}
+        <span className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
       </Link>
+      {subMenu && <SideBarSubMenu menu={subMenu} active={activeSubItem} />}
     </li>
+  );
+};
+const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({ menu, history, location }) => {
+  return (
+    <React.Fragment>
+      {menu.map(item => (
+        <Item key={item.title} {...item} history={history} location={location} />
+      ))}
+    </React.Fragment>
   );
 };
 
 export interface SideBarMenuProps {
-  active?: boolean;
-  open?: boolean;
-  link: string;
-  icon: string;
-  title: string;
-  subMenu?: Array<{ link: string; title: string }>;
+  history: MemoryHistory;
+  menu: Array<MenuItem>;
+  location: Location;
+}
+
+export interface ItemProps extends MenuItem {
+  history: MemoryHistory;
+  location: Location;
 }
 
 export default SideBarMenu;
