@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import withInput from './index';
-import { TextFieldProps } from '../../types';
 import classNames from 'classnames';
+import { TextFieldProps } from '../components';
 
 const TextField: FunctionComponent<TextFieldProps> = ({
   emptyMessage,

@@ -1,11 +1,10 @@
-import reducerBuilder from '../builder';
-import { WebComponentState } from '../../types';
+import createReducer from '../builder';
 import Api from '../../services/api';
+import { WebComponentState } from '../reducers';
 
 export const LOGIN_USER = 'LOGIN_USER';
 
-
-export default reducerBuilder<WebComponentState>({
+export default createReducer<WebComponentState>({
   actionType: LOGIN_USER,
-  endpoint: Api.users.auth.getAuth
+  endpoint: Api.users.auth.getAuth,
 });

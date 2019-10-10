@@ -1,13 +1,13 @@
 import withInput from './index';
 import { FunctionComponent, useEffect, useState } from 'react';
-import { CheckboxProps } from '../../types';
 import * as React from 'react';
 import Tools from '../../utils/Tools';
+import { CheckboxProps } from '../components';
 
 const Checkbox: FunctionComponent<CheckboxProps> = props => {
   const [id, setId] = useState(props.id);
   useEffect(() => {
-    if(!id){
+    if (!id) {
       setId(Tools.randomString());
     }
   });

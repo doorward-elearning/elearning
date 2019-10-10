@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
-import { LoginFormState } from '../../types';
 import TextField from '../Input/TextField';
 import PasswordField from '../Input/PasswordField';
 import Checkbox from '../Input/Checkbox';
 import { Link } from 'react-router-dom';
+import { LoginFormState } from '../components';
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (

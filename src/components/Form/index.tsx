@@ -1,12 +1,12 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 import { Formik } from 'formik';
-import {FormProps} from '../../types';
+import { FormProps } from '../components';
 
 const Form: FunctionComponent<FormProps<any>> = ({
   children,
   initialValues,
   onSubmit,
-  validationSchema
+  validationSchema,
 }) => {
   return (
     <Formik

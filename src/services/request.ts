@@ -5,27 +5,35 @@ export default class Request {
     axios.defaults.baseURL = url;
   }
 
-  public static setHeader(key: string, value: any): void{
+  public static setHeader(key: string, value: any): void {
     // axios.defaults.headers[key] = value;
   }
 
-  public static setAuth(username: string, password: string): void{
-    axios.defaults.headers['Authorization'] = `Basic ${btoa(username+':'+password)}`;
+  public static setAuth(username: string, password: string): void {
+    axios.defaults.headers['Authorization'] = `Basic ${btoa(
+      username + ':' + password
+    )}`;
   }
 
-  public static get<T = any, R = AxiosResponse<T>>(url: string): Promise<R>{
+  public static get<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
     return axios.get(url);
   }
 
-  public static post<T = any, R = AxiosResponse<T>>(url: string, data?: any): Promise<R>{
+  public static post<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any
+  ): Promise<R> {
     return axios.post(url, data);
   }
 
-  public static put<T = any, R = AxiosResponse<T>>(url: string, data?: any): Promise<R>{
+  public static put<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any
+  ): Promise<R> {
     return axios.put(url, data);
   }
 
-  public static delete<T = any, R = AxiosResponse<T>>(url: string): Promise<R>{
+  public static delete<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
     return axios.delete(url);
   }
 }
