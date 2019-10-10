@@ -6,8 +6,8 @@ import { MenuItem, SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
 
 const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, subMenu, location }) => {
-  const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find((item: SubMenuItem): boolean =>
-    location.pathname.startsWith(item.link)
+  const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find(
+    (item: SubMenuItem): boolean => location.pathname === item.link
   );
 
   const classes = classNames({
