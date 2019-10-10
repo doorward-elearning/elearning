@@ -17,7 +17,7 @@ const build = (reducers: BuiltReducer[]) => {
 build([login]);
 
 export function* rootSaga(): IterableIterator<any> {
-  yield all([sagas]);
+  yield all([...sagas]);
 }
 
 export const rootReducer = combineReducers<any>(state);

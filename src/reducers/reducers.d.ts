@@ -4,7 +4,7 @@ import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 export type SagaFunction = () => IterableIterator<any>;
 
 export interface Action extends ReduxAction {
-  payload?: object;
+  payload?: any;
 }
 
 export type ActionCreator = (...args: any[]) => AnyAction;

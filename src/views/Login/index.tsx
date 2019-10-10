@@ -2,13 +2,14 @@ import React from 'react';
 import Form from '../../components/Form';
 import LoginForm from '../../components/LoginForm';
 import { LOGIN_USER } from '../../reducers/login';
-import { createAction } from '../../reducers/builder';
+import { action } from '../../reducers/builder';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormikActions } from 'formik';
 import * as Yup from 'yup';
 import { State } from '../../store/store';
 import { WebComponentState } from '../../reducers/reducers';
 import { LoginFormState } from '../../components/components';
+import Tools from '../../utils/Tools';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('Required'),
@@ -24,7 +25,8 @@ const Login: React.FC = () => {
     values: LoginFormState,
     actions: FormikActions<LoginFormState>
   ): void => {
-    dispatch(createAction(LOGIN_USER, values.username));
+    Tools.setToken(values.username, values.password);
+    dispatch(action(LOGIN_USER, [values.username]));
   };
 
   return (

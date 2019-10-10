@@ -8,14 +8,13 @@ import Request from './services/request';
 import store from './store';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
-// to prevent auth basic popup
-
-Request.setAuth('administrator', 'openolat');
+// ensure the user is logged in
+Request.setAuth();
 
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <Router/>
+      <Router />
     </Provider>
   );
 };

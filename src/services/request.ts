@@ -1,4 +1,5 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
+import Tools from '../utils/Tools';
 
 export default class Request {
   public static setBaseURL(url?: string): void {
@@ -6,34 +7,34 @@ export default class Request {
   }
 
   public static setHeader(key: string, value: any): void {
-    // axios.defaults.headers[key] = value;
+    axios.defaults.headers[key] = value;
   }
 
-  public static setAuth(username: string, password: string): void {
-    axios.defaults.headers['Authorization'] = `Basic ${btoa(
-      username + ':' + password
-    )}`;
+  public static setAuth(): void {
+    if (Tools.isLoggedIn()) {
+      axios.defaults.headers['Authorization'] = `Basic ${Tools.getToken()}`;
+    }
   }
 
-  public static get<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
+  public static GET<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
     return axios.get(url);
   }
 
-  public static post<T = any, R = AxiosResponse<T>>(
+  public static POST<T = any, R = AxiosResponse<T>>(
     url: string,
     data?: any
   ): Promise<R> {
     return axios.post(url, data);
   }
 
-  public static put<T = any, R = AxiosResponse<T>>(
+  public static PUT<T = any, R = AxiosResponse<T>>(
     url: string,
     data?: any
   ): Promise<R> {
     return axios.put(url, data);
   }
 
-  public static delete<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
+  public static DELETE<T = any, R = AxiosResponse<T>>(url: string): Promise<R> {
     return axios.delete(url);
   }
 }

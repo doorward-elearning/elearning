@@ -10,10 +10,7 @@ import {
 } from './reducers';
 import { ApiCall } from '../services/services';
 
-export const createAction: ActionCreator = (
-  type: string,
-  data: any
-): Action => {
+export const action: ActionCreator = (type: string, data: any): Action => {
   return { type, payload: data };
 };
 
@@ -72,7 +69,14 @@ const createMiddleware = (
 ): SagaFunction => {
   function* makeApiCall(action: Action): IterableIterator<any> {
     try {
-      const response = yield call(endpoint, action.payload);
+      const payload = action.payload || {};
+      let args: Array<any>;
+      if (payload.constructor !== Array) {
+        args = [payload];
+      } else {
+        args = payload;
+      }
+      const response = yield call(endpoint, ...args);
       if (response) {
         const { data } = response;
         yield put({
@@ -100,6 +104,7 @@ const createMiddleware = (
   function* watchForAction(): IterableIterator<any> {
     yield takeLatest(actionType, makeApiCall);
   }
+
   return watchForAction;
 };
 
@@ -109,7 +114,7 @@ export default function reducerBuilder<
   actionType,
   initialState = defaultState,
   endpoint,
-  name
+  name,
 }: ReducerBuilder<T>): BuiltReducer {
   const reducer = createReducer<T>(initialState, actionType);
   const watcher = createMiddleware(actionType, endpoint);
@@ -117,6 +122,6 @@ export default function reducerBuilder<
   return {
     reducer,
     watcher,
-    name
+    name,
   };
 }
