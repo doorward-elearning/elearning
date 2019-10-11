@@ -8,10 +8,9 @@ import { FormikActions } from 'formik';
 import * as Yup from 'yup';
 import { State } from '../../store/store';
 import { WebComponentState } from '../../reducers/reducers';
-import Tools from '../../utils/Tools';
-import Request from '../../services/request';
 import { MemoryHistory } from 'history';
 import { Redirect } from 'react-router';
+import useAuth from '../../hooks/useAuth';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('Required'),
@@ -19,21 +18,21 @@ const Validation = Yup.object().shape({
 });
 
 const Login: React.FunctionComponent<LoginProps> = props => {
+  const { authenticated, authenticate, logout } = useAuth();
   const initialState = {};
   const dispatch = useDispatch();
   const login: WebComponentState = useSelector((state: State) => state.login);
 
   const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
-    Tools.setToken(values.username, values.password);
-    Request.setAuth();
+    authenticate(values.username, values.password);
     dispatch(action(LOGIN_USER, { username: values.username }));
   };
 
-  if(login.errors){
-    Tools.clearToken();
+  if (login.errors) {
+    logout();
   }
 
-  return Tools.isLoggedIn() ? (
+  return login.data ? (
     <Redirect to="/" />
   ) : (
     <div className="limiter">
