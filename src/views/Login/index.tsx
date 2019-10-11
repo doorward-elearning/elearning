@@ -11,6 +11,7 @@ import { WebComponentState } from '../../reducers/reducers';
 import { MemoryHistory } from 'history';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import { routes } from '../../routes';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('Required'),
@@ -33,7 +34,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   }
 
   return login.data ? (
-    <Redirect to="/" />
+    <Redirect to={routes.DASHBOARD} />
   ) : (
     <div className="limiter">
       <div className="container-login100 page-background">

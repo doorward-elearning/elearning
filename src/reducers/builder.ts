@@ -16,43 +16,51 @@ const defaultState: WebComponentState = {
   errors: null,
 };
 
-function createReducer<T extends WebComponentState>(initialState: T | WebComponentState, actionType: string): Reducer {
-  return (state = initialState, action: Action): T => {
-    switch (action.type) {
-    case actionType:
-      return {
-        ...state,
-        fetched: false,
-        fetching: true,
-        submitted: false,
-        submitting: true,
-        errors: null,
-      };
-    case `${actionType}_SUCCESS`:
-      return {
-        ...state,
-        fetched: true,
-        fetching: false,
-        submitted: true,
-        submitting: false,
-        data: action.payload,
-        errors: null,
-      };
-    case `${actionType}_FAILURE`:
-      return {
-        ...state,
-        fetched: false,
-        fetching: false,
-        submitted: true,
-        submitting: false,
-        errors: action.payload,
-      };
-    default:
-      return state;
-    }
-  };
+function simpleReducer<T extends WebComponentState>(state: T, actionType: string, action: Action): T {
+  switch (action.type) {
+  case actionType:
+    return {
+      ...state,
+      fetched: false,
+      fetching: true,
+      submitted: false,
+      submitting: true,
+      errors: null,
+    };
+  case `${actionType}_SUCCESS`:
+    return {
+      ...state,
+      fetched: true,
+      fetching: false,
+      submitted: true,
+      submitting: false,
+      data: action.payload,
+      errors: null,
+    };
+  case `${actionType}_FAILURE`:
+    return {
+      ...state,
+      fetched: false,
+      fetching: false,
+      submitted: true,
+      submitting: false,
+      errors: action.payload,
+    };
+  default:
+    return state;
+  }
 }
 
+function createReducer<T extends WebComponentState>(
+  initialState: T | WebComponentState,
+  actionType: string,
+  reducer: Reducer
+): Reducer {
+  return (state = initialState, action: Action): T => {
+    const newState = simpleReducer<T>(state, actionType, action);
+
+  };
+}
 const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction => {
   function* makeApiCall(action: Action): IterableIterator<any> {
     try {
