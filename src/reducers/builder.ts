@@ -1,13 +1,22 @@
 import { Reducer } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
-import { Action, ActionCreator, BuiltReducer, ReducerBuilder, SagaFunction, WebComponentState } from './reducers';
+import {
+  Action,
+  ActionCreator,
+  ApiSagaMiddleware,
+  BuiltReducer,
+  ReducerBuilder,
+  SagaFunction,
+  WebComponentState,
+} from './reducers';
 import { ApiCall } from '../services/services';
+import chainReducers from './chain';
 
 export const action: ActionCreator = (type: string, data: any): Action => {
   return { type, payload: data };
 };
 
-const defaultState: WebComponentState = {
+export const webComponentState: WebComponentState = {
   fetched: false,
   fetching: false,
   submitted: false,
@@ -16,52 +25,56 @@ const defaultState: WebComponentState = {
   errors: null,
 };
 
-function simpleReducer<T extends WebComponentState>(state: T, actionType: string, action: Action): T {
-  switch (action.type) {
-  case actionType:
-    return {
-      ...state,
-      fetched: false,
-      fetching: true,
-      submitted: false,
-      submitting: true,
-      errors: null,
-    };
-  case `${actionType}_SUCCESS`:
-    return {
-      ...state,
-      fetched: true,
-      fetching: false,
-      submitted: true,
-      submitting: false,
-      data: action.payload,
-      errors: null,
-    };
-  case `${actionType}_FAILURE`:
-    return {
-      ...state,
-      fetched: false,
-      fetching: false,
-      submitted: true,
-      submitting: false,
-      errors: action.payload,
-    };
-  default:
-    return state;
-  }
+function simpleReducer<T extends WebComponentState>(actionType: string): Reducer {
+  return (state: T, action: Action): T => {
+    switch (action.type) {
+    case actionType:
+      return {
+        ...state,
+        fetched: false,
+        fetching: true,
+        submitted: false,
+        submitting: true,
+        errors: null,
+      };
+    case `${actionType}_SUCCESS`:
+      return {
+        ...state,
+        fetched: true,
+        fetching: false,
+        submitted: true,
+        submitting: false,
+        data: action.payload,
+        errors: null,
+      };
+    case `${actionType}_FAILURE`:
+      return {
+        ...state,
+        fetched: false,
+        fetching: false,
+        submitted: true,
+        submitting: false,
+        errors: action.payload,
+      };
+    default:
+      return state;
+    }
+  };
 }
 
 function createReducer<T extends WebComponentState>(
   initialState: T | WebComponentState,
   actionType: string,
-  reducer: Reducer
+  reducer?: Reducer
 ): Reducer {
-  return (state = initialState, action: Action): T => {
-    const newState = simpleReducer<T>(state, actionType, action);
-
-  };
+  const reducers = [simpleReducer(actionType)];
+  if (reducer) {
+    reducers.push(reducer);
+  }
+  return chainReducers<any>(initialState)(...reducers);
 }
-const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction => {
+
+const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: ApiSagaMiddleware): SagaFunction => {
   function* makeApiCall(action: Action): IterableIterator<any> {
     try {
       const payload = action.payload || {};
@@ -71,9 +84,15 @@ const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction =
       } else {
         args = payload;
       }
+      if (middleware && middleware.before) {
+        args = middleware.before(args);
+      }
       const response = yield call(endpoint, ...args);
       if (response) {
         const { data } = response;
+        if (middleware && middleware.after) {
+          yield middleware.after(data);
+        }
         yield put({
           type: `${actionType}_SUCCESS`,
           payload: data,
@@ -86,6 +105,9 @@ const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction =
         data.payload = error.response.payload;
       } else {
         data.status = 500;
+      }
+      if (middleware && middleware.error) {
+        yield middleware.error(data);
       }
       yield put({
         type: `${actionType}_FAILURE`,
@@ -105,15 +127,17 @@ const createMiddleware = (actionType: string, endpoint: ApiCall): SagaFunction =
 
 export default function reducerBuilder<T extends WebComponentState = WebComponentState>({
   actionType,
-  initialState = defaultState,
+  reducer,
+  initialState = webComponentState,
   endpoint,
   name,
+  apiMiddleware,
 }: ReducerBuilder<T>): BuiltReducer {
-  const reducer = createReducer<T>(initialState, actionType);
-  const watcher = createMiddleware(actionType, endpoint);
+  const combinedReducer = createReducer<T>(initialState, actionType, reducer);
+  const watcher = createMiddleware(actionType, endpoint, apiMiddleware);
 
   return {
-    reducer,
+    reducer: combinedReducer,
     watcher,
     name,
   };

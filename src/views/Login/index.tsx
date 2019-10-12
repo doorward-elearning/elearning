@@ -19,7 +19,7 @@ const Validation = Yup.object().shape({
 });
 
 const Login: React.FunctionComponent<LoginProps> = props => {
-  const { authenticated, authenticate, logout } = useAuth();
+  const { authenticated, authenticate } = useAuth();
   const initialState = {};
   const dispatch = useDispatch();
   const login: WebComponentState = useSelector((state: State) => state.login);
@@ -29,11 +29,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     dispatch(action(LOGIN_USER, { username: values.username }));
   };
 
-  if (login.errors) {
-    logout();
-  }
-
-  return login.data ? (
+  return authenticated ? (
     <Redirect to={routes.DASHBOARD} />
   ) : (
     <div className="limiter">

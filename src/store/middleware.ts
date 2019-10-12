@@ -7,7 +7,7 @@ import { ReducerMapObject } from './store';
 const sagas: IterableIterator<any>[] = [];
 const state: ReducerMapObject<any, any> = {};
 
-const build = (reducers: BuiltReducer[]) => {
+const build = (reducers: BuiltReducer[]): void => {
   reducers.forEach(reducer => {
     sagas.push(reducer.watcher());
     state[reducer.name] = reducer.reducer;

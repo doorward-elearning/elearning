@@ -1,7 +1,7 @@
 const Schema = [
   {
     title: 'Dashboard',
-    link: '/',
+    link: '/dashboard',
     icon: 'dashboard',
   },
   {

@@ -18,11 +18,19 @@ export type WebComponentState = {
   errors: any;
 };
 
+export interface ApiSagaMiddleware {
+  before?: (...args: Array<any>) => Array<any>;
+  after?: (data: any) => void | IterableIterator<any>;
+  error?: (error: { status: number; payload: any }) => void | IterableIterator<any>;
+}
+
 export type ReducerBuilder<T extends WebComponentState> = {
   actionType: string;
   endpoint: ApiCall;
   initialState?: T | WebComponentState;
   name: string;
+  reducer?: Reducer;
+  apiMiddleware?: ApiSagaMiddleware;
 };
 
 export type BuiltReducer = {

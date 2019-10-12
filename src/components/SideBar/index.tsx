@@ -7,7 +7,7 @@ import { MemoryHistory, Location } from 'history';
 const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location }) => {
   return (
     <div className="sidebar-container">
-      <div className="sidemenu-container navbar-collapse collapse fixed-menu">
+      <div className="sidemenu-container navbar-collapse collapse fixed-menu" style={{ height: '100%' }}>
         <div id="remove-scroll" className="left-sidemenu">
           <ul
             className="sidemenu page-header-fixed slimscroll-style"
