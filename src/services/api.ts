@@ -1,6 +1,6 @@
 import Request from './request';
 
-const querystring = require('querystring');
+const q = require('querystring').stringify;
 
 const { GET, PUT } = Request;
 
@@ -13,6 +13,9 @@ const Api = {
       getAuth: (username: string): Promise<any> => GET(`users/${username}/auth`),
     },
     search: (params: object): Promise<any> => GET('users/'),
+  },
+  auth: {
+    login: (username: string, password: string): Promise<any> => GET(`auth/${username}?${q({ password })}`),
   },
   registration: {
     register: (email: string): Promise<any> => PUT(`registration?email=${email}`),

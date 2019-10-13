@@ -1,13 +1,33 @@
 import { ApiCall } from '../types';
-import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
+import { Action as ReduxAction, Reducer } from 'redux';
 
 export type SagaFunction = () => IterableIterator<any>;
 
+export type ApiListener = (response: any, request: any) => void;
+
 export interface Action extends ReduxAction {
   payload?: any;
+  onSuccess?: ApiListener;
+  onError?: ApiListener;
 }
 
-export type ActionCreator = (...args: any[]) => AnyAction;
+export type ActionCreatorArgs = {
+  type: string;
+  onSuccess?: ApiListener;
+  onError?: ApiListener;
+};
+
+export type ActionCreator = (...args: any[]) => Action;
+
+export type ActionCreatorGenerator = (args: ActionCreatorArgs) => ActionCreator;
+
+export type ActionsMap = {
+  [name: string]: ActionCreator;
+};
+
+export type StoreActionMap<T extends ActionsMap> = {
+  [K in keyof T]: ActionCreator;
+};
 
 export type WebComponentState = {
   fetching: boolean;
@@ -20,7 +40,7 @@ export type WebComponentState = {
 
 export interface ApiSagaMiddleware {
   before?: (...args: Array<any>) => Array<any>;
-  after?: (data: any) => void | IterableIterator<any>;
+  after?: (request: any, response: any) => void | IterableIterator<any>;
   error?: (error: { status: number; payload: any }) => void | IterableIterator<any>;
 }
 

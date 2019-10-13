@@ -6,8 +6,12 @@ const TextField: FunctionComponent<TextFieldProps> = ({
   emptyMessage,
   error = '',
   value = '',
+  formikProps,
   ...props
 }): JSX.Element => {
+  if (formikProps && props.name) {
+    error = '' + (formikProps.errors[props.name] || error);
+  }
   const classes = classNames({
     'wrap-input100': true,
     'validate-input': true,

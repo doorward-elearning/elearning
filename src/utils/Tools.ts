@@ -1,4 +1,5 @@
 const SimpleCrypto = require('simple-crypto-js').default;
+const parser = require('fast-xml-parser');
 
 const simpleCrypto = new SimpleCrypto(process.env.REACT_APP_ENCRYPTION_SECRET);
 
@@ -14,10 +15,7 @@ class Tools {
   }
 
   static setToken(username: string, password: string): void {
-    sessionStorage.setItem(
-      Tools.AUTHORIZATION_TOKEN,
-      Tools.encrypt(Tools.generateToken(username, password))
-    );
+    sessionStorage.setItem(Tools.AUTHORIZATION_TOKEN, Tools.encrypt(Tools.generateToken(username, password)));
   }
 
   static encrypt(str: string | null): string {
@@ -38,6 +36,11 @@ class Tools {
 
   static isLoggedIn(): boolean {
     return !!Tools.getToken();
+  }
+
+  static xmlToJson(xml: string, options?: object): object {
+    const tObj = parser.getTraversalObj(xml, options);
+    return parser.convertToJson(tObj, options);
   }
 }
 

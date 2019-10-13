@@ -7,12 +7,15 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ history, location }) => 
   return (
     <div
       id="main-layout"
-      className="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark"
+      className="page-header-fixed sidemenu-closed-hidelogo page-content-white page-md header-white dark-sidebar-color logo-dark dark-theme"
     >
       <div className="page-wrapper">
         <NavBar />
         <div className="page-container">
           <SideBar history={history} location={location} />
+          <div className="page-content-wrapper">
+            <div className="page-content" />
+          </div>
         </div>
       </div>
     </div>

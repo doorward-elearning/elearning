@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   Action,
-  ActionCreator,
+  ActionCreatorGenerator,
   ApiSagaMiddleware,
   BuiltReducer,
   ReducerBuilder,
@@ -12,8 +12,8 @@ import {
 import { ApiCall } from '../services/services';
 import chainReducers from './chain';
 
-export const action: ActionCreator = (type: string, data: any): Action => {
-  return { type, payload: data };
+export const action: ActionCreatorGenerator = ({ type, onSuccess, onError }) => {
+  return (...data: any[]): Action => ({ type, payload: data, onError, onSuccess });
 };
 
 export const webComponentState: WebComponentState = {
@@ -76,22 +76,28 @@ function createReducer<T extends WebComponentState>(
 
 const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: ApiSagaMiddleware): SagaFunction => {
   function* makeApiCall(action: Action): IterableIterator<any> {
+    const payload = action.payload || {};
+    let args: Array<any>;
+    if (payload.constructor !== Array) {
+      args = [payload];
+    } else {
+      args = payload;
+    }
     try {
-      const payload = action.payload || {};
-      let args: Array<any>;
-      if (payload.constructor !== Array) {
-        args = [payload];
-      } else {
-        args = payload;
-      }
       if (middleware && middleware.before) {
         args = middleware.before(args);
       }
       const response = yield call(endpoint, ...args);
       if (response) {
-        const { data } = response;
+        let { data } = response;
         if (middleware && middleware.after) {
-          yield middleware.after(data);
+          const newData = yield middleware.after(args, data);
+          if (newData) {
+            data = newData;
+          }
+        }
+        if (action.onSuccess) {
+          action.onSuccess(data, args);
         }
         yield put({
           type: `${actionType}_SUCCESS`,
@@ -108,6 +114,9 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
       }
       if (middleware && middleware.error) {
         yield middleware.error(data);
+      }
+      if (action.onError) {
+        action.onError(data, args);
       }
       yield put({
         type: `${actionType}_FAILURE`,

@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from '../../components/Form';
 import LoginForm, { LoginFormState } from '../../components/LoginForm';
 import { LOGIN_USER } from '../../reducers/login';
-import { action } from '../../reducers/builder';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { FormikActions } from 'formik';
 import * as Yup from 'yup';
 import { State } from '../../store/store';
@@ -12,21 +11,45 @@ import { MemoryHistory } from 'history';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { routes } from '../../routes';
+import { useAction } from '../../hooks/useActions';
 
 const Validation = Yup.object().shape({
-  username: Yup.string().required('Required'),
-  password: Yup.string().required('Required'),
+  username: Yup.string().required('The username is required.'),
+  password: Yup.string().required('The password is required.'),
 });
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
+  const [state, setState] = useState({ username: '', password: '' });
+  const [errors, setErrors] = useState();
+  const [actions, setActions] = useState<FormikActions<LoginFormState> | null>(null);
   const initialState = {};
-  const dispatch = useDispatch();
+  const loginUser = useAction({ type: LOGIN_USER });
+
   const login: WebComponentState = useSelector((state: State) => state.login);
 
+  useEffect(() => {
+    if (login.data) {
+      authenticate(state.username, state.password);
+    }
+  }, [login.data]);
+
+  useEffect(() => {
+    if (actions && errors) {
+      actions.setErrors({ username: 'Invalid username / password' });
+      actions.setSubmitting(false);
+      setErrors(null);
+    }
+  }, [errors]);
+
+  useEffect(() => {
+    setErrors(login.errors);
+  }, [login.errors]);
+
   const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
-    authenticate(values.username, values.password);
-    dispatch(action(LOGIN_USER, { username: values.username }));
+    setActions(actions);
+    loginUser(values.username, values.password);
+    setState({ ...values });
   };
 
   return authenticated ? (
