@@ -4,8 +4,7 @@ import TextField from '../Input/TextField';
 import PasswordField from '../Input/PasswordField';
 import Checkbox from '../Input/Checkbox';
 import { Link } from 'react-router-dom';
-import Condition from '../Condition';
-import Spinner from '../Spinner';
+import Button from '../Buttons/Button';
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (
@@ -30,12 +29,9 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
       />
       <Checkbox name="remember-me" label="Remember me" />
       <div className="container-login100-form-btn">
-        <Condition condition={props.isSubmitting}>
-          <Spinner />
-          <button className="login100-form-btn" type="submit" disabled={false}>
-            Login
-          </button>
-        </Condition>
+        <Button className="login100-form-btn" loading={props.isSubmitting}>
+          Login
+        </Button>
       </div>
       <div className="text-center p-t-30">
         <Link className="txt1" to="/forgotPassword">
