@@ -1,7 +1,7 @@
 const base: Theme = {
   '--bg-primary': '#FFFFFF',
-  '--bg-secondary': '#d6d6d6',
-  '--primary': '#3b79cc',
+  '--bg-secondary': 'rgba(244,244,244,0.81)',
+  '--primary': '#3F51B5',
   '--text-alternate': '#a2a2a2',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
@@ -15,18 +15,19 @@ const base: Theme = {
   '--padding-xlg': '24px',
   '--text-error': 'rgba(255,0,0,0.75)',
   '--text-success': 'green',
+  '--accent': '#FF4081'
 };
 
 const dark: Theme = {
   ...base,
-  '--bg-primary': '#181818',
-  '--bg-secondary': '#282828',
-  '--primary': '#1db954',
+  '--bg-primary': '#2b2b2b',
+  '--bg-secondary': '#343434',
   '--text-alternate': '#666666',
   '--text-primary': '#ffffff',
   '--text-secondary': '#b3b3b3',
-  '--line-color': '#727272',
-  '--shadow-color': '#575757',
+  '--line-color': 'rgb(89,89,89)',
+  '--shadow-color': '#3e3e3e',
+  '--text-error': 'rgb(255,74,82)',
 };
 
 const themes: ThemePack = {
@@ -51,6 +52,7 @@ export type Theme = {
   '--padding-xlg': string;
   '--text-error': string;
   '--text-success': string;
+  '--accent': string;
 };
 
 export type ThemePack = {

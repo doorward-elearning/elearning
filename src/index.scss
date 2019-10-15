@@ -1,5 +1,9 @@
 body {
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   font-family: var(--font-family);
   color: var(--text-primary);
+}
+
+a {
+  color: var(--accent);
 }
