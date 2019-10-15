@@ -12,6 +12,8 @@ import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { routes } from '../../routes';
 import { useAction } from '../../hooks/useActions';
+import Card from '../../components/Card';
+import './Login.scss';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -55,14 +57,14 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   return authenticated ? (
     <Redirect to={routes.DASHBOARD} />
   ) : (
-    <div className="limiter">
-      <div className="container-login100 page-background">
-        <div className="wrap-login100">
+    <div className="page page__login">
+      <Card>
+        <Card.Body>
           <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
             {LoginForm}
           </Form>
-        </div>
-      </div>
+        </Card.Body>
+      </Card>
     </div>
   );
 };

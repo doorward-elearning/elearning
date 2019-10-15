@@ -1,30 +1,5 @@
-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  pointer-events: none;
-}
-
-.text-field {
-  margin-bottom: 1em;
-
-  .wrap-input100 {
-    margin-bottom: 0.3em;
-
-    &.error {
-      border-bottom: 2px solid rgba(255,0, 0 ,0.24);
-      span {
-        color: red;
-      }
-    }
-  }
-  .error-message {
-    height: 1.5em;
-    font-size: 0.8em;
-    color: red;
-  }
-}
-
-
 body {
   background: var(--bg-primary);
+  font-family: var(--font-family);
+  color: var(--text-primary);
 }

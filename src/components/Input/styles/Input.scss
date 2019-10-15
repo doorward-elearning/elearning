@@ -1,0 +1,20 @@
+.eb-input {
+  padding: var(--padding) 0;
+
+  &.error {
+    .eb-input__error-message {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  &__error-message {
+    margin-top: var(--padding-sm);
+    font-size: 0.8em;
+    opacity: 0;
+    height: 1em;
+    color: var(--text-error);
+    transform: translateY(-100%);
+    transition: 0.5s transform, opacity;
+  }
+}

@@ -1,18 +1,30 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
+import './styles/Input.scss';
+import classNames from 'classnames';
 
 function withInput<R extends InputProps>(Input: FunctionComponent): FunctionComponent<R> {
-  return ({ formikProps, ...props }): JSX.Element => {
+  return ({ formikProps, name = '', ...props }): JSX.Element => {
     const inputProps = { ...props, formikProps };
     if (formikProps) {
       inputProps.onChange = formikProps.handleChange;
       inputProps.onBlur = formikProps.handleBlur;
-      inputProps.value = formikProps.values[props.name];
+      inputProps.value = formikProps.values[name];
     }
+
+    let error = '';
+    if (formikProps && name) {
+      error = '' + (formikProps.errors[name] || '');
+    }
+    const className = classNames({
+      'eb-input': true,
+      error: !!error,
+    });
     return (
-      <>
-        <Input {...inputProps} />
-      </>
+      <div className={className}>
+        <Input {...{name, ...inputProps }} />
+        <div className="eb-input__error-message">{error}</div>
+      </div>
     );
   };
 }

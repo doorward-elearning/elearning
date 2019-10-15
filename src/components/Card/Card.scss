@@ -1,0 +1,10 @@
+.ed-card {
+  background: var(--bg-primary);
+  border: 1px solid var(--line-color);
+  box-shadow: 0 0 4px 2px var(--shadow-color);
+  border-radius: var(--border-radius);
+
+  &__body {
+    padding: var(--padding-lg);
+  }
+}

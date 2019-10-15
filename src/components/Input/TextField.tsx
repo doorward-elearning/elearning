@@ -1,37 +1,26 @@
 import React, { FunctionComponent } from 'react';
 import withInput, { InputProps } from './index';
-import classNames from 'classnames';
+import './styles/TextField.scss';
+import Icon from '../Icon';
 
 const TextField: FunctionComponent<TextFieldProps> = ({
-  emptyMessage,
-  error = '',
   value = '',
+  className,
   formikProps,
+  children,
   ...props
 }): JSX.Element => {
-  if (formikProps && props.name) {
-    error = '' + (formikProps.errors[props.name] || error);
-  }
-  const classes = classNames({
-    'wrap-input100': true,
-    'validate-input': true,
-    error,
-  });
   return (
-    <div className="text-field">
-      <div className={classes} data-validate={emptyMessage}>
-        <input type="text" className="input100" {...props} value={value} />
-        {props.icon && <span className="focus-input100" data-placeholder={props.icon} />}
-      </div>
-      <div className="error-message">{error}</div>
+    <div className={`${className} eb-input__text`}>
+      <Icon icon={props.icon} className="eb-input__text-icon" />
+      <input type="text" {...props} value={value} autoComplete="off" />
+      {children}
     </div>
   );
 };
 
 export interface TextFieldProps extends InputProps {
-  emptyMessage?: string;
   icon?: string;
-  error?: string;
 }
 
 export default withInput<TextFieldProps>(TextField);

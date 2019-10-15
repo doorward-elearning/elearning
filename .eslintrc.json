@@ -72,6 +72,7 @@
     "react/jsx-key": 1,
     "react/jsx-max-props-per-line": 0,
     "react/jsx-no-bind": 0,
+    "@typescript-eslint/no-namespace": 0,
     "@typescript-eslint/no-explicit-any": 0,
     "@typescript-eslint/no-var-requires": 0,
     "react/jsx-no-duplicate-props": 1,
