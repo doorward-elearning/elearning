@@ -1,6 +1,6 @@
 version: '2.1'
 services:
-  web:
+  edudoor_frontend:
     build:
       context: ../../
       dockerfile: docker/dev/Dockerfile
@@ -8,7 +8,9 @@ services:
       - /usr/app/node_modules
       - ../../:/usr/app
     ports:
-      - '3000:3000'
+      - '3005:3000'
+    expose:
+      - '3000'
     command:
       - yarn
       - start

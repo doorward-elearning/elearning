@@ -6,6 +6,7 @@ import Router from './routes';
 import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
+import ApplicationTheme from './components/ApplicationTheme';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
@@ -14,7 +15,9 @@ Request.setAuth();
 const App: React.FC = () => {
   return (
     <Provider store={store}>
-      <Router />
+      <ApplicationTheme theme="base">
+        <Router />
+      </ApplicationTheme>
     </Provider>
   );
 };
