@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { PageComponent } from '../../types';
 import { Link } from 'react-router-dom';
-import {routes} from "../../routes";
+import { routes } from '../../routes';
 
 const NotFound: FunctionComponent<NotFoundProps> = (): JSX.Element => {
   return (
@@ -13,7 +13,7 @@ const NotFound: FunctionComponent<NotFoundProps> = (): JSX.Element => {
               <img alt="" src="../assets/img/logo-2.png" />
             </span>
             <span className="form404-title p-b-34 p-t-27">Error 404</span>
-            <p className="content-404">The page you are looking for does't exist or an other error occurred.</p>
+            <p className="content-404">The page you are looking for does&#39;t exist or an other error occurred.</p>
             <div className="container-login100-form-btn">
               <Link to={routes.DASHBOARD} className="login100-form-btn">
                 Go to home page

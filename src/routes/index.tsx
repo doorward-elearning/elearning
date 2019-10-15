@@ -4,12 +4,12 @@ import { BrowserRouter } from 'react-router-dom';
 import Login from '../views/Login';
 import Dashboard from '../views/Dashboard';
 import NotFound from '../views/NotFound';
-import AuthenticatedRoute from "./AuthenticatedRoute";
+import AuthenticatedRoute from './AuthenticatedRoute';
 
-export const routes  = {
+export const routes = {
   HOME: '/',
   LOGIN: '/login',
-  DASHBOARD: '/dashboard'
+  DASHBOARD: '/dashboard',
 };
 
 const Router: React.FunctionComponent<any> = (): JSX.Element => (
