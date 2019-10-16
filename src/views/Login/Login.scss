@@ -2,5 +2,9 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  height: 100vh;
+  padding-top: 3em;
+
+  form {
+    width: 450px;
+  }
 }

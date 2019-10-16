@@ -1,0 +1,10 @@
+.eb-sideBar {
+  background: var(--bg-primary);
+  width: var(--sidebar-size);
+  transition: 0.5s width;
+
+  &.collapsed {
+    width: var(--collapsed-sidebar-size);
+    border-right: 1px solid var(--line-color);
+  }
+}

@@ -1,0 +1,21 @@
+.eb-image {
+  &.circle {
+    border-radius: 50%;
+  }
+
+  &.small {
+    height: 40px;
+  }
+
+  &.medium {
+    height: 60px;
+  }
+
+  &.large {
+    height: 100px;
+  }
+
+  &.xLarge {
+    height: 150px;
+  }
+}

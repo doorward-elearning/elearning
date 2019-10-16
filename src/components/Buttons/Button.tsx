@@ -2,6 +2,7 @@ import React from 'react';
 import Condition from '../Condition';
 import Spinner from '../Spinner';
 import classNames from 'classnames';
+import './Buttons.scss';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,
@@ -19,17 +20,14 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   className =
     className ||
     classNames({
-      'mdl-button': true,
-      'mdl-js-button': true,
-      'mdl-button--raised': !flat && !fab && !icon,
-      'mdl-button--icon': !!icon,
-      'mdl-js-ripple-effect': !icon,
-      'mdl-button--fab': fab,
+      'eb-button': true,
+      'eb-button--raised': !flat && !fab && !icon,
+      'db-button--icon': !!icon,
+      'db-button--fab': fab,
       'btn-circle': rounded,
-      'mdl-button--mini-fab': fab && mini,
-      'm-b-10': true,
+      'eb-button--mini-fab': fab && mini,
       [`btn-${type}`]: true,
-      [`mdl-button--${theme}`]: !!theme,
+      [`eb-button--${theme}`]: !!theme,
     });
   return (
     <Condition condition={loading}>

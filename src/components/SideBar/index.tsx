@@ -1,20 +1,22 @@
 import React from 'react';
 import UserPanel from './UserPanel';
 import schema from './schema';
+import './SideBar.scss';
 import SideBarMenu from './SideBarMenu';
 import { MemoryHistory, Location } from 'history';
+import classNames from 'classnames';
 
-const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location }) => {
+const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location, collapsed }) => {
+  const className = classNames({
+    'eb-sideBar': true,
+    collapsed,
+  });
   return (
-    <div className="sidebar-container">
+    <div className={className}>
       <div className="sidemenu-container navbar-collapse collapse fixed-menu">
         <div id="remove-scroll" className="left-sidemenu">
           <ul
             className="sidemenu page-header-fixed slimscroll-style"
-            data-keep-expanded="false"
-            data-auto-scroll="true"
-            data-slide-speed="200"
-            style={{ paddingTop: '20px' }}
           >
             <li className="sidebar-toggle-wrapper hide">
               <div className="sidebar-toggler">
@@ -33,6 +35,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location }) =
 export interface SideBarProps {
   history: MemoryHistory;
   location: Location;
+  collapsed: boolean;
 }
 
 export default SideBar;

@@ -1,0 +1,47 @@
+.ed-page-layout {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  min-height: 100vh;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    'N N N'
+    'S C C'
+    'S C C';
+
+  &:not(.navBar) {
+    grid-template-areas:
+      'S C C'
+      'S C C'
+      'S C C';
+    .ed-page-layout__navBar {
+      display: none;
+    }
+  }
+
+  &:not(.sidebar) {
+    grid-template-areas:
+      'N N N'
+      'C C C'
+      'C C C';
+    .ed-page-layout__sidebar {
+      display: none;
+    }
+  }
+
+  &__sidebar {
+    grid-area: S;
+    display: grid;
+    z-index: 2;
+  }
+
+  &__navBar {
+    grid-area: N;
+    z-index: 3;
+  }
+
+  &__content {
+    grid-area: C;
+    padding: var(--padding-lg);
+    z-index: 1;
+  }
+}

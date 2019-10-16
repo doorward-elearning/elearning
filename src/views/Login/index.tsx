@@ -14,6 +14,8 @@ import { routes } from '../../routes';
 import { useAction } from '../../hooks/useActions';
 import Card from '../../components/Card';
 import './Login.scss';
+import Layout from '../Layout';
+import { PageComponent } from '../../types';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -57,19 +59,19 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   return authenticated ? (
     <Redirect to={routes.DASHBOARD} />
   ) : (
-    <div className="page page__login">
-      <Card>
-        <Card.Body>
-          <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
-            {LoginForm}
-          </Form>
-        </Card.Body>
-      </Card>
-    </div>
+    <Layout {...props} withSidebar={false}>
+      <div className="page page__login">
+        <Card>
+          <Card.Body>
+            <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
+              {LoginForm}
+            </Form>
+          </Card.Body>
+        </Card>
+      </div>
+    </Layout>
   );
 };
 
-export interface LoginProps {
-  history: MemoryHistory;
-}
+export interface LoginProps extends PageComponent {}
 export default Login;

@@ -1,0 +1,31 @@
+.ed-navBar {
+  background: var(--bg-primary);
+  height: var(--navBar-size);
+  grid-auto-flow: column;
+  padding: 0 var(--padding-xlg);
+  box-shadow: var(--box-shadow);
+  display: grid;
+  align-items: center;
+  justify-content: start;
+
+  .hamburger {
+    margin-right: var(--padding-xlg);
+  }
+
+  .page-logo {
+    a {
+      display: inline-grid;
+      align-items: center;
+      grid-auto-flow: column;
+      text-decoration: none;
+      color: var(--primary);
+      grid-gap: var(--padding);
+      font-size: 1.5em;
+      font-weight: lighter;
+
+      .image {
+        font-size: 1.5em;
+      }
+    }
+  }
+}

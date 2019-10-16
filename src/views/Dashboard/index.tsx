@@ -3,7 +3,7 @@ import Layout from '../Layout';
 import { PageComponent } from '../../types';
 
 const Dashboard: React.FunctionComponent<DashboardProps> = props => {
-  return <Layout {...props} />;
+  return <Layout {...props}>Hello World</Layout>;
 };
 
 export interface DashboardProps extends PageComponent {}
