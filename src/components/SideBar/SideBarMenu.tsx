@@ -4,6 +4,7 @@ import SideBarSubMenu from './SideBarSubMenu';
 import { MemoryHistory, Location } from 'history';
 import { MenuItem, SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
+import Icon from '../Icon';
 
 const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, subMenu, location }) => {
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find(
@@ -13,16 +14,16 @@ const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, sub
   const classes = classNames({
     'nav-item': true,
     open: !!activeSubItem,
-    start: !!activeSubItem,
+    subMenu: !!subMenu,
     active: !!activeSubItem,
   });
 
   return (
     <li className={classes}>
-      <Link to={link} className="nav-link nav-toggle">
+      <Link to={link} className="nav-link">
         <i className="material-icons">{icon}</i>
         <span className="title">{title}</span>
-        <span className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
+        <Icon icon="keyboard_arrow_right" className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
       </Link>
       {subMenu && <SideBarSubMenu menu={subMenu} active={activeSubItem} />}
     </li>

@@ -22,7 +22,8 @@ const base: Theme = {
   '--box-shadow--hover': '0 0 6px 4px var(--shadow-color--darker)',
   '--sidebar-size': '300px',
   '--navBar-size': '70px',
-  '--collapsed-sidebar-size': '70px'
+  '--collapsed-sidebar-size': '75px',
+  '--menu-item-height': '50px',
 };
 
 const dark: Theme = {
@@ -70,6 +71,7 @@ export type Theme = {
   '--sidebar-size': string;
   '--navBar-size': string;
   '--collapsed-sidebar-size': string;
+  '--menu-item-height': string;
 };
 
 export type ThemePack = {

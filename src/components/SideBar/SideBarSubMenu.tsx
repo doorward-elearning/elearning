@@ -5,7 +5,7 @@ import classNames from 'classnames';
 
 const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = ({ menu, active }) => {
   return (
-    <ul className="sub-menu" style={{ display: !!active ? 'block' : 'none' }}>
+    <ul className="sub-menu">
       {menu.map(item => {
         return (
           <li
