@@ -23,6 +23,30 @@ const Schema = [
       }
     ]
   },
+  {
+    title: 'Professors',
+    link: '/professors',
+    icon: 'dashboard',
+  },
+  {
+    title: 'Schools',
+    link: '/event-management',
+    icon: 'event',
+    subMenu: [
+      {
+        title: 'Add school',
+        link: '/schools/add'
+      },
+      {
+        title: 'All schools',
+        link: '/schools/all'
+      },
+      {
+        title: 'Edit school',
+        link: '/school/edit'
+      }
+    ]
+  },
 ];
 
 export interface SubMenuItem {

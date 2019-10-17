@@ -13,7 +13,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location, col
   return (
     <div className={className}>
       <ul className="sidemenu">
-        <SideBarMenu history={history} location={location} menu={schema} />
+        <SideBarMenu history={history} location={location} menu={schema} collapsed={collapsed} />
       </ul>
     </div>
   );

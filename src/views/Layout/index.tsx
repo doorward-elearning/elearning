@@ -12,7 +12,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   withNavBar = true,
   withSidebar = true,
 }) => {
-  const [sidebarCollapsed, collapseSidebar] = useState(false);
+  const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
 
   const className = classNames({
     'ed-page-layout': true,
@@ -20,7 +20,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     navBar: withNavBar,
   });
 
-  const toggleSidebar = () => {
+  const toggleSidebar = (): void => {
+    localStorage.setItem('sidebar-collapse', !sidebarCollapsed + '');
     collapseSidebar(!sidebarCollapsed);
   };
 

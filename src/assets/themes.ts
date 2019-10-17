@@ -22,7 +22,7 @@ const base: Theme = {
   '--box-shadow--hover': '0 0 6px 4px var(--shadow-color--darker)',
   '--sidebar-size': '300px',
   '--navBar-size': '70px',
-  '--collapsed-sidebar-size': '75px',
+  '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '50px',
 };
 
