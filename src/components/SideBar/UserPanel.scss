@@ -1,0 +1,33 @@
+.sidebar-user-panel {
+  .user-panel {
+    display: grid;
+    padding: var(--padding) var(--padding-xlg);
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    grid-gap: 1em;
+
+    img {
+      border: 2px solid var(--line-color);
+      padding: 2px;
+    }
+
+    div {
+      display: grid;
+
+      .online-status {
+        display: grid;
+        align-items: center;
+        grid-gap: 0.5em;
+        text-decoration: none;
+        grid-auto-flow: column;
+        justify-content: start;
+        color: var(--text-primary);
+
+        i {
+          font-size: 15px;
+          color: var(--text-success);
+        }
+      }
+    }
+  }
+}

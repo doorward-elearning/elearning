@@ -16,7 +16,7 @@ const base: Theme = {
   '--padding-lg': '16px',
   '--padding-xlg': '24px',
   '--text-error': 'rgba(255,0,0,0.75)',
-  '--text-success': 'green',
+  '--text-success': '#118f0e',
   '--accent': '#FF4081',
   '--box-shadow': '0 0 8px 8px var(--shadow-color)',
   '--box-shadow--hover': '0 0 6px 4px var(--shadow-color--darker)',

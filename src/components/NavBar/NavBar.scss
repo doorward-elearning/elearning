@@ -3,10 +3,10 @@
   height: var(--navBar-size);
   grid-auto-flow: column;
   padding: 0 var(--padding-xlg);
-  box-shadow: var(--box-shadow);
   display: grid;
   align-items: center;
   justify-content: start;
+  border-bottom: 1px solid var(--primary);
 
   .hamburger {
     margin-right: var(--padding-xlg);

@@ -4,6 +4,7 @@ import './SideBar.scss';
 import SideBarMenu from './SideBarMenu';
 import { MemoryHistory, Location } from 'history';
 import classNames from 'classnames';
+import UserPanel from './UserPanel';
 
 const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location, collapsed }) => {
   const className = classNames({
@@ -13,6 +14,7 @@ const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location, col
   return (
     <div className={className}>
       <ul className="sidemenu">
+        <UserPanel />
         <SideBarMenu history={history} location={location} menu={schema} collapsed={collapsed} />
       </ul>
     </div>

@@ -1,18 +1,20 @@
 import React from 'react';
+import './UserPanel.scss';
+import Image from '../Image';
+import { Link } from 'react-router-dom';
+import Icon from '../Icon';
 
 const UserPanel: React.FunctionComponent<UserPanelProps> = props => {
   return (
     <li className="sidebar-user-panel">
       <div className="user-panel">
-        <div className="pull-left image">
-          <img src="../assets/img/dp.jpg" className="img-circle user-img-circle" alt="User Image" />
-        </div>
-        <div className="pull-left info">
-          <p>Moses Gitau</p>
-          <a href="#">
-            <i className="fa fa-circle user-online" />
-            <span className="txtOnline">Online</span>
-          </a>
+        <Image src="../assets/img/dp.jpg" alt="User Image" circle size="large" />
+        <div>
+          <span>Moses Gitau</span>
+          <Link to="#" className="online-status">
+            <Icon icon="brightness_1" />
+            <span className="online">Online</span>
+          </Link>
         </div>
       </div>
     </li>
