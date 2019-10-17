@@ -1,4 +1,7 @@
 .sidebar-user-panel {
+  &.collapsed {
+    display: none;
+  }
   .user-panel {
     display: grid;
     padding: var(--padding) var(--padding-xlg);

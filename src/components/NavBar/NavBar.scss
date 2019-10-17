@@ -6,10 +6,10 @@
   display: grid;
   align-items: center;
   justify-content: start;
+  grid-gap: var(--padding-xlg);
   border-bottom: 1px solid var(--primary);
 
   .hamburger {
-    margin-right: var(--padding-xlg);
   }
 
   .page-logo {

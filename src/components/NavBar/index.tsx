@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { routes } from '../../routes';
 import CONSTANTS from '../../assets/constants';
 import Icon from '../Icon';
+import NavBarSearch from './NavBarSearch';
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({ withSidebar, onHamburgerClick }) => {
   return (
@@ -14,6 +15,9 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ withSidebar, onHamburger
           <Icon icon="school" className="image" />
           <span className="logo__title">{CONSTANTS.APP_NAME}</span>
         </Link>
+      </div>
+      <div className="ed-navBar__inner">
+        <NavBarSearch />
       </div>
       {/*<div className="page-header-inner">*/}
       {/*  <div className="page-logo">*/}

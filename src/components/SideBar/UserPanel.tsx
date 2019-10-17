@@ -3,10 +3,11 @@ import './UserPanel.scss';
 import Image from '../Image';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
+import classNames from 'classnames';
 
-const UserPanel: React.FunctionComponent<UserPanelProps> = props => {
+const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
   return (
-    <li className="sidebar-user-panel">
+    <li className={classNames({ 'sidebar-user-panel': true, collapsed })}>
       <div className="user-panel">
         <Image src="../assets/img/dp.jpg" alt="User Image" circle size="large" />
         <div>
@@ -21,6 +22,8 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = props => {
   );
 };
 
-export interface UserPanelProps {}
+export interface UserPanelProps {
+  collapsed?: boolean;
+}
 
 export default UserPanel;

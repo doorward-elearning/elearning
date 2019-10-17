@@ -4,6 +4,9 @@ body {
   color: var(--text-primary);
   padding: 0;
   margin: 0;
+  * {
+    font-size: var(--page-font-size);
+  }
 }
 
 a {
