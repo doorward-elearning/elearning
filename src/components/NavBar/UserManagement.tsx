@@ -1,11 +1,15 @@
 import React, { MouseEventHandler } from 'react';
+import Image from '../Image';
 import Tools from '../../utils/Tools';
+import Dropdown from '../Dropdown';
+import './UserManagement.scss';
+import Icon from '../Icon';
 
 const Item: React.FunctionComponent<ItemProps> = ({ link, title, icon, onClick = (): void => {} }) => {
   return (
     <li>
       <a href={link} onClick={onClick}>
-        <i className={icon} /> {title}
+        <Icon icon={icon} /> {title}
       </a>
     </li>
   );
@@ -17,27 +21,23 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
     window.location.href = '/login';
   };
   return (
-    <li className="dropdown dropdown-user">
-      <a
-        href="javascript:void(0)"
-        className="dropdown-toggle"
-        data-toggle="dropdown"
-        data-hover="dropdown"
-        data-close-others="true"
-      >
-        <img alt="" className="img-circle " src="../assets/img/dp.jpg" />
-        <span className="username username-hide-on-mobile"> Moses Gitau </span>
-        <i className="fa fa-angle-down" />
-      </a>
-      <ul className="dropdown-menu dropdown-menu-default">
-        <Item icon="icon-user" link="" title="Profile" />
-        <Item icon="icon-settings" link="" title="Settings" />
-        <Item icon="icon-directions" link="" title="Help" />
-        <li className="divider" />
-        <Item icon="icon-lock" link="" title="Lock" />
-        <Item icon="icon-logout" title="Logout" onClick={logout} />
-      </ul>
-    </li>
+    <div className="user-management">
+      <Dropdown positionX="center" positionY="bottom">
+        <div className="user-management__user">
+          <Image src="../assets/img/dp.jpg" circle size="small" />
+          <span className="username username-hide-on-mobile"> Moses Gitau </span>
+          <Dropdown.Arrow />
+        </div>
+        <Dropdown.Menu>
+          <Dropdown.Item icon="account_circle" link="" title="Profile" />
+          <Dropdown.Item icon="settings" link="" title="Settings" />
+          <Dropdown.Item icon="directions" link="" title="Help" />
+          <Dropdown.Divider />
+          <Dropdown.Item icon="lock" link="" title="Lock" />
+          <Dropdown.Item icon="logout" title="Logout" onClick={logout} />
+        </Dropdown.Menu>
+      </Dropdown>
+    </div>
   );
 };
 

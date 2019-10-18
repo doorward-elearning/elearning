@@ -7,7 +7,6 @@ import { FormikActions } from 'formik';
 import * as Yup from 'yup';
 import { State } from '../../store/store';
 import { WebComponentState } from '../../reducers/reducers';
-import { MemoryHistory } from 'history';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { routes } from '../../routes';
@@ -16,6 +15,7 @@ import Card from '../../components/Card';
 import './Login.scss';
 import Layout from '../Layout';
 import { PageComponent } from '../../types';
+import { NavbarFeatures } from '../../components/NavBar';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -59,7 +59,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   return authenticated ? (
     <Redirect to={routes.DASHBOARD} />
   ) : (
-    <Layout {...props} withSidebar={false}>
+    <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]}>
       <div className="page page__login">
         <Card>
           <Card.Body>

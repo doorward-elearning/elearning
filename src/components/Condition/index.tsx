@@ -7,17 +7,19 @@ const Condition: React.FunctionComponent<ConditionProps> = ({ condition, childre
     'ed-condition': true,
     isTrue: condition,
   });
+
+  const c: any = children.constructor === Array ? children : [children];
   return (
     <div className={classes}>
-      <div>{children[0]}</div>
-      <div>{children[1]}</div>
+      <div>{c[0]}</div>
+      <div>{c[1]}</div>
     </div>
   );
 };
 
 export interface ConditionProps {
   condition: boolean;
-  children: readonly [ReactElement, ReactElement];
+  children: Array<ReactElement> | ReactElement;
 }
 
 export default Condition;

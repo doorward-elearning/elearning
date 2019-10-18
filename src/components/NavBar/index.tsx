@@ -5,49 +5,38 @@ import { routes } from '../../routes';
 import CONSTANTS from '../../assets/constants';
 import Icon from '../Icon';
 import NavBarSearch from './NavBarSearch';
+import UserManagement from './UserManagement';
+import Condition from '../Condition';
 
-const NavBar: React.FunctionComponent<NavBarProps> = ({ withSidebar, onHamburgerClick }) => {
+export enum NavbarFeatures {
+  HAMBURGER = 1,
+  PAGE_LOGO = 2,
+  SEARCH_BAR = 3,
+  USER_MANAGEMENT = 4,
+}
+
+const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features }) => {
   return (
     <div className="ed-navBar">
-      {withSidebar && <Icon className="hamburger" icon="menu" onClick={onHamburgerClick} />}
-      <div className="page-logo">
-        <Link to={routes.HOME}>
-          <Icon icon="school" className="image" />
-          <span className="logo__title">{CONSTANTS.APP_NAME}</span>
-        </Link>
-      </div>
+      <Condition condition={features.includes(NavbarFeatures.HAMBURGER)}>
+        <Icon className="hamburger" icon="menu" onClick={onHamburgerClick} />
+      </Condition>
+      <Condition condition={features.includes(NavbarFeatures.PAGE_LOGO)}>
+        <div className="page-logo">
+          <Link to={routes.HOME}>
+            <Icon icon="school" className="image" />
+            <span className="logo__title">{CONSTANTS.APP_NAME}</span>
+          </Link>
+        </div>
+      </Condition>
       <div className="ed-navBar__inner">
-        <NavBarSearch />
+        <Condition condition={features.includes(NavbarFeatures.SEARCH_BAR)}>
+          <NavBarSearch />
+        </Condition>
+        <Condition condition={features.includes(NavbarFeatures.USER_MANAGEMENT)}>
+          <UserManagement />
+        </Condition>
       </div>
-      {/*<div className="page-header-inner">*/}
-      {/*  <div className="page-logo">*/}
-      {/*    <Link to="/">*/}
-      {/*      <span className="logo-icon material-icons fa-rotate-45">school</span>*/}
-      {/*      <span className="logo-default">Edu Door</span>*/}
-      {/*    </Link>*/}
-      {/*  </div>*/}
-      {/*  <ul className="nav navbar-nav navbar-left in">*/}
-      {/*    <li>*/}
-      {/*      <a href="#" className="menu-toggler sidebar-toggler">*/}
-      {/*        <i className="icon-menu" />*/}
-      {/*      </a>*/}
-      {/*    </li>*/}
-      {/*  </ul>*/}
-      {/*  <NavBarSearch />*/}
-      {/*  <a*/}
-      {/*    href="javascript:void(0)"*/}
-      {/*    className="menu-toggler responsive-toggler"*/}
-      {/*    data-toggle="collapse"*/}
-      {/*    data-target=".navbar-collapse"*/}
-      {/*  >*/}
-      {/*    <span />*/}
-      {/*  </a>*/}
-      {/*  <div className="top-menu">*/}
-      {/*    <ul className="nav navbar-nav pull-right">*/}
-      {/*      <UserManagement />*/}
-      {/*    </ul>*/}
-      {/*  </div>*/}
-      {/*</div>*/}
     </div>
   );
 };
@@ -55,6 +44,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ withSidebar, onHamburger
 export interface NavBarProps {
   withSidebar?: boolean;
   onHamburgerClick?: MouseEventHandler;
+  features: Array<NavbarFeatures>;
 }
 
 export default NavBar;

@@ -25,7 +25,9 @@ const base: Theme = {
   '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '50px',
   '--search-bar-size': '200px',
-  '--page-font-size': '1em'
+  '--page-font-size': '1em',
+  '--list-item-height': '40px',
+  '--list-item-width': '200px'
 };
 
 const dark: Theme = {
@@ -76,6 +78,8 @@ export type Theme = {
   '--menu-item-height': string;
   '--search-bar-size': string;
   '--page-font-size': string;
+  '--list-item-height': string;
+  '--list-item-width': string;
 };
 
 export type ThemePack = {

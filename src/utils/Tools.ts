@@ -1,3 +1,5 @@
+import { TSEnumDeclaration } from '@babel/types';
+
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 
@@ -5,6 +7,10 @@ const simpleCrypto = new SimpleCrypto(process.env.REACT_APP_ENCRYPTION_SECRET);
 
 class Tools {
   static AUTHORIZATION_TOKEN = 'token';
+
+  static enumKeys<T>(enumeration: T): Array<T> {
+    return Object.keys(enumeration).map(key => enumeration[key]);
+  }
 
   static randomString(length = 6): string {
     return `${Math.random()}`.substr(2, length);

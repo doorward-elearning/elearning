@@ -1,19 +1,25 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'react';
 import Icon from '../Icon';
 import './NavBarSearch.scss';
 import classNames from 'classnames';
 import useClickOutside from '../../hooks/useClickOutside';
+import useStateRef from '../../hooks/useStateRef';
 
 const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
   const form = useRef(null);
   const [collapsed, setCollapsed] = useState(true);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText, textRef] = useStateRef('');
 
-  useClickOutside(() => {
-    if (!searchText) {
+  const handleCollapse = useCallback((): void => {
+    if (!textRef.current) {
       setCollapsed(true);
     }
-  }, form.current);
+  }, [searchText]);
+
+  useClickOutside(() => {
+    handleCollapse();
+  }, form);
+
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
   };
