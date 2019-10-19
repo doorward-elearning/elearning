@@ -17,8 +17,7 @@ import Layout from '../Layout';
 import { PageComponent } from '../../types';
 import { NavbarFeatures } from '../../components/NavBar';
 import ProgressBar from '../../components/ProgressBar';
-import Condition from '../../components/Condition';
-import If from '../../components/Condition/If';
+import IfElse from '../../components/IfElse';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -70,9 +69,9 @@ const Login: React.FunctionComponent<LoginProps> = props => {
           {(props: FormikProps<LoginFormState>): JSX.Element => (
             <Card>
               <Card.Header>
-                <If condition={props.isSubmitting}>
+                <IfElse condition={props.isSubmitting}>
                   <ProgressBar />
-                </If>
+                </IfElse>
               </Card.Header>
               <Card.Body>
                 <LoginForm {...props} />

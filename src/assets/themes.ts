@@ -2,6 +2,7 @@ const base: Theme = {
   '--bg-primary': '#FFFFFF',
   '--bg-secondary': 'rgba(244,244,244,0.81)',
   '--primary': '#3F51B5',
+  '--primary-dark': '#354497',
   '--text-alternate': '#a2a2a2',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
@@ -19,7 +20,7 @@ const base: Theme = {
   '--text-success': '#118f0e',
   '--accent': '#FF4081',
   '--box-shadow': '0 0 8px 8px var(--shadow-color)',
-  '--box-shadow--hover': '0 0 6px 4px var(--shadow-color--darker)',
+  '--box-shadow--hover': '0px 2px 8px 4px var(--shadow-color--darker)',
   '--sidebar-size': '300px',
   '--navBar-size': '70px',
   '--collapsed-sidebar-size': '74px',
@@ -37,6 +38,7 @@ const dark: Theme = {
   '--text-alternate': '#666666',
   '--text-primary': '#ffffff',
   '--primary': '#4d63dd',
+  '--primary-dark': '#3e50b3',
   '--text-secondary': '#b3b3b3',
   '--text-icons': '#ccc',
   '--line-color': 'rgb(89,89,89)',
@@ -54,6 +56,7 @@ export type Theme = {
   '--bg-primary': string;
   '--bg-secondary': string;
   '--primary': string;
+  '--primary-dark': string;
   '--text-alternate': string;
   '--text-primary': string;
   '--text-secondary': string;

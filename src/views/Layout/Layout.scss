@@ -43,5 +43,31 @@
     grid-area: C;
     padding: var(--padding-lg);
     z-index: 1;
+
+    .ed-page-layout__header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-gap: var(--padding);
+      align-items: center;
+
+      &--start{
+        position: relative;
+        &__arrow-back {
+          position: absolute;
+          right: calc(100% + var(--padding-xlg));
+        }
+      }
+
+      &--start,
+      &--middle,
+      &--end {
+        display: grid;
+        align-items: center;
+        grid-auto-flow: column;
+        grid-gap: var(--padding);
+      }
+
+
+    }
   }
 }

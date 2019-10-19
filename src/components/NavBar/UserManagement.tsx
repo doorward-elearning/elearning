@@ -7,7 +7,7 @@ import Icon from '../Icon';
 import useAuth from '../../hooks/useAuth';
 import Button from '../Buttons/Button';
 import { routes } from '../../routes';
-import Condition from '../Condition';
+import Condition from '../IfElse';
 
 const Item: React.FunctionComponent<ItemProps> = ({ link, title, icon, onClick = (): void => {} }) => {
   return (

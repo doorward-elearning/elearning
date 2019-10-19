@@ -1,6 +1,6 @@
 import React, { ReactElement, useContext } from 'react';
 import { FeatureContext } from './index';
-import If from '../Condition/If';
+import IfElse from '../IfElse';
 
 const Feature: React.FunctionComponent<FeatureProps> = ({ feature, children, excludeIfHas }): JSX.Element => {
   const { features } = useContext(FeatureContext);
@@ -8,7 +8,7 @@ const Feature: React.FunctionComponent<FeatureProps> = ({ feature, children, exc
   if (excludeIfHas) {
     show = show && !features.find(x => x === excludeIfHas);
   }
-  return <If condition={show}>{children}</If>;
+  return <IfElse condition={show}>{children}</IfElse>;
 };
 
 export interface FeatureProps {

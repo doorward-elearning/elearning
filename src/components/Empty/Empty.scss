@@ -1,0 +1,12 @@
+.ed-content-empty {
+  display: grid;
+  place-items: center;
+  &__icon {
+    font-size: 100px;
+    color: var(--text-secondary);
+  }
+
+  &__message {
+    color: var(--text-secondary);
+  }
+}

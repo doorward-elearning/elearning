@@ -1,5 +1,5 @@
-import React from 'react';
-import Condition from '../Condition';
+import React, { MouseEventHandler } from 'react';
+import Condition from '../IfElse';
 import Spinner from '../Spinner';
 import classNames from 'classnames';
 import './Buttons.scss';
@@ -9,6 +9,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,
   loading = false,
   children,
+  onClick = (): void => {},
   flat = false,
   type = 'default',
   fab = false,
@@ -37,7 +38,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     <Condition condition={loading}>
       <Spinner />
       <Parent to={link}>
-        <button disabled={disabled} className={className}>
+        <button disabled={disabled} className={className} onClick={onClick}>
           {children}
         </button>
       </Parent>
@@ -57,6 +58,7 @@ export interface ButtonProps {
   icon?: string;
   className?: string;
   link?: string;
+  onClick?: MouseEventHandler;
 }
 
 export default Button;
