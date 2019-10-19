@@ -3,7 +3,7 @@ import Form from '../../components/Form';
 import LoginForm, { LoginFormState } from '../../components/LoginForm';
 import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login';
 import { useSelector } from 'react-redux';
-import { FormikActions } from 'formik';
+import { FormikActions, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { State } from '../../store/store';
 import { WebComponentState } from '../../reducers/reducers';
@@ -16,6 +16,9 @@ import './Login.scss';
 import Layout from '../Layout';
 import { PageComponent } from '../../types';
 import { NavbarFeatures } from '../../components/NavBar';
+import ProgressBar from '../../components/ProgressBar';
+import Condition from '../../components/Condition';
+import If from '../../components/Condition/If';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -63,13 +66,20 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   ) : (
     <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]}>
       <div className="page page__login">
-        <Card>
-          <Card.Body>
-            <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
-              {LoginForm}
-            </Form>
-          </Card.Body>
-        </Card>
+        <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
+          {(props: FormikProps<LoginFormState>): JSX.Element => (
+            <Card>
+              <Card.Header>
+                <If condition={props.isSubmitting}>
+                  <ProgressBar />
+                </If>
+              </Card.Header>
+              <Card.Body>
+                <LoginForm {...props} />
+              </Card.Body>
+            </Card>
+          )}
+        </Form>
       </div>
     </Layout>
   );

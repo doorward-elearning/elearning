@@ -19,7 +19,7 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
       <TextField name="username" placeholder="Username" icon="account_circle" formikProps={props} />
       <PasswordField name="password" placeholder="Password" icon="lock" formikProps={props} />
       <Checkbox name="remember-me" label="Remember me" />
-      <Button loading={props.isSubmitting}>
+      <Button disabled={props.isSubmitting}>
         Login
       </Button>
       <Link className="txt1" to="/forgotPassword">

@@ -1,40 +1,11 @@
-import React, { useEffect, useRef } from 'react';
-import classNames from 'classnames';
+import React from 'react';
+import LinearProgress, { LinearProgressProps } from '@material/react-linear-progress';
+import './ProgressBar.scss';
 
-const ProgressBar: React.FunctionComponent<ProgressBarProps> = ({ progress, buffer, indeterminate }) => {
-  const progressRef = useRef(null);
-  const setProgress = (): void => {
-    if (progressRef) {
-      const current: any = progressRef.current;
-      if (current.MaterialProgress) {
-        current.MaterialProgress.setProgress(progress);
-        current.MaterialProgress.setBuffer(buffer);
-      }
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mdl-componentupgraded', () => {
-      setProgress();
-    });
-  });
-
-  useEffect(() => {
-    setProgress();
-  }, [progress, buffer]);
-
-  const classes = classNames({
-    'mdl-progress': true,
-    'mdl-js-progress': true,
-    'mdl-progress__indeterminate': indeterminate,
-  });
-  return <div className={classes} ref={progressRef} />;
+const ProgressBar: React.FunctionComponent<ProgressBarProps<any>> = ({ indeterminate = true }) => {
+  return <LinearProgress className="ed-progress" indeterminate={indeterminate} />;
 };
 
-export interface ProgressBarProps {
-  progress?: number;
-  buffer?: number;
-  indeterminate?: boolean;
-}
+export interface ProgressBarProps<T> extends LinearProgressProps<T> {}
 
 export default ProgressBar;
