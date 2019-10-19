@@ -1,20 +1,24 @@
 .eb-button {
   padding: var(--padding) var(--padding-xlg);
-  background: var(--primary);
-  color: var(--text-icons);
   border: none;
   outline: none;
   cursor: pointer;
   font-size: 1em;
+  transition: 0.5s filter;
+
+  &:hover {
+    filter: brightness(90%);
+  }
 
   &--raised {
     box-shadow: var(--box-shadow);
     transition: 0.5s box-shadow, filter;
+    background: var(--primary);
+    color: var(--text-icons);
     position: relative;
 
     &:hover {
       box-shadow: var(--box-shadow--hover);
-      filter: brightness(85%);
     }
   }
 }

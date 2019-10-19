@@ -1,33 +1,34 @@
 import React, { FunctionComponent } from 'react';
 import { PageComponent } from '../../types';
-import { Link } from 'react-router-dom';
+import Layout from '../Layout';
+import Card from '../../components/Card';
+import Image from '../../components/Image';
+import notFound from '../../assets/images/notFound.svg';
+import { NavbarFeatures } from '../../components/NavBar';
+import './NotFound.scss';
+import Header from '../../components/Header';
+import Button from '../../components/Buttons/Button';
 import { routes } from '../../routes';
 
-const NotFound: FunctionComponent<NotFoundProps> = (): JSX.Element => {
+const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
   return (
-    <div className="limiter">
-      <div className="container-login100 page-background">
-        <div className="wrap-login100">
-          <form className="form-404">
-            <span className="login100-form-logo">
-              <img alt="" src="../assets/img/logo-2.png" />
-            </span>
-            <span className="form404-title p-b-34 p-t-27">Error 404</span>
-            <p className="content-404">The page you are looking for does&#39;t exist or an other error occurred.</p>
-            <div className="container-login100-form-btn">
-              <Link to={routes.DASHBOARD} className="login100-form-btn">
-                Go to home page
-              </Link>
+    <Layout
+      {...props}
+      navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
+    >
+      <div className="page-not-found">
+        <Card>
+          <Card.Body>
+            <div className="page-not-found__content">
+              <Header size={1}>Error 404</Header>
+              <Image src={notFound} size="xLarge" />
+              <p>The page you are looking for was not found</p>
+              <Button link={routes.DASHBOARD}>Go back Home</Button>
             </div>
-            <div className="text-center p-t-27">
-              <a className="txt1" href="#">
-                Need Help?
-              </a>
-            </div>
-          </form>
-        </div>
+          </Card.Body>
+        </Card>
       </div>
-    </div>
+    </Layout>
   );
 };
 

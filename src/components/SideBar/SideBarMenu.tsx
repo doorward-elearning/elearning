@@ -6,7 +6,8 @@ import { MenuItem, SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 
-const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, subMenu, open, setOpen, collapsed }) => {
+const Item: React.FunctionComponent<ItemProps> = props => {
+  const { icon, link = '#', title, subMenu, open, onClick, setOpen, collapsed, history } = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find(
     (item: SubMenuItem): boolean => location.pathname === item.link
   );
@@ -18,14 +19,24 @@ const Item: React.FunctionComponent<ItemProps> = ({ icon, link = '#', title, sub
     active: !!activeSubItem,
   });
 
+  const onItemClick = (): void => {
+    if (subMenu) {
+      setOpen(!open);
+    } else if (onClick) {
+      onClick(props);
+    }
+  };
+
   return (
     <li className={classes}>
-      <Link to={subMenu ? '#' : link} className="nav-link" onClick={(): void => setOpen(!open)}>
-        <i className="material-icons">{icon}</i>
+      <Link to={subMenu ? '#' : link} className="nav-link" onClick={onItemClick}>
+        <Icon icon={icon} />
         <span className="title">{title}</span>
         <Icon icon="keyboard_arrow_right" className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
       </Link>
-      {subMenu && <SideBarSubMenu menu={subMenu} active={activeSubItem} open={open} collapsed={collapsed} />}
+      {subMenu && (
+        <SideBarSubMenu history={history} menu={subMenu} active={activeSubItem} open={open} collapsed={collapsed} />
+      )}
     </li>
   );
 };

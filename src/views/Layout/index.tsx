@@ -7,7 +7,12 @@ import './Layout.scss';
 import Container from '../../components/Container';
 import Tools from '../../utils/Tools';
 
-const Layout: React.FunctionComponent<LayoutProps> = ({ history, location, children, navFeatures = [Tools.enumKeys(NavbarFeatures)] }) => {
+const Layout: React.FunctionComponent<LayoutProps> = ({
+  history,
+  location,
+  children,
+  navFeatures = Tools.enumKeys(NavbarFeatures),
+}) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
 
   const className = classNames({
@@ -24,7 +29,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ history, location, child
   return (
     <div id="main-layout" className={className}>
       <div className="ed-page-layout__navBar">
-        <NavBar features={navFeatures} onHamburgerClick={toggleSidebar} />
+        <NavBar history={history} location={location} features={navFeatures} onHamburgerClick={toggleSidebar} />
       </div>
       <div className="ed-page-layout__sidebar">
         <SideBar history={history} location={location} collapsed={sidebarCollapsed} />
@@ -37,7 +42,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({ history, location, child
 };
 
 export interface LayoutProps extends PageComponent {
-  navFeatures?: Array<NavbarFeatures>;
+  navFeatures?: Array<NavbarFeatures | string | typeof NavbarFeatures>;
 }
 
 export default Layout;

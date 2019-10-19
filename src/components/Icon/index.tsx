@@ -13,6 +13,7 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
       {props.icon && (
         <i className={className} onClick={props.onClick}>
           {props.icon}
+          <i className="material-icons">{props.icon}</i>
         </i>
       )}
     </React.Fragment>

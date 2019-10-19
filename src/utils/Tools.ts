@@ -1,5 +1,4 @@
-import { TSEnumDeclaration } from '@babel/types';
-
+import { Enum } from '../types';
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 
@@ -8,8 +7,12 @@ const simpleCrypto = new SimpleCrypto(process.env.REACT_APP_ENCRYPTION_SECRET);
 class Tools {
   static AUTHORIZATION_TOKEN = 'token';
 
-  static enumKeys<T>(enumeration: T): Array<T> {
-    return Object.keys(enumeration).map(key => enumeration[key]);
+  static enumKeys<T extends Enum<S>, S>(enumeration: T): Array<T> {
+    const keys: any[] = Object.keys(enumeration);
+    return keys
+      .map(k => enumeration[k])
+      .filter(x => typeof x !== 'string')
+      .map((x: any) => x as T);
   }
 
   static randomString(length = 6): string {

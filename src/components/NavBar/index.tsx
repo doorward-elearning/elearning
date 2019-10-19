@@ -6,45 +6,62 @@ import CONSTANTS from '../../assets/constants';
 import Icon from '../Icon';
 import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
-import Condition from '../Condition';
+import FeatureProvider from '../FeatureProvider';
+import Feature from '../FeatureProvider/Feature';
+import { PageComponent } from '../../types';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
   PAGE_LOGO = 2,
   SEARCH_BAR = 3,
   USER_MANAGEMENT = 4,
+  BACK_BUTTON = 5,
 }
 
-const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features }) => {
+const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features, history }) => {
   return (
-    <div className="ed-navBar">
-      <Condition condition={features.includes(NavbarFeatures.HAMBURGER)}>
-        <Icon className="hamburger" icon="menu" onClick={onHamburgerClick} />
-      </Condition>
-      <Condition condition={features.includes(NavbarFeatures.PAGE_LOGO)}>
-        <div className="page-logo">
-          <Link to={routes.HOME}>
-            <Icon icon="school" className="image" />
-            <span className="logo__title">{CONSTANTS.APP_NAME}</span>
-          </Link>
+    <FeatureProvider features={features}>
+      <div className="ed-navBar">
+        <div className="ed-navBar__start">
+          <Feature feature={NavbarFeatures.HAMBURGER}>
+            <Icon className="hamburger" icon="menu" onClick={onHamburgerClick} />
+          </Feature>
+          <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
+            <Icon
+              icon="arrow_back"
+              onClick={(): void => {
+                history.goBack();
+              }}
+            />
+          </Feature>
+          <Feature feature={NavbarFeatures.PAGE_LOGO}>
+            <div className="page-logo">
+              <Link to={routes.HOME}>
+                <Icon icon="school" className="image" />
+                <span className="logo__title">{CONSTANTS.APP_NAME}</span>
+              </Link>
+            </div>
+          </Feature>
         </div>
-      </Condition>
-      <div className="ed-navBar__inner">
-        <Condition condition={features.includes(NavbarFeatures.SEARCH_BAR)}>
-          <NavBarSearch />
-        </Condition>
-        <Condition condition={features.includes(NavbarFeatures.USER_MANAGEMENT)}>
-          <UserManagement />
-        </Condition>
+        <div className="ed-navBar__inner">
+          <Feature feature={NavbarFeatures.SEARCH_BAR}>
+            <NavBarSearch />
+          </Feature>
+        </div>
+        <div className="ed-navBar__end">
+          <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
+            <UserManagement />
+          </Feature>
+        </div>
       </div>
-    </div>
+    </FeatureProvider>
   );
 };
 
-export interface NavBarProps {
+export interface NavBarProps extends PageComponent {
   withSidebar?: boolean;
   onHamburgerClick?: MouseEventHandler;
-  features: Array<NavbarFeatures>;
+  features: Array<NavbarFeatures | string | typeof NavbarFeatures>;
 }
 
 export default NavBar;

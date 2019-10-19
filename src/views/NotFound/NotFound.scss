@@ -1,0 +1,21 @@
+.page-not-found {
+  display: grid;
+  justify-items: center;
+
+  .ed-card {
+    width: 500px;
+  }
+
+  &__content {
+    display: grid;
+    justify-items: center;
+    padding: var(--padding);
+    grid-gap: 2em;
+
+    img {
+      background: var(--bg-secondary);
+      justify-self: stretch;
+      padding: var(--padding);
+    }
+  }
+}

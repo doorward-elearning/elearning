@@ -1,7 +1,7 @@
 .ed-navBar {
   background: var(--bg-primary);
   height: var(--navBar-size);
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto 1fr auto;
   padding: 0 var(--padding-xlg);
   display: grid;
   align-items: center;
@@ -29,14 +29,21 @@
     }
   }
 
+  &__start {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    grid-gap: var(--padding-xlg);
+  }
+
   &__inner {
     display: grid;
     grid-auto-flow: column;
     justify-items: start;
     grid-gap: var(--padding-xlg);
+  }
 
-    .user-management {
-      justify-self: end;
-    }
+  .user-management {
+    justify-self: end;
   }
 }

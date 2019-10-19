@@ -7,3 +7,5 @@ export interface PageComponent {
 }
 
 export type HigherOrderComponent<T, S extends ReactNode> = (props: T) => (S) => ReactNode;
+
+export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };

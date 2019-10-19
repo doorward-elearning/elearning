@@ -17,7 +17,7 @@ const Router: React.FunctionComponent<any> = (): JSX.Element => (
     <Switch>
       <AuthenticatedRoute path={routes.DASHBOARD} exact component={Dashboard} />
       <Route path={routes.LOGIN} exact component={Login} />
-      <Route component={Dashboard} />
+      <Route component={NotFound} />
     </Switch>
   </BrowserRouter>
 );

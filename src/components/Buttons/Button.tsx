@@ -3,6 +3,7 @@ import Condition from '../Condition';
 import Spinner from '../Spinner';
 import classNames from 'classnames';
 import './Buttons.scss';
+import { Link } from 'react-router-dom';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,
@@ -15,6 +16,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   mini,
   rounded,
   className,
+  link,
   icon,
 }) => {
   className =
@@ -29,12 +31,16 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       [`btn-${type}`]: true,
       [`eb-button--${theme}`]: !!theme,
     });
+
+  const Parent: any = link ? Link : React.Fragment;
   return (
     <Condition condition={loading}>
       <Spinner />
-      <button disabled={disabled} className={className}>
-        {children}
-      </button>
+      <Parent to={link}>
+        <button disabled={disabled} className={className}>
+          {children}
+        </button>
+      </Parent>
     </Condition>
   );
 };
@@ -50,6 +56,7 @@ export interface ButtonProps {
   rounded?: boolean;
   icon?: string;
   className?: string;
+  link?: string;
 }
 
 export default Button;

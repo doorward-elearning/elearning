@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn);
-  const logout = () => {
+  const logout = (): void => {
     if (authenticated) {
       Tools.clearToken();
       setAuthenticated(false);

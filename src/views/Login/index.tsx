@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Form from '../../components/Form';
 import LoginForm, { LoginFormState } from '../../components/LoginForm';
-import { LOGIN_USER } from '../../reducers/login';
+import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login';
 import { useSelector } from 'react-redux';
 import { FormikActions } from 'formik';
 import * as Yup from 'yup';
@@ -29,12 +29,14 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const [actions, setActions] = useState<FormikActions<LoginFormState> | null>(null);
   const initialState = {};
   const loginUser = useAction({ type: LOGIN_USER });
+  const clearLogin = useAction({ type: CLEAR_LOGIN });
 
   const login: WebComponentState = useSelector((state: State) => state.login);
 
   useEffect(() => {
     if (login.data) {
       authenticate(state.username, state.password);
+      clearLogin();
     }
   }, [login.data]);
 

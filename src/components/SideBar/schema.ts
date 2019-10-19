@@ -1,3 +1,8 @@
+import { routes } from '../../routes';
+import { SideBarSubMenuProps } from './SideBarSubMenu';
+import { ItemProps } from './SideBarMenu';
+import Tools from '../../utils/Tools';
+
 const Schema = [
   {
     title: 'Dashboard',
@@ -5,53 +10,30 @@ const Schema = [
     icon: 'dashboard',
   },
   {
-    title: 'Event Management',
-    link: '/event-management',
-    icon: 'event',
+    title: 'Courses',
+    link: '/courses',
+    icon: 'school',
     subMenu: [
       {
-        title: 'Add professor',
-        link: '/event-management/add'
+        title: 'Course List',
+        link: '/courses/list',
       },
-      {
-        title: 'All processors',
-        link: '/event-management/all'
-      },
-      {
-        title: 'Edit professor',
-        link: '/event-management/edit'
-      }
-    ]
+    ],
   },
   {
-    title: 'Professors',
-    link: '/professors',
-    icon: 'dashboard',
-  },
-  {
-    title: 'Schools',
-    link: '/event-management',
-    icon: 'event',
-    subMenu: [
-      {
-        title: 'Add school',
-        link: '/schools/add'
-      },
-      {
-        title: 'All schools',
-        link: '/schools/all'
-      },
-      {
-        title: 'Edit school',
-        link: '/school/edit'
-      }
-    ]
+    title: 'Logout',
+    onClick: ({ history }: ItemProps): void => {
+      Tools.clearToken();
+      history.push(routes.LOGIN);
+    },
+    icon: 'logout',
   },
 ];
 
 export interface SubMenuItem {
   title: string;
   link: string;
+  onClick?: (props: SideBarSubMenuProps) => void;
 }
 
 export interface MenuItem {
@@ -59,6 +41,7 @@ export interface MenuItem {
   icon: string;
   link?: string;
   subMenu?: Array<SubMenuItem>;
+  onClick?: (props: ItemProps) => void;
 }
 
 export default Schema;

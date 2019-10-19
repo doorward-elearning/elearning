@@ -2,8 +2,10 @@ import React, { useEffect, useRef } from 'react';
 import { SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
+import { MemoryHistory } from 'history';
 
-const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = ({ menu, active, open, collapsed }) => {
+const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
+  const { menu, active, open, collapsed } = props;
   const list: { current: any } = useRef(null);
 
   const modifyHeight = (): void => {
@@ -39,7 +41,7 @@ const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = ({ menu, ac
             })}
             key={item.title}
           >
-            <Link to={item.link} className="side-nav-link">
+            <Link to={item.link} className="side-nav-link" onClick={(): void => item.onClick && item.onClick(props)}>
               <span className="title">{item.title}</span>
             </Link>
           </li>
@@ -54,6 +56,7 @@ export interface SideBarSubMenuProps {
   active?: SubMenuItem;
   open: boolean;
   collapsed: boolean;
+  history: MemoryHistory;
 }
 
 export default SideBarSubMenu;
