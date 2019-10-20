@@ -3,12 +3,25 @@ import Modal, { ModalFeatures, ModalProps } from '../../components/Modal';
 import AddCourseForm, { AddCourseFormState } from '../../components/Forms/AddCourseForm';
 import Form from '../../components/Forms/Form';
 import { FormikProps } from 'formik';
+import * as Yup from 'yup';
+
+const schema = Yup.object().shape({
+  name: Yup.string().required('The course name is required'),
+  description: Yup.string().required('Please provide a short course description'),
+  modules: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required('The module name is required'),
+      })
+    )
+    .required('Please provide at least one module in the course'),
+});
 
 const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
   const onSubmit = () => {};
   return (
     <Modal useModal={props.useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}>
-      <Form initialValues={{ name: '' }} onSubmit={onSubmit}>
+      <Form initialValues={{ name: '', modules: [{ name: '' }] }} onSubmit={onSubmit} validationSchema={schema}>
         {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => (
           <React.Fragment>
             <Modal.Header title={props.title} />

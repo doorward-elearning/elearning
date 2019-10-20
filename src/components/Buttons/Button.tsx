@@ -28,14 +28,15 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     'btn-circle': rounded,
     'eb-button--mini-fab': fab && mini,
     [`btn-${theme}`]: true,
-    className: true,
+    [className || '']: true,
   });
 
   const Parent: any = link ? Link : React.Fragment;
+  const parentProps = link ? { to: link } : {};
   return (
     <Condition condition={loading}>
       <Spinner />
-      <Parent to={link}>
+      <Parent {...parentProps}>
         <button disabled={disabled} className={className} onClick={onClick} type={type}>
           {children}
         </button>

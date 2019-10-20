@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
+import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';
 import FeatureProvider from '../FeatureProvider';
@@ -18,12 +19,12 @@ function withInput<R extends InputProps>(
     if (formikProps) {
       inputProps.onChange = formikProps.handleChange;
       inputProps.onBlur = formikProps.handleBlur;
-      inputProps.value = formikProps.values[name];
+      inputProps.value = _.get(formikProps.values, name);
     }
 
     let error = '';
     if (formikProps && name) {
-      error = '' + (formikProps.errors[name] || '');
+      error = '' + (_.get(formikProps.errors, name) || '');
     }
     const className = classNames({
       'eb-input': true,

@@ -7,7 +7,7 @@
   height: 100vh;
   display: grid;
   place-items: center;
-  overflow: scroll;
+  overflow: auto;
   pointer-events: none;
 
   &.open {

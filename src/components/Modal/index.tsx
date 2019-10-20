@@ -27,14 +27,6 @@ const ModalContext = React.createContext<UseModal>({
 });
 
 const Modal: ModalComponent = ({ features = [], children, useModal }) => {
-  const overlay: any = React.useRef(null);
-
-  useClickOutside(() => {
-    if (useModal.isOpenRef && useModal.isOpenRef.current) {
-      useModal.closeModal();
-    }
-  }, overlay);
-
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
       <ModalContext.Provider value={useModal}>
@@ -44,10 +36,8 @@ const Modal: ModalComponent = ({ features = [], children, useModal }) => {
             open: useModal.isOpen,
           })}
         >
-          <div className="ed-modal__background" />
-          <div className="ed-modal__content" ref={overlay}>
-            {children}
-          </div>
+          <div className="ed-modal__background" onClick={() => useModal.closeModal()} />
+          <div className="ed-modal__content">{children}</div>
         </div>
       </ModalContext.Provider>
     </FeatureProvider>
