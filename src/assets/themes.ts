@@ -29,9 +29,19 @@ const base: Theme = {
   '--page-font-size': '1em',
   '--list-item-height': '40px',
   '--list-item-width': '200px',
-  '--modal-background': 'rgba(0, 0, 0, .6)',
+  '--modal-background': 'rgba(255, 255, 255, .8)',
   '--modal-header-height': '70px',
   '--modal-footer-height': '70px',
+  '--button-default': '#ccc',
+  '--button-default-color': '#444',
+  '--button-success': '#1e8a1f',
+  '--button-success-color': '#ffffff',
+  '--button-info': '#4d63df',
+  '--button-info-color': '#ccc',
+  '--button-danger': '#850e09',
+  '--button-danger-color': '#f1f1f1',
+  '--button-warning': '#ff4a52',
+  '--button-warning-color': '#000000',
 };
 
 const dark: Theme = {
@@ -48,7 +58,7 @@ const dark: Theme = {
   '--shadow-color': '#333333',
   '--shadow-color--darker': '#2a2a2a',
   '--text-error': 'rgb(255,74,82)',
-  '--modal-background': 'rgba(255, 255, 255, .6)',
+  '--modal-background': 'rgba(0, 0, 0, .8)',
 };
 
 const themes: ThemePack = {
@@ -90,6 +100,16 @@ export type Theme = {
   '--modal-background': string;
   '--modal-header-height': string;
   '--modal-footer-height': string;
+  '--button-default': string;
+  '--button-default-color': string;
+  '--button-success': string;
+  '--button-success-color': string;
+  '--button-info': string;
+  '--button-info-color': string;
+  '--button-danger': string;
+  '--button-danger-color': string;
+  '--button-warning': string;
+  '--button-warning-color': string;
 };
 
 export type ThemePack = {

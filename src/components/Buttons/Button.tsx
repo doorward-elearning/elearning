@@ -11,34 +11,32 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   children,
   onClick = (): void => {},
   flat = false,
-  type = 'default',
+  theme = 'primary',
+  type,
   fab = false,
-  theme,
   mini,
   rounded,
   className,
   link,
   icon,
 }) => {
-  className =
-    className ||
-    classNames({
-      'eb-button': true,
-      'eb-button--raised': !flat && !fab && !icon,
-      'db-button--icon': !!icon,
-      'db-button--fab': fab,
-      'btn-circle': rounded,
-      'eb-button--mini-fab': fab && mini,
-      [`btn-${type}`]: true,
-      [`eb-button--${theme}`]: !!theme,
-    });
+  className = classNames({
+    'eb-button': true,
+    'eb-button--raised': !flat && !fab && !icon,
+    'db-button--icon': !!icon,
+    'db-button--fab': fab,
+    'btn-circle': rounded,
+    'eb-button--mini-fab': fab && mini,
+    [`btn-${theme}`]: true,
+    className: true,
+  });
 
   const Parent: any = link ? Link : React.Fragment;
   return (
     <Condition condition={loading}>
       <Spinner />
       <Parent to={link}>
-        <button disabled={disabled} className={className} onClick={onClick}>
+        <button disabled={disabled} className={className} onClick={onClick} type={type}>
           {children}
         </button>
       </Parent>
@@ -50,9 +48,9 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   flat?: boolean;
-  type?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger';
+  theme?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger';
+  type?: 'submit' | 'reset' | 'button';
   fab?: boolean;
-  theme?: 'primary' | 'accent' | 'secondary' | 'colored';
   mini?: boolean;
   rounded?: boolean;
   icon?: string;

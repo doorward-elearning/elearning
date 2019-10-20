@@ -6,18 +6,19 @@ import useModal from '../../hooks/useModal';
 import AddCourseModal from './AddCourseModal';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
-  const addCourseModal = useModal();
+  const addCourseModal = useModal(true);
+  const TITLE = 'CREATE A NEW COURSE';
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
       header="COURSES"
       actionBtnProps={{
-        text: 'ADD COURSE',
+        text: TITLE,
         onClick: addCourseModal.openModal,
       }}
     >
-      <AddCourseModal useModal={addCourseModal} />
+      <AddCourseModal useModal={addCourseModal} title={TITLE} />
       <Empty />
     </Layout>
   );

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Form from '../../components/Form';
-import LoginForm, { LoginFormState } from '../../components/LoginForm';
+import Form from '../../components/Forms/Form';
+import LoginForm, { LoginFormState } from '../../components/Forms/LoginForm';
 import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login';
 import { useSelector } from 'react-redux';
 import { FormikActions, FormikProps } from 'formik';

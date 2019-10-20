@@ -1,5 +1,10 @@
 .eb-input {
-  padding: var(--padding) 0;
+  padding: var(--padding-sm) 0;
+  display: grid;
+
+  label {
+    margin-bottom: var(--padding-sm);
+  }
 
   &.error {
     .eb-input__error-message {
@@ -9,7 +14,6 @@
   }
 
   &__error-message {
-    margin-top: var(--padding-sm);
     font-size: 0.8em;
     opacity: 0;
     height: 1em;
