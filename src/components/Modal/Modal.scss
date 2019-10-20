@@ -1,0 +1,66 @@
+.ed-modal {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+
+  &.open {
+    pointer-events: all;
+
+    .ed-modal {
+      &__background{
+        background: var(--modal-background);
+        pointer-events: all;
+      }
+
+      &__content {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+  }
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+    height: 100%;
+    background: transparent;
+    transition: 0.5s background;
+  }
+
+
+  &__content {
+    background: var(--bg-primary);
+    min-width: 500px;
+    opacity: 0;
+    z-index: 1;
+    transform: scale(0.9);
+    transition: 0.2s transform cubic-bezier(0.175, 0.885, 0.32, 1.275), 0.2s opacity;
+
+    &__header, &__footer {
+      height: var(--modal-header-height);
+      display: grid;
+      align-items: center;
+      padding: 0 var(--padding-xlg);
+      background: var(--bg-secondary);
+    }
+
+    &__header {
+      grid-auto-flow: column;
+      justify-content: space-between;
+    }
+
+    &__body {
+      padding: var(--padding-xlg);
+    }
+
+  }
+}

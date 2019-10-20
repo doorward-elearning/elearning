@@ -28,7 +28,10 @@ const base: Theme = {
   '--search-bar-size': '200px',
   '--page-font-size': '1em',
   '--list-item-height': '40px',
-  '--list-item-width': '200px'
+  '--list-item-width': '200px',
+  '--modal-background': 'rgba(0, 0, 0, .6)',
+  '--modal-header-height': '70px',
+  '--modal-footer-height': '70px',
 };
 
 const dark: Theme = {
@@ -37,7 +40,7 @@ const dark: Theme = {
   '--bg-secondary': '#343434',
   '--text-alternate': '#666666',
   '--text-primary': '#ffffff',
-  '--primary': '#4d63dd',
+  '--primary': '#746dff',
   '--primary-dark': '#3e50b3',
   '--text-secondary': '#b3b3b3',
   '--text-icons': '#ccc',
@@ -45,6 +48,7 @@ const dark: Theme = {
   '--shadow-color': '#333333',
   '--shadow-color--darker': '#2a2a2a',
   '--text-error': 'rgb(255,74,82)',
+  '--modal-background': 'rgba(255, 255, 255, .6)',
 };
 
 const themes: ThemePack = {
@@ -83,6 +87,9 @@ export type Theme = {
   '--page-font-size': string;
   '--list-item-height': string;
   '--list-item-width': string;
+  '--modal-background': string;
+  '--modal-header-height': string;
+  '--modal-footer-height': string;
 };
 
 export type ThemePack = {

@@ -31,18 +31,15 @@
   &__sidebar {
     grid-area: S;
     display: grid;
-    z-index: 2;
   }
 
   &__navBar {
     grid-area: N;
-    z-index: 3;
   }
 
   &__content {
     grid-area: C;
     padding: var(--padding-lg);
-    z-index: 1;
 
     .ed-page-layout__header {
       display: grid;
