@@ -15,7 +15,6 @@
 
     .ed-modal {
       &__background{
-        background: var(--modal-background);
         pointer-events: all;
       }
 
@@ -41,6 +40,7 @@
   &__content {
     background: var(--bg-primary);
     min-width: 500px;
+    max-width: calc(100% - (var(--padding-xlg) * 2));
     border: 1px solid var(--line-color);
     opacity: 0;
     z-index: 1;

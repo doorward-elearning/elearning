@@ -11,4 +11,11 @@
   .add-module {
     margin-top: var(--padding);
   }
+
+  .course-modules {
+    > p {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+  }
 }

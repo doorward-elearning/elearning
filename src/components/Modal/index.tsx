@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react';
+import React, { MouseEvent, useEffect, useRef } from 'react';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -8,6 +8,7 @@ import useClickOutside from '../../hooks/useClickOutside';
 import classNames from 'classnames';
 import { UseModal } from '../../hooks/useModal';
 import Button, { ButtonProps } from '../Buttons/Button';
+import useModalBlur from '../../hooks/useModalBlur';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -20,17 +21,19 @@ export enum ModalFeatures {
 
 const DEFAULT_FEATURES = [ModalFeatures.CLOSE_BUTTON_HEADER, ModalFeatures.TITLE];
 
-const ModalContext = React.createContext<UseModal>({
+const ModalContext = React.createContext<ModalContext>({
   isOpen: false,
   openModal: () => {},
   closeModal: () => {},
 });
 
 const Modal: ModalComponent = ({ features = [], children, useModal }) => {
+  const modal = useModalBlur(useModal);
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
       <ModalContext.Provider value={useModal}>
         <div
+          ref={modal}
           className={classNames({
             'ed-modal': true,
             open: useModal.isOpen,
@@ -155,6 +158,12 @@ export interface ModalComponent extends React.FunctionComponent<ModalProps> {
   Body: React.FunctionComponent<ModalBodyProps>;
   Footer: React.FunctionComponent<ModalFooterProps>;
 }
+
+export type ModalContext = {
+  isOpen: boolean;
+  openModal: () => void;
+  closeModal: () => void;
+};
 
 Modal.Body = Body;
 Modal.Footer = Footer;

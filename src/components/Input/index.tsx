@@ -36,7 +36,7 @@ function withInput<R extends InputProps>(
           <Feature feature={InputFeatures.LABEL}>
             <label htmlFor={props.id}>{props.label || props.placeholder}</label>
           </Feature>
-          <Input {...{ name, ...inputProps }} />
+          <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
           <div className="eb-input__error-message">{error}</div>
         </div>
       </FeatureProvider>

@@ -21,16 +21,25 @@ const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
   const onSubmit = () => {};
   return (
     <Modal useModal={props.useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}>
-      <Form initialValues={{ name: '', modules: [{ name: '' }] }} onSubmit={onSubmit} validationSchema={schema}>
-        {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => (
-          <React.Fragment>
-            <Modal.Header title={props.title} />
-            <Modal.Body>
-              <AddCourseForm {...formikProps} />
-            </Modal.Body>
-            <Modal.Footer buttons={{ positive: 'Save' }} props={{ positive: { disabled: !formikProps.isValid } }} />
-          </React.Fragment>
-        )}
+      <Form
+        initialValues={{ name: '', modules: [{ name: '' }], noOfModules: 1 }}
+        onSubmit={onSubmit}
+        validationSchema={schema}
+      >
+        {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
+          props.useModal.onClose(() => {
+            formikProps.resetForm();
+          });
+          return (
+            <React.Fragment>
+              <Modal.Header title={props.title} />
+              <Modal.Body>
+                <AddCourseForm {...formikProps} />
+              </Modal.Body>
+              <Modal.Footer buttons={{ positive: 'Save' }} props={{ positive: { disabled: !formikProps.isValid } }} />
+            </React.Fragment>
+          );
+        }}
       </Form>
     </Modal>
   );

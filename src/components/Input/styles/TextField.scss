@@ -1,8 +1,10 @@
 .eb-input {
 
   &.error {
-    input, input:focus {
-      border: 1px solid var(--text-error);
+    .eb-input__text {
+      input, input:focus, textarea, textarea:focus {
+        border: 1px solid var(--text-error);
+      }
     }
   }
 

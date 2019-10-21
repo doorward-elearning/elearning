@@ -1,0 +1,42 @@
+.eb-input--draft-text-area {
+
+  &.error {
+    .eb-input--draft-text-area__toolbar{
+      border-top: 1px solid var(--text-error) ;
+      border-right: 1px solid var(--text-error) ;
+      border-left: 1px solid var(--text-error) ;
+    }
+
+    .eb-input--draft-text-area__editor {
+      border: 1px solid var(--text-error);
+      border-top: none;
+    }
+  }
+  &__wrapper {
+    max-width: 1000px;
+  }
+
+  &__editor {
+    border: 1px solid var(--line-color);
+    border-top: none;
+    margin-top: -5px;
+    min-height: 100px;
+    padding: 0 var(--padding-xlg);
+    background: white;
+    color: #333;
+  }
+
+  &__toolbar {
+    background: var(--bg-secondary);
+    border: 1px solid var(--line-color);
+    * {
+      color: #333 ;
+    }
+
+    .rdw-option-disabled {
+      opacity: 0.1;
+      background: white;
+      cursor: not-allowed;
+    }
+  }
+}
