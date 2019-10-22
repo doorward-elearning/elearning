@@ -42,16 +42,14 @@ services:
       - edudoor_database
     ports:
       - '5000:8080'
-    expose:
-      - '8080'
     depends_on:
       edudoor_database:
         condition: service_healthy
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:8080/openolat/restapi']
+      test: ['CMD-SHELL', 'curl -s localhost:8080']
       interval: 10s
       timeout: 10s
-      retries: 5
+      retries: 20
   edudoor_database:
     image: gitaumoses4/edudoor_database
     container_name: edudoor_backend_db
@@ -64,8 +62,6 @@ services:
       POSTGRES_DB: openolat
     volumes:
       - edudoor_data:/var/lib/postgresql/edudoor
-    expose:
-      - '5432'
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
