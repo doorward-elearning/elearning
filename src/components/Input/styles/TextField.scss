@@ -42,6 +42,10 @@
       }
     }
 
+    select {
+      height: 3em;
+    }
+
     &--textarea {
       align-items: start;
       textarea {

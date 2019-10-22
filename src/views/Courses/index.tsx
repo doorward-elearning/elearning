@@ -6,7 +6,7 @@ import useModal from '../../hooks/useModal';
 import AddCourseModal from './AddCourseModal';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
-  const addCourseModal = useModal(true);
+  const addCourseModal = useModal();
   const TITLE = 'CREATE A NEW COURSE';
   return (
     <Layout

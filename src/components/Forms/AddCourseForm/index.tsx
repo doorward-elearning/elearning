@@ -61,7 +61,6 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
       <div className="course-information">
         <Header size={2}>Course Information</Header>
         <TextField name="name" icon="school" label="Course name" />
-        <DropdownSelect options={['Kenya', 'Uganda', 'Nigeria']} label="Country" />
         <NumberField
           name="noOfModules"
           icon="calendar_view_day"
