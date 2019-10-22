@@ -8,6 +8,7 @@ import './AddCourseForm.scss';
 import IfElse from '../../IfElse';
 import NumberField from '../../Input/NumberField';
 import DraftTextArea from '../../Input/DraftTextArea';
+import DropdownSelect from '../../Input/DropdownSelect';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -21,7 +22,7 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
         <p>Specify the names of the modules of the course.</p>
         {props.values.modules.map((module, index) => (
           <div className="course-module" key={index}>
-            <TextField name={`modules.${index}.name`} icon="calendar_view_day" formikProps={props} />
+            <TextField name={`modules.${index}.name`} icon="calendar_view_day" />
             <IfElse condition={index > 0}>
               <Icon icon="close" onClick={(): void => arrayHelpers.remove(index)} />
             </IfElse>
@@ -59,16 +60,16 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
     <form onSubmit={props.handleSubmit} className="add-course-form">
       <div className="course-information">
         <Header size={2}>Course Information</Header>
-        <TextField name="name" icon="school" formikProps={props} label="Course name" />
+        <TextField name="name" icon="school" label="Course name" />
+        <DropdownSelect options={['Kenya', 'Uganda', 'Nigeria']} label="Country" />
         <NumberField
           name="noOfModules"
           icon="calendar_view_day"
-          formikProps={props}
           label="Number of modules"
           max={modules.max}
           min={modules.min}
         />
-        <DraftTextArea name="description" icon="notes" formikProps={props} label="Course description" />
+        <DraftTextArea name="description" icon="notes" label="Course description" />
       </div>
       <CourseModules {...props} minModules={modules.min} maxModules={modules.max} />
     </form>

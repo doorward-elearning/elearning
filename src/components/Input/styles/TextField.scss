@@ -2,7 +2,7 @@
 
   &.error {
     .eb-input__text {
-      input, input:focus, textarea, textarea:focus {
+      input, input:focus, textarea, textarea:focus, select, select:focus {
         border: 1px solid var(--text-error);
       }
     }
@@ -25,7 +25,7 @@
       pointer-events: none;
     }
 
-    input, textarea {
+    input, textarea, select {
       grid-row: 1 / 1;
       grid-column: 1 / 1;
       height: 2em;
