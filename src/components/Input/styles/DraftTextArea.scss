@@ -33,9 +33,25 @@
       color: #333 ;
     }
 
+    .rdw-option-wrapper, .rdw-dropdown-wrapper, .rdw-dropdown-optionwrapper{
+      border: 1px solid var(--line-color);
+      background: var(--bg-primary);
+      * {
+        color: var(--text-primary);
+      }
+    }
+
+    .rdw-option-active {
+      box-shadow: 2px 2px 0 #BFBDBD inset;
+    }
+
+    .rdw-dropdownoption {
+      &-active, &-highlighted {
+        background: var(--bg-secondary);
+      }
+    }
     .rdw-option-disabled {
-      opacity: 0.1;
-      background: white;
+      background: var(--bg-secondary);
       cursor: not-allowed;
     }
   }

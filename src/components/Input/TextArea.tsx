@@ -6,7 +6,6 @@ import withInput, { InputFeatures, InputProps } from './index';
 const TextArea: React.FunctionComponent<TextAreaProps> = ({
   value = '',
   className,
-  formikProps,
   children,
   icon,
   ...props
