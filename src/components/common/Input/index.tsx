@@ -4,7 +4,7 @@ import './styles/Input.scss';
 import classNames from 'classnames';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
-import { FormContext } from '../Forms/Form';
+import { FormContext } from '../Form';
 
 export enum InputFeatures {
   LABEL = 1,

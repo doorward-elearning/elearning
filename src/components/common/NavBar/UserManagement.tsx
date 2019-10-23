@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import Image from '../Image';
-import Tools from '../../utils/Tools';
+import Tools from '../../../utils/Tools';
 import Dropdown from '../Dropdown';
 import './UserManagement.scss';
 import Icon from '../Icon';

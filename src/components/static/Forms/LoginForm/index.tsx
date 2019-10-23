@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
-import Checkbox from '../../Input/Checkbox';
-import Button from '../../Buttons/Button';
-import Image from '../../Image';
-import TextField from '../../Input/TextField';
-import PasswordField from '../../Input/PasswordField';
-import Header from '../../Header';
+import Checkbox from '../../../common/Input/Checkbox';
+import Button from '../../../common/Buttons/Button';
+import Image from '../../../common/Image';
+import TextField from '../../../common/Input/TextField';
+import PasswordField from '../../../common/Input/PasswordField';
+import Header from '../../../common/Header';
 import './LoginForm.scss';
 
 const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {

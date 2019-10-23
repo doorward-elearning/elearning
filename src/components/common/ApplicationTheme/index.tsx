@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
-import themes, { Theme } from '../../assets/themes';
-import useKeyPress from '../../hooks/useKeyPress';
+import themes, { Theme } from '../../../assets/themes';
+import useKeyPress from '../../../hooks/useKeyPress';
 
 const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'base', children }): JSX.Element => {
   const previousTheme = localStorage.getItem('theme');

@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal, { ModalFeatures, ModalProps } from '../../components/Modal';
-import AddCourseForm, { AddCourseFormState } from '../../components/Forms/AddCourseForm';
-import Form from '../../components/Forms/Form';
+import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
+import AddCourseForm, { AddCourseFormState } from '../../components/ui/Forms/AddCourseForm';
+import Form from '../../components/ui/Forms/Form';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 

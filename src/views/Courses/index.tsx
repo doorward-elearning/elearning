@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageComponent } from '../../types';
 import Layout, { LayoutFeatures } from '../Layout';
-import Empty from '../../components/Empty';
+import Empty from '../../components/ui/Empty';
 import useModal from '../../hooks/useModal';
 import AddCourseModal from './AddCourseModal';
 

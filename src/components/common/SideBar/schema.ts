@@ -1,7 +1,7 @@
-import { routes } from '../../routes';
+import { routes } from '../../../routes';
 import { SideBarSubMenuProps } from './SideBarSubMenu';
 import { ItemProps } from './SideBarMenu';
-import Tools from '../../utils/Tools';
+import Tools from '../../../utils/Tools';
 
 const Schema = [
   {

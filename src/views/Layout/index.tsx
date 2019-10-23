@@ -1,16 +1,16 @@
 import React, { MouseEventHandler, useState } from 'react';
-import NavBar, { NavbarFeatures } from '../../components/NavBar';
-import SideBar from '../../components/SideBar';
+import NavBar, { NavbarFeatures } from '../../components/ui/NavBar';
+import SideBar from '../../components/ui/SideBar';
 import { PageComponent } from '../../types';
 import classNames from 'classnames';
 import './Layout.scss';
-import Container from '../../components/Container';
+import Container from '../../components/ui/Container';
 import Tools from '../../utils/Tools';
-import Feature from '../../components/FeatureProvider/Feature';
-import Header from '../../components/Header';
-import FeatureProvider from '../../components/FeatureProvider';
-import Icon from '../../components/Icon';
-import Button from '../../components/Buttons/Button';
+import Feature from '../../components/ui/FeatureProvider/Feature';
+import Header from '../../components/ui/Header';
+import FeatureProvider from '../../components/ui/FeatureProvider';
+import Icon from '../../components/ui/Icon';
+import Button from '../../components/ui/Buttons/Button';
 
 export enum LayoutFeatures {
   HEADER = 1,

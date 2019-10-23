@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { PageComponent } from '../../types';
 import Layout from '../Layout';
-import Card from '../../components/Card';
-import Image from '../../components/Image';
+import Card from '../../components/ui/Card';
+import Image from '../../components/ui/Image';
 import notFound from '../../assets/images/notFound.svg';
-import { NavbarFeatures } from '../../components/NavBar';
+import { NavbarFeatures } from '../../components/ui/NavBar';
 import './NotFound.scss';
-import Header from '../../components/Header';
-import Button from '../../components/Buttons/Button';
+import Header from '../../components/ui/Header';
+import Button from '../../components/ui/Buttons/Button';
 import { routes } from '../../routes';
 
 const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Form from '../../components/Forms/Form';
-import LoginForm, { LoginFormState } from '../../components/Forms/LoginForm';
+import Form from '../../components/ui/Forms/Form';
+import LoginForm, { LoginFormState } from '../../components/ui/Forms/LoginForm';
 import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login';
 import { useSelector } from 'react-redux';
 import { FormikActions, FormikProps } from 'formik';
@@ -11,13 +11,13 @@ import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import { routes } from '../../routes';
 import { useAction } from '../../hooks/useActions';
-import Card from '../../components/Card';
+import Card from '../../components/ui/Card';
 import './Login.scss';
 import Layout from '../Layout';
 import { PageComponent } from '../../types';
-import { NavbarFeatures } from '../../components/NavBar';
-import ProgressBar from '../../components/ProgressBar';
-import IfElse from '../../components/IfElse';
+import { NavbarFeatures } from '../../components/ui/NavBar';
+import ProgressBar from '../../components/ui/ProgressBar';
+import IfElse from '../../components/ui/IfElse';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),

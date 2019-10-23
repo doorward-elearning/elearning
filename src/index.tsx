@@ -6,7 +6,7 @@ import Router from './routes';
 import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
-import ApplicationTheme from './components/ApplicationTheme';
+import ApplicationTheme from './components/ui/ApplicationTheme';
 import '@material/react-linear-progress/dist/linear-progress.css';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);

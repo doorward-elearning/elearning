@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { ArrayHelpers, FieldArray, FormikProps } from 'formik';
-import TextField from '../../Input/TextField';
-import Header from '../../Header';
-import Button from '../../Buttons/Button';
-import Icon from '../../Icon';
+import TextField from '../../../common/Input/TextField';
+import Header from '../../../common/Header';
+import Button from '../../../common/Buttons/Button';
+import Icon from '../../../common/Icon';
 import './AddCourseForm.scss';
 import IfElse from '../../IfElse';
 import NumberField from '../../Input/NumberField';
