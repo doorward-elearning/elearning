@@ -13,6 +13,13 @@ start:
 	@ ${INFO} "Starting the application"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_frontend
 
+api:
+	${INFO} "Creating PostgreSQL database volume"
+	@ docker volume create --name=edudoor_data > /dev/null
+	@ echo " "
+	@ ${INFO} "Starting the backend"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_backend
+
 stop:
 	${INFO} "Stopping all containers"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v

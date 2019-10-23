@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import { PageComponent } from '../../types';
 import Layout from '../Layout';
-import Card from '../../components/ui/Card';
-import Image from '../../components/ui/Image';
-import notFound from '../../assets/images/notFound.svg';
-import { NavbarFeatures } from '../../components/ui/NavBar';
-import './NotFound.scss';
 import Header from '../../components/ui/Header';
 import Button from '../../components/ui/Buttons/Button';
-import { routes } from '../../routes';
+import Card from '../../components/ui/Card';
+import Image from '../../components/ui/Image';
+import { NavbarFeatures } from '../../components/ui/NavBar';
+import notFound from '../../assets/images/notFound.svg';
+import './NotFound.scss';
+import ROUTES from '../../routes/routes';
 
 const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
   return (
@@ -23,7 +23,7 @@ const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
               <Header size={1}>Error 404</Header>
               <Image src={notFound} size="xLarge" />
               <p>The page you are looking for was not found</p>
-              <Button link={routes.DASHBOARD}>Go back Home</Button>
+              <Button link={ROUTES.dashboard.link}>Go back Home</Button>
             </div>
           </Card.Body>
         </Card>

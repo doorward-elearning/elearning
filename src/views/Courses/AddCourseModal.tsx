@@ -1,9 +1,9 @@
 import React from 'react';
 import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
-import AddCourseForm, { AddCourseFormState } from '../../components/ui/Forms/AddCourseForm';
-import Form from '../../components/ui/Forms/Form';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
+import Form from '../../components/ui/Form';
+import AddCourseForm, { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('The course name is required'),

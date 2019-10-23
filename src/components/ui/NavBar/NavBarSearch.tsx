@@ -2,8 +2,8 @@ import React, { FormEvent, useCallback, useEffect, useRef, useState } from 'reac
 import Icon from '../Icon';
 import './NavBarSearch.scss';
 import classNames from 'classnames';
-import useClickOutside from '../../hooks/useClickOutside';
-import useStateRef from '../../hooks/useStateRef';
+import useStateRef from '../../../hooks/useStateRef';
+import useClickOutside from '../../../hooks/useClickOutside';
 
 const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
   const form = useRef(null);

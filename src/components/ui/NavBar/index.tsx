@@ -1,14 +1,14 @@
 import React, { MouseEventHandler } from 'react';
 import './NavBar.scss';
 import { Link } from 'react-router-dom';
-import { routes } from '../../routes';
-import CONSTANTS from '../../assets/constants';
 import Icon from '../Icon';
 import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
-import { PageComponent } from '../../types';
+import CONSTANTS from '../../../assets/constants';
+import { PageComponent } from '../../../types';
+import ROUTES from '../../../routes/routes';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
@@ -36,7 +36,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
           </Feature>
           <Feature feature={NavbarFeatures.PAGE_LOGO}>
             <div className="page-logo">
-              <Link to={routes.HOME}>
+              <Link to={ROUTES.home.link}>
                 <Icon icon="school" className="image" />
                 <span className="logo__title">{CONSTANTS.APP_NAME}</span>
               </Link>

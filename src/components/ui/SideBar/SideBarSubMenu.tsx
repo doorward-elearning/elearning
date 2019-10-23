@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { MemoryHistory } from 'history';
+import { SubMenuItem } from '../../../hooks/useSidebarSchema';
 
 const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
   const { menu, active, open, collapsed } = props;

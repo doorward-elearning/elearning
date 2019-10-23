@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import classNames from 'classnames';
 import SideBarSubMenu from './SideBarSubMenu';
 import { MemoryHistory, Location } from 'history';
-import { MenuItem, SubMenuItem } from './schema';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
+import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
   const { icon, link = '#', title, subMenu, open, onClick, setOpen, collapsed, history } = props;
@@ -23,7 +23,7 @@ const Item: React.FunctionComponent<ItemProps> = props => {
     if (subMenu) {
       setOpen(!open);
     } else if (onClick) {
-      onClick(props);
+      onClick();
     }
   };
 

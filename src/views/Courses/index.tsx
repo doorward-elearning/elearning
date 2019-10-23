@@ -1,8 +1,8 @@
 import React from 'react';
 import { PageComponent } from '../../types';
 import Layout, { LayoutFeatures } from '../Layout';
-import Empty from '../../components/ui/Empty';
 import useModal from '../../hooks/useModal';
+import Empty from '../../components/ui/Empty';
 import AddCourseModal from './AddCourseModal';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {

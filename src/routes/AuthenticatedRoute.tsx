@@ -1,18 +1,18 @@
 import React, { FunctionComponent } from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
 import useAuth from '../hooks/useAuth';
-import { routes } from './index';
+import ROUTES from './routes';
 
-const AuthenticatedRoute: FunctionComponent<AuthenticatedRoute> = (props): JSX.Element => {
+const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): JSX.Element => {
   const { authenticated } = useAuth();
   if (authenticated) {
     return <Route {...props} />;
   } else {
-    return <Redirect to={props.redirect || routes.LOGIN} />;
+    return <Redirect to={props.redirect || ROUTES.login.link} />;
   }
 };
 
-export interface AuthenticatedRoute extends RouteProps {
+export interface AuthenticatedRouteProps extends RouteProps {
   redirect?: string;
 }
 export default AuthenticatedRoute;

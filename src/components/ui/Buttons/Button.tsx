@@ -1,9 +1,9 @@
 import React, { MouseEventHandler } from 'react';
 import Condition from '../IfElse';
-import Spinner from '../ui/Spinner';
 import classNames from 'classnames';
 import './Buttons.scss';
 import { Link } from 'react-router-dom';
+import Spinner from '../Spinner';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,

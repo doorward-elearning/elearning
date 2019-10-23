@@ -1,12 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import Router from './routes';
 import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
-import ApplicationTheme from './components/ui/ApplicationTheme';
 import '@material/react-linear-progress/dist/linear-progress.css';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);

@@ -4,11 +4,10 @@ import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
 import FeatureProvider from '../FeatureProvider';
 import Header from '../Header';
-import useClickOutside from '../../hooks/useClickOutside';
 import classNames from 'classnames';
-import { UseModal } from '../../hooks/useModal';
 import Button, { ButtonProps } from '../Buttons/Button';
-import useModalBlur from '../../hooks/useModalBlur';
+import useModalBlur from '../../../hooks/useModalBlur';
+import { UseModal } from '../../../hooks/useModal';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,

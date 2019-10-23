@@ -1,14 +1,13 @@
 import React, { useEffect } from 'react';
 import { ArrayHelpers, FieldArray, FormikProps } from 'formik';
-import TextField from '../../../common/Input/TextField';
-import Header from '../../../common/Header';
-import Button from '../../../common/Buttons/Button';
-import Icon from '../../../common/Icon';
 import './AddCourseForm.scss';
-import IfElse from '../../IfElse';
-import NumberField from '../../Input/NumberField';
-import DraftTextArea from '../../Input/DraftTextArea';
-import DropdownSelect from '../../Input/DropdownSelect';
+import Header from '../../../ui/Header';
+import TextField from '../../../ui/Input/TextField';
+import IfElse from '../../../ui/IfElse';
+import Icon from '../../../ui/Icon';
+import Button from '../../../ui/Buttons/Button';
+import DraftTextArea from '../../../ui/Input/DraftTextArea';
+import NumberField from '../../../ui/Input/NumberField';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,

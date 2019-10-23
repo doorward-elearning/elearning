@@ -3,8 +3,8 @@ import './Dropdown.scss';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
-import useStateRef from '../../hooks/useStateRef';
-import useClickOutside from '../../hooks/useClickOutside';
+import useStateRef from '../../../hooks/useStateRef';
+import useClickOutside from '../../../hooks/useClickOutside';
 
 const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onClick, icon, title }) => {
   return (

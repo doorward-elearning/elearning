@@ -1,12 +1,15 @@
 import React from 'react';
-import schema from './schema';
 import './SideBar.scss';
 import SideBarMenu from './SideBarMenu';
 import { MemoryHistory, Location } from 'history';
 import classNames from 'classnames';
 import UserPanel from './UserPanel';
+import useSidebarSchema from '../../../hooks/useSidebarSchema';
 
-const SideBar: React.FunctionComponent<SideBarProps> = ({ history, location, collapsed }) => {
+const SideBar: React.FunctionComponent<SideBarProps> = props => {
+  const { history, location, collapsed } = props;
+  const schema = useSidebarSchema(props);
+
   const className = classNames({
     'eb-sideBar': true,
     collapsed,

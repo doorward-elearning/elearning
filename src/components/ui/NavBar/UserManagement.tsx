@@ -1,23 +1,13 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import Image from '../Image';
 import Tools from '../../../utils/Tools';
 import Dropdown from '../Dropdown';
 import './UserManagement.scss';
-import Icon from '../Icon';
-import useAuth from '../../hooks/useAuth';
 import Button from '../Buttons/Button';
-import { routes } from '../../routes';
 import Condition from '../IfElse';
-
-const Item: React.FunctionComponent<ItemProps> = ({ link, title, icon, onClick = (): void => {} }) => {
-  return (
-    <li>
-      <a href={link} onClick={onClick}>
-        <Icon icon={icon} /> {title}
-      </a>
-    </li>
-  );
-};
+import profile from '../../../assets/images/profile.svg';
+import useAuth from '../../../hooks/useAuth';
+import ROUTES from '../../../routes/routes';
 
 const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
   const { authenticated } = useAuth();
@@ -30,7 +20,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
       <Condition condition={authenticated}>
         <Dropdown positionX="center" positionY="bottom">
           <div className="user-management__user">
-            <Image src="../assets/img/dp.jpg" circle size="small" />
+            <Image src={profile} circle size="small" />
             <span className="username username-hide-on-mobile"> Moses Gitau </span>
             <Dropdown.Arrow />
           </div>
@@ -43,19 +33,14 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
             <Dropdown.Item icon="logout" title="Logout" onClick={logout} />
           </Dropdown.Menu>
         </Dropdown>
-        <Button link={routes.LOGIN} flat>Login</Button>
+        <Button link={ROUTES.login.link} flat>
+          Login
+        </Button>
       </Condition>
     </div>
   );
 };
 
 export interface UserManagementProps {}
-
-interface ItemProps {
-  link?: string;
-  onClick?: MouseEventHandler;
-  icon: string;
-  title: string;
-}
 
 export default UserManagement;
