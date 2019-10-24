@@ -4,6 +4,8 @@ import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import Form from '../../components/ui/Form';
 import AddCourseForm, { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
+import { MemoryHistory } from 'history';
+import ROUTES from '../../routes/routes';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('The course name is required'),
@@ -29,6 +31,7 @@ const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
         {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
           props.useModal.onClose(() => {
             formikProps.resetForm();
+            props.history.push(ROUTES.courseList.link);
           });
           return (
             <React.Fragment>
@@ -47,6 +50,7 @@ const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
 
 export interface AddCourseModalProps extends ModalProps {
   title: string;
+  history: MemoryHistory;
 }
 
 export default AddCourseModal;

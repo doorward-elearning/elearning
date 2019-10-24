@@ -1,15 +1,45 @@
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import React from 'react';
-import { generatedRoutes } from './routes';
-import NotFound from '../views/NotFound';
+import { Routes } from '../types';
+import Home from '../views/Home';
+import Login from '../views/Login';
+import Dashboard from '../views/Dashboard';
+import Courses from '../views/Courses';
 
-const Router: React.FunctionComponent<any> = (): JSX.Element => (
-  <BrowserRouter>
-    <Switch>
-      {generatedRoutes}
-      <Route component={NotFound} />
-    </Switch>
-  </BrowserRouter>
-);
+export const routes = {
+  home: 'Home',
+  login: 'Login',
+  dashboard: 'Dashboard',
+  courses: 'Courses',
+  courseList: 'Course List',
+  createCourse: 'Create Course',
+};
 
-export default Router;
+export type EdudoorRoutes = {
+  [key in keyof typeof routes]: string;
+};
+
+export const routeConfigurations: Routes = {
+  home: {
+    link: '/',
+    component: Home,
+    authenticated: false,
+    hideCrumb: true,
+    routes: {
+      login: { link: '/login', component: Login, authenticated: false },
+      dashboard: {
+        link: '/dashboard',
+        component: Dashboard,
+        authenticated: true,
+        routes: {
+          courses: {
+            link: '/courses',
+            authenticated: true,
+            routes: {
+              courseList: { link: '/list', component: Courses, authenticated: true },
+              createCourse: { link: '/create', component: Courses, authenticated: true },
+            },
+          },
+        },
+      },
+    },
+  },
+};

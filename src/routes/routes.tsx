@@ -1,55 +1,11 @@
 import React from 'react';
-import { RouteProps } from 'react-router';
-import { Route } from 'react-router-dom';
-import Home from '../views/Home';
-import Login from '../views/Login';
-import Dashboard from '../views/Dashboard';
-import Courses from '../views/Courses';
+import { RouteProps, Switch } from 'react-router';
+import { BrowserRouter, Route } from 'react-router-dom';
 import { ReactNode } from 'react';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
-
-export type EdudoorRoutes = {
-  home: string;
-  login: string;
-  dashboard: string;
-  courses: string;
-  courseList: string;
-};
-
-const routes: EdudoorRoutes = {
-  home: 'Home',
-  login: 'Login',
-  dashboard: 'Dashboard',
-  courses: 'Courses',
-  courseList: 'Course List',
-};
-
-const routeConfigurations: Routes = {
-  home: {
-    link: '/',
-    component: Home,
-    authenticated: false,
-    hideCrumb: true,
-    routes: {
-      login: { link: '/login', component: Login, authenticated: false },
-      dashboard: {
-        link: '/dashboard',
-        component: Dashboard,
-        authenticated: true,
-        routes: {
-          courses: {
-            link: '/courses',
-            authenticated: false,
-            routes: {
-              courseList: { link: '/list', component: Courses, authenticated: false },
-            },
-          },
-        },
-      },
-    },
-  },
-};
+import NotFound from '../views/NotFound';
+import { EdudoorRoutes, routeConfigurations, routes } from './index';
 
 const routeDefinitions: any = {};
 
@@ -100,6 +56,15 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<RouteDefinition>
 };
 
 export const generatedRoutes = generateRoutes(routeConfigurations, '', []);
+
+export const Router: React.FunctionComponent<any> = (): JSX.Element => (
+  <BrowserRouter>
+    <Switch>
+      {generatedRoutes}
+      <Route component={NotFound} />
+    </Switch>
+  </BrowserRouter>
+);
 
 const ROUTES = routeDefinitions as RouteDefinitions;
 

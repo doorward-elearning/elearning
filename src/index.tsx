@@ -3,11 +3,11 @@ import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
-import Router from './routes';
 import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
+import { Router } from './routes/routes';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in

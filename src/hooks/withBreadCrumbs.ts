@@ -1,6 +1,7 @@
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
 import { Location } from 'history';
-import ROUTES, { EdudoorRoutes } from '../routes/routes';
+import ROUTES from '../routes/routes';
+import { EdudoorRoutes } from '../routes';
 
 const withBreadCrumbs = (location: Location): Array<BreadCrumb> => {
   const tree = (Object.keys(ROUTES) as Array<keyof EdudoorRoutes>).find(route => {
