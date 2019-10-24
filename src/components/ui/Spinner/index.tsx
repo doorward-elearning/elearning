@@ -1,18 +1,28 @@
 import React from 'react';
-import classNames from 'classnames';
+import { Theme } from '../../../assets/themes';
+import { ThemeContext } from '../ApplicationTheme';
+const Loader = require('react-loader-spinner').default;
 
-const Spinner: React.FunctionComponent<SpinnerProps> = ({ singleColor }) => {
-  const classes = classNames({
-    'mdl-spinner': true,
-    'mdl-js-spinner': true,
-    'is-active': true,
-    'mdl-spinner--single-color': singleColor,
-  });
-  return <div className={classes} />;
+const Spinner: React.FunctionComponent<SpinnerProps> = props => {
+  const defaultProps: SpinnerProps = {
+    type: 'Oval',
+    width: 50,
+    height: 50,
+  };
+  return (
+    <ThemeContext.Consumer>
+      {(theme: Theme): JSX.Element => {
+        return <Loader {...{ ...defaultProps, color: theme['--accent'], ...props }} />;
+      }}
+    </ThemeContext.Consumer>
+  );
 };
 
 export interface SpinnerProps {
-  singleColor?: boolean;
+  type?: string;
+  color?: string;
+  height?: number;
+  width?: number;
 }
 
 export default Spinner;

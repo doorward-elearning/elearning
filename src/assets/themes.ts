@@ -1,4 +1,4 @@
-const base: Theme = {
+const base = {
   '--bg-primary': '#FFFFFF',
   '--bg-secondary': 'rgba(244,244,244,0.81)',
   '--primary': '#3F51B5',
@@ -42,6 +42,7 @@ const base: Theme = {
   '--button-danger-color': '#f1f1f1',
   '--button-warning': '#ff4a52',
   '--button-warning-color': '#000000',
+  '--submitting-spinner-background': 'rgba(255, 255, 255, .4)'
 };
 
 const dark: Theme = {
@@ -59,61 +60,21 @@ const dark: Theme = {
   '--shadow-color--darker': '#2a2a2a',
   '--text-error': 'rgb(255,74,82)',
   '--modal-background': 'rgba(0, 0, 0, .8)',
+  '--submitting-spinner-background': 'rgba(0, 0, 0, .4)',
+  '--accent': '#c76a00',
 };
 
-const themes: ThemePack = {
+const themes = {
   base,
   dark,
 };
 
 export type Theme = {
-  '--bg-primary': string;
-  '--bg-secondary': string;
-  '--primary': string;
-  '--primary-dark': string;
-  '--text-alternate': string;
-  '--text-primary': string;
-  '--text-secondary': string;
-  '--font-family': string;
-  '--shadow-color': string;
-  '--line-color': string;
-  '--border-radius': string;
-  '--padding-sm': string;
-  '--padding': string;
-  '--padding-lg': string;
-  '--padding-xlg': string;
-  '--text-error': string;
-  '--text-success': string;
-  '--accent': string;
-  '--box-shadow': string;
-  '--text-icons': string;
-  '--box-shadow--hover': string;
-  '--shadow-color--darker': string;
-  '--sidebar-size': string;
-  '--navBar-size': string;
-  '--collapsed-sidebar-size': string;
-  '--menu-item-height': string;
-  '--search-bar-size': string;
-  '--page-font-size': string;
-  '--list-item-height': string;
-  '--list-item-width': string;
-  '--modal-background': string;
-  '--modal-header-height': string;
-  '--modal-footer-height': string;
-  '--button-default': string;
-  '--button-default-color': string;
-  '--button-success': string;
-  '--button-success-color': string;
-  '--button-info': string;
-  '--button-info-color': string;
-  '--button-danger': string;
-  '--button-danger-color': string;
-  '--button-warning': string;
-  '--button-warning-color': string;
+  [key in keyof typeof base]: string;
 };
 
 export type ThemePack = {
-  [name: string]: Theme;
+  [key in keyof typeof themes]: Theme;
 };
 
 export default themes;

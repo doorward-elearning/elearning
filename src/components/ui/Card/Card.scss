@@ -1,7 +1,25 @@
 .ed-card {
   background: var(--bg-primary);
-  box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
+  transition: 0.5s box-shadow;
+
+  &.clickable {
+    cursor: pointer;
+  }
+
+  &:not(.flat){
+    box-shadow: var(--box-shadow);
+  }
+
+  &.flat {
+    border: 1px solid var(--line-color);
+
+    &.clickable {
+      &:hover {
+        box-shadow: var(--box-shadow);
+      }
+    }
+  }
 
   &__body {
     padding: var(--padding-lg);

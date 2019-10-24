@@ -1,6 +1,6 @@
 import React from 'react';
 import './UserPanel.scss';
-import Image from '../Image';
+import EImage from '../Image';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import profile from '../../../assets/images/profile.svg';
@@ -10,7 +10,7 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
   return (
     <li className={classNames({ 'sidebar-user-panel': true, collapsed })}>
       <div className="user-panel">
-        <Image src={profile} alt="User Image" circle size="large" />
+        <EImage src={profile} alt="User Image" circle size="large" />
         <div>
           <span>Moses Gitau</span>
           <Link to="#" className="online-status">

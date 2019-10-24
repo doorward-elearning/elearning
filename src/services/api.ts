@@ -1,4 +1,5 @@
 import Request from './request';
+import { CreateCourseBody } from './requestBodies';
 
 const q = require('querystring').stringify;
 
@@ -19,6 +20,10 @@ const Api = {
   },
   registration: {
     register: (email: string): Promise<any> => PUT(`registration?email=${email}`),
+  },
+  courses: {
+    create: (course: CreateCourseBody): Promise<any> => PUT('repo/courses', course),
+    list: (): Promise<any> => GET('repo/courses'),
   },
 };
 

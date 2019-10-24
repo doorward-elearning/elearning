@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FormikProps } from 'formik';
 import { Link } from 'react-router-dom';
-import Image from '../../../ui/Image';
+import EImage from '../../../ui/Image';
 import './LoginForm.scss';
 import TextField from '../../../ui/Input/TextField';
 import PasswordField from '../../../ui/Input/PasswordField';
@@ -13,7 +13,7 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
   return (
     <form className="login-form" onSubmit={props.handleSubmit}>
       <div className="login-form__header">
-        <Image alt="" src="../assets/img/logo-2.png" circle size="xLarge" />
+        <EImage alt="" src="../assets/img/logo-2.png" circle size="xLarge" />
         <Header size={1}>Log in</Header>
       </div>
       <TextField name="username" placeholder="Username" icon="account_circle" formikProps={props} />

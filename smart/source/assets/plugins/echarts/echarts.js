@@ -489,7 +489,7 @@ var define, require, esl;
     te && (ee = te.parentNode), define || (define = o, require || (require = i), esl = i)
 }(this), define("echarts", ["echarts/echarts"], function(e) {
     return e
-}), define("echarts/echarts", ["require", "./config", "zrender/tool/util", "zrender/tool/event", "zrender/tool/env", "zrender", "zrender/config", "./chart/island", "./component/toolbox", "./component", "./component/title", "./component/tooltip", "./component/legend", "./util/ecData", "./chart", "zrender/tool/color", "./component/timeline", "zrender/shape/Image", "zrender/loadingEffect/Bar", "zrender/loadingEffect/Bubble", "zrender/loadingEffect/DynamicLine", "zrender/loadingEffect/Ring", "zrender/loadingEffect/Spin", "zrender/loadingEffect/Whirling", "./theme/macarons", "./theme/infographic"], function(e) {
+}), define("echarts/echarts", ["require", "./config", "zrender/tool/util", "zrender/tool/event", "zrender/tool/env", "zrender", "zrender/config", "./chart/island", "./component/toolbox", "./component", "./component/title", "./component/tooltip", "./component/legend", "./util/ecData", "./chart", "zrender/tool/color", "./component/timeline", "zrender/shape/EImage", "zrender/loadingEffect/Bar", "zrender/loadingEffect/Bubble", "zrender/loadingEffect/DynamicLine", "zrender/loadingEffect/Ring", "zrender/loadingEffect/Spin", "zrender/loadingEffect/Whirling", "./theme/macarons", "./theme/infographic"], function(e) {
     function t() {
         r.Dispatcher.call(this)
     }
@@ -949,7 +949,7 @@ var define, require, esl;
             var h = document.createElement("div");
             h.style.position = "absolute", h.style.left = "-4000px", h.style.width = r - a + "px", h.style.height = s - o + "px", document.body.appendChild(h);
             var d = e("zrender").init(h),
-                c = e("zrender/shape/Image");
+                c = e("zrender/shape/EImage");
             for (var l in n) d.addShape(new c({
                 style: {
                     x: n[l].left - a,
@@ -1652,7 +1652,7 @@ var define, require, esl;
             this.isDragend ? t.dragIn && (this.del(i), t.needRefresh = !0) : t.dragIn || (i.style.x = s.getX(e.event), i.style.y = s.getY(e.event), this.add(i), t.needRefresh = !0), this.isDragend = !1
         }
     }, r.inherits(t, i), e("../chart").define("island", t), t
-}), define("echarts/component/toolbox", ["require", "./base", "zrender/shape/Line", "zrender/shape/Image", "zrender/shape/Rectangle", "../util/shape/Icon", "../config", "zrender/tool/util", "zrender/config", "zrender/tool/event", "./dataView", "../component"], function(e) {
+}), define("echarts/component/toolbox", ["require", "./base", "zrender/shape/Line", "zrender/shape/EImage", "zrender/shape/Rectangle", "../util/shape/Icon", "../config", "zrender/tool/util", "zrender/config", "zrender/tool/event", "./dataView", "../component"], function(e) {
     function t(e, t, n, a, o) {
         i.call(this, e, t, n, a, o), this.dom = o.dom, this._magicType = {}, this._magicMap = {}, this._isSilence = !1, this._iconList, this._iconShapeMap = {}, this._featureTitle = {}, this._featureIcon = {}, this._featureColor = {}, this._featureOption = {}, this._enableColor = "red", this._disableColor = "#ccc", this._markShapeList = [];
         var r = this;
@@ -1688,7 +1688,7 @@ var define, require, esl;
     }
     var i = e("./base"),
         n = e("zrender/shape/Line"),
-        a = e("zrender/shape/Image"),
+        a = e("zrender/shape/EImage"),
         o = e("zrender/shape/Rectangle"),
         r = e("../util/shape/Icon"),
         s = e("../config");
@@ -1756,7 +1756,7 @@ var define, require, esl;
             },
             saveAsImage: {
                 show: !1,
-                title: "Save Image",
+                title: "Save EImage",
                 type: "png",
                 lang: ["Save"]
             }
@@ -6214,7 +6214,7 @@ var define, require, esl;
         }
         return e.zrenderFixed = 1, e
     }, l.merge(U.prototype, m.prototype, !0), U
-}), define("zrender/Painter", ["require", "./config", "./tool/util", "./tool/log", "./loadingEffect/Base", "./Layer", "./shape/Image"], function(e) {
+}), define("zrender/Painter", ["require", "./config", "./tool/util", "./tool/log", "./loadingEffect/Base", "./Layer", "./shape/EImage"], function(e) {
     "use strict";
 
     function t() {
@@ -6431,7 +6431,7 @@ var define, require, esl;
             scale: i.scale
         };
         i.position = [0, 0, 0], i.rotation = 0, i.scale = [1, 1], i && i.brush(s, !1);
-        var h = e("./shape/Image"),
+        var h = e("./shape/EImage"),
             d = new h({
                 id: t,
                 style: {
@@ -8096,7 +8096,7 @@ var define, require, esl;
         }
     };
     return e
-}), define("echarts/chart/base", ["require", "zrender/shape/Image", "../util/shape/Icon", "../util/shape/MarkLine", "../util/shape/Symbol", "zrender/shape/Polyline", "zrender/shape/ShapeBundle", "../config", "../util/ecData", "../util/ecAnimation", "../util/ecEffect", "../util/accMath", "../component/base", "../layout/EdgeBundling", "zrender/tool/util", "zrender/tool/area"], function(e) {
+}), define("echarts/chart/base", ["require", "zrender/shape/EImage", "../util/shape/Icon", "../util/shape/MarkLine", "../util/shape/Symbol", "zrender/shape/Polyline", "zrender/shape/ShapeBundle", "../config", "../util/ecData", "../util/ecAnimation", "../util/ecEffect", "../util/accMath", "../component/base", "../layout/EdgeBundling", "zrender/tool/util", "zrender/tool/area"], function(e) {
     function t(e) {
         return null != e.x && null != e.y
     }
@@ -8127,7 +8127,7 @@ var define, require, esl;
             }
         }
     }
-    var n = e("zrender/shape/Image"),
+    var n = e("zrender/shape/EImage"),
         a = e("../util/shape/Icon"),
         o = e("../util/shape/MarkLine"),
         r = e("../util/shape/Symbol"),
@@ -8749,7 +8749,7 @@ var define, require, esl;
         accAdd: i,
         accSub: n
     }
-}), define("echarts/util/shape/Icon", ["require", "zrender/tool/util", "zrender/shape/Star", "zrender/shape/Heart", "zrender/shape/Droplet", "zrender/shape/Image", "zrender/shape/Base"], function(e) {
+}), define("echarts/util/shape/Icon", ["require", "zrender/tool/util", "zrender/shape/Star", "zrender/shape/Heart", "zrender/shape/Droplet", "zrender/shape/EImage", "zrender/shape/Base"], function(e) {
     function t(e, t) {
         var i = t.x,
             n = t.y,
@@ -8961,7 +8961,7 @@ var define, require, esl;
     }
 
     function W(t, i, n) {
-        var a = e("zrender/shape/Image");
+        var a = e("zrender/shape/EImage");
         this._imageShape = this._imageShape || new a({
             style: {}
         });
@@ -9010,7 +9010,7 @@ var define, require, esl;
             a = a || {};
             var o = a.iconType || this.style.iconType;
             if ("image" === o) {
-                var r = e("zrender/shape/Image");
+                var r = e("zrender/shape/EImage");
                 r.prototype.brush.call(this, t, i, n)
             } else {
                 var a = this.beforeBrush(t, i);
@@ -9543,7 +9543,7 @@ var define, require, esl;
         line: m,
         markline: p
     }
-}), define("echarts/util/ecEffect", ["require", "../util/ecData", "zrender/shape/Circle", "zrender/shape/Image", "zrender/tool/curve", "../util/shape/Icon", "../util/shape/Symbol", "zrender/shape/ShapeBundle", "zrender/shape/Polyline", "zrender/tool/vector", "zrender/tool/env"], function(e) {
+}), define("echarts/util/ecEffect", ["require", "../util/ecData", "zrender/shape/Circle", "zrender/shape/EImage", "zrender/tool/curve", "../util/shape/Icon", "../util/shape/Symbol", "zrender/shape/ShapeBundle", "zrender/shape/Polyline", "zrender/tool/vector", "zrender/tool/env"], function(e) {
     function t(e, t, i, n) {
         var a, r = i.effect,
             l = r.color || i.style.strokeColor || i.style.color,
@@ -9763,7 +9763,7 @@ var define, require, esl;
     }
     var o = e("../util/ecData"),
         r = e("zrender/shape/Circle"),
-        s = e("zrender/shape/Image"),
+        s = e("zrender/shape/EImage"),
         l = e("zrender/tool/curve"),
         h = e("../util/shape/Icon"),
         d = e("../util/shape/Symbol"),

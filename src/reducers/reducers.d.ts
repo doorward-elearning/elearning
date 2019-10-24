@@ -29,14 +29,14 @@ export type StoreActionMap<T extends ActionsMap> = {
   [K in keyof T]: ActionCreator;
 };
 
-export type WebComponentState = {
+export interface WebComponentState<T> {
   fetching: boolean;
   fetched: boolean;
   submitting: boolean;
   submitted: boolean;
-  data: object | null | undefined;
+  data: T | null;
   errors: any;
-};
+}
 
 export interface ApiSagaMiddleware {
   before?: (...args: Array<any>) => Array<any>;
@@ -45,16 +45,28 @@ export interface ApiSagaMiddleware {
 }
 
 export type ReducerBuilder<T extends WebComponentState> = {
-  actionType: string;
-  endpoint: ApiCall;
   initialState?: T | WebComponentState;
-  name: string;
+  name?: string;
   reducer?: Reducer;
-  apiMiddleware?: ApiSagaMiddleware;
+  middleware: Array<ReduxReducerApiAction | ReduxApiAction>;
 };
+
+export interface ReduxApiAction {
+  action: string;
+  api: ApiCall;
+  apiMiddleware?: ApiSagaMiddleware;
+}
+
+export interface ReduxReducerApiAction extends ReduxApiAction {
+  action: string;
+  api: ApiCall;
+  key: string;
+  apiMiddleware?: ApiSagaMiddleware;
+  reducer?: Reducer;
+}
 
 export type BuiltReducer = {
   reducer: Reducer;
-  watcher: SagaFunction;
+  watchers: Array<SagaFunction>;
   name: string;
 };

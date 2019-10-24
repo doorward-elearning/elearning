@@ -4,7 +4,7 @@ import Layout from '../Layout';
 import Header from '../../components/ui/Header';
 import Button from '../../components/ui/Buttons/Button';
 import Card from '../../components/ui/Card';
-import Image from '../../components/ui/Image';
+import EImage from '../../components/ui/Image';
 import { NavbarFeatures } from '../../components/ui/NavBar';
 import notFound from '../../assets/images/notFound.svg';
 import './NotFound.scss';
@@ -21,7 +21,7 @@ const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
           <Card.Body>
             <div className="page-not-found__content">
               <Header size={1}>Error 404</Header>
-              <Image src={notFound} size="xLarge" />
+              <EImage src={notFound} size="xLarge" />
               <p>The page you are looking for was not found</p>
               <Button link={ROUTES.dashboard.link}>Go back Home</Button>
             </div>

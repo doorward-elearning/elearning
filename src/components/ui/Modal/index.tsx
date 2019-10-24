@@ -1,4 +1,4 @@
-import React, { MouseEvent, useEffect, useRef } from 'react';
+import React, { MouseEvent, MouseEventHandler } from 'react';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -82,10 +82,18 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
   buttons = { positive: 'Yes', negative: 'No', neutral: 'Cancel' },
   props = { positive: {}, negative: {}, neutral: {} },
   children,
-  onClick,
+  onNegativeClick,
+  onNeutralClick,
+  onPositiveClick,
 }) => {
   const handleClick = (button: ModalButtons, e: MouseEvent): void => {
-    onClick && onClick(button, e);
+    if (button === ModalFeatures.POSITIVE_BUTTON) {
+      onPositiveClick && onPositiveClick(e);
+    } else if (button === ModalFeatures.NEUTRAL_BUTTON) {
+      onNeutralClick && onNeutralClick(e);
+    } else if (button === ModalFeatures.NEGATIVE_BUTTON) {
+      onNegativeClick && onNegativeClick(e);
+    }
   };
   return (
     <ModalContext.Consumer>
@@ -141,16 +149,20 @@ export interface ModalBodyProps {}
 export interface ModalFooterProps {
   buttons?: { positive?: string; negative?: string; neutral?: string };
   props?: { positive?: ButtonProps; negative?: ButtonProps; neutral?: ButtonProps };
-  onClick?: ModalFooterButtonClickHandler;
+  onPositiveClick?: MouseEventHandler;
+  onNegativeClick?: MouseEventHandler;
+  onNeutralClick?: MouseEventHandler;
 }
 
+export type ModalFooterButtonClickHandler = (which: ModalButtons, event: MouseEvent) => void;
+
 export type ModalButtons = ModalFeatures.POSITIVE_BUTTON | ModalFeatures.NEGATIVE_BUTTON | ModalFeatures.NEUTRAL_BUTTON;
+
 export interface ModalFooterButtonProps {
   feature: ModalButtons;
-  onClick: ModalFooterButtonClickHandler;
   props: ButtonProps;
+  onClick: ModalFooterButtonClickHandler;
 }
-export type ModalFooterButtonClickHandler = (which: ModalButtons, event: MouseEvent) => void;
 
 export interface ModalComponent extends React.FunctionComponent<ModalProps> {
   Header: React.FunctionComponent<ModalHeaderProps>;

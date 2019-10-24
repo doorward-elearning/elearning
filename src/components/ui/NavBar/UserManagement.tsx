@@ -1,5 +1,5 @@
 import React from 'react';
-import Image from '../Image';
+import EImage from '../Image';
 import Tools from '../../../utils/Tools';
 import Dropdown from '../Dropdown';
 import './UserManagement.scss';
@@ -20,7 +20,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
       <Condition condition={authenticated}>
         <Dropdown positionX="center" positionY="bottom">
           <div className="user-management__user">
-            <Image src={profile} circle size="small" />
+            <EImage src={profile} circle size="small" />
             <span className="username username-hide-on-mobile"> Moses Gitau </span>
             <Dropdown.Arrow />
           </div>

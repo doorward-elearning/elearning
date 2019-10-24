@@ -2151,7 +2151,7 @@
       },
       image: {
         image: 'Picture',
-        insert: 'Insert Image',
+        insert: 'Insert EImage',
         resizeFull: 'Resize Full',
         resizeHalf: 'Resize Half',
         resizeQuarter: 'Resize Quarter',
@@ -2167,8 +2167,8 @@
         selectFromFiles: 'Select from files',
         maximumFileSize: 'Maximum file size',
         maximumFileSizeError: 'Maximum file size exceeded.',
-        url: 'Image URL',
-        remove: 'Remove Image'
+        url: 'EImage URL',
+        remove: 'Remove EImage'
       },
       video: {
         video: 'Video',
@@ -4740,7 +4740,7 @@
       // If onImageUpload options setted
       if (callbacks.onImageUpload) {
         context.triggerEvent('image.upload', files);
-      // else insert Image as dataURL
+      // else insert EImage as dataURL
       } else {
         this.insertImages(files);
       }
@@ -6343,7 +6343,7 @@
      * ],
      */
     this.addImagePopoverButtons = function () {
-      // Image Size Buttons
+      // EImage Size Buttons
       context.memo('button.imageSize100', function () {
         return ui.button({
           contents: '<span class="note-fontsize-10">100%</span>',
@@ -7046,7 +7046,7 @@
 
 
   /**
-   * Image popover module
+   * EImage popover module
    *  mouse events that show/hide popover will be handled by Handle.js.
    *  Handle.js will receive the events and invoke 'imagePopover.update'.
    */

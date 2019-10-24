@@ -60,6 +60,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
       <div className="course-information">
         <Header size={2}>Course Information</Header>
         <TextField name="name" icon="school" label="Course name" />
+        <DraftTextArea name="description" icon="notes" label="Course description" />
         <NumberField
           name="noOfModules"
           icon="calendar_view_day"
@@ -67,7 +68,6 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
           max={modules.max}
           min={modules.min}
         />
-        <DraftTextArea name="description" icon="notes" label="Course description" />
       </div>
       <CourseModules {...props} minModules={modules.min} maxModules={modules.max} />
     </form>

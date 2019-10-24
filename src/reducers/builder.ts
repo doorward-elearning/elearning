@@ -1,4 +1,4 @@
-import { Reducer } from 'redux';
+import { combineReducers, Reducer } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   Action,
@@ -6,6 +6,7 @@ import {
   ApiSagaMiddleware,
   BuiltReducer,
   ReducerBuilder,
+  ReduxReducerApiAction,
   SagaFunction,
   WebComponentState,
 } from './reducers';
@@ -16,7 +17,7 @@ export const action: ActionCreatorGenerator = ({ type, onSuccess, onError }) => 
   return (...data: any[]): Action => ({ type, payload: data, onError, onSuccess });
 };
 
-export const webComponentState: WebComponentState = {
+export const webComponentState: WebComponentState<any> = {
   fetched: false,
   fetching: false,
   submitted: false,
@@ -25,10 +26,9 @@ export const webComponentState: WebComponentState = {
   errors: null,
 };
 
-function simpleReducer<T extends WebComponentState>(actionType: string): Reducer {
+function simpleReducer<T extends WebComponentState<R>, R>(actionType: string): Reducer {
   return (state: T, action: Action): T => {
-    switch (action.type) {
-    case actionType:
+    if (action.type === actionType) {
       return {
         ...state,
         fetched: false,
@@ -37,7 +37,7 @@ function simpleReducer<T extends WebComponentState>(actionType: string): Reducer
         submitting: true,
         errors: null,
       };
-    case `${actionType}_SUCCESS`:
+    } else if (action.type === `${actionType}_SUCCESS`) {
       return {
         ...state,
         fetched: true,
@@ -47,7 +47,7 @@ function simpleReducer<T extends WebComponentState>(actionType: string): Reducer
         data: action.payload,
         errors: null,
       };
-    case `${actionType}_FAILURE`:
+    } else if (action.type === `${actionType}_FAILURE`) {
       return {
         ...state,
         fetched: false,
@@ -56,14 +56,14 @@ function simpleReducer<T extends WebComponentState>(actionType: string): Reducer
         submitting: false,
         errors: action.payload,
       };
-    default:
+    } else {
       return state;
     }
   };
 }
 
-function createReducer<T extends WebComponentState>(
-  initialState: T | WebComponentState,
+function createReducer<T extends WebComponentState<R>, R>(
+  initialState: T | WebComponentState<any>,
   actionType: string,
   reducer?: Reducer
 ): Reducer {
@@ -134,20 +134,39 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
   return watchForAction;
 };
 
-export default function reducerBuilder<T extends WebComponentState = WebComponentState>({
-  actionType,
-  reducer,
+export default function reducerBuilder<T extends WebComponentState<R> = WebComponentState<any>, R = any>({
   initialState = webComponentState,
-  endpoint,
   name,
-  apiMiddleware,
+  middleware,
 }: ReducerBuilder<T>): BuiltReducer {
-  const combinedReducer = createReducer<T>(initialState, actionType, reducer);
-  const watcher = createMiddleware(actionType, endpoint, apiMiddleware);
+  const reducers: { [name: string]: Reducer<any, Action> } = {};
+  const watchers: Array<SagaFunction> = [];
+  middleware.forEach(m => {
+    if ((m as ReduxReducerApiAction).key) {
+      const rm = m as ReduxReducerApiAction;
+      reducers[rm.key] = createReducer<T, R>(initialState, m.action, rm.reducer);
+    }
+    const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);
+    watchers.push(watcher);
+  });
+
+  const reducersList = Object.values(reducers);
+  const oneReducer = reducersList.length === 1;
+  if (name) {
+    if (oneReducer) {
+      throw new Error('No need for a name for the root reducer if since you have one middleware');
+    }
+  } else {
+    if (!oneReducer) {
+      throw new Error('A name for the main reducer is required when you have multiple middleware');
+    } else {
+      name = Object.keys(reducers)[0];
+    }
+  }
 
   return {
-    reducer: combinedReducer,
-    watcher,
+    reducer: oneReducer ? reducersList[0] : combineReducers(reducers),
+    watchers,
     name,
   };
 }

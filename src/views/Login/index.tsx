@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login';
 import { useSelector } from 'react-redux';
 import { FormikActions, FormikProps } from 'formik';
 import * as Yup from 'yup';
-import { State } from '../../store/store';
 import { WebComponentState } from '../../reducers/reducers';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
@@ -18,6 +16,7 @@ import LoginForm, { LoginFormState } from '../../components/static/Forms/LoginFo
 import Card from '../../components/ui/Card';
 import Form from '../../components/ui/Form';
 import ROUTES from '../../routes/routes';
+import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login/types';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -33,7 +32,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const loginUser = useAction({ type: LOGIN_USER });
   const clearLogin = useAction({ type: CLEAR_LOGIN });
 
-  const login: WebComponentState = useSelector((state: State) => state.login);
+  const login: WebComponentState<any> = useSelector((state: any) => state.login);
 
   useEffect(() => {
     if (login.data) {

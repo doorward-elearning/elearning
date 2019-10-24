@@ -14,7 +14,7 @@
         size: 'Taille de police'
       },
       image: {
-        image: 'Image',
+        image: 'EImage',
         insert: 'Insérer une image',
         resizeFull: 'Taille originale',
         resizeHalf: 'Redimensionner à 50 %',
