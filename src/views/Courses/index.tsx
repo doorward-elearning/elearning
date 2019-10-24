@@ -1,6 +1,6 @@
 import React from 'react';
-import { PageComponent } from '../../types';
-import Layout, { LayoutFeatures } from '../Layout';
+import {PageComponent} from '../../types';
+import Layout, {LayoutFeatures} from '../Layout';
 import useModal from '../../hooks/useModal';
 import Empty from '../../components/ui/Empty';
 import AddCourseModal from './AddCourseModal';
@@ -11,7 +11,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
   return (
     <Layout
       {...props}
-      features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
       header="COURSES"
       actionBtnProps={{
         text: TITLE,

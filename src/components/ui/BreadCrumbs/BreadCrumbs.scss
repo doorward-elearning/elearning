@@ -1,3 +1,44 @@
 .ed-breadcrumbs {
+  display: inline-grid;
+  grid-auto-flow: column;
+  &__crumb {
+    padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) 0;
+    margin-right: var(--padding-lg);
+    position: relative;
+    text-transform: uppercase;
 
+    &:last-child {
+      font-weight: bold;
+    }
+
+    &:not(:last-child){
+
+      a {
+        color: var(--text-secondary);
+
+        &:hover {
+          color: var(--accent);
+        }
+      }
+
+      &:after, &:before {
+        position: absolute;
+        content: '';
+        background: var(--primary);
+        width: 1px;
+        right: 0;
+        height: 58%;
+      }
+
+      &:after {
+        top: 0;
+        transform: rotate(-40deg);
+      }
+
+      &:before {
+        bottom: 0;
+        transform: rotate(40deg);
+      }
+    }
+  }
 }

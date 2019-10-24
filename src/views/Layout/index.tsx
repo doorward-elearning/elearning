@@ -11,11 +11,14 @@ import Header from '../../components/ui/Header';
 import FeatureProvider from '../../components/ui/FeatureProvider';
 import Icon from '../../components/ui/Icon';
 import Button from '../../components/ui/Buttons/Button';
+import withBreadCrumbs from '../../hooks/withBreadCrumbs';
+import BreadCrumbs from '../../components/ui/BreadCrumbs';
 
 export enum LayoutFeatures {
   HEADER = 1,
   BACK_BUTTON = 2,
   ACTION_BUTTON = 3,
+  BREAD_CRUMBS = 4,
 }
 
 const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, text }) => {
@@ -32,6 +35,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
+  const breadcrumbs = withBreadCrumbs(location);
 
   const className = classNames({
     'ed-page-layout': true,
@@ -55,6 +59,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         </div>
         <div className="ed-page-layout__content">
           <Container>
+            <div className="ed-page-layout__topHeader">
+              <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
+                <BreadCrumbs crumbs={breadcrumbs} />
+              </Feature>
+            </div>
             <div className="ed-page-layout__header">
               <div className="ed-page-layout__header--start">
                 <Feature feature={LayoutFeatures.BACK_BUTTON}>

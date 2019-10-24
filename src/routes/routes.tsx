@@ -7,7 +7,7 @@ import Dashboard from '../views/Dashboard';
 import Courses from '../views/Courses';
 import { ReactNode } from 'react';
 import AuthenticatedRoute from './AuthenticatedRoute';
-import { RouteDefinitions, Routes } from '../types';
+import { RouteDefinition, RouteDefinitions, Routes } from '../types';
 
 export type EdudoorRoutes = {
   home: string;
@@ -30,6 +30,7 @@ const routeConfigurations: Routes = {
     link: '/',
     component: Home,
     authenticated: false,
+    hideCrumb: true,
     routes: {
       login: { link: '/login', component: Login, authenticated: false },
       dashboard: {
@@ -52,7 +53,7 @@ const routeConfigurations: Routes = {
 
 const routeDefinitions: any = {};
 
-const generateRoutes = (r: Routes, parentLink = ''): Array<ReactNode> => {
+const generateRoutes = (r: Routes, parentLink = '', path: Array<RouteDefinition>): Array<ReactNode> => {
   if (parentLink.endsWith('/')) {
     parentLink = parentLink.substr(0, parentLink.length - 1);
   }
@@ -69,8 +70,19 @@ const generateRoutes = (r: Routes, parentLink = ''): Array<ReactNode> => {
 
       const Component = detail.authenticated ? AuthenticatedRoute : Route;
 
+      const definition = {
+        name: routes[current],
+        link: fullLink,
+        tree: [],
+      };
+
+      const newPath = [...path];
+      if (detail.component && !detail.hideCrumb) {
+        newPath.push(definition);
+      }
+
       if (detail.routes) {
-        more.push(...generateRoutes(detail.routes, fullLink));
+        more.push(...generateRoutes(detail.routes, fullLink, newPath));
       }
       if (props.component) {
         more.push(<Component {...props} key={fullLink} />);
@@ -79,6 +91,7 @@ const generateRoutes = (r: Routes, parentLink = ''): Array<ReactNode> => {
       routeDefinitions[current] = {
         name: routes[current],
         link: fullLink,
+        tree: newPath,
       };
     }
 
@@ -86,7 +99,7 @@ const generateRoutes = (r: Routes, parentLink = ''): Array<ReactNode> => {
   }, []);
 };
 
-export const generatedRoutes = generateRoutes(routeConfigurations, '');
+export const generatedRoutes = generateRoutes(routeConfigurations, '', []);
 
 const ROUTES = routeDefinitions as RouteDefinitions;
 

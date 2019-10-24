@@ -68,7 +68,7 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
           history={history}
           collapsed={collapsed}
           location={location}
-          open={open === item || collapsed}
+          open={open && open.link === item.link || collapsed}
           setOpen={(value): void => handleOpen(item, value)}
         />
       ))}

@@ -37,6 +37,16 @@
     grid-area: N;
   }
 
+  &__topHeader {
+    display: grid;
+    align-items: center;
+    justify-items: start;
+    grid-auto-flow: column;
+
+    .ed-breadcrumbs {
+    }
+  }
+
   &__content {
     grid-area: C;
     padding: var(--padding-lg);
@@ -63,8 +73,6 @@
         grid-auto-flow: column;
         grid-gap: var(--padding);
       }
-
-
     }
   }
 }
