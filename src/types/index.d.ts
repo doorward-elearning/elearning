@@ -22,6 +22,8 @@ export type RouteDefinitions = {
   [key in keyof typeof routes]: RouteDefinition;
 };
 
+type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;
+
 type RouteBuilder = {
   link: string;
   hideCrumb?: boolean;

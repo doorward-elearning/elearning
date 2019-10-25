@@ -24,6 +24,9 @@ const Api = {
   courses: {
     create: (course: CreateCourseBody): Promise<any> => PUT('repo/courses', course),
     list: (): Promise<any> => GET('repo/courses'),
+    modules: {
+      create: (courseId: number, title: string): Promise<any> => PUT(`repo/courses/${courseId}/elements/structure?${q({ shortTitle: title })}`),
+    },
   },
 };
 

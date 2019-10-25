@@ -5,7 +5,6 @@ import * as Yup from 'yup';
 import { WebComponentState } from '../../reducers/reducers';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
-import { useAction } from '../../hooks/useActions';
 import './Login.scss';
 import Layout from '../Layout';
 import { PageComponent } from '../../types';
@@ -16,7 +15,8 @@ import LoginForm, { LoginFormState } from '../../components/static/Forms/LoginFo
 import Card from '../../components/ui/Card';
 import Form from '../../components/ui/Form';
 import ROUTES from '../../routes/routes';
-import { CLEAR_LOGIN, LOGIN_USER } from '../../reducers/login/types';
+import { clearLoginAction, loginUserAction } from '../../reducers/login/actions';
+import useAction from '../../hooks/useActions';
 
 const Validation = Yup.object().shape({
   username: Yup.string().required('The username is required.'),
@@ -29,8 +29,8 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const [errors, setErrors] = useState();
   const [actions, setActions] = useState<FormikActions<LoginFormState> | null>(null);
   const initialState = {};
-  const loginUser = useAction({ type: LOGIN_USER });
-  const clearLogin = useAction({ type: CLEAR_LOGIN });
+  const loginUser = useAction(loginUserAction);
+  const clearLogin = useAction(clearLoginAction);
 
   const login: WebComponentState<any> = useSelector((state: any) => state.login);
 

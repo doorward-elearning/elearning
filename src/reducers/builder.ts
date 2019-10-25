@@ -2,7 +2,6 @@ import { combineReducers, Reducer } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   Action,
-  ActionCreatorGenerator,
   ApiSagaMiddleware,
   BuiltReducer,
   ReducerBuilder,
@@ -12,10 +11,6 @@ import {
 } from './reducers';
 import { ApiCall } from '../services/services';
 import chainReducers from './chain';
-
-export const action: ActionCreatorGenerator = ({ type, onSuccess, onError }) => {
-  return (...data: any[]): Action => ({ type, payload: data, onError, onSuccess });
-};
 
 export const webComponentState: WebComponentState<any> = {
   fetched: false,

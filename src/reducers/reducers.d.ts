@@ -1,5 +1,6 @@
 import { ApiCall } from '../types';
 import { Action as ReduxAction, Reducer } from 'redux';
+import { Dispatch } from 'react';
 
 export type SagaFunction = () => IterableIterator<any>;
 
@@ -11,23 +12,7 @@ export interface Action extends ReduxAction {
   onError?: ApiListener;
 }
 
-export type ActionCreatorArgs = {
-  type: string;
-  onSuccess?: ApiListener;
-  onError?: ApiListener;
-};
-
-export type ActionCreator = (...args: any[]) => Action;
-
-export type ActionCreatorGenerator = (args: ActionCreatorArgs) => ActionCreator;
-
-export type ActionsMap = {
-  [name: string]: ActionCreator;
-};
-
-export type StoreActionMap<T extends ActionsMap> = {
-  [K in keyof T]: ActionCreator;
-};
+export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;
 
 export interface WebComponentState<T> {
   fetching: boolean;

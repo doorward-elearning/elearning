@@ -7,6 +7,11 @@ const createCourse: ReduxReducerApiAction = {
   key: 'newCourse',
   action: CREATE_COURSE,
   api: Api.courses.create,
+  apiMiddleware: {
+    after: function*(request, response) {
+
+    },
+  },
 };
 
 const fetchCourses: ReduxReducerApiAction = {
@@ -17,7 +22,7 @@ const fetchCourses: ReduxReducerApiAction = {
 
 const createCourseModules: ReduxApiAction = {
   action: CREATE_COURSE_MODULES,
-  api: Api.courses.create,
+  api: Api.courses.modules.create,
 };
 
 export default reducerBuilder({

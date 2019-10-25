@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
 import { FormikActions, FormikProps } from 'formik';
 import * as Yup from 'yup';
@@ -6,8 +6,8 @@ import Form from '../../components/ui/Form';
 import AddCourseForm, { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
 import { MemoryHistory } from 'history';
 import ROUTES from '../../routes/routes';
-import { useAction } from '../../hooks/useActions';
-import { CREATE_COURSE } from '../../reducers/courses/types';
+import useAction from '../../hooks/useActions';
+import { createCourseAction } from '../../reducers/courses/actions';
 
 const schema = Yup.object().shape({
   name: Yup.string().required('The course name is required'),
@@ -22,27 +22,25 @@ const schema = Yup.object().shape({
 });
 
 const AddCourse: React.FunctionComponent<AddCourseModalProps> = props => {
-  const createCourse = useAction({
-    type: CREATE_COURSE,
-    onSuccess: () => {
-      props.useModal.closeModal();
-    },
+  const [values, setValues] = useState<AddCourseFormState>({
+    name: '',
+    description: '',
+    modules: [{ name: '' }],
+    noOfModules: 1,
   });
+  // const createModule = useAction({ type: CREATE_COURSE_MODULES });
+  const createCourse = useAction(createCourseAction);
 
   const onSubmit = (values: AddCourseFormState, actions: FormikActions<AddCourseFormState>): void => {
     createCourse({
       title: values.name,
       description: values.description,
+      modules: values.modules,
     });
   };
   return (
     <Modal useModal={props.useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}>
-      <Form
-        showOverlay
-        initialValues={{ name: '', modules: [{ name: '' }], noOfModules: 1 }}
-        onSubmit={onSubmit}
-        validationSchema={schema}
-      >
+      <Form showOverlay initialValues={values} onSubmit={onSubmit} validationSchema={schema}>
         {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
           props.useModal.onClose(() => {
             formikProps.resetForm();
