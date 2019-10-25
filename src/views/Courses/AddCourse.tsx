@@ -1,5 +1,5 @@
 import React from 'react';
-import Modal, { ModalButtons, ModalFeatures, ModalProps } from '../../components/ui/Modal';
+import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
 import { FormikActions, FormikProps } from 'formik';
 import * as Yup from 'yup';
 import Form from '../../components/ui/Form';
@@ -21,8 +21,13 @@ const schema = Yup.object().shape({
     .required('Please provide at least one module in the course'),
 });
 
-const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
-  const createCourse = useAction({ type: CREATE_COURSE });
+const AddCourse: React.FunctionComponent<AddCourseModalProps> = props => {
+  const createCourse = useAction({
+    type: CREATE_COURSE,
+    onSuccess: () => {
+      props.useModal.closeModal();
+    },
+  });
 
   const onSubmit = (values: AddCourseFormState, actions: FormikActions<AddCourseFormState>): void => {
     createCourse({
@@ -67,4 +72,4 @@ export interface AddCourseModalProps extends ModalProps {
   history: MemoryHistory;
 }
 
-export default AddCourseModal;
+export default AddCourse;

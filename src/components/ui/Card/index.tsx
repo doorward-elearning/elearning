@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import './Card.scss';
 import classNames from 'classnames';
 
@@ -8,7 +8,11 @@ const Card: CardComponent = props => {
     flat: props.flat,
     clickable: props.clickable,
   });
-  return <div className={className}>{props.children}</div>;
+  return (
+    <div className={className} onClick={props.onClick}>
+      {props.children}
+    </div>
+  );
 };
 
 export const Header: React.FunctionComponent<CardHeaderProps> = props => {
@@ -26,6 +30,7 @@ export const Footer: React.FunctionComponent<CardFooterProps> = props => {
 export interface CardProps {
   flat?: boolean;
   clickable?: boolean;
+  onClick?: MouseEventHandler;
 }
 export interface CardHeaderProps {}
 export interface CardBodyProps {}

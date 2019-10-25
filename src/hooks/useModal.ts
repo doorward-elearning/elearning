@@ -1,9 +1,14 @@
-import { MutableRefObject, useState } from 'react';
+import { MutableRefObject, useEffect } from 'react';
 import useStateRef from './useStateRef';
 
 const useModal = (defaultState?: boolean): UseModal => {
   const [open, setOpen, openRef] = useStateRef(defaultState || false);
   let onClose: any = null;
+
+  useEffect(() => {
+    const body: HTMLElement = document.body;
+    body.style.overflow = open ? 'hidden' : 'auto';
+  }, [open]);
 
   return {
     isOpen: open,

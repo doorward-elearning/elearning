@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import Card from '../../ui/Card';
 import EImage from '../../ui/Image';
 import './Course.scss';
 import Header from '../../ui/Header';
 import { CourseResponse } from '../../../services/responseBodies';
 
-const Course: React.FunctionComponent<CourseProps> = ({ course }) => {
+const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
   return (
     <div className="course-card">
-      <Card flat clickable>
+      <Card flat clickable onClick={onClick}>
         <Card.Header>
           <EImage />
         </Card.Header>
@@ -23,6 +23,7 @@ const Course: React.FunctionComponent<CourseProps> = ({ course }) => {
 
 export interface CourseProps {
   course: CourseResponse;
+  onClick: MouseEventHandler;
 }
 
 export default Course;

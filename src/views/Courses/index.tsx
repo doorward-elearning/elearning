@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { PageComponent } from '../../types';
 import Layout, { LayoutFeatures } from '../Layout';
 import useModal from '../../hooks/useModal';
-import AddCourseModal from './AddCourseModal';
+import AddCourse from './AddCourse';
 import ROUTES from '../../routes/routes';
 import { useAction } from '../../hooks/useActions';
 import { FETCH_COURSES } from '../../reducers/courses/types';
@@ -33,12 +33,20 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
         onClick: () => props.history.push(ROUTES.createCourse.link),
       }}
     >
-      <AddCourseModal history={props.history} useModal={addCourseModal} title={TITLE} />
+      <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
       <WebComponentItems list={courses.data} loading={courses.fetching}>
         {(list): JSX.Element => (
           <Grid columns={4}>
             {list.map((course: CourseResponse) => {
-              return <Course course={course} key={course.title} />;
+              return (
+                <Course
+                  course={course}
+                  key={course.key}
+                  onClick={() => {
+                    props.history.push(ROUTES.viewCourse.link);
+                  }}
+                />
+              );
             })}
           </Grid>
         )}
