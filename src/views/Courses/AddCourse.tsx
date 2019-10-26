@@ -1,46 +1,31 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
 import { FormikActions, FormikProps } from 'formik';
-import * as Yup from 'yup';
 import Form from '../../components/ui/Form';
 import AddCourseForm, { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
 import { MemoryHistory } from 'history';
 import ROUTES from '../../routes/routes';
 import useAction from '../../hooks/useActions';
 import { createCourseAction } from '../../reducers/courses/actions';
-
-const schema = Yup.object().shape({
-  name: Yup.string().required('The course name is required'),
-  description: Yup.string().required('Please provide a short course description'),
-  modules: Yup.array()
-    .of(
-      Yup.object().shape({
-        name: Yup.string().required('The module name is required'),
-      })
-    )
-    .required('Please provide at least one module in the course'),
-});
+import addCourseForm from '../../components/static/Forms/validations/addCourseForm';
 
 const AddCourse: React.FunctionComponent<AddCourseModalProps> = props => {
-  const [values, setValues] = useState<AddCourseFormState>({
-    name: '',
+  const initialValues = {
+    title: '',
     description: '',
     modules: [{ name: '' }],
     noOfModules: 1,
-  });
-  // const createModule = useAction({ type: CREATE_COURSE_MODULES });
+  };
   const createCourse = useAction(createCourseAction);
 
   const onSubmit = (values: AddCourseFormState, actions: FormikActions<AddCourseFormState>): void => {
-    createCourse({
-      title: values.name,
-      description: values.description,
-      modules: values.modules,
+    createCourse(values, () => {
+      props.useModal.closeModal();
     });
   };
   return (
     <Modal useModal={props.useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}>
-      <Form showOverlay initialValues={values} onSubmit={onSubmit} validationSchema={schema}>
+      <Form showOverlay initialValues={initialValues} onSubmit={onSubmit} validationSchema={addCourseForm}>
         {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
           props.useModal.onClose(() => {
             formikProps.resetForm();

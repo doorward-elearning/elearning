@@ -1,7 +1,7 @@
 .ed-page-layout {
   display: grid;
   grid-template-columns: auto 1fr;
-  min-height: 100vh;
+  height: 100vh;
   grid-template-rows: auto 1fr;
   grid-template-areas:
     'N N N'
@@ -50,6 +50,8 @@
   &__content {
     grid-area: C;
     padding: var(--padding-lg);
+    overflow: auto;
+    height: calc(100vh - var(--navbar-size));
 
     .ed-page-layout__header {
       display: grid;

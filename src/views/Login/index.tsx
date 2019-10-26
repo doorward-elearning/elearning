@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { FormikActions, FormikProps } from 'formik';
-import * as Yup from 'yup';
 import { WebComponentState } from '../../reducers/reducers';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
@@ -17,11 +16,7 @@ import Form from '../../components/ui/Form';
 import ROUTES from '../../routes/routes';
 import { clearLoginAction, loginUserAction } from '../../reducers/login/actions';
 import useAction from '../../hooks/useActions';
-
-const Validation = Yup.object().shape({
-  username: Yup.string().required('The username is required.'),
-  password: Yup.string().required('The password is required.'),
-});
+import loginForm from '../../components/static/Forms/validations/loginForm';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
@@ -64,7 +59,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   ) : (
     <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]}>
       <div className="page page__login">
-        <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={Validation}>
+        <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={loginForm}>
           {(props: FormikProps<LoginFormState>): JSX.Element => (
             <Card>
               <Card.Header>

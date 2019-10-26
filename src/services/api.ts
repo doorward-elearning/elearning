@@ -22,10 +22,27 @@ const Api = {
     register: (email: string): Promise<any> => PUT(`registration?email=${email}`),
   },
   courses: {
-    create: (course: CreateCourseBody): Promise<any> => PUT('repo/courses', course),
+    create: async (course: CreateCourseBody): Promise<any> => {
+      const response = await PUT('repo/courses', {
+        title: course.title,
+        description: course.description,
+      });
+      const {
+        data: { key: courseId },
+      } = response;
+      // create modules for this course.
+      response.data.modules = await Promise.all(
+        course.modules.map(async module => {
+          const { data } = await Api.courses.modules.create(courseId, module.name);
+          return data;
+        })
+      );
+      return response;
+    },
     list: (): Promise<any> => GET('repo/courses'),
     modules: {
-      create: (courseId: number, title: string): Promise<any> => PUT(`repo/courses/${courseId}/elements/structure?${q({ shortTitle: title })}`),
+      create: (courseId: number, title: string): Promise<any> =>
+        PUT(`repo/courses/${courseId}/elements/structure?${q({ shortTitle: title })}`),
     },
   },
 };

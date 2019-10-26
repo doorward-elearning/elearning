@@ -20,6 +20,14 @@ api:
 	@ ${INFO} "Starting the backend"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_backend
 
+
+db:
+	${INFO} "Creating PostgreSQL database volume"
+	@ docker volume create --name=edudoor_data > /dev/null
+	@ echo " "
+	@ ${INFO} "Starting the database"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_database
+
 stop:
 	${INFO} "Stopping all containers"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v

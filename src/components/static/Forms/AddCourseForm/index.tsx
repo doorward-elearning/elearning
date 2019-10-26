@@ -8,6 +8,7 @@ import Icon from '../../../ui/Icon';
 import Button from '../../../ui/Buttons/Button';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import NumberField from '../../../ui/Input/NumberField';
+import { CreateCourseBody } from '../../../../services/requestBodies';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -59,7 +60,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
     <form onSubmit={props.handleSubmit} className="add-course-form">
       <div className="course-information">
         <Header size={2}>Course Information</Header>
-        <TextField name="name" icon="school" label="Course name" />
+        <TextField name="title" icon="school" label="Course name" />
         <DraftTextArea name="description" icon="notes" label="Course description" />
         <NumberField
           name="noOfModules"
@@ -81,11 +82,8 @@ export interface CourseModulesProps extends AddCourseFormProps {
   maxModules: number;
 }
 
-export interface AddCourseFormState {
-  name: string;
+export interface AddCourseFormState extends CreateCourseBody {
   noOfModules: number;
-  description: string;
-  modules: Array<{ name: '' }>;
 }
 
 export default AddCourseForm;

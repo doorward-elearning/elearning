@@ -1,6 +1,6 @@
 const base = {
   '--bg-primary': '#FFFFFF',
-  '--bg-secondary': 'rgba(244,244,244,0.81)',
+  '--bg-secondary': 'rgb(250,250,250)',
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
   '--text-alternate': '#a2a2a2',

@@ -6,8 +6,7 @@ const useModal = (defaultState?: boolean): UseModal => {
   let onClose: any = null;
 
   useEffect(() => {
-    const body: HTMLElement = document.body;
-    body.style.overflow = open ? 'hidden' : 'auto';
+    document.body.style.overflow = open ? 'hidden' : 'auto';
   }, [open]);
 
   return {

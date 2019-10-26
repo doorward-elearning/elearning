@@ -8,10 +8,8 @@ const createCourse: ReduxReducerApiAction = {
   action: CREATE_COURSE,
   api: Api.courses.create,
   apiMiddleware: {
-    after: function*(request, response) {
 
-    },
-  },
+  }
 };
 
 const fetchCourses: ReduxReducerApiAction = {
