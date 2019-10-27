@@ -5,13 +5,11 @@ import useModal from '../../hooks/useModal';
 import AddCourse from './AddCourse';
 import ROUTES from '../../routes/routes';
 import { useSelector } from 'react-redux';
-import Course from '../../components/static/Course';
-import Grid from '../../components/static/Grid';
 import WebComponentItems from '../../components/static/WebComponentItems';
 import { State } from '../../store/store';
-import { CourseResponse } from '../../services/responseBodies';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
 import useAction from '../../hooks/useActions';
+import CourseTable from '../../components/static/Tables/CourseTable';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
@@ -30,26 +28,12 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       header="COURSES"
       actionBtnProps={{
         text: TITLE,
-        onClick: () => props.history.push(ROUTES.createCourse.link),
+        onClick: (): void => props.history.push(ROUTES.createCourse.link),
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
       <WebComponentItems list={courses.data} loading={courses.fetching}>
-        {(list): JSX.Element => (
-          <Grid columns={4}>
-            {list.map((course: CourseResponse) => {
-              return (
-                <Course
-                  course={course}
-                  key={course.key}
-                  onClick={() => {
-                    props.history.push(ROUTES.viewCourse.link);
-                  }}
-                />
-              );
-            })}
-          </Grid>
-        )}
+        {(list): JSX.Element => <CourseTable courses={list} history={props.history} />}
       </WebComponentItems>
     </Layout>
   );

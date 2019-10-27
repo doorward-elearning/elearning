@@ -9,8 +9,7 @@ export const routes = {
   home: 'Home',
   login: 'Login',
   dashboard: 'Dashboard',
-  courses: 'Courses',
-  courseList: 'Course List',
+  courses: 'All Courses',
   createCourse: 'Create Course',
   viewCourse: 'View Course',
 };
@@ -35,14 +34,12 @@ export const routeConfigurations: Routes = {
           courses: {
             link: '/courses',
             authenticated: true,
+            component: Courses,
             routes: {
-              courseList: {
-                link: '/list',
-                component: Courses,
+              viewCourse: {
+                link: '/:courseId',
+                component: ViewCourse,
                 authenticated: true,
-                routes: {
-                  viewCourse: { link: '/view', component: ViewCourse, authenticated: true },
-                },
               },
               createCourse: { link: '/create', component: Courses, authenticated: true },
             },

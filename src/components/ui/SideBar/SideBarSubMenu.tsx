@@ -39,10 +39,10 @@ const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
               'side-nav-item': true,
               active: item === active,
             })}
-            key={item.title}
+            key={item.name}
           >
             <Link to={item.link} className="side-nav-link" onClick={(): void => item.onClick && item.onClick(props)}>
-              <span className="title">{item.title}</span>
+              <span className="title">{item.name}</span>
             </Link>
           </li>
         );

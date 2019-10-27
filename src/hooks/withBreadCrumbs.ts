@@ -1,18 +1,20 @@
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
-import { Location } from 'history';
-import ROUTES from '../routes/routes';
 import { EdudoorRoutes } from '../routes';
+import useRoutes from './useRoutes';
+import { match as Match } from 'react-router';
 
-const withBreadCrumbs = (location: Location): Array<BreadCrumb> => {
-  const tree = (Object.keys(ROUTES) as Array<keyof EdudoorRoutes>).find(route => {
-    const detail = ROUTES[route];
+const withBreadCrumbs = (match: Match): Array<BreadCrumb> => {
+  const { routes } = useRoutes();
+  const tree = (Object.keys(routes) as Array<keyof EdudoorRoutes>).find(route => {
+    const detail = routes[route];
     if (detail) {
-      return detail.link === location.pathname;
+      return detail.link === match.path;
     }
     return false;
   });
 
-  return tree ? ROUTES[tree].tree : [];
+  const pathNames = tree ? routes[tree].tree : [];
+  return (pathNames as Array<keyof typeof routes>).map((item): BreadCrumb => routes[item]);
 };
 
 export default withBreadCrumbs;

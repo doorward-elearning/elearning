@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { RouteProps, Switch } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
-import { ReactNode } from 'react';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
 import NotFound from '../views/NotFound';
 import { EdudoorRoutes, routeConfigurations, routes } from './index';
+import Tools from '../utils/Tools';
 
 const routeDefinitions: any = {};
 
-const generateRoutes = (r: Routes, parentLink = '', path: Array<RouteDefinition>): Array<ReactNode> => {
+const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof routes>): Array<ReactNode> => {
   if (parentLink.endsWith('/')) {
     parentLink = parentLink.substr(0, parentLink.length - 1);
   }
@@ -26,15 +26,9 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<RouteDefinition>
 
       const Component = detail.authenticated ? AuthenticatedRoute : Route;
 
-      const definition = {
-        name: routes[current],
-        link: fullLink,
-        tree: [],
-      };
-
       const newPath = [...path];
       if (detail.component && !detail.hideCrumb) {
-        newPath.push(definition);
+        newPath.push(current);
       }
 
       if (detail.routes) {
@@ -47,8 +41,12 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<RouteDefinition>
       routeDefinitions[current] = {
         name: routes[current],
         link: fullLink,
+        withParams: (params: { [name: string]: any }): string => {
+          return Tools.createRoute(fullLink, params);
+        },
         tree: newPath,
-      };
+        id: current,
+      } as RouteDefinition;
     }
 
     return [...more, ...acc];

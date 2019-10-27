@@ -51,6 +51,20 @@ class Tools {
     const tObj = parser.getTraversalObj(xml, options);
     return parser.convertToJson(tObj, options);
   }
+  static findMatches(regex: RegExp, str: string, matches: Array<RegExpExecArray> = []): Array<RegExpExecArray> {
+    const res = regex.exec(str);
+    res && matches.push(res) && Tools.findMatches(regex, str, matches);
+    return matches;
+  }
+
+  static createRoute(path: string, params: { [name: string]: any }): string {
+    const regexp = new RegExp('(:)([a-zA-z]+)', 'g');
+    const matches = Tools.findMatches(regexp, path);
+
+    return matches.reduce((acc: string, cur: RegExpExecArray): string => {
+      return acc.replace(cur[0], params[cur[2]]);
+    }, path);
+  }
 }
 
 export default Tools;

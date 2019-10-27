@@ -1,48 +1,39 @@
 import { SideBarSubMenuProps } from '../components/ui/SideBar/SideBarSubMenu';
-import ROUTES from '../routes/routes';
 import { SideBarProps } from '../components/ui/SideBar';
+import { BreadCrumb } from '../components/ui/BreadCrumbs';
+import useRoutes from './useRoutes';
 import useAuth from './useAuth';
 
 const useSidebarSchema = (props: SideBarProps): Array<MenuItem> => {
+  const { routes } = useRoutes();
   const { logout } = useAuth();
   return [
     {
-      title: 'Dashboard',
-      link: ROUTES.dashboard.link,
+      ...routes.dashboard,
       icon: 'dashboard',
     },
     {
-      title: 'Courses',
-      link: ROUTES.courses.link,
+      ...routes.courses,
       icon: 'school',
-      subMenu: [
-        {
-          title: 'Course List',
-          link: ROUTES.courseList.link,
-        },
-      ],
     },
     {
-      title: 'Logout',
+      name: 'Logout',
       onClick: (): void => {
         logout();
-        props.history.push(ROUTES.login.link);
+        props.history.push(routes.login.link);
       },
       icon: 'logout',
+      link: '',
     },
   ];
 };
 
-export interface SubMenuItem {
-  title: string;
-  link: string;
+export interface SubMenuItem extends BreadCrumb {
   onClick?: (props: SideBarSubMenuProps) => void;
 }
 
-export interface MenuItem {
-  title: string;
+export interface MenuItem extends BreadCrumb {
   icon: string;
-  link?: string;
   subMenu?: Array<SubMenuItem>;
   onClick?: () => void;
 }

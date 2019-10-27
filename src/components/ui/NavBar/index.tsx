@@ -9,6 +9,7 @@ import Feature from '../FeatureProvider/Feature';
 import CONSTANTS from '../../../assets/constants';
 import { PageComponent } from '../../../types';
 import ROUTES from '../../../routes/routes';
+import { Location, MemoryHistory } from 'history';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
@@ -58,10 +59,12 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
   );
 };
 
-export interface NavBarProps extends PageComponent {
+export interface NavBarProps {
   withSidebar?: boolean;
   onHamburgerClick?: MouseEventHandler;
   features: Array<NavbarFeatures | string | typeof NavbarFeatures>;
+  history: MemoryHistory;
+  location: Location;
 }
 
 export default NavBar;

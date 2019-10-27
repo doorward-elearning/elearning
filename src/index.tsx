@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
@@ -7,18 +7,38 @@ import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
-import { Router } from './routes/routes';
+import ROUTES, { Router } from './routes/routes';
+import { routes } from './routes';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 Request.setAuth();
 
+export const appInitialValue = {
+  routes: { ...ROUTES },
+  setTitle: (key: keyof typeof routes, name: string): void => {},
+};
+
+export type AppContextProps = typeof appInitialValue;
+
+export const AppContext = React.createContext<AppContextProps>(appInitialValue);
+
 const App: React.FC = () => {
+  const [routes, setRoutes] = useState(ROUTES);
+  const setTitle = (key: keyof typeof routes, name: string): void => {
+    const current = routes[key].name;
+    if (current !== name) {
+      setRoutes({ ...routes, [key]: { ...routes[key], name } });
+    }
+  };
+
   return (
     <Provider store={store}>
-      <ApplicationTheme theme="base">
-        <Router />
-      </ApplicationTheme>
+      <AppContext.Provider value={{ routes, setTitle }}>
+        <ApplicationTheme theme="base">
+          <Router />
+        </ApplicationTheme>
+      </AppContext.Provider>
     </Provider>
   );
 };

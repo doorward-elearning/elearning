@@ -29,7 +29,7 @@ const AddCourse: React.FunctionComponent<AddCourseModalProps> = props => {
         {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
           props.useModal.onClose(() => {
             formikProps.resetForm();
-            props.history.push(ROUTES.courseList.link);
+            props.history.push(ROUTES.courses.link);
           });
           return (
             <React.Fragment>

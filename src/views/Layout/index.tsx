@@ -28,14 +28,16 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, tex
 const Layout: React.FunctionComponent<LayoutProps> = ({
   history,
   location,
+  match,
   children,
   header = '',
+  renderHeaderEnd,
   features = [],
   actionBtnProps,
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const breadcrumbs = withBreadCrumbs(location);
+  const breadcrumbs = withBreadCrumbs(match);
 
   const className = classNames({
     'ed-page-layout': true,
@@ -84,6 +86,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                 <Feature feature={LayoutFeatures.ACTION_BUTTON}>
                   <ActionButton {...actionBtnProps} />
                 </Feature>
+                {renderHeaderEnd}
               </div>
             </div>
             {children}
@@ -104,6 +107,7 @@ export interface LayoutProps extends PageComponent {
   features?: Array<LayoutFeatures | string | typeof LayoutFeatures>;
   header?: string;
   actionBtnProps?: ActionButtonProps;
+  renderHeaderEnd?: () => JSX.Element;
 }
 
 export default Layout;

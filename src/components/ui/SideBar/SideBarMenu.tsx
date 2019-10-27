@@ -7,8 +7,8 @@ import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
-  const { icon, link = '#', title, subMenu, open, onClick, setOpen, collapsed, history } = props;
-  const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, title }]).find(
+  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history } = props;
+  const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find(
     (item: SubMenuItem): boolean => location.pathname === item.link
   );
 
@@ -31,7 +31,7 @@ const Item: React.FunctionComponent<ItemProps> = props => {
     <li className={classes}>
       <Link to={subMenu ? '#' : link} className="nav-link" onClick={onItemClick}>
         <Icon icon={icon} />
-        <span className="title">{title}</span>
+        <span className="title">{name}</span>
         <Icon icon="keyboard_arrow_right" className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
       </Link>
       {subMenu && (
@@ -50,7 +50,7 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
     if (item.link === location.pathname) {
       return true;
     }
-    return (item.subMenu || []).find(subMenu => subMenu.link === location.pathname);
+    return (item.subMenu || []).find(subMenu => location.pathname.startsWith(subMenu.link));
   });
 
   const [open, setOpen] = useState<MenuItem | undefined>(activeMenu);
@@ -63,12 +63,12 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
     <React.Fragment>
       {menu.map(item => (
         <Item
-          key={item.title}
+          key={item.name}
           {...item}
           history={history}
           collapsed={collapsed}
           location={location}
-          open={open && open.link === item.link || collapsed}
+          open={(open && open.link === item.link) || collapsed}
           setOpen={(value): void => handleOpen(item, value)}
         />
       ))}
