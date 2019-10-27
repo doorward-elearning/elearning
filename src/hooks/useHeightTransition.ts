@@ -1,6 +1,11 @@
 import { MutableRefObject, useEffect } from 'react';
 
-const useHeightTransition = (element: MutableRefObject<HTMLElement | null> | null, open: boolean, deps: Array<any>): void => {
+const useHeightTransition = (
+  element: MutableRefObject<HTMLElement | null> | null,
+  open: boolean,
+  deps: Array<any>,
+  timeout = 500
+): void => {
   const modifyHeight = (): void => {
     if (element) {
       const { current } = element;
@@ -12,7 +17,7 @@ const useHeightTransition = (element: MutableRefObject<HTMLElement | null> | nul
         } else {
           setTimeout(() => {
             current.style.display = 'none';
-          }, 500);
+          }, timeout);
           current.style.maxHeight = '0';
           current.style.opacity = '0';
         }

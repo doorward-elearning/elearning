@@ -4,6 +4,7 @@ import { match, RouteComponentProps } from 'react-router';
 import * as React from 'react';
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
 import { routes } from '../routes';
+import { FormikActions } from 'formik';
 
 export interface PageComponent {
   history: MemoryHistory;
@@ -40,3 +41,5 @@ type RouteBuilder = {
   authenticated: boolean;
   routes?: Routes;
 };
+
+type OnFormSubmit<T> = (values: T, actions: FormikActions<T>) => void;

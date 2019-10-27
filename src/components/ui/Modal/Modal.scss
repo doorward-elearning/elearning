@@ -16,6 +16,7 @@
     .ed-modal {
       &__background{
         pointer-events: all;
+        background: var(--modal-background);
       }
 
       &__content {

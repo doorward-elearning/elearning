@@ -1,3 +1,5 @@
+@import '../../../index';
+
 .ed-list {
   background: var(--bg-primary);
   list-style: none;
@@ -12,18 +14,27 @@
     display: grid;
     align-items: center;
     min-height: var(--list-item-height);
+    @include darkenHover();
+    cursor: default;
 
+    &:after,
     &:before {
+      left: -50%;
+      width: 200%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    &:after {
+      bottom: 0;
       content: '';
       position: absolute;
-      left: -50%;
-      bottom: 0;
-      width: 200%;
       height: 1px;
       background: var(--line-color);
     }
 
     &.no-border {
+      &:after,
       &:before {
         display: none;
       }

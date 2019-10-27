@@ -7,7 +7,6 @@ const useModalBlur = (useModal: UseModal): RefObject<HTMLDivElement> => {
   useEffect(() => {
     const modalBox: HTMLElement | null = document.querySelector('#modal-box');
     if (modalBox) {
-      modalBox.childNodes.forEach(child => modalBox.removeChild(child));
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       if (modal.current) modalBox.appendChild(modal.current);

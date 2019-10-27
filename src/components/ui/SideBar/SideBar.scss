@@ -1,8 +1,8 @@
-@mixin hoverEffect {
-  position: relative;
-  cursor: pointer;
+@import '../../../index';
 
-  &:before,
+@mixin hoverEffect {
+  @include darkenHover();
+
   &:after {
     content: '';
     position: absolute;
@@ -14,17 +14,9 @@
     transition: 0.2s width, 0.2s background;
   }
 
-  &:after {
-    width: 100%;
-    background: rgba(0, 0, 0, 0);
-  }
-
   &:hover {
-    &:before {
-      width: 5px;
-    }
     &:after {
-      background: rgba(0, 0, 0, 0.1);
+      width: 5px;
     }
   }
 }
@@ -121,7 +113,7 @@
             grid-template-columns: calc(var(--collapsed-sidebar-size)) 1fr;
           }
         }
-        &:not(.subMenu){
+        &:not(.subMenu) {
           .nav-link {
             cursor: pointer !important;
           }

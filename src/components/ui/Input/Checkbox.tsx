@@ -9,11 +9,11 @@ const Checkbox: FunctionComponent<CheckboxProps> = props => {
     if (!id) {
       setId(Tools.randomString());
     }
-  });
+  }, [setId]);
 
   return (
-    <div className="contact100-form-checkbox">
-      <input type="checkbox" className="input-checkbox100" {...props} id={id} />
+    <div className="ed-checkbox">
+      <input type="checkbox" {...props} id={id} />
       <label className="label-checkbox100" htmlFor={id}>
         {props.label}
       </label>

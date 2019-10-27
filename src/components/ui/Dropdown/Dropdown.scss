@@ -1,3 +1,5 @@
+@import '../../../index';
+
 .ed-dropdown {
   position: relative;
 
@@ -21,12 +23,10 @@
   &__trigger {
     cursor: pointer;
     transition: 0.5s background;
+    @include darkenHover();
 
     .dropdown-arrow {
       transition: 0.5s transform;
-    }
-    &:hover {
-      background: var(--bg-secondary);
     }
   }
 

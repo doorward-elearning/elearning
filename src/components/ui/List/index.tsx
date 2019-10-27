@@ -9,6 +9,10 @@ const List: React.FunctionComponent<ListProps> = props => {
       if (current.parentElement.classList.contains('ed-list__item')) {
         current.parentElement.classList.add('no-border');
       }
+      const computed = getComputedStyle(current);
+      if (computed.border && computed.border.includes('solid')) {
+        current.style.overflow = 'hidden';
+      }
     }
   }
   return (

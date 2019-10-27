@@ -1,11 +1,13 @@
-@import "../../../index";
+@import '../../../index';
 .ed-table {
   table {
     width: 100%;
     text-align: left;
     border-collapse: collapse;
 
-    th, tr, td {
+    th,
+    tr,
+    td {
       padding: var(--padding-lg) var(--padding);
     }
 
@@ -37,6 +39,13 @@
           td {
             &:before {
               background: rgba(0, 0, 0, 0.05);
+            }
+          }
+        }
+        &:active {
+          td {
+            &:before {
+              background: rgba(0, 0, 0, 0.1);
             }
           }
         }

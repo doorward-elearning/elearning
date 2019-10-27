@@ -17,16 +17,15 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   mini,
   rounded,
   className,
+  bordered = false,
   link,
   icon,
 }) => {
   className = classNames({
     'eb-button': true,
-    'eb-button--raised': !flat && !fab && !icon,
-    'db-button--icon': !!icon,
-    'db-button--fab': fab,
-    'btn-circle': rounded,
-    'eb-button--mini-fab': fab && mini,
+    mini,
+    bordered,
+    raised: !flat,
     [`btn-${theme}`]: true,
     [className || '']: true,
   });
@@ -38,6 +37,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       <Spinner />
       <Parent {...parentProps}>
         <button disabled={disabled} className={className} onClick={onClick} type={type}>
+          {icon && <i className="material-icons">{icon}</i>}
           {children}
         </button>
       </Parent>
@@ -49,11 +49,12 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   flat?: boolean;
-  theme?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger';
+  theme?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'accent';
   type?: 'submit' | 'reset' | 'button';
   fab?: boolean;
   mini?: boolean;
   rounded?: boolean;
+  bordered?: boolean;
   icon?: string;
   className?: string;
   link?: string;

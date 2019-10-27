@@ -1,14 +1,15 @@
-import React, { ReactNode, useRef, useState } from 'react';
+import React, { ReactNode, useRef } from 'react';
 import './Accordion.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import useHeightTransition from '../../../hooks/useHeightTransition';
+import { UseAccordion } from '../../../hooks/useAccordion';
 
 const Accordion: React.FunctionComponent<AccordionProps> = props => {
   const body: { current: HTMLDivElement | null } = useRef(null);
-  const [open, setOpen] = useState(props.open);
+  const { open } = props.useAccordion;
 
-  useHeightTransition(body, !!open, [open]);
+  useHeightTransition(body, open, [open], 400);
 
   return (
     <div
@@ -17,7 +18,7 @@ const Accordion: React.FunctionComponent<AccordionProps> = props => {
         open,
       })}
     >
-      <div className="ed-accordion__title" onClick={(): void => setOpen(!open)}>
+      <div className="ed-accordion__title">
         <Icon className="ed-accordion__title__arrow" icon="keyboard_arrow_right" />
         {props.children[0]}
       </div>
@@ -30,7 +31,7 @@ const Accordion: React.FunctionComponent<AccordionProps> = props => {
 
 export interface AccordionProps {
   children: [ReactNode, ReactNode];
-  open?: boolean;
+  useAccordion: UseAccordion;
 }
 
 export default Accordion;
