@@ -1,0 +1,28 @@
+.ed-accordion {
+  overflow: hidden;
+  display: grid;
+  grid-gap: var(--padding);
+
+  &__body {
+    transition: 0.5s max-height, 0.5s opacity;
+    margin: 0;
+  }
+
+  &__title {
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+    grid-gap: var(--padding);
+
+    &__arrow{
+      transition: 0.5s transform;
+    }
+  }
+
+  &.open {
+    .ed-accordion__title__arrow{
+      transform: rotate(90deg);
+    }
+  }
+}

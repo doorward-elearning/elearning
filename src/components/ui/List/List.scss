@@ -1,0 +1,36 @@
+.ed-list {
+  background: var(--bg-primary);
+  list-style: none;
+  position: relative;
+  border: 1px solid var(--line-color);
+  padding: 0 0 0 var(--padding-xlg);
+  margin: 0;
+
+  .ed-list__item {
+    padding: var(--padding) var(--padding);
+    position: relative;
+    display: grid;
+    align-items: center;
+    min-height: var(--list-item-height);
+
+    &:before {
+      content: '';
+      position: absolute;
+      left: -50%;
+      bottom: 0;
+      width: 200%;
+      height: 1px;
+      background: var(--line-color);
+    }
+
+    &.no-border {
+      &:before {
+        display: none;
+      }
+    }
+  }
+
+  .ed-list {
+    border: none;
+  }
+}

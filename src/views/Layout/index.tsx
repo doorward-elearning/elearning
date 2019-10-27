@@ -34,6 +34,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   renderHeaderEnd,
   features = [],
   actionBtnProps,
+  noNavBar,
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
@@ -42,7 +43,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const className = classNames({
     'ed-page-layout': true,
     sidebar: navFeatures.includes(NavbarFeatures.HAMBURGER),
-    navBar: navFeatures.length,
+    navBar: !noNavBar && navFeatures.length,
   });
 
   const toggleSidebar = (): void => {
@@ -57,7 +58,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           <NavBar history={history} location={location} features={navFeatures} onHamburgerClick={toggleSidebar} />
         </div>
         <div className="ed-page-layout__sidebar">
-          <SideBar history={history} location={location} collapsed={sidebarCollapsed} />
+          <SideBar
+            navBarShown={!noNavBar}
+            history={history}
+            onHamburgerClick={toggleSidebar}
+            location={location}
+            collapsed={sidebarCollapsed}
+          />
         </div>
         <div className="ed-page-layout__content">
           <Container>
@@ -83,10 +90,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               </div>
               <div className="ed-page-layout__header--middle" />
               <div className="ed-page-layout__header--end">
+                {renderHeaderEnd && renderHeaderEnd()}
                 <Feature feature={LayoutFeatures.ACTION_BUTTON}>
                   <ActionButton {...actionBtnProps} />
                 </Feature>
-                {renderHeaderEnd}
               </div>
             </div>
             {children}
@@ -107,6 +114,7 @@ export interface LayoutProps extends PageComponent {
   features?: Array<LayoutFeatures | string | typeof LayoutFeatures>;
   header?: string;
   actionBtnProps?: ActionButtonProps;
+  noNavBar?: boolean;
   renderHeaderEnd?: () => JSX.Element;
 }
 

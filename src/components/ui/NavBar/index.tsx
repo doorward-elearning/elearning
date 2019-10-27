@@ -10,6 +10,7 @@ import CONSTANTS from '../../../assets/constants';
 import { PageComponent } from '../../../types';
 import ROUTES from '../../../routes/routes';
 import { Location, MemoryHistory } from 'history';
+import NavLogo from './NavLogo';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
@@ -24,25 +25,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
     <FeatureProvider features={features}>
       <div className="ed-navBar">
         <div className="ed-navBar__start">
-          <Feature feature={NavbarFeatures.HAMBURGER}>
-            <Icon className="hamburger" icon="menu" onClick={onHamburgerClick} />
-          </Feature>
-          <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
-            <Icon
-              icon="arrow_back"
-              onClick={(): void => {
-                history.goBack();
-              }}
-            />
-          </Feature>
-          <Feature feature={NavbarFeatures.PAGE_LOGO}>
-            <div className="page-logo">
-              <Link to={ROUTES.home.link}>
-                <Icon icon="school" className="image" />
-                <span className="logo__title">{CONSTANTS.APP_NAME}</span>
-              </Link>
-            </div>
-          </Feature>
+          <NavLogo features={features} onHamburgerClick={onHamburgerClick} history={history} />
         </div>
         <div className="ed-navBar__inner">
           <Feature feature={NavbarFeatures.SEARCH_BAR}>

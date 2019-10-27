@@ -42,7 +42,7 @@ const base = {
   '--button-danger-color': '#f1f1f1',
   '--button-warning': '#ff4a52',
   '--button-warning-color': '#000000',
-  '--submitting-spinner-background': 'rgba(255, 255, 255, .4)'
+  '--submitting-spinner-background': 'rgba(255, 255, 255, .4)',
 };
 
 const dark: Theme = {

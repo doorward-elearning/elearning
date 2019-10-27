@@ -3,33 +3,13 @@ import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { MemoryHistory } from 'history';
 import { SubMenuItem } from '../../../hooks/useSidebarSchema';
+import useHeightTransition from '../../../hooks/useHeightTransition';
 
 const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
   const { menu, active, open, collapsed } = props;
   const list: { current: any } = useRef(null);
 
-  const modifyHeight = (): void => {
-    const { current } = list;
-    if (current) {
-      if (open) {
-        current.style.display = 'block';
-        current.style.opacity = 1;
-        current.style.maxHeight = current.scrollHeight + 'px';
-      } else {
-        setTimeout(() => {
-          current.style.display = 'none';
-        }, 500);
-        current.style.maxHeight = 0;
-        current.style.opacity = 0;
-      }
-    }
-  };
-  useEffect(modifyHeight, [open, collapsed]);
-
-  useEffect(() => {
-    setTimeout(modifyHeight, 10);
-  }, [list]);
-
+  useHeightTransition(list, open, [open, collapsed]);
   return (
     <ul className="sub-menu" ref={list}>
       {menu.map(item => {

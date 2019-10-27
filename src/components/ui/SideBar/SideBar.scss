@@ -35,8 +35,22 @@
   transition: 0.5s width;
   border-right: 1px solid var(--line-color);
 
+  .sidebar-logo {
+    display: grid;
+    align-items: center;
+    padding: 0 var(--padding-xlg);
+    height: var(--navBar-size);
+    border-bottom: 1px solid var(--primary);
+  }
+
   &.collapsed {
     width: var(--collapsed-sidebar-size);
+
+    .sidebar-logo {
+      .page-logo {
+        display: none;
+      }
+    }
 
     .sidemenu {
       overflow: visible;
