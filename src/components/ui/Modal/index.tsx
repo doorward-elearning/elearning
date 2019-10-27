@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler } from 'react';
+import React, { MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -27,6 +27,16 @@ const ModalContext = React.createContext<ModalContext>({
 });
 
 const Modal: ModalComponent = ({ features = [], children, useModal }) => {
+  const [visible, setVisible] = useState(false);
+  useEffect(() => {
+    if (useModal.isOpen) {
+      setTimeout(() => {
+        setVisible(true);
+      }, 100);
+    } else {
+      setVisible(false);
+    }
+  }, [useModal.isOpen]);
   const modal = useModalBlur(useModal);
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
@@ -35,7 +45,7 @@ const Modal: ModalComponent = ({ features = [], children, useModal }) => {
           ref={modal}
           className={classNames({
             'ed-modal': true,
-            open: useModal.isOpen,
+            open: visible,
           })}
         >
           <div className="ed-modal__background" onClick={() => useModal.closeModal()} />

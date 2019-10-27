@@ -1,17 +1,33 @@
-import { RefObject, useEffect, useRef } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { UseModal } from './useModal';
 
 const useModalBlur = (useModal: UseModal): RefObject<HTMLDivElement> => {
-  const modal = useRef(null);
+  const modal = useRef<HTMLDivElement | null>(null);
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    if (!useModal.isOpen) {
+      setTimeout(() => {
+        setVisible(false);
+      }, 500);
+    } else {
+      setVisible(true);
+    }
+  }, [useModal.isOpen]);
 
   useEffect(() => {
     const modalBox: HTMLElement | null = document.querySelector('#modal-box');
     if (modalBox) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      if (modal.current) modalBox.appendChild(modal.current);
+      if (useModal.isOpen) {
+        if (modal.current) modalBox.appendChild(modal.current);
+      } else if (!visible) {
+        modalBox.childNodes.forEach(child => {
+          modalBox.removeChild(child);
+        });
+      }
     }
-  }, [modal]);
+  }, [useModal.isOpen, visible]);
+
   useEffect(() => {
     const root: HTMLElement | null = document.querySelector('#root');
     if (root) {
