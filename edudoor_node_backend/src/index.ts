@@ -1,13 +1,14 @@
 import debug from 'debug';
-import dotenv from 'dotenv';
 import http from 'http';
-import app from './app';
 import environment from './config/environment';
+import app from './app';
+
+const dotenv = require('dotenv');
 
 dotenv.config();
 const logger = debug('log');
 const server = http.createServer(app);
 
-server.listen(env.PORT, () => {
+server.listen(environment.PORT, () => {
   logger(`Find me on http://localhost:${environment.PORT}`);
 });

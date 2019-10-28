@@ -1,4 +1,4 @@
-const env = require('./environment.js');
+import env from './environment';
 
 const defaultConfig = {
   databaseUrl: env.DATABASE_URL,
