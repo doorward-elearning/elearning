@@ -4,6 +4,9 @@ import path from 'path';
 import expressValidator from 'express-validator';
 import express from 'express';
 import modules from './modules';
+import ApiRequest from './utils/ApiRequest';
+
+ApiRequest.setBaseURL(process.env.OPENOLAT_API_URL);
 
 const app = express();
 
@@ -27,7 +30,7 @@ modules(app);
 // catch 404 and forward to error handler
 app.use((req, res) => {
   res.status(404).json({
-    message: 'Not found'
+    message: 'Not found',
   });
 });
 
