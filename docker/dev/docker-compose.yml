@@ -8,15 +8,15 @@ services:
   edudoor_frontend:
     container_name: edudoor_frontend
     build:
-      context: ../../
+      context: ../../edudoor_frontend
       dockerfile: docker/dev/Dockerfile
     links:
       - edudoor_backend
     volumes:
       - /usr/app/node_modules
-      - ../../:/usr/app
+      - ../../edudoor_frontend:/usr/app
     env_file:
-      - ../../.env
+      - ../../edudoor_frontend/.env
     environment:
       REACT_APP_BASE_URL: http://localhost:5000/openolat/restapi/
       REACT_APP_REQUEST_DELAY: 0
