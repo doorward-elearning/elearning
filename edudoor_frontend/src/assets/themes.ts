@@ -29,7 +29,7 @@ const base = {
   '--page-font-size': '1em',
   '--list-item-height': '40px',
   '--list-item-width': '200px',
-  '--modal-background': 'rgba(0, 0, 0, .2)',
+  '--modal-background': 'rgba(0, 0, 0, .5)',
   '--modal-header-height': '70px',
   '--modal-footer-height': '70px',
   '--button-default': '#ccc',
@@ -59,7 +59,7 @@ const dark: Theme = {
   '--shadow-color': '#282828',
   '--shadow-color--darker': '#1d1d1d',
   '--text-error': 'rgb(255,74,82)',
-  '--modal-background': 'rgba(0, 0, 0, .8)',
+  '--modal-background': 'rgba(0, 0, 0, .5)',
   '--submitting-spinner-background': 'rgba(0, 0, 0, .4)',
   '--accent': '#c76a00',
 };
