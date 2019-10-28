@@ -1,6 +1,7 @@
-import { Router } from 'express';
+// @ts-ignore
+import express from 'express';
 
-const RootRouter = new Router();
+const RootRouter = express.Router();
 
 RootRouter.get('/', (req, res) => {
   res.status(200).json({
