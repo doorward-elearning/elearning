@@ -7,6 +7,7 @@ import modules from './modules';
 import ApiRequest from './utils/ApiRequest';
 
 ApiRequest.setBaseURL(process.env.OPENOLAT_API_URL);
+ApiRequest.setAuth(process.env.OPENOLAT_USERNAME, process.env.OPENOLAT_PASSWORD);
 
 const app = express();
 

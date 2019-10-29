@@ -13,7 +13,10 @@
   "rules": {
     "max-len": ["warn", { "code": 120, "ignoreUrls": true }],
     "consistent-return": 0,
+    "arrow-body-style": "off",
+    "operator-linebreak": "off",
     "comma-dangle": 0,
+    "space-before-function-paren": "off",
     "arrow-parens": "off",
     "no-fallthrough": 0,
     "implicit-arrow-linebreak": 0,
