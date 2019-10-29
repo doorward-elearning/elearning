@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const UserRoles = sequelize.define(
-    'UserRoles',
+  const UserRole = sequelize.define(
+    'UserRole',
     {
       userId: {
         type: DataTypes.INTEGER,
@@ -13,15 +13,15 @@ module.exports = (sequelize, DataTypes) => {
     },
     { paranoid: true }
   );
-  UserRoles.associate = function(models) {
-    UserRoles.hasOne(models.User, {
+  UserRole.associate = function(models) {
+    UserRole.belongsTo(models.User, {
       foreignKey: 'userId',
       as: 'user',
     });
-    UserRoles.hasOne(models.Role, {
+    UserRole.belongsTo(models.Role, {
       foreignKey: 'roleId',
       as: 'role',
     });
   };
-  return UserRoles;
+  return UserRole;
 };

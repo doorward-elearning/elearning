@@ -1,12 +1,20 @@
-import Api from '../../openolat/api';
+import * as bcrypt from 'bcrypt';
+import models from '../../database/models';
+import JWT from '../../utils/auth';
+import includes from '../../utils/includes';
 
 class UserController {
   static async login(req) {
-    const { username, password } = req.body;
+    const {
+      body: { username, password },
+    } = req;
+    const user = await models.User.unscoped().findOne({ where: { username }, include: includes.User });
 
-    const response = await Api.auth.login(username, password);
-
-    return [200, [response.data], 'Login successful'];
+    if (await bcrypt.compare(password, user.password)) {
+      delete user.dataValues.password;
+      return [200, { token: JWT.generate(user.dataValues), user }, 'Login successful'];
+    }
+    return [403, undefined, 'Invalid login credentials'];
   }
 }
 

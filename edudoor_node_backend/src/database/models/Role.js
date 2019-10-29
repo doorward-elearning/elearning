@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
     },
-    { paranoid: true }
+    { paranoid: true, defaultScope: {} }
   );
   Role.associate = function(models) {
     Role.belongsToMany(models.User, {

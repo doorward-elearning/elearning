@@ -47,6 +47,8 @@ export default class BaseValidator {
       const found = await Model.findOne({ where: query(req) });
       if (!found) {
         throwError();
+      } else {
+        req.model = { [Model.name.toLowerCase()]: found };
       }
     };
   }

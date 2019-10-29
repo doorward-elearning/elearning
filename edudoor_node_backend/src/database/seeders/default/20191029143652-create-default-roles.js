@@ -1,9 +1,11 @@
+import * as roles from '../../../utils/roles';
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.bulkInsert('Roles', [
       {
         id: 1,
-        name: 'Administrator',
+        name: roles.SUPER_ADMINISTRATOR,
         description: 'The system administrator who is responsible for all functions in the application',
         organizationId: 1,
         createdAt: new Date(),
@@ -11,7 +13,7 @@ module.exports = {
       },
       {
         id: 2,
-        name: 'Teacher',
+        name: roles.TEACHER,
         description: 'A user who can manage courses, modules and other resources',
         organizationId: 1,
         createdAt: new Date(),
@@ -19,7 +21,7 @@ module.exports = {
       },
       {
         id: 3,
-        name: 'Student',
+        name: roles.STUDENT,
         description: 'A learner in the system',
         organizationId: 1,
         createdAt: new Date(),
