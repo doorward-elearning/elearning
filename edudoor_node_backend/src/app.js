@@ -3,6 +3,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import expressValidator from 'express-validator';
 import express from 'express';
+import cors from 'cors';
 import modules from './modules';
 import ApiRequest from './utils/ApiRequest';
 
@@ -13,6 +14,7 @@ const app = express();
 
 // view engine setup
 
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

@@ -12,6 +12,7 @@ module.exports = {
         id: 1,
         username: 'administrator',
         password,
+        status: 'ACTIVE_NOT_DELETABLE',
         createdAt: new Date(),
         updatedAt: new Date(),
         email: 'gitaumoses4@gmail.com',

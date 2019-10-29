@@ -45,6 +45,7 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM('ACTIVE', 'PENDING', 'ACTIVE_NOT_DELETABLE', 'LOGIN_DENIED'),
+        defaultValue: 'PENDING',
       },
       createdAt: {
         allowNull: false,

@@ -1,9 +1,7 @@
-import root from './root';
 import users from './users';
 import MRouter from '../utils/router';
 
 const modules = {
-  root,
   users,
 };
 

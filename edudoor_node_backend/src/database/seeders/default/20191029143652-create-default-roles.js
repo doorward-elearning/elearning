@@ -1,4 +1,4 @@
-import * as roles from '../../../utils/roles';
+const roles = require('../../../utils/roles');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
