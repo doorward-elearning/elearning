@@ -7,20 +7,20 @@ export const validateCreateCourse = async req => {
   const course = await models.Course.findOne({
     where: {
       title: req.body.title,
-      include: [
-        {
-          model: models.User,
-          as: 'author',
-          where: {
-            organizationId,
-          },
-        },
-      ],
     },
+    include: [
+      {
+        model: models.User,
+        as: 'author',
+        where: {
+          organizationId,
+        },
+      },
+    ],
   });
 
   req
     .checkBody('title')
-    .custom(() => course)
+    .custom(() => !course)
     .withMessage('A course with this title already exists');
 };

@@ -1,5 +1,5 @@
 import models from '../../database/models';
-import { CourseInclude } from '../../utils/includes';
+import { CourseInclude, MyCoursesInclude } from '../../utils/includes';
 
 class CourseController {
   static async createCourse(req) {
@@ -9,7 +9,7 @@ class CourseController {
     } = req;
 
     const course = await models.Course.create(
-      { ...other, creatorId: userId },
+      { ...other, createdBy: userId },
       {
         include: CourseInclude,
       }
@@ -27,6 +27,17 @@ class CourseController {
     await course.reload();
 
     return [201, { course }, 'Course created successfully'];
+  }
+
+  static async getCourses(req) {
+    const {
+      user: { organizationId },
+    } = req;
+    const courses = await models.Course.findAll({
+      include: MyCoursesInclude(organizationId),
+    });
+
+    return [200, { courses }];
   }
 }
 

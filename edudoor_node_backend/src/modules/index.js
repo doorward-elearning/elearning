@@ -1,8 +1,10 @@
-import users from './users';
 import MRouter from '../utils/router';
+import users from './users';
+import courses from './courses';
 
 const modules = {
   users,
+  courses,
 };
 
 const apiVersion = '/api/v1';

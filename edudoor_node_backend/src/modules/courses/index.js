@@ -1,8 +1,12 @@
 import MRouter from '../../utils/router';
-import Authorization from '../../middleware/UserValidator';
+import Authorization from '../../middleware/Authorization';
+import { validateCreateCourse } from './validate';
+import CourseController from './CourseController';
 
-const Router = new MRouter(Authorization.authenticate);
+const Router = new MRouter('/courses', Authorization.authenticate);
 
-Router.post('/courses');
+Router.post('/', validateCreateCourse, CourseController.createCourse);
+
+Router.get('/', CourseController.getCourses);
 
 export default Router;

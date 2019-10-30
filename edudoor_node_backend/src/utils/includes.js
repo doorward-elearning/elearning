@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import models from '../database/models';
 
 export const UserInclude = [
@@ -22,3 +23,14 @@ export const CourseInclude = [
     as: 'modules',
   },
 ];
+
+export const MyCoursesInclude = organizationId =>
+  _.merge(CourseInclude, [
+    {
+      model: models.User,
+      as: 'author',
+      where: {
+        organizationId,
+      },
+    },
+  ]);

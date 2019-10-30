@@ -6,15 +6,21 @@ const errorHandler = middleware => middleware.map(m => Validation.withErrorHandl
 const methods = ['post', 'delete', 'get', 'put', 'patch'];
 
 class MRouter {
-  constructor(...defaultMiddleware) {
+  constructor(path = '', ...defaultMiddleware) {
     this.Router = express.Router();
     this.defaultMiddleware = defaultMiddleware;
 
     methods.forEach(method => {
       this[method] = (route, ...middleware) => {
-        this.Router[method](route, errorHandler(MRouter.uniqueMiddleware(this.defaultMiddleware, middleware)));
+        let newPath = path.endsWith('/') ? path : `${path}/`;
+        newPath += route.startsWith('/') ? route.substr(1) : route;
+        this.Router[method](newPath, errorHandler(MRouter.uniqueMiddleware(this.defaultMiddleware, middleware)));
       };
     });
+  }
+
+  use(path, router) {
+    this.Router.use(path, router.Router);
   }
 
   exclude(...middleware) {
