@@ -37,7 +37,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const [course, setCourse] = useState<Course | undefined>(undefined);
 
   useEffect(() => {
-    setCourse((courses.data || []).find(course => course.id === +courseId));
+    setCourse((courses.data.courses || []).find(course => course.id === +courseId));
   }, [courses]);
   const title = course ? course.title : '';
 

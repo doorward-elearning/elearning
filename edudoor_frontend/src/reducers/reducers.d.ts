@@ -36,7 +36,7 @@ export type ReducerBuilder<R extends WebComponentState> = {
   middleware: Array<ReduxReducerApiAction<any, R> | ReduxApiAction<any, R>>;
 };
 
-export interface ReduxApiAction<T extends ApiResponse = ApiResponse> {
+export interface ReduxApiAction<T extends ApiResponse> {
   action: string;
   api: ApiCall<T>;
   apiMiddleware?: ApiSagaMiddleware<T>;
@@ -44,8 +44,7 @@ export interface ReduxApiAction<T extends ApiResponse = ApiResponse> {
 
 export type StaticReducer<S = any, A extends Action = AnyAction> = (state: S, action: A) => S;
 
-export interface ReduxReducerApiAction<T extends ApiResponse = ApiResponse, R = WebComponentState<T>>
-  extends ReduxApiAction<T> {
+export interface ReduxReducerApiAction<T extends ApiResponse, R = WebComponentState<T>> extends ReduxApiAction<T> {
   key: string;
   reducer?: StaticReducer<R, Action>;
 }

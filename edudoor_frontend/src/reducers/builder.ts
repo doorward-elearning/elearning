@@ -22,7 +22,7 @@ export const webComponentState: WebComponentState<any> = {
   errors: {},
 };
 
-function simpleReducer<T extends WebComponentState<R>, R>(initialState: T, actionType: string): Reducer<T, Action> {
+function simpleReducer<T>(initialState: T, actionType: string): Reducer<T, Action> {
   return (state: T = initialState, action: Action): T => {
     if (action.type === actionType) {
       return {
@@ -58,11 +58,7 @@ function simpleReducer<T extends WebComponentState<R>, R>(initialState: T, actio
   };
 }
 
-function createReducer<T extends WebComponentState<R>, R>(
-  initialState: T,
-  actionType: string,
-  reducer?: Reducer<T, Action>
-): Reducer<T, Action> {
+function createReducer<T>(initialState: T, actionType: string, reducer?: Reducer<T, Action>): Reducer<T, Action> {
   const reducers = [simpleReducer(initialState, actionType)];
   if (reducer) {
     reducers.push(reducer);
@@ -134,7 +130,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
   return watchForAction;
 }
 
-export default function reducerBuilder<T extends WebComponentState<R> = WebComponentState<any>, R = any>({
+export default function reducerBuilder<T = WebComponentState<any>>({
   initialState = webComponentState,
   name,
   middleware,
@@ -147,7 +143,7 @@ export default function reducerBuilder<T extends WebComponentState<R> = WebCompo
     if ((m as ReduxReducerApiAction<any, T>).key) {
       const rm = m as ReduxReducerApiAction<any, T>;
 
-      reducers[rm.key] = createReducer<T, R>(initialState, m.action, rm.reducer as Reducer<T, Action>);
+      reducers[rm.key] = createReducer<T>(initialState, m.action, rm.reducer as Reducer<T, Action>);
     }
     const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);
     watchers.push(watcher);

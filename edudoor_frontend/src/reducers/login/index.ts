@@ -5,9 +5,9 @@ import Tools from '../../utils/Tools';
 import { LOGIN_USER } from './types';
 import { LoginResponse } from '../../services/models/responseBody';
 
-export interface LoginState extends WebComponentState<LoginResponse> {}
+export type LoginState = WebComponentState<LoginResponse>;
 
-export const loginUser: ReduxReducerApiAction<LoginResponse, LoginState> = {
+export const loginUser: ReduxReducerApiAction<LoginResponse> = {
   key: 'login',
   action: LOGIN_USER,
   api: Api.users.authenticate,

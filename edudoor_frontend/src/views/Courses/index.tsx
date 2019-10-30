@@ -32,7 +32,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <WebComponentItems list={courses.data} loading={courses.fetching}>
+      <WebComponentItems list={courses.data.courses} loading={courses.fetching}>
         {(list): JSX.Element => <CourseTable courses={list} history={props.history} />}
       </WebComponentItems>
     </Layout>

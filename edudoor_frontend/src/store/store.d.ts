@@ -1,14 +1,11 @@
-import { Action, WebComponentState } from '../reducers/reducers';
+import { Action } from '../reducers/reducers';
 import { Reducer } from 'react';
 import { LoginState } from '../reducers/login';
-import { Course } from '../services/models';
+import { CourseState } from '../reducers/courses';
 
 export type State = {
   login: LoginState;
-  courses: {
-    courseList: WebComponentState<Array<Course>>;
-    newCourse: WebComponentState;
-  };
+  courses: CourseState;
 };
 
 export type ReducerMapObject<S = any, A extends Action> = {

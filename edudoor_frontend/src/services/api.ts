@@ -1,6 +1,6 @@
 import Request from './request';
 import { CreateCourseBody } from './models/requestBody';
-import { LoginResponse } from './models/responseBody';
+import { CourseListResponse, CreateCourseResponse, LoginResponse } from './models/responseBody';
 
 const q = require('querystring').stringify;
 
@@ -12,8 +12,8 @@ const Api = {
       POST('users/authenticate', body),
   },
   courses: {
-    create: async (course: CreateCourseBody): Promise<any> => POST('/courses', course),
-    list: (): Promise<any> => GET('/courses'),
+    create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
+    list: (): Promise<CourseListResponse> => GET('/courses'),
   },
 };
 
