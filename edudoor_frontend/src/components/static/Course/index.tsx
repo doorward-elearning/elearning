@@ -3,7 +3,7 @@ import Card from '../../ui/Card';
 import EImage from '../../ui/Image';
 import './Course.scss';
 import Header from '../../ui/Header';
-import { CourseResponse } from '../../../services/responseBodies';
+import { Course } from '../../../services/models';
 
 const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
   return (
@@ -22,7 +22,7 @@ const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
 };
 
 export interface CourseProps {
-  course: CourseResponse;
+  course: Course;
   onClick: MouseEventHandler;
 }
 

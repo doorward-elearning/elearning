@@ -17,16 +17,15 @@ import ROUTES from '../../routes/routes';
 import { clearLoginAction, loginUserAction } from '../../reducers/login/actions';
 import useAction from '../../hooks/useActions';
 import loginForm from '../../components/static/Forms/validations/loginForm';
+import { State } from '../../store/store';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
-  const [errors, setErrors] = useState();
-  const [actions, setActions] = useState<FormikActions<LoginFormState> | null>(null);
   const initialState = {};
   const loginUser = useAction(loginUserAction);
   const clearLogin = useAction(clearLoginAction);
 
-  const login: WebComponentState<any> = useSelector((state: any) => state.login);
+  const login = useSelector((state: State) => state.login);
 
   useEffect(() => {
     if (login.data) {
@@ -35,20 +34,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
     }
   }, [login.data]);
 
-  useEffect(() => {
-    if (actions && errors) {
-      actions.setErrors({ username: 'Invalid username / password' });
-      actions.setSubmitting(false);
-      setErrors(null);
-    }
-  }, [errors]);
-
-  useEffect(() => {
-    setErrors(login.errors);
-  }, [login.errors]);
-
   const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
-    setActions(actions);
     loginUser(values);
   };
 
@@ -57,7 +43,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   ) : (
     <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]}>
       <div className="page page__login">
-        <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={loginForm}>
+        <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={loginForm} state={login}>
           {(props: FormikProps<LoginFormState>): JSX.Element => (
             <Card>
               <Card.Header>

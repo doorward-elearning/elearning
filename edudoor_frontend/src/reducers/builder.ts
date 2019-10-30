@@ -1,4 +1,4 @@
-import { combineReducers, Reducer } from 'redux';
+import { combineReducers, Reducer, ReducersMapObject } from 'redux';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import {
   Action,
@@ -9,8 +9,9 @@ import {
   SagaFunction,
   WebComponentState,
 } from './reducers';
-import { ApiCall } from '../services/services';
+import { ApiCall, ApiResponse } from '../services/services';
 import chainReducers from './chain';
+import { AxiosResponse } from 'axios';
 
 export const webComponentState: WebComponentState<any> = {
   fetched: false,
@@ -18,11 +19,11 @@ export const webComponentState: WebComponentState<any> = {
   submitted: false,
   submitting: false,
   data: null,
-  errors: null,
+  errors: {},
 };
 
-function simpleReducer<T extends WebComponentState<R>, R>(actionType: string): Reducer {
-  return (state: T, action: Action): T => {
+function simpleReducer<T extends WebComponentState<R>, R>(initialState: T, actionType: string): Reducer<T, Action> {
+  return (state: T = initialState, action: Action): T => {
     if (action.type === actionType) {
       return {
         ...state,
@@ -30,7 +31,7 @@ function simpleReducer<T extends WebComponentState<R>, R>(actionType: string): R
         fetching: true,
         submitted: false,
         submitting: true,
-        errors: null,
+        errors: {},
       };
     } else if (action.type === `${actionType}_SUCCESS`) {
       return {
@@ -40,7 +41,7 @@ function simpleReducer<T extends WebComponentState<R>, R>(actionType: string): R
         submitted: true,
         submitting: false,
         data: action.payload,
-        errors: null,
+        errors: {},
       };
     } else if (action.type === `${actionType}_FAILURE`) {
       return {
@@ -58,18 +59,22 @@ function simpleReducer<T extends WebComponentState<R>, R>(actionType: string): R
 }
 
 function createReducer<T extends WebComponentState<R>, R>(
-  initialState: T | WebComponentState<any>,
+  initialState: T,
   actionType: string,
-  reducer?: Reducer
-): Reducer {
-  const reducers = [simpleReducer(actionType)];
+  reducer?: Reducer<T, Action>
+): Reducer<T, Action> {
+  const reducers = [simpleReducer(initialState, actionType)];
   if (reducer) {
     reducers.push(reducer);
   }
-  return chainReducers<any>(initialState)(...reducers);
+  return chainReducers<T>(initialState)(...reducers);
 }
 
-const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: ApiSagaMiddleware): SagaFunction => {
+function createMiddleware<T extends ApiResponse = ApiResponse>(
+  actionType: string,
+  endpoint: ApiCall<T>,
+  middleware?: ApiSagaMiddleware<T>
+): SagaFunction {
   function* makeApiCall(action: Action): IterableIterator<any> {
     const payload = action.payload || {};
     let args: Array<any>;
@@ -82,7 +87,7 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
       if (middleware && middleware.before) {
         args = middleware.before(args);
       }
-      const response = yield call(endpoint, ...args);
+      const response: AxiosResponse<T> | undefined = yield call(endpoint, ...args);
       if (response) {
         let { data } = response;
         if (middleware && middleware.after) {
@@ -100,12 +105,14 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
         });
       }
     } catch (error) {
-      const data = { status: 0, payload: null };
+      let data: ApiResponse;
       if (error.response) {
-        data.status = error.response.status;
-        data.payload = error.response.payload;
+        data = error.response.data;
       } else {
-        data.status = 500;
+        data = {
+          success: false,
+          message: 'Server facing technical issue. Please try again!',
+        };
       }
       if (middleware && middleware.error) {
         yield middleware.error(data);
@@ -115,9 +122,7 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
       }
       yield put({
         type: `${actionType}_FAILURE`,
-        payload: {
-          ...data,
-        },
+        payload: data,
       });
     }
   }
@@ -127,19 +132,22 @@ const createMiddleware = (actionType: string, endpoint: ApiCall, middleware?: Ap
   }
 
   return watchForAction;
-};
+}
 
 export default function reducerBuilder<T extends WebComponentState<R> = WebComponentState<any>, R = any>({
   initialState = webComponentState,
   name,
   middleware,
-}: ReducerBuilder<T>): BuiltReducer {
-  const reducers: { [name: string]: Reducer<any, Action> } = {};
+}: ReducerBuilder<T>): BuiltReducer<T> {
+  const reducers: ReducersMapObject = {};
+
   const watchers: Array<SagaFunction> = [];
+
   middleware.forEach(m => {
-    if ((m as ReduxReducerApiAction).key) {
-      const rm = m as ReduxReducerApiAction;
-      reducers[rm.key] = createReducer<T, R>(initialState, m.action, rm.reducer);
+    if ((m as ReduxReducerApiAction<any, T>).key) {
+      const rm = m as ReduxReducerApiAction<any, T>;
+
+      reducers[rm.key] = createReducer<T, R>(initialState, m.action, rm.reducer as Reducer<T, Action>);
     }
     const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);
     watchers.push(watcher);

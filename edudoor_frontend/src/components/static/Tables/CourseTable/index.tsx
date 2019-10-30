@@ -1,5 +1,4 @@
 import React from 'react';
-import { CourseResponse } from '../../../../services/responseBodies';
 import Table from '../../../ui/Table';
 import TableHeader from '../../../ui/Table/TableHeader';
 import TableBody from '../../../ui/Table/TableBody';
@@ -7,6 +6,7 @@ import { MemoryHistory } from 'history';
 import ROUTES from '../../../../routes/routes';
 import EImage from '../../../ui/Image';
 import './CourseTable.scss';
+import { Course } from '../../../../services/models';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
   return (
@@ -15,7 +15,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
       <TableBody
         data={props.courses}
         onRowClick={(course): void => {
-          props.history.push(ROUTES.viewCourse.withParams({ courseId: course.key }));
+          props.history.push(ROUTES.viewCourse.withParams({ courseId: course.id }));
         }}
         getCell={(row, index, column): string | JSX.Element => {
           const data = {
@@ -36,7 +36,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
 };
 
 export interface CourseTableProps {
-  courses: Array<CourseResponse>;
+  courses: Array<Course>;
   history: MemoryHistory;
 }
 

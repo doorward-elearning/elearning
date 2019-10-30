@@ -8,7 +8,6 @@ import { State } from '../../store/store';
 import { match } from 'react-router';
 import useAction from '../../hooks/useActions';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
-import { CourseResponse } from '../../services/responseBodies';
 import Button from '../../components/ui/Buttons/Button';
 import Accordion from '../../components/ui/Accordion';
 import List from '../../components/ui/List';
@@ -21,6 +20,7 @@ import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import AddModuleForm from '../../components/static/Forms/AddModuleForm';
 import AddStudentForm from '../../components/static/Forms/AddStudentForm';
+import { Course } from '../../services/models';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const { setTitle } = useRoutes();
@@ -34,10 +34,10 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const courseId = props.match.params.courseId;
 
   const courses = useSelector((state: State) => state.courses.courseList);
-  const [course, setCourse] = useState<CourseResponse | undefined>(undefined);
+  const [course, setCourse] = useState<Course | undefined>(undefined);
 
   useEffect(() => {
-    setCourse((courses.data || []).find(course => course.key === +courseId));
+    setCourse((courses.data || []).find(course => course.id === +courseId));
   }, [courses]);
   const title = course ? course.title : '';
 

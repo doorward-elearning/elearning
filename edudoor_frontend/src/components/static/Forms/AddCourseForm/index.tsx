@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ArrayHelpers, FieldArray, FormikActions, FormikProps, FormikValues } from 'formik';
+import { ArrayHelpers, FieldArray, FormikProps } from 'formik';
 import './AddCourseForm.scss';
 import Header from '../../../ui/Header';
 import TextField from '../../../ui/Input/TextField';
@@ -8,7 +8,6 @@ import Icon from '../../../ui/Icon';
 import Button from '../../../ui/Buttons/Button';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import NumberField from '../../../ui/Input/NumberField';
-import { CreateCourseBody } from '../../../../services/requestBodies';
 import Form from '../../../ui/Form';
 import addCourseForm from '../validations/addCourseForm';
 import ROUTES from '../../../../routes/routes';
@@ -16,6 +15,7 @@ import Modal from '../../../ui/Modal';
 import { UseModal } from '../../../../hooks/useModal';
 import { MemoryHistory } from 'history';
 import { OnFormSubmit } from '../../../../types';
+import { CreateCourseBody } from '../../../../services/models/requestBody';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,

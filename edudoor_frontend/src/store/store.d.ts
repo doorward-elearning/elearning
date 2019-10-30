@@ -1,11 +1,12 @@
 import { Action, WebComponentState } from '../reducers/reducers';
 import { Reducer } from 'react';
-import { CourseResponse } from '../services/responseBodies';
+import { LoginState } from '../reducers/login';
+import { Course } from '../services/models';
 
 export type State = {
-  login: WebComponentState;
+  login: LoginState;
   courses: {
-    courseList: WebComponentState<Array<CourseResponse>>;
+    courseList: WebComponentState<Array<Course>>;
     newCourse: WebComponentState;
   };
 };

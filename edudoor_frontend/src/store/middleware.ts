@@ -9,7 +9,7 @@ import courses from '../reducers/courses';
 const sagas: IterableIterator<any>[] = [];
 const state: ReducerMapObject<any, any> = {};
 
-const build = (reducers: BuiltReducer[]): void => {
+const build = (reducers: BuiltReducer<any>[]): void => {
   reducers.forEach(reducer => {
     reducer.watchers.forEach(watcher => {
       sagas.push(watcher());

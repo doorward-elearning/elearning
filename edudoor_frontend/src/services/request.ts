@@ -23,7 +23,7 @@ export default class Request {
 
   public static setAuth(): void {
     if (Tools.isLoggedIn()) {
-      service.defaults.headers['Authorization'] = `Basic ${Tools.getToken()}`;
+      service.defaults.headers['Authorization'] = `Bearer ${Tools.getToken()}`;
     }
   }
 

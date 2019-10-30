@@ -1,6 +1,6 @@
-import { ApiCall } from '../types';
-import { Action as ReduxAction, Reducer } from 'redux';
+import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { Dispatch } from 'react';
+import { ApiCall, ApiError, ApiResponse } from '../services/services';
 
 export type SagaFunction = () => IterableIterator<any>;
 
@@ -19,39 +19,39 @@ export interface WebComponentState<T> {
   fetched: boolean;
   submitting: boolean;
   submitted: boolean;
-  data: T | null;
-  errors: any;
+  data: T;
+  errors: ApiError;
 }
 
-export interface ApiSagaMiddleware {
+export interface ApiSagaMiddleware<T extends ApiResponse> {
   before?: (...args: Array<any>) => Array<any>;
-  after?: (request: any, response: any) => void | IterableIterator<any>;
-  error?: (error: { status: number; payload: any }) => void | IterableIterator<any>;
+  after?: (request: any, response: T) => void | IterableIterator<any>;
+  error?: (error: ApiResponse) => void | IterableIterator<any>;
 }
 
-export type ReducerBuilder<T extends WebComponentState> = {
-  initialState?: T | WebComponentState;
+export type ReducerBuilder<R extends WebComponentState> = {
+  initialState?: R | WebComponentState;
   name?: string;
   reducer?: Reducer;
-  middleware: Array<ReduxReducerApiAction | ReduxApiAction>;
+  middleware: Array<ReduxReducerApiAction<any, R> | ReduxApiAction<any, R>>;
 };
 
-export interface ReduxApiAction {
+export interface ReduxApiAction<T extends ApiResponse = ApiResponse> {
   action: string;
-  api: ApiCall;
-  apiMiddleware?: ApiSagaMiddleware;
+  api: ApiCall<T>;
+  apiMiddleware?: ApiSagaMiddleware<T>;
 }
 
-export interface ReduxReducerApiAction extends ReduxApiAction {
-  action: string;
-  api: ApiCall;
+export type StaticReducer<S = any, A extends Action = AnyAction> = (state: S, action: A) => S;
+
+export interface ReduxReducerApiAction<T extends ApiResponse = ApiResponse, R = WebComponentState<T>>
+  extends ReduxApiAction<T> {
   key: string;
-  apiMiddleware?: ApiSagaMiddleware;
-  reducer?: Reducer;
+  reducer?: StaticReducer<R, Action>;
 }
 
-export type BuiltReducer = {
-  reducer: Reducer;
+export type BuiltReducer<T> = {
+  reducer: Reducer<T, Action>;
   watchers: Array<SagaFunction>;
   name: string;
 };
