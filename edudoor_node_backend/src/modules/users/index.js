@@ -1,20 +1,9 @@
 import MRouter from '../../utils/router';
 import UserController from './UserController';
-import BaseValidator from '../../middleware/BaseValidator';
-import models from '../../database/models';
+import { validateLogin } from './validate';
 
 const Router = new MRouter();
 
-Router.post(
-  '/users/authenticate',
-  BaseValidator.modelExists(
-    req => ({
-      username: req.body.username,
-    }),
-    models.User,
-    'Invalid login credentials'
-  ),
-  UserController.login
-);
+Router.post('/users/authenticate', validateLogin, UserController.login);
 
 export default Router;

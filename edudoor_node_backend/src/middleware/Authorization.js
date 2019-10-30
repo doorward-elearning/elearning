@@ -1,15 +1,7 @@
 import JWT from '../utils/auth';
 import models from '../database/models';
 
-export default class UserValidator {
-  static validateEmail(req) {
-    const { body: { email } } = req;
-    if (email) {
-      req.checkBody('email', 'Please enter a valid email')
-        .isEmail();
-    }
-  }
-
+export default class Authorization {
   static async authenticate(req) {
     const auth = req.headers.authorization;
 
@@ -25,10 +17,12 @@ export default class UserValidator {
       req.userToken = authToken;
 
       req.user = await models.User.findByPk(decoded.id, {
-        include: [{
-          model: models.Role,
-          as: 'roles'
-        }]
+        include: [
+          {
+            model: models.Role,
+            as: 'roles',
+          },
+        ],
       });
       if (!req.user) {
         return [404, undefined, 'User not found'];
@@ -40,8 +34,10 @@ export default class UserValidator {
 
   static checkRoles(roles, message) {
     const response = [401, undefined, message || 'You are not authorized to perform this action'];
-    return async (req) => {
-      const { user: { roles: userRoles = [] } } = req;
+    return async req => {
+      const {
+        user: { roles: userRoles = [] },
+      } = req;
       if (roles) {
         if (roles.constructor === String) {
           if (!userRoles.find(role => role.name === roles)) {

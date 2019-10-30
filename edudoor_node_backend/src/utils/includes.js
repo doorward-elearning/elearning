@@ -1,6 +1,6 @@
 import models from '../database/models';
 
-const User = [
+export const UserInclude = [
   {
     model: models.Organization,
     as: 'organization',
@@ -12,6 +12,13 @@ const User = [
   },
 ];
 
-export default {
-  User,
-};
+export const CourseInclude = [
+  {
+    model: models.User,
+    as: 'author',
+  },
+  {
+    model: models.Module,
+    as: 'modules',
+  },
+];

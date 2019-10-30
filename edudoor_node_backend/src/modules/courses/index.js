@@ -1,7 +1,7 @@
 import MRouter from '../../utils/router';
-import UserValidator from '../../middleware/UserValidator';
+import Authorization from '../../middleware/UserValidator';
 
-const Router = new MRouter(UserValidator.authenticate);
+const Router = new MRouter(Authorization.authenticate);
 
 Router.post('/courses');
 

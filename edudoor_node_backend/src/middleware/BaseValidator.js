@@ -28,6 +28,12 @@ export default class BaseValidator {
     };
   }
 
+  static validate(schema) {
+    return async req => {
+      await schema(req);
+    };
+  }
+
   static uniqueFields(fields, Model) {
     return async req =>
       Promise.all(Object.keys(fields).map(async field => BaseValidator.checkField(req, field, Model, fields[field])));
