@@ -1,5 +1,6 @@
 import * as express from 'express';
 import Validation from '../middleware/BaseValidator';
+import Tools from './Tools';
 
 const errorHandler = middleware => middleware.map(m => Validation.withErrorHandler(m));
 
@@ -7,20 +8,22 @@ const methods = ['post', 'delete', 'get', 'put', 'patch'];
 
 class MRouter {
   constructor(path = '', ...defaultMiddleware) {
-    this.Router = express.Router();
+    this.Router = express.Router({ mergeParams: true });
     this.defaultMiddleware = defaultMiddleware;
+    this.path = path;
 
     methods.forEach(method => {
       this[method] = (route, ...middleware) => {
-        let newPath = path.endsWith('/') ? path : `${path}/`;
-        newPath += route.startsWith('/') ? route.substr(1) : route;
-        this.Router[method](newPath, errorHandler(MRouter.uniqueMiddleware(this.defaultMiddleware, middleware)));
+        this.Router[method](
+          Tools.appendPath(path, route),
+          errorHandler(MRouter.uniqueMiddleware(this.defaultMiddleware, middleware))
+        );
       };
     });
   }
 
   use(path, router) {
-    this.Router.use(path, router.Router);
+    this.Router.use(Tools.appendPath(this.path, path), router.Router);
   }
 
   exclude(...middleware) {

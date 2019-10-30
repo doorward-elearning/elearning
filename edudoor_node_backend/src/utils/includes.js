@@ -24,6 +24,8 @@ export const CourseInclude = [
   },
 ];
 
+export const ModuleInclude = [];
+
 export const MyCoursesInclude = organizationId =>
   _.merge(CourseInclude, [
     {

@@ -24,3 +24,12 @@ export const validateCreateCourse = async req => {
     .custom(() => !course)
     .withMessage('A course with this title already exists');
 };
+
+export const validateCourseExists = (key = 'courseId') => async req => {
+  const courseId = req.params[key];
+  const course = await models.Course.findByPk(courseId);
+
+  if (!course) {
+    return [404, undefined, 'Course does not exist'];
+  }
+};

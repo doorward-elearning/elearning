@@ -1,5 +1,6 @@
 import models from '../../database/models';
 import { CourseInclude, MyCoursesInclude } from '../../utils/includes';
+import ModulesController from './modules/ModulesController';
 
 class CourseController {
   static async createCourse(req) {
@@ -17,10 +18,7 @@ class CourseController {
 
     await Promise.all(
       modules.map(async module => {
-        await models.Module.create({
-          ...module,
-          courseId: course.id,
-        });
+        return ModulesController.createModule(course.id, module);
       })
     );
 
