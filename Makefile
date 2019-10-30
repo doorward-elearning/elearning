@@ -6,27 +6,22 @@ DOCKER_DEV_COMPOSE_FILE := docker/dev/docker-compose.yml
 
 start:
 	${INFO} "Creating PostgreSQL database volume"
+	@ docker volume create --name=openolat_data > /dev/null
 	@ docker volume create --name=edudoor_data > /dev/null
 	@ echo " "
 	@ ${INFO} "Building required docker images"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build edudoor_frontend
 	@ ${INFO} "Starting the application"
-	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_frontend
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_frontend
 
 api:
 	${INFO} "Creating PostgreSQL database volume"
 	@ docker volume create --name=edudoor_data > /dev/null
+	@ docker volume create --name=openolat_data > /dev/null
 	@ echo " "
 	@ ${INFO} "Starting the backend"
-	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_backend
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_node_backend
 
-
-db:
-	${INFO} "Creating PostgreSQL database volume"
-	@ docker volume create --name=edudoor_data > /dev/null
-	@ echo " "
-	@ ${INFO} "Starting the database"
-	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_database
 
 stop:
 	${INFO} "Stopping all containers"
@@ -39,6 +34,7 @@ clean:
 	${INFO} "Not that all ephemeral volumes will be destroyed"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v
 	@ docker volume rm edudoor_data
+	@ docker volume rm openolat_data
 	@ ${INFO} "Removing dangling images"
 	@ docker images -q -f label=application${PROJECT_NAME} | xargs -I ARGS docker rmi -f ARGS
 	docker system prune
