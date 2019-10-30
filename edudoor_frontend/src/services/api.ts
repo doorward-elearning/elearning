@@ -3,17 +3,11 @@ import { CreateCourseBody } from './requestBodies';
 
 const q = require('querystring').stringify;
 
-const { GET, PUT } = Request;
+const { GET, PUT, POST } = Request;
 
 const Api = {
   users: {
-    roles: {
-      getRoles: (identityKey: number): Promise<any> => GET(`users/${identityKey}/roles`),
-    },
-    auth: {
-      getAuth: (username: string): Promise<any> => GET(`users/${username}/auth`),
-    },
-    search: (params: object): Promise<any> => GET('users/'),
+    authenticate: (body: { username: string; password: string }): Promise<any> => POST('users/authenticate', body),
   },
   auth: {
     login: (username: string, password: string): Promise<any> => GET(`auth/${username}?${q({ password })}`),

@@ -1,5 +1,4 @@
 import Tools from '../utils/Tools';
-import Request from '../services/request';
 import { useState } from 'react';
 
 const useAuth = (): UseAuth => {
@@ -10,10 +9,8 @@ const useAuth = (): UseAuth => {
       setAuthenticated(false);
     }
   };
-  const authenticate = (username: string, password: string) => {
-    if (!authenticated) {
-      Tools.setToken(username, password);
-      Request.setAuth();
+  const authenticate = (): void => {
+    if (!authenticated && Tools.isLoggedIn()) {
       setAuthenticated(true);
     }
   };
@@ -28,7 +25,7 @@ const useAuth = (): UseAuth => {
 export interface UseAuth {
   authenticated: boolean;
   logout: () => void;
-  authenticate: (username: string, password: string) => void;
+  authenticate: () => void;
 }
 
 export default useAuth;

@@ -20,7 +20,6 @@ import loginForm from '../../components/static/Forms/validations/loginForm';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
-  const [state, setState] = useState({ username: '', password: '' });
   const [errors, setErrors] = useState();
   const [actions, setActions] = useState<FormikActions<LoginFormState> | null>(null);
   const initialState = {};
@@ -31,7 +30,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
 
   useEffect(() => {
     if (login.data) {
-      authenticate(state.username, state.password);
+      authenticate();
       clearLogin();
     }
   }, [login.data]);
@@ -50,8 +49,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
 
   const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
     setActions(actions);
-    loginUser(values.username, values.password);
-    setState({ ...values });
+    loginUser(values);
   };
 
   return authenticated ? (

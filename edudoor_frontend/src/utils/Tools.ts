@@ -23,8 +23,8 @@ class Tools {
     return btoa(username + ':' + password);
   }
 
-  static setToken(username: string, password: string): void {
-    sessionStorage.setItem(Tools.AUTHORIZATION_TOKEN, Tools.encrypt(Tools.generateToken(username, password)));
+  static setToken(token: string): void {
+    sessionStorage.setItem(Tools.AUTHORIZATION_TOKEN, Tools.encrypt(token));
   }
 
   static encrypt(str: string | null): string {

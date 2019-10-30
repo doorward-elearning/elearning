@@ -1,10 +1,11 @@
 import { CLEAR_LOGIN, LOGIN_USER } from './types';
+import { Action } from '../reducers';
 
-export const loginUserAction = (username: string, password: string) => ({
+export const loginUserAction = (data: { username: string; password: string }): Action => ({
   type: LOGIN_USER,
-  payload: [username, password],
+  payload: data,
 });
 
-export const clearLoginAction = () => ({
+export const clearLoginAction = (): Action => ({
   type: CLEAR_LOGIN,
 });
