@@ -22,12 +22,17 @@ api:
 	@ ${INFO} "Starting the backend"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_node_backend
 
+openolat:
+	${INFO} "Creating PostgreSQL database volume"
+	@ docker volume create --name=openolat_data > /dev/null
+	@ echo " "
+	@ ${INFO} "Starting the OpenOLAT backend"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up openolat
 
 stop:
 	${INFO} "Stopping all containers"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v
 	@ ${SUCCESS} "All containers stopped successfully"
-
 
 clean:
 	${INFO} "Cleaning your local environment"
