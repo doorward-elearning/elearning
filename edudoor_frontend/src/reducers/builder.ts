@@ -18,7 +18,7 @@ export const webComponentState: WebComponentState<any> = {
   fetching: false,
   submitted: false,
   submitting: false,
-  data: null,
+  data: {},
   errors: {},
 };
 
@@ -40,7 +40,7 @@ function simpleReducer<T>(initialState: T, actionType: string): Reducer<T, Actio
         fetching: false,
         submitted: true,
         submitting: false,
-        data: action.payload,
+        data: action.payload || {},
         errors: {},
       };
     } else if (action.type === `${actionType}_FAILURE`) {

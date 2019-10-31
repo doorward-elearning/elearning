@@ -1,4 +1,4 @@
-import { CREATE_COURSE, FETCH_COURSES } from './types';
+import { CREATE_COURSE, FETCH_COURSES, VIEW_COURSE } from './types';
 import { Action } from '../reducers';
 import { CreateCourseBody } from '../../services/models/requestBody';
 
@@ -10,4 +10,9 @@ export const createCourseAction = (body: CreateCourseBody, successCallback: () =
   type: CREATE_COURSE,
   payload: body,
   onSuccess: successCallback,
+});
+
+export const fetchCourseAction = (courseId: number): Action => ({
+  type: VIEW_COURSE,
+  payload: [courseId],
 });

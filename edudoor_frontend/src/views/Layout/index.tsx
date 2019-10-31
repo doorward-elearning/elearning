@@ -31,6 +31,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   match,
   children,
   header = '',
+  className: appendClasses = '',
   renderHeaderEnd,
   features = [],
   actionBtnProps,
@@ -44,6 +45,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     'ed-page-layout': true,
     sidebar: navFeatures.includes(NavbarFeatures.HAMBURGER),
     navBar: !noNavBar && navFeatures.length,
+    [appendClasses]: true,
   });
 
   const toggleSidebar = (): void => {
@@ -114,6 +116,7 @@ export interface LayoutProps extends PageComponent {
   features?: Array<LayoutFeatures | string | typeof LayoutFeatures>;
   header?: string;
   actionBtnProps?: ActionButtonProps;
+  className?: string;
   noNavBar?: boolean;
   renderHeaderEnd?: () => JSX.Element;
 }

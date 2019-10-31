@@ -5,7 +5,7 @@ import useModal from '../../hooks/useModal';
 import AddCourse from './AddCourse';
 import ROUTES from '../../routes/routes';
 import { useSelector } from 'react-redux';
-import WebComponentItems from '../../components/static/WebComponentItems';
+import WebComponentItems from '../../components/ui/WebComponentItems';
 import { State } from '../../store/store';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
 import useAction from '../../hooks/useActions';
@@ -32,7 +32,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <WebComponentItems list={courses.data.courses} loading={courses.fetching}>
+      <WebComponentItems data={courses.data.courses} loading={courses.fetching}>
         {(list): JSX.Element => <CourseTable courses={list} history={props.history} />}
       </WebComponentItems>
     </Layout>

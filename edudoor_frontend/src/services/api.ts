@@ -14,6 +14,7 @@ const Api = {
   courses: {
     create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
     list: (): Promise<CourseListResponse> => GET('/courses'),
+    get: (courseId: number): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
   },
 };
 

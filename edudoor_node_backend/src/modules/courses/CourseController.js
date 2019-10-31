@@ -37,6 +37,19 @@ class CourseController {
 
     return [200, { courses }];
   }
+
+  static async getCourse(req) {
+    const {
+      user: { organizationId },
+      params: { courseId },
+    } = req;
+    const course = await models.Course.findOne({
+      where: { id: courseId },
+      include: MyCoursesInclude(organizationId),
+    });
+
+    return [200, { course }];
+  }
 }
 
 export default CourseController;

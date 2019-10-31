@@ -45,6 +45,6 @@ export interface Course extends Model {
   requirements?: string;
   status: 'REVIEW' | 'PUBLISHED' | 'FINISHED';
   authorId: number;
-  author?: User;
-  modules?: Array<Module>;
+  author: User;
+  modules: Array<Module>;
 }

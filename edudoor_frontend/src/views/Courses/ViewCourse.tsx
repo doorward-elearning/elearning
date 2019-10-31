@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
 import ROUTES from '../../routes/routes';
@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store/store';
 import { match } from 'react-router';
 import useAction from '../../hooks/useActions';
-import { fetchCoursesAction } from '../../reducers/courses/actions';
+import { fetchCourseAction } from '../../reducers/courses/actions';
 import Button from '../../components/ui/Buttons/Button';
 import Accordion from '../../components/ui/Accordion';
 import List from '../../components/ui/List';
@@ -20,38 +20,35 @@ import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import AddModuleForm from '../../components/static/Forms/AddModuleForm';
 import AddStudentForm from '../../components/static/Forms/AddStudentForm';
-import { Course } from '../../services/models';
+import WebComponentItems from '../../components/ui/WebComponentItems';
+import Panel from '../../components/ui/Panel';
+import HtmlContent from '../../components/ui/HtmlContent';
+import './Courses.scss';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const { setTitle } = useRoutes();
-  const fetchCourses = useAction(fetchCoursesAction);
+  const fetchCourse = useAction(fetchCourseAction);
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
+  const courseId = +props.match.params.courseId;
+
   useEffect(() => {
-    fetchCourses();
+    fetchCourse(courseId);
   }, []);
 
-  const courseId = props.match.params.courseId;
-
-  const courses = useSelector((state: State) => state.courses.courseList);
-  const [course, setCourse] = useState<Course | undefined>(undefined);
-
-  useEffect(() => {
-    setCourse((courses.data.courses || []).find(course => course.id === +courseId));
-  }, [courses]);
-  const title = course ? course.title : '';
-
-  setTitle(ROUTES.viewCourse.id, title);
+  const course = useSelector((state: State) => state.courses.viewCourse);
 
   const modules = 4;
   const accordions = Array(modules)
     .fill(0)
     .map(() => useAccordion(true));
+
   return (
     <Layout
       {...props}
+      className="view-course"
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      header={title}
+      header={course.data.course && course.data.course.title}
       actionBtnProps={{ text: 'Add Student', onClick: addStudentModal.openModal }}
       renderHeaderEnd={(): JSX.Element => (
         <Button theme="primary" bordered onClick={addModuleModal.openModal}>
@@ -59,52 +56,65 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         </Button>
       )}
     >
-      <AddModuleForm
-        useModal={addModuleModal}
-        features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
-      />
-      <AddStudentForm
-        useModal={addStudentModal}
-        features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
-      />
-      {courses.data && (
-        <Card flat>
-          <Card.Body>
-            {accordions.map((accordion, index) => (
-              <Accordion useAccordion={accordion} key={index}>
-                <Row style={{ justifyContent: 'space-between', paddingRight: '20px' }}>
-                  <Header size={3} onClick={accordion.toggle}>
-                    The list of modules
-                  </Header>
-                  <Button theme="accent" icon="add" mini bordered>
-                    Add Item
-                  </Button>
-                </Row>
-                <List>
-                  <ListItem>
-                    <Header size={3}>Kicking off with your new Team</Header>
-                  </ListItem>
-                  <List>
-                    <ListItem>Remote calls Overview: Coach</ListItem>
-                    <ListItem>Physical Environment on calls: Coach</ListItem>
-                    <ListItem>Eyes on Remote Calls: Coach</ListItem>
-                    <ListItem>Calm down with Breath: Coach</ListItem>
-                    <ListItem>Speaking to be Understood</ListItem>
-                    <ListItem>
-                      <Header size={4}>Coach Calm Down with Breath (1).mp4</Header>
-                    </ListItem>
-                    <List>
-                      <ListItem>
-                        <a href="#">Output 1.1 Your Team Kickoff Call -- Again!</a>
-                      </ListItem>
-                    </List>
-                  </List>
-                </List>
-              </Accordion>
-            ))}
-          </Card.Body>
-        </Card>
-      )}
+      <WebComponentItems data={course.data.course} loading={course.fetching}>
+        {course => {
+          setTitle(ROUTES.viewCourse.id, course.title);
+          return (
+            <React.Fragment>
+              <AddModuleForm
+                useModal={addModuleModal}
+                features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+              />
+              <AddStudentForm
+                useModal={addStudentModal}
+                features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+              />
+              <Panel className="course-description" plain>
+                <HtmlContent html={course.description} />
+              </Panel>
+              <Card flat>
+                <Card.Body>
+                  {course.modules.map((module, index) => {
+                    const accordion = useAccordion(false);
+                    return (
+                      <Accordion useAccordion={accordion} key={index}>
+                        <Row style={{ justifyContent: 'space-between', paddingRight: '20px' }}>
+                          <Header size={3} onClick={accordion.toggle}>
+                            {module.title}
+                          </Header>
+                          <Button theme="accent" icon="add" mini bordered>
+                            Add Item
+                          </Button>
+                        </Row>
+                        <List>
+                          <ListItem>
+                            <Header size={3}>Kicking off with your new Team</Header>
+                          </ListItem>
+                          <List>
+                            <ListItem>Remote calls Overview: Coach</ListItem>
+                            <ListItem>Physical Environment on calls: Coach</ListItem>
+                            <ListItem>Eyes on Remote Calls: Coach</ListItem>
+                            <ListItem>Calm down with Breath: Coach</ListItem>
+                            <ListItem>Speaking to be Understood</ListItem>
+                            <ListItem>
+                              <Header size={4}>Coach Calm Down with Breath (1).mp4</Header>
+                            </ListItem>
+                            <List>
+                              <ListItem>
+                                <a href="#">Output 1.1 Your Team Kickoff Call -- Again!</a>
+                              </ListItem>
+                            </List>
+                          </List>
+                        </List>
+                      </Accordion>
+                    );
+                  })}
+                </Card.Body>
+              </Card>
+            </React.Fragment>
+          );
+        }}
+      </WebComponentItems>
     </Layout>
   );
 };

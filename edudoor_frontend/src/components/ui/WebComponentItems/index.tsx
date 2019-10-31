@@ -1,11 +1,16 @@
 import React from 'react';
-import Spinner from '../../ui/Spinner';
-import Empty from '../../ui/Empty';
+import Spinner from '../Spinner';
+import Empty from '../Empty';
 import './WebComponentItems.scss';
 
 function WebComponentItems<T>(props: WebComponentItemsProps<T>): JSX.Element {
-  if (props.list && props.list.length) {
-    return <React.Fragment>{props.children(props.list)}</React.Fragment>;
+  let hasItems = !!props.data;
+  if (props.data instanceof Array) {
+    const list = props.data as Array<any>;
+    hasItems = !!list.length;
+  }
+  if (hasItems && props.data) {
+    return <React.Fragment>{props.children(props.data)}</React.Fragment>;
   } else {
     if (props.loading) {
       return (
@@ -31,9 +36,9 @@ export interface WebComponentItemsProps<T> {
   loader?: JSX.Element;
   empty?: JSX.Element;
   emptyMessage?: string;
-  list: Array<T> | null | undefined;
+  data: T | undefined;
   loading: boolean;
-  children: (list: Array<T>) => JSX.Element;
+  children: (data: T) => JSX.Element;
 }
 
 export default WebComponentItems;
