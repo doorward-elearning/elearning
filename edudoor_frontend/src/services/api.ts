@@ -1,6 +1,6 @@
 import Request from './request';
-import { CreateCourseBody } from './models/requestBody';
-import { CourseListResponse, CreateCourseResponse, LoginResponse } from './models/responseBody';
+import { CourseModuleBody, CreateCourseBody } from './models/requestBody';
+import { CourseListResponse, CourseModuleResponse, CreateCourseResponse, LoginResponse } from './models/responseBody';
 
 const q = require('querystring').stringify;
 
@@ -15,6 +15,11 @@ const Api = {
     create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
     list: (): Promise<CourseListResponse> => GET('/courses'),
     get: (courseId: number): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
+    modules: {
+      get: (courseId: number): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
+      create: (courseId: number, module: CourseModuleBody): Promise<CourseModuleResponse> =>
+        POST(`/courses/${courseId}/modules`, module),
+    },
   },
 };
 

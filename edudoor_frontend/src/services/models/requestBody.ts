@@ -1,5 +1,5 @@
 export type CourseModuleBody = {
-  name: string;
+  title: string;
 };
 
 export type CreateCourseBody = {

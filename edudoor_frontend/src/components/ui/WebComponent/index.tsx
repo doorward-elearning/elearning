@@ -1,9 +1,9 @@
 import React from 'react';
 import Spinner from '../Spinner';
 import Empty from '../Empty';
-import './WebComponentItems.scss';
+import './WebComponent.scss';
 
-function WebComponentItems<T>(props: WebComponentItemsProps<T>): JSX.Element {
+function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
   let hasItems = !!props.data;
   if (props.data instanceof Array) {
     const list = props.data as Array<any>;
@@ -41,4 +41,4 @@ export interface WebComponentItemsProps<T> {
   children: (data: T) => JSX.Element;
 }
 
-export default WebComponentItems;
+export default WebComponent;

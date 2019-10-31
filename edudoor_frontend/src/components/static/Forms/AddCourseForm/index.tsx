@@ -29,13 +29,13 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
         <p>Specify the names of the modules of the course.</p>
         {props.values.modules.map((module, index) => (
           <div className="course-module" key={index}>
-            <TextField name={`modules.${index}.name`} icon="calendar_view_day" />
+            <TextField name={`modules.${index}.title`} icon="calendar_view_day" />
             <IfElse condition={index > 0}>
               <Icon icon="close" onClick={(): void => arrayHelpers.remove(index)} />
             </IfElse>
           </div>
         ))}
-        <Button type="button" className="add-module" onClick={(): void => arrayHelpers.push({ name: '' })}>
+        <Button type="button" className="add-module" onClick={(): void => arrayHelpers.push({ title: '' })}>
           Add Module
         </Button>
       </div>
@@ -52,7 +52,7 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
         if (noOfModules < length) {
           modules.pop();
         } else {
-          modules.push({ name: '' });
+          modules.push({ title: '' });
         }
       }
     }
@@ -66,7 +66,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
   const initialValues = {
     title: '',
     description: '',
-    modules: [{ name: '' }],
+    modules: [{ title: '' }],
     noOfModules: 1,
   };
 

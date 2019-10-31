@@ -3,35 +3,43 @@ import './Accordion.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import useHeightTransition from '../../../hooks/useHeightTransition';
-import { UseAccordion } from '../../../hooks/useAccordion';
+import useAccordion, { UseAccordion } from '../../../hooks/useAccordion';
+import Row from '../Row';
 
 const Accordion: React.FunctionComponent<AccordionProps> = props => {
   const body: { current: HTMLDivElement | null } = useRef(null);
-  const { open } = props.useAccordion;
+  const accordion = useAccordion(props.open || false);
 
-  useHeightTransition(body, open, [open], 400);
+  useHeightTransition(body, accordion.open, [accordion.open], 400);
 
   return (
     <div
       className={classNames({
         'ed-accordion': true,
-        open,
+        open: accordion.open,
       })}
     >
       <div className="ed-accordion__title">
         <Icon className="ed-accordion__title__arrow" icon="keyboard_arrow_right" />
-        {props.children[0]}
+        <Row style={{ justifyContent: 'space-between' }}>
+          <div className="clickable" onClick={accordion.toggle}>
+            {props.title()}
+          </div>
+          <div>{props.action()}</div>
+        </Row>
       </div>
       <div className="ed-accordion__body" ref={body}>
-        {props.children[1]}
+        {props.children}
       </div>
     </div>
   );
 };
 
 export interface AccordionProps {
-  children: [ReactNode, ReactNode];
-  useAccordion: UseAccordion;
+  children: ReactNode;
+  title: () => JSX.Element;
+  action: () => JSX.Element;
+  open?: boolean;
 }
 
 export default Accordion;

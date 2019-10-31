@@ -20,7 +20,7 @@ import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import AddModuleForm from '../../components/static/Forms/AddModuleForm';
 import AddStudentForm from '../../components/static/Forms/AddStudentForm';
-import WebComponentItems from '../../components/ui/WebComponentItems';
+import WebComponent from '../../components/ui/WebComponent';
 import Panel from '../../components/ui/Panel';
 import HtmlContent from '../../components/ui/HtmlContent';
 import './Courses.scss';
@@ -56,12 +56,13 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         </Button>
       )}
     >
-      <WebComponentItems data={course.data.course} loading={course.fetching}>
+      <WebComponent data={course.data.course} loading={course.fetching}>
         {course => {
           setTitle(ROUTES.viewCourse.id, course.title);
           return (
             <React.Fragment>
               <AddModuleForm
+                courseId={course.id}
                 useModal={addModuleModal}
                 features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
               />
@@ -75,17 +76,16 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               <Card flat>
                 <Card.Body>
                   {course.modules.map((module, index) => {
-                    const accordion = useAccordion(false);
                     return (
-                      <Accordion useAccordion={accordion} key={index}>
-                        <Row style={{ justifyContent: 'space-between', paddingRight: '20px' }}>
-                          <Header size={3} onClick={accordion.toggle}>
-                            {module.title}
-                          </Header>
+                      <Accordion
+                        title={() => <Header size={3}>{module.title}</Header>}
+                        action={() => (
                           <Button theme="accent" icon="add" mini bordered>
                             Add Item
                           </Button>
-                        </Row>
+                        )}
+                        key={index}
+                      >
                         <List>
                           <ListItem>
                             <Header size={3}>Kicking off with your new Team</Header>
@@ -114,7 +114,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
             </React.Fragment>
           );
         }}
-      </WebComponentItems>
+      </WebComponent>
     </Layout>
   );
 };
