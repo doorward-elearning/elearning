@@ -160,8 +160,10 @@ export function reducerApiAction<T extends ApiResponse>(args: {
   return args;
 }
 
+type Unpack<T> = WebComponentState<T extends ReduxReducerApiActionProps<any, any> & { api: ApiCall<infer U> } ? U : T>;
+
 type BuiltState<T> = {
-  [K in keyof T]: WebComponentState<T extends ReduxReducerApiActionProps<any, any> & { api: ApiCall<infer U> } ? U : T>;
+  [K in keyof T]: Unpack<T[K]>;
 };
 
 export default function reducerBuilder<T, R extends ReducerMiddleware>({
