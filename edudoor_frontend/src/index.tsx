@@ -9,6 +9,7 @@ import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
 import ROUTES, { Router } from './routes/routes';
 import { routes } from './routes';
+import Toast from './components/ui/Toast';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in

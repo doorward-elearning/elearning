@@ -16,7 +16,7 @@ const base = {
   '--padding': '8px',
   '--padding-lg': '16px',
   '--padding-xlg': '24px',
-  '--text-error': 'rgba(255,0,0,0.75)',
+  '--text-error': 'rgb(255,0,0)',
   '--text-success': '#118f0e',
   '--accent': '#FF4081',
   '--box-shadow': '0 2px 6px 4px var(--shadow-color)',

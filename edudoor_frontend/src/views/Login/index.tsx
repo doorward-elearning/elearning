@@ -17,6 +17,7 @@ import { clearLoginAction, loginUserAction } from '../../reducers/login/actions'
 import useAction from '../../hooks/useActions';
 import loginForm from '../../components/static/Forms/validations/loginForm';
 import { State } from '../../store';
+import toast from '../../utils/toast';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
