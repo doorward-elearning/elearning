@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { FormikActions, FormikProps } from 'formik';
-import { WebComponentState } from '../../reducers/reducers';
 import { Redirect } from 'react-router';
 import useAuth from '../../hooks/useAuth';
 import './Login.scss';
@@ -25,7 +24,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const loginUser = useAction(loginUserAction);
   const clearLogin = useAction(clearLoginAction);
 
-  const login = useSelector((state: State) => state.login);
+  const login = useSelector((state: State) => state.login.loginUser);
 
   useEffect(() => {
     if (login.data) {

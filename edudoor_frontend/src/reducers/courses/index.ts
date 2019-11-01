@@ -1,51 +1,36 @@
-import { Action, ReduxReducerApiAction, WebComponentState } from '../reducers';
 import Api from '../../services/api';
 import { CREATE_COURSE, CREATE_COURSE_MDOULE, FETCH_COURSES, VIEW_COURSE } from './types';
-import reducerBuilder, { modifyReducer } from '../builder';
-import { CourseListResponse, CourseModuleResponse, CreateCourseResponse } from '../../services/models/responseBody';
+import reducerBuilder, { modifyReducer, reducerApiAction } from '../builder';
 
-export interface CourseState {
-  newCourse: WebComponentState<CreateCourseResponse>;
-  courseList: WebComponentState<CourseListResponse>;
-  viewCourse: WebComponentState<CreateCourseResponse>;
-  createModule: WebComponentState<CourseModuleResponse>;
-}
-
-const createCourse: ReduxReducerApiAction<CreateCourseResponse> = {
-  key: 'newCourse',
+const createCourse = reducerApiAction({
   action: CREATE_COURSE,
   api: Api.courses.create,
   apiMiddleware: {},
-};
+});
 
-const fetchCourses: ReduxReducerApiAction<CourseListResponse> = {
-  key: 'courseList',
+const courseList = reducerApiAction({
   action: FETCH_COURSES,
   api: Api.courses.list,
-};
+});
 
-const viewCourse: ReduxReducerApiAction<CreateCourseResponse> = {
-  key: 'viewCourse',
+const viewCourse = reducerApiAction({
   action: VIEW_COURSE,
   api: Api.courses.get,
-};
+  reducer: (state, action) => {
+    if (action.type === `${CREATE_COURSE_MDOULE}_SUCCESS`) {
+      return modifyReducer('data.course.modules', state, action, modules => {
+        return [...modules, action.payload.module];
+      });
+    }
+    return state;
+  },
+});
 
-const createModule: ReduxReducerApiAction<CourseModuleResponse> = {
-  key: 'createModule',
+const createModule = reducerApiAction({
   action: CREATE_COURSE_MDOULE,
   api: Api.courses.modules.create,
-};
+});
 
-const reducer = modifyReducer<CourseState>(
-  () => 'viewCourse.data.course.modules',
-  `${CREATE_COURSE_MDOULE}_SUCCESS`,
-  (state, action) => {
-    return [...state, action.payload.module];
-  }
-);
-
-export default reducerBuilder<CourseState>({
-  name: 'courses',
-  middleware: [createCourse, fetchCourses, viewCourse, createModule],
-  reducers: [reducer],
+export default reducerBuilder({
+  middleware: { createCourse, courseList, viewCourse, createModule },
 });

@@ -24,7 +24,7 @@ function build<T extends ReducerObject, K extends keyof T>(reducers: T): Reducer
     reducer.watchers.forEach(watcher => {
       sagas.push(watcher());
     });
-    state[reducer.name] = reducer.reducer;
+    state[reducerName] = reducer.reducer;
   });
   return state as ReducersMapObject<GeneratedReducers<T>, any>;
 }

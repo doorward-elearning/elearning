@@ -1,15 +1,11 @@
-import createReducer, { webComponentState } from '../builder';
+import createReducer, { modifyReducer, reducerApiAction } from '../builder';
 import Api from '../../services/api';
-import { Action, ReduxReducerApiAction, WebComponentState } from '../reducers';
+import { Action } from '../reducers';
 import Tools from '../../utils/Tools';
 import { LOGIN_USER } from './types';
-import { LoginResponse } from '../../services/models/responseBody';
 import Request from '../../services/request';
 
-export type LoginState = WebComponentState<LoginResponse>;
-
-export const loginUser: ReduxReducerApiAction<LoginResponse> = {
-  key: 'login',
+export const loginUser = reducerApiAction({
   action: LOGIN_USER,
   api: Api.users.authenticate,
   apiMiddleware: {
@@ -21,15 +17,15 @@ export const loginUser: ReduxReducerApiAction<LoginResponse> = {
       Request.setAuth();
     },
   },
-  reducer: (state: LoginState, action: Action): LoginState => {
+  reducer: (state, action: Action) => {
     if (action.type === 'CLEAR_LOGIN') {
-      return webComponentState;
+      return modifyReducer('data', state, action, () => {});
     } else {
       return state;
     }
   },
-};
+});
 
-export default createReducer<LoginState>({
-  middleware: [loginUser],
+export default createReducer({
+  middleware: { loginUser },
 });

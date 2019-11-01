@@ -4,7 +4,6 @@ import { PageComponent } from '../../types';
 import ROUTES from '../../routes/routes';
 import useRoutes from '../../hooks/useRoutes';
 import { useSelector } from 'react-redux';
-import { State } from '../../store/store';
 import { match } from 'react-router';
 import useAction from '../../hooks/useActions';
 import { fetchCourseAction } from '../../reducers/courses/actions';
@@ -22,6 +21,7 @@ import WebComponent from '../../components/ui/WebComponent';
 import Panel from '../../components/ui/Panel';
 import HtmlContent from '../../components/ui/HtmlContent';
 import './Courses.scss';
+import { State } from '../../store';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const { setTitle } = useRoutes();

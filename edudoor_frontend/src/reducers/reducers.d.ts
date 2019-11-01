@@ -31,14 +31,17 @@ export interface ApiSagaMiddleware<T extends ApiResponse> {
   error?: (error: ApiResponse) => void | IterableIterator<any>;
 }
 
-export type ReducerBuilder<R extends WebComponentState> = {
-  initialState?: R | WebComponentState;
-  name?: string;
-  reducers?: Array<StaticReducer<R, Action>>;
-  middleware: Array<ReduxReducerApiAction<any, R> | ReduxApiAction<any, R>>;
+export type ReducerMiddleware = {
+  [name: string]: ReduxReducerApiActionProps;
 };
 
-export interface ReduxApiAction<T extends ApiResponse> {
+export type ReducerBuilder<T, R> = {
+  initialState?: WebComponentState;
+  reducers?: Array<StaticReducer<T, Action>>;
+  middleware: R;
+};
+
+export interface ReduxApiActionProps<T> {
   action: string;
   api: ApiCall<T>;
   apiMiddleware?: ApiSagaMiddleware<T>;
@@ -46,13 +49,13 @@ export interface ReduxApiAction<T extends ApiResponse> {
 
 export type StaticReducer<S = any, A extends Action = AnyAction> = (state: S, action: A) => S;
 
-export interface ReduxReducerApiAction<T extends ApiResponse, R = WebComponentState<T>> extends ReduxApiAction<T> {
-  key: string;
+export interface ReduxReducerApiActionProps<R = WebComponentState<any>, T> extends ReduxApiActionProps<T> {
   reducer?: StaticReducer<R, Action>;
 }
+
+export type ReduxReducerApiAction<T> = (args: ReduxReducerApiActionProps<T>) => ReduxReducerApiActionProps<T>;
 
 export type BuiltReducer<T> = {
   reducer: Reducer<T, Action>;
   watchers: Array<SagaFunction>;
-  name: string;
 };

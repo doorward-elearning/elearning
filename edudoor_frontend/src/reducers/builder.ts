@@ -5,9 +5,10 @@ import {
   ApiSagaMiddleware,
   BuiltReducer,
   ReducerBuilder,
-  ReduxReducerApiAction,
+  ReducerMiddleware,
+  ReduxReducerApiActionProps,
   SagaFunction,
-  StoreLocationResolver,
+  StaticReducer,
   WebComponentState,
 } from './reducers';
 import { ApiCall, ApiResponse } from '../services/services';
@@ -133,73 +134,62 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
 }
 
 export function modifyReducer<T extends object>(
-  location: string | StoreLocationResolver<T>,
-  actionType: string,
-  reducer: Reducer
-) {
-  return (state: T, action: Action): T => {
-    if (action.type === actionType) {
-      let resolvedLocation;
-      if (location as StoreLocationResolver<T>) {
-        resolvedLocation = (location as StoreLocationResolver<T>)(state, action);
-      } else if (location as string) {
-        resolvedLocation = location as string;
-      }
-      if (resolvedLocation) {
-        const stateValue = _.get(state, resolvedLocation);
-        const newState = { ...state };
-        if (stateValue) {
-          const newValue = reducer(stateValue, action);
-          _.set(newState, resolvedLocation, newValue);
-        }
-        return newState;
-      }
+  location: string,
+  state: T,
+  action: Action,
+  resolveValue: (current: any) => any
+): T {
+  const resolvedLocation = location;
+  if (resolvedLocation) {
+    const stateValue = _.get(state, resolvedLocation);
+    const newState = { ...state };
+    if (stateValue) {
+      _.set(newState, resolvedLocation, resolveValue(stateValue));
     }
-    return state;
-  };
+    return newState;
+  }
+  return state;
 }
 
-export default function reducerBuilder<T = WebComponentState<any>>({
+export function reducerApiAction<T extends ApiResponse>(args: {
+  action: string;
+  api: ApiCall<T>;
+  apiMiddleware?: ApiSagaMiddleware<T>;
+  reducer?: StaticReducer<WebComponentState<T>, Action>;
+}): ReduxReducerApiActionProps<WebComponentState<T>, T> {
+  return args;
+}
+
+type Unpack<T> = WebComponentState<T extends ReduxReducerApiActionProps<any, any> & { api: ApiCall<infer U> } ? U : T>;
+
+type BuiltState<T> = {
+  [K in keyof T]: Unpack<T[K]>;
+};
+
+export default function reducerBuilder<T, R extends ReducerMiddleware>({
   initialState = webComponentState,
-  name,
   middleware,
   reducers: stateModifiers,
-}: ReducerBuilder<T>): BuiltReducer<T> {
+}: ReducerBuilder<BuiltState<R>, R>): BuiltReducer<BuiltState<R>> {
   const reducers: ReducersMapObject = {};
 
   const watchers: Array<SagaFunction> = [];
 
-  middleware.forEach(m => {
-    if ((m as ReduxReducerApiAction<any, T>).key) {
-      const rm = m as ReduxReducerApiAction<any, T>;
-
-      reducers[rm.key] = createReducer<T>(initialState, m.action, rm.reducer as Reducer<T, Action>);
+  (Object.keys(middleware) as Array<keyof typeof middleware>).forEach(mName => {
+    const m = middleware[mName];
+    if (m.reducer) {
+      reducers[mName] = createReducer<T>(initialState, m.action, m.reducer);
     }
     const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);
     watchers.push(watcher);
   });
 
-  const reducersList = Object.values(reducers);
-  const oneReducer = reducersList.length === 1;
-  if (name) {
-    if (oneReducer) {
-      throw new Error('No need for a name for the root reducer if since you have one middleware');
-    }
-  } else {
-    if (!oneReducer) {
-      throw new Error('A name for the main reducer is required when you have multiple middleware');
-    } else {
-      name = Object.keys(reducers)[0];
-    }
-  }
-
-  let createdReducer = oneReducer ? reducersList[0] : combineReducers(reducers);
+  let createdReducer = combineReducers(reducers);
   if (stateModifiers) {
     createdReducer = chainReducers(initialState)(createdReducer, ...stateModifiers);
   }
   return {
     reducer: createdReducer,
     watchers,
-    name,
   };
 }

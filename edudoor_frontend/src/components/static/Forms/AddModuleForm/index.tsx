@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Form from '../../../ui/Form';
-import { FormikProps, FormikValues } from 'formik';
+import { FormikProps } from 'formik';
 import TextField from '../../../ui/Input/TextField';
 import Modal, { ModalProps } from '../../../ui/Modal';
 import Header from '../../../ui/Header';
@@ -9,7 +9,7 @@ import useAction from '../../../../hooks/useActions';
 import { createCourseModuleAction } from '../../../../reducers/courses/actions';
 import { CourseModuleBody } from '../../../../services/models/requestBody';
 import { useSelector } from 'react-redux';
-import { State } from '../../../../store/store';
+import { State } from '../../../../store';
 
 const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
   const initialValues = {
