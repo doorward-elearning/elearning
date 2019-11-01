@@ -31,9 +31,22 @@ const toast = {
       container.id = 'ed-toast';
       document.body.appendChild(container);
 
-      const timer = setTimeout(() => {
-        removeToast(container).then();
-      }, props.timeout || 2000);
+      const startTimer = (): any => {
+        return setTimeout(() => {
+          removeToast(container).then();
+        }, props.timeout || 2000);
+      };
+      let timer: any = startTimer();
+
+      container.addEventListener('mouseover', () => {
+        if (timer) {
+          clearTimeout(timer);
+        }
+      });
+
+      container.addEventListener('mouseout', () => {
+        timer = startTimer();
+      });
 
       const closeToast = (): void => {
         removeToast(container).then();

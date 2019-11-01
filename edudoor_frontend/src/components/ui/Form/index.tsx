@@ -14,7 +14,6 @@ const Form: FunctionComponent<FormProps<any>> = ({
   onSubmit,
   showOverlay = false,
   validationSchema,
-  showErrorToast = true,
   state = {},
 }) => {
   const [formikProps, setProps] = useState<FormikProps<any> | null>(null);
@@ -24,14 +23,6 @@ const Form: FunctionComponent<FormProps<any>> = ({
       if (state.errors.errors) {
         formikProps.setErrors(state.errors.errors);
       } else if (state.errors.message) {
-        if (showErrorToast) {
-          toast.show({
-            message: state.errors.message,
-            type: 'success',
-            timeout: 3000,
-            hPosition: 'center',
-          });
-        }
       }
       formikProps.setSubmitting(false);
     }
@@ -65,7 +56,6 @@ export interface FormProps<Values> extends FormikConfig<Values> {
   children: (props: FormikProps<Values>) => React.ReactNode | JSX.Element;
   showOverlay?: boolean;
   state?: WebComponentState<any>;
-  showErrorToast?: boolean;
 }
 
 export interface FormContextProps {

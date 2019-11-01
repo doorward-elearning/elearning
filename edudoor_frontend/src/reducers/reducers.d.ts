@@ -10,6 +10,8 @@ export interface Action extends ReduxAction {
   payload?: any;
   onSuccess?: ApiListener;
   onError?: ApiListener;
+  hideSuccessToast?: boolean;
+  hideErrorToast?: boolean;
 }
 
 export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;

@@ -12,7 +12,7 @@ const Toast: React.FunctionComponent<ToastProps> = props => {
   });
   return (
     <div className={className}>
-      <div className="text">Something went wrong. Please try again</div>
+      <div className="text">{props.message}</div>
       <Icon icon="close" onClick={props.closeToast} />
     </div>
   );
@@ -23,7 +23,7 @@ export interface ToastProps {
   hPosition?: 'right' | 'left' | 'center';
   closeToast?: MouseEventHandler;
   message: string;
-  type: 'success' | 'info' | 'error';
+  type?: 'success' | 'info' | 'error';
 }
 
 export default Toast;

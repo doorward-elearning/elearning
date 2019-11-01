@@ -15,6 +15,7 @@ import { ApiCall, ApiResponse } from '../services/services';
 import chainReducers from './chain';
 import { AxiosResponse } from 'axios';
 import _ from 'lodash';
+import toast from '../utils/toast';
 
 export const webComponentState: WebComponentState<any> = {
   fetched: false,
@@ -95,6 +96,19 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
             data = newData;
           }
         }
+
+        if (!action.hideSuccessToast) {
+          const d = data as ApiResponse;
+          if (d.message) {
+            toast.show({
+              message: d.message,
+              type: 'success',
+              timeout: 3000,
+              hPosition: 'left',
+              vPosition: 'bottom',
+            });
+          }
+        }
         if (action.onSuccess) {
           action.onSuccess(data, args);
         }
@@ -112,6 +126,20 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
           success: false,
           message: 'Server facing technical issue. Please try again!',
         };
+        console.log(error);
+      }
+
+      if (!action.hideErrorToast) {
+        const d = data as ApiResponse;
+        if (d.errors && d.errors.message) {
+          toast.show({
+            message: d.errors.message,
+            type: 'error',
+            timeout: 3000,
+            hPosition: 'center',
+            vPosition: 'top',
+          });
+        }
       }
       if (middleware && middleware.error) {
         yield middleware.error(data);
@@ -177,9 +205,7 @@ export default function reducerBuilder<T, R extends ReducerMiddleware>({
 
   (Object.keys(middleware) as Array<keyof typeof middleware>).forEach(mName => {
     const m = middleware[mName];
-    if (m.reducer) {
-      reducers[mName] = createReducer<T>(initialState, m.action, m.reducer);
-    }
+    reducers[mName] = createReducer<T>(initialState, m.action, m.reducer);
     const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);
     watchers.push(watcher);
   });
