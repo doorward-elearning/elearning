@@ -4,6 +4,7 @@ import { Action, ReduxReducerApiAction, WebComponentState } from '../reducers';
 import Tools from '../../utils/Tools';
 import { LOGIN_USER } from './types';
 import { LoginResponse } from '../../services/models/responseBody';
+import Request from '../../services/request';
 
 export type LoginState = WebComponentState<LoginResponse>;
 
@@ -17,6 +18,7 @@ export const loginUser: ReduxReducerApiAction<LoginResponse> = {
     },
     after: (request, response): void => {
       Tools.setToken(response.token);
+      Request.setAuth();
     },
   },
   reducer: (state: LoginState, action: Action): LoginState => {

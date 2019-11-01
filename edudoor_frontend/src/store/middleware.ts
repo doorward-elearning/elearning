@@ -7,18 +7,19 @@ import login from '../reducers/login';
 import courses from '../reducers/courses';
 
 const sagas: IterableIterator<any>[] = [];
-const state: ReducerMapObject<any, any> = {};
 
-const build = (reducers: BuiltReducer<any>[]): void => {
+function build<T, K extends keyof T>(...reducers: Array<BuiltReducer<any>>): ReducerMapObject<T[K], any> {
+  const state: any = {};
   reducers.forEach(reducer => {
     reducer.watchers.forEach(watcher => {
       sagas.push(watcher());
     });
     state[reducer.name] = reducer.reducer;
   });
-};
+  return state as ReducerMapObject<T[K], any>;
+}
 
-build([login, courses]);
+const state = build(login, courses);
 
 export function* rootSaga(): IterableIterator<any> {
   yield all([...sagas]);

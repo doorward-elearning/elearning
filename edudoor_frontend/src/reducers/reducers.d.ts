@@ -14,6 +14,8 @@ export interface Action extends ReduxAction {
 
 export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;
 
+export type StoreLocationResolver<T> = (state: T, action: Action) => string;
+
 export interface WebComponentState<T> {
   fetching: boolean;
   fetched: boolean;
@@ -32,7 +34,7 @@ export interface ApiSagaMiddleware<T extends ApiResponse> {
 export type ReducerBuilder<R extends WebComponentState> = {
   initialState?: R | WebComponentState;
   name?: string;
-  reducer?: Reducer;
+  reducers?: Array<StaticReducer<R, Action>>;
   middleware: Array<ReduxReducerApiAction<any, R> | ReduxApiAction<any, R>>;
 };
 

@@ -39,6 +39,9 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
         state={state}
       >
         {(formikProps: FormikProps<AddModuleFormState>): JSX.Element => {
+          props.useModal.onClose(() => {
+            formikProps.resetForm();
+          });
           return (
             <React.Fragment>
               <Modal.Header>

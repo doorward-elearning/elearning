@@ -7,11 +7,13 @@ import {
   ReducerBuilder,
   ReduxReducerApiAction,
   SagaFunction,
+  StoreLocationResolver,
   WebComponentState,
 } from './reducers';
 import { ApiCall, ApiResponse } from '../services/services';
 import chainReducers from './chain';
 import { AxiosResponse } from 'axios';
+import _ from 'lodash';
 
 export const webComponentState: WebComponentState<any> = {
   fetched: false,
@@ -130,10 +132,38 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
   return watchForAction;
 }
 
+export function modifyReducer<T extends object>(
+  location: string | StoreLocationResolver<T>,
+  actionType: string,
+  reducer: Reducer
+) {
+  return (state: T, action: Action): T => {
+    if (action.type === actionType) {
+      let resolvedLocation;
+      if (location as StoreLocationResolver<T>) {
+        resolvedLocation = (location as StoreLocationResolver<T>)(state, action);
+      } else if (location as string) {
+        resolvedLocation = location as string;
+      }
+      if (resolvedLocation) {
+        const stateValue = _.get(state, resolvedLocation);
+        const newState = { ...state };
+        if (stateValue) {
+          const newValue = reducer(stateValue, action);
+          _.set(newState, resolvedLocation, newValue);
+        }
+        return newState;
+      }
+    }
+    return state;
+  };
+}
+
 export default function reducerBuilder<T = WebComponentState<any>>({
   initialState = webComponentState,
   name,
   middleware,
+  reducers: stateModifiers,
 }: ReducerBuilder<T>): BuiltReducer<T> {
   const reducers: ReducersMapObject = {};
 
@@ -163,8 +193,12 @@ export default function reducerBuilder<T = WebComponentState<any>>({
     }
   }
 
+  let createdReducer = oneReducer ? reducersList[0] : combineReducers(reducers);
+  if (stateModifiers) {
+    createdReducer = chainReducers(initialState)(createdReducer, ...stateModifiers);
+  }
   return {
-    reducer: oneReducer ? reducersList[0] : combineReducers(reducers),
+    reducer: createdReducer,
     watchers,
     name,
   };

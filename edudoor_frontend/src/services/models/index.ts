@@ -27,7 +27,7 @@ export interface User extends Model {
   organizationId: number;
   organization: Organization;
   roles: Array<Role>;
-  authoredCourses?: Array<Course>;
+  authoredCourses: Array<Course>;
   status: 'ACTIVE' | 'PENDING' | 'ACTIVE_NOT_DELETABLE' | 'LOGIN_DENIED';
 }
 

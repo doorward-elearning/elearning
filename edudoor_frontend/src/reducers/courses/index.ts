@@ -1,7 +1,7 @@
-import { ReduxReducerApiAction, WebComponentState } from '../reducers';
+import { Action, ReduxReducerApiAction, WebComponentState } from '../reducers';
 import Api from '../../services/api';
 import { CREATE_COURSE, CREATE_COURSE_MDOULE, FETCH_COURSES, VIEW_COURSE } from './types';
-import reducerBuilder from '../builder';
+import reducerBuilder, { modifyReducer } from '../builder';
 import { CourseListResponse, CourseModuleResponse, CreateCourseResponse } from '../../services/models/responseBody';
 
 export interface CourseState {
@@ -36,7 +36,16 @@ const createModule: ReduxReducerApiAction<CourseModuleResponse> = {
   api: Api.courses.modules.create,
 };
 
+const reducer = modifyReducer<CourseState>(
+  () => 'viewCourse.data.course.modules',
+  `${CREATE_COURSE_MDOULE}_SUCCESS`,
+  (state, action) => {
+    return [...state, action.payload.module];
+  }
+);
+
 export default reducerBuilder<CourseState>({
   name: 'courses',
   middleware: [createCourse, fetchCourses, viewCourse, createModule],
+  reducers: [reducer],
 });

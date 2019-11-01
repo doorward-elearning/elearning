@@ -14,8 +14,6 @@ import List from '../../components/ui/List';
 import ListItem from '../../components/ui/List/ListItem';
 import Header from '../../components/ui/Header';
 import Card from '../../components/ui/Card';
-import Row from '../../components/ui/Row';
-import useAccordion from '../../hooks/useAccordion';
 import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import AddModuleForm from '../../components/static/Forms/AddModuleForm';
@@ -38,11 +36,6 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
 
   const course = useSelector((state: State) => state.courses.viewCourse);
 
-  const modules = 4;
-  const accordions = Array(modules)
-    .fill(0)
-    .map(() => useAccordion(true));
-
   return (
     <Layout
       {...props}
@@ -57,7 +50,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
       )}
     >
       <WebComponent data={course.data.course} loading={course.fetching}>
-        {course => {
+        {(course): JSX.Element => {
           setTitle(ROUTES.viewCourse.id, course.title);
           return (
             <React.Fragment>
