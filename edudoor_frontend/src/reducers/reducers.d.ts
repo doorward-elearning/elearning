@@ -19,6 +19,7 @@ export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;
 export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 
 export interface WebComponentState<T> {
+  action: string;
   fetching: boolean;
   fetched: boolean;
   submitting: boolean;

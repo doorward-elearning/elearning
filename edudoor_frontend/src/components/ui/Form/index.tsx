@@ -22,9 +22,10 @@ const Form: FunctionComponent<FormProps<any>> = ({
     if (formikProps && state.errors) {
       if (state.errors.errors) {
         formikProps.setErrors(state.errors.errors);
+        formikProps.setSubmitting(false);
       } else if (state.errors.message) {
+        formikProps.setSubmitting(false);
       }
-      formikProps.setSubmitting(false);
     }
   }, [state.errors]);
 

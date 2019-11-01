@@ -16,8 +16,10 @@ import chainReducers from './chain';
 import { AxiosResponse } from 'axios';
 import _ from 'lodash';
 import toast from '../utils/toast';
+import objectHash from 'object-hash';
 
 export const webComponentState: WebComponentState<any> = {
+  action: '',
   fetched: false,
   fetching: false,
   submitted: false,
@@ -26,15 +28,19 @@ export const webComponentState: WebComponentState<any> = {
   errors: {},
 };
 
-function simpleReducer<T>(initialState: T, actionType: string): Reducer<T, Action> {
+function simpleReducer<T extends WebComponentState<any>>(initialState: T, actionType: string): Reducer<T, Action> {
   return (state: T = initialState, action: Action): T => {
     if (action.type === actionType) {
+      const hash = objectHash(action);
+
       return {
         ...state,
+        action: hash,
         fetched: false,
         fetching: true,
         submitted: false,
         submitting: true,
+        data: hash === state.action ? state.data : {},
         errors: {},
       };
     } else if (action.type === `${actionType}_SUCCESS`) {
@@ -62,7 +68,11 @@ function simpleReducer<T>(initialState: T, actionType: string): Reducer<T, Actio
   };
 }
 
-function createReducer<T>(initialState: T, actionType: string, reducer?: Reducer<T, Action>): Reducer<T, Action> {
+function createReducer<T extends WebComponentState<any>>(
+  initialState: T,
+  actionType: string,
+  reducer?: Reducer<T, Action>
+): Reducer<T, Action> {
   const reducers = [simpleReducer(initialState, actionType)];
   if (reducer) {
     reducers.push(reducer);
@@ -126,6 +136,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
           success: false,
           message: 'Server facing technical issue. Please try again!',
         };
+        // eslint-disable-next-line no-console
         console.log(error);
       }
 
@@ -194,7 +205,7 @@ type BuiltState<T> = {
   [K in keyof T]: Unpack<T[K]>;
 };
 
-export default function reducerBuilder<T, R extends ReducerMiddleware>({
+export default function reducerBuilder<T extends WebComponentState<any>, R extends ReducerMiddleware>({
   initialState = webComponentState,
   middleware,
   reducers: stateModifiers,
