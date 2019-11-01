@@ -44,6 +44,7 @@
     grid-auto-flow: column;
 
     .ed-breadcrumbs {
+      margin: var(--padding) 0;
     }
   }
 
@@ -59,7 +60,11 @@
       grid-gap: var(--padding);
       align-items: center;
 
-      &--start{
+      &--title {
+        padding: var(--padding-lg) 0;
+      }
+
+      &--start {
         position: relative;
         &__arrow-back {
           position: absolute;

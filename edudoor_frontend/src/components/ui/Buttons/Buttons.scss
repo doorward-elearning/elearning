@@ -12,6 +12,10 @@
   font-size: 1em;
   transition: 0.5s filter, 0.5s opacity;
 
+  > span.text {
+    padding-left: var(--padding);
+  }
+
   &.mini {
     padding: var(--padding-sm) var(--padding);
   }

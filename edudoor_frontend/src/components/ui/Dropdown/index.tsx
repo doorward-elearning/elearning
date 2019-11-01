@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useRef } from 'react';
+import React, { MouseEventHandler, useEffect, useRef } from 'react';
 import './Dropdown.scss';
 import classNames from 'classnames';
 import Icon from '../Icon';
@@ -17,6 +17,8 @@ const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onCl
 };
 const Dropdown: DropdownComponent = ({ children, positionX = 'left', positionY = 'bottom' }): JSX.Element => {
   const dropdown = useRef<any>(null);
+  const dropdownContent = useRef<HTMLDivElement | null>(null);
+  const dropdownTrigger = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useStateRef(false);
 
   useClickOutside(() => {
@@ -33,10 +35,10 @@ const Dropdown: DropdownComponent = ({ children, positionX = 'left', positionY =
         open,
       })}
     >
-      <div className="ed-dropdown__trigger" onClick={(): void => setOpen(!open)}>
+      <div className="ed-dropdown__trigger" ref={dropdownTrigger} onClick={(): void => setOpen(!open)}>
         {children[0]}
       </div>
-      <div className="ed-dropdown__content">
+      <div className="ed-dropdown__content" ref={dropdownContent}>
         <div className="ed-dropdown__content--body">{children[1]}</div>
       </div>
     </div>

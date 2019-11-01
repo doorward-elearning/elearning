@@ -87,7 +87,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                   />
                 </Feature>
                 <Feature feature={LayoutFeatures.HEADER}>
-                  <Header size={1}>{header}</Header>
+                  <Header size={1} className="ed-page-layout__header--title">
+                    {header}
+                  </Header>
                 </Feature>
               </div>
               <div className="ed-page-layout__header--middle" />

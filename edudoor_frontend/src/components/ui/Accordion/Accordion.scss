@@ -1,10 +1,16 @@
 .ed-accordion {
-  overflow: hidden;
   display: grid;
   grid-gap: var(--padding);
 
+  &.bordered {
+    .ed-accordion__title {
+      border-bottom: 0.5px solid var(--line-color);
+    }
+  }
+
   &__body {
     transition: 0.5s max-height, 0.5s opacity;
+    overflow: hidden;
     margin: 0;
   }
 
@@ -14,13 +20,15 @@
     align-items: center;
     grid-gap: var(--padding);
 
-    &__arrow{
+    &__arrow {
       transition: 0.5s transform;
+    }
+    &__action {
     }
   }
 
   &.open {
-    .ed-accordion__title__arrow{
+    .ed-accordion__title__arrow {
       transform: rotate(90deg);
     }
   }

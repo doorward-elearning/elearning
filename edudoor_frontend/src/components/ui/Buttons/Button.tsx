@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import './Buttons.scss';
 import { Link } from 'react-router-dom';
 import Spinner from '../Spinner';
+import IfElse from '../IfElse';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,
@@ -37,8 +38,12 @@ const Button: React.FunctionComponent<ButtonProps> = ({
       <Spinner />
       <Parent {...parentProps}>
         <button disabled={disabled} className={className} onClick={onClick} type={type}>
-          {icon && <i className="material-icons">{icon}</i>}
-          {children}
+          <IfElse condition={!!icon}>
+            <i className="material-icons">{icon}</i>
+          </IfElse>
+          <IfElse condition={!!children}>
+            <span className="text">{children}</span>
+          </IfElse>
         </button>
       </Parent>
     </Condition>

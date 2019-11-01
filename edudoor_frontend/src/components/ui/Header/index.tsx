@@ -1,16 +1,17 @@
-import React, { FunctionComponent, MouseEventHandler } from 'react';
+import React, { CSSProperties, FunctionComponent, MouseEventHandler } from 'react';
 import classNames from 'classnames';
+import './Header.scss';
 
 // eslint-disable-next-line react/jsx-key
 const headers: Array<React.ReactElement> = [<h1 />, <h2 />, <h3 />, <h4 />, <h5 />, <h6 />];
 
-const Header: FunctionComponent<HeaderProps> = ({ size, children, onClick, className = '' }): JSX.Element => {
+const Header: FunctionComponent<HeaderProps> = ({ size, children, onClick, className = '', style }): JSX.Element => {
   const classes = classNames({
-    'eb-header': true,
+    'ed-header': true,
     [className]: true,
     clickable: !!onClick,
   });
-  const props = { className: classes, onClick };
+  const props = { className: classes, onClick, style };
 
   return React.cloneElement(headers[size - 1], {
     children,
@@ -22,6 +23,7 @@ export interface HeaderProps {
   size: 1 | 2 | 3 | 4 | 5 | 6;
   className?: string;
   onClick?: MouseEventHandler;
+  style?: CSSProperties;
 }
 
 export default Header;
