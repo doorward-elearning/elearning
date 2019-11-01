@@ -1,28 +1,42 @@
 import { all } from 'redux-saga/effects';
-import { combineReducers } from 'redux';
+import { combineReducers, ReducersMapObject } from 'redux';
 import { BuiltReducer } from '../reducers/reducers';
-import { ReducerMapObject } from './store';
 
 import login from '../reducers/login';
 import courses from '../reducers/courses';
 
 const sagas: IterableIterator<any>[] = [];
 
-function build<T, K extends keyof T>(...reducers: Array<BuiltReducer<any>>): ReducerMapObject<T[K], any> {
+type Unpack<T> = T extends BuiltReducer<infer U> ? U : T;
+
+type ReducerObject = {
+  [name: string]: BuiltReducer<any>;
+};
+
+type GeneratedReducers<T> = {
+  [S in keyof T]: Unpack<T[S]>;
+};
+
+function build<T extends ReducerObject, K extends keyof T>(reducers: T): ReducersMapObject<GeneratedReducers<T>, any> {
   const state: any = {};
-  reducers.forEach(reducer => {
+  (Object.keys(reducers) as Array<keyof typeof reducers>).forEach(reducerName => {
+    const reducer = reducers[reducerName];
     reducer.watchers.forEach(watcher => {
       sagas.push(watcher());
     });
     state[reducer.name] = reducer.reducer;
   });
-  return state as ReducerMapObject<T[K], any>;
+  return state as ReducersMapObject<GeneratedReducers<T>, any>;
 }
 
-const state = build(login, courses);
+const reducers = {
+  login,
+  courses,
+};
+const state = build(reducers);
 
 export function* rootSaga(): IterableIterator<any> {
   yield all([...sagas]);
 }
 
-export const rootReducer = combineReducers<any>(state);
+export const rootReducer = combineReducers(state);

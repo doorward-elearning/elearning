@@ -6,10 +6,10 @@ import AddCourse from './AddCourse';
 import ROUTES from '../../routes/routes';
 import { useSelector } from 'react-redux';
 import WebComponent from '../../components/ui/WebComponent';
-import { State } from '../../store/store';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
 import useAction from '../../hooks/useActions';
 import CourseTable from '../../components/static/Tables/CourseTable';
+import { State } from '../../store';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);

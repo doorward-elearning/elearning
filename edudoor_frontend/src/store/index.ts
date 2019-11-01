@@ -12,6 +12,8 @@ const middleware = composeEnhancers(applyMiddleware(sagaMiddleware));
 const store = createStore(rootReducer, middleware);
 const state = store.getState();
 
+export type State = typeof state;
+
 sagaMiddleware.run(rootSaga);
 
 export default store;
