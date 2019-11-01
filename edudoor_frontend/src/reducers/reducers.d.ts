@@ -53,8 +53,6 @@ export interface ReduxReducerApiActionProps<R = WebComponentState<any>, T> exten
   reducer?: StaticReducer<R, Action>;
 }
 
-export type ReduxReducerApiAction<T> = (args: ReduxReducerApiActionProps<T>) => ReduxReducerApiActionProps<T>;
-
 export type BuiltReducer<T> = {
   reducer: Reducer<T, Action>;
   watchers: Array<SagaFunction>;

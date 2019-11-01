@@ -7,14 +7,12 @@ import courses from '../reducers/courses';
 
 const sagas: IterableIterator<any>[] = [];
 
-type Unpack<T> = T extends BuiltReducer<infer U> ? U : T;
-
 type ReducerObject = {
   [name: string]: BuiltReducer<any>;
 };
 
 type GeneratedReducers<T> = {
-  [S in keyof T]: Unpack<T[S]>;
+  [S in keyof T]: T extends BuiltReducer<infer U> ? U : T;
 };
 
 function build<T extends ReducerObject, K extends keyof T>(reducers: T): ReducersMapObject<GeneratedReducers<T>, any> {
