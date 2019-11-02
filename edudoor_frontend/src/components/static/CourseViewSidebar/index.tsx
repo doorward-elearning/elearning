@@ -13,17 +13,20 @@ import { State } from '../../../store';
 import WebComponent from '../../ui/WebComponent';
 import useAction from '../../../hooks/useActions';
 import { fetchCourseStudentListAction } from '../../../reducers/courses/actions';
-import { useLocation, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import { Link } from 'react-router-dom';
+import ROUTES from '../../../routes/routes';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
   const students = useSelector((state: State) => state.courses.studentList);
-  const match = useRouteMatch<{ courseId: string }>();
+  const match: any = useRouteMatch<{ courseId: string }>();
   const fetchStudents = useAction(fetchCourseStudentListAction);
+  const courseId = +match.params.courseId;
+
   useEffect(() => {
-    if (match) {
-      fetchStudents(+match.params.courseId);
-    }
+    fetchStudents(courseId);
   }, [match]);
+
   const MAX_STUDENTS = 3;
   return (
     <div className="course-view-sidebar">
@@ -53,7 +56,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
                   <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>
                 ))}
               <ListItem>
-                <a href="#">View all</a>
+                <Link to={ROUTES.courseStudents.withParams({ courseId: courseId })}>View all</Link>
               </ListItem>
             </List>
           )}

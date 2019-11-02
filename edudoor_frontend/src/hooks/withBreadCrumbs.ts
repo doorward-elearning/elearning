@@ -8,7 +8,7 @@ const withBreadCrumbs = (match: Match): Array<BreadCrumb> => {
   const tree = (Object.keys(routes) as Array<keyof EdudoorRoutes>).find(route => {
     const detail = routes[route];
     if (detail) {
-      return detail.link === match.path;
+      return detail.link === match.path || detail.link === match.url;
     }
     return false;
   });

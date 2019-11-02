@@ -3,6 +3,7 @@ import { Student } from '../../../../services/models';
 import Table from '../../../ui/Table';
 import TableHeader from '../../../ui/Table/TableHeader';
 import TableBody from '../../../ui/Table/TableBody';
+import Tools from '../../../../utils/Tools';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
   return (
@@ -11,7 +12,7 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
       <TableBody
         data={props.students}
         getCell={(row, index, column): string => {
-          return row[column as keyof Student] + '';
+          return Tools.str(row[column as keyof Student]);
         }}
       />
     </Table>

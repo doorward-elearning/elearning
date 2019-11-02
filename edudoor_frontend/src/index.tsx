@@ -16,7 +16,7 @@ Request.setAuth();
 
 export const appInitialValue = {
   routes: { ...ROUTES },
-  setTitle: (key: keyof typeof routes, name: string): void => {},
+  setTitle: (key: keyof typeof routes, name: string, link?: string): void => {},
 };
 
 export type AppContextProps = typeof appInitialValue;
@@ -25,10 +25,11 @@ export const AppContext = React.createContext<AppContextProps>(appInitialValue);
 
 const App: React.FC = () => {
   const [routes, setRoutes] = useState(ROUTES);
-  const setTitle = (key: keyof typeof routes, name: string): void => {
+  const setTitle = (key: keyof typeof routes, name: string, link?: string): void => {
     const current = routes[key].name;
+    link = link || routes[key].link;
     if (current !== name) {
-      setRoutes({ ...routes, [key]: { ...routes[key], name } });
+      setRoutes({ ...routes, [key]: { ...routes[key], name, link } });
     }
   };
 

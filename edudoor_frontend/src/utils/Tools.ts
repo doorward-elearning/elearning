@@ -65,6 +65,10 @@ class Tools {
       return acc.replace(cur[0], params[cur[2]]);
     }, path);
   }
+
+  static str(value: any): string {
+    return value ? value + '' : '--';
+  }
 }
 
 export default Tools;
