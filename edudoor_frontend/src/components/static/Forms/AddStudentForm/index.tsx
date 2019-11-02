@@ -6,6 +6,7 @@ import Row from '../../../ui/Row';
 import Checkbox from '../../../ui/Input/Checkbox';
 import Form from '../../../ui/Form';
 import { FormikProps } from 'formik';
+import SwitchInput from '../../../ui/Input/SwitchInput';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
   const initialValues = {
@@ -45,7 +46,7 @@ const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
                     <ListItem key={index}>
                       <Row>
                         <span>{student.name}</span>
-                        <Checkbox name={`students.${index}.id`} />
+                        <SwitchInput name={`students.${index}.id`} />
                       </Row>
                     </ListItem>
                   ))}

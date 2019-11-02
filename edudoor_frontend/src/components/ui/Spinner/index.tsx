@@ -1,6 +1,5 @@
 import React from 'react';
-import { Theme } from '../../../assets/themes';
-import { ThemeContext } from '../ApplicationTheme';
+import { ThemeContext, ThemeContextProps } from '../ApplicationTheme';
 const Loader = require('react-loader-spinner').default;
 
 const Spinner: React.FunctionComponent<SpinnerProps> = props => {
@@ -11,8 +10,8 @@ const Spinner: React.FunctionComponent<SpinnerProps> = props => {
   };
   return (
     <ThemeContext.Consumer>
-      {(theme: Theme): JSX.Element => {
-        return <Loader {...{ ...defaultProps, color: theme['--accent'], ...props }} />;
+      {(theme: ThemeContextProps): JSX.Element => {
+        return <Loader {...{ ...defaultProps, color: theme.theme['--accent'], ...props }} />;
       }}
     </ThemeContext.Consumer>
   );

@@ -10,9 +10,10 @@
   border-bottom: 1px solid var(--primary);
 
 
-  &__inner {
+  &__inner, &__end {
     display: grid;
     grid-auto-flow: column;
+    align-items: center;
     justify-items: start;
     grid-gap: var(--padding-xlg);
   }

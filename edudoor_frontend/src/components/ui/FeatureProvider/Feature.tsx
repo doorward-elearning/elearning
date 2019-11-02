@@ -4,7 +4,12 @@ import IfElse from '../IfElse';
 
 const Feature: React.FunctionComponent<FeatureProps> = ({ feature, children, excludeIfHas }): JSX.Element => {
   const { features } = useContext(FeatureContext);
-  let show = features.includes(feature);
+  let show;
+  if (feature instanceof Array) {
+    show = !!features.find(f => feature.includes(f));
+  } else {
+    show = features.includes(feature);
+  }
   if (excludeIfHas) {
     show = show && !features.find(x => x === excludeIfHas);
   }
@@ -13,7 +18,7 @@ const Feature: React.FunctionComponent<FeatureProps> = ({ feature, children, exc
 
 export interface FeatureProps {
   children: ReactElement;
-  feature: any;
+  feature: any | Array<any>;
   excludeIfHas?: any;
 }
 

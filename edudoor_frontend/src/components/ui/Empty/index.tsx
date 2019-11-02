@@ -1,24 +1,24 @@
 import React from 'react';
 import './Empty.scss';
-import Header from '../Header';
 import Icon from '../Icon';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
 
 const defaultMessage = 'Ops! There are no items here.';
 
-const Empty: React.FunctionComponent<EmptyProps> = ({ message = defaultMessage, icon = 'beach_access' }) => {
+const Empty: React.FunctionComponent<EmptyProps> = ({
+  message = defaultMessage,
+  icon = 'beach_access',
+  size = 'large',
+}) => {
   return (
     <div
       className={classNames({
         'ed-content-empty': true,
+        [size]: true,
       })}
     >
       <Icon icon={icon} className="ed-content-empty__icon" />
-      <Header size={3} className="ed-content-empty__message">
-        {message}
-      </Header>
-      <Link to="#" className="help">Need Help?</Link>
+      <span className="ed-content-empty__message">{message}</span>
     </div>
   );
 };
@@ -26,6 +26,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({ message = defaultMessage, 
 export interface EmptyProps {
   message?: string;
   icon?: string;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export default Empty;

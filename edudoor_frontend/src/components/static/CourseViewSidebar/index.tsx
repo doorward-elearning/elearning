@@ -31,10 +31,10 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
         Live classroom
       </Button>
       <Accordion title={() => <Header size={5}>Course Settings</Header>}>
-        <Empty />
+        <Empty size="medium" />
       </Accordion>
       <Accordion open title={() => <Header size={5}>Announcement Calendar</Header>}>
-        <Empty />
+        <Empty icon="event" size="medium" />
       </Accordion>
     </div>
   );

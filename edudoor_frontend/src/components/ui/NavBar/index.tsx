@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useContext } from 'react';
 import './NavBar.scss';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
@@ -6,11 +6,11 @@ import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
-import CONSTANTS from '../../../assets/constants';
-import { PageComponent } from '../../../types';
-import ROUTES from '../../../routes/routes';
 import { Location, MemoryHistory } from 'history';
 import NavLogo from './NavLogo';
+import Switch from '../Switch';
+import { ThemeContext } from '../ApplicationTheme';
+import themes from '../../../assets/themes';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
@@ -21,6 +21,7 @@ export enum NavbarFeatures {
 }
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features, history }) => {
+  const { changeTheme, theme } = useContext(ThemeContext);
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
@@ -33,6 +34,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
           </Feature>
         </div>
         <div className="ed-navBar__end">
+          <Switch open={theme === themes.base} onToggle={changeTheme} />
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
             <UserManagement />
           </Feature>

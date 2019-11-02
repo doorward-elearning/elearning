@@ -5,7 +5,6 @@ import EImage from '../../../ui/Image';
 import './LoginForm.scss';
 import TextField from '../../../ui/Input/TextField';
 import PasswordField from '../../../ui/Input/PasswordField';
-import Checkbox from '../../../ui/Input/Checkbox';
 import Button from '../../../ui/Buttons/Button';
 import Header from '../../../ui/Header';
 
@@ -18,7 +17,6 @@ const LoginForm: FunctionComponent<FormikProps<LoginFormState>> = props => {
       </div>
       <TextField name="username" placeholder="Username" icon="account_circle" formikProps={props} />
       <PasswordField name="password" placeholder="Password" icon="lock" formikProps={props} />
-      <Checkbox name="remember-me" label="Remember me" />
       <div className="login-form__footer">
         <Button disabled={props.isSubmitting}>Login</Button>
         <Link className="txt1" to="/forgotPassword">

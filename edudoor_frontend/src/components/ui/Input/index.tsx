@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
 import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';
@@ -8,6 +8,8 @@ import { FormContext } from '../Form';
 
 export enum InputFeatures {
   LABEL = 1,
+  LABEL_RIGHT = 2,
+  LABEL_LEFT = 3,
 }
 
 function withInput<R extends InputProps>(
@@ -16,7 +18,7 @@ function withInput<R extends InputProps>(
 ): FunctionComponent<R> {
   return ({ name = '', ...props }): JSX.Element => (
     <FormContext.Consumer>
-      {({ formikProps = {} }) => {
+      {({ formikProps = {} }): JSX.Element => {
         const inputProps: any = { ...props, formikProps };
         inputProps.onChange = formikProps.handleChange;
         inputProps.onBlur = formikProps.handleBlur;
@@ -29,14 +31,18 @@ function withInput<R extends InputProps>(
         const className = classNames({
           'eb-input': true,
           error: !!error,
+          'label-right': features.includes(InputFeatures.LABEL_RIGHT),
+          'label-left': features.includes(InputFeatures.LABEL_LEFT),
         });
         return (
           <FeatureProvider features={features}>
             <div className={className}>
-              <Feature feature={InputFeatures.LABEL}>
+              <Feature feature={[InputFeatures.LABEL_RIGHT, InputFeatures.LABEL, InputFeatures.LABEL_LEFT]}>
                 <label htmlFor={props.id}>{props.label || props.placeholder}</label>
               </Feature>
-              <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
+              <div className="eb-input__input">
+                <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
+              </div>
               <div className="eb-input__error-message">{error}</div>
             </div>
           </FeatureProvider>
