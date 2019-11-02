@@ -15,6 +15,7 @@ const useSidebarSchema = (props: SideBarProps): Array<MenuItem> => {
     {
       ...routes.courses,
       icon: 'school',
+      subMenu: [routes.courseList, routes.courseStudents],
     },
     {
       name: 'Logout',

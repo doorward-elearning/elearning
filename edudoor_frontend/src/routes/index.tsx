@@ -4,14 +4,17 @@ import Login from '../views/Login';
 import Dashboard from '../views/Dashboard';
 import Courses from '../views/Courses';
 import ViewCourse from '../views/Courses/ViewCourse';
+import StudentList from '../views/Courses/StudentList';
 
 export const routes = {
   home: 'Home',
   login: 'Login',
   dashboard: 'Dashboard',
-  courses: 'All Courses',
+  courses: 'Courses',
   createCourse: 'Create Course',
   viewCourse: 'View Course',
+  courseStudents: 'Student',
+  courseList: 'All Courses',
 };
 
 export type EdudoorRoutes = {
@@ -34,14 +37,15 @@ export const routeConfigurations: Routes = {
           courses: {
             link: '/courses',
             authenticated: true,
-            component: Courses,
             routes: {
               viewCourse: {
                 link: '/:courseId',
                 component: ViewCourse,
                 authenticated: true,
               },
+              courseList: { link: '/', component: Courses, authenticated: true },
               createCourse: { link: '/create', component: Courses, authenticated: true },
+              courseStudents: { link: '/students', component: StudentList, authenticated: true },
             },
           },
         },

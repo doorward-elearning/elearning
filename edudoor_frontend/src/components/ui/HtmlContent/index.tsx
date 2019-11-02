@@ -1,7 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
 const HtmlContent: FunctionComponent<HTMLContentProps> = (props): JSX.Element => {
-  return <div dangerouslySetInnerHTML={{ __html: props.html || '' }} />;
+  return (
+    <div
+      dangerouslySetInnerHTML={{ __html: props.html || '' }}
+      style={{ background: 'white', padding: 'var(--padding)' }}
+    />
+  );
 };
 
 export interface HTMLContentProps {

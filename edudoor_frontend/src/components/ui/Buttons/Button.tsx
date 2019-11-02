@@ -29,6 +29,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     raised: !flat,
     [`btn-${theme}`]: true,
     [className || '']: true,
+    icon: !!icon,
   });
 
   const Parent: any = link ? Link : React.Fragment;

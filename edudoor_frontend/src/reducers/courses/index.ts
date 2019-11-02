@@ -1,5 +1,5 @@
 import Api from '../../services/api';
-import { CREATE_COURSE, CREATE_COURSE_MDOULE, FETCH_COURSES, VIEW_COURSE } from './types';
+import { CREATE_COURSE, CREATE_COURSE_MODULE, FETCH_COURSE_STUDENTS, FETCH_COURSES, VIEW_COURSE } from './types';
 import reducerBuilder, { modifyReducer, reducerApiAction } from '../builder';
 
 const createCourse = reducerApiAction({
@@ -17,7 +17,7 @@ const viewCourse = reducerApiAction({
   action: VIEW_COURSE,
   api: Api.courses.get,
   reducer: (state, action) => {
-    if (action.type === `${CREATE_COURSE_MDOULE}_SUCCESS`) {
+    if (action.type === `${CREATE_COURSE_MODULE}_SUCCESS`) {
       return modifyReducer('data.course.modules', state, action, modules => {
         return [...modules, action.payload.module];
       });
@@ -27,10 +27,15 @@ const viewCourse = reducerApiAction({
 });
 
 const createModule = reducerApiAction({
-  action: CREATE_COURSE_MDOULE,
+  action: CREATE_COURSE_MODULE,
   api: Api.courses.modules.create,
 });
 
+const studentList = reducerApiAction({
+  action: FETCH_COURSE_STUDENTS,
+  api: Api.courses.students.get,
+});
+
 export default reducerBuilder({
-  middleware: { createCourse, courseList, viewCourse, createModule },
+  middleware: { createCourse, courseList, viewCourse, createModule, studentList },
 });

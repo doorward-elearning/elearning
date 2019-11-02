@@ -1,4 +1,4 @@
-import { CREATE_COURSE, CREATE_COURSE_MDOULE, FETCH_COURSES, VIEW_COURSE } from './types';
+import { CREATE_COURSE, CREATE_COURSE_MODULE, FETCH_COURSE_STUDENTS, FETCH_COURSES, VIEW_COURSE } from './types';
 import { Action } from '../reducers';
 import { CourseModuleBody, CreateCourseBody } from '../../services/models/requestBody';
 
@@ -17,7 +17,12 @@ export const fetchCourseAction = (courseId: number): Action => ({
   payload: [courseId],
 });
 
-export const createCourseModuleAction = (courseId: number, module: CourseModuleBody) => ({
-  type: CREATE_COURSE_MDOULE,
+export const createCourseModuleAction = (courseId: number, module: CourseModuleBody): Action => ({
+  type: CREATE_COURSE_MODULE,
   payload: [courseId, module],
+});
+
+export const fetchCourseStudentListAction = (courseId: number): Action => ({
+  type: FETCH_COURSE_STUDENTS,
+  payload: [courseId],
 });

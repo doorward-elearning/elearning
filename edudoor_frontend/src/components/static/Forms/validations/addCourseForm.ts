@@ -7,7 +7,7 @@ export default Yup.object<AddCourseFormState>().shape({
   modules: Yup.array()
     .of(
       Yup.object().shape({
-        name: Yup.string().required('The module name is required'),
+        title: Yup.string().required('The module name is required'),
       })
     )
     .required('Please provide at least one module in the course'),

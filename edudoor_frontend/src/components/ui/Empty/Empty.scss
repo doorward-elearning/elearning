@@ -2,7 +2,8 @@
   display: grid;
   place-items: center;
   background: var(--bg-primary);
-  padding: var(--padding-xlg) 0;
+  padding: var(--padding-xlg) var(--padding);
+  grid-gap: var(--padding);
 
   &__icon {
     font-size: 100px;

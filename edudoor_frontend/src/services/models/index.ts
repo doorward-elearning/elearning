@@ -28,7 +28,11 @@ export interface User extends Model {
   organization: Organization;
   roles: Array<Role>;
   authoredCourses: Array<Course>;
-  status: 'ACTIVE' | 'PENDING' | 'ACTIVE_NOT_DELETABLE' | 'LOGIN_DENIED';
+  status: string;
+}
+
+export interface Student extends User {
+  courses: Array<Course>;
 }
 
 export interface Module extends Model {
@@ -43,7 +47,7 @@ export interface Course extends Model {
   description?: string;
   objectives?: string;
   requirements?: string;
-  status: 'REVIEW' | 'PUBLISHED' | 'FINISHED';
+  status: string;
   authorId: number;
   author: User;
   modules: Array<Module>;
