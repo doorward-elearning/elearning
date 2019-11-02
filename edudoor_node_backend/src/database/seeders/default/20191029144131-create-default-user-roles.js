@@ -1,10 +1,15 @@
+const { SUPER_ADMINISTRATOR } = require('../../../utils/roles');
+
 module.exports = {
-  up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('UserRoles', [
+  up: async (queryInterface, Sequelize) => {
+    const administrators = await queryInterface.sequelize.query(
+      'SELECT id FROM "Users" WHERE username = \'administrator\''
+    );
+    const roles = await queryInterface.sequelize.query(`SELECT id FROM "Roles" WHERE name = '${SUPER_ADMINISTRATOR}'`);
+    await queryInterface.bulkInsert('UserRoles', [
       {
-        id: 1,
-        roleId: 1,
-        userId: 1,
+        roleId: roles[0][0].id,
+        userId: administrators[0][0].id,
         createdAt: new Date(),
         updatedAt: new Date(),
       },

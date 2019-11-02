@@ -1,46 +1,50 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('UserRoles', {
+    return queryInterface.createTable('StudentCourses', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      userId: {
+      studentId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
           model: 'Users',
           key: 'id',
-          as: 'userId',
+          as: 'studentId',
         },
-        onDelete: 'CASCADE',
+        onDelete: 'cascade',
       },
-      roleId: {
+      courseId: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Roles',
+          model: 'Courses',
           key: 'id',
-          as: 'roleId',
+          as: 'courseId',
         },
+        onDelete: 'cascade',
+      },
+      status: {
+        type: Sequelize.STRING,
+        defaultValue: 'PENDING',
       },
       createdAt: {
         allowNull: false,
+        type: Sequelize.DATE,
+      },
+      deletedAt: {
         type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
         type: Sequelize.DATE,
       },
-      deletedAt: {
-        allowNull: true,
-        type: Sequelize.DATE,
-      },
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('UserRoles');
+    return queryInterface.dropTable('StudentCourses');
   },
 };

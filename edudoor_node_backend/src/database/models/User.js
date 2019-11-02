@@ -61,6 +61,11 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: 'createdBy',
       as: 'authoredCourses',
     });
+    User.belongsToMany(models.Course, {
+      foreignKey: 'studentId',
+      as: 'courses',
+      through: models.StudentCourse,
+    });
   };
   return User;
 };

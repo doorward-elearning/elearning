@@ -21,6 +21,21 @@ export const CourseInclude = [
   {
     model: models.Module,
     as: 'modules',
+    required: false,
+  },
+  {
+    model: models.User,
+    as: 'students',
+  },
+];
+
+export const StudentsByCourse = courseId => [
+  {
+    model: models.Course,
+    as: 'courses',
+    where: {
+      id: courseId,
+    },
   },
 ];
 

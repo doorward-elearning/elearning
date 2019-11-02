@@ -7,16 +7,18 @@ module.exports = {
       'openolat',
       process.env.BCRYPT_PASSWORD_SALT || environment.BCRYPT_PASSWORD_SALT
     );
-    return queryInterface.bulkInsert('Users', [
+    const organizations = await queryInterface.sequelize.query(
+      'SELECT id FROM "Organizations" WHERE name = \'Edudoor\''
+    );
+    await queryInterface.bulkInsert('Users', [
       {
-        id: 1,
         username: 'administrator',
         password,
         status: 'ACTIVE_NOT_DELETABLE',
         createdAt: new Date(),
         updatedAt: new Date(),
         email: 'gitaumoses4@gmail.com',
-        organizationId: 1,
+        organizationId: organizations[0][0].id,
       },
     ]);
   },
