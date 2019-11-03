@@ -1,10 +1,11 @@
 import React from 'react';
-import Modal, { ModalFeatures, ModalProps } from '../../components/ui/Modal';
+import { ModalFeatures, ModalProps } from '../../components/ui/Modal';
 import { FormikActions } from 'formik';
-import AddCourseForm, { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
+import { AddCourseFormState } from '../../components/static/Forms/AddCourseForm';
 import { MemoryHistory } from 'history';
 import useAction from '../../hooks/useActions';
 import { createCourseAction } from '../../reducers/courses/actions';
+import AddCourseModal from '../../components/static/Modals/AddCourseModal';
 
 const AddCourse: React.FunctionComponent<AddCourseProps> = props => {
   const createCourse = useAction(createCourseAction);
@@ -15,9 +16,12 @@ const AddCourse: React.FunctionComponent<AddCourseProps> = props => {
     });
   };
   return (
-    <Modal useModal={props.useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}>
-      <AddCourseForm onSubmit={onSubmit} useModal={props.useModal} title={props.title} history={props.history} />
-    </Modal>
+    <AddCourseModal
+      useModal={props.useModal}
+      features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+      onSubmit={onSubmit}
+      title={props.title}
+    />
   );
 };
 

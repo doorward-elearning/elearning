@@ -10,12 +10,10 @@ import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import NumberField from '../../../ui/Input/NumberField';
 import Form from '../../../ui/Form';
 import addCourseForm from '../validations/addCourseForm';
-import ROUTES from '../../../../routes/routes';
-import Modal from '../../../ui/Modal';
 import { UseModal } from '../../../../hooks/useModal';
-import { MemoryHistory } from 'history';
 import { OnFormSubmit } from '../../../../types';
 import { CreateCourseBody } from '../../../../services/models/requestBody';
+import { UseForm } from '../../../../hooks/useForm';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -71,40 +69,30 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
   };
 
   return (
-    <Form showOverlay initialValues={initialValues} onSubmit={props.onSubmit} validationSchema={addCourseForm}>
-      {(formikProps: FormikProps<AddCourseFormState>): JSX.Element => {
-        props.useModal.onClose(() => {
-          formikProps.resetForm();
-          props.history.push(ROUTES.courseList.link);
-        });
-        return (
-          <React.Fragment>
-            <Modal.Header title={props.title} />
-            <Modal.Body>
-              <form onSubmit={formikProps.handleSubmit} className="add-course-form">
-                <div className="course-information">
-                  <Header size={2}>Course Information</Header>
-                  <TextField name="title" icon="school" label="Course name" />
-                  <DraftTextArea name="description" icon="notes" label="Course description" exportAs="html" />
-                  <NumberField
-                    name="noOfModules"
-                    icon="calendar_view_day"
-                    label="Number of modules"
-                    max={modules.max}
-                    min={modules.min}
-                  />
-                </div>
-                <CourseModules {...{ ...props, ...formikProps }} minModules={modules.min} maxModules={modules.max} />
-              </form>
-            </Modal.Body>
-            <Modal.Footer
-              buttons={{ positive: 'Save' }}
-              onPositiveClick={formikProps.submitForm}
-              props={{ positive: { disabled: !formikProps.isValid, type: 'submit' } }}
+    <Form
+      showOverlay
+      initialValues={initialValues}
+      onSubmit={props.onSubmit}
+      validationSchema={addCourseForm}
+      form={props.useForm}
+    >
+      {(formikProps): JSX.Element => (
+        <form onSubmit={formikProps.handleSubmit} className="add-course-form">
+          <div className="course-information">
+            <Header size={2}>Course Information</Header>
+            <TextField name="title" icon="school" label="Course name" />
+            <DraftTextArea name="description" icon="notes" label="Course description" exportAs="html" />
+            <NumberField
+              name="noOfModules"
+              icon="calendar_view_day"
+              label="Number of modules"
+              max={modules.max}
+              min={modules.min}
             />
-          </React.Fragment>
-        );
-      }}
+          </div>
+          <CourseModules {...{ ...props, ...formikProps }} minModules={modules.min} maxModules={modules.max} />
+        </form>
+      )}
     </Form>
   );
 };
@@ -113,7 +101,7 @@ export interface AddCourseFormProps {
   onSubmit: OnFormSubmit<AddCourseFormState>;
   useModal: UseModal;
   title: string;
-  history: MemoryHistory;
+  useForm: UseForm<AddCourseFormState>;
 }
 
 export interface CourseModulesProps extends AddCourseFormProps, FormikProps<AddCourseFormState> {

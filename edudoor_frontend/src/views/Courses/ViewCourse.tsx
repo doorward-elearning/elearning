@@ -5,8 +5,6 @@ import ROUTES from '../../routes/routes';
 import { match, Redirect } from 'react-router';
 import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
-import AddModuleForm from '../../components/static/Forms/AddModuleForm';
-import AddStudentForm from '../../components/static/Forms/AddStudentForm';
 import WebComponent from '../../components/ui/WebComponent';
 import Panel from '../../components/ui/Panel';
 import HtmlContent from '../../components/ui/HtmlContent';
@@ -16,6 +14,8 @@ import Row from '../../components/ui/Row';
 import CourseViewSidebar from '../../components/static/CourseViewSidebar';
 import IfElse from '../../components/ui/IfElse';
 import useViewCourse from '../../hooks/useViewCourse';
+import ChooseStudentModal from '../../components/static/Modals/ChooseStudentModal';
+import AddCourseModuleModal from '../../components/static/Modals/AddCourseModuleModal';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -46,12 +46,12 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
             {(course): JSX.Element => {
               return (
                 <div>
-                  <AddModuleForm
+                  <AddCourseModuleModal
                     courseId={course.id}
                     useModal={addModuleModal}
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
-                  <AddStudentForm
+                  <ChooseStudentModal
                     useModal={addStudentModal}
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />

@@ -9,15 +9,6 @@ body {
   }
 }
 
-a {
-  color: var(--accent);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
 .clickable {
   cursor: pointer;
 }
@@ -67,4 +58,32 @@ a {
       background: rgba(0, 0, 0, 0.1);
     }
   }
+}
+
+@mixin hoverUnderline {
+  position: relative;
+
+  &:after {
+    position: absolute;
+    content: '';
+    left: 50%;
+    bottom: 0;
+    height: 1px;
+    transform: translateX(-50%);
+    width: 0;
+    background: var(--accent);
+    transition: 0.2s width;
+  }
+
+  &:hover {
+    &:after {
+      width: 100%;
+    }
+  }
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: 0.5s color, 0.5s text-decoration;
 }

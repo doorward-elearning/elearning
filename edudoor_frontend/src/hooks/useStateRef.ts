@@ -1,6 +1,6 @@
 import { Dispatch, MutableRefObject, SetStateAction, useEffect, useRef, useState } from 'react';
 
-function useStateRef<T>(initialValue: T): [T, Dispatch<SetStateAction<T>>, MutableRefObject<T>] {
+function useStateRef<T>(initialValue: T | (() => T)): [T, Dispatch<SetStateAction<T>>, MutableRefObject<T>] {
   const [value, setValue] = useState(initialValue);
 
   const ref = useRef(value);
