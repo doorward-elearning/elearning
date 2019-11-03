@@ -7,3 +7,12 @@ export type CreateCourseBody = {
   description: string;
   modules: Array<CourseModuleBody>;
 };
+
+export interface CreateStudentBody {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  city: string;
+  country: string;
+}

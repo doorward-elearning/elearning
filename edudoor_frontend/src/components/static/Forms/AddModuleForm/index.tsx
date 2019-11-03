@@ -30,11 +30,7 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
       state={state}
       form={props.useForm}
     >
-      {(formikProps): JSX.Element => (
-        <form onSubmit={formikProps.submitForm}>
-          <TextField name="title" label="Module Name" icon="calendar_view_day" />
-        </form>
-      )}
+      <TextField name="title" label="Module Name" icon="calendar_view_day" />
     </Form>
   );
 };

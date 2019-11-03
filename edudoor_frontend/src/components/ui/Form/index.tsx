@@ -18,6 +18,7 @@ function Form<T>({
   validationSchema,
   state,
   form,
+  formClassName,
 }: FormProps<T>): JSX.Element {
   const { setFormikProps } = form;
   const [allProps, setAllProps] = useState<FormikProps<T>>();
@@ -60,7 +61,9 @@ function Form<T>({
         return (
           <div className="ed-form">
             <FormContext.Provider value={{ formikProps: props }}>
-              {(children as FormRenderProps<any>) ? (children as FormRenderProps<any>)(props) : children}
+              <form className={formClassName} onSubmit={props.handleSubmit}>
+                {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
+              </form>
             </FormContext.Provider>
             <IfElse condition={showOverlay && props.isSubmitting}>
               <div className="ed-form__spinner">
@@ -81,6 +84,7 @@ export interface FormProps<Values> extends FormikConfig<Values> {
   showOverlay?: boolean;
   state?: WebComponentState<any>;
   form: UseForm<Values>;
+  formClassName?: string;
 }
 
 export interface FormContextProps {

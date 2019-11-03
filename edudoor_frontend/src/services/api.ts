@@ -1,11 +1,12 @@
 import Request from './request';
-import { CourseModuleBody, CreateCourseBody } from './models/requestBody';
+import { CourseModuleBody, CreateCourseBody, CreateStudentBody } from './models/requestBody';
 import {
   CourseListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
   LoginResponse,
   StudentListResponse,
+  StudentResponse,
 } from './models/responseBody';
 
 const q = require('querystring').stringify;
@@ -28,6 +29,8 @@ const Api = {
     },
     students: {
       get: (courseId: number): Promise<StudentListResponse> => GET(`/courses/${courseId}/students`),
+      create: (courseId: number, student: CreateStudentBody): Promise<StudentResponse> =>
+        POST(`/courses/${courseId}/students`, student),
     },
   },
 };

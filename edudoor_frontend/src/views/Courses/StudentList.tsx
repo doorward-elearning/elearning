@@ -8,9 +8,13 @@ import { State } from '../../store';
 import useAction from '../../hooks/useActions';
 import { fetchCourseStudentListAction } from '../../reducers/courses/actions';
 import useViewCourse from '../../hooks/useViewCourse';
+import useRoutes from '../../hooks/useRoutes';
 
 const StudentList: React.FunctionComponent<StudentListProps> = props => {
   const studentList = useSelector((state: State) => state.courses.studentList);
+  const routes = useRoutes();
+  useViewCourse();
+
   const fetch = useAction(fetchCourseStudentListAction);
 
   const [courseId] = useViewCourse();
@@ -23,7 +27,10 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
       noNavBar
       {...props}
       header="Student List"
-      actionBtnProps={{ text: 'Add Student' }}
+      actionBtnProps={{
+        text: 'Add Student',
+        onClick: (): void => props.history.push(routes.routes.addCourseStudent.link),
+      }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
       <WebComponent data={studentList.data.students} loading={studentList.fetching}>

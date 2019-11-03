@@ -17,6 +17,7 @@
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "classnames": "^2.2.6",
+    "country-list": "^2.2.0",
     "css-loader": "2.1.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "5.1.0",
@@ -80,6 +81,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/classnames": "^2.2.9",
+    "@types/country-list": "^2.1.0",
     "@types/draft-js": "^0.10.37",
     "@types/draftjs-to-html": "^0.8.0",
     "@types/jest": "24.0.18",

@@ -73,11 +73,12 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
       showOverlay
       initialValues={initialValues}
       onSubmit={props.onSubmit}
+      formClassName="add-course-form"
       validationSchema={addCourseForm}
       form={props.useForm}
     >
       {(formikProps): JSX.Element => (
-        <form onSubmit={formikProps.handleSubmit} className="add-course-form">
+        <React.Fragment>
           <div className="course-information">
             <Header size={2}>Course Information</Header>
             <TextField name="title" icon="school" label="Course name" />
@@ -91,7 +92,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
             />
           </div>
           <CourseModules {...{ ...props, ...formikProps }} minModules={modules.min} maxModules={modules.max} />
-        </form>
+        </React.Fragment>
       )}
     </Form>
   );

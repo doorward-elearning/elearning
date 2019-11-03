@@ -5,6 +5,7 @@ import Dashboard from '../views/Dashboard';
 import Courses from '../views/Courses';
 import ViewCourse from '../views/Courses/ViewCourse';
 import StudentList from '../views/Courses/StudentList';
+import AddCourseStudent from '../views/Students/AddCourseStudent';
 
 export const routes = {
   home: 'Home',
@@ -15,6 +16,7 @@ export const routes = {
   viewCourse: 'View Course',
   courseStudents: 'Student List',
   courseList: 'All Courses',
+  addCourseStudent: 'Add Student',
 };
 
 export type EdudoorRoutes = {
@@ -48,7 +50,14 @@ export const routeConfigurations: Routes = {
                     component: ViewCourse,
                     authenticated: true,
                     routes: {
-                      courseStudents: { link: '/students', component: StudentList, authenticated: true },
+                      courseStudents: {
+                        link: '/students',
+                        component: StudentList,
+                        authenticated: true,
+                        routes: {
+                          addCourseStudent: { link: '/new', component: AddCourseStudent, authenticated: true },
+                        },
+                      },
                     },
                   },
                 },

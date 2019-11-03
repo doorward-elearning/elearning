@@ -13,13 +13,15 @@ import { State } from '../../../store';
 import WebComponent from '../../ui/WebComponent';
 import useAction from '../../../hooks/useActions';
 import { fetchCourseStudentListAction } from '../../../reducers/courses/actions';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../../routes/routes';
+import useRoutes from '../../../hooks/useRoutes';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
   const students = useSelector((state: State) => state.courses.studentList);
   const match: any = useRouteMatch<{ courseId: string }>();
+  const routes = useRoutes();
   const fetchStudents = useAction(fetchCourseStudentListAction);
   const courseId = +match.params.courseId;
 
@@ -40,8 +42,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           loading={students.fetching}
           message="No students have been added to the course yet."
           size="medium"
-          actionMessage="Add Student"
-          onAction={props.addStudentModal.openModal}
+          actionMessage="Create a new student"
+          onAction={() => routes.navigate(routes.routes.addCourseStudent)}
         >
           {(students): JSX.Element => (
             <List>

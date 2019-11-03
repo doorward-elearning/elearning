@@ -17,6 +17,7 @@ Request.setAuth();
 export const appInitialValue = {
   routes: { ...ROUTES },
   setTitle: (key: keyof typeof routes, name: string, link?: string): void => {},
+  setParams: (key: keyof typeof routes, params: { [name: string]: any }) => {},
 };
 
 export type AppContextProps = typeof appInitialValue;
@@ -33,9 +34,23 @@ const App: React.FC = () => {
     }
   };
 
+  const setParams = (key: keyof typeof routes, params: { [name: string]: any }) => {
+    const current = routes[key];
+    const newRoutes: typeof routes = { ...routes };
+    (Object.keys(newRoutes) as Array<keyof typeof routes>).forEach(r => {
+      if (newRoutes[r].tree.includes(current.id)) {
+        newRoutes[r].link = newRoutes[r].withParams(params);
+      }
+    });
+    const newLink = newRoutes[key];
+    if (newLink.link != current.link) {
+      setRoutes(newRoutes);
+    }
+  };
+
   return (
     <Provider store={store}>
-      <AppContext.Provider value={{ routes, setTitle }}>
+      <AppContext.Provider value={{ routes, setTitle, setParams }}>
         <ApplicationTheme theme="base">
           <Router />
         </ApplicationTheme>

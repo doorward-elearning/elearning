@@ -10,8 +10,8 @@ services:
   edudoor_frontend:
     container_name: edudoor_frontend
     build:
-      context: ../../edudoor_frontend
-      dockerfile: docker/dev/Dockerfile
+      context: ../../
+      dockerfile: ./docker/dev/frontend/Dockerfile
     links:
       - edudoor_rest_api
     volumes:
@@ -40,8 +40,8 @@ services:
   edudoor_rest_api:
     container_name: edudoor_node_backend
     build:
-      context: ../../edudoor_node_backend
-      dockerfile: docker/dev/Dockerfile
+      context: ../../
+      dockerfile: ./docker/dev/backend/Dockerfile
     links:
       - edudoor_node_database
     volumes:

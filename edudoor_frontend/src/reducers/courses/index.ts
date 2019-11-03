@@ -1,5 +1,12 @@
 import Api from '../../services/api';
-import { CREATE_COURSE, CREATE_COURSE_MODULE, FETCH_COURSE_STUDENTS, FETCH_COURSES, VIEW_COURSE } from './types';
+import {
+  CREATE_COURSE,
+  CREATE_COURSE_MODULE,
+  CREATE_COURSE_STUDENT,
+  FETCH_COURSE_STUDENTS,
+  FETCH_COURSES,
+  VIEW_COURSE,
+} from './types';
 import reducerBuilder, { modifyReducer, reducerApiAction } from '../builder';
 
 const createCourse = reducerApiAction({
@@ -36,6 +43,11 @@ const studentList = reducerApiAction({
   api: Api.courses.students.get,
 });
 
+const createStudent = reducerApiAction({
+  action: CREATE_COURSE_STUDENT,
+  api: Api.courses.students.create,
+});
+
 export default reducerBuilder({
-  middleware: { createCourse, courseList, viewCourse, createModule, studentList },
+  middleware: { createCourse, courseList, viewCourse, createModule, studentList, createStudent },
 });

@@ -1,6 +1,13 @@
-import { CREATE_COURSE, CREATE_COURSE_MODULE, FETCH_COURSE_STUDENTS, FETCH_COURSES, VIEW_COURSE } from './types';
+import {
+  CREATE_COURSE,
+  CREATE_COURSE_MODULE,
+  CREATE_COURSE_STUDENT,
+  FETCH_COURSE_STUDENTS,
+  FETCH_COURSES,
+  VIEW_COURSE,
+} from './types';
 import { Action } from '../reducers';
-import { CourseModuleBody, CreateCourseBody } from '../../services/models/requestBody';
+import { CourseModuleBody, CreateCourseBody, CreateStudentBody } from '../../services/models/requestBody';
 
 export const fetchCoursesAction = (): Action => ({
   type: FETCH_COURSES,
@@ -25,4 +32,9 @@ export const createCourseModuleAction = (courseId: number, module: CourseModuleB
 export const fetchCourseStudentListAction = (courseId: number): Action => ({
   type: FETCH_COURSE_STUDENTS,
   payload: [courseId],
+});
+
+export const addCourseStudentAction = (courseId: number, body: CreateStudentBody): Action => ({
+  type: CREATE_COURSE_STUDENT,
+  payload: [courseId, body],
 });

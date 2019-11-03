@@ -3,7 +3,7 @@ import './Row.scss';
 
 const Row: React.FunctionComponent<RowProps> = props => {
   return (
-    <div className="ed-row" style={props.style}>
+    <div className={`ed-row ${props.className || ''}`} style={props.style}>
       {props.children}
     </div>
   );
@@ -11,6 +11,7 @@ const Row: React.FunctionComponent<RowProps> = props => {
 
 export interface RowProps {
   style?: CSSProperties;
+  className?: string;
 }
 
 export default Row;

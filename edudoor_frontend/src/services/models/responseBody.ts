@@ -21,3 +21,7 @@ export interface CourseModuleResponse extends ApiResponse {
 export interface StudentListResponse extends ApiResponse {
   students: Array<Student>;
 }
+
+export interface StudentResponse extends ApiResponse {
+  student: Student;
+}

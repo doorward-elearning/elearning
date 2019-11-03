@@ -10,12 +10,14 @@ import { WebComponentState } from '../reducers/reducers';
 import { CreateCourseResponse } from '../services/models/responseBody';
 
 const useViewCourse = (): [number, WebComponentState<CreateCourseResponse>] => {
-  const { setTitle } = useRoutes();
+  const { setTitle, setParams } = useRoutes();
   const match: any = useRouteMatch<{ courseId: string }>();
-  const courseId = +match.params.courseId;
+  const courseId = match.params.courseId;
   const fetchCourse = useAction(fetchCourseAction);
   useEffect(() => {
-    fetchCourse(courseId);
+    if (courseId) {
+      fetchCourse(+courseId);
+    }
   }, []);
 
   const course = useSelector((state: State) => state.courses.viewCourse);
@@ -23,7 +25,8 @@ const useViewCourse = (): [number, WebComponentState<CreateCourseResponse>] => {
   useEffect(() => {
     if (course.data.course) {
       const courseData = course.data.course;
-      setTitle(ROUTES.viewCourse.id, courseData.title, ROUTES.viewCourse.withParams({ courseId: courseData.id }));
+      setParams(ROUTES.viewCourse.id, { courseId: courseData.id });
+      setTitle(ROUTES.viewCourse.id, courseData.title, ROUTES.viewCourse.link);
     }
   }, [course]);
 

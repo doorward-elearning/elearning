@@ -142,9 +142,9 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
 
       if (!action.hideErrorToast) {
         const d = data as ApiResponse;
-        if (d.errors && d.errors.message) {
+        if (d.message && !d.errors) {
           toast.show({
-            message: d.errors.message,
+            message: d.message,
             type: 'error',
             timeout: 3000,
             hPosition: 'center',

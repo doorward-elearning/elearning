@@ -29,7 +29,14 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
   };
 
   return (
-    <Form initialValues={initialState} onSubmit={onSubmit} validationSchema={loginForm} state={login} form={form}>
+    <Form
+      initialValues={initialState}
+      formClassName="login-form"
+      onSubmit={onSubmit}
+      validationSchema={loginForm}
+      state={login}
+      form={form}
+    >
       {(formikProps): JSX.Element => (
         <Card>
           <Card.Header>
@@ -38,20 +45,18 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
             </IfElse>
           </Card.Header>
           <Card.Body>
-            <form className="login-form" onSubmit={formikProps.handleSubmit}>
-              <div className="login-form__header">
-                <EImage alt="" src="../assets/img/logo-2.png" circle size="xLarge" />
-                <Header size={1}>Log in</Header>
-              </div>
-              <TextField name="username" placeholder="Username" icon="account_circle" />
-              <PasswordField name="password" placeholder="Password" icon="lock" />
-              <div className="login-form__footer">
-                <Button disabled={formikProps.isSubmitting}>Login</Button>
-                <Link className="txt1" to="/forgotPassword">
-                  Forgot Password?
-                </Link>
-              </div>
-            </form>
+            <div className="login-form__header">
+              <EImage alt="" src="../assets/img/logo-2.png" circle size="xLarge" />
+              <Header size={1}>Log in</Header>
+            </div>
+            <TextField name="username" placeholder="Username" icon="account_circle" />
+            <PasswordField name="password" placeholder="Password" icon="lock" />
+            <div className="login-form__footer">
+              <Button disabled={formikProps.isSubmitting}>Login</Button>
+              <Link className="txt1" to="/forgotPassword">
+                Forgot Password?
+              </Link>
+            </div>
           </Card.Body>
         </Card>
       )}
