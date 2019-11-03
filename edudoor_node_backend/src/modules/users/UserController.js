@@ -14,9 +14,11 @@ class UserController {
 
   static async createUser(req, roleName) {
     const { body } = req;
+    if (body.password) {
+      body.password = bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT);
+    }
     const user = await models.User.create({
       ...body,
-      password: bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT),
     });
 
     const role = await models.Role.findOne({
