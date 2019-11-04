@@ -57,7 +57,7 @@ services:
     expose:
       - '7000'
     entrypoint:
-      - /usr/app/docker/dev/entrypoint.sh
+      - /usr/app/entrypoint.sh
     depends_on:
       edudoor_node_database:
         condition: service_healthy
