@@ -17,6 +17,10 @@ const Api = {
   users: {
     authenticate: (body: { username: string; password: string }): Promise<LoginResponse> =>
       POST('users/authenticate', body),
+    students: {
+      list: (): Promise<StudentListResponse> => GET('/users/students'),
+      create: (body: CreateStudentBody): Promise<StudentResponse> => POST('/users/students', body),
+    },
   },
   courses: {
     create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),

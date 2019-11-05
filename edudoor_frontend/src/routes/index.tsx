@@ -4,8 +4,10 @@ import Login from '../views/Login';
 import Dashboard from '../views/Dashboard';
 import Courses from '../views/Courses';
 import ViewCourse from '../views/Courses/ViewCourse';
-import StudentList from '../views/Courses/StudentList';
+import CourseStudentList from '../views/Courses/CourseStudentList';
 import AddCourseStudent from '../views/Students/AddCourseStudent';
+import StudentList from '../views/Students/StudentList';
+import AddStudent from '../views/Students/AddStudent';
 
 export const routes = {
   home: 'Home',
@@ -17,11 +19,11 @@ export const routes = {
   courseStudents: 'Student List',
   courseList: 'All Courses',
   addCourseStudent: 'Add Student',
+  studentList: 'Students',
+  newStudent: 'Add Student',
 };
 
-export type EdudoorRoutes = {
-  [key in keyof typeof routes]: string;
-};
+export type EdudoorRoutes = typeof routes;
 
 export const routeConfigurations: Routes = {
   home: {
@@ -52,7 +54,7 @@ export const routeConfigurations: Routes = {
                     routes: {
                       courseStudents: {
                         link: '/students',
-                        component: StudentList,
+                        component: CourseStudentList,
                         authenticated: true,
                         routes: {
                           addCourseStudent: { link: '/new', component: AddCourseStudent, authenticated: true },
@@ -63,6 +65,18 @@ export const routeConfigurations: Routes = {
                 },
               },
               createCourse: { link: '/create', component: Courses, authenticated: true },
+            },
+          },
+          studentList: {
+            link: '/students',
+            authenticated: true,
+            component: StudentList,
+            routes: {
+              newStudent: {
+                link: '/new',
+                authenticated: true,
+                component: AddStudent,
+              },
             },
           },
         },
