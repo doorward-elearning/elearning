@@ -34,6 +34,9 @@ module.exports = {
       city: {
         type: Sequelize.STRING,
       },
+      gender: {
+        type: Sequelize.ENUM('Male', 'Female', 'Rather not say'),
+      },
       organizationId: {
         type: Sequelize.INTEGER,
         references: {

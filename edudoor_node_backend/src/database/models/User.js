@@ -36,6 +36,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
       },
       status: DataTypes.STRING,
+      gender: DataTypes.STRING,
     },
     {
       paranoid: true,

@@ -12,13 +12,14 @@ class UserController {
     return [200, { token: JWT.generate(user.dataValues), user }, 'Login successful'];
   }
 
-  static async createUser(req, roleName) {
+  static async createUser(req, roleName, organizationId) {
     const { body } = req;
     if (body.password) {
       body.password = bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT);
     }
     const user = await models.User.create({
       ...body,
+      organizationId,
     });
 
     const role = await models.Role.findOne({
