@@ -18,6 +18,10 @@ const useSidebarSchema = (props: SideBarProps): Array<MenuItem> => {
       subMenu: [routes.courseList],
     },
     {
+      ...routes.studentList,
+      icon: 'account_circle',
+    },
+    {
       name: 'Logout',
       onClick: (): void => {
         logout();
