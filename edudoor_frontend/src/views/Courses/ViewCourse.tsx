@@ -34,14 +34,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         header={course.data.course && course.data.course.title}
         actionBtnProps={{ text: 'Add Module', onClick: addModuleModal.openModal }}
       >
-        <Row
-          style={{
-            gridTemplateColumns: '1fr 300px',
-            alignItems: 'start',
-            gridGap: 'var(--padding-lg)',
-            marginTop: 'var(--padding-lg)',
-          }}
-        >
+        <Row className="view-course__content">
           <WebComponent data={course.data.course} loading={course.fetching}>
             {(course): JSX.Element => {
               return (
@@ -52,6 +45,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <ChooseStudentModal
+                    courseId={course.id}
                     useModal={addStudentModal}
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />

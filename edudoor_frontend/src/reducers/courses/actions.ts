@@ -4,6 +4,7 @@ import {
   CREATE_COURSE_STUDENT,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
+  FETCH_STUDENTS_NOT_REGISTERED,
   VIEW_COURSE,
 } from './types';
 import { Action } from '../reducers';
@@ -37,4 +38,9 @@ export const fetchCourseStudentListAction = (courseId: number): Action => ({
 export const addCourseStudentAction = (courseId: number, body: CreateStudentBody): Action => ({
   type: CREATE_COURSE_STUDENT,
   payload: [courseId, body],
+});
+
+export const fetchStudentsNotRegisteredAction = (courseId: number) => ({
+  type: FETCH_STUDENTS_NOT_REGISTERED,
+  payload: [courseId],
 });

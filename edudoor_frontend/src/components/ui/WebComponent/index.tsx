@@ -1,17 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Spinner from '../Spinner';
 import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
 import classNames from 'classnames';
 
 function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
+  const [refreshing, setRefreshing] = useState(false);
   let hasItems = !!props.data;
   if (props.data instanceof Array) {
     const list = props.data as Array<any>;
     hasItems = !!list.length;
   }
+
+  useEffect(() => {
+    if (hasItems && props.data) {
+      setRefreshing(props.loading);
+    }
+  }, [props]);
   if (hasItems && props.data) {
-    return <React.Fragment>{props.children(props.data)}</React.Fragment>;
+    return (
+      <div
+        className={classNames({
+          'web-component__content': true,
+          refreshing,
+        })}
+      >
+        <React.Fragment>{props.children(props.data)}</React.Fragment>
+      </div>
+    );
   } else {
     return (
       <div

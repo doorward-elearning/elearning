@@ -2,4 +2,10 @@
   .course-description {
     margin: var(--padding-lg) 0;
   }
+  &__content {
+    grid-template-columns: 1fr 300px;
+    align-items: start;
+    grid-gap: var(--padding-lg);
+    margin-top: var(--padding-lg);
+  }
 }

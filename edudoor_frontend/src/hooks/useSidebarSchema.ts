@@ -18,8 +18,9 @@ const useSidebarSchema = (props: SideBarProps): Array<MenuItem> => {
       subMenu: [routes.courseList],
     },
     {
-      ...routes.studentList,
+      ...routes.students,
       icon: 'account_circle',
+      subMenu: [routes.studentList, routes.newStudent],
     },
     {
       name: 'Logout',

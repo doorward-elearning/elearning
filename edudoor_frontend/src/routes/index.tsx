@@ -16,10 +16,11 @@ export const routes = {
   courses: 'Courses',
   createCourse: 'Create Course',
   viewCourse: 'View Course',
-  courseStudents: 'Student List',
+  courseStudents: 'Students taking course',
   courseList: 'All Courses',
   addCourseStudent: 'Add Student',
-  studentList: 'Students',
+  students: 'Students',
+  studentList: 'All Students',
   newStudent: 'Add Student',
 };
 
@@ -67,11 +68,15 @@ export const routeConfigurations: Routes = {
               createCourse: { link: '/create', component: Courses, authenticated: true },
             },
           },
-          studentList: {
+          students: {
             link: '/students',
             authenticated: true,
-            component: StudentList,
             routes: {
+              studentList: {
+                link: '/',
+                authenticated: true,
+                component: StudentList,
+              },
               newStudent: {
                 link: '/new',
                 authenticated: true,

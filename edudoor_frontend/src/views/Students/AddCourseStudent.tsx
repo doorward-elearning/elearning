@@ -9,7 +9,7 @@ import { addCourseStudentAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import useFormSubmit from '../../hooks/useFormSubmit';
 import IfElse from '../../components/ui/IfElse';
 
@@ -18,6 +18,7 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
   const createStudent = useAction(addCourseStudentAction);
   const [courseId] = useViewCourse();
   const routes = useRoutes();
+  const history = useHistory();
   const createCourse = useSelector((state: State) => state.courses.createStudent);
   const submitted = useFormSubmit(createCourse);
 
@@ -34,7 +35,12 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
         header="Add Student"
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
-        <AddStudentForm useForm={studentForm} onSubmit={onSubmit} state={createCourse} />
+        <AddStudentForm
+          onCancel={(): void => history.push(routes.routes.courseStudents.link)}
+          useForm={studentForm}
+          onSubmit={onSubmit}
+          state={createCourse}
+        />
       </Layout>
     </IfElse>
   );

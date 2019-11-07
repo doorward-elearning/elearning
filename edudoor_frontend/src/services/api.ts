@@ -18,7 +18,7 @@ const Api = {
     authenticate: (body: { username: string; password: string }): Promise<LoginResponse> =>
       POST('users/authenticate', body),
     students: {
-      list: (): Promise<StudentListResponse> => GET('/users/students'),
+      list: (query: string): Promise<StudentListResponse> => GET('/users/students?' + query),
       create: (body: CreateStudentBody): Promise<StudentResponse> => POST('/users/students', body),
     },
   },
@@ -35,6 +35,8 @@ const Api = {
       get: (courseId: number): Promise<StudentListResponse> => GET(`/courses/${courseId}/students`),
       create: (courseId: number, student: CreateStudentBody): Promise<StudentResponse> =>
         POST(`/courses/${courseId}/students`, student),
+      notRegistered: (courseId: number): Promise<StudentListResponse> =>
+        GET(`/courses/${courseId}/students/not-registered`),
     },
   },
 };

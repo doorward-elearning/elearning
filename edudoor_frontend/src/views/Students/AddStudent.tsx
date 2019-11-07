@@ -32,7 +32,12 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = props => {
         header="Add Student"
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
-        <AddStudentForm useForm={studentForm} onSubmit={onSubmit} state={newStudent} />
+        <AddStudentForm
+          onCancel={() => routes.navigate(routes.routes.studentList)}
+          useForm={studentForm}
+          onSubmit={onSubmit}
+          state={newStudent}
+        />
       </Layout>
     </IfElse>
   );

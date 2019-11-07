@@ -10,4 +10,6 @@ Router.get('/', StudentCourseController.getStudents);
 
 Router.post('/', validateCreateUser, StudentCourseController.createStudent);
 
+Router.get('/not-registered', StudentCourseController.getStudentsNotRegistered)
+
 export default Router;

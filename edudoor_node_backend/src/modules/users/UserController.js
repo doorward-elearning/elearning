@@ -3,6 +3,7 @@ import models from '../../database/models';
 import JWT from '../../utils/auth';
 import { UserInclude } from '../../utils/includes';
 import * as environment from '../../config/environment';
+import _ from 'lodash';
 
 class UserController {
   static async login(req) {
@@ -36,6 +37,27 @@ class UserController {
 
     delete user.dataValues.password;
     return user;
+  }
+
+  static async findByRole(role, options = {}) {
+    const include = _.unionBy(
+      options.include || [],
+      [
+        {
+          model: models.Role,
+          as: 'roles',
+          where: {
+            name: role,
+          },
+        },
+      ],
+      'model'
+    );
+    return models.User.findAll({
+      ...options,
+      where: options.where || {},
+      include,
+    });
   }
 }
 

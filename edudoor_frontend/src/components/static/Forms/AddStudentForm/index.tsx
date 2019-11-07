@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 import Form from '../../../ui/Form';
 import { UseForm } from '../../../../hooks/useForm';
 import TextField from '../../../ui/Input/TextField';
@@ -24,8 +24,6 @@ const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
     city: '',
     country: '',
   };
-  const history = useHistory();
-  const routes = useRoutes();
   return (
     <Form
       form={props.useForm}
@@ -54,11 +52,7 @@ const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
                   <Button type="submit" disabled={!formikProps.isValid || formikProps.isSubmitting}>
                     Save
                   </Button>
-                  <Button
-                    theme="default"
-                    type="reset"
-                    onClick={(): void => history.push(routes.routes.courseStudents.link)}
-                  >
+                  <Button theme="default" type="reset" onClick={props.onCancel}>
                     Cancel
                   </Button>
                 </Row>
@@ -76,6 +70,7 @@ export interface AddStudentFormProps {
   useForm: UseForm<AddStudentFormState>;
   onSubmit: OnFormSubmit<AddStudentFormState>;
   state: WebComponentState<StudentResponse>;
+  onCancel: MouseEventHandler;
 }
 
 export default AddStudentForm;

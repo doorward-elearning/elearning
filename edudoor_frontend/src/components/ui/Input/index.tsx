@@ -8,8 +8,6 @@ import { FormContext } from '../Form';
 
 export enum InputFeatures {
   LABEL = 1,
-  LABEL_RIGHT = 2,
-  LABEL_LEFT = 3,
 }
 
 function withInput<R extends InputProps>(
@@ -31,13 +29,12 @@ function withInput<R extends InputProps>(
         const className = classNames({
           'eb-input': true,
           error: !!error,
-          'label-right': features.includes(InputFeatures.LABEL_RIGHT),
-          'label-left': features.includes(InputFeatures.LABEL_LEFT),
+          [`label-${props.labelPosition}`]: true,
         });
         return (
           <FeatureProvider features={features}>
             <div className={className}>
-              <Feature feature={[InputFeatures.LABEL_RIGHT, InputFeatures.LABEL, InputFeatures.LABEL_LEFT]}>
+              <Feature feature={InputFeatures.LABEL}>
                 <label htmlFor={props.id}>{props.label || props.placeholder}</label>
               </Feature>
               <div className="eb-input__input">
@@ -54,6 +51,7 @@ function withInput<R extends InputProps>(
 
 export interface InputProps extends React.DetailedHTMLProps<any, any> {
   features?: Array<InputFeatures | string | typeof InputFeatures>;
+  labelPosition?: 'left' | 'right' | 'top';
 }
 
 export default withInput;

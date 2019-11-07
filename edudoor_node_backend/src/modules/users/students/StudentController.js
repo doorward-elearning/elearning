@@ -12,17 +12,14 @@ class StudentController {
 
   static async getAllStudents(req) {
     const { user } = req;
-    const students = await models.User.findAll({
+    const students = await UserController.findByRole(roles.STUDENT, {
       where: {
         organizationId: user.organizationId,
       },
       include: [
         {
-          model: models.Role,
-          as: 'roles',
-          where: {
-            name: roles.STUDENT,
-          },
+          model: models.Course,
+          as: 'courses',
         },
       ],
     });
