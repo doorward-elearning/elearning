@@ -8,27 +8,17 @@ volumes:
 
 services:
   edudoor_frontend:
+    image: gitaumoses4/edudoor_frontend
     container_name: edudoor_frontend
-    build:
-      context: ../../
-      dockerfile: ./docker/dev/frontend/Dockerfile
     links:
       - edudoor_rest_api
-    volumes:
-      - /usr/app/node_modules
-      - ../../edudoor_frontend:/usr/app
-    env_file:
-      - ../../edudoor_frontend/.env
     environment:
-      REACT_APP_BASE_URL: http://localhost:7000/api/v1/
+      REACT_APP_BASE_URL: http://lms.makonis.ai/api/v1/
       REACT_APP_REQUEST_DELAY: 500
     ports:
       - '3005:3000'
     expose:
       - '3000'
-    command:
-      - yarn
-      - start
     depends_on:
       edudoor_rest_api:
         condition: service_healthy
@@ -38,17 +28,10 @@ services:
       timeout: 10s
       retries: 20
   edudoor_rest_api:
+    image: gitaumoses4/edudoor_backend
     container_name: edudoor_node_backend
-    build:
-      context: ../../
-      dockerfile: ./docker/dev/backend/Dockerfile
     links:
       - edudoor_node_database
-    volumes:
-      - /usr/app/node_modules
-      - ../../edudoor_node_backend:/usr/app
-    env_file:
-      - ../../edudoor_node_backend/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@edudoor_node_database/edudoor
       OPENOLAT_API_URL: http://edudoor_openolat_backend:8080/openolat/restapi
@@ -56,8 +39,6 @@ services:
       - '7000:7000'
     expose:
       - '7000'
-    entrypoint:
-      - /usr/app/entrypoint.sh
     depends_on:
       edudoor_node_database:
         condition: service_healthy
