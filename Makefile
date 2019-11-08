@@ -45,6 +45,13 @@ clean:
 	docker system prune
 	@ ${SUCCESS} "Clean complete"
 
+build:
+	${INFO} "Building the backend application"
+	@ cp docker/demo/backend/Dockerfile edudoor_node_backend
+	${INFO} "Building the docker image"
+	@ docker build -t edudoor_node_backend edudoor_node_backend
+	@ rm -rf edudoor_node_backend/Dockerfile
+
 ssh:
 	docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} exec edudoor_frontend sh
 

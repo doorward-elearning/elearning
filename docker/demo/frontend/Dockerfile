@@ -5,6 +5,6 @@ WORKDIR /usr/src/app
 
 RUN npm install -g yarn && rm -rf package-lock.json
 
-COPY ../../../edudoor_node_backend/dist /usr/src/app
+COPY build /usr/src/app
 
-RUN node /usr/src/app/index.js
+RUN npm install -g serve
