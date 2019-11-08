@@ -11,5 +11,6 @@ RUN rm -rf /usr/src/app/node_modules
 RUN cd /usr/src/app
 
 RUN yarn install
+RUN yarn install -g serve
 
-ENTRYPOINT cd /usr/src/app && yarn start
+ENTRYPOINT cd /usr/src/app && yarn build &&  serve build/
