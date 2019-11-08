@@ -8,6 +8,8 @@ dotenv.config();
 const logger = debug('log');
 const server = http.createServer(app);
 
-server.listen(env.PORT, () => {
+console.log(`Starting server on port ${env.PORT}`);
+
+server.listen(env.PORT, '0.0.0.0', 511, () => {
   logger(`Find me on http://localhost:${env.PORT}`);
 });

@@ -61,8 +61,6 @@ services:
     depends_on:
       edudoor_node_database:
         condition: service_healthy
-      openolat:
-        condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
       interval: 10s
@@ -110,6 +108,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: edudoor
+    depends_on:
+      openolat:
+        condition: service_started
     volumes:
       - edudoor_data:/var/lib/postgresql/edudoor
     healthcheck:

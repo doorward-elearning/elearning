@@ -5,6 +5,11 @@ WORKDIR /usr/src/app
 
 RUN npm install -g yarn && rm -rf package-lock.json
 
-COPY build /usr/src/app
+COPY . /usr/src/app
+RUN rm -rf /usr/src/app/node_modules
 
-RUN npm install -g serve
+RUN cd /usr/src/app
+
+RUN yarn install
+
+ENTRYPOINT cd /usr/src/app && yarn start
