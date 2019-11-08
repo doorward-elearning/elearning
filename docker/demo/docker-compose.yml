@@ -16,14 +16,14 @@ services:
       REACT_APP_BASE_URL: http://lms.makonis.ai/api/v1/
       REACT_APP_REQUEST_DELAY: 500
     ports:
-      - '3005:5000'
+      - '3005:8000'
     expose:
-      - '5000'
+      - '8000'
     depends_on:
       edudoor_rest_api:
         condition: service_healthy
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:5000']
+      test: ['CMD-SHELL', 'curl -s localhost:8000']
       interval: 10s
       timeout: 10s
       retries: 20
