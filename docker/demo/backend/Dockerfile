@@ -15,4 +15,4 @@ EXPOSE 7000
 RUN yarn install
 RUN yarn build
 
-ENTRYPOINT cd /usr/src/app &&  yarn db:migrate && yarn start
+ENTRYPOINT cd /usr/src/app && yarn db:seed && yarn db:migrate && yarn start
