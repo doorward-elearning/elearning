@@ -11,6 +11,6 @@ RUN rm -rf /usr/src/app/node_modules
 RUN cd /usr/src/app
 
 RUN yarn install
-RUN npm install -g local-web-server
+RUN npm install -g serve
 
-ENTRYPOINT cd /usr/src/app && yarn build &&  ws --spa build/index.html
+ENTRYPOINT cd /usr/src/app && yarn build &&  serve --s build/
