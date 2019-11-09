@@ -13,4 +13,4 @@ RUN cd /usr/src/app
 RUN yarn install
 RUN npm install -g serve
 
-ENTRYPOINT cd /usr/src/app && yarn build &&  serve --s build/
+ENTRYPOINT cd /usr/src/app && yarn build &&  serve -s build/
