@@ -1,5 +1,6 @@
 import Api from '../../services/api';
 import {
+  ADD_MODULE_ITEM,
   CREATE_COURSE,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
@@ -54,6 +55,20 @@ const notRegistered = reducerApiAction({
   api: Api.courses.students.notRegistered,
 });
 
+const addModuleItem = reducerApiAction({
+  action: ADD_MODULE_ITEM,
+  api: Api.courses.modules.items.create,
+});
+
 export default reducerBuilder({
-  middleware: { createCourse, courseList, viewCourse, createModule, studentList, createStudent, notRegistered },
+  middleware: {
+    createCourse,
+    courseList,
+    viewCourse,
+    createModule,
+    studentList,
+    createStudent,
+    notRegistered,
+    addModuleItem,
+  },
 });

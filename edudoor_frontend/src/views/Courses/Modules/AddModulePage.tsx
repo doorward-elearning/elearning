@@ -7,12 +7,14 @@ import { useRouteMatch } from 'react-router';
 import AddModulePageForm from '../../../components/static/Forms/AddModulePageForm';
 import useForm from '../../../hooks/useForm';
 import WebComponent from '../../../components/ui/WebComponent';
+import useRoutes from '../../../hooks/useRoutes';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
   const [module, setModule] = useState<Module>();
   const [, course] = useViewCourse();
   const match: any = useRouteMatch();
   const form = useForm();
+  const routes = useRoutes();
 
   useEffect(() => {
     if (course.data.course) {
@@ -24,7 +26,13 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} noNavBar header={module?.title}>
       <WebComponent data={module} loading={!module}>
         {(module): JSX.Element => {
-          return <AddModulePageForm useForm={form} module={module} />;
+          return (
+            <AddModulePageForm
+              useForm={form}
+              module={module}
+              onSuccess={(): void => routes.navigate(routes.routes.viewCourse)}
+            />
+          );
         }}
       </WebComponent>
     </Layout>

@@ -1,5 +1,5 @@
 import { ApiResponse } from '../services';
-import { Course, Module, Student, User } from './index';
+import { Course, Module, ModuleItem, Student, User } from './index';
 
 export interface LoginResponse extends ApiResponse {
   token: string;
@@ -24,4 +24,12 @@ export interface StudentListResponse extends ApiResponse {
 
 export interface StudentResponse extends ApiResponse {
   student: Student;
+}
+
+export interface ModuleItemResponse extends ApiResponse {
+  item: ModuleItem;
+}
+
+export interface ModuleItemsResponse extends ApiResponse {
+  items: Array<ModuleItem>;
 }

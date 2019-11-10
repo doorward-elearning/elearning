@@ -1,10 +1,11 @@
 import Request from './request';
-import { CourseModuleBody, CreateCourseBody, CreateStudentBody } from './models/requestBody';
+import { CourseModuleBody, CourseModuleItemBody, CreateCourseBody, CreateStudentBody } from './models/requestBody';
 import {
   CourseListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
   LoginResponse,
+  ModuleItemResponse,
   StudentListResponse,
   StudentResponse,
 } from './models/responseBody';
@@ -30,6 +31,10 @@ const Api = {
       get: (courseId: number): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
       create: (courseId: number, module: CourseModuleBody): Promise<CourseModuleResponse> =>
         POST(`/courses/${courseId}/modules`, module),
+      items: {
+        create: (courseId: number, moduleId: number, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
+          POST(`/courses/${courseId}/modules/${moduleId}/items/`, item),
+      },
     },
     students: {
       get: (courseId: number): Promise<StudentListResponse> => GET(`/courses/${courseId}/students`),

@@ -1,3 +1,5 @@
+import { ModuleItemTypes } from './index';
+
 export type CourseModuleBody = {
   title: string;
 };
@@ -15,4 +17,9 @@ export interface CreateStudentBody {
   username: string;
   city: string;
   country: string;
+}
+export interface CourseModuleItemBody {
+  type: ModuleItemTypes;
+  content: any;
+  title: string;
 }

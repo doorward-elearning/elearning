@@ -29,11 +29,55 @@ class ModulesController {
     return [200, { module }, `${module.title} has been updated`];
   }
 
+  static async getCourseModule({ params }) {
+    const module = await models.Module.findOne({
+      where: {
+        courseId: params.courseId,
+        id: params.moduleId,
+      },
+      include: [
+        {
+          model: models.ModuleItem,
+          as: 'items',
+        },
+      ],
+    });
+
+    return [200, { module }];
+  }
+
   static async createModule(courseId, moduleData) {
     return models.Module.create({
       ...moduleData,
       courseId,
     });
+  }
+
+  static async createModuleItem(req) {
+    const { body, params, user } = req;
+    const moduleItem = await models.ModuleItem.create({
+      ...body,
+      moduleId: params.moduleId,
+      createdBy: user.id,
+    });
+    return [201, { item: moduleItem }, 'Item has been added to the module'];
+  }
+
+  static async getAllModuleItems(req) {
+    const { params } = req;
+    const items = await models.ModuleItem.findAll({
+      where: {
+        moduleId: params.moduleId,
+        ...req.searchFields,
+      },
+      include: [
+        {
+          model: models.User,
+          as: 'author',
+        },
+      ],
+    });
+    return [200, { items }];
   }
 }
 

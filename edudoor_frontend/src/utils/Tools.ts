@@ -62,7 +62,7 @@ class Tools {
     const matches = Tools.findMatches(regexp, path);
 
     return matches.reduce((acc: string, cur: RegExpExecArray): string => {
-      return acc.replace(cur[0], params[cur[2]]);
+      return acc.replace(cur[0], params[cur[2]] || cur[0]);
     }, path);
   }
 

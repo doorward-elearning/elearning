@@ -42,7 +42,7 @@ const useApp = (): UseApp => {
     (Object.keys(routes) as Array<keyof typeof routes>).forEach(route => {
       routes[route].withParams = (params: { [name: string]: string }): string => {
         setParams(route, params);
-        return routes[route].link;
+        return Tools.createRoute(routes[route].link, params);
       };
     });
   }, []);

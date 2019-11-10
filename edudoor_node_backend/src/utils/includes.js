@@ -13,6 +13,12 @@ export const UserInclude = [
   },
 ];
 
+export const ModuleInclude = [
+  {
+    model: models.ModuleItem,
+    as: 'items',
+  },
+];
 export const CourseInclude = [
   {
     model: models.User,
@@ -22,6 +28,7 @@ export const CourseInclude = [
     model: models.Module,
     as: 'modules',
     required: false,
+    include: ModuleInclude,
   },
   {
     model: models.User,
@@ -38,8 +45,6 @@ export const StudentsByCourse = courseId => [
     },
   },
 ];
-
-export const ModuleInclude = [];
 
 export const MyCoursesInclude = organizationId =>
   _.merge(CourseInclude, [

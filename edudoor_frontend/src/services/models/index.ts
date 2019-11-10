@@ -40,6 +40,15 @@ export interface Module extends Model {
   description?: string;
   courseId: number;
   course: Course;
+  items: Array<ModuleItem>;
+}
+
+export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Forum';
+
+export interface ModuleItem extends Model {
+  title: string;
+  content: any;
+  type: ModuleItemTypes;
 }
 
 export interface Course extends Model {
