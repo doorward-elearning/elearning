@@ -3,9 +3,18 @@
     margin: var(--padding-lg) 0;
   }
   &__content {
+    display: grid;
     grid-template-columns: 1fr 300px;
-    align-items: start;
+    align-content: start;
     grid-gap: var(--padding-lg);
     margin-top: var(--padding-lg);
+  }
+  &__module-list {
+    display: grid;
+    grid-gap: var(--padding);
+
+    button {
+      justify-self: end;
+    }
   }
 }

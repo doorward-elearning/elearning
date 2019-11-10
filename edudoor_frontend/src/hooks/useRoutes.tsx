@@ -11,7 +11,7 @@ const useRoutes = (): UseRoutes => {
   const context = useContext(AppContext);
   const history = useHistory();
 
-  const navigate = (route: RouteDefinition) => {
+  const navigate = (route: RouteDefinition): void => {
     history.push(route.link);
   };
   return {

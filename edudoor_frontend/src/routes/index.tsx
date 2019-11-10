@@ -8,6 +8,7 @@ import CourseStudentList from '../views/Courses/CourseStudentList';
 import AddCourseStudent from '../views/Students/AddCourseStudent';
 import StudentList from '../views/Students/StudentList';
 import AddStudent from '../views/Students/AddStudent';
+import AddModulePage from '../views/Courses/Modules/AddModulePage';
 
 export const routes = {
   home: 'Home',
@@ -22,6 +23,9 @@ export const routes = {
   students: 'Students',
   studentList: 'All Students',
   newStudent: 'Add Student',
+  addModulePage: 'Add Page',
+  modules: 'Modules',
+  moduleItems: 'Module Items',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -59,6 +63,23 @@ export const routeConfigurations: Routes = {
                         authenticated: true,
                         routes: {
                           addCourseStudent: { link: '/new', component: AddCourseStudent, authenticated: true },
+                        },
+                      },
+                      modules: {
+                        authenticated: true,
+                        link: '/modules/:moduleId',
+                        routes: {
+                          moduleItems: {
+                            link: '/items',
+                            authenticated: true,
+                            routes: {
+                              addModulePage: {
+                                link: '/newPage',
+                                authenticated: true,
+                                component: AddModulePage,
+                              },
+                            },
+                          },
                         },
                       },
                     },

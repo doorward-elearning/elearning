@@ -1,9 +1,6 @@
 import { MouseEventHandler, MutableRefObject, useEffect } from 'react';
 
-const useClickOutside = (
-  listener: MouseEventHandler<any>,
-  element: MutableRefObject<HTMLElement | null>
-): (() => void) => {
+const useClickOutside = (listener: MouseEventHandler<any>, element: MutableRefObject<HTMLElement | null>) => {
   const eventListener = (e: any): void => {
     if (element) {
       const current = element.current;
@@ -12,13 +9,16 @@ const useClickOutside = (
       }
     }
   };
-  useEffect(() => {
-    document.addEventListener('click', eventListener);
-  }, [element]);
 
-  return (): void => {
-    document.removeEventListener('click', eventListener);
-  };
+  useEffect(() => {
+    if (element.current) {
+      document.addEventListener('click', eventListener);
+    }
+
+    return (): void => {
+      document.removeEventListener('click', eventListener);
+    };
+  }, [element]);
 };
 
 export default useClickOutside;

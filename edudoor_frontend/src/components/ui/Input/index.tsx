@@ -29,7 +29,7 @@ function withInput<R extends InputProps>(
         const className = classNames({
           'eb-input': true,
           error: !!error,
-          [`label-${props.labelPosition}`]: true,
+          [`label-${props.labelPosition || 'none'}`]: true,
         });
         return (
           <FeatureProvider features={features}>
@@ -51,7 +51,7 @@ function withInput<R extends InputProps>(
 
 export interface InputProps extends React.DetailedHTMLProps<any, any> {
   features?: Array<InputFeatures | string | typeof InputFeatures>;
-  labelPosition?: 'left' | 'right' | 'top';
+  labelPosition?: 'left' | 'right' | 'top' | 'none';
 }
 
 export default withInput;

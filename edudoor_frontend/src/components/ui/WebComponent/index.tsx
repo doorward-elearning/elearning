@@ -1,16 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Spinner from '../Spinner';
 import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
 import classNames from 'classnames';
+import Tools from '../../../utils/Tools';
+import { PageProgressContext } from '../../static/UI/PageProgress';
 
 function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
+  const pageProgress = useContext(PageProgressContext);
   let hasItems = !!props.data;
   if (props.data instanceof Array) {
     const list = props.data as Array<any>;
     hasItems = !!list.length;
   }
+
+  useEffect(() => {
+    return (): void => {
+      pageProgress.setLoading(false);
+    };
+  }, []);
+
+  useEffect(() => {
+    pageProgress.setLoading(props.loading);
+  }, [props.loading]);
 
   useEffect(() => {
     if (hasItems && props.data) {
@@ -50,6 +63,7 @@ export interface WebComponentItemsProps<T> extends EmptyProps {
   data: T | undefined;
   loading: boolean;
   children: (data: T) => JSX.Element;
+  showPageProgress?: boolean;
 }
 
 export default WebComponent;

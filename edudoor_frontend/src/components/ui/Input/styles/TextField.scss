@@ -1,8 +1,12 @@
 .eb-input {
-
   &.error {
     .eb-input__text {
-      input, input:focus, textarea, textarea:focus, select, select:focus {
+      input,
+      input:focus,
+      textarea,
+      textarea:focus,
+      select,
+      select:focus {
         border: 1px solid var(--text-error);
       }
     }
@@ -23,9 +27,12 @@
       margin-top: calc(2em - 1.2em);
       font-size: 1.2em;
       pointer-events: none;
+      display: none;
     }
 
-    input, textarea, select {
+    input,
+    textarea,
+    select {
       grid-row: 1 / 1;
       grid-column: 1 / 1;
       height: 2em;
@@ -52,6 +59,17 @@
         padding-top: calc(2em - 1.2em);
         font-family: var(--font-family);
         height: 100px;
+      }
+    }
+
+    &.noIcon {
+      input,
+      textarea,
+      select {
+        padding: var(--padding);
+      }
+      .eb-input__text-icon {
+        display: none;
       }
     }
   }

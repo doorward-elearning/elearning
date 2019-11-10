@@ -20,8 +20,8 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                 {modules.map((module, index) => {
                   return (
                     <Accordion
-                      title={() => <Header size={3}>{module.title}</Header>}
-                      action={() => <AddModuleItemDropdown />}
+                      title={(): JSX.Element => <Header size={3}>{module.title}</Header>}
+                      action={(): JSX.Element => <AddModuleItemDropdown module={module} />}
                       key={index}
                     >
                       <List>

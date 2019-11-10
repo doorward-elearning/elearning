@@ -1,0 +1,14 @@
+.page-progress__container {
+  > .ed-progress {
+    position: fixed;
+    height: 2px;
+    .mdc-linear-progress__bar-inner{
+      background: var(--accent) !important;
+    }
+  }
+  &.completed {
+    > .ed-progress {
+      display: none;
+    }
+  }
+}

@@ -6,16 +6,14 @@ import { match, Redirect } from 'react-router';
 import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import WebComponent from '../../components/ui/WebComponent';
-import Panel from '../../components/ui/Panel';
-import HtmlContent from '../../components/ui/HtmlContent';
 import './Courses.scss';
 import CourseModuleList from '../../components/static/Lists/CourseModuleList';
-import Row from '../../components/ui/Row';
 import CourseViewSidebar from '../../components/static/CourseViewSidebar';
 import IfElse from '../../components/ui/IfElse';
 import useViewCourse from '../../hooks/useViewCourse';
 import ChooseStudentModal from '../../components/static/Modals/ChooseStudentModal';
 import AddCourseModuleModal from '../../components/static/Modals/AddCourseModuleModal';
+import Button from '../../components/ui/Buttons/Button';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -30,11 +28,10 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         {...props}
         className="view-course"
         noNavBar
-        features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
+        features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
         header={course.data.course && course.data.course.title}
-        actionBtnProps={{ text: 'Add Module', onClick: addModuleModal.openModal }}
       >
-        <Row className="view-course__content">
+        <div className="view-course__content">
           <WebComponent data={course.data.course} loading={course.fetching}>
             {(course): JSX.Element => {
               return (
@@ -49,16 +46,16 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     useModal={addStudentModal}
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
-                  <Panel className="course-description" plain>
-                    <HtmlContent html={course.description} />
-                  </Panel>
-                  <CourseModuleList course={course} />
+                  <div className="view-course__module-list">
+                    <Button onClick={addModuleModal.openModal}>Add Module</Button>
+                    <CourseModuleList course={course} />
+                  </div>
                 </div>
               );
             }}
           </WebComponent>
           <CourseViewSidebar addStudentModal={addStudentModal} />
-        </Row>
+        </div>
       </Layout>
     </IfElse>
   );

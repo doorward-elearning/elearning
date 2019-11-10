@@ -27,7 +27,7 @@
   }
 
   &__toolbar {
-    background: var(--bg-secondary);
+    background: #eee;
     border: 1px solid var(--line-color);
     * {
       color: #333 ;
@@ -35,14 +35,14 @@
 
     .rdw-option-wrapper, .rdw-dropdown-wrapper, .rdw-dropdown-optionwrapper{
       border: 1px solid var(--line-color);
-      background: var(--bg-primary);
+      background: #fff;
       * {
-        color: var(--text-primary);
+        color: #333;
       }
     }
 
     .rdw-option-active {
-      box-shadow: 2px 2px 0 #BFBDBD inset;
+      box-shadow: 3px 3px 0 var(--accent) inset;
     }
 
     .rdw-dropdownoption {

@@ -36,6 +36,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     <div className={`${className} eb-input--draft-text-area`}>
       <Editor
         toolbar={fullEditor}
+        placeholder={props.placeholder}
         wrapperClassName="eb-input--draft-text-area__wrapper"
         editorClassName="eb-input--draft-text-area__editor"
         toolbarClassName="eb-input--draft-text-area__toolbar"

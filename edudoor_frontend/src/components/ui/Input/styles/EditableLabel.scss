@@ -1,0 +1,42 @@
+.ed-editable-label {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+
+  > div {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+
+  &__label {
+    padding: var(--padding);
+    cursor: text;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: var(--padding);
+    justify-items: start;
+    align-items: center;
+
+    i {
+      font-size: 0.9em;
+      color: var(--text-secondary);
+    }
+  }
+
+  &.editing {
+    > div:last-child {
+      visibility: hidden;
+    }
+    > div:first-child {
+      visibility: visible;
+    }
+  }
+  > div:first-child {
+    visibility: hidden;
+  }
+  > div:last-child {
+    visibility: visible;
+  }
+}
