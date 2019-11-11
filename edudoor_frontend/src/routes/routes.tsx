@@ -27,7 +27,7 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
       const Component = !detail.allowedRoles.includes('*') ? AuthenticatedRoute : Route;
 
       const newPath = [...path];
-      if (detail.component && !detail.hideCrumb) {
+      if (detail.component && !detail.hideBreadCrumb) {
         newPath.push(current);
       }
 
