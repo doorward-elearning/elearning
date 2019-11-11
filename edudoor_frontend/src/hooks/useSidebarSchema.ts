@@ -63,8 +63,6 @@ const useSidebarSchema = (
     }
   }
 
-  console.log(selected);
-
   return {
     sidebar,
     selected,
