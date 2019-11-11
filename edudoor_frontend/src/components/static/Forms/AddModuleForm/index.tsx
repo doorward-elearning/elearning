@@ -39,6 +39,6 @@ export interface AddModuleFormState extends CourseModuleBody {}
 
 export interface AddModuleFormProps {
   useForm: UseForm<AddModuleFormState>;
-  courseId: number;
+  courseId: string;
 }
 export default AddModuleForm;

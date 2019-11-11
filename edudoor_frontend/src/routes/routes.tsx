@@ -4,7 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
 import NotFound from '../views/NotFound';
-import { EdudoorRoutes, routeConfigurations, routes } from './index';
+import { EdudoorRoute, EdudoorRoutes, routeConfigurations, routes } from './index';
 import Tools from '../utils/Tools';
 
 const routeDefinitions: any = {};
@@ -15,16 +15,16 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
   }
   return (Object.keys(r) as Array<keyof EdudoorRoutes>).reduce((acc: Array<ReactNode>, current) => {
     const more: Array<ReactNode> = [];
-    const detail = r[current];
+    const detail: EdudoorRoute | undefined = r[current];
     if (detail) {
-      const fullLink = parentLink + detail.link;
+      const fullLink = parentLink + detail.path;
       const props: RouteProps = {
         exact: true,
         path: fullLink,
         component: detail.component,
       };
 
-      const Component = detail.authenticated ? AuthenticatedRoute : Route;
+      const Component = !detail.allowedRoles.includes('*') ? AuthenticatedRoute : Route;
 
       const newPath = [...path];
       if (detail.component && !detail.hideCrumb) {
@@ -41,6 +41,7 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
       routeDefinitions[current] = {
         name: routes[current],
         link: fullLink,
+        matchURL: fullLink,
         withParams: (params: { [name: string]: any }): string => {
           return Tools.createRoute(fullLink, params);
         },

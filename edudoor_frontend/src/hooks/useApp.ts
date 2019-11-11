@@ -29,7 +29,7 @@ const useApp = (): UseApp => {
     const newRoutes: typeof routes = { ...routes };
     (Object.keys(newRoutes) as Array<keyof typeof routes>).forEach(r => {
       if (newRoutes[r].tree.includes(current.id)) {
-        newRoutes[r].link = Tools.createRoute(newRoutes[r].link, params);
+        newRoutes[r].link = Tools.createRoute(newRoutes[r].matchURL, params);
       }
     });
     const newLink = newRoutes[key];
@@ -37,15 +37,6 @@ const useApp = (): UseApp => {
       setRoutes(newRoutes);
     }
   };
-
-  useEffect(() => {
-    (Object.keys(routes) as Array<keyof typeof routes>).forEach(route => {
-      routes[route].withParams = (params: { [name: string]: string }): string => {
-        // setParams(route, params);
-        return Tools.createRoute(routes[route].link, params);
-      };
-    });
-  }, []);
 
   return {
     setTitle,

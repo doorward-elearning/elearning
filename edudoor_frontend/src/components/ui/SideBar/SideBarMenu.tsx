@@ -5,7 +5,6 @@ import { MemoryHistory, Location } from 'history';
 import { Link, useRouteMatch } from 'react-router-dom';
 import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
-import useRoutes from '../../../hooks/useRoutes';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
   const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history, location } = props;

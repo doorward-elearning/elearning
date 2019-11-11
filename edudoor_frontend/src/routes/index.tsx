@@ -10,6 +10,36 @@ import StudentList from '../views/Students/StudentList';
 import AddStudent from '../views/Students/AddStudent';
 import AddModulePage from '../views/Courses/Modules/AddModulePage';
 import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
+import * as React from 'react';
+
+export class EdudoorRoute {
+  path: string;
+  allowedRoles: Array<string>;
+  routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute };
+  component?: React.FunctionComponent<any>;
+  hideBreadCrumb?: boolean;
+
+  constructor(path: string, component?: React.FunctionComponent<any>) {
+    this.path = path;
+    this.routes = {};
+    this.hideBreadCrumb = false;
+    this.allowedRoles = ['*'];
+    this.component = component;
+  }
+
+  roles(...roles: Array<string>) {
+    return this;
+  }
+
+  hideCrumb() {
+    this.hideBreadCrumb = true;
+  }
+
+  with(routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute }) {
+    this.routes = routes;
+    return this;
+  }
+}
 
 export const routes = {
   home: 'Home',
@@ -32,88 +62,31 @@ export const routes = {
 
 export type EdudoorRoutes = typeof routes;
 
+const Route = EdudoorRoute;
+
 export const routeConfigurations: Routes = {
-  home: {
-    link: '/',
-    component: Home,
-    authenticated: false,
-    hideCrumb: true,
-    routes: {
-      login: { link: '/login', component: Login, authenticated: false },
-      dashboard: {
-        link: '/dashboard',
-        component: Dashboard,
-        authenticated: true,
-        routes: {
-          courses: {
-            link: '/courses',
-            authenticated: true,
-            routes: {
-              courseList: {
-                link: '/',
-                component: Courses,
-                authenticated: true,
-                routes: {
-                  viewCourse: {
-                    link: '/:courseId',
-                    component: ViewCourse,
-                    authenticated: true,
-                    routes: {
-                      courseStudents: {
-                        link: '/students',
-                        component: CourseStudentList,
-                        authenticated: true,
-                        routes: {
-                          addCourseStudent: { link: '/new', component: AddCourseStudent, authenticated: true },
-                        },
-                      },
-                      modules: {
-                        authenticated: true,
-                        link: '/modules/:moduleId',
-                        routes: {
-                          moduleItems: {
-                            link: '/items',
-                            authenticated: true,
-                            routes: {
-                              viewModuleItem: {
-                                link: '/:itemId',
-                                authenticated: true,
-                                component: ViewModuleItem,
-                              },
-                              addModulePage: {
-                                link: '/newPage',
-                                authenticated: true,
-                                component: AddModulePage,
-                              },
-                            },
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-              createCourse: { link: '/create', component: Courses, authenticated: true },
-            },
-          },
-          students: {
-            link: '/students',
-            authenticated: true,
-            routes: {
-              studentList: {
-                link: '/',
-                authenticated: true,
-                component: StudentList,
-              },
-              newStudent: {
-                link: '/new',
-                authenticated: true,
-                component: AddStudent,
-              },
-            },
-          },
-        },
-      },
-    },
-  },
+  home: new Route('/', Home).with({
+    login: new Route('/login', Login),
+    dashboard: new Route('/dashboard', Dashboard).with({
+      courses: new Route('/courses').with({
+        courseList: new Route('/', Courses),
+        viewCourse: new Route('/:courseId', ViewCourse).with({
+          courseStudents: new Route('/students', CourseStudentList).with({
+            addCourseStudent: new Route('/new', AddCourseStudent),
+          }),
+          modules: new Route('/modules').with({
+            moduleItems: new Route('/:moduleId/items').with({
+              viewModuleItem: new Route('/:itemId', ViewModuleItem),
+              addModulePage: new Route('/create/page', AddModulePage),
+            }),
+          }),
+        }),
+        createCourse: new Route('/create', Courses),
+      }),
+      students: new Route('/students').with({
+        studentList: new Route('/', StudentList),
+        newStudent: new Route('/create', AddStudent),
+      }),
+    }),
+  }),
 };

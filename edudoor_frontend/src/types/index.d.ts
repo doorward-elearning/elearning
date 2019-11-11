@@ -1,9 +1,9 @@
 import { MemoryHistory, Location } from 'history';
 import { ReactNode } from 'react';
-import { match, RouteComponentProps } from 'react-router';
+import { match, Route, RouteComponentProps } from 'react-router';
 import * as React from 'react';
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
-import { routes } from '../routes';
+import { EdudoorRoute, routes } from '../routes';
 import { FormikActions } from 'formik';
 
 export interface PageComponent {
@@ -16,11 +16,12 @@ export type HigherOrderComponent<T, S extends ReactNode> = (props: T) => (S) => 
 
 export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
 
-export type Routes = { [key in keyof typeof routes]?: RouteBuilder };
+export type Routes = { [key in keyof typeof routes]?: EdudoorRoute };
 
 export type RouteDefinition = {
   tree: Array<keyof typeof routes>;
   id: keyof typeof routes;
+  matchURL: string;
   withParams: (params: { [name: string]: any }) => string;
 } & BreadCrumb;
 
@@ -36,7 +37,6 @@ type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A
 
 type RouteBuilder = {
   link: string;
-  hideCrumb?: boolean;
   component?: React.ComponentType<RouteComponentProps<any>> | React.ComponentType<any>;
   authenticated: boolean;
   routes?: Routes;

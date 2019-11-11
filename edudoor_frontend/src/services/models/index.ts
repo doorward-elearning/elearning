@@ -1,5 +1,5 @@
 export interface Model {
-  id: number;
+  id: string;
   createdAt: string;
   updatedAt: string;
   deletedAt?: string;
@@ -12,7 +12,7 @@ export interface Organization extends Model {
 export interface Role extends Model {
   name: string;
   description?: string;
-  organizationId: number;
+  organizationId: string;
   organization: Organization;
 }
 
@@ -24,7 +24,7 @@ export interface User extends Model {
   zipCode?: string;
   country?: string;
   city?: string;
-  organizationId: number;
+  organizationId: string;
   organization: Organization;
   roles: Array<Role>;
   authoredCourses: Array<Course>;
@@ -38,7 +38,7 @@ export interface Student extends User {
 export interface Module extends Model {
   title: string;
   description?: string;
-  courseId: number;
+  courseId: string;
   course: Course;
   items: Array<ModuleItem>;
 }
@@ -57,7 +57,7 @@ export interface Course extends Model {
   objectives?: string;
   requirements?: string;
   status: string;
-  authorId: number;
+  authorId: string;
   author: User;
   modules: Array<Module>;
 }

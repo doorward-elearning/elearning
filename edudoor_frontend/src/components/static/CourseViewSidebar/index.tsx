@@ -13,7 +13,7 @@ import { State } from '../../../store';
 import WebComponent from '../../ui/WebComponent';
 import useAction from '../../../hooks/useActions';
 import { fetchCourseStudentListAction } from '../../../reducers/courses/actions';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../../routes/routes';
 import useRoutes from '../../../hooks/useRoutes';
@@ -23,7 +23,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
   const match: any = useRouteMatch<{ courseId: string }>();
   const routes = useRoutes();
   const fetchStudents = useAction(fetchCourseStudentListAction);
-  const courseId = +match.params.courseId;
+  const courseId = match.params.courseId;
 
   useEffect(() => {
     fetchStudents(courseId);

@@ -26,34 +26,34 @@ export const createCourseAction = (body: CreateCourseBody, successCallback: () =
   onSuccess: successCallback,
 });
 
-export const fetchCourseAction = (courseId: number): Action => ({
+export const fetchCourseAction = (courseId: string): Action => ({
   type: VIEW_COURSE,
   payload: [courseId],
 });
 
-export const createCourseModuleAction = (courseId: number, module: CourseModuleBody): Action => ({
+export const createCourseModuleAction = (courseId: string, module: CourseModuleBody): Action => ({
   type: CREATE_COURSE_MODULE,
   payload: [courseId, module],
 });
 
-export const fetchCourseStudentListAction = (courseId: number): Action => ({
+export const fetchCourseStudentListAction = (courseId: string): Action => ({
   type: FETCH_COURSE_STUDENTS,
   payload: [courseId],
 });
 
-export const addCourseStudentAction = (courseId: number, body: CreateStudentBody): Action => ({
+export const addCourseStudentAction = (courseId: string, body: CreateStudentBody): Action => ({
   type: CREATE_COURSE_STUDENT,
   payload: [courseId, body],
 });
 
-export const fetchStudentsNotRegisteredAction = (courseId: number) => ({
+export const fetchStudentsNotRegisteredAction = (courseId: string) => ({
   type: FETCH_STUDENTS_NOT_REGISTERED,
   payload: [courseId],
 });
 
 export const createCourseModuleItemAction = (
-  courseId: number,
-  moduleId: number,
+  courseId: string,
+  moduleId: string,
   item: CourseModuleItemBody
 ): Action => ({
   type: ADD_MODULE_ITEM,

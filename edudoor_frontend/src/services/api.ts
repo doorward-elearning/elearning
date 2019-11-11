@@ -26,21 +26,21 @@ const Api = {
   courses: {
     create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
     list: (): Promise<CourseListResponse> => GET('/courses'),
-    get: (courseId: number): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
+    get: (courseId: string): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
     modules: {
-      get: (courseId: number): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
-      create: (courseId: number, module: CourseModuleBody): Promise<CourseModuleResponse> =>
+      get: (courseId: string): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
+      create: (courseId: string, module: CourseModuleBody): Promise<CourseModuleResponse> =>
         POST(`/courses/${courseId}/modules`, module),
       items: {
-        create: (courseId: number, moduleId: number, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
+        create: (courseId: string, moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
           POST(`/courses/${courseId}/modules/${moduleId}/items/`, item),
       },
     },
     students: {
-      get: (courseId: number): Promise<StudentListResponse> => GET(`/courses/${courseId}/students`),
-      create: (courseId: number, student: CreateStudentBody): Promise<StudentResponse> =>
+      get: (courseId: string): Promise<StudentListResponse> => GET(`/courses/${courseId}/students`),
+      create: (courseId: string, student: CreateStudentBody): Promise<StudentResponse> =>
         POST(`/courses/${courseId}/students`, student),
-      notRegistered: (courseId: number): Promise<StudentListResponse> =>
+      notRegistered: (courseId: string): Promise<StudentListResponse> =>
         GET(`/courses/${courseId}/students/not-registered`),
     },
   },

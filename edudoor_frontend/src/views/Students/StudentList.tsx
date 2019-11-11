@@ -21,7 +21,6 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
 
   return (
     <Layout
-      noNavBar
       {...props}
       header="All Students"
       actionBtnProps={{

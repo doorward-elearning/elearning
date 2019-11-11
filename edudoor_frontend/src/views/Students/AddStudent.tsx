@@ -27,7 +27,6 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = props => {
     <IfElse condition={submitted}>
       <Redirect to={routes.routes.studentList.link} />
       <Layout
-        noNavBar
         {...props}
         header="Add Student"
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}

@@ -9,7 +9,7 @@ import ROUTES from '../routes/routes';
 import { WebComponentState } from '../reducers/reducers';
 import { CreateCourseResponse } from '../services/models/responseBody';
 
-const useViewCourse = (): [number, WebComponentState<CreateCourseResponse>] => {
+const useViewCourse = (): [string, WebComponentState<CreateCourseResponse>] => {
   const { setTitle, setParams } = useRoutes();
   const match: any = useRouteMatch<{ courseId: string }>();
   const routes = useRoutes();
@@ -20,7 +20,7 @@ const useViewCourse = (): [number, WebComponentState<CreateCourseResponse>] => {
       routes.navigate(routes.routes.courseList);
     }
     if (courseId) {
-      fetchCourse(+courseId);
+      fetchCourse(courseId);
     }
   }, []);
 

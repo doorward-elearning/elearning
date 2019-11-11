@@ -77,7 +77,7 @@ export interface ChooseStudentFormState {
 
 export interface ChooseStudentFormProps {
   form: UseForm<ChooseStudentFormState>;
-  courseId: number;
+  courseId: string;
 }
 
 export default ChooseStudentForm;

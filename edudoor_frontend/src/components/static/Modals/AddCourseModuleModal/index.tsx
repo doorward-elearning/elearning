@@ -36,7 +36,7 @@ const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> =
 };
 
 export interface AddCourseModuleModalProps extends ModalProps {
-  courseId: number;
+  courseId: string;
   useModal: UseModal;
 }
 

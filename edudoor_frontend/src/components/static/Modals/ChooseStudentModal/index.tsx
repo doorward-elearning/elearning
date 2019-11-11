@@ -18,7 +18,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = pro
 };
 
 export interface ChooseStudentModalProps extends ModalProps {
-  courseId: number;
+  courseId: string;
 }
 
 export default ChooseStudentModal;
