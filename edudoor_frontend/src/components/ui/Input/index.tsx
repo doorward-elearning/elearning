@@ -12,41 +12,46 @@ export enum InputFeatures {
 
 function withInput<R extends InputProps>(
   Input: FunctionComponent<R>,
-  features: Array<InputFeatures | string | typeof InputFeatures> = []
+  features: Array<InputFeatures | string | typeof InputFeatures> = [],
+  defaultProps?: { [k in keyof R]?: string }
 ): FunctionComponent<R> {
-  return ({ name = '', ...props }): JSX.Element => (
-    <FormContext.Consumer>
-      {({ formikProps = {} }): JSX.Element => {
-        const inputProps: any = { ...props, formikProps };
-        inputProps.onChange = formikProps.handleChange;
-        inputProps.onBlur = formikProps.handleBlur;
-        inputProps.value = _.get(formikProps.values, name);
+  return ({ ...passedProps }): JSX.Element => {
+    const props = { ...passedProps, ...defaultProps };
+    const { name } = props;
+    return (
+      <FormContext.Consumer>
+        {({ formikProps = {} }): JSX.Element => {
+          const inputProps: any = { ...props, formikProps };
+          inputProps.onChange = formikProps.handleChange;
+          inputProps.onBlur = formikProps.handleBlur;
+          inputProps.value = _.get(formikProps.values, name);
 
-        let error = '';
-        if (formikProps && name) {
-          error = '' + (_.get(formikProps.errors, name) || '');
-        }
-        const className = classNames({
-          'eb-input': true,
-          error: !!error,
-          [`label-${props.labelPosition || 'none'}`]: true,
-        });
-        return (
-          <FeatureProvider features={features}>
-            <div className={className}>
-              <Feature feature={InputFeatures.LABEL}>
-                <label htmlFor={props.id}>{props.label || props.placeholder}</label>
-              </Feature>
-              <div className="eb-input__input">
-                <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
+          let error = '';
+          if (formikProps && name) {
+            error = '' + (_.get(formikProps.errors, name) || '');
+          }
+          const className = classNames({
+            'eb-input': true,
+            error: !!error,
+            [`label-${props.labelPosition || 'none'}`]: true,
+          });
+          return (
+            <FeatureProvider features={features}>
+              <div className={className}>
+                <Feature feature={InputFeatures.LABEL}>
+                  <label htmlFor={props.id}>{props.label || props.placeholder}</label>
+                </Feature>
+                <div className="eb-input__input">
+                  <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
+                </div>
+                <div className="eb-input__error-message">{error}</div>
               </div>
-              <div className="eb-input__error-message">{error}</div>
-            </div>
-          </FeatureProvider>
-        );
-      }}
-    </FormContext.Consumer>
-  );
+            </FeatureProvider>
+          );
+        }}
+      </FormContext.Consumer>
+    );
+  };
 }
 
 export interface InputProps extends React.DetailedHTMLProps<any, any> {

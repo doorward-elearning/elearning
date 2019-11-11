@@ -42,6 +42,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                                   to={routes.routes.viewModuleItem.withParams({
                                     itemId: moduleItem.id,
                                     moduleId: module.id,
+                                    courseId: module.courseId,
                                   })}
                                 >
                                   {moduleItem.title}

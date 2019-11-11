@@ -43,7 +43,11 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           message="No students have been added to the course yet."
           size="medium"
           actionMessage="Create a new student"
-          onAction={() => routes.navigate(routes.routes.addCourseStudent)}
+          onAction={() =>
+            routes.navigate(routes.routes.addCourseStudent, {
+              courseId,
+            })
+          }
         >
           {(students): JSX.Element => (
             <List>
@@ -58,7 +62,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
                   <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>
                 ))}
               <ListItem>
-                <Link to={ROUTES.courseStudents.withParams({ courseId: courseId })}>View all</Link>
+                <Link to={routes.routes.courseStudents.withParams({ courseId: courseId })}>View all</Link>
               </ListItem>
             </List>
           )}

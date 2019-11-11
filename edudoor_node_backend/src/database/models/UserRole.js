@@ -1,7 +1,13 @@
+const shortid = require('shortid');
+
 module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
     'UserRole',
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       userId: {
         type: DataTypes.INTEGER,
         allowNull: false,

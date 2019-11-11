@@ -35,7 +35,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
 
   return (
     <WebComponent data={studentList.data.students} loading={studentList.fetching}>
-      {students => (
+      {(students): JSX.Element => (
         <Form
           initialValues={{ students: createStudentList(students) }}
           onSubmit={onSubmit}
@@ -49,10 +49,10 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
               />
               <TableBody
                 data={formikProps.values.students}
-                onRowClick={(row, index) => {
+                onRowClick={(row, index): void => {
                   formikProps.setFieldValue(`students.${index}.selected`, true);
                 }}
-                getCell={(row, index, column) => {
+                getCell={(row, index, column): JSX.Element => {
                   return (
                     <div className="choose-student-form__value">
                       <IfElse condition={column === 'add'}>

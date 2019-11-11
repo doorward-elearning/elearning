@@ -3,10 +3,8 @@ module.exports = (sequelize, DataTypes) => {
     'User',
     {
       id: {
-        allowNull: false,
-        autoIncrement: true,
+        type: DataTypes.STRING,
         primaryKey: true,
-        type: DataTypes.INTEGER,
       },
       username: {
         type: DataTypes.STRING,

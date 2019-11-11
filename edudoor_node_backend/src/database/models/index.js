@@ -1,4 +1,5 @@
 const fs = require('fs');
+const shortid = require('shortid');
 const path = require('path');
 const Sequelize = require('sequelize');
 
@@ -26,6 +27,10 @@ Object.keys(models).forEach(modelName => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }
+  models[modelName].beforeCreate(model => {
+    // eslint-disable-next-line no-param-reassign
+    model.id = shortid.generate();
+  });
 });
 
 models.sequelize = sequelize;

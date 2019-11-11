@@ -110,22 +110,6 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
       {({ closeModal }): JSX.Element => (
         <div className="ed-modal__content__footer">
           <div className="ed-modal__content__footer__buttons">
-            <div className="action-buttons">
-              <ModalFooterButton
-                props={{ ...props.positive, theme: 'success', className: 'positive_button' }}
-                onClick={handleClick}
-                feature={ModalFeatures.POSITIVE_BUTTON}
-              >
-                {buttons.positive}
-              </ModalFooterButton>
-              <ModalFooterButton
-                props={{ ...props.negative, theme: 'primary', className: 'negative_button' }}
-                onClick={handleClick}
-                feature={ModalFeatures.NEGATIVE_BUTTON}
-              >
-                {buttons.negative}
-              </ModalFooterButton>
-            </div>
             <div className="no-action-buttons">
               <ModalFooterButton
                 props={{ ...props.neutral, theme: 'default', className: 'neutral_button' }}
@@ -139,6 +123,22 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
                   Close
                 </Button>
               </Feature>
+            </div>
+            <div className="action-buttons">
+              <ModalFooterButton
+                props={{ ...props.negative, theme: 'primary', className: 'negative_button' }}
+                onClick={handleClick}
+                feature={ModalFeatures.NEGATIVE_BUTTON}
+              >
+                {buttons.negative}
+              </ModalFooterButton>
+              <ModalFooterButton
+                props={{ ...props.positive, theme: 'success', className: 'positive_button' }}
+                onClick={handleClick}
+                feature={ModalFeatures.POSITIVE_BUTTON}
+              >
+                {buttons.positive}
+              </ModalFooterButton>
             </div>
           </div>
           {children}

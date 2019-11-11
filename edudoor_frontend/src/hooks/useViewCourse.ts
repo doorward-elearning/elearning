@@ -12,13 +12,9 @@ import { CreateCourseResponse } from '../services/models/responseBody';
 const useViewCourse = (): [string, WebComponentState<CreateCourseResponse>] => {
   const { setTitle, setParams } = useRoutes();
   const match: any = useRouteMatch<{ courseId: string }>();
-  const routes = useRoutes();
   const courseId = match.params.courseId;
   const fetchCourse = useAction(fetchCourseAction);
   useEffect(() => {
-    if (!/\d+/.test(courseId)) {
-      routes.navigate(routes.routes.courseList);
-    }
     if (courseId) {
       fetchCourse(courseId);
     }

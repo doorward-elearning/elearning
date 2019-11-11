@@ -44,4 +44,4 @@ export interface DropdownOptionProps {
   option: Option;
 }
 
-export default withInput(DropdownSelect, [InputFeatures.LABEL]);
+export default withInput(DropdownSelect, [InputFeatures.LABEL], { labelPosition: 'top' });

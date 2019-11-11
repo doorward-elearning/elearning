@@ -71,12 +71,12 @@
     &__footer {
       &__buttons {
         display: grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: 2fr 1fr;
 
         .action-buttons {
           display: grid;
           grid-auto-flow: column;
-          justify-items: start;
+          justify-items: end;
           grid-gap: var(--padding-xlg);
         }
 
@@ -85,7 +85,7 @@
           justify-items: end;
           grid-auto-flow: column;
           grid-gap: var(--padding-xlg);
-          justify-content: end;
+          justify-content: start;
         }
       }
     }

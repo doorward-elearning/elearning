@@ -2,6 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Module = sequelize.define(
     'Module',
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
     },

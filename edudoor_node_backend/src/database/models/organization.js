@@ -2,6 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Organization = sequelize.define(
     'Organization',
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
       description: DataTypes.TEXT,
     },

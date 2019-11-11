@@ -36,6 +36,6 @@ export interface TextFieldProps extends InputProps {
   icon?: string;
 }
 
-export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL]);
+export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL], { labelPosition: 'top' });
 
 export const PlainTextField = TextField;

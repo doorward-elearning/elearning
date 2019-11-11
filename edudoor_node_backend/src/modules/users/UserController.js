@@ -1,9 +1,10 @@
 import bcrypt from 'bcrypt';
+import _ from 'lodash';
+import shortid from 'shortid';
 import models from '../../database/models';
 import JWT from '../../utils/auth';
 import { UserInclude } from '../../utils/includes';
 import * as environment from '../../config/environment';
-import _ from 'lodash';
 
 class UserController {
   static async login(req) {

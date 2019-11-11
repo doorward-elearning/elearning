@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const environment = require('../../../config/environment');
-const uuid = require('uuid/v4');
+const shortid = require('shortid');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -13,7 +13,7 @@ module.exports = {
     );
     await queryInterface.bulkInsert('Users', [
       {
-        id: uuid(),
+        id: shortid.generate(),
         username: 'administrator',
         password,
         status: 'ACTIVE_NOT_DELETABLE',

@@ -2,6 +2,10 @@ module.exports = (sequelize, DataTypes) => {
   const Role = sequelize.define(
     'Role',
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       name: DataTypes.STRING,
     },
     { paranoid: true, defaultScope: {} }

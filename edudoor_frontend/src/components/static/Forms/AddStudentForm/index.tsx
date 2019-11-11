@@ -12,8 +12,6 @@ import addStudentForm from '../validations/addStudentForm';
 import { CreateStudentBody } from '../../../../services/models/requestBody';
 import { WebComponentState } from '../../../../reducers/reducers';
 import { StudentResponse } from '../../../../services/models/responseBody';
-import { useHistory } from 'react-router';
-import useRoutes from '../../../../hooks/useRoutes';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
   const initialValues = {

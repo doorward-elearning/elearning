@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import models from '../../../database/models';
 import StudentController from '../../users/students/StudentController';
 import UserController from '../../users/UserController';
@@ -18,13 +19,15 @@ class StudentCourseController {
    */
   static async getStudentsNotRegistered(req) {
     const { params } = req;
+    const registered = await models.sequelize.query('SELECT "studentId" from "StudentCourses" WHERE "courseId" = ?', {
+      replacements: [params.courseId],
+    });
     const students = await UserController.findByRole(roles.STUDENT, {
-      where: await models.sequelize.query(
-        '"User"."id" NOT IN (SELECT "studentId" from "StudentCourses" WHERE "courseId" = ?)',
-        {
-          replacements: [params.courseId],
-        }
-      ),
+      where: {
+        id: {
+          [Op.notIn]: registered[0],
+        },
+      },
     });
     return [200, { students }];
   }

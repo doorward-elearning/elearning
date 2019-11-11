@@ -11,7 +11,7 @@ import useRoutes from '../../../hooks/useRoutes';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
   const [module, setModule] = useState<Module>();
-  const [, course] = useViewCourse();
+  const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const form = useForm();
   const routes = useRoutes();
@@ -30,7 +30,11 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
             <AddModulePageForm
               useForm={form}
               module={module}
-              onSuccess={(): void => routes.navigate(routes.routes.viewCourse)}
+              onSuccess={(): void =>
+                routes.navigate(routes.routes.viewCourse, {
+                  courseId: courseId,
+                })
+              }
             />
           );
         }}
