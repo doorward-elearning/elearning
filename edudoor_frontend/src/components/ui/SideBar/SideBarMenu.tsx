@@ -9,7 +9,7 @@ import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
 const Item: React.FunctionComponent<ItemProps> = props => {
   const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history, location } = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find((item: SubMenuItem): boolean => {
-    return location.pathname === item.link;
+    return props.selected === item.link;
   });
 
   const classes = classNames({
@@ -45,13 +45,13 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   history,
   location,
   collapsed,
+  selected,
 }): JSX.Element => {
-  const match: any = useRouteMatch();
   const activeMenu: MenuItem | undefined = menu.find(item => {
-    if (item.link === match.path) {
+    if (item.link === selected) {
       return true;
     }
-    return (item.subMenu || []).find(subMenu => match.path.startsWith(subMenu.link));
+    return (item.subMenu || []).find(subMenu => subMenu.link === selected);
   });
 
   const [open, setOpen] = useState<MenuItem | undefined>(activeMenu);
@@ -69,6 +69,7 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
           history={history}
           collapsed={collapsed}
           location={location}
+          selected={selected}
           open={(open && open.link === item.link) || collapsed}
           setOpen={(value): void => handleOpen(item, value)}
         />
@@ -82,6 +83,7 @@ export interface SideBarMenuProps {
   menu: Array<MenuItem>;
   location: Location;
   collapsed: boolean;
+  selected: string;
 }
 
 export interface ItemProps extends MenuItem {
@@ -89,6 +91,7 @@ export interface ItemProps extends MenuItem {
   location: Location;
   open: boolean;
   collapsed: boolean;
+  selected: string;
   setOpen: (open: boolean) => void;
 }
 

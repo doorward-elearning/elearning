@@ -29,7 +29,13 @@ const SideBar: React.FunctionComponent<SideBarProps> = props => {
       )}
       <ul className="sidemenu">
         <UserPanel collapsed={collapsed} />
-        <SideBarMenu history={history} location={location} menu={schema} collapsed={collapsed} />
+        <SideBarMenu
+          history={history}
+          location={location}
+          menu={schema.sidebar}
+          selected={schema.selected}
+          collapsed={collapsed}
+        />
       </ul>
     </div>
   );

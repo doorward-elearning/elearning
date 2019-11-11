@@ -28,7 +28,6 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, tex
 const Layout: React.FunctionComponent<LayoutProps> = ({
   history,
   location,
-  match,
   children,
   header = '',
   className: appendClasses = '',
@@ -39,7 +38,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const breadcrumbs = withBreadCrumbs(match);
+  const breadcrumbs = withBreadCrumbs();
 
   const className = classNames({
     'ed-page-layout': true,

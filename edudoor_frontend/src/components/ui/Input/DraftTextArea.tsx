@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
-import { Editor, RawDraftContentState } from 'react-draft-wysiwyg';
+import { Editor } from 'react-draft-wysiwyg';
 import { ContentState, convertToRaw, EditorState } from 'draft-js';
 import fullEditor from './tools/editorTools';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
@@ -8,7 +8,7 @@ import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 
 const exportFunction = {
-  json: (content: ContentState): string => JSON.stringify(convertToRaw(content)),
+  json: (content: ContentState): object => convertToRaw(content),
   html: (content: ContentState): string => draftToHTML(convertToRaw(content)),
 };
 

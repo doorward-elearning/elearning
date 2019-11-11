@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import _ from 'lodash';
 import ROUTES from '../routes/routes';
 import { AppContextProps } from '../index';
 import { routes as Routes } from '../routes';
 import Tools from '../utils/Tools';
+import useStateRef from './useStateRef';
 
 type RouteType = typeof Routes;
 export const appInitialValue = {
@@ -14,19 +15,25 @@ export const appInitialValue = {
 export interface UseApp extends AppContextProps {}
 
 const useApp = (): UseApp => {
-  const [routes, setRoutes] = useState(ROUTES);
+  const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);
 
   const setTitle = (key: keyof RouteType, name: string, link?: string): void => {
-    const current = routes[key].name;
-    link = link || routes[key].link;
+    const newRoutes = { ...previousRoutes.current };
+    const current = newRoutes[key].name;
+    link = link || newRoutes[key].link;
     if (current !== name) {
-      setRoutes({ ...routes, [key]: { ...routes[key], name, link } });
+      newRoutes[key] = {
+        ...newRoutes[key],
+        name,
+        link,
+      };
+      setRoutes(newRoutes);
     }
   };
 
   const setParams = (key: keyof RouteType, params: { [name: string]: any }): void => {
-    const current = routes[key];
-    const newRoutes: typeof routes = { ...routes };
+    const current = previousRoutes.current[key];
+    const newRoutes: typeof routes = { ...previousRoutes.current };
     (Object.keys(newRoutes) as Array<keyof typeof routes>).forEach(r => {
       if (newRoutes[r].tree.includes(current.id)) {
         newRoutes[r].link = Tools.createRoute(newRoutes[r].matchURL, params);
@@ -39,7 +46,7 @@ const useApp = (): UseApp => {
   };
 
   return {
-    setTitle,
+    setTitle: _.throttle(setTitle, 100),
     setParams,
     routes,
   };

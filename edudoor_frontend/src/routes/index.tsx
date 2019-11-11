@@ -69,15 +69,16 @@ export const routeConfigurations: Routes = {
     login: new Route('/login', Login),
     dashboard: new Route('/dashboard', Dashboard).with({
       courses: new Route('/courses').with({
-        courseList: new Route('/', Courses),
-        viewCourse: new Route('/:courseId', ViewCourse).with({
-          courseStudents: new Route('/students', CourseStudentList).with({
-            addCourseStudent: new Route('/new', AddCourseStudent),
-          }),
-          modules: new Route('/modules').with({
-            moduleItems: new Route('/:moduleId/items').with({
-              viewModuleItem: new Route('/:itemId', ViewModuleItem),
-              addModulePage: new Route('/create/page', AddModulePage),
+        courseList: new Route('/', Courses).with({
+          viewCourse: new Route('/:courseId', ViewCourse).with({
+            courseStudents: new Route('/students', CourseStudentList).with({
+              addCourseStudent: new Route('/new', AddCourseStudent),
+            }),
+            modules: new Route('/modules').with({
+              moduleItems: new Route('/:moduleId/items').with({
+                viewModuleItem: new Route('/:itemId', ViewModuleItem),
+                addModulePage: new Route('/create/page', AddModulePage),
+              }),
             }),
           }),
         }),

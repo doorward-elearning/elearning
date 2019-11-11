@@ -16,7 +16,7 @@ import useFormSubmit from '../../../../hooks/useFormSubmit';
 const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({ useForm, module, onSuccess }) => {
   const initialValues: AddModulePageFormState = {
     title: '',
-    content: {},
+    content: null,
     type: 'Page',
   };
 
@@ -33,7 +33,7 @@ const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({ us
     <Form form={useForm} initialValues={initialValues} onSubmit={onSubmit} state={state} showOverlay>
       <div className="add-module-page">
         <TextField name="title" placeholder="Title of the page" />
-        <DraftTextArea name="page" placeholder="Empty space is boring... Add some content for the page." />
+        <DraftTextArea name="content" placeholder="Empty space is boring... Add some content for the page." />
       </div>
       <Button type="submit">Save</Button>
     </Form>
