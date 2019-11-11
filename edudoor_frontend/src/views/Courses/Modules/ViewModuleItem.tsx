@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Layout, { LayoutFeatures } from '../../Layout';
-import { PageComponent } from '../../../types';
-import useViewCourse from '../../../hooks/useViewCourse';
 import { Module } from '../../../services/models';
+import useViewCourse from '../../../hooks/useViewCourse';
 import { useRouteMatch } from 'react-router';
-import AddModulePageForm from '../../../components/static/Forms/AddModulePageForm';
-import useForm from '../../../hooks/useForm';
+import Layout, { LayoutFeatures } from '../../Layout';
 import WebComponent from '../../../components/ui/WebComponent';
-import useRoutes from '../../../hooks/useRoutes';
+import { PageComponent } from '../../../types';
 
-const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
+const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [module, setModule] = useState<Module>();
   const [, course] = useViewCourse();
   const match: any = useRouteMatch();
-  const form = useForm();
-  const routes = useRoutes();
 
   useEffect(() => {
     if (course.data.course) {
@@ -26,19 +21,13 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} noNavBar header={module?.title}>
       <WebComponent data={module} loading={!module}>
         {(module): JSX.Element => {
-          return (
-            <AddModulePageForm
-              useForm={form}
-              module={module}
-              onSuccess={(): void => routes.navigate(routes.routes.viewCourse)}
-            />
-          );
+          return <div></div>;
         }}
       </WebComponent>
     </Layout>
   );
 };
 
-export interface AddModulePageProps extends PageComponent {}
+export interface ViewModulePageProps extends PageComponent {}
 
-export default AddModulePage;
+export default ViewModuleItem;

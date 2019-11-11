@@ -41,7 +41,7 @@ const useApp = (): UseApp => {
   useEffect(() => {
     (Object.keys(routes) as Array<keyof typeof routes>).forEach(route => {
       routes[route].withParams = (params: { [name: string]: string }): string => {
-        setParams(route, params);
+        // setParams(route, params);
         return Tools.createRoute(routes[route].link, params);
       };
     });

@@ -9,6 +9,7 @@ import AddCourseStudent from '../views/Students/AddCourseStudent';
 import StudentList from '../views/Students/StudentList';
 import AddStudent from '../views/Students/AddStudent';
 import AddModulePage from '../views/Courses/Modules/AddModulePage';
+import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
 
 export const routes = {
   home: 'Home',
@@ -26,6 +27,7 @@ export const routes = {
   addModulePage: 'Add Page',
   modules: 'Modules',
   moduleItems: 'Module Items',
+  viewModuleItem: 'Module Item',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -73,6 +75,11 @@ export const routeConfigurations: Routes = {
                             link: '/items',
                             authenticated: true,
                             routes: {
+                              viewModuleItem: {
+                                link: '/:itemId',
+                                authenticated: true,
+                                component: ViewModuleItem,
+                              },
                               addModulePage: {
                                 link: '/newPage',
                                 authenticated: true,

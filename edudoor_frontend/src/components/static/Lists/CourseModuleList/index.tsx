@@ -8,8 +8,11 @@ import List from '../../../ui/List';
 import ListItem from '../../../ui/List/ListItem';
 import { Course } from '../../../../services/models';
 import './CourseModuleList.scss';
+import { Link } from 'react-router-dom';
+import useRoutes from '../../../../hooks/useRoutes';
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
+  const routes = useRoutes();
   return (
     <div className="course-module-list">
       <Card flat>
@@ -23,12 +26,31 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                       title={(): JSX.Element => <Header size={3}>{module.title}</Header>}
                       action={(): JSX.Element => <AddModuleItemDropdown module={module} />}
                       key={index}
+                      open
                     >
-                      <List>
-                        {module.items.map(moduleItem => (
-                          <ListItem key={moduleItem.id}>{moduleItem.title}</ListItem>
-                        ))}
-                      </List>
+                      <WebComponent
+                        data={module.items}
+                        loading={false}
+                        message="This module does not have any items yet."
+                        size="medium"
+                      >
+                        {(moduleItems): JSX.Element => (
+                          <List>
+                            {moduleItems.map(moduleItem => (
+                              <ListItem key={moduleItem.id}>
+                                <Link
+                                  to={routes.routes.viewModuleItem.withParams({
+                                    itemId: moduleItem.id,
+                                    moduleId: module.id,
+                                  })}
+                                >
+                                  {moduleItem.title}
+                                </Link>
+                              </ListItem>
+                            ))}
+                          </List>
+                        )}
+                      </WebComponent>
                     </Accordion>
                   );
                 })}

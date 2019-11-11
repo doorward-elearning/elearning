@@ -15,7 +15,10 @@ class ModulesController {
   }
 
   static async addCourseModule({ body, params }) {
-    const module = await ModulesController.createModule(params.courseId, body);
+    let module = await ModulesController.createModule(params.courseId, body);
+    module = await models.Module.findByPk(module.id, {
+      include: ModuleInclude,
+    });
     return [201, { module }, 'Module has been added to the course'];
   }
 
