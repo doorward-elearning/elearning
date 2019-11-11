@@ -1,8 +1,10 @@
+const uuid = require('uuid/v4');
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Organizations', [
       {
-        id: 1,
+        id: uuid(),
         description:
           'The default organization for the application. ' +
           'It is assigned to users that do not have any specific organization',

@@ -1,4 +1,5 @@
 const { SUPER_ADMINISTRATOR } = require('../../../utils/roles');
+const uuid = require('uuid/v4');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,6 +9,7 @@ module.exports = {
     const roles = await queryInterface.sequelize.query(`SELECT id FROM "Roles" WHERE name = '${SUPER_ADMINISTRATOR}'`);
     await queryInterface.bulkInsert('UserRoles', [
       {
+        id: uuid(),
         roleId: roles[0][0].id,
         userId: administrators[0][0].id,
         createdAt: new Date(),

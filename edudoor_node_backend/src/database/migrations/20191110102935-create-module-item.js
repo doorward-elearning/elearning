@@ -3,9 +3,8 @@ module.exports = {
     return queryInterface.createTable('ModuleItems', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       title: {
         type: Sequelize.STRING,
@@ -21,7 +20,7 @@ module.exports = {
         defaultValue: 'Page',
       },
       moduleId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Modules',
@@ -31,7 +30,7 @@ module.exports = {
         onDelete: 'cascade',
       },
       createdBy: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Users',

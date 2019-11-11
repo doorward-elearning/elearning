@@ -3,9 +3,8 @@ module.exports = {
     return queryInterface.createTable('Roles', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       name: {
         type: Sequelize.STRING,
@@ -14,7 +13,7 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       organizationId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Organizations',
           key: 'id',

@@ -3,9 +3,8 @@ module.exports = {
     queryInterface.createTable('Users', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       username: {
         type: Sequelize.STRING,
@@ -38,7 +37,7 @@ module.exports = {
         type: Sequelize.ENUM('Male', 'Female', 'Rather not say'),
       },
       organizationId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Organizations',
           key: 'id',

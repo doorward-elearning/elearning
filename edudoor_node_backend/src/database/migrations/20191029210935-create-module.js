@@ -3,9 +3,8 @@ module.exports = {
     return queryInterface.createTable('Modules', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       description: {
         type: Sequelize.TEXT,
@@ -14,7 +13,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       courseId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Courses',
           key: 'id',

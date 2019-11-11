@@ -3,12 +3,11 @@ module.exports = {
     return queryInterface.createTable('UserRoles', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       userId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Users',
@@ -18,7 +17,7 @@ module.exports = {
         onDelete: 'CASCADE',
       },
       roleId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Roles',

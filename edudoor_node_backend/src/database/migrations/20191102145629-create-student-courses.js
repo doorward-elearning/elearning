@@ -3,12 +3,11 @@ module.exports = {
     return queryInterface.createTable('StudentCourses', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       studentId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Users',
@@ -18,7 +17,7 @@ module.exports = {
         onDelete: 'cascade',
       },
       courseId: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {
           model: 'Courses',

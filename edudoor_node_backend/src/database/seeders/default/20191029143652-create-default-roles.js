@@ -1,4 +1,5 @@
 const roles = require('../../../utils/roles');
+const uuid = require('uuid/v4');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -8,7 +9,7 @@ module.exports = {
     const organizationId = organizations[0][0].id;
     await queryInterface.bulkInsert('Roles', [
       {
-        id: 1,
+        id: uuid(),
         name: roles.SUPER_ADMINISTRATOR,
         description: 'The system administrator who is responsible for all functions in the application',
         organizationId,
@@ -16,7 +17,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 2,
+        id: uuid(),
         name: roles.TEACHER,
         description: 'A user who can manage courses, modules and other resources',
         organizationId,
@@ -24,7 +25,7 @@ module.exports = {
         updatedAt: new Date(),
       },
       {
-        id: 3,
+        id: uuid(),
         name: roles.STUDENT,
         description: 'A learner in the system',
         organizationId,

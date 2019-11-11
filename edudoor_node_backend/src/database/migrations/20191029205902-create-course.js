@@ -3,9 +3,8 @@ module.exports = {
     return queryInterface.createTable('Courses', {
       id: {
         allowNull: false,
-        autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
       },
       title: {
         type: Sequelize.STRING,
@@ -24,7 +23,7 @@ module.exports = {
         defaultValue: 'REVIEW',
       },
       createdBy: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         references: {
           model: 'Users',
           key: 'id',
