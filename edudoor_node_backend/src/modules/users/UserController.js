@@ -66,6 +66,29 @@ class UserController {
       include,
     });
   }
+
+  static async updateAccountDetails({ body, user: { id } }) {
+    const user = await models.User.findByPk(id, {
+      include: UserInclude,
+    });
+
+    await user.update({
+      ...body,
+    });
+    await user.reload();
+
+    return [200, { user }, 'Profile account details updated.'];
+  }
+
+  static async updateUserPassword(req) {
+    const { body } = req;
+    const password = bcrypt.hashSync(body.newPassword, environment.BCRYPT_PASSWORD_SALT);
+    await req.user.update({
+      password,
+    });
+
+    return [200, undefined, 'Password has been updated.'];
+  }
 }
 
 export default UserController;

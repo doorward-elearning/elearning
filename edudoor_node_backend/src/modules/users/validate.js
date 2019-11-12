@@ -3,7 +3,6 @@ import models from '../../database/models';
 
 export const validateLogin = async req => {
   const existing = await models.User.unscoped().findOne({ where: { username: req.body.username } });
-  const validPassword = existing && (await bcrypt.compare(req.body.password, existing.password));
 
   const username = req.checkBody('username');
   const password = req.checkBody('password');
@@ -14,16 +13,20 @@ export const validateLogin = async req => {
     .withMessage('User with this username does not exist.');
 
   password.notEmpty().withMessage('Password is required');
-  if (existing) {
-    password.custom(() => validPassword).withMessage('Wrong password');
-  }
 };
 
-export const validateCreateUser = async req => {
-  const existing = await models.User.findOne({ where: { username: req.body.username } });
-  const existingEmail = await models.User.findOne({ where: { email: req.body.email } });
+export const validateCreateUser = exclude => async req => {
+  let existing = await models.User.findOne({ where: { username: req.body.username || '' } });
+  let existingEmail = await models.User.findOne({ where: { email: req.body.email || '' } });
   const username = req.checkBody('username');
   const email = req.checkBody('email');
+
+  if (existing && exclude && exclude.username === existing.username) {
+    existing = null;
+  }
+  if (existingEmail && exclude && exclude.email === existingEmail.email) {
+    existingEmail = null;
+  }
 
   username
     .notEmpty()
@@ -35,4 +38,16 @@ export const validateCreateUser = async req => {
     .withMessage('Email is required')
     .custom(() => !existingEmail)
     .withMessage('A user with this email already exists');
+};
+
+export const validateUpdateAccount = async req => {
+  return validateCreateUser(req.user)(req);
+};
+
+export const validatePassword = async req => {
+  const username = req.body.username || req.user.username;
+  const existing = await models.User.unscoped().findOne({ where: { username } });
+  const validPassword = existing && (await bcrypt.compare(req.body.password, existing.password));
+  const password = req.checkBody('password');
+  password.custom(() => validPassword).withMessage('Wrong password');
 };

@@ -10,7 +10,7 @@ import Feature from '../../components/ui/FeatureProvider/Feature';
 import Header from '../../components/ui/Header';
 import FeatureProvider from '../../components/ui/FeatureProvider';
 import Icon from '../../components/ui/Icon';
-import Button from '../../components/ui/Buttons/Button';
+import Button, { ButtonProps } from '../../components/ui/Buttons/Button';
 import withBreadCrumbs from '../../hooks/withBreadCrumbs';
 import BreadCrumbs from '../../components/ui/BreadCrumbs';
 
@@ -21,8 +21,12 @@ export enum LayoutFeatures {
   BREAD_CRUMBS = 4,
 }
 
-const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, text }) => {
-  return <Button onClick={onClick}>{text}</Button>;
+const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, text, ...props }) => {
+  return (
+    <Button onClick={onClick} {...props}>
+      {text}
+    </Button>
+  );
 };
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
@@ -107,10 +111,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   );
 };
 
-export type ActionButtonProps = {
+export interface ActionButtonProps extends ButtonProps {
   onClick?: MouseEventHandler;
   text?: string;
-};
+}
 
 export interface LayoutProps extends PageComponent {
   navFeatures?: Array<NavbarFeatures | string | typeof NavbarFeatures>;

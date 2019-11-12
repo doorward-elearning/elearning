@@ -5,7 +5,7 @@ import Authorization from '../../../middleware/Authorization';
 
 const Router = new MRouter('/', Authorization.authenticate);
 
-Router.post('/', validateCreateUser, StudentController.createStudent);
+Router.post('/', validateCreateUser(), StudentController.createStudent);
 
 Router.get('/', StudentController.getAllStudents);
 

@@ -39,7 +39,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
     >
       {(formikProps): JSX.Element => (
         <Card>
-          <Card.Header>
+          <Card.Header image>
             <IfElse condition={formikProps.isSubmitting}>
               <ProgressBar />
             </IfElse>

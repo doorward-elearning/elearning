@@ -1,5 +1,12 @@
 import Request from './request';
-import { CourseModuleBody, CourseModuleItemBody, CreateCourseBody, CreateStudentBody } from './models/requestBody';
+import {
+  AccountDetailsBody,
+  ChangePasswordBody,
+  CourseModuleBody,
+  CourseModuleItemBody,
+  CreateCourseBody,
+  CreateStudentBody,
+} from './models/requestBody';
 import {
   CourseListResponse,
   CourseModuleResponse,
@@ -10,6 +17,7 @@ import {
   StudentResponse,
   UserResponse,
 } from './models/responseBody';
+import { ApiResponse } from './services';
 
 const q = require('querystring').stringify;
 
@@ -19,6 +27,10 @@ const Api = {
   users: {
     authenticate: (body: { username: string; password: string }): Promise<LoginResponse> => POST('users/auth', body),
     currentUser: (): Promise<UserResponse> => GET('/users/auth'),
+    profile: {
+      updateAccount: (body: AccountDetailsBody): Promise<UserResponse> => PUT('/users/profile/account', body),
+      changePassword: (body: ChangePasswordBody): Promise<ApiResponse> => PUT('/users/profile/password', body),
+    },
     students: {
       list: (query: string): Promise<StudentListResponse> => GET('/users/students?' + query),
       create: (body: CreateStudentBody): Promise<StudentResponse> => POST('/users/students', body),

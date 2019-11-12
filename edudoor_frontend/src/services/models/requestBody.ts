@@ -23,3 +23,15 @@ export interface CourseModuleItemBody {
   content: any;
   title: string;
 }
+
+export interface AccountDetailsBody {
+  email: string;
+  firstName: string;
+  lastName: string;
+  username: string;
+}
+
+export interface ChangePasswordBody {
+  password: string;
+  newPassword: string;
+}

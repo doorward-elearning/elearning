@@ -1,10 +1,8 @@
 @import '../../../index';
 
 .ed-list {
-  background: var(--bg-primary);
   list-style: none;
   position: relative;
-  border: 1px solid var(--line-color);
   padding: 0 0 0 var(--padding);
   margin: 0;
 
@@ -12,7 +10,6 @@
     padding: 0 var(--padding);
     position: relative;
     display: grid;
-    border-bottom: 1px solid var(--line-color);
     align-items: center;
     min-height: var(--list-item-height);
     cursor: default;

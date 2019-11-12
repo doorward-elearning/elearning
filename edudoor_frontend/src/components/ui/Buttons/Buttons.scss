@@ -88,4 +88,21 @@
 
   &:hover {
   }
+
+  &.fab {
+    border-radius: 50%;
+    height: 50px;
+    width: 50px;
+    display: grid;
+    box-shadow: var(--box-shadow);
+
+    &:hover {
+      box-shadow: var(--box-shadow--hover);
+    }
+
+    &.mini {
+      width: 40px;
+      height: 40px;
+    }
+  }
 }

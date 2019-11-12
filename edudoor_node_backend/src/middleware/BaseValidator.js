@@ -108,6 +108,19 @@ export default class BaseValidator {
     };
   }
 
+  static fields(...fields) {
+    return async req => {
+      req.body = _.pick(req.body, fields);
+      req.body = _.pickBy(req.body, _.identity);
+    };
+  }
+
+  static excludeFields(...fields) {
+    return async req => {
+      fields.forEach(field => delete req.body[field]);
+    };
+  }
+
   static withErrorHandler(Validator) {
     return async (req, res, next) => {
       try {

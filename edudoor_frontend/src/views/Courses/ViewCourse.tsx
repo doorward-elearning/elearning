@@ -14,6 +14,7 @@ import useViewCourse from '../../hooks/useViewCourse';
 import ChooseStudentModal from '../../components/static/Modals/ChooseStudentModal';
 import AddCourseModuleModal from '../../components/static/Modals/AddCourseModuleModal';
 import Button from '../../components/ui/Buttons/Button';
+import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -30,6 +31,16 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         noNavBar
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
         header={course.data.course && course.data.course.title}
+        renderHeaderEnd={(): JSX.Element => {
+          return (
+            <React.Fragment>
+              <Button icon="phone" mini>
+                Live classroom
+              </Button>
+              <CourseViewMenu />
+            </React.Fragment>
+          );
+        }}
       >
         <div className="view-course__content">
           <WebComponent data={course.data.course} loading={course.fetching}>
@@ -47,7 +58,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
-                    <Button onClick={addModuleModal.openModal}>Add Module</Button>
+                    <Button onClick={addModuleModal.openModal} bordered>
+                      Add Module
+                    </Button>
                     <CourseModuleList course={course} />
                   </div>
                 </div>

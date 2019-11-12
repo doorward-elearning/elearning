@@ -1,5 +1,3 @@
-const shortid = require('shortid');
-
 module.exports = (sequelize, DataTypes) => {
   const UserRole = sequelize.define(
     'UserRole',

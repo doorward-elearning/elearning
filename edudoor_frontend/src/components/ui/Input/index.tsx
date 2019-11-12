@@ -20,7 +20,7 @@ function withInput<R extends InputProps>(
     const { name } = props;
     return (
       <FormContext.Consumer>
-        {({ formikProps = {} }): JSX.Element => {
+        {({ formikProps = {}, editable }): JSX.Element => {
           const inputProps: any = { ...props, formikProps };
           inputProps.onChange = formikProps.handleChange;
           inputProps.onBlur = formikProps.handleBlur;
@@ -42,7 +42,9 @@ function withInput<R extends InputProps>(
                   <label htmlFor={props.id}>{props.label || props.placeholder}</label>
                 </Feature>
                 <div className="eb-input__input">
-                  <Input {...{ name, ...inputProps, className: `${inputProps.className || ''} ${className}` }} />
+                  <Input
+                    {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
+                  />
                 </div>
                 <div className="eb-input__error-message">{error}</div>
               </div>
@@ -57,6 +59,7 @@ function withInput<R extends InputProps>(
 export interface InputProps extends React.DetailedHTMLProps<any, any> {
   features?: Array<InputFeatures | string | typeof InputFeatures>;
   labelPosition?: 'left' | 'right' | 'top' | 'none';
+  editable?: boolean;
 }
 
 export default withInput;

@@ -10,7 +10,7 @@ import useAuth from '../../../hooks/useAuth';
 const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
   const { user } = useAuth();
   return (
-    <li className={classNames({ 'sidebar-user-panel': true, collapsed })}>
+    <div className={classNames({ 'sidebar-user-panel': true, collapsed })}>
       <div className="user-panel">
         <EImage src={profile} alt="User Image" circle size="large" />
         <div>
@@ -21,7 +21,7 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
           </Link>
         </div>
       </div>
-    </li>
+    </div>
   );
 };
 

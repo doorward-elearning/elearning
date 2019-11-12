@@ -82,7 +82,6 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
           <div className="course-information">
             <Header size={2}>Course Information</Header>
             <TextField name="title" icon="school" label="Course name" />
-            <DraftTextArea name="description" icon="notes" label="Course description" exportAs="html" />
             <NumberField
               name="noOfModules"
               icon="calendar_view_day"

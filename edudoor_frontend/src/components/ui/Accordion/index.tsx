@@ -21,7 +21,12 @@ const Accordion: React.FunctionComponent<AccordionProps> = props => {
         bordered: props.bordered,
       })}
     >
-      <div className="ed-accordion__title">
+      <div
+        className={classNames({
+          'ed-accordion__title': true,
+          noIcon: props.noIcon,
+        })}
+      >
         <Icon className="ed-accordion__title__arrow" icon="keyboard_arrow_right" />
         <Row style={{ justifyContent: 'space-between', zIndex: 'auto' }}>
           <div className="clickable" onClick={accordion.toggle}>
@@ -45,6 +50,7 @@ export interface AccordionProps {
   action?: () => JSX.Element;
   open?: boolean;
   bordered?: boolean;
+  noIcon?: boolean;
 }
 
 export default Accordion;

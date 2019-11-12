@@ -6,7 +6,7 @@ const IfElse: React.FunctionComponent<ConditionProps> = ({ condition, children }
 };
 
 export interface ConditionProps {
-  condition: boolean;
+  condition: any;
   children: Array<ReactElement> | ReactElement;
 }
 

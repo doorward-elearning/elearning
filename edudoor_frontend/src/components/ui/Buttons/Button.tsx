@@ -17,6 +17,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   fab = false,
   mini,
   rounded,
+  tooltip = '',
   className,
   bordered = false,
   link,
@@ -26,6 +27,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     'eb-button': true,
     mini,
     bordered,
+    fab,
     raised: !flat,
     [`btn-${theme}`]: true,
     [className || '']: true,
@@ -38,7 +40,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     <Condition condition={loading}>
       <Spinner />
       <Parent {...parentProps}>
-        <button disabled={disabled} className={className} onClick={onClick} type={type}>
+        <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
           <IfElse condition={!!icon}>
             <i className="material-icons">{icon}</i>
           </IfElse>
@@ -65,6 +67,7 @@ export interface ButtonProps {
   className?: string;
   link?: string;
   onClick?: MouseEventHandler;
+  tooltip?: string;
 }
 
 export default Button;

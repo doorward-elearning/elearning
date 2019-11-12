@@ -2,10 +2,10 @@ import React, { MouseEventHandler } from 'react';
 import './Card.scss';
 import classNames from 'classnames';
 
-const Card: CardComponent = props => {
+const Card: CardComponent = ({ flat = true, ...props }) => {
   const className = classNames({
     'ed-card': true,
-    flat: props.flat,
+    flat,
     clickable: props.clickable,
   });
   return (
@@ -16,7 +16,17 @@ const Card: CardComponent = props => {
 };
 
 export const Header: React.FunctionComponent<CardHeaderProps> = props => {
-  return <div className="ed-card__header">{props.children}</div>;
+  return (
+    <div
+      className={classNames({
+        'ed-card__header': true,
+        image: props.image,
+        center: props.center,
+      })}
+    >
+      {props.children}
+    </div>
+  );
 };
 
 export const Body: React.FunctionComponent<CardBodyProps> = props => {
@@ -32,7 +42,10 @@ export interface CardProps {
   clickable?: boolean;
   onClick?: MouseEventHandler;
 }
-export interface CardHeaderProps {}
+export interface CardHeaderProps {
+  image?: boolean;
+  center?: boolean;
+}
 export interface CardBodyProps {}
 export interface CardFooterProps {}
 

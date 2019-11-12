@@ -43,7 +43,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           message="No students have been added to the course yet."
           size="medium"
           actionMessage="Create a new student"
-          onAction={() =>
+          onAction={(): void =>
             routes.navigate(routes.routes.addCourseStudent, {
               courseId,
             })
@@ -51,11 +51,6 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
         >
           {(students): JSX.Element => (
             <List>
-              <ListItem>
-                <Row style={{ justifyContent: 'space-between' }}>
-                  <Header size={3}>Student List</Header>
-                </Row>
-              </ListItem>
               {students
                 .filter((s, index) => index < MAX_STUDENTS)
                 .map(student => (
@@ -68,11 +63,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           )}
         </WebComponent>
       </Accordion>
-      <Button icon="add">New Manager</Button>
-      <Button icon="video_call" bordered>
-        Live classroom
-      </Button>
-      <Accordion title={() => <Header size={5}>Course Settings</Header>}>
+      <Accordion title={() => <Header size={5}>Course Managers</Header>}>
         <Empty size="medium" />
       </Accordion>
       <Accordion open title={() => <Header size={5}>Announcement Calendar</Header>}>

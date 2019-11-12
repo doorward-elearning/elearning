@@ -3,12 +3,15 @@ import withInput, { InputFeatures, InputProps } from './index';
 import './styles/TextField.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
+import IfElse from '../IfElse';
+import Tools from '../../../utils/Tools';
 
 const TextField: FunctionComponent<TextFieldProps> = ({
   value = '',
   className,
   formikProps,
   children,
+  editable = true,
   ...props
 }): JSX.Element => {
   return (
@@ -25,7 +28,10 @@ const TextField: FunctionComponent<TextFieldProps> = ({
             'eb-input__text-icon': true,
           })}
         />
-        <input type="text" {...props} value={value} autoComplete="off" />
+        <IfElse condition={editable}>
+          <input type="text" {...props} value={value} autoComplete="off" />
+          <span>{Tools.str(value)}</span>
+        </IfElse>
         {children}
       </div>
     </div>
