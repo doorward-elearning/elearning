@@ -11,6 +11,7 @@ import AddStudent from '../views/Students/AddStudent';
 import AddModulePage from '../views/Courses/Modules/AddModulePage';
 import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
 import * as React from 'react';
+import Profile from '../views/Profile';
 
 export class EdudoorRoute {
   path: string;
@@ -28,11 +29,18 @@ export class EdudoorRoute {
   }
 
   roles(...roles: Array<string>) {
+    this.allowedRoles = roles;
+    return this;
+  }
+
+  public() {
+    this.allowedRoles = [];
     return this;
   }
 
   hideCrumb() {
     this.hideBreadCrumb = true;
+    return this;
   }
 
   with(routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute }) {
@@ -58,6 +66,7 @@ export const routes = {
   modules: 'Modules',
   moduleItems: 'Module Items',
   viewModuleItem: 'Module Item',
+  myProfile: 'My Profile',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -65,29 +74,33 @@ export type EdudoorRoutes = typeof routes;
 const Route = EdudoorRoute;
 
 export const routeConfigurations: Routes = {
-  home: new Route('/', Home).with({
-    login: new Route('/login', Login),
-    dashboard: new Route('/dashboard', Dashboard).with({
-      courses: new Route('/courses').with({
-        courseList: new Route('/', Courses).with({
-          viewCourse: new Route('/:courseId', ViewCourse).with({
-            courseStudents: new Route('/students', CourseStudentList).with({
-              addCourseStudent: new Route('/new', AddCourseStudent),
-            }),
-            modules: new Route('/modules').with({
-              moduleItems: new Route('/:moduleId/items').with({
-                viewModuleItem: new Route('/:itemId', ViewModuleItem),
-                addModulePage: new Route('/create/page', AddModulePage),
+  home: new Route('/', Home)
+    .public()
+    .hideCrumb()
+    .with({
+      login: new Route('/login', Login).public(),
+      dashboard: new Route('/dashboard', Dashboard).with({
+        courses: new Route('/courses').with({
+          courseList: new Route('/', Courses).with({
+            viewCourse: new Route('/:courseId', ViewCourse).with({
+              courseStudents: new Route('/students', CourseStudentList).with({
+                addCourseStudent: new Route('/new', AddCourseStudent),
+              }),
+              modules: new Route('/modules').with({
+                moduleItems: new Route('/:moduleId/items').with({
+                  viewModuleItem: new Route('/:itemId', ViewModuleItem),
+                  addModulePage: new Route('/create/page', AddModulePage),
+                }),
               }),
             }),
           }),
+          createCourse: new Route('/create', Courses),
         }),
-        createCourse: new Route('/create', Courses),
-      }),
-      students: new Route('/students').with({
-        studentList: new Route('/', StudentList),
-        newStudent: new Route('/create', AddStudent),
+        students: new Route('/students').with({
+          studentList: new Route('/', StudentList),
+          newStudent: new Route('/create', AddStudent),
+        }),
+        myProfile: new Route('/profile/:username', Profile),
       }),
     }),
-  }),
 };

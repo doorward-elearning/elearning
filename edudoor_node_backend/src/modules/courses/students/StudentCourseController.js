@@ -22,10 +22,11 @@ class StudentCourseController {
     const registered = await models.sequelize.query('SELECT "studentId" from "StudentCourses" WHERE "courseId" = ?', {
       replacements: [params.courseId],
     });
+    const ids = registered[0].map(student => student.studentId);
     const students = await UserController.findByRole(roles.STUDENT, {
       where: {
         id: {
-          [Op.notIn]: registered[0],
+          [Op.notIn]: ids,
         },
       },
     });

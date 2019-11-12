@@ -24,7 +24,7 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
         component: detail.component,
       };
 
-      const Component = !detail.allowedRoles.includes('*') ? AuthenticatedRoute : Route;
+      const Component = detail.allowedRoles.length ? AuthenticatedRoute : Route;
 
       const newPath = [...path];
       if (detail.component && !detail.hideBreadCrumb) {

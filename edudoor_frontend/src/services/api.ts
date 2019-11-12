@@ -8,6 +8,7 @@ import {
   ModuleItemResponse,
   StudentListResponse,
   StudentResponse,
+  UserResponse,
 } from './models/responseBody';
 
 const q = require('querystring').stringify;
@@ -16,8 +17,8 @@ const { GET, PUT, POST } = Request;
 
 const Api = {
   users: {
-    authenticate: (body: { username: string; password: string }): Promise<LoginResponse> =>
-      POST('users/authenticate', body),
+    authenticate: (body: { username: string; password: string }): Promise<LoginResponse> => POST('users/auth', body),
+    currentUser: (): Promise<UserResponse> => GET('/users/auth'),
     students: {
       list: (query: string): Promise<StudentListResponse> => GET('/users/students?' + query),
       create: (body: CreateStudentBody): Promise<StudentResponse> => POST('/users/students', body),

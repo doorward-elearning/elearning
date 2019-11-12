@@ -1,8 +1,11 @@
 import { ApiResponse } from '../services';
 import { Course, Module, ModuleItem, Student, User } from './index';
 
-export interface LoginResponse extends ApiResponse {
+export interface LoginResponse extends UserResponse {
   token: string;
+}
+
+export interface UserResponse extends ApiResponse {
   user: User;
 }
 

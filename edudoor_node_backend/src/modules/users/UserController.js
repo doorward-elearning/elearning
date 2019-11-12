@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
-import shortid from 'shortid';
 import models from '../../database/models';
 import JWT from '../../utils/auth';
 import { UserInclude } from '../../utils/includes';
@@ -12,6 +11,13 @@ class UserController {
     const user = await models.User.findOne({ where: { username }, include: UserInclude });
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Login successful'];
+  }
+
+  static async getCurrentUser(req) {
+    const { user } = req;
+    const currentUser = await models.User.findOne({ where: { username: user.username }, include: UserInclude });
+
+    return [200, { user: currentUser }];
   }
 
   static async createUser(req, roleName, organizationId) {

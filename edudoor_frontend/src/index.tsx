@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
@@ -20,20 +20,24 @@ export type AppContextProps = typeof appInitialValue;
 export const AppContext = React.createContext<AppContextProps>(appInitialValue);
 
 const App: React.FC = () => {
+  const app = useApp();
   return (
-    <Provider store={store}>
-      <AppContext.Provider value={useApp()}>
-        <ApplicationTheme theme="base">
-          <PageProgress>
-            <Router />
-          </PageProgress>
-        </ApplicationTheme>
-      </AppContext.Provider>
-    </Provider>
+    <AppContext.Provider value={app}>
+      <ApplicationTheme theme="base">
+        <PageProgress>
+          <Router />
+        </PageProgress>
+      </ApplicationTheme>
+    </AppContext.Provider>
   );
 };
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

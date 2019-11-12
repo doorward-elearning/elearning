@@ -5,6 +5,7 @@ import { BuiltReducer } from '../reducers/reducers';
 import login from '../reducers/login';
 import courses from '../reducers/courses';
 import students from '../reducers/students';
+import users from '../reducers/users';
 
 const sagas: IterableIterator<any>[] = [];
 
@@ -34,6 +35,7 @@ const reducers = {
   login,
   courses,
   students,
+  users,
 };
 const state = build(reducers);
 

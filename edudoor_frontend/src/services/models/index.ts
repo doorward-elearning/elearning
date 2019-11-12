@@ -18,12 +18,13 @@ export interface Role extends Model {
 
 export interface User extends Model {
   username: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  zipCode?: string;
-  country?: string;
-  city?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  zipCode: string;
+  country: string;
+  fullName: string;
+  city: string;
   organizationId: string;
   organization: Organization;
   roles: Array<Role>;
