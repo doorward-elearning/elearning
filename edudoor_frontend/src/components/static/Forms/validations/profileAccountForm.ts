@@ -2,8 +2,8 @@ import * as Yup from 'yup';
 import { ProfileAccountFormState } from '../ProfileAccountForm';
 
 export default Yup.object<ProfileAccountFormState>({
-  firstName: Yup.string(),
-  lastName: Yup.string(),
+  firstName: Yup.string().nullable(),
+  lastName: Yup.string().nullable(),
   email: Yup.string()
     .email('Enter a valid email')
     .required('The email is required'),

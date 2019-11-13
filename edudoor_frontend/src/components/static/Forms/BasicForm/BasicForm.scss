@@ -1,0 +1,8 @@
+.basic-form {
+  &__submitArea {
+    padding: var(--padding-lg) 0;
+    justify-items: start;
+    justify-content: start;
+    grid-gap: var(--padding-lg);
+  }
+}

@@ -9,7 +9,11 @@ const ChangePasswordModal: React.FunctionComponent<ChangePasswordModalProps> = p
     <Modal useModal={props.useModal}>
       <Modal.Header title="Change Password" />
       <Modal.Body>
-        <ChangePasswordForm form={props.useForm} onSuccess={props.useModal.closeModal} />
+        <ChangePasswordForm
+          form={props.useForm}
+          onCancel={props.useModal.closeModal}
+          onSuccess={props.useModal.closeModal}
+        />
       </Modal.Body>
     </Modal>
   );

@@ -18,6 +18,8 @@ export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string }
 
 export type Routes = { [key in keyof typeof routes]?: EdudoorRoute };
 
+type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
+
 export type RouteDefinition = {
   tree: Array<keyof typeof routes>;
   id: keyof typeof routes;

@@ -57,7 +57,7 @@ export interface ButtonProps {
   disabled?: boolean;
   loading?: boolean;
   flat?: boolean;
-  theme?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'accent';
+  theme?: 'default' | 'primary' | 'success' | 'info' | 'warning' | 'danger' | 'accent' | 'secondary';
   type?: 'submit' | 'reset' | 'button';
   fab?: boolean;
   mini?: boolean;

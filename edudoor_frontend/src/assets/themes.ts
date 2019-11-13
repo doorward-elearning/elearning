@@ -1,5 +1,6 @@
 const base = {
   '--bg-primary': '#FFFFFF',
+  '--bg-primary-dark': 'rgba(203,203,203,0.61)',
   '--bg-secondary': 'rgb(250,250,250)',
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
@@ -48,6 +49,7 @@ const base = {
 const dark: Theme = {
   ...base,
   '--bg-primary': '#2b2b2b',
+  '--bg-primary-dark': '#1d1d1d',
   '--bg-secondary': '#343434',
   '--text-alternate': '#000000',
   '--text-primary': '#ffffff',

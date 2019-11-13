@@ -1,41 +1,40 @@
-import React, { MouseEventHandler } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseForm } from '../../../../hooks/useForm';
 import { AccountDetailsBody } from '../../../../services/models/requestBody';
-import Form from '../../../ui/Form';
 import TextField from '../../../ui/Input/TextField';
 import { User } from '../../../../services/models';
-import IfElse from '../../../ui/IfElse';
-import Button from '../../../ui/Buttons/Button';
-import Row from '../../../ui/Row';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
 import useAction from '../../../../hooks/useActions';
 import { updateAccountInformationAction } from '../../../../reducers/users/actions';
 import useFormSubmit from '../../../../hooks/useFormSubmit';
 import profileAccountForm from '../validations/profileAccountForm';
+import BasicForm, { BasicFormFeatures } from '../BasicForm';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {
   const initialValues: ProfileAccountFormState = {
     ...props.user,
   };
-
-  const updateAccount = useAction(updateAccountInformationAction);
+  const [features, setFeatures] = useState<Array<BasicFormFeatures>>([]);
 
   const state = useSelector((state: State) => state.users.accountInformation);
 
-  const onSubmit = (body: ProfileAccountFormState): void => {
-    updateAccount(body);
-  };
+  useEffect(() => {
+    setFeatures(props.editing ? [BasicFormFeatures.SAVE_BUTTON, BasicFormFeatures.CANCEL_BUTTON] : []);
+  }, [props.editing]);
 
   useFormSubmit(state, props.stopEditing);
 
   return (
-    <Form
+    <BasicForm
       form={props.form}
       initialValues={initialValues}
-      onSubmit={onSubmit}
       editable={props.editing}
       state={state}
+      onSuccess={props.stopEditing}
+      features={features}
+      onCancel={props.stopEditing}
+      submitAction={updateAccountInformationAction}
       validationSchema={profileAccountForm}
       showOverlay
     >
@@ -43,23 +42,7 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
       <TextField name="lastName" label="Last name" />
       <TextField name="email" label="Email" type="email" />
       <TextField name="username" label="Username" editable={false} />
-      <IfElse condition={props.editing}>
-        <Row style={{ justifyItems: 'start', justifyContent: 'start' }}>
-          <Button theme="success" disabled={state.submitting} type="submit">
-            Save
-          </Button>
-          <Button
-            theme="default"
-            onClick={(): void => {
-              props.form.formikProps.resetForm();
-              props.stopEditing();
-            }}
-          >
-            Cancel
-          </Button>
-        </Row>
-      </IfElse>
-    </Form>
+    </BasicForm>
   );
 };
 

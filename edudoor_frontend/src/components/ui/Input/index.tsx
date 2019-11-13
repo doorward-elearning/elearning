@@ -27,7 +27,7 @@ function withInput<R extends InputProps>(
           inputProps.value = _.get(formikProps.values, name);
 
           let error = '';
-          if (formikProps && name) {
+          if (formikProps && name && formikProps.touched && formikProps.touched[name]) {
             error = '' + (_.get(formikProps.errors, name) || '');
           }
           const className = classNames({
