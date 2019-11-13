@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { ChangePasswordFormState } from '../ChangePasswordForm';
+import { ChangePasswordFormState } from './index';
 
 export default Yup.object<ChangePasswordFormState>({
   password: Yup.string().required('Enter your current password'),

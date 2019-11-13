@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { AddStudentFormState } from '../AddStudentForm';
+import { AddStudentFormState } from './index';
 
 export default Yup.object<AddStudentFormState>({
   email: Yup.string()

@@ -8,7 +8,7 @@ import Card from '../../../ui/Card';
 import { OnFormSubmit } from '../../../../types';
 import { getNames } from 'country-list';
 import DropdownSelect from '../../../ui/Input/DropdownSelect';
-import addStudentForm from '../validations/addStudentForm';
+import addStudentForm from './validation';
 import { CreateStudentBody } from '../../../../services/models/requestBody';
 import { WebComponentState } from '../../../../reducers/reducers';
 import { StudentResponse } from '../../../../services/models/responseBody';

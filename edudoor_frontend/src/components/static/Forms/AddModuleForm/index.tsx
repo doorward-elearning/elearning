@@ -1,7 +1,7 @@
 import React from 'react';
 import Form from '../../../ui/Form';
 import TextField from '../../../ui/Input/TextField';
-import addModuleForm from '../validations/addModuleForm';
+import addModuleForm from './validation';
 import useAction from '../../../../hooks/useActions';
 import { createCourseModuleAction } from '../../../../reducers/courses/actions';
 import { CourseModuleBody } from '../../../../services/models/requestBody';

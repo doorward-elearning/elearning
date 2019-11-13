@@ -5,10 +5,9 @@ import TextField from '../../../ui/Input/TextField';
 import { User } from '../../../../services/models';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
-import useAction from '../../../../hooks/useActions';
 import { updateAccountInformationAction } from '../../../../reducers/users/actions';
 import useFormSubmit from '../../../../hooks/useFormSubmit';
-import profileAccountForm from '../validations/profileAccountForm';
+import profileAccountForm from './validation';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {

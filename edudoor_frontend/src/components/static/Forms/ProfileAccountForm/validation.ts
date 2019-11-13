@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { ProfileAccountFormState } from '../ProfileAccountForm';
+import { ProfileAccountFormState } from './index';
 
 export default Yup.object<ProfileAccountFormState>({
   firstName: Yup.string().nullable(),

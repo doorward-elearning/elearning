@@ -8,7 +8,7 @@ import PasswordField from '../../../ui/Input/PasswordField';
 import Button from '../../../ui/Buttons/Button';
 import Header from '../../../ui/Header';
 import Form from '../../../ui/Form';
-import loginForm from '../validations/loginForm';
+import loginForm from './validation';
 import Card from '../../../ui/Card';
 import IfElse from '../../../ui/IfElse';
 import ProgressBar from '../../../ui/ProgressBar';

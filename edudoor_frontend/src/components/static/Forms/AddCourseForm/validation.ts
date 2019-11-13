@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { AddCourseFormState } from '../AddCourseForm';
+import { AddCourseFormState } from './index';
 
 export default Yup.object<AddCourseFormState>().shape({
   title: Yup.string().required('The course name is required'),

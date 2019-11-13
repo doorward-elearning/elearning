@@ -9,7 +9,7 @@ import Button from '../../../ui/Buttons/Button';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import NumberField from '../../../ui/Input/NumberField';
 import Form from '../../../ui/Form';
-import addCourseForm from '../validations/addCourseForm';
+import addCourseForm from './validation';
 import { UseModal } from '../../../../hooks/useModal';
 import { OnFormSubmit } from '../../../../types';
 import { CreateCourseBody } from '../../../../services/models/requestBody';

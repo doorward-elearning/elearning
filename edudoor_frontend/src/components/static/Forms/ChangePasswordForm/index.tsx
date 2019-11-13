@@ -2,7 +2,7 @@ import React from 'react';
 import { ChangePasswordBody } from '../../../../services/models/requestBody';
 import { UseForm } from '../../../../hooks/useForm';
 import PasswordField from '../../../ui/Input/PasswordField';
-import changePasswordForm from '../validations/changePasswordForm';
+import changePasswordForm from './validation';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
 import { updateAccountPasswordAction } from '../../../../reducers/users/actions';
