@@ -10,8 +10,8 @@ export interface Action extends ReduxAction {
   payload?: any;
   onSuccess?: ApiListener;
   onError?: ApiListener;
-  hideSuccessToast?: boolean;
-  hideErrorToast?: boolean;
+  showSuccessToast?: boolean;
+  showErrorToast?: boolean;
 }
 
 export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;
@@ -26,6 +26,7 @@ export interface WebComponentState<T> {
   submitted: boolean;
   data: T;
   errors: ApiError;
+  failed: boolean;
 }
 
 export interface ApiSagaMiddleware<T extends ApiResponse> {

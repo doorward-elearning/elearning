@@ -10,7 +10,7 @@ class Emails {
       username: `${student.firstName} ${student.lastName}`,
       organization: organization.name,
       // eslint-disable-next-line no-undef
-      link: `${process.env.FRONTEND_URL}/create/password/${encodeURIComponent(resetToken)}/${encodeURIComponent(
+      link: `${process.env.FRONTEND_URL}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(student.email)
       )}`,
     });

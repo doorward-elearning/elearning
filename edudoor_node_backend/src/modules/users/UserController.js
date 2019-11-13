@@ -114,6 +114,8 @@ class UserController {
       password: encryptedPassword,
     });
 
+    await user.passwordResets[0].destroy();
+
     return [200, undefined, 'Password has been created. You can now login with the new credentials.'];
   }
 }

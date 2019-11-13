@@ -1,4 +1,4 @@
-@import "../../../index";
+@import '../../../index';
 
 .ed-form {
   position: relative;
@@ -12,5 +12,17 @@
     height: 100%;
     display: grid;
     place-items: center;
+  }
+
+  &__message {
+    padding-bottom: var(--padding);
+
+    &.error {
+      color: var(--text-error);
+    }
+
+    &.success {
+      color: var(--text-success);
+    }
   }
 }

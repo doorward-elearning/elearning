@@ -18,7 +18,12 @@ export enum BasicFormFeatures {
 function BasicForm<T, A extends (...args: any[]) => Action>(
   props: Omit<BasicFormProps<T, A>, 'onSubmit'>
 ): JSX.Element {
-  const submit = useAction(props.submitAction);
+  const { showSuccessToast, showErrorToast } = props;
+  const submit = useAction(props.submitAction, {
+    showSuccessToast,
+    showErrorToast,
+  });
+
   const form = props.form || useForm();
   const state = props.state;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
@@ -32,12 +37,12 @@ function BasicForm<T, A extends (...args: any[]) => Action>(
     if (props.resetOnSubmit) {
       form.formikProps?.resetForm();
     }
-    props.onSuccess();
+    props.onSuccess && props.onSuccess();
   });
 
   return (
     <FeatureProvider features={features}>
-      <Form {...props} onSubmit={onSubmit}>
+      <Form showOverlay {...props} onSubmit={onSubmit}>
         {props.children}
         <Row className="basic-form__submitArea">
           <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
@@ -60,10 +65,12 @@ export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends
   submitAction: A;
   createData?: (values: T) => any;
   resetOnSubmit?: boolean;
-  onSuccess: () => void;
+  onSuccess?: () => void;
   state: WebComponentState<any>;
-  onCancel: () => void;
+  onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
+  showSuccessToast?: boolean;
+  showErrorToast?: boolean;
 }
 
 export default BasicForm;

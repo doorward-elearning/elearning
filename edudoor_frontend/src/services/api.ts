@@ -5,6 +5,7 @@ import {
   CourseModuleBody,
   CourseModuleItemBody,
   CreateCourseBody,
+  CreatePasswordBody,
   CreateStudentBody,
 } from './models/requestBody';
 import {
@@ -30,6 +31,7 @@ const Api = {
     profile: {
       updateAccount: (body: AccountDetailsBody): Promise<UserResponse> => PUT('/users/profile/account', body),
       changePassword: (body: ChangePasswordBody): Promise<ApiResponse> => PUT('/users/profile/password', body),
+      resetPassword: (body: CreatePasswordBody): Promise<ApiResponse> => POST('/users/profile/resetPassword', body),
     },
     students: {
       list: (query: string): Promise<StudentListResponse> => GET('/users/students?' + query),

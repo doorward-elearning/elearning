@@ -12,6 +12,7 @@ import AddModulePage from '../views/Courses/Modules/AddModulePage';
 import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
 import * as React from 'react';
 import Profile from '../views/Profile';
+import CreatePassword from '../views/Password/CreatePassword';
 
 export class EdudoorRoute {
   path: string;
@@ -67,6 +68,8 @@ export const routes = {
   moduleItems: 'Module Items',
   viewModuleItem: 'Module Item',
   myProfile: 'My Profile',
+  createPassword: 'Create Password',
+  password: 'Password',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -102,5 +105,11 @@ export const routeConfigurations: Routes = {
         }),
         myProfile: new Route('/profile/:username', Profile),
       }),
+      password: new Route('/password')
+        .public()
+        .hideCrumb()
+        .with({
+          createPassword: new Route('/create/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+        }),
     }),
 };

@@ -1,5 +1,10 @@
 import reducerBuilder, { reducerApiAction } from '../builder';
-import { GET_CURRENT_USER, UPDATE_ACCOUNT_INFORMATION, UPDATE_ACCOUNT_PASSWORD } from './types';
+import {
+  CREATE_ACCOUNT_PASSWORD,
+  GET_CURRENT_USER,
+  UPDATE_ACCOUNT_INFORMATION,
+  UPDATE_ACCOUNT_PASSWORD,
+} from './types';
 import Api from '../../services/api';
 import { LOGIN_USER } from '../login/types';
 
@@ -29,10 +34,16 @@ const changePassword = reducerApiAction({
   api: Api.users.profile.changePassword,
 });
 
+const createPassword = reducerApiAction({
+  action: CREATE_ACCOUNT_PASSWORD,
+  api: Api.users.profile.resetPassword,
+});
+
 export default reducerBuilder({
   middleware: {
     user,
     accountInformation,
     changePassword,
+    createPassword,
   },
 });

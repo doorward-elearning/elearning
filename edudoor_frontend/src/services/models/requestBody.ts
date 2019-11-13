@@ -1,5 +1,10 @@
 import { ModuleItemTypes } from './index';
 
+export type LoginBody = {
+  username: string;
+  password: string;
+};
+
 export type CourseModuleBody = {
   title: string;
 };
@@ -34,4 +39,10 @@ export interface AccountDetailsBody {
 export interface ChangePasswordBody {
   password: string;
   newPassword: string;
+}
+
+export interface CreatePasswordBody {
+  resetToken: string;
+  resetTokenBuffer: string;
+  password: string;
 }

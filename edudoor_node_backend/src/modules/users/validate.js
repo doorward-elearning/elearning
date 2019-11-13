@@ -62,7 +62,7 @@ export const validatePassword = async req => {
 export const validateResetToken = async req => {
   const { resetToken, resetTokenBuffer } = req.body;
 
-  const email = Tools.decrypt(resetTokenBuffer);
+  const email = Tools.decrypt(decodeURIComponent(resetTokenBuffer));
 
   if (resetToken && email) {
     const user = await models.User.findOne({
@@ -72,7 +72,7 @@ export const validateResetToken = async req => {
           model: models.PasswordReset,
           as: 'passwordResets',
           where: {
-            token: resetToken,
+            token: decodeURIComponent(resetToken),
           },
         },
       ],

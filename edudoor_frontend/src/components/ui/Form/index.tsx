@@ -8,6 +8,7 @@ import { UseForm, UseFormProps } from '../../../hooks/useForm';
 import objectHash from 'object-hash';
 import Tools from '../../../utils/Tools';
 import useFormSubmit from '../../../hooks/useFormSubmit';
+import FormMessage from './FormMessage';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -68,6 +69,7 @@ function Form<T>({
         return (
           <div className="ed-form">
             <FormContext.Provider value={{ formikProps: props, editable }}>
+              <FormMessage state={state} formikProps={props} />
               <form className={formClassName} onSubmit={props.handleSubmit}>
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
               </form>

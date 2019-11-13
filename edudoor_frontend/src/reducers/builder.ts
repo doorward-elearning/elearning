@@ -26,6 +26,7 @@ export const webComponentState: WebComponentState<any> = {
   submitting: false,
   data: {},
   errors: {},
+  failed: false,
 };
 
 function simpleReducer<T extends WebComponentState<any>>(initialState: T, actionType: string): Reducer<T, Action> {
@@ -42,6 +43,7 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
         submitting: true,
         data: hash === state.action ? state.data : {},
         errors: {},
+        failed: false,
       };
     } else if (action.type === `${actionType}_SUCCESS`) {
       return {
@@ -52,6 +54,7 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
         submitting: false,
         data: action.payload || {},
         errors: {},
+        failed: false,
       };
     } else if (action.type === `${actionType}_FAILURE`) {
       return {
@@ -61,6 +64,7 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
         submitted: true,
         submitting: false,
         errors: action.payload,
+        failed: true,
       };
     } else {
       return state;
@@ -107,7 +111,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
           }
         }
 
-        if (!action.hideSuccessToast) {
+        if (action.showSuccessToast) {
           const d = data as ApiResponse;
           if (d.message) {
             toast.show({
@@ -140,7 +144,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
         console.log(error);
       }
 
-      if (!action.hideErrorToast) {
+      if (action.showErrorToast) {
         const d = data as ApiResponse;
         if (d.message && !d.errors) {
           toast.show({
