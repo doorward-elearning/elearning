@@ -47,7 +47,13 @@ export const validateUpdateAccount = async req => {
 export const validatePassword = async req => {
   const username = req.body.username || req.user.username;
   const existing = await models.User.unscoped().findOne({ where: { username } });
-  const validPassword = existing && (await bcrypt.compare(req.body.password, existing.password));
   const password = req.checkBody('password');
-  password.custom(() => validPassword).withMessage('Wrong password');
+
+  password.custom(() => existing.password).withMessage('Your password has not been set.');
+  if (existing.password) {
+    const validPassword = existing && (await bcrypt.compare(req.body.password, existing.password));
+    password.custom(() => validPassword).withMessage('Wrong password');
+  } else {
+    return [422, { changePassword: true }];
+  }
 };

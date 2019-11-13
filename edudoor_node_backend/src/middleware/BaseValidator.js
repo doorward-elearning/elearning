@@ -127,7 +127,11 @@ export default class BaseValidator {
         let result = await Validator(req, res, next);
 
         if (req.validationErrors()) {
-          result = BaseValidator.errorHandler(res, req.validationErrors(), next);
+          const newResult = BaseValidator.errorHandler(res, req.validationErrors(), next);
+          if (result) {
+            newResult[1] = _.merge(newResult[1], result[1]);
+          }
+          result = newResult;
         }
         if (result && result.length > 0 && result[0]) {
           const [statusCode, data, message, meta] = result;
