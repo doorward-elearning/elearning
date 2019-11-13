@@ -1,6 +1,12 @@
 import MRouter from '../../utils/router';
 import UserController from './UserController';
-import { validateHasPassword, validateLogin, validatePassword, validateUpdateAccount } from './validate';
+import {
+  validateHasPassword,
+  validateLogin,
+  validatePassword,
+  validateResetToken,
+  validateUpdateAccount,
+} from './validate';
 import students from './students';
 import Authorization from '../../middleware/Authorization';
 import BaseValidator from '../../middleware/BaseValidator';
@@ -31,10 +37,9 @@ ProfileRouter.put(
 
 ProfileRouter.exclude(Authorization.authenticate).post(
   '/resetPassword',
-  BaseValidator.fields('password', 'resetToken'),
-  validateLogin,
-  validateHasPassword,
-  UserController.createUserPassword
+  BaseValidator.fields('resetToken', 'resetTokenBuffer', 'password'),
+  validateResetToken,
+  UserController.resetUserPassword
 );
 
 export default Router;

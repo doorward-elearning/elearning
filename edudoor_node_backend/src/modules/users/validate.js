@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import models from '../../database/models';
+import Tools from '../../utils/Tools';
 
 export const validateLogin = async req => {
   const existing = await models.User.unscoped().findOne({ where: { username: req.body.username } });
@@ -59,8 +60,30 @@ export const validatePassword = async req => {
 };
 
 export const validateResetToken = async req => {
-  const { resetToken, password } = req.body;
+  const { resetToken, resetTokenBuffer } = req.body;
 
+  const email = Tools.decrypt(resetTokenBuffer);
+
+  if (resetToken && email) {
+    const user = await models.User.findOne({
+      where: { email },
+      include: [
+        {
+          model: models.PasswordReset,
+          as: 'passwordResets',
+          where: {
+            token: resetToken,
+          },
+        },
+      ],
+    });
+    if (!user) {
+      return [404, undefined, 'The password reset token is invalid'];
+    }
+    req.user = user;
+  } else {
+    return [404, undefined, 'The password reset token is invalid'];
+  }
 };
 
 export const validateHasPassword = async req => {

@@ -1,11 +1,15 @@
 import * as roles from '../../../utils/roles';
 import UserController from '../UserController';
 import models from '../../../database/models';
+import Emails from '../../../utils/Emails';
 
 class StudentController {
   static async createStudent(req) {
     const { user } = req;
-    const student = await UserController.createUser(req, roles.STUDENT, user.organizationId);
+    const { user: student, resetToken } = await UserController.createUser(req, roles.STUDENT, user.organizationId);
+
+    // send mail to student
+    Emails.studentCreated(student, resetToken);
 
     return [200, { student }, `${student.username} has been added successfully`];
   }

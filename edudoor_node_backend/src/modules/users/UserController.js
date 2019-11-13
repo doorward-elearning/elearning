@@ -4,6 +4,7 @@ import models from '../../database/models';
 import JWT from '../../utils/auth';
 import { UserInclude } from '../../utils/includes';
 import * as environment from '../../config/environment';
+import Tools from '../../utils/Tools';
 
 class UserController {
   static async login(req) {
@@ -43,7 +44,19 @@ class UserController {
     });
 
     delete user.dataValues.password;
-    return user;
+
+    const resetToken = Tools.randomString(50);
+
+    // create the reset link
+    await models.PasswordReset.create({
+      token: resetToken,
+      userId: user.id,
+    });
+
+    return {
+      user,
+      resetToken,
+    };
   }
 
   static async findByRole(role, options = {}) {
@@ -90,19 +103,18 @@ class UserController {
     return [200, undefined, 'Password has been updated.'];
   }
 
-  static async createUserPassword(req) {
+  static async resetUserPassword(req) {
     const {
-      body: { username, password },
+      body: { password },
+      user,
     } = req;
-    const user = await models.User.findOne({ where: { username } });
-
     // create the password for the user.
     const encryptedPassword = bcrypt.hashSync(password, environment.BCRYPT_PASSWORD_SALT);
     await user.update({
       password: encryptedPassword,
     });
 
-    return [201, undefined, 'Password has been created. Login to continue.'];
+    return [200, undefined, 'Password has been created. You can now login with the new credentials.'];
   }
 }
 
