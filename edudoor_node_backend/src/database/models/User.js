@@ -46,6 +46,21 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = function(models) {
+    User.afterFind(user => {
+      if (user) {
+        let fullName = user.username || '';
+        if (user.firstName) {
+          fullName = user.firstName;
+        }
+        if (user.lastName) {
+          fullName += ` ${user.lastName}`;
+        }
+        if (user.dataValues) {
+          // eslint-disable-next-line no-param-reassign
+          user.dataValues.fullName = fullName.trim();
+        }
+      }
+    });
     User.belongsToMany(models.Role, {
       foreignKey: 'userId',
       as: 'roles',
@@ -64,20 +79,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'courses',
       through: models.StudentCourse,
     });
-    User.afterFind(user => {
-      if (user) {
-        let fullName = user.username || '';
-        if (user.firstName) {
-          fullName = user.firstName;
-        }
-        if (user.lastName) {
-          fullName += ` ${user.lastName}`;
-        }
-        if (user.dataValues) {
-          // eslint-disable-next-line no-param-reassign
-          user.dataValues.fullName = fullName.trim();
-        }
-      }
+    User.hasMany(models.PasswordReset, {
+      foreignKey: 'userId',
+      as: 'passwordResets',
     });
   };
   return User;

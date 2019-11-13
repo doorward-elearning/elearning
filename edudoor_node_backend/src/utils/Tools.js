@@ -1,4 +1,9 @@
 import { Op } from 'sequelize';
+import randomString from 'random-string';
+
+const SimpleCrypto = require('simple-crypto-js').default;
+
+const simpleCrypto = new SimpleCrypto(process.env.DATA_ENCRYPTION_KEY);
 
 class Tools {
   static appendPath(path = '', another = '') {
@@ -6,6 +11,30 @@ class Tools {
     const second = another.startsWith('/') ? another.substr(1) : another;
 
     return first + second;
+  }
+
+  static randomString(length = 6) {
+    return randomString({
+      length,
+      numeric: true,
+      letters: true,
+    });
+  }
+
+  static encrypt(str = '') {
+    try {
+      return simpleCrypto.encrypt(str);
+    } catch (err) {
+      return '';
+    }
+  }
+
+  static decrypt(str = '') {
+    try {
+      return simpleCrypto.decrypt(str);
+    } catch (err) {
+      return '';
+    }
   }
 
   static useQuery(...fields) {

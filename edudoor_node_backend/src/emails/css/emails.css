@@ -1,0 +1,49 @@
+html {
+  padding: 0;
+}
+
+* {
+  font-family: "Source Code Pro", sans-serif;
+}
+
+body {
+  height: 100%;
+  min-height: 700px;
+  padding-top: 20px;
+}
+
+.container {
+  max-width: 600px;
+  width: 100%;
+  margin: auto;
+  background: white;
+}
+.container .header {
+  background: #0649cd;
+  color: white;
+  text-align: center;
+  padding: 1em;
+  margin: 0;
+}
+.container .header img {
+  width: 70px;
+  height: 70px;
+}
+.container .greeting {
+  background: #ddd;
+  padding: 1em;
+}
+.container .greeting p {
+  margin: 0;
+}
+.container .content {
+  padding: 1em;
+  background: #eee;
+}
+.container .footer {
+  padding: 1em;
+  background: #333;
+  color: white;
+}
+
+/*# sourceMappingURL=emails.css.map */

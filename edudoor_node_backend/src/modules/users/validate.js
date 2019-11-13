@@ -57,3 +57,17 @@ export const validatePassword = async req => {
     return [422, { changePassword: true }];
   }
 };
+
+export const validateResetToken = async req => {
+  const { resetToken, password } = req.body;
+
+};
+
+export const validateHasPassword = async req => {
+  const { username } = req.body;
+  const user = await models.User.unscoped().findOne({ where: { username } });
+
+  if (user.password) {
+    return [200, undefined, 'Cannot create a password since you already have one'];
+  }
+};

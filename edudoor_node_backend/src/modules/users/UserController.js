@@ -89,6 +89,21 @@ class UserController {
 
     return [200, undefined, 'Password has been updated.'];
   }
+
+  static async createUserPassword(req) {
+    const {
+      body: { username, password },
+    } = req;
+    const user = await models.User.findOne({ where: { username } });
+
+    // create the password for the user.
+    const encryptedPassword = bcrypt.hashSync(password, environment.BCRYPT_PASSWORD_SALT);
+    await user.update({
+      password: encryptedPassword,
+    });
+
+    return [201, undefined, 'Password has been created. Login to continue.'];
+  }
 }
 
 export default UserController;
