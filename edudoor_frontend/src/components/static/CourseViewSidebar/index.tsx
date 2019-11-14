@@ -17,6 +17,8 @@ import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import ROUTES from '../../../routes/routes';
 import useRoutes from '../../../hooks/useRoutes';
+import RoleContainer from '../RolesManager/RoleContainer';
+import { Roles } from '../RolesManager';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
   const students = useSelector((state: State) => state.courses.studentList);
@@ -32,40 +34,43 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
   const MAX_STUDENTS = 3;
   return (
     <div className="course-view-sidebar">
-      <Accordion
-        open
-        title={() => <Header size={5}>Student List</Header>}
-        action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
-      >
-        <WebComponent
-          data={students.data.students}
-          loading={students.fetching}
-          message="No students have been added to the course yet."
-          size="medium"
-          actionMessage="Create a new student"
-          onAction={(): void =>
-            routes.navigate(routes.routes.addCourseStudent, {
-              courseId,
-            })
-          }
+      <RoleContainer roles={[Roles.TEACHER]}>
+        <Accordion
+          open
+          title={() => <Header size={5}>Student List</Header>}
+          action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
         >
-          {(students): JSX.Element => (
-            <List>
-              {students
-                .filter((s, index) => index < MAX_STUDENTS)
-                .map(student => (
-                  <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>
-                ))}
-              <ListItem>
-                <Link to={routes.routes.courseStudents.withParams({ courseId: courseId })}>View all</Link>
-              </ListItem>
-            </List>
-          )}
-        </WebComponent>
-      </Accordion>
-      <Accordion title={() => <Header size={5}>Course Managers</Header>}>
-        <Empty size="medium" />
-      </Accordion>
+          <WebComponent
+            data={students.data.students}
+            loading={students.fetching}
+            message="No students have been added to the course yet."
+            size="medium"
+            actionMessage="Create a new student"
+            onAction={(): void =>
+              routes.navigate(routes.routes.addCourseStudent, {
+                courseId,
+              })
+            }
+          >
+            {(students): JSX.Element => (
+              <List>
+                {students
+                  .filter((s, index) => index < MAX_STUDENTS)
+                  .map(student => (
+                    <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>
+                  ))}
+                <ListItem>
+                  <Link to={routes.routes.courseStudents.withParams({ courseId: courseId })}>View all</Link>
+                </ListItem>
+              </List>
+            )}
+          </WebComponent>
+        </Accordion>
+        <Accordion title={() => <Header size={5}>Course Managers</Header>}>
+          <Empty size="medium" />
+        </Accordion>
+      </RoleContainer>
+
       <Accordion open title={() => <Header size={5}>Announcement Calendar</Header>}>
         <Empty icon="event" size="medium" />
       </Accordion>

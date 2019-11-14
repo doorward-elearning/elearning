@@ -15,6 +15,8 @@ import ChooseStudentModal from '../../components/static/Modals/ChooseStudentModa
 import AddCourseModuleModal from '../../components/static/Modals/AddCourseModuleModal';
 import Button from '../../components/ui/Buttons/Button';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
+import RoleContainer from '../../components/static/RolesManager/RoleContainer';
+import { Roles } from '../../components/static/RolesManager';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -58,9 +60,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
-                    <Button onClick={addModuleModal.openModal} bordered>
-                      Add Module
-                    </Button>
+                    <RoleContainer roles={[Roles.TEACHER]}>
+                      <Button onClick={addModuleModal.openModal} bordered>
+                        Add Module
+                      </Button>
+                    </RoleContainer>
                     <CourseModuleList course={course} />
                   </div>
                 </div>

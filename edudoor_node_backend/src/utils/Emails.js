@@ -9,7 +9,6 @@ class Emails {
     return EmailSender.sendMail('student_new_account.pug', student.email, `${organization.name} new student account`, {
       username: `${student.firstName} ${student.lastName}`,
       organization: organization.name,
-      // eslint-disable-next-line no-undef
       link: `${process.env.FRONTEND_URL}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(student.email)
       )}`,

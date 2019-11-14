@@ -13,42 +13,7 @@ import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
 import * as React from 'react';
 import Profile from '../views/Profile';
 import CreatePassword from '../views/Password/CreatePassword';
-
-export class EdudoorRoute {
-  path: string;
-  allowedRoles: Array<string>;
-  routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute };
-  component?: React.FunctionComponent<any>;
-  hideBreadCrumb?: boolean;
-
-  constructor(path: string, component?: React.FunctionComponent<any>) {
-    this.path = path;
-    this.routes = {};
-    this.hideBreadCrumb = false;
-    this.allowedRoles = ['*'];
-    this.component = component;
-  }
-
-  roles(...roles: Array<string>) {
-    this.allowedRoles = roles;
-    return this;
-  }
-
-  public() {
-    this.allowedRoles = [];
-    return this;
-  }
-
-  hideCrumb() {
-    this.hideBreadCrumb = true;
-    return this;
-  }
-
-  with(routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute }) {
-    this.routes = routes;
-    return this;
-  }
-}
+import { Roles } from '../components/static/RolesManager';
 
 export const routes = {
   home: 'Home',
@@ -71,6 +36,48 @@ export const routes = {
   createPassword: 'Create Password',
   password: 'Password',
 };
+
+export class EdudoorRoute {
+  path: string;
+  allowedRoles: Array<Roles>;
+  routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute };
+  component?: React.FunctionComponent<any>;
+  hideBreadCrumb?: boolean;
+  redirectLink: keyof typeof routes;
+
+  constructor(path: string, component?: React.FunctionComponent<any>) {
+    this.path = path;
+    this.routes = {};
+    this.hideBreadCrumb = false;
+    this.allowedRoles = [Roles.ALL];
+    this.component = component;
+    this.redirectLink = 'dashboard';
+  }
+
+  roles(...roles: Array<Roles>) {
+    this.allowedRoles = roles;
+    return this;
+  }
+
+  public() {
+    this.allowedRoles = [];
+    return this;
+  }
+
+  redirect(link: keyof typeof routes) {
+    this.redirectLink = link;
+  }
+
+  hideCrumb() {
+    this.hideBreadCrumb = true;
+    return this;
+  }
+
+  with(routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute }) {
+    this.routes = routes;
+    return this;
+  }
+}
 
 export type EdudoorRoutes = typeof routes;
 
@@ -99,9 +106,9 @@ export const routeConfigurations: Routes = {
           }),
           createCourse: new Route('/create', Courses),
         }),
-        students: new Route('/students').with({
-          studentList: new Route('/', StudentList),
-          newStudent: new Route('/create', AddStudent),
+        students: new Route('/students').roles(Roles.TEACHER).with({
+          studentList: new Route('/', StudentList).roles(Roles.TEACHER),
+          newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
         myProfile: new Route('/profile/:username', Profile),
       }),

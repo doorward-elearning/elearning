@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { RouteProps, Switch } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
-import AuthenticatedRoute from './AuthenticatedRoute';
+import AuthenticatedRoute, { AuthenticatedRouteProps } from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
 import NotFound from '../views/NotFound';
 import { EdudoorRoute, EdudoorRoutes, routeConfigurations, routes } from './index';
@@ -18,10 +18,12 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
     const detail: EdudoorRoute | undefined = r[current];
     if (detail) {
       const fullLink = parentLink + detail.path;
-      const props: RouteProps = {
+      const props: RouteProps & AuthenticatedRouteProps = {
         exact: true,
         path: fullLink,
         component: detail.component,
+        authRedirect: detail.redirectLink,
+        roles: detail.allowedRoles,
       };
 
       const Component = detail.allowedRoles.length ? AuthenticatedRoute : Route;
@@ -42,6 +44,7 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
         name: routes[current],
         link: fullLink,
         matchURL: fullLink,
+        roles: detail.allowedRoles,
         withParams: (params: { [name: string]: any }): string => {
           return Tools.createRoute(fullLink, params);
         },

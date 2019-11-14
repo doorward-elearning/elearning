@@ -10,6 +10,7 @@ import { fetchCoursesAction } from '../../reducers/courses/actions';
 import useAction from '../../hooks/useActions';
 import CourseTable from '../../components/static/Tables/CourseTable';
 import { State } from '../../store';
+import { Roles } from '../../components/static/RolesManager';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
@@ -29,6 +30,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createCourse.link),
+        roles: [Roles.SUPER_ADMINISTRATOR, Roles.TEACHER],
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />

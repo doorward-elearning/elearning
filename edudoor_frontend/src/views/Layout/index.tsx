@@ -13,6 +13,8 @@ import Icon from '../../components/ui/Icon';
 import Button, { ButtonProps } from '../../components/ui/Buttons/Button';
 import withBreadCrumbs from '../../hooks/withBreadCrumbs';
 import BreadCrumbs from '../../components/ui/BreadCrumbs';
+import { Roles } from '../../components/static/RolesManager';
+import RoleContainer from '../../components/static/RolesManager/RoleContainer';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -99,7 +101,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               <div className="ed-page-layout__header--end">
                 {renderHeaderEnd && renderHeaderEnd()}
                 <Feature feature={LayoutFeatures.ACTION_BUTTON}>
-                  <ActionButton {...actionBtnProps} />
+                  <RoleContainer roles={actionBtnProps?.roles}>
+                    <ActionButton {...actionBtnProps} />
+                  </RoleContainer>
                 </Feature>
               </div>
             </div>
@@ -114,6 +118,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 export interface ActionButtonProps extends ButtonProps {
   onClick?: MouseEventHandler;
   text?: string;
+  roles?: Roles | Array<Roles>;
 }
 
 export interface LayoutProps extends PageComponent {

@@ -10,6 +10,7 @@ import '@material/react-linear-progress/dist/linear-progress.css';
 import { Router } from './routes/routes';
 import useApp, { appInitialValue } from './hooks/useApp';
 import PageProgress from './components/static/UI/PageProgress';
+import RolesManager from './components/static/RolesManager';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
@@ -25,7 +26,9 @@ const App: React.FC = () => {
     <AppContext.Provider value={app}>
       <ApplicationTheme theme="base">
         <PageProgress>
-          <Router />
+          <RolesManager>
+            <Router />
+          </RolesManager>
         </PageProgress>
       </ApplicationTheme>
     </AppContext.Provider>

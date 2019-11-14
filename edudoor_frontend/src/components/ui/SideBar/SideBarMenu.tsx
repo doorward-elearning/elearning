@@ -5,6 +5,7 @@ import { MemoryHistory, Location } from 'history';
 import { Link, useRouteMatch } from 'react-router-dom';
 import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
+import RoleContainer from '../../static/RolesManager/RoleContainer';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
   const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history, location } = props;
@@ -59,20 +60,23 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   const handleOpen = (item: MenuItem, value: boolean): void => {
     setOpen(value ? item : undefined);
   };
+  console.log(menu);
 
   return (
     <React.Fragment>
       {menu.map(item => (
-        <Item
-          key={item.name}
-          {...item}
-          history={history}
-          collapsed={collapsed}
-          location={location}
-          selected={selected}
-          open={(open && open.link === item.link) || collapsed}
-          setOpen={(value): void => handleOpen(item, value)}
-        />
+        <RoleContainer roles={item.roles}>
+          <Item
+            key={item.name}
+            {...item}
+            history={history}
+            collapsed={collapsed}
+            location={location}
+            selected={selected}
+            open={(open && open.link === item.link) || collapsed}
+            setOpen={(value): void => handleOpen(item, value)}
+          />
+        </RoleContainer>
       ))}
     </React.Fragment>
   );

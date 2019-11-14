@@ -10,6 +10,8 @@ import { Course } from '../../../../services/models';
 import './CourseModuleList.scss';
 import { Link } from 'react-router-dom';
 import useRoutes from '../../../../hooks/useRoutes';
+import RoleContainer from '../../RolesManager/RoleContainer';
+import { Roles } from '../../RolesManager';
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const routes = useRoutes();
@@ -24,7 +26,11 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                   return (
                     <Accordion
                       title={(): JSX.Element => <Header size={3}>{module.title}</Header>}
-                      action={(): JSX.Element => <AddModuleItemDropdown module={module} />}
+                      action={(): JSX.Element => (
+                        <RoleContainer roles={[Roles.TEACHER]}>
+                          <AddModuleItemDropdown module={module} />
+                        </RoleContainer>
+                      )}
                       key={index}
                       open
                     >

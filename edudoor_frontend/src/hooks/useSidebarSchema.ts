@@ -3,6 +3,8 @@ import { SideBarProps } from '../components/ui/SideBar';
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
 import useRoutes from './useRoutes';
 import useAuth from './useAuth';
+import { Roles } from '../components/static/RolesManager';
+import { Role } from '../services/models';
 
 const useSidebarSchema = (
   props: SideBarProps

@@ -37,19 +37,21 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const Parent: any = link ? Link : React.Fragment;
   const parentProps = link ? { to: link } : {};
   return (
-    <Condition condition={loading}>
-      <Spinner />
-      <Parent {...parentProps}>
-        <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
-          <IfElse condition={!!icon}>
-            <i className="material-icons">{icon}</i>
-          </IfElse>
-          <IfElse condition={!!children}>
-            <span className="text">{children}</span>
-          </IfElse>
-        </button>
-      </Parent>
-    </Condition>
+    <Parent {...parentProps}>
+      <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
+        <Condition condition={loading}>
+          <Spinner width={20} height={20}  />
+          <React.Fragment>
+            <IfElse condition={!!icon}>
+              <i className="material-icons">{icon}</i>
+            </IfElse>
+            <IfElse condition={!!children}>
+              <span className="text">{children}</span>
+            </IfElse>
+          </React.Fragment>
+        </Condition>
+      </button>
+    </Parent>
   );
 };
 
