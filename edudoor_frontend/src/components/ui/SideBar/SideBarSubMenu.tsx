@@ -15,13 +15,12 @@ const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
     <ul className="sub-menu" ref={list}>
       {menu.map(item => {
         return (
-          <RoleContainer roles={item.roles}>
+          <RoleContainer roles={item.roles} key={item.name}>
             <li
               className={classNames({
                 'side-nav-item': true,
                 active: item === active,
               })}
-              key={item.name}
             >
               <Link to={item.link} className="side-nav-link" onClick={(): void => item.onClick && item.onClick(props)}>
                 <span className="title">{item.name}</span>

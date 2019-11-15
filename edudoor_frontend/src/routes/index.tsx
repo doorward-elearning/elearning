@@ -41,6 +41,7 @@ export const routes = {
   studentReports: 'Student Reports',
   teacherReports: 'Teacher Reports',
   courseReports: 'Courses Reports',
+  changePassword: 'Change Password',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -74,7 +75,9 @@ export const routeConfigurations: Routes = {
           studentList: new Route('/', StudentList).roles(Roles.TEACHER),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
-        myProfile: new Route('/profile/:username', Profile),
+        myProfile: new Route('/profile/:username', Profile).with({
+          changePassword: new Route('/changePassword', Profile),
+        }),
       }),
       reports: new Route('/reports').roles(Roles.TEACHER).with({
         studentReports: new Route('/students', NotFound),

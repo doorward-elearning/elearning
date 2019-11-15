@@ -27,7 +27,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
             <Card.Header>
               <Header size={2}>Account Information</Header>
               <IfElse condition={!editingAccount}>
-                <Icon icon="edit" onClick={() => setEditingAccount(true)} />
+                <Icon icon="edit" onClick={(): void => setEditingAccount(true)} />
               </IfElse>
             </Card.Header>
             <Card.Body>
@@ -35,7 +35,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
                 form={form}
                 user={user}
                 editing={editingAccount}
-                stopEditing={() => setEditingAccount(false)}
+                stopEditing={(): void => setEditingAccount(false)}
               />
             </Card.Body>
           </Card>

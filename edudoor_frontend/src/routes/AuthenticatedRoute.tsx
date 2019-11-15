@@ -15,13 +15,13 @@ const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): 
   const { authenticated } = useAuth();
   const user = useSelector((state: State) => state.users.user);
   const routes = useRoutes();
+  const hasAccess = useRoleManager(props.roles);
 
   if (user.errors.message || user.errors.errors || !authenticated) {
     Tools.clearToken();
     return <Redirect to={props.redirect || ROUTES.login.link} />;
   } else if (authenticated && user.data.user) {
     // check if the user can see this page.
-    const hasAccess = useRoleManager(props.roles);
     if (hasAccess) {
       return <Route {...props} />;
     } else {

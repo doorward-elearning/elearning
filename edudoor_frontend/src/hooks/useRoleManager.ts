@@ -4,7 +4,7 @@ import { Role } from '../services/models';
 
 const useRoleManager = (roles?: Array<Roles>): boolean => {
   const { userRoles } = useContext(RolesContext);
-  if (roles && userRoles) {
+  if (roles && userRoles && userRoles.length) {
     const allRoles: Array<Roles> = [Roles.SUPER_ADMINISTRATOR];
     allRoles.push(...roles);
 

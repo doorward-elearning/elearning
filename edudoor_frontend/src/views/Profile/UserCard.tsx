@@ -8,11 +8,19 @@ import ChangePasswordModal from '../../components/static/Modals/ChangePasswordMo
 import useForm from '../../hooks/useForm';
 import { User } from '../../services/models';
 import useModal from '../../hooks/useModal';
+import { useRouteMatch } from 'react-router';
+import useRoutes from '../../hooks/useRoutes';
+import { Link } from 'react-router-dom';
 
 const UserCard: React.FunctionComponent<UserCardProps> = props => {
+  const match: any = useRouteMatch();
+  const routes = useRoutes();
   const form = useForm();
-  const modal = useModal();
+  const modal = useModal(match.path === routes.changePassword.link);
   const { user } = props;
+  modal.onClose(() => {
+    routes.navigate(routes.myProfile, { username: user.username });
+  });
   return (
     <div className="page-profile__user-card">
       <ChangePasswordModal useModal={modal} useForm={form} />
@@ -25,9 +33,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
             <EImage src={profile} alt="User Image" circle size="large" />
             <Header size={3}>{user.email}</Header>
             <span>{user.roles.map(role => role.name + ' ')}</span>
-            <a href="#" onClick={modal.openModal}>
-              Change password
-            </a>
+            <Link to={routes.changePassword.withParams({ username: user.username })}>Change password</Link>
           </div>
         </Card.Body>
       </Card>
