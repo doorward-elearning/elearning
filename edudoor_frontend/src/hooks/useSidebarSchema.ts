@@ -5,6 +5,7 @@ import useRoutes from './useRoutes';
 import useAuth from './useAuth';
 import { Roles } from '../components/static/RolesManager';
 import { Role } from '../services/models';
+import schema from '../components/ui/SideBar/schema';
 
 const useSidebarSchema = (
   props: SideBarProps
@@ -14,31 +15,7 @@ const useSidebarSchema = (
 } => {
   const routes = useRoutes();
   const { logout } = useAuth();
-  const sidebar: Array<MenuItem> = [
-    {
-      ...routes.dashboard,
-      icon: 'dashboard',
-    },
-    {
-      ...routes.courses,
-      icon: 'school',
-      subMenu: [routes.courseList],
-    },
-    {
-      ...routes.students,
-      icon: 'account_circle',
-      subMenu: [routes.studentList, routes.newStudent],
-    },
-    {
-      name: 'Logout',
-      onClick: (): void => {
-        logout();
-        props.history.push(routes.login.link);
-      },
-      icon: 'logout',
-      link: '',
-    },
-  ];
+  const sidebar: Array<MenuItem> = schema(routes, props, logout);
   let selected = '';
 
   if (routes.currentRoute) {

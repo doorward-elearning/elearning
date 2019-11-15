@@ -15,6 +15,7 @@ import Profile from '../views/Profile';
 import CreatePassword from '../views/Password/CreatePassword';
 import { Roles } from '../components/static/RolesManager';
 import { EdudoorRoute } from './EdudoorRoute';
+import NotFound from '../views/NotFound';
 
 export const routes = {
   home: 'Home',
@@ -36,6 +37,10 @@ export const routes = {
   myProfile: 'My Profile',
   createPassword: 'Create Password',
   password: 'Password',
+  reports: 'Reports',
+  studentReports: 'Student Reports',
+  teacherReports: 'Teacher Reports',
+  courseReports: 'Courses Reports',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -70,6 +75,11 @@ export const routeConfigurations: Routes = {
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
         myProfile: new Route('/profile/:username', Profile),
+      }),
+      reports: new Route('/reports').roles(Roles.TEACHER).with({
+        studentReports: new Route('/students', NotFound),
+        courseReports: new Route('/courses', NotFound),
+        teacherReports: new Route('/teachers', NotFound),
       }),
       password: new Route('/password')
         .public()

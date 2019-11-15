@@ -57,6 +57,13 @@
         &.open {
           position: relative;
 
+          &.subMenu {
+            .nav-link {
+              font-weight: bold;
+              text-transform: uppercase;
+            }
+          }
+
           &:not(:hover) {
             .sub-menu {
               position: absolute;
