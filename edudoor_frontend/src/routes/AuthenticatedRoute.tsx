@@ -9,6 +9,7 @@ import Tools from '../utils/Tools';
 import { Roles } from '../components/static/RolesManager';
 import { routes } from './index';
 import useRoutes from '../hooks/useRoutes';
+import useRoleManager from '../hooks/useRoleManager';
 
 const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): JSX.Element => {
   const { authenticated } = useAuth();
@@ -20,12 +21,7 @@ const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): 
     return <Redirect to={props.redirect || ROUTES.login.link} />;
   } else if (authenticated && user.data.user) {
     // check if the user can see this page.
-    const hasAccess = user.data.user.roles.find(role => {
-      const hasAccess = props.roles.find(userRole => userRole === role.name);
-
-      return hasAccess || props.roles.includes(Roles.ALL);
-    });
-
+    const hasAccess = useRoleManager(props.roles);
     if (hasAccess) {
       return <Route {...props} />;
     } else {

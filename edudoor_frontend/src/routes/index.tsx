@@ -14,6 +14,7 @@ import * as React from 'react';
 import Profile from '../views/Profile';
 import CreatePassword from '../views/Password/CreatePassword';
 import { Roles } from '../components/static/RolesManager';
+import { EdudoorRoute } from './EdudoorRoute';
 
 export const routes = {
   home: 'Home',
@@ -36,48 +37,6 @@ export const routes = {
   createPassword: 'Create Password',
   password: 'Password',
 };
-
-export class EdudoorRoute {
-  path: string;
-  allowedRoles: Array<Roles>;
-  routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute };
-  component?: React.FunctionComponent<any>;
-  hideBreadCrumb?: boolean;
-  redirectLink: keyof typeof routes;
-
-  constructor(path: string, component?: React.FunctionComponent<any>) {
-    this.path = path;
-    this.routes = {};
-    this.hideBreadCrumb = false;
-    this.allowedRoles = [Roles.ALL];
-    this.component = component;
-    this.redirectLink = 'dashboard';
-  }
-
-  roles(...roles: Array<Roles>) {
-    this.allowedRoles = roles;
-    return this;
-  }
-
-  public() {
-    this.allowedRoles = [];
-    return this;
-  }
-
-  redirect(link: keyof typeof routes) {
-    this.redirectLink = link;
-  }
-
-  hideCrumb() {
-    this.hideBreadCrumb = true;
-    return this;
-  }
-
-  with(routes: { [name in keyof EdudoorRoutes]?: EdudoorRoute }) {
-    this.routes = routes;
-    return this;
-  }
-}
 
 export type EdudoorRoutes = typeof routes;
 

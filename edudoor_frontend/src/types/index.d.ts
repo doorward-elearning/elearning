@@ -3,8 +3,9 @@ import { ReactNode } from 'react';
 import { match, Route, RouteComponentProps } from 'react-router';
 import * as React from 'react';
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
-import { EdudoorRoute, routes } from '../routes';
+import { routes } from '../routes';
 import { FormikActions } from 'formik';
+import { EdudoorRoute } from '../routes/EdudoorRoute';
 
 export interface PageComponent {
   history: MemoryHistory;

@@ -60,14 +60,12 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   const handleOpen = (item: MenuItem, value: boolean): void => {
     setOpen(value ? item : undefined);
   };
-  console.log(menu);
 
   return (
     <React.Fragment>
       {menu.map(item => (
-        <RoleContainer roles={item.roles}>
+        <RoleContainer roles={item.roles} key={item.name}>
           <Item
-            key={item.name}
             {...item}
             history={history}
             collapsed={collapsed}

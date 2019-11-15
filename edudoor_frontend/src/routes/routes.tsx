@@ -4,8 +4,9 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import AuthenticatedRoute, { AuthenticatedRouteProps } from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
 import NotFound from '../views/NotFound';
-import { EdudoorRoute, EdudoorRoutes, routeConfigurations, routes } from './index';
+import { EdudoorRoutes, routeConfigurations, routes } from './index';
 import Tools from '../utils/Tools';
+import { EdudoorRoute } from './EdudoorRoute';
 
 const routeDefinitions: any = {};
 

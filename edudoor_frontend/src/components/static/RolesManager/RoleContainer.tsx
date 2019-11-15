@@ -1,22 +1,11 @@
-import React, { FunctionComponent, useContext } from 'react';
-import { Roles, RolesContext } from './index';
+import React, { FunctionComponent } from 'react';
+import { Roles } from './index';
 import IfElse from '../../ui/IfElse';
+import useRoleManager from '../../../hooks/useRoleManager';
 
 const RoleContainer: FunctionComponent<RoleProps> = (props): JSX.Element => {
-  const { roles } = props;
-  const { userRoles } = useContext(RolesContext);
-
-  const allRoles: Array<Roles> = [Roles.SUPER_ADMINISTRATOR];
-
-  if (roles instanceof Array) {
-    allRoles.push(...roles);
-  } else {
-    allRoles.push(roles as Roles);
-  }
-  const hasRole =
-    roles && allRoles.length
-      ? userRoles.find(role => allRoles.find(userRole => userRole === role.name || userRole === Roles.ALL))
-      : true;
+  const roles = props.roles ? (props.roles instanceof Array ? props.roles : [props.roles as Roles]) : undefined;
+  const hasRole = useRoleManager(roles);
   return (
     <IfElse condition={hasRole}>
       <React.Fragment>{props.children}</React.Fragment>
