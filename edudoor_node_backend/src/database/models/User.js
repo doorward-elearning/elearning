@@ -11,6 +11,21 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         allowNull: false,
       },
+      fullName: {
+        type: DataTypes.VIRTUAL,
+        get() {
+          const model = this;
+          let fullName = model.username;
+          if (model.firstName) {
+            fullName = model.firstName;
+          }
+          if (model.lastName) {
+            fullName += ` ${model.lastName}`;
+          }
+
+          return fullName;
+        },
+      },
       password: {
         type: DataTypes.STRING,
       },
@@ -46,21 +61,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
   User.associate = function(models) {
-    User.afterFind(user => {
-      if (user) {
-        let fullName = user.username || '';
-        if (user.firstName) {
-          fullName = user.firstName;
-        }
-        if (user.lastName) {
-          fullName += ` ${user.lastName}`;
-        }
-        if (user.dataValues) {
-          // eslint-disable-next-line no-param-reassign
-          user.dataValues.fullName = fullName.trim();
-        }
-      }
-    });
     User.belongsToMany(models.Role, {
       foreignKey: 'userId',
       as: 'roles',

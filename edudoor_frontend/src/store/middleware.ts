@@ -1,11 +1,7 @@
 import { all } from 'redux-saga/effects';
 import { combineReducers, ReducersMapObject } from 'redux';
 import { BuiltReducer } from '../reducers/reducers';
-
-import login from '../reducers/login';
-import courses from '../reducers/courses';
-import students from '../reducers/students';
-import users from '../reducers/users';
+import reducers from './reducers';
 
 const sagas: IterableIterator<any>[] = [];
 
@@ -31,12 +27,6 @@ function build<T extends ReducerObject, K extends keyof T>(reducers: T): Reducer
   return state as ReducersMapObject<GeneratedReducers<T>, any>;
 }
 
-const reducers = {
-  login,
-  courses,
-  students,
-  users,
-};
 const state = build(reducers);
 
 export function* rootSaga(): IterableIterator<any> {

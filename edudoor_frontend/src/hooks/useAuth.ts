@@ -5,7 +5,7 @@ import { State } from '../store';
 import { User } from '../services/models';
 
 const useAuth = (): UseAuth => {
-  const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn);
+  const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
 
   const users = useSelector((state: State) => state.users.user);
 

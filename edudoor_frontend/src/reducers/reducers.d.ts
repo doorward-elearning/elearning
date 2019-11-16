@@ -14,7 +14,7 @@ export interface Action extends ReduxAction {
   showErrorToast?: boolean;
 }
 
-export type ActionCreator = (dispatch: Dispatch) => (...args: any) => Action;
+export type ActionCreator = (...args: any[]) => Action;
 
 export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 

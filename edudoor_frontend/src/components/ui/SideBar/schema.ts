@@ -19,7 +19,7 @@ export default (routes: UseRoutes, props: SideBarProps, logout: () => void) => [
   {
     ...routes.reports,
     icon: 'trending_up',
-    subMenu: [routes.studentReports, routes.teacherReports, routes.courseReports],
+    subMenu: [routes.studentListReports, routes.teacherListReports, routes.courseListReports],
   },
   {
     name: 'Logout',

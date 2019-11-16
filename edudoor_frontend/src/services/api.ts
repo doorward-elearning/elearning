@@ -39,7 +39,7 @@ const Api = {
     },
   },
   courses: {
-    create: async (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
+    create: (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
     list: (): Promise<CourseListResponse> => GET('/courses'),
     get: (courseId: string): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
     modules: {
@@ -58,6 +58,9 @@ const Api = {
       notRegistered: (courseId: string): Promise<StudentListResponse> =>
         GET(`/courses/${courseId}/students/not-registered`),
     },
+  },
+  reports: {
+    students: (): Promise<StudentListResponse> => GET('/reports/students'),
   },
 };
 

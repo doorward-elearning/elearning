@@ -14,7 +14,7 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
       <div className="user-panel">
         <EImage src={profile} alt="User Image" circle size="large" />
         <div>
-          <span>{user.fullName}</span>
+          <span>{user?.fullName}</span>
           <Link to="#" className="online-status">
             <Icon icon="brightness_1" />
             <span className="online">Online</span>

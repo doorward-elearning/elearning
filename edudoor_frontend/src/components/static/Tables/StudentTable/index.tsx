@@ -19,9 +19,7 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
       />
       <TableBody
         data={props.students}
-        getCell={(row, index, column): string => {
-          return Tools.str(row[column as keyof Student]);
-        }}
+        getCell={(row, index, column): string => Tools.str(row[column as keyof Student])}
       />
     </Table>
   );

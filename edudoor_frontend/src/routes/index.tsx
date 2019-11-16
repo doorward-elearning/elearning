@@ -16,6 +16,8 @@ import CreatePassword from '../views/Password/CreatePassword';
 import { Roles } from '../components/static/RolesManager';
 import { EdudoorRoute } from './EdudoorRoute';
 import NotFound from '../views/NotFound';
+import StudentListReport from '../views/Reports/StudentListReport';
+import StudentReport from '../views/Reports/StudentReport';
 
 export const routes = {
   home: 'Home',
@@ -38,10 +40,11 @@ export const routes = {
   createPassword: 'Create Password',
   password: 'Password',
   reports: 'Reports',
-  studentReports: 'Student Reports',
-  teacherReports: 'Teacher Reports',
-  courseReports: 'Courses Reports',
+  studentListReports: 'Student Reports',
+  teacherListReports: 'Teacher Reports',
+  courseListReports: 'Courses Reports',
   changePassword: 'Change Password',
+  studentReport: 'Student Report',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -78,11 +81,13 @@ export const routeConfigurations: Routes = {
         myProfile: new Route('/profile/:username', Profile).with({
           changePassword: new Route('/changePassword', Profile),
         }),
-      }),
-      reports: new Route('/reports').roles(Roles.TEACHER).with({
-        studentReports: new Route('/students', NotFound),
-        courseReports: new Route('/courses', NotFound),
-        teacherReports: new Route('/teachers', NotFound),
+        reports: new Route('/reports').roles(Roles.TEACHER).with({
+          studentListReports: new Route('/students', StudentListReport).with({
+            studentReport: new Route('/:studentId', StudentReport),
+          }),
+          courseListReports: new Route('/courses', NotFound),
+          teacherListReports: new Route('/teachers', NotFound),
+        }),
       }),
       password: new Route('/password')
         .public()
