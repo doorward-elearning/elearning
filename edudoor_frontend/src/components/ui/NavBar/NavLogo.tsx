@@ -8,6 +8,8 @@ import ROUTES from '../../../routes/routes';
 import './NavLogo.scss';
 import CONSTANTS from '../../../assets/constants';
 import { MemoryHistory } from 'history';
+import logo from '../../../assets/images/edudoor.png';
+import EImage from '../Image';
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
   return (
@@ -27,8 +29,8 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
         <Feature feature={NavbarFeatures.PAGE_LOGO}>
           <div className="page-logo">
             <Link to={ROUTES.home.link}>
-              <Icon icon="school" className="image" />
-              <span className="logo__title">{CONSTANTS.APP_NAME}</span>
+              <EImage src={logo} size={'small'} />
+              <span className="logo__title">{CONSTANTS.APP_NAME.substr(1)}</span>
             </Link>
           </div>
         </Feature>

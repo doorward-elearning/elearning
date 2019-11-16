@@ -1,10 +1,13 @@
 .add-module-page {
   display: grid;
   justify-items: start;
-  .eb-input--draft-text-area{
-    &__wrapper, &__editor{
-      min-height: 400px;
-      max-width: unset;
+  .eb-input {
+    max-width: unset;
+    &--draft-text-area{
+      &__wrapper, &__editor{
+        min-height: 400px;
+        max-width: unset;
+      }
     }
   }
 

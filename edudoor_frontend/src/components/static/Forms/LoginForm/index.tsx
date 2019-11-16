@@ -17,6 +17,7 @@ import useAction from '../../../../hooks/useActions';
 import { loginUserAction } from '../../../../reducers/login/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
+import logo from '../../../../assets/images/edudoor.png';
 
 const LoginForm: FunctionComponent<LoginFormProps> = props => {
   const initialState = { username: '', password: '' };
@@ -46,7 +47,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
           </Card.Header>
           <Card.Body>
             <div className="login-form__header">
-              <EImage alt="" src="../assets/img/logo-2.png" circle size="xLarge" />
+              <EImage alt="" src={logo} circle size="xLarge" />
               <Header size={1}>Log in</Header>
             </div>
             <TextField name="username" placeholder="Username" icon="account_circle" />
