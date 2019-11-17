@@ -5,6 +5,7 @@ import './Buttons.scss';
 import { Link } from 'react-router-dom';
 import Spinner from '../Spinner';
 import IfElse from '../IfElse';
+import { Icons } from '../../../types/icons';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,
@@ -40,7 +41,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
     <Parent {...parentProps}>
       <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
         <Condition condition={loading}>
-          <Spinner width={20} height={20}  />
+          <Spinner width={20} height={20} />
           <React.Fragment>
             <IfElse condition={!!icon}>
               <i className="material-icons">{icon}</i>
@@ -65,7 +66,7 @@ export interface ButtonProps {
   mini?: boolean;
   rounded?: boolean;
   bordered?: boolean;
-  icon?: string;
+  icon?: Icons;
   className?: string;
   link?: string;
   onClick?: MouseEventHandler;

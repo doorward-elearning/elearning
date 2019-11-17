@@ -56,6 +56,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultScope: {
         attributes: {
           exclude: ['password'],
+          include: ['fullName'],
         },
       },
     }
@@ -82,11 +83,6 @@ module.exports = (sequelize, DataTypes) => {
     User.hasMany(models.PasswordReset, {
       foreignKey: 'userId',
       as: 'passwordResets',
-    });
-    User.belongsToMany(models.Course, {
-      foreignKey: 'studentId',
-      as: 'coursesInProgress',
-      through: models.StudentCourse,
     });
   };
   return User;

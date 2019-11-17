@@ -31,7 +31,9 @@ const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'b
       const html: HTMLElement = document.getElementsByTagName('html')[0];
       const themeProperties = themes[currentTheme || 'base'];
       (Object.keys(themeProperties) as Array<keyof Theme>).forEach(key => {
-        html.style.setProperty(key, themeProperties[key]);
+        if (key.startsWith('--')) {
+          html.style.setProperty(key, themeProperties[key]);
+        }
       });
     }
   }, [currentTheme]);

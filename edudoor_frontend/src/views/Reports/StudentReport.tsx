@@ -13,6 +13,9 @@ import Row from '../../components/ui/Row';
 import CoursesInProgressTable from '../../components/static/Tables/CoursesInProgressTable';
 import WebComponent from '../../components/ui/WebComponent';
 import './StudentReport.scss';
+import Panel from '../../components/ui/Panel';
+import Grid from '../../components/ui/Grid';
+import Badge from '../../components/ui/Badge';
 
 const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
   const action = useAction(fetchStudentReport);
@@ -30,7 +33,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
       header={Tools.str(state.data?.student?.fullName)}
     >
       <div className="student-report__page">
-        <Row>
+        <Row style={{ justifyContent: 'start' }}>
           <Card>
             <Card.Body>
               <div>
@@ -41,33 +44,18 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
               </div>
             </Card.Body>
           </Card>
-          <Card>
-            <Card.Body>
-              <div>
-                <Header size={2} thin>
-                  Number of courses completed
-                </Header>
-                <Header size={1}>9</Header>
-              </div>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              <div>
-                <Header size={2} thin>
-                  Number of courses in progress
-                </Header>
-                <Header size={1}>9</Header>
-              </div>
-            </Card.Body>
-          </Card>
         </Row>
         <Row className="courses-information">
-          <Card>
-            <Card.Header>
-              <Header size={3}>Ongoing Courses</Header>
-            </Card.Header>
-            <Card.Body>
+          <Grid columns={1}>
+            <Header size={3}>
+              <div>
+                Ongoing Courses{' '}
+                <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
+                  {data => <Badge>{data.coursesInProgress.length}</Badge>}
+                </WebComponent>
+              </div>
+            </Header>
+            <Panel>
               <WebComponent
                 icon="school"
                 data={state.data.student?.coursesInProgress}
@@ -77,13 +65,20 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
               >
                 {data => <CoursesInProgressTable courses={data} />}
               </WebComponent>
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Header>
-              <Header size={3}>Completed Courses</Header>
-            </Card.Header>
-            <Card.Body>
+            </Panel>
+          </Grid>
+          <Grid columns={1}>
+            <Row style={{ justifyContent: 'space-between' }}>
+              <Header size={3}>
+                <div>
+                  Completed Courses{' '}
+                  <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
+                    {data => <Badge>{data.coursesInProgress.length}</Badge>}
+                  </WebComponent>
+                </div>
+              </Header>
+            </Row>
+            <Panel>
               <WebComponent
                 icon="school"
                 data={state.data.student?.coursesInProgress}
@@ -93,8 +88,8 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
               >
                 {data => <CoursesInProgressTable courses={data} />}
               </WebComponent>
-            </Card.Body>
-          </Card>
+            </Panel>
+          </Grid>
         </Row>
       </div>
     </Layout>

@@ -3,7 +3,6 @@ import Spinner from '../Spinner';
 import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
 import classNames from 'classnames';
-import Tools from '../../../utils/Tools';
 import { PageProgressContext } from '../../static/UI/PageProgress';
 
 function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
@@ -22,20 +21,30 @@ function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
   }, []);
 
   useEffect(() => {
-    pageProgress.setLoading(props.loading);
-  }, [props.loading]);
+    if (props.loading) {
+      if (!hasItems || !props.data) {
+        pageProgress.setLoading(true);
+      }
+    } else {
+      pageProgress.setLoading(false);
+    }
+  }, [props.loading, refreshing]);
 
   useEffect(() => {
     if (hasItems && props.data) {
       setRefreshing(props.loading);
     }
   }, [props]);
+  const loader = props.loader === undefined ? <Spinner height={30} width={30} /> : props.loader;
+  const empty = props.empty === undefined ? <Empty {...props} /> : props.empty;
+
   if (hasItems && props.data) {
     return (
       <div
         className={classNames({
           'web-component__content': true,
           refreshing,
+          inline: props.inline,
         })}
       >
         <React.Fragment>{props.children(props.data)}</React.Fragment>
@@ -49,21 +58,22 @@ function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
           loading: props.loading,
         })}
       >
-        <div className="web-component__spinner">{props.loader || <Spinner height={30} width={30} />}</div>
-        <div className="web-component__empty">{props.empty || <Empty {...props} />}</div>
+        <div className="web-component__spinner">{loader}</div>
+        <div className="web-component__empty">{empty}</div>
       </div>
     );
   }
 }
 
 export interface WebComponentItemsProps<T> extends EmptyProps {
-  loader?: JSX.Element;
-  empty?: JSX.Element;
+  loader?: JSX.Element | null;
+  empty?: JSX.Element | null;
   emptyMessage?: string;
   data: T | undefined;
   loading: boolean;
   children: (data: T) => JSX.Element;
   showPageProgress?: boolean;
+  inline?: boolean;
 }
 
 export default WebComponent;

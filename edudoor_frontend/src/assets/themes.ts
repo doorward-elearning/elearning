@@ -1,3 +1,6 @@
+import baseLogo from '../assets/images/edudoor.png';
+import darkLogo from '../assets/images/edudoor_white.png';
+
 const base = {
   '--bg-primary': '#FFFFFF',
   '--bg-primary-dark': 'rgba(203,203,203,0.61)',
@@ -44,6 +47,7 @@ const base = {
   '--button-warning': '#ff4a52',
   '--button-warning-color': '#000000',
   '--submitting-spinner-background': 'rgba(255, 255, 255, .4)',
+  logo: baseLogo,
 };
 
 const dark: Theme = {
@@ -64,6 +68,7 @@ const dark: Theme = {
   '--modal-background': 'rgba(0, 0, 0, .5)',
   '--submitting-spinner-background': 'rgba(0, 0, 0, .4)',
   '--accent': '#c76a00',
+  logo: darkLogo,
 };
 
 const themes = {

@@ -29,6 +29,16 @@
       pointer-events: all;
     }
   }
+
+  &__content {
+    &.inline {
+      display: inline-grid;
+
+      > div {
+        display: inline-grid;
+      }
+    }
+  }
 }
 
 @keyframes refreshingAnimation {
