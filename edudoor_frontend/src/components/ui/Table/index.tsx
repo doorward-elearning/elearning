@@ -12,7 +12,7 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
   }, [data]);
 
   useEffect(() => {
-    if (props.filter && props.searchText) {
+    if (props.filter) {
       setFiltered(props.filter([...data], props.searchText || ''));
     }
   }, [props.searchText]);

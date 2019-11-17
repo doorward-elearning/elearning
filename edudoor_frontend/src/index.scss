@@ -94,3 +94,9 @@ a {
   text-decoration: none;
   transition: 0.5s color, 0.5s text-decoration;
 }
+
+svg {
+  text {
+    fill: var(--text-primary) !important;
+  }
+}
