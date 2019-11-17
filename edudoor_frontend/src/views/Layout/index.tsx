@@ -74,6 +74,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     localStorage.setItem('sidebar-collapse', !sidebarCollapsed + '');
     collapseSidebar(!sidebarCollapsed);
   };
+  if (breadcrumbs.length > 1) {
+    features.push(LayoutFeatures.BACK_BUTTON);
+  }
 
   return (
     <FeatureProvider features={features}>
