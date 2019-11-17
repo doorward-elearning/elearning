@@ -1,8 +1,6 @@
 import React from 'react';
 import { Student } from '../../../../services/models';
 import Table from '../../../ui/Table';
-import TableHeader from '../../../ui/Table/TableHeader';
-import TableBody from '../../../ui/Table/TableBody';
 import Tools from '../../../../utils/Tools';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
@@ -16,13 +14,9 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
         email: 'Email',
         status: 'Status',
       }}
-    >
-      <TableHeader />
-      <TableBody
-        data={props.students}
-        getCell={(row, index, column): string => Tools.str(row[column as keyof Student])}
-      />
-    </Table>
+      data={props.students}
+      getCell={(row, index, column): string => Tools.str(row[column as keyof Student])}
+    />
   );
 };
 

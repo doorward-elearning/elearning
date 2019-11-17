@@ -17,12 +17,15 @@ import { Roles } from '../../components/static/RolesManager';
 import RoleContainer from '../../components/static/RolesManager/RoleContainer';
 import IfElse from '../../components/ui/IfElse';
 import ContentSpinner from '../../components/static/UI/ContentSpinner';
+import _ from 'lodash';
+import { PlainTextField } from '../../components/ui/Input/TextField';
 
 export enum LayoutFeatures {
   HEADER = 1,
   BACK_BUTTON = 2,
   ACTION_BUTTON = 3,
   BREAD_CRUMBS = 4,
+  SEARCH_BAR = 5,
 }
 
 const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, text, ...props }) => {
@@ -41,13 +44,24 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   className: appendClasses = '',
   renderHeaderEnd,
   features = [],
+  searchText = '',
   loading = false,
   actionBtnProps,
   noNavBar,
+  onSearch: onSearchText = str => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
+  const [search, setSearchText] = useState(searchText);
   const breadcrumbs = withBreadCrumbs();
+  const debouncedSearch = _.debounce(onSearchText, 500);
+
+  const onSearch = ({ target: { value } }: any): void => {
+    if (value !== search) {
+      setSearchText(value);
+      debouncedSearch(value);
+    }
+  };
 
   const className = classNames({
     'ed-page-layout': true,
@@ -105,6 +119,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                         </IfElse>
                       </Header>
                     </Feature>
+                    <Feature feature={LayoutFeatures.SEARCH_BAR}>
+                      <PlainTextField icon="search" onChange={onSearch} value={search} />
+                    </Feature>
                   </div>
                   <div className="ed-page-layout__header--middle" />
                   <div className="ed-page-layout__header--end">
@@ -141,6 +158,8 @@ export interface LayoutProps extends PageComponent {
   noNavBar?: boolean;
   renderHeaderEnd?: () => JSX.Element;
   loading?: boolean;
+  searchText?: string;
+  onSearch?: (text: string) => void;
 }
 
 export default Layout;

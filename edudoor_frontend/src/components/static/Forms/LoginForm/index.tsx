@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useContext } from 'react';
 import { FormikActions } from 'formik';
 import { Link } from 'react-router-dom';
 import EImage from '../../../ui/Image';
@@ -18,12 +18,14 @@ import { loginUserAction } from '../../../../reducers/login/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
 import logo from '../../../../assets/images/edudoor.png';
+import { ThemeContext } from '../../../ui/ApplicationTheme';
 
 const LoginForm: FunctionComponent<LoginFormProps> = props => {
   const initialState = { username: '', password: '' };
   const form = useForm<LoginFormState>();
   const loginUser = useAction(loginUserAction);
   const login = useSelector((state: State) => state.login.loginUser);
+  const { theme } = useContext(ThemeContext);
 
   const onSubmit = (values: LoginFormState, actions: FormikActions<LoginFormState>): void => {
     loginUser(values);
@@ -47,7 +49,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
           </Card.Header>
           <Card.Body>
             <div className="login-form__header">
-              <EImage alt="" src={logo} circle size="xLarge" />
+              <EImage alt="" src={theme.logo} circle size="xLarge" />
               <Header size={1}>Log in</Header>
             </div>
             <TextField name="username" placeholder="Username" icon="account_circle" />

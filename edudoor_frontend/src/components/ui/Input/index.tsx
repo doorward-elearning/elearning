@@ -22,7 +22,7 @@ function withInput<R extends InputProps>(
       <FormContext.Consumer>
         {({ formikProps = {}, editable }): JSX.Element => {
           const inputProps: any = { ...props, formikProps };
-          inputProps.onChange = formikProps.handleChange;
+          inputProps.onChange = formikProps.handleChange || props.onChange;
           inputProps.onBlur = formikProps.handleBlur;
           inputProps.value = _.get(formikProps.values, name);
 
