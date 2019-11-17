@@ -5,11 +5,19 @@ import './Header.scss';
 // eslint-disable-next-line react/jsx-key
 const headers: Array<React.ReactElement> = [<h1 />, <h2 />, <h3 />, <h4 />, <h5 />, <h6 />];
 
-const Header: FunctionComponent<HeaderProps> = ({ size, children, onClick, className = '', style }): JSX.Element => {
+const Header: FunctionComponent<HeaderProps> = ({
+  size,
+  children,
+  onClick,
+  className = '',
+  style,
+  thin,
+}): JSX.Element => {
   const classes = classNames({
     'ed-header': true,
     [className]: true,
     clickable: !!onClick,
+    thin,
   });
   const props = { className: classes, onClick, style };
 
@@ -24,6 +32,7 @@ export interface HeaderProps {
   className?: string;
   onClick?: MouseEventHandler;
   style?: CSSProperties;
+  thin?: boolean;
 }
 
 export default Header;

@@ -7,16 +7,17 @@ import Tools from '../../../../utils/Tools';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
   return (
-    <Table className="student-table">
-      <TableHeader
-        columns={{
-          username: 'Username',
-          firstName: 'First name',
-          lastName: 'Last name',
-          email: 'Email',
-          status: 'Status',
-        }}
-      />
+    <Table
+      className="student-table"
+      columns={{
+        username: 'Username',
+        firstName: 'First name',
+        lastName: 'Last name',
+        email: 'Email',
+        status: 'Status',
+      }}
+    >
+      <TableHeader />
       <TableBody
         data={props.students}
         getCell={(row, index, column): string => Tools.str(row[column as keyof Student])}

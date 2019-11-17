@@ -43,10 +43,8 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
           formClassName="choose-student-form"
         >
           {(formikProps): JSX.Element => (
-            <Table>
-              <TableHeader
-                columns={{ firstName: 'First Name', lastName: 'Last Name', email: 'Email', add: 'Choose' }}
-              />
+            <Table columns={{ firstName: 'First Name', lastName: 'Last Name', email: 'Email', add: 'Choose' }}>
+              <TableHeader />
               <TableBody
                 data={formikProps.values.students}
                 onRowClick={(row, index): void => {
@@ -57,7 +55,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
                     <div className="choose-student-form__value">
                       <IfElse condition={column === 'add'}>
                         <SwitchInput labelPosition="right" name={`students.${index}.selected`} />
-                        <span>{Tools.str(row[column as keyof Student])}</span>
+                        <span>{Tools.str(row[column])}</span>
                       </IfElse>
                     </div>
                   );

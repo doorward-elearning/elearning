@@ -34,6 +34,7 @@ export interface User extends Model {
 
 export interface Student extends User {
   courses: Array<Course>;
+  coursesInProgress: Array<Course>;
 }
 
 export interface Module extends Model {

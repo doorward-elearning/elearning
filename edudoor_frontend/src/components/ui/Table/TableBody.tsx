@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { TableContext } from './index';
 
-function renderRow<T>(item: T, index: number, props: TableBodyProps<T>): JSX.Element {
+function renderRow<T, K>(item: T, index: number, props: TableBodyProps<T, K>): JSX.Element {
   const table = useContext(TableContext);
   table.data[index] = item;
 
@@ -13,13 +13,14 @@ function renderRow<T>(item: T, index: number, props: TableBodyProps<T>): JSX.Ele
   return (
     <tr key={index} onClick={onRowClick}>
       {Object.keys(table.columns).map(columnKey => {
-        return <td key={columnKey}>{props.getCell(item, index, columnKey)}</td>;
+        return <td key={columnKey}>{props.getCell(item, index, columnKey as keyof K)}</td>;
       })}
     </tr>
   );
 }
 
-function TableBody<T>(props: TableBodyProps<T>): JSX.Element {
+function TableBody<T, K>(props: TableBodyProps<T, K>): JSX.Element {
+  const table = useContext(TableContext);
   return (
     <tbody>
       {props.data.map(
@@ -31,9 +32,9 @@ function TableBody<T>(props: TableBodyProps<T>): JSX.Element {
   );
 }
 
-export interface TableBodyProps<T> {
+export interface TableBodyProps<T, K> {
   data: Array<T>;
-  getCell: (row: T, index: number, column: any) => JSX.Element | string;
+  getCell: (row: T, index: number, column: keyof K) => JSX.Element | string;
   onRowClick?: (row: T, index: number) => void;
 }
 

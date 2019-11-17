@@ -7,16 +7,21 @@ const initialValue = {
   data: [],
 };
 
-export interface TableContextProps<T> {
-  columns: { [name: string]: string };
+export interface TableContextProps<T, K extends { [name: string]: string }> {
+  columns: K;
   data: Array<T>;
 }
 
-export const TableContext = React.createContext<TableContextProps<any>>(initialValue);
+export const TableContext = React.createContext<TableContextProps<any, any>>(initialValue);
 
-function Table<T>(props: TableProps<T>): JSX.Element {
+function Table<T, K extends { [name: string]: string }>(props: TableProps<T, K>): JSX.Element {
   return (
-    <TableContext.Provider value={initialValue}>
+    <TableContext.Provider
+      value={{
+        ...initialValue,
+        columns: props.columns,
+      }}
+    >
       <div
         className={classNames({
           'ed-table': true,
@@ -29,8 +34,9 @@ function Table<T>(props: TableProps<T>): JSX.Element {
   );
 }
 
-export interface TableProps<T> extends PropsWithChildren<any> {
+export interface TableProps<T, K extends { [name: string]: string }> extends PropsWithChildren<any> {
   className?: string;
+  columns: K;
 }
 
 export default Table;

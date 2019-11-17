@@ -10,8 +10,11 @@ import { Course } from '../../../../services/models';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
   return (
-    <Table className="course-table">
-      <TableHeader columns={{ displayName: 'Course Name', students: 'No of students', status: 'Status' }} />
+    <Table
+      className="course-table"
+      columns={{ displayName: 'Course Name', students: 'No of students', status: 'Status' }}
+    >
+      <TableHeader />
       <TableBody
         data={props.courses}
         onRowClick={(course): void => {

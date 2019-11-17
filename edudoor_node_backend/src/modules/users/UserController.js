@@ -59,7 +59,11 @@ class UserController {
     };
   }
 
-  static async findByRole(role, options = {}) {
+  static async findOneByRole(role, options = {}) {
+    return UserController.findByRole(role, options, 'findOne');
+  }
+
+  static async findByRole(role, options = {}, method = 'findAll') {
     const include = _.unionBy(
       options.include || [],
       [
@@ -76,7 +80,7 @@ class UserController {
       ],
       'model'
     );
-    return models.User.findAll({
+    return models.User[method]({
       ...options,
       where: options.where || {},
       include,

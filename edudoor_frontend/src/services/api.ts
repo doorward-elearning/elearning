@@ -60,7 +60,10 @@ const Api = {
     },
   },
   reports: {
-    students: (): Promise<StudentListResponse> => GET('/reports/students'),
+    students: {
+      list: (): Promise<StudentListResponse> => GET('/reports/students'),
+      get: (studentId: string): Promise<StudentResponse> => GET(`/reports/students/${studentId}`),
+    },
   },
 };
 

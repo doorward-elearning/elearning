@@ -27,5 +27,8 @@
     "no-trailing-spaces": ["error", { "skipBlankLines": true }],
     "no-underscore-dangle": "error",
     "eol-last": ["error", "always"]
+  },
+  "globals": {
+    "models": true
   }
 }

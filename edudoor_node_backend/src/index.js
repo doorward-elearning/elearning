@@ -3,6 +3,9 @@ import dotenv from 'dotenv';
 import http from 'http';
 import env from './config/environment';
 import app from './app';
+import models from './database/models';
+
+global.models = models;
 
 dotenv.config();
 const logger = debug('log');

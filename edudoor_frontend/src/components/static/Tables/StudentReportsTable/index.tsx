@@ -3,23 +3,25 @@ import Table from '../../../ui/Table';
 import TableHeader from '../../../ui/Table/TableHeader';
 import { Student } from '../../../../services/models';
 import TableBody from '../../../ui/Table/TableBody';
-import useRoutes from '../../../../hooks/useRoutes';
+import SimpleWebComponent, { SimpleWebConsumer } from '../../../ui/WebComponent/SimpleWebComponent';
+import { fetchStudentReportsList } from '../../../../reducers/reports/actions';
+import { State } from '../../../../store';
 
-const StudentReportsTable: React.FunctionComponent<StudentReportsTableProps> = props => {
-  return (
-    <Table>
-      <TableHeader
-        columns={{
-          name: 'Name',
-          department: 'Department',
-          enrollments: 'No of enrollments',
-          courses: 'Courses completed',
-          grade: 'Average Grade',
-        }}
-      />
+const StudentReportsTable: SimpleWebConsumer<StudentReportsTableProps, Array<Student>> = data => {
+  return (props): JSX.Element => (
+    <Table
+      columns={{
+        name: 'Name',
+        department: 'Department',
+        enrollments: 'No of enrollments',
+        courses: 'Courses completed',
+        grade: 'Average Grade',
+      }}
+    >
+      <TableHeader />
       <TableBody
-        data={props.students}
-        getCell={(row, index, column) => {
+        data={data}
+        getCell={(row, index, column): string => {
           const data = {
             name: row.fullName,
             department: 'Computer Science',
@@ -36,8 +38,12 @@ const StudentReportsTable: React.FunctionComponent<StudentReportsTableProps> = p
 };
 
 export interface StudentReportsTableProps {
-  students: Array<Student>;
   onRowClick: (row: Student, index: number) => void;
 }
 
-export default StudentReportsTable;
+const result = SimpleWebComponent({
+  action: fetchStudentReportsList,
+  selector: (state: State) => state.reports.studentReportList,
+  data: data => data.students,
+})(StudentReportsTable);
+export default result;

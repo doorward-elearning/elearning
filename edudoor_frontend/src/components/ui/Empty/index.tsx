@@ -3,6 +3,7 @@ import './Empty.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import IfElse from '../IfElse';
+import { Icons } from '../../../types/icons';
 
 const defaultMessage = 'Ops! There are no items here.';
 
@@ -33,7 +34,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
 
 export interface EmptyProps {
   message?: string;
-  icon?: string;
+  icon?: Icons;
   size?: 'small' | 'medium' | 'large';
   actionMessage?: string;
   onAction?: MouseEventHandler;

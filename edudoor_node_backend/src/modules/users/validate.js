@@ -94,3 +94,9 @@ export const validateHasPassword = async req => {
     return [200, undefined, 'Cannot create a password since you already have one'];
   }
 };
+
+
+export const validateUserExists = (query, message = "This user does not exist") => req => {
+  const where = query(req);
+
+}

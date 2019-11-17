@@ -15,6 +15,8 @@ import withBreadCrumbs from '../../hooks/withBreadCrumbs';
 import BreadCrumbs from '../../components/ui/BreadCrumbs';
 import { Roles } from '../../components/static/RolesManager';
 import RoleContainer from '../../components/static/RolesManager/RoleContainer';
+import IfElse from '../../components/ui/IfElse';
+import ContentSpinner from '../../components/static/UI/ContentSpinner';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -39,6 +41,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   className: appendClasses = '',
   renderHeaderEnd,
   features = [],
+  loading = false,
   actionBtnProps,
   noNavBar,
   navFeatures = Tools.enumKeys(NavbarFeatures),
@@ -74,40 +77,48 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           />
         </div>
         <div className="ed-page-layout__content">
-          <Container>
-            <div className="ed-page-layout__topHeader">
-              <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
-                <BreadCrumbs crumbs={breadcrumbs} />
-              </Feature>
-            </div>
-            <div className="ed-page-layout__header">
-              <div className="ed-page-layout__header--start">
-                <Feature feature={LayoutFeatures.BACK_BUTTON}>
-                  <Icon
-                    icon="arrow_back"
-                    className="ed-page-layout__header--start__arrow-back"
-                    onClick={(): void => {
-                      history.goBack();
-                    }}
-                  />
-                </Feature>
-                <Feature feature={LayoutFeatures.HEADER}>
-                  <Header size={1} className="ed-page-layout__header--title">
-                    {header}
-                  </Header>
-                </Feature>
-              </div>
-              <div className="ed-page-layout__header--middle" />
-              <div className="ed-page-layout__header--end">
-                {renderHeaderEnd && renderHeaderEnd()}
-                <Feature feature={LayoutFeatures.ACTION_BUTTON}>
-                  <RoleContainer roles={actionBtnProps?.roles}>
-                    <ActionButton {...actionBtnProps} />
-                  </RoleContainer>
-                </Feature>
-              </div>
-            </div>
-            {children}
+          <Container fullHeight={loading}>
+            <IfElse condition={loading}>
+              <ContentSpinner type="Grid" />
+              <React.Fragment>
+                <div className="ed-page-layout__topHeader">
+                  <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
+                    <BreadCrumbs crumbs={breadcrumbs} />
+                  </Feature>
+                </div>
+                <div className="ed-page-layout__header">
+                  <div className="ed-page-layout__header--start">
+                    <Feature feature={LayoutFeatures.BACK_BUTTON}>
+                      <Icon
+                        icon="arrow_back"
+                        className="ed-page-layout__header--start__arrow-back"
+                        onClick={(): void => {
+                          history.goBack();
+                        }}
+                      />
+                    </Feature>
+                    <Feature feature={LayoutFeatures.HEADER}>
+                      <Header size={1} className="ed-page-layout__header--title">
+                        <IfElse condition={header === '--'}>
+                          <ContentSpinner width={20} height={20} />
+                          <React.Fragment>{header}</React.Fragment>
+                        </IfElse>
+                      </Header>
+                    </Feature>
+                  </div>
+                  <div className="ed-page-layout__header--middle" />
+                  <div className="ed-page-layout__header--end">
+                    {renderHeaderEnd && renderHeaderEnd()}
+                    <Feature feature={LayoutFeatures.ACTION_BUTTON}>
+                      <RoleContainer roles={actionBtnProps?.roles}>
+                        <ActionButton {...actionBtnProps} />
+                      </RoleContainer>
+                    </Feature>
+                  </div>
+                </div>
+                {children}
+              </React.Fragment>
+            </IfElse>
           </Container>
         </div>
       </div>
@@ -129,6 +140,7 @@ export interface LayoutProps extends PageComponent {
   className?: string;
   noNavBar?: boolean;
   renderHeaderEnd?: () => JSX.Element;
+  loading?: boolean;
 }
 
 export default Layout;

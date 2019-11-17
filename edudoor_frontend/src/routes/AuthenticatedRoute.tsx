@@ -4,12 +4,12 @@ import useAuth from '../hooks/useAuth';
 import ROUTES from './routes';
 import { useSelector } from 'react-redux';
 import { State } from '../store';
-import ContentSpinner from '../components/static/UI/ContentSpinner';
 import Tools from '../utils/Tools';
 import { Roles } from '../components/static/RolesManager';
 import { routes } from './index';
 import useRoutes from '../hooks/useRoutes';
 import useRoleManager from '../hooks/useRoleManager';
+import LoadingPage from '../views/LoadingPage';
 
 const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): JSX.Element => {
   const { authenticated } = useAuth();
@@ -28,11 +28,7 @@ const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): 
       return <Redirect to={routes[props.authRedirect].link} />;
     }
   } else {
-    return (
-      <div style={{ height: '100vh' }}>
-        <ContentSpinner type="Grid" />
-      </div>
-    );
+    return <Route component={LoadingPage} />;
   }
 };
 
