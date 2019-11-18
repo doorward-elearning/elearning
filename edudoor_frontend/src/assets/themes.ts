@@ -10,7 +10,7 @@ const base = {
   '--text-alternate': '#f4f4f4',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
-  '--font-family': 'Source Sans Pro, sans-serif',
+  '--font-family': 'Roboto, sans-serif',
   '--line-color': 'rgba(0, 0, 0, .1)',
   '--shadow-color': 'rgba(0, 0, 0, .08)',
   '--shadow-color--darker': 'rgba(0, 0, 0, .15)',

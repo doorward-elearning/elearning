@@ -18,6 +18,7 @@ import { EdudoorRoute } from './EdudoorRoute';
 import NotFound from '../views/NotFound';
 import StudentListReport from '../views/Reports/StudentListReport';
 import StudentReport from '../views/Reports/StudentReport';
+import CourseCreatorListReport from '../views/Reports/CourseCreatorListReport';
 
 export const routes = {
   home: 'Home',
@@ -86,7 +87,7 @@ export const routeConfigurations: Routes = {
             studentReport: new Route('/:studentId', StudentReport),
           }),
           courseListReports: new Route('/courses', NotFound),
-          teacherListReports: new Route('/teachers', NotFound),
+          teacherListReports: new Route('/teachers', CourseCreatorListReport).roles(),
         }),
       }),
       password: new Route('/password')

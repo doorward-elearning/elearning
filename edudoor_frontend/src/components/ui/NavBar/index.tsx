@@ -21,7 +21,6 @@ export enum NavbarFeatures {
 }
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features, history }) => {
-  const { changeTheme, theme } = useContext(ThemeContext);
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
@@ -34,7 +33,6 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
           </Feature>
         </div>
         <div className="ed-navBar__end">
-          <Switch open={theme === themes.base} onToggle={changeTheme} />
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
             <UserManagement />
           </Feature>

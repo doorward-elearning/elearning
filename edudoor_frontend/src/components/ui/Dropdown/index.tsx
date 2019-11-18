@@ -5,6 +5,7 @@ import Icon from '../Icon';
 import { Link } from 'react-router-dom';
 import useStateRef from '../../../hooks/useStateRef';
 import useClickOutside from '../../../hooks/useClickOutside';
+import { Icons } from '../../../types/icons';
 
 const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onClick, icon, title }) => {
   return (
@@ -65,7 +66,7 @@ export interface DropdownProps {
 
 export interface DropdownItemProps {
   link?: string;
-  icon?: string;
+  icon?: Icons;
   onClick?: MouseEventHandler;
   title?: string;
 }

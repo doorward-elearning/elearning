@@ -20,7 +20,7 @@ export class EdudoorRoute {
   }
 
   roles(...roles: Array<Roles>): EdudoorRoute {
-    this.allowedRoles = roles;
+    this.allowedRoles = roles || [];
     return this;
   }
 

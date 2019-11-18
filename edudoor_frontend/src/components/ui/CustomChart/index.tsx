@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import { ReactGoogleChartProps } from 'react-google-charts/dist/types';
 import { Chart } from 'react-google-charts';
 import { ThemeContext } from '../ApplicationTheme';
+import './CustomChart.scss';
 
 const CustomChart: React.FunctionComponent<CustomChartProps> = props => {
   const { theme } = useContext(ThemeContext);
   return (
     <Chart
+      className="ed-google-chart"
       {...props}
       options={{
         backgroundColor: theme['--bg-primary'],
