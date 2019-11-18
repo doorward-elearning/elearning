@@ -38,9 +38,8 @@ export interface StudentReportsTableProps {
   filter?: string;
 }
 
-const result = SimpleWebComponent({
+export default SimpleWebComponent({
   action: fetchStudentReportsList,
   selector: (state: State) => state.reports.studentReportList,
   data: data => data.students,
 })(StudentReportsTable);
-export default result;

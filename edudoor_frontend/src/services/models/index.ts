@@ -28,13 +28,16 @@ export interface User extends Model {
   organizationId: string;
   organization: Organization;
   roles: Array<Role>;
-  authoredCourses: Array<Course>;
   status: string;
 }
 
 export interface Student extends User {
   courses: Array<Course>;
   coursesInProgress: Array<Course>;
+}
+
+export interface CourseCreator extends User {
+  authoredCourses: Array<Course>;
 }
 
 export interface Module extends Model {

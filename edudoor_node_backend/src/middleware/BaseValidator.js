@@ -39,6 +39,16 @@ export default class BaseValidator {
       Promise.all(Object.keys(fields).map(async field => BaseValidator.checkField(req, field, Model, fields[field])));
   }
 
+  static findModelOrThrow(param, Model, message) {
+    return BaseValidator.modelExists(
+      req => ({
+        id: req.params[param],
+      }),
+      Model,
+      message
+    );
+  }
+
   static modelExists(query, Model, message) {
     return async req => {
       const throwError = () => {

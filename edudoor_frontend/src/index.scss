@@ -5,6 +5,7 @@ body {
   margin: 0;
   color: var(--text-primary);
   transition: 0.5s background;
+  font-size: 14px;
 
   *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
     font-size: var(--page-font-size);

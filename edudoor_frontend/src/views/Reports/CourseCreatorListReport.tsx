@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
+import CourseCreatorsTable from '../../components/static/Tables/CourseCreatorsTable';
 
 const CourseCreatorListReport: FunctionComponent<CourseCreatorListReportProps> = (props): JSX.Element => {
   return (
@@ -9,7 +10,7 @@ const CourseCreatorListReport: FunctionComponent<CourseCreatorListReportProps> =
       features={[LayoutFeatures.HEADER, LayoutFeatures.SEARCH_BAR, LayoutFeatures.BREAD_CRUMBS]}
       header="Course Creators Report"
     >
-      Course Creators
+      <CourseCreatorsTable onRowClick={() => {}} />
     </Layout>
   );
 };
