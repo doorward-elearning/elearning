@@ -1,12 +1,12 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
-import Empty from '../../components/ui/Empty';
+import CourseList from './CourseList';
 
 const Dashboard: React.FunctionComponent<DashboardProps> = props => {
   return (
     <Layout {...props} features={[LayoutFeatures.HEADER]} header="DASHBOARD">
-      <Empty />
+      <CourseList />
     </Layout>
   );
 };

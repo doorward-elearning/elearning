@@ -1,24 +1,24 @@
 import { Routes } from '../types';
-import Home from '../views/Home';
-import Login from '../views/Login';
-import Dashboard from '../views/Dashboard';
-import Courses from '../views/Courses';
-import ViewCourse from '../views/Courses/ViewCourse';
-import CourseStudentList from '../views/Courses/CourseStudentList';
-import AddCourseStudent from '../views/Students/AddCourseStudent';
-import StudentList from '../views/Students/StudentList';
-import AddStudent from '../views/Students/AddStudent';
-import AddModulePage from '../views/Courses/Modules/AddModulePage';
-import ViewModuleItem from '../views/Courses/Modules/ViewModuleItem';
+import Home from '../screens/Home';
+import Login from '../screens/Login';
+import Dashboard from '../screens/Dashboard';
+import Courses from '../screens/Courses';
+import ViewCourse from '../screens/Courses/ViewCourse';
+import CourseStudentList from '../screens/Courses/CourseStudentList';
+import AddCourseStudent from '../screens/Students/AddCourseStudent';
+import StudentList from '../screens/Students/StudentList';
+import AddStudent from '../screens/Students/AddStudent';
+import AddModulePage from '../screens/Courses/Modules/AddModulePage';
+import ViewModuleItem from '../screens/Courses/Modules/ViewModuleItem';
 import * as React from 'react';
-import Profile from '../views/Profile';
-import CreatePassword from '../views/Password/CreatePassword';
+import Profile from '../screens/Profile';
+import CreatePassword from '../screens/Password/CreatePassword';
 import { Roles } from '../components/static/RolesManager';
 import { EdudoorRoute } from './EdudoorRoute';
-import NotFound from '../views/NotFound';
-import StudentListReport from '../views/Reports/StudentListReport';
-import StudentReport from '../views/Reports/StudentReport';
-import CourseCreatorListReport from '../views/Reports/CourseCreatorListReport';
+import NotFound from '../screens/NotFound';
+import StudentListReport from '../screens/Reports/StudentListReport';
+import StudentReport from '../screens/Reports/StudentReport';
+import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport';
 
 export const routes = {
   home: 'Home',

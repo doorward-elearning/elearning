@@ -6,7 +6,7 @@ const Card: CardComponent = ({ flat = true, ...props }) => {
   const className = classNames({
     'ed-card': true,
     flat,
-    clickable: props.clickable,
+    clickable: props.clickable || !!props.onClick,
   });
   return (
     <div className={className} onClick={props.onClick}>

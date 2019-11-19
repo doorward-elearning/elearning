@@ -1,0 +1,10 @@
+.dashboard__course-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(200px, 400px));
+  &__course {
+    .card-image {
+      height: 150px;
+      background: var(--accent);
+    }
+  }
+}

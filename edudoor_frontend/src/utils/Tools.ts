@@ -77,6 +77,10 @@ class Tools {
     });
     return returnValue;
   }
+
+  static truncate<T>(data: Array<T> = [], length: number): Array<T> {
+    return data.filter((_, index) => index < length);
+  }
 }
 
 export default Tools;

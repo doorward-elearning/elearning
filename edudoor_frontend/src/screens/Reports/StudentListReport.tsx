@@ -7,7 +7,7 @@ import { Student } from '../../services/models';
 
 const StudentListReport: React.FunctionComponent<StudentReportsProps> = props => {
   const routes = useRoutes();
-  const [search, setSearch] = useState({});
+  const [search, setSearch] = useState('');
   const onSearch = (text: string) => {
     setSearch(text);
   };

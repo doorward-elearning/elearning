@@ -9,7 +9,7 @@ import { Roles } from '../components/static/RolesManager';
 import { routes } from './index';
 import useRoutes from '../hooks/useRoutes';
 import useRoleManager from '../hooks/useRoleManager';
-import LoadingPage from '../views/LoadingPage';
+import LoadingPage from '../screens/LoadingPage';
 
 const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): JSX.Element => {
   const { authenticated } = useAuth();
