@@ -24,15 +24,20 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
 
   useFormSubmit(state, props.stopEditing);
 
+  const stopEditing = () => {
+    props.form.formikProps.resetForm();
+    props.stopEditing();
+  };
+
   return (
     <BasicForm
       form={props.form}
       initialValues={initialValues}
       editable={props.editing}
       state={state}
-      onSuccess={props.stopEditing}
+      onSuccess={stopEditing}
       features={features}
-      onCancel={props.stopEditing}
+      onCancel={stopEditing}
       submitAction={updateAccountInformationAction}
       validationSchema={profileAccountForm}
       showOverlay
