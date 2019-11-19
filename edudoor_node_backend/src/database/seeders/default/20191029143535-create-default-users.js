@@ -1,12 +1,12 @@
 const bcrypt = require('bcrypt');
-const environment = require('../../../config/environment');
 const shortid = require('shortid');
+const environment = require('../../../config/environment');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const password = await bcrypt.hash(
       'openolat',
-      process.env.BCRYPT_PASSWORD_SALT || environment.BCRYPT_PASSWORD_SALT
+      +(process.env.BCRYPT_PASSWORD_SALT || environment.BCRYPT_PASSWORD_SALT)
     );
     const organizations = await queryInterface.sequelize.query(
       'SELECT id FROM "Organizations" WHERE name = \'Edudoor\''

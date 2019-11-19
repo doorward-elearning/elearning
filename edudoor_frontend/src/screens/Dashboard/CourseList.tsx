@@ -7,7 +7,6 @@ import Card from '../../components/ui/Card';
 import Header from '../../components/ui/Header';
 import { Course } from '../../services/models';
 import useRoutes from '../../hooks/useRoutes';
-import IfElse from '../../components/ui/IfElse';
 import Tools from '../../utils/Tools';
 import ItemArray from '../../components/ui/ItemArray';
 

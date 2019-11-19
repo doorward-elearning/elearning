@@ -11,5 +11,8 @@ RUN npm install -g yarn && rm -rf package-lock.json
 
 COPY edudoor_node_backend/package.json /usr/app
 COPY edudoor_node_backend/yarn.lock /usr/app
+COPY edudoor_node_backend/.env /usr/app
+
+RUN cd /usr/app
 
 RUN yarn install
