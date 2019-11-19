@@ -1,14 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { PageComponent } from '../../types';
 import Layout from '../Layout';
-import ContentSpinner from '../../components/static/UI/ContentSpinner';
-import { NavbarFeatures } from '../../components/ui/NavBar';
 import './LoadingPage.scss';
+import { ThemeContext } from '../../components/ui/ApplicationTheme';
+import EImage from '../../components/ui/Image';
+import ProgressBar from '../../components/ui/ProgressBar';
 
 const LoadingPage: React.FunctionComponent<LoadingPageProps> = props => {
+  const theme = useContext(ThemeContext);
   return (
-    <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]} className="loading-page">
-      <ContentSpinner type="Grid" />
+    <Layout {...props} noNavBar navFeatures={[]} className="loading-page">
+      <div className="loading-page__content">
+        <div className="loading-page__content--loader">
+          <EImage src={theme.theme.logo} size="medium" />
+          <ProgressBar indeterminate={true} />
+        </div>
+      </div>
     </Layout>
   );
 };

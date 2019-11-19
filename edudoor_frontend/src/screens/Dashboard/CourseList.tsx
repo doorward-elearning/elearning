@@ -9,6 +9,7 @@ import { Course } from '../../services/models';
 import useRoutes from '../../hooks/useRoutes';
 import IfElse from '../../components/ui/IfElse';
 import Tools from '../../utils/Tools';
+import ItemArray from '../../components/ui/ItemArray';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -20,26 +21,28 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
     >
       {data => (
         <div className="dashboard__course-list">
-          {data.map((course: Course) => (
-            <div className="dashboard__course-list__course">
-              <Card flat={false} onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}>
-                <Card.Header image>
-                  <div className="card-image" />
-                </Card.Header>
-                <Card.Body>
-                  <Header size={2}>{course.title}</Header>
-                  <IfElse condition={course.modules.length}>
+          <ItemArray data={data}>
+            {(course: Course) => (
+              <div className="dashboard__course-list__course">
+                <Card flat={false} onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}>
+                  <Card.Header image>
+                    <div className="card-image" />
+                  </Card.Header>
+                  <Card.Body>
+                    <Header size={2}>{course.title}</Header>
                     <div>
-                      {Tools.truncate(course.modules, 3).map(module => (
-                        <span>{module.title}</span>
-                      ))}
+                      <ItemArray
+                        data={Tools.truncate(course.modules, 3)}
+                        empty={<span>No modules have been added</span>}
+                      >
+                        {module => <span>{module.title}</span>}
+                      </ItemArray>
                     </div>
-                    <span>No modules have been added</span>
-                  </IfElse>
-                </Card.Body>
-              </Card>
-            </div>
-          ))}
+                  </Card.Body>
+                </Card>
+              </div>
+            )}
+          </ItemArray>
         </div>
       )}
     </SimpleWebComponent>
