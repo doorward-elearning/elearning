@@ -11,10 +11,10 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
     selector={(state: State) => state.reports.studentReportList}
     dataSelector={data => data.students}
   >
-    {data => (
+    {(data): JSX.Element => (
       <Table
         searchText={props.filter}
-        filter={(data1, text) =>
+        filter={(data1, text): typeof data1 =>
           data1.filter((student: Student) => {
             return new RegExp(text, 'ig').test(student.fullName);
           })

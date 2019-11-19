@@ -13,6 +13,10 @@
       display: grid;
       justify-items: center;
       grid-gap: var(--padding-lg);
+
+      .ed-progress {
+        height: 2px;
+      }
     }
   }
 }

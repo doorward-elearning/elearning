@@ -13,7 +13,7 @@ const LoadingPage: React.FunctionComponent<LoadingPageProps> = props => {
       <div className="loading-page__content">
         <div className="loading-page__content--loader">
           <EImage src={theme.theme.logo} size="medium" />
-          <ProgressBar indeterminate={true} />
+          <ProgressBar indeterminate />
         </div>
       </div>
     </Layout>

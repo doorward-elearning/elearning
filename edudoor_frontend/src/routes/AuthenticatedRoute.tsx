@@ -21,7 +21,6 @@ const AuthenticatedRoute: FunctionComponent<AuthenticatedRouteProps> = (props): 
     Tools.clearToken();
     return <Redirect to={props.redirect || ROUTES.login.link} />;
   } else if (authenticated && user.data.user) {
-    // check if the user can see this page.
     if (hasAccess) {
       return <Route {...props} />;
     } else {

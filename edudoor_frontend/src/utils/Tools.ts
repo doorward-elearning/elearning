@@ -1,4 +1,7 @@
 import { Enum } from '../types';
+import moment from 'moment';
+import colors from './colors';
+
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 
@@ -80,6 +83,33 @@ class Tools {
 
   static truncate<T>(data: Array<T> = [], length: number): Array<T> {
     return data.filter((_, index) => index < length);
+  }
+
+  static hashCode(str: string): number {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      const character = str.charCodeAt(i);
+      hash = (hash << 5) - hash + character;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+  }
+
+  static color(str: string): string {
+    const allColors = Object.values(colors);
+    return allColors[Math.abs(Tools.hashCode(str)) % allColors.length];
+  }
+
+  static shortDate(str: string): string {
+    return moment(str).format('DD/MM/YYYY');
+  }
+
+  static normalDate(str: string): string {
+    return moment(str).format('Do MMMM YYYY');
+  }
+
+  static longDate(str: string): string {
+    return moment(str).format('dddd, MMMM Do YYYY');
   }
 }
 
