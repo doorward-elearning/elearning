@@ -5,7 +5,7 @@ import './WebComponent.scss';
 import classNames from 'classnames';
 import { PageProgressContext } from '../../static/UI/PageProgress';
 
-function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
+function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
   const pageProgress = useContext(PageProgressContext);
   let hasItems = !!props.data;
@@ -65,7 +65,7 @@ function WebComponent<T>(props: WebComponentItemsProps<T>): JSX.Element {
   }
 }
 
-export interface WebComponentItemsProps<T> extends EmptyProps {
+export interface WebComponentProps<T> extends EmptyProps {
   loader?: JSX.Element | null;
   empty?: JSX.Element | null;
   emptyMessage?: string;

@@ -5,7 +5,7 @@ const HtmlContent: FunctionComponent<HTMLContentProps> = (props): JSX.Element =>
     <div
       className="ed-htmlContent"
       dangerouslySetInnerHTML={{ __html: props.html || '' }}
-      style={{ background: 'white', padding: 'var(--padding)' }}
+      style={{ padding: 'var(--padding)' }}
     />
   );
 };

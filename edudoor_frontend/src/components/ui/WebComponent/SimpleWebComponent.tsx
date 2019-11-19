@@ -3,7 +3,7 @@ import { ActionCreator, WebComponentState } from '../../../reducers/reducers';
 import { State } from '../../../store';
 import useAction from '../../../hooks/useActions';
 import { useSelector } from 'react-redux';
-import WebComponent from './index';
+import WebComponent, { WebComponentProps } from './index';
 
 function SimpleWebComponent<
   T extends WebComponentState<any>,
@@ -11,7 +11,7 @@ function SimpleWebComponent<
   U extends (data: Data<T>) => any,
   P extends SimpleWebConsumer<any, ApiData<U, T>>,
   R = ChildProps<P>
->(props: SimpleWebComponentProps<T, S, U>): (consumer: P) => React.FunctionComponent<R> {
+>(props: Omit<SimpleWebComponentProps<T, S, U>, 'loading' | 'children'>): (consumer: P) => React.FunctionComponent<R> {
   return (consumer: P): FunctionComponent<R> => {
     return (childProps): JSX.Element => {
       const action = useAction(props.action);
@@ -21,7 +21,7 @@ function SimpleWebComponent<
       }, []);
       const state = useSelector(props.selector);
       return (
-        <WebComponent data={props.data(state.data)} loading={state.fetching}>
+        <WebComponent {...props} data={props.data(state.data)} loading={state.fetching}>
           {(data): JSX.Element => <React.Fragment>{consumer(data)(childProps)}</React.Fragment>}
         </WebComponent>
       );
@@ -39,7 +39,7 @@ export interface SimpleWebComponentProps<
   T extends WebComponentState<any>,
   S extends ActionCreator,
   U extends (data: Data<T>) => any
-> {
+> extends WebComponentProps<U> {
   action: S;
   selector: (state: State) => T;
   params?: Parameters<S>;

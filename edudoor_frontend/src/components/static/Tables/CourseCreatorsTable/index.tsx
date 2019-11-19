@@ -37,6 +37,8 @@ const result = SimpleWebComponent({
   action: fetchCourseCreatorReport,
   selector: (state: State) => state.reports.courseCreatorReportList,
   data: data => data.courseCreators,
+  message: 'There are no course creators',
+  icon: 'school',
 })(CourseCreatorsTable);
 
 export default result;

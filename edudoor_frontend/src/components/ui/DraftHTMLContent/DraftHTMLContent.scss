@@ -1,10 +1,15 @@
 .ed-draft-reader {
   &__wrapper {
-    background: white;
     border: 1px solid var(--line-color);
     padding: var(--padding) var(--padding-lg);
   }
   &__editor {
     overflow: unset;
+    *[style*='background-color: rgb(255, 255, 255)']{
+      background: transparent !important;
+      &[style*='color: rgba(0, 0, 0, 0.84)'] *, *[style*='color: rgba(0, 0, 0, 0.84)'] *  {
+        color: var(--text-primary) !important;;
+      }
+    }
   }
 }
