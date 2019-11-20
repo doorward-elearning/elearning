@@ -10,6 +10,7 @@ import {
 } from './models/requestBody';
 import {
   CourseCreatorListResponse,
+  CourseCreatorResponse,
   CourseListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
@@ -67,6 +68,7 @@ const Api = {
     },
     courseCreators: {
       list: (): Promise<CourseCreatorListResponse> => GET('/reports/teachers'),
+      get: (teacherId: string): Promise<CourseCreatorResponse> => GET(`/reports/teachers/${teacherId}`),
     },
   },
 };

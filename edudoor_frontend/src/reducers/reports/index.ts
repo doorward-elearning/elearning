@@ -1,5 +1,10 @@
 import reducerBuilder, { reducerApiAction } from '../builder';
-import { FETCH_COURSE_CREATOR_REPORT_LIST, FETCH_STUDENT_REPORT, FETCH_STUDENT_REPORT_LIST } from './types';
+import {
+  FETCH_COURSE_CREATOR_REPORT,
+  FETCH_COURSE_CREATOR_REPORT_LIST,
+  FETCH_STUDENT_REPORT,
+  FETCH_STUDENT_REPORT_LIST,
+} from './types';
 import Api from '../../services/api';
 
 const studentReportList = reducerApiAction({
@@ -17,10 +22,16 @@ const courseCreatorReportList = reducerApiAction({
   api: Api.reports.courseCreators.list,
 });
 
+const singleCourseCreator = reducerApiAction({
+  action: FETCH_COURSE_CREATOR_REPORT,
+  api: Api.reports.courseCreators.get,
+});
+
 export default reducerBuilder({
   middleware: {
     studentReportList,
     singleStudent,
     courseCreatorReportList,
+    singleCourseCreator,
   },
 });

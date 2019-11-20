@@ -2,12 +2,12 @@ import React from 'react';
 import SimpleWebComponent from '../../../ui/WebComponent/SimpleWebComponent';
 import { CourseCreator } from '../../../../services/models';
 import Table from '../../../ui/Table';
-import { fetchCourseCreatorReport } from '../../../../reducers/reports/actions';
+import { fetchCourseCreatorReportList } from '../../../../reducers/reports/actions';
 import { State } from '../../../../store';
 
 const CourseCreatorsTable: React.FunctionComponent<CourseCreatorsTableProps> = props => (
   <SimpleWebComponent
-    action={fetchCourseCreatorReport}
+    action={fetchCourseCreatorReportList}
     selector={(state: State) => state.reports.courseCreatorReportList}
     dataSelector={data => data.courseCreators}
   >
