@@ -3,18 +3,55 @@ import Card from '../../../ui/Card';
 import WebComponent from '../../../ui/WebComponent';
 import Accordion from '../../../ui/Accordion';
 import Header from '../../../ui/Header';
-import AddModuleItemDropdown from '../../Dropdowns/AddModuleItemDropdown';
+import AddModuleItemDropdown, { ModuleItemIcons } from '../../Dropdowns/AddModuleItemDropdown';
 import List from '../../../ui/List';
 import ListItem from '../../../ui/List/ListItem';
-import { Course } from '../../../../services/models';
+import { Course, Module } from '../../../../services/models';
 import './CourseModuleList.scss';
 import { Link } from 'react-router-dom';
 import useRoutes from '../../../../hooks/useRoutes';
 import RoleContainer from '../../RolesManager/RoleContainer';
 import { Roles } from '../../RolesManager';
+import Row from '../../../ui/Row';
+import Icon from '../../../ui/Icon';
+import classNames from 'classnames';
+import _ from 'lodash';
+
+const ModuleItemsList: React.FunctionComponent<{
+  module: Module;
+}> = ({ module }) => {
+  const routes = useRoutes();
+  return (
+    <WebComponent data={module.items} loading={false} message="This module does not have any items yet." size="medium">
+      {(moduleItems): JSX.Element => (
+        <List>
+          {moduleItems.map(moduleItem => (
+            <ListItem key={moduleItem.id}>
+              <Link
+                className={classNames({
+                  'course-module-item': true,
+                  [_.camelCase(moduleItem.type.toLowerCase())]: true,
+                })}
+                to={routes.routes.viewModuleItem.withParams({
+                  itemId: moduleItem.id,
+                  moduleId: module.id,
+                  courseId: module.courseId,
+                })}
+              >
+                <Row style={{ justifyContent: 'start' }}>
+                  <Icon icon={ModuleItemIcons[moduleItem.type]} />
+                  {moduleItem.title}
+                </Row>
+              </Link>
+            </ListItem>
+          ))}
+        </List>
+      )}
+    </WebComponent>
+  );
+};
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
-  const routes = useRoutes();
   return (
     <div className="course-module-list">
       <Card flat>
@@ -34,30 +71,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                       key={index}
                       open
                     >
-                      <WebComponent
-                        data={module.items}
-                        loading={false}
-                        message="This module does not have any items yet."
-                        size="medium"
-                      >
-                        {(moduleItems): JSX.Element => (
-                          <List>
-                            {moduleItems.map(moduleItem => (
-                              <ListItem key={moduleItem.id}>
-                                <Link
-                                  to={routes.routes.viewModuleItem.withParams({
-                                    itemId: moduleItem.id,
-                                    moduleId: module.id,
-                                    courseId: module.courseId,
-                                  })}
-                                >
-                                  {moduleItem.title}
-                                </Link>
-                              </ListItem>
-                            ))}
-                          </List>
-                        )}
-                      </WebComponent>
+                      <ModuleItemsList module={module} />
                     </Accordion>
                   );
                 })}

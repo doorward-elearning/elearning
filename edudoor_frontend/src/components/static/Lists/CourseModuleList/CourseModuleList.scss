@@ -4,4 +4,14 @@
       padding: var(--padding-lg) 0;
     }
   }
+
+  .course-module-item:not(.assignment) {
+    color: var(--text-primary);
+  }
+
+  .course-module-item {
+    &.assignment {
+      padding-left: var(--padding-lg);
+    }
+  }
 }
