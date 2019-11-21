@@ -1,5 +1,7 @@
 .ed-switch {
   height: 1em;
+  display: grid;
+  z-index: 1;
   width: 3em;
   border-radius: 0.8em;
   position: relative;
