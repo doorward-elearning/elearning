@@ -4,6 +4,7 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
+  FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
@@ -60,6 +61,11 @@ const addModuleItem = reducerApiAction({
   api: Api.courses.modules.items.create,
 });
 
+const viewModule = reducerApiAction({
+  action: FETCH_COURSE_MODULE,
+  api: Api.courses.modules.get,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -70,5 +76,6 @@ export default reducerBuilder({
     createStudent,
     notRegistered,
     addModuleItem,
+    viewModule,
   },
 });

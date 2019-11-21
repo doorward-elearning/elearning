@@ -22,21 +22,17 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
     }
   }, [course.data.course]);
 
+  const finish = () => {
+    routes.navigate(routes.routes.viewCourse, {
+      courseId: courseId,
+    });
+  };
+
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} noNavBar header={module?.title}>
       <WebComponent data={module} loading={!module}>
         {(module): JSX.Element => {
-          return (
-            <AddModulePageForm
-              useForm={form}
-              module={module}
-              onSuccess={(): void =>
-                routes.navigate(routes.routes.viewCourse, {
-                  courseId: courseId,
-                })
-              }
-            />
-          );
+          return <AddModulePageForm useForm={form} module={module} onCancel={finish} onSuccess={finish} />;
         }}
       </WebComponent>
     </Layout>

@@ -1,9 +1,9 @@
 .eb-input--draft-text-area {
   &.error {
-    .eb-input--draft-text-area__toolbar{
-      border-top: 1px solid var(--text-error) ;
-      border-right: 1px solid var(--text-error) ;
-      border-left: 1px solid var(--text-error) ;
+    .eb-input--draft-text-area__toolbar {
+      border-top: 1px solid var(--text-error);
+      border-right: 1px solid var(--text-error);
+      border-left: 1px solid var(--text-error);
     }
 
     .eb-input--draft-text-area__editor {
@@ -11,7 +11,7 @@
       border-top: none;
     }
   }
-  &__wrapper {
+  &__wrapper:not(.fluid) {
     max-width: 1000px;
   }
 
@@ -29,10 +29,12 @@
     background: #eee;
     border: 1px solid var(--line-color);
     * {
-      color: #333 ;
+      color: #333;
     }
 
-    .rdw-option-wrapper, .rdw-dropdown-wrapper, .rdw-dropdown-optionwrapper{
+    .rdw-option-wrapper,
+    .rdw-dropdown-wrapper,
+    .rdw-dropdown-optionwrapper {
       border: 1px solid var(--line-color);
       background: #fff;
       * {
@@ -45,7 +47,8 @@
     }
 
     .rdw-dropdownoption {
-      &-active, &-highlighted {
+      &-active,
+      &-highlighted {
         background: var(--bg-secondary);
       }
     }

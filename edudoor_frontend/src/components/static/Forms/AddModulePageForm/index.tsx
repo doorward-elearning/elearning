@@ -12,39 +12,41 @@ import { CourseModuleItemBody } from '../../../../services/models/requestBody';
 import useAction from '../../../../hooks/useActions';
 import { createCourseModuleItemAction } from '../../../../reducers/courses/actions';
 import useFormSubmit from '../../../../hooks/useFormSubmit';
+import BasicForm from '../BasicForm';
+import useRoutes from '../../../../hooks/useRoutes';
+import validation from './validation';
+import AddModuleItemForm from '../AddModuleItemForm';
 
-const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({ useForm, module, onSuccess }) => {
-  const initialValues: AddModulePageFormState = {
-    title: '',
-    content: null,
-    type: 'Page',
-  };
-
-  const state = useSelector((state: State) => state.courses.addModuleItem);
-  const createItem = useAction(createCourseModuleItemAction);
-
-  const onSubmit = (values: AddModulePageFormState): void => {
-    createItem(module.courseId, module.id, values);
-  };
-
-  useFormSubmit(state, onSuccess);
-
+const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({
+  useForm,
+  module,
+  onSuccess,
+  onCancel,
+}) => {
   return (
-    <Form form={useForm} initialValues={initialValues} onSubmit={onSubmit} state={state} showOverlay>
+    <AddModuleItemForm
+      onSuccess={onSuccess}
+      item={module}
+      type="Page"
+      onCancel={onCancel}
+      validationSchema={validation}
+      form={useForm}
+    >
       <div className="add-module-page">
         <TextField name="title" placeholder="Title of the page" />
         <DraftTextArea name="content" placeholder="Empty space is boring... Add some content for the page." />
       </div>
-      <Button type="submit">Save</Button>
-    </Form>
+    </AddModuleItemForm>
   );
 };
 
 export interface AddModulePageFormState extends CourseModuleItemBody {}
+
 export interface AddModulePageFormProps {
   useForm: UseForm<AddModulePageFormState>;
   module: Module;
-  onSuccess?: () => void;
+  onSuccess: () => void;
+  onCancel: () => void;
 }
 
 export default AddModulePageForm;

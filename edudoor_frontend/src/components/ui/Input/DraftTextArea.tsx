@@ -6,6 +6,7 @@ import fullEditor from './tools/editorTools';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
+import classNames from 'classnames';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -33,7 +34,12 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   }, [editorState]);
 
   return (
-    <div className={`${className} eb-input--draft-text-area`}>
+    <div
+      className={classNames({
+        [`${className} eb-input--draft-text-area`]: true,
+        fluid: props.fluid,
+      })}
+    >
       <Editor
         toolbar={fullEditor}
         placeholder={props.placeholder}

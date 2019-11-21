@@ -1,7 +1,9 @@
 $inputMaxWidth: 500px;
 
 .eb-input {
-  max-width: $inputMaxWidth;
+  &:not(.fluid) {
+    max-width: $inputMaxWidth;
+  }
   &.error {
     .eb-input__text {
       input,

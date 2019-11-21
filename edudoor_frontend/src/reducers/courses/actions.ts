@@ -3,6 +3,7 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
+  FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
@@ -36,6 +37,11 @@ export const createCourseModuleAction = (courseId: string, module: CourseModuleB
   payload: [courseId, module],
 });
 
+export const fetchCourseModuleAction = (moduleId: string) => ({
+  type: FETCH_COURSE_MODULE,
+  payload: [moduleId],
+});
+
 export const fetchCourseStudentListAction = (courseId: string): Action => ({
   type: FETCH_COURSE_STUDENTS,
   payload: [courseId],
@@ -51,11 +57,7 @@ export const fetchStudentsNotRegisteredAction = (courseId: string) => ({
   payload: [courseId],
 });
 
-export const createCourseModuleItemAction = (
-  courseId: string,
-  moduleId: string,
-  item: CourseModuleItemBody
-): Action => ({
+export const createCourseModuleItemAction = (moduleId: string, item: CourseModuleItemBody): Action => ({
   type: ADD_MODULE_ITEM,
-  payload: [courseId, moduleId, item],
+  payload: [moduleId, item],
 });

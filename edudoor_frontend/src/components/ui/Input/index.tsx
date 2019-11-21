@@ -34,6 +34,7 @@ function withInput<R extends InputProps>(
             'eb-input': true,
             error: !!error,
             [`label-${props.labelPosition || 'none'}`]: true,
+            fluid: props.fluid,
           });
           return (
             <FeatureProvider features={features}>
@@ -60,6 +61,7 @@ export interface InputProps extends React.DetailedHTMLProps<any, any> {
   features?: Array<InputFeatures | string | typeof InputFeatures>;
   labelPosition?: 'left' | 'right' | 'top' | 'none';
   editable?: boolean;
+  fluid?: boolean;
 }
 
 export default withInput;

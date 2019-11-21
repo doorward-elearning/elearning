@@ -45,12 +45,13 @@ const Api = {
     list: (): Promise<CourseListResponse> => GET('/courses'),
     get: (courseId: string): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
     modules: {
-      get: (courseId: string): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
+      list: (courseId: string): Promise<CourseModuleResponse> => GET(`/courses/${courseId}/modules`),
+      get: (moduleId: string): Promise<CourseModuleResponse> => GET(`/courses/modules/${moduleId}`),
       create: (courseId: string, module: CourseModuleBody): Promise<CourseModuleResponse> =>
         POST(`/courses/${courseId}/modules`, module),
       items: {
-        create: (courseId: string, moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
-          POST(`/courses/${courseId}/modules/${moduleId}/items/`, item),
+        create: (moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
+          POST(`/courses/modules/${moduleId}/items/`, item),
       },
     },
     students: {

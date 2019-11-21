@@ -50,6 +50,8 @@ export interface Module extends Model {
 
 export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Forum';
 
+export type AssignmentSubmissionType = 'Text Entry' | 'Website URL' | 'Media Recording' | 'File Upload';
+
 export interface ModuleItem extends Model {
   title: string;
   content: any;
