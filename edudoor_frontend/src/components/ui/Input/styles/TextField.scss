@@ -17,7 +17,8 @@ $inputMaxWidth: 500px;
     }
   }
 
-  &__text {
+  &__text,
+  .eb-input__text--select {
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
@@ -29,9 +30,10 @@ $inputMaxWidth: 500px;
       align-self: start;
       z-index: 2;
       margin-left: var(--padding);
-      margin-top: calc(2em - 1.2em);
       font-size: 1.2em;
       pointer-events: none;
+      top: 50%;
+      transform: translateY(-50%);
     }
 
     .react-datepicker-wrapper {
@@ -46,8 +48,7 @@ $inputMaxWidth: 500px;
     }
 
     input,
-    textarea,
-    select {
+    textarea, .eb-input__dropdownSelect {
       grid-row: 1 / 1;
       grid-column: 1 / 1;
       height: 2em;
@@ -58,14 +59,10 @@ $inputMaxWidth: 500px;
       transition: 0.5s border, box-shadow;
       border: 1px solid var(--line-color);
 
-      &:focus {
+      &:focus, &:focus-within {
         border: 1px solid var(--primary);
         box-shadow: 0 0 2px 2px var(--shadow-color) inset;
       }
-    }
-
-    select {
-      height: 3em;
     }
 
     &--textarea {
@@ -79,8 +76,7 @@ $inputMaxWidth: 500px;
 
     &.noIcon {
       input,
-      textarea,
-      select {
+      textarea {
         padding: var(--padding);
       }
       .eb-input__text-icon {

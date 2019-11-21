@@ -14,6 +14,7 @@ import { WebComponentState } from '../../../../reducers/reducers';
 import { StudentResponse } from '../../../../services/models/responseBody';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
+  const countries = getNames().map(name => ({ value: name, label: name }));
   const initialValues = {
     firstName: '',
     lastName: '',
@@ -42,7 +43,7 @@ const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
                 <TextField name="email" type="email" label="Email" icon="email" />
                 <TextField name="username" label="Username" icon="account_circle" />
                 <TextField name="city" label="City" icon="business" />
-                <DropdownSelect options={getNames()} name="country" label="Country" icon="my_location" />
+                <DropdownSelect options={countries} name="country" label="Country" icon="my_location" />
                 <Row
                   className="add-student-form__buttons"
                   style={{ gridGap: 'var(--padding-lg)', justifyContent: 'start' }}

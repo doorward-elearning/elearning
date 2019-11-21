@@ -1,18 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from '../Icon';
-import './styles/TextField.scss';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Icons } from '../../../types/icons';
-
-const Option: React.FunctionComponent<DropdownOptionProps> = ({ option }): JSX.Element => {
-  let name = '',
-    value = '';
-  if (option.constructor === String) {
-    name = option;
-    value = option;
-  }
-  return <option value={value}>{name}</option>;
-};
+import Select, { ISelectProps } from 'react-dropdown-select';
+import './styles/DropdownSelect.scss';
+import './styles/TextField.scss';
+import { ThemeContext } from '../ApplicationTheme';
 
 const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   value = '',
@@ -22,21 +15,21 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   options,
   ...props
 }): JSX.Element => {
+  const theme = useContext(ThemeContext);
+  const onChange = () => {};
   return (
-    <div className={`${className} eb-input__text eb-input__text--select`}>
+    <div className={`${className} eb-input__text--select`}>
       <Icon icon={icon} className="eb-input__text-icon" />
-      <select value={value} {...props}>
-        {options.map(option => (
-          <Option key={option} option={option} />
-        ))}
-      </select>
+      <div className="eb-input__dropdownSelect">
+        <Select values={[]} options={options} onChange={onChange} {...props} color={theme.theme['--bg-primary-dark']} />
+      </div>
       {children}
     </div>
   );
 };
 
-export type Option = string;
-export interface DropdownSelectProps extends InputProps {
+export type Option = any;
+export interface DropdownSelectProps extends InputProps, Omit<ISelectProps, 'options' | 'onChange' | 'values'> {
   icon?: Icons;
   options: Array<Option>;
 }
