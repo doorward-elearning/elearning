@@ -9,10 +9,10 @@ import { CourseModuleItemBody } from '../../../../services/models/requestBody';
 
 function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
-    ...(props.initialValues || ({} as T)),
     title: '',
     content: null,
     type: props.type,
+    ...(props.initialValues || ({} as T)),
   };
   const state = useSelector((state: State) => state.courses.addModuleItem);
   return (
@@ -25,7 +25,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
       state={state}
       form={props.form}
       showOverlay
-      createData={values => [props.item.id, values]}
+      createData={props.createData || (values => [props.item.id, values])}
     >
       {props.children}
     </BasicForm>
@@ -44,6 +44,7 @@ export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   item: Module;
   initialValues?: Omit<T, keyof CourseModuleItemBody>;
   validationSchema?: ((props: any) => any) | any;
+  createData?: (values: T) => Array<any>;
   children: ReactChildren | ReactChild;
 }
 

@@ -13,14 +13,16 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = p
     if (open) {
       newValue.push(name);
     } else {
-      newValue = newValue.filter((item: string) => item === name);
+      newValue = newValue.filter((item: string) => item !== name);
     }
-    props.onChange({
+    const event = {
       target: {
         value: newValue,
         name: props.name,
       },
-    });
+    };
+    props.onChange(event);
+    props.onBlur(event);
   };
   return (
     <div className="eb-input__switch">

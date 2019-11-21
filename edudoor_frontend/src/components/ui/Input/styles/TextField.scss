@@ -34,6 +34,17 @@ $inputMaxWidth: 500px;
       pointer-events: none;
     }
 
+    .react-datepicker-wrapper {
+      grid-row: 1/1;
+      grid-column: 1/1;
+      display: grid;
+
+      .react-datepicker__input-container {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+    }
+
     input,
     textarea,
     select {

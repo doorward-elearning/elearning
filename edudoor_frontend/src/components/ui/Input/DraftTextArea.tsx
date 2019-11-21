@@ -48,6 +48,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         toolbarClassName="eb-input--draft-text-area__toolbar"
         editorState={editorState || EditorState.createEmpty()}
         onEditorStateChange={setEditorState}
+        onBlur={() => formikProps.handleBlur({ target: { value, name } })}
         ref={editorRef}
       />
       {children}

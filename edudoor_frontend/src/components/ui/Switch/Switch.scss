@@ -45,7 +45,8 @@
     background: var(--accent);
     border: 1px solid var(--accent);
     &:before {
-      left: calc(100% - 1em - 3px);
+      left: calc(100% - 1em - 2px);
+      background: white;
     }
     &:after {
       background: none;
