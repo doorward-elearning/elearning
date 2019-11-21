@@ -35,7 +35,6 @@ class ModulesController {
   static async getCourseModule({ params }) {
     const module = await models.Module.findOne({
       where: {
-        courseId: params.courseId,
         id: params.moduleId,
       },
       include: [

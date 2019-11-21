@@ -20,11 +20,10 @@ export const validateCourseModule = async req => {
 
 export const validateModuleExists = async req => {
   const {
-    params: { courseId, moduleId: id },
+    params: { moduleId: id },
   } = req;
   const module = await models.Module.findOne({
     where: {
-      courseId,
       id,
     },
   });
@@ -38,7 +37,6 @@ export const validateUpdateModule = async req => {
   const module = await models.Module.findOne({
     where: {
       title: body.title,
-      courseId: params.courseId,
       id: {
         [Op.ne]: params.moduleId,
       },

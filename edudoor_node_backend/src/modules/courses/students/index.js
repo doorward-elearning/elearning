@@ -4,7 +4,7 @@ import StudentCourseController from './StudentCourseController';
 import { validateCreateUser } from '../../users/validate';
 import { validateCourseExists } from '../validate';
 
-const Router = new MRouter('/', Authorization.authenticate, validateCourseExists());
+const Router = new MRouter('/:courseId/students', Authorization.authenticate, validateCourseExists());
 
 Router.get('/', StudentCourseController.getStudents);
 

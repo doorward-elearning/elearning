@@ -13,8 +13,8 @@ Router.get('', CourseController.getCourses);
 
 Router.get('/:courseId', validateCourseExists(), CourseController.getCourse);
 
-Router.use('/:courseId/modules', modules);
+Router.use('/', modules);
 
-Router.use('/:courseId/students', students);
+Router.use('/', students);
 
 export default Router;
