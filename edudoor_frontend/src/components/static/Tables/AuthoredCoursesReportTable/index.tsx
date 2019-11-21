@@ -1,8 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import { Course } from '../../../../services/models';
 import Table from '../../../ui/Table';
+import useRoutes from '../../../../hooks/useRoutes';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {
+  const routes = useRoutes();
   return (
     <Table
       data={props.courses}
@@ -13,6 +15,7 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
         };
         return data[column as keyof typeof data];
       }}
+      onRowClick={row => routes.navigate(routes.viewCourse, { courseId: row.id })}
       columns={{ title: 'Course Name', ratings: 'Ratings' }}
     />
   );

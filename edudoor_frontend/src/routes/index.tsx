@@ -19,6 +19,7 @@ import NotFound from '../screens/NotFound';
 import StudentListReport from '../screens/Reports/StudentListReport';
 import StudentReport from '../screens/Reports/StudentReport';
 import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport';
+import CourseCreatorReport from '../screens/Reports/CourseCreatorReport';
 
 export const routes = {
   home: 'Home',
@@ -46,6 +47,7 @@ export const routes = {
   courseListReports: 'Courses Reports',
   changePassword: 'Change Password',
   studentReport: 'Student Report',
+  teacherReport: 'Teacher Report',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -87,7 +89,9 @@ export const routeConfigurations: Routes = {
             studentReport: new Route('/:studentId', StudentReport),
           }),
           courseListReports: new Route('/courses', NotFound),
-          teacherListReports: new Route('/teachers', CourseCreatorListReport).roles(),
+          teacherListReports: new Route('/teachers', CourseCreatorListReport).roles().with({
+            teacherReport: new Route('/:teacherId', CourseCreatorReport),
+          }),
         }),
       }),
       password: new Route('/password')

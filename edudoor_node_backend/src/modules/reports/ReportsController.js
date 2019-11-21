@@ -14,7 +14,7 @@ class ReportsController {
         {
           model: models.Course,
           as: 'authoredCourses',
-          required: true
+          required: true,
         },
       ],
     });
@@ -36,7 +36,7 @@ class ReportsController {
       ],
     });
 
-    return [200, { teacher }];
+    return [200, { courseCreator: teacher }];
   }
 
   static async studentReport(req) {

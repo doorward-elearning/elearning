@@ -17,7 +17,12 @@ const useRoutes = (): UseRoutes => {
   const tree = (Object.keys(context.routes) as Array<keyof EdudoorRoutes>).find(route => {
     const detail = context.routes[route];
     if (detail) {
-      return detail.link === match.path || detail.link === match.url;
+      return (
+        detail.link === match.path ||
+        detail.link === match.url ||
+        detail.matchURL === match.url ||
+        detail.matchURL === match.path
+      );
     }
     return false;
   });

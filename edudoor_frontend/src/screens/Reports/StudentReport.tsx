@@ -17,6 +17,8 @@ import Grid from '../../components/ui/Grid';
 import Badge from '../../components/ui/Badge';
 import useRoutes from '../../hooks/useRoutes';
 import CustomChart from '../../components/ui/CustomChart';
+import usePageResource from '../../hooks/usePageResource';
+import useBreadCrumbTitle from '../../hooks/useBreadCrumbTitle';
 
 const data = [
   ['Course', 'Marks'],
@@ -30,19 +32,9 @@ const data = [
   ['Business Studies', 77],
 ];
 const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
-  const action = useAction(fetchStudentReport);
-  const match: any = useRouteMatch();
-  const routes = useRoutes();
-
-  useEffect(() => {
-    action(match.params.studentId);
-  }, []);
   const state = useSelector((state: State) => state.reports.singleStudent);
-  useEffect(() => {
-    if (state.data.student) {
-      routes.setTitle(routes.studentReport.id, state.data.student.fullName);
-    }
-  }, [state.data]);
+  usePageResource('studentId', fetchStudentReport);
+  useBreadCrumbTitle(state, state => state.data.student?.fullName);
 
   return (
     <Layout
