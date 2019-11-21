@@ -17,7 +17,6 @@ import useAction from '../../../../hooks/useActions';
 import { loginUserAction } from '../../../../reducers/login/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
-import logo from '../../../../assets/images/edudoor.png';
 import { ThemeContext } from '../../../ui/ApplicationTheme';
 
 const LoginForm: FunctionComponent<LoginFormProps> = props => {

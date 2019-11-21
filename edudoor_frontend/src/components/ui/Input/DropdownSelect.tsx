@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from '../Icon';
 import './styles/TextField.scss';
 import withInput, { InputFeatures, InputProps } from './index';
+import { Icons } from '../../../types/icons';
 
 const Option: React.FunctionComponent<DropdownOptionProps> = ({ option }): JSX.Element => {
   let name = '',
@@ -26,7 +27,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       <Icon icon={icon} className="eb-input__text-icon" />
       <select value={value} {...props}>
         {options.map(option => (
-          <Option option={option} />
+          <Option key={option} option={option} />
         ))}
       </select>
       {children}
@@ -36,7 +37,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
 
 export type Option = string;
 export interface DropdownSelectProps extends InputProps {
-  icon?: string;
+  icon?: Icons;
   options: Array<Option>;
 }
 

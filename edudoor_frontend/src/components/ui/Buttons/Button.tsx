@@ -1,10 +1,10 @@
 import React, { MouseEventHandler } from 'react';
 import Condition from '../IfElse';
+import IfElse from '../IfElse';
 import classNames from 'classnames';
 import './Buttons.scss';
 import { Link } from 'react-router-dom';
 import Spinner from '../Spinner';
-import IfElse from '../IfElse';
 import { Icons } from '../../../types/icons';
 
 const Button: React.FunctionComponent<ButtonProps> = ({

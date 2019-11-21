@@ -16,7 +16,7 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed }) => {
         <div>
           <span>{user?.fullName}</span>
           <Link to="#" className="online-status">
-            <Icon icon="brightness_1" />
+            <Icon icon="brightness_low" />
             <span className="online">Online</span>
           </Link>
         </div>

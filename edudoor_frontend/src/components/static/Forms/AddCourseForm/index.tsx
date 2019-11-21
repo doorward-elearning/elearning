@@ -6,7 +6,6 @@ import TextField from '../../../ui/Input/TextField';
 import IfElse from '../../../ui/IfElse';
 import Icon from '../../../ui/Icon';
 import Button from '../../../ui/Buttons/Button';
-import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import NumberField from '../../../ui/Input/NumberField';
 import Form from '../../../ui/Form';
 import addCourseForm from './validation';

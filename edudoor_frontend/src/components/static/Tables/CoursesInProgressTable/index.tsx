@@ -1,5 +1,5 @@
 import React from 'react';
-import { Course, Student } from '../../../../services/models';
+import { Course } from '../../../../services/models';
 import Table from '../../../ui/Table';
 import useRoutes from '../../../../hooks/useRoutes';
 

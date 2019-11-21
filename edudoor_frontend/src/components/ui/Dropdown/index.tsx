@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useRef } from 'react';
+import React, { MouseEventHandler, useRef } from 'react';
 import './Dropdown.scss';
 import classNames from 'classnames';
 import Icon from '../Icon';

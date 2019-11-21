@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { ActionCreator, WebComponentState } from '../../../reducers/reducers';
 import { State } from '../../../store';
 import useAction from '../../../hooks/useActions';

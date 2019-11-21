@@ -1,5 +1,6 @@
 import React from 'react';
 import { ThemeContext, ThemeContextProps } from '../ApplicationTheme';
+
 const Loader = require('react-loader-spinner').default;
 
 const Spinner: React.FunctionComponent<SpinnerProps> = props => {

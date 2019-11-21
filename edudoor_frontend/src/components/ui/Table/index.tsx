@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useContext, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useState } from 'react';
 import './Table.scss';
 import classNames from 'classnames';
 

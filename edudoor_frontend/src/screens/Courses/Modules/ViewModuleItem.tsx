@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Module, ModuleItem } from '../../../services/models';
+import { ModuleItem } from '../../../services/models';
 import useViewCourse from '../../../hooks/useViewCourse';
 import { useRouteMatch } from 'react-router';
 import Layout, { LayoutFeatures } from '../../Layout';

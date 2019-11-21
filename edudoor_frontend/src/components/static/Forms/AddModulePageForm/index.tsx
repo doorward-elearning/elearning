@@ -1,19 +1,10 @@
 import React from 'react';
 import { UseForm } from '../../../../hooks/useForm';
-import Form from '../../../ui/Form';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import './AddModulePageForm.scss';
 import { Module } from '../../../../services/models';
-import Button from '../../../ui/Buttons/Button';
 import TextField from '../../../ui/Input/TextField';
-import { useSelector } from 'react-redux';
-import { State } from '../../../../store';
 import { CourseModuleItemBody } from '../../../../services/models/requestBody';
-import useAction from '../../../../hooks/useActions';
-import { createCourseModuleItemAction } from '../../../../reducers/courses/actions';
-import useFormSubmit from '../../../../hooks/useFormSubmit';
-import BasicForm from '../BasicForm';
-import useRoutes from '../../../../hooks/useRoutes';
 import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';
 

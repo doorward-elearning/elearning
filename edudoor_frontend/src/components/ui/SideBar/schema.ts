@@ -1,7 +1,8 @@
 import { UseRoutes } from '../../../hooks/useRoutes';
 import { SideBarProps } from './index';
+import { MenuItem } from '../../../hooks/useSidebarSchema';
 
-export default (routes: UseRoutes, props: SideBarProps, logout: () => void) => [
+export default (routes: UseRoutes, props: SideBarProps, logout: () => void): Array<MenuItem> => [
   {
     ...routes.dashboard,
     icon: 'dashboard',
@@ -27,7 +28,7 @@ export default (routes: UseRoutes, props: SideBarProps, logout: () => void) => [
       logout();
       props.history.push(routes.login.link);
     },
-    icon: 'logout',
+    icon: 'exit_to_app',
     link: '',
   },
 ];

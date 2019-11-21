@@ -1,6 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import './Icon.scss';
+import { Icons } from '../../../types/icons';
 
 const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   const className = classNames({
@@ -21,7 +22,7 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
 };
 
 export interface IconProps {
-  icon?: string;
+  icon?: Icons;
   className?: string;
   onClick?: MouseEventHandler;
 }

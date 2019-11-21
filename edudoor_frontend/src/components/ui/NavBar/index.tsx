@@ -1,16 +1,11 @@
-import React, { MouseEventHandler, useContext } from 'react';
+import React, { MouseEventHandler } from 'react';
 import './NavBar.scss';
-import { Link } from 'react-router-dom';
-import Icon from '../Icon';
 import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import { Location, MemoryHistory } from 'history';
 import NavLogo from './NavLogo';
-import Switch from '../Switch';
-import { ThemeContext } from '../ApplicationTheme';
-import themes from '../../../assets/themes';
 
 export enum NavbarFeatures {
   HAMBURGER = 1,
@@ -25,16 +20,16 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, featur
     <FeatureProvider features={features}>
       <div className="ed-navBar">
         <div className="ed-navBar__start">
-          <NavLogo features={features} onHamburgerClick={onHamburgerClick} history={history} />
+          <NavLogo features={features} onHamburgerClick={onHamburgerClick} history={history}/>
         </div>
         <div className="ed-navBar__inner">
           <Feature feature={NavbarFeatures.SEARCH_BAR}>
-            <NavBarSearch />
+            <NavBarSearch/>
           </Feature>
         </div>
         <div className="ed-navBar__end">
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
-            <UserManagement />
+            <UserManagement/>
           </Feature>
         </div>
       </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Icon from '../Icon';
 import './styles/TextField.scss';
 import withInput, { InputFeatures, InputProps } from './index';
+import { Icons } from '../../../types/icons';
 
 const TextArea: React.FunctionComponent<TextAreaProps> = ({
   value = '',
@@ -20,7 +21,7 @@ const TextArea: React.FunctionComponent<TextAreaProps> = ({
 };
 
 export interface TextAreaProps extends InputProps {
-  icon?: string;
+  icon?: Icons;
 }
 
 export default withInput(TextArea, [InputFeatures.LABEL]);

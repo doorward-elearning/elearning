@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef } from 'react';
+import React, { FunctionComponent } from 'react';
 import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';

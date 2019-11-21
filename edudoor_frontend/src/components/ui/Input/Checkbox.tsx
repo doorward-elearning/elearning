@@ -1,6 +1,6 @@
 import withInput, { InputProps } from './index';
-import { FunctionComponent, useEffect, useState } from 'react';
 import * as React from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import Tools from '../../../utils/Tools';
 
 const Checkbox: FunctionComponent<CheckboxProps> = props => {

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import SideBarSubMenu from './SideBarSubMenu';
-import { MemoryHistory, Location } from 'history';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Location, MemoryHistory } from 'history';
+import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../../hooks/useSidebarSchema';
 import RoleContainer from '../../static/RolesManager/RoleContainer';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
-  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history, location } = props;
+  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history} = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find((item: SubMenuItem): boolean => {
     return props.selected === item.link;
   });

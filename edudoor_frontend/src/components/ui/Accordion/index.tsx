@@ -3,7 +3,7 @@ import './Accordion.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import useHeightTransition from '../../../hooks/useHeightTransition';
-import useAccordion, { UseAccordion } from '../../../hooks/useAccordion';
+import useAccordion from '../../../hooks/useAccordion';
 import Row from '../Row';
 import IfElse from '../IfElse';
 

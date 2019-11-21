@@ -1,9 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import { PageComponent } from '../../types';
 import Layout, { LayoutFeatures } from '../Layout';
-import useAction from '../../hooks/useActions';
 import { fetchStudentReport } from '../../reducers/reports/actions';
-import { useRouteMatch } from 'react-router';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import Tools from '../../utils/Tools';
@@ -15,7 +13,6 @@ import './StudentReport.scss';
 import Panel from '../../components/ui/Panel';
 import Grid from '../../components/ui/Grid';
 import Badge from '../../components/ui/Badge';
-import useRoutes from '../../hooks/useRoutes';
 import CustomChart from '../../components/ui/CustomChart';
 import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '../../hooks/useBreadCrumbTitle';

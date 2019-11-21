@@ -1,5 +1,4 @@
-import { MutableRefObject, useCallback, useEffect, useState } from 'react';
-import _ from 'lodash';
+import { MutableRefObject, useEffect } from 'react';
 
 const useHeightTransition = (
   element: MutableRefObject<HTMLElement | null> | null,

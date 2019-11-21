@@ -1,6 +1,6 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import { rootSaga, rootReducer } from './middleware';
+import { rootReducer, rootSaga } from './middleware';
 
 const sagaMiddleware = createSagaMiddleware();
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

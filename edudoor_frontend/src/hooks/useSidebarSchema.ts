@@ -3,9 +3,8 @@ import { SideBarProps } from '../components/ui/SideBar';
 import { BreadCrumb } from '../components/ui/BreadCrumbs';
 import useRoutes from './useRoutes';
 import useAuth from './useAuth';
-import { Roles } from '../components/static/RolesManager';
-import { Role } from '../services/models';
 import schema from '../components/ui/SideBar/schema';
+import { Icons } from '../types/icons';
 
 const useSidebarSchema = (
   props: SideBarProps
@@ -53,7 +52,7 @@ export interface SubMenuItem extends BreadCrumb {
 }
 
 export interface MenuItem extends BreadCrumb {
-  icon: string;
+  icon: Icons;
   subMenu?: Array<SubMenuItem>;
   onClick?: () => void;
 }

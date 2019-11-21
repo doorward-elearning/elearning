@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ProgressBar from '../../../ui/ProgressBar';
 import useStateRef from '../../../../hooks/useStateRef';
 import classNames from 'classnames';
