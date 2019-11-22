@@ -11,6 +11,7 @@ export type UseFormProps<Values> = {
   validateField(field: string): void;
   resetForm(nextValues?: Values): void;
   submitForm(): void;
+  values: Values;
 };
 
 export interface UseForm<T> {
@@ -18,7 +19,7 @@ export interface UseForm<T> {
   formikProps: UseFormProps<T>;
 }
 
-function useForm<T>(): UseForm<T> {
+function useForm<T = any>(): UseForm<T> {
   const [formikProps, setFormikProps] = useState<UseFormProps<T>>();
 
   // @formikProps will never be null

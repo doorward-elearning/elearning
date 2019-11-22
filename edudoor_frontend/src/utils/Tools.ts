@@ -111,6 +111,17 @@ class Tools {
   static longDate(str: string): string {
     return moment(str).format('dddd, MMMM Do YYYY');
   }
+  static shortDateTime(str: string): string {
+    return moment(str).format('DD/MM/YYYY hh:mm a');
+  }
+
+  static normalDateTime(str: string): string {
+    return moment(str).format('Do MMMM YYYY hh:mm a');
+  }
+
+  static longDateTime(str: string): string {
+    return moment(str).format('dddd, MMMM Do YYYY at hh:mm a');
+  }
 }
 
 export default Tools;

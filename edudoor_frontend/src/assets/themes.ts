@@ -4,13 +4,14 @@ import darkLogo from '../assets/images/edudoor_white.png';
 const base = {
   '--bg-primary': '#FFFFFF',
   '--bg-primary-dark': 'rgba(203,203,203,0.61)',
-  '--bg-secondary': 'rgb(250,250,250)',
+  '--bg-secondary': '#f3f5fa',
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
   '--text-alternate': '#f4f4f4',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
-  '--font-family': 'Roboto, sans-serif',
+  '--font-family':
+    '"Sailec-Regular",system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif',
   '--line-color': 'rgba(0, 0, 0, .1)',
   '--shadow-color': 'rgba(0, 0, 0, .08)',
   '--shadow-color--darker': 'rgba(0, 0, 0, .15)',

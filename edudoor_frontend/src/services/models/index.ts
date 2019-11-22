@@ -58,6 +58,16 @@ export interface ModuleItem extends Model {
   type: ModuleItemTypes;
 }
 
+export interface Assignment extends ModuleItem {
+  content: {
+    points: number;
+    submissionMedia: 'online' | 'offline';
+    submissionType: Array<AssignmentSubmissionType>;
+    dueDate: string;
+    assignment: any;
+  };
+}
+
 export interface Course extends Model {
   title: string;
   description?: string;

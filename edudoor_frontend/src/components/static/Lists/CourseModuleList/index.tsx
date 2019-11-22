@@ -16,6 +16,8 @@ import Row from '../../../ui/Row';
 import Icon from '../../../ui/Icon';
 import classNames from 'classnames';
 import _ from 'lodash';
+import Tools from '../../../../utils/Tools';
+import IfElse from '../../../ui/IfElse';
 
 const ModuleItemsList: React.FunctionComponent<{
   module: Module;
@@ -38,9 +40,14 @@ const ModuleItemsList: React.FunctionComponent<{
                   courseId: module.courseId,
                 })}
               >
-                <Row style={{ justifyContent: 'start' }}>
-                  <Icon icon={ModuleItemIcons[moduleItem.type]} />
-                  {moduleItem.title}
+                <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
+                  <Row style={{ justifyContent: 'start' }}>
+                    <Icon icon={ModuleItemIcons[moduleItem.type]} />
+                    {moduleItem.title}
+                  </Row>
+                  <IfElse condition={moduleItem.type === 'Assignment'}>
+                    <span className="meta">{Tools.shortDateTime(moduleItem.content.dueDate)}</span>
+                  </IfElse>
                 </Row>
               </Link>
             </ListItem>

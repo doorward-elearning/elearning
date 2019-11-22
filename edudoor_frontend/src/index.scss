@@ -5,10 +5,14 @@ body {
   margin: 0;
   color: var(--text-primary);
   transition: 0.5s background;
-  font-size: 14px;
+  font-size: 16px;
 
   *:not(h1):not(h2):not(h3):not(h4):not(h5):not(h6) {
     font-size: var(--page-font-size);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: 500;
   }
 
   .ed-htmlContent * {

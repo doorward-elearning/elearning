@@ -19,6 +19,9 @@ import IfElse from '../../components/ui/IfElse';
 import ContentSpinner from '../../components/static/UI/ContentSpinner';
 import _ from 'lodash';
 import { PlainTextField } from '../../components/ui/Input/TextField';
+import Helmet from 'react-helmet';
+import CONSTANTS from '../../assets/constants';
+import useRoutes from '../../hooks/useRoutes';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -46,6 +49,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   features = [],
   searchText = '',
   loading = false,
+  pageTitle,
   actionBtnProps,
   noNavBar,
   onSearch: onSearchText = str => {},
@@ -53,7 +57,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
   const [search, setSearchText] = useState(searchText);
-  const breadcrumbs = withBreadCrumbs();
+  const { breadcrumbs, titles } = withBreadCrumbs();
+  const routes = useRoutes();
+  const currentRoute = routes.currentRoute;
   const debouncedSearch = _.debounce(onSearchText, 500);
 
   const onSearch = ({ target: { value } }: any): void => {
@@ -78,8 +84,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
+  const title = pageTitle || titles;
+
   return (
     <FeatureProvider features={features}>
+      <Helmet>
+        <title>{CONSTANTS.APP_NAME + (title && ' - ' + title)}</title>
+      </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
           <NavBar history={history} location={location} features={navFeatures} onHamburgerClick={toggleSidebar} />
@@ -163,6 +174,7 @@ export interface LayoutProps extends PageComponent {
   loading?: boolean;
   searchText?: string;
   onSearch?: (text: string) => void;
+  pageTitle?: string;
 }
 
 export default Layout;

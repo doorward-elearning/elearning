@@ -23,12 +23,13 @@ $inputMaxWidth: 500px;
     grid-template-columns: 1fr;
     grid-template-rows: 1fr;
     align-items: center;
+    z-index: 0;
 
     &-icon {
       grid-row: 1 / 1;
       grid-column: 1 / 1;
       align-self: start;
-      z-index: 2;
+      z-index: 1;
       margin-left: var(--padding);
       font-size: 1.2em;
       pointer-events: none;

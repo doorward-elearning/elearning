@@ -8,12 +8,12 @@ import { CourseModuleItemBody } from '../../../../services/models/requestBody';
 import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';
 
-const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({
+function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
   module,
   onSuccess,
   onCancel,
-}) => {
+}: AddModulePageFormProps<T>) {
   return (
     <AddModuleItemForm
       onSuccess={onSuccess}
@@ -29,12 +29,12 @@ const AddModulePageForm: React.FunctionComponent<AddModulePageFormProps> = ({
       </div>
     </AddModuleItemForm>
   );
-};
+}
 
 export interface AddModulePageFormState extends CourseModuleItemBody {}
 
-export interface AddModulePageFormProps {
-  useForm: UseForm<AddModulePageFormState>;
+export interface AddModulePageFormProps<T = any> {
+  useForm: UseForm<T>;
   module: Module;
   onSuccess: () => void;
   onCancel: () => void;

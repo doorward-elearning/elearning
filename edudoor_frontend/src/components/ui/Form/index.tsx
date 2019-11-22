@@ -58,6 +58,7 @@ function Form<T>({
           'validateForm',
           'resetForm',
           'submitForm',
+          'values',
         ];
         const newProps = Tools.pick(props, properties);
         const hash = objectHash(newProps);

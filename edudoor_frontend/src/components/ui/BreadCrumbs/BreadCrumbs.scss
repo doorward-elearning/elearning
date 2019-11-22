@@ -2,13 +2,14 @@
   display: inline-grid;
   grid-auto-flow: column;
   &__crumb {
-    padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) 0;
+    padding: var(--padding-sm) var(--padding) var(--padding-sm) 0;
     margin-right: var(--padding-lg);
     position: relative;
+    font-size: 0.8em;
     text-transform: uppercase;
 
     &:last-child {
-      font-weight: bold;
+      font-weight: 500;
     }
 
     &:not(:last-child){

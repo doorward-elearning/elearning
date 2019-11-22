@@ -7,6 +7,21 @@ import './styles/DropdownSelect.scss';
 import './styles/TextField.scss';
 import { ThemeContext } from '../ApplicationTheme';
 
+const generateOptionsList = (options: { [name: string]: string }): Array<Option> => {
+  return (Object.keys(options) as Array<keyof typeof options>).reduce(
+    (acc: any, current) => [...acc, { value: current, label: options[current] }],
+    []
+  );
+};
+
+const getSelectedValue = (options: Array<Option>, multi = false): string | Array<string> => {
+  const selected = options.map(option => option.value);
+  if (multi) {
+    return selected;
+  }
+  return selected[0];
+};
+
 const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   value = '',
   className,
@@ -16,22 +31,39 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   ...props
 }): JSX.Element => {
   const theme = useContext(ThemeContext);
-  const onChange = () => {};
+  const onChange = (value: Array<Option>) => {
+    props.onChange({
+      target: {
+        name: props.name,
+        value: getSelectedValue(value, props.multi),
+      },
+    });
+  };
+  const optionsList = options instanceof Array ? options : generateOptionsList(options);
   return (
     <div className={`${className} eb-input__text--select`}>
       <Icon icon={icon} className="eb-input__text-icon" />
       <div className="eb-input__dropdownSelect">
-        <Select values={[]} options={options} onChange={onChange} {...props} color={theme.theme['--bg-primary-dark']} />
+        <Select
+          values={[]}
+          options={optionsList}
+          {...props}
+          onChange={onChange}
+          color={theme.theme['--bg-primary-dark']}
+        />
       </div>
       {children}
     </div>
   );
 };
 
-export type Option = any;
+export type Option = { value: string; label: string; disabled?: boolean };
+
+export type Options = Array<Option> | { [name: string]: string };
+
 export interface DropdownSelectProps extends InputProps, Omit<ISelectProps, 'options' | 'onChange' | 'values'> {
   icon?: Icons;
-  options: Array<Option>;
+  options: Options;
 }
 
 export interface DropdownOptionProps {
