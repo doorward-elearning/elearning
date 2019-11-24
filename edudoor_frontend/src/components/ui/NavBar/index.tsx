@@ -15,21 +15,22 @@ export enum NavbarFeatures {
   BACK_BUTTON = 5,
 }
 
-const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features, history }) => {
+const NavBar: React.FunctionComponent<NavBarProps> = ({ onHamburgerClick, features, history, renderNavEnd }) => {
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
         <div className="ed-navBar__start">
-          <NavLogo features={features} onHamburgerClick={onHamburgerClick} history={history}/>
+          <NavLogo features={features} onHamburgerClick={onHamburgerClick} history={history} />
         </div>
         <div className="ed-navBar__inner">
           <Feature feature={NavbarFeatures.SEARCH_BAR}>
-            <NavBarSearch/>
+            <NavBarSearch />
           </Feature>
         </div>
         <div className="ed-navBar__end">
+          {renderNavEnd && renderNavEnd()}
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
-            <UserManagement/>
+            <UserManagement />
           </Feature>
         </div>
       </div>
@@ -43,6 +44,7 @@ export interface NavBarProps {
   features: Array<NavbarFeatures | string | typeof NavbarFeatures>;
   history: MemoryHistory;
   location: Location;
+  renderNavEnd?: () => JSX.Element;
 }
 
 export default NavBar;

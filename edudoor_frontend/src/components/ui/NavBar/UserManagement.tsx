@@ -12,7 +12,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
     <div className="user-management">
       <Condition condition={authenticated}>
         <UserManagementDropdown />
-        <Button link={ROUTES.login.link} flat>
+        <Button link={ROUTES.login.link} theme="secondary">
           Login
         </Button>
       </Condition>

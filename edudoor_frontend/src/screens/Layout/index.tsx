@@ -53,6 +53,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   pageTitle,
   actionBtnProps,
   noNavBar,
+  renderNavEnd,
   onSearch: onSearchText = str => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
 }) => {
@@ -85,7 +86,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
-  const title = pageTitle || titles;
+  const title = pageTitle || titles || (currentRoute ? routes[currentRoute].name : '');
 
   return (
     <FeatureProvider features={features}>
@@ -94,7 +95,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
-          <NavBar history={history} location={location} features={navFeatures} onHamburgerClick={toggleSidebar} />
+          <NavBar
+            history={history}
+            location={location}
+            features={navFeatures}
+            onHamburgerClick={toggleSidebar}
+            renderNavEnd={renderNavEnd}
+          />
         </div>
         <div className="ed-page-layout__sidebar">
           <SideBar
@@ -176,6 +183,7 @@ export interface LayoutProps extends PageComponent {
   searchText?: string;
   onSearch?: (text: string) => void;
   pageTitle?: string;
+  renderNavEnd?: () => JSX.Element;
 }
 
 export default Layout;

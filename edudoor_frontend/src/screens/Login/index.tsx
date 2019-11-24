@@ -11,6 +11,7 @@ import { clearLoginAction } from '../../reducers/login/actions';
 import useAction from '../../hooks/useActions';
 import { State } from '../../store';
 import LoginForm from '../../components/static/Forms/LoginForm';
+import Button from '../../components/ui/Buttons/Button';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
@@ -27,7 +28,11 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   return authenticated ? (
     <Redirect to={ROUTES.dashboard.link} />
   ) : (
-    <Layout {...props} navFeatures={[NavbarFeatures.PAGE_LOGO]}>
+    <Layout
+      {...props}
+      navFeatures={[NavbarFeatures.PAGE_LOGO]}
+      renderNavEnd={() => <Button theme="secondary">Register</Button>}
+    >
       <div className="page page__login">
         <LoginForm />
       </div>

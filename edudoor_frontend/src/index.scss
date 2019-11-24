@@ -123,6 +123,7 @@ body {
 a {
   color: var(--accent);
   text-decoration: none;
+  font-family: var(--font-family);
   transition: 0.5s color, 0.5s text-decoration;
 }
 
