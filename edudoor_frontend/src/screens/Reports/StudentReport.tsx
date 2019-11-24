@@ -72,17 +72,15 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
                 </WebComponent>
               </div>
             </Header>
-            <Panel>
-              <WebComponent
-                icon="school"
-                data={state.data.student?.coursesInProgress}
-                loading={state.fetching}
-                message="The student does not have any ongoing courses."
-                size="medium"
-              >
-                {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
-              </WebComponent>
-            </Panel>
+            <WebComponent
+              icon="school"
+              data={state.data.student?.coursesInProgress}
+              loading={state.fetching}
+              message="The student does not have any ongoing courses."
+              size="medium"
+            >
+              {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
+            </WebComponent>
           </Grid>
           <Grid columns={1}>
             <Row style={{ justifyContent: 'space-between' }}>
@@ -95,17 +93,15 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
                 </div>
               </Header>
             </Row>
-            <Panel>
-              <WebComponent
-                icon="school"
-                data={state.data.student?.coursesInProgress}
-                loading={state.fetching}
-                message="The student has not completed any courses."
-                size="medium"
-              >
-                {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
-              </WebComponent>
-            </Panel>
+            <WebComponent
+              icon="school"
+              data={state.data.student?.coursesInProgress}
+              loading={state.fetching}
+              message="The student has not completed any courses."
+              size="medium"
+            >
+              {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
+            </WebComponent>
           </Grid>
         </Row>
       </div>

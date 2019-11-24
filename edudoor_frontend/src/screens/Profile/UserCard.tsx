@@ -11,6 +11,9 @@ import useModal from '../../hooks/useModal';
 import { useRouteMatch } from 'react-router';
 import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
+import ItemArray from '../../components/ui/ItemArray';
+import Pill from '../../components/ui/Pill';
+import Row from '../../components/ui/Row';
 
 const UserCard: React.FunctionComponent<UserCardProps> = props => {
   const match: any = useRouteMatch();
@@ -32,7 +35,15 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
           <div className="profile-details">
             <EImage src={profile} alt="User Image" circle size="large" />
             <Header size={3}>{user.email}</Header>
-            <span>{user.roles.map(role => role.name + ' ')}</span>
+            <Row>
+              <ItemArray data={user.roles}>
+                {role => (
+                  <div>
+                    <Pill>{role.name}</Pill>
+                  </div>
+                )}
+              </ItemArray>
+            </Row>
             <Link to={routes.changePassword.withParams({ username: user.username })}>Change password</Link>
           </div>
         </Card.Body>

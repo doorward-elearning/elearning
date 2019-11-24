@@ -17,7 +17,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const { user } = useAuth();
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS]}>
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="My Profile">
       <div className="page-profile">
         <div className="page-profile__main">
           <UserCard user={user} />

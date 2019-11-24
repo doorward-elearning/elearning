@@ -12,7 +12,11 @@ const Spinner: React.FunctionComponent<SpinnerProps> = props => {
   return (
     <ThemeContext.Consumer>
       {(theme: ThemeContextProps): JSX.Element => {
-        return <Loader {...{ ...defaultProps, color: theme.theme['--accent'], ...props }} />;
+        return (
+          <div className="ed-spinner">
+            <Loader {...{ ...defaultProps, color: theme.theme['--accent'], ...props }} />
+          </div>
+        );
       }}
     </ThemeContext.Consumer>
   );

@@ -95,8 +95,12 @@ export const validateHasPassword = async req => {
   }
 };
 
-
-export const validateUserExists = (query, message = "This user does not exist") => req => {
-  const where = query(req);
-
-}
+export const validateUserExistsByEmail = async req => {
+  const { email } = req.body;
+  const user = await models.User.findOne({
+    where: {
+      email,
+    },
+  });
+  req.checkBody('email', 'No user exists with this email').custom(() => user);
+};

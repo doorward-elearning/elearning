@@ -11,7 +11,6 @@ import useAction from '../../hooks/useActions';
 import CourseTable from '../../components/static/Tables/CourseTable';
 import { State } from '../../store';
 import { Roles } from '../../components/static/RolesManager';
-import Panel from '../../components/ui/Panel';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
@@ -35,11 +34,9 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <Panel>
-        <WebComponent data={courses.data.courses} loading={courses.fetching}>
-          {(list): JSX.Element => <CourseTable courses={list} history={props.history} />}
-        </WebComponent>
-      </Panel>
+      <WebComponent data={courses.data.courses} loading={courses.fetching}>
+        {(list): JSX.Element => <CourseTable courses={list} history={props.history} />}
+      </WebComponent>
     </Layout>
   );
 };

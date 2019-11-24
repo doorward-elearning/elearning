@@ -22,6 +22,7 @@ import { PlainTextField } from '../../components/ui/Input/TextField';
 import Helmet from 'react-helmet';
 import CONSTANTS from '../../assets/constants';
 import useRoutes from '../../hooks/useRoutes';
+import Panel from '../../components/ui/Panel';
 
 export enum LayoutFeatures {
   HEADER = 1,

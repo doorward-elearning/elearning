@@ -5,6 +5,7 @@ import JWT from '../../utils/auth';
 import { UserInclude } from '../../utils/includes';
 import * as environment from '../../config/environment';
 import Tools from '../../utils/Tools';
+import Emails from '../../utils/Emails';
 
 class UserController {
   static async login(req) {
@@ -124,6 +125,27 @@ class UserController {
     await user.passwordResets[0].destroy();
 
     return [200, undefined, 'Password has been created. You can now login with the new credentials.'];
+  }
+
+  static async forgotPassword(req) {
+    const {
+      body: { email },
+    } = req;
+    const user = await models.User.findOne({ where: { email } });
+
+    if (user) {
+      // create a password reset token for the user
+      const resetToken = Tools.randomString(50);
+
+      // create the reset link
+      await models.PasswordReset.create({
+        token: resetToken,
+        userId: user.id,
+      });
+
+      Emails.resetPassword(user, resetToken);
+      return [200, undefined, 'A password reset link has been sent to your email.'];
+    }
   }
 }
 

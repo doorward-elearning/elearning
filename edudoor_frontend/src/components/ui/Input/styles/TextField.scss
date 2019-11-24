@@ -59,6 +59,7 @@ $inputMaxWidth: 500px;
       color: var(--text-primary);
       transition: 0.5s border, box-shadow;
       border: 1px solid var(--line-color);
+      font-family: var(--font-family);
 
       &:focus, &:focus-within {
         border: 1px solid var(--primary);

@@ -1,9 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent } from 'react';
 import TextField from '../../../ui/Input/TextField';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import { UseForm } from '../../../../hooks/useForm';
 import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
-import { Assignment, AssignmentSubmissionType, Module } from '../../../../services/models';
+import { Assignment, Module } from '../../../../services/models';
 import './CreateAssignmentForm.scss';
 import MultipleSwitchField from '../../../ui/Input/MultipleSwitchField';
 import DateInput from '../../../ui/Input/DateInput';

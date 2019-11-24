@@ -1,6 +1,7 @@
 import reducerBuilder, { reducerApiAction } from '../builder';
 import {
   CREATE_ACCOUNT_PASSWORD,
+  FORGOT_ACCOUNT_PASSWORD,
   GET_CURRENT_USER,
   UPDATE_ACCOUNT_INFORMATION,
   UPDATE_ACCOUNT_PASSWORD,
@@ -39,11 +40,17 @@ const createPassword = reducerApiAction({
   api: Api.users.profile.resetPassword,
 });
 
+const forgotPassword = reducerApiAction({
+  action: FORGOT_ACCOUNT_PASSWORD,
+  api: Api.users.profile.forgotPassword,
+});
+
 export default reducerBuilder({
   middleware: {
     user,
     accountInformation,
     changePassword,
     createPassword,
+    forgotPassword,
   },
 });

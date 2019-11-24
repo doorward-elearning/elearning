@@ -46,7 +46,7 @@ const ModuleItemsList: React.FunctionComponent<{
                     {moduleItem.title}
                   </Row>
                   <IfElse condition={moduleItem.type === 'Assignment'}>
-                    <span className="meta">{Tools.shortDateTime(moduleItem.content.dueDate)}</span>
+                    <span className="meta">Due: {Tools.shortDateTime(moduleItem.content.dueDate)}</span>
                   </IfElse>
                 </Row>
               </Link>

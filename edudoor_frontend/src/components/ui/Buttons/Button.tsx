@@ -1,5 +1,4 @@
 import React, { MouseEventHandler } from 'react';
-import Condition from '../IfElse';
 import IfElse from '../IfElse';
 import classNames from 'classnames';
 import './Buttons.scss';
@@ -39,19 +38,22 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   const parentProps = link ? { to: link } : {};
   return (
     <Parent {...parentProps}>
-      <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
-        <Condition condition={loading}>
-          <Spinner width={20} height={20} />
-          <React.Fragment>
-            <IfElse condition={!!icon}>
-              <i className="material-icons">{icon}</i>
-            </IfElse>
-            <IfElse condition={!!children}>
-              <span className="text">{children}</span>
-            </IfElse>
-          </React.Fragment>
-        </Condition>
-      </button>
+      <div
+        className={classNames({
+          'ed-button__container': true,
+          loading,
+        })}
+      >
+        <Spinner width={16} height={16} />
+        <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
+          <IfElse condition={!!icon}>
+            <i className="material-icons">{icon}</i>
+          </IfElse>
+          <IfElse condition={!!children}>
+            <span className="text">{children}</span>
+          </IfElse>
+        </button>
+      </div>
     </Parent>
   );
 };

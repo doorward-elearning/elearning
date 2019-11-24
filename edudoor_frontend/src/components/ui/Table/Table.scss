@@ -1,5 +1,8 @@
 @import '../../../index';
 .ed-table {
+  .ed-panel {
+    padding: 0;
+  }
   table {
     width: 100%;
     text-align: left;
@@ -16,14 +19,19 @@
       th {
         text-transform: uppercase;
         font-weight: 500;
+        padding-left: var(--padding-lg);
       }
     }
 
     tbody {
       tr {
+        &:not(:last-child){
+          border-bottom: 0.5px solid var(--line-color);
+        }
         td {
           position: relative;
           cursor: pointer;
+          padding-left: var(--padding-lg);
 
           &:before {
             position: absolute;
@@ -39,7 +47,7 @@
         &:hover {
           td {
             &:before {
-              background: rgba(0, 0, 0, 0.05);
+              background: rgba(0, 0, 0, 0.02);
             }
           }
         }

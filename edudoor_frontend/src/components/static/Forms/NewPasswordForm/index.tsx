@@ -27,8 +27,8 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
       initialValues={initialValues}
       validationSchema={validation}
       showSuccessToast
+      onCancel={props.onCancel}
       form={props.form}
-      features={[BasicFormFeatures.SAVE_BUTTON]}
     >
       <PasswordField name="password" label="Password" />
       <PasswordField name="confirmPassword" label="Re-enter password" />
@@ -42,6 +42,7 @@ export interface NewPasswordFormState extends CreatePasswordBody {
 
 export interface NewPasswordFormProps {
   form: UseForm<CreatePasswordBody>;
+  onCancel?: () => void;
   onSuccess: () => void;
 }
 

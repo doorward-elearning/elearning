@@ -1,13 +1,12 @@
 import React from 'react';
 import { PageComponent } from '../../types';
-import Layout from '../Layout';
+import Layout, { LayoutFeatures } from '../Layout';
 import { NavbarFeatures } from '../../components/ui/NavBar';
-import Card from '../../components/ui/Card';
-import Header from '../../components/ui/Header';
 import NewPasswordForm from '../../components/static/Forms/NewPasswordForm';
 import useForm from '../../hooks/useForm';
 import './CreatePassword.scss';
 import useRoutes from '../../hooks/useRoutes';
+import PasswordPolicy from '../../components/static/UI/PasswordPolicy';
 
 const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
   const form = useForm();
@@ -22,17 +21,10 @@ const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
       {...props}
       header="Create a new password"
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
+      features={[LayoutFeatures.HEADER]}
     >
-      <div className="create-password__page">
-        <Card>
-          <Card.Header>
-            <Header size={3}>Create a new password</Header>
-          </Card.Header>
-          <Card.Body>
-            <NewPasswordForm form={form} onSuccess={onSuccess} />
-          </Card.Body>
-        </Card>
-      </div>
+      <PasswordPolicy />
+      <NewPasswordForm form={form} onSuccess={onSuccess} onCancel={onSuccess} />
     </Layout>
   );
 };

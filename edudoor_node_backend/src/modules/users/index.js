@@ -1,7 +1,7 @@
 import MRouter from '../../utils/router';
 import UserController from './UserController';
 import {
-  validateHasPassword,
+  validateUserExistsByEmail,
   validateLogin,
   validatePassword,
   validateResetToken,
@@ -40,6 +40,12 @@ ProfileRouter.exclude(Authorization.authenticate).post(
   BaseValidator.fields('resetToken', 'resetTokenBuffer', 'password'),
   validateResetToken,
   UserController.resetUserPassword
+);
+
+ProfileRouter.exclude(Authorization.authenticate).post(
+  '/forgotPassword',
+  validateUserExistsByEmail,
+  UserController.forgotPassword
 );
 
 export default Router;

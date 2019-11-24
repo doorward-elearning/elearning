@@ -46,3 +46,7 @@ export interface CreatePasswordBody {
   resetTokenBuffer: string;
   password: string;
 }
+
+export interface ForgotPasswordBody {
+  email: string;
+}

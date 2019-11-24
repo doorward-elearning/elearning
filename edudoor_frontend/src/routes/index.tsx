@@ -21,6 +21,7 @@ import StudentReport from '../screens/Reports/StudentReport';
 import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport';
 import CourseCreatorReport from '../screens/Reports/CourseCreatorReport';
 import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
+import ForgotPassword from '../screens/Password/ForgotPassword';
 
 export const routes = {
   home: 'Home',
@@ -50,6 +51,8 @@ export const routes = {
   studentReport: 'Student Report',
   teacherReport: 'Teacher Report',
   addAssignment: 'Create Assignment',
+  forgotPassword: 'Forgot password',
+  resetPassword: 'Reset password',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -102,6 +105,8 @@ export const routeConfigurations: Routes = {
         .hideCrumb()
         .with({
           createPassword: new Route('/create/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+          resetPassword: new Route('/reset/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+          forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
         }),
     }),
 };

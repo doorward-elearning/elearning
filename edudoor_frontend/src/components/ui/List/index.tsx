@@ -1,5 +1,6 @@
 import React, { useRef } from 'react';
 import './List.scss';
+import Panel from '../Panel';
 
 const List: React.FunctionComponent<ListProps> = props => {
   const list = useRef<HTMLUListElement>(null);
@@ -16,9 +17,9 @@ const List: React.FunctionComponent<ListProps> = props => {
     }
   }
   return (
-    <ul className="ed-list" ref={list}>
-      {props.children}
-    </ul>
+    <Panel className="ed-list">
+      <ul ref={list}>{props.children}</ul>
+    </Panel>
   );
 };
 

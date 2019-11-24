@@ -1,11 +1,16 @@
 .ed-breadcrumbs {
   display: inline-grid;
   grid-auto-flow: column;
+  align-items: center;
+  align-content: center;
   &__crumb {
-    padding: var(--padding-sm) var(--padding) var(--padding-sm) 0;
+    padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) 0;
     margin-right: var(--padding-lg);
     position: relative;
     font-size: 0.8em;
+    height: 20px;
+    display: grid;
+    align-items: center;
     text-transform: uppercase;
 
     &:last-child {
@@ -22,23 +27,14 @@
         }
       }
 
-      &:after, &:before {
+      &:after{
         position: absolute;
-        content: '';
-        background: var(--primary);
-        width: 1px;
-        right: 0;
-        height: 58%;
-      }
-
-      &:after {
-        top: 0;
-        transform: rotate(-40deg);
-      }
-
-      &:before {
-        bottom: 0;
-        transform: rotate(40deg);
+        content: '\276D';
+        color: var(--primary);
+        right: calc(-1 * var(--padding));
+        top: 50%;
+        font-size: 14px;
+        transform: translateY(-50%);
       }
     }
   }

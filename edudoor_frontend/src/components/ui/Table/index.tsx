@@ -1,6 +1,7 @@
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import './Table.scss';
 import classNames from 'classnames';
+import Panel from '../Panel';
 
 function Table<T, K>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
@@ -17,6 +18,7 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
     }
   }, [props.searchText]);
 
+  const Container = props.noPanel ? React.Fragment : Panel;
   return (
     <div
       className={classNames({
@@ -24,10 +26,12 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
         [props.className || '']: true,
       })}
     >
-      <table>
-        <TableHeader columns={props.columns} />
-        <TableBody getCell={props.getCell} data={filtered} onRowClick={props.onRowClick} columns={props.columns} />
-      </table>
+      <Container>
+        <table>
+          <TableHeader columns={props.columns} />
+          <TableBody getCell={props.getCell} data={filtered} onRowClick={props.onRowClick} columns={props.columns} />
+        </table>
+      </Container>
     </div>
   );
 }
@@ -89,6 +93,7 @@ export interface TableProps<T, K> extends PropsWithChildren<any> {
   columns: K;
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;
+  noPanel?: boolean;
 }
 
 export default Table;

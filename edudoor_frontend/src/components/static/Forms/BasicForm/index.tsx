@@ -42,7 +42,7 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
 
   return (
     <FeatureProvider features={features}>
-      <Form showOverlay {...props} onSubmit={onSubmit}>
+      <Form {...props} onSubmit={onSubmit}>
         {props.children}
         <Row className="basic-form__submitArea">
           <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
@@ -52,12 +52,12 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
               disabled={state.submitting || !props.form.formikProps?.isValid}
               loading={state.submitting}
             >
-              Save
+              {props.positiveText || 'Save'}
             </Button>
           </Feature>
           <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
             <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
-              Cancel
+              {props.negativeText || 'Cancel'}
             </Button>
           </Feature>
         </Row>
@@ -76,6 +76,9 @@ export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends
   features?: Array<BasicFormFeatures>;
   showSuccessToast?: boolean;
   showErrorToast?: boolean;
+  positiveText?: string;
+  negativeText?: string;
+  showOverlay?: boolean;
 }
 
 export default BasicForm;

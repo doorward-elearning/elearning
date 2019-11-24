@@ -1,3 +1,21 @@
+@font-face {
+  src: url('assets/fonts/Sailec-Regular-thin.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('assets/fonts/Sailec-Regular-normal.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('assets/fonts/Sailec-Regular-bold.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: 500;
+}
+
 body {
   background: var(--bg-secondary);
   font-family: var(--font-family);
@@ -11,11 +29,17 @@ body {
     font-size: var(--page-font-size);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-weight: 500;
   }
 
   .ed-htmlContent * {
+    all: unset !important;
   }
 }
 
@@ -103,8 +127,10 @@ a {
 }
 
 .meta {
-  font-size: 0.9em;
+  font-size: 0.8em;
   color: var(--text-secondary);
+  font-family: Roboto, sans-serif;
+  opacity: 0.7;
 }
 
 .text {

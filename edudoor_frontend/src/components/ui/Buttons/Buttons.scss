@@ -118,3 +118,30 @@
     }
   }
 }
+
+.ed-button__container {
+  display: grid;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  place-items: center;
+  > * {
+    grid-row: 1 / 1;
+    grid-column: 1 / 1;
+  }
+
+  .ed-spinner {
+    display: none;
+  }
+
+  &.loading {
+    pointer-events: none;
+    cursor: default;
+
+    .ed-spinner {
+      display: block;
+    }
+    button {
+      opacity: 0.1 !important;
+    }
+  }
+}

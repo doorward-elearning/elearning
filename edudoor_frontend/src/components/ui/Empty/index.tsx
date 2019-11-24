@@ -4,6 +4,7 @@ import Icon from '../Icon';
 import classNames from 'classnames';
 import IfElse from '../IfElse';
 import { Icons } from '../../../types/icons';
+import Panel from '../Panel';
 
 const defaultMessage = 'Ops! There are no items here.';
 
@@ -15,7 +16,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
   onAction,
 }) => {
   return (
-    <div
+    <Panel
       className={classNames({
         'ed-content-empty': true,
         [size]: true,
@@ -28,7 +29,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
           {actionMessage}
         </a>
       </IfElse>
-    </div>
+    </Panel>
   );
 };
 

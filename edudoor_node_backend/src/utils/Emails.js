@@ -14,6 +14,15 @@ class Emails {
       )}`,
     });
   }
+
+  static async resetPassword(user, resetToken) {
+    return EmailSender.sendMail('password_reset.pug', user.email, 'Password reset', {
+      username: user.fullName,
+      link: `${process.env.FRONTEND_URL}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
+        Tools.encrypt(user.email)
+      )}`,
+    });
+  }
 }
 
 export default Emails;
