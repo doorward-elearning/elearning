@@ -6,6 +6,7 @@ import { UserInclude } from '../../utils/includes';
 import * as environment from '../../config/environment';
 import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
+import * as Roles from '../../utils/roles';
 
 class UserController {
   static async login(req) {
@@ -13,6 +14,13 @@ class UserController {
     const user = await models.User.findOne({ where: { username }, include: UserInclude });
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Login successful'];
+  }
+
+  static async register(req) {
+    const organization = await models.Organization.findOne({ where: { name: 'Edudoor' } });
+    const { user } = UserController.createUser(req, Roles.STUDENT, organization.id);
+
+    return [200, { token: JWT.generate(user.dataValues), user }, 'Registration successful'];
   }
 
   static async getCurrentUser(req) {
@@ -45,15 +53,14 @@ class UserController {
     });
 
     delete user.dataValues.password;
-
     const resetToken = Tools.randomString(50);
-
-    // create the reset link
-    await models.PasswordReset.create({
-      token: resetToken,
-      userId: user.id,
-    });
-
+    if (!body.password) {
+      // create the reset link
+      await models.PasswordReset.create({
+        token: resetToken,
+        userId: user.id,
+      });
+    }
     return {
       user,
       resetToken,

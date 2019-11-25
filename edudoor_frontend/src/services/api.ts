@@ -8,6 +8,8 @@ import {
   CreatePasswordBody,
   CreateStudentBody,
   ForgotPasswordBody,
+  LoginBody,
+  RegistrationBody,
 } from './models/requestBody';
 import {
   CourseCreatorListResponse,
@@ -29,7 +31,8 @@ const { GET, PUT, POST } = Request;
 
 const Api = {
   users: {
-    authenticate: (body: { username: string; password: string }): Promise<LoginResponse> => POST('users/auth', body),
+    authenticate: (body: LoginBody): Promise<LoginResponse> => POST('users/auth', body),
+    register: (body: RegistrationBody): Promise<LoginResponse> => POST('/users/register', body),
     currentUser: (): Promise<UserResponse> => GET('/users/auth'),
     profile: {
       updateAccount: (body: AccountDetailsBody): Promise<UserResponse> => PUT('/users/profile/account', body),

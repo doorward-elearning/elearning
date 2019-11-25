@@ -16,6 +16,17 @@ export const validateLogin = async req => {
   password.notEmpty().withMessage('Password is required');
 };
 
+export const validateRegistration = async req => {
+  const existing = await models.User.findOne({ where: { email: req.body.email } });
+
+  req
+    .checkBody('email')
+    .notEmpty()
+    .withMessage('Email is required')
+    .custom(() => existing)
+    .withMessage('User with this email already exists.');
+};
+
 export const validateCreateUser = exclude => async req => {
   let existing = await models.User.findOne({ where: { username: req.body.username || '' } });
   let existingEmail = await models.User.findOne({ where: { email: req.body.email || '' } });

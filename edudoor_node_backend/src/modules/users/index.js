@@ -6,6 +6,7 @@ import {
   validatePassword,
   validateResetToken,
   validateUpdateAccount,
+  validateRegistration,
 } from './validate';
 import students from './students';
 import Authorization from '../../middleware/Authorization';
@@ -15,6 +16,8 @@ const Router = new MRouter('/users');
 const ProfileRouter = new MRouter('/', Authorization.authenticate);
 
 Router.post('/auth', validateLogin, validatePassword, UserController.login);
+
+Router.post('/register', validateLogin, validateRegistration, UserController.register);
 
 Router.get('/auth', Authorization.authenticate, UserController.getCurrentUser);
 

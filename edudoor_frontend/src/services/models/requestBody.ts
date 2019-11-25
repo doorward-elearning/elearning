@@ -1,9 +1,13 @@
 import { ModuleItemTypes } from './index';
 
-export type LoginBody = {
+export interface LoginBody {
   username: string;
   password: string;
-};
+}
+
+export interface RegistrationBody extends LoginBody {
+  email: string;
+}
 
 export type CourseModuleBody = {
   title: string;
