@@ -6,5 +6,8 @@
   }
   &__editor {
     overflow: unset;
+    * {
+      color: black;
+    }
   }
 }

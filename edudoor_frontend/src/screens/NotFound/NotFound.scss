@@ -1,6 +1,7 @@
 .page-not-found {
   display: grid;
-  justify-items: center;
+  place-items: center;
+  padding: 4em 0;
 
   .ed-card {
     width: 500px;

@@ -16,15 +16,14 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
 
   return (
     <Card>
-      <Card.Header image>
-        <IfElse condition={form.formikProps?.isSubmitting}>
-          <ProgressBar />
-        </IfElse>
-      </Card.Header>
+      <Card.Header image />
       <Card.Body>
         <div className="login-form__header">
           <EImage alt="" src={theme.logo} circle size="xLarge" />
           <Header size={1}>{props.title}</Header>
+          <IfElse condition={props.message}>
+            <p>{props.message}</p>
+          </IfElse>
         </div>
         <BasicForm formClassName="login-form" features={[]} {...props}>
           {props.children}
@@ -42,5 +41,6 @@ export interface AuthFormProps<T, R extends (...args: any[]) => Action> extends 
   title: string;
   children: ReactChild | ReactChildren;
   buttonText: string;
+  message?: string;
 }
 export default AuthForm;

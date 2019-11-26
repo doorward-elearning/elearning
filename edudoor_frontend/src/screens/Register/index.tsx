@@ -34,7 +34,6 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
       <Layout {...props} noNavBar navFeatures={[NavbarFeatures.HAMBURGER]} withBackground>
         <div className="page page__login">
           <Header size={1}>{CONSTANTS.APP_NAME}</Header>
-          <p>Please provide your preferred credentials to proceed. </p>
           <RegistrationForm />
           <div className="page__login--footer">
             <p>Already have an account?</p>

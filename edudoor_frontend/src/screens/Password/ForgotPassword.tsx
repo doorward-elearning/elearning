@@ -8,6 +8,7 @@ const ForgotPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   return (
     <Layout
       {...props}
+      withBackground
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
       header="Forgot password"

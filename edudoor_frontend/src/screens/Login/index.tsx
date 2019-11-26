@@ -45,7 +45,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
       )}
     >
       <div className="page page__login">
-        <Header size={2}>{CONSTANTS.APP_NAME}</Header>
+        <Header size={1}>{CONSTANTS.APP_NAME}</Header>
         <LoginForm />
         <div className="page__login--footer">
           <p>Don&apos;t have an account?</p>

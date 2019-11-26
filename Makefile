@@ -8,6 +8,7 @@ start:
 	${INFO} "Creating PostgreSQL database volume"
 	@ docker volume create --name=openolat_data > /dev/null
 	@ docker volume create --name=edudoor_data > /dev/null
+	@ docker volume create --name=ldap_data > /dev/null
 	@ echo " "
 	@ ${INFO} "Building required docker images"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build edudoor_frontend
@@ -28,6 +29,13 @@ openolat:
 	@ echo " "
 	@ ${INFO} "Starting the OpenOLAT backend"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up openolat
+
+ldap:
+	${INFO} "Creating LDAP database volume"
+	@ docker volume create --name=ldap_data > /dev/null
+	@ echo " "
+	@ ${INFO} "Starting the LDAP server"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_ldap_auth
 
 stop:
 	${INFO} "Stopping all containers"

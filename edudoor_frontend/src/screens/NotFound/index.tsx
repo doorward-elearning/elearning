@@ -14,7 +14,9 @@ const NotFound: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
   return (
     <Layout
       {...props}
+      withBackground
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
+      features={[]}
     >
       <div className="page-not-found">
         <Card>

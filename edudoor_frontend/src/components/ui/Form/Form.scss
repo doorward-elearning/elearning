@@ -16,13 +16,17 @@
 
   &__message {
     padding-bottom: var(--padding);
+    max-height: 0;
+    transition: 0.5s max-height;
 
     &.error {
       color: var(--text-error);
+      max-height: 1em;
     }
 
     &.success {
       color: var(--text-success);
+      max-height: 1em;
     }
   }
 }

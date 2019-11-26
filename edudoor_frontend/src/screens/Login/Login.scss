@@ -2,7 +2,8 @@
   display: grid;
   align-items: center;
   justify-items: center;
-  padding-top: 3em;
+  padding: 3em 0;
+  grid-gap: var(--padding-lg);
 
   form {
     width: 450px;

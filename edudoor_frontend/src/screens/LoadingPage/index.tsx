@@ -9,7 +9,7 @@ import ProgressBar from '../../components/ui/ProgressBar';
 const LoadingPage: React.FunctionComponent<LoadingPageProps> = props => {
   const theme = useContext(ThemeContext);
   return (
-    <Layout {...props} noNavBar navFeatures={[]} className="loading-page">
+    <Layout {...props} noNavBar navFeatures={[]} className="loading-page" withBackground>
       <div className="loading-page__content">
         <div className="loading-page__content--loader">
           <EImage src={theme.theme.logo} size="medium" />

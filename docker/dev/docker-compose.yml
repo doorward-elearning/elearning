@@ -5,6 +5,8 @@ volumes:
     external: true
   edudoor_data:
     external: true
+  ldap_data:
+    external: true
 
 services:
   edudoor_frontend:
@@ -52,6 +54,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:postgres@edudoor_node_database/edudoor
       OPENOLAT_API_URL: http://edudoor_openolat_backend:8080/openolat/restapi
+      LDAP_URL: ldap://edudoor_ldap_auth:389
     ports:
       - '7000:7000'
     expose:
@@ -61,6 +64,8 @@ services:
     depends_on:
       edudoor_node_database:
         condition: service_healthy
+      edudoor_ldap_auth:
+        condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
       interval: 10s
@@ -118,3 +123,17 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
+  edudoor_ldap_auth:
+    image: osixia/openldap:stable
+    container_name: edudoor_ldap_auth
+    restart: always
+    ports:
+      - '389:389'
+      - '636:636'
+    environment:
+      LDAP_ORGANISATION: Edudoor
+      LDAP_DOMAIN: edudoor.org
+      LDAP_ADMIN_PASSWORD: password
+    volumes:
+      - ldap_data:/var/lib/ldap
+
