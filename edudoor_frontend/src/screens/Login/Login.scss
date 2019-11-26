@@ -7,4 +7,10 @@
   form {
     width: 450px;
   }
+
+  &--footer {
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+  }
 }

@@ -53,6 +53,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   pageTitle,
   actionBtnProps,
   noNavBar,
+  withBackground,
   renderNavEnd,
   onSearch: onSearchText = str => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
@@ -76,6 +77,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     sidebar: navFeatures.includes(NavbarFeatures.HAMBURGER),
     navBar: !noNavBar && navFeatures.length,
     [appendClasses]: true,
+    background: withBackground,
   });
 
   const toggleSidebar = (): void => {
@@ -184,6 +186,7 @@ export interface LayoutProps extends PageComponent {
   onSearch?: (text: string) => void;
   pageTitle?: string;
   renderNavEnd?: () => JSX.Element;
+  withBackground?: boolean;
 }
 
 export default Layout;

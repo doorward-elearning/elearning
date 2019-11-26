@@ -18,12 +18,24 @@ export const validateLogin = async req => {
 
 export const validateRegistration = async req => {
   const existing = await models.User.findOne({ where: { email: req.body.email } });
+  const existingUsername = await models.User.findOne({ where: { username: req.body.username } });
 
+  req
+    .checkBody('username')
+    .notEmpty()
+    .withMessage('Username is required')
+    .custom(() => !existingUsername)
+    .withMessage('This username is taken');
+
+  req
+    .checkBody('password')
+    .notEmpty()
+    .withMessage('Password is required.');
   req
     .checkBody('email')
     .notEmpty()
     .withMessage('Email is required')
-    .custom(() => existing)
+    .custom(() => !existing)
     .withMessage('User with this email already exists.');
 };
 

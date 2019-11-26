@@ -22,10 +22,12 @@ import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport'
 import CourseCreatorReport from '../screens/Reports/CourseCreatorReport';
 import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
 import ForgotPassword from '../screens/Password/ForgotPassword';
+import Register from '../screens/Register';
 
 export const routes = {
   home: 'Home',
   login: 'Login',
+  register: 'Register',
   dashboard: 'Dashboard',
   courses: 'Courses',
   createCourse: 'Create Course',
@@ -65,6 +67,7 @@ export const routeConfigurations: Routes = {
     .hideCrumb()
     .with({
       login: new Route('/login', Login).public(),
+      register: new Route('/register', Register).public(),
       dashboard: new Route('/dashboard', Dashboard).with({
         courses: new Route('/courses').with({
           courseList: new Route('/', Courses).with({

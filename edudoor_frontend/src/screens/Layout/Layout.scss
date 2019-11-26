@@ -8,6 +8,11 @@
     'S C C'
     'S C C';
 
+  &.background {
+    background: url('../../assets/images/page_background.svg') no-repeat;
+    background-size: cover;
+  }
+
   &:not(.navBar) {
     grid-template-areas:
       'S C C'

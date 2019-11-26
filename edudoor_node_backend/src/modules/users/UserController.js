@@ -18,7 +18,7 @@ class UserController {
 
   static async register(req) {
     const organization = await models.Organization.findOne({ where: { name: 'Edudoor' } });
-    const { user } = UserController.createUser(req, Roles.STUDENT, organization.id);
+    const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Registration successful'];
   }

@@ -17,7 +17,7 @@ const ProfileRouter = new MRouter('/', Authorization.authenticate);
 
 Router.post('/auth', validateLogin, validatePassword, UserController.login);
 
-Router.post('/register', validateLogin, validateRegistration, UserController.register);
+Router.post('/register', validateRegistration, UserController.register);
 
 Router.get('/auth', Authorization.authenticate, UserController.getCurrentUser);
 

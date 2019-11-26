@@ -7,13 +7,17 @@ import {
   UPDATE_ACCOUNT_PASSWORD,
 } from './types';
 import Api from '../../services/api';
-import { LOGIN_USER } from '../login/types';
+import { LOGIN_USER, REGISTER_USER } from '../login/types';
 
 const user = reducerApiAction({
   action: GET_CURRENT_USER,
   api: Api.users.currentUser,
   reducer: (state, action) => {
-    if (action.type === `${LOGIN_USER}_SUCCESS` || action.type === `${UPDATE_ACCOUNT_INFORMATION}_SUCCESS`) {
+    if (
+      action.type === `${LOGIN_USER}_SUCCESS` ||
+      action.type === `${UPDATE_ACCOUNT_INFORMATION}_SUCCESS` ||
+      action.type === `${REGISTER_USER}_SUCCESS`
+    ) {
       return {
         ...state,
         data: {

@@ -12,11 +12,16 @@ import useAction from '../../hooks/useActions';
 import { State } from '../../store';
 import LoginForm from '../../components/static/Forms/LoginForm';
 import Button from '../../components/ui/Buttons/Button';
+import useRoutes from '../../hooks/useRoutes';
+import Header from '../../components/ui/Header';
+import CONSTANTS from '../../assets/constants';
+import { Link } from 'react-router-dom';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
   const clearLogin = useAction(clearLoginAction);
 
+  const routes = useRoutes();
   const login = useSelector((state: State) => state.login.loginUser);
 
   useEffect(() => {
@@ -30,11 +35,22 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   ) : (
     <Layout
       {...props}
+      withBackground
+      noNavBar
       navFeatures={[NavbarFeatures.PAGE_LOGO]}
-      renderNavEnd={() => <Button theme="secondary">Register</Button>}
+      renderNavEnd={() => (
+        <Button theme="secondary" onClick={() => routes.navigate(routes.register)}>
+          Register
+        </Button>
+      )}
     >
       <div className="page page__login">
+        <Header size={2}>{CONSTANTS.APP_NAME}</Header>
         <LoginForm />
+        <div className="page__login--footer">
+          <p>Don&apos;t have an account?</p>
+          <Link to={routes.register.link}>Create a new account</Link>
+        </div>
       </div>
     </Layout>
   );
