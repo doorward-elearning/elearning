@@ -16,6 +16,7 @@ import useRoutes from '../../hooks/useRoutes';
 import Header from '../../components/ui/Header';
 import CONSTANTS from '../../assets/constants';
 import { Link } from 'react-router-dom';
+import IfElse from '../../components/ui/IfElse';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
@@ -30,29 +31,30 @@ const Login: React.FunctionComponent<LoginProps> = props => {
       clearLogin();
     }
   }, [login.data]);
-  return authenticated ? (
-    <Redirect to={ROUTES.dashboard.link} />
-  ) : (
-    <Layout
-      {...props}
-      withBackground
-      noNavBar
-      navFeatures={[NavbarFeatures.PAGE_LOGO]}
-      renderNavEnd={() => (
-        <Button theme="secondary" onClick={() => routes.navigate(routes.register)}>
-          Register
-        </Button>
-      )}
-    >
-      <div className="page page__login">
-        <Header size={1}>{CONSTANTS.APP_NAME}</Header>
-        <LoginForm />
-        <div className="page__login--footer">
-          <p>Don&apos;t have an account?</p>
-          <Link to={routes.register.link}>Create a new account</Link>
+  return (
+    <IfElse condition={authenticated}>
+      <Redirect to={ROUTES.dashboard.link} />
+      <Layout
+        {...props}
+        withBackground
+        noNavBar
+        navFeatures={[NavbarFeatures.PAGE_LOGO]}
+        renderNavEnd={() => (
+          <Button theme="secondary" onClick={() => routes.navigate(routes.register)}>
+            Register
+          </Button>
+        )}
+      >
+        <div className="page page__login">
+          <Header size={1}>{CONSTANTS.APP_NAME}</Header>
+          <LoginForm />
+          <div className="page__login--footer">
+            <p>Don&apos;t have an account?</p>
+            <Link to={routes.register.link}>Create a new account</Link>
+          </div>
         </div>
-      </div>
-    </Layout>
+      </Layout>
+    </IfElse>
   );
 };
 

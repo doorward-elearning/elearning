@@ -5,7 +5,6 @@ import Button from '../../../ui/Buttons/Button';
 import Header from '../../../ui/Header';
 import Card from '../../../ui/Card';
 import IfElse from '../../../ui/IfElse';
-import ProgressBar from '../../../ui/ProgressBar';
 import { ThemeContext } from '../../../ui/ApplicationTheme';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '../../../../reducers/reducers';
@@ -25,13 +24,15 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
             <p>{props.message}</p>
           </IfElse>
         </div>
-        <BasicForm formClassName="login-form" features={[]} {...props}>
-          {props.children}
-          <div className="login-form__footer">
-            <Button loading={form.formikProps?.isSubmitting}>{buttonText}</Button>
-            {props.renderFooter && props.renderFooter()}
-          </div>
-        </BasicForm>
+        <div className="login-form">
+          <BasicForm features={[]} {...props}>
+            {props.children}
+            <div className="login-form__footer">
+              <Button loading={form.formikProps?.isSubmitting}>{buttonText}</Button>
+              {props.renderFooter && props.renderFooter()}
+            </div>
+          </BasicForm>
+        </div>
       </Card.Body>
     </Card>
   );

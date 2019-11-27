@@ -19,7 +19,6 @@ const LoginForm: FunctionComponent<LoginFormProps> = props => {
   return (
     <AuthForm
       initialValues={initialState}
-      formClassName="login-form"
       buttonText="Login"
       submitAction={loginUserAction}
       validationSchema={loginForm}
