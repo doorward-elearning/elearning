@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const shortid = require('shortid');
+const id = require('../../../utils/generateId');
 const environment = require('../../../config/environment');
 
 module.exports = {
@@ -13,7 +13,7 @@ module.exports = {
     );
     await queryInterface.bulkInsert('Users', [
       {
-        id: shortid.generate(),
+        id: id(),
         username: 'administrator',
         password,
         status: 'ACTIVE_NOT_DELETABLE',

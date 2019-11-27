@@ -11,4 +11,5 @@ module.exports = {
   DATABASE_DIALECT: 'postgres',
   BCRYPT_PASSWORD_SALT: +(process.env.BCRYPT_PASSWORD_SALT || 10),
   JWT_SECRET_KEY: process.env.JWT_SECRET_KEY || 'edudoor-secret-key',
+  ORGANIZATION_ID: process.env.ORGANIZATION_ID
 };

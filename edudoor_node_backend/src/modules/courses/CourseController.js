@@ -27,12 +27,9 @@ class CourseController {
     return [201, { course }, 'Course created successfully'];
   }
 
-  static async getCourses(req) {
-    const {
-      user: { organizationId },
-    } = req;
+  static async getCourses() {
     const courses = await models.Course.findAll({
-      include: MyCoursesInclude(organizationId),
+      include: MyCoursesInclude(),
     });
 
     return [200, { courses }];
@@ -40,12 +37,11 @@ class CourseController {
 
   static async getCourse(req) {
     const {
-      user: { organizationId },
       params: { courseId },
     } = req;
     const course = await models.Course.findOne({
       where: { id: courseId },
-      include: MyCoursesInclude(organizationId),
+      include: MyCoursesInclude(),
     });
 
     return [200, { course }];

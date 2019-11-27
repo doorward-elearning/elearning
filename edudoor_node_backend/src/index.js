@@ -4,7 +4,8 @@ import http from 'http';
 import env from './config/environment';
 import app from './app';
 import models from './database/models';
-import LdapClient from './ldap/client';
+import shortid from 'shortid';
+import Organization from './utils/Organization';
 
 global.models = models;
 
@@ -14,9 +15,9 @@ const server = http.createServer(app);
 
 console.log(`Starting server on port ${env.PORT}`);
 
-LdapClient.bindClient().then(client => {
-  global.ldapClient = client;
-  logger('Successfully connected to LDAP');
+console.log(shortid.generate() + shortid.generate() + shortid.generate());
+Organization.get().then(() => {
+  logger('Organization initialized.');
 });
 
 server.listen(env.PORT, '0.0.0.0', 511, () => {

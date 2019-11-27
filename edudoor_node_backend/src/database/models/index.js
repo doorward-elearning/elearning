@@ -1,7 +1,7 @@
 const fs = require('fs');
-const shortid = require('shortid');
 const path = require('path');
 const Sequelize = require('sequelize');
+const generateId = require('../../utils/generateId');
 
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
@@ -30,7 +30,7 @@ Object.keys(models).forEach(modelName => {
   }
   models[modelName].beforeCreate(model => {
     // eslint-disable-next-line no-param-reassign
-    model.id = shortid.generate();
+    model.id = generateId();
   });
 });
 

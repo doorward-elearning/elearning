@@ -7,7 +7,7 @@ import * as environment from '../../config/environment';
 import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
-import LdapUtils from '../../ldap';
+import Organization from '../../utils/Organization';
 
 class UserController {
   static async login(req) {
@@ -18,10 +18,8 @@ class UserController {
   }
 
   static async register(req) {
-    const organization = await models.Organization.findOne({ where: { name: 'Edudoor' } });
+    const organization = Organization.get();
     const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
-
-    LdapUtils.createUser(user, req.body.password);
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Registration successful'];
   }
@@ -33,14 +31,14 @@ class UserController {
     return [200, { user: currentUser }];
   }
 
-  static async createUser(req, roleName, organizationId) {
+  static async createUser(req, roleName) {
     const { body } = req;
     if (body.password) {
       body.password = bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT);
     }
     const user = await models.User.create({
       ...body,
-      organizationId,
+      organizationId: Organization.getId(),
     });
 
     const role = await models.Role.findOne({
