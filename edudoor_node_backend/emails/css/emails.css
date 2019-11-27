@@ -2,13 +2,34 @@ html {
   padding: 0;
 }
 
+@font-face {
+  src: url("https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-thin.woff2?alt=media&token=fd42c48b-b15b-4f4b-87cb-b4851ef7433e") format("woff2");
+  font-family: "Sailec-Regular";
+  font-weight: 300;
+}
+@font-face {
+  src: url("https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-normal.woff2?alt=media&token=19c7ed3e-c747-4ed7-82b1-44dec1ad7ecb") format("woff2");
+  font-family: "Sailec-Regular";
+  font-weight: normal;
+}
+@font-face {
+  src: url("https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-bold.woff2?alt=media&token=90a7afe3-9320-4ce6-86c3-912b18a14967") format("woff2");
+  font-family: "Sailec-Regular";
+  font-weight: 500;
+}
 * {
-  font-family: "Source Code Pro", sans-serif;
+  font-family: "Sailec-Regular", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
 }
 
 body {
   height: 100%;
   min-height: 700px;
+  background: rgba(248, 248, 248, 0.64) url("https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/page_background.svg?alt=media&token=3e879bc1-c2e8-472f-b5be-7ce61374e146");
+  background-size: cover;
   padding-top: 20px;
 }
 
@@ -37,8 +58,7 @@ body {
   margin: 0;
 }
 .container .content {
-  padding: 1em;
-  background: #eee;
+  padding: 5em 1em;
 }
 .container .footer {
   padding: 1em;

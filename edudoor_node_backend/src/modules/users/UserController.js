@@ -21,6 +21,8 @@ class UserController {
     const organization = Organization.get();
     const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
 
+    Emails.selfRegistration(user);
+
     return [200, { token: JWT.generate(user.dataValues), user }, 'Registration successful'];
   }
 

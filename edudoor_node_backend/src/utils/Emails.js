@@ -23,6 +23,13 @@ class Emails {
       )}`,
     });
   }
+
+  static async selfRegistration(user) {
+    return EmailSender.sendMail('new_account.pug', user.email, 'Confirm Registration', {
+      username: user.fullName,
+      link: 'https://edudoor.org',
+    });
+  }
 }
 
 export default Emails;

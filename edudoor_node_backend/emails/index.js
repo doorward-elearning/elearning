@@ -21,7 +21,7 @@ class EmailSender {
     const mailData = {
       from: { email: `${process.env.EMAIL_SENDER}`, name: 'Edudoor' },
       to: recipient,
-      subject,
+      subject: `${subject}: Edudoor`,
       html: result,
     };
 
