@@ -7,6 +7,7 @@ import * as environment from '../../config/environment';
 import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
+import LdapUtils from '../../ldap';
 
 class UserController {
   static async login(req) {
@@ -19,6 +20,8 @@ class UserController {
   static async register(req) {
     const organization = await models.Organization.findOne({ where: { name: 'Edudoor' } });
     const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
+
+    LdapUtils.createUser(user, req.body.password);
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Registration successful'];
   }

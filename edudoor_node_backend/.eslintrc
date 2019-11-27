@@ -30,6 +30,7 @@
     "eol-last": ["error", "always"]
   },
   "globals": {
-    "models": true
+    "models": true,
+    "ldapClient": true
   }
 }

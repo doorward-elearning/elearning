@@ -54,7 +54,6 @@
     "express-validator": "^5.3.1",
     "http-errors": "^1.7.2",
     "jsonwebtoken": "^8.5.1",
-    "ldapauth-fork": "^4.2.0",
     "ldapjs": "^1.0.2",
     "lodash": "^4.17.11",
     "moment": "^2.24.0",
