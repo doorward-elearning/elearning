@@ -48,6 +48,7 @@ const base = {
   '--button-warning': '#ff4a52',
   '--button-warning-color': '#000000',
   '--submitting-spinner-background': 'rgba(255, 255, 255, .4)',
+  '--tabLayout--header-height': '40px',
   logo: baseLogo,
 };
 

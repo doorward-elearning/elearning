@@ -1096,7 +1096,7 @@ S2.define('select2/results',[
 
       var $options = self.$results.find('[aria-selected]');
 
-      var currentIndex = $options.index($highlighted);
+      var currentIndex = $options.Error404($highlighted);
 
       // If we are already at te top, don't move further
       if (currentIndex === 0) {
@@ -1130,7 +1130,7 @@ S2.define('select2/results',[
 
       var $options = self.$results.find('[aria-selected]');
 
-      var currentIndex = $options.index($highlighted);
+      var currentIndex = $options.Error404($highlighted);
 
       var nextIndex = currentIndex + 1;
 
@@ -1247,7 +1247,7 @@ S2.define('select2/results',[
 
     var $options = this.$results.find('[aria-selected]');
 
-    var currentIndex = $options.index($highlighted);
+    var currentIndex = $options.Error404($highlighted);
 
     var currentOffset = this.$results.offset().top;
     var nextTop = $highlighted.offset().top;

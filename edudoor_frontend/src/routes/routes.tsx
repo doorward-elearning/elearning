@@ -3,7 +3,7 @@ import { RouteProps, Switch } from 'react-router';
 import { BrowserRouter, Route } from 'react-router-dom';
 import AuthenticatedRoute, { AuthenticatedRouteProps } from './AuthenticatedRoute';
 import { RouteDefinition, RouteDefinitions, Routes } from '../types';
-import NotFound from '../screens/NotFound';
+import Error404 from '../screens/ErrorPages/Error404';
 import { EdudoorRoutes, routeConfigurations, routes } from './index';
 import Tools from '../utils/Tools';
 import { EdudoorRoute } from './EdudoorRoute';
@@ -64,7 +64,7 @@ export const Router: React.FunctionComponent<any> = (): JSX.Element => (
   <BrowserRouter>
     <Switch>
       {generatedRoutes}
-      <Route component={NotFound} />
+      <Route component={Error404} />
     </Switch>
   </BrowserRouter>
 );

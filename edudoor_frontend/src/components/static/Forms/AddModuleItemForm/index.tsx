@@ -45,7 +45,7 @@ export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   initialValues?: Omit<T, keyof CourseModuleItemBody>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;
-  children: ReactChildren | ReactChild;
+  children: Array<ReactChild> | ReactChild;
 }
 
 export default AddModuleItemForm;

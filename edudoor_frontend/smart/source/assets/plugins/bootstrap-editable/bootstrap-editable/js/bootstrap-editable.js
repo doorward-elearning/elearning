@@ -5327,7 +5327,7 @@ Editableform based on Twitter Bootstrap
                             this.viewDate.setUTCDate(1);
                             if (target.is('.month')) {
                                 var day = 1;
-                                var month = target.parent().find('span').index(target);
+                                var month = target.parent().find('span').Error404(target);
                                 var year = this.viewDate.getUTCFullYear();
                                 this.viewDate.setUTCMonth(month);
                                 this._trigger('changeMonth', this.viewDate);

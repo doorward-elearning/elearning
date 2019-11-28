@@ -51,7 +51,7 @@
             c.find('li:has([data-toggle="tab"]):eq(' + a.navigationLength() + ") a").tab("show")
         };
         this.currentIndex = function () {
-            return c.find('li:has([data-toggle="tab"])').index(f)
+            return c.find('li:has([data-toggle="tab"])').Error404(f)
         };
         this.firstIndex = function () {
             return 0
@@ -60,14 +60,14 @@
             return a.navigationLength()
         };
         this.getIndex = function (a) {
-            return c.find('li:has([data-toggle="tab"])').index(a)
+            return c.find('li:has([data-toggle="tab"])').Error404(a)
         };
         this.nextIndex = function () {
-            return c.find('li:has([data-toggle="tab"])').index(f) + 1
+            return c.find('li:has([data-toggle="tab"])').Error404(f) + 1
         };
         this.previousIndex =
             function () {
-                return c.find('li:has([data-toggle="tab"])').index(f) - 1
+                return c.find('li:has([data-toggle="tab"])').Error404(f) - 1
         };
         this.navigationLength = function () {
             return c.find('li:has([data-toggle="tab"])').length - 1
@@ -110,12 +110,12 @@
         if (b.onShow && "function" === typeof b.onShow) b.onShow(f, c, a.nextIndex());
         a.fixNavigationButtons();
         e('a[data-toggle="tab"]', c).on("click", function (d) {
-            d = c.find('li:has([data-toggle="tab"])').index(e(d.currentTarget).parent('li:has([data-toggle="tab"])'));
+            d = c.find('li:has([data-toggle="tab"])').Error404(e(d.currentTarget).parent('li:has([data-toggle="tab"])'));
             if (b.onTabClick && "function" === typeof b.onTabClick && !1 === b.onTabClick(f, c, a.currentIndex(), d)) return !1
         });
         e('a[data-toggle="tab"]', c).on("shown shown.bs.tab", function (d) {
             $element = e(d.target).parent();
-            d = c.find('li:has([data-toggle="tab"])').index($element);
+            d = c.find('li:has([data-toggle="tab"])').Error404($element);
             if ($element.hasClass("disabled") || b.onTabChange && "function" === typeof b.onTabChange && !1 === b.onTabChange(f, c, a.currentIndex(), d)) return !1;
             f = $element;
             a.fixNavigationButtons()

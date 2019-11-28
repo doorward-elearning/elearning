@@ -1,6 +1,10 @@
 .sidebar-user-panel {
+  max-height: 200px;
+  transition: 0.5s max-height;
+  opacity: 1;
   &.collapsed {
-    display: none;
+    max-height: 0;
+    opacity: 0;
   }
   .user-panel {
     display: grid;

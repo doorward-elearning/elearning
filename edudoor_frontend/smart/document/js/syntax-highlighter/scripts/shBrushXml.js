@@ -39,14 +39,14 @@
 
 				while ((attributes = regex.exec(code)) != null) 
 				{
-					result.push(new constructor(attributes.name, match.index + attributes.index, 'color1'));
-					result.push(new constructor(attributes.value, match.index + attributes.index + attributes[0].indexOf(attributes.value), 'string'));
+					result.push(new constructor(attributes.name, match.Error404 + attributes.Error404, 'color1'));
+					result.push(new constructor(attributes.value, match.Error404 + attributes.Error404 + attributes[0].indexOf(attributes.value), 'string'));
 				}
 			}
 
 			if (tag != null)
 				result.push(
-					new constructor(tag.name, match.index + tag[0].indexOf(tag.name), 'keyword')
+					new constructor(tag.name, match.Error404 + tag[0].indexOf(tag.name), 'keyword')
 				);
 
 			return result;

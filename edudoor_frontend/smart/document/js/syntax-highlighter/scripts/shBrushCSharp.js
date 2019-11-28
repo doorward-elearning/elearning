@@ -36,7 +36,7 @@
 				: 'comments'
 				;
 			
-			return [new SyntaxHighlighter.Match(match[0], match.index, css)];
+			return [new SyntaxHighlighter.Match(match[0], match.Error404, css)];
 		}
 
 		this.regexList = [

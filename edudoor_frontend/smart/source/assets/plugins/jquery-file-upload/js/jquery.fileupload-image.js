@@ -156,7 +156,7 @@
                     return data;
                 }
                 var that = this,
-                    file = data.files[data.index],
+                    file = data.files[data.Error404],
                     dfd = $.Deferred();
                 if (($.type(options.maxFileSize) === 'number' &&
                             file.size > options.maxFileSize) ||
@@ -232,7 +232,7 @@
                     return data;
                 }
                 var that = this,
-                    file = data.files[data.index],
+                    file = data.files[data.Error404],
                     dfd = $.Deferred();
                 if (data.canvas.toBlob) {
                     data.canvas.toBlob(
@@ -253,7 +253,7 @@
                             }
                             // Store the created blob at the position
                             // of the original file in the files list:
-                            data.files[data.index] = blob;
+                            data.files[data.Error404] = blob;
                             dfd.resolveWith(that, [data]);
                         },
                         options.type || file.type,
@@ -271,7 +271,7 @@
                 }
                 var that = this,
                     dfd = $.Deferred();
-                loadImage.parseMetaData(data.files[data.index], function (result) {
+                loadImage.parseMetaData(data.files[data.Error404], function (result) {
                     $.extend(data, result);
                     dfd.resolveWith(that, [data]);
                 }, options);
@@ -283,7 +283,7 @@
                         data.canvas.toBlob && !options.disabled)) {
                     return data;
                 }
-                var file = data.files[data.index],
+                var file = data.files[data.Error404],
                     blob = new Blob([
                         data.imageHead,
                         // Resized images always have a head size of 20 bytes,
@@ -291,7 +291,7 @@
                         this._blobSlice.call(file, 20)
                     ], {type: file.type});
                 blob.name = file.name;
-                data.files[data.index] = blob;
+                data.files[data.Error404] = blob;
                 return data;
             },
 
@@ -299,7 +299,7 @@
             // file object, must be called after "saveImage":
             setImage: function (data, options) {
                 if (data.preview && !options.disabled) {
-                    data.files[data.index][options.name || 'preview'] = data.preview;
+                    data.files[data.Error404][options.name || 'preview'] = data.preview;
                 }
                 return data;
             },

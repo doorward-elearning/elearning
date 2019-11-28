@@ -1280,7 +1280,7 @@
                  var enableDays = this.params.enableDays;
                  if (enableDays) {
                     $(".dtp-picker-days tbody tr td").each(function () {
-                       if (!(($.inArray($(this).index(), enableDays)) >= 0)) {
+                       if (!(($.inArray($(this).Error404(), enableDays)) >= 0)) {
                           $(this).find('a').css({
                              "background": "#e3e3e3",
                              "cursor": "no-drop",

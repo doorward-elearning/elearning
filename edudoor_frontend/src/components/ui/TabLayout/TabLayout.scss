@@ -1,0 +1,49 @@
+.ed-tabLayout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  grid-gap: var(--padding);
+
+  &__header {
+    height: var(--tabLayout-header-height);
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    position: relative;
+    grid-gap: var(--padding-lg);
+    border-bottom: 1px solid var(--line-color);
+
+    .ed-tabLayout__tabTitle {
+      padding: var(--padding) var(--padding-lg);
+      margin-bottom: -2px;
+      cursor: pointer;
+      transition: 0.2s color;
+
+      &:hover:not(.selected) {
+        color: var(--accent);
+      }
+
+      &.selected {
+        font-weight: 500;
+        cursor: default;
+      }
+    }
+
+    .ed-tabLayout__slider {
+      position: absolute;
+      height: 2px;
+      left: 0;
+      bottom: -1px;
+      background: var(--accent);
+      transition: 0.5s width, 0.5s left;
+    }
+  }
+
+  &__content {
+    &Tab {
+      display: none;
+      &.selected {
+        display: block;
+      }
+    }
+  }
+}

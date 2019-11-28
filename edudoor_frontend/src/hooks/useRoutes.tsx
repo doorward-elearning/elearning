@@ -7,6 +7,7 @@ import { EdudoorRoutes } from '../routes';
 export interface UseRoutes extends AppContextProps, RouteDefinitions {
   navigate: (route: RouteDefinition, params?: { [name: string]: string }) => void;
   currentRoute?: keyof EdudoorRoutes;
+  setCurrentTitle: (name: string) => void;
 }
 
 const useRoutes = (): UseRoutes => {
@@ -35,6 +36,11 @@ const useRoutes = (): UseRoutes => {
     ...context.routes,
     currentRoute: tree,
     navigate,
+    setCurrentTitle: (name: string) => {
+      if (tree) {
+        context.setTitle(tree, name);
+      }
+    },
   };
 };
 

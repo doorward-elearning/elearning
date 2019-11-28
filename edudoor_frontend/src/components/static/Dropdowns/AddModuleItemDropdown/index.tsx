@@ -8,6 +8,7 @@ import { Icons } from '../../../../types/icons';
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',
   Assignment: 'format_list_numbered',
+  Quiz: 'view_list',
   'Discussion Forum': 'more',
   File: 'file_copy',
 };
@@ -25,6 +26,9 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         </Dropdown.Item>
         <Dropdown.Item icon={ModuleItemIcons.Assignment} link={routes.addAssignment.withParams(params)}>
           Assignment
+        </Dropdown.Item>
+        <Dropdown.Item icon={ModuleItemIcons.Quiz} link={routes.addQuiz.withParams(params)}>
+          Quiz
         </Dropdown.Item>
         {/*<Dropdown.Item icon={ModuleItemIcons['Discussion Forum']}>Discussion Forum</Dropdown.Item>*/}
         {/*<Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>*/}

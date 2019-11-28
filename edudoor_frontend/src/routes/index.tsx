@@ -15,7 +15,7 @@ import Profile from '../screens/Profile';
 import CreatePassword from '../screens/Password/CreatePassword';
 import { Roles } from '../components/static/RolesManager';
 import { EdudoorRoute } from './EdudoorRoute';
-import NotFound from '../screens/NotFound';
+import Error404 from '../screens/ErrorPages/Error404';
 import StudentListReport from '../screens/Reports/StudentListReport';
 import StudentReport from '../screens/Reports/StudentReport';
 import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport';
@@ -23,6 +23,7 @@ import CourseCreatorReport from '../screens/Reports/CourseCreatorReport';
 import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import Register from '../screens/Register';
+import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 
 export const routes = {
   home: 'Home',
@@ -52,6 +53,7 @@ export const routes = {
   changePassword: 'Change Password',
   studentReport: 'Student Report',
   teacherReport: 'Teacher Report',
+  addQuiz: 'Create Quiz',
   addAssignment: 'Create Assignment',
   forgotPassword: 'Forgot password',
   resetPassword: 'Reset password',
@@ -80,6 +82,7 @@ export const routeConfigurations: Routes = {
                   viewModuleItem: new Route('/:itemId', ViewModuleItem),
                   addModulePage: new Route('/create/page', AddModulePage),
                   addAssignment: new Route('/create/assignment', CreateAssignment),
+                  addQuiz: new Route('/create/quiz', CreateQuiz),
                 }),
               }),
             }),
@@ -97,7 +100,7 @@ export const routeConfigurations: Routes = {
           studentListReports: new Route('/students', StudentListReport).with({
             studentReport: new Route('/:studentId', StudentReport),
           }),
-          courseListReports: new Route('/courses', NotFound),
+          courseListReports: new Route('/courses', Error404),
           teacherListReports: new Route('/teachers', CourseCreatorListReport).roles().with({
             teacherReport: new Route('/:teacherId', CourseCreatorReport),
           }),

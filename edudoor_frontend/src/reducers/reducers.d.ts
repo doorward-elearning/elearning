@@ -11,6 +11,7 @@ export interface Action extends ReduxAction {
   onError?: ApiListener;
   showSuccessToast?: boolean;
   showErrorToast?: boolean;
+  statusCode?: number;
 }
 
 export type ActionCreator = (...args: any[]) => Action;

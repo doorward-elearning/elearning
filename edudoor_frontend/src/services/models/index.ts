@@ -48,7 +48,7 @@ export interface Module extends Model {
   items: Array<ModuleItem>;
 }
 
-export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Forum';
+export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Forum' | 'Quiz';
 
 export type AssignmentSubmissionType = 'Text Entry' | 'Website URL' | 'Media Recording' | 'File Upload';
 
@@ -63,8 +63,49 @@ export interface Assignment extends ModuleItem {
     points: number;
     submissionMedia: 'online' | 'offline';
     submissionType: Array<AssignmentSubmissionType>;
-    dueDate: string;
+    dueDate: string | Date | null;
     assignment: any;
+    availability: {
+      from: string | Date | null;
+      to: string | Date | null;
+    };
+  };
+}
+
+export interface Quiz extends ModuleItem {
+  content: {
+    instructions: string;
+    options: {
+      shuffleAnswers: boolean;
+      timeLimit: number;
+      attempts: {
+        multiple: boolean;
+        keepScore: 'Highest' | 'Latest' | 'Average';
+        max: number;
+      };
+      questions: {
+        oneAtATime: boolean;
+        lockAfterAnswering: boolean;
+      };
+      restrictions: {
+        accessCode: boolean;
+      };
+      responses: {
+        show: boolean;
+        frequency: {
+          onlyOnce: boolean;
+          range: {
+            from: string | Date | null;
+            to: string | Date | null;
+          };
+        };
+      };
+      dueDate: string;
+      availability: {
+        from: string | Date | null;
+        to: string | Date | null;
+      };
+    };
   };
 }
 

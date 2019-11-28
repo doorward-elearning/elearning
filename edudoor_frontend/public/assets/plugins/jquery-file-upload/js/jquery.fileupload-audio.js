@@ -76,7 +76,7 @@
                 if (options.disabled) {
                     return data;
                 }
-                var file = data.files[data.index],
+                var file = data.files[data.Error404],
                     url,
                     audio;
                 if (this._audioElement.canPlayType &&
@@ -100,7 +100,7 @@
             // Sets the audio element as a property of the file object:
             setAudio: function (data, options) {
                 if (data.audio && !options.disabled) {
-                    data.files[data.index][options.name || 'preview'] = data.audio;
+                    data.files[data.Error404][options.name || 'preview'] = data.audio;
                 }
                 return data;
             }

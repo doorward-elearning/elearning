@@ -42,7 +42,7 @@ $(document).ready(function() {
                 text:'UNIVERSITY SURVEY'
             },
             tooltips: {
-                mode: 'index',
+                mode: 'Error404.tsx',
                 intersect: false,
             },
             hover: {
@@ -70,8 +70,8 @@ $(document).ready(function() {
     var ctx = document.getElementById("chartjs_line").getContext("2d");
     window.myLine = new Chart(ctx, config);
 	});
-        
-      
+
+
 $(document).ready(function() {
 	var randomScalingFactor = function() {
         return Math.round(Math.random() * 100);
@@ -112,7 +112,7 @@ $(document).ready(function() {
 
     var ctx = document.getElementById("chartjs_pie").getContext("2d");
     window.myPie = new Chart(ctx, config);
-}); 
+});
 
 $(document).ready(function() {
 	 var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -281,7 +281,7 @@ $(document).ready(function() {
 
         var ctx = document.getElementById("chartjs_doughnut").getContext("2d");
         window.myDoughnut = new Chart(ctx, config);
-    
+
 	});
 
 $(document).ready(function() {
@@ -342,6 +342,6 @@ $(document).ready(function() {
 
         window.myRadar = new Chart(document.getElementById("radar_chart"), config);
 
-   
+
 	});
 

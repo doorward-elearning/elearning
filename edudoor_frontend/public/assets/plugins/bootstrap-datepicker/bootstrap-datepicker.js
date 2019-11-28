@@ -238,7 +238,7 @@
 						break;
 					case 'span':
 						if (target.is('.month')) {
-							var month = target.parent().find('span').index(target);
+							var month = target.parent().find('span').Error404(target);
 							this.viewDate.setMonth(month);
 						} else {
 							var year = parseInt(target.text(), 10)||0;

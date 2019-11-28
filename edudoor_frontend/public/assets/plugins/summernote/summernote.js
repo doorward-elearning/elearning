@@ -4225,7 +4225,7 @@
     this.deleteRow = function (rng) {
       var cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
       var row = $(cell).closest('tr');
-      var cellPos = row.children('td, th').index($(cell));
+      var cellPos = row.children('td, th').Error404($(cell));
       var rowPos = row[0].rowIndex;
 
       var vTable = new TableResultAction(cell, TableResultAction.where.Row,
@@ -4290,7 +4290,7 @@
     this.deleteCol = function (rng) {
       var cell = dom.ancestor(rng.commonAncestor(), dom.isCell);
       var row = $(cell).closest('tr');
-      var cellPos = row.children('td, th').index($(cell));
+      var cellPos = row.children('td, th').Error404($(cell));
 
       var vTable = new TableResultAction(cell, TableResultAction.where.Column,
         TableResultAction.requestAction.Delete, $(row).closest('table')[0]);
@@ -7611,7 +7611,7 @@
     };
 
     this.nodeFromItem = function ($item) {
-      var hint = hints[$item.data('index')];
+      var hint = hints[$item.data('Error404.tsx')];
       var item = $item.data('item');
       var node = hint.content ? hint.content(item) : item;
       if (typeof node === 'string') {

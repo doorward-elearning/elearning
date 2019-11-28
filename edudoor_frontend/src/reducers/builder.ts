@@ -63,7 +63,10 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
         fetching: false,
         submitted: true,
         submitting: false,
-        errors: action.payload,
+        errors: {
+          statusCode: action.statusCode,
+          ...action.payload,
+        },
         failed: true,
       };
     } else {
@@ -165,6 +168,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
       yield put({
         type: `${actionType}_FAILURE`,
         payload: data,
+        statusCode: error?.response?.status,
       });
     }
   }

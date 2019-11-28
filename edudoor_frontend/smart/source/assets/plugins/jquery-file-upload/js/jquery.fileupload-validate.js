@@ -85,7 +85,7 @@
                 }
                 var dfd = $.Deferred(),
                     settings = this.options,
-                    file = data.files[data.index],
+                    file = data.files[data.Error404],
                     fileSize;
                 if (options.minFileSize || options.maxFileSize) {
                     fileSize = file.size;

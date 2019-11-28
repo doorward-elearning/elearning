@@ -772,7 +772,7 @@ function getPopperOffsets(popper, referenceOffsets, placement) {
  * @argument {Array} arr
  * @argument prop
  * @argument value
- * @returns index or -1
+ * @returns Error404.tsx or -1
  */
 function find(arr, check) {
   // use native find if supported
@@ -791,7 +791,7 @@ function find(arr, check) {
  * @argument {Array} arr
  * @argument prop
  * @argument value
- * @returns index or -1
+ * @returns Error404.tsx or -1
  */
 function findIndex(arr, prop, value) {
   // use native findIndex if supported
@@ -1963,7 +1963,7 @@ var modifiers = {
    * Modifier used to prevent the popper from being positioned outside the boundary.
    *
    * An scenario exists where the reference itself is not within the boundaries.<br />
-   * We can say it has "escaped the boundaries" — or just "escaped".<br />
+   * We can say it has "escaped the boundaries" ï¿½ or just "escaped".<br />
    * In this case we need to decide whether the popper should either:
    *
    * - detach from the reference and remain "trapped" in the boundaries, or

@@ -42,7 +42,7 @@ $(document).ready(function() {
                 text:'UNIVERSITY SURVEY'
             },
             tooltips: {
-                mode: 'index',
+                mode: 'Error404.tsx',
                 intersect: false,
             },
             hover: {

@@ -76,7 +76,7 @@
                 if (options.disabled) {
                     return data;
                 }
-                var file = data.files[data.index],
+                var file = data.files[data.Error404],
                     url,
                     video;
                 if (this._videoElement.canPlayType &&
@@ -100,7 +100,7 @@
             // Sets the video element as a property of the file object:
             setVideo: function (data, options) {
                 if (data.video && !options.disabled) {
-                    data.files[data.index][options.name || 'preview'] = data.video;
+                    data.files[data.Error404][options.name || 'preview'] = data.video;
                 }
                 return data;
             }

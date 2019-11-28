@@ -4,6 +4,8 @@ import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
 import classNames from 'classnames';
 import { PageProgressContext } from '../../static/UI/PageProgress';
+import { ApiError } from '../../../services/services';
+import NotFound from '../NotFound';
 
 function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);
@@ -50,6 +52,12 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
         <React.Fragment>{props.children(props.data)}</React.Fragment>
       </div>
     );
+  } else if (props.errors?.statusCode === 404) {
+    return (
+      <div className="web-component">
+        <NotFound title="Not Found" buttonText="Dashboard" message="The resource does not exist." />
+      </div>
+    );
   } else {
     return (
       <div
@@ -74,6 +82,7 @@ export interface WebComponentProps<T> extends EmptyProps {
   children: (data: T) => JSX.Element;
   showPageProgress?: boolean;
   inline?: boolean;
+  errors?: any;
 }
 
 export default WebComponent;

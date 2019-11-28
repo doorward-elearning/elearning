@@ -10,16 +10,24 @@ import DateInput from '../../../ui/Input/DateInput';
 import validation from './validation';
 import DropdownSelect from '../../../ui/Input/DropdownSelect';
 import IfElse from '../../../ui/IfElse';
+import Row from '../../../ui/Row';
+import Header from '../../../ui/Header';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const { formikProps } = props.form;
   const initialValues = {
+    title: 'Unnamed Assignment',
+    type: 'Assignment',
     content: {
       points: 1,
-      submissionTypes: ['Text Entry'],
+      submissionType: ['Text Entry'],
       dueDate: new Date(),
       assignment: null,
-      submissionMedia: '',
+      submissionMedia: 'offline',
+      availability: {
+        from: new Date(),
+        to: null,
+      },
     },
   };
   return (
@@ -51,12 +59,31 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
         />
         <IfElse condition={formikProps?.values.content.submissionMedia === 'online'}>
           <MultipleSwitchField
-            name="content.submissionTypes"
+            name="content.submissionType"
             choices={['Text Entry', 'Website URL', 'Media Recording', 'File Upload']}
             label="Online Submission Type"
           />
         </IfElse>
-        <DateInput name="content.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
+        <div style={{ maxWidth: '500px' }}>
+          <Header size={3}>Availability</Header>
+          <DateInput name="content.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
+          <Row>
+            <DateInput
+              name="content.availability.from"
+              shortDate
+              label="Available from"
+              minDate={new Date()}
+              showTimeSelect
+            />
+            <DateInput
+              name="content.availability.to"
+              shortDate
+              label="Available until"
+              minDate={new Date()}
+              showTimeSelect
+            />
+          </Row>
+        </div>
       </div>
     </AddModuleItemForm>
   );
