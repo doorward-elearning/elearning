@@ -31,8 +31,8 @@ const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (
             {auth.user?.username}
           </Row>
         </Dropdown.Item>
-        <Dropdown.Item icon="settings" link="" title="Settings" />
-        <Dropdown.Item icon="directions" link="" title="Help" />
+        {/*<Dropdown.Item icon="settings" link="" title="Settings" />*/}
+        {/*<Dropdown.Item icon="directions" link="" title="Help" />*/}
         <Dropdown.Divider />
         <Dropdown.Item icon="opacity" onClick={changeTheme}>
           <Row style={{ justifyContent: 'space-between', padding: 'var(--padding-lg) 0' }}>
@@ -41,7 +41,7 @@ const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (
           </Row>
         </Dropdown.Item>
         <Dropdown.Divider />
-        <Dropdown.Item icon="lock" link="" title="Lock" />
+        {/*<Dropdown.Item icon="lock" link="" title="Lock" />*/}
         <Dropdown.Item icon="exit_to_app" title="Logout" onClick={logout} />
       </Dropdown.Menu>
     </Dropdown>

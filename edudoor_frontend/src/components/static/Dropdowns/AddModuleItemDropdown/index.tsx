@@ -26,8 +26,8 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Dropdown.Item icon={ModuleItemIcons.Assignment} link={routes.addAssignment.withParams(params)}>
           Assignment
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons['Discussion Forum']}>Discussion Forum</Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>
+        {/*<Dropdown.Item icon={ModuleItemIcons['Discussion Forum']}>Discussion Forum</Dropdown.Item>*/}
+        {/*<Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>*/}
       </Dropdown.Menu>
     </Dropdown>
   );

@@ -39,7 +39,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               <Button icon="phone" mini>
                 Live classroom
               </Button>
-              <CourseViewMenu />
+              {/*<CourseViewMenu />*/}
             </React.Fragment>
           );
         }}
