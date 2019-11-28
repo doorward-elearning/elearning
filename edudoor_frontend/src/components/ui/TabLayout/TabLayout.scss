@@ -3,6 +3,15 @@
   grid-template-rows: auto 1fr;
   grid-gap: var(--padding);
 
+  &.stickyHeader {
+    .ed-tabLayout__header {
+      position: sticky;
+      top: -16px;
+      z-index: 10;
+      background: var(--bg-secondary);
+    }
+  }
+
   &__header {
     height: var(--tabLayout-header-height);
     display: grid;

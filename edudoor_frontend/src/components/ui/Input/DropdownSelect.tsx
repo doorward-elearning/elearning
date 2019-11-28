@@ -14,6 +14,19 @@ const generateOptionsList = (options: { [name: string]: string }): Array<Option>
   );
 };
 
+const generateFromString = (options: any) => {
+  return options.map((option: any) => {
+    if (option as string) {
+      return {
+        value: option,
+        label: option,
+      };
+    } else {
+      return option;
+    }
+  });
+};
+
 const getSelectedValue = (options: Array<Option>, multi = false): string | Array<string> => {
   const selected = options.map(option => option.value);
   if (multi) {
@@ -39,7 +52,8 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       },
     });
   };
-  const optionsList = options instanceof Array ? options : generateOptionsList(options);
+
+  const optionsList = options instanceof Array ? generateFromString(options) : generateOptionsList(options);
   return (
     <div className={`${className} eb-input__text--select`}>
       <Icon icon={icon} className="eb-input__text-icon" />
@@ -59,7 +73,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
 
 export type Option = { value: string; label: string; disabled?: boolean };
 
-export type Options = Array<Option> | { [name: string]: string };
+export type Options = Array<Option> | { [name: string]: string } | Array<string>;
 
 export interface DropdownSelectProps extends InputProps, Omit<ISelectProps, 'options' | 'onChange' | 'values'> {
   icon?: Icons;

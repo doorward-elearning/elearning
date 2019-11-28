@@ -10,4 +10,8 @@
   &.noBackground {
     background: none;
   }
+
+  >.ed-header {
+    margin-bottom: var(--padding);
+  }
 }

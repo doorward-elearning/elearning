@@ -58,12 +58,15 @@ export const validateModuleItem = async ({ body, params, ...req }) => {
       moduleId: params.moduleId,
     },
   });
-  req
-    .checkBody('title')
-    .notEmpty()
-    .withMessage('The title is required')
-    .custom(() => !item)
-    .withMessage('There exists a module item with this title');
+
+  if (!body.id) {
+    req
+      .checkBody('title')
+      .notEmpty()
+      .withMessage('The title is required')
+      .custom(() => !item)
+      .withMessage('There exists a module item with this title');
+  }
   req
     .checkBody('content')
     .notEmpty()

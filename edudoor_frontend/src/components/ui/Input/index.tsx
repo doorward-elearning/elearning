@@ -13,10 +13,10 @@ export enum InputFeatures {
 function withInput<R extends InputProps>(
   Input: FunctionComponent<R>,
   features: Array<InputFeatures | string | typeof InputFeatures> = [],
-  defaultProps?: { [k in keyof R]?: string }
+  defaultProps?: { [k in keyof R]?: R[k] }
 ): FunctionComponent<R> {
   return ({ ...passedProps }): JSX.Element => {
-    const props = { ...passedProps, ...defaultProps };
+    const props = { ...defaultProps, ...passedProps };
     const { name } = props;
     return (
       <FormContext.Consumer>
@@ -25,6 +25,7 @@ function withInput<R extends InputProps>(
           inputProps.onChange = formikProps.handleChange || props.onChange;
           inputProps.onBlur = formikProps.handleBlur;
           inputProps.value = _.get(formikProps.values, name);
+          inputProps.id = props.id || (props.idGenerator && props.idGenerator());
 
           let error = '';
           if (formikProps && name && formikProps.touched && _.get(formikProps.touched, name)) {
@@ -35,12 +36,13 @@ function withInput<R extends InputProps>(
             error: !!error,
             [`label-${props.labelPosition || 'none'}`]: true,
             fluid: props.fluid,
+            [props.className || '']: true,
           });
           return (
             <FeatureProvider features={features}>
               <div className={className}>
                 <Feature feature={InputFeatures.LABEL}>
-                  <label htmlFor={props.id}>{props.label || props.placeholder}</label>
+                  <label htmlFor={inputProps.id}>{props.label || props.placeholder}</label>
                 </Feature>
                 <div className="eb-input__input">
                   <Input
@@ -62,6 +64,8 @@ export interface InputProps extends React.DetailedHTMLProps<any, any> {
   labelPosition?: 'left' | 'right' | 'top' | 'none';
   editable?: boolean;
   fluid?: boolean;
+  idGenerator?: () => string;
+  className?: string;
 }
 
 export default withInput;

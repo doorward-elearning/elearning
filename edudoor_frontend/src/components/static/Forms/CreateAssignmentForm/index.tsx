@@ -15,7 +15,7 @@ import Header from '../../../ui/Header';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const { formikProps } = props.form;
-  const initialValues = {
+  const initialValues = props.assignment || {
     title: 'Unnamed Assignment',
     type: 'Assignment',
     content: {
@@ -96,6 +96,7 @@ export interface CreateAssignmentFormProps {
   onCancel: () => void;
   form: UseForm<CreateAssignmentFormState>;
   module: Module;
+  assignment?: Assignment;
 }
 
 export default CreateAssignmentForm;

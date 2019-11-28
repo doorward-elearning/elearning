@@ -13,7 +13,7 @@ const FormMessage: React.FunctionComponent<FormMessageProps> = props => {
   }, [props.state]);
 
   useEffect(() => {
-    if (!props.formikProps.isValid) {
+    if (!props.formikProps.isValid && (error || success)) {
       setError('');
       setSuccess('');
     }

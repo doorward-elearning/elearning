@@ -29,12 +29,6 @@ const DateInput: FunctionComponent<DateInputProps> = (props): JSX.Element => {
   }
   return (
     <div className="ed-datePicker eb-input__text">
-      <Icon
-        icon="calendar_today"
-        className={classNames({
-          'eb-input__text-icon': true,
-        })}
-      />
       <DatePicker
         dateFormat={dateFormat}
         showDisabledMonthNavigation
@@ -42,6 +36,12 @@ const DateInput: FunctionComponent<DateInputProps> = (props): JSX.Element => {
         {...props}
         onChange={setDate}
         selected={date}
+      />
+      <Icon
+        icon="calendar_today"
+        className={classNames({
+          'eb-input__text-icon': true,
+        })}
       />
     </div>
   );

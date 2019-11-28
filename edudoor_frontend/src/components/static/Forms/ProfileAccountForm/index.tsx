@@ -25,7 +25,7 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
   useFormSubmit(state, props.stopEditing);
 
   const stopEditing = () => {
-    props.form.formikProps.resetForm();
+    props.form.formikProps?.resetForm();
     props.stopEditing();
   };
 

@@ -2,6 +2,10 @@ import React, { FunctionComponent, ReactElement, useEffect, useState, useRef } f
 import './TabLayout.scss';
 import ItemArray from '../ItemArray';
 import classNames from 'classnames';
+import { TabProps } from './Tab';
+import IfElse from '../IfElse';
+import Badge from '../Badge';
+import Row from '../Row';
 
 const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected }): JSX.Element => {
   return (
@@ -14,7 +18,12 @@ const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelec
           })}
           onClick={() => setSelected(index)}
         >
-          {tab}
+          <Row>
+            {tab.title}
+            <IfElse condition={tab.badge}>
+              <Badge>{tab.badge}</Badge>
+            </IfElse>
+          </Row>
         </div>
       )}
     </ItemArray>
@@ -40,16 +49,16 @@ const TabContent: FunctionComponent<TabContentProps> = ({ children, selected }):
 };
 
 const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
-  const [tabs, setTabs] = useState<Array<string>>([]);
+  const [tabs, setTabs] = useState<Array<TabProps>>([]);
   const slider = useRef(null);
   const tabLayout = useRef(null);
   const [selected, setSelected] = useState(props.selected || 0);
   const children = (props.children instanceof Array ? props.children : [props.children]) as Array<ReactElement>;
 
   useEffect(() => {
-    const newTabs: Array<string> = [];
+    const newTabs: Array<TabProps> = [];
     children.map((child, index) => {
-      newTabs[index] = child.props.title;
+      newTabs[index] = child.props;
     });
     setTabs(newTabs);
   }, [props.children]);
@@ -71,7 +80,13 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
   }, [selected, props.children]);
 
   return (
-    <div className="ed-tabLayout" ref={tabLayout}>
+    <div
+      className={classNames({
+        'ed-tabLayout': true,
+        stickyHeader: props.stickyHeader,
+      })}
+      ref={tabLayout}
+    >
       <div className="ed-tabLayout__header">
         <TabHeader tabs={tabs} setSelected={setSelected} selected={selected} />
         <span ref={slider} className="ed-tabLayout__slider" />
@@ -86,10 +101,11 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
 export interface TabLayoutProps {
   children: Array<ReactElement> | ReactElement;
   selected?: number;
+  stickyHeader?: boolean;
 }
 
 export interface TabHeaderProps {
-  tabs: Array<string>;
+  tabs: Array<TabProps>;
   setSelected: (tab: number) => void;
   selected: number;
 }

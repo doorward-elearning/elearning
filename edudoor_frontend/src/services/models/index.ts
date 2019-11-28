@@ -77,7 +77,10 @@ export interface Quiz extends ModuleItem {
     instructions: string;
     options: {
       shuffleAnswers: boolean;
-      timeLimit: number;
+      timeLimit: {
+        allow: boolean;
+        minutes: number;
+      };
       attempts: {
         multiple: boolean;
         keepScore: 'Highest' | 'Latest' | 'Average';
@@ -88,13 +91,17 @@ export interface Quiz extends ModuleItem {
         lockAfterAnswering: boolean;
       };
       restrictions: {
-        accessCode: boolean;
+        accessCode: {
+          require: boolean;
+          code: string;
+        };
       };
       responses: {
         show: boolean;
         frequency: {
           onlyOnce: boolean;
           range: {
+            allow: boolean;
             from: string | Date | null;
             to: string | Date | null;
           };
@@ -106,7 +113,19 @@ export interface Quiz extends ModuleItem {
         to: string | Date | null;
       };
     };
+    questions: Array<Question>;
   };
+}
+
+export interface Question extends Model {
+  question: any;
+  answers: Array<Answer>;
+}
+
+export interface Answer extends Model {
+  answer: string;
+  description: any;
+  correct: boolean;
 }
 
 export interface Course extends Model {

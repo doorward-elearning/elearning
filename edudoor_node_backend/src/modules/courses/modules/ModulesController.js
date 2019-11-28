@@ -57,7 +57,21 @@ class ModulesController {
 
   static async createModuleItem(req) {
     const { body, params, user } = req;
-    const moduleItem = await models.ModuleItem.create({
+    let moduleItem;
+    if (body.id) {
+      moduleItem = await models.ModuleItem.update(
+        {
+          ...body,
+        },
+        {
+          where: {
+            id: body.id,
+          },
+        }
+      );
+      return [200, { item: moduleItem }, 'Item has been updated.'];
+    }
+    moduleItem = await models.ModuleItem.create({
       ...body,
       moduleId: params.moduleId,
       createdBy: user.id,

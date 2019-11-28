@@ -10,15 +10,7 @@ const withBreadCrumbs = (): {
 
   const pathNames = tree ? routes[tree].tree : [];
   const breadcrumbs = (pathNames as Array<keyof typeof routes.routes>).map((item): BreadCrumb => routes[item]);
-  const titles = breadcrumbs
-    .filter(crumb => crumb.name !== routes.dashboard.name)
-    .reduce((acc, crumb, index) => {
-      let result = acc;
-      if (index > 0) {
-        result += ' | ';
-      }
-      return result + crumb.name;
-    }, '');
+  const titles = breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 1].name : '';
   return {
     breadcrumbs,
     titles,

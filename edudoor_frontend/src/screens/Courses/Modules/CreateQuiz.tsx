@@ -8,10 +8,7 @@ import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '../../../components/ui/WebComponent';
-import QuizDetailsForm from '../../../components/static/Forms/QuizForms/QuizDetailsForm';
-import TabLayout from '../../../components/ui/TabLayout';
-import Tab from '../../../components/ui/TabLayout/Tab';
-import Header from '../../../components/ui/Header';
+import CreateQuizForm from '../../../components/static/Forms/QuizForms/CreateQuizForm';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.viewModule);
@@ -34,16 +31,9 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
 
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Quiz" noNavBar>
-      <TabLayout>
-        <Tab title="Details">
-          <WebComponent data={module} loading={state.fetching} errors={state.errors}>
-            {module => <QuizDetailsForm onSuccess={finish} onCancel={finish} module={module} />}
-          </WebComponent>
-        </Tab>
-        <Tab title="Questions">
-          <Header size={3}>Questions</Header>
-        </Tab>
-      </TabLayout>
+      <WebComponent data={module} loading={state.fetching} errors={state.errors}>
+        {module => <CreateQuizForm onSuccess={finish} onCancel={finish} module={module} />}
+      </WebComponent>
     </Layout>
   );
 };

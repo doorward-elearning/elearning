@@ -1,31 +1,21 @@
-import { useState } from 'react';
-import { FormikErrors } from 'formik';
-
-export type UseFormProps<Values> = {
-  isValidating: boolean;
-  isSubmitting: boolean;
-  submitCount: number;
-  dirty: boolean;
-  isValid: boolean;
-  validateForm(values?: any): Promise<FormikErrors<Values>>;
-  validateField(field: string): void;
-  resetForm(nextValues?: Values): void;
-  submitForm(): void;
-  values: Values;
-};
+import { useRef, useState } from 'react';
+import { FormikErrors, FormikProps } from 'formik';
 
 export interface UseForm<T> {
-  setFormikProps: (formikProps: UseFormProps<T>) => void;
-  formikProps: UseFormProps<T>;
+  setFormikProps: (formikProps: FormikProps<T>) => void;
+  formikProps?: FormikProps<T>;
 }
 
 function useForm<T = any>(): UseForm<T> {
-  const [formikProps, setFormikProps] = useState<UseFormProps<T>>();
+  const [formikProps, setFormikProps] = useState();
 
   // @formikProps will never be null
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  return { setFormikProps, formikProps };
+  return {
+    setFormikProps,
+    formikProps,
+  };
 }
 
 export default useForm;

@@ -10,7 +10,7 @@ const Tab: FunctionComponent<TabProps> = (props): JSX.Element => {
 
 export interface TabProps {
   title: string;
-  index?: number;
+  badge?: string;
 }
 
 export default Tab;

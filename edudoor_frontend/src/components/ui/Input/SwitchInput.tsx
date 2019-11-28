@@ -15,4 +15,4 @@ const SwitchInput: React.FunctionComponent<SwitchInputProps> = props => {
 
 export interface SwitchInputProps extends InputProps {}
 
-export default withInput(SwitchInput, [InputFeatures.LABEL]);
+export default withInput(SwitchInput, [InputFeatures.LABEL], { labelPosition: 'top' });

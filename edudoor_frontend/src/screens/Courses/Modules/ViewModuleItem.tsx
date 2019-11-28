@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ModuleItem } from '../../../services/models';
+import { Module, ModuleItem } from '../../../services/models';
 import useViewCourse from '../../../hooks/useViewCourse';
 import { useRouteMatch } from 'react-router';
 import Layout, { LayoutFeatures } from '../../Layout';
@@ -9,17 +9,23 @@ import useRoutes from '../../../hooks/useRoutes';
 import Tools from '../../../utils/Tools';
 import IfElse from '../../../components/ui/IfElse';
 import DraftHTMLContent from '../../../components/ui/DraftHTMLContent';
+import CreateQuizForm from '../../../components/static/Forms/QuizForms/CreateQuizForm';
+import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignmentForm';
+import useForm from '../../../hooks/useForm';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
-  const [, course] = useViewCourse();
+  const [module, setModule] = useState<Module>();
+  const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const routes = useRoutes();
+  const assignmentForm = useForm();
 
   useEffect(() => {
     if (course.data.course) {
       const currentModule = course.data.course.modules.find(module => module.id === match.params.moduleId);
       if (currentModule) {
+        setModule(currentModule);
         const moduleItem = currentModule.items.find(item => {
           return item.id === match.params.itemId;
         });
@@ -28,6 +34,12 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
       }
     }
   }, [course.data.course]);
+
+  const goBack = () => {
+    routes.navigate(routes.viewCourse, {
+      courseId,
+    });
+  };
 
   return (
     <Layout
@@ -39,9 +51,27 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
       <WebComponent data={item} loading={course.fetching}>
         {(item): JSX.Element => {
           return (
-            <IfElse condition={item.type === 'Page'}>
-              <DraftHTMLContent content={item.content} />
-            </IfElse>
+            <React.Fragment>
+              <IfElse condition={item.type === 'Page'}>
+                <DraftHTMLContent content={item.content} />
+              </IfElse>
+              {module && (
+                <React.Fragment>
+                  <IfElse condition={item.type === 'Quiz'}>
+                    <CreateQuizForm onSuccess={() => {}} onCancel={goBack} module={module} quiz={item} />
+                  </IfElse>
+                  <IfElse condition={item.type === 'Assignment'}>
+                    <CreateAssignmentForm
+                      onSuccess={() => {}}
+                      onCancel={goBack}
+                      form={assignmentForm}
+                      module={module}
+                      assignment={item}
+                    />
+                  </IfElse>
+                </React.Fragment>
+              )}
+            </React.Fragment>
           );
         }}
       </WebComponent>

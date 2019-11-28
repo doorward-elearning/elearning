@@ -18,7 +18,7 @@ function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
 }
 
 export interface ArrayProps<T> {
-  data: Array<T>;
+  data?: Array<T>;
   empty?: JSX.Element;
   children: (item: T, index: number) => JSX.Element;
 }

@@ -23,16 +23,16 @@ const TextField: FunctionComponent<TextFieldProps> = ({
           noIcon: !props.icon,
         })}
       >
+        <IfElse condition={editable}>
+          <input type="text" {...props} value={value} autoComplete="off" />
+          <span>{Tools.str(value)}</span>
+        </IfElse>
         <Icon
           icon={props.icon}
           className={classNames({
             'eb-input__text-icon': true,
           })}
         />
-        <IfElse condition={editable}>
-          <input type="text" {...props} value={value} autoComplete="off" />
-          <span>{Tools.str(value)}</span>
-        </IfElse>
         {children}
       </div>
     </div>

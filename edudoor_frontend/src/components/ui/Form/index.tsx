@@ -1,14 +1,13 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import { Formik, FormikConfig, FormikErrors, FormikProps } from 'formik';
 import Spinner from '../Spinner';
 import './Form.scss';
 import IfElse from '../IfElse';
 import { WebComponentState } from '../../../reducers/reducers';
-import { UseForm, UseFormProps } from '../../../hooks/useForm';
-import objectHash from 'object-hash';
-import Tools from '../../../utils/Tools';
+import { UseForm } from '../../../hooks/useForm';
 import useFormSubmit from '../../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
+import _ from 'lodash';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -23,9 +22,8 @@ function Form<T>({
   form,
   formClassName,
 }: FormProps<T>): JSX.Element {
-  const { setFormikProps } = form;
   const [allProps, setAllProps] = useState<FormikProps<T>>();
-  const [formHash, setFormHash] = useState('');
+  const { formikProps, setFormikProps } = form;
 
   useEffect(() => {
     if (allProps && state && state.errors) {
@@ -49,24 +47,13 @@ function Form<T>({
       onSubmit={onSubmit}
       validationSchema={validationSchema}
       render={(props): ReactNode | JSX.Element => {
-        const properties: (keyof UseFormProps<T>)[] = [
-          'isValidating',
-          'isSubmitting',
-          'submitCount',
-          'dirty',
-          'isValid',
-          'validateForm',
-          'resetForm',
-          'submitForm',
-          'values',
-        ];
-        const newProps = Tools.pick(props, properties);
-        const hash = objectHash(newProps);
-        if (hash !== formHash) {
-          setFormHash(hash);
-          setFormikProps(newProps);
+        if (!allProps) {
           setAllProps(props);
         }
+        if (!formikProps || !_.isEqual(formikProps.values, props.values)) {
+          setFormikProps(props);
+        }
+
         return (
           <div className="ed-form">
             <FormContext.Provider value={{ formikProps: props, editable }}>

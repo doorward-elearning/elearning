@@ -24,6 +24,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
       validationSchema={props.validationSchema}
       state={state}
       form={props.form}
+      showSuccessToast
       showOverlay
       createData={props.createData || (values => [props.item.id, values])}
     >

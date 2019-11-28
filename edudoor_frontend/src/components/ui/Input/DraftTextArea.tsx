@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
-import { ContentState, convertToRaw, EditorState } from 'draft-js';
+import { ContentState, convertToRaw } from 'draft-js';
 import fullEditor from './tools/editorTools';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
@@ -23,7 +23,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   ...props
 }): JSX.Element => {
   const editorRef = React.useRef(null);
-  const [editorState, setEditorState] = React.useState(value);
+  const [editorState, setEditorState] = React.useState();
   useEffect(() => {
     if (editorState) {
       const contentState = editorState.getCurrentContent();
@@ -46,7 +46,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         wrapperClassName="eb-input--draft-text-area__wrapper"
         editorClassName="eb-input--draft-text-area__editor"
         toolbarClassName="eb-input--draft-text-area__toolbar"
-        editorState={editorState || EditorState.createEmpty()}
+        contentState={value}
         onEditorStateChange={setEditorState}
         onBlur={() => formikProps.handleBlur({ target: { value, name } })}
         ref={editorRef}

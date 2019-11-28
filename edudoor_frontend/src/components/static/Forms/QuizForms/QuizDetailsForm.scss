@@ -1,0 +1,34 @@
+.quiz-details-form {
+  .quiz-details {
+    display: grid;
+    grid-gap: var(--padding-lg);
+    grid-template-columns: repeat(auto-fit, minmax(200px, 600px));
+    align-items: start;
+
+    > div {
+      display: grid;
+      grid-gap: var(--padding-lg);
+    }
+  }
+
+  .quiz-questions {
+    display: grid;
+    grid-gap: var(--padding-lg);
+
+    .answers-container {
+      width: 500px;
+    }
+
+    .answer-panel {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      grid-gap: var(--padding);
+      align-items: center;
+      align-content: center;
+    }
+
+    button {
+      justify-self: start;
+    }
+  }
+}
