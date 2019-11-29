@@ -27,6 +27,11 @@
       cursor: pointer;
       transition: 0.2s color;
 
+      .ed-badge {
+        background: var(--text-primary);
+        transition: 0.5s background;
+      }
+
       &:hover:not(.selected) {
         color: var(--accent);
       }
@@ -34,6 +39,11 @@
       &.selected {
         font-weight: 500;
         cursor: default;
+
+        .ed-badge {
+          background: var(--accent);
+          font-weight: normal;
+        }
       }
     }
 
