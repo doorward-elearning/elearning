@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DraftHTMLContent from '../../../ui/DraftHTMLContent';
-import { Question, Quiz } from '../../../../services/models';
-import Row from '../../../ui/Row';
+import { Question } from '../../../../services/models';
 import _ from 'lodash';
 import AnswersView from './AnswersView';
 import { QuizContext } from './index';
+import Panel from '../../../ui/Panel';
+import Header from '../../../ui/Header';
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index }) => {
   const [answers, setAnswers] = useState(question.answers);
@@ -17,13 +18,13 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
   }, [quiz]);
   return (
     <div className="question-view">
-      <Row style={{ gridTemplateColumns: '2em 1fr', alignItems: 'start' }}>
-        <span>{index}</span>
+      <Panel noBackground>
+        <Header size={3}>Question {index}</Header>
         <div>
           <DraftHTMLContent content={question.question} />
           <AnswersView answers={answers} question={question} />
         </div>
-      </Row>
+      </Panel>
     </div>
   );
 };

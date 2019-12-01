@@ -2,10 +2,10 @@ import { Roles, RolesContext } from '../components/static/RolesManager';
 import { useContext } from 'react';
 import { Role } from '../services/models';
 
-const useRoleManager = (roles?: Array<Roles>): boolean => {
+const useRoleManager = (roles?: Array<Roles>, superAdmin = true): boolean => {
   const { userRoles } = useContext(RolesContext);
   if (roles && userRoles && userRoles.length) {
-    const allRoles: Array<Roles> = [Roles.SUPER_ADMINISTRATOR];
+    const allRoles: Array<Roles> = superAdmin ? [Roles.SUPER_ADMINISTRATOR] : [];
     allRoles.push(...roles);
 
     const hasRole = (role: Role): boolean => !!allRoles.find(userRole => [role.name, Roles.ALL].includes(userRole));

@@ -15,10 +15,12 @@ import RoleContainer from '../../../components/static/RolesManager/RoleContainer
 import { Roles } from '../../../components/static/RolesManager';
 import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignmentForm';
 import QuizView from '../../../components/static/UI/QuizView';
+import EditableView from '../../../components/static/EditableView';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
   const [module, setModule] = useState<Module>();
+  const [editing, setEditing] = useState(false);
   const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const routes = useRoutes();
@@ -47,8 +49,20 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   return (
     <Layout
       {...props}
-      features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.BACK_BUTTON]}
+      features={[
+        LayoutFeatures.BREAD_CRUMBS,
+        LayoutFeatures.HEADER,
+        LayoutFeatures.BACK_BUTTON,
+        LayoutFeatures.ACTION_BUTTON,
+      ]}
       noNavBar
+      actionBtnProps={{
+        icon: 'edit',
+        theme: 'secondary',
+        roles: [Roles.TEACHER],
+        onClick: () => setEditing(true),
+        disabled: editing,
+      }}
       header={Tools.str(item?.title)}
     >
       <WebComponent data={item} loading={course.fetching}>
@@ -61,14 +75,20 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
               {module && (
                 <React.Fragment>
                   <IfElse condition={item.type === 'Quiz'}>
-                    <React.Fragment>
-                      <RoleContainer roles={[Roles.TEACHER]}>
-                        <CreateQuizForm onSuccess={() => {}} onCancel={goBack} module={module} quiz={item} />
-                      </RoleContainer>
-                      <RoleContainer roles={[Roles.STUDENT]}>
-                        <QuizView quiz={item} />
-                      </RoleContainer>
-                    </React.Fragment>
+                    <EditableView
+                      viewerView={<QuizView quiz={item} />}
+                      creatorView={
+                        <CreateQuizForm
+                          onSuccess={() => {}}
+                          onCancel={() => setEditing(false)}
+                          module={module}
+                          quiz={item}
+                        />
+                      }
+                      creator={[Roles.TEACHER]}
+                      viewer={[Roles.STUDENT]}
+                      isEditing={editing}
+                    />
                   </IfElse>
                   <IfElse condition={item.type === 'Assignment'}>
                     <RoleContainer roles={[Roles.TEACHER]}>

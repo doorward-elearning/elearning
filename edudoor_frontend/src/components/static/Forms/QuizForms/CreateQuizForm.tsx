@@ -64,6 +64,7 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
         onCancel={props.onCancel}
         type="Quiz"
         form={form}
+
         validationSchema={validation}
         item={props.module}
         initialValues={initialValues}
