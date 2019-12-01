@@ -13,6 +13,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      points: {
+        defaultValue: 0,
+        type: Sequelize.INTEGER,
+      },
       quizId: {
         type: Sequelize.STRING,
         onDelete: 'cascade',

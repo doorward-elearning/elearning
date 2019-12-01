@@ -14,7 +14,6 @@ import Row from '../../../ui/Row';
 import Header from '../../../ui/Header';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
-  const { formikProps } = props.form;
   const initialValues = props.assignment || {
     title: 'Unnamed Assignment',
     type: 'Assignment',
@@ -23,7 +22,7 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
       submissionType: ['Text Entry'],
       dueDate: new Date(),
       assignment: null,
-      submissionMedia: 'offline',
+      submissionMedia: 'Offline',
       availability: {
         from: new Date(),
         to: null,
@@ -40,51 +39,60 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
       validationSchema={validation}
       initialValues={initialValues}
     >
-      <div className="add-course-assignment">
-        <TextField name="title" placeholder="Title of the assignment" label="Title" />
-        <DraftTextArea
-          fluid
-          name="content.assignment"
-          placeholder="Empty space is boring... Add some content for the assignment."
-        />
-        <TextField name="content.points" placeholder="Number of points" type="number" label="Points" max={10} min={1} />
-        <DropdownSelect
-          options={{
-            online: 'Online',
-            offline: 'Offline',
-          }}
-          icon="subject"
-          name="content.submissionMedia"
-          label="Submission Type"
-        />
-        <IfElse condition={formikProps?.values.content.submissionMedia === 'online'}>
-          <MultipleSwitchField
-            name="content.submissionType"
-            choices={['Text Entry', 'Website URL', 'Media Recording', 'File Upload']}
-            label="Online Submission Type"
+      {formikProps => (
+        <div className="add-course-assignment">
+          <TextField name="title" placeholder="Title of the assignment" label="Title" />
+          <DraftTextArea
+            fluid
+            name="content.assignment"
+            placeholder="Empty space is boring... Add some content for the assignment."
           />
-        </IfElse>
-        <div style={{ maxWidth: '500px' }}>
-          <Header size={3}>Availability</Header>
-          <DateInput name="content.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
-          <Row>
-            <DateInput
-              name="content.availability.from"
-              shortDate
-              label="Available from"
-              minDate={new Date()}
-              showTimeSelect
+          <TextField
+            name="content.points"
+            placeholder="Number of points"
+            type="number"
+            label="Points"
+            max={10}
+            min={1}
+          />
+          <DropdownSelect
+            options={{
+              online: 'Online',
+              offline: 'Offline',
+            }}
+            icon="subject"
+            name="content.submissionMedia"
+            label="Submission Type"
+          />
+          <IfElse condition={formikProps?.values.content.submissionMedia === 'online'}>
+            <MultipleSwitchField
+              name="content.submissionType"
+              choices={['Text Entry', 'Website URL', 'Media Recording', 'File Upload']}
+              label="Online Submission Type"
             />
-            <DateInput
-              name="content.availability.to"
-              shortDate
-              label="Available until"
-              minDate={new Date()}
-              showTimeSelect
-            />
-          </Row>
+          </IfElse>
+          <div style={{ maxWidth: '500px' }}>
+            <Header size={3}>Availability</Header>
+            <DateInput name="content.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
+            <Row>
+              <DateInput
+                name="content.availability.from"
+                shortDate
+                label="Available from"
+                minDate={new Date()}
+                showTimeSelect
+              />
+              <DateInput
+                name="content.availability.to"
+                shortDate
+                label="Available until"
+                minDate={new Date()}
+                showTimeSelect
+              />
+            </Row>
+          </div>
         </div>
-      </div>
+      )}
     </AddModuleItemForm>
   );
 };

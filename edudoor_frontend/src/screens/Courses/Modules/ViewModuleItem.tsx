@@ -11,19 +11,19 @@ import IfElse from '../../../components/ui/IfElse';
 import DraftHTMLContent from '../../../components/ui/DraftHTMLContent';
 import CreateQuizForm from '../../../components/static/Forms/QuizForms/CreateQuizForm';
 import useForm from '../../../hooks/useForm';
-import RoleContainer from '../../../components/static/RolesManager/RoleContainer';
 import { Roles } from '../../../components/static/RolesManager';
 import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignmentForm';
 import QuizView from '../../../components/static/UI/QuizView';
 import EditableView from '../../../components/static/EditableView';
+import AssignmentView from '../../../components/static/UI/AssignmentView';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
   const [module, setModule] = useState<Module>();
-  const [editing, setEditing] = useState(false);
   const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const routes = useRoutes();
+  const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
 
   useEffect(() => {
@@ -46,6 +46,12 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
     });
   };
 
+  const params = {
+    courseId,
+    moduleId: module?.id,
+    itemId: item?.id,
+  };
+
   return (
     <Layout
       {...props}
@@ -58,9 +64,10 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
       noNavBar
       actionBtnProps={{
         icon: 'edit',
+        text: item ? `Edit ${item?.type}`: '',
         theme: 'secondary',
         roles: [Roles.TEACHER],
-        onClick: () => setEditing(true),
+        onClick: () => routes.navigate(routes.editModuleItem, params),
         disabled: editing,
       }}
       header={Tools.str(item?.title)}
@@ -80,7 +87,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                       creatorView={
                         <CreateQuizForm
                           onSuccess={() => {}}
-                          onCancel={() => setEditing(false)}
+                          onCancel={() => routes.navigate(routes.viewModuleItem, params)}
                           module={module}
                           quiz={item}
                         />
@@ -91,15 +98,21 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                     />
                   </IfElse>
                   <IfElse condition={item.type === 'Assignment'}>
-                    <RoleContainer roles={[Roles.TEACHER]}>
-                      <CreateAssignmentForm
-                        onSuccess={() => {}}
-                        onCancel={goBack}
-                        form={assignmentForm}
-                        module={module}
-                        assignment={item}
-                      />
-                    </RoleContainer>
+                    <EditableView
+                      creatorView={
+                        <CreateAssignmentForm
+                          onSuccess={() => {}}
+                          onCancel={goBack}
+                          form={assignmentForm}
+                          module={module}
+                          assignment={item}
+                        />
+                      }
+                      isEditing={editing}
+                      viewerView={<AssignmentView assignment={item} />}
+                      creator={[Roles.TEACHER]}
+                      viewer={[Roles.STUDENT]}
+                    />
                   </IfElse>
                 </React.Fragment>
               )}

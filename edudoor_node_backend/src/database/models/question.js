@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'Question',
     {
       question: DataTypes.JSON,
+      points: DataTypes.INTEGER
     },
     {
       paranoid: true,

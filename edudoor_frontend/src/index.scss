@@ -16,6 +16,12 @@
   font-weight: 500;
 }
 
+@font-face {
+  src: url('assets/fonts/Sailec-Regular-bold.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: bold;
+}
+
 body {
   background: var(--bg-secondary);
   font-family: var(--font-family);

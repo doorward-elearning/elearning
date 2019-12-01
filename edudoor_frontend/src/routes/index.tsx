@@ -57,6 +57,7 @@ export const routes = {
   addAssignment: 'Create Assignment',
   forgotPassword: 'Forgot password',
   resetPassword: 'Reset password',
+  editModuleItem: 'Edit Module Item',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -80,6 +81,7 @@ export const routeConfigurations: Routes = {
               modules: new Route('/modules').with({
                 moduleItems: new Route('/:moduleId/items').with({
                   viewModuleItem: new Route('/:itemId', ViewModuleItem),
+                  editModuleItem: new Route('/:itemId/edit', ViewModuleItem).roles(Roles.TEACHER),
                   addModulePage: new Route('/create/page', AddModulePage),
                   addAssignment: new Route('/create/assignment', CreateAssignment),
                   addQuiz: new Route('/create/quiz', CreateQuiz),

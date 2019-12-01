@@ -120,6 +120,7 @@ export interface Quiz extends ModuleItem {
 
 export interface Question extends Model {
   question: any;
+  points: number;
   answers: Array<Answer>;
 }
 

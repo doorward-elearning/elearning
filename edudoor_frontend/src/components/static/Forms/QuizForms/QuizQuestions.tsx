@@ -12,9 +12,11 @@ import Checkbox from '../../../ui/Input/Checkbox';
 import Row from '../../../ui/Row';
 import TextArea from '../../../ui/Input/TextArea';
 import { FormContext } from '../../../ui/Form';
+import NumberField from '../../../ui/Input/NumberField';
 
 export const defaultQuestion = {
   question: null,
+  points: 1,
   answers: _.times(
     4,
     _.constant({
@@ -80,9 +82,15 @@ const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = props => {
                 <React.Fragment>
                   <ItemArray data={formikProps?.values.content.questions}>
                     {(question: Question, index) => (
-                      <Panel noBackground>
-                        <Row style={{ justifyContent: 'space-between' }}>
+                      <Panel>
+                        <Row style={{ gridTemplateColumns: 'auto 1fr auto', gridColumnGap: 'var(--padding-lg)' }}>
                           <Header size={3}>Question {index + 1}</Header>
+                          <NumberField
+                            name={`content.questions[${index}].points`}
+                            min={1}
+                            labelPosition="right"
+                            label="Points"
+                          />
                           <Icon icon="delete" onClick={() => arrayHelpers.remove(index)} />
                         </Row>
                         <DraftTextArea
@@ -90,6 +98,7 @@ const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = props => {
                           name={`content.questions[${index}].question`}
                           label="Question description"
                         />
+                        <Header size={3}>Answers</Header>
                         <AnswersPanel answers={question.answers} index={index} />
                       </Panel>
                     )}

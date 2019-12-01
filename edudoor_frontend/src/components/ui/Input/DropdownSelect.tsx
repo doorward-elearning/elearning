@@ -16,7 +16,7 @@ const generateOptionsList = (options: { [name: string]: string }): Array<Option>
 
 const generateFromString = (options: any) => {
   return options.map((option: any) => {
-    if (option as Option) {
+    if ((option as Option).label) {
       return option;
     } else {
       return {
@@ -67,7 +67,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       <Icon icon={icon} className="eb-input__text-icon" />
       <div className="eb-input__dropdownSelect">
         <Select
-          values={[]}
+          values={props.multi ? value : [optionsList.find((option: any) => option.value === value)]}
           options={optionsList}
           {...props}
           onChange={onChange}

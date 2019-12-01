@@ -5,7 +5,7 @@ import { RouteDefinition, RouteDefinitions } from '../types';
 import { EdudoorRoutes } from '../routes';
 
 export interface UseRoutes extends AppContextProps, RouteDefinitions {
-  navigate: (route: RouteDefinition, params?: { [name: string]: string }) => void;
+  navigate: (route: RouteDefinition, params?: { [name: string]: string | undefined }) => void;
   currentRoute?: keyof EdudoorRoutes;
   setCurrentTitle: (name: string) => void;
 }
