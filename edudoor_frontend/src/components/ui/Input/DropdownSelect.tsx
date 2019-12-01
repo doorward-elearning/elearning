@@ -16,13 +16,13 @@ const generateOptionsList = (options: { [name: string]: string }): Array<Option>
 
 const generateFromString = (options: any) => {
   return options.map((option: any) => {
-    if (option as string) {
+    if (option as Option) {
+      return option;
+    } else {
       return {
         value: option,
         label: option,
       };
-    } else {
-      return option;
     }
   });
 };
@@ -52,6 +52,14 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       },
     });
   };
+  const onBlur = () => {
+    props.onBlur({
+      target: {
+        name: props.name,
+        value: value,
+      },
+    });
+  };
 
   const optionsList = options instanceof Array ? generateFromString(options) : generateOptionsList(options);
   return (
@@ -63,6 +71,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
           options={optionsList}
           {...props}
           onChange={onChange}
+          onDropdownClose={onBlur}
           color={theme.theme['--bg-primary-dark']}
         />
       </div>

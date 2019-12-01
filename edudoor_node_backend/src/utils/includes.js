@@ -18,6 +18,18 @@ export const ModuleInclude = [
   {
     model: models.ModuleItem,
     as: 'items',
+    include: [
+      {
+        model: models.Question,
+        as: 'questions',
+        include: [
+          {
+            model: models.Answer,
+            as: 'answers',
+          },
+        ],
+      },
+    ],
   },
 ];
 export const CourseInclude = [

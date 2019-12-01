@@ -4,11 +4,11 @@ import { FunctionComponent } from 'react';
 import Tools from '../../../utils/Tools';
 import './styles/Checkbox.scss';
 
-const Checkbox: FunctionComponent<CheckboxProps> = props => {
+const Checkbox: FunctionComponent<CheckboxProps> = ({ formikProps, ...props }) => {
   return (
     <div className="checkbox__container">
-      <input type="checkbox" {...props} checked={!!props.value} />
-      <span className="ed-checkbox__checkbox" />
+      <input type="checkbox" {...props} checked={!!props.value}/>
+      <span className="ed-checkbox__checkbox"/>
     </div>
   );
 };

@@ -56,6 +56,7 @@ export interface ModuleItem extends Model {
   title: string;
   content: any;
   type: ModuleItemTypes;
+  questions: Array<Question>;
 }
 
 export interface Assignment extends ModuleItem {

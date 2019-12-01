@@ -10,8 +10,11 @@ import Tools from '../../../utils/Tools';
 import IfElse from '../../../components/ui/IfElse';
 import DraftHTMLContent from '../../../components/ui/DraftHTMLContent';
 import CreateQuizForm from '../../../components/static/Forms/QuizForms/CreateQuizForm';
-import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignmentForm';
 import useForm from '../../../hooks/useForm';
+import RoleContainer from '../../../components/static/RolesManager/RoleContainer';
+import { Roles } from '../../../components/static/RolesManager';
+import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignmentForm';
+import QuizView from '../../../components/static/UI/QuizView';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
@@ -58,16 +61,25 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
               {module && (
                 <React.Fragment>
                   <IfElse condition={item.type === 'Quiz'}>
-                    <CreateQuizForm onSuccess={() => {}} onCancel={goBack} module={module} quiz={item} />
+                    <React.Fragment>
+                      <RoleContainer roles={[Roles.TEACHER]}>
+                        <CreateQuizForm onSuccess={() => {}} onCancel={goBack} module={module} quiz={item} />
+                      </RoleContainer>
+                      <RoleContainer roles={[Roles.STUDENT]}>
+                        <QuizView quiz={item} />
+                      </RoleContainer>
+                    </React.Fragment>
                   </IfElse>
                   <IfElse condition={item.type === 'Assignment'}>
-                    <CreateAssignmentForm
-                      onSuccess={() => {}}
-                      onCancel={goBack}
-                      form={assignmentForm}
-                      module={module}
-                      assignment={item}
-                    />
+                    <RoleContainer roles={[Roles.TEACHER]}>
+                      <CreateAssignmentForm
+                        onSuccess={() => {}}
+                        onCancel={goBack}
+                        form={assignmentForm}
+                        module={module}
+                        assignment={item}
+                      />
+                    </RoleContainer>
                   </IfElse>
                 </React.Fragment>
               )}

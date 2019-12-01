@@ -6,6 +6,14 @@
   grid-column-gap: var(--padding-lg);
   align-items: center;
 
+
+  &.required {
+    label span {
+      padding-left: var(--padding);
+      font-weight: normal;
+      color: var(--text-error);
+    }
+  }
   label {
     margin-bottom: var(--padding-sm);
     grid-row: 1 / 2;
@@ -22,6 +30,7 @@
     .eb-input__error-message {
       transform: translateY(0);
       opacity: 1;
+      max-height: 1em;
     }
   }
 
@@ -31,10 +40,11 @@
     grid-row: 3 / 4;
     opacity: 0;
     height: 1em;
+    max-height: 0;
     pointer-events: none;
     color: var(--text-error);
     transform: translateY(-100%);
-    transition: 0.5s transform, opacity;
+    transition: 0.5s transform, opacity 0.5s, max-height 0.1s;
   }
 
   &.label-right {

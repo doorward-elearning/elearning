@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Formik, FormikConfig, FormikErrors, FormikProps } from 'formik';
 import Spinner from '../Spinner';
 import './Form.scss';
@@ -7,7 +7,6 @@ import { WebComponentState } from '../../../reducers/reducers';
 import { UseForm } from '../../../hooks/useForm';
 import useFormSubmit from '../../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
-import _ from 'lodash';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -50,13 +49,13 @@ function Form<T>({
         if (!allProps) {
           setAllProps(props);
         }
-        if (!formikProps || !_.isEqual(formikProps.values, props.values)) {
+        if (!formikProps) {
           setFormikProps(props);
         }
 
         return (
           <div className="ed-form">
-            <FormContext.Provider value={{ formikProps: props, editable }}>
+            <FormContext.Provider value={{ formikProps: props, editable, validationSchema }}>
               <FormMessage state={state} formikProps={props} />
               <form className={formClassName} onSubmit={props.handleSubmit}>
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
@@ -74,7 +73,7 @@ function Form<T>({
   );
 }
 
-type FormRenderProps<Values> = (props: FormikProps<Values>) => React.ReactNode;
+export type FormRenderProps<Values> = (props: FormikProps<Values>) => React.ReactNode;
 
 export interface FormProps<Values> extends FormikConfig<Values> {
   children: JSX.Element | React.ReactNode | React.ReactElement | FormRenderProps<Values>;
@@ -88,5 +87,6 @@ export interface FormProps<Values> extends FormikConfig<Values> {
 export interface FormContextProps {
   formikProps?: FormikProps<any>;
   editable?: boolean;
+  validationSchema?: any;
 }
 export default Form;

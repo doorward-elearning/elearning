@@ -7,13 +7,23 @@ import List from '../List';
 import ListItem from '../List/ListItem';
 
 const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = props => {
-  const value = props.value || [];
+  const value = props.value;
+  const values = props.values || props.choices;
   const handleToggle = (name: string, open: boolean): void => {
     let newValue = value;
-    if (open) {
-      newValue.push(name);
+    if (props.singleChoice) {
+      if (open) {
+        newValue = name;
+      } else {
+        newValue = '';
+      }
     } else {
-      newValue = newValue.filter((item: string) => item !== name);
+      newValue = newValue || [];
+      if (open) {
+        newValue.push(name);
+      } else {
+        newValue = newValue.filter((item: string) => item !== name);
+      }
     }
     const event = {
       target: {
@@ -24,17 +34,18 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = p
     props.onChange(event);
     props.onBlur(event);
   };
+
   return (
     <div className="eb-input__switch">
       <List>
         <ItemArray data={props.choices}>
-          {item => (
+          {(item, index) => (
             <ListItem>
               <Row style={{ justifyContent: 'start', gridGap: 'var(--padding-lg)' }}>
                 <Switch
-                  open={!!value.find((i: string) => i === item)}
-                  onToggle={open => handleToggle(item, open)}
-                  id={props.id + item}
+                  open={props.singleChoice ? value === values[index] : !!value.find((i: string) => i === values[index])}
+                  onToggle={open => handleToggle(values[index], open)}
+                  id={props.id + values[index]}
                 />
                 <span>{item}</span>
               </Row>
@@ -48,6 +59,8 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = p
 
 export interface MultipleSwitchFieldProps extends InputProps {
   choices: Array<string>;
+  values?: Array<string>;
+  singleChoice?: boolean;
 }
 
 export default withInput(MultipleSwitchField, [InputFeatures.LABEL], { labelPosition: 'top' });

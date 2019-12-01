@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 const ListItem: React.FunctionComponent<ListItemProps> = props => {
-  return <li className="ed-list__item">{props.children}</li>;
+  return (
+    <li className="ed-list__item" onClick={props.onClick}>
+      {props.children}
+    </li>
+  );
 };
 
-export interface ListItemProps {}
+export interface ListItemProps {
+  onClick?: MouseEventHandler;
+}
 
 export default ListItem;

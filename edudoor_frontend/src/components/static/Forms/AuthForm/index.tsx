@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren, useContext } from 'react';
+import React, { ReactChild, useContext } from 'react';
 import EImage from '../../../ui/Image';
 import './AuthForm.scss';
 import Button from '../../../ui/Buttons/Button';
@@ -26,11 +26,13 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
         </div>
         <div className="login-form">
           <BasicForm features={[]} {...props}>
-            {props.children}
-            <div className="login-form__footer">
-              <Button loading={form.formikProps?.isSubmitting}>{buttonText}</Button>
-              {props.renderFooter && props.renderFooter()}
-            </div>
+            <React.Fragment>
+              {props.children}
+              <div className="login-form__footer">
+                <Button loading={form.formikProps?.isSubmitting}>{buttonText}</Button>
+                {props.renderFooter && props.renderFooter()}
+              </div>
+            </React.Fragment>
           </BasicForm>
         </div>
       </Card.Body>
@@ -40,7 +42,7 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
 export interface AuthFormProps<T, R extends (...args: any[]) => Action> extends Omit<BasicFormProps<T, R>, 'onSubmit'> {
   renderFooter?: () => JSX.Element;
   title: string;
-  children: ReactChild | ReactChildren;
+  children: ReactChild | Array<ReactChild>;
   buttonText: string;
   message?: string;
 }

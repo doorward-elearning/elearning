@@ -55,8 +55,64 @@ class ModulesController {
     });
   }
 
+  static async createAnswers(questionId, answers = [], previousAnswers = []) {
+    answers.map(async answer => {
+      if (answer.id) {
+        await models.Answer.update(
+          {
+            ...answer,
+          },
+          {
+            where: {
+              id: answer.id,
+            },
+          }
+        );
+      } else {
+        models.Answer.create({ ...answer, questionId });
+      }
+    });
+    previousAnswers.forEach(previous => {
+      if (!answers.find(answer => answer.id === previous.id)) {
+        models.Answer.destroy({ where: { id: previous.id }, force: true });
+      }
+    });
+  }
+
+  static async createQuiz(req, moduleItem, questions = []) {
+    questions.map(async question => {
+      if (question.id) {
+        await models.Question.update(
+          {
+            ...question,
+          },
+          {
+            where: {
+              id: question.id,
+            },
+          }
+        );
+        const updatedQuestion = await models.Question.findByPk(question.id, {
+          include: [
+            {
+              model: models.Answer,
+              as: 'answers',
+            },
+          ],
+        });
+        await ModulesController.createAnswers(null, question.answers, updatedQuestion.answers);
+      }
+      const { id } = await models.Question.create({ ...question, quizId: moduleItem.id });
+      await ModulesController.createAnswers(id, question.answers);
+    });
+  }
+
   static async createModuleItem(req) {
     const { body, params, user } = req;
+    const questions = body.content.questions || [];
+    if (body.type === 'Quiz') {
+      delete body.content.questions;
+    }
     let moduleItem;
     if (body.id) {
       moduleItem = await models.ModuleItem.update(
@@ -67,15 +123,19 @@ class ModulesController {
           where: {
             id: body.id,
           },
+          returning: true,
         }
       );
-      return [200, { item: moduleItem }, 'Item has been updated.'];
+      await ModulesController.createQuiz(req, moduleItem[1][0], questions);
+      return [200, { item: moduleItem[1][0] }, 'Item has been updated.'];
     }
     moduleItem = await models.ModuleItem.create({
       ...body,
       moduleId: params.moduleId,
       createdBy: user.id,
     });
+
+    await ModulesController.createQuiz(req, moduleItem, questions);
     return [201, { item: moduleItem }, 'Item has been added to the module'];
   }
 

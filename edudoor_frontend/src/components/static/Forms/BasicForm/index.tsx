@@ -1,5 +1,5 @@
-import React from 'react';
-import Form, { FormProps } from '../../../ui/Form';
+import React, { ReactChild } from 'react';
+import Form, { FormProps, FormRenderProps } from '../../../ui/Form';
 import { Action, WebComponentState } from '../../../../reducers/reducers';
 import useAction from '../../../../hooks/useActions';
 import useFormSubmit from '../../../../hooks/useFormSubmit';
@@ -18,6 +18,7 @@ export enum BasicFormFeatures {
 const BasicForm = <T, A extends (...args: any[]) => Action>(
   props: Omit<BasicFormProps<T, A>, 'onSubmit'>
 ): JSX.Element => {
+  const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
   const submit = useAction(props.submitAction, {
     showSuccessToast,
@@ -43,24 +44,30 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
   return (
     <FeatureProvider features={features}>
       <Form {...props} onSubmit={onSubmit}>
-        {props.children}
-        <Row className="basic-form__submitArea">
-          <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
-            <Button
-              theme="success"
-              type="submit"
-              disabled={state.submitting || !props.form.formikProps?.isValid}
-              loading={state.submitting}
-            >
-              {props.positiveText || 'Save'}
-            </Button>
-          </Feature>
-          <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
-            <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
-              {props.negativeText || 'Cancel'}
-            </Button>
-          </Feature>
-        </Row>
+        {formikProps => {
+          return (
+            <React.Fragment>
+              {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(formikProps) : children}
+              <Row className="basic-form__submitArea">
+                <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
+                  <Button
+                    theme="success"
+                    type="submit"
+                    disabled={formikProps.isSubmitting || !formikProps?.isValid}
+                    loading={state.submitting}
+                  >
+                    {props.positiveText || 'Save'}
+                  </Button>
+                </Feature>
+                <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
+                  <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
+                    {props.negativeText || 'Cancel'}
+                  </Button>
+                </Feature>
+              </Row>
+            </React.Fragment>
+          );
+        }}
       </Form>
     </FeatureProvider>
   );
@@ -79,6 +86,7 @@ export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends
   positiveText?: string;
   negativeText?: string;
   showOverlay?: boolean;
+  children: Array<ReactChild> | ReactChild | FormRenderProps<T>;
 }
 
 export default BasicForm;

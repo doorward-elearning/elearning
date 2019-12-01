@@ -24,7 +24,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
         })}
       >
         <IfElse condition={editable}>
-          <input type="text" {...props} value={value} autoComplete="off" />
+          <input type="text" {...props} value={value == null ? '' : value} autoComplete="off" />
           <span>{Tools.str(value)}</span>
         </IfElse>
         <Icon

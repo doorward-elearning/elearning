@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
+import _ from 'lodash';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
-import { ContentState, convertToRaw } from 'draft-js';
+import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import fullEditor from './tools/editorTools';
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
@@ -25,11 +26,19 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   const editorRef = React.useRef(null);
   const [editorState, setEditorState] = React.useState();
   useEffect(() => {
+    setEditorState(value ? EditorState.createWithContent(convertFromRaw(value)) : EditorState.createEmpty());
+  }, []);
+
+  const updateProps = _.debounce(() => {
+    const contentState = editorState.getCurrentContent();
+    const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
+    const event = { target: { value, name: name } };
+    formikProps && formikProps.handleChange(event);
+  }, 1000);
+
+  useEffect(() => {
     if (editorState) {
-      const contentState = editorState.getCurrentContent();
-      const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
-      const event = { target: { value, name: name } };
-      formikProps && formikProps.handleChange(event);
+      updateProps();
     }
   }, [editorState]);
 
@@ -46,7 +55,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         wrapperClassName="eb-input--draft-text-area__wrapper"
         editorClassName="eb-input--draft-text-area__editor"
         toolbarClassName="eb-input--draft-text-area__toolbar"
-        contentState={value}
+        editorState={editorState}
         onEditorStateChange={setEditorState}
         onBlur={() => formikProps.handleBlur({ target: { value, name } })}
         ref={editorRef}

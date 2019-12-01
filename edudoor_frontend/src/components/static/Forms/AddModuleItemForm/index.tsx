@@ -1,4 +1,4 @@
-import React, { ReactChild, ReactChildren } from 'react';
+import React, { ReactChild } from 'react';
 import { Module, ModuleItemTypes } from '../../../../services/models';
 import BasicForm from '../BasicForm';
 import { createCourseModuleItemAction } from '../../../../reducers/courses/actions';
@@ -6,6 +6,7 @@ import { UseForm } from '../../../../hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../../store';
 import { CourseModuleItemBody } from '../../../../services/models/requestBody';
+import { FormikProps } from 'formik';
 
 function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
@@ -46,7 +47,7 @@ export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   initialValues?: Omit<T, keyof CourseModuleItemBody>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;
-  children: Array<ReactChild> | ReactChild;
+  children: Array<ReactChild> | ReactChild | ((formikProps: FormikProps<T>) => JSX.Element);
 }
 
 export default AddModuleItemForm;

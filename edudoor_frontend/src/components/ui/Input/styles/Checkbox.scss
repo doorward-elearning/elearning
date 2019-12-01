@@ -31,6 +31,14 @@
   input[type='checkbox'] {
     cursor: pointer;
     opacity: 0;
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+  input[type='checkbox']:disabled + .ed-checkbox__checkbox {
+    opacity: 0.3;
+    cursor: default;
   }
 
   input[type='checkbox']:checked + .ed-checkbox__checkbox {

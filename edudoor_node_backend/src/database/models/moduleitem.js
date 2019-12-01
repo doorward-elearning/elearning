@@ -7,7 +7,15 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       title: DataTypes.STRING,
-      content: DataTypes.JSONB,
+      content: {
+        type: DataTypes.JSONB,
+        get() {
+          const current = this.dataValues.content || {};
+          current.questions = this.dataValues.questions;
+          delete this.dataValues.questions;
+          return current;
+        },
+      },
       type: DataTypes.STRING,
     },
     {}
@@ -20,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     ModuleItem.belongsTo(models.User, {
       foreignKey: 'createdBy',
       as: 'author',
+    });
+    ModuleItem.hasMany(models.Question, {
+      foreignKey: 'quizId',
+      as: 'questions',
     });
   };
   return ModuleItem;

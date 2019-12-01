@@ -1,9 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './Switch.scss';
 
 const Switch: React.FunctionComponent<SwitchProps> = props => {
-  const [open, setOpen] = useState(props.open);
+  const [open, setOpen] = useState();
+
+  useEffect(() => {
+    setOpen(props.open);
+  }, [props.open]);
 
   const handleClick = (): void => {
     props.onToggle(!open);

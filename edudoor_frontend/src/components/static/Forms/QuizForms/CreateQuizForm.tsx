@@ -7,6 +7,7 @@ import QuizDetails from './QuizDetails';
 import TabLayout from '../../../ui/TabLayout';
 import Tab from '../../../ui/TabLayout/Tab';
 import QuizQuestions, { defaultQuestion } from './QuizQuestions';
+import validation from './validation';
 
 const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
   const initialValues = props.quiz || {
@@ -54,27 +55,33 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
       questions: [defaultQuestion],
     },
   };
+
   const form = useForm<CreateQuizFormState>();
   return (
-    <AddModuleItemForm
-      onSuccess={props.onSuccess}
-      onCancel={props.onCancel}
-      type="Quiz"
-      form={form}
-      item={props.module}
-      initialValues={initialValues}
-    >
-      <div className="quiz-details-form">
-        <TabLayout stickyHeader>
-          <Tab title="Details">
-            <QuizDetails form={form} />
-          </Tab>
-          <Tab title="Questions" badge={`${form.formikProps?.values.content.questions.length}`}>
-            <QuizQuestions form={form} />
-          </Tab>
-        </TabLayout>
-      </div>
-    </AddModuleItemForm>
+    <div className="create-quiz-form">
+      <AddModuleItemForm
+        onSuccess={props.onSuccess}
+        onCancel={props.onCancel}
+        type="Quiz"
+        form={form}
+        validationSchema={validation}
+        item={props.module}
+        initialValues={initialValues}
+      >
+        {formikProps => (
+          <div className="quiz-details-form">
+            <TabLayout stickyHeader>
+              <Tab title="Details">
+                <QuizDetails />
+              </Tab>
+              <Tab title="Questions" badge={`${formikProps?.values.content.questions.length}`}>
+                <QuizQuestions />
+              </Tab>
+            </TabLayout>
+          </div>
+        )}
+      </AddModuleItemForm>
+    </div>
   );
 };
 
