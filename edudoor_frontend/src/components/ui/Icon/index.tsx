@@ -12,7 +12,7 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   return (
     <React.Fragment>
       {props.icon && (
-        <i className={className} onClick={props.onClick}>
+        <i className={className} onClick={props.onClick} title={props.title}>
           {props.icon}
           <i className="material-icons">{props.icon}</i>
         </i>
@@ -25,6 +25,7 @@ export interface IconProps {
   icon?: Icons;
   className?: string;
   onClick?: MouseEventHandler;
+  title?: string;
 }
 
 export default Icon;

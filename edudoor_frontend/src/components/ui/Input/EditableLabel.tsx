@@ -39,7 +39,7 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
         {React.cloneElement(Component, {
           children: props.value,
         })}
-        <Icon icon="edit" onClick={(): void => setEditing(true)} />
+        <Icon icon="edit" title="Edit" onClick={(): void => setEditing(true)} />
       </div>
     </div>
   );

@@ -21,7 +21,7 @@ function DragAndDropListItem(props: DragAndDropListItemProps): JSX.Element {
             <div {...provided.dragHandleProps}>
               <Icon className="dragIndicator" icon="drag_indicator" />
             </div>
-            <div>{props.children}</div>
+            <div className="draggable-content">{props.children}</div>
           </div>
         );
       }}

@@ -1,5 +1,8 @@
 .course-module-list {
+
   .module-list {
+    display: grid;
+    grid-gap: var(--padding);
     h3 {
       padding: var(--padding-lg) 0;
     }
@@ -11,7 +14,6 @@
 
   .course-module-item {
     &.assignment {
-      padding-left: var(--padding-lg);
     }
   }
 }

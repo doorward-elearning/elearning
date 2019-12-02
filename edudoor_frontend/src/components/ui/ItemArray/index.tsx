@@ -1,4 +1,5 @@
 import React from 'react';
+import objectHash from 'object-hash';
 import IfElse from '../IfElse';
 
 function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
@@ -7,7 +8,7 @@ function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
     <IfElse condition={data}>
       <React.Fragment>
         {data.map((item, index) => (
-          <React.Fragment key={index}>{props.children(item, index)}</React.Fragment>
+          <React.Fragment key={objectHash(item).substr(0, 10)}>{props.children(item, index)}</React.Fragment>
         ))}
       </React.Fragment>
       <IfElse condition={props.empty}>

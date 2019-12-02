@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BasicForm from '../BasicForm';
 import { Action, WebComponentState } from '../../../../reducers/reducers';
 import EditableLabel from '../../../ui/Input/EditableLabel';
 import useForm from '../../../../hooks/useForm';
 import useToggle from '../../../../hooks/useToggle';
+import './EditableLabelForm.scss';
 
 function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: EditableLabelFormProps<T, A>): JSX.Element {
   const [editing, setEditing] = useToggle(false);
@@ -19,6 +20,7 @@ function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: Edita
 
   return (
     <BasicForm
+      formClassName="editable-label-form"
       onSuccess={onSuccess}
       onCancel={onCancel}
       features={[]}
