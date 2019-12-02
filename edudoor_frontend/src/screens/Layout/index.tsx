@@ -176,7 +176,7 @@ export interface ActionButtonProps extends ButtonProps {
 export interface LayoutProps extends PageComponent {
   navFeatures?: Array<NavbarFeatures | string | typeof NavbarFeatures>;
   features?: Array<LayoutFeatures | string | typeof LayoutFeatures>;
-  header?: string;
+  header?: string | JSX.Element;
   actionBtnProps?: ActionButtonProps;
   className?: string;
   noNavBar?: boolean;

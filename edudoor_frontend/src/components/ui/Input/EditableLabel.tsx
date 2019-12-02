@@ -5,11 +5,12 @@ import './styles/EditableLabel.scss';
 import useClickOutside from '../../../hooks/useClickOutside';
 import classNames from 'classnames';
 import Icon from '../Icon';
+import useToggle, { UseToggle } from '../../../hooks/useToggle';
 
 const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
   const Component = props.component || <span />;
   const label = useRef<HTMLDivElement | null>(null);
-  const [editing, setEditing] = useState(false);
+  const [editing, setEditing] = props.toggle || useToggle(false);
 
   useClickOutside(() => {
     setEditing(false);
@@ -46,6 +47,8 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
 
 export interface EditableLabelProps extends TextFieldProps {
   component?: JSX.Element;
+  editing?: boolean;
+  toggle?: [boolean, (value: boolean) => void];
 }
 
 export default withInput(EditableLabel);

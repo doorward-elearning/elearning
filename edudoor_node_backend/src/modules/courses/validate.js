@@ -1,4 +1,5 @@
 import models from '../../database/models';
+import { Op } from 'sequelize';
 
 export const validateCreateCourse = async req => {
   const {
@@ -21,6 +22,37 @@ export const validateCreateCourse = async req => {
 
   req
     .checkBody('title')
+    .custom(() => !course)
+    .withMessage('A course with this title already exists');
+};
+
+export const validateUpdateCourse = async req => {
+  const {
+    user: { organizationId },
+    params: { courseId },
+  } = req;
+  const course = await models.Course.findOne({
+    where: {
+      title: req.body.title,
+      id: {
+        [Op.ne]: courseId,
+      },
+    },
+    include: [
+      {
+        model: models.User,
+        as: 'author',
+        where: {
+          organizationId,
+        },
+      },
+    ],
+  });
+
+  req
+    .checkBody('title')
+    .notEmpty()
+    .withMessage('The course title is required.')
     .custom(() => !course)
     .withMessage('A course with this title already exists');
 };

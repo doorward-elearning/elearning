@@ -47,6 +47,8 @@ const Api = {
   },
   courses: {
     create: (course: CreateCourseBody): Promise<CreateCourseResponse> => POST('/courses', course),
+    update: (courseId: string, course: CreateCourseBody): Promise<CreateCourseResponse> =>
+      PUT(`/courses/${courseId}`, course),
     list: (): Promise<CourseListResponse> => GET('/courses'),
     get: (courseId: string): Promise<CreateCourseResponse> => GET(`/courses/${courseId}`),
     modules: {

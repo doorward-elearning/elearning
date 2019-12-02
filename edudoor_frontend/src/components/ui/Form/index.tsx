@@ -19,6 +19,7 @@ function Form<T>({
   state,
   editable = true,
   form,
+  hideFormMessage,
   formClassName,
 }: FormProps<T>): JSX.Element {
   const [allProps, setAllProps] = useState<FormikProps<T>>();
@@ -56,7 +57,9 @@ function Form<T>({
         return (
           <div className="ed-form">
             <FormContext.Provider value={{ formikProps: props, editable, validationSchema }}>
-              <FormMessage state={state} formikProps={props} />
+              <IfElse condition={!hideFormMessage}>
+                <FormMessage state={state} formikProps={props} />
+              </IfElse>
               <form className={formClassName} onSubmit={props.handleSubmit}>
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
               </form>
@@ -82,6 +85,7 @@ export interface FormProps<Values> extends FormikConfig<Values> {
   form: UseForm<Values>;
   formClassName?: string;
   editable?: boolean;
+  hideFormMessage?: boolean;
 }
 
 export interface FormContextProps {

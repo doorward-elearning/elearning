@@ -15,16 +15,18 @@ const generateOptionsList = (options: { [name: string]: string }): Array<Option>
 };
 
 const generateFromString = (options: any) => {
-  return options.map((option: any) => {
-    if ((option as Option).label) {
-      return option;
-    } else {
-      return {
-        value: option,
-        label: option,
-      };
-    }
-  });
+  return options
+    .filter((option: any) => option)
+    .map((option: any) => {
+      if ((option as Option).label) {
+        return option;
+      } else {
+        return {
+          value: option,
+          label: option,
+        };
+      }
+    });
 };
 
 const getSelectedValue = (options: Array<Option>, multi = false): string | Array<string> => {
@@ -67,7 +69,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       <Icon icon={icon} className="eb-input__text-icon" />
       <div className="eb-input__dropdownSelect">
         <Select
-          values={props.multi ? value : [optionsList.find((option: any) => option.value === value)]}
+          values={props.multi ? value : [optionsList.find((option: any) => option.value === value)].filter(x => x)}
           options={optionsList}
           {...props}
           onChange={onChange}

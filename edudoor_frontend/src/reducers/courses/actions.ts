@@ -7,6 +7,7 @@ import {
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
+  UPDATE_COURSE,
   VIEW_COURSE,
 } from './types';
 import { Action } from '../reducers';
@@ -60,4 +61,9 @@ export const fetchStudentsNotRegisteredAction = (courseId: string) => ({
 export const createCourseModuleItemAction = (moduleId: string, item: CourseModuleItemBody): Action => ({
   type: ADD_MODULE_ITEM,
   payload: [moduleId, item],
+});
+
+export const updateCourseAction = (courseId: string, body: CreateCourseBody): Action => ({
+  type: UPDATE_COURSE,
+  payload: [courseId, body],
 });

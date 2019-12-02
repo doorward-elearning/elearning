@@ -48,23 +48,25 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
           return (
             <React.Fragment>
               {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(formikProps) : children}
-              <Row className="basic-form__submitArea">
-                <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
-                  <Button
-                    theme="success"
-                    type="submit"
-                    disabled={formikProps.isSubmitting || !formikProps?.isValid}
-                    loading={state.submitting}
-                  >
-                    {props.positiveText || 'Save'}
-                  </Button>
-                </Feature>
-                <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
-                  <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
-                    {props.negativeText || 'Cancel'}
-                  </Button>
-                </Feature>
-              </Row>
+              <Feature feature={[BasicFormFeatures.SAVE_BUTTON, BasicFormFeatures.CANCEL_BUTTON]}>
+                <Row className="basic-form__submitArea">
+                  <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
+                    <Button
+                      theme="success"
+                      type="submit"
+                      disabled={formikProps.isSubmitting || !formikProps?.isValid}
+                      loading={state.submitting}
+                    >
+                      {props.positiveText || 'Save'}
+                    </Button>
+                  </Feature>
+                  <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
+                    <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
+                      {props.negativeText || 'Cancel'}
+                    </Button>
+                  </Feature>
+                </Row>
+              </Feature>
             </React.Fragment>
           );
         }}

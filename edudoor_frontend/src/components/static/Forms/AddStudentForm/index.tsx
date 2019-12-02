@@ -14,7 +14,7 @@ import { WebComponentState } from '../../../../reducers/reducers';
 import { StudentResponse } from '../../../../services/models/responseBody';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
-  const countries = getNames().map(name => ({ value: name, label: name }));
+  const countries = getNames();
   const initialValues = {
     firstName: '',
     lastName: '',
