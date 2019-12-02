@@ -9,6 +9,7 @@ import {
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
   UPDATE_COURSE,
+  UPDATE_COURSE_MODULE,
   VIEW_COURSE,
 } from './types';
 import reducerBuilder, { modifyReducer, reducerApiAction } from '../builder';
@@ -72,6 +73,11 @@ const updateCourse = reducerApiAction({
   api: Api.courses.update,
 });
 
+const updateModule = reducerApiAction({
+  action: UPDATE_COURSE_MODULE,
+  api: Api.courses.modules.update,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -84,5 +90,6 @@ export default reducerBuilder({
     addModuleItem,
     viewModule,
     updateCourse,
+    updateModule,
   },
 });

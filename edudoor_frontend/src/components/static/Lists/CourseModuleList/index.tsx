@@ -18,6 +18,13 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import Tools from '../../../../utils/Tools';
 import IfElse from '../../../ui/IfElse';
+import EditableLabelForm from '../../Forms/EditableLabelForm';
+import { updateCourseModuleAction } from '../../../../reducers/courses/actions';
+import { State } from '../../../../store';
+import { useSelector } from 'react-redux';
+import DragAndDropList from '../../../ui/DragAndDropList';
+import DragAndDropListItem from '../../../ui/DragAndDropList/DragAndDropListItem';
+import ItemArray from '../../../ui/ItemArray';
 
 const ModuleItemsList: React.FunctionComponent<{
   module: Module;
@@ -59,30 +66,44 @@ const ModuleItemsList: React.FunctionComponent<{
 };
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
+  const updateModule = useSelector((state: State) => state.courses.updateModule);
   return (
     <div className="course-module-list">
       <Card flat>
         <Card.Body>
           <WebComponent data={course.modules} loading={false}>
-            {(modules): JSX.Element => (
-              <div className="module-list">
-                {modules.map((module, index) => {
-                  return (
-                    <Accordion
-                      title={(): JSX.Element => <Header size={3}>{module.title}</Header>}
-                      action={(): JSX.Element => (
-                        <RoleContainer roles={[Roles.TEACHER]}>
-                          <AddModuleItemDropdown module={module} />
-                        </RoleContainer>
+            {(rawModules): JSX.Element => (
+              <DragAndDropList items={rawModules} itemKey="id">
+                {modules => (
+                  <div className="module-list">
+                    <ItemArray data={modules}>
+                      {(module, index) => (
+                        <DragAndDropListItem draggableId={module.id} index={index}>
+                          <Accordion
+                            title={(): JSX.Element => (
+                              <EditableLabelForm
+                                submitAction={updateCourseModuleAction}
+                                state={updateModule}
+                                createData={values => [module.id, values]}
+                                name="title"
+                                value={module.title}
+                              />
+                            )}
+                            action={(): JSX.Element => (
+                              <RoleContainer roles={[Roles.TEACHER]}>
+                                <AddModuleItemDropdown module={module} />
+                              </RoleContainer>
+                            )}
+                            open
+                          >
+                            <ModuleItemsList module={module} />
+                          </Accordion>
+                        </DragAndDropListItem>
                       )}
-                      key={index}
-                      open
-                    >
-                      <ModuleItemsList module={module} />
-                    </Accordion>
-                  );
-                })}
-              </div>
+                    </ItemArray>
+                  </div>
+                )}
+              </DragAndDropList>
             )}
           </WebComponent>
         </Card.Body>

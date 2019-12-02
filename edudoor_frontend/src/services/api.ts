@@ -56,6 +56,8 @@ const Api = {
       get: (moduleId: string): Promise<CourseModuleResponse> => GET(`/courses/modules/${moduleId}`),
       create: (courseId: string, module: CourseModuleBody): Promise<CourseModuleResponse> =>
         POST(`/courses/${courseId}/modules`, module),
+      update: (moduleId: string, module: CourseModuleBody): Promise<CourseModuleResponse> =>
+        PUT(`/courses/modules/${moduleId}`, module),
       items: {
         create: (moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> =>
           POST(`/courses/modules/${moduleId}/items/`, item),

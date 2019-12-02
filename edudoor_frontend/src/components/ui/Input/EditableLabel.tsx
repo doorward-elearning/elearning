@@ -35,11 +35,11 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
       <div>
         <PlainTextField {...props} />
       </div>
-      <div className="ed-editable-label__label" onClick={(): void => setEditing(true)}>
+      <div className="ed-editable-label__label">
         {React.cloneElement(Component, {
           children: props.value,
         })}
-        <Icon icon="edit" />
+        <Icon icon="edit" onClick={(): void => setEditing(true)} />
       </div>
     </div>
   );

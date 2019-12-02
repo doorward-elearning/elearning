@@ -50,6 +50,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         renderHeaderEnd={(): JSX.Element => {
           return (
             <React.Fragment>
+              <RoleContainer roles={[Roles.TEACHER]}>
+                <Button onClick={addModuleModal.openModal} bordered>
+                  Add Module
+                </Button>
+              </RoleContainer>
               <Button icon="phone" mini>
                 Live classroom
               </Button>
@@ -74,11 +79,6 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
-                    <RoleContainer roles={[Roles.TEACHER]}>
-                      <Button onClick={addModuleModal.openModal} bordered>
-                        Add Module
-                      </Button>
-                    </RoleContainer>
                     <CourseModuleList course={course} />
                   </div>
                 </div>
