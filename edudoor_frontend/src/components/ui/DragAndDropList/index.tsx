@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './DragAndDropList.scss';
 import objectHash from 'object-hash';
-import { DragDropContext, Droppable, DropResult } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, DroppableStateSnapshot, DropResult } from 'react-beautiful-dnd';
 
 function DragAndDropList<T>(props: DragAndDropListProps<T>): JSX.Element {
   const [items, setItems] = useState<Array<T>>(props.items);
+
   useEffect(() => {
     setItems(items);
   }, [props.items]);
@@ -28,9 +29,9 @@ function DragAndDropList<T>(props: DragAndDropListProps<T>): JSX.Element {
     <div className="drag-and-drop-list">
       <DragDropContext onDragEnd={onDragEnd}>
         <Droppable type={props.droppableType} droppableId={props.droppableId || objectHash(props.items).substr(0, 10)}>
-          {provided => (
+          {(provided, state) => (
             <div ref={provided.innerRef} {...provided.droppableProps}>
-              {props.children(items)}
+              {props.children(items, state)}
               {provided.placeholder}
             </div>
           )}
@@ -42,7 +43,7 @@ function DragAndDropList<T>(props: DragAndDropListProps<T>): JSX.Element {
 
 export interface DragAndDropListProps<T> {
   items: Array<T>;
-  children: (items: Array<T>) => JSX.Element;
+  children: (items: Array<T>, droppableState: DroppableStateSnapshot) => JSX.Element;
   itemKey: keyof T;
   droppableId?: string;
   handleDrop?: (dragResult: DropResult, items: Array<T>) => Array<T>;

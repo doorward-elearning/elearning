@@ -26,8 +26,9 @@ import { WebComponentState } from '../../../../reducers/reducers';
 import DragAndDropListItem from '../../../ui/DragAndDropList/DragAndDropListItem';
 import List from '../../../ui/List';
 import ListItem from '../../../ui/List/ListItem';
-import { Droppable, DropResult } from 'react-beautiful-dnd';
+import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '../../../ui/Empty';
+import useModuleDrop from './useModuleDrop';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -88,7 +89,7 @@ const ModuleItemsList: React.FunctionComponent<{
   );
 };
 
-const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ index, module, updateModule }) => {
+const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule }) => {
   return (
     <Panel>
       <Accordion
@@ -117,46 +118,18 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ index, module, u
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useSelector((state: State) => state.courses.updateModule);
-
-  const handleDrop = (dropResult: DropResult, items: Array<Module>) => {
-    if (dropResult.type === 'MODULES') {
-      return Tools.handleReorder(items, 'id', dropResult);
-    } else {
-      const newItems = [...items];
-      console.log(newItems);
-      if (dropResult.destination) {
-        const sourceModule = newItems.findIndex(m => m.id === dropResult.source.droppableId);
-        const destinationModule = newItems.findIndex(m => m.id === dropResult.destination?.droppableId);
-
-        const moduleItem = newItems[sourceModule].items.find(item => item.id === dropResult.draggableId);
-
-        if (sourceModule === destinationModule) {
-          const module = newItems[sourceModule];
-          module.items = Tools.handleReorder(module.items, 'id', dropResult);
-          newItems[sourceModule] = module;
-        } else {
-          newItems[sourceModule].items = newItems[sourceModule].items.filter(
-            item => item.id !== dropResult.draggableId
-          );
-          if (moduleItem) {
-            newItems[destinationModule].items.splice(dropResult.destination.index, 0, moduleItem);
-          }
-        }
-      }
-      return newItems;
-    }
-  };
+  const [handleDrop] = useModuleDrop();
   return (
     <div className="course-module-list">
       <WebComponent data={course.modules} loading={false}>
         {(rawModules): JSX.Element => (
           <DragAndDropList droppableType="MODULES" items={rawModules} itemKey="id" handleDrop={handleDrop}>
-            {modules => (
+            {(modules, state) => (
               <div className="module-list">
                 <ItemArray data={modules}>
                   {(module, index) => (
                     <DragAndDropListItem draggableId={module.id} index={index}>
-                      <ModuleView index={index} module={module} updateModule={updateModule} />
+                      <ModuleView index={index} module={module} updateModule={updateModule} droppableState={state} />
                     </DragAndDropListItem>
                   )}
                 </ItemArray>
@@ -177,6 +150,7 @@ export interface ModuleViewProps {
   index: number;
   module: Module;
   updateModule: WebComponentState<any>;
+  droppableState: DroppableStateSnapshot;
 }
 
 export interface ModuleItemViewProps {

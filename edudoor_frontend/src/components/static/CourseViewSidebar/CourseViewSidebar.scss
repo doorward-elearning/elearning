@@ -2,6 +2,8 @@
   display: grid;
   grid-auto-flow: row;
   grid-gap: var(--padding-lg);
+  position: sticky;
+  top: var(--padding);
 
   .live-classroom__button {
   }

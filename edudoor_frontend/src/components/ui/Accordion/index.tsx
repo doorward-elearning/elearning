@@ -27,7 +27,7 @@ const Accordion: React.FunctionComponent<AccordionProps> = props => {
           noIcon: props.noIcon,
         })}
       >
-        <Icon className="ed-accordion__title__arrow" icon="keyboard_arrow_right" />
+        <Icon className="ed-accordion__title__arrow" icon="keyboard_arrow_right" onClick={accordion.toggle} />
         <Row style={{ justifyContent: 'space-between', zIndex: 'auto' }}>
           <div className="clickable" onClick={accordion.toggle}>
             {props.title()}

@@ -23,7 +23,7 @@ const useHeightTransition = (
         if (open) {
           current.style.display = 'block';
           current.style.opacity = '1';
-          current.style.maxHeight = (current.scrollHeight + 100) + 'px';
+          current.style.maxHeight = current.scrollHeight + 100 + 'px';
         } else {
           setTimeout(() => {
             current.style.display = 'none';
@@ -55,9 +55,9 @@ const useHeightTransition = (
 
   useEffect(modifyHeight, deps);
 
-  // useEffect(() => {
-  //   setTimeout(modifyHeight, 10);
-  // }, [element]);
+  useEffect(() => {
+    setTimeout(modifyHeight, 10);
+  }, [element]);
 };
 
 export default useHeightTransition;

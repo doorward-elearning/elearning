@@ -20,6 +20,7 @@ import EditableLabelForm from '../../components/static/Forms/EditableLabelForm';
 import { updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
+import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -58,7 +59,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               <Button icon="phone" mini>
                 Live classroom
               </Button>
-              {/*<CourseViewMenu />*/}
+              <CourseViewMenu />
             </React.Fragment>
           );
         }}
@@ -79,6 +80,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
+                    <span className="meta">{course.modules.length} Modules</span>
                     <CourseModuleList course={course} />
                   </div>
                 </div>

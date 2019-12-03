@@ -7,7 +7,8 @@ import Icon from '../Icon';
 function DragAndDropListItem(props: DragAndDropListItemProps): JSX.Element {
   return (
     <Draggable draggableId={props.draggableId} index={props.index}>
-      {(provided, { isDragging, draggingOver }) => {
+      {(provided, dragProps) => {
+        const { isDragging, draggingOver } = dragProps;
         return (
           <div
             className={classNames({
@@ -19,6 +20,7 @@ function DragAndDropListItem(props: DragAndDropListItemProps): JSX.Element {
             {...provided.draggableProps}
             data-react-beautiful-dnd-draggable="0"
             data-react-beautiful-dnd-drag-handle="0"
+            {...provided.dragHandleProps}
           >
             <div {...provided.dragHandleProps}>
               <Icon className="dragIndicator" icon="drag_indicator" />
