@@ -50,7 +50,7 @@ function Form<T>({
         if (!allProps) {
           setAllProps(props);
         }
-        if (!formikProps) {
+        if (!formikProps || formikProps.isValid !== props.isValid) {
           setFormikProps(props);
         }
 
