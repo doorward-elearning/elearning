@@ -46,7 +46,7 @@ export const validateUpdateModule = async req => {
   req
     .checkBody('title')
     .notEmpty()
-    .withMessage('Course title is required')
+    .withMessage('Module title is required')
     .custom(() => !module)
     .withMessage('There already exists another module with that title.');
 };
