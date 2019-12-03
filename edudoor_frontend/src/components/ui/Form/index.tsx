@@ -1,6 +1,6 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import { Formik, FormikConfig, FormikErrors, FormikProps } from 'formik';
-import Spinner from '../Spinner';
+import Spinner, { SpinnerProps } from '../Spinner';
 import './Form.scss';
 import IfElse from '../IfElse';
 import { WebComponentState } from '../../../reducers/reducers';
@@ -21,6 +21,7 @@ function Form<T>({
   form,
   hideFormMessage,
   formClassName,
+  spinnerProps = {},
 }: FormProps<T>): JSX.Element {
   const [allProps, setAllProps] = useState<FormikProps<T>>();
   const { formikProps, setFormikProps } = form;
@@ -66,7 +67,7 @@ function Form<T>({
             </FormContext.Provider>
             <IfElse condition={showOverlay && props.isSubmitting}>
               <div className="ed-form__spinner">
-                <Spinner />
+                <Spinner {...spinnerProps} />
               </div>
             </IfElse>
           </div>
@@ -86,6 +87,7 @@ export interface FormProps<Values> extends FormikConfig<Values> {
   formClassName?: string;
   editable?: boolean;
   hideFormMessage?: boolean;
+  spinnerProps?: SpinnerProps;
 }
 
 export interface FormContextProps {

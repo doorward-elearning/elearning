@@ -19,21 +19,26 @@ function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: Edita
   };
 
   return (
-    <BasicForm
-      formClassName="editable-label-form"
-      onSuccess={onSuccess}
-      onCancel={onCancel}
-      features={[]}
-      showSuccessToast={false}
-      showErrorToast={false}
-      showOverlay
-      hideFormMessage
-      form={form}
-      initialValues={initialValues}
-      {...props}
-    >
-      <EditableLabel toggle={[editing, setEditing]} name={props.name} component={props.component} fluid />
-    </BasicForm>
+    <div className="editable-label-form">
+      <BasicForm
+        onSuccess={onSuccess}
+        onCancel={onCancel}
+        features={[]}
+        showSuccessToast={false}
+        showErrorToast={false}
+        showOverlay
+        hideFormMessage
+        form={form}
+        initialValues={initialValues}
+        spinnerProps={{
+          width: 20,
+          height: 20,
+        }}
+        {...props}
+      >
+        <EditableLabel toggle={[editing, setEditing]} name={props.name} component={props.component} fluid />
+      </BasicForm>
+    </div>
   );
 }
 

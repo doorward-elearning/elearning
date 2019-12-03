@@ -17,6 +17,8 @@ function DragAndDropListItem(props: DragAndDropListItemProps): JSX.Element {
             })}
             ref={provided.innerRef}
             {...provided.draggableProps}
+            data-react-beautiful-dnd-draggable="0"
+            data-react-beautiful-dnd-drag-handle="0"
           >
             <div {...provided.dragHandleProps}>
               <Icon className="dragIndicator" icon="drag_indicator" />

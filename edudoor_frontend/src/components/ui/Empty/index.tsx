@@ -14,6 +14,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
   size = 'large',
   actionMessage,
   onAction,
+  children,
 }) => {
   return (
     <Panel
@@ -24,6 +25,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
     >
       <Icon icon={icon} className="ed-content-empty__icon" />
       <span className="ed-content-empty__message">{message}</span>
+      {children}
       <IfElse condition={!!actionMessage}>
         <a className="clickable" onClick={onAction}>
           {actionMessage}

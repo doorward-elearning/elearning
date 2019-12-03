@@ -1,6 +1,7 @@
 import { Enum } from '../types';
 import moment from 'moment';
 import colors from './colors';
+import { DropResult } from 'react-beautiful-dnd';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -121,6 +122,16 @@ class Tools {
 
   static longDateTime(str: string): string {
     return moment(str).format('dddd, MMMM Do YYYY at hh:mm a');
+  }
+
+  static handleReorder<T>(items: Array<T>, key: keyof T, dropResult: DropResult): Array<T> {
+    const { destination, source, draggableId } = dropResult;
+    let newItems = items;
+    if (destination) {
+      newItems = newItems.filter((item: T) => item[key] !== (draggableId as any));
+      newItems.splice(destination.index, 0, items[source.index]);
+    }
+    return newItems;
   }
 }
 

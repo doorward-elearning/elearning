@@ -26,6 +26,8 @@ import { WebComponentState } from '../../../../reducers/reducers';
 import DragAndDropListItem from '../../../ui/DragAndDropList/DragAndDropListItem';
 import List from '../../../ui/List';
 import ListItem from '../../../ui/List/ListItem';
+import { Droppable, DropResult } from 'react-beautiful-dnd';
+import Empty from '../../../ui/Empty';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -62,19 +64,27 @@ const ModuleItemsList: React.FunctionComponent<{
   module: Module;
 }> = ({ module }) => {
   return (
-    <WebComponent data={module.items} loading={false} message="This module does not have any items yet." size="medium">
-      {(moduleItems): JSX.Element => (
-        <List>
-          <DragAndDropList items={moduleItems} itemKey="id" droppableId="moduleItems">
-            {data => (
-              <ItemArray data={data}>
-                {(moduleItem, index) => <ModuleItemView module={module} moduleItem={moduleItem} index={index} />}
-              </ItemArray>
-            )}
-          </DragAndDropList>
-        </List>
-      )}
-    </WebComponent>
+    <List>
+      <Droppable droppableId={module.id}>
+        {provided => (
+          <div ref={provided.innerRef}>
+            <IfElse condition={!module.items.length}>
+              <React.Fragment>
+                <Empty message="No Assignments, Pages, Quizzes etc." size="medium">
+                  {provided.placeholder}
+                </Empty>
+              </React.Fragment>
+              <React.Fragment>
+                <ItemArray data={module.items}>
+                  {(moduleItem, index) => <ModuleItemView module={module} moduleItem={moduleItem} index={index} />}
+                </ItemArray>
+                {provided.placeholder}
+              </React.Fragment>
+            </IfElse>
+          </div>
+        )}
+      </Droppable>
+    </List>
   );
 };
 
@@ -107,11 +117,40 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ index, module, u
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useSelector((state: State) => state.courses.updateModule);
+
+  const handleDrop = (dropResult: DropResult, items: Array<Module>) => {
+    if (dropResult.type === 'MODULES') {
+      return Tools.handleReorder(items, 'id', dropResult);
+    } else {
+      const newItems = [...items];
+      console.log(newItems);
+      if (dropResult.destination) {
+        const sourceModule = newItems.findIndex(m => m.id === dropResult.source.droppableId);
+        const destinationModule = newItems.findIndex(m => m.id === dropResult.destination?.droppableId);
+
+        const moduleItem = newItems[sourceModule].items.find(item => item.id === dropResult.draggableId);
+
+        if (sourceModule === destinationModule) {
+          const module = newItems[sourceModule];
+          module.items = Tools.handleReorder(module.items, 'id', dropResult);
+          newItems[sourceModule] = module;
+        } else {
+          newItems[sourceModule].items = newItems[sourceModule].items.filter(
+            item => item.id !== dropResult.draggableId
+          );
+          if (moduleItem) {
+            newItems[destinationModule].items.splice(dropResult.destination.index, 0, moduleItem);
+          }
+        }
+      }
+      return newItems;
+    }
+  };
   return (
     <div className="course-module-list">
       <WebComponent data={course.modules} loading={false}>
         {(rawModules): JSX.Element => (
-          <DragAndDropList items={rawModules} itemKey="id">
+          <DragAndDropList droppableType="MODULES" items={rawModules} itemKey="id" handleDrop={handleDrop}>
             {modules => (
               <div className="module-list">
                 <ItemArray data={modules}>
