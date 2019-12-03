@@ -1,6 +1,5 @@
-import React, { FunctionComponent, ReactElement, useEffect, useState, useRef } from 'react';
+import React, { FunctionComponent, ReactElement, useEffect, useRef, useState } from 'react';
 import './TabLayout.scss';
-import ItemArray from '../ItemArray';
 import classNames from 'classnames';
 import { TabProps } from './Tab';
 import IfElse from '../IfElse';
@@ -9,8 +8,8 @@ import Row from '../Row';
 
 const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected }): JSX.Element => {
   return (
-    <ItemArray data={tabs}>
-      {(tab, index) => (
+    <React.Fragment>
+      {tabs.map((tab, index) => (
         <div
           className={classNames({
             'ed-tabLayout__tabTitle': true,
@@ -25,15 +24,15 @@ const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelec
             </IfElse>
           </Row>
         </div>
-      )}
-    </ItemArray>
+      ))}
+    </React.Fragment>
   );
 };
 
 const TabContent: FunctionComponent<TabContentProps> = ({ children, selected }): JSX.Element => {
   return (
-    <ItemArray data={children}>
-      {(child, index) => (
+    <React.Fragment>
+      {children.map((child, index) => (
         <div
           key={index}
           className={classNames({
@@ -43,8 +42,8 @@ const TabContent: FunctionComponent<TabContentProps> = ({ children, selected }):
         >
           {child}
         </div>
-      )}
-    </ItemArray>
+      ))}
+    </React.Fragment>
   );
 };
 
