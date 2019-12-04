@@ -23,6 +23,7 @@ import { State } from '../../store';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 import Row from '../../components/ui/Row';
 import Icon from '../../components/ui/Icon';
+import LabelRow from '../../components/ui/LabelRow';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -82,15 +83,12 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
-                    <Row style={{ justifyContent: 'start' }}>
+                    <LabelRow>
                       <span className="meta">{course.modules.length} Modules</span>
-                      <b>-</b>
                       <span className="meta">{course.itemCount.assignments} Assignments</span>
-                      <b>-</b>
                       <span className="meta">{course.itemCount.quizzes} Quizzes</span>
-                      <b>-</b>
                       <span className="meta">{course.itemCount.pages} Pages</span>
-                    </Row>
+                    </LabelRow>
                     <CourseModuleList course={course} />
                   </div>
                 </div>

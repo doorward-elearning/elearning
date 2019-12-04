@@ -1,0 +1,15 @@
+.ed-label-row {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: start;
+  grid-gap: var(--padding-sm);
+
+  .label-row__separator {
+    background: var(--text-secondary);
+    height: 3px;
+    border-radius: 100%;
+    width: 3px;
+    margin: 0 var(--padding-sm);
+    align-self: center;
+  }
+}
