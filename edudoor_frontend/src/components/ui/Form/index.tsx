@@ -7,6 +7,7 @@ import { WebComponentState } from '../../../reducers/reducers';
 import { UseForm } from '../../../hooks/useForm';
 import useFormSubmit from '../../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
+import { State } from '../../../store';
 
 export const FormContext = React.createContext<FormContextProps>({});
 

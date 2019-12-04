@@ -2,7 +2,7 @@ import React from 'react';
 import { UseForm } from '../../../../hooks/useForm';
 import DraftTextArea from '../../../ui/Input/DraftTextArea';
 import './AddModulePageForm.scss';
-import { Module } from '../../../../services/models';
+import { Module, ModuleItem } from '../../../../services/models';
 import TextField from '../../../ui/Input/TextField';
 import { CourseModuleItemBody } from '../../../../services/models/requestBody';
 import validation from './validation';
@@ -12,8 +12,13 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
   module,
   onSuccess,
+  page,
   onCancel,
 }: AddModulePageFormProps<T>) {
+  const initialValues: any = page || {
+    title: 'Untitled Page',
+    content: null,
+  };
   return (
     <AddModuleItemForm
       onSuccess={onSuccess}
@@ -21,6 +26,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
       type="Page"
       onCancel={onCancel}
       validationSchema={validation}
+      initialValues={initialValues}
       form={useForm}
     >
       <div className="add-module-page">
@@ -38,6 +44,7 @@ export interface AddModulePageFormProps<T = any> {
   module: Module;
   onSuccess: () => void;
   onCancel: () => void;
+  page?: ModuleItem;
 }
 
 export default AddModulePageForm;

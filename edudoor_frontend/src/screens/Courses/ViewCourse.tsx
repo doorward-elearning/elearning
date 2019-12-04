@@ -21,8 +21,6 @@ import { updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
-import Row from '../../components/ui/Row';
-import Icon from '../../components/ui/Icon';
 import LabelRow from '../../components/ui/LabelRow';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {

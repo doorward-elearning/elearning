@@ -8,12 +8,18 @@ const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = 
 
   if (canCreate) {
     if (props.isViewing || !isEditing) {
-      return props.viewerView;
+      return React.cloneElement(props.viewerView, {
+        key: 'viewer',
+      });
     }
-    return props.creatorView;
+    return React.cloneElement(props.creatorView, {
+      key: 'creator',
+    });
   }
   if (canView || props.isViewing) {
-    return props.viewerView;
+    return React.cloneElement(props.viewerView, {
+      key: 'viewer',
+    });
   }
   return null;
 };

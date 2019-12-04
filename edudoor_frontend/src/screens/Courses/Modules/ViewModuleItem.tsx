@@ -16,6 +16,7 @@ import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignm
 import QuizView from '../../../components/static/UI/QuizView';
 import EditableView from '../../../components/static/EditableView';
 import AssignmentView from '../../../components/static/UI/AssignmentView';
+import AddModulePageForm from '../../../components/static/Forms/AddModulePageForm';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
@@ -25,6 +26,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const routes = useRoutes();
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
+  const pageForm = useForm();
 
   useEffect(() => {
     if (course.data.course) {
@@ -64,7 +66,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
       noNavBar
       actionBtnProps={{
         icon: 'edit',
-        text: item ? `Edit ${item?.type}`: '',
+        text: item ? `Edit ${item?.type}` : '',
         theme: 'secondary',
         roles: [Roles.TEACHER],
         onClick: () => routes.navigate(routes.editModuleItem, params),
@@ -76,11 +78,25 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
         {(item): JSX.Element => {
           return (
             <React.Fragment>
-              <IfElse condition={item.type === 'Page'}>
-                <DraftHTMLContent content={item.content} />
-              </IfElse>
               {module && (
                 <React.Fragment>
+                  <IfElse condition={item.type === 'Page'}>
+                    <EditableView
+                      isEditing={editing}
+                      creatorView={
+                        <AddModulePageForm
+                          useForm={pageForm}
+                          module={module}
+                          page={item}
+                          onSuccess={() => {}}
+                          onCancel={() => routes.navigate(routes.viewModuleItem, params)}
+                        />
+                      }
+                      viewerView={<DraftHTMLContent content={item.content} paginate />}
+                      creator={[Roles.TEACHER]}
+                      viewer={[Roles.STUDENT]}
+                    />
+                  </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>
                     <EditableView
                       viewerView={<QuizView quiz={item} />}

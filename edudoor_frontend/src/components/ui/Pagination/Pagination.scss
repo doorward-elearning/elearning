@@ -1,0 +1,7 @@
+.ed-pagination {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: var(--padding);
+  justify-content: start;
+  padding: var(--padding) 0;
+}

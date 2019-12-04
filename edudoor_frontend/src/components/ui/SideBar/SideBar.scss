@@ -73,6 +73,8 @@
           }
 
           .sub-menu {
+            position: absolute;
+            width: calc(100% - var(--collapsed-sidebar-size));
             display: block;
             height: 100%;
             padding-left: var(--collapsed-sidebar-size);
