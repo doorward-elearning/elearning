@@ -44,6 +44,7 @@ export interface Module extends Model {
   title: string;
   description?: string;
   courseId: string;
+  order: number;
   course: Course;
   items: Array<ModuleItem>;
 }
@@ -55,6 +56,7 @@ export type AssignmentSubmissionType = 'Text Entry' | 'Website URL' | 'Media Rec
 export interface ModuleItem extends Model {
   title: string;
   content: any;
+  order: number;
   type: ModuleItemTypes;
   questions: Array<Question>;
 }

@@ -1,6 +1,8 @@
 import models from '../../database/models';
 import { CourseInclude, MyCoursesInclude } from '../../utils/includes';
 import ModulesController from './modules/ModulesController';
+import ModulesHelper from '../../helpers/ModulesHelper';
+import CourseHelper from '../../helpers/CourseHelper';
 
 class CourseController {
   static async createCourse(req) {
@@ -25,6 +27,17 @@ class CourseController {
     await course.reload();
 
     return [201, { course }, 'Course created successfully'];
+  }
+
+  static async updateCourseModules(req) {
+    const { body, params } = req;
+    const { modules } = body;
+
+    await Promise.all(modules.map(ModulesHelper.updateModule));
+
+    const { modules: updatedModules } = await CourseHelper.getCourse(params.courseId);
+
+    return [200, { modules: updatedModules }, 'Modules have been updated.'];
   }
 
   static async updateCourse(req) {
@@ -58,10 +71,7 @@ class CourseController {
     const {
       params: { courseId },
     } = req;
-    const course = await models.Course.findOne({
-      where: { id: courseId },
-      include: MyCoursesInclude(),
-    });
+    const course = await CourseHelper.getCourse(courseId);
 
     return [200, { course }];
   }

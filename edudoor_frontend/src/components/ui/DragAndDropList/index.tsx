@@ -7,7 +7,7 @@ function DragAndDropList<T>(props: DragAndDropListProps<T>): JSX.Element {
   const [items, setItems] = useState<Array<T>>(props.items);
 
   useEffect(() => {
-    setItems(items);
+    setItems(props.items);
   }, [props.items]);
 
   const onDragEnd = (dragResult: DropResult) => {

@@ -1,13 +1,15 @@
 import { DropResult } from 'react-beautiful-dnd';
 import { Module } from '../../../../services/models';
 import Tools from '../../../../utils/Tools';
+import { ActionCreator } from '../../../../reducers/reducers';
 
 export type HandleDrop = (dropResult: DropResult, items: Array<Module>) => Array<Module>;
 
-function useModuleDrop(): [HandleDrop] {
+function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
   const handleDrop = (dropResult: DropResult, items: Array<Module>) => {
+    let updatedModules = items;
     if (dropResult.type === 'MODULES') {
-      return Tools.handleReorder(items, 'id', dropResult);
+      updatedModules = Tools.handleReorder(items, 'id', dropResult);
     } else {
       const newItems = [...items];
       if (dropResult.destination) {
@@ -29,8 +31,11 @@ function useModuleDrop(): [HandleDrop] {
           }
         }
       }
-      return newItems;
+      updatedModules = newItems;
     }
+    updatedModules = updatedModules.map((module, index) => ({ ...module, order: index }));
+    action(courseId, { modules: updatedModules });
+    return updatedModules;
   };
   return [handleDrop];
 }

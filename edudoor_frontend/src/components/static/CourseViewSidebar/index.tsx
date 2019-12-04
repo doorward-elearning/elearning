@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 import useRoutes from '../../../hooks/useRoutes';
 import RoleContainer from '../RolesManager/RoleContainer';
 import { Roles } from '../RolesManager';
+import ItemArray from '../../ui/ItemArray';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
   const students = useSelector((state: State) => state.courses.studentList);
@@ -52,11 +53,9 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           >
             {(students): JSX.Element => (
               <List>
-                {students
-                  .filter((s, index) => index < MAX_STUDENTS)
-                  .map(student => (
-                    <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>
-                  ))}
+                <ItemArray data={students} max={MAX_STUDENTS}>
+                  {student => <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>}
+                </ItemArray>
                 <ListItem>
                   <Link to={routes.routes.courseStudents.withParams({ courseId: courseId })}>View all</Link>
                 </ListItem>

@@ -1,4 +1,4 @@
-import { ModuleItemTypes } from './index';
+import { Module, ModuleItemTypes } from './index';
 
 export interface LoginBody {
   username: string;
@@ -53,4 +53,8 @@ export interface CreatePasswordBody {
 
 export interface ForgotPasswordBody {
   email: string;
+}
+
+export interface UpdateModulesBody {
+  modules: Array<Module>;
 }

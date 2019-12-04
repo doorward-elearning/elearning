@@ -16,7 +16,7 @@ import _ from 'lodash';
 import Tools from '../../../../utils/Tools';
 import IfElse from '../../../ui/IfElse';
 import EditableLabelForm from '../../Forms/EditableLabelForm';
-import { updateCourseModuleAction } from '../../../../reducers/courses/actions';
+import { reorderCourseModules, updateCourseModuleAction } from '../../../../reducers/courses/actions';
 import { State } from '../../../../store';
 import { useSelector } from 'react-redux';
 import DragAndDropList from '../../../ui/DragAndDropList';
@@ -29,6 +29,7 @@ import ListItem from '../../../ui/List/ListItem';
 import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '../../../ui/Empty';
 import useModuleDrop from './useModuleDrop';
+import useAction from '../../../../hooks/useActions';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -118,7 +119,8 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useSelector((state: State) => state.courses.updateModule);
-  const [handleDrop] = useModuleDrop();
+  const action = useAction(reorderCourseModules);
+  const [handleDrop] = useModuleDrop(course.id, action);
   return (
     <div className="course-module-list">
       <WebComponent data={course.modules} loading={false}>

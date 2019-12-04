@@ -8,6 +8,7 @@ import {
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
+  REORDER_COURSE_MODULES,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -32,6 +33,10 @@ const viewCourse = reducerApiAction({
     if (action.type === `${CREATE_COURSE_MODULE}_SUCCESS`) {
       return modifyReducer('data.course.modules', state, action, modules => {
         return [...modules, action.payload.module];
+      });
+    } else if (action.type === `${REORDER_COURSE_MODULES}_SUCCESS`) {
+      return modifyReducer('data.course.modules', state, action, () => {
+        return [...action.payload.modules];
       });
     }
     return state;
@@ -78,6 +83,11 @@ const updateModule = reducerApiAction({
   api: Api.courses.modules.update,
 });
 
+const courseModules = reducerApiAction({
+  action: REORDER_COURSE_MODULES,
+  api: Api.courses.updateModules,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -91,5 +101,6 @@ export default reducerBuilder({
     viewModule,
     updateCourse,
     updateModule,
+    courseModules,
   },
 });

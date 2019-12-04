@@ -11,6 +11,8 @@ Router.post('', validateCreateCourse, CourseController.createCourse);
 
 Router.put('/:courseId', validateUpdateCourse, CourseController.updateCourse);
 
+Router.put('/:courseId/modules', CourseController.updateCourseModules);
+
 Router.get('', CourseController.getCourses);
 
 Router.get('/:courseId', validateCourseExists(), CourseController.getCourse);

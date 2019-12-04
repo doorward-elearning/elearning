@@ -7,6 +7,7 @@ import {
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
   FETCH_STUDENTS_NOT_REGISTERED,
+  REORDER_COURSE_MODULES,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -17,6 +18,7 @@ import {
   CourseModuleItemBody,
   CreateCourseBody,
   CreateStudentBody,
+  UpdateModulesBody,
 } from '../../services/models/requestBody';
 
 export const fetchCoursesAction = (): Action => ({
@@ -72,4 +74,9 @@ export const updateCourseAction = (courseId: string, body: CreateCourseBody): Ac
 export const updateCourseModuleAction = (moduleId: string, body: CourseModuleBody): Action => ({
   type: UPDATE_COURSE_MODULE,
   payload: [moduleId, body],
+});
+
+export const reorderCourseModules = (courseId: string, body: UpdateModulesBody): Action => ({
+  type: REORDER_COURSE_MODULES,
+  payload: [courseId, body],
 });

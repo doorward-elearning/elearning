@@ -6,6 +6,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         primaryKey: true,
       },
+      order: DataTypes.INTEGER,
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
     },

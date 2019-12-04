@@ -40,6 +40,11 @@ export interface ModuleItemsResponse extends ApiResponse {
 export interface CourseCreatorListResponse extends ApiResponse {
   courseCreators: Array<CourseCreator>;
 }
+
 export interface CourseCreatorResponse extends ApiResponse {
   courseCreator: CourseCreator;
+}
+
+export interface CourseModuleListResponse extends ApiResponse {
+  modules: Array<Module>;
 }

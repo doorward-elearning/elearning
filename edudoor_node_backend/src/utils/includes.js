@@ -42,6 +42,7 @@ export const CourseInclude = [
     as: 'modules',
     required: false,
     include: ModuleInclude,
+    order: [{ model: models.ModuleItem, as: 'items' }, 'order', 'asc'],
   },
   {
     model: models.User,

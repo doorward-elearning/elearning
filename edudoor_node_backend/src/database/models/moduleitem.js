@@ -7,6 +7,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
       },
       title: DataTypes.STRING,
+      order: DataTypes.INTEGER,
       content: {
         type: DataTypes.JSONB,
         get() {
