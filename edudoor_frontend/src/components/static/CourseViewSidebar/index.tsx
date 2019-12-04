@@ -28,7 +28,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
 
   useEffect(() => {
     fetchStudents(courseId);
-  }, [match]);
+  }, []);
 
   const MAX_STUDENTS = 3;
   return (

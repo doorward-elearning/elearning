@@ -73,6 +73,8 @@ class CourseController {
     } = req;
     const course = await CourseHelper.getCourse(courseId);
 
+    course.dataValues.itemCount = CourseHelper.courseItemStats(course);
+
     return [200, { course }];
   }
 }

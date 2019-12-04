@@ -141,4 +141,9 @@ export interface Course extends Model {
   authorId: string;
   author: User;
   modules: Array<Module>;
+  itemCount: {
+    assignments: number;
+    quizzes: number;
+    pages: number;
+  };
 }

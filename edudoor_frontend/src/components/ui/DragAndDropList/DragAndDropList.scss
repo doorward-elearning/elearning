@@ -4,9 +4,9 @@
     display: grid;
     align-items: center;
     grid-template-columns: auto 1fr;
-    grid-gap: var(--padding-sm);
 
     > div > .dragIndicator {
+      display: none;
       opacity: 0;
       transition: 0.5s opacity, 0.5s max-width;
     }

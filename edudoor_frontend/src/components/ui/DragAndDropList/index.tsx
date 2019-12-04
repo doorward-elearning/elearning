@@ -4,7 +4,7 @@ import objectHash from 'object-hash';
 import { DragDropContext, Droppable, DroppableStateSnapshot, DropResult } from 'react-beautiful-dnd';
 
 function DragAndDropList<T>(props: DragAndDropListProps<T>): JSX.Element {
-  const [items, setItems] = useState<Array<T>>(props.items);
+  const [items, setItems] = useState<Array<T>>([]);
 
   useEffect(() => {
     setItems(props.items);

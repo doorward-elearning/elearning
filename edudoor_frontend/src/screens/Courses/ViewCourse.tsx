@@ -21,6 +21,8 @@ import { updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
+import Row from '../../components/ui/Row';
+import Icon from '../../components/ui/Icon';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -80,7 +82,15 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />
                   <div className="view-course__module-list">
-                    <span className="meta">{course.modules.length} Modules</span>
+                    <Row style={{ justifyContent: 'start' }}>
+                      <span className="meta">{course.modules.length} Modules</span>
+                      <b>-</b>
+                      <span className="meta">{course.itemCount.assignments} Assignments</span>
+                      <b>-</b>
+                      <span className="meta">{course.itemCount.quizzes} Quizzes</span>
+                      <b>-</b>
+                      <span className="meta">{course.itemCount.pages} Pages</span>
+                    </Row>
                     <CourseModuleList course={course} />
                   </div>
                 </div>

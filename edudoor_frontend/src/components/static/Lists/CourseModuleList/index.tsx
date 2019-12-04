@@ -77,9 +77,9 @@ const ModuleItemsList: React.FunctionComponent<{
                 </Empty>
               </React.Fragment>
               <React.Fragment>
-                <ItemArray data={module.items}>
-                  {(moduleItem, index) => <ModuleItemView module={module} moduleItem={moduleItem} index={index} />}
-                </ItemArray>
+                {module.items.map((moduleItem, index) => (
+                  <ModuleItemView module={module} moduleItem={moduleItem} index={index} key={moduleItem.id} />
+                ))}
                 {provided.placeholder}
               </React.Fragment>
             </IfElse>
@@ -121,6 +121,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
   const updateModule = useSelector((state: State) => state.courses.updateModule);
   const action = useAction(reorderCourseModules);
   const [handleDrop] = useModuleDrop(course.id, action);
+
   return (
     <div className="course-module-list">
       <WebComponent data={course.modules} loading={false}>
@@ -128,13 +129,11 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
           <DragAndDropList droppableType="MODULES" items={rawModules} itemKey="id" handleDrop={handleDrop}>
             {(modules, state) => (
               <div className="module-list">
-                <ItemArray data={modules}>
-                  {(module, index) => (
-                    <DragAndDropListItem draggableId={module.id} index={index}>
-                      <ModuleView index={index} module={module} updateModule={updateModule} droppableState={state} />
-                    </DragAndDropListItem>
-                  )}
-                </ItemArray>
+                {modules.map((module, index) => (
+                  <DragAndDropListItem draggableId={module.id} index={index} key={module.id}>
+                    <ModuleView index={index} module={module} updateModule={updateModule} droppableState={state} />
+                  </DragAndDropListItem>
+                ))}
               </div>
             )}
           </DragAndDropList>
