@@ -32,9 +32,12 @@ const toast = {
       document.body.appendChild(container);
 
       const startTimer = (): any => {
-        return setTimeout(() => {
-          removeToast(container).then();
-        }, props.timeout || 2000);
+        const timeout = props.timeout || 2000;
+        if(timeout > 0){
+          return setTimeout(() => {
+            removeToast(container).then();
+          }, props.timeout || 2000);
+        }
       };
       let timer: any = startTimer();
 

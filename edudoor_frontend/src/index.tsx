@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
@@ -11,6 +11,7 @@ import { Router } from './routes/routes';
 import useApp, { appInitialValue } from './hooks/useApp';
 import PageProgress from './components/static/UI/PageProgress';
 import RolesManager from './components/static/RolesManager';
+import useOfflineToast from './hooks/useOfflineToast';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
@@ -22,6 +23,7 @@ export const AppContext = React.createContext<AppContextProps>(appInitialValue);
 
 const App: React.FC = () => {
   const app = useApp();
+  useOfflineToast();
   return (
     <AppContext.Provider value={app}>
       <ApplicationTheme theme="base">

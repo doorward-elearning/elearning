@@ -13,6 +13,7 @@
   grid-gap: var(--padding-lg);
   box-shadow: var(--box-shadow--hover);
   transition: 0.5s opacity;
+  border-radius: 3px;
   min-width: 200px;
 
   &.error {

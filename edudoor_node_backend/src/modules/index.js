@@ -2,11 +2,13 @@ import MRouter from '../utils/router';
 import users from './users';
 import courses from './courses';
 import reports from './reports';
+import healthcheck from './healthcheck';
 
 const modules = {
   users,
   courses,
   reports,
+  healthcheck
 };
 
 const apiVersion = '/api/v1';
