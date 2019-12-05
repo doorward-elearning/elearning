@@ -1,13 +1,36 @@
 .ed-draft-reader {
+  &__editorWrapper {
+    * {
+      color: unset !important;
+      background: unset !important;
+    }
+  }
   &__wrapper {
     border: 1px solid var(--line-color);
     padding: var(--padding) var(--padding-lg);
-    background: #fff;
   }
   &__editor {
     overflow: unset;
-    * {
-      color: black;
+  }
+
+  &.stickyPagination {
+    &__bottom {
+      .pagination__bottom {
+        background: var(--bg-secondary);
+        position: sticky;
+        border-top: 1px solid var(--line-color);
+        z-index: 2;
+        bottom: calc(-1 * var(--padding-lg));
+      }
+    }
+    &__top {
+      .pagination__top {
+        background: var(--bg-secondary);
+        position: sticky;
+        border-top: 1px solid var(--line-color);
+        z-index: 2;
+        top: calc(-1 * var(--padding-lg));
+      }
     }
   }
 }

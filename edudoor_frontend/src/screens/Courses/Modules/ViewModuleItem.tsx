@@ -92,7 +92,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                           onCancel={() => routes.navigate(routes.viewModuleItem, params)}
                         />
                       }
-                      viewerView={<DraftHTMLContent content={item.content} paginate />}
+                      viewerView={<DraftHTMLContent stickyPagination="bottom" content={item.content} paginate />}
                       creator={[Roles.TEACHER]}
                       viewer={[Roles.STUDENT]}
                     />

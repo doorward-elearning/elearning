@@ -1,7 +1,17 @@
 .ed-pagination {
   display: grid;
-  grid-auto-flow: column;
-  grid-gap: var(--padding);
-  justify-content: start;
-  padding: var(--padding) 0;
+  grid-template-columns: auto auto auto;
+  justify-content: space-between;
+
+  &__pages {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: start;
+    grid-gap: var(--padding);
+    padding: var(--padding) 0;
+
+    button {
+      min-width: 2em;
+    }
+  }
 }
