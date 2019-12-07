@@ -7,6 +7,9 @@ import useForm from '../../hooks/useForm';
 import './CreatePassword.scss';
 import useRoutes from '../../hooks/useRoutes';
 import PasswordPolicy from '../../components/static/UI/PasswordPolicy';
+import Row from '../../components/ui/Row';
+import EImage from '../../components/ui/Image';
+import createPassword from '../../assets/illustrations/create_new_password.svg';
 
 const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
   const form = useForm();
@@ -23,8 +26,15 @@ const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
     >
-      <PasswordPolicy />
-      <NewPasswordForm form={form} onSuccess={onSuccess} onCancel={onSuccess} />
+      <Row style={{ alignItems: 'start', gridTemplateColumns: '2fr 1fr' }}>
+        <div>
+          <PasswordPolicy />
+          <NewPasswordForm form={form} onSuccess={onSuccess} onCancel={onSuccess} />
+        </div>
+        <div>
+          <EImage src={createPassword} size="responsive" />
+        </div>
+      </Row>
     </Layout>
   );
 };
