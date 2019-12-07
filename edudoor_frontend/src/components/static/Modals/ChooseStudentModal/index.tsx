@@ -10,7 +10,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = pro
     <Modal {...props}>
       <Modal.Header title="Add Student to course" />
       <Modal.Body>
-        <ChooseStudentForm form={form} courseId={props.courseId} />
+        <ChooseStudentForm form={form} courseId={props.courseId} onSuccess={props.onSuccess} />
       </Modal.Body>
       <Modal.Footer buttons={{ positive: 'Save' }} onPositiveClick={formikProps && formikProps.submitForm} />
     </Modal>
@@ -19,6 +19,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = pro
 
 export interface ChooseStudentModalProps extends ModalProps {
   courseId: string;
+  onSuccess: () => void;
 }
 
 export default ChooseStudentModal;

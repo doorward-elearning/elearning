@@ -54,7 +54,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
             {(students): JSX.Element => (
               <List>
                 <ItemArray data={students} max={MAX_STUDENTS}>
-                  {student => <ListItem key={student.id}>{student.firstName + ' ' + student.lastName}</ListItem>}
+                  {student => <ListItem key={student.id}>{student.fullName}</ListItem>}
                 </ItemArray>
                 <ListItem>
                   <Link to={routes.routes.courseStudents.withParams({ courseId: courseId })}>View all</Link>

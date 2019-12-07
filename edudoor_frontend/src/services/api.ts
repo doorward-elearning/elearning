@@ -8,7 +8,7 @@ import {
   CreatePasswordBody,
   CreateStudentBody,
   ForgotPasswordBody,
-  LoginBody,
+  LoginBody, RegisterStudentsBody,
   RegistrationBody,
   UpdateModulesBody,
 } from './models/requestBody';
@@ -26,7 +26,7 @@ import {
   UserResponse,
 } from './models/responseBody';
 import { ApiResponse } from './services';
-import { Module } from './models';
+import { Student } from './models';
 
 /**
  * Use the return keyword in the functions to improve readability
@@ -114,6 +114,9 @@ const Api = {
       notRegistered: (courseId: string): Promise<StudentListResponse> => {
         return GET(`/courses/${courseId}/students/not-registered`);
       },
+      register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
+        return POST(`/courses/${courseId}/students/register`, data);
+      }
     },
   },
   reports: {

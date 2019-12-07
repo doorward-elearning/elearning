@@ -100,6 +100,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
             state={updateModule}
             createData={values => [module.id, values]}
             name="title"
+            roles={[Roles.TEACHER]}
             value={module.title}
             component={<Header size={3} />}
           />

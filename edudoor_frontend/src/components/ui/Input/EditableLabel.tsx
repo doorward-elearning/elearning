@@ -6,6 +6,7 @@ import useClickOutside from '../../../hooks/useClickOutside';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import useToggle, { UseToggle } from '../../../hooks/useToggle';
+import IfElse from '../IfElse';
 
 const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
   const Component = props.component || <span />;
@@ -39,7 +40,9 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
         {React.cloneElement(Component, {
           children: props.value,
         })}
-        <Icon icon="edit" title="Edit" onClick={(): void => setEditing(true)} />
+        <IfElse condition={!props.noEdit}>
+          <Icon icon="edit" title="Edit" onClick={(): void => setEditing(true)} />
+        </IfElse>
       </div>
     </div>
   );
@@ -49,6 +52,7 @@ export interface EditableLabelProps extends TextFieldProps {
   component?: JSX.Element;
   editing?: boolean;
   toggle?: [boolean, (value: boolean) => void];
+  noEdit?: boolean;
 }
 
 export default withInput(EditableLabel);

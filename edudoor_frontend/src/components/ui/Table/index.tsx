@@ -10,7 +10,8 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
   useEffect(() => {
     setData(props.data);
     setFiltered(props.data);
-  }, [data]);
+  }, [props.data]);
+
 
   useEffect(() => {
     if (props.filter) {

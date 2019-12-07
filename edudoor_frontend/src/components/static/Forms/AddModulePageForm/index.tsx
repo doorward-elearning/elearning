@@ -24,6 +24,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
       onSuccess={onSuccess}
       item={module}
       type="Page"
+      key={page?.id}
       onCancel={onCancel}
       validationSchema={validation}
       initialValues={initialValues}

@@ -13,7 +13,11 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = props =
   const [page, setPage] = useState(1);
   const [blocks, setBlocks] = useState<Array<Array<ContentBlock>>>([]);
   useEffect(() => {
-    setBlocks(useDraftPagination(props.content));
+    if(props.paginate){
+      setBlocks(useDraftPagination(props.content));
+    }else {
+      setEditorState(EditorState.createWithContent(convertFromRaw(props.content)));
+    }
   }, [props.content]);
 
   useEffect(() => {

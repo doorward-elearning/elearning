@@ -5,9 +5,12 @@ import EditableLabel from '../../../ui/Input/EditableLabel';
 import useForm from '../../../../hooks/useForm';
 import useToggle from '../../../../hooks/useToggle';
 import './EditableLabelForm.scss';
+import { Roles } from '../../RolesManager';
+import useRoleManager from '../../../../hooks/useRoleManager';
 
 function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: EditableLabelFormProps<T, A>): JSX.Element {
   const [editing, setEditing] = useToggle(false);
+  const canEdit = useRoleManager(props.roles);
   const form = useForm();
   const onSuccess = () => {
     setEditing(false);
@@ -36,7 +39,7 @@ function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: Edita
         }}
         {...props}
       >
-        <EditableLabel toggle={[editing, setEditing]} name={props.name} component={props.component} fluid />
+        <EditableLabel toggle={[editing, setEditing]} noEdit={!canEdit} name={props.name} component={props.component} fluid />
       </BasicForm>
     </div>
   );
@@ -50,6 +53,7 @@ export interface EditableLabelFormProps<T, A extends (...args: any[]) => Action>
   component?: JSX.Element;
   value: string;
   createData?: (values: T) => any;
+  roles?: Array<Roles>;
 }
 
 export default EditableLabelForm;

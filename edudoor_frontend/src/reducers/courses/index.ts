@@ -1,4 +1,5 @@
 import Api from '../../services/api';
+import _ from 'lodash';
 import {
   ADD_MODULE_ITEM,
   CREATE_COURSE,
@@ -7,7 +8,7 @@ import {
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
-  FETCH_STUDENTS_NOT_REGISTERED,
+  FETCH_STUDENTS_NOT_REGISTERED, REGISTER_STUDENTS,
   REORDER_COURSE_MODULES,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
@@ -51,6 +52,14 @@ const createModule = reducerApiAction({
 const studentList = reducerApiAction({
   action: FETCH_COURSE_STUDENTS,
   api: Api.courses.students.get,
+  reducer: (state, action) => {
+    if(action.type === `${REGISTER_STUDENTS}_SUCCESS`) {
+      return modifyReducer('data.students', state, action, (students) => {
+        return _.uniqBy([...students, ...action.payload.students], 'id');
+      });
+    }
+    return state;
+  }
 });
 
 const createStudent = reducerApiAction({
@@ -88,6 +97,11 @@ const courseModules = reducerApiAction({
   api: Api.courses.updateModules,
 });
 
+const registerStudents = reducerApiAction({
+  action: REGISTER_STUDENTS,
+  api: Api.courses.students.register
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -102,5 +116,6 @@ export default reducerBuilder({
     updateCourse,
     updateModule,
     courseModules,
+    registerStudents
   },
 });

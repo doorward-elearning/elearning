@@ -8,7 +8,6 @@ import { PageComponent } from '../../../types';
 import useRoutes from '../../../hooks/useRoutes';
 import Tools from '../../../utils/Tools';
 import IfElse from '../../../components/ui/IfElse';
-import DraftHTMLContent from '../../../components/ui/DraftHTMLContent';
 import CreateQuizForm from '../../../components/static/Forms/QuizForms/CreateQuizForm';
 import useForm from '../../../hooks/useForm';
 import { Roles } from '../../../components/static/RolesManager';
@@ -16,7 +15,7 @@ import CreateAssignmentForm from '../../../components/static/Forms/CreateAssignm
 import QuizView from '../../../components/static/UI/QuizView';
 import EditableView from '../../../components/static/EditableView';
 import AssignmentView from '../../../components/static/UI/AssignmentView';
-import AddModulePageForm from '../../../components/static/Forms/AddModulePageForm';
+import ViewPages from './ViewPages';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
@@ -26,7 +25,6 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const routes = useRoutes();
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
-  const pageForm = useForm();
 
   useEffect(() => {
     if (course.data.course) {
@@ -40,7 +38,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
         routes.setTitle(routes.viewModuleItem.id, currentModule.title);
       }
     }
-  }, [course.data.course]);
+  }, [course.data.course, match.params.itemId]);
 
   const goBack = () => {
     routes.navigate(routes.viewCourse, {
@@ -81,21 +79,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
               {module && (
                 <React.Fragment>
                   <IfElse condition={item.type === 'Page'}>
-                    <EditableView
-                      isEditing={editing}
-                      creatorView={
-                        <AddModulePageForm
-                          useForm={pageForm}
-                          module={module}
-                          page={item}
-                          onSuccess={() => {}}
-                          onCancel={() => routes.navigate(routes.viewModuleItem, params)}
-                        />
-                      }
-                      viewerView={<DraftHTMLContent stickyPagination="bottom" content={item.content} paginate />}
-                      creator={[Roles.TEACHER]}
-                      viewer={[Roles.STUDENT]}
-                    />
+                    <ViewPages module={module} editing={editing} params={params} item={item}/>
                   </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>
                     <EditableView

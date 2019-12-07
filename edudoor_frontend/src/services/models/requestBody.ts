@@ -58,3 +58,7 @@ export interface ForgotPasswordBody {
 export interface UpdateModulesBody {
   modules: Array<Module>;
 }
+
+export interface RegisterStudentsBody {
+  students: Array<string>;
+}

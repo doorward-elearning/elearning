@@ -44,6 +44,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               submitAction={updateCourseAction}
               state={updateCourse}
               name="title"
+              roles={[Roles.TEACHER]}
               createData={values => [courseId, values]}
               value={course.data.course?.title}
             />
@@ -77,6 +78,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                   />
                   <ChooseStudentModal
                     courseId={course.id}
+                    onSuccess={addStudentModal.closeModal}
                     useModal={addStudentModal}
                     features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   />

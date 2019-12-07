@@ -66,6 +66,24 @@ class StudentCourseController {
       return [201, { student }, `${student.username} has been added to the course`];
     }
   }
+
+  static async addStudent(req) {
+    const { params: { courseId }, body: { students } } = req;
+
+    const studentList = await models.User.findAll({
+      where: {
+        id: students
+      }
+    });
+
+    await Promise.all(studentList.map(async (student) => {
+      await models.StudentCourse.create({
+        studentId: student.id,
+        courseId
+      });
+    }));
+    return [200, { students: studentList }, 'Students have been added to the course'];
+  }
 }
 
 export default StudentCourseController;

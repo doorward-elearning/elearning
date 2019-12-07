@@ -36,10 +36,12 @@ const getPages = (numPages: number, maxDisplay = 10, currentPage = 1): Array<Pag
 };
 
 const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState<number>(props.page);
 
   useEffect(() => {
-    props.onChangePage(currentPage);
+    if(currentPage != props.page){
+      props.onChangePage(currentPage);
+    }
   }, [currentPage]);
 
   useEffect(() => {

@@ -12,4 +12,6 @@ Router.post('/', validateCreateUser(), StudentCourseController.createStudent);
 
 Router.get('/not-registered', StudentCourseController.getStudentsNotRegistered);
 
+Router.post('/register', StudentCourseController.addStudent);
+
 export default Router;
