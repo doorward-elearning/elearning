@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import objectHash from 'object-hash';
 import IfElse from '../IfElse';
+import Tools from '../../../utils/Tools';
 
 function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
+  const getKey = props.getKey || ((item: any) => item.id);
   useEffect(() => {
     setData(props.data || []);
     if (props.count) {
@@ -30,7 +32,7 @@ function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
       <React.Fragment>
         {data.map((item, index) => {
           return (
-            <React.Fragment key={objectHash(item).substr(0, 10) + index}>{props.children(item, index)}</React.Fragment>
+            <React.Fragment key={getKey(item)}>{props.children(item, index)}</React.Fragment>
           );
         })}
       </React.Fragment>
@@ -48,6 +50,7 @@ export interface ArrayProps<T> {
   max?: number;
   count?: number;
   sort?: (a: T, b: T) => number;
+  getKey?: (item: T) => string;
 }
 
 export default ItemArray;
