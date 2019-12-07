@@ -55,6 +55,7 @@ services:
       DATABASE_URL: postgres://postgres:postgres@edudoor_node_database/edudoor
       OPENOLAT_API_URL: http://edudoor_openolat_backend:8080/openolat/restapi
       LDAP_URL: ldap://edudoor_ldap_auth:389
+      FRONTEND_URL: http://localhost:3005
     ports:
       - '7000:7000'
     expose:
