@@ -13,6 +13,7 @@ import Row from '../../components/ui/Row';
 import Plural from '../../components/ui/Plural';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '../../components/ui/Image';
+import HorizontalScroll from '../../components/ui/HorizontalScroll';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -24,14 +25,14 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
     >
       {data => (
         <div>
-          <div className="dashboard__course-list">
+          <HorizontalScroll className="dashboard__course-list">
             <ItemArray data={data}>
               {(course: Course) => (
                 <div className="dashboard__course-list__course">
                   <Card onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}>
                     <Card.Header image>
                       <div className="card-image" style={{ background: Tools.color(course.id) }}>
-                        <EImage src={courseImage}/>
+                        <EImage src={courseImage} />
                       </div>
                     </Card.Header>
                     <Card.Body>
@@ -47,7 +48,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       <Row style={{ justifyContent: 'space-between' }}>
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
                         <span className="meta text-primary">
-                          <Plural singular="Member" count={12}/>
+                          <Plural singular="Member" count={12} />
                         </span>
                       </Row>
                     </Card.Body>
@@ -55,7 +56,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                 </div>
               )}
             </ItemArray>
-          </div>
+          </HorizontalScroll>
         </div>
       )}
     </SimpleWebComponent>

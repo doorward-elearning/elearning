@@ -79,11 +79,11 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
               {module && (
                 <React.Fragment>
                   <IfElse condition={item.type === 'Page'}>
-                    <ViewPages module={module} editing={editing} params={params} item={item}/>
+                    <ViewPages module={module} editing={editing} params={params} item={item} />
                   </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>
                     <EditableView
-                      viewerView={<QuizView quiz={item} />}
+                      viewerView={<QuizView quiz={item} onCancel={() => routes.navigate(routes.viewCourse, params)} />}
                       creatorView={
                         <CreateQuizForm
                           onSuccess={() => {}}

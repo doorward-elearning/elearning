@@ -11,7 +11,7 @@ import { Action } from '../../../../reducers/reducers';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
   const { theme } = useContext(ThemeContext);
-  const { form, buttonText } = props;
+  const { buttonText } = props;
 
   return (
     <Card>
@@ -26,13 +26,15 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
         </div>
         <div className="login-form">
           <BasicForm features={[]} {...props}>
-            <React.Fragment>
-              {props.children}
-              <div className="login-form__footer">
-                <Button loading={form.formikProps?.isSubmitting}>{buttonText}</Button>
-                {props.renderFooter && props.renderFooter()}
-              </div>
-            </React.Fragment>
+            {formikProps => (
+              <React.Fragment>
+                {props.children}
+                <div className="login-form__footer">
+                  <Button loading={formikProps.isSubmitting}>{buttonText}</Button>
+                  {props.renderFooter && props.renderFooter()}
+                </div>
+              </React.Fragment>
+            )}
           </BasicForm>
         </div>
       </Card.Body>

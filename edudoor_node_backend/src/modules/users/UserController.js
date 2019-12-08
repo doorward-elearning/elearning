@@ -153,7 +153,7 @@ class UserController {
         userId: user.id,
       });
 
-      Emails.resetPassword(user, resetToken);
+      Emails.resetPassword(user, resetToken, req.headers.origin);
       return [200, undefined, 'A password reset link has been sent to your email.'];
     }
   }

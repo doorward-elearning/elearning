@@ -9,7 +9,7 @@ class StudentController {
     const { user: student, resetToken } = await UserController.createUser(req, roles.STUDENT);
 
     // send mail to student
-    Emails.studentCreated(student, resetToken);
+    Emails.studentCreated(student, resetToken, req.headers.origin);
 
     return [200, { student }, `${student.username} has been added successfully`];
   }

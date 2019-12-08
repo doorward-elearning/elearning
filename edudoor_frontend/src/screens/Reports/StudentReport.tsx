@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageComponent } from '../../types';
 import Layout, { LayoutFeatures } from '../Layout';
 import { fetchStudentReport } from '../../reducers/reports/actions';
@@ -16,22 +16,33 @@ import Badge from '../../components/ui/Badge';
 import CustomChart from '../../components/ui/CustomChart';
 import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '../../hooks/useBreadCrumbTitle';
+import useAction from '../../hooks/useActions';
+import { fetchCoursesAction } from '../../reducers/courses/actions';
 
-const data = [
-  ['Course', 'Marks'],
-  ['Maths', 88],
-  ['Physics', 72],
-  ['English', 64],
-  ['Chemistry', 90],
-  ['Geography', 47],
-  ['Biology', 65],
-  ['Calculus', 80],
-  ['Business Studies', 77],
-];
+const data = [['Course', 'Marks']];
 const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
+  const [grades, setGrades] = useState<Array<[string, number]>>([]);
   const state = useSelector((state: State) => state.reports.singleStudent);
+  const courses = useSelector((state: State) => state.courses.courseList.data?.courses);
+
   usePageResource('studentId', fetchStudentReport);
+  const fetchCourses = useAction(fetchCoursesAction);
   useBreadCrumbTitle(state, state => state.data.student?.fullName);
+
+  useEffect(() => {
+    if (courses) {
+      const newGrades: Array<[string, number]> = [
+        ...Tools.truncate(courses, 10).map((course): [string, number] => [course.title, Tools.randomInt(20, 100)]),
+      ];
+      setGrades(newGrades);
+    }
+  }, [courses]);
+
+  useEffect(() => {
+    if (!courses) {
+      fetchCourses();
+    }
+  }, []);
 
   return (
     <Layout
@@ -45,23 +56,27 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
       )}
     >
       <div className="student-report__page">
-        <Panel>
-          <CustomChart
-            chartType="ColumnChart"
-            data={data}
-            options={{
-              hAxis: {
-                title: 'Courses',
-              },
-              vAxis: {
-                title: 'Grade',
-              },
-              title: 'Course Grades',
-            }}
-            width="100%"
-            height="400px"
-          />
-        </Panel>
+        <WebComponent data={grades} loading={!grades.length}>
+          {() => (
+            <Panel>
+              <CustomChart
+                chartType="ColumnChart"
+                data={[...data, ...grades]}
+                options={{
+                  hAxis: {
+                    title: 'Courses',
+                  },
+                  vAxis: {
+                    title: 'Grade',
+                  },
+                  title: 'Course Grades',
+                }}
+                width="100%"
+                height="400px"
+              />
+            </Panel>
+          )}
+        </WebComponent>
         <Row className="courses-information">
           <Grid columns={1}>
             <Header size={3}>

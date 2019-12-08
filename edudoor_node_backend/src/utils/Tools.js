@@ -1,5 +1,6 @@
 import { Op } from 'sequelize';
 import randomString from 'random-string';
+import { STUDENT } from './roles';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 
@@ -53,6 +54,10 @@ class Tools {
 
       req.searchFields = where;
     };
+  }
+
+  static isStudent(user) {
+    return !!user.roles.find(role => role.name === STUDENT);
   }
 }
 

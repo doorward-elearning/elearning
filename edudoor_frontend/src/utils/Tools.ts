@@ -133,6 +133,10 @@ class Tools {
     }
     return newItems;
   }
+
+  static randomInt(from: number, to: number): number{
+    return Math.floor(from + (Math.random() * (to - from)));
+  }
 }
 
 export default Tools;

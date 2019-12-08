@@ -23,7 +23,13 @@ const QuizView: React.FunctionComponent<QuizViewProps> = props => {
   const state = useSelector((state: State) => state.courses.addModuleItem);
   return (
     <QuizContext.Provider value={{ quiz: props.quiz }}>
-      <BasicForm form={form} initialValues={initialValues} submitAction={() => ({ type: '' })} state={state}>
+      <BasicForm
+        form={form}
+        initialValues={initialValues}
+        submitAction={() => ({ type: '' })}
+        onCancel={props.onCancel}
+        state={state}
+      >
         <div className="ed-quiz">
           <ItemArray data={props.quiz.content.questions}>
             {(question, index) => <QuestionView question={question} index={index + 1} />}
@@ -40,6 +46,7 @@ export interface QuizContextProps {
 
 export interface QuizViewProps {
   quiz: Quiz;
+  onCancel: () => void;
 }
 
 export default QuizView;

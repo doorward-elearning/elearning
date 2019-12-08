@@ -69,3 +69,13 @@ export const MyCoursesInclude = () =>
       },
     },
   ]);
+
+export const StudentCoursesInclude = () => {
+  return [
+    {
+      model: models.Course,
+      as: 'courses',
+      include: CourseInclude,
+    },
+  ];
+};

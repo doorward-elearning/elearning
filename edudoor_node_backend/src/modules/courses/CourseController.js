@@ -1,8 +1,9 @@
 import models from '../../database/models';
-import { CourseInclude, MyCoursesInclude } from '../../utils/includes';
+import { CourseInclude, MyCoursesInclude, StudentCoursesInclude } from '../../utils/includes';
 import ModulesController from './modules/ModulesController';
 import ModulesHelper from '../../helpers/ModulesHelper';
 import CourseHelper from '../../helpers/CourseHelper';
+import Tools from '../../utils/Tools';
 
 class CourseController {
   static async createCourse(req) {
@@ -59,10 +60,20 @@ class CourseController {
     return [200, { course }, 'Course has been updated.'];
   }
 
-  static async getCourses() {
-    const courses = await models.Course.findAll({
-      include: MyCoursesInclude(),
-    });
+  static async getCourses(req) {
+    const { user } = req;
+
+    let courses;
+    if (Tools.isStudent(user)) {
+      // eslint-disable-next-line prefer-destructuring
+      courses = (await models.User.findByPk(user.id, {
+        include: StudentCoursesInclude(),
+      })).courses;
+    } else {
+      courses = await models.Course.findAll({
+        include: MyCoursesInclude(),
+      });
+    }
 
     return [200, { courses }];
   }
