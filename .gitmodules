@@ -1,0 +1,3 @@
+[submodule "openmeetings-docker"]
+	path = openmeetings-docker
+	url = https://github.com/openmeetings/openmeetings-docker
