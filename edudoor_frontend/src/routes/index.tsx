@@ -24,6 +24,7 @@ import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import Register from '../screens/Register';
 import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
+import VideoCallPage from '../screens/VideoCallPage';
 
 export const routes = {
   home: 'Home',
@@ -58,6 +59,7 @@ export const routes = {
   forgotPassword: 'Forgot password',
   resetPassword: 'Reset password',
   editModuleItem: 'Edit Module Item',
+  videoCall: 'Video Call',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -117,4 +119,5 @@ export const routeConfigurations: Routes = {
           forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
         }),
     }),
+  videoCall: new Route('/meeting/:sessionId', VideoCallPage),
 };
