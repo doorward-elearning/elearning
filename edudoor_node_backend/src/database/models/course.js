@@ -28,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
       as: 'students',
       through: models.StudentCourse,
     });
+    Course.hasMany(models.LiveClassroom, {
+      foreignKey: 'courseId',
+      as: 'rooms',
+    });
   };
   return Course;
 };

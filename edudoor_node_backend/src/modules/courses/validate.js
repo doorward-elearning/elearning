@@ -65,3 +65,14 @@ export const validateCourseExists = (key = 'courseId') => async req => {
     return [404, undefined, 'Course does not exist'];
   }
 };
+
+export const validateLiveClassroomExists = (key = 'courseId') => async req => {
+  const courseId = req.params[key];
+  const room = await models.LiveClassroom.findOne({
+    courseId,
+    status: 'STARTED'
+  });
+  if (room) {
+    return [404, undefined, 'Live classroom for this course already exists.'];
+  }
+};

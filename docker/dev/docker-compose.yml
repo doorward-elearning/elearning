@@ -5,8 +5,6 @@ volumes:
     external: true
   edudoor_data:
     external: true
-#  ldap_data:
-#    external: true
 
 services:
   edudoor_frontend:
@@ -65,8 +63,8 @@ services:
     depends_on:
       edudoor_node_database:
         condition: service_healthy
-#      edudoor_ldap_auth:
-#        condition: service_started
+      edudoor_openvidu:
+        condition: service_healthy
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
       interval: 10s
@@ -124,17 +122,15 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
-#  edudoor_ldap_auth:
-#    image: osixia/openldap:stable
-#    container_name: edudoor_ldap_auth
-#    restart: always
-#    ports:
-#      - '389:389'
-#      - '636:636'
-#    environment:
-#      LDAP_ORGANISATION: Edudoor
-#      LDAP_DOMAIN: edudoor.org
-#      LDAP_ADMIN_PASSWORD: password
-#    volumes:
-#      - ldap_data:/var/lib/ldap
-
+  edudoor_openvidu:
+    image: openvidu/openvidu-server-kms
+    container_name: edudoor_openvidu
+    ports:
+      - '4443:4443'
+    environment:
+      openvidu.secret: password
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s localhost:4443"]
+      interval: 5s
+      timeout: 10s
+      retries: 10

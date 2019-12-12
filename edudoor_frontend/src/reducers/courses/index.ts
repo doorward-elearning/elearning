@@ -8,8 +8,10 @@ import {
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
-  FETCH_STUDENTS_NOT_REGISTERED, REGISTER_STUDENTS,
+  FETCH_STUDENTS_NOT_REGISTERED,
+  REGISTER_STUDENTS,
   REORDER_COURSE_MODULES,
+  START_LIVE_CLASSROOM,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -53,13 +55,13 @@ const studentList = reducerApiAction({
   action: FETCH_COURSE_STUDENTS,
   api: Api.courses.students.get,
   reducer: (state, action) => {
-    if(action.type === `${REGISTER_STUDENTS}_SUCCESS`) {
-      return modifyReducer('data.students', state, action, (students) => {
+    if (action.type === `${REGISTER_STUDENTS}_SUCCESS`) {
+      return modifyReducer('data.students', state, action, students => {
         return _.uniqBy([...students, ...action.payload.students], 'id');
       });
     }
     return state;
-  }
+  },
 });
 
 const createStudent = reducerApiAction({
@@ -99,7 +101,12 @@ const courseModules = reducerApiAction({
 
 const registerStudents = reducerApiAction({
   action: REGISTER_STUDENTS,
-  api: Api.courses.students.register
+  api: Api.courses.students.register,
+});
+
+const launchClassroom = reducerApiAction({
+  action: START_LIVE_CLASSROOM,
+  api: Api.courses.startClassroom,
 });
 
 export default reducerBuilder({
@@ -116,6 +123,7 @@ export default reducerBuilder({
     updateCourse,
     updateModule,
     courseModules,
-    registerStudents
+    registerStudents,
+    launchClassroom,
   },
 });

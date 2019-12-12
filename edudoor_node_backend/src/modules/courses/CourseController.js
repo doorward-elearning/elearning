@@ -4,6 +4,7 @@ import ModulesController from './modules/ModulesController';
 import ModulesHelper from '../../helpers/ModulesHelper';
 import CourseHelper from '../../helpers/CourseHelper';
 import Tools from '../../utils/Tools';
+import OpenViduHelper from '../../helpers/OpenViduHelper';
 
 class CourseController {
   static async createCourse(req) {
@@ -87,6 +88,34 @@ class CourseController {
     course.dataValues.itemCount = CourseHelper.courseItemStats(course);
 
     return [200, { course }];
+  }
+
+  static async startLiveClassroom(req) {
+    const { params } = req;
+
+    const course = await models.Course.findByPk(params.courseId);
+
+    const data = { sessionName: course.title };
+
+    let liveClassroom = await models.LiveClassroom.findOne({
+      where: {
+        courseId: course.id,
+        status: 'STARTED',
+      },
+    });
+
+    if (!liveClassroom) {
+      const { id: sessionId } = await OpenViduHelper.createSession();
+
+      liveClassroom = await models.LiveClassroom.create({
+        sessionId,
+        courseId: course.id,
+      });
+    }
+
+    const { token } = await OpenViduHelper.getToken(liveClassroom.sessionId, 'MODERATOR');
+
+    return [200, { sessionId: data.id, sessionName: course.title, token }, 'Live classroom has been started.'];
   }
 }
 

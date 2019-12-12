@@ -8,7 +8,7 @@ const modules = {
   users,
   courses,
   reports,
-  healthcheck
+  healthcheck,
 };
 
 const apiVersion = '/api/v1';

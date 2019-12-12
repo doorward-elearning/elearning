@@ -22,7 +22,9 @@ import { PlainTextField } from '../../components/ui/Input/TextField';
 import Helmet from 'react-helmet';
 import CONSTANTS from '../../assets/constants';
 import useRoutes from '../../hooks/useRoutes';
-import Panel from '../../components/ui/Panel';
+import { useSelector } from 'react-redux';
+import { State } from '../../store';
+import VideoCall from '../../components/ui/VideoCall';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -90,6 +92,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   const title = pageTitle || titles || (currentRoute ? routes[currentRoute].name : '');
 
+  const videoCallState: any = useSelector((state: State) => state.videoCall);
+
   return (
     <FeatureProvider features={features}>
       <Helmet>
@@ -124,40 +128,47 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                     <BreadCrumbs crumbs={breadcrumbs} />
                   </Feature>
                 </div>
-                <div className="ed-page-layout__header">
-                  <div className="ed-page-layout__header--start">
-                    <Feature feature={LayoutFeatures.BACK_BUTTON}>
-                      <Icon
-                        icon="arrow_back"
-                        className="ed-page-layout__header--start__arrow-back"
-                        onClick={(): void => {
-                          history.goBack();
-                        }}
-                      />
-                    </Feature>
-                    <Feature feature={LayoutFeatures.HEADER}>
-                      <Header size={1} className="ed-page-layout__header--title">
-                        <IfElse condition={header === '--'}>
-                          <ContentSpinner width={20} height={20} />
-                          <React.Fragment>{header}</React.Fragment>
-                        </IfElse>
-                      </Header>
-                    </Feature>
-                    <Feature feature={LayoutFeatures.SEARCH_BAR}>
-                      <PlainTextField icon="search" onChange={onSearch} value={search} />
-                    </Feature>
-                  </div>
-                  <div className="ed-page-layout__header--middle" />
-                  <div className="ed-page-layout__header--end">
-                    {renderHeaderEnd && renderHeaderEnd()}
-                    <Feature feature={LayoutFeatures.ACTION_BUTTON}>
-                      <RoleContainer roles={actionBtnProps?.roles}>
-                        <ActionButton {...actionBtnProps} />
-                      </RoleContainer>
-                    </Feature>
-                  </div>
-                </div>
-                {children}
+                <IfElse condition={videoCallState.status === 'RUNNING'}>
+                  <React.Fragment>
+                    <VideoCall {...videoCallState.data} />
+                  </React.Fragment>
+                  <React.Fragment>
+                    <div className="ed-page-layout__header">
+                      <div className="ed-page-layout__header--start">
+                        <Feature feature={LayoutFeatures.BACK_BUTTON}>
+                          <Icon
+                            icon="arrow_back"
+                            className="ed-page-layout__header--start__arrow-back"
+                            onClick={(): void => {
+                              history.goBack();
+                            }}
+                          />
+                        </Feature>
+                        <Feature feature={LayoutFeatures.HEADER}>
+                          <Header size={1} className="ed-page-layout__header--title">
+                            <IfElse condition={header === '--'}>
+                              <ContentSpinner width={20} height={20} />
+                              <React.Fragment>{header}</React.Fragment>
+                            </IfElse>
+                          </Header>
+                        </Feature>
+                        <Feature feature={LayoutFeatures.SEARCH_BAR}>
+                          <PlainTextField icon="search" onChange={onSearch} value={search} />
+                        </Feature>
+                      </div>
+                      <div className="ed-page-layout__header--middle" />
+                      <div className="ed-page-layout__header--end">
+                        {renderHeaderEnd && renderHeaderEnd()}
+                        <Feature feature={LayoutFeatures.ACTION_BUTTON}>
+                          <RoleContainer roles={actionBtnProps?.roles}>
+                            <ActionButton {...actionBtnProps} />
+                          </RoleContainer>
+                        </Feature>
+                      </div>
+                    </div>
+                    {children}
+                  </React.Fragment>
+                </IfElse>
               </React.Fragment>
             </IfElse>
           </Container>

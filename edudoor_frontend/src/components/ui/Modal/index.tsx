@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import Button, { ButtonProps } from '../Buttons/Button';
 import useModalBlur from '../../../hooks/useModalBlur';
 import { UseModal } from '../../../hooks/useModal';
+import IfElse from '../IfElse';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -24,9 +25,10 @@ const ModalContext = React.createContext<ModalContext>({
   isOpen: false,
   openModal: () => {},
   closeModal: () => {},
+  cancellable: true,
 });
 
-const Modal: ModalComponent = ({ features = [], children, useModal }) => {
+const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true }) => {
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     if (useModal.isOpen) {
@@ -40,7 +42,7 @@ const Modal: ModalComponent = ({ features = [], children, useModal }) => {
   const modal = useModalBlur(useModal);
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
-      <ModalContext.Provider value={useModal}>
+      <ModalContext.Provider value={{ ...useModal, cancellable }}>
         <div
           ref={modal}
           className={classNames({
@@ -48,7 +50,7 @@ const Modal: ModalComponent = ({ features = [], children, useModal }) => {
             open: visible,
           })}
         >
-          <div className="ed-modal__background" onClick={() => useModal.closeModal()} />
+          <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
           <div className="ed-modal__content">{children}</div>
         </div>
       </ModalContext.Provider>
@@ -59,15 +61,17 @@ const Modal: ModalComponent = ({ features = [], children, useModal }) => {
 const ModalHeader: React.FunctionComponent<ModalHeaderProps> = props => {
   return (
     <ModalContext.Consumer>
-      {({ closeModal }): JSX.Element => (
+      {({ closeModal, cancellable }): JSX.Element => (
         <div className="ed-modal__content__header">
           <Feature feature={ModalFeatures.TITLE}>
             <Header size={2}>{props.title}</Header>
           </Feature>
           {props.children}
-          <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
-            <Icon icon="close" onClick={closeModal} />
-          </Feature>
+          <IfElse condition={cancellable}>
+            <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
+              <Icon icon="close" onClick={closeModal} />
+            </Feature>
+          </IfElse>
         </div>
       )}
     </ModalContext.Consumer>
@@ -151,6 +155,7 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
 export interface ModalProps {
   features?: Array<ModalFeatures | string | typeof ModalFeatures>;
   useModal: UseModal;
+  cancellable?: boolean;
 }
 export interface ModalHeaderProps {
   title?: string;
@@ -184,6 +189,7 @@ export type ModalContext = {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
+  cancellable: boolean;
 };
 
 Modal.Body = Body;

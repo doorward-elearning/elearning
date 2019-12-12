@@ -17,19 +17,25 @@ import Button from '../../components/ui/Buttons/Button';
 import RoleContainer from '../../components/static/RolesManager/RoleContainer';
 import { Roles } from '../../components/static/RolesManager';
 import EditableLabelForm from '../../components/static/Forms/EditableLabelForm';
-import { updateCourseAction } from '../../reducers/courses/actions';
+import { startLiveClassroom, updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 import LabelRow from '../../components/ui/LabelRow';
+import ProgressModal from '../../components/static/Modals/ProgressModal';
+import useAction from '../../hooks/useActions';
+import { startVideoCall } from '../../reducers/videoCall/actions';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
+  const liveClassroomModal = useModal(false);
 
   const [courseId, course] = useViewCourse();
+  const startClassVideoCall = useAction(startVideoCall);
 
   const updateCourse = useSelector((state: State) => state.courses.updateCourse);
+  const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
   return (
     <IfElse condition={!!course.errors.message}>
       <Redirect to={ROUTES.courseList.link} />
@@ -58,9 +64,20 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                   Add Module
                 </Button>
               </RoleContainer>
-              <Button icon="phone" mini>
+              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                 Live classroom
               </Button>
+              <ProgressModal
+                state={launchClassroom}
+                cancellable={false}
+                args={[courseId]}
+                action={startLiveClassroom}
+                title="Starting classroom"
+                useModal={liveClassroomModal}
+                onSuccess={data => {
+                  startClassVideoCall(data);
+                }}
+              />
               <CourseViewMenu />
             </React.Fragment>
           );

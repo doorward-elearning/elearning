@@ -9,13 +9,15 @@ const Router = new MRouter('/courses', Authorization.authenticate);
 
 Router.post('', validateCreateCourse, CourseController.createCourse);
 
+Router.get('', CourseController.getCourses);
+
 Router.put('/:courseId', validateUpdateCourse, CourseController.updateCourse);
+
+Router.get('/:courseId', validateCourseExists(), CourseController.getCourse);
 
 Router.put('/:courseId/modules', CourseController.updateCourseModules);
 
-Router.get('', CourseController.getCourses);
-
-Router.get('/:courseId', validateCourseExists(), CourseController.getCourse);
+Router.post('/:courseId/live-classroom', validateCourseExists(), CourseController.startLiveClassroom);
 
 Router.use('/', modules);
 

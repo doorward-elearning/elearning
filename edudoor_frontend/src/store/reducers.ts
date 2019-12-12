@@ -3,6 +3,7 @@ import courses from '../reducers/courses';
 import students from '../reducers/students';
 import users from '../reducers/users';
 import reports from '../reducers/reports';
+import videoCall from '../reducers/videoCall';
 
 export default {
   login,
@@ -10,4 +11,5 @@ export default {
   students,
   users,
   reports,
+  videoCall,
 };

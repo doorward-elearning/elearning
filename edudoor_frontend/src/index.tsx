@@ -9,7 +9,6 @@ import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
 import { Router } from './routes/routes';
 import useApp, { appInitialValue } from './hooks/useApp';
-import PageProgress from './components/static/UI/PageProgress';
 import RolesManager from './components/static/RolesManager';
 import useOfflineToast from './hooks/useOfflineToast';
 
@@ -27,11 +26,9 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={app}>
       <ApplicationTheme theme="base">
-        <PageProgress>
-          <RolesManager>
-            <Router />
-          </RolesManager>
-        </PageProgress>
+        <RolesManager>
+          <Router />
+        </RolesManager>
       </ApplicationTheme>
     </AppContext.Provider>
   );

@@ -8,7 +8,8 @@ import {
   CreatePasswordBody,
   CreateStudentBody,
   ForgotPasswordBody,
-  LoginBody, RegisterStudentsBody,
+  LoginBody,
+  RegisterStudentsBody,
   RegistrationBody,
   UpdateModulesBody,
 } from './models/requestBody';
@@ -85,6 +86,9 @@ const Api = {
     get: (courseId: string): Promise<CreateCourseResponse> => {
       return GET(`/courses/${courseId}`);
     },
+    startClassroom: (courseId: string): Promise<ApiResponse> => {
+      return POST(`/courses/${courseId}/live-classroom`);
+    },
     modules: {
       list: (courseId: string): Promise<CourseModuleResponse> => {
         return GET(`/courses/${courseId}/modules`);
@@ -116,7 +120,7 @@ const Api = {
       },
       register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
         return POST(`/courses/${courseId}/students/register`, data);
-      }
+      },
     },
   },
   reports: {
