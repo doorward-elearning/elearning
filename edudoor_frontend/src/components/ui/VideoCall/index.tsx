@@ -1,6 +1,7 @@
 import React from 'react';
 import { OpenViduSessionProps } from '../../../reducers/videoCall/actions';
 const OpenViduSession = require('openvidu-react').default;
+import './VideoCall.scss';
 
 const VideoCall: React.FunctionComponent<VideoCallProps> = props => {
   return (
