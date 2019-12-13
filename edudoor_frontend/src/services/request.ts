@@ -14,7 +14,7 @@ service.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfi
 
 export default class Request {
   public static setBaseURL(url?: string): void {
-    service.defaults.baseURL = url;
+    service.defaults.baseURL = 'http://192.168.137.191:7000/api/v1';
   }
 
   public static setHeader(key: string, value: any): void {

@@ -1,4 +1,19 @@
 .video-call {
   position: relative;
   min-height: 700px;
+  z-index: 1;
+
+  #header {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  #titleContent {
+    background: var(--bg-secondary);
+    border: 1px solid var(--line-color);
+  }
+  #layout {
+    background: var(--bg-primary);
+    box-shadow: var(--box-shadow);
+  }
 }

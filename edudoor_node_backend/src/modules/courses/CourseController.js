@@ -95,14 +95,23 @@ class CourseController {
 
     const course = await models.Course.findByPk(params.courseId);
 
-    const data = { sessionName: course.title };
-
     let liveClassroom = await models.LiveClassroom.findOne({
       where: {
         courseId: course.id,
         status: 'STARTED',
       },
     });
+
+    if (liveClassroom) {
+      try {
+        await OpenViduHelper.getSession(liveClassroom.sessionId);
+      } catch (err) {
+        if (err.response.status === 404) {
+          // the session does not exist
+          liveClassroom = null;
+        }
+      }
+    }
 
     if (!liveClassroom) {
       const { id: sessionId } = await OpenViduHelper.createSession();
@@ -113,9 +122,20 @@ class CourseController {
       });
     }
 
-    const { token } = await OpenViduHelper.getToken(liveClassroom.sessionId, 'MODERATOR');
+    return CourseHelper.joinLiveClassroom(course, liveClassroom, req.user);
+  }
 
-    return [200, { sessionId: data.id, sessionName: course.title, token }, 'Live classroom has been started.'];
+  static async joinLiveClassroom(req) {
+    const { params, user } = req;
+    const course = await models.Course.findByPk(params.courseId);
+
+    const liveClassroom = await models.LiveClassroom.findOne({
+      where: {
+        courseId: course.id,
+        status: 'STARTED',
+      },
+    });
+    return CourseHelper.joinLiveClassroom(course, liveClassroom, user);
   }
 }
 

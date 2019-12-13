@@ -19,6 +19,8 @@ Router.put('/:courseId/modules', CourseController.updateCourseModules);
 
 Router.post('/:courseId/live-classroom', validateCourseExists(), CourseController.startLiveClassroom);
 
+Router.post('/:courseId/live-classroom/join', validateCourseExists(), CourseController.joinLiveClassroom);
+
 Router.use('/', modules);
 
 Router.use('/', students);

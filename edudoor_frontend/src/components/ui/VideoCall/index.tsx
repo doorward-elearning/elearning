@@ -6,7 +6,7 @@ import './VideoCall.scss';
 const VideoCall: React.FunctionComponent<VideoCallProps> = props => {
   return (
     <div className="video-call">
-      <OpenViduSession {...props} />
+      <OpenViduSession {...props} openviduSecret="password" />
     </div>
   );
 };

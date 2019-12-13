@@ -1,5 +1,7 @@
 import models from '../database/models';
 import { MyCoursesInclude } from '../utils/includes';
+import OpenViduHelper from './OpenViduHelper';
+import Tools from '../utils/Tools';
 
 class CourseHelper {
   static async getCourse(courseId) {
@@ -49,6 +51,24 @@ class CourseHelper {
       },
       { assignments: 0, quizzes: 0, pages: 0 }
     );
+  }
+
+  static async joinLiveClassroom(course, liveClassroom, user) {
+    const role = course.createdBy === user.id ? 'MODERATOR' : 'SUBSCRIBER';
+
+    if (liveClassroom) {
+      const { token } = await OpenViduHelper.getToken(liveClassroom.sessionId, role);
+      return [
+        200,
+        {
+          token: encodeURIComponent(
+            Tools.encrypt(JSON.stringify({ sessionId: liveClassroom.sessionId, sessionName: course.title, token }))
+          ),
+        },
+        'Live classroom has been started.',
+      ];
+    }
+    return [404, undefined, 'Live classroom for this course has not been started.'];
   }
 }
 

@@ -14,7 +14,7 @@
   font-family: var(--font-family);
 
   &.icon {
-    > span.text {
+    > span.btn__text {
       padding-left: var(--padding);
     }
   }
@@ -144,5 +144,9 @@
     button {
       opacity: 0.1 !important;
     }
+  }
+
+  &__confirm {
+    padding: var(--padding);
   }
 }

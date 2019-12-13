@@ -119,5 +119,5 @@ export const routeConfigurations: Routes = {
           forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
         }),
     }),
-  videoCall: new Route('/meeting/:sessionId', VideoCallPage),
+  videoCall: new Route('/meeting/:token', VideoCallPage),
 };

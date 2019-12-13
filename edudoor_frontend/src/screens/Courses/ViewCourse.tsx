@@ -23,8 +23,7 @@ import { State } from '../../store';
 import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 import LabelRow from '../../components/ui/LabelRow';
 import ProgressModal from '../../components/static/Modals/ProgressModal';
-import useAction from '../../hooks/useActions';
-import { startVideoCall } from '../../reducers/videoCall/actions';
+import useRoutes from '../../hooks/useRoutes';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -32,7 +31,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const liveClassroomModal = useModal(false);
 
   const [courseId, course] = useViewCourse();
-  const startClassVideoCall = useAction(startVideoCall);
+  const routes = useRoutes();
 
   const updateCourse = useSelector((state: State) => state.courses.updateCourse);
   const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
@@ -75,7 +74,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 title="Starting classroom"
                 useModal={liveClassroomModal}
                 onSuccess={data => {
-                  startClassVideoCall(data);
+                  window.open(
+                    routes.videoCall.withParams({
+                      token: data.token,
+                    })
+                  );
                 }}
               />
               <CourseViewMenu />

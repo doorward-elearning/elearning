@@ -42,6 +42,7 @@
     background: var(--bg-primary);
     min-width: 500px;
     max-width: calc(100% - (var(--padding-xlg) * 2));
+    border-radius: 5px;
     border: 1px solid var(--line-color);
     opacity: 0;
     z-index: 1;
@@ -53,13 +54,14 @@
       display: grid;
       align-items: center;
       padding: 0 var(--padding-xlg);
-      background: var(--bg-secondary);
+    }
+    &__footer {
+      //background: var(--bg-secondary);
     }
 
     &__header {
       grid-auto-flow: column;
       justify-content: space-between;
-      border-bottom: 1px solid var(--line-color);
     }
 
     &__body {
