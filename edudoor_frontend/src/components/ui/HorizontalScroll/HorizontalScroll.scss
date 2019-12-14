@@ -16,14 +16,16 @@
       height: 100%;
       display: grid;
       align-items: center;
-      padding: 0 var(--padding-lg);
       top: 0;
-      background: linear-gradient(90deg, var(--bg-secondary), transparent);
       transition: 0.5s font-size, 0.5s transform;
       cursor: pointer;
+      z-index: 1;
       .icon {
         font-size: 40px;
+        background: var(--bg-primary);
+        border-radius: 50%;
         transition: 0.5s font-size, 0.5s transform;
+        box-shadow: var(--box-shadow);
       }
 
       &:hover {
@@ -34,13 +36,13 @@
       }
 
       &__right {
-        right: 0;
+        right: 22px;
         transform: rotateY(180deg) translateX(-100%);
       }
 
       &__left {
         transform: translateX(-100%);
-        left: 0;
+        left: 22px;
       }
     }
   }

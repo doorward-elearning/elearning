@@ -19,7 +19,16 @@
     justify-content: start;
     position: relative;
     grid-gap: var(--padding-lg);
-    border-bottom: 1px solid var(--line-color);
+
+    &:before {
+      content: '';
+      position: absolute;
+      background: linear-gradient(180deg, var(--bg-secondary), transparent);
+      bottom: -20px;
+      height: 20px;
+      left: 0;
+      width: 100%;
+    }
 
     .ed-tabLayout__tabTitle {
       padding: var(--padding) var(--padding-lg);

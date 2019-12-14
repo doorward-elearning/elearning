@@ -1,14 +1,15 @@
 import React, { FunctionComponent } from 'react';
-import Header from '../../ui/Header';
-import BasicForm, { BasicFormFeatures } from '../Forms/BasicForm';
+import Header from '../../../ui/Header';
+import BasicForm, { BasicFormFeatures } from '../BasicForm';
 import { useSelector } from 'react-redux';
-import { State } from '../../../store';
-import DropdownSelect from '../../ui/Input/DropdownSelect';
-import useForm from '../../../hooks/useForm';
-import TextArea from '../../ui/Input/TextArea';
-import meeting from '../../../assets/illustrations/meeting.svg';
-import Row from '../../ui/Row';
-import EImage from '../../ui/Image';
+import { State } from '../../../../store';
+import useForm from '../../../../hooks/useForm';
+import TextArea from '../../../ui/Input/TextArea';
+import meeting from '../../../../assets/illustrations/meeting.svg';
+import Row from '../../../ui/Row';
+import EImage from '../../../ui/Image';
+import RatingInput from '../../../ui/Input/RatingInput';
+import validation from './validation';
 
 const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.createStudent);
@@ -18,24 +19,26 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
     feedback: '',
   };
   return (
-    <Row style={{ gridTemplateColumns: '2fr 1fr' }}>
+    <Row style={{ gridTemplateColumns: '2fr 1fr', alignItems: 'start' }}>
       <div>
-        <p>Your meeting has ended.</p>
         <Header size={3}>Please rate the quality of the meeting.</Header>
         <BasicForm
           submitAction={() => ({ type: '' })}
           state={state}
+          validationSchema={validation}
           form={form}
           initialValues={initialValues}
           features={[BasicFormFeatures.SAVE_BUTTON]}
           positiveText="Submit"
         >
-          <DropdownSelect options={['1', '2', '3', '4', '5']} name="rating" label="Rating" />
+          <RatingInput name="rating" label="Rating" size="large" />
           <TextArea label="Feedback" name="feedback" />
         </BasicForm>
-        <span className="meta">Close this window to exit.</span>
+        <span className="meta">Close this window to exit this page.</span>
       </div>
-      <EImage size="responsive" src={meeting} />
+      <div>
+        <EImage size="responsive" src={meeting} />
+      </div>
     </Row>
   );
 };

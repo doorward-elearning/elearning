@@ -39,12 +39,11 @@ const Modal: ModalComponent = ({ features = [], children, useModal, cancellable 
       setVisible(false);
     }
   }, [useModal.isOpen]);
-  const modal = useModalBlur(useModal);
+  // const modal = useModalBlur(useModal);
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
       <ModalContext.Provider value={{ ...useModal, cancellable }}>
         <div
-          ref={modal}
           className={classNames({
             'ed-modal': true,
             open: visible,

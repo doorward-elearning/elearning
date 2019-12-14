@@ -7,11 +7,11 @@ import VideoCall from '../../components/ui/VideoCall';
 import WebComponent from '../../components/ui/WebComponent';
 import { NavbarFeatures } from '../../components/ui/NavBar';
 import IfElse from '../../components/ui/IfElse';
-import VideoCallFeedback from '../../components/static/VideoCallFeedback';
+import VideoCallFeedback from '../../components/static/Forms/VideoCallFeedback';
 import ConfirmationButton from '../../components/ui/Buttons/ConfirmationButton';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
-  const [running, setRunning] = useState(true);
+  const [running, setRunning] = useState(false);
   const videoCallState: any = useSelector((state: State) => state.videoCall);
   return (
     <Layout
