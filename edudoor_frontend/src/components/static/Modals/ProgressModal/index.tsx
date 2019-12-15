@@ -5,6 +5,7 @@ import './ProgressModal.scss';
 import { WebComponentState } from '../../../../reducers/reducers';
 import { ActionCreator } from 'redux';
 import useAction from '../../../../hooks/useActions';
+import useFormSubmit from '../../../../hooks/useFormSubmit';
 
 const ProgressModal: React.FunctionComponent<ProgressModalProps> = props => {
   const action = useAction(props.action);
@@ -15,7 +16,7 @@ const ProgressModal: React.FunctionComponent<ProgressModalProps> = props => {
     }
   }, [props.useModal.isOpen]);
 
-  useEffect(() => {
+  useFormSubmit(props.state, () => {
     if (props.state.fetched) {
       props.useModal.closeModal();
       props.onSuccess && props.onSuccess(props.state.data);
@@ -23,7 +24,7 @@ const ProgressModal: React.FunctionComponent<ProgressModalProps> = props => {
       props.useModal.closeModal();
       props.onError && props.onError(props.state.errors);
     }
-  }, [props.state]);
+  });
 
   return (
     <Modal {...props}>

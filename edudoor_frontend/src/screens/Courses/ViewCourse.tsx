@@ -36,89 +36,84 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const updateCourse = useSelector((state: State) => state.courses.updateCourse);
   const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
   return (
-    <IfElse condition={!!course.errors.message}>
-      <Redirect to={ROUTES.courseList.link} />
-      <Layout
-        {...props}
-        className="view-course"
-        noNavBar
-        features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
-        header={
-          <IfElse condition={course.data.course}>
-            <EditableLabelForm
-              submitAction={updateCourseAction}
-              state={updateCourse}
-              name="title"
-              roles={[Roles.TEACHER]}
-              createData={values => [courseId, values]}
-              value={course.data.course?.title}
-            />
-          </IfElse>
-        }
-        renderHeaderEnd={(): JSX.Element => {
-          return (
-            <React.Fragment>
-              <RoleContainer roles={[Roles.TEACHER]}>
-                <Button onClick={addModuleModal.openModal} bordered>
-                  Add Module
-                </Button>
-              </RoleContainer>
-              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                Live classroom
+    <Layout
+      {...props}
+      className="view-course"
+      noNavBar
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+      header={
+        <IfElse condition={course.data.course}>
+          <EditableLabelForm
+            submitAction={updateCourseAction}
+            state={updateCourse}
+            name="title"
+            roles={[Roles.TEACHER]}
+            createData={values => [courseId, values]}
+            value={course.data.course?.title}
+          />
+        </IfElse>
+      }
+      renderHeaderEnd={(): JSX.Element => {
+        return (
+          <React.Fragment>
+            <RoleContainer roles={[Roles.TEACHER]}>
+              <Button onClick={addModuleModal.openModal} bordered>
+                Add Module
               </Button>
-              <ProgressModal
-                state={launchClassroom}
-                cancellable={false}
-                args={[courseId]}
-                action={startLiveClassroom}
-                title="Starting classroom"
-                useModal={liveClassroomModal}
-                onSuccess={data => {
-                  window.open(
-                    routes.videoCall.withParams({
-                      token: data.token,
-                    })
-                  );
-                }}
-              />
-              <CourseViewMenu />
-            </React.Fragment>
-          );
-        }}
-      >
-        <div className="view-course__content">
-          <WebComponent data={course.data.course} loading={course.fetching}>
-            {(course): JSX.Element => {
-              return (
-                <div>
-                  <AddCourseModuleModal
-                    courseId={course.id}
-                    useModal={addModuleModal}
-                    features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
-                  />
-                  <ChooseStudentModal
-                    courseId={course.id}
-                    onSuccess={addStudentModal.closeModal}
-                    useModal={addStudentModal}
-                    features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
-                  />
-                  <div className="view-course__module-list">
-                    <LabelRow>
-                      <span className="meta">{course.modules.length} Modules</span>
-                      <span className="meta">{course.itemCount.assignments} Assignments</span>
-                      <span className="meta">{course.itemCount.quizzes} Quizzes</span>
-                      <span className="meta">{course.itemCount.pages} Pages</span>
-                    </LabelRow>
-                    <CourseModuleList course={course} />
-                  </div>
+            </RoleContainer>
+            <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+              Live classroom
+            </Button>
+            <ProgressModal
+              state={launchClassroom}
+              cancellable={false}
+              args={[courseId]}
+              action={startLiveClassroom}
+              title="Starting classroom"
+              useModal={liveClassroomModal}
+              onSuccess={data => {
+                routes.navigate(routes.videoCall, {
+                  token: data.token,
+                });
+              }}
+            />
+            <CourseViewMenu />
+          </React.Fragment>
+        );
+      }}
+    >
+      <div className="view-course__content">
+        <WebComponent data={course.data.course} loading={course.fetching}>
+          {(course): JSX.Element => {
+            return (
+              <div>
+                <AddCourseModuleModal
+                  courseId={course.id}
+                  useModal={addModuleModal}
+                  features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+                />
+                <ChooseStudentModal
+                  courseId={course.id}
+                  onSuccess={addStudentModal.closeModal}
+                  useModal={addStudentModal}
+                  features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+                />
+                <div className="view-course__module-list">
+                  <LabelRow>
+                    <span className="meta">{course.modules.length} Modules</span>
+                    <span className="meta">{course.itemCount.assignments} Assignments</span>
+                    <span className="meta">{course.itemCount.quizzes} Quizzes</span>
+                    <span className="meta">{course.itemCount.pages} Pages</span>
+                  </LabelRow>
+                  <CourseModuleList course={course} />
                 </div>
-              );
-            }}
-          </WebComponent>
-          <CourseViewSidebar addStudentModal={addStudentModal} />
-        </div>
-      </Layout>
-    </IfElse>
+              </div>
+            );
+          }}
+        </WebComponent>
+        <CourseViewSidebar addStudentModal={addStudentModal} />
+      </div>
+    </Layout>
   );
 };
 

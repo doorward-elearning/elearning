@@ -34,7 +34,6 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
           <RatingInput name="rating" label="Rating" size="large" />
           <TextArea label="Feedback" name="feedback" />
         </BasicForm>
-        <span className="meta">Close this window to exit this page.</span>
       </div>
       <div>
         <EImage size="responsive" src={meeting} />

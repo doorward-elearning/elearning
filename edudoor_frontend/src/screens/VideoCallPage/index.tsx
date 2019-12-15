@@ -6,37 +6,32 @@ import { PageComponent } from '../../types';
 import VideoCall from '../../components/ui/VideoCall';
 import WebComponent from '../../components/ui/WebComponent';
 import { NavbarFeatures } from '../../components/ui/NavBar';
-import IfElse from '../../components/ui/IfElse';
-import VideoCallFeedback from '../../components/static/Forms/VideoCallFeedback';
 import ConfirmationButton from '../../components/ui/Buttons/ConfirmationButton';
+import { useHistory } from 'react-router';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
-  const [running, setRunning] = useState(false);
+  const [navFeatures, setNavFeatures] = useState([NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]);
   const videoCallState: any = useSelector((state: State) => state.videoCall);
+  const history = useHistory();
+
+  const endMeeting = () => history.goBack();
   return (
     <Layout
       {...props}
-      navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
+      navFeatures={navFeatures}
       features={[LayoutFeatures.HEADER]}
       header="Mathematics and Computer Science"
       renderHeaderEnd={() => (
         <div>
-          <IfElse condition={running}>
-            <ConfirmationButton onConfirm={() => setRunning(false)} onReject={() => {}} text="End Meeting">
-              <span>Do you want to end this meeting?</span>
-            </ConfirmationButton>
-          </IfElse>
+          <ConfirmationButton onConfirm={endMeeting} onReject={() => {}} text="End Meeting">
+            <span>Do you want to end this meeting?</span>
+          </ConfirmationButton>
         </div>
       )}
     >
-      <IfElse condition={running}>
-        <WebComponent data={videoCallState.data} loading={true}>
-          {data => <VideoCall {...data} leaveSession={() => setRunning(false)} />}
-        </WebComponent>
-        <React.Fragment>
-          <VideoCallFeedback />
-        </React.Fragment>
-      </IfElse>
+      <WebComponent data={videoCallState.data} loading={true}>
+        {data => <VideoCall {...data} leaveSession={endMeeting} />}
+      </WebComponent>
     </Layout>
   );
 };
