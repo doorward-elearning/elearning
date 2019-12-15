@@ -3,6 +3,7 @@ module.exports = (sequelize, DataTypes) => {
     'MeetingRoom',
     {
       sessionId: DataTypes.STRING,
+      sessionName: DataTypes.STRING,
       courseId: DataTypes.TEXT,
       status: DataTypes.STRING,
     },

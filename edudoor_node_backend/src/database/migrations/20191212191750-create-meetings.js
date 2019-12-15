@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('LiveClassrooms', {
+    return queryInterface.createTable('MeetingRooms', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -17,6 +17,10 @@ module.exports = {
           key: 'id',
         },
       },
+      sessionName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       status: {
         type: Sequelize.STRING,
         defaultValue: 'STARTED',
@@ -32,6 +36,6 @@ module.exports = {
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('LiveClassrooms');
+    return queryInterface.dropTable('MeetingRooms');
   },
 };

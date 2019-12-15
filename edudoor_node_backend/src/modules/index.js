@@ -3,12 +3,14 @@ import users from './users';
 import courses from './courses';
 import reports from './reports';
 import healthcheck from './healthcheck';
+import meetingRooms from './meetingRooms';
 
 const modules = {
   users,
   courses,
   reports,
   healthcheck,
+  meetingRooms,
 };
 
 const apiVersion = '/api/v1';

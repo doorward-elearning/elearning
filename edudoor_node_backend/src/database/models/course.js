@@ -28,7 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       as: 'students',
       through: models.StudentCourse,
     });
-    Course.hasMany(models.LiveClassroom, {
+    Course.hasMany(models.MeetingRoom, {
       foreignKey: 'courseId',
       as: 'rooms',
     });

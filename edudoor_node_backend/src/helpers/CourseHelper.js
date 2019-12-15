@@ -53,22 +53,18 @@ class CourseHelper {
     );
   }
 
-  static async joinLiveClassroom(course, liveClassroom, user) {
+  static async joinMeetingRoom(course, meetingRoom, user) {
     const role = course.createdBy === user.id ? 'MODERATOR' : 'SUBSCRIBER';
 
-    if (liveClassroom) {
-      const { token } = await OpenViduHelper.getToken(liveClassroom.sessionId, role);
+    if (meetingRoom) {
+      const { token } = await OpenViduHelper.getToken(meetingRoom.sessionId, role);
       return [
         200,
-        {
-          token: encodeURIComponent(
-            Tools.encrypt(JSON.stringify({ sessionId: liveClassroom.sessionId, sessionName: course.title, token }))
-          ),
-        },
-        'Live classroom has been started.',
+        { id: meetingRoom.id, sessionId: meetingRoom.sessionId, sessionName: course.title, token },
+        'Room has been started.',
       ];
     }
-    return [404, undefined, 'Live classroom for this course has not been started.'];
+    return [404, undefined, 'Room for this course has not been started.'];
   }
 }
 

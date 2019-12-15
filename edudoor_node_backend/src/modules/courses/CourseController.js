@@ -90,52 +90,53 @@ class CourseController {
     return [200, { course }];
   }
 
-  static async startLiveClassroom(req) {
+  static async startMeetingRoom(req) {
     const { params } = req;
 
     const course = await models.Course.findByPk(params.courseId);
 
-    let liveClassroom = await models.LiveClassroom.findOne({
+    let meetingRoom = await models.MeetingRoom.findOne({
       where: {
         courseId: course.id,
         status: 'STARTED',
       },
     });
 
-    if (liveClassroom) {
+    if (meetingRoom) {
       try {
-        await OpenViduHelper.getSession(liveClassroom.sessionId);
+        await OpenViduHelper.getSession(meetingRoom.sessionId);
       } catch (err) {
         if (err.response.status === 404) {
           // the session does not exist
-          liveClassroom = null;
+          meetingRoom = null;
         }
       }
     }
 
-    if (!liveClassroom) {
+    if (!meetingRoom) {
       const { id: sessionId } = await OpenViduHelper.createSession();
 
-      liveClassroom = await models.LiveClassroom.create({
+      meetingRoom = await models.MeetingRoom.create({
         sessionId,
         courseId: course.id,
+        sessionName: `[Room] ${course.title}`,
       });
     }
 
-    return CourseHelper.joinLiveClassroom(course, liveClassroom, req.user);
+    return CourseHelper.joinMeetingRoom(course, meetingRoom, req.user);
   }
 
-  static async joinLiveClassroom(req) {
+  static async joinMeetingRoom(req) {
     const { params, user } = req;
     const course = await models.Course.findByPk(params.courseId);
 
-    const liveClassroom = await models.LiveClassroom.findOne({
+    const meetingRoom = await models.MeetingRoom.findOne({
       where: {
         courseId: course.id,
         status: 'STARTED',
       },
     });
-    return CourseHelper.joinLiveClassroom(course, liveClassroom, user);
+    return CourseHelper.joinMeetingRoom(course, meetingRoom, user);
   }
 }
 
