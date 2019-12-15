@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const LiveClassroom = sequelize.define(
-    'LiveClassroom',
+  const MeetingRoom = sequelize.define(
+    'MeetingRoom',
     {
       sessionId: DataTypes.STRING,
       courseId: DataTypes.TEXT,
@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
     },
     {}
   );
-  LiveClassroom.associate = function(models) {
-    LiveClassroom.belongsTo(models.Course, {
+  MeetingRoom.associate = function(models) {
+    MeetingRoom.belongsTo(models.Course, {
       as: 'course',
       foreignKey: 'courseId',
     });
   };
-  return LiveClassroom;
+  return MeetingRoom;
 };
