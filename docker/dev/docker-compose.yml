@@ -129,8 +129,12 @@ services:
       - '4443:4443'
       - '8888:8888'
       - '9091:9091'
+    network_mode: "host"
     environment:
       openvidu.secret: password
+      openvidu.webhook: "true"
+      openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetingRooms/webhook
+      openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"
     healthcheck:
       test: ["CMD-SHELL", "curl -s localhost:4443"]
       interval: 5s

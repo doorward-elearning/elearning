@@ -32,6 +32,7 @@
   "homepage": "",
   "dependencies": {
     "@sendgrid/mail": "^6.4.0",
+    "atob": "^2.1.2",
     "axios": "^0.19.0",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",

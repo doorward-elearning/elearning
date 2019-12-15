@@ -16,4 +16,6 @@ Router.get(
   MeetingRoomsController.joinMeeting
 );
 
+Router.exclude(Authorization.authenticate).post('/webhook', MeetingRoomsController.processWebhook);
+
 export default Router;

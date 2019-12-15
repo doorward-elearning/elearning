@@ -39,7 +39,7 @@ ldap:
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
-	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_openvidu
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_openvidu
 
 stop:
 	${INFO} "Stopping all containers"
