@@ -1,5 +1,6 @@
 import { ApiResponse } from '../services';
-import { Course, CourseCreator, Module, ModuleItem, Student, User } from './index';
+import { Course, CourseCreator, MeetingRoom, Module, ModuleItem, Student, User } from './index';
+import { OpenViduSessionProps } from '../../reducers/videoCall/actions';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -47,4 +48,8 @@ export interface CourseCreatorResponse extends ApiResponse {
 
 export interface CourseModuleListResponse extends ApiResponse {
   modules: Array<Module>;
+}
+
+export interface MeetingRoomResponse extends ApiResponse {
+  meetingRoom: MeetingRoom;
 }

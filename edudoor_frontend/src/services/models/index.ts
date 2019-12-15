@@ -147,3 +147,12 @@ export interface Course extends Model {
     pages: number;
   };
 }
+
+export interface MeetingRoom extends Model {
+  id: string;
+  sessionId: string;
+  sessionName: string;
+  status: string;
+  token: string;
+  user: string;
+}

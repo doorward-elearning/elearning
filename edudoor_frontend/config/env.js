@@ -9,9 +9,7 @@ delete require.cache[require.resolve('./paths')];
 
 const NODE_ENV = process.env.NODE_ENV;
 if (!NODE_ENV) {
-  throw new Error(
-    'The NODE_ENV environment variable is required but was not specified.'
-  );
+  throw new Error('The NODE_ENV environment variable is required but was not specified.');
 }
 
 // https://github.com/bkeepers/dotenv#what-other-env-files-can-i-use
@@ -40,6 +38,8 @@ dotenvFiles.forEach(dotenvFile => {
   }
 });
 
+// set up the ip address related routes
+
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:
 // https://github.com/facebook/create-react-app/issues/253.
@@ -65,6 +65,11 @@ function getClientEnvironment(publicUrl) {
     .filter(key => REACT_APP.test(key))
     .reduce(
       (env, key) => {
+        if (process.env.NODE_ENV === 'development') {
+          if (/http(s?):\/\/localhost/.test(process.env[key])) {
+            process.env[key] = process.env[key].replace('localhost', process.env.REACT_APP_LOCAL_IP);
+          }
+        }
         env[key] = process.env[key];
         return env;
       },

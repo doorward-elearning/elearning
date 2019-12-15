@@ -2,7 +2,6 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
   width: 100vw;
   height: 100vh;
   display: grid;
@@ -12,9 +11,10 @@
 
   &.open {
     pointer-events: all;
+    z-index: 10;
 
     .ed-modal {
-      &__background{
+      &__background {
         pointer-events: all;
         background: var(--modal-background);
       }
@@ -37,7 +37,6 @@
     transition: 0.2s background;
   }
 
-
   &__content {
     background: var(--bg-primary);
     min-width: 500px;
@@ -49,7 +48,8 @@
     transform: scale(0.9);
     transition: 0.2s transform cubic-bezier(0.175, 0.885, 0.32, 1.275), 0.2s opacity;
 
-    &__header, &__footer {
+    &__header,
+    &__footer {
       height: var(--modal-header-height);
       display: grid;
       align-items: center;

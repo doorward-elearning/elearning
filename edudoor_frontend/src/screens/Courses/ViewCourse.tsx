@@ -73,7 +73,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               useModal={liveClassroomModal}
               onSuccess={data => {
                 routes.navigate(routes.videoCall, {
-                  token: data.token,
+                  meetingId: data.id,
                 });
               }}
             />

@@ -1,4 +1,5 @@
-import { END_VIDEO_CALL, START_VIDEO_CALL } from './types';
+import { Action } from '../reducers';
+import { JOIN_MEETING } from './types';
 
 export type OpenViduSessionProps = {
   sessionName: string;
@@ -6,11 +7,7 @@ export type OpenViduSessionProps = {
   token: string;
 };
 
-export const endVideoCall = () => ({
-  type: END_VIDEO_CALL,
-});
-
-export const startVideoCall = (data: OpenViduSessionProps) => ({
-  type: START_VIDEO_CALL,
-  data,
+export const joinMeetingAction = (id: string): Action => ({
+  type: JOIN_MEETING,
+  payload: [id],
 });

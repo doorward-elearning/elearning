@@ -20,7 +20,7 @@ import {
   CourseModuleListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
-  LoginResponse,
+  LoginResponse, MeetingRoomResponse,
   ModuleItemResponse,
   StudentListResponse,
   StudentResponse,
@@ -86,8 +86,10 @@ const Api = {
     get: (courseId: string): Promise<CreateCourseResponse> => {
       return GET(`/courses/${courseId}`);
     },
-    startClassroom: (courseId: string): Promise<ApiResponse> => {
-      return POST(`/courses/${courseId}/live-classroom`);
+    room: {
+      start: (courseId: string): Promise<ApiResponse> => {
+        return POST(`/courses/${courseId}/room`);
+      },
     },
     modules: {
       list: (courseId: string): Promise<CourseModuleResponse> => {
@@ -139,6 +141,11 @@ const Api = {
       get: (teacherId: string): Promise<CourseCreatorResponse> => {
         return GET(`/reports/teachers/${teacherId}`);
       },
+    },
+  },
+  meetingRooms: {
+    join: (id: string): Promise<MeetingRoomResponse> => {
+      return GET(`/meetingRooms/${id}`);
     },
   },
 };

@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
+import React, { MouseEvent, MouseEventHandler, useEffect, useRef, useState } from 'react';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -6,7 +6,6 @@ import FeatureProvider from '../FeatureProvider';
 import Header from '../Header';
 import classNames from 'classnames';
 import Button, { ButtonProps } from '../Buttons/Button';
-import useModalBlur from '../../../hooks/useModalBlur';
 import { UseModal } from '../../../hooks/useModal';
 import IfElse from '../IfElse';
 
@@ -30,20 +29,33 @@ const ModalContext = React.createContext<ModalContext>({
 
 const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true }) => {
   const [visible, setVisible] = useState(false);
+  const modal = useRef(null);
   useEffect(() => {
     if (useModal.isOpen) {
       setTimeout(() => {
         setVisible(true);
+        if (modal.current) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
+          modal.current.style.zIndex = 10;
+        }
       }, 100);
     } else {
       setVisible(false);
+      setTimeout(() => {
+        if (modal.current) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+          // @ts-ignore
+          modal.current.style.zIndex = -10;
+        }
+      }, 200);
     }
   }, [useModal.isOpen]);
-  // const modal = useModalBlur(useModal);
   return (
     <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
       <ModalContext.Provider value={{ ...useModal, cancellable }}>
         <div
+          ref={modal}
           className={classNames({
             'ed-modal': true,
             open: visible,

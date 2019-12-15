@@ -106,7 +106,7 @@ const registerStudents = reducerApiAction({
 
 const launchClassroom = reducerApiAction({
   action: START_LIVE_CLASSROOM,
-  api: Api.courses.startClassroom,
+  api: Api.courses.room.start,
 });
 
 export default reducerBuilder({

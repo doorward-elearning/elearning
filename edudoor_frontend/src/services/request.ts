@@ -5,15 +5,15 @@ const service = axios.create();
 
 service.interceptors.request.use((config: AxiosRequestConfig): AxiosRequestConfig | Promise<any> => {
   if (process.env.REACT_APP_REQUEST_DELAY) {
-    return new Promise(
-      (resolve): any => setTimeout(() => resolve(config), +(process.env.REACT_APP_REQUEST_DELAY || 0))
+    return new Promise((resolve): any =>
+      setTimeout(() => resolve(config), +(process.env.REACT_APP_REQUEST_DELAY || 0))
     );
   }
   return config;
 });
 
 export default class Request {
-  public static setBaseURL(url?: string): void {
+  public static setBaseURL(url = ''): void {
     service.defaults.baseURL = url;
   }
 

@@ -1,2 +1,1 @@
-export const START_VIDEO_CALL = 'START_VIDEO_CALL';
-export const END_VIDEO_CALL = 'END_VIDEO_CALL';
+export const JOIN_MEETING = 'JOIN_MEETING';

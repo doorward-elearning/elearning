@@ -37,6 +37,10 @@ ldap:
 	@ ${INFO} "Starting the LDAP server"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_ldap_auth
 
+openvidu:
+	@ ${INFO} "Starting the OpenVIDU server"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d edudoor_openvidu
+
 stop:
 	${INFO} "Stopping all containers"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v

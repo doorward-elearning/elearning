@@ -8,19 +8,28 @@ import WebComponent from '../../components/ui/WebComponent';
 import { NavbarFeatures } from '../../components/ui/NavBar';
 import ConfirmationButton from '../../components/ui/Buttons/ConfirmationButton';
 import { useHistory } from 'react-router';
+import usePageResource from '../../hooks/usePageResource';
+import { joinMeetingAction } from '../../reducers/videoCall/actions';
+import useRoutes from '../../hooks/useRoutes';
+import Tools from '../../utils/Tools';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const [navFeatures, setNavFeatures] = useState([NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]);
-  const videoCallState: any = useSelector((state: State) => state.videoCall);
+  const videoCallState: any = useSelector((state: State) => state.videoCall.joinMeeting);
   const history = useHistory();
+  const routes = useRoutes();
 
-  const endMeeting = () => history.goBack();
+  usePageResource('meetingId', joinMeetingAction);
+
+  const endMeeting = () => {
+    history.goBack();
+  };
   return (
     <Layout
       {...props}
       navFeatures={navFeatures}
       features={[LayoutFeatures.HEADER]}
-      header="Mathematics and Computer Science"
+      header={Tools.str(videoCallState.data.meetingRoom?.sessionName)}
       renderHeaderEnd={() => (
         <div>
           <ConfirmationButton onConfirm={endMeeting} onReject={() => {}} text="End Meeting">
@@ -29,8 +38,17 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
         </div>
       )}
     >
-      <WebComponent data={videoCallState.data} loading={true}>
-        {data => <VideoCall {...data} leaveSession={endMeeting} />}
+      <WebComponent
+        data={videoCallState.data.meetingRoom}
+        loading={videoCallState.fetching}
+        message="An error occurred while joining the meeting"
+        icon="no_meeting_room"
+        actionMessage="Go Back"
+        onAction={() => routes.navigate(routes.dashboard)}
+      >
+        {data => {
+          return <VideoCall {...data} />;
+        }}
       </WebComponent>
     </Layout>
   );
