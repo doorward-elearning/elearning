@@ -7,4 +7,4 @@ RUN npm install -g yarn && rm -rf package-lock.json
 
 COPY build /usr/src/app
 
-RUN npm install -g serve
+ENTRYPOINT npm install -g serve

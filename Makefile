@@ -75,6 +75,28 @@ build:
 	@ rm -rf edudoor_frontend/.dockerignore
 	${SUCCESS} "Successfully created docker images"
 
+build-prod:
+	${INFO} "Building the backend application"
+	@ cd edudoor_node_backend && yarn build && cd ..
+	@ cp docker/production/backend/Dockerfile edudoor_node_backend
+	@ cp edudoor_node_backend/.env edudoor_node_backend/dist/.env
+	@ echo 'node_modules' > edudoor_node_backend/.dockerignore
+	${INFO} "Building the docker image"
+	@ docker build -t dev_edudoor_rest_api edudoor_node_backend
+	@ rm -rf edudoor_node_backend/Dockerfile
+	@ rm -rf edudoor_node_backend/.dockerignore
+	${INFO} "Building the frontend application"
+	# @
+	# @
+	# @ cd edudoor_frontend && yarn build && cd ..
+	# @ cp docker/production/frontend/Dockerfile edudoor_frontend
+	# @ echo 'node_modules' > edudoor_frontend/.dockerignore
+	# ${INFO} "Building the frontend docker image"
+	# @ docker build -t dev_edudoor_rest_api edudoor_frontend
+	# @ rm -rf edudoor_frontend/Dockerfile
+	# @ rm -rf edudoor_frontend/.dockerignore
+	${SUCCESS} "Successfully created docker images"
+
 ssh:
 	docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} exec edudoor_frontend sh
 

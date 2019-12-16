@@ -1,10 +1,13 @@
 FROM node:dubnium
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
-
 RUN npm install -g yarn && rm -rf package-lock.json
 
-COPY ../../../edudoor_node_backend/dist /usr/src/app
+COPY dist .
 
-RUN node /usr/src/app/index.js
+COPY package.json .
+
+RUN yarn install
+
+EXPOSE 7000
+
+CMD ["node", "index.js"]

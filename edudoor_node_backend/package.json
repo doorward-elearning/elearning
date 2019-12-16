@@ -6,9 +6,9 @@
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
     "build": "babel . --ignore node_modules,test,coverage,dist -d dist/ ",
-    "serve": "node dist/src/index.js",
+    "serve": "node dist/index.js",
     "start": "NODE_ENV=production yarn run serve",
-    "start:dev": "NODE_ENV=development  DEBUG=log  nodemon --exec babel-node src/index.js",
+    "start:dev": "NODE_ENV=development  DEBUG=log  nodemon --exec babel-node index.js",
     "lint": "node_modules/.bin/eslint ./src",
     "pretest": "NODE_ENV=test yarn db:migrate",
     "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",

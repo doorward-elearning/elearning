@@ -1,11 +1,11 @@
 import debug from 'debug';
 import dotenv from 'dotenv';
 import http from 'http';
-import env from './config/environment';
-import app from './app';
-import models from './database/models';
+import env from './src/config/environment';
+import app from './src/app';
+import models from './src/database/models';
 import shortid from 'shortid';
-import Organization from './utils/Organization';
+import Organization from './src/utils/Organization';
 
 global.models = models;
 
