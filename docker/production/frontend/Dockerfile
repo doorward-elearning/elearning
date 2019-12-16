@@ -1,10 +1,7 @@
 FROM node:dubnium
 
-RUN mkdir /usr/src/app
-WORKDIR /usr/src/app
+COPY build .
 
-RUN npm install -g yarn && rm -rf package-lock.json
+RUN npm install -g serve
 
-COPY build /usr/src/app
-
-ENTRYPOINT npm install -g serve
+CMD ["serve", "-s"]
