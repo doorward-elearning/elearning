@@ -1,0 +1,64 @@
+website:
+  name:
+  theme: dark
+  url:
+  protocol: https
+  home_logo:
+  app_logo:
+  phone:
+  mobile:
+  whatsapp:
+  email:
+  facebook_page:
+  linkedin_page:
+  twitter_page:
+  instagram_page:
+  google_page:
+  address:
+  city:
+  country:
+
+site_administrator:
+  name:
+  mobile:
+  phone:
+  email:
+  personnel_website:
+  interest:
+  about:
+  job_title: 'CTO of RavelGrid LLP'
+  facebook_page:
+  linkedin_page:
+
+menu items:
+  - courses
+  - reports
+  - students
+  - departments
+  - notifications
+  - dashboard
+  - etc etc
+
+customer_type: teacher, school etc
+
+features disabled:
+  - reports
+  - notifications
+  - etc
+
+stakeholder_names:
+  student: employee, user etc
+  teacher: course creator, trainer, etc
+  admin: hr, admin, principal etc
+  department: department, unit etc
+  division: batch, division etc
+  sales_person: manager, salesperson etc
+
+deploy_dir: /root/edudoor_frontend
+git_url: "ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/edudoor_frontend"
+
+volumes:
+  - openolat_data
+  - edudoor_data
+  - ldap_data
+  

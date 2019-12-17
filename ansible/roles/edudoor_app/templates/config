@@ -1,0 +1,3 @@
+Host git-codecommit.us-east-1.amazonaws.com
+   User {{git_user}}
+   IdentityFile  ~/.ssh/id_rsa

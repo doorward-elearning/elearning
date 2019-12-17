@@ -1,0 +1,9 @@
+- hosts: demo.edudoor
+  remote_user: basil
+  become_user: root
+  become_method: sudo
+  become: yes
+
+  roles:
+   - edudoor_app
+
