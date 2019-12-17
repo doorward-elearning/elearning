@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
-    "build": "babel . --ignore node_modules,test,coverage,dist -d dist/ ",
+    "build": "babel . --ignore node_modules,test,coverage,dist -d dist/ --copy-files",
     "serve": "node dist/index.js",
     "start": "NODE_ENV=production yarn run serve",
     "start:dev": "NODE_ENV=development  DEBUG=log  nodemon --exec babel-node index.js",
