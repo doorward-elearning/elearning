@@ -1,7 +1,7 @@
 {
   "name": "edudoor_node_backend",
   "version": "1.0.0",
-  "description": "The redo of maintenance tracker api with NodeJS/Express ",
+  "description": "A platform for learning, collaboration and spreading knowledge.",
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist && mkdir dist",
