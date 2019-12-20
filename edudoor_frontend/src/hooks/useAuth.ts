@@ -1,5 +1,5 @@
 import Tools from '../utils/Tools';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../store';
 import { User } from '../services/models';
@@ -8,6 +8,13 @@ const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
 
   const users = useSelector((state: State) => state.users.user);
+  const [user, setUser] = useState(users.data.user);
+
+  useEffect(() => {
+    if (users.data.user) {
+      setUser(users.data.user);
+    }
+  }, [users.data]);
 
   const logout = (): void => {
     if (authenticated) {
@@ -25,7 +32,7 @@ const useAuth = (): UseAuth => {
     authenticated,
     logout,
     authenticate,
-    user: users.data.user,
+    user,
   };
 };
 

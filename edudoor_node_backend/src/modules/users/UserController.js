@@ -38,7 +38,7 @@ class UserController {
     if (body.password) {
       body.password = bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT);
     }
-    const user = await models.User.create({
+    let user = await models.User.create({
       ...body,
       organizationId: Organization.getId(),
     });
@@ -64,6 +64,10 @@ class UserController {
         userId: user.id,
       });
     }
+
+    user = await models.User.findByPk(user.id, {
+      include: UserInclude
+    });
     return {
       user,
       resetToken,

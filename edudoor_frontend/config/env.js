@@ -67,7 +67,7 @@ function getClientEnvironment(publicUrl) {
       (env, key) => {
         if (process.env.NODE_ENV === 'development') {
           if (/http(s?):\/\/localhost/.test(process.env[key])) {
-            process.env[key] = process.env[key].replace('localhost', process.env.REACT_APP_LOCAL_IP);
+            // process.env[key] = process.env[key].replace('localhost', process.env.REACT_APP_LOCAL_IP);
           }
         }
         env[key] = process.env[key];

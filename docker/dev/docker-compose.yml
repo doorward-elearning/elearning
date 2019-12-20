@@ -127,9 +127,8 @@ services:
     container_name: edudoor_openvidu
     ports:
       - '4443:4443'
-      - '8888:8888'
-      - '9091:9091'
-    network_mode: "host"
+        # - '8888:8888'
+        # - '9091:9091'
     environment:
       openvidu.secret: password
       openvidu.webhook: "true"
