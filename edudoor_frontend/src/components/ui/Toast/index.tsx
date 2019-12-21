@@ -13,7 +13,7 @@ const Toast: React.FunctionComponent<ToastProps> = props => {
   });
   return (
     <div className={className}>
-      <div className="text">{props.message}</div>
+      <div className="toast__text">{props.message}</div>
       <IfElse condition={!props.static}>
         <Icon icon="close" onClick={props.closeToast} />
       </IfElse>

@@ -20,21 +20,21 @@ import {
   CourseModuleListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
-  LoginResponse, MeetingRoomResponse,
+  LoginResponse,
+  MeetingRoomResponse,
   ModuleItemResponse,
   StudentListResponse,
   StudentResponse,
   UserResponse,
 } from './models/responseBody';
 import { ApiResponse } from './services';
-import { Student } from './models';
 
 /**
  * Use the return keyword in the functions to improve readability
  */
 const q = require('querystring').stringify;
 
-const { GET, PUT, POST } = Request;
+const { GET, PUT, POST, DELETE } = Request;
 
 const Api = {
   users: {
@@ -85,6 +85,9 @@ const Api = {
     },
     get: (courseId: string): Promise<CreateCourseResponse> => {
       return GET(`/courses/${courseId}`);
+    },
+    delete: (courseId: string): Promise<ApiResponse> => {
+      return DELETE(`/courses/${courseId}`);
     },
     room: {
       start: (courseId: string): Promise<ApiResponse> => {

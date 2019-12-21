@@ -48,7 +48,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       <Row style={{ justifyContent: 'space-between' }}>
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
                         <span className="meta text-primary">
-                          <Plural singular="Member" count={12} />
+                          <Plural singular="Member" count={+course.numStudents} />
                         </span>
                       </Row>
                     </Card.Body>

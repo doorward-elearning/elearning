@@ -23,8 +23,8 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
               <span>{row.title}</span>
             </div>
           ),
-          students: '23',
-          status: 'IN PROGRESS',
+          students: row.numStudents,
+          status: row.status,
         };
         return data[column as keyof typeof data];
       }}

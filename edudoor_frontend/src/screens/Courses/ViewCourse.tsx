@@ -1,8 +1,7 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
-import ROUTES from '../../routes/routes';
-import { match, Redirect } from 'react-router';
+import { match } from 'react-router';
 import useModal from '../../hooks/useModal';
 import { ModalFeatures } from '../../components/ui/Modal';
 import WebComponent from '../../components/ui/WebComponent';
@@ -67,8 +66,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
             <ProgressModal
               state={launchClassroom}
               cancellable={false}
-              args={[courseId]}
-              action={startLiveClassroom}
+              showErrorToast
+              action={() => startLiveClassroom(courseId)}
               title="Starting classroom"
               useModal={liveClassroomModal}
               onSuccess={data => {
@@ -77,7 +76,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 });
               }}
             />
-            <CourseViewMenu />
+            <IfElse condition={course.data.course}>
+              <CourseViewMenu course={course.data.course} />
+            </IfElse>
           </React.Fragment>
         );
       }}

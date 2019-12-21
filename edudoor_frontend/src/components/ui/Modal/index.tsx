@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import Button, { ButtonProps } from '../Buttons/Button';
 import { UseModal } from '../../../hooks/useModal';
 import IfElse from '../IfElse';
+import useModalBlur from '../../../hooks/useModalBlur';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -29,7 +30,7 @@ const ModalContext = React.createContext<ModalContext>({
 
 const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true }) => {
   const [visible, setVisible] = useState(false);
-  const modal = useRef(null);
+  const modal = useModalBlur(useModal);
   useEffect(() => {
     if (useModal.isOpen) {
       setTimeout(() => {

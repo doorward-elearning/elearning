@@ -3,6 +3,7 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
+  DELETE_COURSE,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -91,5 +92,10 @@ export const registerStudents = (courseId: string, body: RegisterStudentsBody): 
 
 export const startLiveClassroom = (courseId: string): Action => ({
   type: START_LIVE_CLASSROOM,
+  payload: [courseId],
+});
+
+export const deleteCourseAction = (courseId: string): Action => ({
+  type: DELETE_COURSE,
   payload: [courseId],
 });

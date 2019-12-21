@@ -9,7 +9,6 @@
       pointer-events: auto;
       opacity: 1;
       &--body {
-        transform: translateY(0);
       }
     }
 
@@ -75,7 +74,6 @@
         border-bottom: 1px solid var(--line-color);
       }
       &--body {
-        transform: translateY(10px);
       }
     }
 
@@ -83,7 +81,6 @@
       .ed-dropdown__content {
         bottom: 100%;
         &--body {
-          transform: translateY(0);
           transition: 0.5s transform;
         }
       }
@@ -93,7 +90,6 @@
     .ed-dropdown__content {
       top: 0;
       &--body {
-        transform: translateY(-10px);
         transition: 0.5s transform;
       }
     }
@@ -101,7 +97,6 @@
       .ed-dropdown__content {
         top: 100%;
         &--body {
-          transform: translateY(0);
           transition: 0.5s transform;
         }
       }
@@ -134,6 +129,7 @@
       background: inherit;
       border-left: 1px solid var(--line-color);
       border-top: 1px solid var(--line-color);
+      z-index: -1;
     }
 
     .dropdown-menu {

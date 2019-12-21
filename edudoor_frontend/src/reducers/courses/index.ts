@@ -5,6 +5,7 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
+  DELETE_COURSE,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -109,6 +110,11 @@ const launchClassroom = reducerApiAction({
   api: Api.courses.room.start,
 });
 
+const deleteCourse = reducerApiAction({
+  action: DELETE_COURSE,
+  api: Api.courses.delete,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -125,5 +131,6 @@ export default reducerBuilder({
     courseModules,
     registerStudents,
     launchClassroom,
+    deleteCourse,
   },
 });

@@ -46,3 +46,5 @@ type RouteBuilder = {
 };
 
 type OnFormSubmit<T> = (values: T, actions: FormikActions<T>) => void;
+
+export type VoidFunction = () => void;

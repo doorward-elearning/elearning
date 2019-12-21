@@ -4,28 +4,16 @@ import Spinner from '../../../ui/Spinner';
 import './ProgressModal.scss';
 import { WebComponentState } from '../../../../reducers/reducers';
 import { ActionCreator } from 'redux';
-import useAction from '../../../../hooks/useActions';
-import useFormSubmit from '../../../../hooks/useFormSubmit';
+import useRequestModal from '../../../../hooks/useRequestModal';
 
 const ProgressModal: React.FunctionComponent<ProgressModalProps> = props => {
-  const action = useAction(props.action);
+  const { submit } = useRequestModal(props);
 
   useEffect(() => {
     if (props.useModal.isOpen) {
-      action(props.args);
+      submit();
     }
   }, [props.useModal.isOpen]);
-
-  useFormSubmit(props.state, () => {
-    if (props.state.fetched) {
-      props.useModal.closeModal();
-      props.onSuccess && props.onSuccess(props.state.data);
-    } else if (props.state.errors.message || props.state.errors.errors) {
-      props.useModal.closeModal();
-      props.onError && props.onError(props.state.errors);
-    }
-  });
-
   return (
     <Modal {...props}>
       <Modal.Header title={props.title} />
@@ -44,9 +32,9 @@ export interface ProgressModalProps extends ModalProps {
   message?: string;
   state: WebComponentState<any>;
   action: ActionCreator<any>;
-  args?: Array<any>;
   onSuccess?: (data: any) => void;
   onError?: (errors: any) => void;
+  showErrorToast?: boolean;
 }
 
 export default ProgressModal;
