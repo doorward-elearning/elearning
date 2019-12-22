@@ -14,6 +14,11 @@ module.exports = (sequelize, DataTypes) => {
       as: 'course',
       foreignKey: 'courseId',
     });
+    MeetingRoom.belongsToMany(models.User, {
+      as: 'participants',
+      through: models.MeetingParticipant,
+      foreignKey: 'meetingRoomId',
+    });
   };
   return MeetingRoom;
 };

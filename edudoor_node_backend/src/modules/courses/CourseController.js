@@ -1,3 +1,4 @@
+import Sequelize from 'sequelize';
 import models from '../../database/models';
 import { CourseInclude, MyCoursesInclude, StudentCoursesInclude } from '../../utils/includes';
 import ModulesController from './modules/ModulesController';
@@ -72,7 +73,18 @@ class CourseController {
       })).courses;
     } else {
       courses = await models.Course.findAll({
-        include: MyCoursesInclude(),
+        include: [
+          {
+            model: models.User,
+            as: 'students',
+            attributes: [],
+          },
+        ],
+        attributes: {
+          include: [[Sequelize.fn('COUNT', Sequelize.col('students.id')), 'numStudents']],
+        },
+        group: ['Course.id', 'students->StudentCourse.id'],
+        order: [['createdAt', 'desc']],
       });
     }
 
@@ -106,7 +118,7 @@ class CourseController {
       try {
         await OpenViduHelper.getSession(meetingRoom.sessionId);
       } catch (err) {
-        if (err.response.status === 404) {
+        if (err.response && err.response.status === 404) {
           // the session does not exist
           meetingRoom = null;
         }
@@ -137,6 +149,16 @@ class CourseController {
       },
     });
     return CourseHelper.joinMeetingRoom(course, meetingRoom, user);
+  }
+
+  static async deleteCourse(req) {
+    const {
+      params: { courseId },
+    } = req;
+
+    await models.Course.destroy({ where: { id: courseId } });
+
+    return [200, undefined, 'Course has been deleted.'];
   }
 }
 

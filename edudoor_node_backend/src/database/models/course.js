@@ -28,9 +28,9 @@ module.exports = (sequelize, DataTypes) => {
       as: 'students',
       through: models.StudentCourse,
     });
-    Course.hasMany(models.MeetingRoom, {
-      foreignKey: 'courseId',
-      as: 'rooms',
+    Course.belongsTo(models.MeetingRoom, {
+      foreignKey: 'meetingRoomId',
+      as: 'meetingRoom',
     });
   };
   return Course;

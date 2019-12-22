@@ -15,6 +15,8 @@ Router.put('/:courseId', validateUpdateCourse, CourseController.updateCourse);
 
 Router.get('/:courseId', validateCourseExists(), CourseController.getCourse);
 
+Router.delete('/:courseId', validateCourseExists(), CourseController.deleteCourse);
+
 Router.put('/:courseId/modules', CourseController.updateCourseModules);
 
 Router.post('/:courseId/room', validateCourseExists(), CourseController.startMeetingRoom);

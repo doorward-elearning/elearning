@@ -6,24 +6,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.TEXT,
       },
-      sessionId: {
-        type: Sequelize.TEXT,
-      },
-      courseId: {
-        type: Sequelize.TEXT,
-        onDelete: 'cascade',
-        references: {
-          model: 'Courses',
-          key: 'id',
-        },
-      },
-      sessionName: {
+      meetingRoomName: {
         type: Sequelize.STRING,
         allowNull: true,
-      },
-      status: {
-        type: Sequelize.STRING,
-        defaultValue: 'STARTED',
       },
       createdAt: {
         allowNull: false,
