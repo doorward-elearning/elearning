@@ -2,6 +2,7 @@ import models from '../database/models';
 import { MyCoursesInclude } from '../utils/includes';
 import OpenViduHelper from './OpenViduHelper';
 import Tools from '../utils/Tools';
+import MeetingRoomsHelper from './MeetingRoomsHelper';
 
 class CourseHelper {
   static async getCourse(courseId) {
@@ -53,18 +54,79 @@ class CourseHelper {
     );
   }
 
-  static async joinMeetingRoom(course, meetingRoom, user) {
-    const role = course.createdBy === user.id ? 'MODERATOR' : 'SUBSCRIBER';
+  static async joinCourseMeetingRoom(meetingRoom, participantId) {
+    const meeting = await models.Meeting.findOne({
+      where: {
+        meetingRoomId: meetingRoom.id,
+        status: 'STARTED',
+      },
+    });
+    if (meeting) {
+      const meetingInstance = await models.MeetingRoomMember.findOne({
+        meetingRoomId: meetingRoom.id,
+        participantId,
+      });
+      if (!meetingInstance) {
+        return [403, undefined, 'You are not authorized to join this meeting'];
+      }
+      const { token } = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
 
-    if (meetingRoom) {
-      const { token } = await OpenViduHelper.getToken(meetingRoom.sessionId, role);
       return [
         200,
-        { id: meetingRoom.id, sessionId: meetingRoom.sessionId, sessionName: course.title, token },
-        'Room has been started.',
+        {
+          id: meeting.id,
+          sessionId: meeting.sessionId,
+          sessionName: meetingRoom.title,
+          token,
+        },
+        'Joining the meeting.',
       ];
     }
-    return [404, undefined, 'Room for this course has not been started.'];
+    return [404, undefined, 'No meeting has been started for this course.'];
+  }
+
+  static async createMeetingRoom(courseId, hostId) {
+    const course = await models.Course.findByPk(courseId, {
+      include: [
+        {
+          model: models.MeetingRoom,
+          as: 'meetingRoom',
+        },
+      ],
+    });
+    if (!course.meetingRoom) {
+      const meetingRoom = await models.MeetingRoom.create({
+        title: `[Room] ${course.title}`,
+      });
+      await course.update({
+        meetingRoomId: meetingRoom.id,
+      });
+    }
+    await course.reload();
+    await CourseHelper.addStudentsToCourseMeetingRoom(course.id);
+    await MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, hostId, 'MODERATOR');
+    return course;
+  }
+
+  static async addStudentsToCourseMeetingRoom(courseId) {
+    const course = await models.Course.findByPk(courseId, {
+      include: [
+        {
+          model: models.MeetingRoom,
+          as: 'meetingRoom',
+        },
+        {
+          model: models.User,
+          as: 'students',
+        },
+      ],
+    });
+
+    return Promise.all(
+      course.students.map(async student => {
+        return MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
+      })
+    );
   }
 }
 

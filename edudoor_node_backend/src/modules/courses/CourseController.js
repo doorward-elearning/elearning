@@ -6,6 +6,7 @@ import ModulesHelper from '../../helpers/ModulesHelper';
 import CourseHelper from '../../helpers/CourseHelper';
 import Tools from '../../utils/Tools';
 import OpenViduHelper from '../../helpers/OpenViduHelper';
+import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
 
 class CourseController {
   static async createCourse(req) {
@@ -102,43 +103,21 @@ class CourseController {
     return [200, { course }];
   }
 
-  static async startMeetingRoom(req) {
-    const { params } = req;
+  static async startMeeting(req) {
+    const { params, user } = req;
 
-    const course = await models.Course.findByPk(params.courseId);
+    const course = await CourseHelper.createMeetingRoom(params.courseId, user.id);
 
-    let meetingRoom = await models.MeetingRoom.findOne({
-      where: {
-        courseId: course.id,
-        status: 'STARTED',
-      },
-    });
+    const { meetingRoom } = course;
 
-    if (meetingRoom) {
-      try {
-        await OpenViduHelper.getSession(meetingRoom.sessionId);
-      } catch (err) {
-        if (err.response && err.response.status === 404) {
-          // the session does not exist
-          meetingRoom = null;
-        }
-      }
+    if (!(await models.Meeting.findOne({ where: { meetingRoomId: meetingRoom.id, status: 'STARTED' } }))) {
+      await MeetingRoomsHelper.createMeeting(meetingRoom.id, user.id);
     }
 
-    if (!meetingRoom) {
-      const { id: sessionId } = await OpenViduHelper.createSession();
-
-      meetingRoom = await models.MeetingRoom.create({
-        sessionId,
-        courseId: course.id,
-        sessionName: `[Room] ${course.title}`,
-      });
-    }
-
-    return CourseHelper.joinMeetingRoom(course, meetingRoom, req.user);
+    return CourseHelper.joinCourseMeetingRoom(meetingRoom, user.id);
   }
 
-  static async joinMeetingRoom(req) {
+  static async joinMeeting(req) {
     const { params, user } = req;
     const course = await models.Course.findByPk(params.courseId);
 
@@ -148,7 +127,7 @@ class CourseController {
         status: 'STARTED',
       },
     });
-    return CourseHelper.joinMeetingRoom(course, meetingRoom, user);
+    return CourseHelper.joinMeeting(course, meetingRoom, user);
   }
 
   static async deleteCourse(req) {

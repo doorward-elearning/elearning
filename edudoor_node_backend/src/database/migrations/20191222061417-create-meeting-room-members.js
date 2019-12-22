@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable('MeetingParticipants', {
+    return queryInterface.createTable('MeetingRoomMembers', {
       id: {
         allowNull: false,
         primaryKey: true,
@@ -26,13 +26,8 @@ module.exports = {
         type: Sequelize.ENUM('SUBSCRIBER', 'PUBLISHER', 'MODERATOR'),
         defaultValue: 'PUBLISHER',
       },
-      joinedAt: {
+      deletedAt: {
         type: Sequelize.DATE,
-        allowNull: true,
-      },
-      leftAt: {
-        type: Sequelize.DATE,
-        allowNull: true,
       },
       createdAt: {
         allowNull: false,
