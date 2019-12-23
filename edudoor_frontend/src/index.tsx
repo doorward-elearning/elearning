@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import socketIOClient from 'socket.io-client';
 import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
@@ -16,12 +17,23 @@ Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 Request.setAuth();
 
-export type AppContextProps = typeof appInitialValue;
+const baseUrl = process.env.REACT_APP_BASE_URL || '';
 
-export const AppContext = React.createContext<AppContextProps>(appInitialValue);
+const serverUrl = baseUrl.replace('/api/v1/', '');
+
+export const io = socketIOClient(serverUrl, { transports: ['websocket', 'polling'] });
+
+const AppInitialValue = {
+  ...appInitialValue,
+  io,
+};
+
+export type AppContextProps = typeof AppInitialValue;
+
+export const AppContext = React.createContext<AppContextProps>(AppInitialValue);
 
 const App: React.FC = () => {
-  const app = useApp();
+  const app = useApp(io);
   useOfflineToast();
   return (
     <AppContext.Provider value={app}>

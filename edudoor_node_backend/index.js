@@ -1,10 +1,11 @@
 import debug from 'debug';
 import dotenv from 'dotenv';
 import http from 'http';
+import shortid from 'shortid';
+import socketIO from 'socket.io';
 import env from './src/config/environment';
 import app from './src/app';
 import models from './src/database/models';
-import shortid from 'shortid';
 import Organization from './src/utils/Organization';
 
 global.models = models;
@@ -12,6 +13,10 @@ global.models = models;
 dotenv.config();
 const logger = debug('log');
 const server = http.createServer(app);
+
+const io = socketIO(server);
+
+global.socketIO = io;
 
 console.log(`Starting server on port ${env.PORT}`);
 
@@ -22,4 +27,9 @@ Organization.get().then(() => {
 
 server.listen(env.PORT, '0.0.0.0', 511, () => {
   logger(`Find me on http://localhost:${env.PORT}`);
+});
+
+io.on('connection', client => {
+  logger(`Socket connection established with ${client.id}`);
+  client.on('disconnect', () => logger('Socket disconnected'));
 });

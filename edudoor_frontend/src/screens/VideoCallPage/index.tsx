@@ -32,7 +32,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
       header={Tools.str(videoCallState.data.meetingRoom?.sessionName)}
       renderHeaderEnd={() => (
         <div>
-          <ConfirmationButton onConfirm={endMeeting} onReject={() => {}} text="End Meeting">
+          <ConfirmationButton title="End Meeting" onConfirm={endMeeting} onReject={() => {}} text="End Meeting">
             <span>Do you want to end this meeting?</span>
           </ConfirmationButton>
         </div>

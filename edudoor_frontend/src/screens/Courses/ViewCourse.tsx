@@ -60,9 +60,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 Add Module
               </Button>
             </RoleContainer>
-            <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-              Live classroom
-            </Button>
+            <RoleContainer roles={[Roles.TEACHER]}>
+              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+                Start live classroom
+              </Button>
+            </RoleContainer>
             <ProgressModal
               state={launchClassroom}
               cancellable={false}

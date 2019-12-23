@@ -4,7 +4,7 @@ import ConfirmModal from '../ConfirmModal';
 
 const ConfirmationButton: FunctionComponent<ConfirmationButtonProps> = ({ children, ...props }): JSX.Element => {
   return (
-    <ConfirmModal onConfirm={props.onConfirm} onReject={props.onReject}>
+    <ConfirmModal title={props.title} onConfirm={props.onConfirm} onReject={props.onReject}>
       {onClick => (
         <Button {...props} onClick={onClick}>
           {props.text}
@@ -19,6 +19,7 @@ export interface ConfirmationButtonProps extends ButtonProps {
   onConfirm: () => void;
   onReject?: () => void;
   text: string;
+  title?: string;
 }
 
 export default ConfirmationButton;

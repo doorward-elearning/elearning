@@ -3,6 +3,7 @@ import models from '../../../database/models';
 import StudentController from '../../users/students/StudentController';
 import UserController from '../../users/UserController';
 import * as roles from '../../../utils/roles';
+import MeetingRoomsHelper from '../../../helpers/MeetingRoomsHelper';
 
 class StudentCourseController {
   static async getStudents(req) {
@@ -56,32 +57,47 @@ class StudentCourseController {
     const result = await StudentController.createStudent(req);
     if (result) {
       const { student } = result[1];
+      const course = await models.Course.findByPk(params.courseId);
 
       // add the student to this course
       await models.StudentCourse.create({
         studentId: student.id,
         courseId: params.courseId,
       });
+      await MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
 
       return [201, { student }, `${student.username} has been added to the course`];
     }
   }
 
   static async addStudent(req) {
-    const { params: { courseId }, body: { students } } = req;
+    const {
+      params: { courseId },
+      body: { students },
+    } = req;
+    const course = await models.Course.findByPk(courseId);
 
     const studentList = await models.User.findAll({
       where: {
-        id: students
-      }
+        id: students,
+      },
     });
 
-    await Promise.all(studentList.map(async (student) => {
-      await models.StudentCourse.create({
-        studentId: student.id,
-        courseId
-      });
-    }));
+    await Promise.all(
+      studentList.map(async student => {
+        await models.StudentCourse.findOrCreate({
+          defaults: {
+            studentId: student.id,
+            courseId,
+          },
+          where: {
+            studentId: student.id,
+            courseId,
+          },
+        });
+        await MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
+      })
+    );
     return [200, { students: studentList }, 'Students have been added to the course'];
   }
 }

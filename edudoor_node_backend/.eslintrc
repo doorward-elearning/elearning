@@ -31,6 +31,7 @@
   },
   "globals": {
     "models": true,
-    "ldapClient": true
+    "ldapClient": true,
+    "socketIO": true
   }
 }

@@ -10,15 +10,18 @@ import { fetchCurrentUserAction } from '../reducers/users/actions';
 import { useEffect } from 'react';
 
 type RouteType = typeof Routes;
+
 export const appInitialValue = {
   routes: { ...ROUTES },
   setTitle: (key: keyof RouteType, name: string, link?: string): void => {},
   setParams: (key: keyof RouteType, params: { [name: string]: any }) => {},
 };
 
-export interface UseApp extends AppContextProps {}
+export interface UseApp extends AppContextProps {
+  io: SocketIOClient.Socket;
+}
 
-const useApp = (): UseApp => {
+const useApp = (io: SocketIOClient.Socket): UseApp => {
   const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);
 
   const auth = useAuth();
@@ -61,6 +64,7 @@ const useApp = (): UseApp => {
     setTitle: _.throttle(setTitle, 100),
     setParams,
     routes,
+    io,
   };
 };
 
