@@ -1,5 +1,4 @@
 import React from 'react';
-import socketIOClient from 'socket.io-client';
 import ReactDOM from 'react-dom';
 import ApplicationTheme from './components/ui/ApplicationTheme';
 import './index.scss';
@@ -8,8 +7,8 @@ import { Provider } from 'react-redux';
 import Request from './services/request';
 import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
-import { Router } from './routes/routes';
-import useApp, { appInitialValue } from './hooks/useApp';
+import ROUTES, { Router } from './routes/routes';
+import useApp, { appInitialValue, RouteType } from './hooks/useApp';
 import RolesManager from './components/static/RolesManager';
 import useOfflineToast from './hooks/useOfflineToast';
 
@@ -17,26 +16,28 @@ Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 Request.setAuth();
 
-const baseUrl = process.env.REACT_APP_BASE_URL || '';
-
-const serverUrl = baseUrl.replace('/api/v1/', '');
-
-export const io = socketIOClient(serverUrl, { transports: ['websocket', 'polling'] });
-
 const AppInitialValue = {
   ...appInitialValue,
-  io,
+  io: null,
+  setIO: () => {},
 };
 
-export type AppContextProps = typeof AppInitialValue;
+export type AppContextProps = {
+  routes: typeof ROUTES;
+  setTitle: (key: keyof RouteType, name: string, link?: string) => void;
+  setParams: (key: keyof RouteType, params: { [name: string]: any }) => void;
+  io: SocketIOClient.Socket | null;
+  setIO: (io: SocketIOClient.Socket | null) => void;
+};
 
 export const AppContext = React.createContext<AppContextProps>(AppInitialValue);
 
 const App: React.FC = () => {
-  const app = useApp(io);
+  const app = useApp();
   useOfflineToast();
+
   return (
-    <AppContext.Provider value={app}>
+    <AppContext.Provider value={{ ...app }}>
       <ApplicationTheme theme="base">
         <RolesManager>
           <Router />

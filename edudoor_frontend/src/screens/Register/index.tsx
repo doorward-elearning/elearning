@@ -23,7 +23,7 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
 
   useEffect(() => {
     if (registration.data) {
-      authenticate();
+      authenticate(registration.data.token);
       clearLogin();
     }
   }, [registration.data]);

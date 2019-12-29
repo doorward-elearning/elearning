@@ -23,11 +23,15 @@ import CourseViewMenu from '../../components/static/Dropdowns/CourseViewMenu';
 import LabelRow from '../../components/ui/LabelRow';
 import ProgressModal from '../../components/static/Modals/ProgressModal';
 import useRoutes from '../../hooks/useRoutes';
+import useEventListener from '../../hooks/useEventListener';
+import { LIVE_CLASSROOM_STARTED } from '../../reducers/socket/types';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
   const liveClassroomModal = useModal(false);
+
+  const data = useEventListener(LIVE_CLASSROOM_STARTED);
 
   const [courseId, course] = useViewCourse();
   const routes = useRoutes();

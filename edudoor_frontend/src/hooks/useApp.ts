@@ -1,15 +1,18 @@
 import _ from 'lodash';
 import ROUTES from '../routes/routes';
 import { AppContextProps } from '../index';
+import * as eventTypes from '../reducers/socket/types';
 import { routes as Routes } from '../routes';
 import Tools from '../utils/Tools';
 import useStateRef from './useStateRef';
 import useAuth from './useAuth';
 import useAction from './useActions';
 import { fetchCurrentUserAction } from '../reducers/users/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { connectSocket } from '../utils/socket';
 
-type RouteType = typeof Routes;
+export type RouteType = typeof Routes;
 
 export const appInitialValue = {
   routes: { ...ROUTES },
@@ -17,12 +20,15 @@ export const appInitialValue = {
   setParams: (key: keyof RouteType, params: { [name: string]: any }) => {},
 };
 
-export interface UseApp extends AppContextProps {
-  io: SocketIOClient.Socket;
-}
+export interface UseApp extends AppContextProps {}
 
-const useApp = (io: SocketIOClient.Socket): UseApp => {
+const useApp = (): UseApp => {
   const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);
+  const [io, setIO] = useState();
+
+  useEffect(() => {
+    setIO(connectSocket());
+  }, []);
 
   const auth = useAuth();
   const getCurrentUser = useAction(fetchCurrentUserAction);
@@ -59,12 +65,27 @@ const useApp = (io: SocketIOClient.Socket): UseApp => {
       setRoutes(newRoutes);
     }
   };
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (io) {
+      Object.values(eventTypes).forEach(type => {
+        io.on((type: string, data: any) => {
+          dispatch({
+            type,
+            payload: data,
+          });
+        });
+      });
+    }
+  }, [io]);
 
   return {
     setTitle: _.throttle(setTitle, 100),
     setParams,
     routes,
     io,
+    setIO,
   };
 };
 
