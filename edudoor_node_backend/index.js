@@ -7,6 +7,7 @@ import env from './src/config/environment';
 import app from './src/app';
 import models from './src/database/models';
 import Organization from './src/utils/Organization';
+import JWT from './src/utils/auth';
 
 global.models = models;
 
@@ -32,4 +33,13 @@ server.listen(env.PORT, '0.0.0.0', 511, () => {
 io.on('connection', client => {
   logger(`Socket connection established with ${client.id}`);
   client.on('disconnect', () => logger('Socket disconnected'));
+
+  const { token } = client.handshake.query;
+
+  if (token) {
+    JWT.verify(token).then(decoded => {
+      const { id } = decoded;
+      client.join(id);
+    });
+  }
 });

@@ -8,7 +8,7 @@
     "build": "babel . --ignore node_modules,test,coverage,dist -d dist/ --copy-files",
     "serve": "node dist/index.js",
     "start": "NODE_ENV=production yarn run serve",
-    "start:dev": "NODE_ENV=development  DEBUG=log  nodemon --exec babel-node index.js",
+    "start:dev": "NODE_ENV=development  DEBUG=socket.io:socket  nodemon --exec babel-node index.js",
     "lint": "node_modules/.bin/eslint ./src",
     "pretest": "NODE_ENV=test yarn db:migrate",
     "test": "jest --no-cache  --detectOpenHandles --runInBand --forceExit",

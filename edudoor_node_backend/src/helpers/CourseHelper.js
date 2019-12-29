@@ -128,6 +128,21 @@ class CourseHelper {
       })
     );
   }
+
+  static async getStudentsForCourse(courseId) {
+    return models.User.findAll({
+      include: [
+        {
+          model: models.Course,
+          where: {
+            id: courseId,
+          },
+          as: 'courses',
+          attributes: [],
+        },
+      ],
+    });
+  }
 }
 
 export default CourseHelper;

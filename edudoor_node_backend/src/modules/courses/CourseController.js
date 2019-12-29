@@ -1,12 +1,13 @@
 import Sequelize from 'sequelize';
 import models from '../../database/models';
-import { CourseInclude, MyCoursesInclude, StudentCoursesInclude } from '../../utils/includes';
+import { CourseInclude, StudentCoursesInclude } from '../../utils/includes';
 import ModulesController from './modules/ModulesController';
 import ModulesHelper from '../../helpers/ModulesHelper';
 import CourseHelper from '../../helpers/CourseHelper';
 import Tools from '../../utils/Tools';
-import OpenViduHelper from '../../helpers/OpenViduHelper';
 import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
+import Socket from '../../websocket/Socket';
+import { LIVE_CLASSROOM_STARTED } from '../../websocket/types';
 
 class CourseController {
   static async createCourse(req) {
@@ -114,6 +115,12 @@ class CourseController {
       await MeetingRoomsHelper.createMeeting(meetingRoom.id, user.id);
     }
 
+    const students = await CourseHelper.getStudentsForCourse(course.id);
+
+    Socket.send(students, LIVE_CLASSROOM_STARTED, {
+      courseId: course.id,
+    });
+
     return CourseHelper.joinCourseMeetingRoom(meetingRoom, user.id);
   }
 
@@ -121,7 +128,7 @@ class CourseController {
     const { params, user } = req;
     const course = await models.Course.findByPk(params.courseId);
 
-    const meetingRoom = await models.MeetingRoom.findOne({
+    const meetingRoom = await models.Meeting.findOne({
       where: {
         courseId: course.id,
         status: 'STARTED',

@@ -10,7 +10,7 @@ Router.get(
   '/:id',
   BaseValidator.modelExists(
     req => ({ id: req.params.id, status: 'STARTED' }),
-    models.MeetingRoom,
+    models.Meeting,
     'The meeting room has not been initialized.'
   ),
   MeetingRoomsController.joinMeeting
