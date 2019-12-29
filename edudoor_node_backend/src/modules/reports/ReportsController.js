@@ -9,17 +9,16 @@ class ReportsController {
   }
 
   static async teachersReport() {
-    const teachers = await models.User.findAll({
+    const teachers = await UserController.findByRole(roles.TEACHER, {
       include: [
         {
           model: models.Course,
           as: 'authoredCourses',
-          required: true,
         },
       ],
     });
 
-    return [200, { courseCreators: teachers }];
+    return [200, { teachers }];
   }
 
   static async teacherReport(req) {
@@ -36,7 +35,7 @@ class ReportsController {
       ],
     });
 
-    return [200, { courseCreator: teacher }];
+    return [200, { teacher }];
   }
 
   static async studentReport(req) {

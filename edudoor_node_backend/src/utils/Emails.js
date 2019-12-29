@@ -30,6 +30,18 @@ class Emails {
       link: 'https://edudoor.org',
     });
   }
+
+  static async teacherCreated(teacher, resetToken, origin) {
+    const organization = await models.Organization.findByPk(teacher.organizationId);
+
+    return EmailSender.sendMail('teacher_new_account.pug', teacher.email, `${organization.name} new teacher account`, {
+      username: `${teacher.firstName} ${teacher.lastName}`,
+      organization: organization.name,
+      link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
+        Tools.encrypt(teacher.email)
+      )}`,
+    });
+  }
 }
 
 export default Emails;

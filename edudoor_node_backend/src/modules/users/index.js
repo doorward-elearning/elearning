@@ -9,6 +9,7 @@ import {
   validateRegistration,
 } from './validate';
 import students from './students';
+import teachers from './teachers';
 import Authorization from '../../middleware/Authorization';
 import BaseValidator from '../../middleware/BaseValidator';
 
@@ -23,6 +24,7 @@ Router.get('/auth', Authorization.authenticate, UserController.getCurrentUser);
 
 Router.use('/students', students);
 Router.use('/profile', ProfileRouter);
+Router.use('/teachers', teachers);
 
 ProfileRouter.put(
   '/account',
