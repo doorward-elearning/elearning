@@ -1,10 +1,10 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
-import CourseCreatorsTable from '../../components/static/Tables/CourseCreatorsTable';
+import TeacherReportTable from '../../components/static/Tables/TeacherReportTable';
 import useRoutes from '../../hooks/useRoutes';
 
-const CourseCreatorListReport: FunctionComponent<CourseCreatorListReportProps> = (props): JSX.Element => {
+const TeacherListReport: FunctionComponent<TeacherListReportProps> = (props): JSX.Element => {
   const routes = useRoutes();
   return (
     <Layout
@@ -12,11 +12,11 @@ const CourseCreatorListReport: FunctionComponent<CourseCreatorListReportProps> =
       features={[LayoutFeatures.HEADER, LayoutFeatures.SEARCH_BAR, LayoutFeatures.BREAD_CRUMBS]}
       header="Course Creators Report"
     >
-      <CourseCreatorsTable onRowClick={row => routes.navigate(routes.teacherReport, { teacherId: row.id })} />
+      <TeacherReportTable onRowClick={row => routes.navigate(routes.teacherReport, { teacherId: row.id })} />
     </Layout>
   );
 };
 
-export interface CourseCreatorListReportProps extends PageComponent {}
+export interface TeacherListReportProps extends PageComponent {}
 
-export default CourseCreatorListReport;
+export default TeacherListReport;

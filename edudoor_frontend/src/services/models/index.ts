@@ -36,7 +36,7 @@ export interface Student extends User {
   coursesInProgress: Array<Course>;
 }
 
-export interface CourseCreator extends User {
+export interface Teacher extends User {
   authoredCourses: Array<Course>;
 }
 

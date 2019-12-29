@@ -27,6 +27,9 @@ export interface CreateStudentBody {
   city: string;
   country: string;
 }
+
+export interface CreateTeacherBody extends CreateStudentBody {}
+
 export interface CourseModuleItemBody {
   type: ModuleItemTypes;
   content: any;

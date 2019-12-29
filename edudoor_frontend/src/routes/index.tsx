@@ -18,13 +18,15 @@ import { EdudoorRoute } from './EdudoorRoute';
 import Error404 from '../screens/ErrorPages/Error404';
 import StudentListReport from '../screens/Reports/StudentListReport';
 import StudentReport from '../screens/Reports/StudentReport';
-import CourseCreatorListReport from '../screens/Reports/CourseCreatorListReport';
-import CourseCreatorReport from '../screens/Reports/CourseCreatorReport';
+import TeacherListReport from '../screens/Reports/TeacherListReport';
+import TeacherReport from '../screens/Reports/TeacherReport';
 import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import Register from '../screens/Register';
 import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 import VideoCallPage from '../screens/VideoCallPage';
+import TeacherList from '../screens/Teachers/TeacherList';
+import AddTeacher from '../screens/Teachers/AddTeacher';
 
 export const routes = {
   home: 'Home',
@@ -60,6 +62,9 @@ export const routes = {
   resetPassword: 'Reset password',
   editModuleItem: 'Edit Module Item',
   videoCall: 'Video Call',
+  teachers: 'Teachers',
+  teacherList: 'All Teachers',
+  addTeacher: 'Add Teacher',
 };
 
 export type EdudoorRoutes = typeof routes;
@@ -97,6 +102,10 @@ export const routeConfigurations: Routes = {
           studentList: new Route('/', StudentList).roles(Roles.TEACHER),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
+        teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
+          teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
+          addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
+        }),
         myProfile: new Route('/profile/:username', Profile).with({
           changePassword: new Route('/changePassword', Profile),
         }),
@@ -105,8 +114,8 @@ export const routeConfigurations: Routes = {
             studentReport: new Route('/:studentId', StudentReport),
           }),
           courseListReports: new Route('/courses', Error404),
-          teacherListReports: new Route('/teachers', CourseCreatorListReport).roles().with({
-            teacherReport: new Route('/:teacherId', CourseCreatorReport),
+          teacherListReports: new Route('/teachers', TeacherListReport).roles().with({
+            teacherReport: new Route('/:teacherId', TeacherReport),
           }),
         }),
       }),

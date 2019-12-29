@@ -5,6 +5,7 @@ import {
   CourseModuleBody,
   CourseModuleItemBody,
   CreateCourseBody,
+  CreateTeacherBody,
   CreatePasswordBody,
   CreateStudentBody,
   ForgotPasswordBody,
@@ -14,8 +15,8 @@ import {
   UpdateModulesBody,
 } from './models/requestBody';
 import {
-  CourseCreatorListResponse,
-  CourseCreatorResponse,
+  TeacherListResponse,
+  TeacherResponse,
   CourseListResponse,
   CourseModuleListResponse,
   CourseModuleResponse,
@@ -67,6 +68,14 @@ const Api = {
       },
       create: (body: CreateStudentBody): Promise<StudentResponse> => {
         return POST('/users/students', body);
+      },
+    },
+    teachers: {
+      list: (query: string): Promise<TeacherListResponse> => {
+        return GET('/users/teachers?' + query);
+      },
+      create: (body: CreateTeacherBody): Promise<TeacherResponse> => {
+        return POST('/users/teachers', body);
       },
     },
   },
@@ -137,11 +146,11 @@ const Api = {
         return GET(`/reports/students/${studentId}`);
       },
     },
-    courseCreators: {
-      list: (): Promise<CourseCreatorListResponse> => {
+    teachers: {
+      list: (): Promise<TeacherListResponse> => {
         return GET('/reports/teachers');
       },
-      get: (teacherId: string): Promise<CourseCreatorResponse> => {
+      get: (teacherId: string): Promise<TeacherResponse> => {
         return GET(`/reports/teachers/${teacherId}`);
       },
     },

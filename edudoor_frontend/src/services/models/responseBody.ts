@@ -1,5 +1,5 @@
 import { ApiResponse } from '../services';
-import { Course, CourseCreator, MeetingRoom, Module, ModuleItem, Student, User } from './index';
+import { Course, Teacher, MeetingRoom, Module, ModuleItem, Student, User } from './index';
 import { OpenViduSessionProps } from '../../reducers/videoCall/actions';
 
 export interface LoginResponse extends UserResponse {
@@ -38,12 +38,12 @@ export interface ModuleItemsResponse extends ApiResponse {
   items: Array<ModuleItem>;
 }
 
-export interface CourseCreatorListResponse extends ApiResponse {
-  courseCreators: Array<CourseCreator>;
+export interface TeacherListResponse extends ApiResponse {
+  teachers: Array<Teacher>;
 }
 
-export interface CourseCreatorResponse extends ApiResponse {
-  courseCreator: CourseCreator;
+export interface TeacherResponse extends ApiResponse {
+  teacher: Teacher;
 }
 
 export interface CourseModuleListResponse extends ApiResponse {

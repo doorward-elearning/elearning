@@ -18,6 +18,11 @@ export default (routes: UseRoutes, props: SideBarProps, logout: () => void): Arr
     subMenu: [routes.studentList, routes.newStudent],
   },
   {
+    ...routes.teachers,
+    icon: 'people',
+    subMenu: [routes.teacherList, routes.addTeacher],
+  },
+  {
     ...routes.reports,
     icon: 'trending_up',
     subMenu: [routes.studentListReports, routes.teacherListReports],

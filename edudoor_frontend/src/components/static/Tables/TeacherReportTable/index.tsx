@@ -1,15 +1,15 @@
 import React from 'react';
 import SimpleWebComponent from '../../../ui/WebComponent/SimpleWebComponent';
-import { CourseCreator } from '../../../../services/models';
+import { Teacher } from '../../../../services/models';
 import Table from '../../../ui/Table';
 import { fetchCourseCreatorReportList } from '../../../../reducers/reports/actions';
 import { State } from '../../../../store';
 
-const CourseCreatorsTable: React.FunctionComponent<CourseCreatorsTableProps> = props => (
+const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = props => (
   <SimpleWebComponent
     action={fetchCourseCreatorReportList}
-    selector={(state: State) => state.reports.courseCreatorReportList}
-    dataSelector={data => data.courseCreators}
+    selector={(state: State) => state.reports.teacherReportList}
+    dataSelector={data => data.teachers}
   >
     {data => (
       <Table
@@ -35,8 +35,8 @@ const CourseCreatorsTable: React.FunctionComponent<CourseCreatorsTableProps> = p
   </SimpleWebComponent>
 );
 
-export interface CourseCreatorsTableProps {
-  onRowClick: (row: CourseCreator, index: number) => void;
+export interface TeacherReportTableProps {
+  onRowClick: (row: Teacher, index: number) => void;
 }
 
-export default CourseCreatorsTable;
+export default TeacherReportTable;

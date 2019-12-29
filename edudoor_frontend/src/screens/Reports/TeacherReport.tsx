@@ -10,12 +10,12 @@ import { fetchCourseCreatorReport } from '../../reducers/reports/actions';
 import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '../../hooks/useBreadCrumbTitle';
 
-const CourseCreatorReport: FunctionComponent<CourseCreatorReportProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.reports.singleCourseCreator);
+const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
+  const state = useSelector((state: State) => state.reports.singleTeacher);
   usePageResource('teacherId', fetchCourseCreatorReport);
-  useBreadCrumbTitle(state, state => state.data.courseCreator?.fullName);
+  useBreadCrumbTitle(state, state => state.data.teacher?.fullName);
 
-  const courseCreator = state.data.courseCreator;
+  const courseCreator = state.data.teacher;
   return (
     <Layout
       {...props}
@@ -33,6 +33,6 @@ const CourseCreatorReport: FunctionComponent<CourseCreatorReportProps> = (props)
   );
 };
 
-export interface CourseCreatorReportProps extends PageComponent {}
+export interface TeacherReportProps extends PageComponent {}
 
-export default CourseCreatorReport;
+export default TeacherReport;
