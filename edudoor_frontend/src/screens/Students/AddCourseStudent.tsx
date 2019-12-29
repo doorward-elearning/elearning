@@ -14,17 +14,12 @@ import useFormSubmit from '../../hooks/useFormSubmit';
 import IfElse from '../../components/ui/IfElse';
 
 const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
-  const studentForm = useForm<AddStudentFormState>();
-  const createStudent = useAction(addCourseStudentAction);
+  const studentForm = useForm();
   const [courseId] = useViewCourse();
   const routes = useRoutes();
   const history = useHistory();
   const createCourse = useSelector((state: State) => state.courses.createStudent);
   const submitted = useFormSubmit(createCourse);
-
-  const onSubmit = (values: AddStudentFormState): void => {
-    createStudent(courseId, values);
-  };
 
   return (
     <IfElse condition={submitted}>
@@ -38,8 +33,8 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
         <AddStudentForm
           onCancel={(): void => history.push(routes.routes.courseStudents.link)}
           useForm={studentForm}
-          onSubmit={onSubmit}
           state={createCourse}
+          createData={data => [courseId, data]}
         />
       </Layout>
     </IfElse>

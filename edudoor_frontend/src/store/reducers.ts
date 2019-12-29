@@ -5,6 +5,7 @@ import users from '../reducers/users';
 import reports from '../reducers/reports';
 import videoCall from '../reducers/videoCall';
 import socket from '../reducers/socket';
+import teachers from '../reducers/teachers';
 
 export default {
   login,
@@ -14,4 +15,5 @@ export default {
   reports,
   videoCall,
   socket,
+  teachers,
 };

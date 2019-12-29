@@ -11,7 +11,7 @@ function useFormSubmit<T extends WebComponentState<any>>(form?: T, onSubmit?: ()
         setSubmitting(true);
         setSubmitted(false);
       }
-      if ((form.fetched || form.submitted) && submitting) {
+      if (form.fetched && submitting) {
         setSubmitted(true);
       }
     }
