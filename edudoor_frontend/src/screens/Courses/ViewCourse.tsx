@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '../../types';
 import { match } from 'react-router';
@@ -31,7 +31,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addStudentModal = useModal(false);
   const liveClassroomModal = useModal(false);
 
-  const data = useEventListener(LIVE_CLASSROOM_STARTED);
+  const liveClassroom: any = useEventListener(LIVE_CLASSROOM_STARTED);
 
   const [courseId, course] = useViewCourse();
   const routes = useRoutes();
@@ -69,6 +69,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 Start live classroom
               </Button>
             </RoleContainer>
+            <IfElse condition={liveClassroom?.courseId}>
+              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+                Join live classroom
+              </Button>
+            </IfElse>
             <ProgressModal
               state={launchClassroom}
               cancellable={false}

@@ -30,7 +30,6 @@ class ReportsController {
         {
           model: models.Course,
           as: 'authoredCourses',
-          required: true,
         },
       ],
     });
