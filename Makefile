@@ -12,6 +12,7 @@ start:
 	@ echo " "
 	@ ${INFO} "Building required docker images"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build edudoor_frontend
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build edudoor_rest_api
 	@ ${INFO} "Starting the application"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_frontend &
 

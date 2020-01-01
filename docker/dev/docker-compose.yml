@@ -64,7 +64,7 @@ services:
       edudoor_node_database:
         condition: service_healthy
       edudoor_openvidu:
-        condition: service_healthy
+        condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
       interval: 10s
