@@ -42,18 +42,18 @@ services:
     build:
       context: ../../
       dockerfile: ./docker/dev/backend/Dockerfile
-    links:
-      - edudoor_node_database
+    network_mode: host
     volumes:
       - /usr/app/node_modules
       - ../../edudoor_node_backend:/usr/app
     env_file:
       - ../../edudoor_node_backend/.env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@edudoor_node_database/edudoor
-      OPENOLAT_API_URL: http://edudoor_openolat_backend:8080/openolat/restapi
-      LDAP_URL: ldap://edudoor_ldap_auth:389
+      DATABASE_URL: postgres://postgres:postgres@localhost:5434/edudoor
+      OPENOLAT_API_URL: http://localhost:8080/openolat/restapi
+      LDAP_URL: ldap://localhost:389
       FRONTEND_URL: http://localhost:3005
+      OPENVIDU_URL: https://localhost:4443
     ports:
       - '7000:7000'
     expose:
@@ -127,15 +127,10 @@ services:
     container_name: edudoor_openvidu
     ports:
       - '4443:4443'
-        # - '8888:8888'
-        # - '9091:9091'
+      - '8888:8888'
+      - '9091:9091'
     environment:
       openvidu.secret: password
       openvidu.webhook: "true"
       openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetingRooms/webhook
       openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"
-    healthcheck:
-      test: ["CMD-SHELL", "curl -s localhost:4443"]
-      interval: 5s
-      timeout: 10s
-      retries: 10
