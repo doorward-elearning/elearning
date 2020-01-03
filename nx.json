@@ -7,5 +7,12 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "edudoor-frontend": {
+      "tags": []
+    },
+    "edudoor-frontend-e2e": {
+      "tags": []
+    }
+  }
 }
