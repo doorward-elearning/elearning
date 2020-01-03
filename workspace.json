@@ -12,16 +12,16 @@
           "options": {
             "outputPath": "dist/apps/edudoor-frontend",
             "index": "apps/edudoor-frontend/src/index.html",
-            "main": "apps/edudoor-frontend/src/main.tsx",
+            "main": "apps/edudoor-frontend/src/index.tsx",
             "polyfills": "apps/edudoor-frontend/src/polyfills.ts",
             "tsConfig": "apps/edudoor-frontend/tsconfig.app.json",
             "assets": [
               "apps/edudoor-frontend/src/favicon.ico",
               "apps/edudoor-frontend/src/assets"
             ],
-            "styles": ["apps/edudoor-frontend/src/styles.scss"],
+            "styles": [],
             "scripts": [],
-            "webpackConfig": "@nrwl/react/plugins/babel"
+            "webpackConfig": "webpack.config.js"
           },
           "configurations": {
             "production": {
