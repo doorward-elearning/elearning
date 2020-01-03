@@ -1,0 +1,7 @@
+.eb-input {
+  &.error {
+    .eb-input__rating {
+      color: var(--text-error);
+    }
+  }
+}

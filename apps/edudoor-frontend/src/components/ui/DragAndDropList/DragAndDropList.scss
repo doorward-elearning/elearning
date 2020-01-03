@@ -1,0 +1,25 @@
+.drag-and-drop-list {
+  &-item {
+    padding: var(--padding);
+    display: grid;
+    align-items: center;
+    grid-template-columns: auto 1fr;
+
+    > div > .dragIndicator {
+      display: none;
+      opacity: 0;
+      transition: 0.5s opacity, 0.5s max-width;
+    }
+
+    &:hover {
+      > div > .dragIndicator {
+        opacity: 0.5;
+      }
+    }
+    &.dragging {
+      > div:last-child {
+        box-shadow: 0 0 20px 8px rgba(0, 0, 0, 0.05);
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.page-profile__user-card {
+  .ed-card__body {
+    display: grid;
+    justify-items: center;
+
+    .profile-details {
+      display: grid;
+      padding: var(--padding-lg) 0;
+      justify-items: center;
+      grid-gap: var(--padding);
+    }
+  }
+}
