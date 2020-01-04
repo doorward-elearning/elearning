@@ -60,16 +60,16 @@ clean:
 
 build:
 	${INFO} "Building the backend application"
-	@ cp docker/demo/backend/Dockerfile edudoor_node_backend
-	@ echo 'node_modules' > edudoor_node_backend/.dockerignore
+	@ cp docker/demo/backend/Dockerfile apps/edudoor_node_backend
+	@ echo 'node_modules' > apps/edudoor_node_backend/.dockerignore
 	${INFO} "Building the docker image"
 	@ docker build -t edudoor_demo_backend edudoor_node_backend
 	@ rm -rf edudoor_node_backend/Dockerfile
 	@ rm -rf edudoor_node_backend/.dockerignore
 
 	${INFO} "Building the frontend application"
-	@ cp docker/demo/frontend/Dockerfile edudoor_frontend
-	@ echo 'node_modules' > edudoor_frontend/.dockerignore
+	@ cp docker/demo/frontend/Dockerfile apps/edudoor_frontend
+	@ echo 'node_modules' > apps/edudoor_frontend/.dockerignore
 	${INFO} "Building the frontend docker image"
 	@ docker build -t edudoor_demo_frontend edudoor_frontend
 	@ rm -rf edudoor_frontend/Dockerfile
@@ -79,9 +79,9 @@ build:
 build-staging:
 	${INFO} "Building the backend application"
 	@ cd edudoor_node_backend && yarn build && cd ..
-	@ cp docker/staging/backend/Dockerfile edudoor_node_backend
-	@ cp edudoor_node_backend/.env edudoor_node_backend/dist/.env
-	@ echo 'node_modules' > edudoor_node_backend/.dockerignore
+	@ cp docker/staging/backend/Dockerfile apps/edudoor_node_backend
+	@ cp apps/edudoor_node_backend/.env apps/edudoor_node_backend/dist/.env
+	@ echo 'node_modules' > apps/edudoor_node_backend/.dockerignore
 	${INFO} "Building the docker image"
 	@ docker build -t dev_edudoor_rest_api edudoor_node_backend
 	@ rm -rf edudoor_node_backend/Dockerfile

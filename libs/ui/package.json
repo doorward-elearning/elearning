@@ -1,0 +1,8 @@
+{
+  "name": "@edudoor/ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Moses Gitau <gitaumoses4@gmail.com>",
+  "license": "MIT",
+  "private": true
+}

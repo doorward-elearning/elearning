@@ -1,0 +1,118 @@
+@import '../../../../apps/edudoor_frontend/src/animations';
+
+.ed-toast {
+  position: fixed;
+  z-index: 1000;
+  height: 60px;
+  background: var(--primary);
+  color: var(--text-alternate);
+  padding: 0 var(--padding-xlg);
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  grid-gap: var(--padding-lg);
+  box-shadow: var(--box-shadow--hover);
+  transition: 0.5s opacity;
+  border-radius: 3px;
+  min-width: 200px;
+
+  &.error {
+    background: var(--text-error);
+    color: white;
+  }
+
+  &.success {
+    background: var(--text-success);
+  }
+
+  &.fade {
+    opacity: 0;
+  }
+
+  &.h-center {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  &.v-center {
+    top: 50%;
+    animation: animateCenterY 0.5s;
+
+    &.h-center {
+      animation: animateCenterXY 0.5s;
+    }
+  }
+
+  &.v-top {
+    top: var(--padding-lg);
+    animation: flyInTop 0.5s;
+
+    &.h-center {
+      animation: animateCenterX 0.5s;
+    }
+  }
+
+  &.h-right {
+    right: var(--padding-lg);
+  }
+
+  &.h-left {
+    left: var(--padding-lg);
+  }
+
+  &.v-bottom {
+    bottom: var(--padding-lg);
+    animation: flyInBottom 0.5s;
+
+    &.h-center {
+      animation: animateCenterXReversed 0.5s;
+    }
+  }
+}
+
+@keyframes animateCenterY {
+  from {
+    opacity: 0;
+    transform: translateY(-150%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50%);
+  }
+}
+@keyframes animateCenterXReversed {
+  to {
+    opacity: 1;
+    transform: translateY(0%) translateX(-50%);
+  }
+
+  from {
+    opacity: 10;
+    transform: translateY(100%) translateX(-50%);
+  }
+}
+
+@keyframes animateCenterX {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) translateX(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0%) translateX(-50%);
+  }
+}
+
+@keyframes animateCenterXY {
+  from {
+    opacity: 0;
+    transform: translateY(-100%) translateX(-50%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0%) translateX(-50%);
+  }
+}

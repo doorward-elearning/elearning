@@ -16,9 +16,9 @@ services:
       - edudoor_rest_api
     volumes:
       - /usr/app/node_modules
-      - ../../edudoor_frontend:/usr/app
+      - ../../apps/edudoor_frontend:/usr/app
     env_file:
-      - ../../edudoor_frontend/.env
+      - ../../apps/edudoor_frontend/.env
     environment:
       REACT_APP_BASE_URL: http://localhost:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
@@ -45,9 +45,9 @@ services:
     network_mode: host
     volumes:
       - /usr/app/node_modules
-      - ../../edudoor_node_backend:/usr/app
+      - ../../apps/edudoor_node_backend:/usr/app
     env_file:
-      - ../../edudoor_node_backend/.env
+      - ../../apps/edudoor_node_backend/.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@localhost:5434/edudoor
       OPENOLAT_API_URL: http://localhost:8080/openolat/restapi

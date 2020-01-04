@@ -1,0 +1,34 @@
+@import '../../../../apps/edudoor_frontend/src/index';
+
+.ed-list {
+  padding: 0;
+  ul {
+    list-style: none;
+    position: relative;
+    padding: 0;
+    margin: 0;
+
+    > .ed-list__item {
+      padding: 0 var(--padding-lg);
+      position: relative;
+      display: grid;
+      align-items: center;
+      min-height: var(--list-item-height);
+      cursor: default;
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--line-color);
+      }
+
+      &.no-border {
+        &:after,
+        &:before {
+          display: none;
+        }
+      }
+    }
+
+    .ed-list {
+      border: none;
+    }
+  }
+}
