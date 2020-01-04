@@ -1,0 +1,55 @@
+.ed-switch {
+  height: 1.4em;
+  display: grid;
+  z-index: 1;
+  width: 2.5em;
+  border-radius: 0.8em;
+  position: relative;
+  cursor: pointer;
+  border: 1px solid var(--text-primary);
+  transition: 0.5s background;
+
+  &:before,
+  &:after {
+    content: '';
+    position: absolute;
+  }
+
+  &:after {
+    width: 100%;
+    z-index: 1;
+    height: 100%;
+    border-radius: 0.8em;
+  }
+
+
+  &:before {
+    z-index: 2;
+    background: var(--text-primary);
+    left: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+    border: 1px solid var(--line-color);
+    transition: 0.5s box-shadow, 0.5s left, 0.5s right;
+  }
+
+  &:hover {
+    &:before {
+    }
+  }
+
+  &.open {
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    &:before {
+      left: calc(100% - 1em - 2px);
+      background: white;
+    }
+    &:after {
+      background: none;
+    }
+  }
+}

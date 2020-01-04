@@ -1,0 +1,19 @@
+.editable-label-form {
+  .eb-input {
+    padding: 0;
+
+    .ed-editable-label__label {
+      padding: 0;
+    }
+
+    input {
+      padding: 0 var(--padding);
+    }
+
+  }
+  .ed-form__spinner {
+    .ed-spinner {
+      height: 2em;
+    }
+  }
+}

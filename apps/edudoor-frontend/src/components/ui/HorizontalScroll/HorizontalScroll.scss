@@ -1,0 +1,49 @@
+.ed-horizontal-scroll {
+  overflow-x: auto;
+  position: relative;
+  padding: var(--padding-lg) 0;
+  transition: 0.5s scrollLeft;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__parent {
+    position: relative;
+
+    .indicator {
+      position: absolute;
+      height: 100%;
+      display: grid;
+      align-items: center;
+      top: 0;
+      transition: 0.5s font-size, 0.5s transform;
+      cursor: pointer;
+      z-index: 1;
+      .icon {
+        font-size: 40px;
+        background: var(--bg-primary);
+        border-radius: 50%;
+        transition: 0.5s font-size, 0.5s transform;
+        box-shadow: var(--box-shadow);
+      }
+
+      &:hover {
+        .icon {
+          font-size: 45px;
+          transform: translateX(-10px);
+        }
+      }
+
+      &__right {
+        right: 22px;
+        transform: rotateY(180deg) translateX(-100%);
+      }
+
+      &__left {
+        transform: translateX(-100%);
+        left: 22px;
+      }
+    }
+  }
+}

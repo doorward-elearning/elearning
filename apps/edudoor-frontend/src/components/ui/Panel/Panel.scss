@@ -1,0 +1,17 @@
+.ed-panel {
+  border: 1px solid var(--line-color);
+  background: var(--bg-primary);
+  padding: var(--padding);
+
+  &.plain {
+    background: none;
+    border: none;
+  }
+  &.noBackground {
+    background: none;
+  }
+
+  >.ed-header {
+    margin-bottom: var(--padding);
+  }
+}

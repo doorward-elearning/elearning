@@ -1,0 +1,44 @@
+.nav-search-form {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+  align-items: center;
+  align-content: center;
+
+  &.collapsed {
+    input {
+      width: 0;
+      padding: 0;
+      border: none;
+    }
+  }
+
+  input {
+    padding: var(--padding) 40px var(--padding) var(--padding);
+    height: 20px;
+    outline: none;
+    border: 1px solid var(--line-color);
+    width: var(--search-bar-size);
+    background: none;
+    grid-column: 1 / 1;
+    color: var(--text-primary);
+    grid-row: 1 / 1;
+    transition: 0.5s width, 0.5s border;
+  }
+
+  button {
+    grid-column: 1 / 1;
+    grid-row: 1 / 1;
+    margin-right: var(--padding);
+    justify-self: end;
+    outline: none;
+    display: grid;
+    place-items: center;
+    color: var(--text-primary);
+    cursor: pointer;
+    border: none;
+    padding: 0;
+    background: none;
+  }
+}

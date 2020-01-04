@@ -1,0 +1,41 @@
+.ed-breadcrumbs {
+  display: inline-grid;
+  grid-auto-flow: column;
+  align-items: center;
+  align-content: center;
+  &__crumb {
+    padding: var(--padding-sm) var(--padding-lg) var(--padding-sm) 0;
+    margin-right: var(--padding-lg);
+    position: relative;
+    font-size: 0.8em;
+    height: 20px;
+    display: grid;
+    align-items: center;
+    text-transform: uppercase;
+
+    &:last-child {
+      font-weight: 500;
+    }
+
+    &:not(:last-child){
+
+      a {
+        color: var(--text-secondary);
+
+        &:hover {
+          color: var(--accent);
+        }
+      }
+
+      &:after{
+        position: absolute;
+        content: '\276D';
+        color: var(--primary);
+        right: calc(-1 * var(--padding));
+        top: 50%;
+        font-size: 14px;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}

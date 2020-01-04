@@ -1,0 +1,2 @@
+export const FETCH_STUDENT_LIST = 'FETCH_STUDENT_LIST';
+export const ADD_STUDENT = 'ADD_STUDENT';

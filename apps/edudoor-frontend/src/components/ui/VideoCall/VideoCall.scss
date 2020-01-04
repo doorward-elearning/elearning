@@ -1,0 +1,29 @@
+.video-call {
+  position: relative;
+  min-height: 700px;
+  z-index: 1;
+
+  #header {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+
+    #header_img {
+      display: none;
+    }
+
+    #navLeaveButton {
+      display: none;
+    }
+  }
+
+  #titleContent {
+    background: var(--bg-secondary);
+    border: 1px solid var(--line-color);
+    margin: 0 1em;
+    display: none;
+  }
+  #layout {
+    background: var(--bg-primary);
+    box-shadow: var(--box-shadow);
+  }
+}
