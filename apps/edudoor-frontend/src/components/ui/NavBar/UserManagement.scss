@@ -1,9 +1,0 @@
-.user-management {
-  &__user {
-    display: grid;
-    align-items: center;
-    grid-template-columns: auto 1fr auto;
-    grid-gap: var(--padding);
-    padding: var(--padding);
-  }
-}
