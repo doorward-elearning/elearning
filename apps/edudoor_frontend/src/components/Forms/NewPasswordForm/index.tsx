@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
-import PasswordField from '@edudoor/ui/components/Input/PasswordField';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import PasswordField from '@edudoor/ui/src/components/Input/PasswordField';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import { CreatePasswordBody } from '../../../services/models/requestBody';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';

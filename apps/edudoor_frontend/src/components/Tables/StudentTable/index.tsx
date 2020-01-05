@@ -1,7 +1,7 @@
 import React from 'react';
-import { Student } from '../../../services/models';
-import Table from '@edudoor/ui/components/Table';
-import Tools from '@edudoor/ui/utils/Tools';
+import { Student } from '../../../../../../libs/shared/models';
+import Table from '@edudoor/ui/src/components/Table';
+import Tools from '@edudoor/ui/src/utils/Tools';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
   return (

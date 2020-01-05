@@ -2,16 +2,16 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '@edudoor/ui/types';
-import VideoCall from '@edudoor/ui/components/VideoCall';
-import WebComponent from '@edudoor/ui/components/WebComponent';
-import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
-import ConfirmationButton from '@edudoor/ui/components/Buttons/ConfirmationButton';
+import { PageComponent } from '@edudoor/ui/src/types';
+import VideoCall from '@edudoor/ui/src/components/VideoCall';
+import WebComponent from '@edudoor/ui/src/components/WebComponent';
+import { NavbarFeatures } from '@edudoor/ui/src/components/NavBar';
+import ConfirmationButton from '@edudoor/ui/src/components/Buttons/ConfirmationButton';
 import { useHistory } from 'react-router';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '@edudoor/ui/src/hooks/usePageResource';
 import { joinMeetingAction } from '../../reducers/videoCall/actions';
 import useRoutes from '../../hooks/useRoutes';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/ui/src/utils/Tools';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const [navFeatures, setNavFeatures] = useState([NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]);
@@ -47,7 +47,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
         onAction={() => routes.navigate(routes.dashboard)}
       >
         {data => {
-          return <VideoCall {...data} />;
+          return <VideoCall {...data} serverUrl={process.env.REACT_APP_OPENVIDU_URL} />;
         }}
       </WebComponent>
     </Layout>

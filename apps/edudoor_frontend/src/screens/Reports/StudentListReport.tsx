@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import StudentReportsTable from '../../components/Tables/StudentReportsTable';
 import useRoutes from '../../hooks/useRoutes';
-import { Student } from '../../services/models';
+import { Student } from '../../../../../libs/shared/models';
 
 const StudentListReport: React.FunctionComponent<StudentReportsProps> = props => {
   const routes = useRoutes();

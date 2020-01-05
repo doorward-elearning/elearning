@@ -1,18 +1,18 @@
 import React from 'react';
 import _ from 'lodash';
 import { FieldArray } from 'formik';
-import Button from '@edudoor/ui/components/Buttons/Button';
-import ItemArray from '@edudoor/ui/components/ItemArray';
-import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
-import Header from '@edudoor/ui/components/Header';
-import { Answer, Question } from '../../../services/models';
-import Panel from '@edudoor/ui/components/Panel';
-import Icon from '@edudoor/ui/components/Icon';
-import Checkbox from '@edudoor/ui/components/Input/Checkbox';
-import Row from '@edudoor/ui/components/Row';
-import TextArea from '@edudoor/ui/components/Input/TextArea';
-import { FormContext } from '@edudoor/ui/components/Form';
-import NumberField from '@edudoor/ui/components/Input/NumberField';
+import Button from '@edudoor/ui/src/components/Buttons/Button';
+import ItemArray from '@edudoor/ui/src/components/ItemArray';
+import DraftTextArea from '@edudoor/ui/src/components/Input/DraftTextArea';
+import Header from '@edudoor/ui/src/components/Header';
+import { Answer, Question } from '../../../../../../libs/shared/models';
+import Panel from '@edudoor/ui/src/components/Panel';
+import Icon from '@edudoor/ui/src/components/Icon';
+import Checkbox from '@edudoor/ui/src/components/Input/Checkbox';
+import Row from '@edudoor/ui/src/components/Row';
+import TextArea from '@edudoor/ui/src/components/Input/TextArea';
+import { FormContext } from '@edudoor/ui/src/components/Form';
+import NumberField from '@edudoor/ui/src/components/Input/NumberField';
 
 export const defaultQuestion = {
   question: null,

@@ -15,7 +15,7 @@ import {
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
 } from './types';
-import { Action } from '@edudoor/ui/reducers/reducers';
+import { Action } from '@edudoor/ui/src/reducers/reducers';
 import {
   CourseModuleBody,
   CourseModuleItemBody,

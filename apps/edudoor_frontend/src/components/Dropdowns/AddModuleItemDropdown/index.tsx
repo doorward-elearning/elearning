@@ -1,9 +1,9 @@
 import React from 'react';
-import Dropdown from '@edudoor/ui/components/Dropdown';
-import Button from '@edudoor/ui/components/Buttons/Button';
+import Dropdown from '@edudoor/ui/src/components/Dropdown';
+import Button from '@edudoor/ui/src/components/Buttons/Button';
 import useRoutes from '../../../hooks/useRoutes';
-import { Module } from '../../../services/models';
-import { Icons } from '@edudoor/ui/types/icons';
+import { Module } from '../../../../../../libs/shared/models';
+import { Icons } from '@edudoor/ui/src/types/icons';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',

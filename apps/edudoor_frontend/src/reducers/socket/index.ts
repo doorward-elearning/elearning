@@ -1,4 +1,4 @@
-import { Action } from '@edudoor/ui/reducers/reducers';
+import { Action } from '@edudoor/ui/src/reducers/reducers';
 import * as types from './types';
 
 export type SocketEvents = typeof types;

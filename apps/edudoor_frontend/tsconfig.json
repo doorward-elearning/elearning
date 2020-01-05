@@ -4,7 +4,8 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "baseUrl": "",
     "paths": {
-      "@edudoor/ui/*": ["../../libs/ui/*"]
+      "@edudoor/ui/*": ["../../libs/ui/*"],
+      "@edudoor/shared/*": ["../../libs/shared/*"]
     },
     "allowJs": true,
     "skipLibCheck": true,

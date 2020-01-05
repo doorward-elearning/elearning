@@ -1,18 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.scss';
-import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
+import '@edudoor/ui/index.scss';
+import ApplicationTheme from '@edudoor/ui/src/components/ApplicationTheme';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import Request from '@edudoor/ui/services/request';
+import Request from '@edudoor/ui/src/services/request';
 import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
 import useApp, { appInitialValue, RouteType } from './hooks/useApp';
-import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';
+import useOfflineToast from '@edudoor/ui/src/hooks/useOfflineToast';
 import { Router } from './routes/routes';
-import { RouteDefinitions } from '@edudoor/ui/types';
+import { RouteDefinitions } from '@edudoor/ui/src/types';
 import { EdudoorRoutes } from './routes';
-import RolesManager from '@edudoor/ui/components/RolesManager';
+import RolesManager from '@edudoor/ui/src/components/RolesManager';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in

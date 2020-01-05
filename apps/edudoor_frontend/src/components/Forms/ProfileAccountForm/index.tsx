@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import { AccountDetailsBody } from '../../../services/models/requestBody';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import { User } from '../../../services/models';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import { User } from '../../../../../../libs/shared/models';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { updateAccountInformationAction } from '../../../reducers/users/actions';
-import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
+import useFormSubmit from '@edudoor/ui/src/hooks/useFormSubmit';
 import profileAccountForm from './validation';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
 

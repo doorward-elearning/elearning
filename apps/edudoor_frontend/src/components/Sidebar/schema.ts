@@ -1,8 +1,8 @@
-import { SideBarProps } from '@edudoor/ui/components/SideBar';
-import { MenuItem } from '@edudoor/ui/hooks/useSidebarSchema';
-import { Routes } from '@edudoor/ui/types';
+import { SideBarProps } from '@edudoor/ui/src/components/SideBar';
+import { MenuItem } from '@edudoor/ui/src/hooks/useSidebarSchema';
+import { Routes } from '@edudoor/ui/src/types';
 import { EdudoorRoutes } from '../../routes';
-import useAuth from '@edudoor/ui/hooks/useAuth';
+import useAuth from '@edudoor/ui/src/hooks/useAuth';
 
 export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes>): Array<MenuItem> => {
   const { logout } = useAuth();

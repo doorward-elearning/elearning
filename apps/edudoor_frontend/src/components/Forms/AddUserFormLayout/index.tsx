@@ -1,13 +1,13 @@
 import React from 'react';
-import Card from '@edudoor/ui/components/Card';
-import Row from '@edudoor/ui/components/Row';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
+import Card from '@edudoor/ui/src/components/Card';
+import Row from '@edudoor/ui/src/components/Row';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import DropdownSelect from '@edudoor/ui/src/components/Input/DropdownSelect';
 import { getNames } from 'country-list';
 import BasicForm from '../BasicForm';
 import addStudentForm from '../AddStudentForm/validation';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
-import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/src/reducers/reducers';
 
 const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props => {
   const countries = getNames();

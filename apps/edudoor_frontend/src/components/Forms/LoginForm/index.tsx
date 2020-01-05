@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import PasswordField from '@edudoor/ui/components/Input/PasswordField';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import PasswordField from '@edudoor/ui/src/components/Input/PasswordField';
 import loginForm from './validation';
-import useForm from '@edudoor/ui/hooks/useForm';
+import useForm from '@edudoor/ui/src/hooks/useForm';
 import { loginUserAction } from '../../../reducers/login/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';

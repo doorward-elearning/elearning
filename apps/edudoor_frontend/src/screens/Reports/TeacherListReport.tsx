@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import TeacherReportTable from '../../components/Tables/TeacherReportTable';
 import useRoutes from '../../hooks/useRoutes';
 

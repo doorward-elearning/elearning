@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import { RouteDefinition, RouteDefinitions } from '@edudoor/ui/types';
+import { RouteDefinition, RouteDefinitions } from '@edudoor/ui/src/types';
 import { AppContext, AppContextProps } from '../index';
 import { EdudoorRoutes } from '../routes';
-import useApplicationRoutes, { UseApplicationRoutes } from '@edudoor/ui/hooks/useApplicationRoutes';
+import useApplicationRoutes, { UseApplicationRoutes } from '@edudoor/ui/src/hooks/useApplicationRoutes';
 
 export interface UseRoutes
   extends UseApplicationRoutes<EdudoorRoutes>,

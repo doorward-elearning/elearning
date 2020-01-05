@@ -1,4 +1,4 @@
-import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
+import reducerBuilder, { reducerApiAction } from '@edudoor/ui/src/reducers/builder';
 import { JOIN_MEETING } from './types';
 import Api from '../../services/api';
 

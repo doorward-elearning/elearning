@@ -1,9 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Error404 from '../screens/ErrorPages/Error404';
-import { generate } from '@edudoor/ui/routes/routes';
+import { generate } from '@edudoor/ui/src/routes/routes';
 import { routeConfigurations, routeNames } from './index';
-import AuthenticatedRoute from '@edudoor/ui/routes/AuthenticatedRoute';
+import AuthenticatedRoute from '@edudoor/ui/src/routes/AuthenticatedRoute';
 import LoadingPage from '../screens/LoadingPage';
 import useRoutes from '../hooks/useRoutes';
 

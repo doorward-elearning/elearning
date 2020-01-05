@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import StudentTable from '../../components/Tables/StudentTable';
-import WebComponent from '@edudoor/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/src/components/WebComponent';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import useAction from '@edudoor/ui/hooks/useActions';
+import useAction from '@edudoor/ui/src/hooks/useActions';
 import useRoutes from '../../hooks/useRoutes';
 import { fetchStudentListAction } from '../../reducers/students/actions';
 

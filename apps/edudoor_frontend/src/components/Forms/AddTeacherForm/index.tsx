@@ -1,6 +1,6 @@
 import React from 'react';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
+import { WebComponentState } from '@edudoor/ui/src/reducers/reducers';
 import { TeacherResponse } from '../../../services/models/responseBody';
 import AddUserFormLayout from '../AddUserFormLayout';
 import { createTeacherAction } from '../../../reducers/teachers/actions';

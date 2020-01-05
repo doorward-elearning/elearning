@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import * as Yup from 'yup';
-import Dropdown from '@edudoor/ui/components/Dropdown';
-import Icon from '@edudoor/ui/components/Icon';
+import Dropdown from '@edudoor/ui/src/components/Dropdown';
+import Icon from '@edudoor/ui/src/components/Icon';
 import { deleteCourseAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useRoutes from '../../../hooks/useRoutes';
-import WebConfirmModal from '@edudoor/ui/components/ConfirmModal/WebConfirmModal';
-import useModal, { UseModal } from '@edudoor/ui/hooks/useModal';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import { Course } from '../../../services/models';
-import Form from '@edudoor/ui/components/Form';
-import useForm from '@edudoor/ui/hooks/useForm';
+import WebConfirmModal from '@edudoor/ui/src/components/ConfirmModal/WebConfirmModal';
+import useModal, { UseModal } from '@edudoor/ui/src/hooks/useModal';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import { Course } from '../../../../../../libs/shared/models';
+import Form from '@edudoor/ui/src/components/Form';
+import useForm from '@edudoor/ui/src/hooks/useForm';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();

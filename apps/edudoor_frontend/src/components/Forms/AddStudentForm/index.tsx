@@ -1,7 +1,7 @@
 import React from 'react';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import { CreateStudentBody } from '../../../services/models/requestBody';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { WebComponentState } from '@edudoor/ui/src/reducers/reducers';
 import { StudentResponse } from '../../../services/models/responseBody';
 import AddUserFormLayout from '../AddUserFormLayout';
 import { addStudentAction } from '../../../reducers/students/actions';

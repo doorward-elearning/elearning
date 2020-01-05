@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { User } from '../../../services/models';
+import { User } from '../../../../../../libs/shared/models';
 
 const SimpleProfileView: FunctionComponent<SimpleProfileViewProps> = (props): JSX.Element => {
   return <div className="simple-profile-view"></div>;

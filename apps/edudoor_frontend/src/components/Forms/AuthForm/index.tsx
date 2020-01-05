@@ -1,11 +1,11 @@
 import React, { ReactChild, useContext } from 'react';
-import EImage from '@edudoor/ui/components/Image';
+import EImage from '@edudoor/ui/src/components/Image';
 import './AuthForm.scss';
-import Button from '@edudoor/ui/components/Buttons/Button';
-import Header from '@edudoor/ui/components/Header';
-import Card from '@edudoor/ui/components/Card';
-import IfElse from '@edudoor/ui/components/IfElse';
-import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
+import Button from '@edudoor/ui/src/components/Buttons/Button';
+import Header from '@edudoor/ui/src/components/Header';
+import Card from '@edudoor/ui/src/components/Card';
+import IfElse from '@edudoor/ui/src/components/IfElse';
+import { ThemeContext } from '@edudoor/ui/src/components/ApplicationTheme';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '../../../../reducers/reducers';
 

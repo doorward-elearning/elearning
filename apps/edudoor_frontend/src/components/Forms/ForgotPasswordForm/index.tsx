@@ -2,10 +2,10 @@ import React from 'react';
 import BasicForm from '../BasicForm';
 import { forgotAccountPasswordAction } from '../../../reducers/users/actions';
 import * as Yup from 'yup';
-import TextField from '@edudoor/ui/components/Input/TextField';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import useForm from '@edudoor/ui/hooks/useForm';
+import useForm from '@edudoor/ui/src/hooks/useForm';
 import useRoutes from '../../../hooks/useRoutes';
 
 const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = props => {

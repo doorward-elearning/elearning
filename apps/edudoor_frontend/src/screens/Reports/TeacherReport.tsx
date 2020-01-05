@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '@edudoor/ui/types';
-import Tools from '@edudoor/ui/utils/Tools';
+import { PageComponent } from '@edudoor/ui/src/types';
+import Tools from '@edudoor/ui/src/utils/Tools';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import WebComponent from '@edudoor/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/src/components/WebComponent';
 import AuthoredCoursesReportTable from '../../components/Tables/AuthoredCoursesReportTable';
 import { fetchCourseCreatorReport } from '../../reducers/reports/actions';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
-import useBreadCrumbTitle from '@edudoor/ui/hooks/useBreadCrumbTitle';
+import usePageResource from '@edudoor/ui/src/hooks/usePageResource';
+import useBreadCrumbTitle from '@edudoor/ui/src/hooks/useBreadCrumbTitle';
 import useRoutes from '../../hooks/useRoutes';
 
 const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {

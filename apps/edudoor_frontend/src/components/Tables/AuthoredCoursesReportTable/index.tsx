@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
-import { Course } from '../../../services/models';
-import Table from '@edudoor/ui/components/Table';
+import { Course } from '../../../../../../libs/shared/models';
+import Table from '@edudoor/ui/src/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {

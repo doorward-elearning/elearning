@@ -1,4 +1,4 @@
-import { Module, ModuleItemTypes } from './index';
+import { Module, ModuleItemTypes } from '../../../../../libs/shared/models';
 
 export interface LoginBody {
   username: string;

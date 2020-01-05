@@ -1,5 +1,5 @@
 import { CLEAR_LOGIN, LOGIN_USER, REGISTER_USER } from './types';
-import { Action } from '@edudoor/ui/reducers/reducers';
+import { Action } from '@edudoor/ui/src/reducers/reducers';
 import { RegistrationBody } from '../../services/models/requestBody';
 
 export const loginUserAction = (data: { username: string; password: string }): Action => ({

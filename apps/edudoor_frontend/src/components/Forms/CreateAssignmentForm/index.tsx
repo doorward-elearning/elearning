@@ -1,17 +1,17 @@
 import React, { FunctionComponent } from 'react';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import DraftTextArea from '@edudoor/ui/src/components/Input/DraftTextArea';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
-import { Assignment, Module } from '../../../services/models';
+import { Assignment, Module } from '../../../../../../libs/shared/models';
 import './CreateAssignmentForm.scss';
-import MultipleSwitchField from '@edudoor/ui/components/Input/MultipleSwitchField';
-import DateInput from '@edudoor/ui/components/Input/DateInput';
+import MultipleSwitchField from '@edudoor/ui/src/components/Input/MultipleSwitchField';
+import DateInput from '@edudoor/ui/src/components/Input/DateInput';
 import validation from './validation';
-import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
-import IfElse from '@edudoor/ui/components/IfElse';
-import Row from '@edudoor/ui/components/Row';
-import Header from '@edudoor/ui/components/Header';
+import DropdownSelect from '@edudoor/ui/src/components/Input/DropdownSelect';
+import IfElse from '@edudoor/ui/src/components/IfElse';
+import Row from '@edudoor/ui/src/components/Row';
+import Header from '@edudoor/ui/src/components/Header';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const initialValues = props.assignment || {

@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import SwitchInput from '@edudoor/ui/components/Input/SwitchInput';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import SwitchInput from '@edudoor/ui/src/components/Input/SwitchInput';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import useAction from '@edudoor/ui/hooks/useActions';
-import { Student } from '../../../services/models';
-import WebComponent from '@edudoor/ui/components/WebComponent';
+import useAction from '@edudoor/ui/src/hooks/useActions';
+import { Student } from '../../../../../../libs/shared/models';
+import WebComponent from '@edudoor/ui/src/components/WebComponent';
 import './ChooseStudentForm.scss';
 import { fetchStudentsNotRegisteredAction, registerStudents } from '../../../../reducers/courses/actions';
-import Table from '@edudoor/ui/components/Table';
+import Table from '@edudoor/ui/src/components/Table';
 import Tools from '../../../../utils/Tools';
-import IfElse from '@edudoor/ui/components/IfElse';
+import IfElse from '@edudoor/ui/src/components/IfElse';
 import BasicForm from '../BasicForm';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props => {

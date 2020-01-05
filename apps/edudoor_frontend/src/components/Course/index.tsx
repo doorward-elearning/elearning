@@ -1,9 +1,9 @@
 import React, { MouseEventHandler } from 'react';
-import Card from '@edudoor/ui/components/Card';
-import EImage from '@edudoor/ui/components/Image';
+import Card from '@edudoor/ui/src/components/Card';
+import EImage from '@edudoor/ui/src/components/Image';
 import './Course.scss';
-import { Course } from '../../services/models';
-import Header from '@edudoor/ui/components/Header';
+import { Course } from '../../../../../libs/shared/models';
+import Header from '@edudoor/ui/src/components/Header';
 
 const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
   return (

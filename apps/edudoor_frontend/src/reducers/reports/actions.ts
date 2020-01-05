@@ -4,7 +4,7 @@ import {
   FETCH_STUDENT_REPORT,
   FETCH_STUDENT_REPORT_LIST,
 } from './types';
-import { Action } from '@edudoor/ui/reducers/reducers';
+import { Action } from '@edudoor/ui/src/reducers/reducers';
 
 export const fetchStudentReportsList = (): Action => ({
   type: FETCH_STUDENT_REPORT_LIST,

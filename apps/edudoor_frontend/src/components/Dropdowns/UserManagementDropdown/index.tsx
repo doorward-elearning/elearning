@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useContext } from 'react';
-import Dropdown from '@edudoor/ui/components/Dropdown';
-import EImage from '@edudoor/ui/components/Image';
-import profile from '../../../assets/images/profile.svg';
-import Tools from '@edudoor/ui/utils/Tools';
-import useRoutes from '../../../hooks/useRoutes';
-import useAuth from '@edudoor/ui/hooks/useAuth';
-import Row from '@edudoor/ui/components/Row';
-import Switch from '@edudoor/ui/components/Switch';
-import themes from '../../../assets/themes';
-import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
+import Dropdown from '@edudoor/ui/src/components/Dropdown';
+import EImage from '@edudoor/ui/src/components/Image';
+import profile from '../assets/images/profile.svg';
+import Tools from '@edudoor/ui/src/utils/Tools';
+import useRoutes from '@edudoor/frontend/src/hooks/useRoutes';
+import Row from '@edudoor/ui/src/components/Row';
+import Switch from '@edudoor/ui/src/components/Switch';
+import themes from '@edudoor/ui/src/themes/themes';
+import { ThemeContext } from '@edudoor/ui/src/components/ApplicationTheme';
+import useAuth from '@edudoor/ui/src/hooks/useAuth';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const routes = useRoutes();

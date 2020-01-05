@@ -14,8 +14,8 @@ import VideoCallPage from '../screens/VideoCallPage';
 import StudentList from '../screens/Students/StudentList';
 import AddCourseStudent from '../screens/Students/AddCourseStudent';
 import TeacherReport from '../screens/Reports/TeacherReport';
-import { Routes } from '@edudoor/ui/types';
-import { Roles } from '@edudoor/ui/components/RolesManager';
+import { Routes } from '@edudoor/ui/src/types';
+import { Roles } from '@edudoor/ui/src/components/RolesManager';
 import StudentListReport from '../screens/Reports/StudentListReport';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/Password/ForgotPassword';
@@ -25,7 +25,7 @@ import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
 import AddStudent from '../screens/Students/AddStudent';
 import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 import Profile from '../screens/Profile';
-import MRoute from '@edudoor/ui/routes/MRoute';
+import MRoute from '@edudoor/ui/src/routes/MRoute';
 
 export const routeNames = {
   home: 'Home',

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import DraftHTMLContent from '@edudoor/ui/components/DraftHTMLContent';
-import { Question } from '../../../services/models';
+import DraftHTMLContent from '@edudoor/ui/src/components/DraftHTMLContent';
+import { Question } from '../../../../../../libs/shared/models';
 import _ from 'lodash';
 import AnswersView from './AnswersView';
 import { QuizContext } from './index';
-import Panel from '@edudoor/ui/components/Panel';
-import Header from '@edudoor/ui/components/Header';
-import Row from '@edudoor/ui/components/Row';
+import Panel from '@edudoor/ui/src/components/Panel';
+import Header from '@edudoor/ui/src/components/Header';
+import Row from '@edudoor/ui/src/components/Row';
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index }) => {
   const [answers, setAnswers] = useState(question.answers);

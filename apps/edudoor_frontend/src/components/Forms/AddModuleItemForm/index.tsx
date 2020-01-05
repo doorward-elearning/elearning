@@ -1,8 +1,8 @@
 import React, { ReactChild } from 'react';
-import { Module, ModuleItemTypes } from '../../../services/models';
+import { Module, ModuleItemTypes } from '../../../../../../libs/shared/models';
 import BasicForm from '../BasicForm';
 import { createCourseModuleItemAction } from '../../../reducers/courses/actions';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { CourseModuleItemBody } from '../../../services/models/requestBody';

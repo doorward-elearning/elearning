@@ -1,6 +1,6 @@
 import React from 'react';
-import { Assignment } from '../../../services/models';
-import DraftHTMLContent from '@edudoor/ui/components/DraftHTMLContent';
+import { Assignment } from '../../../../../../libs/shared/models';
+import DraftHTMLContent from '@edudoor/ui/src/components/DraftHTMLContent';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
   return (

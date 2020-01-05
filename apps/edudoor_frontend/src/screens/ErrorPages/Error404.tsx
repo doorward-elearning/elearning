@@ -1,9 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import Layout from '../Layout';
-import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
+import { NavbarFeatures } from '@edudoor/ui/src/components/NavBar';
 import './NotFound.scss';
-import NotFound from '../../../../../libs/ui/components/NotFound';
+import NotFound from '../../../../../libs/ui/src/components/NotFound';
 
 const Error404: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
   return (

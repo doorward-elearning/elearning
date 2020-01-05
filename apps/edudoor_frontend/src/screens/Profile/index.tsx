@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import Layout, { LayoutFeatures } from '../Layout';
 import UserCard from './UserCard';
 import './styles/Profile.scss';
-import Card from '@edudoor/ui/components/Card';
-import Header from '@edudoor/ui/components/Header';
+import Card from '@edudoor/ui/src/components/Card';
+import Header from '@edudoor/ui/src/components/Header';
 import ProfileAccountForm from '../../components/Forms/ProfileAccountForm';
-import useForm from '@edudoor/ui/hooks/useForm';
-import useAuth from '@edudoor/ui/hooks/useAuth';
-import Icon from '@edudoor/ui/components/Icon';
-import IfElse from '@edudoor/ui/components/IfElse';
+import useForm from '@edudoor/ui/src/hooks/useForm';
+import useAuth from '@edudoor/ui/src/hooks/useAuth';
+import Icon from '@edudoor/ui/src/components/Icon';
+import IfElse from '@edudoor/ui/src/components/IfElse';
 
 const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const [editingAccount, setEditingAccount] = useState(false);

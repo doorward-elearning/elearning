@@ -2,15 +2,15 @@ import _ from 'lodash';
 import { AppContextProps } from '@edudoor/frontend/src';
 import * as eventTypes from '@edudoor/frontend/src/reducers/socket/types';
 import { routeNames as Routes } from '@edudoor/frontend/src/routes';
-import useStateRef from '@edudoor/ui/hooks/useStateRef';
-import useAuth from '@edudoor/ui/hooks/useAuth';
-import useAction from '@edudoor/ui/hooks/useActions';
+import useStateRef from '@edudoor/ui/src/hooks/useStateRef';
+import useAuth from '@edudoor/ui/src/hooks/useAuth';
+import useAction from '@edudoor/ui/src/hooks/useActions';
 import { fetchCurrentUserAction } from '@edudoor/frontend/src/reducers/users/actions';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ROUTES } from '../routes/routes';
-import { connectSocket } from '@edudoor/ui/utils/socket';
-import Tools from '@edudoor/ui/utils/Tools';
+import { connectSocket } from '@edudoor/ui/src/utils/socket';
+import Tools from '@edudoor/ui/src/utils/Tools';
 
 export type RouteType = typeof Routes;
 

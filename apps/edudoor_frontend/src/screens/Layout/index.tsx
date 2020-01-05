@@ -1,28 +1,29 @@
 import React, { MouseEventHandler, useState } from 'react';
-import NavBar, { NavbarFeatures } from '@edudoor/ui/components/NavBar';
-import SideBar from '@edudoor/ui/components/SideBar';
-import { PageComponent } from '@edudoor/ui/types';
+import NavBar, { NavbarFeatures } from '@edudoor/ui/src/components/NavBar';
+import SideBar from '@edudoor/ui/src/components/SideBar';
+import { PageComponent } from '@edudoor/ui/src/types';
 import classNames from 'classnames';
 import './Layout.scss';
-import Container from '@edudoor/ui/components/Container';
-import Tools from '@edudoor/ui/utils/Tools';
-import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
-import Header from '@edudoor/ui/components/Header';
-import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
-import Icon from '@edudoor/ui/components/Icon';
-import Button, { ButtonProps } from '@edudoor/ui/components/Buttons/Button';
-import useBreadCrumbs from '@edudoor/ui/hooks/useBreadCrumbs';
-import BreadCrumbs from '@edudoor/ui/components/BreadCrumbs';
-import IfElse from '@edudoor/ui/components/IfElse';
+import Container from '@edudoor/ui/src/components/Container';
+import Tools from '@edudoor/ui/src/utils/Tools';
+import Feature from '@edudoor/ui/src/components/FeatureProvider/Feature';
+import Header from '@edudoor/ui/src/components/Header';
+import FeatureProvider from '@edudoor/ui/src/components/FeatureProvider';
+import Icon from '@edudoor/ui/src/components/Icon';
+import Button, { ButtonProps } from '@edudoor/ui/src/components/Buttons/Button';
+import useBreadCrumbs from '@edudoor/ui/src/hooks/useBreadCrumbs';
+import BreadCrumbs from '@edudoor/ui/src/components/BreadCrumbs';
+import IfElse from '@edudoor/ui/src/components/IfElse';
 import ContentSpinner from '../../components/UI/ContentSpinner';
 import _ from 'lodash';
-import { PlainTextField } from '@edudoor/ui/components/Input/TextField';
+import { PlainTextField } from '@edudoor/ui/src/components/Input/TextField';
 import Helmet from 'react-helmet';
 import CONSTANTS from '../../assets/constants';
 import useRoutes from '../../hooks/useRoutes';
-import { Roles } from '@edudoor/ui/components/RolesManager';
-import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
+import { Roles } from '@edudoor/ui/src/components/RolesManager';
+import RoleContainer from '@edudoor/ui/src/components/RolesManager/RoleContainer';
 import schema from '../../components/Sidebar/schema';
+import UserManagementDropdown from '../../components/Dropdowns/UserManagementDropdown';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -88,7 +89,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
-  const title = pageTitle || titles || (currentRoute ? routes[currentRoute].name : '');
+  const title = pageTitle || titles || (currentRoute ? routes.routes[currentRoute].name : '');
 
   return (
     <FeatureProvider features={features}>
@@ -100,9 +101,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           <NavBar
             history={history}
             location={location}
+            loginLink={routes.routes.login.link}
             features={navFeatures}
+            title={CONSTANTS.APP_NAME}
             onHamburgerClick={toggleSidebar}
             renderNavEnd={renderNavEnd}
+            userManagement={() => <UserManagementDropdown />}
           />
         </div>
         <div className="ed-page-layout__sidebar">
@@ -110,6 +114,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             schema={schema}
             navBarShown={!noNavBar}
             history={history}
+            routes={routes}
             onHamburgerClick={toggleSidebar}
             location={location}
             collapsed={sidebarCollapsed}

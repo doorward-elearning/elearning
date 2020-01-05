@@ -2,12 +2,12 @@ import { useRouteMatch } from 'react-router';
 import { useSelector } from 'react-redux';
 import { State } from '../store';
 import { useEffect } from 'react';
-import useAction from '@edudoor/ui/hooks/useActions';
+import useAction from '@edudoor/ui/src/hooks/useActions';
 import { fetchCourseAction } from '../reducers/courses/actions';
 import useRoutes from './useRoutes';
-import ROUTES from '@edudoor/ui/routes/routes';
+import ROUTES from '@edudoor/ui/src/routes/routes';
 import { CreateCourseResponse } from '../services/models/responseBody';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { WebComponentState } from '@edudoor/ui/src/reducers/reducers';
 
 const useViewCourse = (): [string, WebComponentState<CreateCourseResponse>] => {
   const { setTitle, setParams } = useRoutes();

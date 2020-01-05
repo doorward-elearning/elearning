@@ -1,10 +1,10 @@
 import React from 'react';
-import Modal, { ModalProps } from '@edudoor/ui/components/Modal';
-import useForm from '@edudoor/ui/hooks/useForm';
+import Modal, { ModalProps } from '@edudoor/ui/src/components/Modal';
+import useForm from '@edudoor/ui/src/hooks/useForm';
 import AddCourseForm, { AddCourseFormState } from '../../Forms/AddCourseForm';
 import { useHistory } from 'react-router';
-import ROUTES from '@edudoor/ui/routes/routes';
-import { OnFormSubmit } from '@edudoor/ui/types';
+import ROUTES from '@edudoor/ui/src/routes/routes';
+import { OnFormSubmit } from '@edudoor/ui/src/types';
 
 const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
   const form = useForm<AddCourseFormState>();

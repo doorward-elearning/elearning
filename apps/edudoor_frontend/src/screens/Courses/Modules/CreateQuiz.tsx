@@ -1,13 +1,13 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { PageComponent } from '@edudoor/ui/types';
+import { PageComponent } from '@edudoor/ui/src/types';
 import Layout, { LayoutFeatures } from '../../Layout';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '@edudoor/ui/src/hooks/usePageResource';
 import { fetchCourseModuleAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
-import WebComponent from '@edudoor/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/src/components/WebComponent';
 import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {

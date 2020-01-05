@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import AuthForm from '../AuthForm';
-import TextField from '@edudoor/ui/components/Input/TextField';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { registerUserAction } from '../../../reducers/login/actions';
-import useForm from '@edudoor/ui/hooks/useForm';
+import useForm from '@edudoor/ui/src/hooks/useForm';
 import { RegistrationBody } from '../../../services/models/requestBody';
-import PasswordField from '@edudoor/ui/components/Input/PasswordField';
+import PasswordField from '@edudoor/ui/src/components/Input/PasswordField';
 
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {

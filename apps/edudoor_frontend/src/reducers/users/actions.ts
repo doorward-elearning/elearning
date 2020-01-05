@@ -11,7 +11,7 @@ import {
   CreatePasswordBody,
   ForgotPasswordBody,
 } from '../../services/models/requestBody';
-import { Action } from '@edudoor/ui/reducers/reducers';
+import { Action } from '@edudoor/ui/src/reducers/reducers';
 
 export const fetchCurrentUserAction = (): Action => ({
   type: GET_CURRENT_USER,

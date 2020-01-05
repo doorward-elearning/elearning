@@ -1,15 +1,15 @@
 import React from 'react';
-import TextField from '@edudoor/ui/components/Input/TextField';
-import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
-import Panel from '@edudoor/ui/components/Panel';
-import Header from '@edudoor/ui/components/Header';
-import Checkbox from '@edudoor/ui/components/Input/Checkbox';
-import IfElse from '@edudoor/ui/components/IfElse';
-import NumberField from '@edudoor/ui/components/Input/NumberField';
-import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
-import DateInput from '@edudoor/ui/components/Input/DateInput';
-import Row from '@edudoor/ui/components/Row';
-import { FormContext } from '@edudoor/ui/components/Form';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
+import DraftTextArea from '@edudoor/ui/src/components/Input/DraftTextArea';
+import Panel from '@edudoor/ui/src/components/Panel';
+import Header from '@edudoor/ui/src/components/Header';
+import Checkbox from '@edudoor/ui/src/components/Input/Checkbox';
+import IfElse from '@edudoor/ui/src/components/IfElse';
+import NumberField from '@edudoor/ui/src/components/Input/NumberField';
+import DropdownSelect from '@edudoor/ui/src/components/Input/DropdownSelect';
+import DateInput from '@edudoor/ui/src/components/Input/DateInput';
+import Row from '@edudoor/ui/src/components/Row';
+import { FormContext } from '@edudoor/ui/src/components/Form';
 
 const QuizDetails: React.FunctionComponent<QuizDetailsProps> = props => {
   return (

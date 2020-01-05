@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
-import { Roles } from '../../../../../libs/ui/components/RolesManager';
-import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
+import { Roles } from '../../../../../libs/ui/src/components/RolesManager';
+import useRoleManager from '@edudoor/ui/src/hooks/useRoleManager';
 
 const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = true, ...props }) => {
   const canCreate = useRoleManager(props.creator);

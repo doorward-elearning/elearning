@@ -1,5 +1,5 @@
-import { ApiResponse } from '@edudoor/ui/services/services';
-import { Course, Teacher, MeetingRoom, Module, ModuleItem, Student, User } from './index';
+import { ApiResponse } from '@edudoor/ui/src/services/services';
+import { Course, Teacher, MeetingRoom, Module, ModuleItem, Student, User } from '../../../../../libs/shared/models';
 import { OpenViduSessionProps } from '../../reducers/videoCall/actions';
 
 export interface LoginResponse extends UserResponse {

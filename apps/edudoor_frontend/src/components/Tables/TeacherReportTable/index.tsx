@@ -1,7 +1,7 @@
 import React from 'react';
-import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebComponent';
-import { Teacher } from '../../../services/models';
-import Table from '@edudoor/ui/components/Table';
+import SimpleWebComponent from '@edudoor/ui/src/components/WebComponent/SimpleWebComponent';
+import { Teacher } from '../../../../../../libs/shared/models';
+import Table from '@edudoor/ui/src/components/Table';
 import { fetchCourseCreatorReportList } from '../../../reducers/reports/actions';
 import { State } from '../../../store';
 

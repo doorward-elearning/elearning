@@ -17,7 +17,7 @@ import {
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
 } from './types';
-import reducerBuilder, { modifyReducer, reducerApiAction } from '@edudoor/ui/reducers/builder';
+import reducerBuilder, { modifyReducer, reducerApiAction } from '@edudoor/ui/src/reducers/builder';
 
 const createCourse = reducerApiAction({
   action: CREATE_COURSE,

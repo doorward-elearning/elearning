@@ -1,4 +1,4 @@
-import Request from '@edudoor/ui/services/request';
+import Request from '@edudoor/ui/src/services/request';
 import {
   AccountDetailsBody,
   ChangePasswordBody,
@@ -28,7 +28,7 @@ import {
   StudentResponse,
   UserResponse,
 } from './models/responseBody';
-import { ApiResponse } from '@edudoor/ui/services/services';
+import { ApiResponse } from '@edudoor/ui/src/services/services';
 
 /**
  * Use the return keyword in the functions to improve readability

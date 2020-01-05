@@ -1,9 +1,9 @@
 import React from 'react';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
-import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
+import DraftTextArea from '@edudoor/ui/src/components/Input/DraftTextArea';
 import './AddModulePageForm.scss';
 import { Module, ModuleItem } from '../../../../services/models';
-import TextField from '@edudoor/ui/components/Input/TextField';
+import TextField from '@edudoor/ui/src/components/Input/TextField';
 import { CourseModuleItemBody } from '../../../../services/models/requestBody';
 import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';

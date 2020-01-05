@@ -1,19 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import './styles/CourseList.scss';
-import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebComponent';
+import SimpleWebComponent from '@edudoor/ui/src/components/WebComponent/SimpleWebComponent';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
 import { State } from '../../store';
-import Card from '@edudoor/ui/components/Card';
-import Header from '@edudoor/ui/components/Header';
-import { Course } from '../../services/models';
+import Card from '@edudoor/ui/src/components/Card';
+import Header from '@edudoor/ui/src/components/Header';
+import { Course } from '../../../../../libs/shared/models';
 import useRoutes from '../../hooks/useRoutes';
-import Tools from '@edudoor/ui/utils/Tools';
-import ItemArray from '@edudoor/ui/components/ItemArray';
-import Row from '@edudoor/ui/components/Row';
-import Plural from '@edudoor/ui/components/Plural';
+import Tools from '@edudoor/ui/src/utils/Tools';
+import ItemArray from '@edudoor/ui/src/components/ItemArray';
+import Row from '@edudoor/ui/src/components/Row';
+import Plural from '@edudoor/ui/src/components/Plural';
 import courseImage from '../../assets/images/course.svg';
-import EImage from '@edudoor/ui/components/Image';
-import HorizontalScroll from '@edudoor/ui/components/HorizontalScroll';
+import EImage from '@edudoor/ui/src/components/Image';
+import HorizontalScroll from '@edudoor/ui/src/components/HorizontalScroll';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const routes = useRoutes();

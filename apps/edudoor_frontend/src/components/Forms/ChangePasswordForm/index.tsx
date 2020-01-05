@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChangePasswordBody } from '../../../services/models/requestBody';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
-import PasswordField from '@edudoor/ui/components/Input/PasswordField';
+import { UseForm } from '@edudoor/ui/src/hooks/useForm';
+import PasswordField from '@edudoor/ui/src/components/Input/PasswordField';
 import changePasswordForm from './validation';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
