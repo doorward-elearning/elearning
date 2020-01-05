@@ -1,5 +1,5 @@
 import React from 'react';
-import { UseForm } from '../../../../../../libs/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/hooks/useForm';
 import { CreateStudentBody } from '../../../services/models/requestBody';
 import { WebComponentState } from '@edudoor/ui/reducers/reducers';
 import { StudentResponse } from '../../../services/models/responseBody';

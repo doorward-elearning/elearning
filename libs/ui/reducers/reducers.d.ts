@@ -1,5 +1,5 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
-import { ApiError, ApiResponse } from '../services/services';
+import { ApiCall, ApiError, ApiResponse } from '../services/services';
 
 export type SagaFunction = () => IterableIterator<any>;
 

@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
 import Icon from '../Icon';
 import withInput, { InputFeatures, InputProps } from './index';
-import { Icons } from '@edudoor/frontend/src/types/icons';
 import Select, { ISelectProps } from 'react-dropdown-select';
 import './styles/DropdownSelect.scss';
 import './styles/TextField.scss';
 import { ThemeContext } from '../ApplicationTheme';
+import { Icons } from '../../types/icons';
 
 const generateOptionsList = (options: { [name: string]: string }): Array<Option> => {
   return (Object.keys(options) as Array<keyof typeof options>).reduce(

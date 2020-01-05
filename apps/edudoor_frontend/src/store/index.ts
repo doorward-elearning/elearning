@@ -1,6 +1,6 @@
 import { applyMiddleware, compose, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import build from '../../../../libs/ui/store/middleware';
+import build from '@edudoor/ui/store/middleware';
 import reducers from './reducers';
 
 const sagaMiddleware = createSagaMiddleware();

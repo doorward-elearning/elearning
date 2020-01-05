@@ -3,11 +3,10 @@ import { Formik, FormikConfig, FormikErrors, FormikProps } from 'formik';
 import Spinner, { SpinnerProps } from '../Spinner';
 import './Form.scss';
 import IfElse from '../IfElse';
-import { WebComponentState } from '../../../reducers/reducers';
-import { UseForm } from '../../../hooks/useForm';
-import useFormSubmit from '../../../hooks/useFormSubmit';
+import { UseForm } from '../../hooks/useForm';
+import { WebComponentState } from '../../reducers/reducers';
+import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
-import { State } from '../../../store';
 
 export const FormContext = React.createContext<FormContextProps>({});
 

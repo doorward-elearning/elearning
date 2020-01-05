@@ -1,11 +1,11 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { PageComponent } from '../../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../../Layout';
 import CreateAssignmentForm from '../../../components/Forms/CreateAssignmentForm';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
-import useRoutes from '../../../../../../libs/ui/hooks/useRoutes';
-import WebComponent from '../../../../../../libs/ui/components/WebComponent';
-import usePageResource from '../../../../../../libs/ui/hooks/usePageResource';
+import useForm from '@edudoor/ui/hooks/useForm';
+import useRoutes from '../../../hooks/useRoutes';
+import WebComponent from '@edudoor/ui/components/WebComponent';
+import usePageResource from '@edudoor/ui/hooks/usePageResource';
 import { fetchCourseModuleAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
@@ -15,7 +15,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
   const form = useForm();
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', fetchCourseModuleAction);
+  usePageResource('moduleId', fetchCourseModuleAction, routes);
   const finish = () => {
     routes.navigate(routes.viewCourse, {
       courseId,

@@ -1,4 +1,4 @@
-import reducerBuilder, { reducerApiAction } from '../../../../../libs/ui/reducers/builder';
+import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 import {
   CREATE_ACCOUNT_PASSWORD,
   FORGOT_ACCOUNT_PASSWORD,

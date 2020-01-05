@@ -1,7 +1,7 @@
 import React from 'react';
-import Modal, { ModalProps } from '../../../../../../libs/ui/components/Modal';
+import Modal, { ModalProps } from '@edudoor/ui/components/Modal';
 import ChooseStudentForm, { ChooseStudentFormState } from '../../Forms/ChooseStudentForm';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 
 const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = props => {
   const form = useForm<ChooseStudentFormState>();

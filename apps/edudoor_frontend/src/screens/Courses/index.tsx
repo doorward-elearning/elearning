@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../Layout';
-import useModal from '../../../../../libs/ui/hooks/useModal';
+import useModal from '@edudoor/ui/hooks/useModal';
 import AddCourse from './AddCourse';
-import ROUTES from '../../../../../libs/ui/routes/routes';
+import ROUTES from '@edudoor/ui/routes/routes';
 import { useSelector } from 'react-redux';
-import WebComponent from '../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
-import useAction from '../../../../../libs/ui/hooks/useActions';
+import useAction from '@edudoor/ui/hooks/useActions';
 import CourseTable from '../../components/Tables/CourseTable';
 import { State } from '../../store';
-import { Roles } from '../../components/RolesManager';
+import { Roles } from '../../../../../libs/ui/components/RolesManager';
 
 const Courses: React.FunctionComponent<CoursesProps> = props => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);

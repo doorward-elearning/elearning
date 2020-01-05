@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
-import { WebComponentState } from '@edudoor/frontend/src/reducers/reducers';
-import useRoutes from './useRoutes';
+import { WebComponentState } from '../reducers/reducers';
+import { RouteNames, Routes } from '../types';
 
-const useBreadCrumbTitle = <T>(
+const useBreadCrumbTitle = <T, R extends RouteNames>(
   state: WebComponentState<T>,
-  getTitle: (state: WebComponentState<T>) => string | null | undefined
+  getTitle: (state: WebComponentState<T>) => string | null | undefined,
+  routes: Routes<R>
 ) => {
-  const routes = useRoutes();
   useEffect(() => {
     const title = getTitle(state);
     if (title) {

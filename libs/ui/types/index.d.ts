@@ -3,7 +3,7 @@ import * as React from 'react';
 import { ReactNode } from 'react';
 import { match, RouteComponentProps } from 'react-router';
 import { BreadCrumb } from '../components/BreadCrumbs';
-import { routes } from '../routes';
+import { routeNames } from '@edudoor/frontend/src/routes';
 import { FormikActions } from 'formik';
 import { MRoute } from '../routes/MRoute';
 
@@ -17,23 +17,25 @@ export type HigherOrderComponent<T, S extends ReactNode> = (props: T) => (S) => 
 
 export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
 
-export type Routes = { [key in keyof typeof routes]?: MRoute };
+export type RouteNames = { [name: string]: string };
+
+export type Routes<T extends RouteNames> = { [name in keyof T]?: MRoute<T> };
 
 type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 
-export type RouteDefinition = {
-  tree: Array<keyof typeof routes>;
-  id: keyof typeof routes;
+export type RouteDefinition<T> = {
+  tree: Array<keyof T>;
+  id: keyof T;
   matchURL: string;
   withParams: (params: { [name: string]: any }) => string;
 } & BreadCrumb;
 
-export type RouteDefinitions = {
-  [key in keyof typeof routes]: RouteDefinition;
+export type RouteDefinitions<T extends RouteNames> = {
+  [key in keyof T]: RouteDefinition<T>;
 };
 
 export type RouteIds = {
-  [key in keyof typeof routes]: keyof typeof routes;
+  [key in keyof typeof routeNames]: keyof typeof routeNames;
 };
 
 type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;

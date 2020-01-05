@@ -4,13 +4,15 @@ import SideBarMenu from './SideBarMenu';
 import { Location, MemoryHistory } from 'history';
 import classNames from 'classnames';
 import UserPanel from './UserPanel';
-import useSidebarSchema from '../../../hooks/useSidebarSchema';
 import NavLogo from '../NavBar/NavLogo';
 import { NavbarFeatures } from '../NavBar';
-import useAuth from '../../../hooks/useAuth';
 import IfElse from '../IfElse';
+import useSidebarSchema, { SideBarSchema } from '../../hooks/useSidebarSchema';
+import useAuth from '../../hooks/useAuth';
+import { EdudoorRoutes } from '@edudoor/frontend/src/routes';
+import { RouteNames } from '../../types';
 
-const SideBar: React.FunctionComponent<SideBarProps> = props => {
+function SideBar<T extends EdudoorRoutes>(props: SideBarProps<T>) {
   const { history, location, collapsed } = props;
   const schema = useSidebarSchema(props);
   const { authenticated } = useAuth();
@@ -44,14 +46,15 @@ const SideBar: React.FunctionComponent<SideBarProps> = props => {
       </div>
     </IfElse>
   );
-};
+}
 
-export interface SideBarProps {
+export interface SideBarProps<T extends RouteNames> {
   history: MemoryHistory;
   location: Location;
   collapsed: boolean;
   navBarShown: boolean;
   onHamburgerClick?: MouseEventHandler;
+  schema: SideBarSchema<T>;
 }
 
 export default SideBar;

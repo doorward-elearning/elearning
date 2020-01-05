@@ -11,12 +11,12 @@ import {
   StaticReducer,
   WebComponentState,
 } from './reducers';
-import { ApiCall, ApiResponse } from '@edudoor/frontend/src/services/services';
 import chainReducers from './chain';
 import { AxiosResponse } from 'axios';
 import _ from 'lodash';
-import toast from '@edudoor/frontend/src/utils/toast';
 import objectHash from 'object-hash';
+import { ApiCall, ApiResponse } from '../services/services';
+import toast from '../utils/toast';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',

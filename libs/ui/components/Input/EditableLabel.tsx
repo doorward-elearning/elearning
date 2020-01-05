@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import { PlainTextField, TextFieldProps } from "./TextField";
-import withInput from "./index";
-import "./styles/EditableLabel.scss";
-import useClickOutside from "../../../hooks/useClickOutside";
-import classNames from "classnames";
-import Icon from "../Icon";
-import IfElse from "../IfElse";
+import React, { useEffect, useRef } from 'react';
+import { PlainTextField, TextFieldProps } from './TextField';
+import withInput from './index';
+import './styles/EditableLabel.scss';
+import classNames from 'classnames';
+import Icon from '../Icon';
+import IfElse from '../IfElse';
+import useClickOutside from '../../hooks/useClickOutside';
 
 const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
   const Component = props.component || <span />;

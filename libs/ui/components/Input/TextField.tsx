@@ -4,8 +4,8 @@ import './styles/TextField.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import IfElse from '../IfElse';
-import Tools from '../../../utils/Tools';
-import { Icons } from '../../../types/icons';
+import Tools from '../../utils/Tools';
+import { Icons } from '../../types/icons';
 
 const TextField: FunctionComponent<TextFieldProps> = ({
   value = '',

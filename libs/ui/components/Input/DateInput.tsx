@@ -3,13 +3,13 @@ import DatePicker, { ReactDatePickerProps } from 'react-datepicker';
 
 import withInput, { InputFeatures, InputProps } from './index';
 import Icon from '../Icon';
-import { Icons } from '@edudoor/frontend/src/types/icons';
 import classNames from 'classnames';
 import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import './styles/DateInput.scss';
 import './styles/TextField.scss';
+import { Icons } from '../../types/icons';
 
 const DateInput: FunctionComponent<DateInputProps> = (props): JSX.Element => {
   const [date, setDate] = useState<Date | null>(props.value ? moment(props.value).toDate() : null);

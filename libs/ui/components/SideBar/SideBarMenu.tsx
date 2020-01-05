@@ -4,11 +4,11 @@ import SideBarSubMenu from './SideBarSubMenu';
 import { Location, MemoryHistory } from 'history';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
-import { MenuItem, SubMenuItem } from '@edudoor/frontend/src/hooks/useSidebarSchema';
-import RoleContainer from '@edudoor/frontend/src/components/static/RolesManager/RoleContainer';
+import { MenuItem, SubMenuItem } from '../../hooks/useSidebarSchema';
+import RoleContainer from '../RolesManager/RoleContainer';
 
 const Item: React.FunctionComponent<ItemProps> = props => {
-  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history} = props;
+  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history } = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find((item: SubMenuItem): boolean => {
     return props.selected === item.link;
   });

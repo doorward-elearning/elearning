@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ApplicationTheme from '../../../libs/ui/components/ApplicationTheme';
 import './index.scss';
+import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
 import * as serviceWorker from './serviceWorker';
 import { Provider } from 'react-redux';
-import Request from '../../../libs/ui/services/request';
+import Request from '@edudoor/ui/services/request';
 import store from './store';
 import '@material/react-linear-progress/dist/linear-progress.css';
-import ROUTES from '../../../libs/ui/routes/routes';
-import useApp, { appInitialValue, RouteType } from '../../../libs/ui/hooks/useApp';
-import useOfflineToast from '../../../libs/ui/hooks/useOfflineToast';
-import RolesManager from './components/RolesManager';
-import { Router } from './routes';
+import useApp, { appInitialValue, RouteType } from './hooks/useApp';
+import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';
+import { Router } from './routes/routes';
+import { RouteDefinitions } from '@edudoor/ui/types';
+import { EdudoorRoutes } from './routes';
+import RolesManager from '@edudoor/ui/components/RolesManager';
 
 Request.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
@@ -24,7 +25,7 @@ const AppInitialValue = {
 };
 
 export type AppContextProps = {
-  routes: typeof ROUTES;
+  routes: RouteDefinitions<EdudoorRoutes>;
   setTitle: (key: keyof RouteType, name: string, link?: string) => void;
   setParams: (key: keyof RouteType, params: { [name: string]: any }) => void;
   io: SocketIOClient.Socket | null;

@@ -2,10 +2,10 @@ import React, { ReactNode, useRef } from 'react';
 import './Accordion.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
-import useAccordion from '../../../hooks/useAccordion';
 import Row from '../Row';
 import IfElse from '../IfElse';
-import useHeightTransition from '../../../hooks/useHeightTransition';
+import useAccordion from '../../hooks/useAccordion';
+import useHeightTransition from '../../hooks/useHeightTransition';
 
 const Accordion: React.FunctionComponent<AccordionProps> = props => {
   const body: { current: HTMLDivElement | null } = useRef(null);

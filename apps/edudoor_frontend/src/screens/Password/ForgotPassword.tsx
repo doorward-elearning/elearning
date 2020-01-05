@@ -1,11 +1,11 @@
 import React from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../Layout';
-import { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
 import ForgotPasswordForm from '../../components/Forms/ForgotPasswordForm';
 import forgotPassword from '../../assets/illustrations/forgot_password.svg';
-import EImage from '../../../../../libs/ui/components/Image';
-import Row from '../../../../../libs/ui/components/Row';
+import EImage from '@edudoor/ui/components/Image';
+import Row from '@edudoor/ui/components/Row';
 
 const ForgotPassword: React.FunctionComponent<ResetPasswordProps> = props => {
   return (

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout from '../Layout';
-import { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
 import './NotFound.scss';
 import NotFound from '../../../../../libs/ui/components/NotFound';
 

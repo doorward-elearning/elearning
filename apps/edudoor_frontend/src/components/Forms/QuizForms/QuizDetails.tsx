@@ -1,15 +1,15 @@
 import React from 'react';
-import TextField from '../../../../../../libs/ui/components/Input/TextField';
-import DraftTextArea from '../../../../../../libs/ui/components/Input/DraftTextArea';
-import Panel from '../../../../../../libs/ui/components/Panel';
-import Header from '../../../../../../libs/ui/components/Header';
-import Checkbox from '../../../../../../libs/ui/components/Input/Checkbox';
-import IfElse from '../../../../../../libs/ui/components/IfElse';
-import NumberField from '../../../../../../libs/ui/components/Input/NumberField';
-import DropdownSelect from '../../../../../../libs/ui/components/Input/DropdownSelect';
-import DateInput from '../../../../../../libs/ui/components/Input/DateInput';
-import Row from '../../../../../../libs/ui/components/Row';
-import { FormContext } from '../../../../../../libs/ui/components/Form';
+import TextField from '@edudoor/ui/components/Input/TextField';
+import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
+import Panel from '@edudoor/ui/components/Panel';
+import Header from '@edudoor/ui/components/Header';
+import Checkbox from '@edudoor/ui/components/Input/Checkbox';
+import IfElse from '@edudoor/ui/components/IfElse';
+import NumberField from '@edudoor/ui/components/Input/NumberField';
+import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
+import DateInput from '@edudoor/ui/components/Input/DateInput';
+import Row from '@edudoor/ui/components/Row';
+import { FormContext } from '@edudoor/ui/components/Form';
 
 const QuizDetails: React.FunctionComponent<QuizDetailsProps> = props => {
   return (

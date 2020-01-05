@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import CourseList from './CourseList';
 
 const Dashboard: React.FunctionComponent<DashboardProps> = props => {

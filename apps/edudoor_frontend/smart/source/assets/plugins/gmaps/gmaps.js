@@ -302,7 +302,7 @@ var GMaps = (function(global) {
      */
     this.polylines = [];
     /**
-     * Collection of map's routes requested by {@link GMaps#getRoutes}, {@link GMaps#renderRoute}, {@link GMaps#drawRoute}, {@link GMaps#travelRoute} or {@link GMaps#drawSteppedRoute}
+     * Collection of map's routeNames requested by {@link GMaps#getRoutes}, {@link GMaps#renderRoute}, {@link GMaps#drawRoute}, {@link GMaps#travelRoute} or {@link GMaps#drawSteppedRoute}
      *
      * @type {array}
      */

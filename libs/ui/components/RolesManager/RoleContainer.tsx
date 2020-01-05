@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Roles } from './index';
-import IfElse from '../../../../../libs/ui/components/IfElse';
-import useRoleManager from '../../../../../libs/ui/hooks/useRoleManager';
+import useRoleManager from '../../hooks/useRoleManager';
+import IfElse from '../IfElse';
 
 const RoleContainer: FunctionComponent<RoleProps> = ({
   roles,

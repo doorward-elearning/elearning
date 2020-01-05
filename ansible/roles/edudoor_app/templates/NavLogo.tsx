@@ -4,7 +4,7 @@ import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
-import ROUTES from '../../../routes/routes';
+import ROUTES from '../../../routeNames/routeNames';
 import './NavLogo.scss';
 import CONSTANTS from '../../../assets/constants';
 import { MemoryHistory } from 'history';

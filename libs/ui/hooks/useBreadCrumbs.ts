@@ -1,20 +1,21 @@
 import { BreadCrumb } from '../components/BreadCrumbs';
-import useRoutes from './useRoutes';
+import { RouteNames, Routes } from '../types';
 
-const useBreadCrumbs = (): {
+function useBreadCrumbs<T extends RouteNames>(
+  routes: Routes<T>
+): {
   breadcrumbs: Array<BreadCrumb>;
   titles: string;
-} => {
-  const routes = useRoutes();
+} {
   const tree = routes.currentRoute;
 
   const pathNames = tree ? routes[tree].tree : [];
-  const breadcrumbs = (pathNames as Array<keyof typeof routes.routes>).map((item): BreadCrumb => routes[item]);
+  const breadcrumbs = (pathNames as Array<keyof typeof routes.routes>).map((item): BreadCrumb => routes.routes[item]);
   const titles = breadcrumbs.length > 1 ? breadcrumbs[breadcrumbs.length - 1].name : '';
   return {
     breadcrumbs,
     titles,
   };
-};
+}
 
 export default useBreadCrumbs;

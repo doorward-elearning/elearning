@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import Modal, { ModalProps } from '../../../../../../libs/ui/components/Modal';
-import Header from '../../../../../../libs/ui/components/Header';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
+import Modal, { ModalProps } from '@edudoor/ui/components/Modal';
+import Header from '@edudoor/ui/components/Header';
+import useForm from '@edudoor/ui/hooks/useForm';
 import AddModuleForm, { AddModuleFormState } from '../../Forms/AddModuleForm';
-import { UseModal } from '../../../../../../libs/ui/hooks/useModal';
+import { UseModal } from '@edudoor/ui/hooks/useModal';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 

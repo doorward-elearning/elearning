@@ -1,8 +1,8 @@
 import React from 'react';
-import Table from '../../../../../../libs/ui/components/Table';
+import Table from '@edudoor/ui/components/Table';
 import { MemoryHistory } from 'history';
-import ROUTES from '../../../../../../libs/ui/routes/routes';
-import EImage from '../../../../../../libs/ui/components/Image';
+import ROUTES from '@edudoor/ui/routes/routes';
+import EImage from '@edudoor/ui/components/Image';
 import './CourseTable.scss';
 import { Course } from '../../../../services/models';
 

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Spinner, { SpinnerProps } from '../../../../../../libs/ui/components/Spinner';
+import Spinner, { SpinnerProps } from '@edudoor/ui/components/Spinner';
 import './ContentSpinner.scss';
 
 const ContentSpinner: FunctionComponent<ContentSpinnerProps> = (props): JSX.Element => {

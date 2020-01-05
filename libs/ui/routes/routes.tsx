@@ -1,24 +1,33 @@
 import React, { ReactNode } from 'react';
 import { RouteProps } from 'react-router';
-import { Route } from 'react-router-dom';
-import AuthenticatedRoute, { AuthenticatedRouteProps } from './AuthenticatedRoute';
-import { RouteDefinition, RouteDefinitions, Routes } from '@edudoor/frontend/src/types';
-import { EdudoorRoutes, routeConfigurations, routes } from './index';
-import Tools from '@edudoor/frontend/src/utils/Tools';
-import { MRoute } from './MRoute';
+import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '../types';
+import Tools from '../utils/Tools';
+import { Roles } from '../components/RolesManager';
+import MRoute from './MRoute';
 
 const routeDefinitions: any = {};
 
-const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof routes>): Array<ReactNode> => {
+interface MRouteProps<T extends RouteNames> extends RouteProps {
+  authRedirect: keyof T;
+  roles: Array<Roles>;
+}
+
+function generateRoutes<T extends RouteNames>(
+  routeNames: T,
+  r: Routes<T>,
+  parentLink = '',
+  path: Array<keyof T>,
+  render: (props: MRouteProps<T>) => JSX.Element
+): Array<ReactNode> {
   if (parentLink.endsWith('/')) {
     parentLink = parentLink.substr(0, parentLink.length - 1);
   }
-  return (Object.keys(r) as Array<keyof EdudoorRoutes>).reduce((acc: Array<ReactNode>, current) => {
+  return (Object.keys(r) as Array<keyof T>).reduce((acc: Array<ReactNode>, current) => {
     const more: Array<ReactNode> = [];
-    const detail: MRoute | undefined = r[current];
+    const detail: MRoute<T> | undefined = r[current];
     if (detail) {
       const fullLink = parentLink + detail.path;
-      const props: RouteProps & AuthenticatedRouteProps = {
+      const props: MRouteProps<T> = {
         exact: true,
         path: fullLink,
         component: detail.component,
@@ -26,22 +35,20 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
         roles: detail.allowedRoles,
       };
 
-      const Component = detail.allowedRoles.length ? AuthenticatedRoute : Route;
-
       const newPath = [...path];
       if (detail.component && !detail.hideBreadCrumb) {
         newPath.push(current);
       }
 
       if (detail.routes) {
-        more.push(...generateRoutes(detail.routes, fullLink, newPath));
+        more.push(...generateRoutes(routeNames, detail.routes, fullLink, newPath, render));
       }
       if (props.component) {
-        more.push(<Component {...props} key={fullLink} />);
+        more.push(render(props));
       }
 
       routeDefinitions[current] = {
-        name: routes[current],
+        name: routeNames[current],
         link: fullLink,
         matchURL: fullLink,
         roles: detail.allowedRoles,
@@ -50,15 +57,23 @@ const generateRoutes = (r: Routes, parentLink = '', path: Array<keyof typeof rou
         },
         tree: newPath,
         id: current,
-      } as RouteDefinition;
+      } as RouteDefinition<T>;
     }
 
     return [...more, ...acc];
   }, []);
-};
+}
 
-export const generatedRoutes = generateRoutes(routeConfigurations, '', []);
-
-const ROUTES = routeDefinitions as RouteDefinitions;
-
-export default ROUTES;
+export function generate<T extends RouteNames>(
+  routeNames: T,
+  routeConfigurations: Routes<T>,
+  render: (props: MRouteProps<T>) => JSX.Element
+): {
+  renderRoutes: Array<ReactNode>;
+  routes: RouteDefinitions<T>;
+} {
+  return {
+    renderRoutes: generateRoutes(routeNames, routeConfigurations, '', [], render),
+    routes: routeDefinitions as RouteDefinitions<T>,
+  };
+}

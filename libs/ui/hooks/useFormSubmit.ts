@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WebComponentState } from '@edudoor/frontend/src/reducers/reducers';
+import { WebComponentState } from '../reducers/reducers';
 
 function useFormSubmit<T extends WebComponentState<any>>(form?: T, onSubmit?: () => void): boolean {
   const [submitting, setSubmitting] = useState(false);

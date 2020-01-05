@@ -1,6 +1,6 @@
-import React from "react";
-import { UseModal } from "@edudoor/frontend/src/hooks/useModal";
-import Modal, { ModalFeatures } from "../Modal";
+import React from 'react';
+import Modal, { ModalFeatures } from '../Modal';
+import { UseModal } from '../../hooks/useModal';
 
 const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = props => {
   const modal = props.useModal;

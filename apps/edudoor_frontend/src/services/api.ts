@@ -1,4 +1,4 @@
-import Request from '../../../../libs/ui/services/request';
+import Request from '@edudoor/ui/services/request';
 import {
   AccountDetailsBody,
   ChangePasswordBody,

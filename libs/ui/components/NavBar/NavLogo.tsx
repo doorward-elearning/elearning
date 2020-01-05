@@ -4,12 +4,12 @@ import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
-import ROUTES from '@edudoor/frontend/src/routes/routes';
 import './NavLogo.scss';
-import CONSTANTS from '../../../assets/constants';
 import { MemoryHistory } from 'history';
 import EImage from '../Image';
 import { ThemeContext } from '../ApplicationTheme';
+import ROUTES from '../../routes/routes';
+import CONSTANTS from '@edudoor/frontend/src/assets/constants';
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
   const theme = useContext(ThemeContext);

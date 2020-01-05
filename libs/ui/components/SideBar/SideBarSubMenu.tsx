@@ -2,9 +2,9 @@ import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { MemoryHistory } from 'history';
-import { SubMenuItem } from '@edudoor/frontend/src/hooks/useSidebarSchema';
-import useHeightTransition from '@edudoor/frontend/src/hooks/useHeightTransition';
-import RoleContainer from '@edudoor/frontend/src/components/static/RolesManager/RoleContainer';
+import { SubMenuItem } from '../../hooks/useSidebarSchema';
+import useHeightTransition from '../../hooks/useHeightTransition';
+import RoleContainer from '../RolesManager/RoleContainer';
 
 const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
   const { menu, active, open, collapsed } = props;

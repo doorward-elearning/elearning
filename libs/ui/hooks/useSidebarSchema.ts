@@ -1,20 +1,23 @@
 import { SideBarSubMenuProps } from '../components/SideBar/SideBarSubMenu';
 import { SideBarProps } from '../components/SideBar';
 import { BreadCrumb } from '../components/BreadCrumbs';
-import useRoutes from './useRoutes';
-import useAuth from './useAuth';
-import schema from '../components/SideBar/schema';
-import { Icons } from '@edudoor/frontend/src/types/icons';
+import useRoutes from '@edudoor/frontend/src/hooks/useRoutes';
+import { Icons } from '../types/icons';
+import { RouteNames, Routes } from '../types';
 
-const useSidebarSchema = (
-  props: SideBarProps
+export type SideBarSchema<T extends RouteNames> = (
+  routes: Routes<T>,
+  props: SideBarProps<T>,
+) => Array<MenuItem>;
+
+function useSidebarSchema<T extends RouteNames>(
+  props: SideBarProps<T>,
 ): {
   sidebar: Array<MenuItem>;
   selected: string;
-} => {
+} {
   const routes = useRoutes();
-  const { logout } = useAuth();
-  const sidebar: Array<MenuItem> = schema(routes, props, logout);
+  const sidebar: Array<MenuItem> = props.schema(routes, props);
   let selected = '';
 
   if (routes.currentRoute) {
@@ -45,7 +48,7 @@ const useSidebarSchema = (
     sidebar,
     selected,
   };
-};
+}
 
 export interface SubMenuItem extends BreadCrumb {
   onClick?: (props: SideBarSubMenuProps) => void;

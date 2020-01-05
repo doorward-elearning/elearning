@@ -1,12 +1,12 @@
 import React from 'react';
-import Card from '../../../../../../libs/ui/components/Card';
-import Row from '../../../../../../libs/ui/components/Row';
-import TextField from '../../../../../../libs/ui/components/Input/TextField';
-import DropdownSelect from '../../../../../../libs/ui/components/Input/DropdownSelect';
+import Card from '@edudoor/ui/components/Card';
+import Row from '@edudoor/ui/components/Row';
+import TextField from '@edudoor/ui/components/Input/TextField';
+import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
 import { getNames } from 'country-list';
 import BasicForm from '../BasicForm';
 import addStudentForm from '../AddStudentForm/validation';
-import { UseForm } from '../../../../../../libs/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/hooks/useForm';
 import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
 
 const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props => {

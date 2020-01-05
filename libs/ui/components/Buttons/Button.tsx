@@ -4,9 +4,7 @@ import classNames from 'classnames';
 import './Buttons.scss';
 import { Link } from 'react-router-dom';
 import Spinner from '../Spinner';
-import { Icons } from '../../../types/icons';
-import Dropdown from '../Dropdown';
-import Row from '../Row';
+import { Icons } from '../../types/icons';
 
 const Button: React.FunctionComponent<ButtonProps> = ({
   disabled,

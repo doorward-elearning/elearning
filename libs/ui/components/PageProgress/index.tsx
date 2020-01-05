@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import ProgressBar from '../../../../../../libs/ui/components/ProgressBar';
-import useStateRef from '../../../../../../libs/ui/hooks/useStateRef';
 import classNames from 'classnames';
 import './PageProgress.scss';
+import useStateRef from '../../hooks/useStateRef';
+import ProgressBar from '../ProgressBar';
 
 export type PageProgressContextProps = {
   setLoading: (loading: boolean) => void;

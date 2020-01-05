@@ -1,4 +1,4 @@
-import reducerBuilder, { reducerApiAction } from '../../../../../libs/ui/reducers/builder';
+import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 import {
   FETCH_COURSE_CREATOR_REPORT,
   FETCH_COURSE_CREATOR_REPORT_LIST,

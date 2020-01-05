@@ -1,9 +1,9 @@
 import React from 'react';
 import { Quiz } from '../../../services/models';
-import ItemArray from '../../../../../../libs/ui/components/ItemArray';
+import ItemArray from '@edudoor/ui/components/ItemArray';
 import QuestionView from './QuestionView';
 import BasicForm from '../../Forms/BasicForm';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 

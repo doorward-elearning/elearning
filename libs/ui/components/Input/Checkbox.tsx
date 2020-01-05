@@ -1,14 +1,14 @@
 import withInput, { InputFeatures, InputProps } from './index';
 import * as React from 'react';
 import { FunctionComponent } from 'react';
-import Tools from '@edudoor/frontend/src/utils/Tools';
 import './styles/Checkbox.scss';
+import Tools from '../../utils/Tools';
 
 const Checkbox: FunctionComponent<CheckboxProps> = ({ formikProps, ...props }) => {
   return (
     <div className="checkbox__container">
-      <input type="checkbox" {...props} checked={!!props.value}/>
-      <span className="ed-checkbox__checkbox"/>
+      <input type="checkbox" {...props} checked={!!props.value} />
+      <span className="ed-checkbox__checkbox" />
     </div>
   );
 };

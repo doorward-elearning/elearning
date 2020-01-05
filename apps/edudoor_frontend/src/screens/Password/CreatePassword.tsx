@@ -1,14 +1,14 @@
 import React from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../Layout';
-import { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
 import NewPasswordForm from '../../components/Forms/NewPasswordForm';
-import useForm from '../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import './CreatePassword.scss';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useRoutes from '../../hooks/useRoutes';
 import PasswordPolicy from '../../components/UI/PasswordPolicy';
-import Row from '../../../../../libs/ui/components/Row';
-import EImage from '../../../../../libs/ui/components/Image';
+import Row from '@edudoor/ui/components/Row';
+import EImage from '@edudoor/ui/components/Image';
 import createPassword from '../../assets/illustrations/create_new_password.svg';
 
 const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {

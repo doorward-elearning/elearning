@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import themes, { Theme, ThemePack } from '@edudoor/frontend/src/assets/themes';
-import useKeyPress from '@edudoor/frontend/src/hooks/useKeyPress';
+import useKeyPress from '../../hooks/useKeyPress';
 
 export interface ThemeContextProps {
   theme: Theme;

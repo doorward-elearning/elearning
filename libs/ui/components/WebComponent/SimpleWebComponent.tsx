@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { ActionCreator, WebComponentState } from '@edudoor/frontend/src/reducers/reducers';
 import { State } from '@edudoor/frontend/src/store';
-import useAction from '@edudoor/frontend/src/hooks/useActions';
 import { useSelector } from 'react-redux';
 import WebComponent, { WebComponentProps } from './index';
+import { ActionCreator, WebComponentState } from '../../reducers/reducers';
+import useAction from '../../hooks/useActions';
 
 function SimpleWebComponent<
   T extends WebComponentState<any>,

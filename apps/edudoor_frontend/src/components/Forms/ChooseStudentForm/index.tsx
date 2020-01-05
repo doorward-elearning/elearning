@@ -1,16 +1,16 @@
 import React, { useEffect } from 'react';
-import SwitchInput from '../../../../../../libs/ui/components/Input/SwitchInput';
-import { UseForm } from '../../../../../../libs/ui/hooks/useForm';
+import SwitchInput from '@edudoor/ui/components/Input/SwitchInput';
+import { UseForm } from '@edudoor/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import useAction from '../../../../../../libs/ui/hooks/useActions';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { Student } from '../../../services/models';
-import WebComponent from '../../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import './ChooseStudentForm.scss';
 import { fetchStudentsNotRegisteredAction, registerStudents } from '../../../../reducers/courses/actions';
-import Table from '../../../../../../../libs/ui/components/Table';
+import Table from '@edudoor/ui/components/Table';
 import Tools from '../../../../utils/Tools';
-import IfElse from '../../../../../../../libs/ui/components/IfElse';
+import IfElse from '@edudoor/ui/components/IfElse';
 import BasicForm from '../BasicForm';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props => {

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './BreadCrumbs.scss';
-import { Roles } from '../../static/RolesManager';
+import { Roles } from '@edudoor/frontend/src/components/RolesManager';
 
 const BreadCrumbs: FunctionComponent<BreadCrumbsProps> = ({ crumbs }): JSX.Element => {
   return (

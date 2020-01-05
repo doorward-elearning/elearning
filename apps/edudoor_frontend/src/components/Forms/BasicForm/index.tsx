@@ -1,13 +1,13 @@
 import React, { ReactChild } from 'react';
-import Form, { FormProps, FormRenderProps } from '../../../../../../libs/ui/components/Form';
+import Form, { FormProps, FormRenderProps } from '@edudoor/ui/components/Form';
 import { Action, WebComponentState } from '@edudoor/ui/reducers/reducers';
-import useAction from '../../../../../../libs/ui/hooks/useActions';
-import useFormSubmit from '../../../../../../libs/ui/hooks/useFormSubmit';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
-import Row from '../../../../../../libs/ui/components/Row';
-import Button from '../../../../../../libs/ui/components/Buttons/Button';
-import FeatureProvider from '../../../../../../libs/ui/components/FeatureProvider';
-import Feature from '../../../../../../libs/ui/components/FeatureProvider/Feature';
+import useAction from '@edudoor/ui/hooks/useActions';
+import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
+import useForm from '@edudoor/ui/hooks/useForm';
+import Row from '@edudoor/ui/components/Row';
+import Button from '@edudoor/ui/components/Buttons/Button';
+import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
+import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
 
 export enum BasicFormFeatures {

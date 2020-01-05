@@ -1,8 +1,8 @@
 import React from 'react';
-import Modal from '../../../../../../libs/ui/components/Modal';
-import { UseModal } from '../../../../../../libs/ui/hooks/useModal';
+import Modal from '@edudoor/ui/components/Modal';
+import { UseModal } from '@edudoor/ui/hooks/useModal';
 import ChangePasswordForm, { ChangePasswordFormState } from '../../Forms/ChangePasswordForm';
-import { UseForm } from '../../../../../../libs/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/hooks/useForm';
 import PasswordPolicy from '../../UI/PasswordPolicy';
 
 const ChangePasswordModal: React.FunctionComponent<ChangePasswordModalProps> = props => {

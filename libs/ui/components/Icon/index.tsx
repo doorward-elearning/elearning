@@ -1,7 +1,7 @@
 import React, { MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import './Icon.scss';
-import { Icons } from '../../../types/icons';
+import { Icons } from '../../types/icons';
 
 const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   const className = classNames({

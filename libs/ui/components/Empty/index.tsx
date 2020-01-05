@@ -3,8 +3,8 @@ import './Empty.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import IfElse from '../IfElse';
-import { Icons } from '../../../types/icons';
 import Panel from '../Panel';
+import { Icons } from '../../types/icons';
 
 const defaultMessage = 'Ops! There are no items here.';
 

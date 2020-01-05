@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../Layout';
 import { fetchStudentReport } from '../../reducers/reports/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import Tools from '../../../../../libs/ui/utils/Tools';
-import Header from '../../../../../libs/ui/components/Header';
-import Row from '../../../../../libs/ui/components/Row';
+import Tools from '@edudoor/ui/utils/Tools';
+import Header from '@edudoor/ui/components/Header';
+import Row from '@edudoor/ui/components/Row';
 import CoursesInProgressTable from '../../components/Tables/CoursesInProgressTable';
-import WebComponent from '../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import './StudentReport.scss';
-import Panel from '../../../../../libs/ui/components/Panel';
-import Grid from '../../../../../libs/ui/components/Grid';
-import Badge from '../../../../../libs/ui/components/Badge';
-import CustomChart from '../../../../../libs/ui/components/CustomChart';
-import usePageResource from '../../../../../libs/ui/hooks/usePageResource';
-import useBreadCrumbTitle from '../../../../../libs/ui/hooks/useBreadCrumbTitle';
-import useAction from '../../../../../libs/ui/hooks/useActions';
+import Panel from '@edudoor/ui/components/Panel';
+import Grid from '@edudoor/ui/components/Grid';
+import Badge from '@edudoor/ui/components/Badge';
+import CustomChart from '@edudoor/ui/components/CustomChart';
+import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import useBreadCrumbTitle from '@edudoor/ui/hooks/useBreadCrumbTitle';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { fetchCoursesAction } from '../../reducers/courses/actions';
+import useRoutes from '../../hooks/useRoutes';
 
 const data = [['Course', 'Marks']];
 const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
   const state = useSelector((state: State) => state.reports.singleStudent);
   const courses = useSelector((state: State) => state.courses.courseList.data?.courses);
+  const routes = useRoutes();
 
-  usePageResource('studentId', fetchStudentReport);
+  usePageResource('studentId', fetchStudentReport, routes);
   const fetchCourses = useAction(fetchCoursesAction);
-  useBreadCrumbTitle(state, state => state.data.student?.fullName);
+  useBreadCrumbTitle(state, state => state.data.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {

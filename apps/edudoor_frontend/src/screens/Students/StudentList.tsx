@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import StudentTable from '../../components/Tables/StudentTable';
-import WebComponent from '../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import useAction from '../../../../../libs/ui/hooks/useActions';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useAction from '@edudoor/ui/hooks/useActions';
+import useRoutes from '../../hooks/useRoutes';
 import { fetchStudentListAction } from '../../reducers/students/actions';
 
 const StudentList: React.FunctionComponent<StudentListProps> = props => {

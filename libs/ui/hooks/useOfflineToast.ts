@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import toast from '@edudoor/frontend/src/utils/toast';
+import toast from '../utils/toast';
 
 const useOfflineToast = () => {
   useEffect(() => {
@@ -16,7 +16,6 @@ const useOfflineToast = () => {
     window.addEventListener('offline', eventListener);
     return () => window.removeEventListener('offline', eventListener);
   }, []);
-
 
   useEffect(() => {
     const eventListener = () => {

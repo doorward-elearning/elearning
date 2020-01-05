@@ -1,4 +1,4 @@
-import reducerBuilder, { reducerApiAction } from '../../../../../libs/ui/reducers/builder';
+import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 import { CREATE_TEACHER, FETCH_ALL_TEACHERS } from './types';
 import Api from '../../services/api';
 

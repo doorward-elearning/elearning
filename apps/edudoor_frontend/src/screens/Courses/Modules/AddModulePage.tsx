@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import { PageComponent } from '../../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import useViewCourse from '../../../hooks/useViewCourse';
 import { Module } from '../../../services/models';
 import { useRouteMatch } from 'react-router';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
-import WebComponent from '../../../../../../libs/ui/components/WebComponent';
-import useRoutes from '../../../../../../libs/ui/hooks/useRoutes';
+import useForm from '@edudoor/ui/hooks/useForm';
+import WebComponent from '@edudoor/ui/components/WebComponent';
+import useRoutes from '../../../hooks/useRoutes';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
   const [module, setModule] = useState<Module>();

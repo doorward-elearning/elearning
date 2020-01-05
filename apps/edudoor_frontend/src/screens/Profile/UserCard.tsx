@@ -1,19 +1,19 @@
 import React from 'react';
-import Card from '../../../../../libs/ui/components/Card';
-import EImage from '../../../../../libs/ui/components/Image';
+import Card from '@edudoor/ui/components/Card';
+import EImage from '@edudoor/ui/components/Image';
 import profile from '../../assets/images/profile.svg';
-import Header from '../../../../../libs/ui/components/Header';
+import Header from '@edudoor/ui/components/Header';
 import './styles/UserCard.scss';
 import ChangePasswordModal from '../../components/Modals/ChangePasswordModal';
-import useForm from '../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import { User } from '../../services/models';
-import useModal from '../../../../../libs/ui/hooks/useModal';
+import useModal from '@edudoor/ui/hooks/useModal';
 import { useRouteMatch } from 'react-router';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
-import ItemArray from '../../../../../libs/ui/components/ItemArray';
-import Pill from '../../../../../libs/ui/components/Pill';
-import Row from '../../../../../libs/ui/components/Row';
+import ItemArray from '@edudoor/ui/components/ItemArray';
+import Pill from '@edudoor/ui/components/Pill';
+import Row from '@edudoor/ui/components/Row';
 
 const UserCard: React.FunctionComponent<UserCardProps> = props => {
   const match: any = useRouteMatch();

@@ -1,27 +1,28 @@
 import React, { MouseEventHandler, useState } from 'react';
-import NavBar, { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
-import SideBar from '../../../../../libs/ui/components/SideBar';
-import { PageComponent } from '../../../../../libs/ui/types';
+import NavBar, { NavbarFeatures } from '@edudoor/ui/components/NavBar';
+import SideBar from '@edudoor/ui/components/SideBar';
+import { PageComponent } from '@edudoor/ui/types';
 import classNames from 'classnames';
 import './Layout.scss';
-import Container from '../../../../../libs/ui/components/Container';
-import Tools from '../../../../../libs/ui/utils/Tools';
-import Feature from '../../../../../libs/ui/components/FeatureProvider/Feature';
-import Header from '../../../../../libs/ui/components/Header';
-import FeatureProvider from '../../../../../libs/ui/components/FeatureProvider';
-import Icon from '../../../../../libs/ui/components/Icon';
-import Button, { ButtonProps } from '../../../../../libs/ui/components/Buttons/Button';
-import useBreadCrumbs from '../../../../../libs/ui/hooks/useBreadCrumbs';
-import BreadCrumbs from '../../../../../libs/ui/components/BreadCrumbs';
-import { Roles } from '../../components/RolesManager';
-import RoleContainer from '../../components/RolesManager/RoleContainer';
-import IfElse from '../../../../../libs/ui/components/IfElse';
+import Container from '@edudoor/ui/components/Container';
+import Tools from '@edudoor/ui/utils/Tools';
+import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
+import Header from '@edudoor/ui/components/Header';
+import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
+import Icon from '@edudoor/ui/components/Icon';
+import Button, { ButtonProps } from '@edudoor/ui/components/Buttons/Button';
+import useBreadCrumbs from '@edudoor/ui/hooks/useBreadCrumbs';
+import BreadCrumbs from '@edudoor/ui/components/BreadCrumbs';
+import IfElse from '@edudoor/ui/components/IfElse';
 import ContentSpinner from '../../components/UI/ContentSpinner';
 import _ from 'lodash';
-import { PlainTextField } from '../../../../../libs/ui/components/Input/TextField';
+import { PlainTextField } from '@edudoor/ui/components/Input/TextField';
 import Helmet from 'react-helmet';
 import CONSTANTS from '../../assets/constants';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useRoutes from '../../hooks/useRoutes';
+import { Roles } from '@edudoor/ui/components/RolesManager';
+import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
+import schema from '../../components/Sidebar/schema';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -59,8 +60,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
   const [search, setSearchText] = useState(searchText);
-  const { breadcrumbs, titles } = useBreadCrumbs();
   const routes = useRoutes();
+  const { breadcrumbs, titles } = useBreadCrumbs(routes);
   const currentRoute = routes.currentRoute;
   const debouncedSearch = _.debounce(onSearchText, 500);
 
@@ -106,6 +107,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
         </div>
         <div className="ed-page-layout__sidebar">
           <SideBar
+            schema={schema}
             navBarShown={!noNavBar}
             history={history}
             onHamburgerClick={toggleSidebar}

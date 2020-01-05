@@ -1,14 +1,14 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import AddStudentForm, { AddStudentFormState } from '../../components/Forms/AddStudentForm';
-import useForm from '../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useRoutes from '../../hooks/useRoutes';
 import { Redirect } from 'react-router';
-import useFormSubmit from '../../../../../libs/ui/hooks/useFormSubmit';
-import IfElse from '../../../../../libs/ui/components/IfElse';
+import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
+import IfElse from '@edudoor/ui/components/IfElse';
 
 const AddStudent: React.FunctionComponent<AddStudentProps> = props => {
   const studentForm = useForm<AddStudentFormState>();

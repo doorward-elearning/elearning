@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Button, { ButtonProps } from './Button';
 import ConfirmModal from '../ConfirmModal';
-import useModal from '@edudoor/frontend/src/hooks/useModal';
+import useModal from '../../hooks/useModal';
 
 const ConfirmationButton: FunctionComponent<ConfirmationButtonProps> = ({ children, ...props }): JSX.Element => {
   const modal = useModal();

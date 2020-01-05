@@ -1,13 +1,13 @@
 import React from 'react';
-import Form from '../../../../../../libs/ui/components/Form';
-import TextField from '../../../../../../libs/ui/components/Input/TextField';
+import Form from '@edudoor/ui/components/Form';
+import TextField from '@edudoor/ui/components/Input/TextField';
 import addModuleForm from './validation';
-import useAction from '../../../../../../libs/ui/hooks/useActions';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { createCourseModuleAction } from '../../../reducers/courses/actions';
 import { CourseModuleBody } from '../../../services/models/requestBody';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { UseForm } from '../../../../../../libs/ui/hooks/useForm';
+import { UseForm } from '@edudoor/ui/hooks/useForm';
 
 const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
   const initialValues = {

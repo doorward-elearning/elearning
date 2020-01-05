@@ -1,11 +1,11 @@
 import React from 'react';
 import BasicForm from '../BasicForm';
 import { Action, WebComponentState } from '@edudoor/ui/reducers/reducers';
-import EditableLabel from '../../../../../../libs/ui/components/Input/EditableLabel';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
-import useToggle from '../../../../../../libs/ui/hooks/useToggle';
+import EditableLabel from '@edudoor/ui/components/Input/EditableLabel';
+import useForm from '@edudoor/ui/hooks/useForm';
+import useToggle from '@edudoor/ui/hooks/useToggle';
 import './EditableLabelForm.scss';
-import { Roles } from '../../RolesManager';
+import { Roles } from '../../../../../../libs/ui/components/RolesManager';
 import useRoleManager from '../../../../hooks/useRoleManager';
 
 function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: EditableLabelFormProps<T, A>): JSX.Element {

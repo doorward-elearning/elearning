@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
 import { Module, Quiz } from '../../../services/models';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import './QuizDetailsForm.scss';
 import QuizDetails from './QuizDetails';
-import TabLayout from '../../../../../../../libs/ui/components/TabLayout';
-import Tab from '../../../../../../../libs/ui/components/TabLayout/Tab';
+import TabLayout from '@edudoor/ui/components/TabLayout';
+import Tab from '@edudoor/ui/components/TabLayout/Tab';
 import QuizQuestions, { defaultQuestion } from './QuizQuestions';
 import validation from './validation';
 

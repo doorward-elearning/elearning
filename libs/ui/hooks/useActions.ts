@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { Action } from '@edudoor/frontend/src/reducers/reducers';
+import { Action } from '../reducers/reducers';
 
 function useAction<T extends (...args: any) => Action>(
   action: T,

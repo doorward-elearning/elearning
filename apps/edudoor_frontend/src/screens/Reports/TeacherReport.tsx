@@ -1,19 +1,21 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { PageComponent } from '../../../../../libs/ui/types';
-import Tools from '../../../../../libs/ui/utils/Tools';
+import { PageComponent } from '@edudoor/ui/types';
+import Tools from '@edudoor/ui/utils/Tools';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import WebComponent from '../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import AuthoredCoursesReportTable from '../../components/Tables/AuthoredCoursesReportTable';
 import { fetchCourseCreatorReport } from '../../reducers/reports/actions';
-import usePageResource from '../../../../../libs/ui/hooks/usePageResource';
-import useBreadCrumbTitle from '../../../../../libs/ui/hooks/useBreadCrumbTitle';
+import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import useBreadCrumbTitle from '@edudoor/ui/hooks/useBreadCrumbTitle';
+import useRoutes from '../../hooks/useRoutes';
 
 const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.reports.singleTeacher);
-  usePageResource('teacherId', fetchCourseCreatorReport);
-  useBreadCrumbTitle(state, state => state.data.teacher?.fullName);
+  const routes = useRoutes();
+  usePageResource('teacherId', fetchCourseCreatorReport, routes);
+  useBreadCrumbTitle(state, state => state.data.teacher?.fullName, routes);
 
   const courseCreator = state.data.teacher;
   return (

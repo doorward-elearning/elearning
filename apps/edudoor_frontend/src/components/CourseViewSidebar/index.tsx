@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
-import List from '../../../../../libs/ui/components/List';
-import ListItem from '../../../../../libs/ui/components/List/ListItem';
-import Header from '../../../../../libs/ui/components/Header';
-import Button from '../../../../../libs/ui/components/Buttons/Button';
+import List from '@edudoor/ui/components/List';
+import ListItem from '@edudoor/ui/components/List/ListItem';
+import Header from '@edudoor/ui/components/Header';
+import Button from '@edudoor/ui/components/Buttons/Button';
 import './CourseViewSidebar.scss';
-import Accordion from '../../../../../../libs/ui/components/Accordion';
-import Empty from '../../../../../../libs/ui/components/Empty';
+import Accordion from '@edudoor/ui/components/Accordion';
+import Empty from '@edudoor/ui/components/Empty';
 import { UseModal } from '../../../hooks/useModal';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import WebComponent from '../../../../../../libs/ui/components/WebComponent';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import useAction from '../../../hooks/useActions';
 import { fetchCourseStudentListAction } from '../../../reducers/courses/actions';
 import { useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import useRoutes from '../../../hooks/useRoutes';
-import RoleContainer from '../RolesManager/RoleContainer';
-import { Roles } from '../RolesManager';
-import ItemArray from '../../../../../../libs/ui/components/ItemArray';
+import RoleContainer from '../../../../../libs/ui/components/RolesManager/RoleContainer';
+import { Roles } from '../../../../../libs/ui/components/RolesManager';
+import ItemArray from '@edudoor/ui/components/ItemArray';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
   const students = useSelector((state: State) => state.courses.studentList);

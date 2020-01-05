@@ -3,9 +3,8 @@ import Spinner from '../Spinner';
 import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
 import classNames from 'classnames';
-import { PageProgressContext } from '../../static/UI/PageProgress';
-import { ApiError } from '../../../services/services';
 import NotFound from '../NotFound';
+import { PageProgressContext } from '../PageProgress';
 
 function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
   const [refreshing, setRefreshing] = useState(false);

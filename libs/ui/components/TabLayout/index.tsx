@@ -11,6 +11,7 @@ const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelec
     <React.Fragment>
       {tabs.map((tab, index) => (
         <div
+          key={tab.title}
           className={classNames({
             'ed-tabLayout__tabTitle': true,
             selected: index == selected,

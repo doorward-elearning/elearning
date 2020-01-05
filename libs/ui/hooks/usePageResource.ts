@@ -1,13 +1,16 @@
-import { ActionCreator } from '@edudoor/frontend/src/reducers/reducers';
 import { useRouteMatch } from 'react-router';
 import { useEffect } from 'react';
 import useAction from './useActions';
-import useRoutes from './useRoutes';
+import { ActionCreator } from '../reducers/reducers';
+import { RouteNames, Routes } from '../types';
 
-const usePageResource = (key: string, action: ActionCreator, args: any[] = []) => {
+const usePageResource = <T extends RouteNames>(
+  key: string,
+  action: ActionCreator,
+  routes: Routes<T>,
+  args: any[] = []
+) => {
   const match: any = useRouteMatch();
-  const routes = useRoutes();
-
   const dispatchAction = useAction(action);
 
   const allArgs = [match.params[key], ...args];

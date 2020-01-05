@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import Modal, { ModalProps } from '../../../../../../libs/ui/components/Modal';
-import Spinner from '../../../../../../libs/ui/components/Spinner';
+import Modal, { ModalProps } from '@edudoor/ui/components/Modal';
+import Spinner from '@edudoor/ui/components/Spinner';
 import './ProgressModal.scss';
 import { WebComponentState } from '../../../../reducers/reducers';
 import { ActionCreator } from 'redux';

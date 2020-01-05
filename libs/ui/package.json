@@ -4,5 +4,8 @@
   "main": "index.js",
   "author": "Moses Gitau <gitaumoses4@gmail.com>",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  }
 }

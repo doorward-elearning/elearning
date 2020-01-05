@@ -1,9 +1,9 @@
 import React from 'react';
-import { ModalFeatures, ModalProps } from '../../../../../libs/ui/components/Modal';
+import { ModalFeatures, ModalProps } from '@edudoor/ui/components/Modal';
 import { FormikActions } from 'formik';
 import { AddCourseFormState } from '../../components/Forms/AddCourseForm';
 import { MemoryHistory } from 'history';
-import useAction from '../../../../../libs/ui/hooks/useActions';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { createCourseAction } from '../../reducers/courses/actions';
 import AddCourseModal from '../../components/Modals/AddCourseModal';
 

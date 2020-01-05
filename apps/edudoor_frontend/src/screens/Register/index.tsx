@@ -1,19 +1,19 @@
 import React, { FunctionComponent, useEffect } from 'react';
 import '../Login/Login.scss';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout from '../Layout';
-import { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
-import Header from '../../../../../libs/ui/components/Header';
+import Header from '@edudoor/ui/components/Header';
 import { Link, Redirect } from 'react-router-dom';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
+import useRoutes from '../../hooks/useRoutes';
 import CONSTANTS from '../../assets/constants';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import useAuth from '../../../../../libs/ui/hooks/useAuth';
-import useAction from '../../../../../libs/ui/hooks/useActions';
+import useAuth from '@edudoor/ui/hooks/useAuth';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { clearLoginAction } from '../../reducers/login/actions';
-import IfElse from '../../../../../libs/ui/components/IfElse';
+import IfElse from '@edudoor/ui/components/IfElse';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const registration = useSelector((state: State) => state.login.registration);

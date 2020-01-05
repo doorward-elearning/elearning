@@ -1,14 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import Header from '../../../../../../libs/ui/components/Header';
+import Header from '@edudoor/ui/components/Header';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import useForm from '../../../../../../libs/ui/hooks/useForm';
-import TextArea from '../../../../../../libs/ui/components/Input/TextArea';
+import useForm from '@edudoor/ui/hooks/useForm';
+import TextArea from '@edudoor/ui/components/Input/TextArea';
 import meeting from '../../../assets/illustrations/meeting.svg';
-import Row from '../../../../../../libs/ui/components/Row';
-import EImage from '../../../../../../libs/ui/components/Image';
-import RatingInput from '../../../../../../libs/ui/components/Input/RatingInput';
+import Row from '@edudoor/ui/components/Row';
+import EImage from '@edudoor/ui/components/Image';
+import RatingInput from '@edudoor/ui/components/Input/RatingInput';
 import validation from './validation';
 
 const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JSX.Element => {

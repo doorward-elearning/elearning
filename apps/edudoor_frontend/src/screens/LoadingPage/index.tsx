@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout from '../Layout';
 import './LoadingPage.scss';
-import { ThemeContext } from '../../../../../libs/ui/components/ApplicationTheme';
-import EImage from '../../../../../libs/ui/components/Image';
-import ProgressBar from '../../../../../libs/ui/components/ProgressBar';
+import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
+import EImage from '@edudoor/ui/components/Image';
+import ProgressBar from '@edudoor/ui/components/ProgressBar';
 
 const LoadingPage: React.FunctionComponent<LoadingPageProps> = props => {
   const theme = useContext(ThemeContext);

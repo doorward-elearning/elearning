@@ -38,7 +38,7 @@ dotenvFiles.forEach(dotenvFile => {
   }
 });
 
-// set up the ip address related routes
+// set up the ip address related routeNames
 
 // We support resolving modules according to `NODE_PATH`.
 // This lets you use absolute paths in imports inside large monorepos:

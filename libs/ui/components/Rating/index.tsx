@@ -3,7 +3,7 @@ import './Rating.scss';
 import ItemArray from '../ItemArray';
 import classNames from 'classnames';
 import Icon from '../Icon';
-import { Icons } from '../../../types/icons';
+import { Icons } from '../../types/icons';
 
 const Star: FunctionComponent<StarProps> = ({ value, rating = 0, onClick }): JSX.Element => {
   let icon: Icons = 'star_border';

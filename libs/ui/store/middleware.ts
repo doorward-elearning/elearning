@@ -15,7 +15,7 @@ type GeneratedReducers<T> = {
 export default function build<T extends ReducerObject, K extends keyof T>(
   reducers: T
 ): {
-  rootReducer: Reducer<CombinedState<any>>;
+  rootReducer: Reducer<CombinedState<GeneratedReducers<T>>>;
   rootSaga: () => IterableIterator<any>;
 } {
   const state: any = {};

@@ -1,22 +1,22 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import useAuth from '../../../../../libs/ui/hooks/useAuth';
+import useAuth from '@edudoor/ui/hooks/useAuth';
 import './Login.scss';
 import Layout from '../Layout';
-import { PageComponent } from '../../../../../libs/ui/types';
-import { NavbarFeatures } from '../../../../../libs/ui/components/NavBar';
-import ROUTES from '../../../../../libs/ui/routes/routes';
+import { PageComponent } from '@edudoor/ui/types';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar';
+import ROUTES from '@edudoor/ui/routes/routes';
 import { clearLoginAction } from '../../reducers/login/actions';
-import useAction from '../../../../../libs/ui/hooks/useActions';
+import useAction from '@edudoor/ui/hooks/useActions';
 import { State } from '../../store';
 import LoginForm from '../../components/Forms/LoginForm';
-import Button from '../../../../../libs/ui/components/Buttons/Button';
-import useRoutes from '../../../../../libs/ui/hooks/useRoutes';
-import Header from '../../../../../libs/ui/components/Header';
+import Button from '@edudoor/ui/components/Buttons/Button';
+import useRoutes from '../../hooks/useRoutes';
+import Header from '@edudoor/ui/components/Header';
 import CONSTANTS from '../../assets/constants';
 import { Link } from 'react-router-dom';
-import IfElse from '../../../../../libs/ui/components/IfElse';
+import IfElse from '@edudoor/ui/components/IfElse';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();

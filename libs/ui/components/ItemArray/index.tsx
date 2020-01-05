@@ -1,7 +1,5 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import objectHash from 'object-hash';
+import React, { useEffect, useState } from 'react';
 import IfElse from '../IfElse';
-import Tools from '@edudoor/frontend/src/utils/Tools';
 
 function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
@@ -31,9 +29,7 @@ function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
     <IfElse condition={data}>
       <React.Fragment>
         {data.map((item, index) => {
-          return (
-            <React.Fragment key={getKey(item)}>{props.children(item, index)}</React.Fragment>
-          );
+          return <React.Fragment key={getKey(item)}>{props.children(item, index)}</React.Fragment>;
         })}
       </React.Fragment>
       <IfElse condition={props.empty}>

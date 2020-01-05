@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { WebComponentState } from '@edudoor/frontend/src/reducers/reducers';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
+import { WebComponentState } from '../../reducers/reducers';
 
 const FormMessage: React.FunctionComponent<FormMessageProps> = props => {
   const [error, setError] = useState();

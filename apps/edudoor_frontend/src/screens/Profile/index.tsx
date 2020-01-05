@@ -1,15 +1,15 @@
 import React, { FunctionComponent, useState } from 'react';
-import { PageComponent } from '../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../Layout';
 import UserCard from './UserCard';
 import './styles/Profile.scss';
-import Card from '../../../../../libs/ui/components/Card';
-import Header from '../../../../../libs/ui/components/Header';
+import Card from '@edudoor/ui/components/Card';
+import Header from '@edudoor/ui/components/Header';
 import ProfileAccountForm from '../../components/Forms/ProfileAccountForm';
-import useForm from '../../../../../libs/ui/hooks/useForm';
-import useAuth from '../../../../../libs/ui/hooks/useAuth';
-import Icon from '../../../../../libs/ui/components/Icon';
-import IfElse from '../../../../../libs/ui/components/IfElse';
+import useForm from '@edudoor/ui/hooks/useForm';
+import useAuth from '@edudoor/ui/hooks/useAuth';
+import Icon from '@edudoor/ui/components/Icon';
+import IfElse from '@edudoor/ui/components/IfElse';
 
 const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const [editingAccount, setEditingAccount] = useState(false);

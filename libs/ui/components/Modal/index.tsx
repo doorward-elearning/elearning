@@ -1,4 +1,4 @@
-import React, { MouseEvent, MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, { MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -6,9 +6,9 @@ import FeatureProvider from '../FeatureProvider';
 import Header from '../Header';
 import classNames from 'classnames';
 import Button, { ButtonProps } from '../Buttons/Button';
-import { UseModal } from '../../../hooks/useModal';
 import IfElse from '../IfElse';
-import useModalBlur from '../../../hooks/useModalBlur';
+import useModalBlur from '../../hooks/useModalBlur';
+import { UseModal } from '../../hooks/useModal';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,

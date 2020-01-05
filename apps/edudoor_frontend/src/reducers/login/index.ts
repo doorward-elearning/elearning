@@ -1,9 +1,9 @@
-import createReducer, { modifyReducer, reducerApiAction } from '../../../../../libs/ui/reducers/builder';
+import createReducer, { modifyReducer, reducerApiAction } from '@edudoor/ui/reducers/builder';
 import Api from '../../services/api';
 import { Action } from '@edudoor/ui/reducers/reducers';
-import Tools from '../../../../../libs/ui/utils/Tools';
+import Tools from '@edudoor/ui/utils/Tools';
 import { LOGIN_USER, REGISTER_USER } from './types';
-import Request from '../../../../../libs/ui/services/request';
+import Request from '@edudoor/ui/services/request';
 
 const loginMiddleware = {
   apiMiddleware: {

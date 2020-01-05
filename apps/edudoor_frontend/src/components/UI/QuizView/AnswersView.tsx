@@ -1,6 +1,6 @@
 import React from 'react';
 import { Answer, Question } from '../../../services/models';
-import MultipleSwitchField from '../../../../../../libs/ui/components/Input/MultipleSwitchField';
+import MultipleSwitchField from '@edudoor/ui/components/Input/MultipleSwitchField';
 
 const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answers }) => {
   return (

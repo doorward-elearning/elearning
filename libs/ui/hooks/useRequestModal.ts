@@ -1,7 +1,7 @@
 import useAction from './useActions';
 import useFormSubmit from './useFormSubmit';
-import { ActionCreator, WebComponentState } from '@edudoor/frontend/src/reducers/reducers';
 import { UseModal } from './useModal';
+import { ActionCreator, WebComponentState } from '../reducers/reducers';
 
 const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {
   const overrideAction = () => {

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import Table from '../../../../../../libs/ui/components/Table';
+import Table from '@edudoor/ui/components/Table';
 import { Student } from '../../../services/models';
-import SimpleWebComponent from '../../../../../../libs/ui/components/WebComponent/SimpleWebComponent';
+import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebComponent';
 import { fetchStudentReportsList } from '../../../reducers/reports/actions';
 import { State } from '../../../store';
 

@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useContext } from 'react';
-import Dropdown from '../../../../../../libs/ui/components/Dropdown';
-import EImage from '../../../../../../libs/ui/components/Image';
+import Dropdown from '@edudoor/ui/components/Dropdown';
+import EImage from '@edudoor/ui/components/Image';
 import profile from '../../../assets/images/profile.svg';
-import Tools from '../../../../../../libs/ui/utils/Tools';
-import useRoutes from '../../../../../../libs/ui/hooks/useRoutes';
-import useAuth from '../../../../../../libs/ui/hooks/useAuth';
-import Row from '../../../../../../libs/ui/components/Row';
-import Switch from '../../../../../../libs/ui/components/Switch';
+import Tools from '@edudoor/ui/utils/Tools';
+import useRoutes from '../../../hooks/useRoutes';
+import useAuth from '@edudoor/ui/hooks/useAuth';
+import Row from '@edudoor/ui/components/Row';
+import Switch from '@edudoor/ui/components/Switch';
 import themes from '../../../assets/themes';
-import { ThemeContext } from '../../../../../../libs/ui/components/ApplicationTheme';
+import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const routes = useRoutes();

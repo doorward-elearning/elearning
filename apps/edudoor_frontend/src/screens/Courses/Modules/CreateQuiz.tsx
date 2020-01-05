@@ -1,20 +1,20 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import { PageComponent } from '../../../../../../libs/ui/types';
+import { PageComponent } from '@edudoor/ui/types';
 import Layout, { LayoutFeatures } from '../../Layout';
-import usePageResource from '../../../../../../libs/ui/hooks/usePageResource';
+import usePageResource from '@edudoor/ui/hooks/usePageResource';
 import { fetchCourseModuleAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
-import useRoutes from '../../../../../../libs/ui/hooks/useRoutes';
-import WebComponent from '../../../../../../libs/ui/components/WebComponent';
+import useRoutes from '../../../hooks/useRoutes';
+import WebComponent from '@edudoor/ui/components/WebComponent';
 import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.viewModule);
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', fetchCourseModuleAction);
+  usePageResource('moduleId', fetchCourseModuleAction, routes);
 
   const { module } = state.data;
   useEffect(() => {

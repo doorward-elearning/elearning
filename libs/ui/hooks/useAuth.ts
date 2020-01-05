@@ -1,10 +1,10 @@
-import Tools from '@edudoor/frontend/src/utils/Tools';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '@edudoor/frontend/src/store';
 import { User } from '@edudoor/frontend/src/services/models';
 import { AppContext } from '@edudoor/frontend/src';
-import { connectSocket } from '@edudoor/frontend/src/utils/socket';
+import Tools from '../utils/Tools';
+import { connectSocket } from '../utils/socket';
 
 const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
