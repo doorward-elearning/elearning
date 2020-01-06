@@ -1,4 +1,4 @@
-import { environment } from '../environments/environment';
+const environment = require('../environments/environment').environment;
 
 const defaultConfig = {
   databaseUrl: environment.DATABASE_URL,
@@ -6,7 +6,7 @@ const defaultConfig = {
   seederStorage: 'sequelize',
 };
 
-const database = {
+module.exports = {
   development: {
     ...defaultConfig,
   },
@@ -20,5 +20,3 @@ const database = {
     ...defaultConfig,
   },
 };
-
-module.exports = database;

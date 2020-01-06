@@ -1,4 +1,4 @@
-module.exports = {
+module.exports =  {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('MeetingRooms');
     await queryInterface.createTable('MeetingRooms', {

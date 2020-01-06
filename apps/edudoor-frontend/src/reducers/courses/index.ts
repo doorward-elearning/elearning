@@ -39,7 +39,7 @@ const viewCourse = reducerApiAction({
   reducer: (state, action) => {
     if (action.type === `${CREATE_COURSE_MODULE}_SUCCESS`) {
       return modifyReducer('data.course.modules', state, action, modules => {
-        return [...modules, action.payload.module];
+        return [...modules, action.payload.Module];
       });
     } else if (action.type === `${REORDER_COURSE_MODULES}_SUCCESS`) {
       return modifyReducer('data.course.modules', state, action, () => {

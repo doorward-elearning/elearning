@@ -1,6 +1,8 @@
+import { Models } from '../database/models';
+
 declare namespace NodeJS {
   interface Global {
-    models: any;
+    models: Models;
     socketIO: any;
   }
 }

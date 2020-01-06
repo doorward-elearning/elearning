@@ -20,7 +20,7 @@
     "common": {
       "tags": []
     },
-    "apps-edudoor-node-backend": {
+    "edudoor-node-backend": {
       "tags": []
     }
   }

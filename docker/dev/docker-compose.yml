@@ -1,0 +1,136 @@
+version: '2.1'
+
+volumes:
+  openolat_data:
+    external: true
+  edudoor_data:
+    external: true
+
+services:
+  edudoor_frontend:
+    container_name: edudoor_frontend
+    build:
+      context: ../../temp
+      dockerfile: frontend/Dockerfile
+    links:
+      - edudoor_rest_api
+    volumes:
+      - /usr/app/node_modules
+      - ../../apps/edudoor_frontend:/usr/app
+    env_file:
+      - ../../apps/edudoor_frontend/.env
+    environment:
+      REACT_APP_BASE_URL: http://localhost:7000/api/v1/
+      REACT_APP_REQUEST_DELAY: 500
+    ports:
+      - '3005:3000'
+    expose:
+      - '3000'
+    command:
+      - yarn
+      - start
+    depends_on:
+      edudoor_rest_api:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -s localhost:3000']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+  edudoor_rest_api:
+    container_name: edudoor_node_backend
+    build:
+      context: ../../temp
+      dockerfile: backend/Dockerfile
+    network_mode: host
+    volumes:
+      - /usr/app/node_modules
+      - ../../apps/edudoor_node_backend:/usr/app
+    env_file:
+      - ../../apps/edudoor_node_backend/.env
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5434/edudoor
+      OPENOLAT_API_URL: http://localhost:8080/openolat/restapi
+      LDAP_URL: ldap://localhost:389
+      FRONTEND_URL: http://localhost:3005
+      OPENVIDU_URL: https://localhost:4443
+    ports:
+      - '7000:7000'
+    expose:
+      - '7000'
+    entrypoint:
+      - /usr/app/entrypoint.sh
+    depends_on:
+      edudoor_node_database:
+        condition: service_healthy
+      edudoor_openvidu:
+        condition: service_started
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -s localhost:7000']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+  openolat:
+    image: gitaumoses4/openolat-edudoor
+    container_name: edudoor_openolat_backend
+    links:
+      - openolat_database
+    ports:
+      - '5000:8080'
+    depends_on:
+      openolat_database:
+        condition: service_healthy
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -s localhost:8080']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+  openolat_database:
+    image: gitaumoses4/edudoor_database
+    container_name: openolat_database
+    restart: always
+    ports:
+      - '5433:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: openolat
+    volumes:
+      - openolat_data:/var/lib/postgresql/openolat
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+  edudoor_node_database:
+    image: postgres:9.6-alpine
+    container_name: edudoor_node_backend_db
+    restart: always
+    ports:
+      - '5434:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: edudoor
+    depends_on:
+      openolat:
+        condition: service_started
+    volumes:
+      - edudoor_data:/var/lib/postgresql/edudoor
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+  edudoor_openvidu:
+    image: openvidu/openvidu-server-kms
+    container_name: edudoor_openvidu
+    ports:
+      - '4443:4443'
+      - '8888:8888'
+      - '9091:9091'
+    environment:
+      openvidu.secret: password
+      openvidu.webhook: "true"
+      openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetingRooms/webhook
+      openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"

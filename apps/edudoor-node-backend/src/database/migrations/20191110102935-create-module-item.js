@@ -1,4 +1,4 @@
-module.exports = {
+module.exports =  {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('ModuleItems', {
       id: {

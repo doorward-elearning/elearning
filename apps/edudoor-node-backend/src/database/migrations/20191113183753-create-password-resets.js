@@ -1,7 +1,7 @@
 const shortid = require('shortid');
 const randomString = require('random-string');
 
-module.exports = {
+module.exports =  {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('PasswordResets', {
       id: {

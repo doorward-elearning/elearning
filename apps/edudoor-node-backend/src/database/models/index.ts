@@ -1,26 +1,57 @@
 import { environment } from '../../environments/environment';
 import database from '../../config/database';
+import { Model, DataTypes, Sequelize } from 'sequelize';
+import Answer from './Answer';
+import Course from './Course';
+import Meeting from './Meeting';
+import MeetingRoom from './MeetingRoom';
+import MeetingRoomMember from './MeetingRoomMember';
+import Module from './Module';
+import ModuleItem from './ModuleItem';
+import Organization from './Organization';
+import PasswordResets from './PasswordResets';
+import Question from './Question';
+import Role from './Role';
+import StudentCourse from './StudentCourse';
+import User from './User';
+import UserRole from './UserRole';
 
-const fs = require('fs');
-const path = require('path');
-const Sequelize = require('sequelize');
+const modelNames = {
+  Answer,
+  Course,
+  Meeting,
+  MeetingRoom,
+  MeetingRoomMember,
+  Module,
+  ModuleItem,
+  Organization,
+  PasswordResets,
+  Question,
+  Role,
+  StudentCourse,
+  User,
+  UserRole,
+};
 
-const basename = path.basename(__filename);
 const env = environment.environment || 'development';
 const config = database[env];
-
-const models = {};
-
 const sequelize = new Sequelize(environment.DATABASE_URL, config);
 
-fs.readdirSync(__dirname)
-  .filter(file => file.indexOf('.') !== 0 && file !== basename && file.slice(-3) === '.js')
-  .forEach(file => {
-    const model = sequelize.import(path.join(__dirname, file));
-    models[model.name] = model;
-  });
+const models: { [name in keyof typeof modelNames]?: typeof Model } & {
+  sequelize: Sequelize;
+  Sequelize: Sequelize;
+} = Object.keys(modelNames).reduce(
+  (acc, modelName) => {
+    const model = sequelize.import(modelName, modelNames[modelName]);
+    return {
+      ...acc,
+      [modelName]: model,
+    };
+  },
+  { sequelize, Sequelize: sequelize }
+);
 
-Object.keys(models).forEach(modelName => {
+Object.keys(modelNames).forEach(modelName => {
   if (models[modelName].associate) {
     models[modelName].associate(models);
   }

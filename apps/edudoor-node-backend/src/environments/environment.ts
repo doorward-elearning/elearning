@@ -3,6 +3,7 @@ export const environment = {
   environment: 'development',
   PORT: 7000,
   DATABASE_URL: 'postgres://moses:password@localhost:5432/edudoor',
+  DATABASE_DIALECT: 'postgres',
   OPENOLAT_API_URL: 'http://localhost:5000/openolat/restapi',
   OPENOLAT_USERNAME: 'administrator',
   OPENOLAT_PASSWORD: 'openolat',
