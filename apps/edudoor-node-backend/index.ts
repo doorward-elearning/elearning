@@ -1,5 +1,4 @@
 import debug from 'debug';
-import dotenv from 'dotenv';
 import shortid from 'shortid';
 import app from './src/app';
 import models from './src/database/models';
@@ -12,11 +11,12 @@ const socketIO = require('socket.io');
 
 global.models = models;
 
-dotenv.config();
 const logger = debug('log');
 const server = http.createServer(app);
 
 const io = socketIO(server);
+
+console.log("Moses---------------------------------", process.env.DATABASE_URL);
 
 global.socketIO = io;
 
