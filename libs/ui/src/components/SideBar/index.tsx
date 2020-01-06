@@ -10,6 +10,7 @@ import useSidebarSchema, { SideBarSchema } from '../../hooks/useSidebarSchema';
 import { RouteNames, Routes } from '../../types';
 import useAuth from '../../hooks/useAuth';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
+import profile from '../../../assets/images/profile.svg';
 
 function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
   const { history, location, collapsed } = props;
@@ -34,7 +35,7 @@ function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
           </div>
         )}
         <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} />
+          <UserPanel collapsed={collapsed} profilePicture={profile} />
           <SideBarMenu
             history={history}
             location={location}

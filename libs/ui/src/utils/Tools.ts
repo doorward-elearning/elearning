@@ -6,6 +6,7 @@ import { environment } from '../environments/environment';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
+const shortId = require('shortid');
 
 const process = {
   env: {
@@ -25,6 +26,12 @@ class Tools {
       .map(k => enumeration[k])
       .filter(x => typeof x !== 'string')
       .map((x: any) => x as T);
+  }
+
+  static generateId(): string {
+    return Array(3)
+      .fill(0)
+      .reduce(acc => acc + shortId.generate(), '');
   }
 
   static randomString(length = 6): string {

@@ -19,6 +19,9 @@
     },
     "common": {
       "tags": []
+    },
+    "apps-edudoor-node-backend": {
+      "tags": []
     }
   }
 }

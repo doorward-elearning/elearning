@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import classNames from 'classnames';
+import placeholder from '../../../assets/images/placeholder.png';
 import './Image.scss';
 
 const EImage: FunctionComponent<ImageProps> = ({ size = 'default', ...props }): JSX.Element => {
@@ -9,7 +10,7 @@ const EImage: FunctionComponent<ImageProps> = ({ size = 'default', ...props }): 
     fluid: props.fluid,
     [size]: true,
   });
-  return <img src={props.src} alt={props.alt} className={classes} />;
+  return <img src={props.src || placeholder} alt={props.alt} className={classes} />;
 };
 
 export interface ImageProps {

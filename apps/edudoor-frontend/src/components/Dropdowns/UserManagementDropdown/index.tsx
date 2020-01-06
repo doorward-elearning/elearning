@@ -8,7 +8,7 @@ import themes from '@edudoor/ui/themes/themes';
 import useRoutes from '../../../hooks/useRoutes';
 import Row from '@edudoor/ui/components/Row';
 import Switch from '@edudoor/ui/components/Switch';
-import profile from '../../../assets/images/placeholder.png';
+import profile from '../../../assets/images/profile.svg';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const routes = useRoutes();

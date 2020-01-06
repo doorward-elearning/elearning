@@ -1,0 +1,14 @@
+extends base_template
+block greeting
+    p.title
+    span Hello #{username || 'there'}
+block content
+    h4.
+        Teacher Account created
+    p.
+        A new #{organization} teacher account has been created for you.
+        To proceed with the login. Kindly click on the following link.
+    p.
+        You will be required to create a new password for your account.
+    a(href=link)
+        span Confirm Registration

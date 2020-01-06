@@ -15,10 +15,7 @@
             "main": "apps/edudoor-frontend/src/main.tsx",
             "polyfills": "apps/edudoor-frontend/src/polyfills.ts",
             "tsConfig": "apps/edudoor-frontend/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-frontend/src/favicon.ico",
-              "apps/edudoor-frontend/src/assets"
-            ],
+            "assets": ["apps/edudoor-frontend/src/favicon.ico", "apps/edudoor-frontend/src/assets"],
             "styles": ["apps/edudoor-frontend/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
@@ -64,10 +61,7 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-frontend/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-frontend/tsconfig.app.json",
-              "apps/edudoor-frontend/tsconfig.spec.json"
-            ],
+            "tsConfig": ["apps/edudoor-frontend/tsconfig.app.json", "apps/edudoor-frontend/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!apps/edudoor-frontend/**"]
           }
         },
@@ -120,10 +114,7 @@
           "options": {
             "linter": "eslint",
             "config": "libs/ui/.eslintrc",
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/ui/tsconfig.lib.json", "libs/ui/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/ui/**"]
           }
         },
@@ -147,10 +138,7 @@
           "options": {
             "linter": "eslint",
             "config": "libs/common/.eslintrc",
-            "tsConfig": [
-              "libs/common/tsconfig.lib.json",
-              "libs/common/tsconfig.spec.json"
-            ],
+            "tsConfig": ["libs/common/tsconfig.lib.json", "libs/common/tsconfig.spec.json"],
             "exclude": ["**/node_modules/**", "!libs/common/**"]
           }
         },
@@ -159,6 +147,59 @@
           "options": {
             "jestConfig": "libs/common/jest.config.js",
             "tsConfig": "libs/common/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "edudoor-node-backend": {
+      "root": "apps/edudoor-node-backend",
+      "sourceRoot": "apps/edudoor-node-backend/src",
+      "projectType": "application",
+      "prefix": "edudoor-node-backend",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/edudoor-node-backend",
+            "main": "apps/edudoor-node-backend/index.ts",
+            "tsConfig": "apps/edudoor-node-backend/tsconfig.app.json",
+            "assets": ["apps/edudoor-node-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/edudoor-node-backend/src/environments/environment.ts",
+                  "with": "apps/edudoor-node-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "edudoor-node-backend:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/edudoor-node-backend/.eslintrc",
+            "tsConfig": ["apps/edudoor-node-backend/tsconfig.app.json", "apps/edudoor-node-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/apps/edudoor-node-backend/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/edudoor-node-backend/jest.config.js",
+            "tsConfig": "apps/edudoor-node-backend/tsconfig.spec.json"
           }
         }
       }
