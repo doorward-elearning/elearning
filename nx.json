@@ -13,6 +13,12 @@
     },
     "edudoor-frontend-e2e": {
       "tags": []
+    },
+    "ui": {
+      "tags": []
+    },
+    "common": {
+      "tags": []
     }
   }
 }

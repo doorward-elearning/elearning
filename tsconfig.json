@@ -13,9 +13,18 @@
     "typeRoots": ["node_modules/@types"],
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
+    "types": ["node"],
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@edudoor/ui/*": ["libs/ui/src/*"],
+      "@edudoor/common/*": ["libs/common/src/*"]
+    },
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin"
+      }
+    ]
   },
   "exclude": ["node_modules", "tmp"]
 }

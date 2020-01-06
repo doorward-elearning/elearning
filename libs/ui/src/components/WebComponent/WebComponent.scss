@@ -1,0 +1,51 @@
+.web-component {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr;
+
+  &__spinner {
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    pointer-events: none;
+    grid-row: 1/ 1;
+    grid-column: 1/1;
+  }
+
+  &__empty {
+    opacity: 1;
+    grid-column: 1/1;
+    pointer-events: all;
+    grid-row: 1/ 1;
+  }
+
+  &.loading {
+    .web-component__empty {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .web-component__spinner {
+      opacity: 1;
+      pointer-events: all;
+    }
+  }
+
+  &__content {
+    &.inline {
+      display: inline-grid;
+
+      > div {
+        display: inline-grid;
+      }
+    }
+  }
+}
+
+@keyframes refreshingAnimation {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}

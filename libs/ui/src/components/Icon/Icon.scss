@@ -1,0 +1,32 @@
+.material-icons {
+  position: relative;
+
+  .material-icons {
+    position: absolute;
+    font-size: inherit;
+    color: inherit;
+    left: 0;
+    top: 0;
+  }
+  &.clickable {
+    cursor: pointer;
+    user-select: none;
+
+    &:before {
+      content: '';
+      position: absolute;
+      width: 150%;
+      height: 150%;
+      top: -25%;
+      left: -25%;
+      border-radius: 50%;
+      transition: 0.5s background;
+    }
+
+    &:hover {
+      &:before {
+        background: rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}
