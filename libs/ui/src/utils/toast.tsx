@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
-global.toasts = [];
+let toasts = [];
 
 const removeToast = (toast: any): Promise<any> => {
   return new Promise<any>((resolve): void => {
@@ -17,7 +17,7 @@ const removeToast = (toast: any): Promise<any> => {
         } catch (err) {}
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
-        global.toasts = global.toasts.filter(t => t != toast);
+        toasts = toasts.filter(t => t != toast);
         resolve();
       }, 500);
     }
@@ -33,7 +33,7 @@ const toast = {
 
       const startTimer = (): any => {
         const timeout = props.timeout || 2000;
-        if(timeout > 0){
+        if (timeout > 0) {
           return setTimeout(() => {
             removeToast(container).then();
           }, props.timeout || 2000);
@@ -59,14 +59,14 @@ const toast = {
       ReactDOM.render(<Toast closeToast={closeToast} {...props} />, container);
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      global.toasts.push(container);
+      toasts.push(container);
     });
   },
   clear: (): Promise<any> => {
     return Promise.all(
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
-      global.toasts.map(removeToast)
+      toasts.map(removeToast)
     );
   },
 };

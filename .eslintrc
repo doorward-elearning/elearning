@@ -17,9 +17,11 @@
   "rules": {
     "@typescript-eslint/explicit-member-accessibility": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/no-parameter-properties": "off",
+    "@typescript-eslint/no-empty-function": "off",
     "@nrwl/nx/enforce-module-boundaries": [
-      0,
+      "off",
       {
         "allow": [],
         "depConstraints": [

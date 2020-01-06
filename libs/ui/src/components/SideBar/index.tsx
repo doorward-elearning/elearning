@@ -5,11 +5,11 @@ import { Location, MemoryHistory } from 'history';
 import classNames from 'classnames';
 import UserPanel from './UserPanel';
 import NavLogo from '../NavBar/NavLogo';
-import { NavbarFeatures } from '../NavBar';
 import IfElse from '../IfElse';
 import useSidebarSchema, { SideBarSchema } from '../../hooks/useSidebarSchema';
 import { RouteNames, Routes } from '../../types';
 import useAuth from '../../hooks/useAuth';
+import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
 
 function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
   const { history, location, collapsed } = props;

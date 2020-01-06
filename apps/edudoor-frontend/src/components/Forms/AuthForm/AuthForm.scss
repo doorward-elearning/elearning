@@ -1,0 +1,12 @@
+.login-form {
+  padding: var(--padding-xlg);
+
+  &__header, &__footer {
+    display: grid;
+    justify-items: center;
+  }
+
+  &__footer {
+    grid-gap: var(--padding-xlg);
+  }
+}
