@@ -12,8 +12,9 @@ import RolesManager from '@edudoor/ui/components/RolesManager';
 import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
 import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
+import { environment } from './environments/environment';
 
-ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
+ApiRequest.setBaseURL(environment.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
 

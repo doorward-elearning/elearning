@@ -2,6 +2,7 @@ import { Enum } from '../types';
 import moment from 'moment';
 import colors from './colors';
 import { DropResult } from 'react-beautiful-dnd';
+import { environment } from '../environments/environment';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -9,11 +10,11 @@ const parser = require('fast-xml-parser');
 const process = {
   env: {
     NODE_ENV: 'development',
-    REACT_APP_ENCRYPTION_SECRET: 'secret'
-  }
+    REACT_APP_ENCRYPTION_SECRET: 'secret',
+  },
 };
 
-const simpleCrypto = new SimpleCrypto(process.env.REACT_APP_ENCRYPTION_SECRET);
+const simpleCrypto = new SimpleCrypto(environment.REACT_APP_ENCRYPTION_SECRET);
 
 class Tools {
   static AUTHORIZATION_TOKEN = 'token';
@@ -62,11 +63,7 @@ class Tools {
     const tObj = parser.getTraversalObj(xml, options);
     return parser.convertToJson(tObj, options);
   }
-  static findMatches(
-    regex: RegExp,
-    str: string,
-    matches: Array<RegExpExecArray> = []
-  ): Array<RegExpExecArray> {
+  static findMatches(regex: RegExp, str: string, matches: Array<RegExpExecArray> = []): Array<RegExpExecArray> {
     const res = regex.exec(str);
     res && matches.push(res) && Tools.findMatches(regex, str, matches);
     return matches;
@@ -135,17 +132,11 @@ class Tools {
     return moment(str).format('dddd, MMMM Do YYYY at hh:mm a');
   }
 
-  static handleReorder<T>(
-    items: Array<T>,
-    key: keyof T,
-    dropResult: DropResult
-  ): Array<T> {
+  static handleReorder<T>(items: Array<T>, key: keyof T, dropResult: DropResult): Array<T> {
     const { destination, source, draggableId } = dropResult;
     let newItems = items;
     if (destination) {
-      newItems = newItems.filter(
-        (item: T) => item[key] !== (draggableId as any)
-      );
+      newItems = newItems.filter((item: T) => item[key] !== (draggableId as any));
       newItems.splice(destination.index, 0, items[source.index]);
     }
     return newItems;
