@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
-import { environment } from '../environments/environment';
 
-const JWT_SECRET = environment.JWT_SECRET_KEY;
+const JWT_SECRET = process.env.JWT_SECRET_KEY;
 
-const EXPIRY = environment.TOKEN_EXPIRY || '360h';
+const EXPIRY = process.env.TOKEN_EXPIRY || '360h';
 
 export default class JWT {
   static generate(user = {}) {

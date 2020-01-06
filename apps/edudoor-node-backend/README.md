@@ -6,7 +6,7 @@ This template allows you to create an express application based on the following
 /src
     /config
         database.js
-        environment.js
+        process.env.js
     /database
         /models
         /seeders

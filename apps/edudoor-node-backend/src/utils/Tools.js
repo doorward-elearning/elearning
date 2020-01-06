@@ -1,12 +1,11 @@
 import { Op } from 'sequelize';
 import randomString from 'random-string';
 import { STUDENT } from './roles';
-import { environment } from '../environments/environment';
 import shortId from 'shortid';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 
-const simpleCrypto = new SimpleCrypto(environment.DATA_ENCRYPTION_KEY);
+const simpleCrypto = new SimpleCrypto(process.env.DATA_ENCRYPTION_KEY);
 
 class Tools {
   static appendPath(path = '', another = '') {

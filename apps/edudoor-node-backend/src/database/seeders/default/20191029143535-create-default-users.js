@@ -1,12 +1,11 @@
 import bcrypt from 'bcrypt';
 import id from '../../../utils/generateId';
-import { environment } from '../../../environments/environment';
 
 export default {
   up: async (queryInterface, Sequelize) => {
     const password = await bcrypt.hash(
       'openolat',
-      +(environment.BCRYPT_PASSWORD_SALT || environment.BCRYPT_PASSWORD_SALT)
+      +(process.env.BCRYPT_PASSWORD_SALT || process.env.BCRYPT_PASSWORD_SALT)
     );
     const organizations = await queryInterface.sequelize.query(
       'SELECT id FROM "Organizations" WHERE name = \'Edudoor\''

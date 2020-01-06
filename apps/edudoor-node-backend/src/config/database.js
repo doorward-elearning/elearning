@@ -1,8 +1,6 @@
-const environment = require('../environments/environment').environment;
-
 const defaultConfig = {
-  databaseUrl: environment.DATABASE_URL,
-  dialect: environment.DATABASE_DIALECT || 'postgres',
+  databaseUrl: process.env.DATABASE_URL,
+  dialect: process.env.DATABASE_DIALECT || 'postgres',
   seederStorage: 'sequelize',
 };
 

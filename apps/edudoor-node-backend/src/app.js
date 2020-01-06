@@ -6,10 +6,9 @@ import express from 'express';
 import cors from 'cors';
 import modules from './modules';
 import ApiRequest from './utils/ApiRequest';
-import { environment } from './environments/environment';
 
-ApiRequest.setBaseURL(environment.OPENOLAT_API_URL);
-ApiRequest.setAuth(environment.OPENOLAT_USERNAME, environment.OPENOLAT_PASSWORD);
+ApiRequest.setBaseURL(process.env.OPENOLAT_API_URL);
+ApiRequest.setAuth(process.env.OPENOLAT_USERNAME, process.env.OPENOLAT_PASSWORD);
 
 const app = express();
 
@@ -23,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ limit: '100mb', extended: false }));
 
-if (environment.USE_LATENCY === 'true') {
+if (process.env.USE_LATENCY === 'true') {
   app.use((req, res, next) => {
     setTimeout(next, 2000);
   });

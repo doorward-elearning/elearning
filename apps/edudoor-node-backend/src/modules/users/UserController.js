@@ -7,7 +7,6 @@ import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
 import Organization from '../../utils/Organization';
-import { environment } from '../../environments/environment';
 
 class UserController {
   static async login(req) {
@@ -36,7 +35,7 @@ class UserController {
   static async createUser(req, roleName) {
     const { body } = req;
     if (body.password) {
-      body.password = bcrypt.hashSync(body.password, environment.BCRYPT_PASSWORD_SALT);
+      body.password = bcrypt.hashSync(body.password, process.env.BCRYPT_PASSWORD_SALT);
     }
     let user = await models.User.create({
       ...body,
@@ -117,7 +116,7 @@ class UserController {
 
   static async updateUserPassword(req) {
     const { body } = req;
-    const password = bcrypt.hashSync(body.newPassword, environment.BCRYPT_PASSWORD_SALT);
+    const password = bcrypt.hashSync(body.newPassword, process.env.BCRYPT_PASSWORD_SALT);
     await req.user.update({
       password,
     });
@@ -131,7 +130,7 @@ class UserController {
       user,
     } = req;
     // create the password for the user.
-    const encryptedPassword = bcrypt.hashSync(password, environment.BCRYPT_PASSWORD_SALT);
+    const encryptedPassword = bcrypt.hashSync(password, process.env.BCRYPT_PASSWORD_SALT);
     await user.update({
       password: encryptedPassword,
     });

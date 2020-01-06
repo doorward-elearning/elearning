@@ -1,6 +1,5 @@
 import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
 import atob from 'atob';
-import { environment } from '../../environments/environment';
 
 class MeetingRoomsController {
   static async joinMeeting(req) {
@@ -15,7 +14,7 @@ class MeetingRoomsController {
       const tokens = authorization.split(' ');
       if (tokens.length === 2) {
         if (tokens[0].toLowerCase() === 'basic') {
-          if (atob(tokens[1]) === environment.OPENVIDU_PASSWORD) {
+          if (atob(tokens[1]) === process.env.OPENVIDU_PASSWORD) {
             return null;
           }
         }

@@ -4,7 +4,6 @@ import app from './src/app';
 import models from './src/database/models';
 import Organization from './src/utils/Organization';
 import JWT from './src/utils/auth';
-import { environment } from './src/environments/environment';
 
 const http = require('http');
 const socketIO = require('socket.io');
@@ -16,19 +15,17 @@ const server = http.createServer(app);
 
 const io = socketIO(server);
 
-console.log("Moses---------------------------------", process.env.DATABASE_URL);
-
 global.socketIO = io;
 
-console.log(`Starting server on port ${environment.PORT}`);
+console.log(`Starting server on port ${process.env.PORT}`);
 
 console.log(shortid.generate() + shortid.generate() + shortid.generate());
 Organization.get().then(() => {
   logger('Organization initialized.');
 });
 
-server.listen(environment.PORT, '0.0.0.0', 511, () => {
-  logger(`Find me on http://localhost:${environment.PORT}`);
+server.listen(process.env.PORT, '0.0.0.0', 511, () => {
+  logger(`Find me on http://localhost:${process.env.PORT}`);
 });
 
 io.on('connection', client => {
