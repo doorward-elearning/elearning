@@ -1,5 +1,5 @@
 const defaultConfig = {
-  databaseUrl: process.env.DATABASE_URL,
+  databaseUrl: 'postgres://postgres:postgres@localhost:5433/edudoor',
   dialect: process.env.DATABASE_DIALECT || 'postgres',
   seederStorage: 'sequelize',
 };

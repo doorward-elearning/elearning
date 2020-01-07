@@ -16,7 +16,6 @@ import User from './User';
 import UserRole from './UserRole';
 import Tools from '@edudoor/common/utils/Tools';
 import { ReturnValue } from '@edudoor/common/types';
-import { ModelCreator } from '../../types';
 
 const modelNames = {
   Answer,

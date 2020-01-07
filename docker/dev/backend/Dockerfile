@@ -7,14 +7,13 @@ ENV TERM=xterm-256color
 
 WORKDIR /usr/app
 
-RUN npm install -g yarn && rm -rf package-lock.json
+RUN npm install -g yarn @nrwl/nx && rm -rf package-lock.json
 
 COPY package.json /usr/app
 COPY yarn.lock /usr/app
 COPY .env /usr/app
 
-RUN cd /usr/app
 
-COPY docker/dev/backend/entrypoint.sh /usr/app
+RUN cd /usr/app
 
 RUN yarn install

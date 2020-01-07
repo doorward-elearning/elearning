@@ -16,7 +16,7 @@ services:
       - edudoor_rest_api
     volumes:
       - /usr/app/node_modules
-      - ../../apps/edudoor-frontend:/usr/app
+      - ../../:/usr/app
     env_file:
       - ../../.env
     environment:
@@ -40,16 +40,18 @@ services:
       retries: 20
   edudoor_rest_api:
     container_name: edudoor_node_backend
+    links:
+      - edudoor_node_database
     build:
       context: ../../
       dockerfile: docker/dev/backend/Dockerfile
     volumes:
       - /usr/app/node_modules
-      - ../../apps/edudoor-node-backend:/usr/app
+      - ../../:/usr/app
     env_file:
       - ../../.env
     environment:
-      DATABASE_URL: postgres://postgres:postgres@edudoor_node_backend_db:5434/edudoor
+      DATABASE_URL: postgres://postgres:postgres@edudoor_node_database:5432/edudoor
       OPENOLAT_API_URL: http://localhost:8080/openolat/restapi
       FRONTEND_URL: http://localhost:3005
       OPENVIDU_URL: https://edudoor_openvidu:4443
@@ -58,7 +60,7 @@ services:
     expose:
       - '7000'
     entrypoint:
-      - /usr/app/entrypoint.sh
+      - /usr/app/apps/edudoor-node-backend/entrypoint.sh
     depends_on:
       edudoor_node_database:
         condition: service_healthy
