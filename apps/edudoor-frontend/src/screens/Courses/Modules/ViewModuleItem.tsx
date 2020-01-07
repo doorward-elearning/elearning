@@ -9,13 +9,14 @@ import QuizView from '../../../components/UI/QuizView';
 import EditableView from '../../../components/EditableView';
 import AssignmentView from '../../../components/UI/AssignmentView';
 import ViewPages from './ViewPages';
-import { Module, ModuleItem } from '@edudoor/common/models';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import IfElse from '@edudoor/ui/components/IfElse';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { PageComponent } from '@edudoor/ui/types';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();

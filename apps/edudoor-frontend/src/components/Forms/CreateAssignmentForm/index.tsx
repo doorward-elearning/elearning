@@ -11,7 +11,8 @@ import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
 import IfElse from '@edudoor/ui/components/IfElse';
 import Row from '@edudoor/ui/components/Row';
 import Header from '@edudoor/ui/components/Header';
-import { Assignment, Module } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { Assignment } from '@edudoor/common/models/Assignment';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const initialValues = props.assignment || {

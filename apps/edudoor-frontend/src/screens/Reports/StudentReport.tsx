@@ -10,7 +10,7 @@ import useRoutes from '../../hooks/useRoutes';
 import Panel from '@edudoor/ui/components/Panel';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import Grid from '@edudoor/ui/components/Grid';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import useAction from '@edudoor/ui/hooks/useActions';
 import CustomChart from '@edudoor/ui/components/CustomChart';
 import Row from '@edudoor/ui/components/Row';

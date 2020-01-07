@@ -5,7 +5,7 @@ import { ROUTES } from '../routes/routes';
 import { fetchCurrentUserAction } from '../reducers/users/actions';
 import { connectSocket } from '@edudoor/ui/utils/socket';
 import useStateRef from '@edudoor/ui/hooks/useStateRef';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { AppContextProps } from '../main';
 import useAction from '@edudoor/ui/hooks/useActions';
 import useAuth from '@edudoor/ui/hooks/useAuth';

@@ -1,7 +1,7 @@
 import { ReactNode } from 'react';
 import { RouteProps } from 'react-router';
 import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '../types';
-import Tools from '../utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { Roles } from '../components/RolesManager';
 import MRoute from './MRoute';
 

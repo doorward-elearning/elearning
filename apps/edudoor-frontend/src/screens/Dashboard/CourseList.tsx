@@ -6,14 +6,14 @@ import useRoutes from '../../hooks/useRoutes';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '@edudoor/ui/components/Image';
 import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebComponent';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import Plural from '@edudoor/ui/components/Plural';
 import HorizontalScroll from '@edudoor/ui/components/HorizontalScroll';
 import Row from '@edudoor/ui/components/Row';
-import { Course } from '@edudoor/common/models';
 import ItemArray from '@edudoor/ui/components/ItemArray';
 import Card from '@edudoor/ui/components/Card';
 import Header from '@edudoor/ui/components/Header';
+import { Course } from '@edudoor/common/models/Course';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const routes = useRoutes();

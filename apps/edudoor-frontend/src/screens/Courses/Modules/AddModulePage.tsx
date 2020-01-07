@@ -7,7 +7,7 @@ import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { PageComponent } from '@edudoor/ui/types';
-import { Module } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
   const [module, setModule] = useState<Module>();

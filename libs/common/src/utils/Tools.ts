@@ -1,21 +1,13 @@
-import { Enum } from '../types';
+import { Enum } from '@edudoor/ui/types';
 import moment from 'moment';
-import colors from './colors';
+import colors from '@edudoor/ui/utils/colors';
 import { DropResult } from 'react-beautiful-dnd';
-import { environment } from '../environments/environment';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
 
-const process = {
-  env: {
-    NODE_ENV: 'development',
-    REACT_APP_ENCRYPTION_SECRET: 'secret',
-  },
-};
-
-const simpleCrypto = new SimpleCrypto(environment.REACT_APP_ENCRYPTION_SECRET);
+const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET);
 
 class Tools {
   static AUTHORIZATION_TOKEN = 'token';

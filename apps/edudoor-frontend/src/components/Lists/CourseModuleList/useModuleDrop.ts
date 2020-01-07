@@ -1,7 +1,7 @@
 import { DropResult } from 'react-beautiful-dnd';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { ActionCreator } from '@edudoor/ui/reducers/reducers';
-import { Module } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
 
 export type HandleDrop = (dropResult: DropResult, items: Array<Module>) => Array<Module>;
 

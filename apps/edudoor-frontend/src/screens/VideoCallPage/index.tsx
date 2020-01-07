@@ -8,11 +8,10 @@ import useRoutes from '../../hooks/useRoutes';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import VideoCall from '@edudoor/ui/components/VideoCall';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import usePageResource from '@edudoor/ui/hooks/usePageResource';
 import ConfirmationButton from '@edudoor/ui/components/Buttons/ConfirmationButton';
 import { PageComponent } from '@edudoor/ui/types';
-import { environment } from '../../environments/environment';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const [navFeatures, setNavFeatures] = useState([NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]);
@@ -48,7 +47,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
         onAction={() => routes.navigate(routes.dashboard)}
       >
         {data => {
-          return <VideoCall {...data} serverUrl={environment.REACT_APP_OPENVIDU_URL} />;
+          return <VideoCall {...data} serverUrl={process.env.REACT_APP_OPENVIDU_URL} />;
         }}
       </WebComponent>
     </Layout>

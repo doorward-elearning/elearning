@@ -5,7 +5,7 @@ import BasicForm from '../../Forms/BasicForm';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { Quiz } from '@edudoor/common/models';
+import { Quiz } from '@edudoor/common/models/Quiz';
 
 export const QuizContext = React.createContext<QuizContextProps>({});
 

@@ -22,13 +22,15 @@ import Empty from '@edudoor/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
 import { reorderCourseModules, updateCourseModuleAction } from '../../../reducers/courses/actions';
 import useRoutes from '../../../hooks/useRoutes';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { WebComponentState } from '@edudoor/ui/reducers/reducers';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import useAction from '@edudoor/ui/hooks/useActions';
 import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
 import { State } from '../../../store';
-import { Course, Module, ModuleItem } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItem } from '@edudoor/common/models/ModuleItem';
+import { Course } from '@edudoor/common/models/Course';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();

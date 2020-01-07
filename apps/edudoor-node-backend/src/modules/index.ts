@@ -2,21 +2,22 @@ import MRouter from '../utils/router';
 import users from './users';
 import courses from './courses';
 import reports from './reports';
-import healthcheck from './healthcheck';
+import healthCheck from './healthcheck';
 import meetingRooms from './meetingRooms';
+import { Application } from 'express';
 
 const modules = {
   users,
   courses,
   reports,
-  healthcheck,
+  healthCheck,
   meetingRooms,
 };
 
 const apiVersion = '/api/v1';
 
-export default app => {
-  const createEndpoint = (module, route) => {
+export default (app: Application) => {
+  const createEndpoint = (module, route): void => {
     let router = route;
     if (route.constructor === MRouter) {
       router = router.Router;

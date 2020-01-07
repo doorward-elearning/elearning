@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useContext } from 'react';
 import EImage from '@edudoor/ui/components/Image';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import Dropdown from '@edudoor/ui/components/Dropdown';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';

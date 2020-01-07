@@ -10,8 +10,8 @@ import Dropdown from '@edudoor/ui/components/Dropdown';
 import TextField from '@edudoor/ui/components/Input/TextField';
 import Icon from '@edudoor/ui/components/Icon';
 import useForm from '@edudoor/ui/hooks/useForm';
-import { Course } from '@edudoor/common/models';
 import Form from '@edudoor/ui/components/Form';
+import { Course } from '@edudoor/common/models/Course';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();

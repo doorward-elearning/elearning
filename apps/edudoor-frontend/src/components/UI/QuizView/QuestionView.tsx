@@ -6,7 +6,7 @@ import { QuizContext } from './index';
 import Panel from '@edudoor/ui/components/Panel';
 import Header from '@edudoor/ui/components/Header';
 import Row from '@edudoor/ui/components/Row';
-import { Question } from '@edudoor/common/models';
+import { Question } from '@edudoor/common/models/Question';
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index }) => {
   const [answers, setAnswers] = useState(question.answers);

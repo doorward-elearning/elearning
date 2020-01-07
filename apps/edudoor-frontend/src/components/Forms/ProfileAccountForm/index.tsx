@@ -8,7 +8,7 @@ import { updateAccountInformationAction } from '../../../reducers/users/actions'
 import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
 import profileAccountForm from './validation';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
-import { User } from '@edudoor/common/models';
+import { User } from '@edudoor/common/models/User';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {
   const initialValues: ProfileAccountFormState = {

@@ -6,7 +6,8 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { CourseModuleItemBody } from '../../../services/models/requestBody';
 import { FormikProps } from 'formik';
-import { Module, ModuleItemTypes } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItemTypes } from '@edudoor/common/models';
 
 function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {

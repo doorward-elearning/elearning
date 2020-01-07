@@ -1,5 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const babelWebpackConfig = require('@nrwl/react/plugins/babel');
+const DotEnv = require('dotenv-webpack');
 
 module.exports = config => {
   config.module.rules.push(
@@ -14,5 +15,6 @@ module.exports = config => {
   );
   config.node = { ...config.node, global: true, fs: 'empty' };
   config.stats.warnings = false;
+  config.plugins.push(new DotEnv());
   return babelWebpackConfig(config);
 };

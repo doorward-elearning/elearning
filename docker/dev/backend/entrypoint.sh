@@ -12,6 +12,6 @@ printf "\n\n======================================\n"
 printf "Starting the application"
 printf "\n=======================================\n"
 
-yarn start:dev
+nx serve edudoor-node-backend
 
 exit 0

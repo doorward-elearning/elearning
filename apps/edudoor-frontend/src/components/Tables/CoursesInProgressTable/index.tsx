@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from '@edudoor/ui/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
-import { Course } from '@edudoor/common/models';
+import { Course } from '@edudoor/common/models/Course';
 
 const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProps> = props => {
   const routes = useRoutes();

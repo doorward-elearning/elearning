@@ -1,8 +1,8 @@
 import models from '../database/models';
 import { MyCoursesInclude } from '../utils/includes';
 import OpenViduHelper from './OpenViduHelper';
-import Tools from '../utils/Tools';
 import MeetingRoomsHelper from './MeetingRoomsHelper';
+import { CourseModuleStatistics } from '@edudoor/common/types/api';
 
 class CourseHelper {
   static async getCourse(courseId) {
@@ -23,7 +23,7 @@ class CourseHelper {
     });
   }
 
-  static courseItemStats(course) {
+  static courseItemStats(course): CourseModuleStatistics {
     return course.modules.reduce(
       (acc, module) => {
         const stats = CourseHelper.moduleItemStats(module);
@@ -41,7 +41,7 @@ class CourseHelper {
     );
   }
 
-  static moduleItemStats(module) {
+  static moduleItemStats(module): CourseModuleStatistics {
     return module.items.reduce(
       (acc, item) => {
         return {
@@ -61,6 +61,7 @@ class CourseHelper {
         status: 'STARTED',
       },
     });
+
     if (meeting) {
       const meetingInstance = await models.MeetingRoomMember.findOne({
         meetingRoomId: meetingRoom.id,

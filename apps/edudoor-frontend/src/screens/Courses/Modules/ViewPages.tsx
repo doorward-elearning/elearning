@@ -3,11 +3,12 @@ import './ViewPages.scss';
 import EditableView from '../../../components/EditableView';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
 import useRoutes from '../../../hooks/useRoutes';
-import { Module, ModuleItem } from '@edudoor/common/models';
 import Pagination from '@edudoor/ui/components/Pagination';
 import DraftHTMLContent from '@edudoor/ui/components/DraftHTMLContent';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import useForm from '@edudoor/ui/hooks/useForm';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params }) => {
   const pages = module.items.filter((item: ModuleItem) => item.type === 'Page')

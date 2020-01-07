@@ -4,7 +4,7 @@ import { MemoryHistory } from 'history';
 import EImage from '@edudoor/ui/components/Image';
 import './CourseTable.scss';
 import { ROUTES } from '../../../routes/routes';
-import { Course } from '@edudoor/common/models';
+import { Course } from '@edudoor/common/models/Course';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
   return (

@@ -9,10 +9,12 @@ WORKDIR /usr/app
 
 RUN npm install -g yarn && rm -rf package-lock.json
 
-COPY edudoor_node_backend/package.json /usr/app
-COPY edudoor_node_backend/yarn.lock /usr/app
-COPY edudoor_node_backend/.env /usr/app
+COPY package.json /usr/app
+COPY yarn.lock /usr/app
+COPY .env /usr/app
 
 RUN cd /usr/app
+
+COPY docker/dev/backend/entrypoint.sh /usr/app
 
 RUN yarn install

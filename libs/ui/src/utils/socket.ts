@@ -1,5 +1,5 @@
 import socketIOClient from 'socket.io-client';
-import Tools from './Tools';
+import Tools from '@edudoor/common/utils/Tools';
 
 const baseUrl = process.env.REACT_APP_BASE_URL || '';
 

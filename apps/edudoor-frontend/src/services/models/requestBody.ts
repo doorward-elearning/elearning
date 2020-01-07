@@ -1,4 +1,5 @@
-import { Module, ModuleItemTypes } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItemTypes } from '@edudoor/common/models';
 
 export interface LoginBody {
   username: string;

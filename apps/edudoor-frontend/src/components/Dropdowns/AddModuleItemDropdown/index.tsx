@@ -3,7 +3,7 @@ import useRoutes from '../../../hooks/useRoutes';
 import Button from '@edudoor/ui/components/Buttons/Button';
 import Dropdown from '@edudoor/ui/components/Dropdown';
 import { Icons } from '@edudoor/ui/types/icons';
-import { Module } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',

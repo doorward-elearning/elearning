@@ -7,7 +7,8 @@ import TabLayout from '@edudoor/ui/components/TabLayout';
 import Tab from '@edudoor/ui/components/TabLayout/Tab';
 import QuizQuestions, { defaultQuestion } from './QuizQuestions';
 import validation from './validation';
-import { Module, Quiz } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { Quiz } from '@edudoor/common/models/Quiz';
 
 const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
   const initialValues = props.quiz || {

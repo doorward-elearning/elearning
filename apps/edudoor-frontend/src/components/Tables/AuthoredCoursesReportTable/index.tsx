@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Table from '@edudoor/ui/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
-import { Course } from '@edudoor/common/models';
+import { Course } from '@edudoor/common/models/Course';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {
   const routes = useRoutes();

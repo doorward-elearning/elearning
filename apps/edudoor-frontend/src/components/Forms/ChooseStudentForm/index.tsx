@@ -10,8 +10,8 @@ import Table from '@edudoor/ui/components/Table';
 import IfElse from '@edudoor/ui/components/IfElse';
 import BasicForm from '../BasicForm';
 import { fetchStudentsNotRegisteredAction, registerStudents } from '../../../reducers/courses/actions';
-import Tools from '@edudoor/ui/utils/Tools';
-import { Student } from '@edudoor/common/models';
+import Tools from '@edudoor/common/utils/Tools';
+import { Student } from '@edudoor/common/models/Student';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props => {
   const studentList = useSelector((state: State) => state.courses.notRegistered);

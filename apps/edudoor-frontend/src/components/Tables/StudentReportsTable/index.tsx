@@ -3,7 +3,7 @@ import Table from '@edudoor/ui/components/Table';
 import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebComponent';
 import { fetchStudentReportsList } from '../../../reducers/reports/actions';
 import { State } from '../../../store';
-import { Student } from '@edudoor/common/models';
+import { Student } from '@edudoor/common/models/Student';
 
 const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => (
   <SimpleWebComponent

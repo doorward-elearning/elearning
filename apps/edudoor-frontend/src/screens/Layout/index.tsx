@@ -10,7 +10,7 @@ import schema from '../../components/Sidebar/schema';
 import UserManagementDropdown from '../../components/Dropdowns/UserManagementDropdown';
 import useBreadCrumbs from '@edudoor/ui/hooks/useBreadCrumbs';
 import IfElse from '@edudoor/ui/components/IfElse';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import Button, { ButtonProps } from '@edudoor/ui/components/Buttons/Button';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';

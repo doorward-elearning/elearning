@@ -6,7 +6,6 @@ import { useRouteMatch } from 'react-router';
 import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
 import EImage from '@edudoor/ui/components/Image';
-import { User } from '@edudoor/common/models';
 import useModal from '@edudoor/ui/hooks/useModal';
 import Row from '@edudoor/ui/components/Row';
 import useForm from '@edudoor/ui/hooks/useForm';
@@ -14,6 +13,7 @@ import Pill from '@edudoor/ui/components/Pill';
 import ItemArray from '@edudoor/ui/components/ItemArray';
 import Card from '@edudoor/ui/components/Card';
 import Header from '@edudoor/ui/components/Header';
+import { User } from '@edudoor/common/models/User';
 
 const UserCard: React.FunctionComponent<UserCardProps> = props => {
   const match: any = useRouteMatch();

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { Role } from '@edudoor/common/models';
+import { Role } from '@edudoor/common/models/Role';
 
 export enum Roles {
   SUPER_ADMINISTRATOR = 'Super Administrator',

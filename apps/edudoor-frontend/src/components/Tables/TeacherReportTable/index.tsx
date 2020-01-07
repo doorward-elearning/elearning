@@ -3,7 +3,7 @@ import SimpleWebComponent from '@edudoor/ui/components/WebComponent/SimpleWebCom
 import Table from '@edudoor/ui/components/Table';
 import { fetchCourseCreatorReportList } from '../../../reducers/reports/actions';
 import { State } from '../../../store';
-import { Teacher } from '@edudoor/common/models';
+import { Teacher } from '@edudoor/common/models/Teacher';
 
 const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = props => (
   <SimpleWebComponent

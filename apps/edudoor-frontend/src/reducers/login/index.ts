@@ -4,7 +4,7 @@ import reducerBuilder, {
   modifyReducer,
   reducerApiAction
 } from '@edudoor/ui/reducers/builder';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { Action } from '@edudoor/ui/reducers/reducers';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 

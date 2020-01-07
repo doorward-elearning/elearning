@@ -9,7 +9,7 @@ WORKDIR /usr/app
 
 RUN npm install -g yarn && rm -rf package-lock.json
 
-COPY edudoor_frontend/package.json /usr/app
-COPY edudoor_frontend/yarn.lock /usr/app
+COPY package.json /usr/app
+COPY yarn.lock /usr/app
 
 RUN yarn install

@@ -15,7 +15,7 @@ export default (sequelize, DataTypes) => {
   );
   Answer.associate = function(models) {
     Answer.belongsTo(models.Question, {
-      as: 'Question.ts',
+      as: 'question',
       foreignKey: 'questionId',
     });
   };

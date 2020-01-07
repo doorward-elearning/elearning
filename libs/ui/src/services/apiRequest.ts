@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import Tools from '../utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 
 const service = axios.create();
 

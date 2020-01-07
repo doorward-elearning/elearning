@@ -12,7 +12,8 @@ import Row from '@edudoor/ui/components/Row';
 import TextArea from '@edudoor/ui/components/Input/TextArea';
 import { FormContext } from '@edudoor/ui/components/Form';
 import NumberField from '@edudoor/ui/components/Input/NumberField';
-import { Answer, Question } from '@edudoor/common/models';
+import { Question } from '@edudoor/common/models/Question';
+import { Answer } from '@edudoor/common/models/Answer';
 
 export const defaultQuestion = {
   question: null,

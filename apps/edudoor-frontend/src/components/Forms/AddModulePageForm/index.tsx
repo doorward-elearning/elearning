@@ -6,7 +6,8 @@ import TextField from '@edudoor/ui/components/Input/TextField';
 import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';
 import { CourseModuleItemBody } from '../../../services/models/requestBody';
-import { Module, ModuleItem } from '@edudoor/common/models';
+import { Module } from '@edudoor/common/models/Module';
+import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,

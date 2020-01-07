@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Roles, RolesContext } from '../components/RolesManager';
-import { Role } from '@edudoor/common/models';
+import { Role } from '@edudoor/common/models/Role';
 
 const useRoleManager = (roles?: Array<Roles>, superAdmin = true): boolean => {
   const { userRoles } = useContext(RolesContext);

@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { User } from '@edudoor/common/models';
+import { User } from '@edudoor/common/models/User';
 
 const SimpleProfileView: FunctionComponent<SimpleProfileViewProps> = (props): JSX.Element => {
   return <div className="simple-profile-view"></div>;

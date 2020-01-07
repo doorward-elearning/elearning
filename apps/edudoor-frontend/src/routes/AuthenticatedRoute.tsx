@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
 import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import useRoutes from '../hooks/useRoutes';

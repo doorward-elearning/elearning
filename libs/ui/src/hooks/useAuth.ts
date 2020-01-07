@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { User } from '@edudoor/common/models';
-import Tools from '@edudoor/ui/utils/Tools';
+import Tools from '@edudoor/common/utils/Tools';
+import { User } from '@edudoor/common/models/User';
 
 const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
