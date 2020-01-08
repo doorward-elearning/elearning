@@ -1,7 +1,7 @@
-import bcrypt from 'bcrypt';
-import id from '../../../utils/generateId';
+const bcrypt = require('bcrypt');
+const id = require('../../../utils/generateId');
 
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
     const password = await bcrypt.hash(
       'openolat',

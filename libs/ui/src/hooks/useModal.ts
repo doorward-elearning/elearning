@@ -6,6 +6,10 @@ const useModal = (defaultState?: boolean): UseModal => {
   let onClose: any = null;
 
   useEffect(() => {
+    setOpen(defaultState);
+  }, [defaultState]);
+
+  useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : 'auto';
   }, [open]);
 

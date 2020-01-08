@@ -1,7 +1,7 @@
 const { SUPER_ADMINISTRATOR } = require('../../../utils/roles');
 const generateId = require('../../../utils/generateId');
 
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
     const administrators = await queryInterface.sequelize.query(
       'SELECT id FROM "Users" WHERE username = \'administrator\''

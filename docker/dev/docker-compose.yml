@@ -23,13 +23,11 @@ services:
       REACT_APP_BASE_URL: http://localhost:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
     ports:
-      - '4200:3000'
+      - '3005:3000'
     expose:
       - '3000'
-    command:
-      - nx
-      - serve
-      - edudoor-frontend
+    entrypoint:
+      - /usr/app/apps/edudoor-frontend/entrypoint.sh
     depends_on:
       edudoor_rest_api:
         condition: service_healthy

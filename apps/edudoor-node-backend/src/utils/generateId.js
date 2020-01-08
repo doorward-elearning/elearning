@@ -1,6 +1,9 @@
-import shortId from 'shortid';
+const shortId = require('shortid');
 
 const generateId = () => {
+  return Array(3)
+    .fill(0)
+    .reduce(acc => acc + shortId.generate(), '');
 };
 
-export default generateId;
+module.exports = generateId;

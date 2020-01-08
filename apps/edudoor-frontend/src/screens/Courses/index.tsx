@@ -19,7 +19,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
 
   useEffect(() => {
     fetchCourses();
-  }, []);
+  }, [props.location.pathname]);
 
   const TITLE = 'CREATE A NEW COURSE';
   return (

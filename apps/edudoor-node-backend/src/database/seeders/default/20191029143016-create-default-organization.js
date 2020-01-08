@@ -1,6 +1,6 @@
 const shortid = require('shortid');
 
-export default {
+module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert('Organizations', [
       {

@@ -58,7 +58,7 @@ class UserController {
     const resetToken = Tools.randomString(50);
     if (!body.password) {
       // create the reset link
-      await models.PasswordReset.create({
+      await models.PasswordResets.create({
         token: resetToken,
         userId: user.id,
       });
