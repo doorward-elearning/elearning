@@ -64,15 +64,15 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 Add Module
               </Button>
             </RoleContainer>
-            <RoleContainer roles={[Roles.TEACHER]}>
-              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                Start live classroom
-              </Button>
-            </RoleContainer>
-            <IfElse condition={liveClassroom?.courseId}>
+            <IfElse condition={liveClassroom?.courseId || course.data.course?.meetingRoom?.currentMeeting}>
               <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                 Join live classroom
               </Button>
+              <RoleContainer roles={[Roles.TEACHER]}>
+                <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+                  Start live classroom
+                </Button>
+              </RoleContainer>
             </IfElse>
             <ProgressModal
               state={launchClassroom}

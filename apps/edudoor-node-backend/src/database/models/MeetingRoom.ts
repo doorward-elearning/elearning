@@ -11,6 +11,10 @@ export default (sequelize, DataTypes) => {
       as: 'course',
       foreignKey: 'meetingRoomId',
     });
+    MeetingRoom.hasOne(models.Meeting, {
+      as: 'currentMeeting',
+      foreignKey: 'meetingRoomId',
+    });
   };
   return MeetingRoom;
 };

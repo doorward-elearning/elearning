@@ -1,10 +1,7 @@
 import { Model } from '@edudoor/common/models/Model';
+import { Meeting } from '@edudoor/common/models/Meeting';
 
 export interface MeetingRoom extends Model {
-  id: string;
-  sessionId: string;
-  sessionName: string;
-  status: string;
-  token: string;
-  user: string;
+  title: string;
+  currentMeeting: Meeting;
 }

@@ -4,11 +4,11 @@ import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 
 const joinMeeting = reducerApiAction({
   action: JOIN_MEETING,
-  api: Api.meetingRooms.join
+  api: Api.meetings.join,
 });
 
 export default reducerBuilder({
   middleware: {
-    joinMeeting
-  }
+    joinMeeting,
+  },
 });

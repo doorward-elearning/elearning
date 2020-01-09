@@ -47,6 +47,19 @@ export const CourseInclude = [
     model: models.User,
     as: 'students',
   },
+  {
+    model: models.MeetingRoom,
+    as: 'meetingRoom',
+    include: [
+      {
+        model: models.Meeting,
+        as: 'currentMeeting',
+        where: {
+          status: 'STARTED',
+        },
+      },
+    ],
+  },
 ];
 
 export const StudentsByCourse = courseId => [

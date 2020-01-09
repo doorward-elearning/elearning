@@ -1,4 +1,5 @@
 import { Model } from '@edudoor/common/models/Model';
+import { MeetingRoom } from './MeetingRoom';
 
 export interface Meeting extends Model {
   id: string;
@@ -6,4 +7,5 @@ export interface Meeting extends Model {
   numParticipants: number;
   status: string;
   endedAt: string;
+  meetingRoom: MeetingRoom;
 }

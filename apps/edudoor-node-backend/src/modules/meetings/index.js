@@ -2,20 +2,20 @@ import MRouter from '../../utils/router';
 import Authorization from '../../middleware/Authorization';
 import BaseValidator from '../../middleware/BaseValidator';
 import models from '../../database/models';
-import MeetingRoomsController from './MeetingRoomsController';
+import MeetingsController from './MeetingsController';
 
-const Router = new MRouter('/meetingRooms', Authorization.authenticate);
+const Router = new MRouter('/meetings', Authorization.authenticate);
 
 Router.get(
   '/:id',
   BaseValidator.modelExists(
     req => ({ id: req.params.id, status: 'STARTED' }),
     models.Meeting,
-    'The meeting room has not been initialized.'
+    'This meeting does not exist, or has already ended.'
   ),
-  MeetingRoomsController.joinMeeting
+  MeetingsController.joinMeeting
 );
 
-Router.exclude(Authorization.authenticate).post('/webhook', MeetingRoomsController.processWebhook);
+Router.exclude(Authorization.authenticate).post('/webhook', MeetingsController.processWebhook);
 
 export default Router;

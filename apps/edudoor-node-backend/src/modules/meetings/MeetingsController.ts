@@ -1,11 +1,12 @@
 import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
 import atob from 'atob';
+import models from '../../database/models';
 
-class MeetingRoomsController {
+class MeetingsController {
   static async joinMeeting(req) {
-    const meetingRoom = await MeetingRoomsHelper.joinMeeting(req.params.id, req);
+    const meeting = await MeetingRoomsHelper.joinMeeting(req.params.id, req);
 
-    return [200, { meetingRoom }];
+    return [200, { meeting }];
   }
 
   static async authenticateWebhook(req) {
@@ -28,15 +29,15 @@ class MeetingRoomsController {
       body: { event, sessionId },
     } = req;
 
-    const meetingRoom = await models.MeetingRoom.findOne({
+    const meeting = await models.Meeting.findOne({
       where: {
         sessionId,
       },
     });
-    if (meetingRoom) {
+    if (meeting) {
       switch (event) {
         case 'sessionDestroyed':
-          meetingRoom.update({ status: 'ENDED' });
+          meeting.update({ status: 'ENDED' });
           break;
         default:
           break;
@@ -46,4 +47,4 @@ class MeetingRoomsController {
   }
 }
 
-export default MeetingRoomsController;
+export default MeetingsController;

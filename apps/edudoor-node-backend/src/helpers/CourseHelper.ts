@@ -1,8 +1,8 @@
 import models from '../database/models';
-import { MyCoursesInclude } from '../utils/includes';
 import OpenViduHelper from './OpenViduHelper';
 import MeetingRoomsHelper from './MeetingRoomsHelper';
 import { CourseModuleStatistics } from '@edudoor/common/types/api';
+import { MyCoursesInclude } from '../utils/includes';
 
 class CourseHelper {
   static async getCourse(courseId) {
@@ -70,18 +70,27 @@ class CourseHelper {
       if (!meetingInstance) {
         return [403, undefined, 'You are not authorized to join this meeting'];
       }
-      const { token } = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
+      let token;
 
-      return [
-        200,
-        {
-          id: meeting.id,
-          sessionId: meeting.sessionId,
-          sessionName: meetingRoom.title,
-          token,
-        },
-        'Joining the meeting.',
-      ];
+      try {
+        const result = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
+        token = result.token;
+      } catch (err) {
+        console.error(err);
+      }
+
+      if (token) {
+        return [
+          200,
+          {
+            id: meeting.id,
+            sessionId: meeting.sessionId,
+            sessionName: meetingRoom.title,
+            token,
+          },
+          'Joining the meeting.',
+        ];
+      }
     }
     return [404, undefined, 'No meeting has been started for this course.'];
   }

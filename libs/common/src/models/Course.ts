@@ -1,6 +1,7 @@
 import { Model } from '@edudoor/common/models/Model';
 import { User } from '@edudoor/common/models/User';
 import { Module } from '@edudoor/common/models/Module';
+import { MeetingRoom } from './MeetingRoom';
 
 export interface Course extends Model {
   title: string;
@@ -17,4 +18,5 @@ export interface Course extends Model {
     quizzes: number;
     pages: number;
   };
+  meetingRoom: MeetingRoom;
 }

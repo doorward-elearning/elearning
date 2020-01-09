@@ -3,7 +3,7 @@ import users from './users';
 import courses from './courses';
 import reports from './reports';
 import healthCheck from './healthcheck';
-import meetingRooms from './meetingRooms';
+import meetingRooms from './meetings';
 import { Application } from 'express';
 
 const modules = {

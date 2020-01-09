@@ -29,7 +29,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
       {...props}
       navFeatures={navFeatures}
       features={[LayoutFeatures.HEADER]}
-      header={Tools.str(videoCallState.data.meetingRoom?.sessionName)}
+      header={Tools.str(videoCallState.data.meeting?.meetingRoom?.title)}
       renderHeaderEnd={() => (
         <div>
           <ConfirmationButton title="End Meeting" onConfirm={endMeeting} onReject={() => {}} text="End Meeting">
@@ -39,7 +39,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
       )}
     >
       <WebComponent
-        data={videoCallState.data.meetingRoom}
+        data={videoCallState.data.meeting}
         loading={videoCallState.fetching}
         message="An error occurred while joining the meeting"
         icon="no_meeting_room"
@@ -47,7 +47,15 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
         onAction={() => routes.navigate(routes.dashboard)}
       >
         {data => {
-          return <VideoCall {...data} serverUrl={process.env.REACT_APP_OPENVIDU_URL} />;
+          return (
+            <VideoCall
+              sessionName={data.meetingRoom?.title || data.sessionId}
+              token={data.token}
+              user={data.user}
+              error={err => console.log('Moses', err)}
+              serverUrl={process.env.REACT_APP_OPENVIDU_URL}
+            />
+          );
         }}
       </WebComponent>
     </Layout>

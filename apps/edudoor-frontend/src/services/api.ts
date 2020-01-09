@@ -11,7 +11,7 @@ import {
   LoginBody,
   RegisterStudentsBody,
   RegistrationBody,
-  UpdateModulesBody
+  UpdateModulesBody,
 } from './models/requestBody';
 import {
   TeacherListResponse,
@@ -21,11 +21,11 @@ import {
   CourseModuleResponse,
   CreateCourseResponse,
   LoginResponse,
-  MeetingRoomResponse,
   ModuleItemResponse,
   StudentListResponse,
   StudentResponse,
-  UserResponse
+  UserResponse,
+  MeetingResponse,
 } from './models/responseBody';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 import { ApiResponse } from '@edudoor/ui/services/services';
@@ -60,7 +60,7 @@ const Api = {
       },
       forgotPassword: (body: ForgotPasswordBody): Promise<ApiResponse> => {
         return POST('/users/profile/forgotPassword', body);
-      }
+      },
     },
     students: {
       list: (query: string): Promise<StudentListResponse> => {
@@ -68,7 +68,7 @@ const Api = {
       },
       create: (body: CreateStudentBody): Promise<StudentResponse> => {
         return POST('/users/students', body);
-      }
+      },
     },
     teachers: {
       list: (query: string): Promise<TeacherListResponse> => {
@@ -76,23 +76,17 @@ const Api = {
       },
       create: (body: CreateTeacherBody): Promise<TeacherResponse> => {
         return POST('/users/teachers', body);
-      }
-    }
+      },
+    },
   },
   courses: {
     create: (course: CreateCourseBody): Promise<CreateCourseResponse> => {
       return POST('/courses', course);
     },
-    update: (
-      courseId: string,
-      course: CreateCourseBody
-    ): Promise<CreateCourseResponse> => {
+    update: (courseId: string, course: CreateCourseBody): Promise<CreateCourseResponse> => {
       return PUT(`/courses/${courseId}`, course);
     },
-    updateModules: (
-      courseId: string,
-      modules: UpdateModulesBody
-    ): Promise<CourseModuleListResponse> => {
+    updateModules: (courseId: string, modules: UpdateModulesBody): Promise<CourseModuleListResponse> => {
       return PUT(`/courses/${courseId}/modules`, modules);
     },
     list: (): Promise<CourseListResponse> => {
@@ -107,7 +101,7 @@ const Api = {
     room: {
       start: (courseId: string): Promise<ApiResponse> => {
         return POST(`/courses/${courseId}/room`);
-      }
+      },
     },
     modules: {
       list: (courseId: string): Promise<CourseModuleResponse> => {
@@ -116,47 +110,32 @@ const Api = {
       get: (moduleId: string): Promise<CourseModuleResponse> => {
         return GET(`/courses/modules/${moduleId}`);
       },
-      create: (
-        courseId: string,
-        module: CourseModuleBody
-      ): Promise<CourseModuleResponse> => {
+      create: (courseId: string, module: CourseModuleBody): Promise<CourseModuleResponse> => {
         return POST(`/courses/${courseId}/modules`, module);
       },
-      update: (
-        moduleId: string,
-        module: CourseModuleBody
-      ): Promise<CourseModuleResponse> => {
+      update: (moduleId: string, module: CourseModuleBody): Promise<CourseModuleResponse> => {
         return PUT(`/courses/modules/${moduleId}`, module);
       },
       items: {
-        create: (
-          moduleId: string,
-          item: CourseModuleItemBody
-        ): Promise<ModuleItemResponse> => {
+        create: (moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> => {
           return POST(`/courses/modules/${moduleId}/items/`, item);
-        }
-      }
+        },
+      },
     },
     students: {
       get: (courseId: string): Promise<StudentListResponse> => {
         return GET(`/courses/${courseId}/students`);
       },
-      create: (
-        courseId: string,
-        student: CreateStudentBody
-      ): Promise<StudentResponse> => {
+      create: (courseId: string, student: CreateStudentBody): Promise<StudentResponse> => {
         return POST(`/courses/${courseId}/students`, student);
       },
       notRegistered: (courseId: string): Promise<StudentListResponse> => {
         return GET(`/courses/${courseId}/students/not-registered`);
       },
-      register: (
-        courseId: string,
-        data: RegisterStudentsBody
-      ): Promise<StudentListResponse> => {
+      register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
         return POST(`/courses/${courseId}/students/register`, data);
-      }
-    }
+      },
+    },
   },
   reports: {
     students: {
@@ -165,7 +144,7 @@ const Api = {
       },
       get: (studentId: string): Promise<StudentResponse> => {
         return GET(`/reports/students/${studentId}`);
-      }
+      },
     },
     teachers: {
       list: (): Promise<TeacherListResponse> => {
@@ -173,14 +152,14 @@ const Api = {
       },
       get: (teacherId: string): Promise<TeacherResponse> => {
         return GET(`/reports/teachers/${teacherId}`);
-      }
-    }
+      },
+    },
   },
-  meetingRooms: {
-    join: (id: string): Promise<MeetingRoomResponse> => {
-      return GET(`/meetingRooms/${id}`);
-    }
-  }
+  meetings: {
+    join: (id: string): Promise<MeetingResponse> => {
+      return GET(`/meetings/${id}`);
+    },
+  },
 };
 
 export default Api;

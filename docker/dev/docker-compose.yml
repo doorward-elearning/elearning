@@ -38,8 +38,6 @@ services:
       retries: 20
   edudoor_rest_api:
     container_name: edudoor_node_backend
-    links:
-      - edudoor_node_database
     build:
       context: ../../
       dockerfile: docker/dev/backend/Dockerfile
@@ -97,7 +95,7 @@ services:
     volumes:
       - openolat_data:/var/lib/postgresql/openolat
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 10s
       retries: 10
@@ -117,7 +115,7 @@ services:
     volumes:
       - edudoor_data:/var/lib/postgresql/edudoor
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 10s
       retries: 10
@@ -130,6 +128,6 @@ services:
       - '9091:9091'
     environment:
       openvidu.secret: password
-      openvidu.webhook: "true"
-      openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetingRooms/webhook
+      openvidu.webhook: 'true'
+      openvidu.webhook.endpoint: http://edudoor_rest_api:7000/api/v1/meetings/webhook
       openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"

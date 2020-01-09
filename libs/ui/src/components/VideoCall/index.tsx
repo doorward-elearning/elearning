@@ -19,7 +19,7 @@ const VideoCall: React.FunctionComponent<VideoCallProps> = props => {
 export interface VideoCallProps extends OpenViduSessionProps {
   joinSession?: () => void;
   leaveSession?: () => void;
-  error?: () => void;
+  error?: (...args: any[]) => void;
   serverUrl: string;
 }
 

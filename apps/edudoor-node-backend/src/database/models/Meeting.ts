@@ -1,18 +1,4 @@
-import { Meeting } from '@edudoor/common/models/Meeting';
-import { Model } from 'sequelize';
-
-class MeetingModel extends Model implements Meeting {
-  createdAt: string;
-  deletedAt: string;
-  endedAt: string;
-  id: string;
-  numParticipants: number;
-  sessionId: string;
-  status: string;
-  updatedAt: string;
-}
-
-export default (sequelize, DataTypes): typeof MeetingModel => {
+export default (sequelize, DataTypes) => {
   const Meeting = sequelize.define(
     'Meeting',
     {

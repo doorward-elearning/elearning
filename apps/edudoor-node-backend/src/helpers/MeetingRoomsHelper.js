@@ -2,13 +2,20 @@ import OpenViduHelper from './OpenViduHelper';
 
 class MeetingRoomsHelper {
   static async joinMeeting(id, req, role = 'PUBLISHER') {
-    const meetingRoom = await models.Meeting.findByPk(id);
+    const meeting = await models.Meeting.findByPk(id, {
+      include: [
+        {
+          model: models.MeetingRoom,
+          as: 'meetingRoom',
+        },
+      ],
+    });
 
-    const { token } = await OpenViduHelper.getToken(meetingRoom.sessionId, role);
+    const { token } = await OpenViduHelper.getToken(meeting.sessionId, role);
 
     const user = req.user.fullName;
 
-    return { ...meetingRoom.dataValues, token, user };
+    return { ...meeting.dataValues, token, user };
   }
 
   static async joinMeetingRoom(meetingRoomId, userId, role = 'PUBLISHER') {

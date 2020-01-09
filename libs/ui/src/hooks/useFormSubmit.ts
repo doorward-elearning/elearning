@@ -10,11 +10,11 @@ function useFormSubmit<T extends WebComponentState<R>, R>(
 
   useEffect(() => {
     if (form) {
-      if (form.fetching) {
+      if (form.submitting) {
         setSubmitting(true);
         setSubmitted(false);
       }
-      if (form.fetched && submitting) {
+      if (form.submitted && submitting) {
         setSubmitted(true);
       }
     }
