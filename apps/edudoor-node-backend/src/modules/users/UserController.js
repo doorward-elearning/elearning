@@ -116,7 +116,7 @@ class UserController {
 
   static async updateUserPassword(req) {
     const { body } = req;
-    const password = bcrypt.hashSync(body.newPassword, process.env.BCRYPT_PASSWORD_SALT);
+    const password = bcrypt.hashSync(body.newPassword, +process.env.BCRYPT_PASSWORD_SALT);
     await req.user.update({
       password,
     });
@@ -130,7 +130,7 @@ class UserController {
       user,
     } = req;
     // create the password for the user.
-    const encryptedPassword = bcrypt.hashSync(password, process.env.BCRYPT_PASSWORD_SALT);
+    const encryptedPassword = bcrypt.hashSync(password, +process.env.BCRYPT_PASSWORD_SALT);
     await user.update({
       password: encryptedPassword,
     });

@@ -19,6 +19,7 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
     city: '',
     country: '',
   };
+  console.log(props.state.errors);
   return (
     <BasicForm
       form={props.useForm}

@@ -65,7 +65,7 @@ function Form<T>({
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
               </form>
             </FormContext.Provider>
-            <IfElse condition={showOverlay && props.isSubmitting}>
+            <IfElse condition={showOverlay && allProps?.isSubmitting}>
               <div className="ed-form__spinner">
                 <Spinner {...spinnerProps} />
               </div>

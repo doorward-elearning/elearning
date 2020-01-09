@@ -92,7 +92,7 @@ export const validateResetToken = async req => {
       where: { email },
       include: [
         {
-          model: models.PasswordReset,
+          model: models.PasswordResets,
           as: 'passwordResets',
           where: {
             token: decodeURIComponent(resetToken),

@@ -1,13 +1,13 @@
 import React from 'react';
 import { UseForm } from '@edudoor/ui/hooks/useForm';
 import { CreateStudentBody } from '../../../services/models/requestBody';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
 import { StudentResponse } from '../../../services/models/responseBody';
 import AddUserFormLayout from '../AddUserFormLayout';
 import { addStudentAction } from '../../../reducers/students/actions';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
-  return <AddUserFormLayout {...props} action={addStudentAction} />;
+  return <AddUserFormLayout {...props} action={props.action || addStudentAction} />;
 };
 
 export interface AddStudentFormState extends CreateStudentBody {}
@@ -17,6 +17,7 @@ export interface AddStudentFormProps {
   state: WebComponentState<StudentResponse>;
   onCancel: () => void;
   createData?: (data: any) => Array<any>;
+  action?: ActionCreator;
 }
 
 export default AddStudentForm;

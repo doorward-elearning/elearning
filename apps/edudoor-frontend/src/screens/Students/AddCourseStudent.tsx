@@ -10,17 +10,18 @@ import IfElse from '@edudoor/ui/components/IfElse';
 import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { PageComponent } from '@edudoor/ui/types';
+import { addCourseStudentAction } from '../../reducers/courses/actions';
 
 const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
   const studentForm = useForm();
   const [courseId] = useViewCourse();
   const routes = useRoutes();
   const history = useHistory();
-  const createCourse = useSelector((state: State) => state.courses.createStudent);
-  const submitted = useFormSubmit(createCourse);
+  const createStudent = useSelector((state: State) => state.courses.createStudent);
+  const submitted = useFormSubmit(createStudent);
 
   return (
-    <IfElse condition={submitted}>
+    <IfElse condition={submitted && createStudent.fetched}>
       <Redirect to={routes.routes.courseStudents.link} />
       <Layout
         noNavBar
@@ -31,7 +32,8 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
         <AddStudentForm
           onCancel={(): void => history.push(routes.routes.courseStudents.link)}
           useForm={studentForm}
-          state={createCourse}
+          action={addCourseStudentAction}
+          state={createStudent}
           createData={data => [courseId, data]}
         />
       </Layout>

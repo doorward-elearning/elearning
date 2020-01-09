@@ -8,6 +8,7 @@ class Api {
       headers: {
         Authorization: `Basic ${btoa(`${process.env.OPENVIDU_USERNAME}:${process.env.OPENVIDU_PASSWORD}`)}`,
         'Content-Type': 'application/json',
+        Host: 'localhost:4443',
       },
       httpsAgent: new https.Agent({
         rejectUnauthorized: false,
