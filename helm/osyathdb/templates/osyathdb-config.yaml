@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  POSTGRES_DB: {{ .Values.osyathdb }}
+  POSTGRES_PASSWORD: {{ .Values.osyathdbpassword }}
+  POSTGRES_USER: {{ .Values.osyathdbuser }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "osyathdb.labels" . | nindent 4 }}
+  name: {{ include "osyathdb.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
