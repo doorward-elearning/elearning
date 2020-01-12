@@ -9,7 +9,7 @@ const AboutUs: React.FunctionComponent<AboutUsProps> = (props): JSX.Element => {
             <h2 className="section-title">About US</h2>
             <p className="mb-5">
               Edudoor is a platform for teachers to create and run courses, Instantly collaborate with students, Collect
-              feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more
+              feedback, share course materials, Conduct and track assessment, live virtual classroom, and many more
               features that makes learning engaging. <br />
               <br />
               We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across

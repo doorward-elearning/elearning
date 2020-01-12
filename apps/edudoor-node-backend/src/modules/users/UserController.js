@@ -35,7 +35,7 @@ class UserController {
   static async createUser(req, roleName) {
     const { body } = req;
     if (body.password) {
-      body.password = bcrypt.hashSync(body.password, process.env.BCRYPT_PASSWORD_SALT);
+      body.password = bcrypt.hashSync(body.password, +process.env.BCRYPT_PASSWORD_SALT);
     }
     let user = await models.User.create({
       ...body,
@@ -151,7 +151,7 @@ class UserController {
       const resetToken = Tools.randomString(50);
 
       // create the reset link
-      await models.PasswordReset.create({
+      await models.PasswordResets.create({
         token: resetToken,
         userId: user.id,
       });

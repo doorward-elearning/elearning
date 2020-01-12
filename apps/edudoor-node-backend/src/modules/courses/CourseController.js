@@ -51,14 +51,16 @@ class CourseController {
       params: { courseId },
     } = req;
 
-    const course = (await models.Course.update(
-      { ...other },
-      {
-        where: { id: courseId },
-        include: CourseInclude,
-        returning: true,
-      }
-    ))[1][0];
+    const course = (
+      await models.Course.update(
+        { ...other },
+        {
+          where: { id: courseId },
+          include: CourseInclude,
+          returning: true,
+        }
+      )
+    )[1][0];
     await course.reload();
 
     return [200, { course }, 'Course has been updated.'];
@@ -70,15 +72,25 @@ class CourseController {
     let courses;
     if (Tools.isStudent(user)) {
       // eslint-disable-next-line prefer-destructuring
-      courses = (await models.User.findByPk(user.id, {
-        include: StudentCoursesInclude(),
-      })).courses;
+      courses = (
+        await models.User.findByPk(user.id, {
+          include: StudentCoursesInclude(),
+        })
+      ).courses;
     } else {
       courses = await models.Course.findAll({
         include: [
           {
             model: models.User,
             as: 'students',
+            attributes: [],
+          },
+          {
+            model: models.User,
+            as: 'author',
+            where: {
+              id: user.id,
+            },
             attributes: [],
           },
         ],

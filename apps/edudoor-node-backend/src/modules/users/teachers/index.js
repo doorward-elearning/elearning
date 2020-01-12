@@ -7,6 +7,8 @@ const Router = new MRouter('/', Authorization.authenticate);
 
 Router.post('/', validateCreateUser(), TeacherController.createTeacher);
 
+Router.exclude(Authorization.authenticate).post('/free-trial', validateCreateUser(), TeacherController.createTeacher);
+
 Router.get('/', TeacherController.getAllTeachers);
 
 export default Router;

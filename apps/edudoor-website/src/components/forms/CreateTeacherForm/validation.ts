@@ -1,11 +1,14 @@
 import * as Yup from 'yup';
 
 export default Yup.object({
-  email: Yup.string().email('Please enter a valid email'),
+  email: Yup.string()
+    .email('Please enter a valid email')
+    .nullable()
+    .required('The email is required'),
   password: Yup.string()
     .nullable()
     .required('The password is required'),
-  fullName: Yup.string()
+  username: Yup.string()
     .nullable()
-    .required('Please enter your full name'),
+    .required('Please choose your username'),
 });

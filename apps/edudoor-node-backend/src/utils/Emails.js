@@ -7,7 +7,7 @@ class Emails {
     const organization = await models.Organization.findByPk(student.organizationId);
 
     return EmailSender.sendMail('student_new_account.pug', student.email, `${organization.name} new student account`, {
-      username: `${student.firstName} ${student.lastName}`,
+      username: student.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(student.email)
@@ -35,7 +35,7 @@ class Emails {
     const organization = await models.Organization.findByPk(teacher.organizationId);
 
     return EmailSender.sendMail('teacher_new_account.pug', teacher.email, `${organization.name} new teacher account`, {
-      username: `${teacher.firstName} ${teacher.lastName}`,
+      username: teacher.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(teacher.email)
