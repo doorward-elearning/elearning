@@ -1,9 +1,8 @@
 import React from 'react';
-import { Redirect } from 'react-router';
-import { ROUTES } from '../../routes/routes';
 
 const Home: React.FunctionComponent<HomeProps> = props => {
-  return <Redirect to={ROUTES.login.link} />;
+  window.location.href = process.env.EDUDOOR_WEBSITE_LINK;
+  return <React.Fragment/>;
 };
 
 export interface HomeProps {}

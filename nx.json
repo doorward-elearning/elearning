@@ -22,6 +22,12 @@
     },
     "edudoor-node-backend": {
       "tags": []
+    },
+    "edudoor-website": {
+      "tags": []
+    },
+    "edudoor-website-e2e": {
+      "tags": []
     }
   }
 }

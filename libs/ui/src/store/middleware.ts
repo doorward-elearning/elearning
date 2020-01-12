@@ -4,11 +4,11 @@ import { BuiltReducer } from '../reducers/reducers';
 
 type Unpack<T> = T extends BuiltReducer<infer U> ? U : T;
 
-type ReducerObject = {
+export type ReducerObject = {
   [name: string]: BuiltReducer<any> | Reducer;
 };
 
-type GeneratedReducers<T> = {
+export type GeneratedReducers<T> = {
   [S in keyof T]: Unpack<T[S]>;
 };
 
