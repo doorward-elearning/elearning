@@ -1,4 +1,5 @@
 import React from 'react';
+import CreateTeacherForm from '../../components/forms/CreateTeacherForm';
 
 const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
   return (
@@ -29,7 +30,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                 </div>
 
                 <div className="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
-                  <form action="" method="post" className="form-box">
+                  <div className="form-box">
                     <h2 style={{ color: '#cc33ff' }}>One-Click FREE Trial</h2>
                     <h4 className="mb-4">
                       <br />
@@ -37,19 +38,8 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                       No credit cards required
                       <br />
                     </h4>
-                    <div className="form-group">
-                      <input type="text" className="form-control" placeholder="Email Addresss" />
-                    </div>
-                    <div className="form-group">
-                      <input type="password" className="form-control" placeholder="Chose a Password" />
-                    </div>
-                    <div className="form-group mb-4">
-                      <input type="text" className="form-control" placeholder="Your Name" />
-                    </div>
-                    <div className="form-group">
-                      <input type="submit" className="btn btn-primary btn-pill" value="Try Edudoor" />
-                    </div>
-                  </form>
+                    <CreateTeacherForm />
+                  </div>
                 </div>
               </div>
             </div>
