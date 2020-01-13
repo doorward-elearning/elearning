@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  POSTGRES_DB: {{ .Values.thaladbname }}
+  POSTGRES_PASSWORD: {{ .Values.thaladbpassword }}
+  POSTGRES_USER: {{ .Values.thaladbuser }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "thaladb.labels" . | nindent 4 }}
+  name: {{ include "thaladb.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor

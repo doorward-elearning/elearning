@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "osyathdb.fullname" . }}
+  name: {{ include "thaladb.fullname" . }}
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
   labels:
-    {{- include "osyathdb.labels" . | nindent 4 }}
+    {{- include "thaladb.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "osyathdb.selectorLabels" . | nindent 6 }}
+      {{- include "thaladb.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "osyathdb.selectorLabels" . | nindent 8 }}
+        {{- include "thaladb.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -25,7 +25,7 @@ spec:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: {{ .Values.service.protocol }}
@@ -44,29 +44,30 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_USER
-                  name: {{ include "osyathdb.fullname" . }}
+                  name: {{ include "thaladb.fullname" . }}
             - name: POSTGRES_PASSWORD
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_PASSWORD
-                  name: {{ include "osyathdb.fullname" . }}
+                  name: {{ include "thaladb.fullname" . }}
             - name: POSTGRES_DB
               valueFrom:
                 configMapKeyRef:
                   key: POSTGRES_DB
-                  name: {{ include "osyathdb.fullname" . }}
+                  name: {{ include "thaladb.fullname" . }}
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: {{ include "osyathdb.fullname" . }}
+              name: {{ include "thaladb.fullname" . }}
               subPath: postgres
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      - name: {{ include "osyathdb.fullname" . }}
+      - name: {{ include "thaladb.fullname" . }}
         persistentVolumeClaim:
-          claimName: {{ include "osyathdb.fullname" . }}
+          claimName: {{ include "thaladb.fullname" . }}
       - emptyDir: {}
         name: postgresdb
+
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

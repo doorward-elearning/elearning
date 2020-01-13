@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  REACT_APP_BASE_URL: {{ include "chuchu.thalapublicurl" . }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "chuchu.labels" . | nindent 4 }}
+  name: {{ include "chuchu.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor

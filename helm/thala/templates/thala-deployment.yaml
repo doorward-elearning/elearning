@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "frontend.fullname" . }}
+  name: {{ include "thala.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
   labels:
-    {{- include "frontend.labels" . | nindent 4 }}
+    {{- include "thala.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "frontend.selectorLabels" . | nindent 6 }}
+      {{- include "thala.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "frontend.selectorLabels" . | nindent 8 }}
+        {{- include "thala.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "frontend.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -28,17 +28,28 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: {{ .Values.service.protocol }}
+              containerPort: {{ .Values.service.targetport }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
+          env:
+          - name: DATABASE_URL
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_URL
+                name: {{ include "thala.fullname" . }}
+          - name: OPENVIDU_URL
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_URL
+                name: {{ include "thala.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
