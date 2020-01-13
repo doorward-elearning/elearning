@@ -1,12 +1,13 @@
-# Default values for frontend.
+# Default values for thaladb.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: nginx
+  repository: postgres
   pullPolicy: IfNotPresent
+  tag: 9.6-alpine
 
 imagePullSecrets: []
 nameOverride: ""
@@ -14,7 +15,7 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
+  create: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -64,3 +65,19 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+
+service:
+  type: ClusterIP
+  port: 5434
+  targetport: 5432
+  protocol: mysql
+
+thaladbname: openolat
+thaladbpassword: postgres
+thaladbuser: postgres
+thaladbconfigmappostfix: thaladb
+
+storage:
+  class: databases-slow
+  size: 7Gi

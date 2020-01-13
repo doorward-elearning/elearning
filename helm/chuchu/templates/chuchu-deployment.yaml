@@ -1,24 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "osyathdb.fullname" . }}
+  name: {{ include "chuchu.fullname" . }}
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
   labels:
-    {{- include "osyathdb.labels" . | nindent 4 }}
+    {{- include "chuchu.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "osyathdb.selectorLabels" . | nindent 6 }}
+      {{- include "chuchu.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "osyathdb.selectorLabels" . | nindent 8 }}
+        {{- include "chuchu.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
+      serviceAccountName: {{ include "chuchu.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -28,45 +29,25 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: {{ .Values.service.protocol }}
-              containerPort: {{ .Values.service.targetport }}
+            - name: http
+              containerPort: {{ .Values.containerport}}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.targetport }}
+              port: http
           readinessProbe:
             httpGet:
               path: /
-              port: {{ .Values.service.targetport }}
+              port: http
           env:
-            - name: POSTGRES_USER
+            - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:
-                  key: POSTGRES_USER
-                  name: {{ include "osyathdb.fullname" . }}
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_PASSWORD
-                  name: {{ include "osyathdb.fullname" . }}
-            - name: POSTGRES_DB
-              valueFrom:
-                configMapKeyRef:
-                  key: POSTGRES_DB
-                  name: {{ include "osyathdb.fullname" . }}
-          volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: {{ include "osyathdb.fullname" . }}
-              subPath: postgres
+                  key: REACT_APP_BASE_URL
+                  name: {{ include "chuchu.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-      volumes:
-      - name: {{ include "osyathdb.fullname" . }}
-        persistentVolumeClaim:
-          claimName: {{ include "osyathdb.fullname" . }}
-      - emptyDir: {}
-        name: postgresdb
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

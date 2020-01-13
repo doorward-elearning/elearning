@@ -1,0 +1,14 @@
+apiVersion: v1
+data:
+  openvidu.secret: {{ .Values.samvadamsecretkey }}
+  openvidu.publicurl: {{ include "samvadam.samvadampublicurl" .}}
+  openvidu.webhook: {{ .Values.samvadamwebhook | quote }}
+  openvidu.webhook.endpoint: {{ include "samvadam.samvadamwebhookendpoint" . | quote }}
+  openvidu.webhook.events: {{ .Values.samvadamwebhookevents | toJson | quote }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "samvadam.labels" . | nindent 4 }}
+  name: {{ include "samvadam.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor

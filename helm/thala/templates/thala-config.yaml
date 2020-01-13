@@ -1,0 +1,11 @@
+apiVersion: v1
+data:
+  DATABASE_URL: {{ include "thala.thaladburl" . }}
+  OPENVIDU_URL: {{ include "thala.samvadamurl" . }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "thala.labels" . | nindent 4 }}
+  name: {{ include "thala.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor

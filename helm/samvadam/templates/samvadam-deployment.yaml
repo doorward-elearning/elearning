@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "samvadam.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  labels:
+    {{- include "samvadam.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "samvadam.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "samvadam.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "samvadam.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 4443
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+          env:
+          - name: openvidu.secret
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.secret
+                name: {{ include "samvadam.fullname" . }}
+          - name: openvidu.publicurl
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.publicurl
+                name: {{ include "samvadam.fullname" . }}
+          - name: openvidu.webhook
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook
+                name: {{ include "samvadam.fullname" . }}
+          - name: openvidu.webhook.endpoint
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook.endpoint
+                name: {{ include "samvadam.fullname" . }}
+          - name: openvidu.webhook.events
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook.events
+                name: {{ include "samvadam.fullname" . }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

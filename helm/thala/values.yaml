@@ -1,11 +1,11 @@
-# Default values for osyathdb.
+# Default values for thala.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: gcr.io/edudoor/osyathdb
+  repository: nginx
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -14,7 +14,7 @@ fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -31,10 +31,10 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: ClusterIP
-  port: 5433
-  targetport: 5432
-  protocol: mysql
+  type: LoadBalancer
+  port: 7000
+  targetport: 7000
+  protocol: http
 
 ingress:
   enabled: false
@@ -67,14 +67,12 @@ tolerations: []
 
 affinity: {}
 
-
-
-# Initial Database settings
-osyathdbname: openolat
-osyathdbpassword: postgres
-osyathdbuser: postgres
-
-# Size of the database partition
-storage:
-  class: databases-slow
-  size: 7Gi
+#thaladburl: postgres://postgres:postgres@edudoor-database-service:5434/edudoor
+thaladbname: edudoor
+thaladbuser: postgres
+thaladbpassword: postgres
+thaladbhostpostfix: thaladb
+thaladbport:
+#samvadamurl: https://edudoor-openvidu-service:4443
+samvadamhostpostfix: samvadam
+samvadamport: 4443
