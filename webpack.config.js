@@ -15,6 +15,10 @@ module.exports = config => {
   );
   config.node = { ...config.node, global: true, fs: 'empty' };
   config.stats.warnings = false;
-  config.plugins.push(new DotEnv());
+  config.plugins.push(
+    new DotEnv({
+      systemvars: true,
+    })
+  );
   return babelWebpackConfig(config);
 };

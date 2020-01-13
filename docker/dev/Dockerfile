@@ -9,7 +9,6 @@ WORKDIR /usr/app
 
 RUN npm install -g @nrwl/nx &&  rm -rf package-lock.json
 
-COPY package.json /usr/app
-COPY yarn.lock /usr/app
+COPY . /usr/app
 
 RUN yarn install
