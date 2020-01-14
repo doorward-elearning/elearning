@@ -16,7 +16,7 @@ export default (sequelize, DataTypes) => {
     },
     { paranoid: true }
   );
-  Course.associate = function(models: Models) {
+  Course.associate = function(models) {
     Course.belongsTo(models.User, {
       foreignKey: 'createdBy',
       as: 'author',

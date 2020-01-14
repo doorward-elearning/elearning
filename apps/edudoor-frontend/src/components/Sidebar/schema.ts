@@ -19,7 +19,7 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
     {
       ...routes.students,
       icon: 'account_circle',
-      subMenu: [routes.studentList, routes.newStudent],
+      subMenu: [routes.studentList, routes.newStudent, routes.studentGroups],
     },
     {
       ...routes.teachers,

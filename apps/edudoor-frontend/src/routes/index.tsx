@@ -26,6 +26,7 @@ import Profile from '../screens/Profile';
 import MRoute from '@edudoor/ui/routes/MRoute';
 import { Routes } from '@edudoor/ui/types';
 import { Roles } from '@edudoor/ui/components/RolesManager';
+import StudentGroups from '../screens/Students/StudentGroups';
 
 export const routeNames = {
   home: 'Home',
@@ -63,7 +64,8 @@ export const routeNames = {
   videoCall: 'Video Call',
   teachers: 'Teachers',
   teacherList: 'All Teachers',
-  addTeacher: 'Add Teacher'
+  addTeacher: 'Add Teacher',
+  studentGroups: 'Groups',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -82,74 +84,51 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           courseList: new Route('/', Courses).with({
             viewCourse: new Route('/:courseId', ViewCourse).with({
               courseStudents: new Route('/students', CourseStudentList).with({
-                addCourseStudent: new Route('/new', AddCourseStudent)
+                addCourseStudent: new Route('/new', AddCourseStudent),
               }),
               modules: new Route('/modules').with({
                 moduleItems: new Route('/:moduleId/items').with({
                   viewModuleItem: new Route('/:itemId', ViewModuleItem),
-                  editModuleItem: new Route(
-                    '/:itemId/edit',
-                    ViewModuleItem
-                  ).roles(Roles.TEACHER),
+                  editModuleItem: new Route('/:itemId/edit', ViewModuleItem).roles(Roles.TEACHER),
                   addModulePage: new Route('/create/page', AddModulePage),
-                  addAssignment: new Route(
-                    '/create/assignment',
-                    CreateAssignment
-                  ),
-                  addQuiz: new Route('/create/quiz', CreateQuiz)
-                })
-              })
-            })
+                  addAssignment: new Route('/create/assignment', CreateAssignment),
+                  addQuiz: new Route('/create/quiz', CreateQuiz),
+                }),
+              }),
+            }),
           }),
-          createCourse: new Route('/create', Courses)
+          createCourse: new Route('/create', Courses),
         }),
         students: new Route('/students').roles(Roles.TEACHER).with({
           studentList: new Route('/', StudentList).roles(Roles.TEACHER),
-          newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER)
+          newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
+          studentGroups: new Route('/', StudentGroups).roles(Roles.TEACHER),
         }),
         teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
-          teacherList: new Route('/', TeacherList).roles(
-            Roles.SUPER_ADMINISTRATOR
-          ),
-          addTeacher: new Route('/create', AddTeacher).roles(
-            Roles.SUPER_ADMINISTRATOR
-          )
+          teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
+          addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
         }),
         myProfile: new Route('/profile/:username', Profile).with({
-          changePassword: new Route('/changePassword', Profile)
+          changePassword: new Route('/changePassword', Profile),
         }),
         reports: new Route('/reports').roles(Roles.TEACHER).with({
           studentListReports: new Route('/students', StudentListReport).with({
-            studentReport: new Route('/:studentId', StudentReport)
+            studentReport: new Route('/:studentId', StudentReport),
           }),
           courseListReports: new Route('/courses', Error404),
-          teacherListReports: new Route('/teachers', TeacherListReport)
-            .roles()
-            .with({
-              teacherReport: new Route('/:teacherId', TeacherReport)
-            })
-        })
+          teacherListReports: new Route('/teachers', TeacherListReport).roles().with({
+            teacherReport: new Route('/:teacherId', TeacherReport),
+          }),
+        }),
       }),
       password: new Route('/password')
         .public()
         .hideCrumb()
         .with({
-          createPassword: new Route(
-            '/create/:resetToken/:resetTokenBuffer',
-            CreatePassword
-          )
-            .public()
-            .hideCrumb(),
-          resetPassword: new Route(
-            '/reset/:resetToken/:resetTokenBuffer',
-            CreatePassword
-          )
-            .public()
-            .hideCrumb(),
-          forgotPassword: new Route('/forgot', ForgotPassword)
-            .public()
-            .hideCrumb()
-        })
+          createPassword: new Route('/create/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+          resetPassword: new Route('/reset/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+          forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
+        }),
     }),
-  videoCall: new Route('/meeting/:meetingId', VideoCallPage)
+  videoCall: new Route('/meeting/:meetingId', VideoCallPage),
 };

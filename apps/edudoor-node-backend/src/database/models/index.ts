@@ -1,5 +1,5 @@
 import database from '../../config/database';
-import { Model, Sequelize } from 'sequelize';
+import { Sequelize } from 'sequelize';
 import Answer from './Answer';
 import Course from './Course';
 import Meeting from './Meeting';
@@ -14,6 +14,8 @@ import Role from './Role';
 import StudentCourse from './StudentCourse';
 import User from './User';
 import UserRole from './UserRole';
+import Group from './Group';
+import GroupMember from './GroupMember';
 import Tools from '@edudoor/common/utils/Tools';
 import { ReturnValue } from '@edudoor/common/types';
 
@@ -32,6 +34,8 @@ const modelNames = {
   StudentCourse,
   User,
   UserRole,
+  Group,
+  GroupMember,
 };
 
 const env = process.env.NODE_ENV || 'development';
