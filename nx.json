@@ -28,6 +28,9 @@
     },
     "edudoor-website-e2e": {
       "tags": []
+    },
+    "backend": {
+      "tags": []
     }
   }
 }

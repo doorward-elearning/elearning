@@ -1,6 +1,8 @@
-class Organization {
+import models from '../../../../apps/edudoor-node-backend/src/database/models';
+
+class OrganizationUtils {
   static async get() {
-    const where = {};
+    const where: any = {};
     if (process.env.ORGANIZATION_ID) {
       where.id = process.env.ORGANIZATION_ID;
     } else {
@@ -20,4 +22,4 @@ class Organization {
   }
 }
 
-export default Organization;
+export default OrganizationUtils;

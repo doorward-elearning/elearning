@@ -2,8 +2,13 @@
   "root": true,
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2018,
+    "ecmaVersion": 6,
     "sourceType": "module"
+  },
+  "env": {
+    "node": true,
+    "es6": true,
+    "jest": true
   },
   "plugins": ["@typescript-eslint", "@nrwl/nx"],
   "extends": [

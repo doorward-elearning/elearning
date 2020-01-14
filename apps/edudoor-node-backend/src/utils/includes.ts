@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import models from '../database/models';
-import Organization from './Organization';
+import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 
 export const UserInclude = [
   {
@@ -78,7 +78,7 @@ export const MyCoursesInclude = () =>
       model: models.User,
       as: 'author',
       where: {
-        organizationId: Organization.getId(),
+        organizationId: OrganizationUtils.getId(),
       },
     },
   ]);

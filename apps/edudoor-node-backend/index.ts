@@ -2,7 +2,7 @@ import debug from 'debug';
 import shortid from 'shortid';
 import app from './src/app';
 import models from './src/database/models';
-import Organization from './src/utils/Organization';
+import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 import JWT from './src/utils/auth';
 
 const http = require('http');
@@ -20,8 +20,8 @@ global.socketIO = io;
 console.log(`Starting server on port ${process.env.PORT}`);
 
 console.log(shortid.generate() + shortid.generate() + shortid.generate());
-Organization.get().then(() => {
-  logger('Organization initialized.');
+OrganizationUtils.get().then(() => {
+  logger('OrganizationUtils initialized.');
 });
 
 server.listen(process.env.PORT, '0.0.0.0', 511, () => {
