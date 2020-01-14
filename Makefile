@@ -14,7 +14,7 @@ start:
 	@ docker image inspect dev_edudoor:latest >/dev/null 2>&1 && echo "Image already exists" ||  docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build edudoor
 	@
 	@ ${INFO} "Starting the application"
-	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_frontend &
+	@ COMPOSE_HTTP_TIMEOUT=200 docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_frontend &
 
 api:
 	${INFO} "Creating PostgreSQL database volume"
