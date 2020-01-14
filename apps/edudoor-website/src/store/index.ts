@@ -1,7 +1,9 @@
-import reducers from './reducers';
 import createReduxStore from '@edudoor/ui/store/createReduxStore';
+import freeTrial from '../reducers/freeTrial';
 
-const store = createReduxStore(reducers);
+const store = createReduxStore({
+  freeTrial,
+});
 
 const state = store.getState();
 

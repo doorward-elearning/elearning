@@ -1,5 +1,6 @@
 import _ from 'lodash';
-import { Op } from 'sequelize';
+import express from 'express';
+import { Model as SequelizeModel, Op } from 'sequelize';
 
 export default class BaseValidator {
   static async checkField(req, field, Model, message) {
@@ -49,7 +50,11 @@ export default class BaseValidator {
     );
   }
 
-  static modelExists(query, Model, message) {
+  static modelExists(
+    query: (req: express.Request) => { [name: string]: any },
+    Model: (new () => SequelizeModel) & typeof SequelizeModel,
+    message: string
+  ) {
     return async req => {
       const throwError = () => {
         let msg = message;

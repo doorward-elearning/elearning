@@ -7,11 +7,14 @@ volumes:
     external: true
 
 services:
-  edudoor_frontend:
-    container_name: edudoor_frontend
+  edudoor:
+    image: dev_edudoor:latest
     build:
       context: ../../
-      dockerfile: docker/dev/frontend/Dockerfile
+      dockerfile: docker/dev/Dockerfile
+  edudoor_frontend:
+    image: dev_edudoor:latest
+    container_name: edudoor_frontend
     links:
       - edudoor_rest_api
     volumes:
@@ -22,6 +25,7 @@ services:
     environment:
       REACT_APP_BASE_URL: http://localhost:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
+      EDUDOOR_WEBSITE_LINK: http://localhost:3006
     ports:
       - '3005:3000'
     expose:
@@ -30,27 +34,24 @@ services:
       - /usr/app/apps/edudoor-frontend/entrypoint.sh
     depends_on:
       edudoor_rest_api:
-        condition: service_healthy
+        condition: service_started
+      edudoor_website:
+        condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:3000']
       interval: 10s
       timeout: 10s
       retries: 20
   edudoor_rest_api:
+    image: dev_edudoor:latest
     container_name: edudoor_node_backend
-    build:
-      context: ../../
-      dockerfile: docker/dev/backend/Dockerfile
     volumes:
       - /usr/app/node_modules
       - ../../:/usr/app
-    env_file:
-      - ../../.env
     environment:
       DATABASE_URL: postgres://postgres:postgres@edudoor_node_database:5432/edudoor
       OPENOLAT_API_URL: http://localhost:8080/openolat/restapi
       FRONTEND_URL: http://localhost:3005
-      OPENVIDU_URL: https://edudoor_openvidu:4443
     ports:
       - '7000:7000'
     expose:
@@ -67,38 +68,28 @@ services:
       interval: 10s
       timeout: 10s
       retries: 20
-  openolat:
-    image: gitaumoses4/openolat-edudoor
-    container_name: edudoor_openolat_backend
-    links:
-      - openolat_database
+  edudoor_website:
+    image: dev_edudoor:latest
+    container_name: edudoor_website
+    volumes:
+      - /usr/app/node_modules
+      - ../../:/usr/app
+    environment:
+      EDUDOOR_APPLICATION_LINK: http://localhost:3005
     ports:
-      - '5000:8080'
+      - '3006:3001'
+    expose:
+      - '3001'
+    entrypoint:
+      - /usr/app/apps/edudoor-website/entrypoint.sh
     depends_on:
-      openolat_database:
-        condition: service_healthy
+      edudoor_rest_api:
+        condition: service_started
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:8080']
+      test: ['CMD-SHELL', 'curl -s localhost:3001']
       interval: 10s
       timeout: 10s
       retries: 20
-  openolat_database:
-    image: gitaumoses4/edudoor_database
-    container_name: openolat_database
-    restart: always
-    ports:
-      - '5433:5432'
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: openolat
-    volumes:
-      - openolat_data:/var/lib/postgresql/openolat
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
-      interval: 5s
-      timeout: 10s
-      retries: 10
   edudoor_node_database:
     image: postgres:9.6-alpine
     container_name: edudoor_node_backend_db
@@ -109,9 +100,6 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       POSTGRES_DB: edudoor
-    depends_on:
-      openolat:
-        condition: service_started
     volumes:
       - edudoor_data:/var/lib/postgresql/edudoor
     healthcheck:

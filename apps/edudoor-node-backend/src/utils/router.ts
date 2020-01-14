@@ -1,12 +1,30 @@
 import * as express from 'express';
 import Validation from '../middleware/BaseValidator';
 import Tools from './Tools';
+import { IRouterMatcher } from 'express-serve-static-core';
 
 const errorHandler = middleware => middleware.map(m => Validation.withErrorHandler(m));
 
 const methods = ['post', 'delete', 'get', 'put', 'patch'];
 
-class MRouter {
+export interface CustomRouter {
+  get: IRouterMatcher<this>;
+  post: IRouterMatcher<this>;
+  put: IRouterMatcher<this>;
+  delete: IRouterMatcher<this>;
+  patch: IRouterMatcher<this>;
+}
+
+class MRouter implements CustomRouter {
+  Router: express.Router;
+  defaultMiddleware: Array<express.RequestHandler>;
+  path: string;
+  delete: IRouterMatcher<this>;
+  get: IRouterMatcher<this>;
+  patch: IRouterMatcher<this>;
+  post: IRouterMatcher<this>;
+  put: IRouterMatcher<this>;
+
   constructor(path = '', ...defaultMiddleware) {
     this.Router = express.Router({ mergeParams: true });
     this.defaultMiddleware = defaultMiddleware;
@@ -24,6 +42,7 @@ class MRouter {
 
   use(path, router) {
     this.Router.use(Tools.appendPath(this.path, path), router.Router);
+    return this;
   }
 
   exclude(...middleware) {
