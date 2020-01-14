@@ -6,7 +6,7 @@ import { MyCoursesInclude } from '../utils/includes';
 
 class CourseHelper {
   static async getCourse(courseId) {
-    return models.Course.findOne({
+    return await models.Course.findOne({
       where: { id: courseId },
       include: MyCoursesInclude(),
       order: [
@@ -64,8 +64,10 @@ class CourseHelper {
 
     if (meeting) {
       const meetingInstance = await models.MeetingRoomMember.findOne({
-        meetingRoomId: meetingRoom.id,
-        participantId,
+        where: {
+          meetingRoomId: meetingRoom.id,
+          participantId,
+        },
       });
       if (!meetingInstance) {
         return [403, undefined, 'You are not authorized to join this meeting'];

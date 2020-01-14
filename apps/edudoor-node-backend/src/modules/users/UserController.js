@@ -6,7 +6,7 @@ import { UserInclude } from '../../utils/includes';
 import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
-import Organization from '../../utils/Organization';
+import OrganizationUtils from '../../../../../libs/common/src/utils/OrganizationUtils';
 
 class UserController {
   static async login(req) {
@@ -17,7 +17,7 @@ class UserController {
   }
 
   static async register(req) {
-    const organization = Organization.get();
+    const organization = OrganizationUtils.get();
     const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
 
     Emails.selfRegistration(user);
@@ -39,7 +39,7 @@ class UserController {
     }
     let user = await models.User.create({
       ...body,
-      organizationId: Organization.getId(),
+      organizationId: OrganizationUtils.getId(),
     });
 
     const role = await models.Role.findOne({

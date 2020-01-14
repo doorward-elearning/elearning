@@ -309,6 +309,30 @@
           }
         }
       }
+    },
+    "backend": {
+      "root": "libs/backend",
+      "sourceRoot": "libs/backend/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/backend/.eslintrc",
+            "tsConfig": ["libs/backend/tsconfig.lib.json", "libs/backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/backend/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/backend/jest.config.js",
+            "tsConfig": "libs/backend/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -1,4 +1,4 @@
-import { Model } from '@edudoor/common/models/Model';
-import { DataTypes, Sequelize } from 'sequelize';
+import { DBModel } from '@edudoor/common/models/DBModel';
+import { Model, Sequelize } from 'sequelize';
 
-export type ModelCreator<T extends Model> = (sequelize: Sequelize, DataTypes: typeof DataTypes) => T;
+export type ModelCreator<T extends DBModel & Model> = (sequelize: Sequelize) => () => T;

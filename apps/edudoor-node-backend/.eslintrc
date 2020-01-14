@@ -5,6 +5,7 @@
   },
   "globals": {
     "models": true,
-    "socketIO": true
+    "socketIO": true,
+    "process": true
   }
 }

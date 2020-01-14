@@ -29,8 +29,6 @@ class MeetingsController {
       body: { event, sessionId },
     } = req;
 
-    console.log(req.body, 'Moses ---------------------------------------------------------------------');
-
     const meeting = await models.Meeting.findOne({
       where: {
         sessionId,

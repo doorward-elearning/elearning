@@ -2,7 +2,7 @@ import * as roles from '../../../utils/roles';
 import UserController from '../UserController';
 import models from '../../../database/models';
 import Emails from '../../../utils/Emails';
-import Organization from '../../../utils/Organization';
+import OrganizationUtils from '../../../../../../libs/common/src/utils/OrganizationUtils';
 
 class StudentController {
   static async createStudent(req) {
@@ -17,7 +17,7 @@ class StudentController {
   static async getAllStudents() {
     const students = await UserController.findByRole(roles.STUDENT, {
       where: {
-        organizationId: Organization.getId(),
+        organizationId: OrganizationUtils.getId(),
       },
       include: [
         {

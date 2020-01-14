@@ -22,6 +22,14 @@ module.exports = {
           key: 'id',
         },
       },
+      addedBy: {
+        type: Sequelize.STRING,
+        onDelete: 'cascade',
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
       role: {
         type: Sequelize.ENUM('ADMINISTRATOR', 'PARTICIPANT'),
         defaultValue: 'PARTICIPANT',

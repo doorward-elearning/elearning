@@ -13,6 +13,22 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
       },
+      createdBy: {
+        type: Sequelize.STRING,
+        onDelete: 'cascade',
+        references: {
+          model: 'Users',
+          key: 'id',
+        },
+      },
+      organizationId: {
+        type: Sequelize.STRING,
+        onDelete: 'cascade',
+        references: {
+          model: 'Organizations',
+          key: 'id',
+        },
+      },
       type: {
         type: Sequelize.STRING,
       },

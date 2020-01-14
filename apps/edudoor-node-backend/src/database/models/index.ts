@@ -1,23 +1,24 @@
 import database from '../../config/database';
 import { Sequelize } from 'sequelize';
-import Answer from './Answer';
-import Course from './Course';
-import Meeting from './Meeting';
-import MeetingRoom from './MeetingRoom';
-import MeetingRoomMember from './MeetingRoomMember';
-import Module from './Module';
-import ModuleItem from './ModuleItem';
-import Organization from './Organization';
-import PasswordResets from './PasswordResets';
-import Question from './Question';
-import Role from './Role';
-import StudentCourse from './StudentCourse';
-import User from './User';
-import UserRole from './UserRole';
-import Group from './Group';
-import GroupMember from './GroupMember';
 import Tools from '@edudoor/common/utils/Tools';
 import { ReturnValue } from '@edudoor/common/types';
+import Answer from '@edudoor/common/models/Answer';
+import Course from '@edudoor/common/models/Course';
+import Meeting from '@edudoor/common/models/Meeting';
+import MeetingRoom from '@edudoor/common/models/MeetingRoom';
+import ModuleItem from '@edudoor/common/models/ModuleItem';
+import Role from '@edudoor/common/models/Role';
+import Group from '@edudoor/common/models/Group';
+import GroupMember from '@edudoor/common/models/GroupMember';
+import Organization from '@edudoor/common/models/Organization';
+import User from '@edudoor/common/models/User';
+import UserRole from '@edudoor/common/models/UserRole';
+import PasswordResets from '@edudoor/common/models/PasswordResets';
+import Question from '@edudoor/common/models/Question';
+import StudentCourse from '@edudoor/common/models/StudentCourse';
+import MeetingRoomMember from '@edudoor/common/models/MeetingRoomMember';
+import Module from '@edudoor/common/models/Module';
+import { ModelCreator } from '../../types';
 
 const modelNames = {
   Answer,
@@ -42,13 +43,13 @@ const env = process.env.NODE_ENV || 'development';
 const config = database[env];
 const sequelize = new Sequelize(process.env.DATABASE_URL, config);
 
-function createModels<T, K extends keyof T>(
+function createModels<T extends { [name: string]: ModelCreator<any> }, K extends keyof T>(
   models: T
 ): {
-  [name in keyof T]?: (new () => ReturnValue<T[name]>) & ReturnValue<T[name]>;
+  [name in keyof T]?: (new () => ReturnValue<ReturnValue<T[name]>>) & ReturnValue<ReturnValue<T[name]>>;
 } {
   return Object.keys(models).reduce((acc, modelName) => {
-    const model = sequelize.import(modelName, modelNames[modelName]);
+    const model = modelNames[modelName](sequelize);
     return {
       ...acc,
       [modelName]: model,
@@ -63,9 +64,7 @@ const models = {
 };
 
 Object.keys(modelNames).forEach(modelName => {
-  if (models[modelName].associate) {
-    models[modelName].associate(models);
-  }
+  models[modelName] = models[modelName]();
   models[modelName].beforeCreate(model => {
     model.id = Tools.generateId();
   });
