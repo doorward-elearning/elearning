@@ -27,6 +27,7 @@ import MRoute from '@edudoor/ui/routes/MRoute';
 import { Routes } from '@edudoor/ui/types';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import StudentGroups from '../screens/Students/StudentGroups';
+import CreateStudentGroup from '../screens/Students/CreateStudentGroup';
 
 export const routeNames = {
   home: 'Home',
@@ -66,6 +67,7 @@ export const routeNames = {
   teacherList: 'All Teachers',
   addTeacher: 'Add Teacher',
   studentGroups: 'Groups',
+  addStudentGroup: 'Add Student Group',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -102,7 +104,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
         students: new Route('/students').roles(Roles.TEACHER).with({
           studentList: new Route('/', StudentList).roles(Roles.TEACHER),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
-          studentGroups: new Route('/', StudentGroups).roles(Roles.TEACHER),
+          studentGroups: new Route('/groups', StudentGroups).roles(Roles.TEACHER).with({
+            addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
+          }),
         }),
         teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
           teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),

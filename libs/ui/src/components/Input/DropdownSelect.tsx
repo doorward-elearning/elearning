@@ -6,6 +6,7 @@ import './styles/DropdownSelect.scss';
 import './styles/TextField.scss';
 import { ThemeContext } from '../ApplicationTheme';
 import { Icons } from '../../types/icons';
+import { Omit } from '@edudoor/ui/types';
 
 const generateOptionsList = (options: { [name: string]: string }): Array<Option> => {
   return (Object.keys(options) as Array<keyof typeof options>).reduce(
@@ -69,7 +70,13 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
       <Icon icon={icon} className="eb-input__text-icon" />
       <div className="eb-input__dropdownSelect">
         <Select
-          values={props.multi ? value : [optionsList.find((option: any) => option.value === value)].filter(x => x)}
+          values={
+            props.multi
+              ? value
+                ? value
+                : []
+              : [optionsList.find((option: any) => option.value === value)].filter(x => x)
+          }
           options={optionsList}
           {...props}
           onChange={onChange}
