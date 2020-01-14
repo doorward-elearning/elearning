@@ -12,6 +12,8 @@ import {
   RegisterStudentsBody,
   RegistrationBody,
   UpdateModulesBody,
+  CreateGroupBody,
+  AddGroupMembersBody,
 } from './models/requestBody';
 import {
   TeacherListResponse,
@@ -26,6 +28,8 @@ import {
   StudentResponse,
   UserResponse,
   MeetingResponse,
+  GroupsResponse,
+  GroupResponse,
 } from './models/responseBody';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 import { ApiResponse } from '@edudoor/ui/services/services';
@@ -158,6 +162,17 @@ const Api = {
   meetings: {
     join: (id: string): Promise<MeetingResponse> => {
       return GET(`/meetings/${id}`);
+    },
+  },
+  groups: {
+    list: (): Promise<GroupsResponse> => {
+      return GET('/groups');
+    },
+    create: (body: CreateGroupBody): Promise<GroupResponse> => {
+      return POST('/groups');
+    },
+    addMembers: (groupId: string, members: AddGroupMembersBody): Promise<GroupResponse> => {
+      return POST(`/groups/${groupId}`, members);
     },
   },
 };

@@ -84,6 +84,11 @@ export default (sequelize, DataTypes) => {
       foreignKey: 'userId',
       as: 'passwordResets',
     });
+    User.belongsToMany(models.Group, {
+      foreignKey: 'userId',
+      as: 'groups',
+      through: models.GroupMember,
+    });
   };
   return User;
 };

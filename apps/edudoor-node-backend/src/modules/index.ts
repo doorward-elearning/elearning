@@ -4,6 +4,7 @@ import courses from './courses';
 import reports from './reports';
 import healthCheck from './healthcheck';
 import meetingRooms from './meetings';
+import groups from './groups';
 import { Application } from 'express';
 
 const modules = {
@@ -12,6 +13,7 @@ const modules = {
   reports,
   healthCheck,
   meetingRooms,
+  groups,
 };
 
 const apiVersion = '/api/v1';

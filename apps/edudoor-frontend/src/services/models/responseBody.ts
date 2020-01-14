@@ -7,6 +7,7 @@ import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 import { Course } from '@edudoor/common/models/Course';
 import { MeetingRoom } from '@edudoor/common/models/MeetingRoom';
 import { Meeting } from '@edudoor/common/models/Meeting';
+import { Group } from '@edudoor/common/models/Group';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -58,4 +59,12 @@ export interface CourseModuleListResponse extends ApiResponse {
 
 export interface MeetingResponse extends ApiResponse {
   meeting: Meeting;
+}
+
+export interface GroupResponse extends ApiResponse {
+  group: Group;
+}
+
+export interface GroupsResponse extends ApiResponse {
+  groups: Array<Group>;
 }
