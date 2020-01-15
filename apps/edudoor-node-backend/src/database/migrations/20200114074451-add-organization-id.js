@@ -1,12 +1,13 @@
+const tables = ['MeetingRooms', 'Courses'];
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    const tables = ['MeetingRooms', 'Course'];
-
     await Promise.all(
       tables.map(async table => {
         return queryInterface.addColumn(table, 'organizationId', {
           type: Sequelize.STRING,
           onDelete: 'cascade',
+          defaultValue: process.env.ORGANIZATION_ID,
           references: {
             model: 'Organizations',
             key: 'id',
@@ -25,5 +26,14 @@ module.exports = {
     });
   },
 
-  down: (queryInterface, Sequelize) => {},
+  down: async (queryInterface, Sequelize) => {
+    await Promise.all(
+      tables.map(async table => {
+        return queryInterface.removeColumn(table, 'organizationId');
+      })
+    );
+    await queryInterface.removeColumn('MeetingRooms', 'deletedAt');
+    await queryInterface.removeColumn('Meetings', 'deletedAt');
+    await queryInterface.removeColumn('GroupMembers', 'deletedAt');
+  },
 };

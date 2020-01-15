@@ -12,6 +12,9 @@ class UserController {
   static async login(req) {
     const { username } = req.body;
     const user = await models.User.findOne({ where: { username }, include: UserInclude });
+    if (!user) {
+      return [404, undefined, 'The user does not exist'];
+    }
 
     return [200, { token: JWT.generate(user.dataValues), user }, 'Login successful'];
   }
