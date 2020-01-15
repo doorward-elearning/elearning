@@ -1,5 +1,5 @@
 import database from '../../config/database';
-import { Sequelize } from 'sequelize';
+import { Options, Sequelize } from 'sequelize';
 import Tools from '@edudoor/common/utils/Tools';
 import { ReturnValue } from '@edudoor/common/types';
 import Answer from '@edudoor/common/models/Answer';
@@ -41,7 +41,7 @@ const modelNames = {
 
 const env = process.env.NODE_ENV || 'development';
 const config = database[env];
-const sequelize = new Sequelize(process.env.DATABASE_URL, config);
+const sequelize = new Sequelize(process.env.DATABASE_URL, config as Options);
 
 function createModels<T extends { [name: string]: ModelCreator<any> }, K extends keyof T>(
   models: T

@@ -7,14 +7,14 @@ export type HandleDrop = (dropResult: DropResult, items: Array<Module>) => Array
 
 function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
   const handleDrop = (dropResult: DropResult, items: Array<Module>) => {
-    let updatedModules = items;
+    let updatedModules: any = items;
     if (dropResult.type === 'MODULES') {
       updatedModules = Tools.handleReorder(items, 'id', dropResult);
     } else {
       const newItems = [...items];
       if (dropResult.destination) {
         const sourceModule = newItems.findIndex(m => m.id === dropResult.source.droppableId);
-        const destinationModule = newItems.findIndex(m => m.id === dropResult.destination?.droppableId);
+        const destinationModule = newItems.findIndex(m => m.id === '' + dropResult.destination?.droppableId);
 
         const moduleItem = newItems[sourceModule].items.find(item => item.id === dropResult.draggableId);
 

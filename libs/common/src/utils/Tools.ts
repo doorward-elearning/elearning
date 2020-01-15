@@ -112,7 +112,7 @@ class Tools {
     return moment(str).format('DD/MM/YYYY');
   }
 
-  static normalDate(str: string): string {
+  static normalDate(str: string | Date): string {
     return moment(str).format('Do MMMM YYYY');
   }
 
