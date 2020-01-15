@@ -26,6 +26,8 @@ export class User extends Model implements DBModel {
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
 
+  public readonly fullName: string;
+
   public readonly organization?: Organization;
   public readonly roles?: Array<Role>;
 

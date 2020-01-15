@@ -1,8 +1,6 @@
 version: '2.1'
 
 volumes:
-  openolat_data:
-    external: true
   edudoor_data:
     external: true
 

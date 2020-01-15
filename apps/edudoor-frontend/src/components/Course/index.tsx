@@ -3,7 +3,7 @@ import './Course.scss';
 import EImage from '@edudoor/ui/components/Image';
 import Card from '@edudoor/ui/components/Card';
 import Header from '@edudoor/ui/components/Header';
-import { Course } from '@edudoor/common/models/Course';
+import { Course as CourseModel } from '@edudoor/common/models/Course';
 
 const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
   return (
@@ -22,7 +22,7 @@ const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
 };
 
 export interface CourseProps {
-  course: Course;
+  course: CourseModel;
   onClick: MouseEventHandler;
 }
 

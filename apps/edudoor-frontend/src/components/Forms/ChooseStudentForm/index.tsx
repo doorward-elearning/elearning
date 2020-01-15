@@ -27,11 +27,14 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
     props.onSuccess();
   };
 
-  const createStudentList = (students: Array<Student>): Array<{ selected: boolean } & Student> => {
-    return students.map(student => ({
-      selected: false,
-      ...student,
-    }));
+  const createStudentList = (students: Array<Student>): Array<Student & { selected: boolean }> => {
+    return students.map(
+      student =>
+        ({
+          selected: false,
+          ...student,
+        } as Student & { selected: boolean })
+    );
   };
 
   const state = useSelector((state: State) => state.courses.registerStudents);

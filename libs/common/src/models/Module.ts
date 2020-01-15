@@ -15,7 +15,7 @@ export class Module extends Model implements DBModel {
   public readonly updatedAt: Date;
 
   public readonly course: Course;
-  public readonly items: Array<ModuleItem>;
+  public  items: Array<ModuleItem>;
 }
 
 export default (sequelize: Sequelize) => {
