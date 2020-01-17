@@ -3,6 +3,7 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@edudoor/ui/types';
 import GroupsTable from '../../components/Tables/GroupsTable';
 import useRoutes from '../../hooks/useRoutes';
+import Groups from '@edudoor/common/utils/GroupTypes';
 
 const StudentGroups: React.FunctionComponent<StudentGroupsProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -18,7 +19,7 @@ const StudentGroups: React.FunctionComponent<StudentGroupsProps> = (props): JSX.
         },
       }}
     >
-      <GroupsTable type="students" />
+      <GroupsTable type={Groups.STUDENT} />
     </Layout>
   );
 };

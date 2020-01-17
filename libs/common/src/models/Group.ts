@@ -8,22 +8,23 @@ export class Group extends Model implements DBModel {
   public id: string;
   public name: string;
   public type: string;
+  public createdBy: string;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
 
+  public readonly creator: User;
   public readonly members: Array<User>;
-
-  public static Types = {
-    STUDENT: 'Student',
-  };
 }
 
 export default (sequelize: Sequelize) => {
   Group.init(
     {
       name: DataTypes.STRING,
+      type: DataTypes.STRING,
+      createdBy: DataTypes.STRING,
+      organizationId: DataTypes.STRING,
     },
     {
       tableName: 'Groups',
@@ -40,7 +41,11 @@ export default (sequelize: Sequelize) => {
     Group.belongsToMany(User, {
       as: 'members',
       through: GroupMember,
-      foreignKey: 'userId',
+      foreignKey: 'groupId',
+    });
+    Group.belongsTo(User, {
+      as: 'creator',
+      foreignKey: 'createdBy',
     });
     return Group;
   };

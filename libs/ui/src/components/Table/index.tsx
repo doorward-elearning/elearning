@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useEffect, useState } from 'react';
 import './Table.scss';
 import classNames from 'classnames';
 import Panel from '../Panel';
+import Tools from '@edudoor/common/utils/Tools';
 
 function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
@@ -45,7 +46,15 @@ function renderRow<T, K extends TableColumns>(item: T, index: number, props: Tab
   return (
     <tr key={index} onClick={onRowClick}>
       {Object.keys(props.columns).map(columnKey => {
-        return <td key={columnKey}>{props.getCell(item, index, columnKey as keyof K)}</td>;
+        return (
+          <td key={columnKey}>
+            {props.getCell ? (
+              props.getCell(item, index, columnKey as keyof K)
+            ) : (
+              <span>{Tools.str(item[columnKey as keyof typeof item])}</span>
+            )}
+          </td>
+        );
       })}
     </tr>
   );
@@ -92,7 +101,7 @@ export interface TableProps<T, K extends TableColumns> extends PropsWithChildren
   onRowClick?: (row: T, index: number) => void;
   className?: string;
   data: Array<T>;
-  getCell: (row: T, index: number, column: keyof K) => JSX.Element | string;
+  getCell?: (row: T, index: number, column: keyof K) => JSX.Element | string;
   columns: K;
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;
