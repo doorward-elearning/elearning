@@ -68,10 +68,11 @@ export const routeNames = {
   teachers: 'Teachers',
   teacherList: 'All Teachers',
   addTeacher: 'Add Teacher',
-  studentGroups: 'Groups',
+  studentGroups: 'Students',
   addStudentGroup: 'Add Student Group',
-  teacherGroups: 'Groups',
+  teacherGroups: 'Teachers',
   addTeacherGroup: 'Add Teacher Group',
+  groups: 'Groups',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -108,16 +109,10 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
         students: new Route('/students').roles(Roles.TEACHER).with({
           studentList: new Route('/', StudentList).roles(Roles.TEACHER),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
-          studentGroups: new Route('/groups', StudentGroups).roles(Roles.TEACHER).with({
-            addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
-          }),
         }),
         teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
           teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
           addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
-          teacherGroups: new Route('/groups', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
-            addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
-          }),
         }),
         myProfile: new Route('/profile/:username', Profile).with({
           changePassword: new Route('/changePassword', Profile),
@@ -129,6 +124,14 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           courseListReports: new Route('/courses', Error404),
           teacherListReports: new Route('/teachers', TeacherListReport).roles().with({
             teacherReport: new Route('/:teacherId', TeacherReport),
+          }),
+        }),
+        groups: new Route('/groups').roles(Roles.SUPER_ADMINISTRATOR, Roles.TEACHER).with({
+          teacherGroups: new Route('/teachers', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
+            addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
+          }),
+          studentGroups: new Route('/groups', StudentGroups).roles(Roles.TEACHER).with({
+            addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
           }),
         }),
       }),

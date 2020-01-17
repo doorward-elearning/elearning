@@ -19,12 +19,17 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
     {
       ...routes.students,
       icon: 'account_circle',
-      subMenu: [routes.studentList, routes.newStudent, routes.studentGroups],
+      subMenu: [routes.studentList, routes.newStudent],
     },
     {
       ...routes.teachers,
+      icon: 'work',
+      subMenu: [routes.teacherList, routes.addTeacher],
+    },
+    {
+      ...routes.groups,
       icon: 'people',
-      subMenu: [routes.teacherList, routes.addTeacher, routes.teacherGroups],
+      subMenu: [routes.studentGroups, routes.teacherGroups],
     },
     {
       ...routes.reports,

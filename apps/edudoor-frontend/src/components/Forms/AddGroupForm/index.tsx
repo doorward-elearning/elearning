@@ -38,6 +38,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
       initialValues={initialValues}
       validationSchema={validation}
       showSuccessToast
+      onSuccess={props.onSuccess}
       submitAction={createGroupAction}
       state={state}
       createData={values => [
@@ -111,6 +112,7 @@ export interface AddGroupFormProps {
   users: Array<User>;
   title: string;
   type?: string;
+  onSuccess: () => void;
 }
 
 export default AddGroupForm;
