@@ -1,3 +1,10 @@
 .ed-user-chooser {
+  display: grid;
+  grid-gap: var(--padding);
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
 
+  &__root {
+    display: grid;
+    grid-gap: var(--padding);
+  }
 }

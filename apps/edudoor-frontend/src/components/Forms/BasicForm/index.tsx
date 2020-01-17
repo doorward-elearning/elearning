@@ -8,6 +8,7 @@ import Button from '@edudoor/ui/components/Buttons/Button';
 import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
 import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
+import {Omit} from '@edudoor/ui/types';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,

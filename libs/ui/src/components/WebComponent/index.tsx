@@ -37,7 +37,7 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
     }
   }, [props]);
   const loader = props.loader === undefined ? <Spinner height={30} width={30} /> : props.loader;
-  const empty = props.empty === undefined ? <Empty {...props} /> : props.empty;
+  const empty = props.empty === undefined ? <Empty {...props} message={props.emptyMessage} /> : props.empty;
 
   if (hasItems && props.data) {
     return (

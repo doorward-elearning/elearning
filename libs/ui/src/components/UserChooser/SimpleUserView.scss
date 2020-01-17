@@ -1,0 +1,14 @@
+.simple-user-view {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: var(--padding);
+  padding: var(--padding-lg);
+  align-items: center;
+  transition: 0.5s box-shadow;
+  &.clickable {
+    cursor: pointer;
+    &:hover {
+      box-shadow: var(--box-shadow);
+    }
+  }
+}

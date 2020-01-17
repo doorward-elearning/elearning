@@ -21,9 +21,12 @@ function ItemArray<T>(props: ArrayProps<T>): JSX.Element {
       if (props.sort) {
         newData = newData.sort(props.sort);
       }
+      if (props.filter) {
+        newData = newData.filter(props.filter);
+      }
       setData(newData);
     }
-  }, [props.data]);
+  }, [props.data, props.filter]);
 
   return (
     <IfElse condition={data}>
@@ -47,6 +50,7 @@ export interface ArrayProps<T> {
   count?: number;
   sort?: (a: T, b: T) => number;
   getKey?: (item: T) => string;
+  filter?: (a: T) => boolean;
 }
 
 export default ItemArray;

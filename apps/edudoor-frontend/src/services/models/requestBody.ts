@@ -69,6 +69,7 @@ export interface RegisterStudentsBody {
 
 export interface CreateGroupBody extends AddGroupMembersBody {
   name: string;
+  type: string;
 }
 
 export interface AddGroupMembersBody {

@@ -14,6 +14,10 @@ export class GroupMember extends Model implements DBModel {
 export default (sequelize: Sequelize) => {
   GroupMember.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       role: DataTypes.ENUM('ADMINISTRATOR', 'PARTICIPANT'),
     },
     {
