@@ -33,12 +33,18 @@ spec:
               containerPort: {{ .Values.service.targetport }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            failureThreshold: 3
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 3
+            tcpSocket:
               port: {{ .Values.service.targetport }}
           readinessProbe:
-            httpGet:
-              path: /
+            failureThreshold: 3
+            periodSeconds: {{ .Values.container.startupseconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            tcpSocket:
               port: {{ .Values.service.targetport }}
           env:
           - name: openvidu.secret

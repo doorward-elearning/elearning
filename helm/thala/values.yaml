@@ -72,7 +72,10 @@ thaladbname: edudoor
 thaladbuser: postgres
 thaladbpassword: postgres
 thaladbhostpostfix: thaladb
-thaladbport:
+thaladbport: 5434
 #samvadamurl: https://edudoor-openvidu-service:4443
 samvadamhostpostfix: samvadam
 samvadamport: 4443
+
+container:
+  startupseconds: 60
