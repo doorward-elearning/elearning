@@ -69,3 +69,6 @@ affinity: {}
 # This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.edudoor.org/api/v1)
 thalaapiprefix: nodeapi
 containerport: 3000
+
+container:
+  startupseconds: 60

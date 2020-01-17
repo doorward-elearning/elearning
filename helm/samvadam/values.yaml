@@ -71,3 +71,5 @@ samvadamsecretkey: password
 samvadampublicurlprefix: vidu
 samvadamwebhook: true
 samvadamwebhookevents: '[''sessionCreated'', ''sessionDestroyed'', ''recordingStatusChanged'']'
+container:
+  startupseconds: 60

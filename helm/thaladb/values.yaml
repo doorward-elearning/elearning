@@ -82,3 +82,6 @@ thaladbconfigmappostfix: thaladb
 storage:
   class: databases-slow
   size: 7Gi
+
+container:
+  startupseconds: 60
