@@ -1,3 +1,7 @@
 FROM edudoor:1.0.0
 
-CMD ["/usr/app/apps/edudoor-node-backend/entrypoint.sh"]
+EXPOSE 7000
+
+RUN chmod +x /usr/app/docker/production/edudoor-node-backend/entrypoint.sh
+
+ENTRYPOINT ["/usr/app/docker/production/edudoor-node-backend/entrypoint.sh"]
