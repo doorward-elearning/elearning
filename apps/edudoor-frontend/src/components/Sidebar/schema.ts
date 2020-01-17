@@ -24,7 +24,7 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
     {
       ...routes.teachers,
       icon: 'people',
-      subMenu: [routes.teacherList, routes.addTeacher],
+      subMenu: [routes.teacherList, routes.addTeacher, routes.teacherGroups],
     },
     {
       ...routes.reports,
