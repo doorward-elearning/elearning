@@ -1,22 +1,25 @@
 import React from 'react';
 import TextField from '@edudoor/ui/components/Input/TextField';
-import countries from 'country-list';
-import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
-import Form from '@edudoor/ui/components/Form';
 import useForm from '@edudoor/ui/hooks/useForm';
+import { User } from '@edudoor/common/models/User';
+import { useSelector } from 'react-redux';
+import { State } from '../../../store';
+import UserChooser from '@edudoor/ui/components/UserChooser';
 
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
   const form = useForm();
+  const state = useSelector((state: State) => state.groups.groupList);
+
   return (
     <div>
-      <Form form={form} initialValues={{}} onSubmit={() => {}}>
-        <TextField name="name" placeholder="Name" />
-        <DropdownSelect options={countries.getNames()} name="members" multi />
-      </Form>
+      <TextField name="name" placeholder="Name" />
+      <UserChooser users={props.users} />
     </div>
   );
 };
 
-export interface AddGroupFormProps {}
+export interface AddGroupFormProps {
+  users: Array<User>;
+}
 
 export default AddGroupForm;

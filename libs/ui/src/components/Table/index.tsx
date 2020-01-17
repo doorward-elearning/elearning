@@ -3,7 +3,7 @@ import './Table.scss';
 import classNames from 'classnames';
 import Panel from '../Panel';
 
-function Table<T, K>(props: TableProps<T, K>): JSX.Element {
+function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
   const [filtered, setFiltered] = useState(data);
 
@@ -11,7 +11,6 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
     setData(props.data);
     setFiltered(props.data);
   }, [props.data, data]);
-
 
   useEffect(() => {
     if (props.filter) {
@@ -37,7 +36,7 @@ function Table<T, K>(props: TableProps<T, K>): JSX.Element {
   );
 }
 
-function renderRow<T, K>(item: T, index: number, props: TableBodyProps<T, K>): JSX.Element {
+function renderRow<T, K extends TableColumns>(item: T, index: number, props: TableBodyProps<T, K>): JSX.Element {
   const onRowClick = (): void => {
     if (props.onRowClick) {
       props.onRowClick(item, index);
@@ -52,7 +51,7 @@ function renderRow<T, K>(item: T, index: number, props: TableBodyProps<T, K>): J
   );
 }
 
-function TableBody<T, K>(props: TableBodyProps<T, K>): JSX.Element {
+function TableBody<T, K extends TableColumns>(props: TableBodyProps<T, K>): JSX.Element {
   return (
     <tbody>
       {props.data.map(
@@ -63,7 +62,7 @@ function TableBody<T, K>(props: TableBodyProps<T, K>): JSX.Element {
     </tbody>
   );
 }
-function TableHeader<T>(props: TableHeaderProps<T>): JSX.Element {
+function TableHeader<T extends TableColumns>(props: TableHeaderProps<T>): JSX.Element {
   return (
     <thead>
       <tr>
@@ -75,18 +74,21 @@ function TableHeader<T>(props: TableHeaderProps<T>): JSX.Element {
   );
 }
 
-export interface TableHeaderProps<K> {
+export type TableColumns = {
+  [name: string]: string;
+};
+export interface TableHeaderProps<K extends TableColumns> {
   columns: K;
 }
 
-export interface TableBodyProps<T, K> {
+export interface TableBodyProps<T, K extends TableColumns> {
   onRowClick?: (row: T, index: number) => void;
   getCell: (row: T, index: number, column: keyof K) => JSX.Element | string;
   data: Array<T>;
   columns: K;
 }
 
-export interface TableProps<T, K> extends PropsWithChildren<any> {
+export interface TableProps<T, K extends TableColumns> extends PropsWithChildren<any> {
   onRowClick?: (row: T, index: number) => void;
   className?: string;
   data: Array<T>;
