@@ -1,12 +1,12 @@
 import models from '../../database/models';
 import GroupHelper from '../../helpers/GroupHelper';
+import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 
 class GroupsController {
   static async createGroup(req) {
     const {
-      body: { name, members },
+      body: { name, members, type },
       user,
-      type,
     } = req;
 
     // create the group
@@ -14,6 +14,7 @@ class GroupsController {
       name,
       createdBy: user.id,
       type,
+      organizationId: OrganizationUtils.getId(),
     });
 
     await GroupHelper.addUsersToGroup(group.id, members, user.id);
@@ -55,6 +56,10 @@ class GroupsController {
         {
           model: models.User,
           as: 'members',
+        },
+        {
+          model: models.User,
+          as: 'creator',
         },
       ],
     });

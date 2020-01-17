@@ -19,6 +19,7 @@ export default (sequelize: Sequelize) => {
         primaryKey: true,
       },
       role: DataTypes.ENUM('ADMINISTRATOR', 'PARTICIPANT'),
+      addedBy: DataTypes.STRING,
     },
     {
       tableName: 'GroupMembers',
