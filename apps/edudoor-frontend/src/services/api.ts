@@ -165,8 +165,8 @@ const Api = {
     },
   },
   groups: {
-    list: (): Promise<GroupsResponse> => {
-      return GET('/groups');
+    list: (type: string): Promise<GroupsResponse> => {
+      return GET('/groups?type=' + type);
     },
     create: (body: CreateGroupBody): Promise<GroupResponse> => {
       return POST('/groups', body);

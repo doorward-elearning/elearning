@@ -27,7 +27,7 @@ class GroupsController {
         },
       ],
     });
-    return [201, group, 'The group has been created'];
+    return [201, { group }, 'The group has been created'];
   }
 
   static async addUserToGroup(req) {
@@ -50,8 +50,15 @@ class GroupsController {
     return [201, group, 'Users have been added to the group'];
   }
 
-  static async getGroups() {
+  static async getGroups(req) {
+    const { type } = req.query;
+
+    const where: { type?: string } = {};
+    if (type) {
+      where.type = type;
+    }
     const groups = await models.Group.findAll({
+      where,
       include: [
         {
           model: models.User,
