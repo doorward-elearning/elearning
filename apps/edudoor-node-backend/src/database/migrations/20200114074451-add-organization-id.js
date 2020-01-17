@@ -1,4 +1,4 @@
-const tables = ['MeetingRooms', 'Courses'];
+const tables = ['MeetingRooms', 'Courses', 'Groups'];
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -29,7 +29,7 @@ module.exports = {
   down: async (queryInterface, Sequelize) => {
     await Promise.all(
       tables.map(async table => {
-        return queryInterface.removeColumn(table, 'organizationId');
+        // return queryInterface.removeColumn(table, 'organizationId');
       })
     );
     await queryInterface.removeColumn('MeetingRooms', 'deletedAt');
