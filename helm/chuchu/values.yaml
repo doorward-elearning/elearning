@@ -33,7 +33,7 @@ securityContext: {}
 service:
   type: LoadBalancer
   port: 80
-  targetport: 3000
+  targetport: 5000
 
 ingress:
   enabled: false
