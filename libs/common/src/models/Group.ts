@@ -7,12 +7,17 @@ import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 export class Group extends Model implements DBModel {
   public id: string;
   public name: string;
+  public type: string;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
 
   public readonly members: Array<User>;
+
+  public static Types = {
+    STUDENT: 'Student',
+  };
 }
 
 export default (sequelize: Sequelize) => {

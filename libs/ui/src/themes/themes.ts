@@ -13,7 +13,7 @@ const base = {
   '--font-family':
     '"Sailec-Regular",system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif',
   '--line-color': 'rgba(0, 0, 0, .1)',
-  '--shadow-color': 'rgba(0, 0, 0, .08)',
+  '--shadow-color': 'rgba(50, 50, 50, .08)',
   '--shadow-color--darker': 'rgba(0, 0, 0, .15)',
   '--border-radius': '0em',
   '--padding-sm': '4px',
@@ -24,7 +24,7 @@ const base = {
   '--text-error': 'rgb(185,0,0)',
   '--text-success': '#118f0e',
   '--accent': '#FF4081',
-  '--box-shadow': '0 2px 6px 4px var(--shadow-color)',
+  '--box-shadow': '0 2px 15px 6px var(--shadow-color)',
   '--box-shadow--hover': '2px 6px 12px 2px var(--shadow-color--darker)',
   '--sidebar-size': '300px',
   '--navBar-size': '70px',

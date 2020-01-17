@@ -14,7 +14,7 @@ export enum InputFeatures {
 const checkRequired = (field: string, schema: any) => {
   // TODO Make this function resolve more complex objects
 
-  if(field){
+  if (field) {
     field = field.replace(new RegExp('\\[', 'g'), '.').replace(new RegExp(']', 'g'), '');
     const fields = field.split('.');
     for (let i = 0; i < fields.length; i++) {
@@ -43,7 +43,7 @@ function withInput<R extends InputProps>(
     const { name } = props;
     return (
       <FormContext.Consumer>
-        {({ formikProps = {}, editable, validationSchema }): JSX.Element => {
+        {({ formikProps, editable, validationSchema }): JSX.Element => {
           const inputProps: any = { ...props, formikProps };
           inputProps.onChange = formikProps.handleChange || props.onChange;
           inputProps.onBlur = formikProps.handleBlur;

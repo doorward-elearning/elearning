@@ -169,7 +169,7 @@ const Api = {
       return GET('/groups');
     },
     create: (body: CreateGroupBody): Promise<GroupResponse> => {
-      return POST('/groups');
+      return POST('/groups', body);
     },
     addMembers: (groupId: string, members: AddGroupMembersBody): Promise<GroupResponse> => {
       return POST(`/groups/${groupId}`, members);

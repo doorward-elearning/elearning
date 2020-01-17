@@ -1,0 +1,32 @@
+.add-group-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  .member-list {
+    max-width: 500px;
+
+    &__header {
+      padding: var(--padding-lg) 0;
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+
+  &__selected {
+    &--list {
+      display: grid;
+      grid-gap: 1em;
+
+      .remove-member {
+        color: var(--text-error);
+      }
+    }
+  }
+
+  .error-message {
+    color: var(--text-error);
+    padding: var(--padding) 0;
+    font-size: 0.8em;
+  }
+}

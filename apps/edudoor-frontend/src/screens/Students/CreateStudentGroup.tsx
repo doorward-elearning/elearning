@@ -7,6 +7,7 @@ import { State } from '../../store';
 import useAction from '@edudoor/ui/hooks/useActions';
 import { fetchStudentListAction } from '../../reducers/students/actions';
 import WebComponent from '@edudoor/ui/components/WebComponent';
+import { Group } from '@edudoor/common/models/Group';
 
 const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (props): JSX.Element => {
   const studentList = useSelector((state: State) => state.students.studentList);
@@ -22,7 +23,7 @@ const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (pr
         loading={studentList.fetching}
         emptyMessage="No students have been created yet"
       >
-        {students => <AddGroupForm users={students} />}
+        {students => <AddGroupForm users={students} title="Students" type={Group.Types.STUDENT} />}
       </WebComponent>
     </Layout>
   );

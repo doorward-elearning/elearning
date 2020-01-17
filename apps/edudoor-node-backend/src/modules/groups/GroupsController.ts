@@ -6,27 +6,26 @@ class GroupsController {
     const {
       body: { name, members },
       user,
+      type,
     } = req;
 
     // create the group
-    const group = await models.Group.create(
-      {
-        name,
-        createdBy: user.id,
-      },
-      {
-        include: [
-          {
-            model: models.User,
-            as: 'members',
-          },
-        ],
-      }
-    );
+    let group = await models.Group.create({
+      name,
+      createdBy: user.id,
+      type,
+    });
 
     await GroupHelper.addUsersToGroup(group.id, members, user.id);
 
-    await group.reload();
+    group = await models.Group.findByPk(group.id, {
+      include: [
+        {
+          model: models.User,
+          as: 'members',
+        },
+      ],
+    });
     return [201, group, 'The group has been created'];
   }
 
