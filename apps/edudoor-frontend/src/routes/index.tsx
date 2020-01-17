@@ -28,6 +28,8 @@ import { Routes } from '@edudoor/ui/types';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import StudentGroups from '../screens/Students/StudentGroups';
 import CreateStudentGroup from '../screens/Students/CreateStudentGroup';
+import TeacherGroups from '../screens/Teachers/TeacherGroups';
+import CreateTeacherGroup from '../screens/Teachers/CreateTeacherGroup';
 
 export const routeNames = {
   home: 'Home',
@@ -68,6 +70,8 @@ export const routeNames = {
   addTeacher: 'Add Teacher',
   studentGroups: 'Groups',
   addStudentGroup: 'Add Student Group',
+  teacherGroups: 'Groups',
+  addTeacherGroup: 'Add Teacher Group',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -111,6 +115,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
         teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
           teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
           addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
+          teacherGroups: new Route('/groups', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
+            addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
+          }),
         }),
         myProfile: new Route('/profile/:username', Profile).with({
           changePassword: new Route('/changePassword', Profile),
