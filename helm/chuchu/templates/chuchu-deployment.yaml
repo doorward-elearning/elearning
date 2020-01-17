@@ -30,16 +30,16 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: {{ .Values.containerport}}
+              containerPort: {{ .Values.service.targetport }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
           env:
             - name: REACT_APP_BASE_URL
               valueFrom:

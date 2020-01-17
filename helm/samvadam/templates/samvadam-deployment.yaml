@@ -30,16 +30,16 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 4443
+              containerPort: {{ .Values.service.targetport }}
               protocol: TCP
           livenessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
           readinessProbe:
             httpGet:
               path: /
-              port: http
+              port: {{ .Values.service.targetport }}
           env:
           - name: openvidu.secret
             valueFrom:
