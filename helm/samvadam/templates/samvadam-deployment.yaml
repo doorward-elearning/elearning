@@ -33,12 +33,10 @@ spec:
               containerPort: {{ .Values.service.targetport }}
               protocol: TCP
           livenessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: {{ .Values.service.targetport }}
           readinessProbe:
-            httpGet:
-              path: /
+            tcpSocket:
               port: {{ .Values.service.targetport }}
           env:
           - name: openvidu.secret

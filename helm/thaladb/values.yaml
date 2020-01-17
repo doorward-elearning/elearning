@@ -33,7 +33,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 5434
+  targetport: 5432
 
 ingress:
   enabled: false
@@ -73,7 +74,7 @@ service:
   targetport: 5432
   protocol: mysql
 
-thaladbname: openolat
+thaladbname: edudoor
 thaladbpassword: postgres
 thaladbuser: postgres
 thaladbconfigmappostfix: thaladb
