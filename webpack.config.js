@@ -21,7 +21,9 @@ module.exports = config => {
       systemvars: true,
     })
   );
-  config.devServer.hot = true;
+  if (config.devServer) {
+    config.devServer.hot = true;
+  }
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   return babelWebpackConfig(config);
 };

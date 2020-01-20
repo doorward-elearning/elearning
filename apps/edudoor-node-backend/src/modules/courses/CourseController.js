@@ -84,6 +84,7 @@ class CourseController {
             model: models.User,
             as: 'students',
             attributes: [],
+            required: false,
           },
           {
             model: models.User,
