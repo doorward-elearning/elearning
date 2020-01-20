@@ -2,7 +2,9 @@ FROM edudoor:1.0.0
 
 EXPOSE 7000
 
-COPY ../../../apps/edudoor-node-backend /usr/app
+COPY . /usr/app
+
+RUN yarn install
 
 RUN chmod +x /usr/app/docker/production/edudoor-node-backend/entrypoint.sh
 
