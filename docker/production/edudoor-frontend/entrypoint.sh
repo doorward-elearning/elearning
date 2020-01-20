@@ -1,3 +1,6 @@
 #!/usr/bin/env bash
 
-yarn start edudoor-frontend
+yarn build edudoor-frontend
+
+serve -s /usr/app/dist/apps/edudoor-frontend/
+
