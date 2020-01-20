@@ -71,4 +71,4 @@ thalaapiprefix: nodeapi
 containerport: 3000
 
 container:
-  startupseconds: 60
+  startupseconds: 300

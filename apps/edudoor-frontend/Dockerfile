@@ -6,4 +6,4 @@ RUN npm install -g serve
 
 EXPOSE 5000
 
-CMD ["/usr/app/docker/production/edudoor-frontend/entrypoint.sh"]
+ENTRYPOINT ["/usr/app/docker/production/edudoor-frontend/entrypoint.sh"]
