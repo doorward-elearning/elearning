@@ -1,0 +1,15 @@
+pipeline {
+  agent any
+
+  environment {
+    PROJECT_NAME = 'edudoor'
+  }
+
+  stages {
+    stage('Install dependencies') {
+      steps {
+        echo "Installing dependencies"
+      }
+    }
+  }
+}
