@@ -12,7 +12,7 @@ pipeline {
   stages {
     stage('Load deployment environment variable file') {
       steps {
-        sh 'Loading variables'
+        sh "Loading variables"
       }
     }
 
@@ -24,19 +24,19 @@ pipeline {
 
     stage('Install dependencies') {
       steps {
-        sh 'yarn install'
+        sh "yarn install"
       }
     }
 
     stage("Build") {
       steps {
-        sh: 'yarn build'
+        sh: "yarn build"
       }
     }
 
     stage('Deploy') {
       steps {
-        sh: './jenkins/scripts/build_deploy.sh'
+        sh: "./jenkins/scripts/build_deploy.sh"
       }
     }
   }
