@@ -64,9 +64,9 @@ Create the name of the service account to use
 
 
 {{- define "samvadam.samvadampublicurl" -}}
-https://{{- .Values.samvadampublicurlprefix -}}.{{- .Values.customer -}}.edudoor.org
+http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.samvadamuri -}}
 {{- end -}}
 
 {{- define "samvadam.samvadamwebhookendpoint" -}}
-https://{{- .Values.customer -}}-{{- .Chart.Name -}}:{{- .Values.containerport -}}/api/v1/meetingRooms/webhook
+http://{{- .Values.customer -}}-{{- .Chart.Name -}}/api/v1/meetingRooms/webhook
 {{- end -}}

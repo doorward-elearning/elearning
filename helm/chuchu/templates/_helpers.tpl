@@ -64,5 +64,5 @@ Create the name of the service account to use
 
 
 {{- define "chuchu.thalapublicurl" -}}
-http://{{- .Values.thalaapiprefix -}}.{{- .Values.customer -}}.edudoor.org/api/v1/
+http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
 {{- end -}}

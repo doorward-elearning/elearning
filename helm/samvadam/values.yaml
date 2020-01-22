@@ -32,7 +32,7 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 4443
+  port: 443
   targetport: 4443
 
 ingress:
@@ -70,6 +70,11 @@ samvadamcontainerport: 4443
 samvadamsecretkey: password
 samvadampublicurlprefix: vidu
 samvadamwebhook: true
-samvadamwebhookevents: '[''sessionCreated'', ''sessionDestroyed'', ''recordingStatusChanged'']'
+samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
 container:
-  startupseconds: 60
+  startupseconds: 180
+
+api:
+  domain: api.edudoor.org
+  samvadamuri: samvadam
+  thalauri: thala

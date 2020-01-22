@@ -31,8 +31,8 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
-  port: 7000
+  type: ClusterIP
+  port: 80
   targetport: 7000
   protocol: http
 

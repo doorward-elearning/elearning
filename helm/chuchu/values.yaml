@@ -31,7 +31,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
-  type: LoadBalancer
+  type: ClusterIP
   port: 80
   targetport: 5000
 
@@ -68,7 +68,12 @@ affinity: {}
 
 # This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.edudoor.org/api/v1)
 thalaapiprefix: nodeapi
-containerport: 3000
+containerport: 5000
 
 container:
   startupseconds: 60
+
+api:
+  domain: api.edudoor.org
+  samvadamuri: samvadam
+  thalauri: thala
