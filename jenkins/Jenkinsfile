@@ -1,14 +1,42 @@
 pipeline {
-  agent any
+  agent {
+    docker {
+      image 'node:dubnium'
+    }
+  }
 
   environment {
     PROJECT_NAME = 'edudoor'
   }
 
   stages {
+    stage('Load deployment environment variable file') {
+      steps {
+        sh 'Loading variables'
+      }
+    }
+
+    stage('Make all the scripts used in this build executable') {
+      steps {
+        sh "chmod +x jenkins/scripts/*"
+      }
+    }
+
     stage('Install dependencies') {
       steps {
-        echo "Installing dependencies"
+        sh 'yarn install'
+      }
+    }
+
+    stage("Build") {
+      steps {
+        sh: 'yarn build'
+      }
+    }
+
+    stage('Deploy') {
+      steps {
+        sh: './jenkins/scripts/build_deploy.sh'
       }
     }
   }
