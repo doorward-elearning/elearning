@@ -17,6 +17,20 @@ start:
 	@ COMPOSE_HTTP_TIMEOUT=200 docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_frontend &
 
 
+build:
+	@ ${INFO} "Building required docker images"
+	@ docker image inspect edudoor:1.0.0 >/dev/null 2>&1 && echo "Image already exists" || \
+	  docker build -f docker/production/edudoor-frontend/Dockerfile -t chuchu:1.0.0 . &&  docker build -f docker/production/edudoor-node-backend/Dockerfile -t thala:1.0.0 .
+	@
+	@ ${INFO} "Tagging frontend image"
+	@ docker tag chuchu:1.0.0 gcr.io/edudoor/chuchu:1.0.0
+	@ ${INFO} "Tagging backend image"
+	@ docker tag thala:1.0.0 gcr.io/edudoor/thala:1.0.0
+	@
+	@ ${INFO} "Pushing images to GCP"
+	@ docker push gcr.io/edudoor/chuchu:1.0.0
+	@ docker push gcr.io/edudoor/thala:1.0.0
+
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up edudoor_openvidu

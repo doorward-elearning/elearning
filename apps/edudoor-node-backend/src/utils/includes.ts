@@ -46,10 +46,12 @@ export const CourseInclude = [
   {
     model: models.User,
     as: 'students',
+    required: false,
   },
   {
     model: models.MeetingRoom,
     as: 'meetingRoom',
+    required: false,
     include: [
       {
         model: models.Meeting,

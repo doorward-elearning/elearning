@@ -1,9 +1,15 @@
 apiVersion: v1
 kind: Pod
 metadata:
+<<<<<<< HEAD:helm/thala/templates/tests/test-connection.yaml
   name: "{{ include "thala.fullname" . }}-test-connection"
   labels:
 {{ include "thala.labels" . | nindent 4 }}
+=======
+  name: "{{ include "samvadam.fullname" . }}-test-connection"
+  labels:
+{{ include "samvadam.labels" . | nindent 4 }}
+>>>>>>> b89136d21e3ee69f3b7cd5cd7ba8a810cd44c212:helm/samvadam/templates/tests/test-connection.yaml
   annotations:
     "helm.sh/hook": test-success
 spec:
@@ -11,5 +17,9 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
+<<<<<<< HEAD:helm/thala/templates/tests/test-connection.yaml
       args:  ['{{ include "thala.fullname" . }}:{{ .Values.service.port }}']
+=======
+      args:  ['{{ include "samvadam.fullname" . }}:{{ .Values.service.port }}']
+>>>>>>> b89136d21e3ee69f3b7cd5cd7ba8a810cd44c212:helm/samvadam/templates/tests/test-connection.yaml
   restartPolicy: Never

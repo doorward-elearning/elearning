@@ -2,6 +2,7 @@ apiVersion: v1
 data:
   DATABASE_URL: {{ include "thala.thaladburl" . }}
   OPENVIDU_URL: {{ include "thala.samvadamurl" . }}
+  API_PREFIX: /{{ .Values.customer -}}/{{ .Chart.Name }}
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"

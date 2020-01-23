@@ -29,6 +29,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
+<<<<<<<< HEAD:helm/chuchu/templates/chuchu-deployment.yaml
             - name: http
               containerPort: {{ .Values.service.targetport }}
               protocol: TCP
@@ -45,15 +46,52 @@ spec:
             successThreshold: 1
             timeoutSeconds: 2
             tcpSocket:
+========
+            - name: {{ .Values.service.protocol }}
+              containerPort: {{ .Values.service.targetport }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: {{ .Values.service.targetport }}
+          readinessProbe:
+            httpGet:
+              path: /
+>>>>>>>> b89136d21e3ee69f3b7cd5cd7ba8a810cd44c212:helm/osyathdb/templates/osyathdb-deployment.yaml
               port: {{ .Values.service.targetport }}
           env:
             - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:
+<<<<<<<< HEAD:helm/chuchu/templates/chuchu-deployment.yaml
                   key: REACT_APP_BASE_URL
                   name: {{ include "chuchu.fullname" . }}
+========
+                  key: POSTGRES_USER
+                  name: {{ include "osyathdb.fullname" . }}
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: {{ include "osyathdb.fullname" . }}
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  key: POSTGRES_DB
+                  name: {{ include "osyathdb.fullname" . }}
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: {{ include "osyathdb.fullname" . }}
+              subPath: postgres
+>>>>>>>> b89136d21e3ee69f3b7cd5cd7ba8a810cd44c212:helm/osyathdb/templates/osyathdb-deployment.yaml
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: {{ include "osyathdb.fullname" . }}
+        persistentVolumeClaim:
+          claimName: {{ include "osyathdb.fullname" . }}
+      - emptyDir: {}
+        name: postgresdb
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
