@@ -56,6 +56,11 @@ spec:
               configMapKeyRef:
                 key: OPENVIDU_URL
                 name: {{ include "thala.fullname" . }}
+          - name: API_PREFIX
+            valueFrom:
+              configMapKeyRef:
+                key: API_PREFIX
+                name: {{ include "thala.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
