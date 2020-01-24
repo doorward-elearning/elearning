@@ -46,8 +46,8 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
             <nav className="site-navigation position-relative text-right" role="navigation">
               <ul className="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
                 <li className="cta">
-                  <a href="#contact-section" className="nav-link">
-                    <span>Contact Us</span>
+                  <a href={process.env.EDUDOOR_APPLICATION_LINK + '/login'} className="nav-link">
+                    <span>Login</span>
                   </a>
                 </li>
               </ul>

@@ -8,7 +8,7 @@ import Button from '@edudoor/ui/components/Buttons/Button';
 import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
 import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
-import {Omit} from '@edudoor/ui/types';
+import { Omit } from '@edudoor/ui/types';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
@@ -38,7 +38,9 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
     if (props.resetOnSubmit && form.formikProps) {
       form.formikProps.resetForm();
     }
-    props.onSuccess && props.onSuccess();
+    if (!(props.state.errors?.message || props.state.errors?.errors)) {
+      props.onSuccess && props.onSuccess();
+    }
   });
 
   return (
@@ -54,7 +56,7 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
                     <Button
                       theme="success"
                       type="submit"
-                      disabled={formikProps.isSubmitting || !formikProps?.isValid}
+                      disabled={!props.enableSubmitButton && (formikProps.isSubmitting || !formikProps?.isValid)}
                       loading={state.submitting}
                     >
                       {props.positiveText || 'Save'}
@@ -89,6 +91,7 @@ export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends
   negativeText?: string;
   showOverlay?: boolean;
   children: Array<ReactChild> | ReactChild | FormRenderProps<T>;
+  enableSubmitButton?: boolean;
 }
 
 export default BasicForm;

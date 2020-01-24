@@ -47,6 +47,10 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                         window.location.href = process.env.EDUDOOR_APPLICATION_LINK + '/login';
                       }}
                     />
+                    <div>
+                      <span>Already have an account? </span>
+                      <a href={process.env.EDUDOOR_APPLICATION_LINK + '/login'}>Login</a>
+                    </div>
                   </Panel>
                 </div>
               </div>
