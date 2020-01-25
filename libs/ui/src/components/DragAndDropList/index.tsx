@@ -48,6 +48,7 @@ export interface DragAndDropListProps<T> {
   droppableId?: string;
   handleDrop?: (dragResult: DropResult, items: Array<T>) => Array<T>;
   droppableType?: string;
+  disabled?: boolean;
 }
 
 export default DragAndDropList;

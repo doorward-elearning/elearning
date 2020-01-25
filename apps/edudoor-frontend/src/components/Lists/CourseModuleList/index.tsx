@@ -31,11 +31,13 @@ import { State } from '../../../store';
 import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 import { Course } from '@edudoor/common/models/Course';
+import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
+  const hasRole = useRoleManager([Roles.TEACHER]);
   return (
-    <DragAndDropListItem index={index} draggableId={moduleItem.id}>
+    <DragAndDropListItem isDragDisabled={!hasRole} index={index} draggableId={moduleItem.id}>
       <ListItem>
         <Link
           className={classNames({
@@ -122,6 +124,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useSelector((state: State) => state.courses.updateModule);
   const action = useAction(reorderCourseModules);
+  const hasRole = useRoleManager([Roles.TEACHER]);
   const [handleDrop] = useModuleDrop(course.id, action);
 
   return (
@@ -132,7 +135,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
             {(modules, state) => (
               <div className="module-list">
                 {modules.map((module, index) => (
-                  <DragAndDropListItem draggableId={module.id} index={index} key={module.id}>
+                  <DragAndDropListItem isDragDisabled={!hasRole} draggableId={module.id} index={index} key={module.id}>
                     <ModuleView index={index} module={module} updateModule={updateModule} droppableState={state} />
                   </DragAndDropListItem>
                 ))}

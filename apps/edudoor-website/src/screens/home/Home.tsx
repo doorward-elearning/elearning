@@ -44,7 +44,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                     </h4>
                     <CreateTeacherForm
                       onSuccess={() => {
-                        window.location.href = process.env.EDUDOOR_APPLICATION_LINK + '/login';
+                        window.location.href = process.env.EDUDOOR_APPLICATION_LINK + '/login?newAccount=true';
                       }}
                     />
                     <div>

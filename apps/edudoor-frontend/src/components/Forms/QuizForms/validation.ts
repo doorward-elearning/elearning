@@ -12,7 +12,15 @@ export default Yup.object({
       shuffleAnswers: Yup.boolean(),
       timeLimit: Yup.object({
         allow: Yup.boolean(),
-        minutes: Yup.number(),
+        minutes: Yup.number()
+          .typeError('Please specify a number')
+          .nullable()
+          .when('allow', {
+            is: value => !!value,
+            then: Yup.number()
+              .typeError('Please specify a number')
+              .required('Enter the time limit in minutes'),
+          }),
       }),
       attempts: Yup.object({
         multiple: Yup.boolean(),

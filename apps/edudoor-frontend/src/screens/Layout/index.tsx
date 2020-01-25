@@ -59,6 +59,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   renderNavEnd,
   onSearch: onSearchText = str => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
+  renderTopContent,
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
   const [search, setSearchText] = useState(searchText);
@@ -126,6 +127,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             <IfElse condition={loading}>
               <ContentSpinner type="Grid" />
               <React.Fragment>
+                <div className="ed-page-layout__topContent">{renderTopContent && renderTopContent()}</div>
                 <div className="ed-page-layout__topHeader">
                   <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
                     <BreadCrumbs crumbs={breadcrumbs} />
@@ -194,6 +196,7 @@ export interface LayoutProps extends PageComponent {
   pageTitle?: string;
   renderNavEnd?: () => JSX.Element;
   withBackground?: boolean;
+  renderTopContent?: () => JSX.Element;
 }
 
 export default Layout;

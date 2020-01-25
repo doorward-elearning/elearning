@@ -3,6 +3,9 @@ import './Table.scss';
 import classNames from 'classnames';
 import Panel from '../Panel';
 import Tools from '@edudoor/common/utils/Tools';
+import Icon from '../Icon';
+import Dropdown, { DropdownItemProps } from '../Dropdown';
+import IfElse from '../IfElse';
 
 function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
@@ -30,14 +33,14 @@ function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element 
       <Container>
         <table>
           <TableHeader columns={props.columns} />
-          <TableBody getCell={props.getCell} data={filtered} onRowClick={props.onRowClick} columns={props.columns} />
+          <TableBody {...props} />
         </table>
       </Container>
     </div>
   );
 }
 
-function renderRow<T, K extends TableColumns>(item: T, index: number, props: TableBodyProps<T, K>): JSX.Element {
+function renderRow<T, K extends TableColumns>(item: T, index: number, props: TableProps<T, K>): JSX.Element {
   const onRowClick = (): void => {
     if (props.onRowClick) {
       props.onRowClick(item, index);
@@ -56,11 +59,19 @@ function renderRow<T, K extends TableColumns>(item: T, index: number, props: Tab
           </td>
         );
       })}
+      {props.actionMenu && (
+        <td className="menu">
+          <Dropdown positionX="right">
+            <Icon icon="more_vert" />
+            {props.actionMenu(item)}
+          </Dropdown>
+        </td>
+      )}
     </tr>
   );
 }
 
-function TableBody<T, K extends TableColumns>(props: TableBodyProps<T, K>): JSX.Element {
+function TableBody<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   return (
     <tbody>
       {props.data.map(
@@ -90,13 +101,6 @@ export interface TableHeaderProps<K extends TableColumns> {
   columns: K;
 }
 
-export interface TableBodyProps<T, K extends TableColumns> {
-  onRowClick?: (row: T, index: number) => void;
-  getCell: (row: T, index: number, column: keyof K) => JSX.Element | string;
-  data: Array<T>;
-  columns: K;
-}
-
 export interface TableProps<T, K extends TableColumns> extends PropsWithChildren<any> {
   onRowClick?: (row: T, index: number) => void;
   className?: string;
@@ -106,6 +110,7 @@ export interface TableProps<T, K extends TableColumns> extends PropsWithChildren
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;
   noPanel?: boolean;
+  actionMenu?: (row: T) => Dropdown.Menu;
 }
 
 export default Table;

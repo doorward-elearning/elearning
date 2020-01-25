@@ -26,7 +26,7 @@ const base = {
   '--accent': '#FF4081',
   '--box-shadow': '0 2px 15px 6px var(--shadow-color)',
   '--box-shadow--hover': '2px 6px 12px 2px var(--shadow-color--darker)',
-  '--sidebar-size': '300px',
+  '--sidebar-size': '250px',
   '--navBar-size': '70px',
   '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '50px',

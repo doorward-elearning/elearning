@@ -25,7 +25,13 @@
 
     tbody {
       tr {
-        &:not(:last-child){
+        .menu {
+          text-align: right;
+          width: 20px;
+          height: 100%;
+        }
+
+        &:not(:last-child) {
           border-bottom: 0.5px solid var(--line-color);
         }
         td {

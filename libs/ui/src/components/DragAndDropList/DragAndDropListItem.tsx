@@ -6,7 +6,7 @@ import Icon from '../Icon';
 
 function DragAndDropListItem(props: DragAndDropListItemProps): JSX.Element {
   return (
-    <Draggable draggableId={props.draggableId} index={props.index}>
+    <Draggable isDragDisabled={props.isDragDisabled} draggableId={props.draggableId} index={props.index}>
       {(provided, dragProps) => {
         const { isDragging, draggingOver } = dragProps;
         return (
@@ -37,6 +37,7 @@ export interface DragAndDropListItemProps {
   draggableId: any;
   index: number;
   children: Array<ReactChild> | ReactChild;
+  isDragDisabled?: boolean;
 }
 
 export default DragAndDropListItem;

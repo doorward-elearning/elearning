@@ -8,6 +8,7 @@ import IfElse from '@edudoor/ui/components/IfElse';
 import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '@edudoor/ui/reducers/reducers';
+import { Omit } from '@edudoor/ui/types';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
   const { theme } = useContext(ThemeContext);

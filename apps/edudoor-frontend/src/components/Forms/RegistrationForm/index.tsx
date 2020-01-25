@@ -7,6 +7,7 @@ import { registerUserAction } from '../../../reducers/login/actions';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { RegistrationBody } from '../../../services/models/requestBody';
 import PasswordField from '@edudoor/ui/components/Input/PasswordField';
+import validation from './validation';
 
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -23,9 +24,23 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
       submitAction={registerUserAction}
       state={state}
       form={form}
+      validationSchema={validation}
+      createData={values => {
+        return [
+          {
+            firstName: values.fullName.split(' ')[0],
+            lastName: values.fullName
+              .split(' ')
+              .splice(1)
+              .join(' '),
+            ...values,
+          },
+        ];
+      }}
       initialValues={initialValues}
     >
       <React.Fragment>
+        <TextField name="fullName" label="Full Name" placeholder="Enter your full name" />
         <TextField name="username" label="Username" placeholder="Enter your preferred username" />
         <TextField name="email" label="Email" type="email" placeholder="john.doe@email.com" />
         <PasswordField name="password" label="Password" placeholder="Password" />

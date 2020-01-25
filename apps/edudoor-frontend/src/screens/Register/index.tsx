@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import '../Login/Login.scss';
 import Layout from '../Layout';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
@@ -18,11 +18,13 @@ import Header from '@edudoor/ui/components/Header';
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const registration = useSelector((state: State) => state.login.registration);
   const { authenticate, authenticated } = useAuth();
+  const [newAccount, setNewAccount] = useState(false);
   const routes = useRoutes();
   const clearLogin = useAction(clearLoginAction);
 
   useEffect(() => {
     if (registration.data) {
+      setNewAccount(true);
       authenticate(registration.data.token);
       clearLogin();
     }
@@ -30,7 +32,7 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
 
   return (
     <IfElse condition={authenticated}>
-      <Redirect to={routes.dashboard.link} />
+      <Redirect to={routes.dashboard.link + (newAccount ? '?newAccount=true' : '')} />
       <Layout {...props} noNavBar navFeatures={[NavbarFeatures.HAMBURGER]} withBackground>
         <div className="page page__login">
           <Header size={1}>{CONSTANTS.APP_NAME}</Header>

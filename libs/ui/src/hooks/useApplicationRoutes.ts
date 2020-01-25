@@ -23,8 +23,8 @@ function useApplicationRoutes<T extends RouteNames>(routes: RouteDefinitions<T>)
     return false;
   });
 
-  const navigate = (route: RouteDefinition<T>, params = {}): void => {
-    history.push(route.withParams(params));
+  const navigate = (route: RouteDefinition<T>, params = {}, query: string = ''): void => {
+    history.push(route.withParams(params) + query);
   };
   return {
     currentRoute: tree,

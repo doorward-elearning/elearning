@@ -1,0 +1,27 @@
+@import '../../../animations';
+
+.ed-message {
+  padding: var(--padding-lg);
+  border: 1px solid var(--line-color);
+  display: grid;
+  align-items: center;
+  align-content: center;
+  grid-template-columns: 1fr auto;
+  grid-gap: var(--padding-lg);
+  background: var(--bg-primary);
+  border-radius: 0.5em;
+  animation: flyInTop 0.5s;
+
+  &__content {
+    display: grid;
+    align-items: center;
+  }
+
+  &.success {
+    color: var(--text-success);
+  }
+
+  .material-icons {
+    color: var(--text-primary);
+  }
+}

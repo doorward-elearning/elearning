@@ -28,6 +28,10 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const assignmentForm = useForm();
 
   useEffect(() => {
+    setEditing(routes.currentRoute === routes.editModuleItem.id);
+  }, [routes.currentRoute]);
+
+  useEffect(() => {
     if (course.data.course) {
       const currentModule = course.data.course.modules.find(module => module.id === match.params.moduleId);
       if (currentModule) {

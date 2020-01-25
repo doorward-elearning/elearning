@@ -9,6 +9,18 @@ import useRoutes from '../../hooks/useRoutes';
 import useAction from '@edudoor/ui/hooks/useActions';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import { PageComponent } from '@edudoor/ui/types';
+import Dropdown from '@edudoor/ui/components/Dropdown';
+import { Student } from '@edudoor/common/models/Student';
+
+const StudentDropdownMenu: React.FunctionComponent<{ student: Student }> = ({ student }) => {
+  return (
+    <Dropdown.Menu>
+      <Dropdown.Item onClick={() => alert(student.fullName)} icon="delete">
+        Un-enroll
+      </Dropdown.Item>
+    </Dropdown.Menu>
+  );
+};
 
 const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
   const studentList = useSelector((state: State) => state.courses.studentList);
@@ -17,7 +29,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
 
   const fetch = useAction(fetchCourseStudentListAction);
 
-  const [courseId] = useViewCourse();
+  const [courseId, course] = useViewCourse();
   useEffect(() => {
     fetch(courseId);
   }, []);
@@ -26,16 +38,23 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
     <Layout
       noNavBar
       {...props}
-      header="Student List"
+      header={`${course.data?.course?.title ? course.data.course.title + ' - ' : ''} Student List`}
       actionBtnProps={{
-        text: 'Add Student',
+        text: 'Enroll Student',
         onClick: (): void => props.history.push(routes.routes.addCourseStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
       <WebComponent data={studentList.data.students} loading={studentList.fetching}>
         {(students): JSX.Element => {
-          return <StudentTable students={students} />;
+          return (
+            <StudentTable
+              tableProps={{
+                actionMenu: student => <StudentDropdownMenu student={student} />,
+              }}
+              students={students}
+            />
+          );
         }}
       </WebComponent>
     </Layout>

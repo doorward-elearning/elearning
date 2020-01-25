@@ -112,7 +112,6 @@
   &__content {
     position: absolute;
     background: var(--bg-primary);
-    margin-top: var(--padding);
     border: 1px solid var(--line-color);
     box-shadow: var(--box-shadow);
     transition: 0.1s max-height, 0.2s top, 0.2s bottom, 0.1s opacity;
@@ -129,6 +128,7 @@
       background: inherit;
       border-left: 1px solid var(--line-color);
       border-top: 1px solid var(--line-color);
+      display: none;
       z-index: -1;
     }
 
@@ -142,6 +142,7 @@
         min-height: var(--list-item-height);
         padding: 0 var(--padding-xlg);
         display: grid;
+        text-align: start;
         white-space: nowrap;
         align-items: center;
         transition: 0.3s background;

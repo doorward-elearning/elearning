@@ -35,7 +35,7 @@ function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
           </div>
         )}
         <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} profilePicture={profile} />
+          {/*<UserPanel collapsed={collapsed} profilePicture={profile} />*/}
           <SideBarMenu
             history={history}
             location={location}

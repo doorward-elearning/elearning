@@ -27,8 +27,10 @@ const useAuth = (): UseAuth => {
 
   const authenticate = useMemo(
     () => (token: string): void => {
-      Tools.setToken(token);
-      setAuthenticated(true);
+      if (token) {
+        Tools.setToken(token);
+        setAuthenticated(true);
+      }
     },
     []
   );
@@ -37,7 +39,7 @@ const useAuth = (): UseAuth => {
     authenticated,
     logout,
     authenticate,
-    user
+    user,
   };
 };
 

@@ -30,7 +30,7 @@
     .eb-input__error-message {
       transform: translateY(0);
       opacity: 1;
-      max-height: 1em;
+      max-height: 5em;
     }
   }
 
@@ -39,7 +39,6 @@
     grid-column: 1 / 3;
     grid-row: 3 / 4;
     opacity: 0;
-    height: 1em;
     max-height: 0;
     pointer-events: none;
     color: var(--text-error);

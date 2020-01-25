@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import './Login.scss';
@@ -17,13 +17,23 @@ import useAction from '@edudoor/ui/hooks/useActions';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import { PageComponent } from '@edudoor/ui/types';
 import Header from '@edudoor/ui/components/Header';
+import Message from '@edudoor/ui/components/Message';
+import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
+  const [showMessage, setShowMessage] = useState(false);
   const { authenticated, authenticate } = useAuth();
   const clearLogin = useAction(clearLoginAction);
+  const query = useQueryParams();
 
   const routes = useRoutes();
   const login = useSelector((state: State) => state.login.loginUser);
+
+  useEffect(() => {
+    if (query.newAccount) {
+      setShowMessage(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (login.data) {
@@ -47,6 +57,11 @@ const Login: React.FunctionComponent<LoginProps> = props => {
       >
         <div className="page page__login">
           <Header size={1}>{CONSTANTS.APP_NAME}</Header>
+          <IfElse condition={showMessage}>
+            <Message>
+              <Header size={4}>Thank you for trying Edudoor. Please login to proceed.</Header>
+            </Message>
+          </IfElse>
           <LoginForm />
           <div className="page__login--footer">
             <p>Don&apos;t have an account?</p>

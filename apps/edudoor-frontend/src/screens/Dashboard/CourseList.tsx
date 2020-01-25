@@ -14,6 +14,8 @@ import ItemArray from '@edudoor/ui/components/ItemArray';
 import Card from '@edudoor/ui/components/Card';
 import Header from '@edudoor/ui/components/Header';
 import { Course } from '@edudoor/common/models/Course';
+import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
+import { Roles } from '@edudoor/ui/components/RolesManager';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -47,9 +49,11 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       </div>
                       <Row style={{ justifyContent: 'space-between' }}>
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
-                        <span className="meta text-primary">
-                          <Plural singular="Member" count={+course.numStudents} />
-                        </span>
+                        <RoleContainer roles={[Roles.TEACHER]}>
+                          <span className="meta text-primary">
+                            <Plural singular="Member" count={+course.numStudents} />
+                          </span>
+                        </RoleContainer>
                       </Row>
                     </Card.Body>
                   </Card>
