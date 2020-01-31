@@ -32,6 +32,11 @@ import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 import { Course } from '@edudoor/common/models/Course';
 import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
+import Button from '@edudoor/ui/components/Buttons/Button';
+import ConfirmModal from '@edudoor/ui/components/ConfirmModal';
+import useModal from '@edudoor/ui/hooks/useModal';
+import useRequestModal from '@edudoor/ui/hooks/useRequestModal';
+import WebConfirmModal from '@edudoor/ui/components/ConfirmModal/WebConfirmModal';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -94,6 +99,8 @@ const ModuleItemsList: React.FunctionComponent<{
 };
 
 const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule }) => {
+  const state = useSelector((state: State) => state.courses.addModuleItem);
+  const deleteModuleModal = useModal();
   return (
     <Panel>
       <Accordion
@@ -110,7 +117,13 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
         )}
         action={(): JSX.Element => (
           <RoleContainer roles={[Roles.TEACHER]}>
-            <AddModuleItemDropdown module={module} />
+            <Row>
+              <AddModuleItemDropdown module={module} />
+              <WebConfirmModal useModal={deleteModuleModal} action={updateCourseModuleAction} state={state}>
+                {onClick => <Icon className="danger" icon="delete" onClick={onClick} />}
+                <p>Are you sure you want to delete this module?</p>
+              </WebConfirmModal>
+            </Row>
           </RoleContainer>
         )}
         open

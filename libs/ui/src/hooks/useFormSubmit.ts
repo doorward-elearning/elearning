@@ -1,10 +1,7 @@
 import { useEffect, useState } from 'react';
 import { WebComponentState } from '../reducers/reducers';
 
-function useFormSubmit<T extends WebComponentState<R>, R>(
-  form?: T,
-  onSubmit?: () => void
-): boolean {
+function useFormSubmit<T extends WebComponentState<R>, R>(form?: T, onSubmit?: () => void): boolean {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -15,7 +12,9 @@ function useFormSubmit<T extends WebComponentState<R>, R>(
         setSubmitted(false);
       }
       if (form.submitted && submitting) {
-        setSubmitted(true);
+        if (!(form.errors?.errors || form.errors?.errors)) {
+          setSubmitted(true);
+        }
       }
     }
   }, [form]);

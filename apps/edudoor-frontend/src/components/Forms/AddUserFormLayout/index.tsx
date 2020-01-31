@@ -19,7 +19,6 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
     city: '',
     country: '',
   };
-  console.log(props.state.errors);
   return (
     <BasicForm
       form={props.useForm}
@@ -29,6 +28,7 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
       showOverlay
       onCancel={props.onCancel}
       submitAction={props.action}
+      onSuccess={props.onSuccess}
       createData={data => (props.createData ? props.createData(data) : [data])}
       state={props.state}
     >
@@ -53,6 +53,7 @@ export interface AddUserFormLayoutProps {
   state: WebComponentState<any>;
   onCancel: () => void;
   action: ActionCreator;
+  onSuccess?: () => void;
   createData?: (data: any) => Array<any>;
 }
 

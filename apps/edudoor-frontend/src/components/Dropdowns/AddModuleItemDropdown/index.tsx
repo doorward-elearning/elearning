@@ -4,6 +4,8 @@ import Button from '@edudoor/ui/components/Buttons/Button';
 import Dropdown from '@edudoor/ui/components/Dropdown';
 import { Icons } from '@edudoor/ui/types/icons';
 import { Module } from '@edudoor/common/models/Module';
+import Icon from '@edudoor/ui/components/Icon';
+import Row from '@edudoor/ui/components/Row';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',
@@ -19,7 +21,9 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
   const params = { courseId: module.courseId, moduleId: module.id };
   return (
     <Dropdown positionX="right">
-      <Button theme="accent" icon="add" mini bordered />
+      <Row>
+        <Icon clickable icon="add" />
+      </Row>
       <Dropdown.Menu>
         <Dropdown.Item icon={ModuleItemIcons.Page} link={routes.addModulePage.withParams(params)}>
           Page

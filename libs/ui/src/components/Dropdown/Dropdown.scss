@@ -23,7 +23,7 @@
     cursor: pointer;
     z-index: 0;
     transition: 0.5s background;
-    @include darkenHover();
+    //@include darkenHover();
 
     .dropdown-arrow {
       transition: 0.5s transform;

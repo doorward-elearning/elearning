@@ -9,6 +9,7 @@ import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
 import Feature from '@edudoor/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
 import { Omit } from '@edudoor/ui/types';
+import { useHistory } from 'react-router';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
@@ -29,6 +30,8 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
   const state = props.state;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
   const createData = props.createData || (data => [data]);
+
+  const history = useHistory();
 
   const onSubmit = (body: T): void => {
     submit(...createData(body));
@@ -63,8 +66,13 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
                     </Button>
                   </Feature>
                   <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
-                    <Button theme="secondary" type="button" disabled={state.submitting} onClick={props.onCancel}>
-                      {props.negativeText || 'Cancel'}
+                    <Button
+                      theme="secondary"
+                      type="button"
+                      disabled={state.submitting}
+                      onClick={props.onCancel || history.goBack}
+                    >
+                      {props.negativeText || 'Back'}
                     </Button>
                   </Feature>
                 </Row>

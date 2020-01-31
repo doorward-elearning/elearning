@@ -7,7 +7,7 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   const className = classNames({
     'material-icons': true,
     [props.className || '']: true,
-    clickable: !!props.onClick,
+    clickable: !!props.onClick || props.clickable,
   });
   return (
     <React.Fragment>
@@ -26,6 +26,7 @@ export interface IconProps {
   className?: string;
   onClick?: MouseEventHandler;
   title?: string;
+  clickable?: boolean;
 }
 
 export default Icon;
