@@ -14,7 +14,11 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = props => {
   return (
     <React.Fragment>
       {props.children instanceof Array ? (props.children as Array<any>)[0](onClick) : null}
-      <Modal useModal={modal} features={[ModalFeatures.NEGATIVE_BUTTON, ModalFeatures.POSITIVE_BUTTON]}>
+      <Modal
+        useModal={modal}
+        cancellable={props.cancellable}
+        features={[ModalFeatures.NEGATIVE_BUTTON, ModalFeatures.POSITIVE_BUTTON]}
+      >
         <Modal.Header title={props.title}>{props.header}</Modal.Header>
         <Modal.Body>{children}</Modal.Body>
         <Modal.Footer
@@ -50,6 +54,7 @@ export interface ConfirmModalProps {
   buttonDisabled?: boolean;
   useModal: UseModal;
   keepOpen?: boolean;
+  cancellable?: boolean;
 }
 
 export default ConfirmModal;

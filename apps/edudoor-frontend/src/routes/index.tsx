@@ -26,10 +26,10 @@ import Profile from '../screens/Profile';
 import MRoute from '@edudoor/ui/routes/MRoute';
 import { Routes } from '@edudoor/ui/types';
 import { Roles } from '@edudoor/ui/components/RolesManager';
-import StudentGroups from '../screens/Students/StudentGroups';
-import CreateStudentGroup from '../screens/Students/CreateStudentGroup';
-import TeacherGroups from '../screens/Teachers/TeacherGroups';
-import CreateTeacherGroup from '../screens/Teachers/CreateTeacherGroup';
+import StudentGroups from '../screens/Groups/Students/StudentGroups';
+import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
+import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';
+import CreateTeacherGroup from '../screens/Groups/Teachers/CreateTeacherGroup';
 
 export const routeNames = {
   home: 'Home',
@@ -73,6 +73,7 @@ export const routeNames = {
   teacherGroups: 'Teachers',
   addTeacherGroup: 'Add Teacher Group',
   groups: 'Groups',
+  editStudentGroup: 'Edit Student Group',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -130,7 +131,7 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           teacherGroups: new Route('/teachers', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
             addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
           }),
-          studentGroups: new Route('/groups', StudentGroups).roles(Roles.TEACHER).with({
+          studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
           }),
         }),

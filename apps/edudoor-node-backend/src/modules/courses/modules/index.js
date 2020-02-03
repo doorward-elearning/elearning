@@ -13,6 +13,8 @@ Router.post('/:courseId/modules', validateCourseModule, ModulesController.addCou
 
 Router.put('/modules/:moduleId', validateUpdateModule, ModulesController.updateCourseModule);
 
+Router.delete('/modules/:moduleId', validateModuleExists, ModulesController.deleteCourseModule);
+
 Router.get('/modules/:moduleId', validateModuleExists, ModulesController.getCourseModule);
 
 const ItemRouter = new MRouter('/items', Authorization.authenticate, validateModuleExists);

@@ -6,6 +6,7 @@ import {
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
   DELETE_COURSE,
+  DELETE_COURSE_MODULE,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -15,22 +16,19 @@ import {
   START_LIVE_CLASSROOM,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
-  VIEW_COURSE
+  VIEW_COURSE,
 } from './types';
-import reducerBuilder, {
-  modifyReducer,
-  reducerApiAction
-} from '@edudoor/ui/reducers/builder';
+import reducerBuilder, { modifyReducer, reducerApiAction } from '@edudoor/ui/reducers/builder';
 
 const createCourse = reducerApiAction({
   action: CREATE_COURSE,
   api: Api.courses.create,
-  apiMiddleware: {}
+  apiMiddleware: {},
 });
 
 const courseList = reducerApiAction({
   action: FETCH_COURSES,
-  api: Api.courses.list
+  api: Api.courses.list,
 });
 
 const viewCourse = reducerApiAction({
@@ -45,14 +43,18 @@ const viewCourse = reducerApiAction({
       return modifyReducer('data.course.modules', state, action, () => {
         return [...action.payload.modules];
       });
+    } else if (action.type === `${DELETE_COURSE_MODULE}_SUCCESS`) {
+      return modifyReducer('data.course.modules', state, action, modules => {
+        return [...modules.filter(module => module.id !== action.payload.id)];
+      });
     }
     return state;
-  }
+  },
 });
 
 const createModule = reducerApiAction({
   action: CREATE_COURSE_MODULE,
-  api: Api.courses.modules.create
+  api: Api.courses.modules.create,
 });
 
 const studentList = reducerApiAction({
@@ -65,57 +67,62 @@ const studentList = reducerApiAction({
       });
     }
     return state;
-  }
+  },
 });
 
 const createStudent = reducerApiAction({
   action: CREATE_COURSE_STUDENT,
-  api: Api.courses.students.create
+  api: Api.courses.students.create,
 });
 
 const notRegistered = reducerApiAction({
   action: FETCH_STUDENTS_NOT_REGISTERED,
-  api: Api.courses.students.notRegistered
+  api: Api.courses.students.notRegistered,
 });
 
 const addModuleItem = reducerApiAction({
   action: ADD_MODULE_ITEM,
-  api: Api.courses.modules.items.create
+  api: Api.courses.modules.items.create,
 });
 
 const viewModule = reducerApiAction({
   action: FETCH_COURSE_MODULE,
-  api: Api.courses.modules.get
+  api: Api.courses.modules.get,
 });
 
 const updateCourse = reducerApiAction({
   action: UPDATE_COURSE,
-  api: Api.courses.update
+  api: Api.courses.update,
 });
 
 const updateModule = reducerApiAction({
   action: UPDATE_COURSE_MODULE,
-  api: Api.courses.modules.update
+  api: Api.courses.modules.update,
 });
 
 const courseModules = reducerApiAction({
   action: REORDER_COURSE_MODULES,
-  api: Api.courses.updateModules
+  api: Api.courses.updateModules,
 });
 
 const registerStudents = reducerApiAction({
   action: REGISTER_STUDENTS,
-  api: Api.courses.students.register
+  api: Api.courses.students.register,
 });
 
 const launchClassroom = reducerApiAction({
   action: START_LIVE_CLASSROOM,
-  api: Api.courses.room.start
+  api: Api.courses.room.start,
 });
 
 const deleteCourse = reducerApiAction({
   action: DELETE_COURSE,
-  api: Api.courses.delete
+  api: Api.courses.delete,
+});
+
+const deleteModule = reducerApiAction({
+  action: DELETE_COURSE_MODULE,
+  api: Api.courses.modules.delete,
 });
 
 export default reducerBuilder({
@@ -134,6 +141,7 @@ export default reducerBuilder({
     courseModules,
     registerStudents,
     launchClassroom,
-    deleteCourse
-  }
+    deleteCourse,
+    deleteModule,
+  },
 });

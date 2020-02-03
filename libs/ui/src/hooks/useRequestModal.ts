@@ -5,7 +5,7 @@ import { ActionCreator, WebComponentState } from '../reducers/reducers';
 
 const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {
   const overrideAction = () => {
-    const action = { ...props.action() };
+    const action = { ...props.action(...(props.args || [])) };
     action.showErrorToast = props.showErrorToast;
     action.showSuccessToast = props.showSuccessToast;
     return action;
@@ -40,6 +40,7 @@ export interface UseRequestModalProps {
   showErrorToast?: boolean;
   showSuccessToast?: boolean;
   useModal: UseModal;
+  args?: Array<any>;
   onSuccess?: (data: any) => void;
   onError?: (errors: any) => void;
 }

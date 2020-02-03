@@ -79,12 +79,14 @@ class CourseController {
       ).courses;
     } else {
       courses = await models.Course.findAll({
+        includeIgnoreAttributes: false,
         include: [
           {
             model: models.User,
             as: 'students',
             attributes: [],
             required: false,
+            subQuery: true,
           },
           {
             model: models.User,
@@ -98,7 +100,7 @@ class CourseController {
         attributes: {
           include: [[Sequelize.fn('COUNT', Sequelize.col('students.id')), 'numStudents']],
         },
-        group: ['Course.id', 'students->StudentCourse.id'],
+        group: ['Course.id'],
         order: [['createdAt', 'desc']],
       });
     }

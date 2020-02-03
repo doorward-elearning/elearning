@@ -125,6 +125,9 @@ const Api = {
           return POST(`/courses/modules/${moduleId}/items/`, item);
         },
       },
+      delete: (moduleId: string): Promise<ApiResponse> => {
+        return DELETE(`/courses/modules/${moduleId}`);
+      },
     },
     students: {
       get: (courseId: string): Promise<StudentListResponse> => {

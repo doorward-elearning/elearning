@@ -4,6 +4,7 @@ import {
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
   DELETE_COURSE,
+  DELETE_COURSE_MODULE,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -13,7 +14,7 @@ import {
   START_LIVE_CLASSROOM,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
-  VIEW_COURSE
+  VIEW_COURSE,
 } from './types';
 import {
   CourseModuleBody,
@@ -21,105 +22,86 @@ import {
   CreateCourseBody,
   CreateStudentBody,
   RegisterStudentsBody,
-  UpdateModulesBody
+  UpdateModulesBody,
 } from '../../services/models/requestBody';
 import { Action } from '@edudoor/ui/reducers/reducers';
 
 export const fetchCoursesAction = (): Action => ({
-  type: FETCH_COURSES
+  type: FETCH_COURSES,
 });
 
-export const createCourseAction = (
-  body: CreateCourseBody,
-  successCallback: () => void
-): Action => ({
+export const createCourseAction = (body: CreateCourseBody, successCallback: () => void): Action => ({
   type: CREATE_COURSE,
   payload: body,
-  onSuccess: successCallback
+  onSuccess: successCallback,
 });
 
 export const fetchCourseAction = (courseId: string): Action => ({
   type: VIEW_COURSE,
-  payload: [courseId]
+  payload: [courseId],
 });
 
-export const createCourseModuleAction = (
-  courseId: string,
-  module: CourseModuleBody
-): Action => ({
+export const createCourseModuleAction = (courseId: string, module: CourseModuleBody): Action => ({
   type: CREATE_COURSE_MODULE,
-  payload: [courseId, module]
+  payload: [courseId, module],
 });
 
 export const fetchCourseModuleAction = (moduleId: string) => ({
   type: FETCH_COURSE_MODULE,
-  payload: [moduleId]
+  payload: [moduleId],
 });
 
 export const fetchCourseStudentListAction = (courseId: string): Action => ({
   type: FETCH_COURSE_STUDENTS,
-  payload: [courseId]
+  payload: [courseId],
 });
 
-export const addCourseStudentAction = (
-  courseId: string,
-  body: CreateStudentBody
-): Action => ({
+export const addCourseStudentAction = (courseId: string, body: CreateStudentBody): Action => ({
   type: CREATE_COURSE_STUDENT,
-  payload: [courseId, body]
+  payload: [courseId, body],
 });
 
 export const fetchStudentsNotRegisteredAction = (courseId: string) => ({
   type: FETCH_STUDENTS_NOT_REGISTERED,
-  payload: [courseId]
+  payload: [courseId],
 });
 
-export const createCourseModuleItemAction = (
-  moduleId: string,
-  item: CourseModuleItemBody
-): Action => ({
+export const createCourseModuleItemAction = (moduleId: string, item: CourseModuleItemBody): Action => ({
   type: ADD_MODULE_ITEM,
-  payload: [moduleId, item]
+  payload: [moduleId, item],
 });
 
-export const updateCourseAction = (
-  courseId: string,
-  body: CreateCourseBody
-): Action => ({
+export const updateCourseAction = (courseId: string, body: CreateCourseBody): Action => ({
   type: UPDATE_COURSE,
-  payload: [courseId, body]
+  payload: [courseId, body],
 });
 
-export const updateCourseModuleAction = (
-  moduleId: string,
-  body: CourseModuleBody
-): Action => ({
+export const updateCourseModuleAction = (moduleId: string, body: CourseModuleBody): Action => ({
   type: UPDATE_COURSE_MODULE,
-  payload: [moduleId, body]
+  payload: [moduleId, body],
 });
 
-export const reorderCourseModules = (
-  courseId: string,
-  body: UpdateModulesBody
-): Action => ({
+export const reorderCourseModules = (courseId: string, body: UpdateModulesBody): Action => ({
   type: REORDER_COURSE_MODULES,
-  payload: [courseId, body]
+  payload: [courseId, body],
 });
 
-export const registerStudents = (
-  courseId: string,
-  body: RegisterStudentsBody
-): Action => ({
+export const registerStudents = (courseId: string, body: RegisterStudentsBody): Action => ({
   type: REGISTER_STUDENTS,
-  payload: [courseId, body]
+  payload: [courseId, body],
 });
 
 export const startLiveClassroom = (courseId: string): Action => ({
   type: START_LIVE_CLASSROOM,
-  payload: [courseId]
+  payload: [courseId],
 });
 
 export const deleteCourseAction = (courseId: string): Action => ({
   type: DELETE_COURSE,
-  payload: [courseId]
+  payload: [courseId],
+});
+
+export const deleteCourseModuleAction = (moduleId: string): Action => ({
+  type: DELETE_COURSE_MODULE,
+  payload: [moduleId],
 });

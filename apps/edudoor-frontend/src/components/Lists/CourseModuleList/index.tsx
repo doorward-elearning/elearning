@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import Accordion from '@edudoor/ui/components/Accordion';
 import Header from '@edudoor/ui/components/Header';
@@ -20,7 +20,11 @@ import ListItem from '@edudoor/ui/components/List/ListItem';
 import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '@edudoor/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
-import { reorderCourseModules, updateCourseModuleAction } from '../../../reducers/courses/actions';
+import {
+  deleteCourseModuleAction,
+  reorderCourseModules,
+  updateCourseModuleAction,
+} from '../../../reducers/courses/actions';
 import useRoutes from '../../../hooks/useRoutes';
 import Tools from '@edudoor/common/utils/Tools';
 import { WebComponentState } from '@edudoor/ui/reducers/reducers';
@@ -98,9 +102,7 @@ const ModuleItemsList: React.FunctionComponent<{
   );
 };
 
-const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule }) => {
-  const state = useSelector((state: State) => state.courses.addModuleItem);
-  const deleteModuleModal = useModal();
+const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule, onDelete }) => {
   return (
     <Panel>
       <Accordion
@@ -119,10 +121,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
           <RoleContainer roles={[Roles.TEACHER]}>
             <Row>
               <AddModuleItemDropdown module={module} />
-              <WebConfirmModal useModal={deleteModuleModal} action={updateCourseModuleAction} state={state}>
-                {onClick => <Icon className="danger" icon="delete" onClick={onClick} />}
-                <p>Are you sure you want to delete this module?</p>
-              </WebConfirmModal>
+              <Icon onClick={onDelete} icon="delete" />
             </Row>
           </RoleContainer>
         )}
@@ -139,9 +138,21 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
   const action = useAction(reorderCourseModules);
   const hasRole = useRoleManager([Roles.TEACHER]);
   const [handleDrop] = useModuleDrop(course.id, action);
+  const state = useSelector((state: State) => state.courses.deleteModule);
+  const deleteModuleModal = useModal();
+  const [moduleToDelete, setModuleToDelete] = useState();
 
   return (
     <div className="course-module-list">
+      <WebConfirmModal
+        args={[moduleToDelete]}
+        title="Delete Module"
+        useModal={deleteModuleModal}
+        action={deleteCourseModuleAction}
+        state={state}
+      >
+        <p>Are you sure you want to delete this module?</p>
+      </WebConfirmModal>
       <WebComponent data={course.modules} loading={false}>
         {(rawModules): JSX.Element => (
           <DragAndDropList droppableType="MODULES" items={rawModules} itemKey="id" handleDrop={handleDrop}>
@@ -149,7 +160,16 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
               <div className="module-list">
                 {modules.map((module, index) => (
                   <DragAndDropListItem isDragDisabled={!hasRole} draggableId={module.id} index={index} key={module.id}>
-                    <ModuleView index={index} module={module} updateModule={updateModule} droppableState={state} />
+                    <ModuleView
+                      onDelete={() => {
+                        setModuleToDelete(module.id);
+                        deleteModuleModal.openModal();
+                      }}
+                      index={index}
+                      module={module}
+                      updateModule={updateModule}
+                      droppableState={state}
+                    />
                   </DragAndDropListItem>
                 ))}
               </div>
@@ -170,6 +190,7 @@ export interface ModuleViewProps {
   module: Module;
   updateModule: WebComponentState<any>;
   droppableState: DroppableStateSnapshot;
+  onDelete: () => void;
 }
 
 export interface ModuleItemViewProps {

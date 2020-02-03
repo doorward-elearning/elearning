@@ -32,6 +32,14 @@ class ModulesController {
     return [200, { module }, `${module.title} has been updated`];
   }
 
+  static async deleteCourseModule({ params }) {
+    const { moduleId } = params;
+
+    await models.Module.destroy({ where: { id: moduleId } });
+
+    return [200, { id: moduleId }, 'Module has been deleted.'];
+  }
+
   static async getCourseModule({ params }) {
     const module = await models.Module.findOne({
       where: {
