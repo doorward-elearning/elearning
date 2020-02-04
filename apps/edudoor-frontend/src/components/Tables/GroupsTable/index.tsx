@@ -19,6 +19,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
           <Table
             columns={{ name: 'Name', members: 'Members', createdBy: 'Created By' }}
             data={data as Array<Group>}
+            onRowClick={props.onRowClick}
             getCell={(row, index, column) => {
               switch (column) {
                 case 'name':
@@ -38,6 +39,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
 
 export interface GroupsTableProps {
   type: string;
+  onRowClick?: (row: Group, index: number) => void;
 }
 
 export default GroupsTable;

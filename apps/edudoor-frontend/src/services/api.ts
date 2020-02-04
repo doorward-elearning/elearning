@@ -174,6 +174,9 @@ const Api = {
     create: (body: CreateGroupBody): Promise<GroupResponse> => {
       return POST('/groups', body);
     },
+    get: (id: string): Promise<GroupResponse> => {
+      return GET(`/groups/${id}`);
+    },
     addMembers: (groupId: string, members: AddGroupMembersBody): Promise<GroupResponse> => {
       return POST(`/groups/${groupId}`, members);
     },

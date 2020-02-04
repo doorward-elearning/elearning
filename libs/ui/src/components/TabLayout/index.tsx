@@ -77,6 +77,9 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
         sliderElem.style.width = `${position.width}px`;
       }
     }
+    if (props.onTabChange) {
+      props.onTabChange(selected);
+    }
   }, [selected, props.children]);
 
   return (
@@ -102,6 +105,7 @@ export interface TabLayoutProps {
   children: Array<ReactElement> | ReactElement;
   selected?: number;
   stickyHeader?: boolean;
+  onTabChange?: (selected: number) => void;
 }
 
 export interface TabHeaderProps {

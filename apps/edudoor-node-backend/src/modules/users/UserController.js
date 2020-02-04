@@ -97,6 +97,7 @@ class UserController {
       ],
       'model'
     );
+
     return models.User[method]({
       ...options,
       where: options.where || {},

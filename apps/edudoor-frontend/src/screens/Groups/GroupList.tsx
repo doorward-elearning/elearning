@@ -2,11 +2,16 @@ import React from 'react';
 import useRoutes from '../../hooks/useRoutes';
 import Layout, { LayoutFeatures } from '../Layout';
 import GroupsTable from '../../components/Tables/GroupsTable';
-import Groups from '@edudoor/common/utils/GroupTypes';
 import { PageComponent } from '@edudoor/ui/types';
 import { ROUTES } from '../../routes/routes';
+import { Group } from '@edudoor/common/models/Group';
 
-function GroupList({ header, createRoute, type }: GroupListHOCProps): React.FunctionComponent<GroupListProps> {
+function GroupList({
+  header,
+  createRoute,
+  type,
+  viewRoute,
+}: GroupListHOCProps): React.FunctionComponent<GroupListProps> {
   return (props): JSX.Element => {
     const routes = useRoutes();
     return (
@@ -21,7 +26,14 @@ function GroupList({ header, createRoute, type }: GroupListHOCProps): React.Func
           },
         }}
       >
-        <GroupsTable type={type} />
+        <GroupsTable
+          type={type}
+          onRowClick={group => {
+            routes.navigate(routes[viewRoute], {
+              groupId: group.id,
+            });
+          }}
+        />
       </Layout>
     );
   };
@@ -31,6 +43,7 @@ export interface GroupListHOCProps {
   header: string;
   createRoute: keyof typeof ROUTES;
   type: string;
+  viewRoute: keyof typeof ROUTES;
 }
 
 export interface GroupListProps extends PageComponent {}

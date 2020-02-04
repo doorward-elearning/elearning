@@ -50,6 +50,22 @@ class GroupsController {
     return [201, group, 'Users have been added to the group'];
   }
 
+  static async getGroup(req) {
+    const { groupId } = req.params;
+
+    const group = await models.Group.findByPk(groupId, {
+      include: [
+        {
+          model: models.User,
+          as: 'members',
+          required: false,
+        },
+      ],
+    });
+
+    return [200, { group }];
+  }
+
   static async getGroups(req) {
     const { type } = req.query;
 

@@ -14,7 +14,7 @@ export interface Action extends ReduxAction {
   statusCode?: number;
 }
 
-export type ActionCreator = (...args: any[]) => Action;
+export type ActionCreator<T = any[]> = (...args: T) => Action;
 
 export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 

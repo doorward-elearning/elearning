@@ -7,6 +7,8 @@ import Table, { TableColumns } from '@edudoor/ui/components/Table';
 import IfElse from '@edudoor/ui/components/IfElse';
 import SwitchInput from '@edudoor/ui/components/Input/SwitchInput';
 import Tools from '@edudoor/common/utils/Tools';
+import { FormikProps } from 'formik';
+import Row from '@edudoor/ui/components/Row';
 
 function ChooseItemsForm<T>(props: ChooseItemsFormProps<T>): JSX.Element {
   const createList = (items: Array<T>): Array<T & { selected: boolean }> => {
@@ -27,28 +29,31 @@ function ChooseItemsForm<T>(props: ChooseItemsFormProps<T>): JSX.Element {
           createData={props.createData}
         >
           {(formikProps): JSX.Element => (
-            <Table
-              columns={{
-                ...props.columns,
-                _uniqueColumnAdd_: props.chooseHeader || 'Choose',
-              }}
-              data={formikProps.values.items}
-              onRowClick={(row, index): void => {
-                formikProps.setFieldValue(`items.${index}.selected`, true);
-              }}
-              getCell={(row, index, column): JSX.Element => {
-                return (
-                  <IfElse condition={column === '_uniqueColumnAdd_'}>
-                    <SwitchInput labelPosition="right" name={`items.${index}.selected`} />
-                    {props.renderCell ? (
-                      props.renderCell(row as T, index, column)
-                    ) : (
-                      <span>{Tools.str(row[column as keyof typeof row])}</span>
-                    )}
-                  </IfElse>
-                );
-              }}
-            />
+            <Row style={{ alignItems: 'start', gridGap: 'var(--padding)' }}>
+              <Table
+                columns={{
+                  ...props.columns,
+                  _uniqueColumnAdd_: props.chooseHeader || 'Choose',
+                }}
+                data={formikProps.values.items}
+                onRowClick={(row, index): void => {
+                  formikProps.setFieldValue(`items.${index}.selected`, !formikProps.values.items[index].selected);
+                }}
+                getCell={(row, index, column): JSX.Element => {
+                  return (
+                    <IfElse condition={column === '_uniqueColumnAdd_'}>
+                      <SwitchInput labelPosition="right" name={`items.${index}.selected`} />
+                      {props.renderCell ? (
+                        props.renderCell(row as T, index, column)
+                      ) : (
+                        <span>{Tools.str(row[column as keyof typeof row])}</span>
+                      )}
+                    </IfElse>
+                  );
+                }}
+              />
+              {props.children && props.children(formikProps)}
+            </Row>
           )}
         </BasicForm>
       )}
@@ -59,7 +64,7 @@ function ChooseItemsForm<T>(props: ChooseItemsFormProps<T>): JSX.Element {
 export interface ChooseItemsFormProps<T> {
   items: Array<T>;
   state: WebComponentState<any>;
-  form: UseForm<any>;
+  form: UseForm<{ items: Array<T> }>;
   onSuccess: () => void;
   features?: Array<BasicFormFeatures>;
   submitAction: ActionCreator;
@@ -67,6 +72,7 @@ export interface ChooseItemsFormProps<T> {
   createData: (data: { items: Array<T & { selected: boolean }> }) => any;
   columns: TableColumns;
   renderCell?: (row: T, index: number, column: string) => JSX.Element;
+  children?: (formikProps: FormikProps<any>) => JSX.Element;
 }
 
 export default ChooseItemsForm;

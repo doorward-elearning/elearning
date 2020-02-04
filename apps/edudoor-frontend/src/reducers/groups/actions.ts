@@ -1,4 +1,4 @@
-import { CREATE_GROUP, FETCH_GROUPS } from './types';
+import { CREATE_GROUP, FETCH_GROUP, FETCH_GROUPS } from './types';
 import { CreateGroupBody } from '../../services/models/requestBody';
 
 export const fetchGroupsAction = (type: string) => ({
@@ -9,4 +9,9 @@ export const fetchGroupsAction = (type: string) => ({
 export const createGroupAction = (groupBody: CreateGroupBody) => ({
   type: CREATE_GROUP,
   payload: [groupBody],
+});
+
+export const fetchGroup = (groupId: string) => ({
+  type: FETCH_GROUP,
+  payload: [groupId],
 });

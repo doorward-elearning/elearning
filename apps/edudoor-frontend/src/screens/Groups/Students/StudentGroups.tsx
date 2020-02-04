@@ -6,4 +6,5 @@ export default GroupList({
   header: 'Student Groups',
   createRoute: 'addStudentGroup',
   type: Groups.STUDENT,
+  viewRoute: 'viewStudentGroup',
 });

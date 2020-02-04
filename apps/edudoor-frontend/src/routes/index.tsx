@@ -30,6 +30,7 @@ import StudentGroups from '../screens/Groups/Students/StudentGroups';
 import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
 import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';
 import CreateTeacherGroup from '../screens/Groups/Teachers/CreateTeacherGroup';
+import ViewGroup from '../screens/Groups/ViewGroup';
 
 export const routeNames = {
   home: 'Home',
@@ -74,6 +75,8 @@ export const routeNames = {
   addTeacherGroup: 'Add Teacher Group',
   groups: 'Groups',
   editStudentGroup: 'Edit Student Group',
+  viewStudentGroup: 'View Student Group',
+  viewTeacherGroup: 'View Teacher Group',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -130,9 +133,11 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
         groups: new Route('/groups').roles(Roles.SUPER_ADMINISTRATOR, Roles.TEACHER).with({
           teacherGroups: new Route('/teachers', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
             addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
+            viewTeacherGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.SUPER_ADMINISTRATOR),
           }),
           studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
+            viewStudentGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.TEACHER),
           }),
         }),
       }),
