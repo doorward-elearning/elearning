@@ -85,3 +85,7 @@ storage:
 
 container:
   startupseconds: 60
+
+databasevolume:
+  storageClassName: databases-slow
+  size: 10G

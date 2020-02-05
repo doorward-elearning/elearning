@@ -2,10 +2,12 @@ allowVolumeExpansion: true
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
+  labels:
+    addonmanager.kubernetes.io/mode: EnsureExists
+    kubernetes.io/cluster-service: "true"
   name: databases-slow
 parameters:
   type: pd-standard
-  replication-type: none
 provisioner: kubernetes.io/gce-pd
 reclaimPolicy: Retain
 volumeBindingMode: Immediate

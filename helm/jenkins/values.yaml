@@ -274,6 +274,7 @@ master:
       enabled: false
       image: kiwigrid/k8s-sidecar:0.1.20
       imagePullPolicy: IfNotPresent
+      command: [ "bash" ]
       resources: {}
         #   limits:
         #     cpu: 100m
@@ -295,22 +296,22 @@ master:
       # searchNamespace:
 
     # Allows you to inject additional/other sidecars
-    other: []
+    other:
     ## The example below runs the client for https://smee.io as sidecar container next to Jenkins,
     ## that allows to trigger build behind a secure firewall.
     ## https://jenkins.io/blog/2019/01/07/webhook-firewalls/#triggering-builds-with-webhooks-behind-a-secure-firewall
     ##
     ## Note: To use it you should go to https://smee.io/new and update the url to the generete one.
-    # - name: smee
-    #   image: docker.io/twalter/smee-client:1.0.2
-    #   args: ["--port", "{{ .Values.master.servicePort }}", "--path", "/github-webhook/", "--url", "https://smee.io/new"]
-    #   resources:
-    #     limits:
-    #       cpu: 50m
-    #       memory: 128Mi
-    #     requests:
-    #       cpu: 10m
-    #       memory: 32Mi
+    #  - name: node-dubnium
+    #    image: docker.io/library/node:dubnium
+    #    args: ["--port", "{{ .Values.master.servicePort }}"]
+    #    resources:
+    #      limits:
+    #        cpu: 150m
+    #        memory: 128Mi
+    #      requests:
+    #        cpu: 510m
+    #        memory: 32Mi
   # Node labels and tolerations for pod assignment
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector
   # ref: https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#taints-and-tolerations-beta-feature
@@ -408,8 +409,10 @@ master:
 
 agent:
   enabled: true
-  image: "jenkins/jnlp-slave"
-  tag: "3.27-1"
+  #image: "jenkins/jnlp-slave"
+  #tag: "3.27-1"
+  image: "docker.io/library/node"
+  tag: dubnium
   customJenkinsLabels: []
   # name of the secret to be used for image pulling
   imagePullSecretName:
