@@ -15,7 +15,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
   const form = useForm();
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', fetchCourseModuleAction, routes);
+  usePageResource('moduleId', fetchCourseModuleAction);
   const finish = () => {
     routes.navigate(routes.viewCourse, {
       courseId,
