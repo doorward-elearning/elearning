@@ -14,7 +14,7 @@ import { PageComponent } from '@edudoor/ui/types';
 const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.reports.singleTeacher);
   const routes = useRoutes();
-  usePageResource('teacherId', fetchCourseCreatorReport, routes);
+  usePageResource('teacherId', fetchCourseCreatorReport);
   useBreadCrumbTitle(state, state => state.data.teacher?.fullName, routes);
 
   const courseCreator = state.data.teacher;

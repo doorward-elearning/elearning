@@ -4,8 +4,7 @@ import classNames from 'classnames';
 import Panel from '../Panel';
 import Tools from '@edudoor/common/utils/Tools';
 import Icon from '../Icon';
-import Dropdown, { DropdownItemProps } from '../Dropdown';
-import IfElse from '../IfElse';
+import Dropdown from '@edudoor/ui/components/Dropdown';
 
 function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
@@ -110,7 +109,7 @@ export interface TableProps<T, K extends TableColumns> extends PropsWithChildren
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;
   noPanel?: boolean;
-  actionMenu?: (row: T) => Dropdown.Menu;
+  actionMenu?: (row: T) => JSX.Element;
 }
 
 export default Table;

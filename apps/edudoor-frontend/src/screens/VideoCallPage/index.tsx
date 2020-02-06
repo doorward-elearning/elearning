@@ -19,7 +19,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const history = useHistory();
   const routes = useRoutes();
 
-  usePageResource('meetingId', joinMeetingAction, routes);
+  usePageResource('meetingId', joinMeetingAction);
 
   const endMeeting = () => {
     history.goBack();

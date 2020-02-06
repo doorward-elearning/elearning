@@ -46,7 +46,7 @@ const Dropdown: DropdownComponent = ({ children, positionX = 'left', positionY =
   );
 };
 
-const Menu: React.FunctionComponent<DropdownMenuProps> = ({ children }) => {
+export const Menu: React.FunctionComponent<DropdownMenuProps> = ({ children }) => {
   return <ul className="dropdown-menu">{children}</ul>;
 };
 

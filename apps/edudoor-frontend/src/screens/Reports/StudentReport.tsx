@@ -27,7 +27,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
   const courses = useSelector((state: State) => state.courses.courseList.data?.courses);
   const routes = useRoutes();
 
-  usePageResource('studentId', fetchStudentReport, routes);
+  usePageResource('studentId', fetchStudentReport);
   const fetchCourses = useAction(fetchCoursesAction);
   useBreadCrumbTitle(state, state => state.data.student?.fullName, routes);
 

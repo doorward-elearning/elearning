@@ -14,7 +14,7 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.viewModule);
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', fetchCourseModuleAction, routes);
+  usePageResource('moduleId', fetchCourseModuleAction);
 
   const { module } = state.data;
   useEffect(() => {

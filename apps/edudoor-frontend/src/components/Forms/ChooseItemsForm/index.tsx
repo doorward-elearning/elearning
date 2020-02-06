@@ -37,6 +37,8 @@ function ChooseItemsForm<T>(props: ChooseItemsFormProps<T>): JSX.Element {
                 }}
                 data={formikProps.values.items}
                 onRowClick={(row, index): void => {
+                  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+                  // @ts-ignore
                   formikProps.setFieldValue(`items.${index}.selected`, !formikProps.values.items[index].selected);
                 }}
                 getCell={(row, index, column): JSX.Element => {
