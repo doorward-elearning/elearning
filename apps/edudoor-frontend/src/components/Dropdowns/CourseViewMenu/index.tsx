@@ -71,6 +71,9 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = props => {
           {/*<Dropdown.Item icon="account_circle">Participants</Dropdown.Item>*/}
           {/*<Dropdown.Item icon="event">Calendar</Dropdown.Item>*/}
           {/*<Dropdown.Item icon="settings">Settings</Dropdown.Item>*/}
+          <Dropdown.Item icon="archive" onClick={deleteCourseModal.openModal}>
+            Backup course
+          </Dropdown.Item>
           <Dropdown.Item icon="delete" onClick={deleteCourseModal.openModal}>
             Delete Course
           </Dropdown.Item>
