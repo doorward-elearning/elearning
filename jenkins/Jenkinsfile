@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Load deployment environment variable file') {
       steps {
-        sh "Loading variables"
+        echo "Loading variables"
       }
     }
 
