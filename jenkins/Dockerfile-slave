@@ -1,3 +1,5 @@
+# Use this docker file to develop Jenkins slave image where builds will run
+
 FROM jenkinsci/jnlp-slave:3.40-1
 
 USER root
