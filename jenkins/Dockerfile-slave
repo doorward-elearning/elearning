@@ -6,6 +6,18 @@ USER root
 
 RUN apt-get update
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y build-essential nodejs gcc make cmake
+RUN apt-get install -y build-essential nodejs gcc make cmake apt-transport-https ca-certificates gnupg
 RUN npm install -g @nrwl/nx
 
+# Install helm
+#RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+# Install helmfile
+#RUN wget https://github.com/roboll/helmfile/releases/download/v0.98.3/helmfile_linux_amd64 && \
+  chmod a+x ./helmfile_linux_amd64 && \
+  mv ./helmfile_linux_amd64 /usr/local/bin/helmfile
+
+# Install gcloud
+#RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+#RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+#RUN apt-get update && sudo apt-get install google-cloud-sdk kubectl
