@@ -1,5 +1,11 @@
 pipeline {
 
+  agent {
+    docker {
+      image 'gcr.io/edudoor/node-jnlp-slave@sha256:b0b05b1c67a671d128a96800efe4ad92158c2a437fdee90962fa226d22c7b2de'
+    }
+  }
+
   environment {
     PROJECT_NAME = 'edudoor'
   }
