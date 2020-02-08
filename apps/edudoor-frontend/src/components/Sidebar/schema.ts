@@ -37,6 +37,10 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
       subMenu: [routes.studentListReports, routes.teacherListReports],
     },
     {
+      ...routes.organizations,
+      icon: 'meeting_room',
+    },
+    {
       name: 'Logout',
       onClick: (): void => {
         logout();

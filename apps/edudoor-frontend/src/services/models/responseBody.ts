@@ -8,6 +8,7 @@ import { Course } from '@edudoor/common/models/Course';
 import { MeetingRoom } from '@edudoor/common/models/MeetingRoom';
 import { Meeting } from '@edudoor/common/models/Meeting';
 import { Group } from '@edudoor/common/models/Group';
+import { Organization } from '@edudoor/common/models/Organization';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -67,4 +68,12 @@ export interface GroupResponse extends ApiResponse {
 
 export interface GroupsResponse extends ApiResponse {
   groups: Array<Group>;
+}
+
+export interface OrganizationsResponse extends ApiResponse {
+  organizations: Array<Organization>;
+}
+
+export interface OrganizationResponse extends ApiResponse {
+  organization: Organization;
 }

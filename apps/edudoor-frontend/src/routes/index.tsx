@@ -31,6 +31,8 @@ import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
 import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';
 import CreateTeacherGroup from '../screens/Groups/Teachers/CreateTeacherGroup';
 import ViewGroup from '../screens/Groups/ViewGroup';
+import Organizations from '../screens/Organizations';
+import CreateOrganization from '../screens/Organizations/CreateOrganization';
 
 export const routeNames = {
   home: 'Home',
@@ -77,6 +79,8 @@ export const routeNames = {
   editStudentGroup: 'Edit Student Group',
   viewStudentGroup: 'View Student Group',
   viewTeacherGroup: 'View Teacher Group',
+  organizations: 'Organizations',
+  createOrganization: 'Create Organization',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -139,6 +143,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
             viewStudentGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.TEACHER),
           }),
+        }),
+        organizations: new Route('/organizations', Organizations).roles(Roles.SUPER_ADMINISTRATOR).with({
+          createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
         }),
       }),
       password: new Route('/password')

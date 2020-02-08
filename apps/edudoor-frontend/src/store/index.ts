@@ -8,6 +8,7 @@ import videoCall from '../reducers/videoCall';
 import socket from '../reducers/socket';
 import teachers from '../reducers/teachers';
 import groups from '../reducers/groups';
+import organizations from '../reducers/organizations';
 
 const store = createReduxStore({
   login,
@@ -19,6 +20,7 @@ const store = createReduxStore({
   socket,
   teachers,
   groups,
+  organizations,
 });
 
 const state = store.getState();

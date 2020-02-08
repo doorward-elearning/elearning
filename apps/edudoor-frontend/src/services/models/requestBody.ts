@@ -75,3 +75,9 @@ export interface CreateGroupBody extends AddGroupMembersBody {
 export interface AddGroupMembersBody {
   members: Array<string>;
 }
+
+export interface CreateOrganizationBody {
+  name: string;
+  icon: string;
+  description: string;
+}
