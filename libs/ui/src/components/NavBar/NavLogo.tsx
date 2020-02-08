@@ -15,16 +15,9 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
     <div className="nav-logo">
       <FeatureProvider features={props.features}>
         <Feature feature={NavbarFeatures.HAMBURGER}>
-          <Icon
-            className="hamburger"
-            icon="menu"
-            onClick={props.onHamburgerClick}
-          />
+          <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />
         </Feature>
-        <Feature
-          feature={NavbarFeatures.BACK_BUTTON}
-          excludeIfHas={NavbarFeatures.HAMBURGER}
-        >
+        <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
           <Icon
             icon="arrow_back"
             onClick={(): void => {
@@ -35,7 +28,7 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
         <Feature feature={NavbarFeatures.PAGE_LOGO}>
           <div className="page-logo">
             <Link to={props.homeLink || ''}>
-              <EImage src={theme.theme.logo} size={'small'} />
+              <EImage src={props.icon} size={'small'} />
               <span className="logo__title">{props.title}</span>
             </Link>
           </div>
@@ -51,6 +44,7 @@ export interface NavLogoProps {
   history: MemoryHistory;
   homeLink?: string;
   title: string;
+  icon: string;
 }
 
 export default NavLogo;

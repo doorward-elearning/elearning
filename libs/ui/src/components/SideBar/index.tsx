@@ -31,6 +31,7 @@ function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
               onHamburgerClick={props.onHamburgerClick}
               history={props.history}
               title=""
+              icon=""
             />
           </div>
         )}

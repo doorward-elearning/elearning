@@ -33,6 +33,7 @@ import CreateTeacherGroup from '../screens/Groups/Teachers/CreateTeacherGroup';
 import ViewGroup from '../screens/Groups/ViewGroup';
 import Organizations from '../screens/Organizations';
 import CreateOrganization from '../screens/Organizations/CreateOrganization';
+import EditOrganization from '../screens/Organizations/EditOrganization';
 
 export const routeNames = {
   home: 'Home',
@@ -81,6 +82,7 @@ export const routeNames = {
   viewTeacherGroup: 'View Teacher Group',
   organizations: 'Organizations',
   createOrganization: 'Create Organization',
+  editOrganization: 'Edit Organization',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -144,9 +146,15 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
             viewStudentGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.TEACHER),
           }),
         }),
-        organizations: new Route('/organizations', Organizations).roles(Roles.SUPER_ADMINISTRATOR).with({
-          createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-        }),
+        organizations: new Route('/organizations', Organizations)
+          .roles(Roles.SUPER_ADMINISTRATOR, user => {
+            console.log('Mosesssssssssss', user);
+            return user.organizationId === process.env.EDUDOOR_ORGANIZATION_ID;
+          })
+          .with({
+            createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+            editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+          }),
       }),
       password: new Route('/password')
         .public()

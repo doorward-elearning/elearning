@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, {FunctionComponent} from 'react';
 import TextField from '@edudoor/ui/components/Input/TextField';
 import DraftTextArea from '@edudoor/ui/components/Input/DraftTextArea';
-import { UseForm } from '@edudoor/ui/hooks/useForm';
-import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
+import {UseForm} from '@edudoor/ui/hooks/useForm';
+import AddModuleItemForm, {AddModuleItemFormState} from '../AddModuleItemForm';
 import './CreateAssignmentForm.scss';
 import MultipleSwitchField from '@edudoor/ui/components/Input/MultipleSwitchField';
 import DateInput from '@edudoor/ui/components/Input/DateInput';
@@ -11,8 +11,9 @@ import DropdownSelect from '@edudoor/ui/components/Input/DropdownSelect';
 import IfElse from '@edudoor/ui/components/IfElse';
 import Row from '@edudoor/ui/components/Row';
 import Header from '@edudoor/ui/components/Header';
-import { Module } from '@edudoor/common/models/Module';
-import { Assignment } from '@edudoor/common/models/Assignment';
+import {Module} from '@edudoor/common/models/Module';
+import {Assignment} from '@edudoor/common/models/Assignment';
+import {Omit} from '@edudoor/ui/types';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const initialValues = props.assignment || {

@@ -3,4 +3,10 @@
     font-size: 1em;
     color: var(--text-secondary);
   }
+
+  .organization-id {
+    * {
+      color: var(--primary);
+    }
+  }
 }

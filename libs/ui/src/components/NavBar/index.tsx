@@ -14,8 +14,9 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
   history,
   renderNavEnd,
   title,
+  icon,
   loginLink,
-  userManagement
+  userManagement,
 }) => {
   return (
     <FeatureProvider features={features}>
@@ -26,6 +27,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
             onHamburgerClick={onHamburgerClick}
             history={history}
             title={title}
+            icon={icon}
           />
         </div>
         <div className="ed-navBar__inner">
@@ -36,9 +38,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
         <div className="ed-navBar__end">
           {renderNavEnd && renderNavEnd()}
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
-            <UserManagement loginLink={loginLink}>
-              {userManagement()}
-            </UserManagement>
+            <UserManagement loginLink={loginLink}>{userManagement()}</UserManagement>
           </Feature>
         </div>
       </div>
@@ -56,6 +56,7 @@ export interface NavBarProps {
   title: string;
   loginLink: string;
   userManagement: () => JSX.Element;
+  icon: string;
 }
 
 export default NavBar;

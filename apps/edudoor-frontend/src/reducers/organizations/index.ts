@@ -1,5 +1,11 @@
 import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
-import { CREATE_ORGANIZATION, FETCH_ORGANIZATIONS } from './types';
+import {
+  CREATE_ORGANIZATION,
+  FETCH_ORGANIZATIONS,
+  GET_CURRENT_ORGANIZATION,
+  GET_ONE_ORGANIZATION,
+  UPDATE_ORGANIZATION,
+} from './types';
 import Api from '../../services/api';
 
 const create = reducerApiAction({
@@ -12,6 +18,21 @@ const list = reducerApiAction({
   api: Api.organizations.list,
 });
 
+const get = reducerApiAction({
+  action: GET_ONE_ORGANIZATION,
+  api: Api.organizations.get,
+});
+
+const update = reducerApiAction({
+  action: UPDATE_ORGANIZATION,
+  api: Api.organizations.update,
+});
+
+const currentOrganization = reducerApiAction({
+  action: GET_CURRENT_ORGANIZATION,
+  api: Api.organizations.getCurrent,
+});
+
 export default reducerBuilder({
-  middleware: { create, list },
+  middleware: { create, list, get, update, currentOrganization },
 });

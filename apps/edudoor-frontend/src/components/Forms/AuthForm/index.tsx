@@ -1,17 +1,17 @@
-import React, { ReactChild, useContext } from 'react';
+import React, { ReactChild } from 'react';
 import EImage from '@edudoor/ui/components/Image';
 import './AuthForm.scss';
 import Button from '@edudoor/ui/components/Buttons/Button';
 import Header from '@edudoor/ui/components/Header';
 import Card from '@edudoor/ui/components/Card';
 import IfElse from '@edudoor/ui/components/IfElse';
-import { ThemeContext } from '@edudoor/ui/components/ApplicationTheme';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '@edudoor/ui/reducers/reducers';
 import { Omit } from '@edudoor/ui/types';
+import useOrganization from '../../../hooks/useOrganization';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
-  const { theme } = useContext(ThemeContext);
+  const organization = useOrganization();
   const { buttonText } = props;
 
   return (
@@ -19,7 +19,7 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
       <Card.Header image />
       <Card.Body>
         <div className="login-form__header">
-          <EImage alt="" src={theme.logo} circle size="xLarge" />
+          <EImage alt="" src={organization.icon} circle size="xLarge" />
           <Header size={1}>{props.title}</Header>
           <IfElse condition={props.message}>
             <p>{props.message}</p>

@@ -3,7 +3,7 @@ import { Redirect, Route, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
 import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
 import Tools from '@edudoor/common/utils/Tools';
-import { Roles } from '@edudoor/ui/components/RolesManager';
+import { RoleEvaluator, Roles } from '@edudoor/ui/components/RolesManager';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import useRoutes from '../hooks/useRoutes';
 import { EdudoorRoutes } from './index';
@@ -13,7 +13,7 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();
   const { authenticated } = useAuth();
   const user = useSelector((state: any) => state.users.user);
-  const hasAccess = useRoleManager(props.roles);
+  const hasAccess = useRoleManager(props.roles, true, user.data.user);
 
   if (user.errors.message || user.errors.errors || !authenticated) {
     Tools.clearToken();
@@ -32,6 +32,6 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
 export interface AuthenticatedRouteProps extends RouteProps {
   redirect?: string;
   authRedirect: keyof EdudoorRoutes;
-  roles: Array<Roles>;
+  roles: Array<Roles | RoleEvaluator>;
 }
 export default AuthenticatedRoute;

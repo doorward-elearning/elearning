@@ -19,11 +19,13 @@ import { PageComponent } from '@edudoor/ui/types';
 import Header from '@edudoor/ui/components/Header';
 import Message from '@edudoor/ui/components/Message';
 import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
+import useOrganization from '../../hooks/useOrganization';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const [showMessage, setShowMessage] = useState(false);
   const { authenticated, authenticate } = useAuth();
   const clearLogin = useAction(clearLoginAction);
+  const organization = useOrganization();
   const query = useQueryParams();
 
   const routes = useRoutes();
@@ -56,7 +58,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
         )}
       >
         <div className="page page__login">
-          <Header size={1}>{CONSTANTS.APP_NAME}</Header>
+          <Header size={1}>{organization.name}</Header>
           <IfElse condition={showMessage}>
             <Message>
               <Header size={4}>Thank you for trying Edudoor. Please login to proceed.</Header>

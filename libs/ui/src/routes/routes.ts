@@ -2,14 +2,14 @@ import { ReactNode } from 'react';
 import { RouteProps } from 'react-router';
 import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '../types';
 import Tools from '@edudoor/common/utils/Tools';
-import { Roles } from '../components/RolesManager';
+import { RoleEvaluator, Roles } from '../components/RolesManager';
 import MRoute from './MRoute';
 
 const routeDefinitions: any = {};
 
 interface MRouteProps<T extends RouteNames> extends RouteProps {
   authRedirect: keyof T;
-  roles: Array<Roles>;
+  roles: Array<Roles | RoleEvaluator>;
 }
 
 function generateRoutes<T extends RouteNames>(

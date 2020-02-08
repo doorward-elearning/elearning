@@ -4,10 +4,10 @@
   }
 
   &__content {
+    height: 100vh;
     display: grid;
     align-items: center;
     justify-items: center;
-    height: 100%;
     &--loader {
       grid-template-columns: 150px;
       display: grid;

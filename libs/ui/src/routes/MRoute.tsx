@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Roles } from '../components/RolesManager';
+import { RoleEvaluator, Roles } from '../components/RolesManager';
 import { RouteNames, Routes } from '../types';
 
 export default class MRoute<T extends RouteNames> {
   path: string;
-  allowedRoles: Array<Roles>;
+  allowedRoles: Array<Roles | RoleEvaluator>;
   routes: Routes<T>;
   component?: React.FunctionComponent<any>;
   hideBreadCrumb?: boolean;
@@ -19,7 +19,7 @@ export default class MRoute<T extends RouteNames> {
     this.redirectLink = '' as keyof T;
   }
 
-  roles(...roles: Array<Roles>): MRoute<T> {
+  roles(...roles: Array<Roles | RoleEvaluator>): MRoute<T> {
     this.allowedRoles = roles || [];
     return this;
   }

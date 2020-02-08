@@ -191,6 +191,15 @@ const Api = {
     create: (body: CreateOrganizationBody): Promise<OrganizationResponse> => {
       return POST('/organizations', body);
     },
+    update: (organizationId: string, body: CreateOrganizationBody): Promise<OrganizationResponse> => {
+      return PUT(`/organizations/${organizationId}`, body);
+    },
+    get: (organizationId: string ): Promise<OrganizationResponse> => {
+      return GET(`/organizations/${organizationId}`);
+    },
+    getCurrent: (): Promise<OrganizationResponse> => {
+      return GET('/organizations/current')
+    }
   },
 };
 

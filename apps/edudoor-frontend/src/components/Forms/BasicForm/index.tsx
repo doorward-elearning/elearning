@@ -16,9 +16,9 @@ export enum BasicFormFeatures {
   CANCEL_BUTTON = 2,
 }
 
-const BasicForm = <T, A extends (...args: any[]) => Action>(
+function BasicForm<T, A extends (...args: any[]) => Action>(
   props: Omit<BasicFormProps<T, A>, 'onSubmit'>
-): JSX.Element => {
+): JSX.Element {
   const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
   const submit = useAction(props.submitAction, {
@@ -83,7 +83,7 @@ const BasicForm = <T, A extends (...args: any[]) => Action>(
       </Form>
     </FeatureProvider>
   );
-};
+}
 
 export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends FormProps<T> {
   submitAction: A;

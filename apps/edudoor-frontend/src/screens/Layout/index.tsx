@@ -25,6 +25,7 @@ import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
 import Icon from '@edudoor/ui/components/Icon';
 import SideBar from '@edudoor/ui/components/SideBar';
 import Header from '@edudoor/ui/components/Header';
+import useOrganization from '../../hooks/useOrganization';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -67,6 +68,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
   const currentRoute = routes.currentRoute;
   const debouncedSearch = _.debounce(onSearchText, 500);
+  const organization = useOrganization();
 
   const onSearch = ({ target: { value } }: any): void => {
     if (value !== search) {
@@ -101,11 +103,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
           <NavBar
+            icon={organization.icon}
             history={history}
             location={location}
             loginLink={routes.routes.login.link}
             features={navFeatures}
-            title={CONSTANTS.APP_NAME}
+            title={organization.name}
             onHamburgerClick={toggleSidebar}
             renderNavEnd={renderNavEnd}
             userManagement={() => <UserManagementDropdown />}

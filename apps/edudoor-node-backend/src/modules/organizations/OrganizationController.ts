@@ -1,4 +1,5 @@
 import models from '../../database/models';
+import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 
 class OrganizationController {
   static async create(req) {
@@ -13,6 +14,34 @@ class OrganizationController {
     const organizations = await models.Organization.findAll();
 
     return [200, { organizations }];
+  }
+
+  static async updateOrganization(req) {
+    const { organizationId } = req.params;
+    const { name, icon, description } = req.body;
+
+    const organization = await models.Organization.findByPk(organizationId);
+
+    await organization.update({
+      name,
+      icon,
+      description,
+    });
+    await organization.reload();
+
+    return [200, { organization }, 'Organization updated successfully.'];
+  }
+
+  static async getOrganization(req) {
+    const { organizationId } = req.params;
+
+    const organization = await models.Organization.findByPk(organizationId);
+
+    return [200, { organization }];
+  }
+
+  static async getCurrentOrganization(req) {
+    return [200, { organization: await OrganizationUtils.get() }];
   }
 }
 

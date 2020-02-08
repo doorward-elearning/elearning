@@ -1,17 +1,34 @@
 import { useContext } from 'react';
-import { Roles, RolesContext } from '../components/RolesManager';
+import { RoleEvaluator, Roles, RolesContext } from '../components/RolesManager';
 import { Role } from '@edudoor/common/models/Role';
+import useOrganization from '../../../../apps/edudoor-frontend/src/hooks/useOrganization';
+import { User } from '@edudoor/common/models/User';
 
-const useRoleManager = (roles?: Array<Roles>, superAdmin = true): boolean => {
+const useRoleManager = (roles?: Array<Roles | RoleEvaluator>, superAdmin = true, user?: User): boolean => {
   const { userRoles } = useContext(RolesContext);
+  const organization = useOrganization();
+  const evaluators = (roles || []).filter(role => {
+    return (role as RoleEvaluator).apply;
+  });
+
+  if (evaluators.length && user) {
+    const hasPermission = evaluators.find(role => {
+      const evaluate = role as RoleEvaluator;
+      return evaluate(user, organization);
+    });
+
+    if (!hasPermission) {
+      return false;
+    }
+  }
   if (roles && userRoles && userRoles.length) {
-    const allRoles: Array<Roles> = superAdmin
-      ? [Roles.SUPER_ADMINISTRATOR]
-      : [];
+    const allRoles: Array<Roles | RoleEvaluator> = superAdmin ? [Roles.SUPER_ADMINISTRATOR] : [];
     allRoles.push(...roles);
 
     const hasRole = (role: Role): boolean =>
-      !!allRoles.find(userRole => [role.name, Roles.ALL].includes(userRole));
+      !!allRoles.find(userRole => {
+        return [role.name, Roles.ALL].includes(userRole as string);
+      });
 
     return !!userRoles.find(hasRole);
   } else {

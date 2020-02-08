@@ -13,6 +13,7 @@ import RolesManager from '@edudoor/ui/components/RolesManager';
 import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
 import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
+import ApplicationInitializer from './components/ApplicationInitializer';
 
 console.log(process.env.REACT_APP_BASE_URL);
 
@@ -43,9 +44,11 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={{ ...app }}>
       <ApplicationTheme theme="base">
-        <RolesManager>
-          <Router />
-        </RolesManager>
+        <ApplicationInitializer>
+          <RolesManager>
+            <Router />
+          </RolesManager>
+        </ApplicationInitializer>
       </ApplicationTheme>
     </AppContext.Provider>
   );
