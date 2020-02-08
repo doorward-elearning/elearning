@@ -45,16 +45,21 @@ function renderRow<T, K extends TableColumns>(item: T, index: number, props: Tab
       props.onRowClick(item, index);
     }
   };
+
+  const defaultRenderer = (item, index, columnKey) => {
+    return <span>{Tools.str(item[columnKey as keyof typeof item])}</span>;
+  };
+
   return (
     <tr key={index} onClick={onRowClick}>
       {Object.keys(props.columns).map(columnKey => {
         return (
           <td key={columnKey}>
-            {props.getCell ? (
-              props.getCell(item, index, columnKey as keyof K)
-            ) : (
-              <span>{Tools.str(item[columnKey as keyof typeof item])}</span>
-            )}
+            {props.getCell
+              ? props.getCell(item, index, columnKey as keyof K, () => {
+                  return defaultRenderer(item, index, columnKey);
+                })
+              : defaultRenderer(item, index, columnKey)}
           </td>
         );
       })}
@@ -100,11 +105,13 @@ export interface TableHeaderProps<K extends TableColumns> {
   columns: K;
 }
 
+export type CellRenderer<T, K> = (row: T, index: number, column: keyof K) => JSX.Element | string;
+
 export interface TableProps<T, K extends TableColumns> extends PropsWithChildren<any> {
   onRowClick?: (row: T, index: number) => void;
   className?: string;
   data: Array<T>;
-  getCell?: (row: T, index: number, column: keyof K) => JSX.Element | string;
+  getCell?: (row: T, index: number, column: keyof K, defaultRenderer: () => JSX.Element) => JSX.Element | string;
   columns: K;
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;

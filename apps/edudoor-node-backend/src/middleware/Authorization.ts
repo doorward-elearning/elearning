@@ -32,7 +32,7 @@ export default class Authorization {
     }
   }
 
-  static checkRoles(roles, message) {
+  static checkRoles(roles, message?: string) {
     const response = [401, undefined, message || 'You are not authorized to perform this action'];
     return async req => {
       const {

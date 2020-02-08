@@ -6,6 +6,7 @@ import { User } from '@edudoor/common/models/User';
 export class Organization extends Model implements DBModel {
   public id: string;
   public name: string;
+  public icon: string;
   public description?: string;
 
   public readonly createdAt: Date;
@@ -21,6 +22,7 @@ export default (sequelize: Sequelize) => {
         primaryKey: true,
       },
       name: DataTypes.STRING,
+      icon: DataTypes.STRING,
       description: DataTypes.TEXT,
     },
     { sequelize, tableName: 'Organizations', paranoid: true }
