@@ -1,0 +1,28 @@
+releases:
+  - name: {{ requiredEnv "PLATFORM_ENV" }}-thaladb
+    namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
+    chart: ./charts/thaladb
+    values:
+      - ./charts/thaladb/values.yaml
+      - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
+
+  - name: {{ requiredEnv "PLATFORM_ENV" }}-samvadam
+    namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
+    chart: ./charts/samvadam
+    values:
+      - ./charts/samvadam/values.yaml
+      - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
+
+  - name: {{ requiredEnv "PLATFORM_ENV" }}-thala
+    namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
+    chart: ./charts/thala
+    values:
+      - ./charts/thala/values.yaml
+      - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
+
+  - name: {{ requiredEnv "PLATFORM_ENV" }}-chuchu
+    namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
+    chart: ./charts/chuchu
+    values:
+      - ./charts/chuchu/values.yaml
+      - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
