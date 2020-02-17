@@ -2,10 +2,12 @@ import React from 'react';
 import './ConversationList.scss';
 import ItemArray from '@edudoor/ui/components/ItemArray';
 import ConversationListItem from '@edudoor/chat/components/ConversationListItem';
+import Search from '@edudoor/ui/components/Search';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
   return (
     <div className="ed-conversation-list">
+      <Search onChange={() => {}} placeholder="Search conversations..." />
       <ItemArray data={props.conversations}>
         {item => {
           return <ConversationListItem recipient={item.recipient} />;
