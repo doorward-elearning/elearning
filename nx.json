@@ -31,6 +31,12 @@
     },
     "backend": {
       "tags": []
+    },
+    "chat": {
+      "tags": []
+    },
+    "edudoor-chat-api": {
+      "tags": []
     }
   }
 }

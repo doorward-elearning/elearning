@@ -34,6 +34,7 @@ import ViewGroup from '../screens/Groups/ViewGroup';
 import Organizations from '../screens/Organizations';
 import CreateOrganization from '../screens/Organizations/CreateOrganization';
 import EditOrganization from '../screens/Organizations/EditOrganization';
+import ChatScreen from '../screens/ChatScreen';
 
 export const routeNames = {
   home: 'Home',
@@ -83,6 +84,7 @@ export const routeNames = {
   organizations: 'Organizations',
   createOrganization: 'Create Organization',
   editOrganization: 'Edit Organization',
+  chat: 'Chat',
 };
 
 export type EdudoorRoutes = typeof routeNames;
@@ -148,13 +150,13 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
         }),
         organizations: new Route('/organizations', Organizations)
           .roles(Roles.SUPER_ADMINISTRATOR, user => {
-            console.log('Mosesssssssssss', user);
             return user.organizationId === process.env.EDUDOOR_ORGANIZATION_ID;
           })
           .with({
             createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
             editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
           }),
+        chat: new Route('/chat', ChatScreen),
       }),
       password: new Route('/password')
         .public()
