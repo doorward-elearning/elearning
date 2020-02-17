@@ -31,15 +31,6 @@
     },
     "backend": {
       "tags": []
-    },
-    "edudoor-chat": {
-      "tags": []
-    },
-    "edudoor-chat-e2e": {
-      "tags": []
-    },
-    "edudoor-chat-api": {
-      "tags": []
     }
   }
 }
