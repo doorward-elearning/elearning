@@ -1,0 +1,13 @@
+.ed-conversation-header {
+  border-bottom: 1px solid var(--line-color);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  padding: 2px var(--padding-lg);
+  grid-gap: var(--padding);
+
+  &__content {
+    display: grid;
+    align-items: center;
+    align-content: center;
+  }
+}
