@@ -36,10 +36,10 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
       icon: 'trending_up',
       subMenu: [routes.studentListReports, routes.teacherListReports],
     },
-    {
-      ...routes.organizations,
-      icon: 'meeting_room',
-    },
+    // {
+    //   ...routes.organizations,
+    //   icon: 'meeting_room',
+    // },
     {
       name: 'Logout',
       onClick: (): void => {
