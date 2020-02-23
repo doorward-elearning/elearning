@@ -15,18 +15,16 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
       onRowClick={(course): void => {
         props.history.push(ROUTES.viewCourse.withParams({ courseId: course.id }));
       }}
-      getCell={(row, index, column): string | JSX.Element => {
-        const data = {
+      getCell={row => {
+        return {
           displayName: (
             <div className="course-title">
               <EImage size="responsive" circle />
               <span>{row.title}</span>
             </div>
           ),
-          students: row.numStudents,
-          status: row.status,
+          students: <span>{row.numStudents}</span>,
         };
-        return data[column as keyof typeof data];
       }}
     />
   );

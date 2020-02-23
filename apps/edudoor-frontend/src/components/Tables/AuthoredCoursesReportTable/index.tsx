@@ -8,12 +8,10 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
   return (
     <Table
       data={props.courses}
-      getCell={(row, index, column) => {
-        const data = {
-          title: row.title,
-          ratings: '4.5',
+      getCell={() => {
+        return {
+          ratings: <span>4.5</span>,
         };
-        return data[column as keyof typeof data];
       }}
       onRowClick={row => routes.navigate(routes.viewCourse, { courseId: row.id })}
       columns={{ title: 'Course Name', ratings: 'Ratings' }}

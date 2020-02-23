@@ -1,6 +1,5 @@
 import React from 'react';
 import Table from '@edudoor/ui/components/Table';
-import Tools from '@edudoor/common/utils/Tools';
 import { Teacher } from '@edudoor/common/models/Teacher';
 
 const TeachersTable: React.FunctionComponent<TeachersTableProps> = props => {
@@ -15,7 +14,6 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = props => {
         status: 'Status',
       }}
       data={props.teachers}
-      getCell={(row, index, column): string => Tools.str(row[column as keyof Teacher])}
     />
   );
 };

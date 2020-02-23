@@ -91,7 +91,15 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
       ref={tabLayout}
     >
       <div className="ed-tabLayout__header">
-        <TabHeader tabs={tabs} setSelected={setSelected} selected={selected} />
+        <TabHeader
+          tabs={tabs}
+          setSelected={tab => {
+            if (tab !== selected) {
+              setSelected(tab);
+            }
+          }}
+          selected={selected}
+        />
         <span ref={slider} className="ed-tabLayout__slider" />
       </div>
       <div className="ed-tabLayout__content">

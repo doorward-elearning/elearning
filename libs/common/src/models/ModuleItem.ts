@@ -16,6 +16,8 @@ export class ModuleItem extends Model implements DBModel {
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
+
+  public readonly module: Module;
 }
 
 export default (sequelize: Sequelize) => {
@@ -48,7 +50,7 @@ export default (sequelize: Sequelize) => {
   return () => {
     ModuleItem.belongsTo(Module, {
       foreignKey: 'moduleId',
-      as: 'Module.ts',
+      as: 'module',
     });
     ModuleItem.belongsTo(User, {
       foreignKey: 'createdBy',

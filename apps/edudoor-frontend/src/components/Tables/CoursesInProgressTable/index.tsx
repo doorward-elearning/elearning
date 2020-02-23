@@ -13,12 +13,11 @@ const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProp
       }}
       data={props.courses}
       onRowClick={row => routes.navigate(routes.viewCourse, { courseId: row.id })}
-      getCell={(row, index, column): string => {
-        const data = {
-          name: row.title,
-          percentage: '50%',
+      getCell={row => {
+        return {
+          name: <span>{row.title}</span>,
+          percentage: <span>50%</span>,
         };
-        return data[column];
       }}
     />
   );

@@ -33,9 +33,11 @@ import {
   GroupResponse,
   OrganizationsResponse,
   OrganizationResponse,
+  ModuleItemsResponse,
 } from './models/responseBody';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 import { ApiResponse } from '@edudoor/ui/services/services';
+import { ModuleItemTypes } from '@edudoor/common/models';
 
 /**
  * Use the return keyword in the functions to improve readability
@@ -127,6 +129,9 @@ const Api = {
         create: (moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> => {
           return POST(`/courses/modules/${moduleId}/items/`, item);
         },
+        list: (courseId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
+          return GET(`/courses/${courseId}/modules/items?type=${type}`);
+        },
       },
       delete: (moduleId: string): Promise<ApiResponse> => {
         return DELETE(`/courses/modules/${moduleId}`);
@@ -194,12 +199,12 @@ const Api = {
     update: (organizationId: string, body: CreateOrganizationBody): Promise<OrganizationResponse> => {
       return PUT(`/organizations/${organizationId}`, body);
     },
-    get: (organizationId: string ): Promise<OrganizationResponse> => {
+    get: (organizationId: string): Promise<OrganizationResponse> => {
       return GET(`/organizations/${organizationId}`);
     },
     getCurrent: (): Promise<OrganizationResponse> => {
-      return GET('/organizations/current')
-    }
+      return GET('/organizations/current');
+    },
   },
 };
 

@@ -9,6 +9,8 @@ const Router = new MRouter('/', Authorization.authenticate);
 
 Router.get('/:courseId/modules', validateCourseExists(), ModulesController.getCourseModules);
 
+Router.get('/:courseId/modules/items', Tools.useQuery('type'), ModulesController.getCourseModuleItems);
+
 Router.post('/:courseId/modules', validateCourseModule, ModulesController.addCourseModule);
 
 Router.put('/modules/:moduleId', validateUpdateModule, ModulesController.updateCourseModule);

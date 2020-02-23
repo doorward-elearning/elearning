@@ -93,11 +93,10 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
                   name: 'Group name',
                   members: 'Members',
                 }}
-                renderCell={(row, index, column) => {
-                  if (column === 'members') {
-                    return <span>{Tools.str(row.members.length)}</span>;
-                  }
-                  return <span>{Tools.str(row[column])}</span>;
+                renderCell={row => {
+                  return {
+                    members: <span>{Tools.str(row.members.length)}</span>,
+                  };
                 }}
               >
                 {formikProps => (

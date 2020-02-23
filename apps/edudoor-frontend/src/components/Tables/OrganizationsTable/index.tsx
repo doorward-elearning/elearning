@@ -32,26 +32,23 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
           </Dropdown.Menu>
         );
       }}
-      getCell={(row, index, column, defaultRenderer) => {
-        if (column === 'id') {
-          return (
+      getCell={row => {
+        return {
+          id: (
             <Row style={{ gridGap: '1em', justifyContent: 'start' }}>
-              <span className="organization-id">{defaultRenderer()}</span>
+              <span className="organization-id">{row.id}</span>
               <CopyButton text={row.id} className="copy-icon" />
             </Row>
-          );
-        } else if (column === 'name') {
-          return (
+          ),
+          name: (
             <Row>
               <IfElse condition={row.icon}>
                 <EImage src={row.icon} size="small" />
               </IfElse>
-              {defaultRenderer()}
+              <span>{row.name}</span>
             </Row>
-          );
-        } else {
-          return defaultRenderer();
-        }
+          ),
+        };
       }}
     />
   );

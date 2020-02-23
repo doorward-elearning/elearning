@@ -20,15 +20,11 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
             columns={{ name: 'Name', members: 'Members', createdBy: 'Created By' }}
             data={data as Array<Group>}
             onRowClick={props.onRowClick}
-            getCell={(row, index, column) => {
-              switch (column) {
-                case 'name':
-                  return row.name;
-                case 'members':
-                  return Tools.str(row.members?.length);
-                default:
-                  return Tools.str(row.creator?.fullName);
-              }
+            getCell={row => {
+              return {
+                members: <span>{Tools.str(row.members?.length)}</span>,
+                createdBy: <span>{Tools.str(row.creator?.fullName)}</span>,
+              };
             }}
           />
         );

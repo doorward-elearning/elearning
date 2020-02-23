@@ -163,6 +163,27 @@ class ModulesController {
     });
     return [200, { items }];
   }
+
+  static async getCourseModuleItems(req) {
+    const { params } = req;
+    const items = await models.ModuleItem.findAll({
+      where: {
+        ...req.searchFields,
+      },
+      include: [
+        {
+          model: models.Module,
+          as: 'module',
+          required: true,
+          where: {
+            courseId: params.courseId,
+          },
+        },
+      ],
+    });
+
+    return [200, { items }];
+  }
 }
 
 export default ModulesController;
