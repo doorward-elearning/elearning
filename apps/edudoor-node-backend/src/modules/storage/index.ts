@@ -20,10 +20,14 @@ Router.post(
   BaseValidator.withErrorHandler(StorageController.uploadFile)
 );
 
-Router.get(
-  '/storage/files/:id',
-  BaseValidator.withErrorHandler(Authorization.authenticate),
-  BaseValidator.withErrorHandler(StorageController.getFile)
+Router.post(
+  '/storage/public/upload',
+  multer.single('file'),
+  BaseValidator.withErrorHandler(StorageController.uploadFile)
 );
+
+Router.get('/storage/files/:id', BaseValidator.withErrorHandler(Authorization.authenticate), StorageController.getFile);
+
+Router.get('/storage/public/files/:id', StorageController.getFile);
 
 export default Router;

@@ -12,6 +12,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import TextArea from '@edudoor/ui/components/Input/TextArea';
 import TextField from '@edudoor/ui/components/Input/TextField';
+import FileUploadField from '@edudoor/ui/components/Input/FileUploadField';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
   const form = useForm();
@@ -31,6 +32,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
           {formikProps => {
             return (
               <TabLayout
+                selected={2}
                 onTabChange={tab => {
                   if (currentTab !== tab) {
                     setCurrentTab(tab);
@@ -45,7 +47,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
                   <TextField name="websiteURL" />
                 </Tab>
                 <Tab title="File Upload">
-                  <textarea>Hi</textarea>
+                  <FileUploadField multiple/>
                 </Tab>
               </TabLayout>
             );

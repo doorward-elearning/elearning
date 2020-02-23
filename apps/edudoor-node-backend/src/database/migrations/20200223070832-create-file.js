@@ -12,6 +12,7 @@ module.exports = {
       ownerId: {
         type: Sequelize.STRING,
         onDelete: 'cascade',
+        allowNull: true,
         references: {
           model: 'Users',
           as: 'ownerId',
@@ -20,10 +21,15 @@ module.exports = {
       organizationId: {
         type: Sequelize.STRING,
         onDelete: 'cascade',
+        allowNull: true,
         references: {
           model: 'Organizations',
           as: 'organization',
         },
+      },
+      publicFile: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       publicUrl: {
         type: Sequelize.STRING,

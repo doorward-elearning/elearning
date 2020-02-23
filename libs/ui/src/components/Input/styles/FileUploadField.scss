@@ -1,2 +1,21 @@
 .ed-file-upload-field {
+  .upload-field {
+    display: grid;
+    place-items: center;
+    height: 150px;
+    background: var(--bg-primary);
+    border: 3px dotted var(--line-color);
+    cursor: pointer;
+
+    .upload-field__browse {
+      padding: var(--padding-sm) var(--padding-sm);
+      border-radius: 2px;
+      border: 1px solid var(--line-color);
+      margin-left: var(--padding);
+    }
+  }
+
+  .instructions {
+    margin: var(--padding-sm) 0;
+  }
 }

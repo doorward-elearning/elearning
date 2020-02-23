@@ -2,6 +2,7 @@ import { DBModel } from '@edudoor/common/models/DBModel';
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from '@edudoor/common/models/User';
 import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import { Organization } from '@edudoor/common/models/Organization';
 
 export class File extends Model implements DBModel {
   createdAt: Date;
@@ -9,8 +10,13 @@ export class File extends Model implements DBModel {
   id: string;
   updatedAt: Date;
   name: string;
-  owner: User;
   publicUrl: string;
+  ownerId: string;
+  organizationId: string;
+  publicFile: boolean;
+
+  owner: User;
+  organization: Organization;
 }
 
 export default (sequelize: Sequelize) => {
@@ -19,6 +25,8 @@ export default (sequelize: Sequelize) => {
       name: DataTypes.STRING,
       publicUrl: DataTypes.STRING,
       ownerId: DataTypes.STRING,
+      organizationId: DataTypes.STRING,
+      publicFile: DataTypes.BOOLEAN,
     },
     {
       tableName: 'Files',

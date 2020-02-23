@@ -20,6 +20,7 @@ import MeetingRoomMember from '@edudoor/common/models/MeetingRoomMember';
 import Module from '@edudoor/common/models/Module';
 import File from '@edudoor/common/models/File';
 import { ModelCreator } from '../../types';
+import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 
 const modelNames = {
   Answer,
@@ -69,6 +70,7 @@ Object.keys(modelNames).forEach(modelName => {
   models[modelName] = models[modelName]();
   models[modelName].beforeCreate(model => {
     model.id = Tools.generateId();
+    model.organizationId = OrganizationUtils.getId();
   });
 });
 
