@@ -10,11 +10,13 @@ import {
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
+  FETCH_MODULE_ITEM,
   FETCH_STUDENTS_NOT_REGISTERED,
   LIST_MODULE_ITEMS,
   REGISTER_STUDENTS,
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
+  SUBMIT_ASSIGNMENT,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -131,6 +133,16 @@ const moduleItemList = reducerApiAction({
   api: Api.courses.modules.items.list,
 });
 
+const moduleItem = reducerApiAction({
+  action: FETCH_MODULE_ITEM,
+  api: Api.courses.modules.items.get,
+});
+
+const submitAssignment = reducerApiAction({
+  action: SUBMIT_ASSIGNMENT,
+  api: Api.courses.modules.items.submitAssignment,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -150,5 +162,7 @@ export default reducerBuilder({
     deleteCourse,
     deleteModule,
     moduleItemList,
+    moduleItem,
+    submitAssignment,
   },
 });

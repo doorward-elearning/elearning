@@ -16,7 +16,12 @@ const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onCl
     </li>
   );
 };
-const Dropdown: DropdownComponent = ({ children, positionX = 'left', positionY = 'bottom' }): JSX.Element => {
+const Dropdown: DropdownComponent = ({
+  children,
+  positionX = 'left',
+  positionY = 'bottom',
+  openOnHover,
+}): JSX.Element => {
   const dropdown = useRef<any>(null);
   const dropdownContent = useRef<HTMLDivElement | null>(null);
   const dropdownTrigger = useRef<HTMLDivElement | null>(null);
@@ -36,7 +41,14 @@ const Dropdown: DropdownComponent = ({ children, positionX = 'left', positionY =
         open,
       })}
     >
-      <div className="ed-dropdown__trigger" ref={dropdownTrigger} onClick={(): void => setOpen(!open)}>
+      <div
+        className="ed-dropdown__trigger"
+        ref={dropdownTrigger}
+        onClick={(): void => setOpen(!open)}
+        onMouseEnter={() => {
+          openOnHover && setOpen(true);
+        }}
+      >
         {children[0]}
       </div>
       <div className="ed-dropdown__content" ref={dropdownContent}>
@@ -62,6 +74,7 @@ export interface DropdownProps {
   children: [JSX.Element, JSX.Element];
   positionX?: 'left' | 'right' | 'center';
   positionY?: 'top' | 'bottom';
+  openOnHover?: boolean;
 }
 
 export interface DropdownItemProps {

@@ -1,43 +1,47 @@
 import {
   AccountDetailsBody,
+  AddGroupMembersBody,
   ChangePasswordBody,
   CourseModuleBody,
   CourseModuleItemBody,
   CreateCourseBody,
-  CreateTeacherBody,
+  CreateGroupBody,
+  CreateOrganizationBody,
   CreatePasswordBody,
   CreateStudentBody,
+  CreateTeacherBody,
   ForgotPasswordBody,
   LoginBody,
   RegisterStudentsBody,
   RegistrationBody,
+  SubmitAssignmentBody,
   UpdateModulesBody,
-  CreateGroupBody,
-  AddGroupMembersBody,
-  CreateOrganizationBody,
 } from './models/requestBody';
 import {
-  TeacherListResponse,
-  TeacherResponse,
+  AssignmentSubmissionResponse,
   CourseListResponse,
   CourseModuleListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
+  FileUploadResponse,
+  GroupResponse,
+  GroupsResponse,
   LoginResponse,
+  MeetingResponse,
   ModuleItemResponse,
+  ModuleItemsResponse,
+  OrganizationResponse,
+  OrganizationsResponse,
   StudentListResponse,
   StudentResponse,
+  TeacherListResponse,
+  TeacherResponse,
   UserResponse,
-  MeetingResponse,
-  GroupsResponse,
-  GroupResponse,
-  OrganizationsResponse,
-  OrganizationResponse,
-  ModuleItemsResponse,
 } from './models/responseBody';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 import { ApiResponse } from '@edudoor/ui/services/services';
 import { ModuleItemTypes } from '@edudoor/common/models';
+import axios from 'axios';
 
 /**
  * Use the return keyword in the functions to improve readability
@@ -132,6 +136,12 @@ const Api = {
         list: (courseId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
           return GET(`/courses/${courseId}/modules/items?type=${type}`);
         },
+        get: (itemId: string): Promise<ModuleItemResponse> => {
+          return GET(`/courses/modules/items/${itemId}`);
+        },
+        submitAssignment: (assignmentId: string, body: SubmitAssignmentBody): Promise<AssignmentSubmissionResponse> => {
+          return POST(`/courses/modules/assignments/${assignmentId}/submit`, body);
+        },
       },
       delete: (moduleId: string): Promise<ApiResponse> => {
         return DELETE(`/courses/modules/${moduleId}`);
@@ -204,6 +214,28 @@ const Api = {
     },
     getCurrent: (): Promise<OrganizationResponse> => {
       return GET('/organizations/current');
+    },
+  },
+  storage: {
+    upload: (
+      file: Blob,
+      publicFile?: boolean,
+      onUploadProgress?: (percentage: number) => void,
+      cancelHandler?: (cancelFunction: () => void) => void
+    ): Promise<FileUploadResponse> => {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const url = publicFile ? '/storage/public/upload' : '/storage/upload';
+      return POST(url, formData, {
+        onUploadProgress: progressEvent => {
+          const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          onUploadProgress && onUploadProgress(percentage);
+        },
+        cancelToken: new axios.CancelToken(c => {
+          cancelHandler(c);
+        }),
+      });
     },
   },
 };

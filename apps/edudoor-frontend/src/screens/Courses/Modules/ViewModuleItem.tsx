@@ -17,6 +17,10 @@ import useForm from '@edudoor/ui/hooks/useForm';
 import { PageComponent } from '@edudoor/ui/types';
 import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
+import useAction from '@edudoor/ui/hooks/useActions';
+import { fetchModuleItem } from '../../../reducers/courses/actions';
+import { useSelector } from 'react-redux';
+import { State } from '../../../store';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [item, setItem] = useState<ModuleItem>();
@@ -27,19 +31,29 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
 
+  const fetchItem = useAction(fetchModuleItem);
+  useEffect(() => {
+    fetchItem(match.params.itemId);
+  }, []);
+
+  const state = useSelector((state: State) => state.courses.moduleItem);
+
   useEffect(() => {
     setEditing(routes.currentRoute === routes.editModuleItem.id);
   }, [routes.currentRoute]);
+
+  useEffect(() => {
+    const moduleItem = state.data.item;
+    if (moduleItem) {
+      setItem(moduleItem);
+    }
+  }, [state]);
 
   useEffect(() => {
     if (course.data.course) {
       const currentModule = course.data.course.modules.find(module => module.id === match.params.moduleId);
       if (currentModule) {
         setModule(currentModule);
-        const moduleItem = currentModule.items.find(item => {
-          return item.id === match.params.itemId;
-        });
-        setItem(moduleItem);
         routes.setTitle(routes.viewModuleItem.id, currentModule.title);
       }
     }

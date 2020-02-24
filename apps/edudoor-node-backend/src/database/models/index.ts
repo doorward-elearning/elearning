@@ -19,6 +19,7 @@ import StudentCourse from '@edudoor/common/models/StudentCourse';
 import MeetingRoomMember from '@edudoor/common/models/MeetingRoomMember';
 import Module from '@edudoor/common/models/Module';
 import File from '@edudoor/common/models/File';
+import AssignmentSubmission from '@edudoor/common/models/AssignmentSubmission';
 import { ModelCreator } from '../../types';
 import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
 
@@ -40,6 +41,7 @@ const modelNames = {
   Group,
   GroupMember,
   File,
+  AssignmentSubmission,
 };
 
 const env = process.env.NODE_ENV || 'development';

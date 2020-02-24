@@ -28,7 +28,7 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
               getCell={row => {
                 return {
                   module: row.module.title,
-                  status: 'Not Submitted',
+                  status: row.assignmentSubmission ? 'Submitted' : 'Not Submitted',
                 };
               }}
               onRowClick={row => {
