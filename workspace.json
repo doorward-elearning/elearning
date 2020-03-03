@@ -185,7 +185,8 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "edudoor-node-backend:build"
+            "buildTarget": "edudoor-node-backend:build",
+            "port": 0
           }
         },
         "lint": {
@@ -330,6 +331,84 @@
           "options": {
             "jestConfig": "libs/backend/jest.config.js",
             "tsConfig": "libs/backend/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "chat": {
+      "root": "libs/chat",
+      "sourceRoot": "libs/chat/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "libs/chat/.eslintrc",
+            "tsConfig": ["libs/chat/tsconfig.lib.json", "libs/chat/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/chat/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/chat/jest.config.js",
+            "tsConfig": "libs/chat/tsconfig.spec.json"
+          }
+        }
+      }
+    },
+    "edudoor-chat-api": {
+      "root": "apps/edudoor-chat-api",
+      "sourceRoot": "apps/edudoor-chat-api/src",
+      "projectType": "application",
+      "prefix": "edudoor-chat-api",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/edudoor-chat-api",
+            "main": "apps/edudoor-chat-api/src/main.ts",
+            "tsConfig": "apps/edudoor-chat-api/tsconfig.app.json",
+            "assets": ["apps/edudoor-chat-api/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/edudoor-chat-api/src/environments/environment.ts",
+                  "with": "apps/edudoor-chat-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "edudoor-chat-api:build",
+            "port": 0
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/edudoor-chat-api/.eslintrc",
+            "tsConfig": ["apps/edudoor-chat-api/tsconfig.app.json", "apps/edudoor-chat-api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-chat-api/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/edudoor-chat-api/jest.config.js",
+            "tsConfig": "apps/edudoor-chat-api/tsconfig.spec.json"
           }
         }
       }

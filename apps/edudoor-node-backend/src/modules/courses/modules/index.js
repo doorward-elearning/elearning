@@ -2,12 +2,21 @@ import MRouter from '../../../utils/router';
 import Authorization from '../../../middleware/Authorization';
 import { validateCourseExists } from '../validate';
 import ModulesController from './ModulesController';
-import { validateCourseModule, validateModuleExists, validateModuleItem, validateUpdateModule } from './validate';
+import {
+  validateCourseModule,
+  validateIsAssignment,
+  validateModuleExists,
+  validateModuleItem,
+  validateModuleItemExists,
+  validateUpdateModule,
+} from './validate';
 import Tools from '../../../utils/Tools';
 
 const Router = new MRouter('/', Authorization.authenticate);
 
 Router.get('/:courseId/modules', validateCourseExists(), ModulesController.getCourseModules);
+
+Router.get('/:courseId/modules/items', Tools.useQuery('type'), ModulesController.getCourseModuleItems);
 
 Router.post('/:courseId/modules', validateCourseModule, ModulesController.addCourseModule);
 
@@ -24,5 +33,14 @@ Router.use('/modules/:moduleId', ItemRouter);
 ItemRouter.post('/', validateModuleItem, ModulesController.createModuleItem);
 
 ItemRouter.get('/', Tools.useQuery('type'), ModulesController.getAllModuleItems);
+
+Router.get('/modules/items/:id', validateModuleItemExists, ModulesController.getModuleItem);
+
+Router.post(
+  '/modules/assignments/:id/submit',
+  validateModuleItemExists,
+  validateIsAssignment,
+  ModulesController.submitAssignment
+);
 
 export default Router;

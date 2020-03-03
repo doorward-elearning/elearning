@@ -159,9 +159,69 @@ class ModulesController {
           model: models.User,
           as: 'author',
         },
+        {
+          model: models.AssignmentSubmission,
+          as: 'assignmentSubmission',
+        },
       ],
     });
     return [200, { items }];
+  }
+
+  static async getModuleItem(req) {
+    const { params } = req;
+
+    const item = await models.ModuleItem.findByPk(params.id, {
+      include: [
+        {
+          model: models.Module,
+          as: 'module',
+        },
+        {
+          model: models.AssignmentSubmission,
+          as: 'assignmentSubmission',
+        },
+      ],
+    });
+    return [200, { item }];
+  }
+
+  static async getCourseModuleItems(req) {
+    const { params } = req;
+    const items = await models.ModuleItem.findAll({
+      where: {
+        ...req.searchFields,
+      },
+      include: [
+        {
+          model: models.Module,
+          as: 'module',
+          required: true,
+          where: {
+            courseId: params.courseId,
+          },
+        },
+        {
+          model: models.AssignmentSubmission,
+          as: 'assignmentSubmission',
+        },
+      ],
+    });
+
+    return [200, { items }];
+  }
+
+  static async submitAssignment(req) {
+    const { body, user, params } = req;
+    const submission = await models.AssignmentSubmission.create({
+      studentId: user.id,
+      assignmentId: params.id,
+      submissionType: body.submissionType,
+      submission: body.submission,
+      resubmission: body.resubmission,
+    });
+
+    return [201, { submission }, 'Assignment has been submitted.'];
   }
 }
 

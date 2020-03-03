@@ -1,0 +1,29 @@
+.ed-conversation-list__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: var(--padding);
+  padding: var(--padding) var(--padding-lg);
+  border-bottom: 1px solid var(--line-color);
+  user-select: none;
+  transition: 0.5s background;
+  cursor: pointer;
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  .content {
+    display: grid;
+    align-items: center;
+    align-content: center;
+
+    .last-message {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+      font-size: 0.9em;
+    }
+  }
+}

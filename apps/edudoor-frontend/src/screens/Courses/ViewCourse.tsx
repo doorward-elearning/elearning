@@ -25,6 +25,7 @@ import useModal from '@edudoor/ui/hooks/useModal';
 import IfElse from '@edudoor/ui/components/IfElse';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import { PageComponent } from '@edudoor/ui/types';
+import { Link } from 'react-router-dom';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
@@ -113,7 +114,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 <div className="view-course__module-list">
                   <LabelRow>
                     <span className="meta">{course.modules.length} Modules</span>
-                    <span className="meta">{course.itemCount.assignments} Assignments</span>
+                    <Link to={routes.assignmentList.link} className="meta">
+                      {course.itemCount.assignments} Assignments
+                    </Link>
                     <span className="meta">{course.itemCount.quizzes} Quizzes</span>
                     <span className="meta">{course.itemCount.pages} Pages</span>
                   </LabelRow>

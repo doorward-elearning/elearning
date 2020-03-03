@@ -72,3 +72,19 @@ export const validateModuleItem = async ({ body, params, ...req }) => {
     .notEmpty()
     .withMessage('Module item content is required.');
 };
+
+export const validateModuleItemExists = async ({ params }) => {
+  const item = await models.ModuleItem.findByPk(params.id);
+
+  if (!item) {
+    return [404, undefined, 'Module item does not exist'];
+  }
+};
+
+export const validateIsAssignment = async ({ params }) => {
+  const item = await models.ModuleItem.findByPk(params.id);
+
+  if (item.type !== 'Assignment') {
+    return [404, undefined, 'Assignment does not exist.'];
+  }
+};

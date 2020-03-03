@@ -14,14 +14,13 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = pro
     {data => (
       <Table
         data={data}
-        getCell={(row, index, column): JSX.Element | string => {
-          const data = {
+        getCell={row => {
+          return {
             fullName: row.fullName,
             department: 'Computer Science',
             courses: '' + row.authoredCourses.length,
             ratings: '4.5',
           };
-          return data[column as keyof typeof data];
         }}
         columns={{
           fullName: 'Name',

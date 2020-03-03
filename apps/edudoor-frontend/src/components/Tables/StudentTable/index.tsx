@@ -13,15 +13,7 @@ const columns = {
 };
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
-  return (
-    <Table
-      {...(props.tableProps || {})}
-      className="student-table"
-      columns={columns}
-      data={props.students}
-      getCell={(row, index, column): string => Tools.str(row[column as keyof Student])}
-    />
-  );
+  return <Table {...(props.tableProps || {})} className="student-table" columns={columns} data={props.students} />;
 };
 
 export interface StudentTableProps {

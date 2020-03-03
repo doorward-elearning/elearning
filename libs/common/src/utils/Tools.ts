@@ -144,6 +144,25 @@ class Tools {
   static randomInt(from: number, to: number): number {
     return Math.floor(from + Math.random() * (to - from));
   }
+
+  static fileSize(bytes: number) {
+    if (!bytes) {
+      return '';
+    }
+    if (bytes < 1024) {
+      return Math.round(bytes) + ' bytes';
+    } else if (bytes < 1024 * 1024) {
+      return Math.round(bytes / 1024) + ' KB';
+    } else if (bytes < 1024 * 1024 * 1024) {
+      return Math.round(bytes / (1024 * 1024)) + ' MB';
+    } else {
+      return Math.round(bytes / (1024 * 1024 * 1024)) + ' GB';
+    }
+  }
+
+  static compareFiles(first: File, second: File) {
+    return first.name === second.name && first.lastModified === second.lastModified && first.size === second.size;
+  }
 }
 
 export default Tools;

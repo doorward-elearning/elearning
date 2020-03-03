@@ -1,0 +1,11 @@
+.ed-more-info {
+  .info-content {
+    padding: var(--padding);
+    width: 300px;
+    display: grid;
+    grid-template-columns: 1fr;
+    span {
+      width: 100%;
+    }
+  }
+}

@@ -8,10 +8,13 @@ import {
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
+  FETCH_MODULE_ITEM,
   FETCH_STUDENTS_NOT_REGISTERED,
+  LIST_MODULE_ITEMS,
   REGISTER_STUDENTS,
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
+  SUBMIT_ASSIGNMENT,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -22,9 +25,11 @@ import {
   CreateCourseBody,
   CreateStudentBody,
   RegisterStudentsBody,
+  SubmitAssignmentBody,
   UpdateModulesBody,
 } from '../../services/models/requestBody';
 import { Action } from '@edudoor/ui/reducers/reducers';
+import { ModuleItemTypes } from '@edudoor/common/models';
 
 export const fetchCoursesAction = (): Action => ({
   type: FETCH_COURSES,
@@ -104,4 +109,19 @@ export const deleteCourseAction = (courseId: string): Action => ({
 export const deleteCourseModuleAction = (moduleId: string): Action => ({
   type: DELETE_COURSE_MODULE,
   payload: [moduleId],
+});
+
+export const fetchModuleItems = (courseId: string, type: ModuleItemTypes): Action => ({
+  type: LIST_MODULE_ITEMS,
+  payload: [courseId, type],
+});
+
+export const fetchModuleItem = (itemId: string): Action => ({
+  type: FETCH_MODULE_ITEM,
+  payload: [itemId],
+});
+
+export const submitAssignmentAction = (assignmentId: string, body: SubmitAssignmentBody): Action => ({
+  type: SUBMIT_ASSIGNMENT,
+  payload: [assignmentId, body],
 });

@@ -26,6 +26,8 @@ import Icon from '@edudoor/ui/components/Icon';
 import SideBar from '@edudoor/ui/components/SideBar';
 import Header from '@edudoor/ui/components/Header';
 import useOrganization from '../../hooks/useOrganization';
+import RightMenu from '../../components/Navbar/RightMenu';
+import Row from '@edudoor/ui/components/Row';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -110,7 +112,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             features={navFeatures}
             title={organization.name}
             onHamburgerClick={toggleSidebar}
-            renderNavEnd={renderNavEnd}
+            renderNavEnd={() => {
+              return (
+                <Row>
+                  <RightMenu />
+                  {renderNavEnd && renderNavEnd()}
+                </Row>
+              );
+            }}
             userManagement={() => <UserManagementDropdown />}
           />
         </div>

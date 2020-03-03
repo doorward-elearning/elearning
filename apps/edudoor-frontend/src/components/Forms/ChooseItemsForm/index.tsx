@@ -41,17 +41,11 @@ function ChooseItemsForm<T>(props: ChooseItemsFormProps<T>): JSX.Element {
                   // @ts-ignore
                   formikProps.setFieldValue(`items.${index}.selected`, !formikProps.values.items[index].selected);
                 }}
-                getCell={(row, index, column): JSX.Element => {
-                  return (
-                    <IfElse condition={column === '_uniqueColumnAdd_'}>
-                      <SwitchInput labelPosition="right" name={`items.${index}.selected`} />
-                      {props.renderCell ? (
-                        props.renderCell(row as T, index, column)
-                      ) : (
-                        <span>{Tools.str(row[column as keyof typeof row])}</span>
-                      )}
-                    </IfElse>
-                  );
+                getCell={(row, index) => {
+                  return {
+                    _uniqueColumnAdd_: <SwitchInput labelPosition="right" name={`items.${index}.selected`} />,
+                    ...(props.renderCell ? props.renderCell(row, index) : {}),
+                  };
                 }}
               />
               {props.children && props.children(formikProps)}
@@ -73,7 +67,7 @@ export interface ChooseItemsFormProps<T> {
   chooseHeader?: string;
   createData: (data: { items: Array<T & { selected: boolean }> }) => any;
   columns: TableColumns;
-  renderCell?: (row: T, index: number, column: string) => JSX.Element;
+  renderCell?: (row: T, index: number) => { [name in keyof TableColumns]: JSX.Element };
   children?: (formikProps: FormikProps<any>) => JSX.Element;
 }
 

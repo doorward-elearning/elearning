@@ -1,5 +1,5 @@
 import { Module } from '@edudoor/common/models/Module';
-import { ModuleItemTypes } from '@edudoor/common/models';
+import { AssignmentSubmissionType, ModuleItemTypes } from '@edudoor/common/models';
 
 export interface LoginBody {
   username: string;
@@ -80,4 +80,10 @@ export interface CreateOrganizationBody {
   name: string;
   icon: string;
   description: string;
+}
+
+export interface SubmitAssignmentBody {
+  submissionType: AssignmentSubmissionType;
+  submission: string;
+  resubmission: boolean;
 }

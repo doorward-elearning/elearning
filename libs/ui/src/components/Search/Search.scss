@@ -1,0 +1,13 @@
+.ed-search {
+  position: relative;
+
+  input {
+    padding-right: 30px;
+  }
+  .close-icon {
+    position: absolute;
+    right: var(--padding);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

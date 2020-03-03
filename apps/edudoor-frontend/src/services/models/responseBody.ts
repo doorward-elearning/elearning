@@ -9,6 +9,8 @@ import { MeetingRoom } from '@edudoor/common/models/MeetingRoom';
 import { Meeting } from '@edudoor/common/models/Meeting';
 import { Group } from '@edudoor/common/models/Group';
 import { Organization } from '@edudoor/common/models/Organization';
+import { File } from '@edudoor/common/models/File';
+import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -76,4 +78,12 @@ export interface OrganizationsResponse extends ApiResponse {
 
 export interface OrganizationResponse extends ApiResponse {
   organization: Organization;
+}
+
+export interface FileUploadResponse extends ApiResponse {
+  file: File;
+}
+
+export interface AssignmentSubmissionResponse extends ApiResponse {
+  submission: AssignmentSubmission;
 }

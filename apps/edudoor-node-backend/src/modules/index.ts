@@ -5,6 +5,7 @@ import reports from './reports';
 import healthCheck from './healthcheck';
 import meetingRooms from './meetings';
 import organizations from './organizations';
+import storage from './storage';
 import groups from './groups';
 import { Application } from 'express';
 
@@ -12,6 +13,7 @@ const modules = {
   users,
   courses,
   reports,
+  storage,
   healthCheck,
   meetingRooms,
   organizations,

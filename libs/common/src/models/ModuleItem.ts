@@ -4,6 +4,7 @@ import { ModuleItemTypes } from '@edudoor/common/models/index';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { User } from './User';
 import { Module } from '@edudoor/common/models/Module';
+import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
 
 export class ModuleItem extends Model implements DBModel {
   public id: string;
@@ -16,6 +17,9 @@ export class ModuleItem extends Model implements DBModel {
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
+
+  public readonly module: Module;
+  public readonly assignmentSubmission: AssignmentSubmission;
 }
 
 export default (sequelize: Sequelize) => {
@@ -48,7 +52,7 @@ export default (sequelize: Sequelize) => {
   return () => {
     ModuleItem.belongsTo(Module, {
       foreignKey: 'moduleId',
-      as: 'Module.ts',
+      as: 'module',
     });
     ModuleItem.belongsTo(User, {
       foreignKey: 'createdBy',
@@ -57,6 +61,10 @@ export default (sequelize: Sequelize) => {
     ModuleItem.hasMany(Question, {
       foreignKey: 'quizId',
       as: 'questions',
+    });
+    ModuleItem.hasOne(AssignmentSubmission, {
+      foreignKey: 'assignmentId',
+      as: 'assignmentSubmission',
     });
     return ModuleItem;
   };

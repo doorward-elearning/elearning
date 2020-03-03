@@ -27,15 +27,14 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
           courses: 'Courses completed',
           grade: 'Average Grade',
         }}
-        getCell={(row, index, column): string => {
-          const data = {
+        getCell={row => {
+          return {
             name: row.fullName,
             department: 'Computer Science',
             enrollments: '23',
             courses: '12',
             grade: '12.4',
           };
-          return data[column as keyof typeof data];
         }}
         onRowClick={props.onRowClick}
       />
