@@ -1,0 +1,16 @@
+# Name of the Customer / Website
+customer: mindbox
+
+# HOME Page of the website. By default it will be customer.edudoor.org. Customers are allowed to register a custom domain if they prefer so
+websiteurl: mindbox.edudoor.org
+
+# Name of the Website. This name will be most probably same as Customer Name
+websitename: Mindbox
+
+# Logo URL of the website. Customer provide this logo
+websitelogo:
+
+# Namespace for Stage
+namespace: mindbox-edudoor
+
+# Override default variables for stage environments
