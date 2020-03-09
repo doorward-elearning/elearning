@@ -10,7 +10,7 @@ releases:
     namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
     chart: ./charts/samvadam
     needs:
-      - {{ requiredEnv "PLATFORM_ENV" }}-thaladb
+      - {{ requiredEnv "PLATFORM_ENV" }}-edudoor/{{ requiredEnv "PLATFORM_ENV" }}-thaladb
     values:
       - ./charts/samvadam/values.yaml
       - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
@@ -19,7 +19,7 @@ releases:
     namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
     chart: ./charts/thala
     needs:
-      - {{ requiredEnv "PLATFORM_ENV" }}-thaladb
+      - {{ requiredEnv "PLATFORM_ENV" }}-edudoor/{{ requiredEnv "PLATFORM_ENV" }}-thaladb
     values:
       - ./charts/thala/values.yaml
       - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
@@ -28,7 +28,7 @@ releases:
     namespace: {{ requiredEnv "PLATFORM_ENV" }}-edudoor
     chart: ./charts/chuchu
     needs:
-      - {{ requiredEnv "PLATFORM_ENV" }}-thaladb
+      - {{ requiredEnv "PLATFORM_ENV" }}-edudoor/{{ requiredEnv "PLATFORM_ENV" }}-thaladb
     values:
       - ./charts/chuchu/values.yaml
       - ./environments/{{ requiredEnv "PLATFORM_ENV" }}/config.yaml
