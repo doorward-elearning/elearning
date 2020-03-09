@@ -78,4 +78,4 @@ samvadamhostpostfix: samvadam
 samvadamport: 4443
 
 container:
-  startupseconds: 60
+  startupseconds: 100
