@@ -4,6 +4,7 @@ import { State } from '../../store';
 import useAction from '@edudoor/ui/hooks/useActions';
 import { getCurrentOrganization } from '../../reducers/organizations/actions';
 import LoadingPage from '../../screens/LoadingPage';
+import IfElse from '@edudoor/ui/components/IfElse';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.organizations.currentOrganization);
@@ -13,7 +14,12 @@ const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> 
     getUserOrganization();
   }, []);
 
-  return !state.data.organization ? <LoadingPage /> : <React.Fragment>{props.children}</React.Fragment>;
+  return (
+    <IfElse condition={state.data.organization}>
+      <React.Fragment>{props.children}</React.Fragment>
+      <LoadingPage />
+    </IfElse>
+  );
 };
 
 export interface OrganizationWrapperProps {}
