@@ -71,7 +71,7 @@ thalaapiprefix: nodeapi
 containerport: 5000
 
 container:
-  startupseconds: 60
+  startupseconds: 100
 
 api:
   domain: api.edudoor.org
