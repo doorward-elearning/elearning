@@ -4,10 +4,12 @@
 
 replicaCount: 1
 
+
 image:
-  repository: postgres
-  pullPolicy: IfNotPresent
-  tag: 9.6-alpine
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""

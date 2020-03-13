@@ -5,8 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: gcr.io/edudoor/thala
-  pullPolicy: IfNotPresent
+  thala:
+    repository: gcr.io/edudoor/thala
+    version: 1.0.2
+    pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 nameOverride: ""

@@ -14,3 +14,21 @@ websitelogo:
 namespace: develop-edudoor
 
 # Override default variables for stage environments
+
+image:
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: gcr.io/edudoor/thala
+    version: 1.0.2
+    pullPolicy: IfNotPresent
+  samvadam:
+    repository: gcr.io/edudoor/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: gcr.io/edudoor/chuchu
+    version: 1.0.2
+    pullPolicy: IfNotPresent
