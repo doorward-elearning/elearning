@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:dubnium
 
 LABEL MAINTAINER="Moses Gitau <gitaumoses4@gmail.com>"
 LABEL APPLICATION="edudoor"
