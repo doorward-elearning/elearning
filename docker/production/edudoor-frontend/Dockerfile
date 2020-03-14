@@ -1,4 +1,4 @@
-FROM edudoor:1.0.0
+FROM edudoor:1.1.0
 
 RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
 

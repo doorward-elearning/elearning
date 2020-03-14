@@ -1,4 +1,4 @@
-FROM edudoor:1.0.0
+FROM edudoor:1.1.0
 
 EXPOSE 7000
 
