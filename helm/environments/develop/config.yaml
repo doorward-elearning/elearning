@@ -23,12 +23,12 @@ image:
   thala:
     repository: gcr.io/edudoor/thala
     version: 1.0.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   samvadam:
     repository: gcr.io/edudoor/samvadam
     version: 1.0.0
-    pullPolicy: IfNotPresent
+    pullPolicy: IfNoPresent
   chuchu:
     repository: gcr.io/edudoor/chuchu
     version: 1.0.2
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
