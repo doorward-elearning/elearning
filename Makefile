@@ -20,8 +20,7 @@ start:
 build:
 	@ ${INFO} "Building required docker images"
 	@ docker image inspect edudoor:${APP_VERSION} >/dev/null 2>&1 && echo "Image already exists" || \
-	  docker build -f docker/production/edudoor-frontend/Dockerfile -t chuchu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION} && \
-	  docker build -f docker/production/edudoor-node-backend/Dockerfile -t thala:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	  docker build -f docker/production/edudoor-frontend/Dockerfile -t chuchu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION} &&  docker build -f docker/production/edudoor-node-backend/Dockerfile -t thala:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@
 	@ ${INFO} "Tagging frontend image"
 	@ docker tag chuchu:${APP_VERSION} gcr.io/edudoor/chuchu:${APP_VERSION}
