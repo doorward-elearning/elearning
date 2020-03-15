@@ -27,7 +27,7 @@ image:
   samvadam:
     repository: gcr.io/edudoor/samvadam
     version: 1.0.0
-    pullPolicy: IfNoPresent
+    pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoor/chuchu
     version: 1.0.2
