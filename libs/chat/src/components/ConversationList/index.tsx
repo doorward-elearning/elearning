@@ -3,6 +3,7 @@ import './ConversationList.scss';
 import ItemArray from '@edudoor/ui/components/ItemArray';
 import ConversationListItem from '@edudoor/chat/components/ConversationListItem';
 import Search from '@edudoor/ui/components/Search';
+import { Conversation } from '@edudoor/chat/type';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
   return (

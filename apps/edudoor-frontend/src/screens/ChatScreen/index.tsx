@@ -11,12 +11,14 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
           {
             recipient: {
               name: 'Moses Gitau',
+              picture: '',
             },
             messages: [{ text: 'How are you doing today?', createdAt: new Date(), updatedAt: new Date() }],
           },
           {
             recipient: {
               name: 'Jennifer Moko',
+              picture: '',
             },
             messages: [{ text: 'How was the meeting yesterday?', createdAt: new Date(), updatedAt: new Date() }],
           },

@@ -2,6 +2,7 @@ import React from 'react';
 import './ConversationListItem.scss';
 import EImage from '@edudoor/ui/components/Image';
 import Header from '@edudoor/ui/components/Header';
+import { Recipient } from '@edudoor/chat/type';
 
 const ConversationListItem: React.FunctionComponent<ConversationListItemProps> = (props): JSX.Element => {
   return (

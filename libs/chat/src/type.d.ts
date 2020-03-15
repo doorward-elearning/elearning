@@ -1,15 +1,15 @@
-interface Recipient {
+export interface Recipient {
   name: string;
   picture: string;
 }
 
-interface Message {
+export interface Message {
   text: string;
   createdAt: Date;
   updatedAt: Date;
 }
 
-interface Conversation {
+export interface Conversation {
   recipient: Recipient;
   messages: Array<Message>;
 }

@@ -1,8 +1,9 @@
 import React from 'react';
 import './Chat.scss';
 import classNames from 'classnames';
-import ConversationList from '@edudoor/chat/components/ConversationList';
-import ConversationFrame from '@edudoor/chat/components/ConversationFrame';
+import ConversationList from '../components/ConversationList';
+import ConversationFrame from '../components/ConversationFrame';
+import { Conversation } from '../type';
 
 const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   return (
