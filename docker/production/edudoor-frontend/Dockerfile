@@ -4,6 +4,8 @@ FROM edudoor:$APP_VERSION
 
 RUN npm install -g serve
 
+RUN sudo apt install xsel
+
 COPY . /usr/app
 
 RUN yarn install
@@ -14,4 +16,4 @@ RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
 
 RUN yarn build edudoor-frontend
 
-ENTRYPOINT ["serve", "-s", "/usr/app/dist/apps/edudoor-frontend/"]
+ENTRYPOINT ["serve", "-s", "/usr/app/dist/apps/edudoor-frontend/index.html"]
