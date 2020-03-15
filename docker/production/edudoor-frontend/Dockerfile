@@ -12,6 +12,4 @@ EXPOSE 5000
 
 RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
 
-RUN yarn build edudoor-frontend
-
-ENTRYPOINT ["serve", "-s", "/usr/app/dist/apps/edudoor-frontend/index.html"]
+ENTRYPOINT ["/usr/app/docker/production/edudoor-frontend/entrypoint.sh"]
