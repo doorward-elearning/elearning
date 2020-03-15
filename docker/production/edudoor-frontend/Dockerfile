@@ -2,11 +2,11 @@ ARG APP_VERSION=1.0.0
 
 FROM edudoor:$APP_VERSION
 
-RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
-
 RUN npm install -g serve
 
 COPY . /usr/app
+
+RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
 
 RUN yarn install
 
