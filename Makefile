@@ -19,17 +19,18 @@ start:
 
 build:
 	@ ${INFO} "Building required docker images"
-	@ docker image inspect edudoor:1.0.0 >/dev/null 2>&1 && echo "Image already exists" || \
-	  docker build -f docker/production/edudoor-frontend/Dockerfile -t chuchu:1.0.0 . &&  docker build -f docker/production/edudoor-node-backend/Dockerfile -t thala:1.0.0 .
+	@ docker image inspect edudoor:${APP_VERSION} >/dev/null 2>&1 && echo "Image already exists" || \
+	  docker build -f docker/production/edudoor-frontend/Dockerfile -t chuchu:${APP_VERSION} . &&  docker build -f docker/production/edudoor-node-backend/Dockerfile -t thala:${APP_VERSION} .
 	@
 	@ ${INFO} "Tagging frontend image"
-	@ docker tag chuchu:1.0.0 gcr.io/edudoor/chuchu:1.0.0
+	@ docker tag chuchu:${APP_VERSION} gcr.io/edudoor/chuchu:${APP_VERSION}
 	@ ${INFO} "Tagging backend image"
-	@ docker tag thala:1.0.0 gcr.io/edudoor/thala:1.0.0
+	@ docker tag thala:${APP_VERSION} gcr.io/edudoor/thala:${APP_VERSION}
 	@
 	@ ${INFO} "Pushing images to GCP"
-	@ docker push gcr.io/edudoor/chuchu:1.0.0
-	@ docker push gcr.io/edudoor/thala:1.0.0
+	@ docker push gcr.io/edudoor/edudoor:${APP_VERSION}
+	@ docker push gcr.io/edudoor/chuchu:${APP_VERSION}
+	@ docker push gcr.io/edudoor/thala:${APP_VERSION}
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"

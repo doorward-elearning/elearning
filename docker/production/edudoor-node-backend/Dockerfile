@@ -1,4 +1,5 @@
-FROM edudoor:1.1.0
+ARG APP_VERSION
+FROM edudoor:$APP_VERSION
 
 EXPOSE 7000
 

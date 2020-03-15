@@ -1,4 +1,6 @@
-FROM edudoor:1.1.0
+ARG APP_VERSION
+
+FROM edudoor:$APP_VERSION
 
 RUN chmod +x /usr/app/docker/production/edudoor-frontend/entrypoint.sh
 
