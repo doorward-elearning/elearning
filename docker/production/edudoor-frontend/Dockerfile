@@ -4,8 +4,6 @@ FROM edudoor:$APP_VERSION
 
 RUN npm install -g serve
 
-RUN sudo apt install xsel
-
 COPY . /usr/app
 
 RUN yarn install
