@@ -103,6 +103,7 @@ class CourseHelper {
         {
           model: models.MeetingRoom,
           as: 'meetingRoom',
+          required: false
         },
       ],
     });
