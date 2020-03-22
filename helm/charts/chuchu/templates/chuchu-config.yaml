@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   REACT_APP_BASE_URL: {{ include "chuchu.thalapublicurl" . }}
+  EDUDOOR_WEBSITE_LINK: {{ .Values.websiteUrl }}
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"
