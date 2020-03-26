@@ -61,3 +61,7 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{- define "swagat.thalapublicurl" -}}
+http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- end -}}
