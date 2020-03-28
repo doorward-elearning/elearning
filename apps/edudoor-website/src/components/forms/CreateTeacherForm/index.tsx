@@ -26,12 +26,12 @@ const CreateTeacherForm: React.FunctionComponent<CreateTeacherFormProps> = (prop
       validationSchema={validation}
     >
       <Grid columns={2}>
-        <TextField name="firstName" placeholder="First Name" />
-        <TextField name="lastName" placeholder="Last Name" />
+        <TextField name="firstName" placeholder="First Name" labelPosition="none" />
+        <TextField name="lastName" placeholder="Last Name" labelPosition="none" />
       </Grid>
-      <TextField name="username" placeholder="Username" />
-      <TextField name="email" placeholder="Email Address" />
-      <PasswordField name="password" placeholder="Choose a password" />
+      <TextField name="username" placeholder="Username" labelPosition="none" />
+      <TextField name="email" placeholder="Email Address" labelPosition="none" />
+      <PasswordField name="password" placeholder="Choose a password" labelPosition="none" />
     </BasicForm>
   );
 };

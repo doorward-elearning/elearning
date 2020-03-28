@@ -221,7 +221,7 @@
             "main": "apps/edudoor-website/src/main.tsx",
             "polyfills": "apps/edudoor-website/src/polyfills.ts",
             "tsConfig": "apps/edudoor-website/tsconfig.app.json",
-            "assets": ["apps/edudoor-website/src/favicon.ico", "apps/edudoor-website/src/assets"],
+            "assets": ["apps/edudoor-website/src/favicon.ico", "apps/edudoor-website/src/assets/"],
             "styles": ["apps/edudoor-website/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
