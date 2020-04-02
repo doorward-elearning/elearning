@@ -5,10 +5,10 @@ const WhyUs: React.FunctionComponent<WhyUsProps> = (props): JSX.Element => {
     <div className="site-section pb-0">
       <div className="future-blobs">
         <div className="blob_2">
-          <img src="http://edudoor.org/images/blob_2.svg" alt="Image" />
+          <img src="assets/images/blob_2.svg" alt="Image" />
         </div>
         <div className="blob_1">
-          <img src="http://edudoor.org/images/blob_1.svg" alt="Image" />
+          <img src="assets/images/blob_1.svg" alt="Image" />
         </div>
       </div>
       <div className="container">
@@ -88,7 +88,7 @@ const WhyUs: React.FunctionComponent<WhyUsProps> = (props): JSX.Element => {
             </div>
           </div>
           <div className="col-lg-7 align-self-end" data-aos="fade-left" data-aos-delay="200">
-            <img src="http://edudoor.org/images/person_transparent.png" alt="Image" className="img-fluid" />
+            <img src="assets/images/person_transparent.png" alt="Image" className="img-fluid" />
           </div>
         </div>
       </div>

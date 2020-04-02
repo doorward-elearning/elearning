@@ -7,7 +7,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
     <div className="intro-section" id="home-section">
       <div
         className="slide-1"
-        style={{ backgroundImage: "url('http://edudoor.org/images/hero_1.jpg')" }}
+        style={{ backgroundImage: "url('assets/images/hero_1.jpg')" }}
         data-stellar-background-ratio="0.5"
       >
         <div className="container">

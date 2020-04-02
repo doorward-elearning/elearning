@@ -16,7 +16,7 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
         </div>
         <div className="row mb-5 align-items-center">
           <div className="col-lg-7 mb-5" data-aos="fade-up" data-aos-delay="100">
-            <img src="http://edudoor.org/images/undraw_youtube_tutorial.svg" alt="Image" className="img-fluid" />
+            <img src="assets/images/undraw_youtube_tutorial.svg" alt="Image" className="img-fluid" />
           </div>
           <div className="col-lg-4 ml-auto" data-aos="fade-up" data-aos-delay="200">
             <h2 className="text-black mb-4">Groom Your Employees</h2>
