@@ -52,6 +52,11 @@ spec:
                 configMapKeyRef:
                   key: EDUDOOR_APPLICATION_LINK
                   name: {{ include "swagat.fullname" . }}
+            - name: REACT_APP_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REACT_APP_BASE_URL
+                  name: {{ include "swagat.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

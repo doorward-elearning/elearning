@@ -19,7 +19,7 @@ const Plans: React.FunctionComponent<PlansProps> = (props): JSX.Element => {
               <div className="course bg-white h-100 align-self-stretch">
                 <figure className="m-0">
                   <a href="course-single.html">
-                    <img src="http://edudoor.org/images/img_2.jpg" alt="Image" className="img-fluid" />
+                    <img src="assets/images/img_2.jpg" alt="Image" className="img-fluid" />
                   </a>
                 </figure>
                 <div className="course-inner-text py-4 px-4">
@@ -33,7 +33,7 @@ const Plans: React.FunctionComponent<PlansProps> = (props): JSX.Element => {
               <div className="course bg-white h-100 align-self-stretch">
                 <figure className="m-0">
                   <a href="course-single.html">
-                    <img src="http://edudoor.org/images/img_3.jpg" alt="Image" className="img-fluid" />
+                    <img src="assets/images/img_3.jpg" alt="Image" className="img-fluid" />
                   </a>
                 </figure>
                 <div className="course-inner-text py-4 px-4">
@@ -47,7 +47,7 @@ const Plans: React.FunctionComponent<PlansProps> = (props): JSX.Element => {
               <div className="course bg-white h-100 align-self-stretch">
                 <figure className="m-0">
                   <a href="course-single.html">
-                    <img src="http://edudoor.org/images/img_6.jpg" alt="Image" className="img-fluid" />
+                    <img src="assets/images/img_6.jpg" alt="Image" className="img-fluid" />
                   </a>
                 </figure>
                 <div className="course-inner-text py-4 px-4">
