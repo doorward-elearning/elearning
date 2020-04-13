@@ -65,3 +65,17 @@ Create the name of the service account to use
 {{- define "chuchu.thalapublicurl" -}}
 http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
 {{- end -}}
+
+
+{{/*
+Create the public UR for chuchu. Defaults to customer-name.edudoor.org, but user can override it by passing app_url.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "chuchu.public_app_url" -}}
+{{- if .Values.app_url -}}
+{{- .Values.app_url | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}-edudoor.org
+{{- end -}}
+{{- end -}}

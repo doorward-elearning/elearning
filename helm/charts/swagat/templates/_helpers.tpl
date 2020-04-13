@@ -65,3 +65,17 @@ Create the name of the service account to use
 {{- define "swagat.thalapublicurl" -}}
 http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
 {{- end -}}
+
+
+{{/*
+Create the public UR for swagat. Defaults to customer-name.edudoor.org, but user can override it by passing website_name.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "swagat.public_website_name" -}}
+{{- if .Values.website_name -}}
+{{- .Values.website_name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}-edudoor.org
+{{- end -}}
+{{- end -}}
