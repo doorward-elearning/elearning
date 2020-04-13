@@ -11,7 +11,7 @@ metadata:
 
 spec:
   rules:
-    - host: {{ include swagat.public_website_name }}
+    - host: {{ include "swagat.public_website_name" . }}
       http:
         paths:
           - backend:
@@ -20,8 +20,8 @@ spec:
             path: /
   tls:
   - hosts:
-    - {{ include swagat.public_website_name }}
-    secretName: {{ include swagat.public_website_name }}
+    - {{ include "swagat.public_website_name" . }}
+    secretName: {{ include "swagat.public_website_name" . }}
 
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:

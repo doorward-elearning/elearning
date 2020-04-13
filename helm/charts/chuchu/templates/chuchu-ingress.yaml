@@ -11,7 +11,7 @@ metadata:
 
 spec:
   rules:
-    - host: {{ include chuchu.public_app_url }}
+    - host: {{ include "chuchu.public_app_url" . }}
       http:
         paths:
           - backend:
@@ -20,8 +20,8 @@ spec:
             path: /
   tls:
   - hosts:
-    - {{ include chuchu.public_app_url }}
-    secretName: {{ include chuchu.public_app_url }}
+    - {{ include "chuchu.public_app_url" . }}
+    secretName: {{ include "chuchu.public_app_url" . }}
 
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:
