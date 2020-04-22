@@ -11,6 +11,7 @@ import { Group } from '@edudoor/common/models/Group';
 import { Organization } from '@edudoor/common/models/Organization';
 import { File } from '@edudoor/common/models/File';
 import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
+import { School } from '@edudoor/common/models/School';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -86,4 +87,12 @@ export interface FileUploadResponse extends ApiResponse {
 
 export interface AssignmentSubmissionResponse extends ApiResponse {
   submission: AssignmentSubmission;
+}
+
+export interface SchoolResponse extends ApiResponse {
+  school: School;
+}
+
+export interface SchoolsResponse extends ApiResponse {
+  schools: Array<School>;
 }

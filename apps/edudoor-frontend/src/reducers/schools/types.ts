@@ -1,0 +1,3 @@
+export const FETCH_SCHOOLS = 'FETCH_SCHOOLS';
+export const FETCH_SCHOOL = 'FETCH_SCHOOL';
+export const CREATE_CLASSROOM = "CREATE_CLASSROOM";

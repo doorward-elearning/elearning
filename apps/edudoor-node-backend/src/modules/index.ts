@@ -4,6 +4,7 @@ import courses from './courses';
 import reports from './reports';
 import healthCheck from './healthcheck';
 import meetingRooms from './meetings';
+import schools from './schools';
 import organizations from './organizations';
 import storage from './storage';
 import groups from './groups';
@@ -18,6 +19,7 @@ const modules = {
   meetingRooms,
   organizations,
   groups,
+  schools,
 };
 
 const apiVersion = `${process.env.API_PREFIX || ''}/api/v1`;

@@ -94,3 +94,27 @@ export const StudentCoursesInclude = () => {
     },
   ];
 };
+
+export const SchoolInclude = () => {
+  return [
+    {
+      model: models.ClassRoom,
+      as: 'classrooms',
+      required: false,
+      include: [
+        {
+          model: models.MeetingRoom,
+          as: 'meetingRoom',
+          required: false,
+          include: [
+            {
+              model: models.Meeting,
+              as: 'currentMeeting',
+              required: false,
+            },
+          ],
+        },
+      ],
+    },
+  ]
+};

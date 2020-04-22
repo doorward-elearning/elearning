@@ -9,6 +9,7 @@ import socket from '../reducers/socket';
 import teachers from '../reducers/teachers';
 import groups from '../reducers/groups';
 import organizations from '../reducers/organizations';
+import schools from '../reducers/schools';
 
 const store = createReduxStore({
   login,
@@ -21,6 +22,7 @@ const store = createReduxStore({
   teachers,
   groups,
   organizations,
+  schools,
 });
 
 const state = store.getState();

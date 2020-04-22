@@ -37,6 +37,8 @@ import EditOrganization from '../screens/Organizations/EditOrganization';
 import ChatScreen from '../screens/ChatScreen';
 import { routeNames } from './routeNames';
 import AssignmentsList from '../screens/Courses/Modules/AssignmentsList';
+import Classrooms from '../screens/Classrooms';
+import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
 
 export type EdudoorRoutes = typeof routeNames;
 
@@ -49,6 +51,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
     .with({
       login: new Route('/login', Login).public(),
       register: new Route('/register', Register).public(),
+      classrooms: new Route('/classrooms', Classrooms).public().with({
+        schoolClassrooms: new Route('/:schoolId', SchoolClassrooms).public(),
+      }),
       dashboard: new Route('/dashboard', Dashboard).with({
         courses: new Route('/courses').with({
           courseList: new Route('/', Courses).with({

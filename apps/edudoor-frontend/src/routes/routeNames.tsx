@@ -48,4 +48,6 @@ export const routeNames = {
   editOrganization: 'Edit Organization',
   chat: 'Chat',
   assignmentList: 'Assignments',
+  classrooms: 'Classrooms',
+  schoolClassrooms: 'Classrooms',
 };

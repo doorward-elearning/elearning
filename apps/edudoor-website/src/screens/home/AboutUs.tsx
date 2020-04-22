@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUs: React.FunctionComponent<AboutUsProps> = (props): JSX.Element => {
   return (
-    <div className="site-section" id="teachers-section">
+    <div className="site-section" id="about-section">
       <div className="container">
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 mb-5 text-center" data-aos="fade-up" data-aos-delay="">

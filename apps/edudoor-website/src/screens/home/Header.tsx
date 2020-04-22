@@ -19,23 +19,33 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
                   </a>
                 </li>
                 <li>
-                  <a href="#trainer-section" className="nav-link">
-                    Individual Trainers
+                  <a href="#classroom-section" className="nav-link">
+                    Live Classrooms
                   </a>
                 </li>
                 <li>
-                  <a href="#corporate-section" className="nav-link">
-                    Corporate
+                  <a href="#email-section" className="nav-link">
+                    Email IDs
                   </a>
                 </li>
                 <li>
-                  <a href="#teachers-section" className="nav-link">
-                    About
+                  <a href="#lms-section" className="nav-link">
+                    LMS
                   </a>
                 </li>
                 <li>
-                  <a href="/pricing" className="nav-link">
+                  <a href="#setup-section" className="nav-link">
+                    Quickstart
+                  </a>
+                </li>
+                <li>
+                  <a href="#pricing-section" className="nav-link">
                     Pricing
+                  </a>
+                </li>
+                <li>
+                  <a href="#about-section" className="nav-link">
+                    About
                   </a>
                 </li>
               </ul>

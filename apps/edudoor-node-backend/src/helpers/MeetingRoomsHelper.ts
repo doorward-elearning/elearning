@@ -1,4 +1,5 @@
 import OpenViduHelper from './OpenViduHelper';
+import models from '../database/models';
 
 class MeetingRoomsHelper {
   static async joinMeeting(id, req, role = 'PUBLISHER') {
@@ -32,7 +33,7 @@ class MeetingRoomsHelper {
     });
   }
 
-  static async createMeeting(meetingRoomId, hostId) {
+  static async createMeeting(meetingRoomId, hostId = null) {
     const { id: sessionId } = await OpenViduHelper.createSession();
     return models.Meeting.create({
       meetingRoomId,

@@ -22,6 +22,8 @@ import File from '@edudoor/common/models/File';
 import AssignmentSubmission from '@edudoor/common/models/AssignmentSubmission';
 import { ModelCreator } from '../../types';
 import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import School from '@edudoor/common/models/School';
+import ClassRoom from '@edudoor/common/models/Classroom';
 
 const modelNames = {
   Answer,
@@ -42,6 +44,8 @@ const modelNames = {
   GroupMember,
   File,
   AssignmentSubmission,
+  School,
+  ClassRoom,
 };
 
 const env = process.env.NODE_ENV || 'development';

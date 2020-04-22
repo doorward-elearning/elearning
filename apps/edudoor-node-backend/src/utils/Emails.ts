@@ -42,6 +42,14 @@ class Emails {
       )}`,
     });
   }
+
+  static schoolCreated(school) {
+    return EmailSender.sendMail('new_school.pug', process.env.EDUDOOR_ADMIN_EMAIL, `New school created`, {
+      name: school.name,
+      email: school.email,
+      phoneNumber: school.phoneNumber,
+    });
+  }
 }
 
 export default Emails;

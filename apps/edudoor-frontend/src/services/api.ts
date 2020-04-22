@@ -32,6 +32,8 @@ import {
   ModuleItemsResponse,
   OrganizationResponse,
   OrganizationsResponse,
+  SchoolResponse,
+  SchoolsResponse,
   StudentListResponse,
   StudentResponse,
   TeacherListResponse,
@@ -214,6 +216,14 @@ const Api = {
     },
     getCurrent: (): Promise<OrganizationResponse> => {
       return GET('/organizations/current');
+    },
+  },
+  schools: {
+    list: (): Promise<SchoolsResponse> => {
+      return GET('/schools');
+    },
+    get: (schoolId: string): Promise<SchoolResponse> => {
+      return GET(`/schools/${schoolId}`);
     },
   },
   storage: {

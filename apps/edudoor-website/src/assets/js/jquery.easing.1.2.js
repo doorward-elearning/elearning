@@ -136,7 +136,7 @@
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Online Live Classrooms</h3></div>
+              <div><h3 class="m-0">Online Live SchoolClassrooms</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>

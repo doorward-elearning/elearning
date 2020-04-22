@@ -87,3 +87,7 @@ export interface SubmitAssignmentBody {
   submission: string;
   resubmission: boolean;
 }
+
+export interface CreateClassroomBody {
+  name: string;
+}
