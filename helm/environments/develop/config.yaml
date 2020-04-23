@@ -32,3 +32,7 @@ image:
     repository: gcr.io/edudoor/chuchu
     version: 1.0.2
     pullPolicy: Always
+
+ORGANIZATION_LOGO: "https://edudoor.s3.amazonaws.com/logos/download1.png"
+ORGANIZATION_NAME: Edudoor Develop
+ORGANIZATION_WEBSITE_LINK: https://develop.edudoor.org
