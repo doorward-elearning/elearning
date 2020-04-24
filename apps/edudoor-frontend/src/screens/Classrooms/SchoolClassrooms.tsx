@@ -9,11 +9,17 @@ import { State } from '../../store';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
 import Table from '@edudoor/ui/components/Table';
+import useModal from '@edudoor/ui/hooks/useModal';
+import AddClassroomModal from '../../components/Modals/AddClassroomModal';
+import useAction from '@edudoor/ui/hooks/useActions';
+import Button from '@edudoor/ui/components/Buttons/Button';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.schools.school);
+  const fetchSchool = useAction(fetchSchoolAction);
   usePageResource('schoolId', fetchSchoolAction);
   const routes = useRoutes();
+  const addClassroomModal = useModal();
 
   useEffect(() => {
     if (state.data.school) {
@@ -26,8 +32,16 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       header={state.data?.school?.name}
       navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.PAGE_LOGO]}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      actionBtnProps={{ text: 'Add Classroom' }}
+      actionBtnProps={{ text: 'Add Classroom', onClick: addClassroomModal.openModal }}
     >
+      <AddClassroomModal
+        onSuccess={() => {
+          addClassroomModal.closeModal();
+          fetchSchool(state.data?.school?.id);
+        }}
+        modal={addClassroomModal}
+        schoolId={state.data?.school?.id}
+      />
       <WebComponent
         data={state.data?.school?.classrooms}
         loading={state.fetching}
@@ -35,7 +49,29 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
         icon="business_center"
       >
         {classrooms => {
-          return <Table data={classrooms} columns={{ name: 'Name' }} />;
+          return (
+            <React.Fragment>
+              <Table
+                data={classrooms}
+                columns={{ name: 'Name', joinMeeting: 'Join Classroom' }}
+                getCell={row => ({
+                  joinMeeting: (
+                    <Button
+                      mini
+                      theme="secondary"
+                      onClick={() =>
+                        routes.navigate(routes.videoCall, {
+                          meetingId: row.meetingRoom.currentMeeting.id,
+                        })
+                      }
+                    >
+                      Join Classroom
+                    </Button>
+                  ),
+                })}
+              />
+            </React.Fragment>
+          );
         }}
       </WebComponent>
     </Layout>

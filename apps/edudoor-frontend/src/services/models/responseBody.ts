@@ -96,3 +96,4 @@ export interface SchoolResponse extends ApiResponse {
 export interface SchoolsResponse extends ApiResponse {
   schools: Array<School>;
 }
+

@@ -124,5 +124,5 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
         }),
     }),
-  videoCall: new Route('/meeting/:meetingId', VideoCallPage),
+  videoCall: new Route('/meeting/:meetingId', VideoCallPage).public(),
 };

@@ -1,6 +1,6 @@
 import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 import Api from '../../services/api';
-import { FETCH_SCHOOL, FETCH_SCHOOLS } from './types';
+import { CREATE_CLASSROOM, FETCH_SCHOOL, FETCH_SCHOOLS } from './types';
 
 const schoolList = reducerApiAction({
   api: Api.schools.list,
@@ -11,4 +11,9 @@ const school = reducerApiAction({
   action: FETCH_SCHOOL,
 });
 
-export default reducerBuilder({ middleware: { schoolList, school } });
+const newClassroom = reducerApiAction({
+  api: Api.schools.classrooms.create,
+  action: CREATE_CLASSROOM,
+});
+
+export default reducerBuilder({ middleware: { schoolList, school, newClassroom } });
