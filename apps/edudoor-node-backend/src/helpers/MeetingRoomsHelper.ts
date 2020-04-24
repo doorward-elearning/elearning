@@ -14,7 +14,7 @@ class MeetingRoomsHelper {
 
     const { token } = await OpenViduHelper.getToken(meeting.sessionId, role);
 
-    const user = req.user ? req.user.fullName : null;
+    const user = req.user ? req.user.fullName : 'Participant';
 
     // @ts-ignore
     return { ...meeting.dataValues, token, user };
