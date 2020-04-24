@@ -10,7 +10,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
         data-stellar-background-ratio="0.5"
         style={{ backgroundImage: "url('assets/images/hero_1.jpg')" }}
       >
-        <div className="container">
+        <div className="container container-smaller">
           <div className="row align-items-center">
             <div className="col-12">
               <div className="row align-items-center">
