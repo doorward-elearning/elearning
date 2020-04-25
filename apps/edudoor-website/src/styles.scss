@@ -1,1 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+.container {
+}
+
+@media (min-width: 1200px) and (max-width: 1575px){
+  .container {
+    max-width: calc(100vw - 200px) !important;
+    margin-left: 100px !important;
+  }
+}

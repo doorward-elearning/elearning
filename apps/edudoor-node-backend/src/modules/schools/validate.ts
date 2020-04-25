@@ -25,8 +25,9 @@ export const validateCreateClassroom = async req => {
       schoolId: req.params.schoolId,
     },
   });
+  console.log(classrooms);
 
-  if (classrooms.length > 2) {
+  if (classrooms.length >= 2) {
     return [400, undefined, 'You can only create a maximum of 2 classrooms per school'];
   }
 };

@@ -6,10 +6,9 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
     <header className="site-navbar py-4 js-sticky-header site-navbar-target" role="banner">
       <div className="container-fluid">
         <div className="d-flex align-items-center">
-          <div className="site-logo mr-auto w-25">
+          <div className="site-logo mr-auto">
             <a href="index.html">Edudoor</a>
           </div>
-
           <div className="mx-auto text-center">
             <nav className="site-navigation position-relative text-right" role="navigation">
               <ul className="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
@@ -52,7 +51,7 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
             </nav>
           </div>
 
-          <div className="ml-auto w-25">
+          <div className="ml-auto">
             <nav className="site-navigation position-relative text-right" role="navigation">
               <ul className="site-menu main-menu site-menu-dark js-clone-nav mr-auto d-none d-lg-block m-0 p-0">
                 <li className="cta">

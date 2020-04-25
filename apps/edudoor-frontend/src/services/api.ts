@@ -4,6 +4,7 @@ import {
   ChangePasswordBody,
   CourseModuleBody,
   CourseModuleItemBody,
+  CreateClassroomBody,
   CreateCourseBody,
   CreateGroupBody,
   CreateOrganizationBody,
@@ -224,6 +225,11 @@ const Api = {
     },
     get: (schoolId: string): Promise<SchoolResponse> => {
       return GET(`/schools/${schoolId}`);
+    },
+    classrooms: {
+      create: (schoolId: string, body: CreateClassroomBody): Promise<SchoolResponse> => {
+        return POST(`/schools/${schoolId}/classrooms`, body);
+      },
     },
   },
   storage: {

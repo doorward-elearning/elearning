@@ -1,7 +1,7 @@
 import models from '../../database/models';
 import Emails from '../../utils/Emails';
 import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
-import {SchoolInclude} from "../../utils/includes";
+import { SchoolInclude } from '../../utils/includes';
 
 class SchoolsController {
   static async createSchool(req) {
@@ -28,7 +28,7 @@ class SchoolsController {
 
     const meetingRoom = await models.MeetingRoom.create(
       {
-        name,
+        title: name,
       },
       {
         include: [
@@ -50,25 +50,29 @@ class SchoolsController {
 
     await meetingRoom.reload();
 
-    return [200, { classroom }, 'Classroom has been created. You can now start/join a meeting.'];
+    const school = await models.School.findByPk(schoolId, {
+      include: SchoolInclude(),
+    });
+
+    return [200, { school }, 'Classroom has been created. You can now start/join a meeting.'];
   }
 
   static async fetchSchools() {
     const schools = await models.School.findAll({
-      include: SchoolInclude()
+      include: SchoolInclude(),
     });
 
     return [200, { schools }];
   }
 
-  static async fetchSchool(req){
+  static async fetchSchool(req) {
     const { schoolId } = req.params;
 
     const school = await models.School.findByPk(schoolId, {
-      include: SchoolInclude()
+      include: SchoolInclude(),
     });
 
-    return [200, { school }]
+    return [200, { school }];
   }
 }
 

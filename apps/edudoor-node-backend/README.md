@@ -12,15 +12,15 @@ This template allows you to create an express application based on the following
         /seeders
         /migrations
     /middleware
-        index.js
+        index.ts
     /modules
         /root
-            index.js
-        index.js
+            index.ts
+        index.ts
     /utils
-        index.js
+        index.ts
     app.js
-    index.js
+    index.ts
 .babelrc
 .env
 .sequelize.rc
@@ -36,15 +36,15 @@ Using the modules folder, (this is where the different routes and controllers ar
         /users
             /login
                 LoginController.js
-                index.js
+                index.ts
             /signup
                 SignUpController.js
-                index.js
-            index.js
+                index.ts
+            index.ts
 ```
-Both the `index.js` file in the `login` and `signup` directories will have the default express Router exported.
+Both the `index.ts` file in the `login` and `signup` directories will have the default express Router exported.
 
-Finally add the following in the `users/index.js`
+Finally add the following in the `users/index.ts`
 ```javascript
 import login from './login'
 import signup from './signup'
@@ -55,7 +55,7 @@ export default [
 ]
 ```
 
-Go to the `modules/index.js` file and add the `users` module to the routing
+Go to the `modules/index.ts` file and add the `users` module to the routing
 ```javascript
 import users from './users';
 

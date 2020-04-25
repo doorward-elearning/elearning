@@ -4,7 +4,7 @@ import BaseValidator from '../../middleware/BaseValidator';
 import models from '../../database/models';
 import MeetingsController from './MeetingsController';
 
-const Router = new MRouter('/meetings', Authorization.authenticate);
+const Router = new MRouter('/meetings');
 
 Router.get(
   '/:id',
@@ -15,6 +15,7 @@ Router.get(
   ),
   MeetingsController.joinMeeting
 );
+
 
 Router.exclude(Authorization.authenticate).post('/webhook', MeetingsController.processWebhook);
 
