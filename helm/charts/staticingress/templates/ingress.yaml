@@ -33,6 +33,7 @@ spec:
               serviceName: edudoor-ghost
               servicePort: 80
             path: /
+
   tls:
   - hosts:
     - api.clients.edudoor.org

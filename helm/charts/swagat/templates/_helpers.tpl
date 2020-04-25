@@ -63,7 +63,7 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "swagat.thalapublicurl" -}}
-http://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
 {{- end -}}
 
 
