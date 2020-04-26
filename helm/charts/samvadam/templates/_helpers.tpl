@@ -68,5 +68,5 @@ https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.samv
 {{- end -}}
 
 {{- define "samvadam.samvadamwebhookendpoint" -}}
-http://{{- .Values.customer -}}-{{- .Chart.Name -}}/api/v1/meetingRooms/webhook
+https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/meetingRooms/webhook
 {{- end -}}
