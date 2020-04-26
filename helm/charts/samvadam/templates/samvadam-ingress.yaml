@@ -16,7 +16,7 @@ spec:
         paths:
           - backend:
               serviceName: {{ include "samvadam.fullname" . }}
-              servicePort: 80
+              servicePort: 443
             path: /{{ .Values.customer -}}/{{ .Chart.Name }}
   tls:
   - hosts:
