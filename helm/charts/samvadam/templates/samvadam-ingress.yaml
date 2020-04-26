@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: {{ include "samvadam.fullname" . -}}-letsencrypt-prod
   name: {{ include "samvadam.fullname" . }}
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
   labels:
@@ -17,6 +18,10 @@ spec:
               serviceName: {{ include "samvadam.fullname" . }}
               servicePort: 80
             path: /{{ .Values.customer -}}/{{ .Chart.Name }}
+  tls:
+  - hosts:
+    - api.edudoor.org
+    secretName: api.edudoor.org
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:
 #      - hosts:
