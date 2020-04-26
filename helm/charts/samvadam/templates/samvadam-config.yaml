@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   openvidu.secret: {{ .Values.samvadamsecretkey }}
-  server.ssl.enabled: {{ .Values.samvadamsslenabled }}
+  server.ssl.enabled: {{ .Values.samvadamsslenabled | quote }}
   openvidu.publicurl: {{ include "samvadam.samvadampublicurl" .}}
   openvidu.webhook: {{ .Values.samvadamwebhook | quote }}
   openvidu.webhook.endpoint: {{ include "samvadam.samvadamwebhookendpoint" . | quote }}
