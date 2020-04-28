@@ -1,33 +1,31 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: basil-thaladb
-  namespace: basil-edudoor
+  name: edudoor-ciserver-jenkins
 spec:
-  storageClassName: databases-slow
+  storageClassName: jenkins-build
   capacity:
-    storage: 10G
+    storage: 15G
   accessModes:
     - ReadWriteOnce
   gcePersistentDisk:
-    pdName: basil-thaladb
+    pdName: edudoor-ciserver-volume
     fsType: ext4
 
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: basil-thaladb
-  namespace: basil-edudoor
+  name: edudoor-ciserver-jenkins
 spec:
   # It's necessary to specify "" as the storageClassName
   # so that the default storage class won't be used, see
   # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: databases-slow
-  volumeName: basil-thaladb
+  storageClassName: jenkins-build
+  volumeName: edudoor-ciserver-jenkins
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 10G
+      storage: 15G
 
