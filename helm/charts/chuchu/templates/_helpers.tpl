@@ -76,6 +76,6 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.app_url -}}
 {{- .Values.app_url | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- .Values.customer | trunc 63 | trimSuffix "-" -}}-edudoor.org
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
 {{- end -}}
 {{- end -}}

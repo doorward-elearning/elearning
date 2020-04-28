@@ -6,8 +6,8 @@ replicaCount: 1
 
 image:
   chuchu:
-    repository: gcr.io/edudoor/chuchu
-    version: 1.0.2
+    repository: gcr.io/edudoorlms/chuchu
+    version: 1.1.0
     pullPolicy: IfNotPresent
 
 imagePullSecrets: []

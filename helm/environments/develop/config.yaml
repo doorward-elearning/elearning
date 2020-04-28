@@ -21,16 +21,16 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoor/thala
-    version: 1.0.2
+    repository: gcr.io/edudoorlms/thala
+    version: 1.1.0
     pullPolicy: Always
   samvadam:
-    repository: gcr.io/edudoor/samvadam
+    repository: gcr.io/edudoorlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoor/chuchu
-    version: 1.0.2
+    repository: gcr.io/edudoorlms/chuchu
+    version: 1.1.0
     pullPolicy: Always
 
 ORGANIZATION_LOGO: "https://edudoor.s3.amazonaws.com/logos/download1.png"

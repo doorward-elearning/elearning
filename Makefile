@@ -25,19 +25,19 @@ build:
 	@ docker build -f docker/production/edudoor-website/Dockerfile -t swagat:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@
 	@ ${INFO} "Tagging edudoor image"
-	@ docker tag edudoor:${APP_VERSION} gcr.io/edudoor/edudoor:${APP_VERSION}
+	@ docker tag edudoor:${APP_VERSION} gcr.io/edudoorlms/edudoor:${APP_VERSION}
 	@ ${INFO} "Tagging frontend image"
-	@ docker tag chuchu:${APP_VERSION} gcr.io/edudoor/chuchu:${APP_VERSION}
+	@ docker tag chuchu:${APP_VERSION} gcr.io/edudoorlms/chuchu:${APP_VERSION}
 	@ ${INFO} "Tagging backend image"
-	@ docker tag thala:${APP_VERSION} gcr.io/edudoor/thala:${APP_VERSION}
+	@ docker tag thala:${APP_VERSION} gcr.io/edudoorlms/thala:${APP_VERSION}
 	@ ${INFO} "Tagging website image"
-	@ docker tag swagat:${APP_VERSION} gcr.io/edudoor/swagat:${APP_VERSION}
+	@ docker tag swagat:${APP_VERSION} gcr.io/edudoorlms/swagat:${APP_VERSION}
 	@
 	@ ${INFO} "Pushing images to GCP"
-	@ docker push gcr.io/edudoor/edudoor:${APP_VERSION}
-	@ docker push gcr.io/edudoor/chuchu:${APP_VERSION}
-	@ docker push gcr.io/edudoor/thala:${APP_VERSION}
-	@ docker push gcr.io/edudoor/swagat:${APP_VERSION}
+	@ docker push gcr.io/edudoorlms/edudoor:${APP_VERSION}
+	@ docker push gcr.io/edudoorlms/chuchu:${APP_VERSION}
+	@ docker push gcr.io/edudoorlms/thala:${APP_VERSION}
+	@ docker push gcr.io/edudoorlms/swagat:${APP_VERSION}
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
