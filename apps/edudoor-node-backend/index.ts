@@ -2,7 +2,7 @@ import debug from 'debug';
 import shortid from 'shortid';
 import app from './src/app';
 import models from './src/database/models';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from './src/utils/OrganizationUtils';
 import JWT from './src/utils/auth';
 
 const http = require('http');

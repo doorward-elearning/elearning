@@ -1,5 +1,5 @@
 import models from '../../database/models';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 
 class OrganizationController {
   static async create(req) {

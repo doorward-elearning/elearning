@@ -1,5 +1,5 @@
 import { Storage, Bucket } from '@google-cloud/storage';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 import models from '../../database/models';
 
 export default class StorageController {

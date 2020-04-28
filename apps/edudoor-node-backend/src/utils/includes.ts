@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import models from '../database/models';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from './OrganizationUtils';
 
 export const UserInclude = [
   {

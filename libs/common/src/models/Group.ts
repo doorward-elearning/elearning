@@ -2,7 +2,7 @@ import { DBModel } from '@edudoor/common/models/DBModel';
 import { User } from '@edudoor/common/models/User';
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { GroupMember } from '@edudoor/common/models/GroupMember';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 
 export class Group extends Model implements DBModel {
   public id: string;

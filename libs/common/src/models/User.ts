@@ -8,7 +8,7 @@ import { UserRole } from '@edudoor/common/models/UserRole';
 import { DBModel } from '@edudoor/common/models/DBModel';
 import { Organization } from '@edudoor/common/models/Organization';
 import { Role } from '@edudoor/common/models/Role';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 
 export class User extends Model implements DBModel {
   public id: string;

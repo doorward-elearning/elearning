@@ -1,7 +1,7 @@
 import { DBModel } from '@edudoor/common/models/DBModel';
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { User } from '@edudoor/common/models/User';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { Organization } from '@edudoor/common/models/Organization';
 
 export class File extends Model implements DBModel {

@@ -21,7 +21,7 @@ import Module from '@edudoor/common/models/Module';
 import File from '@edudoor/common/models/File';
 import AssignmentSubmission from '@edudoor/common/models/AssignmentSubmission';
 import { ModelCreator } from '../../types';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 import School from '@edudoor/common/models/School';
 import ClassRoom from '@edudoor/common/models/Classroom';
 
@@ -52,6 +52,7 @@ const env = process.env.NODE_ENV || 'development';
 const config = database[env];
 const sequelize = new Sequelize(process.env.DATABASE_URL, config as Options);
 
+
 function createModels<T extends { [name: string]: ModelCreator<any> }, K extends keyof T>(
   models: T
 ): {
@@ -79,6 +80,16 @@ Object.keys(modelNames).forEach(modelName => {
     model.organizationId = OrganizationUtils.getId();
   });
 });
+
+export function initializeModelQuery() {
+  Object.keys(modelNames).forEach(modelName => {
+    models[modelName] = models[modelName]();
+    models[modelName].beforeCreate(model => {
+      model.id = Tools.generateId();
+      model.organizationId = OrganizationUtils.getId();
+    });
+  });
+}
 
 export type Models = typeof models;
 

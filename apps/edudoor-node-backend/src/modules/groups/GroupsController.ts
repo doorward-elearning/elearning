@@ -1,6 +1,6 @@
 import models from '../../database/models';
 import GroupHelper from '../../helpers/GroupHelper';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 
 class GroupsController {
   static async createGroup(req) {

@@ -1,7 +1,7 @@
 import UserController from '../UserController';
 import * as roles from '../../../utils/roles';
 import Emails from '../../../utils/Emails';
-import OrganizationUtils from '../../../../../../libs/common/src/utils/OrganizationUtils';
+import OrganizationUtils from '../../../utils/OrganizationUtils';
 
 class TeacherController {
   static async createTeacher(req) {

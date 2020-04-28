@@ -72,6 +72,11 @@ spec:
               configMapKeyRef:
                 key: openvidu.webhook.events
                 name: {{ include "samvadam.fullname" . }}
+          - name: server.ssl.enabled
+            valueFrom:
+              configMapKeyRef:
+                key: server.ssl.enabled
+                name: {{ include "samvadam.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

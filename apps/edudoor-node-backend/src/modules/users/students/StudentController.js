@@ -2,7 +2,7 @@ import * as roles from '../../../utils/roles';
 import UserController from '../UserController';
 import models from '../../../database/models';
 import Emails from '../../../utils/Emails';
-import OrganizationUtils from '../../../../../../libs/common/src/utils/OrganizationUtils';
+import OrganizationUtils from '../../../utils/OrganizationUtils';
 
 class StudentController {
   static async createStudent(req) {

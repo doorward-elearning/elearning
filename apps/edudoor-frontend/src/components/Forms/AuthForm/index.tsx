@@ -1,4 +1,4 @@
-import React, { ReactChild } from 'react';
+import React, { ReactChild, useEffect, useState } from 'react';
 import EImage from '@edudoor/ui/components/Image';
 import './AuthForm.scss';
 import Button from '@edudoor/ui/components/Buttons/Button';
@@ -9,17 +9,30 @@ import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '@edudoor/ui/reducers/reducers';
 import { Omit } from '@edudoor/ui/types';
 import useOrganization from '../../../hooks/useOrganization';
+import useApp from '../../../hooks/useApp';
+import useTheme from '../../../hooks/useTheme';
+import themes from '@edudoor/ui/themes/themes';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
   const organization = useOrganization();
+  const theme = useTheme();
   const { buttonText } = props;
+  const [icon, setIcon] = useState(organization.icon);
+
+  useEffect(() => {
+    if (theme.theme === themes.dark) {
+      setIcon(organization.darkThemeIcon || organization.icon);
+    } else {
+      setIcon(organization.icon);
+    }
+  }, [theme.theme]);
 
   return (
     <Card>
       <Card.Header image />
       <Card.Body>
         <div className="login-form__header">
-          <EImage alt="" src={organization.icon} circle size="xLarge" />
+          <EImage alt="" src={icon} circle size="xLarge" />
           <Header size={1}>{props.title}</Header>
           <IfElse condition={props.message}>
             <p>{props.message}</p>

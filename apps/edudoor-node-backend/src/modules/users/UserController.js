@@ -6,7 +6,7 @@ import { UserInclude } from '../../utils/includes';
 import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
-import OrganizationUtils from '../../../../../libs/common/src/utils/OrganizationUtils';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 
 class UserController {
   static async login(req) {

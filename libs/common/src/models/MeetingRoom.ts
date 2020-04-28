@@ -1,7 +1,7 @@
 import { DBModel } from '@edudoor/common/models/DBModel';
 import { Meeting } from '@edudoor/common/models/Meeting';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import OrganizationUtils from '../utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { Course } from './Course';
 
 export class MeetingRoom extends Model implements DBModel {

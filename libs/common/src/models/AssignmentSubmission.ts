@@ -3,7 +3,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Student } from '@edudoor/common/models/Student';
 import { Assignment } from '@edudoor/common/models/Assignment';
 import { Teacher } from '@edudoor/common/models/Teacher';
-import OrganizationUtils from '@edudoor/common/utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { User } from '@edudoor/common/models/User';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 

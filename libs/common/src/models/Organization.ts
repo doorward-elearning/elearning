@@ -7,6 +7,8 @@ export class Organization extends Model implements DBModel {
   public id: string;
   public name: string;
   public icon: string;
+  public darkThemeIcon: string;
+  public link: string;
   public description?: string;
 
   public readonly createdAt: Date;
@@ -23,6 +25,8 @@ export default (sequelize: Sequelize) => {
       },
       name: DataTypes.STRING,
       icon: DataTypes.STRING,
+      darkThemeIcon: DataTypes.STRING,
+      link: DataTypes.STRING,
       description: DataTypes.TEXT,
     },
     { sequelize, tableName: 'Organizations', paranoid: true }
