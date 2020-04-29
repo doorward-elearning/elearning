@@ -3,14 +3,12 @@ import './SideBar.scss';
 import SideBarMenu from './SideBarMenu';
 import { Location, MemoryHistory } from 'history';
 import classNames from 'classnames';
-import UserPanel from './UserPanel';
 import NavLogo from '../NavBar/NavLogo';
 import IfElse from '../IfElse';
 import useSidebarSchema, { SideBarSchema } from '../../hooks/useSidebarSchema';
 import { RouteNames, Routes } from '../../types';
 import useAuth from '../../hooks/useAuth';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
-import profile from '../../../assets/images/profile.svg';
 
 function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
   const { history, location, collapsed } = props;
@@ -30,8 +28,8 @@ function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
               features={[NavbarFeatures.HAMBURGER, NavbarFeatures.PAGE_LOGO]}
               onHamburgerClick={props.onHamburgerClick}
               history={props.history}
-              title=""
-              icon=""
+              title={props.title}
+              icon={props.icon}
             />
           </div>
         )}
@@ -58,6 +56,8 @@ export interface SideBarProps<T extends RouteNames> {
   onHamburgerClick?: MouseEventHandler;
   schema: SideBarSchema<T>;
   routes: Routes<T>;
+  icon: string;
+  title: string;
 }
 
 export default SideBar;

@@ -28,6 +28,7 @@ import Header from '@edudoor/ui/components/Header';
 import useOrganization from '../../hooks/useOrganization';
 import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@edudoor/ui/components/Row';
+import useLogo from '../../hooks/useLogo';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -71,6 +72,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const currentRoute = routes.currentRoute;
   const debouncedSearch = _.debounce(onSearchText, 500);
   const organization = useOrganization();
+  const icon = useLogo();
 
   const onSearch = ({ target: { value } }: any): void => {
     if (value !== search) {
@@ -105,7 +107,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
           <NavBar
-            icon={organization.icon}
+            icon={icon}
             history={history}
             location={location}
             loginLink={routes.routes.login.link}
@@ -128,7 +130,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             schema={schema}
             navBarShown={!noNavBar}
             history={history}
+            icon={icon}
             routes={routes}
+            title={organization.name}
             onHamburgerClick={toggleSidebar}
             location={location}
             collapsed={sidebarCollapsed}
