@@ -103,7 +103,7 @@ class CourseHelper {
         {
           model: models.MeetingRoom,
           as: 'meetingRoom',
-          required: false
+          required: false,
         },
       ],
     });
@@ -127,16 +127,18 @@ class CourseHelper {
         {
           model: models.MeetingRoom,
           as: 'meetingRoom',
+          required: false,
         },
         {
           model: models.User,
           as: 'students',
+          required: false,
         },
       ],
     });
 
     return Promise.all(
-      course.students.map(async student => {
+      (course.students || []).map(async student => {
         return MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
       })
     );

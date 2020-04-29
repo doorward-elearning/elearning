@@ -1,14 +1,10 @@
 import debug from 'debug';
 import shortid from 'shortid';
 import app from './src/app';
-import models from './src/database/models';
-import OrganizationUtils from './src/utils/OrganizationUtils';
 import JWT from './src/utils/auth';
 
 const http = require('http');
 const socketIO = require('socket.io');
-
-global.models = models;
 
 const logger = debug('log');
 const server = http.createServer(app);
@@ -20,9 +16,6 @@ global.socketIO = io;
 console.log(`Starting server on port ${process.env.PORT}`);
 
 console.log(shortid.generate() + shortid.generate() + shortid.generate());
-OrganizationUtils.get().then(() => {
-  logger('OrganizationUtils initialized.');
-});
 
 server.listen(process.env.PORT, '0.0.0.0', 511, () => {
   logger(`Find me on http://localhost:${process.env.PORT}`);

@@ -39,7 +39,7 @@ export default (sequelize: Sequelize) => {
     });
     Organization.hasMany(Role, {
       foreignKey: 'organizationId',
-      as: 'roles',
+      as: 'defaultRoles.js',
     });
     return Organization;
   };

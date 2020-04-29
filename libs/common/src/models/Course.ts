@@ -43,6 +43,7 @@ export default (sequelize: Sequelize) => {
       },
       title: DataTypes.STRING,
       description: DataTypes.TEXT,
+      organizationId: DataTypes.STRING,
       objectives: DataTypes.TEXT,
       requirements: DataTypes.TEXT,
       status: DataTypes.STRING,

@@ -52,7 +52,6 @@ const env = process.env.NODE_ENV || 'development';
 const config = database[env];
 const sequelize = new Sequelize(process.env.DATABASE_URL, config as Options);
 
-
 function createModels<T extends { [name: string]: ModelCreator<any> }, K extends keyof T>(
   models: T
 ): {
@@ -67,29 +66,34 @@ function createModels<T extends { [name: string]: ModelCreator<any> }, K extends
   }, {});
 }
 
-const models = {
+let models = {
   sequelize,
   Sequelize: sequelize,
   ...createModels(modelNames),
 };
-
-Object.keys(modelNames).forEach(modelName => {
-  models[modelName] = models[modelName]();
-  models[modelName].beforeCreate(model => {
-    model.id = Tools.generateId();
-    model.organizationId = OrganizationUtils.getId();
-  });
-});
 
 export function initializeModelQuery() {
   Object.keys(modelNames).forEach(modelName => {
     models[modelName] = models[modelName]();
     models[modelName].beforeCreate(model => {
       model.id = Tools.generateId();
-      model.organizationId = OrganizationUtils.getId();
+      if (!model.organizationId) {
+        model.organizationId = OrganizationUtils.getId();
+      }
     });
   });
 }
+
+initializeModelQuery();
+
+OrganizationUtils.initialize(models).then(() => {
+  models = {
+    ...models,
+    ...createModels(modelNames),
+  };
+
+  initializeModelQuery();
+});
 
 export type Models = typeof models;
 

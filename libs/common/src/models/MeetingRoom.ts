@@ -19,6 +19,7 @@ export default (sequelize: Sequelize) => {
   MeetingRoom.init(
     {
       title: DataTypes.STRING,
+      organizationId: DataTypes.STRING,
     },
     {
       sequelize,

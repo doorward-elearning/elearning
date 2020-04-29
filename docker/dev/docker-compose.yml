@@ -114,7 +114,7 @@ services:
       - '9091:9091'
     environment:
       openvidu.secret: password
-      server.ssl.enabled: 'false'
+      server.ssl.enabled: 'true'
       openvidu.webhook: 'true'
       openvidu.webhook.endpoint: http://edudoor_rest_api:7000/api/v1/meetings/webhook
       openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"
