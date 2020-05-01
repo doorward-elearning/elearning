@@ -79,3 +79,7 @@ If release name contains chart name it will be used as a full name.
 {{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
 {{- end -}}
 {{- end -}}
+
+{{- define "samvadam.samvadampublicurl" -}}
+https://{{- .Values.api.domain -}}
+{{- end -}}

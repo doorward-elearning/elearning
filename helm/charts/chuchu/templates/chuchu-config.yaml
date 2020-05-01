@@ -1,6 +1,7 @@
 apiVersion: v1
 data:
   REACT_APP_BASE_URL: {{ include "chuchu.thalapublicurl" . }}
+  REACT_APP_OPENVIDU_URL: {{ include "samvadam.samvadampublicurl" . }}
   EDUDOOR_WEBSITE_LINK: {{ .Values.websiteUrl }}
 kind: ConfigMap
 metadata:

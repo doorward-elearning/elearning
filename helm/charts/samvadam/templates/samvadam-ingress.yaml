@@ -17,7 +17,7 @@ spec:
           - backend:
               serviceName: {{ include "samvadam.fullname" . }}
               servicePort: 443
-            path: /{{ .Values.customer -}}/{{ .Chart.Name }}
+#            path: /{{ .Values.customer -}}/{{ .Chart.Name }}
   tls:
   - hosts:
     - api.edudoor.org

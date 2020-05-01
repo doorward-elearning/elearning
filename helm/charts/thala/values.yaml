@@ -81,3 +81,6 @@ samvadamport: 4443
 
 container:
   startupseconds: 100
+
+api:
+  domain: api.edudoor.org

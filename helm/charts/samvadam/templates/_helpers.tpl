@@ -67,7 +67,7 @@ Create the name of the service account to use
 {{- end -}}
 
 {{- define "samvadam.samvadampublicurl" -}}
-https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.samvadamuri -}}
+https://{{- .Values.api.domain -}}
 {{- end -}}
 
 {{- define "samvadam.samvadamwebhookendpoint" -}}
