@@ -8,7 +8,7 @@ module.exports = {
       +(process.env.BCRYPT_PASSWORD_SALT || process.env.BCRYPT_PASSWORD_SALT)
     );
     const organizations = await queryInterface.sequelize.query(
-      'SELECT id FROM "Organizations" WHERE name = \'Edudoor\''
+      'SELECT id FROM "Organizations" WHERE name = \'Root\''
     );
     await queryInterface.bulkInsert('Users', [
       {
