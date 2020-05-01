@@ -20,7 +20,8 @@ module.exports =  {
       },
     });
   },
-  down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('MeetingRooms');
+  down: async (queryInterface, Sequelize) => {
+    await queryInterface.dropTable('MeetingRoomMembers');
+    await queryInterface.dropTable('MeetingRooms');
   },
 };
