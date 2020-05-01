@@ -74,5 +74,5 @@ postgres://{{- .Values.thaladbuser -}}:{{- .Values.thaladbpassword -}}@{{- .Valu
 Define Samvadam URL
 */}}
 {{- define "thala.samvadamurl" -}}
-https://{{- .Values.customer -}}-{{- .Values.samvadamhostpostfix -}}
+https://{{- .Values.api.domain -}}
 {{- end -}}
