@@ -7,7 +7,7 @@ module.exports = {
         return queryInterface.addColumn(table, 'organizationId', {
           type: Sequelize.STRING,
           onDelete: 'cascade',
-          defaultValue: process.env.ORGANIZATION_ID,
+          defaultValue: process.env.DEFAULT_ORGANIZATION_ID,
           references: {
             model: 'Organizations',
             key: 'id',

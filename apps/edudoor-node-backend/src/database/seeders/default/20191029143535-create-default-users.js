@@ -7,9 +7,6 @@ module.exports = {
       'openolat',
       +(process.env.BCRYPT_PASSWORD_SALT || process.env.BCRYPT_PASSWORD_SALT)
     );
-    const organizations = await queryInterface.sequelize.query(
-      'SELECT id FROM "Organizations" WHERE name = \'Root\''
-    );
     await queryInterface.bulkInsert('Users', [
       {
         id: id(),
@@ -19,7 +16,7 @@ module.exports = {
         createdAt: new Date(),
         updatedAt: new Date(),
         email: 'gitaumoses4@gmail.com',
-        organizationId: organizations[0][0].id,
+        organizationId: process.env.DEFALT_ORGANIZATION_ID,
       },
     ]);
   },
