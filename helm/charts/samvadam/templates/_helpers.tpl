@@ -62,6 +62,9 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
+{{- define "samvadam.contextpath" -}}
+/{{ .Values.customer -}}/{{ .Chart.Name }}
+{{- end -}}
 
 {{- define "samvadam.samvadampublicurl" -}}
 https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.samvadamuri -}}

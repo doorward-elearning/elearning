@@ -77,6 +77,11 @@ spec:
               configMapKeyRef:
                 key: server.ssl.enabled
                 name: {{ include "samvadam.fullname" . }}
+          - name: server.servlet.context-path
+            valueFrom:
+              configMapKeyRef:
+                key: server.servlet.context-path
+                name: {{ include "samvadam.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
