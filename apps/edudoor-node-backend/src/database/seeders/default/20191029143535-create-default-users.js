@@ -4,19 +4,19 @@ const id = require('../../../utils/generateId');
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     const password = await bcrypt.hash(
-      'openolat',
+      process.env.DEFAULT_ADMIN_PASSWORD,
       +(process.env.BCRYPT_PASSWORD_SALT || process.env.BCRYPT_PASSWORD_SALT)
     );
     await queryInterface.bulkInsert('Users', [
       {
-        id: id(),
-        username: 'administrator',
+        id: process.env.DEFAULT_ADMIN_ID,
+        username: process.env.DEFAULT_ADMIN_USERNAME,
         password,
         status: 'ACTIVE_NOT_DELETABLE',
         createdAt: new Date(),
         updatedAt: new Date(),
-        email: 'gitaumoses4@gmail.com',
-        organizationId: process.env.DEFALT_ORGANIZATION_ID,
+        email: process.env.DEFAULT_ADMIN_EMAIL,
+        organizationId: process.env.DEFAULT_ORGANIZATION_ID,
       },
     ]);
   },

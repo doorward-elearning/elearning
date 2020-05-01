@@ -8,7 +8,7 @@
     "build": "nx build",
     "db:migrate": "cd apps/edudoor-node-backend && sequelize db:migrate",
     "db:migrate:undo": "cd apps/edudoor-node-backend && sequelize db:migrate:undo",
-    "db:rollback": "cd apps/edudoor-node-backend && sequelize db:migrate:undo:all",
+    "db:rollback": "cd apps/edudoor-node-backend && sequelize db:seed:undo:all && sequelize db:migrate:undo:all ",
     "db:seed": "cd apps/edudoor-node-backend && sequelize db:seed:all --debug",
     "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed",
     "test": "nx test",
