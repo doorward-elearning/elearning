@@ -62,8 +62,17 @@ Create the name of the service account to use
 {{- end -}}
 
 
+{{/*
+Create the public UR for Thala Api. Defaults to thala.customer-name.edudoor.org, but user can override it by passing thala_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
 {{- define "chuchu.thalapublicurl" -}}
-https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- if .Values.thala_domain -}}
+{{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- end -}}
 {{- end -}}
 
 
@@ -73,13 +82,23 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 If release name contains chart name it will be used as a full name.
 */}}
 {{- define "chuchu.public_app_url" -}}
-{{- if .Values.app_url -}}
-{{- .Values.app_url | trunc 63 | trimSuffix "-" -}}
+{{- if .Values.app_domain -}}
+{{- .Values.app_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
 {{- end -}}
 {{- end -}}
 
+
+{{/*
+Create the public UR for Samvadam. Defaults to samvadam.customer-name.edudoor.org, but user can override it by passing samvadam_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
 {{- define "samvadam.samvadampublicurl" -}}
-https://{{- .Values.api.domain -}}
+{{- if .Values.samvadam_domain -}}
+{{- .Values.samvadam_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+samvadam.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
+{{- end -}}
 {{- end -}}

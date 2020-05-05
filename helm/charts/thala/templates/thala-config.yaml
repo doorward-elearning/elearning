@@ -3,6 +3,10 @@ data:
   DATABASE_URL: {{ include "thala.thaladburl" . }}
   OPENVIDU_URL: {{ include "thala.samvadamurl" . }}
   API_PREFIX: /{{ .Values.customer -}}/{{ .Chart.Name }}
+  EDUDOOR_ADMIN_EMAIL: {{ .Values.organization.email }}
+  ORGANIZATION_LOGO: {{ .Values.organization.logo }}
+  ORGANIZATION_NAME: {{ .Values.organization.name }}
+  ORGANIZATION_WEBSITE_LINK: https://{{ .Values.organization.website }}
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"

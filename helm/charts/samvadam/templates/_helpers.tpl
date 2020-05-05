@@ -66,8 +66,17 @@ Create the name of the service account to use
 /{{ .Values.customer -}}/{{ .Chart.Name }}
 {{- end -}}
 
+{{/*
+Create the public UR for Samvadam. Defaults to samvadam.customer-name.edudoor.org, but user can override it by passing samvadam_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
 {{- define "samvadam.samvadampublicurl" -}}
-https://{{- .Values.api.domain -}}
+{{- if .Values.samvadam_domain -}}
+{{- .Values.samvadam_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+samvadam.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
+{{- end -}}
 {{- end -}}
 
 {{- define "samvadam.samvadamwebhookendpoint" -}}

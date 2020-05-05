@@ -76,3 +76,17 @@ Define Samvadam URL
 {{- define "thala.samvadamurl" -}}
 http://{{- .Values.customer -}}-{{- .Values.samvadamhostpostfix -}}:443
 {{- end -}}
+
+
+{{/*
+Public URL for Thala Api. Defaults to thala.customer-name.edudoor.org, but user can override it by passing thala_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "thala.thalapublicurl" -}}
+{{- if .Values.thala_domain -}}
+{{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- end -}}
+{{- end -}}

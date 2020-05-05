@@ -3,7 +3,7 @@ data:
   openvidu.secret: {{ .Values.samvadamsecretkey }}
   server.ssl.enabled: {{ .Values.samvadamsslenabled | quote }}
   server.servlet.context-path: {{ include "samvadam.contextpath" .}}
-  openvidu.publicurl: {{ include "samvadam.samvadampublicurl" .}}
+  openvidu.publicurl: https://{{ include "samvadam.samvadampublicurl" .}}
   openvidu.webhook: {{ .Values.samvadamwebhook | quote }}
   openvidu.webhook.endpoint: {{ include "samvadam.samvadamwebhookendpoint" . | quote }}
   openvidu.webhook.events: {{ .Values.samvadamwebhookevents | toJson | quote }}

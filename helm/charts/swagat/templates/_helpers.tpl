@@ -62,20 +62,29 @@ Create the name of the service account to use
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create the public UR for Thala Api. Defaults to thala.customer-name.edudoor.org, but user can override it by passing thala_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
 {{- define "swagat.thalapublicurl" -}}
-https://{{- .Values.api.domain -}}/{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- if .Values.thala_domain -}}
+{{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+{{- end -}}
 {{- end -}}
 
 
 {{/*
-Create the public UR for swagat. Defaults to customer-name.edudoor.org, but user can override it by passing website_name.
+Create the public UR for swagat. Defaults to customer-name.edudoor.org, but user can override it by passing welcomepage_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "swagat.public_website_name" -}}
-{{- if .Values.website_name -}}
-{{- .Values.website_name | trunc 63 | trimSuffix "-" -}}
+{{- define "swagat.frontpage_website_name" -}}
+{{- if .Values.welcomepage_domain -}}
+{{- .Values.welcomepage_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- .Values.customer | trunc 63 | trimSuffix "-" -}}-edudoor.org
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
 {{- end -}}
 {{- end -}}

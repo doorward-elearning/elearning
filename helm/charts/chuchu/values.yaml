@@ -76,8 +76,8 @@ container:
   startupseconds: 100
 
 api:
-  domain: api.edudoor.org
+  
   samvadamuri: samvadam
   thalauri: thala
 
-websiteUrl: beta.edudoor.org
+app_domain: beta.edudoor.org

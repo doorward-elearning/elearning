@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
   EDUDOOR_APPLICATION_LINK: {{ .Values.app_url }}
-  REACT_APP_BASE_URL: {{ include "swagat.thalapublicurl" . }}
+  REACT_APP_BASE_URL: https://{{ include "swagat.thalapublicurl" . }}
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"

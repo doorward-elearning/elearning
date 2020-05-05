@@ -11,7 +11,7 @@ metadata:
 
 spec:
   rules:
-    - host: api.edudoor.org
+    - host: {{ include "thala.thalapublicurl" . }}
       http:
         paths:
           - backend:
@@ -20,8 +20,8 @@ spec:
             path: /{{ .Values.customer -}}/{{ .Chart.Name }}
   tls:
   - hosts:
-    - api.edudoor.org
-    secretName: api.edudoor.org
+    - {{ include "thala.thalapublicurl" . }}
+    secretName: {{ include "thala.thalapublicurl" . }}
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:
 #      - hosts:

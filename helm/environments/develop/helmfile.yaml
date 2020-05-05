@@ -1,0 +1,42 @@
+releases:
+  - name: develop-thaladb
+    namespace: develop-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: develop-samvadam
+    namespace: develop-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - develop-edudoor/develop-thaladb
+    values:
+      - config.yaml
+
+  - name: develop-thala
+    namespace: develop-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - develop-edudoor/develop-thaladb
+    values:
+      - config.yaml
+
+  - name: develop-chuchu
+    namespace: develop-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - develop-edudoor/develop-thaladb
+    values:
+      - config.yaml
