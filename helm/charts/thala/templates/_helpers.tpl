@@ -87,6 +87,6 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.thala_domain -}}
 {{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org/api/v1/
 {{- end -}}
 {{- end -}}

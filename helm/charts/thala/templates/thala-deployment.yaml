@@ -56,11 +56,6 @@ spec:
               configMapKeyRef:
                 key: OPENVIDU_URL
                 name: {{ include "thala.fullname" . }}
-          - name: API_PREFIX
-            valueFrom:
-              configMapKeyRef:
-                key: API_PREFIX
-                name: {{ include "thala.fullname" . }}
           - name: EDUDOOR_ADMIN_EMAIL
             valueFrom:
               configMapKeyRef:

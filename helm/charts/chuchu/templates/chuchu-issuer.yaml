@@ -1,7 +1,7 @@
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
-  name: {{ include "chuchu.fullname" . -}}-letsencrypt-staging
+  name: letsencrypt-staging
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
 spec:
   acme:
@@ -22,7 +22,7 @@ spec:
 apiVersion: cert-manager.io/v1alpha2
 kind: Issuer
 metadata:
-  name: {{ include "chuchu.fullname" . -}}-letsencrypt-prod
+  name: letsencrypt-prod
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
 spec:
   acme:
@@ -32,7 +32,7 @@ spec:
     email: basil@doorward.tech
     # Name of a secret used to store the ACME account private key
     privateKeySecretRef:
-      name: {{ include "chuchu.fullname" . -}}-letsencrypt-prod
+      name: letsencrypt-prod
     # Enable the HTTP-01 challenge provider
     solvers:
     - http01:

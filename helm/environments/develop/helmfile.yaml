@@ -40,3 +40,14 @@ releases:
       - develop-edudoor/develop-thaladb
     values:
       - config.yaml
+
+  - name: develop-swagat
+    namespace: develop-edudoor
+    labels:
+      stage: 2
+      name: swagat
+    chart: ../../charts/swagat
+    needs:
+      - develop-edudoor/develop-thaladb
+    values:
+      - config.yaml
