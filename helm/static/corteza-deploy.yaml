@@ -246,77 +246,12 @@ data:
   # volumes: [ "./data/server:/data" ]
 
 ---
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: edudoor-corteza-db
-spec:
-  capacity:
-    storage: 15G
-  accessModes:
-    - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: edudoor-corteza-db
-    fsType: ext4
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: edudoor-corteza-server
-spec:
-  capacity:
-    storage: 3G
-  accessModes:
-    - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: edudoor-corteza-server
-    fsType: ext4
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: edudoor-corteza-corredor
-spec:
-  capacity:
-    storage: 3G
-  accessModes:
-    - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: edudoor-corteza-corredor
-    fsType: ext4
-
----
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: edudoor-corteza-webapp
-spec:
-  capacity:
-    storage: 3G
-  accessModes:
-    - ReadWriteOnce
-  gcePersistentDisk:
-    pdName: edudoor-corteza-webapp
-    fsType: ext4
-
----
 # Source: thaladb/templates/thaladb-apvc.yaml
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: corteza-db-claim
-  annotations:
-    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
-    pv.kubernetes.io/bind-completed: "yes"
-    pv.kubernetes.io/bound-by-controller: "yes"
 spec:
-  # It's necessary to specify "" as the storageClassName
-  # so that the default storage class won't be used, see
-  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: databases-slow
-  volumeName: edudoor-corteza-db
   accessModes:
     - ReadWriteOnce
   resources:
@@ -329,16 +264,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: corteza-server-claim
-  annotations:
-    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
-    pv.kubernetes.io/bind-completed: "yes"
-    pv.kubernetes.io/bound-by-controller: "yes"
 spec:
-  # It's necessary to specify "" as the storageClassName
-  # so that the default storage class won't be used, see
-  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: databases-slow
-  volumeName: edudoor-corteza-server
   accessModes:
     - ReadWriteOnce
   resources:
@@ -351,16 +277,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: corteza-corredor-claim
-  annotations:
-    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
-    pv.kubernetes.io/bind-completed: "yes"
-    pv.kubernetes.io/bound-by-controller: "yes"
 spec:
-  # It's necessary to specify "" as the storageClassName
-  # so that the default storage class won't be used, see
-  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: databases-slow
-  volumeName: edudoor-corteza-corredor
   accessModes:
     - ReadWriteOnce
   resources:
@@ -373,16 +290,7 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: corteza-webapp-claim
-  annotations:
-    volume.beta.kubernetes.io/storage-provisioner: kubernetes.io/gce-pd
-    pv.kubernetes.io/bind-completed: "yes"
-    pv.kubernetes.io/bound-by-controller: "yes"
 spec:
-  # It's necessary to specify "" as the storageClassName
-  # so that the default storage class won't be used, see
-  # https://kubernetes.io/docs/concepts/storage/persistent-volumes/#class-1
-  storageClassName: databases-slow
-  volumeName: edudoor-corteza-webapp
   accessModes:
     - ReadWriteOnce
   resources:

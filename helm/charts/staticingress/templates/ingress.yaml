@@ -26,14 +26,6 @@ spec:
               servicePort: 80
             path: /
 
-    - host: blog.edudoor.org
-      http:
-        paths:
-          - backend:
-              serviceName: edudoor-ghost
-              servicePort: 80
-            path: /
-
     - host: ci.edudoor.org
       http:
         paths:
@@ -46,6 +38,5 @@ spec:
   - hosts:
     - api.clients.edudoor.org
     - clients.edudoor.org
-    - blog.edudoor.org
     - ci.edudoor.org
     secretName: clients.edudoor.org
