@@ -23,10 +23,10 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                   </p>
                   <p data-aos="fade-up" data-aos-delay="300">
                     <a
-                      href={process.env.EDUDOOR_APPLICATION_LINK + '/login'}
+                      href={process.env.EDUDOOR_APPLICATION_LINK + '/classrooms'}
                       className="btn btn-primary py-3 px-5 btn-pill"
                     >
-                      Login Now
+                      Join Classroom
                     </a>
                   </p>
                 </div>
@@ -46,8 +46,8 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                       }}
                     />
                     <div>
-                      <span>Already have an account? </span>
-                      <a href={process.env.EDUDOOR_APPLICATION_LINK + '/login'}>Login</a>
+                      <span>Already have a school account? </span>
+                      <a href={process.env.EDUDOOR_APPLICATION_LINK + '/classrooms'}>Join Classroom</a>
                     </div>
                   </Panel>
                 </div>

@@ -412,6 +412,59 @@
           }
         }
       }
+    },
+    "edudoor-backend": {
+      "root": "apps/edudoor-backend",
+      "sourceRoot": "apps/edudoor-backend/src",
+      "projectType": "application",
+      "prefix": "edudoor-backend",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/edudoor-backend",
+            "main": "apps/edudoor-backend/src/main.ts",
+            "tsConfig": "apps/edudoor-backend/tsconfig.app.json",
+            "assets": ["apps/edudoor-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/edudoor-backend/src/environments/environment.ts",
+                  "with": "apps/edudoor-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "edudoor-backend:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/edudoor-backend/.eslintrc",
+            "tsConfig": ["apps/edudoor-backend/tsconfig.app.json", "apps/edudoor-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-backend/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/edudoor-backend/jest.config.js",
+            "tsConfig": "apps/edudoor-backend/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {

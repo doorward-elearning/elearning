@@ -108,6 +108,7 @@ services:
   edudoor_openvidu:
     image: openvidu/openvidu-server-kms
     container_name: edudoor_openvidu
+    network_mode: host
     ports:
       - '4443:4443'
       - '8888:8888'
@@ -116,5 +117,5 @@ services:
       openvidu.secret: password
       server.ssl.enabled: 'true'
       openvidu.webhook: 'true'
-      openvidu.webhook.endpoint: http://edudoor_rest_api:7000/api/v1/meetings/webhook
+      openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetings/webhook
       openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"

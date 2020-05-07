@@ -151,7 +151,11 @@
     "webpack-dev-server": "3.2.1",
     "webpack-manifest-plugin": "2.1.1",
     "workbox-webpack-plugin": "4.3.1",
-    "yup": "^0.27.0"
+    "yup": "^0.27.0",
+    "@nestjs/common": "^6.8.3",
+    "@nestjs/core": "^6.8.3",
+    "@nestjs/platform-express": "^6.8.3",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.7.0",
@@ -164,7 +168,7 @@
     "@nrwl/node": "8.9.0",
     "@nrwl/react": "8.9.0",
     "@nrwl/web": "8.9.0",
-    "@nrwl/workspace": "8.9.0",
+    "@nrwl/workspace": "^9.2.4",
     "@testing-library/react": "9.3.2",
     "@types/axios": "^0.14.0",
     "@types/classnames": "^2.2.9",
@@ -215,6 +219,9 @@
     "ts-node": "~7.0.0",
     "ts-transformer-keys": "^0.3.5",
     "tslint": "~5.11.0",
-    "typescript": "^3.7.4"
+    "typescript": "^3.7.4",
+    "@nestjs/schematics": "^6.7.0",
+    "@nestjs/testing": "^6.8.3",
+    "@nrwl/nest": "9.2.4"
   }
 }
