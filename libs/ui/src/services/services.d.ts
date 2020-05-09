@@ -6,11 +6,3 @@ export type ApiError = {
     [name: string]: string;
   };
 };
-
-export type ApiResponse = {
-  success: boolean;
-  message?: string;
-  data?: any;
-  errors?: ApiError;
-  meta?: any;
-};

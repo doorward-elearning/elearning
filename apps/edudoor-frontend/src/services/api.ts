@@ -42,9 +42,9 @@ import {
   UserResponse,
 } from './models/responseBody';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
-import { ApiResponse } from '@edudoor/ui/services/services';
 import { ModuleItemTypes } from '@edudoor/common/models';
 import axios from 'axios';
+import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
 
 /**
  * Use the return keyword in the functions to improve readability

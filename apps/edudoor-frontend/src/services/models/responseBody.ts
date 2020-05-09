@@ -1,17 +1,16 @@
-import { ApiResponse } from '@edudoor/ui/services/services';
 import { User } from '@edudoor/common/models/User';
 import { Student } from '@edudoor/common/models/Student';
 import { Teacher } from '@edudoor/common/models/Teacher';
 import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 import { Course } from '@edudoor/common/models/Course';
-import { MeetingRoom } from '@edudoor/common/models/MeetingRoom';
 import { Meeting } from '@edudoor/common/models/Meeting';
 import { Group } from '@edudoor/common/models/Group';
 import { Organization } from '@edudoor/common/models/Organization';
 import { File } from '@edudoor/common/models/File';
 import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
 import { School } from '@edudoor/common/models/School';
+import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -96,4 +95,3 @@ export interface SchoolResponse extends ApiResponse {
 export interface SchoolsResponse extends ApiResponse {
   schools: Array<School>;
 }
-

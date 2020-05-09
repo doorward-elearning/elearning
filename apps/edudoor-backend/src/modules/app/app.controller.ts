@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, HttpStatus } from '@nestjs/common';
 
 import { AppService } from './app.service';
 
@@ -8,6 +8,9 @@ export class AppController {
 
   @Get()
   getData() {
-    return this.appService.getData();
+    return {
+      data: this.appService.getData(),
+      statusCode: HttpStatus.CREATED,
+    };
   }
 }

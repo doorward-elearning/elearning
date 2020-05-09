@@ -20,7 +20,7 @@
     "paths": {
       "@edudoor/ui/*": ["libs/ui/src/*"],
       "@edudoor/common/*": ["libs/common/src/*"],
-      "@edudoor/backend": ["libs/backend/src/index.ts"],
+      "@edudoor/backend/*": ["libs/backend/src/*"],
       "@edudoor/chat/*": ["libs/chat/src/*"]
     },
     "plugins": [
