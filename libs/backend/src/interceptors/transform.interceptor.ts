@@ -1,11 +1,12 @@
 import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { ResponseBuilder } from '@edudoor/backend/api/ResponseBuilder';
 
-export type ApiResponse = [any?, string?, any?];
-
-interface CustomResponse<T> {
+export interface ApiResponse<T = any> {
   success: boolean;
+  statusCode: number;
+  timestamp: Date;
   data?: T;
   message?: string;
   errors?: Array<{ [name: string]: string }>;
@@ -13,37 +14,21 @@ interface CustomResponse<T> {
 }
 
 @Injectable()
-export class TransformInterceptor<T extends ApiResponse> implements NestInterceptor<T, CustomResponse<T>> {
+export class TransformInterceptor<T extends ApiResponse> implements NestInterceptor<T, ApiResponse> {
   intercept(
     context: ExecutionContext,
     next: CallHandler<T>
-  ): Observable<CustomResponse<T>> | Promise<Observable<CustomResponse<T>>> {
+  ): Observable<ApiResponse> | Promise<Observable<ApiResponse>> {
     return next.handle().pipe(
       map(response => {
-        const result: CustomResponse<any> = { success: true };
-        if (response.length) {
-          const [data, message, meta] = response;
-
-          result.data = data;
-          if (message) {
-            result.message = message;
+        if (response) {
+          if (!(response as ApiResponse).success) {
+            return ResponseBuilder.create(HttpStatus.OK, response);
           }
-          if (meta) {
-            result.meta = meta;
-          }
+          return response as ApiResponse;
         } else {
-          result.data = response;
+          return ResponseBuilder.create();
         }
-        return result;
-      }),
-      catchError((err: HttpException) => {
-        throw new HttpException(
-          {
-            success: false,
-            message: err.message,
-          },
-          err.getStatus ? err.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR
-        );
       })
     );
   }

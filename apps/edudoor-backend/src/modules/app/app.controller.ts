@@ -1,6 +1,7 @@
-import { Controller, Get, HttpStatus } from '@nestjs/common';
+import { Controller, Get, HttpException, HttpStatus } from '@nestjs/common';
 
 import { AppService } from './app.service';
+import { ResponseBuilder } from '@edudoor/backend/api/ResponseBuilder';
 
 @Controller()
 export class AppController {
@@ -8,9 +9,6 @@ export class AppController {
 
   @Get()
   getData() {
-    return {
-      data: this.appService.getData(),
-      statusCode: HttpStatus.CREATED,
-    };
+    throw new HttpException('Something went wrong', HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }
