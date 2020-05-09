@@ -3,6 +3,8 @@ const babelWebpackConfig = require('@nrwl/react/plugins/babel');
 const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 
+console.log('Setup-------------------------');
+
 module.exports = config => {
   config.module.rules.push(
     {
