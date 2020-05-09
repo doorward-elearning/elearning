@@ -1,0 +1,42 @@
+releases:
+  - name: mindbox-thaladb
+    namespace: mindbox-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: mindbox-samvadam
+    namespace: mindbox-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - mindbox-edudoor/mindbox-thaladb
+    values:
+      - config.yaml
+
+  - name: mindbox-thala
+    namespace: mindbox-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - mindbox-edudoor/mindbox-thaladb
+    values:
+      - config.yaml
+
+  - name: mindbox-chuchu
+    namespace: mindbox-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - mindbox-edudoor/mindbox-thaladb
+    values:
+      - config.yaml

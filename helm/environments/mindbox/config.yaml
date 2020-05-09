@@ -1,16 +1,57 @@
 # Name of the Customer / Website
 customer: mindbox
 
-# HOME Page of the website. By default it will be customer.edudoor.org. Customers are allowed to register a custom domain if they prefer so
+# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
 app_domain: mindbox.edudoor.org
 
-# Name of the Website. This name will be most probably same as Customer Name
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: www.edudoor.org
+
+# Application URL. Default Value: https://<customer-name>.edudoor.org
+app_url: https://mindbox.edudoor.org
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
+samvadam_domain: samvadam.mindbox.edudoor.org
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
+thala_domain: thala.mindbox.edudoor.org
+
+# Name of the Website. Default Value: <Customer-Name>
 websitename: Mindbox
 
-# Logo URL of the website. Customer provide this logo
-websitelogo:
-
-# Namespace for Stage
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
 namespace: mindbox-edudoor
 
 # Override default variables for stage environments
+
+image:
+  swagat:
+    repository: gcr.io/edudoorlms/swagat
+    version: 1.1.0
+    pullPolicy: IfNotPresent
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: gcr.io/edudoorlms/thala
+    version: 1.1.0
+    pullPolicy: IfNotPresent
+  samvadam:
+    repository: gcr.io/edudoorlms/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: gcr.io/edudoorlms/chuchu
+    version: 1.1.0
+    pullPolicy: IfNotPresent
+
+organization:
+  # Organization Logo
+  logo: "https://edudoor.s3.amazonaws.com/logos/download1.png"
+  # Display Name of Organization
+  name: Edudoor
+  # Application URL
+  website: mindbox.edudoor.org
+  #Organization Admin Email ID
+  email: info@edudoor.org
