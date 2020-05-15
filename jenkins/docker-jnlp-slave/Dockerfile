@@ -57,5 +57,6 @@ RUN ARCH='x64' && set -ex \
   && rm "node-v$NODE_VERSION-linux-$ARCH.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
+RUN pip install --user jenkins-job-builder
 
 ENTRYPOINT ["jenkins-agent"]
