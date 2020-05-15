@@ -61,6 +61,21 @@ spec:
               configMapKeyRef:
                 key: EDUDOOR_ADMIN_EMAIL
                 name: {{ include "thala.fullname" . }}
+          - name: ORGANIZATION_LOGO
+            valueFrom:
+              configMapKeyRef:
+                key: ORGANIZATION_LOGO
+                name: {{ include "thala.fullname" . }}
+          - name: ORGANIZATION_NAME
+            valueFrom:
+              configMapKeyRef:
+                key: ORGANIZATION_NAME
+                name: {{ include "thala.fullname" . }}
+          - name: ORGANIZATION_WEBSITE_LINK
+            valueFrom:
+              configMapKeyRef:
+                key: ORGANIZATION_WEBSITE_LINK
+                name: {{ include "thala.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
