@@ -106,9 +106,7 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           }),
         }),
         organizations: new Route('/organizations', Organizations)
-          .roles(Roles.SUPER_ADMINISTRATOR, user => {
-            return user.organizationId === process.env.DEFAULT_ORGANIZATION_ID;
-          })
+          .roles(Roles.SUPER_ADMINISTRATOR)
           .with({
             createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
             editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
