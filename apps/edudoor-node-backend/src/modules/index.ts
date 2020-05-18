@@ -22,7 +22,7 @@ const modules = {
   schools,
 };
 
-const apiVersion = `${process.env.API_PREFIX || ''}/api/v1`;
+const apiVersion = `${process.env.API_PREFIX || ''}`;
 
 export default (app: Application) => {
   const createEndpoint = (module, route): void => {

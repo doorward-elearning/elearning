@@ -1,5 +1,6 @@
 import models from '../../database/models';
 import OrganizationUtils from '../../utils/OrganizationUtils';
+import { Op } from 'sequelize';
 
 class OrganizationController {
   static async create(req) {
@@ -11,7 +12,13 @@ class OrganizationController {
   }
 
   static async getAll() {
-    const organizations = await models.Organization.findAll();
+    const organizations = await models.Organization.findAll({
+      where: {
+        id: {
+          [Op.ne]: process.env.DEFAULT_ORGANIZATION_ID,
+        },
+      },
+    });
 
     return [200, { organizations }];
   }

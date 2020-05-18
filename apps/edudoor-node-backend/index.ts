@@ -13,12 +13,12 @@ const io = socketIO(server);
 
 global.socketIO = io;
 
-console.log(`Starting server on port ${process.env.PORT}`);
+console.log(`Starting server on port ${process.env.API_PORT}`);
 
 console.log(shortid.generate() + shortid.generate() + shortid.generate());
 
-server.listen(process.env.PORT, '0.0.0.0', 511, () => {
-  logger(`Find me on http://localhost:${process.env.PORT}`);
+server.listen(process.env.API_PORT, '0.0.0.0', 511, () => {
+  logger(`Find me on http://localhost:${process.env.API_PORT}`);
 });
 
 io.on('connection', client => {
