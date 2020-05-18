@@ -42,8 +42,8 @@ image:
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
-    version: 1.1.0
+    repository: gcr.io/edudoorlms/chuchu@sha256
+    version: 5757dc4fa94739c925b7a0441e5babcd8d53c6dbb1110d195b25858eaf5811db
     pullPolicy: IfNotPresent
 
 organization:
