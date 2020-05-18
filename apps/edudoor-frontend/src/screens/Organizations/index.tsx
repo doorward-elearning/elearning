@@ -25,7 +25,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
         text: 'Create Organization',
         onClick: () => routes.navigate(routes.createOrganization),
       }}
-      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
       <WebComponent data={organizations.data.organizations} loading={organizations.fetching}>
         {organizations => <OrganizationsTable organizations={organizations} />}
