@@ -34,8 +34,8 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256:bf91e0762638c0eeeaebacfd462d18bdc64265edad79f4e8050f578e2e094b8c
-    version: 1.1.0
+    repository: gcr.io/edudoorlms/thala@sha256
+    version: bf91e0762638c0eeeaebacfd462d18bdc64265edad79f4e8050f578e2e094b8c
     pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
