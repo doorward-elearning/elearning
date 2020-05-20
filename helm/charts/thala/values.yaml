@@ -82,4 +82,7 @@ samvadamport: 4443
 container:
   startupseconds: 100
 
-api:
+classrooms:
+  url: classrooms.edudoor.org
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj

@@ -106,7 +106,7 @@ services:
       timeout: 10s
       retries: 10
   edudoor_openvidu:
-    image: openvidu/openvidu-server-kms
+    image: openvidu/openvidu-server-kms:2.13.0
     container_name: edudoor_openvidu
     network_mode: host
     ports:
@@ -114,8 +114,7 @@ services:
       - '8888:8888'
       - '9091:9091'
     environment:
-      openvidu.secret: password
-      server.ssl.enabled: 'true'
-      openvidu.webhook: 'true'
-      openvidu.webhook.endpoint: http://localhost:7000/api/v1/meetings/webhook
-      openvidu.webhook.events: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"
+      OPENVIDU_SECRET: password
+      OPENVIDU_WEBHOOK: 'true'
+      OPENVIDU_WEBHOOK_ENDPOINT: http://localhost:7000/api/v1/meetings/webhook
+      OPENVIDU_WEBHOOK_EVENTS: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"

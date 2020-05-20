@@ -76,8 +76,11 @@ container:
   startupseconds: 100
 
 api:
-  
+
   samvadamuri: samvadam
   thalauri: thala
 
 app_domain: beta.edudoor.org
+
+classrooms:
+  url: classrooms.edudoor.org

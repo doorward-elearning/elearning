@@ -56,6 +56,16 @@ spec:
               configMapKeyRef:
                 key: OPENVIDU_URL
                 name: {{ include "thala.fullname" . }}
+          - name: OPENVIDU_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_USERNAME
+                name: {{ include "thala.fullname" . }}
+          - name: OPENVIDU_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_PASSWORD
+                name: {{ include "thala.fullname" . }}
           - name: EDUDOOR_ADMIN_EMAIL
             valueFrom:
               configMapKeyRef:
