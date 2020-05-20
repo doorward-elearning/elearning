@@ -1,0 +1,42 @@
+releases:
+  - name: drashoksacademy-thaladb
+    namespace: drashoksacademy-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: drashoksacademy-samvadam
+    namespace: drashoksacademy-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - drashoksacademy-edudoor/drashoksacademy-thaladb
+    values:
+      - config.yaml
+
+  - name: drashoksacademy-thala
+    namespace: drashoksacademy-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - drashoksacademy-edudoor/drashoksacademy-thaladb
+    values:
+      - config.yaml
+
+  - name: drashoksacademy-chuchu
+    namespace: drashoksacademy-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - drashoksacademy-edudoor/drashoksacademy-thaladb
+    values:
+      - config.yaml

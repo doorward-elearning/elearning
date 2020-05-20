@@ -1,0 +1,42 @@
+releases:
+  - name: makonis-thaladb
+    namespace: makonis-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: makonis-samvadam
+    namespace: makonis-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - makonis-edudoor/makonis-thaladb
+    values:
+      - config.yaml
+
+  - name: makonis-thala
+    namespace: makonis-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - makonis-edudoor/makonis-thaladb
+    values:
+      - config.yaml
+
+  - name: makonis-chuchu
+    namespace: makonis-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - makonis-edudoor/makonis-thaladb
+    values:
+      - config.yaml

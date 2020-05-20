@@ -1,26 +1,26 @@
 # Name of the Customer / Website
-customer: mindbox
+customer: makonis
 
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: mindbox.edudoor.org
+app_domain: lms.makonis.ai
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
 welcomepage_domain: www.edudoor.org
 
 # Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://mindbox.edudoor.org
+app_url: https://lms.makonis.ai
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.mindbox.edudoor.org
+samvadam_domain: samvadam.makonis.edudoor.org
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.mindbox.edudoor.org
+thala_domain: thala.makonis.edudoor.org
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Mindbox
+websitename: Makonis
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: mindbox-edudoor
+namespace: makonis-edudoor
 
 # Override default variables for stage environments
 
@@ -34,24 +34,24 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala
-    version: 1.1.0
+    repository: gcr.io/edudoorlms/thala@sha256
+    version: bf91e0762638c0eeeaebacfd462d18bdc64265edad79f4e8050f578e2e094b8c
     pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
-    version: 1.1.0
+    repository: gcr.io/edudoorlms/chuchu@sha256
+    version: 5757dc4fa94739c925b7a0441e5babcd8d53c6dbb1110d195b25858eaf5811db
     pullPolicy: IfNotPresent
 
 organization:
   # Organization Logo
-  logo: "https://edudoor.s3.amazonaws.com/logos/download1.png"
+  logo: "https://edudoorlms.s3.amazonaws.com/makonis/makonis.png"
   # Display Name of Organization
-  name: Mindbox
+  name: Makonis
   # Application URL
-  website: mindbox.edudoor.org
+  website: lms.makonis.ai
   #Organization Admin Email ID
   email: info@edudoor.org

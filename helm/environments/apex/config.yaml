@@ -1,26 +1,26 @@
 # Name of the Customer / Website
-customer: mindbox
+customer: apex
 
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: mindbox.edudoor.org
+app_domain: apex.edudoor.org
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
 welcomepage_domain: www.edudoor.org
 
 # Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://mindbox.edudoor.org
+app_url: https://apex.edudoor.org
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.mindbox.edudoor.org
+samvadam_domain: samvadam.apex.edudoor.org
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.mindbox.edudoor.org
+thala_domain: thala.apex.edudoor.org
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Mindbox
+websitename: Apex
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: mindbox-edudoor
+namespace: apex-edudoor
 
 # Override default variables for stage environments
 
@@ -50,8 +50,8 @@ organization:
   # Organization Logo
   logo: "https://edudoor.s3.amazonaws.com/logos/download1.png"
   # Display Name of Organization
-  name: Mindbox
+  name: Edudoor
   # Application URL
-  website: mindbox.edudoor.org
+  website: apex.edudoor.org
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: raavi.sriraja@gmail.com
