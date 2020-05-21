@@ -55,7 +55,7 @@ spec:
             - name: REACT_APP_OPENVIDU_URL
               valueFrom:
                 configMapKeyRef:
-                  key: REACT_APP_BASE_URL
+                  key: REACT_APP_OPENVIDU_URL
                   name: {{ include "chuchu.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
