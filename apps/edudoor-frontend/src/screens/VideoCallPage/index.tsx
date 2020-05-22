@@ -13,7 +13,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   useEffect(() => {
     const meeting = videoCallState?.data?.meeting;
     if (meeting && meeting.sessionId) {
-      window.location.href = process.env.REACT_APP_OPENVIDU_URL + '/#/' + meeting.sessionId;
+      window.location.replace(process.env.REACT_APP_OPENVIDU_URL + '/#/' + meeting.sessionId);
     }
   }, [videoCallState]);
 

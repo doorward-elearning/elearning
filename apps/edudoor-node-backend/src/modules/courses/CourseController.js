@@ -8,6 +8,7 @@ import Tools from '../../utils/Tools';
 import MeetingRoomsHelper from '../../helpers/MeetingRoomsHelper';
 import Socket from '../../websocket/Socket';
 import { LIVE_CLASSROOM_STARTED } from '../../websocket/types';
+import OpenViduHelper from '../../helpers/OpenViduHelper';
 
 class CourseController {
   static async createCourse(req) {
@@ -115,6 +116,25 @@ class CourseController {
     const course = await CourseHelper.getCourse(courseId);
 
     course.dataValues.itemCount = CourseHelper.courseItemStats(course);
+    // check meeting
+    const meeting = course.meetingRoom?.currentMeeting;
+    if (meeting) {
+      if (meeting.status === 'STARTED') {
+        try {
+          await OpenViduHelper.getToken(meeting.sessionId);
+        } catch (e) {
+          course.meetingRoom.currentMeeting = null;
+          await models.Meeting.update(
+            { status: 'ENDED' },
+            {
+              where: {
+                id: meeting.id,
+              },
+            }
+          );
+        }
+      }
+    }
 
     return [200, { course }];
   }
@@ -136,7 +156,7 @@ class CourseController {
       courseId: course.id,
     });
 
-    return CourseHelper.joinCourseMeetingRoom(meetingRoom, user.id);
+    return CourseHelper.joinCourseMeetingRoom(meetingRoom, user);
   }
 
   static async joinMeeting(req) {

@@ -3,6 +3,7 @@ import OpenViduHelper from './OpenViduHelper';
 import MeetingRoomsHelper from './MeetingRoomsHelper';
 import { CourseModuleStatistics } from '@edudoor/common/types/api';
 import { MyCoursesInclude } from '../utils/includes';
+import Tools from '../utils/Tools';
 
 class CourseHelper {
   static async getCourse(courseId) {
@@ -54,7 +55,8 @@ class CourseHelper {
     );
   }
 
-  static async joinCourseMeetingRoom(meetingRoom, participantId) {
+  static async joinCourseMeetingRoom(meetingRoom, participant) {
+    const participantId = participant.id;
     const meeting = await models.Meeting.findOne({
       where: {
         meetingRoomId: meetingRoom.id,
@@ -78,7 +80,13 @@ class CourseHelper {
         const result = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
         token = result.token;
       } catch (err) {
-        console.error(err);
+        if (!Tools.isStudent(participant)) {
+          const { id } = await OpenViduHelper.createSession();
+          const result = await OpenViduHelper.getToken(id, meetingInstance.role);
+          token = result.token;
+        } else {
+          console.log(err);
+        }
       }
 
       if (token) {

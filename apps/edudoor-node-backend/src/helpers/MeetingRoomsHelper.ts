@@ -11,8 +11,16 @@ class MeetingRoomsHelper {
         },
       ],
     });
+    let token;
 
-    const { token } = await OpenViduHelper.getToken(meeting.sessionId, role);
+    try {
+      const details = await OpenViduHelper.getToken(meeting.sessionId, role);
+      token = details.token;
+    } catch (e) {
+      const { id } = await OpenViduHelper.createSession();
+      const details = await OpenViduHelper.getToken(id, role);
+      token = details.token;
+    }
 
     const user = req.user ? req.user.fullName : 'Participant';
 
