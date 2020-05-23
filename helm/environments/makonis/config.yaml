@@ -35,7 +35,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: gcr.io/edudoorlms/thala@sha256
-    version: bf91e0762638c0eeeaebacfd462d18bdc64265edad79f4e8050f578e2e094b8c
+    version: fec980a94faa5d5088d2f733e66d0dc0597748ecbc99613b1721a2ce2a973a7f
     pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
@@ -43,7 +43,7 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoorlms/chuchu@sha256
-    version: 5757dc4fa94739c925b7a0441e5babcd8d53c6dbb1110d195b25858eaf5811db
+    version: 019df8f5d28d739eb934db3bdea87601b432f85069ae3138ed477cf785697c27
     pullPolicy: IfNotPresent
 
 organization:
