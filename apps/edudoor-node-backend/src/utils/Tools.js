@@ -1,6 +1,6 @@
 import { Op } from 'sequelize';
 import randomString from 'random-string';
-import { STUDENT, TEACHER } from './roles';
+import { STUDENT, SUPER_ADMINISTRATOR, TEACHER } from './roles';
 import shortId from 'shortid';
 
 const SimpleCrypto = require('simple-crypto-js').default;
@@ -69,6 +69,10 @@ class Tools {
 
   static isTeacher(user) {
     return !!user.roles.find(role => role.name === TEACHER);
+  }
+
+  static isAdmin(user) {
+    return !!user.roles.find(role => role.name === SUPER_ADMINISTRATOR);
   }
 }
 

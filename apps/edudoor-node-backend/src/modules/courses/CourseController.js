@@ -92,9 +92,11 @@ class CourseController {
           {
             model: models.User,
             as: 'author',
-            where: {
-              id: user.id,
-            },
+            where: Tools.isAdmin(user)
+              ? {}
+              : {
+                  id: user.id,
+                },
             attributes: [],
           },
         ],

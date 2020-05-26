@@ -36,8 +36,12 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
 
   const onSuccess = () => {
     fetchStudents(courseId);
-    props.groupForm.formikProps.resetForm();
-    props.form.formikProps.resetForm();
+    if (props.groupForm.formikProps) {
+      props.groupForm.formikProps.resetForm();
+    }
+    if (props.form.formikProps) {
+      props.form.formikProps.resetForm();
+    }
     props.onSuccess();
   };
 

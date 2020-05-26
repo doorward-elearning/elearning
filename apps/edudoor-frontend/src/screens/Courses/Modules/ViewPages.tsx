@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './ViewPages.scss';
 import EditableView from '../../../components/EditableView';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
@@ -11,9 +11,16 @@ import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params }) => {
-  const pages = module.items.filter((item: ModuleItem) => item.type === 'Page')
-    .sort((a: ModuleItem, b: ModuleItem) => a.order - b.order);
-  const page =  pages.findIndex((moduleItem: ModuleItem) => moduleItem.id === item.id) + 1;
+  const [pages] = useState(
+    module.items
+      .filter((item: ModuleItem) => item.type === 'Page')
+      .sort((a: ModuleItem, b: ModuleItem) => a.order - b.order)
+  );
+  const [page, setPage] = useState();
+
+  useEffect(() => {
+    setPage(pages.findIndex((moduleItem: ModuleItem) => moduleItem.id === item.id) + 1);
+  }, [pages, item]);
 
   const routes = useRoutes();
   const form = useForm();
@@ -34,9 +41,16 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         creator={[Roles.TEACHER]}
         viewer={[Roles.STUDENT]}
       />
-      <Pagination page={page} numPages={pages.length} onChangePage={(page) => {
-        routes.navigate(editing ? routes.editModuleItem : routes.viewModuleItem, {...params, itemId: pages[page - 1].id});
-      }}/>
+      <Pagination
+        page={page}
+        numPages={pages.length}
+        onChangePage={page => {
+          routes.navigate(editing ? routes.editModuleItem : routes.viewModuleItem, {
+            ...params,
+            itemId: pages[page - 1].id,
+          });
+        }}
+      />
     </div>
   );
 };
