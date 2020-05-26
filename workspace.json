@@ -465,6 +465,175 @@
           }
         }
       }
+    },
+    "openvidu-frontend": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/openvidu-frontend",
+      "sourceRoot": "apps/openvidu-frontend/src",
+      "prefix": "edudoor",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/openvidu-frontend",
+            "index": "apps/openvidu-frontend/src/index.html",
+            "main": "apps/openvidu-frontend/src/main.ts",
+            "polyfills": "apps/openvidu-frontend/src/polyfills.ts",
+            "tsConfig": "apps/openvidu-frontend/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/openvidu-frontend/src/favicon.ico", "apps/openvidu-frontend/src/assets"],
+            "styles": ["apps/openvidu-frontend/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/openvidu-frontend/src/environments/environment.ts",
+                  "with": "apps/openvidu-frontend/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "openvidu-frontend:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "openvidu-frontend:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "openvidu-frontend:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/openvidu-frontend/tsconfig.app.json", "apps/openvidu-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/openvidu-frontend/jest.config.js",
+            "tsConfig": "apps/openvidu-frontend/tsconfig.spec.json",
+            "setupFile": "apps/openvidu-frontend/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "openvidu-frontend-e2e": {
+      "root": "apps/openvidu-frontend-e2e",
+      "sourceRoot": "apps/openvidu-frontend-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/openvidu-frontend-e2e/cypress.json",
+            "tsConfig": "apps/openvidu-frontend-e2e/tsconfig.e2e.json",
+            "devServerTarget": "openvidu-frontend:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "openvidu-frontend:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/openvidu-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend-e2e/**"]
+          }
+        }
+      }
+    },
+    "openvidu-backend": {
+      "root": "apps/openvidu-backend",
+      "sourceRoot": "apps/openvidu-backend/src",
+      "projectType": "application",
+      "prefix": "openvidu-backend",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "options": {
+            "outputPath": "dist/apps/openvidu-backend",
+            "main": "apps/openvidu-backend/src/main.ts",
+            "tsConfig": "apps/openvidu-backend/tsconfig.app.json",
+            "assets": ["apps/openvidu-backend/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/openvidu-backend/src/environments/environment.ts",
+                  "with": "apps/openvidu-backend/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "openvidu-backend:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "config": "apps/openvidu-backend/.eslintrc",
+            "tsConfig": ["apps/openvidu-backend/tsconfig.app.json", "apps/openvidu-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-backend/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/openvidu-backend/jest.config.js",
+            "tsConfig": "apps/openvidu-backend/tsconfig.spec.json"
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -519,6 +688,13 @@
       "application": {
         "linter": "eslint"
       }
+    },
+    "@nrwl/angular:application": {
+      "unitTestRunner": "jest",
+      "e2eTestRunner": "cypress"
+    },
+    "@nrwl/angular:library": {
+      "unitTestRunner": "jest"
     }
   },
   "defaultProject": "edudoor-frontend"
