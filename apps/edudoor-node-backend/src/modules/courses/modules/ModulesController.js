@@ -88,6 +88,7 @@ class ModulesController {
   }
 
   static async createQuiz(req, moduleItem, questions = []) {
+    console.log(questions);
     questions.map(async question => {
       if (question.id) {
         await models.Question.update(
@@ -183,6 +184,16 @@ class ModulesController {
         },
       ],
     });
+    if (item.type === 'Quiz') {
+      const questions = await models.Question.findAll({
+        where: {
+          quizId: item.id,
+        },
+        include: [{ model: models.Answer, as: 'answers' }],
+      });
+
+      return [200, { item: { ...item.dataValues, content: { ...item.dataValues.content, questions } } }];
+    }
     return [200, { item }];
   }
 

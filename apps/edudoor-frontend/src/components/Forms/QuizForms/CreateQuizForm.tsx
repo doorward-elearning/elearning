@@ -75,7 +75,7 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
               <Tab title="Details">
                 <QuizDetails />
               </Tab>
-              <Tab title="Questions" badge={`${formikProps?.values.content.questions.length}`}>
+              <Tab title="Questions" badge={`${(formikProps?.values.content.questions || []).length}`}>
                 <QuizQuestions />
               </Tab>
             </TabLayout>
