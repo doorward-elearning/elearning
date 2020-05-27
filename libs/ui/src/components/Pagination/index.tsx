@@ -39,7 +39,7 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
   const [currentPage, setCurrentPage] = useState<number>(props.page);
 
   useEffect(() => {
-    if (currentPage != props.page) {
+    if (currentPage !== props.page) {
       props.onChangePage(currentPage);
     }
   }, [currentPage]);

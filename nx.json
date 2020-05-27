@@ -40,6 +40,15 @@
     },
     "edudoor-backend": {
       "tags": []
+    },
+    "openvidu-frontend": {
+      "tags": []
+    },
+    "openvidu-frontend-e2e": {
+      "tags": []
+    },
+    "openvidu-backend": {
+      "tags": []
     }
   }
 }

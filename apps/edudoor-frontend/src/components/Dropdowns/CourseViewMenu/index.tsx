@@ -12,6 +12,8 @@ import Icon from '@edudoor/ui/components/Icon';
 import useForm from '@edudoor/ui/hooks/useForm';
 import Form from '@edudoor/ui/components/Form';
 import { Course } from '@edudoor/common/models/Course';
+import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
+import { Roles } from '@edudoor/ui/components/RolesManager';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
@@ -65,20 +67,22 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = props => {
 
   return (
     <React.Fragment>
-      <Dropdown positionX="right">
-        <Icon icon="more_vert" />
-        <Dropdown.Menu>
-          {/*<Dropdown.Item icon="account_circle">Participants</Dropdown.Item>*/}
-          {/*<Dropdown.Item icon="event">Calendar</Dropdown.Item>*/}
-          {/*<Dropdown.Item icon="settings">Settings</Dropdown.Item>*/}
-          <Dropdown.Item icon="archive" onClick={deleteCourseModal.openModal}>
-            Backup course
-          </Dropdown.Item>
-          <Dropdown.Item icon="delete" onClick={deleteCourseModal.openModal}>
-            Delete Course
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <RoleContainer roles={[Roles.TEACHER]} showSuperAdmin>
+        <Dropdown positionX="right">
+          <Icon icon="more_vert" />
+          <Dropdown.Menu>
+            {/*<Dropdown.Item icon="account_circle">Participants</Dropdown.Item>*/}
+            {/*<Dropdown.Item icon="event">Calendar</Dropdown.Item>*/}
+            {/*<Dropdown.Item icon="settings">Settings</Dropdown.Item>*/}
+            <Dropdown.Item icon="archive" onClick={deleteCourseModal.openModal}>
+              Backup course
+            </Dropdown.Item>
+            <Dropdown.Item icon="delete" onClick={deleteCourseModal.openModal}>
+              Delete Course
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </RoleContainer>
       <CourseViewMenuModals course={props.course} deleteCourseModal={deleteCourseModal} />
     </React.Fragment>
   );

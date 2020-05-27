@@ -34,7 +34,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
   const fetchItem = useAction(fetchModuleItem);
   useEffect(() => {
     fetchItem(match.params.itemId);
-  }, []);
+  }, [match.params.itemId]);
 
   const state = useSelector((state: State) => state.courses.moduleItem);
 
