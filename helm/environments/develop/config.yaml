@@ -28,7 +28,7 @@ image:
   swagat:
     repository: gcr.io/edudoorlms/swagat
     version: 1.1.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   thaladb:
     repository: postgres
     version: 9.6-alpine
@@ -40,7 +40,7 @@ image:
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
     version: 1.0.0
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoorlms/chuchu
     version: 1.1.0

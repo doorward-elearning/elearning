@@ -1,6 +1,8 @@
 # Name of the Customer / Website
 customer: makonis
 
+customer_type: institute
+
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
 app_domain: lms.makonis.ai
 
@@ -34,16 +36,16 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256
-    version: fec980a94faa5d5088d2f733e66d0dc0597748ecbc99613b1721a2ce2a973a7f
+    repository: gcr.io/edudoorlms/thala
+    version: 1.1.0
     pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu@sha256
-    version: 019df8f5d28d739eb934db3bdea87601b432f85069ae3138ed477cf785697c27
+    repository: gcr.io/edudoorlms/chuchu
+    version: 1.1.0
     pullPolicy: IfNotPresent
 
 organization:
