@@ -10,8 +10,9 @@ import { Quiz } from '@edudoor/common/models/Quiz';
 export const QuizContext = React.createContext<QuizContextProps>({});
 
 const QuizView: React.FunctionComponent<QuizViewProps> = props => {
+  console.log(props.quiz);
   const initialValues = {
-    answers: props.quiz.content.questions.reduce(
+    answers: (props.quiz.content.questions || []).reduce(
       (acc, question) => ({
         ...acc,
         [question.id]: '',
