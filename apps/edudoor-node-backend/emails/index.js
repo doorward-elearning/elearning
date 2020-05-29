@@ -19,7 +19,7 @@ class EmailSender {
       },
     });
 
-    const result = await email.render(process.env.EMAILS_DIRECTORY + template, data);
+    const result = await email.render(path.join(__dirname, process.env.EMAILS_DIRECTORY, template), data);
 
     const mailData = {
       from: { email: `${process.env.EMAIL_SENDER}`, name: 'Edudoor' },

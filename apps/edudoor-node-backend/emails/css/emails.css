@@ -61,9 +61,23 @@ body {
   padding: 5em 1em;
 }
 .container .footer {
-  padding: 1em;
-  background: #333;
+  background: #606060;
   color: white;
+  padding-bottom: 5px;
+  font-size: 0.8em;
+  font-weight: lighter;
+  text-align: center;
+}
+.container .footer a {
+  color: #ddd;
+}
+.container .footer_content {
+  padding-top: 50px;
+  padding-bottom: 30px;
+}
+
+.spacing {
+  margin: 0 20px;
 }
 
 /*# sourceMappingURL=emails.css.map */

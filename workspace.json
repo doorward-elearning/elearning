@@ -155,7 +155,7 @@
     },
     "edudoor-node-backend": {
       "root": "apps/edudoor-node-backend",
-      "sourceRoot": "apps/edudoor-node-backend/src",
+      "sourceRoot": "apps/edudoor-node-backend",
       "projectType": "application",
       "prefix": "edudoor-node-backend",
       "schematics": {},
@@ -166,7 +166,7 @@
             "outputPath": "dist/apps/edudoor-node-backend",
             "main": "apps/edudoor-node-backend/index.ts",
             "tsConfig": "apps/edudoor-node-backend/tsconfig.app.json",
-            "assets": ["apps/edudoor-node-backend/src/assets"]
+            "assets": ["apps/edudoor-node-backend/src/assets", "apps/edudoor-node-backend/emails"]
           },
           "configurations": {
             "production": {
