@@ -1,17 +1,13 @@
-// This file can be replaced during build by using the `fileReplacements` array.
-// `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
-// The list of file replacements can be found in `angular.json`.
+// This is an automatically generated file.
+// Only update the environment keys and not the values.
+
+// To update the values, edit the .env file at the root of the project with the exact environment key.
+// To see more, see [/tools/angular-config.ts] at the root of the project.
+
+// Add //ignore-config at the top of this file to avoid automatic generation
 
 export const environment = {
-  production: false,
-  openvidu_url: '',
-  openvidu_secret: ''
+  "production": false,
+  "OPENVIDU_URL": "https://localhost:4443",
+  "OPENVIDU_PASSWORD": "password"
 };
-
-/*
- * In development mode, to ignore zone related error stack frames such as
- * `zone.run`, `zoneDelegate.invokeTask` for easier debugging, you can
- * import the following file, but please comment it out in production mode
- * because it will have performance impact when throw error
- */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
