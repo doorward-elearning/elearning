@@ -8,7 +8,7 @@ import { PageComponent } from '@edudoor/ui/types';
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const videoCallState = useSelector((state: State) => state.videoCall.joinMeeting);
 
-  usePageResource('meetingId', joinMeetingAction);
+  // usePageResource('meetingId', joinMeetingAction);
 
   useEffect(() => {
     const meeting = videoCallState?.data?.meeting;
@@ -17,7 +17,11 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
     }
   }, [videoCallState]);
 
-  return <div>Redirecting to meeting...</div>;
+  return (
+    <div>
+      <openvidu-webcomponent />
+    </div>
+  );
 };
 
 export interface VideoCallPageProps extends PageComponent {}

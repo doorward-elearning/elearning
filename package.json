@@ -1,12 +1,14 @@
 {
   "name": "edudoor",
-  "version": "0.0.0",
+  "version": "1.1.0",
+  "openviduVersion": "2.14.0",
   "license": "MIT",
   "scripts": {
     "angular-config": "ts-node tools/angular-config.ts",
     "nx": "nx",
     "start": "yarn angular-config && nx serve",
     "build": "yarn angular-config && nx build",
+    "build:openvidu-webcomponent": "cd apps/openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').prepareWebcomponent()\" ; yarn build --prod --output-hashing none openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').buildWebcomponent()\"",
     "db:migrate": "cd apps/edudoor-node-backend && sequelize db:migrate",
     "db:migrate:undo": "cd apps/edudoor-node-backend && sequelize db:migrate:undo",
     "db:rollback": "cd apps/edudoor-node-backend && sequelize db:seed:undo:all && sequelize db:migrate:undo:all ",

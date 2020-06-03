@@ -38,7 +38,7 @@ export class WebComponentComponent {
 	@Output() leaveSession = new EventEmitter<any>();
 	@ViewChild('videoRoom') videoRoom: VideoRoomComponent;
 
-	display = false;
+	display = true;
 
 	webComponent: WebComponentModel = new WebComponentModel();
 
