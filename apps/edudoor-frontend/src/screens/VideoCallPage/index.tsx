@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import { joinMeetingAction } from '../../reducers/videoCall/actions';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
 import { PageComponent } from '@edudoor/ui/types';
+import OpenviduWebComponent from '@edudoor/ui/components/OpenviduWebComponent';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const videoCallState = useSelector((state: State) => state.videoCall.joinMeeting);
@@ -19,7 +18,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
 
   return (
     <div>
-      <openvidu-webcomponent />
+      <OpenviduWebComponent openviduServerURL={process.env.OPENVIDU_URL} openviduSecret={process.env.OPENVIDU_SECRET} />
     </div>
   );
 };
