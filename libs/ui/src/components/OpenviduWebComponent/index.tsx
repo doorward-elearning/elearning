@@ -1,25 +1,25 @@
-import React, { RefObject } from 'react';
+import React from 'react';
 
 class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
-  component: RefObject<any>;
+  component: any;
 
   componentDidMount(): void {
     if (this.component) {
-      this.component.current.addEventListener('sessionCreated', this.onSessionCreated);
-      this.component.current.addEventListener('publisherCreated', this.onPublisherCreated);
-      this.component.current.addEventListener('error', this.onSessionError);
-      this.component.current.addEventListener('joinSession', this.onJoinedSession);
-      this.component.current.addEventListener('leaveSession', this.onLeftSession);
+      this.component.addEventListener('sessionCreated', this.onSessionCreated);
+      this.component.addEventListener('publisherCreated', this.onPublisherCreated);
+      this.component.addEventListener('error', this.onSessionError);
+      this.component.addEventListener('joinSession', this.onJoinedSession);
+      this.component.addEventListener('leaveSession', this.onLeftSession);
     }
   }
 
   componentWillUnmount(): void {
     if (this.component) {
-      this.component.current.removeEventListener('sessionCreated', this.onSessionCreated);
-      this.component.current.removeEventListener('publisherCreated', this.onPublisherCreated);
-      this.component.current.removeEventListener('error', this.onSessionError);
-      this.component.current.removeEventListener('joinSession', this.onJoinedSession);
-      this.component.current.removeEventListener('leaveSession', this.onLeftSession);
+      this.component.removeEventListener('sessionCreated', this.onSessionCreated);
+      this.component.removeEventListener('publisherCreated', this.onPublisherCreated);
+      this.component.removeEventListener('error', this.onSessionError);
+      this.component.removeEventListener('joinSession', this.onJoinedSession);
+      this.component.removeEventListener('leaveSession', this.onLeftSession);
     }
   }
 
@@ -60,7 +60,9 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       <openvidu-webcomponent
         theme={this.props.theme}
         openviduServerUrl={this.props.openviduServerURL}
-        ref={this.component}
+        ref={component => {
+          this.component = component;
+        }}
         openviduSecret={this.props.openviduSecret}
       />
     );
