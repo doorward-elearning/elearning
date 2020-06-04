@@ -66,7 +66,13 @@ declare module '*.module.sass' {
 declare global {
   namespace JSX {
     interface IntrinsicElements {
-      'openvidu-webcomponent': any;
+      'openvidu-webcomponent': {
+        openviduServerUrl?: string;
+        openviduSecret?: string;
+        theme?: string;
+        sessionConfig?: string;
+        ref: (component: HTMLElement) => void;
+      };
     }
   }
 }

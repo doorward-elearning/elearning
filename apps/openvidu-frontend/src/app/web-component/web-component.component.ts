@@ -79,13 +79,15 @@ export class WebComponentComponent {
 		this.webComponent.setTheme(theme);
 	}
 
-	@Input()
+	@Input("openviduserverurl")
 	set openviduServerUrl(url: string) {
-		this.webComponent.setOvServerUrl(url);
+    this.log.e(url, '-------------------------');
+    this.webComponent.setOvServerUrl(url);
 	}
 
-	@Input()
+	@Input('openvidusecret')
 	set openviduSecret(secret: string) {
+    this.log.e(secret, '-------------------------');
 		this.webComponent.setOvSecret(secret);
 	}
 

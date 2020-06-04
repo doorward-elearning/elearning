@@ -27,30 +27,35 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     if (this.props.onSessionCreated) {
       this.props.onSessionCreated();
     }
+    console.log('OpenviduWebComponent', 'onSessionCreated');
   };
 
   onPublisherCreated = () => {
     if (this.props.onPublisherCreated) {
       this.props.onPublisherCreated();
     }
+    console.log('OpenviduWebComponent', 'onPublisherCreated');
   };
 
   onSessionError = () => {
     if (this.props.onError) {
       this.props.onError();
     }
+    console.log('OpenviduWebComponent', 'onError');
   };
 
   onLeftSession = () => {
     if (this.props.onLeftSession) {
       this.props.onLeftSession();
     }
+    console.log('OpenviduWebComponent', 'onLeftSession');
   };
 
   onJoinedSession = () => {
     if (this.props.onJoinedSession) {
       this.props.onJoinedSession();
     }
+    console.log('OpenviduWebComponent', 'onJoinedSession');
   };
 
   render(): JSX.Element {
@@ -58,6 +63,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       <openvidu-webcomponent
+        sessionConfig={JSON.stringify(this.props.sessionConfig || {})}
         theme={this.props.theme}
         openviduServerUrl={this.props.openviduServerURL}
         ref={component => {
@@ -67,6 +73,23 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       />
     );
   }
+}
+export interface SessionConfig {
+  sessionName: string;
+  user: string;
+  tokens: string[];
+  ovSettings: {
+    chat: boolean;
+    autopublish: boolean;
+    toolbarButtons: {
+      audio: boolean;
+      video: boolean;
+      screenShare: boolean;
+      fullscreen: boolean;
+      layoutSpeaking: boolean;
+      exit: boolean;
+    };
+  };
 }
 
 export interface OpenviduWebComponentProps {
@@ -78,6 +101,7 @@ export interface OpenviduWebComponentProps {
   theme?: string;
   openviduServerURL?: string;
   openviduSecret?: string;
+  sessionConfig?: SessionConfig;
 }
 
 export default OpenviduWebComponent;

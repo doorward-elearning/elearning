@@ -81,7 +81,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     public oVSessionService: OpenViduSessionService,
     private oVDevicesService: DevicesService,
     private loggerSrv: LoggerService,
-    private chatService: ChatService,
+    private chatService: ChatService
   ) {
     this.log = this.loggerSrv.get('VideoRoomComponent');
   }
@@ -213,12 +213,15 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     if (this.oVSessionService.isOnlyWebcamConnected()) {
       const screenPublisher = this.initScreenPublisher();
 
-      screenPublisher.once('accessAllowed', (event) => {
+      screenPublisher.once('accessAllowed', event => {
         // Listen to event fired when native stop button is clicked
-        screenPublisher.stream.getMediaStream().getVideoTracks()[0].addEventListener('ended', () => {
-          this.log.d('Clicked native stop button. Stopping screen sharing');
-          this.toggleScreenShare();
-        });
+        screenPublisher.stream
+          .getMediaStream()
+          .getVideoTracks()[0]
+          .addEventListener('ended', () => {
+            this.log.d('Clicked native stop button. Stopping screen sharing');
+            this.toggleScreenShare();
+          });
         this.log.d('ACCESS ALOWED screenPublisher');
         this.oVSessionService.enableScreenUser(screenPublisher);
         this.oVSessionService.publishScreen();
@@ -229,10 +232,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         }
       });
 
-      screenPublisher.once('accessDenied', (event) => {
+      screenPublisher.once('accessDenied', event => {
         this.log.w('ScreenShare: Access Denied');
       });
-
 
       return;
     }
@@ -343,7 +345,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       await this.oVSessionService.connectScreenSession(screenToken);
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
-        (<HTMLElement>this.localUsers[0].getStreamManager().videos[0].video).parentElement.classList.remove('custom-class');
+        (<HTMLElement>this.localUsers[0].getStreamManager().videos[0].video).parentElement.classList.remove(
+          'custom-class'
+        );
       });
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
@@ -424,7 +428,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToChatComponent() {
-    this.chatSubscription = this.chatService.toggleChatObs.subscribe((opened) => {
+    this.chatSubscription = this.chatService.toggleChatObs.subscribe(opened => {
       const timeout = this.externalConfig ? 300 : 0;
       this.updateOpenViduLayout(timeout);
     });
@@ -469,7 +473,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       return await this.networkSrv.getToken(
         this.mySessionId,
         this.externalConfig?.getOvServerUrl(),
-        this.externalConfig?.getOvSecret(),
+        this.externalConfig?.getOvSecret()
       );
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
@@ -506,14 +510,14 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToLocalUsers() {
-    this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe((users) => {
+    this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
       this.updateOpenViduLayout();
     });
   }
 
   private subscribeToRemoteUsers() {
-    this.remoteUsersSubscription = this.remoteUsersService.remoteUsers.subscribe((users) => {
+    this.remoteUsersSubscription = this.remoteUsersService.remoteUsers.subscribe(users => {
       this.remoteUsers = [...users];
       this.updateOpenViduLayout();
     });
