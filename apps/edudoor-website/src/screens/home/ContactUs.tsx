@@ -8,9 +8,18 @@ const ContactUs: React.FunctionComponent<ContactUsProps> = (props): JSX.Element 
           <div className="col-md-7">
             <h2 className="section-title mb-3">Contact US</h2>
             <p className="mb-5">
-              Address: 126A, Parayil, Anappara PO, Angamaly - 683581 <br />
+              <br />
+              <h4>Our Branches:</h4><br />
+              <b>BANGALORE</b><br />
+              51, 3rd Cross Rd, Aswath Nagar, Marathahalli, Bengaluru, Karnataka 560037 <br />
               Phone: +91-8197408582 <br />
-              Email: info@edudoor.org <br />
+              Email: info@edudoor.org
+              <br /><br />
+              <b>COCHIN</b><br />
+              126A, Parayil, Anappara PO, Angamaly, Cochin - 683581 <br />
+              Phone: +91-8197408582 <br />
+              Email: info@edudoor.org
+              <br />
               <br />
               Alternatively you can fill and submit the below form and we will get back to you.
             </p>

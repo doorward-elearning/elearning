@@ -11,6 +11,7 @@ import Emails from './Emails';
 import Lms from './LMS';
 import Setup from './Setup';
 import Pricing from './Pricing';
+import Corporate from './Corporate';
 
 const HomePage: React.FunctionComponent<HomePageProps> = (props): JSX.Element => {
   return (
@@ -22,8 +23,8 @@ const HomePage: React.FunctionComponent<HomePageProps> = (props): JSX.Element =>
       <Emails />
       <Lms />
       <Setup />
-      <Pricing />
       <AboutUs />
+      <Corporate />
       <WhyUs />
       <ContactUs />
       <Footer />

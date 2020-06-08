@@ -38,13 +38,13 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
                   </a>
                 </li>
                 <li>
-                  <a href="#pricing-section" className="nav-link">
-                    Pricing
+                  <a href="#about-section" className="nav-link">
+                    About
                   </a>
                 </li>
                 <li>
-                  <a href="#about-section" className="nav-link">
-                    About
+                  <a href="#corporate-section" className="nav-link">
+                    Corporates
                   </a>
                 </li>
               </ul>

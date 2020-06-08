@@ -8,16 +8,6 @@ const LiveClassrooms: React.FunctionComponent<LiveClassroomsProps> = (props): JS
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">Unlimited Live Online Classrooms</h2>
-            <div style={{ paddingBottom: '1em' }}>
-              <Button
-                theme="primary"
-                onClick={() => {
-                  window.location.href = process.env.EDUDOOR_APPLICATION_LINK + '/classrooms';
-                }}
-              >
-                Browse Schools
-              </Button>
-            </div>
             <p>
               Do not change your current classroom workflow! Our online platform allow you to Create as much as online
               classrooms you want, Follow the same timetable and class calender, Permit any number of students and

@@ -9,10 +9,18 @@ const Footer: React.FunctionComponent<FooterProps> = (props): JSX.Element => {
             <h3>About Edudoor</h3>
             <p>
               We are a startup based out in India and our mission is to help and promote enhanced learning habits.
+            </p>
+            <p>
               <br />
-              Our registered Address: <br />
-              126A, Parayil, Anappara PO, Angamaly - 683581 <br />
+              <h4>Our Branches:</h4><br />
+              <b>BANGALORE</b><br />
+              51, 3rd Cross Rd, Aswath Nagar, Marathahalli, Bengaluru, Karnataka 560037 <br />
               Phone: +91-8197408582
+              <br /><br />
+              <b>COCHIN</b><br />
+              126A, Parayil, Anappara PO, Angamaly, Cochin - 683581 <br />
+              Phone: +91-8197408582
+
             </p>
           </div>
 

@@ -6,7 +6,7 @@ const Emails: React.FunctionComponent<EmailsProps> = (props): JSX.Element => {
       <div className="container">
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
-            <h2 className="section-title">Domain Based Email IDs (eg: user@school.com)</h2>
+            <h2 className="section-title">Domain Based Email IDs (user@school.com)</h2>
             <p>
               Everyone - Staffs, Teachers, and students gets a personnel email ID for communication. Email Account can
               be accessed from a Browser (Like Gmail), or it may be configured on an Android/iPhones.!

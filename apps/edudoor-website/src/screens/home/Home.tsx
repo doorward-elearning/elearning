@@ -16,18 +16,12 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
               <div className="row align-items-center">
                 <div className="col-lg-6 mb-4">
                   <h1 data-aos="fade-up" data-aos-delay="100">
-                    A Cloud-Based Online Classroom Solution For Schools.
+                    India's Easiest Online Classroom Platform For Colleges and Schools.
                   </h1>
                   <p className="mb-4" data-aos="fade-up" data-aos-delay="200">
-                    Conduct Your Classes From Anywhere, Any Device - A Computer or a Mobile Device..
-                  </p>
-                  <p data-aos="fade-up" data-aos-delay="300">
-                    <a
-                      href={process.env.EDUDOOR_APPLICATION_LINK + '/classrooms'}
-                      className="btn btn-primary py-3 px-5 btn-pill"
-                    >
-                      Join Classroom
-                    </a>
+                    <b>
+                    No Setup Charges <br /> Free for Teachers <br /> Use FREE till your students are ready. <br />
+                    </b>
                   </p>
                 </div>
 
