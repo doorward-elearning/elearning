@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import btoa from 'btoa';
 import {
   Platform,
   TextInput,
@@ -15,19 +14,20 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { OpenVidu } from 'openvidu-browser';
+import { OpenVidu, StreamManager } from 'openvidu-browser';
 import { RTCView } from 'react-native-webrtc';
 import axios from 'axios';
+import btoa from 'btoa';
 
-const OPENVIDU_SERVER_URL = 'https://demos.openvidu.io';
-const OPENVIDU_SERVER_SECRET = 'MY_SECRET';
+const OPENVIDU_SERVER_URL = 'https://classrooms.edudoor.org';
+const OPENVIDU_SERVER_SECRET = 'Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj';
 
 type Props = {};
 type State = {
   mySessionId: string;
   myUserName: string;
   session?: any;
-  mainStreamManager?: any;
+  mainStreamManager?: StreamManager;
   subscribers: Array<any>;
   role: string;
   mirror: boolean;
@@ -107,7 +107,7 @@ export default class App extends Component<Props, State> {
   joinSession() {
     // --- 1) Get an OpenVidu object ---
     this.OV = new OpenVidu();
-
+    this.OV.checkSystemRequirements = () => 1;
     // --- 2) Init a session ---
 
     this.setState(
@@ -115,7 +115,7 @@ export default class App extends Component<Props, State> {
         session: this.OV.initSession(),
       },
       () => {
-        var mySession = this.state.session;
+        const mySession = this.state.session;
         // --- 3) Specify the actions when events take place in the session ---
 
         // On every new Stream received...
@@ -238,13 +238,15 @@ export default class App extends Component<Props, State> {
      * This function allows to switch the front / back cameras in a video track on the fly, without the need for adding / removing tracks or renegotiating
      */
 
-    this.state.mainStreamManager.stream.getMediaStream().getVideoTracks()[0]._switchCamera();
+    if (this.state.mainStreamManager?.stream?.getMediaStream()) {
+      this.state.mainStreamManager.stream.getMediaStream()?.getVideoTracks()[0]._switchCamera();
+    }
     this.setState({ mirror: !this.state.mirror });
   }
 
   muteUnmuteCamera() {
-    this.state.mainStreamManager.publishVideo(!this.state.camera);
-    this.setState({ camera: !this.state.camera });
+    // this.state.mainStreamManager?.video.publishVideo(!this.state.camera);
+    // this.setState({ camera: !this.state.camera });
   }
 
   render() {
@@ -257,12 +259,16 @@ export default class App extends Component<Props, State> {
               <Text>{this.getNicknameTag(this.state.mainStreamManager.stream)}</Text>
               <RTCView
                 zOrder={0}
-                streamURL={''}
+                streamURL={this.state.mainStreamManager.stream.getMediaStream().getVideoTracks()[0]}
                 objectFit="cover"
                 mirror={this.state.mirror}
-                ref={(rtcVideo) => {
-                  if (!rtcVideo) {
-                    this.state.mainStreamManager.addVideoElement(rtcVideo);
+                ref={(rtcVideo: any) => {
+                  console.log(rtcVideo, '----------------------');
+                  if (rtcVideo) {
+                    rtcVideo.style = {};
+                    rtcVideo.addEventListener = (...args: any) => {};
+                    rtcVideo.removeEventListener = (...args: any) => {};
+                    this.state.mainStreamManager?.addVideoElement(rtcVideo);
                   }
                 }}
                 style={styles.selfView}
@@ -324,8 +330,10 @@ export default class App extends Component<Props, State> {
                     zOrder={0}
                     objectFit="cover"
                     style={styles.remoteView}
-                    ref={(rtcVideo) => {
-                      if (!rtcVideo) {
+                    ref={(rtcVideo: any) => {
+                      if (rtcVideo) {
+                        rtcVideo.style = {};
+                        rtcVideo.addEventListener = () => {};
                         item.addVideoElement(rtcVideo);
                       }
                     }}
@@ -359,7 +367,7 @@ export default class App extends Component<Props, State> {
 
   createSession(sessionId: string) {
     return new Promise((resolve) => {
-      var data = JSON.stringify({ customSessionId: sessionId });
+      const data = JSON.stringify({ customSessionId: sessionId });
       axios
         .post(OPENVIDU_SERVER_URL + '/api/sessions', data, {
           headers: {
@@ -369,12 +377,12 @@ export default class App extends Component<Props, State> {
           },
         })
         .then((response) => {
-          console.log('CREATE SESION', response);
+          console.log('CREATE SESSION', response);
           resolve(response.data.id);
         })
         .catch((response) => {
           console.log(response);
-          var error = Object.assign({}, response);
+          const error = Object.assign({}, response);
           if (!error.response) {
             console.error('Network error: ', error);
             if (error.request && error.request._response) {
@@ -444,10 +452,12 @@ const styles = StyleSheet.create({
   selfView: {
     width: '100%',
     height: 300,
+    transform: [],
   },
   remoteView: {
     width: 150,
     height: 150,
+    transform: [],
   },
   button: {
     padding: 10,
