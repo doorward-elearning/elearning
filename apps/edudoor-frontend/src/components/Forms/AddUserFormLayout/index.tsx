@@ -8,6 +8,11 @@ import BasicForm from '../BasicForm';
 import addStudentForm from '../AddStudentForm/validation';
 import { UseForm } from '@edudoor/ui/hooks/useForm';
 import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
+import PasswordField from '@edudoor/ui/components/Input/PasswordField';
+import IfElse from '@edudoor/ui/components/IfElse';
+import Header from '@edudoor/ui/components/Header';
+import PasswordPolicy from '../../UI/PasswordPolicy';
+import Grid from '@edudoor/ui/components/Grid';
 
 const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props => {
   const countries = getNames();
@@ -18,6 +23,7 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
     username: '',
     city: '',
     country: '',
+    password: '',
   };
   return (
     <BasicForm
@@ -44,6 +50,21 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
           </Row>
         </Card.Body>
       </Card>
+      <IfElse condition={props.withPasswordField}>
+        <div>
+          <Header size={2} style={{ marginTop: 'var(--padding-lg)', marginBottom: 'var(--padding-lg)' }}>
+            Login Credentials
+          </Header>
+          <Card flat>
+            <Card.Body>
+              <Grid columns={2}>
+                <PasswordField name="password" label="Password" icon="lock" showPassword showGenerator />
+                <PasswordPolicy />
+              </Grid>
+            </Card.Body>
+          </Card>
+        </div>
+      </IfElse>
     </BasicForm>
   );
 };
@@ -55,6 +76,7 @@ export interface AddUserFormLayoutProps {
   action: ActionCreator;
   onSuccess?: () => void;
   createData?: (data: any) => Array<any>;
+  withPasswordField?: boolean;
 }
 
 export default AddUserFormLayout;

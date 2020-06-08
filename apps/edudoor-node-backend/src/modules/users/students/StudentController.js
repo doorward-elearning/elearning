@@ -6,10 +6,14 @@ import OrganizationUtils from '../../../utils/OrganizationUtils';
 
 class StudentController {
   static async createStudent(req) {
-    const { user: student, resetToken } = await UserController.createUser(req, roles.STUDENT);
+    const { user: student, resetToken, originalPassword } = await UserController.createUser(req, roles.STUDENT);
 
     // send mail to student
-    Emails.studentCreated(student, resetToken, req.headers.origin);
+    if (originalPassword) {
+      Emails.studentCreatedWithPassword(student, resetToken, req.headers.origin, originalPassword);
+    } else {
+      Emails.studentCreated(student, resetToken, req.headers.origin);
+    }
 
     return [200, { student }, `${student.username} has been added successfully`];
   }

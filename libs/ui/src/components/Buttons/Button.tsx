@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { CSSProperties, MouseEventHandler } from 'react';
 import IfElse from '../IfElse';
 import classNames from 'classnames';
 import './Buttons.scss';
@@ -22,6 +22,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   bordered = false,
   link,
   icon,
+  style,
 }) => {
   className = classNames({
     'eb-button': true,
@@ -43,6 +44,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
           'ed-button__container': true,
           loading,
         })}
+        style={{ ...(style || {}) }}
       >
         <Spinner width={16} height={16} />
         <button disabled={disabled} className={className} onClick={onClick} type={type} title={tooltip}>
@@ -73,6 +75,7 @@ export interface ButtonProps {
   link?: string;
   onClick?: MouseEventHandler;
   tooltip?: string;
+  style?: CSSProperties;
 }
 
 export default Button;

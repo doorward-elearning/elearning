@@ -91,6 +91,7 @@ export const StudentCoursesInclude = () => {
       model: models.Course,
       as: 'courses',
       include: CourseInclude,
+      required: false
     },
   ];
 };

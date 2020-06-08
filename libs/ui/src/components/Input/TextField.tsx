@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import './styles/TextField.scss';
 import Icon from '../Icon';
@@ -13,8 +13,14 @@ const TextField: FunctionComponent<TextFieldProps> = ({
   formikProps,
   children,
   editable = true,
+  overrideValue,
   ...props
 }): JSX.Element => {
+  useEffect(() => {
+    if (overrideValue !== value) {
+      formikProps.setFieldValue(props.name, overrideValue);
+    }
+  }, [overrideValue]);
   return (
     <div>
       <div
@@ -41,6 +47,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
 
 export interface TextFieldProps extends InputProps {
   icon?: Icons;
+  overrideValue?: string;
 }
 
 export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL], { labelPosition: 'top' });

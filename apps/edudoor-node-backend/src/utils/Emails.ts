@@ -7,12 +7,28 @@ class Emails {
     const organization = await models.Organization.findByPk(student.organizationId);
 
     return EmailSender.sendMail('student_new_account.pug', student.email, `${organization.name} new student account`, {
-      username: student.fullName,
+      username: student.username,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(student.email)
       )}`,
     });
+  }
+
+  static async studentCreatedWithPassword(student, resetToken, origin, originalPassword) {
+    const organization = await models.Organization.findByPk(student.organizationId);
+
+    return EmailSender.sendMail(
+      'student_new_account_with_password.pug',
+      student.email,
+      `${organization.name} new student account`,
+      {
+        username: student.username,
+        organization: organization.name,
+        password: originalPassword,
+        link: `${origin}/login/`,
+      }
+    );
   }
 
   static async resetPassword(user, resetToken, origin) {

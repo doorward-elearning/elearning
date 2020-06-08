@@ -37,6 +37,7 @@ class UserController {
 
   static async createUser(req, roleName) {
     const { body } = req;
+    const originalPassword = body.password;
     if (body.password) {
       body.password = bcrypt.hashSync(body.password, +process.env.BCRYPT_PASSWORD_SALT);
     }
@@ -73,6 +74,7 @@ class UserController {
     return {
       user,
       resetToken,
+      originalPassword,
     };
   }
 

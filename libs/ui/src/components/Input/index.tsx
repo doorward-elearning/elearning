@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';
@@ -49,6 +49,7 @@ function withInput<R extends InputProps>(
           inputProps.onBlur = formikProps.handleBlur;
           inputProps.value = _.get(formikProps.values, name);
           inputProps.id = props.id || (props.idGenerator && props.idGenerator());
+
 
           const isRequired = checkRequired(name, validationSchema ? validationSchema.describe() : validationSchema);
 

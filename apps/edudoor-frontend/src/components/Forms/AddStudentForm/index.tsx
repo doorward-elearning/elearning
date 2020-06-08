@@ -7,7 +7,7 @@ import AddUserFormLayout from '../AddUserFormLayout';
 import { addStudentAction } from '../../../reducers/students/actions';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = props => {
-  return <AddUserFormLayout {...props} action={props.action || addStudentAction} />;
+  return <AddUserFormLayout {...props} action={props.action || addStudentAction} withPasswordField />;
 };
 
 export interface AddStudentFormState extends CreateStudentBody {}

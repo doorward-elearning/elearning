@@ -1,5 +1,6 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
-import { ApiCall, ApiError, ApiResponse } from '../services/services';
+import { ApiCall, ApiError } from '../services/services';
+import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
 
 export type SagaFunction = () => IterableIterator<any>;
 

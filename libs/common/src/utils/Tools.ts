@@ -163,6 +163,10 @@ class Tools {
   static compareFiles(first: File, second: File) {
     return first.name === second.name && first.lastModified === second.lastModified && first.size === second.size;
   }
+
+  static generatePassword() {
+    return shortId.generate();
+  }
 }
 
 export default Tools;
