@@ -6,15 +6,16 @@ import IfElse from '../IfElse';
 import Panel from '../Panel';
 import { Icons } from '../../types/icons';
 
-const defaultMessage = 'Ops! There are no items here.';
+const defaultMessage = 'There are no items here.';
 
 const Empty: React.FunctionComponent<EmptyProps> = ({
-  message = defaultMessage,
+  message,
   icon = 'beach_access',
   size = 'large',
   actionMessage,
   onAction,
   children,
+  modelName,
 }) => {
   return (
     <Panel
@@ -24,7 +25,9 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
       })}
     >
       <Icon icon={icon} className="ed-content-empty__icon" />
-      <span className="ed-content-empty__message">{message}</span>
+      <span className="ed-content-empty__message">
+        {message || defaultMessage.replace('items', (modelName || 'items').toLowerCase())}
+      </span>
       {children}
       <IfElse condition={!!actionMessage}>
         <a className="clickable" onClick={onAction}>
@@ -41,6 +44,7 @@ export interface EmptyProps {
   size?: 'small' | 'medium' | 'large';
   actionMessage?: string;
   onAction?: MouseEventHandler;
+  modelName?: string;
 }
 
 export default Empty;

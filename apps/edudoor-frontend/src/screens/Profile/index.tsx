@@ -31,12 +31,14 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
               </IfElse>
             </Card.Header>
             <Card.Body>
-              <ProfileAccountForm
-                form={form}
-                user={user}
-                editing={editingAccount}
-                stopEditing={(): void => setEditingAccount(false)}
-              />
+              <IfElse condition={user}>
+                <ProfileAccountForm
+                  form={form}
+                  user={user}
+                  editing={editingAccount}
+                  stopEditing={(): void => setEditingAccount(false)}
+                />
+              </IfElse>
             </Card.Body>
           </Card>
         </div>

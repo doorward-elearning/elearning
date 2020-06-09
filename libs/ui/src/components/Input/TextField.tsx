@@ -17,7 +17,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
   ...props
 }): JSX.Element => {
   useEffect(() => {
-    if (overrideValue !== value && formikProps) {
+    if (overrideValue !== value && formikProps && overrideValue) {
       formikProps.setFieldValue(props.name, overrideValue);
     }
   }, [overrideValue]);
