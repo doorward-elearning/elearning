@@ -7,6 +7,7 @@ export class Classroom extends Model implements DBModel {
   id: string;
   meetingRoomId: string;
   schoolId: string;
+  name: string;
 
   public readonly school: School;
   public readonly meetingRoom: MeetingRoom;
@@ -23,7 +24,7 @@ export default (sequelize: Sequelize) => {
       meetingRoomId: DataTypes.STRING,
       schoolId: DataTypes.STRING,
     },
-    { sequelize, tableName: 'Classrooms', paranoid: true }
+    { sequelize, tableName: 'Classrooms', paranoid: true },
   );
 
   return () => {

@@ -15,8 +15,9 @@ import chainReducers from './chain';
 import { AxiosResponse } from 'axios';
 import _ from 'lodash';
 import objectHash from 'object-hash';
-import { ApiCall, ApiResponse } from '../services/services';
+import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
+import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',
@@ -142,6 +143,8 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
         data = {
           success: false,
           message: 'Server facing technical issue. Please try again!',
+          timestamp: new Date(),
+          statusCode: 500,
         };
         // eslint-disable-next-line no-console
         console.log(error);
