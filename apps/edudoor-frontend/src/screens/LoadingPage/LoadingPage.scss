@@ -4,6 +4,8 @@
   }
 
   &__content {
+    background: url('../../assets/images/page_background.svg');
+    background-size: cover;
     height: 100vh;
     display: grid;
     align-items: center;

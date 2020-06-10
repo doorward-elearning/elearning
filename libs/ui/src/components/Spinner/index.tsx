@@ -23,7 +23,23 @@ const Spinner: React.FunctionComponent<SpinnerProps> = props => {
 };
 
 export interface SpinnerProps {
-  type?: string;
+  type?:
+    | 'Audio'
+    | 'Ball-Triangle'
+    | 'Bars'
+    | 'Circles'
+    | 'Grid'
+    | 'Hearts'
+    | 'Oval'
+    | 'Puff'
+    | 'Rings'
+    | 'TailSpin'
+    | 'ThreeDots'
+    | 'MutatingDots'
+    | 'Plane'
+    | 'RevolvingDot'
+    | 'Watch'
+    | 'CradleLoader';
   color?: string;
   height?: number;
   width?: number;
