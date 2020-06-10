@@ -16,7 +16,9 @@ export type HigherOrderComponent<T, S extends ReactNode> = (props: T) => (S) => 
 
 export type Enum<E> = Record<keyof E, number | string> & { [k: number]: string };
 
-export type RouteNames = { [name: string]: string };
+export interface RouteNames {
+  [name: string]: string;
+}
 
 export type Routes<T extends RouteNames> = { [name in keyof T]?: MRoute<T> };
 
@@ -31,10 +33,6 @@ export type RouteDefinition<T> = {
 
 export type RouteDefinitions<T extends RouteNames> = {
   [key in keyof T]: RouteDefinition<T>;
-};
-
-export type RouteIds = {
-  [key in keyof typeof routeNames]: keyof typeof routeNames;
 };
 
 type ArgumentTypes<F extends Function> = F extends (...args: infer A) => any ? A : never;

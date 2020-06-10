@@ -14,6 +14,7 @@ import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
 import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';
 import ApiRequest from '@edudoor/ui/services/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
+import createAppContext, { AppContextProps } from '@edudoor/ui/template/appContext';
 
 console.log(process.env.REACT_APP_BASE_URL);
 
@@ -21,21 +22,16 @@ ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
 
-const AppInitialValue = {
-  ...appInitialValue,
-  io: null,
-  setIO: () => {},
-};
-
-export type AppContextProps = {
-  routes: RouteDefinitions<EdudoorRoutes>;
-  setTitle: (key: keyof EdudoorRoutes, name: string, link?: string) => void;
-  setParams: (key: keyof EdudoorRoutes, params: { [name: string]: any }) => void;
+export interface EdudoorAppContextProps extends AppContextProps<EdudoorRoutes> {
   io: SocketIOClient.Socket | null;
   setIO: (io: SocketIOClient.Socket | null) => void;
-};
+}
 
-export const AppContext = React.createContext<AppContextProps>(AppInitialValue);
+export const AppContext = createAppContext({
+  ...appInitialValue,
+  io: null,
+  setIO: (io: SocketIOClient.Socket) => {},
+});
 
 const App: React.FC = () => {
   const app = useApp();

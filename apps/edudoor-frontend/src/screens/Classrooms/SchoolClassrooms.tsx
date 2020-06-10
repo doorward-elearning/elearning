@@ -4,7 +4,7 @@ import { PageComponent } from '@edudoor/ui/types';
 import './SchoolClassrooms.scss';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
 import { fetchSchoolAction } from '../../reducers/schools/actions';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import WebComponent from '@edudoor/ui/components/WebComponent';

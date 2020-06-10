@@ -4,7 +4,7 @@ import { PageComponent } from '@edudoor/ui/types';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { fetchModuleItems } from '../../../reducers/courses/actions';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../../hooks/usePageResource';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import Table from '@edudoor/ui/components/Table';
 import { Assignment } from '@edudoor/common/models/Assignment';

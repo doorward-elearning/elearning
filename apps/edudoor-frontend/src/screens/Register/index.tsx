@@ -13,7 +13,7 @@ import useAction from '@edudoor/ui/hooks/useActions';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import {PageComponent} from '@edudoor/ui/types';
 import Header from '@edudoor/ui/components/Header';
-import useOrganization from '../../hooks/useOrganization';
+import useOrganization from '@edudoor/ui/hooks/useOrganization';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const registration = useSelector((state: State) => state.login.registration);

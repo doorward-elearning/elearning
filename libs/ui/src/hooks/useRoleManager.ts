@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { RoleEvaluator, Roles, RolesContext } from '../components/RolesManager';
 import { Role } from '@edudoor/common/models/Role';
-import useOrganization from '../../../../apps/edudoor-frontend/src/hooks/useOrganization';
+import useOrganization from './useOrganization';
 import { User } from '@edudoor/common/models/User';
 
 const useRoleManager = (roles?: Array<Roles | RoleEvaluator>, superAdmin = true, user?: User): boolean => {
