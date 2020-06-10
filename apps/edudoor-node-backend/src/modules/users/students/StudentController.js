@@ -31,6 +31,26 @@ class StudentController {
 
     return [200, { students }];
   }
+
+  static async getStudent(req) {
+    const {
+      params: { studentId },
+    } = req;
+    const student = await UserController.findOneByRole(roles.STUDENT, {
+      where: {
+        id: studentId,
+      },
+      include: [
+        {
+          model: models.Course,
+          as: 'courses',
+          required: false,
+        },
+      ],
+    });
+
+    return [200, { student }];
+  }
 }
 
 export default StudentController;

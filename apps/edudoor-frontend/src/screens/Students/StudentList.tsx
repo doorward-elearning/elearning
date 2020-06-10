@@ -31,7 +31,16 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
     >
       <WebComponent data={studentList.data.students} loading={studentList.fetching}>
         {(students): JSX.Element => {
-          return <StudentTable students={students} />;
+          return (
+            <StudentTable
+              students={students}
+              onClickStudent={row => {
+                routes.navigate(routes.viewStudent, {
+                  studentId: row.id,
+                });
+              }}
+            />
+          );
         }}
       </WebComponent>
     </Layout>

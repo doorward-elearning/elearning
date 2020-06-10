@@ -85,6 +85,9 @@ const Api = {
       create: (body: CreateStudentBody): Promise<StudentResponse> => {
         return POST('/users/students', body);
       },
+      get: (id: string): Promise<StudentResponse> => {
+        return GET(`/users/students/${id}`);
+      },
     },
     teachers: {
       list: (query: string): Promise<TeacherListResponse> => {

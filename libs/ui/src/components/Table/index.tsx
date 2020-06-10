@@ -99,20 +99,27 @@ function TableHeader<T extends TableColumns>(props: TableHeaderProps<T>): JSX.El
   );
 }
 
-export type TableColumns = {
+export interface TableColumns {
   [name: string]: string;
-};
+}
 export interface TableHeaderProps<K extends TableColumns> {
   columns: K;
 }
 
 export type CellRenderer<T, K> = (row: T, index: number, column: keyof K) => JSX.Element | string;
 
+export type OnRowClick<T> = (row: T, index: number) => void;
+
+export type GetCell<T, K extends TableColumns> = (
+  row: T,
+  index: number
+) => { [name in keyof K]?: JSX.Element | string };
+
 export interface TableProps<T, K extends TableColumns> extends PropsWithChildren<any> {
-  onRowClick?: (row: T, index: number) => void;
+  onRowClick?: OnRowClick<T>;
   className?: string;
   data: Array<T>;
-  getCell?: (row: T, index: number) => { [name in keyof K]?: JSX.Element | string };
+  getCell?: GetCell<T, K>;
   columns: K;
   filter?: (data: Array<T>, text: string) => Array<T>;
   searchText?: string;
