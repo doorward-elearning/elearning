@@ -15,13 +15,8 @@
             "main": "apps/edudoor-frontend/src/main.tsx",
             "polyfills": "apps/edudoor-frontend/src/polyfills.ts",
             "tsConfig": "apps/edudoor-frontend/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-frontend/src/favicon.ico",
-              "apps/edudoor-frontend/src/assets"
-            ],
-            "styles": [
-              "apps/edudoor-frontend/src/styles.scss"
-            ],
+            "assets": ["apps/edudoor-frontend/src/favicon.ico", "apps/edudoor-frontend/src/assets"],
+            "styles": ["apps/edudoor-frontend/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -68,14 +63,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-frontend/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-frontend/tsconfig.app.json",
-              "apps/edudoor-frontend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-frontend/**"
-            ]
+            "tsConfig": ["apps/edudoor-frontend/tsconfig.app.json", "apps/edudoor-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-frontend/**"]
           }
         },
         "test": {
@@ -110,13 +99,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-frontend-e2e/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-frontend-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-frontend-e2e/**"
-            ]
+            "tsConfig": ["apps/edudoor-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-frontend-e2e/**"]
           }
         }
       }
@@ -132,14 +116,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/ui/.eslintrc",
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/ui/**"
-            ]
+            "tsConfig": ["libs/ui/tsconfig.lib.json", "libs/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/ui/**"]
           }
         },
         "test": {
@@ -162,14 +140,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/common/.eslintrc",
-            "tsConfig": [
-              "libs/common/tsconfig.lib.json",
-              "libs/common/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/common/**"
-            ]
+            "tsConfig": ["libs/common/tsconfig.lib.json", "libs/common/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/common/**"]
           }
         },
         "test": {
@@ -194,10 +166,7 @@
             "outputPath": "dist/apps/edudoor-node-backend",
             "main": "apps/edudoor-node-backend/index.ts",
             "tsConfig": "apps/edudoor-node-backend/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-node-backend/src/assets",
-              "apps/edudoor-node-backend/emails"
-            ]
+            "assets": ["apps/edudoor-node-backend/src/assets", "apps/edudoor-node-backend/emails"]
           },
           "configurations": {
             "production": {
@@ -225,14 +194,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-node-backend/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-node-backend/tsconfig.app.json",
-              "apps/edudoor-node-backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/apps/edudoor-node-backend/**"
-            ]
+            "tsConfig": ["apps/edudoor-node-backend/tsconfig.app.json", "apps/edudoor-node-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/apps/edudoor-node-backend/**"]
           }
         },
         "test": {
@@ -258,13 +221,8 @@
             "main": "apps/edudoor-website/src/main.tsx",
             "polyfills": "apps/edudoor-website/src/polyfills.ts",
             "tsConfig": "apps/edudoor-website/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-website/src/favicon.ico",
-              "apps/edudoor-website/src/assets/"
-            ],
-            "styles": [
-              "apps/edudoor-website/src/styles.scss"
-            ],
+            "assets": ["apps/edudoor-website/src/favicon.ico", "apps/edudoor-website/src/assets/"],
+            "styles": ["apps/edudoor-website/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -311,14 +269,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-website/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-website/tsconfig.app.json",
-              "apps/edudoor-website/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-website/**"
-            ]
+            "tsConfig": ["apps/edudoor-website/tsconfig.app.json", "apps/edudoor-website/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-website/**"]
           }
         },
         "test": {
@@ -353,13 +305,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-website-e2e/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-website-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-website-e2e/**"
-            ]
+            "tsConfig": ["apps/edudoor-website-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-website-e2e/**"]
           }
         }
       }
@@ -375,14 +322,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/backend/.eslintrc",
-            "tsConfig": [
-              "libs/backend/tsconfig.lib.json",
-              "libs/backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/backend/**"
-            ]
+            "tsConfig": ["libs/backend/tsconfig.lib.json", "libs/backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/backend/**"]
           }
         },
         "test": {
@@ -405,14 +346,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/chat/.eslintrc",
-            "tsConfig": [
-              "libs/chat/tsconfig.lib.json",
-              "libs/chat/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/chat/**"
-            ]
+            "tsConfig": ["libs/chat/tsconfig.lib.json", "libs/chat/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/chat/**"]
           }
         },
         "test": {
@@ -437,9 +372,7 @@
             "outputPath": "dist/apps/edudoor-chat-api",
             "main": "apps/edudoor-chat-api/src/main.ts",
             "tsConfig": "apps/edudoor-chat-api/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-chat-api/src/assets"
-            ]
+            "assets": ["apps/edudoor-chat-api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -467,14 +400,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-chat-api/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-chat-api/tsconfig.app.json",
-              "apps/edudoor-chat-api/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-chat-api/**"
-            ]
+            "tsConfig": ["apps/edudoor-chat-api/tsconfig.app.json", "apps/edudoor-chat-api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-chat-api/**"]
           }
         },
         "test": {
@@ -499,9 +426,7 @@
             "outputPath": "dist/apps/edudoor-backend",
             "main": "apps/edudoor-backend/src/main.ts",
             "tsConfig": "apps/edudoor-backend/tsconfig.app.json",
-            "assets": [
-              "apps/edudoor-backend/src/assets"
-            ]
+            "assets": ["apps/edudoor-backend/src/assets"]
           },
           "configurations": {
             "production": {
@@ -528,14 +453,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/edudoor-backend/.eslintrc",
-            "tsConfig": [
-              "apps/edudoor-backend/tsconfig.app.json",
-              "apps/edudoor-backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/edudoor-backend/**"
-            ]
+            "tsConfig": ["apps/edudoor-backend/tsconfig.app.json", "apps/edudoor-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/edudoor-backend/**"]
           }
         },
         "test": {
@@ -567,13 +486,8 @@
             "polyfills": "apps/openvidu-frontend/src/polyfills.ts",
             "tsConfig": "apps/openvidu-frontend/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/openvidu-frontend/src/favicon.ico",
-              "apps/openvidu-frontend/src/assets"
-            ],
-            "styles": [
-              "apps/openvidu-frontend/src/styles.scss"
-            ],
+            "assets": ["apps/openvidu-frontend/src/favicon.ico", "apps/openvidu-frontend/src/assets"],
+            "styles": ["apps/openvidu-frontend/src/styles.scss"],
             "scripts": []
           },
           "configurations": {
@@ -627,14 +541,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/openvidu-frontend/tsconfig.app.json",
-              "apps/openvidu-frontend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-frontend/**"
-            ]
+            "tsConfig": ["apps/openvidu-frontend/tsconfig.app.json", "apps/openvidu-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend/**"]
           }
         },
         "test": {
@@ -668,13 +576,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/openvidu-frontend-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-frontend-e2e/**"
-            ]
+            "tsConfig": ["apps/openvidu-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend-e2e/**"]
           }
         }
       }
@@ -692,9 +595,7 @@
             "outputPath": "dist/apps/openvidu-backend",
             "main": "apps/openvidu-backend/src/main.ts",
             "tsConfig": "apps/openvidu-backend/tsconfig.app.json",
-            "assets": [
-              "apps/openvidu-backend/src/assets"
-            ]
+            "assets": ["apps/openvidu-backend/src/assets"]
           },
           "configurations": {
             "production": {
@@ -721,14 +622,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/openvidu-backend/.eslintrc",
-            "tsConfig": [
-              "apps/openvidu-backend/tsconfig.app.json",
-              "apps/openvidu-backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-backend/**"
-            ]
+            "tsConfig": ["apps/openvidu-backend/tsconfig.app.json", "apps/openvidu-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-backend/**"]
           }
         },
         "test": {

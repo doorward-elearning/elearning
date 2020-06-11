@@ -7,7 +7,7 @@ import Card from '@edudoor/ui/components/Card';
 import IfElse from '@edudoor/ui/components/IfElse';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '@edudoor/ui/reducers/reducers';
-import { Omit } from '@edudoor/ui/types';
+import { Omit } from '@edudoor/common/types';
 import useLogo from '../../../hooks/useLogo';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {

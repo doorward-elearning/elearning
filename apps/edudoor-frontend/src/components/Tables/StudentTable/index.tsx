@@ -2,7 +2,7 @@ import React from 'react';
 import Table, { OnRowClick, TableProps } from '@edudoor/ui/components/Table';
 import Tools from '@edudoor/common/utils/Tools';
 import { Student } from '@edudoor/common/models/Student';
-import { Omit } from '@edudoor/ui/types';
+import { Omit } from '@edudoor/common/types';
 
 const columns = {
   username: 'Username',

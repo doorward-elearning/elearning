@@ -1,4 +1,4 @@
-import { RouteDefinition, RouteDefinitions, RouteNames } from '../types';
+import { RouteDefinition, RouteDefinitions, RouteNames } from '@edudoor/ui/types';
 import { useHistory, useRouteMatch } from 'react-router';
 
 export interface UseApplicationRoutes<T extends RouteNames> {

@@ -1,6 +1,6 @@
-import { Enum } from '@edudoor/ui/types';
+import { Enum } from '@edudoor/common/types';
 import moment from 'moment';
-import colors from '@edudoor/ui/utils/colors';
+import colors from '@edudoor/common/utils/colors';
 import { DropResult } from 'react-beautiful-dnd';
 
 const SimpleCrypto = require('simple-crypto-js').default;

@@ -2,7 +2,7 @@ import { SideBarSubMenuProps } from '../components/SideBar/SideBarSubMenu';
 import { SideBarProps } from '../components/SideBar';
 import { BreadCrumb } from '../components/BreadCrumbs';
 import { Icons } from '../types/icons';
-import { RouteNames, Routes } from '../types';
+import { RouteNames, Routes } from '@edudoor/ui/types';
 
 export type SideBarSchema<T extends RouteNames> = (routes: Routes<T>, props: SideBarProps<T>) => Array<MenuItem>;
 
