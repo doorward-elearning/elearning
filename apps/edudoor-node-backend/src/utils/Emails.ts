@@ -8,10 +8,19 @@ class Emails {
 
     return EmailSender.sendMail('student_new_account.pug', student.email, `${organization.name} new student account`, {
       username: student.username,
+      fullName: student.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(student.email)
       )}`,
+    });
+  }
+
+  static async studentPasswordChanged(student, password) {
+    return EmailSender.sendMail('password_changed.pug', student.email, `Password changed`, {
+      username: student.username,
+      fullName: student.fullName,
+      password,
     });
   }
 
@@ -24,6 +33,7 @@ class Emails {
       `${organization.name} new student account`,
       {
         username: student.username,
+        fullName: student.fullName,
         organization: organization.name,
         password: originalPassword,
         link: `${origin}/login/`,

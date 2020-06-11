@@ -1,4 +1,4 @@
-import { ADD_STUDENT, FETCH_STUDENT_LIST, GET_STUDENT } from './types';
+import { ADD_STUDENT, CHANGE_STUDENTS_PASSWORD, FETCH_STUDENT_LIST, GET_STUDENT } from './types';
 import Api from '../../services/api';
 import reducerBuilder, { reducerApiAction } from '@edudoor/ui/reducers/builder';
 
@@ -17,6 +17,11 @@ const student = reducerApiAction({
   api: Api.users.students.get,
 });
 
+const changePassword = reducerApiAction({
+  action: CHANGE_STUDENTS_PASSWORD,
+  api: Api.users.students.changePassword,
+});
+
 export default reducerBuilder({
-  middleware: { studentList, newStudent, student },
+  middleware: { studentList, newStudent, student, changePassword },
 });

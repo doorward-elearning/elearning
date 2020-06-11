@@ -1,7 +1,7 @@
 extends base_template
 block greeting
     p.title
-    span Hello #{username || 'there'}
+    span Hello #{fullName || 'there'}
 block content
     h4.
         Student Account created

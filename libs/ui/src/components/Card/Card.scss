@@ -15,7 +15,6 @@
   }
 
   &.flat {
-
     &.clickable {
       &:hover {
         box-shadow: var(--box-shadow);
@@ -23,10 +22,12 @@
     }
   }
 
-  &__header {
+  &__header,
+  &__footer {
     display: grid;
     padding: var(--padding-lg);
     border-bottom: 1px solid var(--line-color);
+    border-top: 1px solid var(--line-color);
 
     &.center {
       place-items: center;
@@ -36,6 +37,14 @@
       padding: 0;
       border-bottom: none;
     }
+  }
+
+  &__header {
+    border-top: none;
+  }
+
+  &__footer {
+    border-bottom: none;
   }
 
   &__body {

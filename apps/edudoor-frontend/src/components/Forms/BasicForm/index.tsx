@@ -16,8 +16,8 @@ export enum BasicFormFeatures {
   CANCEL_BUTTON = 2,
 }
 
-function BasicForm<T, A extends (...args: any[]) => Action>(
-  props: Omit<BasicFormProps<T, A>, 'onSubmit'>
+function BasicForm<T, A extends (...args: any[]) => Action, W>(
+  props: Omit<BasicFormProps<T, A, W>, 'onSubmit'>
 ): JSX.Element {
   const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
@@ -41,8 +41,8 @@ function BasicForm<T, A extends (...args: any[]) => Action>(
     if (props.resetOnSubmit && form.formikProps) {
       form.formikProps.resetForm();
     }
-    if (!(props.state.errors?.message || props.state.errors?.errors)) {
-      props.onSuccess && props.onSuccess();
+    if (!(props.state.errors?.message || props.state.errors?.errors) && props.onSuccess) {
+      props.onSuccess(props.state.data);
     }
   });
 
@@ -85,12 +85,12 @@ function BasicForm<T, A extends (...args: any[]) => Action>(
   );
 }
 
-export interface BasicFormProps<T, A extends (...args: any[]) => Action> extends FormProps<T> {
+export interface BasicFormProps<T, A extends (...args: any[]) => Action, W> extends FormProps<T> {
   submitAction: A;
   createData?: (values: T) => any;
   resetOnSubmit?: boolean;
-  onSuccess?: () => void;
-  state: WebComponentState<any>;
+  onSuccess?: (result?: W) => void;
+  state: WebComponentState<W>;
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
   showSuccessToast?: boolean;
