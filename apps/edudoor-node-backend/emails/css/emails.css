@@ -31,6 +31,7 @@ body {
   background-image: url("https://res.cloudinary.com/dldhztrbs/image/upload/v1590752464/Edudoor/page_background.png");
   background-size: cover;
   padding-top: 20px;
+  font-size: 18px;
 }
 
 .container {
@@ -41,8 +42,6 @@ body {
   background: white;
 }
 .container .header {
-  background: #0649cd;
-  color: white;
   text-align: center;
   padding: 1em;
   margin: 0;
@@ -51,9 +50,12 @@ body {
   width: 70px;
   height: 70px;
 }
+.container .header h2 {
+  padding-top: 0;
+  margin-top: 0;
+}
 .container .greeting {
-  border-bottom: 1px solid #ccc;
-  padding: 1em;
+  padding: 0 1em;
 }
 .container .greeting p {
   margin: 0;
@@ -63,22 +65,22 @@ body {
   font-size: 1.3em;
 }
 .container .content {
-  padding: 3em 1em;
+  padding: 2em 1em;
 }
-.container .footer {
+
+.footer {
   color: #333;
-  border-top: 1px solid #ccc;
   padding-bottom: 5px;
   font-size: 0.8em;
   font-weight: lighter;
   text-align: center;
 }
-.container .footer a {
+.footer a {
   color: #222;
 }
-.container .footer_content {
-  padding-top: 50px;
-  padding-bottom: 30px;
+.footer_content {
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .spacing {
@@ -97,10 +99,11 @@ body {
 table {
   width: auto;
   margin-top: 40px;
-  margin-bottom: 40px ;
+  margin-bottom: 40px;
 }
-
 table td {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+/*# sourceMappingURL=emails.css.map */
