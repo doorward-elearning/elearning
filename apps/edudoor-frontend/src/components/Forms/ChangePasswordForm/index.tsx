@@ -7,7 +7,8 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { updateAccountPasswordAction } from '../../../reducers/users/actions';
 import BasicForm from '../BasicForm';
-import { ActionCreator } from '@edudoor/ui/reducers/reducers';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
+import withContext from '@edudoor/ui/hoc/withContext';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = props => {
   const initialValues = {
@@ -23,7 +24,7 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = pro
       form={props.form}
       initialValues={initialValues}
       validationSchema={changePasswordForm(!props.dontEnterCurrentPassword)}
-      state={state}
+      state={props.state || state}
       onCancel={props.onCancel}
       onSuccess={props.onSuccess}
       submitAction={props.submitAction || updateAccountPasswordAction}
@@ -45,9 +46,14 @@ export interface ChangePasswordFormProps {
   form: UseForm<ChangePasswordFormState>;
   onSuccess: (result?: any) => void;
   onCancel: () => void;
+  state?: WebComponentState<any>;
   submitAction?: ActionCreator;
   dontEnterCurrentPassword?: boolean;
   createData?: (data: ChangePasswordFormState) => Array<any>;
 }
 
-export default ChangePasswordForm;
+const { Context, ContextConsumer } = withContext(ChangePasswordForm, {});
+
+export const ChangePasswordFormContext = Context;
+
+export default ContextConsumer;

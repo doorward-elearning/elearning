@@ -85,7 +85,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
   );
 }
 
-export interface BasicFormProps<T, A extends (...args: any[]) => Action, W> extends FormProps<T> {
+export interface BasicFormProps<T, A extends (...args: any[]) => Action, W = any> extends FormProps<T> {
   submitAction: A;
   createData?: (values: T) => any;
   resetOnSubmit?: boolean;

@@ -13,8 +13,7 @@ import { User } from '@edudoor/common/models/User';
 import ChangePasswordModal from '../../Modals/ChangePasswordModal';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import Button from '@edudoor/ui/components/Buttons/Button';
-import { ActionCreator } from '@edudoor/ui/reducers/reducers';
-import { ChangePasswordFormState } from '../../Forms/ChangePasswordForm';
+import withContext from '@edudoor/ui/hoc/withContext';
 
 const UserCard: React.FunctionComponent<UserCardProps> = props => {
   const form = useForm();
@@ -32,15 +31,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
       {data => {
         return (
           <div className="page-profile__user-card">
-            {props.changePassword && (
-              <ChangePasswordModal
-                submitAction={props.submitPasswordAction}
-                dontEnterCurrentPassword={props.dontEnterCurrentPassword}
-                createChangePasswordData={props.changePasswordCreateData}
-                useModal={modal}
-                useForm={form}
-              />
-            )}
+            {props.changePassword && <ChangePasswordModal useModal={modal} useForm={form} />}
             <Card>
               <Card.Header center>
                 <Header size={2}>{data.fullName}</Header>
@@ -90,9 +81,10 @@ export interface UserCardProps {
   onPasswordChanged?: (passwordChanged?: boolean) => void;
   onOpenChangePasswordModal?: () => void;
   openModal?: boolean;
-  dontEnterCurrentPassword?: boolean;
-  submitPasswordAction?: ActionCreator;
-  changePasswordCreateData?: (data: ChangePasswordFormState) => Array<any>;
 }
 
-export default UserCard;
+const { Context, ContextConsumer } = withContext(UserCard, {});
+
+export const UserCardContext = Context;
+
+export default ContextConsumer;
