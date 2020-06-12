@@ -1,13 +1,11 @@
 extends base_template
 block greeting
     p.title
-    span Hello #{username || 'there'}
+    span Hello #{fullName || 'there'}
 block content
-    h4.
-        Student Account created
     p.
         A new #{organization} student account has been created for you.
-        To proceed with the login. Kindly click on the following link.
+        To proceed with the login. Kindly create a password first.
     p.
         You will use the following username to access your account.
     div.centered

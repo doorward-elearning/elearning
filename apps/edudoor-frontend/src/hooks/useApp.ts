@@ -6,7 +6,7 @@ import { fetchCurrentUserAction } from '../reducers/users/actions';
 import { connectSocket } from '@edudoor/ui/utils/socket';
 import useStateRef from '@edudoor/ui/hooks/useStateRef';
 import Tools from '@edudoor/common/utils/Tools';
-import { AppContextProps } from '../main';
+import { EdudoorAppContextProps } from '../main';
 import useAction from '@edudoor/ui/hooks/useActions';
 import useAuth from '@edudoor/ui/hooks/useAuth';
 import { EdudoorRoutes } from '../routes';
@@ -17,7 +17,7 @@ export const appInitialValue = {
   setParams: (key: keyof EdudoorRoutes, params: { [name: string]: any }) => {},
 };
 
-export interface UseApp extends AppContextProps {}
+export interface UseApp extends EdudoorAppContextProps {}
 
 const useApp = (): UseApp => {
   const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);

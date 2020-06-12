@@ -85,6 +85,12 @@ const Api = {
       create: (body: CreateStudentBody): Promise<StudentResponse> => {
         return POST('/users/students', body);
       },
+      get: (id: string): Promise<StudentResponse> => {
+        return GET(`/users/students/${id}`);
+      },
+      changePassword: (id: string, body: ChangePasswordBody): Promise<ApiResponse> => {
+        return POST(`/users/students/${id}/changePassword`, body);
+      },
     },
     teachers: {
       list: (query: string): Promise<TeacherListResponse> => {

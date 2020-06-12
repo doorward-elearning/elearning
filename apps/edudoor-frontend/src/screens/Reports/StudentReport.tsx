@@ -14,7 +14,7 @@ import Tools from '@edudoor/common/utils/Tools';
 import useAction from '@edudoor/ui/hooks/useActions';
 import CustomChart from '@edudoor/ui/components/CustomChart';
 import Row from '@edudoor/ui/components/Row';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '@edudoor/ui/hooks/useBreadCrumbTitle';
 import Badge from '@edudoor/ui/components/Badge';
 import { PageComponent } from '@edudoor/ui/types';

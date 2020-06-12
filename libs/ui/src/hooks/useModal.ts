@@ -17,10 +17,10 @@ const useModal = (defaultState?: boolean): UseModal => {
     isOpen: open,
     isOpenRef: openRef,
     openModal: (): void => setOpen(true),
-    closeModal: (): void => {
+    closeModal: (...args: any[]): void => {
       setOpen(false);
       if (onClose) {
-        onClose();
+        onClose(...args);
       }
     },
     onClose: (listener: () => void): void => {
@@ -29,12 +29,12 @@ const useModal = (defaultState?: boolean): UseModal => {
   };
 };
 
-export type UseModal = {
+export interface UseModal {
   isOpen: boolean;
   isOpenRef?: MutableRefObject<boolean>;
   openModal: () => void;
-  closeModal: () => void;
-  onClose: (listener: () => void) => void;
-};
+  closeModal: (...args: any[]) => void;
+  onClose: (listener: (...args: any[]) => void) => void;
+}
 
 export default useModal;

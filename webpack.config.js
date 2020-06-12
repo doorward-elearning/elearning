@@ -3,7 +3,7 @@ const babelWebpackConfig = require('@nrwl/react/plugins/babel');
 const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 
-console.log('Setup-------------------------');
+console.log('=== Webpack Setup === ');
 
 module.exports = config => {
   config.module.rules.push(
@@ -24,7 +24,7 @@ module.exports = config => {
     })
   );
   if (config.devServer) {
-    config.devServer.hot = true;
+    config.devServer.liveReload = true;
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   return babelWebpackConfig(config);

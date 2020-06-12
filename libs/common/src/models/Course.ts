@@ -1,12 +1,12 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
-import { User } from '@edudoor/common/models/User';
-import { Module } from '@edudoor/common/models/Module';
 
 import { MeetingRoom } from './MeetingRoom';
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { StudentCourse } from '@edudoor/common/models/StudentCourse';
+import { StudentCourse } from './StudentCourse';
 import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
-import { Student } from '@edudoor/common/models/Student';
+import { Student } from './Student';
+import { User } from './User';
+import { DBModel } from './DBModel';
+import { Module } from './Module';
 
 export class Course extends Model implements DBModel {
   public id: string;

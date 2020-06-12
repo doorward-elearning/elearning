@@ -1,5 +1,5 @@
 import React from 'react';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 import { fetchGroup } from '../../reducers/groups/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';

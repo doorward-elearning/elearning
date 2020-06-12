@@ -51,7 +51,7 @@ export default class BaseValidator {
   }
 
   static modelExists(
-    query: (req: express.Request) => { [name: string]: any },
+    query: (req: express.Request<any>) => { [name: string]: any },
     Model: (new () => SequelizeModel) & typeof SequelizeModel,
     message: string
   ) {

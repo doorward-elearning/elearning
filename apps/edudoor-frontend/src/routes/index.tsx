@@ -39,6 +39,7 @@ import { routeNames } from './routeNames';
 import AssignmentsList from '../screens/Courses/Modules/AssignmentsList';
 import Classrooms from '../screens/Classrooms';
 import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
+import ViewStudent from '../screens/Students/ViewStudent';
 
 export type EdudoorRoutes = typeof routeNames;
 
@@ -76,7 +77,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           createCourse: new Route('/create', Courses),
         }),
         students: new Route('/students').roles(Roles.TEACHER).with({
-          studentList: new Route('/', StudentList).roles(Roles.TEACHER),
+          studentList: new Route('/', StudentList).roles(Roles.TEACHER).with({
+            viewStudent: new Route('/:studentId', ViewStudent).roles(Roles.TEACHER),
+          }),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
         teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
@@ -105,12 +108,10 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
             viewStudentGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.TEACHER),
           }),
         }),
-        organizations: new Route('/organizations', Organizations)
-          .roles(Roles.SUPER_ADMINISTRATOR)
-          .with({
-            createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-            editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-          }),
+        organizations: new Route('/organizations', Organizations).roles(Roles.SUPER_ADMINISTRATOR).with({
+          createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+          editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+        }),
         chat: new Route('/chat', ChatScreen),
       }),
       password: new Route('/password')

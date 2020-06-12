@@ -14,7 +14,7 @@ const ChangePasswordModal: React.FunctionComponent<ChangePasswordModalProps> = p
         <ChangePasswordForm
           form={props.useForm}
           onCancel={props.useModal.closeModal}
-          onSuccess={props.useModal.closeModal}
+          onSuccess={() => props.useModal.closeModal(true)}
         />
       </Modal.Body>
     </Modal>

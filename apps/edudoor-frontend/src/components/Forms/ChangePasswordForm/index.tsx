@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { updateAccountPasswordAction } from '../../../reducers/users/actions';
 import BasicForm from '../BasicForm';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
+import withContext from '@edudoor/ui/hoc/withContext';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = props => {
   const initialValues = {
@@ -21,15 +23,15 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = pro
     <BasicForm
       form={props.form}
       initialValues={initialValues}
-      validationSchema={changePasswordForm}
-      state={state}
+      validationSchema={changePasswordForm(!props.dontEnterCurrentPassword)}
+      state={props.state || state}
       onCancel={props.onCancel}
       onSuccess={props.onSuccess}
-      submitAction={updateAccountPasswordAction}
-      createData={data => [data]}
+      submitAction={props.submitAction || updateAccountPasswordAction}
+      createData={props.createData || (data => [data])}
       showOverlay
     >
-      <PasswordField name="password" label="Current password" />
+      {!props.dontEnterCurrentPassword && <PasswordField name="password" label="Current password" />}
       <PasswordField name="newPassword" label="New password" />
       <PasswordField name="confirmPassword" label="Re-enter password" />
     </BasicForm>
@@ -42,8 +44,16 @@ export interface ChangePasswordFormState extends ChangePasswordBody {
 
 export interface ChangePasswordFormProps {
   form: UseForm<ChangePasswordFormState>;
-  onSuccess: () => void;
+  onSuccess: (result?: any) => void;
   onCancel: () => void;
+  state?: WebComponentState<any>;
+  submitAction?: ActionCreator;
+  dontEnterCurrentPassword?: boolean;
+  createData?: (data: ChangePasswordFormState) => Array<any>;
 }
 
-export default ChangePasswordForm;
+const { Context, ContextConsumer } = withContext(ChangePasswordForm, {});
+
+export const ChangePasswordFormContext = Context;
+
+export default ContextConsumer;

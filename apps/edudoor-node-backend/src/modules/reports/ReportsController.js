@@ -1,5 +1,6 @@
 import UserController from '../users/UserController';
 import * as roles from '../../utils/roles';
+import models from '../../database/models';
 
 class ReportsController {
   static async studentsReport() {

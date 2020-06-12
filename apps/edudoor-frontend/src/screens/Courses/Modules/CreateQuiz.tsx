@@ -7,7 +7,7 @@ import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
 import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 import WebComponent from '@edudoor/ui/components/WebComponent';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@edudoor/ui/types';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {

@@ -8,7 +8,7 @@ import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import useForm from '@edudoor/ui/hooks/useForm';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@edudoor/ui/types';
 
 const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.Element => {

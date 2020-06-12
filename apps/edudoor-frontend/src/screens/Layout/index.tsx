@@ -25,7 +25,7 @@ import FeatureProvider from '@edudoor/ui/components/FeatureProvider';
 import Icon from '@edudoor/ui/components/Icon';
 import SideBar from '@edudoor/ui/components/SideBar';
 import Header from '@edudoor/ui/components/Header';
-import useOrganization from '../../hooks/useOrganization';
+import useOrganization from '@edudoor/ui/hooks/useOrganization';
 import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@edudoor/ui/components/Row';
 import useLogo from '../../hooks/useLogo';

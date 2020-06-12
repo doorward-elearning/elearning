@@ -7,7 +7,7 @@ import { fetchCourseCreatorReport } from '../../reducers/reports/actions';
 import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 import Tools from '@edudoor/common/utils/Tools';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '@edudoor/ui/hooks/useBreadCrumbTitle';
 import { PageComponent } from '@edudoor/ui/types';
 

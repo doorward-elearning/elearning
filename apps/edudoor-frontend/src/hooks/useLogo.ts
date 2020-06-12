@@ -1,6 +1,6 @@
 import useTheme from './useTheme';
 import { useEffect, useState } from 'react';
-import useOrganization from './useOrganization';
+import useOrganization from '@edudoor/ui/hooks/useOrganization';
 import themes from '@edudoor/ui/themes/themes';
 
 const useLogo = (): string => {

@@ -9,6 +9,7 @@ import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
 import profileAccountForm from './validation';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
 import { User } from '@edudoor/common/models/User';
+import { ActionCreator } from '@edudoor/ui/reducers/reducers';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {
   const initialValues: ProfileAccountFormState = {
@@ -40,7 +41,7 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
       onSuccess={stopEditing}
       features={features}
       onCancel={stopEditing}
-      submitAction={updateAccountInformationAction}
+      submitAction={props.submitAction || updateAccountInformationAction}
       validationSchema={profileAccountForm}
       showOverlay
     >
@@ -59,6 +60,7 @@ export interface ProfileAccountFormProps {
   user: User;
   editing: boolean;
   stopEditing: () => void;
+  submitAction?: ActionCreator;
 }
 
 export default ProfileAccountForm;

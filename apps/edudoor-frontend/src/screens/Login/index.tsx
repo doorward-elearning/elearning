@@ -19,7 +19,7 @@ import { PageComponent } from '@edudoor/ui/types';
 import Header from '@edudoor/ui/components/Header';
 import Message from '@edudoor/ui/components/Message';
 import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
-import useOrganization from '../../hooks/useOrganization';
+import useOrganization from '@edudoor/ui/hooks/useOrganization';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const [showMessage, setShowMessage] = useState(false);

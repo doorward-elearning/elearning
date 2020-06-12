@@ -2,7 +2,7 @@ import React from 'react';
 import useRoutes from '../../hooks/useRoutes';
 import Layout, { LayoutFeatures } from '../Layout';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 import { getOrganization } from '../../reducers/organizations/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import NavLogo from '../NavBar/NavLogo';
 import IfElse from '../IfElse';
 import useSidebarSchema, { SideBarSchema } from '../../hooks/useSidebarSchema';
-import { RouteNames, Routes } from '../../types';
+import { RouteNames, Routes } from '@edudoor/ui/types';
 import useAuth from '../../hooks/useAuth';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
 

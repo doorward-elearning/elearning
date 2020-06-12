@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import { PageComponent } from '@edudoor/ui/types';
 import { joinMeetingAction } from '../../reducers/videoCall/actions';
-import usePageResource from '@edudoor/ui/hooks/usePageResource';
+import usePageResource from '../../hooks/usePageResource';
 // import OpenviduWebComponent from '@edudoor/ui/components/OpenviduWebComponent';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {

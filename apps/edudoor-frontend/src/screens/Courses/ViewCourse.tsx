@@ -7,7 +7,6 @@ import CourseViewSidebar from '../../components/CourseViewSidebar';
 import useViewCourse from '../../hooks/useViewCourse';
 import ChooseStudentModal from '../../components/Modals/ChooseStudentModal';
 import AddCourseModuleModal from '../../components/Modals/AddCourseModuleModal';
-import RoleContainer from '../../../../../libs/ui/src/components/RolesManager/RoleContainer';
 import EditableLabelForm from '../../components/Forms/EditableLabelForm';
 import { startLiveClassroom, updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
@@ -26,6 +25,7 @@ import IfElse from '@edudoor/ui/components/IfElse';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import { PageComponent } from '@edudoor/ui/types';
 import { Link } from 'react-router-dom';
+import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
