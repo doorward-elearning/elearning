@@ -2,30 +2,14 @@ html {
   padding: 0;
 }
 
-@font-face {
-  src: url('https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-thin.woff2?alt=media&token=fd42c48b-b15b-4f4b-87cb-b4851ef7433e') format('woff2');
-  font-family: 'Sailec-Regular';
-  font-weight: 300;
-}
-
-@font-face {
-  src: url('https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-normal.woff2?alt=media&token=19c7ed3e-c747-4ed7-82b1-44dec1ad7ecb') format('woff2');
-  font-family: 'Sailec-Regular';
-  font-weight: normal;
-}
-
-@font-face {
-  src: url('https://firebasestorage.googleapis.com/v0/b/freelancer-b3706.appspot.com/o/Sailec-Regular-bold.woff2?alt=media&token=90a7afe3-9320-4ce6-86c3-912b18a14967') format('woff2');
-  font-family: 'Sailec-Regular';
-  font-weight: 500;
-}
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
 
 * {
-  font-family: 'Sailec-Regular', sans-serif;
+  font-family: 'Open Sans', sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 
@@ -35,12 +19,12 @@ body {
   background-image: url("https://res.cloudinary.com/dldhztrbs/image/upload/v1590752464/Edudoor/page_background.png");
   background-size: cover;
   padding-top: 20px;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .container {
   max-width: 600px;
-  border: 1px solid #ccc;
+  border: 1px solid #eee;
   width: 100%;
   margin: auto;
   background: white;
@@ -62,15 +46,11 @@ body {
   }
 
   .greeting {
-    padding: 0 1em;
+    padding: 0 1em 1em;
+    border-bottom: 1px solid #eee;
 
     p {
       margin: 0;
-    }
-
-    h4 {
-      font-weight: bold;
-      font-size: 1.3em;
     }
   }
 
@@ -113,7 +93,7 @@ body {
 table {
   width: auto;
   margin-top: 40px;
-  margin-bottom: 40px ;
+  margin-bottom: 40px;
 
   td {
     padding-left: 10px;
