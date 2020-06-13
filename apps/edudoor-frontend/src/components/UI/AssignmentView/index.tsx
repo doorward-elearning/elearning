@@ -49,6 +49,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
                     onClick={() => {
                       window.location.href = Api.fileURL(submission.submission, true);
                     }}
+                    icon="cloud_download"
                   >
                     Download Assignment
                   </Button>
