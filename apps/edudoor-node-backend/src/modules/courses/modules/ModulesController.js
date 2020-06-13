@@ -181,6 +181,13 @@ class ModulesController {
         {
           model: models.AssignmentSubmission,
           as: 'assignmentSubmission',
+          include: [
+            {
+              model: models.File,
+              as: 'file',
+              required: false,
+            },
+          ],
         },
       ],
     });

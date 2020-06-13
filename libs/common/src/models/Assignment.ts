@@ -2,6 +2,7 @@ import { ModuleItem } from '@edudoor/common/models/ModuleItem';
 import { AssignmentSubmissionType } from '@edudoor/common/models/index';
 import { Module } from '@edudoor/common/models/Module';
 
+
 export interface Assignment extends ModuleItem {
   content: {
     points: number;

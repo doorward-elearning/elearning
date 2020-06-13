@@ -6,6 +6,7 @@ import { Teacher } from '@edudoor/common/models/Teacher';
 import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { User } from '@edudoor/common/models/User';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
+import { File } from '@edudoor/common/models/File';
 
 export class AssignmentSubmission extends Model implements DBModel {
   createdAt: Date;
@@ -24,6 +25,7 @@ export class AssignmentSubmission extends Model implements DBModel {
   student: Student;
   assignment: Assignment;
   reviewer: Teacher;
+  file: File;
 }
 
 export default (sequelize: Sequelize) => {
@@ -62,6 +64,10 @@ export default (sequelize: Sequelize) => {
     AssignmentSubmission.belongsTo(ModuleItem, {
       as: 'assignment',
       foreignKey: 'assignmentId',
+    });
+    AssignmentSubmission.belongsTo(File, {
+      as: 'file',
+      foreignKey: 'submission',
     });
     return AssignmentSubmission;
   };

@@ -57,6 +57,8 @@ const q = require('querystring').stringify;
 const { GET, PUT, POST, DELETE } = ApiRequest;
 
 const Api = {
+  fileURL: (fileId: string, publicFile = false) =>
+    `${process.env.REACT_APP_BASE_URL}/storage${publicFile ? '/public' : ''}/files/${fileId}`,
   users: {
     authenticate: (body: LoginBody): Promise<LoginResponse> => {
       return POST('users/auth', body);
@@ -269,6 +271,9 @@ const Api = {
           cancelHandler(c);
         }),
       });
+    },
+    getFile: (fileId: string) => {
+      return GET('/storage/files/' + fileId);
     },
   },
 };

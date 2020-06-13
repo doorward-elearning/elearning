@@ -143,6 +143,14 @@ const moduleItemList = reducerApiAction({
 const moduleItem = reducerApiAction({
   action: FETCH_MODULE_ITEM,
   api: Api.courses.modules.items.get,
+  reducer: (state, action) => {
+    if (action.type === `${SUBMIT_ASSIGNMENT}_SUCCESS`) {
+      return modifyReducer('data.item', state, action, item => {
+        return { ...item, assignmentSubmission: action.payload.submission };
+      });
+    }
+    return state;
+  },
 });
 
 const submitAssignment = reducerApiAction({

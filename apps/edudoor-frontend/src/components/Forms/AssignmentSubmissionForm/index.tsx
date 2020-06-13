@@ -7,12 +7,11 @@ import TextArea from '@edudoor/ui/components/Input/TextArea';
 import TextField from '@edudoor/ui/components/Input/TextField';
 import FileUploadField from '@edudoor/ui/components/Input/FileUploadField';
 import Api from '../../../services/api';
-import IfElse from '@edudoor/ui/components/IfElse';
 import { Assignment } from '@edudoor/common/models/Assignment';
-import { useHistory } from 'react-router';
-import useForm, { UseForm } from '@edudoor/ui/hooks/useForm';
+import useForm from '@edudoor/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
+import { AssignmentSubmissionType } from '@edudoor/common/models';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,
@@ -33,7 +32,10 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
       createData={values => [
         assignment.id,
         {
-          submission: values.submissionType === 'File Upload' ? values.submission[0].id : values.submission,
+          submission:
+            values.submissionType === AssignmentSubmissionType.FILE_UPLOAD
+              ? values.submission[0].id
+              : values.submission,
           submissionType: values.submissionType,
           resubmission: false,
         },
@@ -48,18 +50,22 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
                 setCurrentTab(tab);
                 formikProps.setValues({
                   submission: '',
-                  submissionType: ['Text Entry', 'Website URL', 'File Upload'][tab],
+                  submissionType: [
+                    AssignmentSubmissionType.TEXT_ENTRY,
+                    AssignmentSubmissionType.WEBSITE_URL,
+                    AssignmentSubmissionType.FILE_UPLOAD,
+                  ][tab],
                 });
               }
             }}
           >
-            <Tab title="Text Entry">
+            <Tab title={AssignmentSubmissionType.TEXT_ENTRY}>
               <TextArea name="submission" />
             </Tab>
-            <Tab title="Website URL">
+            <Tab title={AssignmentSubmissionType.WEBSITE_URL}>
               <TextField name="submission" />
             </Tab>
-            <Tab title="File Upload">
+            <Tab title={AssignmentSubmissionType.FILE_UPLOAD}>
               <FileUploadField
                 name="submission"
                 uploadHandler={(file, onUploadProgress, cancelHandler) => {
