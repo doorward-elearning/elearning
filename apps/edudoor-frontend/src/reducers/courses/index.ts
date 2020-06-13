@@ -3,10 +3,12 @@ import _ from 'lodash';
 import {
   ADD_MODULE_ITEM,
   CREATE_COURSE,
+  CREATE_COURSE_MANAGER,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
   DELETE_COURSE,
   DELETE_COURSE_MODULE,
+  FETCH_COURSE_MANAGERS,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -71,6 +73,11 @@ const studentList = reducerApiAction({
     }
     return state;
   },
+});
+
+const managersList = reducerApiAction({
+  action: FETCH_COURSE_MANAGERS,
+  api: Api.courses.managers.get,
 });
 
 const createStudent = reducerApiAction({
@@ -143,6 +150,11 @@ const submitAssignment = reducerApiAction({
   api: Api.courses.modules.items.submitAssignment,
 });
 
+const createCourseManager = reducerApiAction({
+  action: CREATE_COURSE_MANAGER,
+  api: Api.courses.managers.create,
+});
+
 export default reducerBuilder({
   middleware: {
     createCourse,
@@ -164,5 +176,7 @@ export default reducerBuilder({
     moduleItemList,
     moduleItem,
     submitAssignment,
+    createCourseManager,
+    managersList,
   },
 });

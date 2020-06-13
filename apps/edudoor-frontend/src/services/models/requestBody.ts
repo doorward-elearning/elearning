@@ -91,3 +91,7 @@ export interface SubmitAssignmentBody {
 export interface CreateClassroomBody {
   name: string;
 }
+
+export interface CreateCourseManagerBody {
+  managerId: string;
+}

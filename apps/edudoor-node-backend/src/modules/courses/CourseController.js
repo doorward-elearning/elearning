@@ -79,6 +79,17 @@ class CourseController {
         })
       ).courses;
     } else {
+      const managed = await models.Course.findAll({
+        include: [
+          {
+            model: models.User,
+            as: 'managers',
+            where: {
+              id: user.id,
+            },
+          },
+        ],
+      });
       courses = await models.Course.findAll({
         includeIgnoreAttributes: false,
         include: [
@@ -92,12 +103,17 @@ class CourseController {
           {
             model: models.User,
             as: 'author',
-            where: Tools.isAdmin(user)
-              ? {}
-              : {
-                  id: user.id,
-                },
+            where: Tools.isAdmin(user) ? {} : { id: user.id },
             attributes: [],
+            required: !managed.length,
+          },
+          {
+            model: models.User,
+            as: 'managers',
+            where: {
+              id: user.id,
+            },
+            required: managed.length,
           },
         ],
         attributes: {

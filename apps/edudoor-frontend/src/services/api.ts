@@ -6,6 +6,7 @@ import {
   CourseModuleItemBody,
   CreateClassroomBody,
   CreateCourseBody,
+  CreateCourseManagerBody,
   CreateGroupBody,
   CreateOrganizationBody,
   CreatePasswordBody,
@@ -21,6 +22,8 @@ import {
 import {
   AssignmentSubmissionResponse,
   CourseListResponse,
+  CourseManagerBody,
+  CourseManagersBody,
   CourseModuleListResponse,
   CourseModuleResponse,
   CreateCourseResponse,
@@ -119,6 +122,14 @@ const Api = {
     },
     delete: (courseId: string): Promise<ApiResponse> => {
       return DELETE(`/courses/${courseId}`);
+    },
+    managers: {
+      create: (courseId: string, body: CreateCourseManagerBody): Promise<CourseManagerBody> => {
+        return POST(`/courses/${courseId}/managers/register`, body);
+      },
+      get: (courseId: string): Promise<CourseManagersBody> => {
+        return GET(`/courses/${courseId}/managers`);
+      },
     },
     room: {
       start: (courseId: string): Promise<ApiResponse> => {

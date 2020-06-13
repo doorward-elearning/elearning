@@ -49,6 +49,11 @@ export const CourseInclude = [
     required: false,
   },
   {
+    model: models.User,
+    as: 'managers',
+    required: false,
+  },
+  {
     model: models.MeetingRoom,
     as: 'meetingRoom',
     required: false,
@@ -91,7 +96,7 @@ export const StudentCoursesInclude = () => {
       model: models.Course,
       as: 'courses',
       include: CourseInclude,
-      required: false
+      required: false,
     },
   ];
 };
@@ -117,5 +122,5 @@ export const SchoolInclude = () => {
         },
       ],
     },
-  ]
+  ];
 };

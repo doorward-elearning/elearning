@@ -4,7 +4,7 @@
 
   @for $i from 1 through 12 {
     &.columns-#{$i} {
-      grid-template-columns: repeat($i, 1fr);
+      grid-template-columns: repeat($i, minmax(auto, 1fr));
     }
   }
 

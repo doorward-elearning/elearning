@@ -1,12 +1,12 @@
-
 import { MeetingRoom } from './MeetingRoom';
-import { Sequelize, DataTypes, Model } from 'sequelize';
+import { DataTypes, Model, Sequelize } from 'sequelize';
 import { StudentCourse } from './StudentCourse';
 import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { Student } from './Student';
 import { User } from './User';
 import { DBModel } from './DBModel';
 import { Module } from './Module';
+import { CourseManager } from '@edudoor/common/models/CourseManager';
 
 export class Course extends Model implements DBModel {
   public id: string;
@@ -77,6 +77,12 @@ export default (sequelize: Sequelize) => {
     Course.belongsTo(MeetingRoom, {
       foreignKey: 'meetingRoomId',
       as: 'meetingRoom',
+    });
+    Course.belongsToMany(User, {
+      foreignKey: 'courseId',
+      otherKey: 'managerId',
+      as: 'managers',
+      through: CourseManager,
     });
     return Course;
   };

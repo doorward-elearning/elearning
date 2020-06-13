@@ -95,3 +95,11 @@ export interface SchoolResponse extends ApiResponse {
 export interface SchoolsResponse extends ApiResponse {
   schools: Array<School>;
 }
+
+export interface CourseManagerBody extends ApiResponse {
+  manager: User;
+}
+
+export interface CourseManagersBody extends ApiResponse {
+  managers: Array<User>;
+}

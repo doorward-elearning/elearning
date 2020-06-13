@@ -1,10 +1,12 @@
 import {
   ADD_MODULE_ITEM,
   CREATE_COURSE,
+  CREATE_COURSE_MANAGER,
   CREATE_COURSE_MODULE,
   CREATE_COURSE_STUDENT,
   DELETE_COURSE,
   DELETE_COURSE_MODULE,
+  FETCH_COURSE_MANAGERS,
   FETCH_COURSE_MODULE,
   FETCH_COURSE_STUDENTS,
   FETCH_COURSES,
@@ -23,6 +25,7 @@ import {
   CourseModuleBody,
   CourseModuleItemBody,
   CreateCourseBody,
+  CreateCourseManagerBody,
   CreateStudentBody,
   RegisterStudentsBody,
   SubmitAssignmentBody,
@@ -124,4 +127,14 @@ export const fetchModuleItem = (itemId: string): Action => ({
 export const submitAssignmentAction = (assignmentId: string, body: SubmitAssignmentBody): Action => ({
   type: SUBMIT_ASSIGNMENT,
   payload: [assignmentId, body],
+});
+
+export const createCourseManagerAction = (courseId: string, body: CreateCourseManagerBody): Action => ({
+  type: CREATE_COURSE_MANAGER,
+  payload: [courseId, body],
+});
+
+export const fetchCourseManagersAction = (courseId: string): Action => ({
+  type: FETCH_COURSE_MANAGERS,
+  payload: [courseId],
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { match } from 'react-router';
 import './Courses.scss';
@@ -26,19 +26,37 @@ import { Roles } from '@edudoor/ui/components/RolesManager';
 import { PageComponent } from '@edudoor/ui/types';
 import { Link } from 'react-router-dom';
 import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
+import useRoleManager from '@edudoor/ui/hooks/useRoleManager';
+import { fetchTeacherListAction } from '../../reducers/teachers/actions';
+import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManagerModal';
+import useAction from '@edudoor/ui/hooks/useActions';
+import Pill from '@edudoor/ui/components/Pill';
+import Grid from '@edudoor/ui/components/Grid';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
+  const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
+  const isAdmin = useRoleManager();
+  const fetchTeachers = useAction(fetchTeacherListAction);
+
+  useEffect(() => {
+    if (isAdmin) {
+      fetchTeachers();
+    }
+  }, [isAdmin]);
 
   const liveClassroom: any = useEventListener(LIVE_CLASSROOM_STARTED);
+
+  useEffect(() => {}, []);
 
   const [courseId, course] = useViewCourse();
   const routes = useRoutes();
 
   const updateCourse = useSelector((state: State) => state.courses.updateCourse);
   const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
+  const teacherList = useSelector((state: State) => state.teachers.teacherList);
   return (
     <Layout
       {...props}
@@ -47,14 +65,16 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
         <IfElse condition={course.data.course}>
-          <EditableLabelForm
-            submitAction={updateCourseAction}
-            state={updateCourse}
-            name="title"
-            roles={[Roles.TEACHER]}
-            createData={values => [courseId, values]}
-            value={course.data.course?.title}
-          />
+          <React.Fragment>
+            <EditableLabelForm
+              submitAction={updateCourseAction}
+              state={updateCourse}
+              name="title"
+              roles={[Roles.TEACHER]}
+              createData={values => [courseId, values]}
+              value={course.data.course?.title}
+            />
+          </React.Fragment>
         </IfElse>
       }
       renderHeaderEnd={(): JSX.Element => {
@@ -111,22 +131,36 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                   useModal={addStudentModal}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                 />
+                <ChooseCourseManagerModal
+                  managers={teacherList.data.teachers}
+                  onSuccess={addCourseManagerModal.closeModal}
+                  courseId={course.id}
+                  features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+                  useModal={addCourseManagerModal}
+                />
                 <div className="view-course__module-list">
-                  <LabelRow>
-                    <span className="meta">{course.modules.length} Modules</span>
-                    <Link to={routes.assignmentList.link} className="meta">
-                      {course.itemCount.assignments} Assignments
-                    </Link>
-                    <span className="meta">{course.itemCount.quizzes} Quizzes</span>
-                    <span className="meta">{course.itemCount.pages} Pages</span>
-                  </LabelRow>
+                  <Grid columns={2} justifyContent="space-between">
+                    <LabelRow>
+                      <span className="meta">{course.modules.length} Modules</span>
+                      <Link to={routes.assignmentList.link} className="meta">
+                        {course.itemCount.assignments} Assignments
+                      </Link>
+                      <span className="meta">{course.itemCount.quizzes} Quizzes</span>
+                      <span className="meta">{course.itemCount.pages} Pages</span>
+                    </LabelRow>
+                    <div style={{ justifySelf: 'end' }}>
+                      <Pill>
+                        Authored by - <b>{course.author.fullName}</b>
+                      </Pill>
+                    </div>
+                  </Grid>
                   <CourseModuleList course={course} />
                 </div>
               </div>
             );
           }}
         </WebComponent>
-        <CourseViewSidebar addStudentModal={addStudentModal} />
+        <CourseViewSidebar addStudentModal={addStudentModal} addCourseManagerModal={addCourseManagerModal} />
       </div>
     </Layout>
   );

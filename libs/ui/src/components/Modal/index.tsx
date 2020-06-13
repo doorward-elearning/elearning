@@ -113,12 +113,12 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
   onPositiveClick,
 }) => {
   const handleClick = (button: ModalButtons, e: MouseEvent): void => {
-    if (button === ModalFeatures.POSITIVE_BUTTON) {
-      onPositiveClick && onPositiveClick(e);
-    } else if (button === ModalFeatures.NEUTRAL_BUTTON) {
-      onNeutralClick && onNeutralClick(e);
-    } else if (button === ModalFeatures.NEGATIVE_BUTTON) {
-      onNegativeClick && onNegativeClick(e);
+    if (button === ModalFeatures.POSITIVE_BUTTON && onPositiveClick) {
+      onPositiveClick(e);
+    } else if (button === ModalFeatures.NEUTRAL_BUTTON && onNeutralClick) {
+      onNeutralClick(e);
+    } else if (button === ModalFeatures.NEGATIVE_BUTTON && onNegativeClick) {
+      onNegativeClick(e);
     }
   };
   return (

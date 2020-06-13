@@ -9,6 +9,7 @@ import { DBModel } from '@edudoor/common/models/DBModel';
 import { Organization } from '@edudoor/common/models/Organization';
 import { Role } from '@edudoor/common/models/Role';
 import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
+import { CourseManager } from './CourseManager';
 
 export class User extends Model implements DBModel {
   public id: string;
@@ -133,6 +134,12 @@ export default (sequelize: Sequelize) => {
       foreignKey: 'userId',
       as: 'groups',
       through: GroupMember,
+    });
+    User.belongsToMany(Course, {
+      foreignKey: 'managerId',
+      as: 'managedCourses',
+      through: CourseManager,
+      otherKey: 'courseId',
     });
     return User;
   };
