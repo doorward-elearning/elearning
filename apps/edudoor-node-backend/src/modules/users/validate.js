@@ -17,7 +17,6 @@ export const validateLogin = async req => {
 };
 
 export const validateRegistration = async req => {
-  const existing = await models.User.findOne({ where: { email: req.body.email } });
   const existingUsername = await models.User.findOne({ where: { username: req.body.username } });
 
   req
@@ -34,22 +33,16 @@ export const validateRegistration = async req => {
   req
     .checkBody('email')
     .notEmpty()
-    .withMessage('Email is required')
-    .custom(() => !existing)
-    .withMessage('User with this email already exists.');
+    .withMessage('Email is required');
 };
 
 export const validateCreateUser = exclude => async req => {
   let existing = await models.User.findOne({ where: { username: req.body.username || '' } });
-  let existingEmail = await models.User.findOne({ where: { email: req.body.email || '' } });
   const username = req.checkBody('username');
   const email = req.checkBody('email');
 
   if (existing && exclude && exclude.username === existing.username) {
     existing = null;
-  }
-  if (existingEmail && exclude && exclude.email === existingEmail.email) {
-    existingEmail = null;
   }
 
   username
@@ -57,11 +50,7 @@ export const validateCreateUser = exclude => async req => {
     .withMessage('Username is required')
     .custom(() => !existing)
     .withMessage('A user with this username already exist');
-  email
-    .notEmpty()
-    .withMessage('Email is required')
-    .custom(() => !existingEmail)
-    .withMessage('A user with this email already exists');
+  email.notEmpty().withMessage('Email is required');
 };
 
 export const validateUpdateAccount = async req => {
