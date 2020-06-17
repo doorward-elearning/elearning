@@ -9,7 +9,7 @@ const LiveClassrooms: React.FunctionComponent<LiveClassroomsProps> = (props): JS
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">Live Online Classrooms</h2>
             <p>
-              Create As Many Classrooms As you want
+              Create as Many Classrooms as You Want
             </p>
           </div>
         </div>
@@ -31,7 +31,7 @@ const LiveClassrooms: React.FunctionComponent<LiveClassroomsProps> = (props): JS
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h4 className="m-0"> Accessable from Any Device - Computer or Mobile</h4>
+                <h4 className="m-0"> Accessible from Any Device - Computer or Mobile</h4>
               </div>
             </div>
           </div>

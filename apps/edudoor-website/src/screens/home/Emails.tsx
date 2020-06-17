@@ -17,7 +17,7 @@ const Emails: React.FunctionComponent<EmailsProps> = (props): JSX.Element => {
             <img src="assets/images/postit-1975188_640.png" alt="Image" className="img-fluid" />
           </div>
           <div className="col-lg-4 ml-auto" data-aos="fade-up" data-aos-delay="200">
-            <h4 className="text-black mb-4">Personnel Email IDs are Useful for Offline Collaboration and Notification Services <br /><br /> You may send Emails to an Individual Student, A Batch, A Classroom, Or An Entire School, with One-Click </h4>
+            <h4 className="text-black mb-4">Personal Email ID are Useful for Offline Collaboration and Notification Services <br /><br /> You may send Emails to an Individual Student, A Batch, A Classroom, Or An Entire School, with One-Click </h4>
           </div>
         </div>
       </div>

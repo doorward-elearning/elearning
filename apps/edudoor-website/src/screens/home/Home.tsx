@@ -20,7 +20,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
                   </h1>
                   <br />
                   <p Style="color:white" className="mb-4" data-aos="fade-up" data-aos-delay="200">
-                    All Your Learning-Needs Under One Roof<br />Live Online Classrooms, Video Course Builder, Assignments, Assessments, Attendance, Projects, External Programs, Student Reports, Parents Access, Email IDs
+                    All Your Learning-Needs Under One Roof.<br />Live Online Classrooms, Video Course Builder, Assignments, Assessments, Attendance, Projects, External Programs, Student Reports, Parents Access, Email IDs
                   </p>
                 </div>
 
