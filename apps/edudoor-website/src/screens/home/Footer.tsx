@@ -6,7 +6,7 @@ const Footer: React.FunctionComponent<FooterProps> = (props): JSX.Element => {
       <div className="container">
         <div className="row">
           <div className="col-md-4">
-            <h3>About Edudoor</h3>
+            <h3>About Doorward</h3>
             <p>
               We are a startup based out in India and our mission is to help and promote enhanced learning habits.
             </p>

@@ -13,12 +13,12 @@ const ContactUs: React.FunctionComponent<ContactUsProps> = (props): JSX.Element 
               <b>BANGALORE</b><br />
               51, 3rd Cross Rd, Aswath Nagar, Marathahalli, Bengaluru, Karnataka 560037 <br />
               Phone: +91-8197408582 <br />
-              Email: info@edudoor.org
+              Email: info@doorward.tech
               <br /><br />
               <b>COCHIN</b><br />
               126A, Parayil, Anappara PO, Angamaly, Cochin - 683581 <br />
               Phone: +91-8197408582 <br />
-              Email: info@edudoor.org
+              Email: info@doorward.tech
               <br />
               <br />
               Alternatively you can fill and submit the below form and we will get back to you.

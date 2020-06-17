@@ -16,23 +16,17 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
               <div className="row align-items-center">
                 <div className="col-lg-6 mb-4">
                   <h1 data-aos="fade-up" data-aos-delay="100">
-                    India's Easiest Online Classroom Platform For Colleges and Schools.
+                    India's Easiest E-Learning Platform for All Kind of Schools and Colleges
                   </h1>
-                  <p className="mb-4" data-aos="fade-up" data-aos-delay="200">
-                    <b>
-                    No Setup Charges <br /> Free for Teachers <br /> Use FREE till your students are ready. <br />
-                    </b>
+                  <br />
+                  <p Style="color:white" className="mb-4" data-aos="fade-up" data-aos-delay="200">
+                    All Your Learning-Needs Under One Roof<br />Live Online Classrooms, Video Course Builder, Assignments, Assessments, Attendance, Projects, External Programs, Student Reports, Parents Access, Email IDs
                   </p>
                 </div>
 
                 <div className="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
                   <Panel style={{ padding: '2em', borderRadius: '10px' }}>
-                    <h2 style={{ color: '#cc33ff' }}>One-Click FREE Trial</h2>
-                    <h4 className="mb-4">
-                      <br />
-                      No credit cards required
-                      <br />
-                    </h4>
+                    <h2 style={{ color: '#855FF9' }}>Try Doorward Free</h2>
                     <FreeTrialForm
                       onSuccess={school => {
                         window.location.href =

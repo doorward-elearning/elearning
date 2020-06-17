@@ -7,7 +7,7 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <div className="site-logo mr-auto">
-            <a href="index.html">Edudoor</a>
+            <a href="index.html">Doorward</a>
           </div>
           <div className="mx-auto text-center">
             <nav className="site-navigation position-relative text-right" role="navigation">

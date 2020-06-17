@@ -6,7 +6,7 @@ const PricingHeader: React.FunctionComponent<PricingHeaderProps> = (props): JSX.
       <div className="container-fluid">
         <div className="d-flex align-items-center">
           <div className="site-logo mr-auto w-25">
-            <a href="/">Edudoor</a>
+            <a href="/">Doorward</a>
           </div>
 
           <div className="mx-auto text-center">

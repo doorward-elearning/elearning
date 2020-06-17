@@ -17,7 +17,7 @@ const FreeTrialForm: React.FunctionComponent<FreeTrialFormProps> = (props): JSX.
       state={state}
       onSuccess={() => props.onSuccess(state.data?.school)}
       features={[BasicFormFeatures.SAVE_BUTTON]}
-      positiveText="Try Edudoor"
+      positiveText="Try Now"
       form={form}
       enableSubmitButton
       initialValues={{ name: '', email: '', phoneNumber: '' }}

@@ -6,8 +6,8 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
       <div className="container">
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
-            <h2 className="section-title">Get Started in 30 Minutes</h2>
-            <p>Yes, you heard it right.! The initial setup takes 4 simple steps and 30 minutes time.!</p>
+            <h2 className="section-title">Get Started in 3 Easy Steps</h2>
+            <p>The initial setup takes 3 easy steps and 30 minutes time</p>
           </div>
         </div>
         <div className="row mb-5 align-items-center">
@@ -15,14 +15,12 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
             <img src="assets/images/jukan-tateisi-bJhT_8nbUA0-unsplash.jpg" alt="Image" className="img-fluid" />
           </div>
           <div className="col-lg-4 ml-auto" data-aos="fade-up" data-aos-delay="200">
-            <h2 className="text-black mb-4">4 simple steps to begin!!</h2>
-
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
               <span>
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">1. Upload an excel sheet with staff and student details.</h3>
+                <h4 className="m-0">1. Doorward will setup a Unique Website for your Institute.</h4>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -30,7 +28,7 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">2. You will receive Login Credentials of everyone in Email.</h3>
+                <h4 className="m-0">2. We will Create All Access Credentials for Your Teachers and Students.</h4>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -38,17 +36,9 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">
-                  3. Ask your Teachers Login and create Classrooms and Timetable for each classroom.
-                </h3>
-              </div>
-            </div>
-            <div className="d-flex align-items-center custom-icon-wrap mb-3">
-              <span>
-                <span className="icon icon-graduation-cap" />
-              </span>
-              <div>
-                <h3 className="m-0">4. Ask your students to Login and Join their respective classroom.</h3>
+                <h4 className="m-0">
+                  3. Get Access to All LMS Features Free. Pay Only when Your Students Are Ready and Comfortable. .
+                </h4>
               </div>
             </div>
           </div>
