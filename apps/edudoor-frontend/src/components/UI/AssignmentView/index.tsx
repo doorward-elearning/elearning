@@ -44,7 +44,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
               </IfElse>
               <IfElse condition={submission.submissionType === AssignmentSubmissionType.FILE_UPLOAD}>
                 <div>
-                  <span>{submission.file.name}</span>
+                  <span>{submission.file?.name}</span>
                   <Button
                     onClick={() => {
                       window.location.href = Api.fileURL(submission.submission, true);

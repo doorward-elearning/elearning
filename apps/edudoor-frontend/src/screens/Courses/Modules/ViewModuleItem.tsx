@@ -89,16 +89,22 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
         onClick: () => routes.navigate(routes.editModuleItem, params),
         disabled: editing,
       }}
-      header={Tools.str(item?.title)}
+      header={Tools.str(state.fetching ? '' : item?.title)}
     >
-      <WebComponent data={item} loading={course.fetching}>
+      <WebComponent data={item} loading={state.fetching} showRefreshingProgress>
         {(item): JSX.Element => {
           return (
             <React.Fragment>
               {module && (
                 <React.Fragment>
                   <IfElse condition={item.type === 'Page'}>
-                    <ViewPages module={module} editing={editing} params={params} item={item} />
+                    <ViewPages
+                      onEditSuccess={() => setEditing(false)}
+                      module={module}
+                      editing={editing}
+                      params={params}
+                      item={item}
+                    />
                   </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>
                     <EditableView

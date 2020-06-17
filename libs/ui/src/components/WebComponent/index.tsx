@@ -7,7 +7,6 @@ import NotFound from '../NotFound';
 import { PageProgressContext } from '../PageProgress';
 
 function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
-  const [refreshing, setRefreshing] = useState(false);
   const pageProgress = useContext(PageProgressContext);
   let hasItems = !!props.data;
   if (props.data instanceof Array) {
@@ -29,13 +28,8 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
     } else {
       pageProgress.setLoading(false);
     }
-  }, [props.loading, refreshing]);
+  }, [props.loading]);
 
-  useEffect(() => {
-    if (hasItems && props.data) {
-      setRefreshing(props.loading);
-    }
-  }, [props]);
   const loader = props.loader === undefined ? <Spinner height={30} width={30} /> : props.loader;
   const empty =
     props.empty === undefined ? (
@@ -49,10 +43,13 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
       <div
         className={classNames({
           'web-component__content': true,
-          refreshing,
+          refreshing: props.loading,
           inline: props.inline,
         })}
       >
+        <div className="web-component__refreshing">
+          <div>{loader}</div>
+        </div>
         <React.Fragment>{props.children(props.data)}</React.Fragment>
       </div>
     );
@@ -88,6 +85,7 @@ export interface WebComponentProps<T> extends EmptyProps {
   inline?: boolean;
   errors?: any;
   modelName?: string;
+  showRefreshingProgress?: boolean;
 }
 
 export default WebComponent;

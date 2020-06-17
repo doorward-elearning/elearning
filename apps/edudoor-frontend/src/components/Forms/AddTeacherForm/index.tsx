@@ -6,7 +6,7 @@ import AddUserFormLayout from '../AddUserFormLayout';
 import { createTeacherAction } from '../../../reducers/teachers/actions';
 
 const AddTeacherForm: React.FunctionComponent<AddTeacherFormProps> = props => {
-  return <AddUserFormLayout {...props} action={createTeacherAction} />;
+  return <AddUserFormLayout {...props} action={createTeacherAction} withPasswordField />;
 };
 
 export interface AddTeacherFormProps {

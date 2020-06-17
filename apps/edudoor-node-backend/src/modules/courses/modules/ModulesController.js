@@ -231,13 +231,23 @@ class ModulesController {
 
   static async submitAssignment(req) {
     const { body, user, params } = req;
-    const submission = await models.AssignmentSubmission.create({
-      studentId: user.id,
-      assignmentId: params.id,
-      submissionType: body.submissionType,
-      submission: body.submission,
-      resubmission: body.resubmission,
-    });
+    const submission = await models.AssignmentSubmission.create(
+      {
+        studentId: user.id,
+        assignmentId: params.id,
+        submissionType: body.submissionType,
+        submission: body.submission,
+        resubmission: body.resubmission,
+      },
+      {
+        include: [
+          {
+            model: models.File,
+            as: 'file',
+          },
+        ],
+      }
+    );
 
     return [201, { submission }, 'Assignment has been submitted.'];
   }

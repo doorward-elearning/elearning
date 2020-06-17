@@ -9,8 +9,9 @@ import { Roles } from '@edudoor/ui/components/RolesManager';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { Module } from '@edudoor/common/models/Module';
 import { ModuleItem } from '@edudoor/common/models/ModuleItem';
+import Panel from '@edudoor/ui/components/Panel';
 
-const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params }) => {
+const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params, ...props }) => {
   const [pages] = useState(
     module.items
       .filter((item: ModuleItem) => item.type === 'Page')
@@ -19,8 +20,10 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
   const [page, setPage] = useState();
 
   useEffect(() => {
-    setPage(pages.findIndex((moduleItem: ModuleItem) => moduleItem.id === item.id) + 1);
-  }, [pages, item]);
+    if (item) {
+      setPage(pages.findIndex((moduleItem: ModuleItem) => moduleItem.id === item.id) + 1);
+    }
+  }, [item]);
 
   const routes = useRoutes();
   const form = useForm();
@@ -33,24 +36,32 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
             useForm={form}
             module={module}
             page={item}
-            onSuccess={() => {}}
+            onSuccess={props.onEditSuccess}
             onCancel={() => routes.navigate(routes.viewModuleItem, params)}
           />
         }
-        viewerView={<DraftHTMLContent content={item.content} />}
+        viewerView={
+          <div>
+            <Panel>
+              <DraftHTMLContent content={item.content} />
+            </Panel>
+          </div>
+        }
         creator={[Roles.TEACHER]}
         viewer={[Roles.STUDENT]}
       />
-      <Pagination
-        page={page}
-        numPages={pages.length}
-        onChangePage={page => {
-          routes.navigate(editing ? routes.editModuleItem : routes.viewModuleItem, {
-            ...params,
-            itemId: pages[page - 1].id,
-          });
-        }}
-      />
+      {page > 0 && (
+        <Pagination
+          page={page}
+          numPages={pages.length}
+          onChangePage={page => {
+            routes.navigate(editing ? routes.editModuleItem : routes.viewModuleItem, {
+              ...params,
+              itemId: pages[page - 1].id,
+            });
+          }}
+        />
+      )}
     </div>
   );
 };
@@ -60,6 +71,7 @@ export interface ViewPagesProps {
   editing: boolean;
   params: { [name: string]: string | undefined };
   item: ModuleItem;
+  onEditSuccess: () => void;
 }
 
 export default ViewPages;

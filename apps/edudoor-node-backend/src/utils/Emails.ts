@@ -61,12 +61,30 @@ class Emails {
     const organization = await models.Organization.findByPk(teacher.organizationId);
 
     return EmailSender.sendMail('teacher_new_account.pug', teacher.email, `${organization.name} new teacher account`, {
-      username: teacher.fullName,
+      username: teacher.username,
+      fullName: teacher.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
         Tools.encrypt(teacher.email)
       )}`,
     });
+  }
+
+  static async teacherCreatedWithPassword(teacher, origin, password) {
+    const organization = await models.Organization.findByPk(teacher.organizationId);
+
+    return EmailSender.sendMail(
+      'teacher_new_account_with_password.pug',
+      teacher.email,
+      `${organization.name} new teacher account`,
+      {
+        username: teacher.username,
+        fullName: teacher.fullName,
+        organization: organization.name,
+        password,
+        link: `${origin}/login/`,
+      }
+    );
   }
 
   static schoolCreated(school) {

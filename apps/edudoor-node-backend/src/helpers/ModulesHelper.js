@@ -1,3 +1,5 @@
+import models from '../database/models';
+
 class ModulesHelper {
   static async updateModule(module) {
     const result = await models.Module.update(

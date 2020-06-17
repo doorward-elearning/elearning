@@ -3,6 +3,18 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
 
+  &__content {
+    position: relative;
+
+    &.refreshing {
+      .web-component {
+        &__refreshing {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
   &__spinner {
     display: grid;
     place-items: center;
@@ -11,6 +23,29 @@
     grid-row: 1/ 1;
     grid-column: 1/1;
   }
+
+  &__refreshing {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.5);
+    display: grid;
+    opacity: 0;
+    pointer-events: none;
+    justify-content: center;
+    transition: 0.5s opacity;
+
+    > div {
+      max-height: 200px;
+      height: 100%;
+      display: grid;
+      align-items: center;
+    }
+  }
+
 
   &__empty {
     opacity: 1;
