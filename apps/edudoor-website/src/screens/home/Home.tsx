@@ -16,7 +16,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
               <div className="row align-items-center">
                 <div className="col-lg-6 mb-4">
                   <h1 data-aos="fade-up" data-aos-delay="100">
-                    India's Easiest E-Learning Platform for All Kind of Schools and Colleges
+                    India's Easiest E-Learning Platform for All Institutes
                   </h1>
                   <br />
                   <p Style="color:white" className="mb-4" data-aos="fade-up" data-aos-delay="200">
