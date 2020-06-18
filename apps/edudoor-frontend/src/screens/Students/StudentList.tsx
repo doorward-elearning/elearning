@@ -13,11 +13,13 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
   const studentList = useSelector((state: State) => state.students.studentList);
   const routes = useRoutes();
   const fetch = useAction(fetchStudentListAction);
+  const total = studentList.data.meta?.pagination?.total;
 
   return (
     <Layout
       {...props}
       header="All Students"
+      headerBadge={total === undefined ? null : `${total}`}
       actionBtnProps={{
         text: 'Add Student',
         onClick: (): void => props.history.push(routes.routes.newStudent.link),

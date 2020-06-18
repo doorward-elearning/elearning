@@ -29,6 +29,7 @@ import useOrganization from '@edudoor/ui/hooks/useOrganization';
 import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@edudoor/ui/components/Row';
 import useLogo from '../../hooks/useLogo';
+import Badge from '@edudoor/ui/components/Badge';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -51,6 +52,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   location,
   children,
   header = '',
+  headerBadge,
   className: appendClasses = '',
   renderHeaderEnd,
   features = [],
@@ -164,7 +166,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                       <Header size={1} className="ed-page-layout__header--title">
                         <IfElse condition={header === '--'}>
                           <ContentSpinner width={20} height={20} />
-                          <React.Fragment>{header}</React.Fragment>
+                          <Row>
+                            <React.Fragment>{header}</React.Fragment>
+                            {headerBadge && <Badge>{headerBadge}</Badge>}
+                          </Row>
                         </IfElse>
                       </Header>
                     </Feature>
@@ -202,6 +207,7 @@ export interface LayoutProps extends PageComponent {
   navFeatures?: Array<NavbarFeatures | string | typeof NavbarFeatures>;
   features?: Array<LayoutFeatures | string | typeof LayoutFeatures>;
   header?: string | JSX.Element;
+  headerBadge?: string;
   actionBtnProps?: ActionButtonProps;
   className?: string;
   noNavBar?: boolean;
