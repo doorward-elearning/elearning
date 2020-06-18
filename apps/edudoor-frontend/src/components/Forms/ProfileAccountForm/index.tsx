@@ -7,9 +7,10 @@ import { State } from '../../../store';
 import { updateAccountInformationAction } from '../../../reducers/users/actions';
 import useFormSubmit from '@edudoor/ui/hooks/useFormSubmit';
 import profileAccountForm from './validation';
-import BasicForm, { BasicFormFeatures } from '../BasicForm';
+import BasicForm, { BasicFormFeatures, CreateData } from '../BasicForm';
 import { User } from '@edudoor/common/models/User';
-import { ActionCreator } from '@edudoor/ui/reducers/reducers';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
+import withContext from '@edudoor/ui/hoc/withContext';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {
   const initialValues: ProfileAccountFormState = {
@@ -37,7 +38,8 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
       form={props.form}
       initialValues={initialValues}
       editable={props.editing}
-      state={state}
+      state={props.state || state}
+      createData={props.createData}
       onSuccess={stopEditing}
       features={features}
       onCancel={stopEditing}
@@ -61,6 +63,12 @@ export interface ProfileAccountFormProps {
   editing: boolean;
   stopEditing: () => void;
   submitAction?: ActionCreator;
+  state?: WebComponentState<any>;
+  createData?: CreateData<ProfileAccountFormState>
 }
 
-export default ProfileAccountForm;
+const { Context, ContextConsumer } = withContext(ProfileAccountForm, {});
+
+export const ProfileAccountFormContext = Context;
+
+export default ContextConsumer;

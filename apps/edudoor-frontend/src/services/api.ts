@@ -96,6 +96,9 @@ const Api = {
       changePassword: (id: string, body: ChangePasswordBody): Promise<ApiResponse> => {
         return POST(`/users/students/${id}/changePassword`, body);
       },
+      update: (id: string, body: AccountDetailsBody): Promise<StudentResponse> => {
+        return PUT(`/users/students/${id}`, body);
+      },
     },
     teachers: {
       list: (query: string): Promise<TeacherListResponse> => {

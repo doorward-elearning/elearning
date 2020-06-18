@@ -6,14 +6,16 @@ import useForm from '@edudoor/ui/hooks/useForm';
 import { UserCardContext, UserCardProps } from '../../user/UserCard';
 import { ChangePasswordFormContext, ChangePasswordFormProps } from '../../Forms/ChangePasswordForm';
 import { OptionalKeys } from '@edudoor/common/types';
-import { changeStudentsPassword } from '../../../reducers/students/actions';
+import { changeStudentsAccountInformationAction, changeStudentsPassword } from '../../../reducers/students/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
+import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
   const state = useSelector((state: State) => state.students.changePassword);
+  const changeDetails = useSelector((state: State) => state.students.changeAccountDetails);
 
   const userCardContext: OptionalKeys<UserCardProps> = {
     changePassword: true,
@@ -35,9 +37,17 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
   return (
     <div className="ed-student__profile_view">
       <UserCardContext value={userCardContext}>
-        <ChangePasswordFormContext value={changePasswordForm}>
-          <UserProfileCard form={form} user={props.student} />
-        </ChangePasswordFormContext>
+        <ProfileAccountFormContext
+          value={{
+            submitAction: changeStudentsAccountInformationAction,
+            state: changeDetails,
+            createData: values => [props.student.id, values],
+          }}
+        >
+          <ChangePasswordFormContext value={changePasswordForm}>
+            <UserProfileCard form={form} user={props.student} editable />
+          </ChangePasswordFormContext>
+        </ProfileAccountFormContext>
       </UserCardContext>
     </div>
   );
