@@ -1,16 +1,23 @@
-import { CallHandler, ExecutionContext, HttpException, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
+import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { ResponseBuilder } from '@edudoor/backend/api/ResponseBuilder';
 
-export interface ApiResponse<T = any> {
+export interface PaginationMetaData {
+  pagination: {
+    pages: number;
+    total: number;
+    page: number;
+  };
+}
+export interface ApiResponse<T = any, Meta extends PaginationMetaData = any> {
   success: boolean;
   statusCode: number;
   timestamp: Date;
   data?: T;
   message?: string;
   errors?: Array<{ [name: string]: string }>;
-  meta?: any;
+  meta?: Meta;
 }
 
 @Injectable()

@@ -9,7 +9,7 @@ import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
 import useRoutes from '../../hooks/useRoutes';
 
 const Dashboard: React.FunctionComponent<DashboardProps> = props => {
-  const query = useQueryParams();
+  const { query } = useQueryParams();
   const routes = useRoutes();
   return (
     <Layout

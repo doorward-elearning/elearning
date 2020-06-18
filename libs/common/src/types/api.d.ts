@@ -3,3 +3,8 @@ export interface CourseModuleStatistics {
   quizzes: number;
   pages: number;
 }
+
+export interface PaginationQuery {
+  page?: number;
+  limit?: number;
+}

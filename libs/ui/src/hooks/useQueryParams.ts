@@ -1,10 +1,30 @@
-import { useLocation } from 'react-router';
-import queryString from 'querystring';
+import { useHistory, useLocation } from 'react-router';
+import queryString, { ParsedUrlQuery } from 'querystring';
 
-const useQueryParams = () => {
+export interface UseQueryParams<T> {
+  query: T;
+  updateLocation: (params: ParsedUrlQuery) => void;
+}
+
+const useQueryParams = <T extends ParsedUrlQuery = any>(): UseQueryParams<T> => {
   const location = useLocation();
+  const history = useHistory();
 
-  return queryString.parse(location.search.substring(1));
+  const query = queryString.parse(location.search.substring(1));
+
+  return {
+    query: query as T,
+    updateLocation: params => {
+      history.push(
+        location.pathname +
+          '?' +
+          queryString.stringify({
+            ...query,
+            ...params,
+          })
+      );
+    },
+  };
 };
 
 export default useQueryParams;

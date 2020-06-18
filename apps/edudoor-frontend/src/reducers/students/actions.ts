@@ -7,8 +7,10 @@ import {
 } from './types';
 import { AccountDetailsBody, ChangePasswordBody, CreateStudentBody } from '../../services/models/requestBody';
 import queryString from 'querystring';
+import { PaginationQuery } from '@edudoor/common/types/api';
+import { ActionCreator } from '@edudoor/ui/reducers/reducers';
 
-export const fetchStudentListAction = (query?: { notRegisteredTo?: number }) => ({
+export const fetchStudentListAction: ActionCreator = (query?: { notRegisteredTo?: number } & PaginationQuery) => ({
   type: FETCH_STUDENT_LIST,
   payload: [queryString.stringify(query)],
 });

@@ -3,6 +3,7 @@ import UserController from '../UserController';
 import models from '../../../database/models';
 import Emails from '../../../utils/Emails';
 import bcrypt from 'bcrypt';
+import { User } from '../../../../../../libs/common/src/models/User';
 
 class StudentController {
   static async createStudent(req) {
@@ -51,8 +52,8 @@ class StudentController {
     return [200, { student }, `${student.username} has been updated successfully`];
   }
 
-  static async getAllStudents() {
-    const students = await UserController.findByRole(roles.STUDENT, {
+  static async getAllStudents(req) {
+    const result = await UserController.paginate<User>(req, roles.STUDENT, {
       include: [
         {
           model: models.Course,
@@ -62,7 +63,7 @@ class StudentController {
       ],
     });
 
-    return [200, { students }];
+    return [200, { students: result.model }, undefined, { pagination: result.pagination }];
   }
 
   static async getStudent(req) {

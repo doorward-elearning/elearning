@@ -10,6 +10,7 @@ import { Organization } from '@edudoor/common/models/Organization';
 import { Role } from '@edudoor/common/models/Role';
 import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
 import { CourseManager } from './CourseManager';
+const sequelizePaginate = require('sequelize-paginate');
 
 export class User extends Model implements DBModel {
   public id: string;
@@ -141,6 +142,8 @@ export default (sequelize: Sequelize) => {
       through: CourseManager,
       otherKey: 'courseId',
     });
+
+    sequelizePaginate.paginate(User);
     return User;
   };
 };
