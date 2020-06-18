@@ -2,8 +2,8 @@ import {
   CREATE_ACCOUNT_PASSWORD,
   FORGOT_ACCOUNT_PASSWORD,
   GET_CURRENT_USER,
-  UPDATE_ACCOUNT_INFORMATION,
-  UPDATE_ACCOUNT_PASSWORD,
+  UPDATE_MY_ACCOUNT_INFORMATION,
+  UPDATE_MY_ACCOUNT_PASSWORD,
 } from './types';
 import {
   AccountDetailsBody,
@@ -18,12 +18,12 @@ export const fetchCurrentUserAction = (): Action => ({
 });
 
 export const updateAccountInformationAction = (body: AccountDetailsBody): Action => ({
-  type: UPDATE_ACCOUNT_INFORMATION,
+  type: UPDATE_MY_ACCOUNT_INFORMATION,
   payload: [body],
 });
 
 export const updateAccountPasswordAction = (body: ChangePasswordBody): Action => ({
-  type: UPDATE_ACCOUNT_PASSWORD,
+  type: UPDATE_MY_ACCOUNT_PASSWORD,
   payload: [body],
 });
 

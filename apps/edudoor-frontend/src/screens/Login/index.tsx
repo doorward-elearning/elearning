@@ -7,7 +7,6 @@ import { clearLoginAction } from '../../reducers/login/actions';
 import { State } from '../../store';
 import LoginForm from '../../components/Forms/LoginForm';
 import useRoutes from '../../hooks/useRoutes';
-import CONSTANTS from '../../assets/constants';
 import { Link } from 'react-router-dom';
 import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
 import { ROUTES } from '../../routes/routes';
@@ -26,7 +25,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const { authenticated, authenticate } = useAuth();
   const clearLogin = useAction(clearLoginAction);
   const organization = useOrganization();
-  const query = useQueryParams();
+  const { query } = useQueryParams();
 
   const routes = useRoutes();
   const login = useSelector((state: State) => state.login.loginUser);

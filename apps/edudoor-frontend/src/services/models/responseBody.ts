@@ -10,7 +10,7 @@ import { Organization } from '@edudoor/common/models/Organization';
 import { File } from '@edudoor/common/models/File';
 import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
 import { School } from '@edudoor/common/models/School';
-import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
+import { ApiResponse, PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -34,6 +34,7 @@ export interface CourseModuleResponse extends ApiResponse {
 
 export interface StudentListResponse extends ApiResponse {
   students: Array<Student>;
+  meta: PaginationMetaData;
 }
 
 export interface StudentResponse extends ApiResponse {

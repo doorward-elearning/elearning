@@ -49,6 +49,7 @@ const base = {
   '--button-warning-color': '#000000',
   '--submitting-spinner-background': 'rgba(255, 255, 255, .4)',
   '--tabLayout--header-height': '40px',
+  '--refreshing-bg': 'rgba(255, 255, 255, .2)',
   logo: baseLogo,
 };
 
@@ -70,6 +71,7 @@ const dark: Theme = {
   '--modal-background': 'rgba(0, 0, 0, .5)',
   '--submitting-spinner-background': 'rgba(0, 0, 0, .4)',
   '--accent': '#c76a00',
+  '--refreshing-bg': 'rgba(0, 0, 0, .1)',
   logo: darkLogo,
 };
 

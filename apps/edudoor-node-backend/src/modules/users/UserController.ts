@@ -7,11 +7,13 @@ import Tools from '../../utils/Tools';
 import Emails from '../../utils/Emails';
 import * as Roles from '../../utils/roles';
 import OrganizationUtils from '../../utils/OrganizationUtils';
+import { PaginateResult } from 'sequelize-paginate';
+import { PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
 
 class UserController {
   static async login(req) {
     const { username } = req.body;
-    const user = await models.User.findOne({ where: { username }, include: UserInclude });
+    const user: any = await models.User.findOne({ where: { username }, include: UserInclude });
     if (!user) {
       return [404, undefined, 'The user does not exist'];
     }
@@ -20,8 +22,7 @@ class UserController {
   }
 
   static async register(req) {
-    const organization = OrganizationUtils.get();
-    const { user } = await UserController.createUser(req, Roles.STUDENT, organization.id);
+    const { user } = await UserController.createUser(req, Roles.STUDENT);
 
     Emails.selfRegistration(user);
 
@@ -41,7 +42,7 @@ class UserController {
     if (body.password) {
       body.password = bcrypt.hashSync(body.password, +process.env.BCRYPT_PASSWORD_SALT);
     }
-    let user = await models.User.create({
+    let user: any = await models.User.create({
       ...body,
       organizationId: OrganizationUtils.getId(),
     });
@@ -78,11 +79,29 @@ class UserController {
     };
   }
 
+  static async paginate<T = any>(req, role, options = {}): Promise<{ model: Array<T> } & PaginationMetaData> {
+    const paginationOptions = {
+      page: req.query.page || 1,
+      paginate: req.query.limit || 10,
+      ...options,
+    };
+    const { docs, pages, total } = await UserController.findByRole<PaginateResult<T>>(
+      role,
+      paginationOptions,
+      'paginate'
+    );
+
+    return {
+      model: docs,
+      pagination: { pages, total, page: paginationOptions.page },
+    };
+  }
+
   static async findOneByRole(role, options = {}) {
     return UserController.findByRole(role, options, 'findOne');
   }
 
-  static async findByRole(role, options = {}, method = 'findAll') {
+  static async findByRole<T = any>(role, options: any = {}, method = 'findAll'): Promise<T> {
     const include = _.unionBy(
       options.include || [],
       [

@@ -43,7 +43,7 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
       <div
         className={classNames({
           'web-component__content': true,
-          refreshing: props.loading,
+          refreshing: props.loading && props.showRefreshingProgress,
           inline: props.inline,
         })}
       >

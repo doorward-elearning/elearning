@@ -1,6 +1,6 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
-import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
+import { ApiResponse, PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
 
 export type SagaFunction = () => IterableIterator<any>;
 
@@ -17,6 +17,7 @@ export interface Action extends ReduxAction {
 
 export type ActionCreator<T = any[]> = (...args: T) => Action;
 
+
 export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 
 export interface WebComponentState<T> {
@@ -29,6 +30,8 @@ export interface WebComponentState<T> {
   errors: ApiError;
   failed: boolean;
 }
+
+export interface PaginatedWebComponentState<T = any> extends WebComponentState<T & { meta: PaginationMetaData }> {}
 
 export interface ApiSagaMiddleware<T extends ApiResponse> {
   before?: (...args: Array<any>) => Array<any>;

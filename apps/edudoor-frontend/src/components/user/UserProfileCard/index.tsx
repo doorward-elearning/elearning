@@ -21,7 +21,7 @@ const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, 
           <Card.Header>
             <Header size={2}>Account Information</Header>
             <IfElse condition={!editingAccount && props.editable}>
-              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} />
+              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} title="Edit" />
             </IfElse>
           </Card.Header>
           <Card.Body>

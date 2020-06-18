@@ -2,8 +2,8 @@ import {
   CREATE_ACCOUNT_PASSWORD,
   FORGOT_ACCOUNT_PASSWORD,
   GET_CURRENT_USER,
-  UPDATE_ACCOUNT_INFORMATION,
-  UPDATE_ACCOUNT_PASSWORD
+  UPDATE_MY_ACCOUNT_INFORMATION,
+  UPDATE_MY_ACCOUNT_PASSWORD
 } from './types';
 import Api from '../../services/api';
 import { LOGIN_USER, REGISTER_USER } from '../login/types';
@@ -15,7 +15,7 @@ const user = reducerApiAction({
   reducer: (state, action) => {
     if (
       action.type === `${LOGIN_USER}_SUCCESS` ||
-      action.type === `${UPDATE_ACCOUNT_INFORMATION}_SUCCESS` ||
+      action.type === `${UPDATE_MY_ACCOUNT_INFORMATION}_SUCCESS` ||
       action.type === `${REGISTER_USER}_SUCCESS`
     ) {
       return {
@@ -30,12 +30,12 @@ const user = reducerApiAction({
 });
 
 const accountInformation = reducerApiAction({
-  action: UPDATE_ACCOUNT_INFORMATION,
+  action: UPDATE_MY_ACCOUNT_INFORMATION,
   api: Api.users.profile.updateAccount
 });
 
 const changePassword = reducerApiAction({
-  action: UPDATE_ACCOUNT_PASSWORD,
+  action: UPDATE_MY_ACCOUNT_PASSWORD,
   api: Api.users.profile.changePassword
 });
 

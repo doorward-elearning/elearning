@@ -85,9 +85,11 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
   );
 }
 
+export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
+
 export interface BasicFormProps<T, A extends (...args: any[]) => Action, W = any> extends FormProps<T> {
   submitAction: A;
-  createData?: (values: T) => any;
+  createData?: CreateData<T>;
   resetOnSubmit?: boolean;
   onSuccess?: (result?: W) => void;
   state: WebComponentState<W>;
