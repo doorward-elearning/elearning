@@ -1,5 +1,7 @@
 import { Module } from '@edudoor/common/models/Module';
 import { AssignmentSubmissionType, ModuleItemTypes } from '@edudoor/common/models';
+import { PaginationQuery } from '@edudoor/common/types/api';
+import { ParsedUrlQuery } from 'querystring';
 
 export interface LoginBody {
   username: string;
@@ -94,4 +96,10 @@ export interface CreateClassroomBody {
 
 export interface CreateCourseManagerBody {
   managerId: string;
+}
+
+export interface PaginationBody extends PaginationQuery, ParsedUrlQuery {}
+
+export interface ListStudentsBody {
+  notRegisteredTo?: string;
 }

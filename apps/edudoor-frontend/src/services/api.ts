@@ -13,7 +13,9 @@ import {
   CreateStudentBody,
   CreateTeacherBody,
   ForgotPasswordBody,
+  ListStudentsBody,
   LoginBody,
+  PaginationBody,
   RegisterStudentsBody,
   RegistrationBody,
   SubmitAssignmentBody,
@@ -84,8 +86,8 @@ const Api = {
       },
     },
     students: {
-      list: (query: string): Promise<StudentListResponse> => {
-        return GET('/users/students?' + query);
+      list: (pagination?: PaginationBody, query?: ListStudentsBody): Promise<StudentListResponse> => {
+        return GET('/users/students', { ...(pagination || {}), ...(query || {}) });
       },
       create: (body: CreateStudentBody): Promise<StudentResponse> => {
         return POST('/users/students', body);

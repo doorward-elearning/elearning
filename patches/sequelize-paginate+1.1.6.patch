@@ -1,0 +1,16 @@
+diff --git a/node_modules/sequelize-paginate/src/index.js b/node_modules/sequelize-paginate/src/index.js
+index 1374b3c..edda9e1 100644
+--- a/node_modules/sequelize-paginate/src/index.js
++++ b/node_modules/sequelize-paginate/src/index.js
+@@ -45,9 +45,9 @@ class SequelizePaginate {
+       paginate = 25,
+       ...params
+     } = {}) {
+-      const options = Object.assign({}, params)
++      const options = {...params}
+       const countOptions = Object.keys(options).reduce((acc, key) => {
+-        if (!['order', 'attributes', 'include'].includes(key)) {
++        if (!['order', 'attributes'].includes(key)) {
+           // eslint-disable-next-line security/detect-object-injection
+           acc[key] = options[key]
+         }

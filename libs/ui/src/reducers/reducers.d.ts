@@ -1,6 +1,7 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
 import { ApiResponse, PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
+import { PaginationQuery } from '@edudoor/common/types/api';
 
 export type SagaFunction = () => IterableIterator<any>;
 
@@ -13,10 +14,10 @@ export interface Action extends ReduxAction {
   showSuccessToast?: boolean;
   showErrorToast?: boolean;
   statusCode?: number;
+  pagination?: PaginationQuery;
 }
 
 export type ActionCreator<T = any[]> = (...args: T) => Action;
-
 
 export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 

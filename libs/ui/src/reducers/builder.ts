@@ -18,6 +18,7 @@ import objectHash from 'object-hash';
 import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
 import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
+import queryString from 'querystring';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',
@@ -33,7 +34,11 @@ export const webComponentState: WebComponentState<any> = {
 function simpleReducer<T extends WebComponentState<any>>(initialState: T, actionType: string): Reducer<T, Action> {
   return (state: T = initialState, action: Action): T => {
     if (action.type === actionType) {
-      const hash = objectHash(action);
+      // avoid hashing pagination
+      const hashValue = { ...action };
+      delete hashValue.pagination;
+
+      const hash = objectHash(hashValue);
 
       return {
         ...state,
@@ -104,6 +109,9 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
     try {
       if (middleware && middleware.before) {
         args = middleware.before(args);
+      }
+      if (action.pagination) {
+        args = [{ ...action.pagination }, ...args];
       }
       const response: AxiosResponse<T> | undefined = yield call(endpoint, ...args);
       if (response) {

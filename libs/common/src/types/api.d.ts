@@ -5,6 +5,6 @@ export interface CourseModuleStatistics {
 }
 
 export interface PaginationQuery {
-  page?: number;
-  limit?: number;
+  page?: string;
+  limit?: string;
 }

@@ -1,8 +1,8 @@
 export type ApiCall<T> = (...args: any[]) => Promise<T>;
 
-export type ApiError = {
+export interface ApiError {
   message?: string;
   errors?: {
     [name: string]: string;
   };
-};
+}

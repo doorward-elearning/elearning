@@ -1,5 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Tools from '@edudoor/common/utils/Tools';
+import { ParsedUrlQuery } from 'querystring';
+import * as queryString from 'querystring';
 
 const service = axios.create();
 
@@ -17,6 +19,10 @@ export default class ApiRequest {
     service.defaults.baseURL = url;
   }
 
+  public static createQueryUrl(url: string, query?: ParsedUrlQuery) {
+    return `${url}${query ? '?' : ''}${query ? queryString.stringify(query) : ''}`;
+  }
+
   public static setHeader(key: string, value: any): void {
     service.defaults.headers[key] = value;
   }
@@ -27,19 +33,37 @@ export default class ApiRequest {
     }
   }
 
-  public static GET<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
-    return service.get(url, config);
+  public static GET<T = any, R = AxiosResponse<T>>(
+    url: string,
+    query?: ParsedUrlQuery,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    return service.get(ApiRequest.createQueryUrl(url, query), config);
   }
 
-  public static POST<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
-    return service.post(url, data, config);
+  public static POST<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    query?: ParsedUrlQuery,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    return service.post(ApiRequest.createQueryUrl(url, query), data, config);
   }
 
-  public static PUT<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
-    return service.put(url, data, config);
+  public static PUT<T = any, R = AxiosResponse<T>>(
+    url: string,
+    data?: any,
+    query?: ParsedUrlQuery,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    return service.put(ApiRequest.createQueryUrl(url, query), data, config);
   }
 
-  public static DELETE<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
-    return service.delete(url, config);
+  public static DELETE<T = any, R = AxiosResponse<T>>(
+    url: string,
+    query?: ParsedUrlQuery,
+    config?: AxiosRequestConfig
+  ): Promise<R> {
+    return service.delete(ApiRequest.createQueryUrl(url, query), config);
   }
 }
