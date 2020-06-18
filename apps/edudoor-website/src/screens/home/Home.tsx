@@ -16,11 +16,11 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
               <div className="row align-items-center">
                 <div className="col-lg-6 mb-4">
                   <h1 data-aos="fade-up" data-aos-delay="100">
-                    India's Easiest E-Learning Platform for All Institutes
+                    India's Easiest Learning Platform with Live Classrooms
                   </h1>
                   <br />
                   <p Style="color:white" className="mb-4" data-aos="fade-up" data-aos-delay="200">
-                    All Your Learning-Needs Under One Roof.<br />Live Online Classrooms, Video Course Builder, Assignments, Assessments, Attendance, Projects, External Programs, Student Reports, Parents Access, Email IDs
+                    Uninterrupted Live Classrooms at 2G Speed. <br /> <br /> Live Classrooms, Recordings, Assignments, Assessments, Attendance, Projects, Reports, Parents, Email IDs
                   </p>
                 </div>
 

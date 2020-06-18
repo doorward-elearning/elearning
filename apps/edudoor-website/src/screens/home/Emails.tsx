@@ -6,7 +6,7 @@ const Emails: React.FunctionComponent<EmailsProps> = (props): JSX.Element => {
       <div className="container">
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
-            <h2 className="section-title">Email ID Services student@school.com</h2>
+            <h2 className="section-title">Email ID Services student@institute.com</h2>
             <p>
               Every Staff, Teacher, and Student gets a Personnel email ID.
             </p>

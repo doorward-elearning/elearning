@@ -23,13 +23,28 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
                   </a>
                 </li>
                 <li>
-                  <a href="#email-section" className="nav-link">
-                    Email IDs
+                  <a href="#college-section" className="nav-link">
+                    Colleges
+                  </a>
+                </li>
+                <li>
+                  <a href="#k12-section" className="nav-link">
+                    K-12
+                  </a>
+                </li>
+                <li>
+                  <a href="#corporate-section" className="nav-link">
+                    Corporates
                   </a>
                 </li>
                 <li>
                   <a href="#lms-section" className="nav-link">
                     LMS
+                  </a>
+                </li>
+                <li>
+                  <a href="#email-section" className="nav-link">
+                    Email IDs
                   </a>
                 </li>
                 <li>
@@ -40,11 +55,6 @@ const Header: React.FunctionComponent<HeaderProps> = (props): JSX.Element => {
                 <li>
                   <a href="#about-section" className="nav-link">
                     About
-                  </a>
-                </li>
-                <li>
-                  <a href="#corporate-section" className="nav-link">
-                    Corporates
                   </a>
                 </li>
               </ul>

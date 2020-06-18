@@ -18,12 +18,28 @@ const LiveClassrooms: React.FunctionComponent<LiveClassroomsProps> = (props): JS
             <img src="assets/images/undraw_teaching.svg" alt="Image" className="img-fluid" />
           </div>
           <div className="col-lg-4 mr-auto order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
+          <div className="d-flex align-items-center custom-icon-wrap mb-3">
+            <span>
+              <span className="icon icon-graduation-cap" />
+            </span>
+            <div>
+              <h3 className="m-0"> Uninterrupted Live Classrooms at 2G Speed. Perfect for Indian Schools. </h3>
+            </div>
+          </div>
+          <div className="d-flex align-items-center custom-icon-wrap mb-3">
+            <span>
+              <span className="icon icon-graduation-cap" />
+            </span>
+            <div>
+              <h3 className="m-0"> Easiest Classroom! Starts in One Click</h3>
+            </div>
+          </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
               <span>
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h4 className="m-0"> Live Online Classrooms Features Audio, Video, ScreenSharing, Chat, Whiteboard etc</h4>
+                <h3 className="m-0"> Features Audio, Video, ScreenSharing, Chat, Whiteboard</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -31,7 +47,7 @@ const LiveClassrooms: React.FunctionComponent<LiveClassroomsProps> = (props): JS
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h4 className="m-0"> Accessible from Any Device - Computer or Mobile</h4>
+                <h3 className="m-0"> Accessible from Computer or Mobile</h3>
               </div>
             </div>
           </div>

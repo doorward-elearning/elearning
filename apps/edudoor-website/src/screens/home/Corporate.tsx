@@ -6,7 +6,7 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
       <div className="container">
         <div className="row mb-5 justify-content-center">
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
-            <h2 className="section-title">Solutions for Corporates</h2>
+            <h2 className="section-title">For Corporates</h2>
             <p>
               Our platform allow you to conduct your Employee training such as Skills Development, Onboarding elegantly.
               A highly interactive learning portal that allow your Employee to take self paced courses and
@@ -16,11 +16,9 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
         </div>
         <div className="row mb-5 align-items-center">
           <div className="col-lg-7 mb-5" data-aos="fade-up" data-aos-delay="100">
-            <img src="assets/images/undraw_youtube_tutorial.svg" alt="Image" className="img-fluid" />
+            <iframe width="504" height="283.5" src="https://www.youtube.com/embed/64yK8L99B-Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
           <div className="col-lg-4 ml-auto" data-aos="fade-up" data-aos-delay="200">
-            <h2 className="text-black mb-4">Groom Your Employees</h2>
-
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
               <span>
                 <span className="icon icon-graduation-cap"/>

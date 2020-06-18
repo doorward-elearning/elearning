@@ -12,6 +12,8 @@ import Lms from './LMS';
 import Setup from './Setup';
 import Pricing from './Pricing';
 import Corporate from './Corporate';
+import K12 from './K12';
+import College from './College'
 
 const HomePage: React.FunctionComponent<HomePageProps> = (props): JSX.Element => {
   return (
@@ -20,11 +22,13 @@ const HomePage: React.FunctionComponent<HomePageProps> = (props): JSX.Element =>
       <Header />
       <Home />
       <LiveClassrooms />
-      <Emails />
+      <College />
+      <K12 />
+      <Corporate />
       <Lms />
+      <Emails />
       <Setup />
       <AboutUs />
-      <Corporate />
       <WhyUs />
       <ContactUs />
       <Footer />
