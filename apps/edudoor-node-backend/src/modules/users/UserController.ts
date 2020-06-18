@@ -167,9 +167,9 @@ class UserController {
 
   static async forgotPassword(req) {
     const {
-      body: { email },
+      body: { username },
     } = req;
-    const user = await models.User.findOne({ where: { email } });
+    const user = await models.User.findOne({ where: { username } });
 
     if (user) {
       // create a password reset token for the user

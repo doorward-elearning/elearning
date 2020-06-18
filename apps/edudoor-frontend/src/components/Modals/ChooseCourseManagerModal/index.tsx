@@ -4,9 +4,12 @@ import { ChooseStudentFormState } from '../../Forms/ChooseStudentForm';
 import Modal, { ModalProps } from '@edudoor/ui/components/Modal';
 import ChooseCourseManagerForm from '../../Forms/ChooseCourseManagerForm';
 import { User } from '@edudoor/common/models/User';
+import { useSelector } from 'react-redux';
+import { State } from '../../../store';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
   const form = useForm<ChooseStudentFormState>();
+  const state = useSelector((state: State) => state.courses.createCourseManager);
   return (
     <Modal {...props}>
       <Modal.Header title="Add course manager" />
@@ -20,6 +23,11 @@ const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModal
       </Modal.Body>
       <Modal.Footer
         buttons={{ positive: 'Save' }}
+        props={{
+          positive: {
+            loading: state.submitting,
+          },
+        }}
         onPositiveClick={() => {
           form.formikProps.submitForm();
         }}

@@ -32,17 +32,18 @@ export default class ManagerCourseController {
     } = req;
 
     const manager = await models.User.findByPk(managerId);
-    await models.CourseManager.findOrCreate({
-      defaults: {
-        managerId,
-        courseId,
-        enrolledById: user.id,
-      },
+    const courseManager = await models.CourseManager.findOne({
       where: {
         managerId,
         courseId,
       },
     });
+    if (!courseManager)
+      await models.CourseManager.create({
+        managerId,
+        courseId,
+        enrolledById: user.id,
+      });
 
     return [200, { manager }, `${manager.fullName} has been added as a course manager.`];
   }

@@ -19,14 +19,14 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = pro
       form={form}
       onCancel={() => routes.navigate(routes.home)}
       validationSchema={Yup.object({
-        email: Yup.string().email('Please provide a valid email address'),
+        username: Yup.string().required('Please enter your username'),
       })}
       positiveText="Reset"
       initialValues={{
-        email: '',
+        username: '',
       }}
     >
-      <TextField name="email" label="Email" />
+      <TextField name="username" label="Username" />
     </BasicForm>
   );
 };

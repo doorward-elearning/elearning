@@ -54,7 +54,6 @@ import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor
 /**
  * Use the return keyword in the functions to improve readability
  */
-const q = require('querystring').stringify;
 
 const { GET, PUT, POST, DELETE } = ApiRequest;
 
@@ -267,10 +266,12 @@ const Api = {
       formData.append('file', file);
 
       const url = publicFile ? '/storage/public/upload' : '/storage/upload';
-      return POST(url, formData, {
+      return POST(url, formData, null, {
         onUploadProgress: progressEvent => {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          onUploadProgress && onUploadProgress(percentage);
+          if (onUploadProgress) {
+            onUploadProgress(percentage);
+          }
         },
         cancelToken: new axios.CancelToken(c => {
           cancelHandler(c);

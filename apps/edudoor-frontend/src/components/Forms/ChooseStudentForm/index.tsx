@@ -8,17 +8,13 @@ import { fetchStudentsNotRegisteredAction, registerStudents } from '../../../red
 import Tools from '@edudoor/common/utils/Tools';
 import { Student } from '@edudoor/common/models/Student';
 import ChooseItemsForm from '../ChooseItemsForm';
-import Header from '@edudoor/ui/components/Header';
 import { fetchGroupsAction } from '../../../reducers/groups/actions';
 import Groups from '@edudoor/common/utils/GroupTypes';
 import Panel from '@edudoor/ui/components/Panel';
 import TabLayout from '@edudoor/ui/components/TabLayout';
 import Tab from '@edudoor/ui/components/TabLayout/Tab';
 import { Group } from '@edudoor/common/models/Group';
-import Button from '@edudoor/ui/components/Buttons/Button';
 import Row from '@edudoor/ui/components/Row';
-import IfElse from '@edudoor/ui/components/IfElse';
-import ItemArray from '@edudoor/ui/components/ItemArray';
 import SimpleUserView from '@edudoor/ui/components/UserChooser/SimpleUserView';
 import WebComponent from '@edudoor/ui/components/WebComponent';
 

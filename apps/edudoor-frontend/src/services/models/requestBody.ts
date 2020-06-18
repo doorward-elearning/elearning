@@ -58,7 +58,7 @@ export interface CreatePasswordBody {
 }
 
 export interface ForgotPasswordBody {
-  email: string;
+  username: string;
 }
 
 export interface UpdateModulesBody {

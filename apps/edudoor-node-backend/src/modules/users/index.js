@@ -6,7 +6,7 @@ import {
   validatePassword,
   validateResetToken,
   validateUpdateAccount,
-  validateRegistration,
+  validateRegistration, validateUserExistsByUsername,
 } from './validate';
 import students from './students';
 import teachers from './teachers';
@@ -49,7 +49,7 @@ ProfileRouter.exclude(Authorization.authenticate).post(
 
 ProfileRouter.exclude(Authorization.authenticate).post(
   '/forgotPassword',
-  validateUserExistsByEmail,
+  validateUserExistsByUsername,
   UserController.forgotPassword
 );
 

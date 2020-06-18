@@ -107,6 +107,16 @@ export const validateHasPassword = async req => {
   }
 };
 
+export const validateUserExistsByUsername = async req => {
+  const { username } = req.body;
+  const user = await models.User.findOne({
+    where: {
+      username,
+    },
+  });
+  req.checkBody('username', 'No user exists with this username').custom(() => user);
+};
+
 export const validateUserExistsByEmail = async req => {
   const { email } = req.body;
   const user = await models.User.findOne({

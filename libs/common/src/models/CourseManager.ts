@@ -21,6 +21,10 @@ export class CourseManager extends Model implements DBModel {
 export default (sequelize: Sequelize) => {
   CourseManager.init(
     {
+      id: {
+        type: DataTypes.STRING,
+        primaryKey: true,
+      },
       managerId: DataTypes.STRING,
       courseId: DataTypes.STRING,
       enrolledById: DataTypes.STRING,

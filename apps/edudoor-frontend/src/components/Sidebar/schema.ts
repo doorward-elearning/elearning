@@ -44,7 +44,7 @@ export default (routes: Routes<EdudoorRoutes>, props: SideBarProps<EdudoorRoutes
       name: 'Logout',
       onClick: (): void => {
         logout();
-        props.history.push(routes.login.link);
+        window.location.href = routes.login.link;
       },
       icon: 'exit_to_app',
       link: '',
