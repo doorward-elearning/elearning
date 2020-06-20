@@ -2,8 +2,12 @@ import React from 'react';
 
 class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   component: any;
+  script: HTMLScriptElement;
+  style: HTMLLinkElement;
+  jqueryScript: HTMLScriptElement;
 
   componentDidMount(): void {
+    this.initialize();
     if (this.component) {
       this.component.addEventListener('sessionCreated', this.onSessionCreated);
       this.component.addEventListener('publisherCreated', this.onPublisherCreated);
@@ -13,6 +17,30 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     }
   }
 
+  initialize = (): void => {
+    this.script = this.addScript(this.props.scriptUrl);
+    this.jqueryScript = this.addScript('https://code.jquery.com/jquery-3.5.1.min.js');
+    this.jqueryScript.integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=';
+    this.jqueryScript.crossOrigin = 'anonymous';
+
+    this.style = this.addStyles(this.props.stylesUrl);
+  };
+
+  addScript = (url: string): HTMLScriptElement => {
+    const script = document.createElement('script');
+    script.src = url;
+    script.async = true;
+    document.body.appendChild(script);
+    return script;
+  };
+
+  addStyles = (url: string): HTMLLinkElement => {
+    const style = document.createElement('link');
+    style.href = url;
+    document.head.appendChild(style);
+    return style;
+  };
+
   componentWillUnmount(): void {
     if (this.component) {
       this.component.removeEventListener('sessionCreated', this.onSessionCreated);
@@ -21,6 +49,9 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       this.component.removeEventListener('joinSession', this.onJoinedSession);
       this.component.removeEventListener('leaveSession', this.onLeftSession);
     }
+    document.body.removeChild(this.script);
+    document.body.removeChild(this.jqueryScript);
+    document.head.removeChild(this.style);
   }
 
   onSessionCreated = () => {
@@ -102,6 +133,8 @@ export interface OpenviduWebComponentProps {
   openviduServerURL?: string;
   openviduSecret?: string;
   sessionConfig?: SessionConfig;
+  scriptUrl: string;
+  stylesUrl: string;
 }
 
 export default OpenviduWebComponent;
