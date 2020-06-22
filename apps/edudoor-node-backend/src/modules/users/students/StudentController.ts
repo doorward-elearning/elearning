@@ -4,6 +4,7 @@ import models from '../../../database/models';
 import Emails from '../../../utils/Emails';
 import bcrypt from 'bcrypt';
 import { User } from '../../../../../../libs/common/src/models/User';
+import { searchQuery } from '../../../utils/query';
 
 class StudentController {
   static async createStudent(req) {
@@ -54,6 +55,7 @@ class StudentController {
 
   static async getAllStudents(req) {
     const result = await UserController.paginate<User>(req, roles.STUDENT, {
+      where: searchQuery(req, ['username', 'firstName', 'lastName', 'email']),
       include: [
         {
           model: models.Course,

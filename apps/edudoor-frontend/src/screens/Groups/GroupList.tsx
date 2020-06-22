@@ -4,7 +4,6 @@ import Layout, { LayoutFeatures } from '../Layout';
 import GroupsTable from '../../components/Tables/GroupsTable';
 import { PageComponent } from '@edudoor/ui/types';
 import { ROUTES } from '../../routes/routes';
-import { Group } from '@edudoor/common/models/Group';
 
 function GroupList({
   header,

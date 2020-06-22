@@ -4,13 +4,12 @@ import { HomeComponent } from './home/home.component';
 import { VideoRoomComponent } from './video-room/video-room.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: ':roomName', component: VideoRoomComponent },
+	{ path: '', component: HomeComponent },
+	{ path: ':roomName', component: VideoRoomComponent }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { useHash: false })],
-  exports: [RouterModule],
+	imports: [RouterModule.forRoot(routes, { useHash: true })],
+	exports: [RouterModule]
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

@@ -4,15 +4,16 @@ import './Pagination.scss';
 import Button from '../Buttons/Button';
 import IfElse from '../IfElse';
 
-type Page = {
+interface Page {
   page: number;
   name: string;
-};
+}
+
 const getPages = (numPages: number, maxDisplay = 10, currentPage = 1): Array<Page> => {
   const pages: Array<Page> = [];
   pages.push({
     page: 1,
-    name: 'First',
+    name: numPages > maxDisplay ? 'First' : '1',
   });
   if (maxDisplay < 5) {
     throw Error('The minimum value for "maxDisplay" is 5');
@@ -30,8 +31,14 @@ const getPages = (numPages: number, maxDisplay = 10, currentPage = 1): Array<Pag
   }
   pages.push({
     page: numPages,
-    name: 'Last',
+    name: numPages > maxDisplay ? 'Last' : `${numPages}`,
   });
+
+  // Do not show the pages if they are only two. Previous and Next buttons will work for this purpose.
+  if (numPages <= 2) {
+    return [];
+  }
+
   return pages;
 };
 
@@ -58,6 +65,7 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
           mini
           bordered
           onClick={() => setCurrentPage(currentPage - 1)}
+          tooltip={currentPage === 1 ? 'This is the first page' : 'Previous'}
           disabled={currentPage === 1}
           icon="skip_previous"
         >
@@ -84,6 +92,7 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
         <Button
           mini
           bordered
+          tooltip={currentPage === props.numPages ? 'This is the last page' : 'Next'}
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === props.numPages}
           icon="skip_next"

@@ -127,7 +127,7 @@ import { StorageService } from './shared/services/storage/storage.service';
 		NotificationService,
 		StorageService
 	],
-	// // // // // bootstrap: [AppComponent]
+	// bootstrap: [AppComponent]
 })
 export class AppModule {
 	constructor(private injector: Injector) {

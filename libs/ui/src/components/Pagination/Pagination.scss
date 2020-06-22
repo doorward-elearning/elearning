@@ -1,6 +1,7 @@
 .ed-pagination {
   display: grid;
   grid-template-columns: auto auto auto;
+  padding: var(--padding-sm) 0;
   justify-content: space-between;
 
   &__pages {
@@ -12,6 +13,8 @@
 
     button {
       min-width: 2em;
+      display: grid;
+      place-items: center;
     }
   }
 }

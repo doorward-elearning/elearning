@@ -82,7 +82,7 @@ class UserController {
   static async paginate<T = any>(req, role, options = {}): Promise<{ model: Array<T> } & PaginationMetaData> {
     const paginationOptions = {
       page: req.query.page || 1,
-      paginate: req.query.limit || 10,
+      paginate: req.query.limit || +process.env.ITEMS_PER_PAGE,
       ...options,
     };
     const { docs, pages, total } = await UserController.findByRole<PaginateResult<T>>(
@@ -118,6 +118,7 @@ class UserController {
       ],
       'model'
     );
+    console.log(options.where);
 
     return models.User[method]({
       ...options,

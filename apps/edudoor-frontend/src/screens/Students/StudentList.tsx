@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
 import { useSelector } from 'react-redux';
@@ -8,12 +8,24 @@ import { PageComponent } from '@edudoor/ui/types';
 import PaginationContainer from '@edudoor/ui/components/PaginationContainer';
 import useAction from '@edudoor/ui/hooks/useActions';
 import { fetchStudentListAction } from '../../reducers/students/actions';
+import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
+import { ParsedUrlQuery } from 'querystring';
+
+export interface StudentListQueryParams extends ParsedUrlQuery {
+  search: string;
+  page: string;
+}
 
 const StudentList: React.FunctionComponent<StudentListProps> = props => {
   const studentList = useSelector((state: State) => state.students.studentList);
   const routes = useRoutes();
   const fetch = useAction(fetchStudentListAction);
+  const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
   const total = studentList.data.meta?.pagination?.total;
+
+  useEffect(() => {
+    fetch({ page: query.page }, { search: query.search });
+  }, [query.search]);
 
   return (
     <Layout
@@ -24,7 +36,18 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
         text: 'Add Student',
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
       }}
-      features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
+      features={[
+        LayoutFeatures.BREAD_CRUMBS,
+        LayoutFeatures.HEADER,
+        LayoutFeatures.ACTION_BUTTON,
+        LayoutFeatures.SEARCH_BAR,
+      ]}
+      searchText={query.search}
+      onSearch={text => {
+        updateLocation({
+          search: text,
+        });
+      }}
     >
       <PaginationContainer
         data={studentList.data.students}

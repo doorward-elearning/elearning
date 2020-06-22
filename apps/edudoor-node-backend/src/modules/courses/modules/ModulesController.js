@@ -170,7 +170,7 @@ class ModulesController {
   }
 
   static async getModuleItem(req) {
-    const { params } = req;
+    const { params, user } = req;
 
     const item = await models.ModuleItem.findByPk(params.id, {
       include: [
@@ -180,6 +180,10 @@ class ModulesController {
         },
         {
           model: models.AssignmentSubmission,
+          where: {
+            studentId: user.id,
+          },
+          required: false,
           as: 'assignmentSubmission',
           include: [
             {

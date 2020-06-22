@@ -8,6 +8,6 @@
 
 export const environment = {
   "production": true,
-  "OPENVIDU_URL": "https://localhost:4443",
-  "OPENVIDU_PASSWORD": "password"
+  "openvidu_url": "",
+  "openvidu_secret": ""
 };

@@ -17,7 +17,8 @@ const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element 
   return (
     <Layout
       {...props}
-      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
+      actionBtnProps={{ text: 'Edit', icon: 'edit' }}
       header={Tools.str(state.data.group?.name)}
     >
       <WebComponent data={state.data.group} loading={state.fetching}>

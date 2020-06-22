@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useState } from 'react';
 import classNames from 'classnames';
 import './Layout.scss';
 import ContentSpinner from '../../components/UI/ContentSpinner';
@@ -72,16 +72,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
   const currentRoute = routes.currentRoute;
-  const debouncedSearch = _.debounce(onSearchText, 500);
+  const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
 
-  const onSearch = ({ target: { value } }: any): void => {
-    if (value !== search) {
-      setSearchText(value);
-      debouncedSearch(value);
-    }
-  };
+  const onSearch = useCallback(({ target: { value } }: any): void => {
+    setSearchText(value);
+    debouncedSearch(value);
+  }, []);
 
   const className = classNames({
     'ed-page-layout': true,
