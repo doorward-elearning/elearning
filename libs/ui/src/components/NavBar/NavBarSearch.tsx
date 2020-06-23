@@ -1,24 +1,11 @@
-import React, { FormEvent, useCallback, useRef, useState } from 'react';
-import Icon from '../Icon';
+import React, { FormEvent, useRef, useState } from 'react';
 import './NavBarSearch.scss';
 import classNames from 'classnames';
 import useStateRef from '../../hooks/useStateRef';
-import useClickOutside from '../../hooks/useClickOutside';
 
 const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
   const form = useRef(null);
-  const [collapsed, setCollapsed] = useState(true);
-  const [searchText, setSearchText, textRef] = useStateRef('');
-
-  const handleCollapse = useCallback((): void => {
-    if (!textRef.current) {
-      setCollapsed(true);
-    }
-  }, [searchText]);
-
-  useClickOutside(() => {
-    handleCollapse();
-  }, form);
+  const [searchText, setSearchText] = useState('');
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -29,28 +16,21 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
   };
 
   return (
-    <form className={classNames({ 'nav-search-form': true, collapsed })} onSubmit={onSubmit} ref={form}>
+    <form className={classNames({ 'nav-search-form': true })} onSubmit={onSubmit} ref={form}>
       <input
         type="text"
         className="form-control"
-        placeholder="Search..."
-        name="query"
+        placeholder={props.placeholder || 'Search...'}
+        name="search"
         value={searchText}
         onChange={onChange}
       />
-      <button
-        type="submit"
-        className="btn submit"
-        onClick={() => {
-          collapsed && setCollapsed(false);
-        }}
-      >
-        <Icon icon="search" />
-      </button>
     </form>
   );
 };
 
-export interface NavBarSearchProps {}
+export interface NavBarSearchProps {
+  placeholder?: string;
+}
 
 export default NavBarSearch;

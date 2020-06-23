@@ -30,7 +30,7 @@ const base = {
   '--navBar-size': '70px',
   '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '50px',
-  '--search-bar-size': '200px',
+  '--search-bar-size': '400px',
   '--page-font-size': '1em',
   '--list-item-height': '40px',
   '--list-item-width': '200px',

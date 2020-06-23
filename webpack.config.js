@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const babelWebpackConfig = require('@nrwl/react/plugins/babel');
+const babelWebpackConfig = require('@nrwl/react/plugins/webpack');
 const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 
@@ -24,7 +24,8 @@ module.exports = config => {
     })
   );
   if (config.devServer) {
-    config.devServer.liveReload = true;
+    // config.devServer.liveReload = true;
+    config.devServer.hot = true;
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
   return babelWebpackConfig(config);
