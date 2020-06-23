@@ -18,23 +18,18 @@
     grid-auto-flow: column;
     justify-content: start;
     position: relative;
-    grid-gap: var(--padding-lg);
-
-    &:before {
-      content: '';
-      position: absolute;
-      background: linear-gradient(180deg, var(--bg-secondary), transparent);
-      bottom: -20px;
-      height: 20px;
-      left: 0;
-      width: 100%;
-    }
 
     .ed-tabLayout__tabTitle {
       padding: var(--padding) var(--padding-lg);
-      margin-bottom: -2px;
       cursor: pointer;
       transition: 0.2s color;
+      border-top: 1px solid var(--line-color);
+      border-bottom: 1px solid var(--line-color);
+      border-left: 1px solid var(--line-color);
+
+      &:nth-last-child(2) {
+        border-right: 1px solid var(--line-color);
+      }
 
       .ed-badge {
         background: var(--text-primary);

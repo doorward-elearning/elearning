@@ -7,6 +7,14 @@
     position: relative;
   }
 
+  &:hover {
+    .ed-checkbox__checkbox {
+      &:after {
+        opacity: 1;
+      }
+    }
+  }
+
   &__checkbox {
     position: absolute;
     top: -4px;
@@ -25,6 +33,20 @@
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
       transition: 0.5s transform;
+    }
+
+    &:after {
+      position: absolute;
+      top: -75%;
+      left: -75%;
+      width: 250%;
+      height: 250%;
+      content: '';
+      background: rgba(0, 0, 0, 0.17);
+      border-radius: 50%;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.2s opacity;
     }
   }
 

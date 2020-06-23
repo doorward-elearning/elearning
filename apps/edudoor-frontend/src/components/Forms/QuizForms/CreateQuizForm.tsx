@@ -10,52 +10,54 @@ import validation from './validation';
 import { Module } from '@edudoor/common/models/Module';
 import { Quiz } from '@edudoor/common/models/Quiz';
 
-const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
-  const initialValues = props.quiz || {
-    title: 'Unnamed Quiz',
-    content: {
-      instructions: '',
-      options: {
-        shuffleAnswers: false,
-        timeLimit: {
-          allow: false,
-          minutes: null,
-        },
-        attempts: {
-          multiple: false,
-          keepScore: 'Highest',
-          max: null,
-        },
-        questions: {
-          oneAtATime: false,
-          lockAfterAnswering: false,
-        },
-        restrictions: {
-          accessCode: {
-            require: false,
-            code: null,
-          },
-        },
-        responses: {
-          show: false,
-          frequency: {
-            onlyOnce: false,
-            range: {
-              allow: false,
-              from: null,
-              to: null,
-            },
-          },
-        },
-        dueDate: null,
-        availability: {
-          from: null,
-          to: null,
+const defaultQuiz = {
+  title: 'Unnamed Quiz',
+  content: {
+    instructions: '',
+    options: {
+      shuffleAnswers: false,
+      timeLimit: {
+        allow: false,
+        minutes: null,
+      },
+      attempts: {
+        multiple: false,
+        keepScore: 'Highest',
+        max: null,
+      },
+      questions: {
+        oneAtATime: false,
+        lockAfterAnswering: false,
+      },
+      restrictions: {
+        accessCode: {
+          require: false,
+          code: null,
         },
       },
-      questions: [defaultQuestion],
+      responses: {
+        show: false,
+        frequency: {
+          onlyOnce: false,
+          range: {
+            allow: false,
+            from: null,
+            to: null,
+          },
+        },
+      },
+      dueDate: null,
+      availability: {
+        from: null,
+        to: null,
+      },
     },
-  };
+    questions: [defaultQuestion],
+  },
+};
+
+const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
+  const initialValues = props.quiz || defaultQuiz;
 
   const form = useForm<CreateQuizFormState>();
   return (

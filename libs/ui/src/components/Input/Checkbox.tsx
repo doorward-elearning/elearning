@@ -7,7 +7,14 @@ import Tools from '@edudoor/common/utils/Tools';
 const Checkbox: FunctionComponent<CheckboxProps> = ({ formikProps, ...props }) => {
   return (
     <div className="checkbox__container">
-      <input type="checkbox" {...props} checked={!!props.value} />
+      <input
+        type="checkbox"
+        {...props}
+        checked={!!props.value}
+        onChange={e => {
+          props.onChange({ ...e, target: { ...e.target, value: !props.value, name: props.name } });
+        }}
+      />
       <span className="ed-checkbox__checkbox" />
     </div>
   );

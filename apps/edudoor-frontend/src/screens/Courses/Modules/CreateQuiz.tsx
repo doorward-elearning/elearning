@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
 import { fetchCourseModuleAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
@@ -23,11 +23,11 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
     }
   }, [module]);
 
-  const finish = () => {
+  const finish = useCallback(() => {
     routes.navigate(routes.viewCourse, {
       courseId,
     });
-  };
+  }, []);
 
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Quiz" noNavBar>

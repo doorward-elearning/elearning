@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import _ from 'lodash';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
@@ -29,16 +29,12 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     setEditorState(value ? EditorState.createWithContent(convertFromRaw(value)) : EditorState.createEmpty());
   }, []);
 
-  const updateProps = _.debounce(() => {
-    const contentState = editorState.getCurrentContent();
-    const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
-    const event = { target: { value, name: name } };
-    formikProps && formikProps.handleChange(event);
-  }, 1000);
-
   useEffect(() => {
     if (editorState) {
-      updateProps();
+      const contentState = editorState.getCurrentContent();
+      const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
+      const event = { target: { value, name: name } };
+      props.onChange(event);
     }
   }, [editorState]);
 
