@@ -58,7 +58,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
 
   useEffect(() => {
     if (!focused) {
-      if (searchText !== props.searchText) {
+      if (searchText !== props.searchText && searchText) {
         props.onSearch(searchText);
       }
     }
@@ -74,6 +74,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
         }
       } else if (e.keyCode === 13) {
         setFocused(false);
+        props.onSearch(searchText);
       }
     },
     [predictedText]

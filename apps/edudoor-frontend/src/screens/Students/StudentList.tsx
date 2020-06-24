@@ -36,13 +36,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
         text: 'Add Student',
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
       }}
-      features={[
-        LayoutFeatures.BREAD_CRUMBS,
-        LayoutFeatures.HEADER,
-        LayoutFeatures.ACTION_BUTTON,
-        LayoutFeatures.SEARCH_BAR,
-      ]}
-      searchText={query.search}
+      features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
       onSearch={text => {
         updateLocation({
           search: text,
