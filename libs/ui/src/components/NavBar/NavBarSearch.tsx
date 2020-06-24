@@ -62,7 +62,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
         props.onSearch(searchText);
       }
     }
-  }, [focused, searchText]);
+  }, [focused]);
 
   useCaptureKeyDown(
     inputElement,
@@ -143,6 +143,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
             onClickSuggestion={() => {
               setFocused(false);
               setSearchText(suggestion.title);
+              props.onSearch('');
             }}
           />
         ))}
