@@ -7,6 +7,7 @@ import Feature from '../FeatureProvider/Feature';
 import { Location, MemoryHistory } from 'history';
 import NavLogo from './NavLogo';
 import { NavbarFeatures } from './features';
+import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({
   onHamburgerClick,
@@ -18,6 +19,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
   loginLink,
   userManagement,
 }) => {
+  const { query, updateLocation } = useQueryParams<{ search: string }>();
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
@@ -32,7 +34,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
         </div>
         <div className="ed-navBar__inner">
           <Feature feature={NavbarFeatures.SEARCH_BAR}>
-            <NavBarSearch />
+            <NavBarSearch searchText={query.search} onSearch={search => updateLocation({ search })} />
           </Feature>
         </div>
         <div className="ed-navBar__end">
