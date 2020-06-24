@@ -1,5 +1,6 @@
 import { useHistory, useLocation } from 'react-router';
 import queryString, { ParsedUrlQuery } from 'querystring';
+import _ from 'lodash';
 
 export interface UseQueryParams<T> {
   query: T;
@@ -18,10 +19,15 @@ const useQueryParams = <T extends ParsedUrlQuery = any>(): UseQueryParams<T> => 
       history.push(
         location.pathname +
           '?' +
-          queryString.stringify({
-            ...query,
-            ...params,
-          })
+          queryString.stringify(
+            _.pickBy(
+              {
+                ...query,
+                ...params,
+              },
+              _.identity
+            )
+          )
       );
     },
   };

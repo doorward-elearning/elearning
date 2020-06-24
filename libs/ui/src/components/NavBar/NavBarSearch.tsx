@@ -58,9 +58,11 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
 
   useEffect(() => {
     if (!focused) {
-      props.onSearch(searchText);
+      if (searchText !== props.searchText) {
+        props.onSearch(searchText);
+      }
     }
-  }, [focused]);
+  }, [focused, searchText]);
 
   useCaptureKeyDown(
     inputElement,
