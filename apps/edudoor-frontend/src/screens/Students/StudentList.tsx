@@ -31,6 +31,8 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
     <Layout
       {...props}
       header="All Students"
+      suggestionsType="students"
+      searchPlaceholder="Search students..."
       headerBadge={total === undefined ? null : `${total}`}
       actionBtnProps={{
         text: 'Add Student',

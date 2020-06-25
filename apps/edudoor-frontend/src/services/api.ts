@@ -42,6 +42,7 @@ import {
   SchoolsResponse,
   StudentListResponse,
   StudentResponse,
+  SuggestionsResponse,
   TeacherListResponse,
   TeacherResponse,
   UserResponse,
@@ -253,6 +254,11 @@ const Api = {
       create: (schoolId: string, body: CreateClassroomBody): Promise<SchoolResponse> => {
         return POST(`/schools/${schoolId}/classrooms`, body);
       },
+    },
+  },
+  suggestions: {
+    get: (type: string): Promise<SuggestionsResponse> => {
+      return GET(`/suggestions/${type}`);
     },
   },
   storage: {

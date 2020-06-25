@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useCallback, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './Layout.scss';
 import ContentSpinner from '../../components/UI/ContentSpinner';
@@ -30,6 +30,11 @@ import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@edudoor/ui/components/Row';
 import useLogo from '../../hooks/useLogo';
 import Badge from '@edudoor/ui/components/Badge';
+import { useSelector } from 'react-redux';
+import { State } from '../../store';
+import useAction from '@edudoor/ui/hooks/useActions';
+import { clearSuggestionsAction, getSuggestionsAction } from '../../reducers/suggestions/actions';
+import { NavBarSearchContext } from '@edudoor/ui/components/NavBar/NavBarSearch';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -66,8 +71,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   onSearch: onSearchText = str => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
   renderTopContent,
+  suggestionsType,
+  ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
+  const searchSuggestions = useSelector((state: State) => state.suggestions.suggestions);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
@@ -75,6 +83,16 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
+  const fetchSuggestions = useAction(getSuggestionsAction);
+  const clearSuggestions = useAction(clearSuggestionsAction);
+
+  useEffect(() => {
+    if (suggestionsType) {
+      fetchSuggestions(suggestionsType);
+    }
+
+    return clearSuggestions;
+  }, []);
 
   const onSearch = useCallback(({ target: { value } }: any): void => {
     setSearchText(value);
@@ -106,24 +124,31 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
-          <NavBar
-            icon={icon}
-            history={history}
-            location={location}
-            loginLink={routes.routes.login.link}
-            features={navFeatures}
-            title={organization.name}
-            onHamburgerClick={toggleSidebar}
-            renderNavEnd={() => {
-              return (
-                <Row>
-                  <RightMenu />
-                  {renderNavEnd && renderNavEnd()}
-                </Row>
-              );
+          <NavBarSearchContext
+            value={{
+              state: searchSuggestions,
+              placeholder: props.searchPlaceholder,
             }}
-            userManagement={() => <UserManagementDropdown />}
-          />
+          >
+            <NavBar
+              icon={icon}
+              history={history}
+              location={location}
+              loginLink={routes.routes.login.link}
+              features={navFeatures}
+              title={organization.name}
+              onHamburgerClick={toggleSidebar}
+              renderNavEnd={() => {
+                return (
+                  <Row>
+                    <RightMenu />
+                    {renderNavEnd && renderNavEnd()}
+                  </Row>
+                );
+              }}
+              userManagement={() => <UserManagementDropdown />}
+            />
+          </NavBarSearchContext>
         </div>
         <div className="ed-page-layout__sidebar">
           <SideBar
@@ -217,6 +242,8 @@ export interface LayoutProps extends PageComponent {
   renderNavEnd?: () => JSX.Element;
   withBackground?: boolean;
   renderTopContent?: () => JSX.Element;
+  suggestionsType?: string;
+  searchPlaceholder?: string;
 }
 
 export default Layout;

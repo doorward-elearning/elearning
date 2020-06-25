@@ -11,6 +11,7 @@ import { File } from '@edudoor/common/models/File';
 import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
 import { School } from '@edudoor/common/models/School';
 import { ApiResponse, PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
+import { SearchSuggestion } from '@edudoor/common/types/api';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -103,4 +104,8 @@ export interface CourseManagerBody extends ApiResponse {
 
 export interface CourseManagersBody extends ApiResponse {
   managers: Array<User>;
+}
+
+export interface SuggestionsResponse extends ApiResponse {
+  suggestions: Array<SearchSuggestion>;
 }
