@@ -2,13 +2,6 @@
   position: relative;
   user-select: none;
 
-  .material-icons {
-    position: absolute;
-    font-size: inherit;
-    color: inherit;
-    left: 0;
-    top: 0;
-  }
   &.clickable {
     cursor: pointer;
     user-select: none;

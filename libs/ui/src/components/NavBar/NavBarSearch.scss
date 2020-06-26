@@ -9,6 +9,13 @@ $suggestionsHeight: 500px;
   grid-template-columns: 1fr;
   z-index: 1000;
 
+  &.empty {
+    .search-icon {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
   &--input {
     padding: var(--padding) var(--padding-lg);
     height: $height;
@@ -21,6 +28,11 @@ $suggestionsHeight: 500px;
     align-items: center;
     border-radius: $borderRadius;
     transition: 0.2s background;
+
+    .search-icon {
+      opacity: 1;
+      transition: 0.2s opacity;
+    }
 
     &__input {
       display: grid;

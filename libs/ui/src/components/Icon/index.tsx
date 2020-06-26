@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, MutableRefObject } from 'react';
 import classNames from 'classnames';
 import './Icon.scss';
 import { Icons } from '../../types/icons';
@@ -12,9 +12,8 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   return (
     <React.Fragment>
       {props.icon && (
-        <i className={className} onClick={props.onClick} title={props.title}>
+        <i className={className} onClick={props.onClick}>
           {props.icon}
-          <i className="material-icons">{props.icon}</i>
         </i>
       )}
     </React.Fragment>
@@ -27,6 +26,7 @@ export interface IconProps {
   onClick?: MouseEventHandler;
   title?: string;
   clickable?: boolean;
+  ref?: MutableRefObject<any>;
 }
 
 export default Icon;

@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useEffect, useRef, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import './NavBarSearch.scss';
 import Icon from '@edudoor/ui/components/Icon';
 import useClickOutside from '@edudoor/ui/hooks/useClickOutside';
@@ -60,7 +60,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
     }
   }, [props.state]);
 
-  useClickOutside(() => {
+  useClickOutside(e => {
     setFocused(false);
   }, searchElement);
 
@@ -138,6 +138,7 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
       className={classNames({
         'ed-search__bar': true,
         focused,
+        empty: !searchText,
         suggestions: mainSuggestions.length || props.state,
       })}
       ref={searchElement}
@@ -165,18 +166,19 @@ const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
             onChange={onChange}
           />
         </div>
-        {searchText && (
-          <Icon
-            icon="close"
-            onClick={() => {
-              setSearchText('');
+        <Icon
+          className="search-icon"
+          icon="close"
+          onClick={() => {
+            setSearchText('');
+            if (!focused) {
               setSubmit(true);
-            }}
-          />
-        )}
+            }
+          }}
+        />
       </div>
       <div className="ed-search__bar--suggestions">
-        <WebComponent data={suggestions} loading={loading} empty={<div className="no-suggestions">No results</div>}>
+        <WebComponent data={suggestions} loading={loading} empty={<div className="no-suggestions">No suggestions</div>}>
           {() => {
             return (
               <React.Fragment>
