@@ -39,7 +39,11 @@ function CreateGroup<T>({
   }, []);
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Group">
+    <Layout
+      {...props}
+      features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
+      header={`${currentGroupState ? 'Update' : 'Create'} group`}
+    >
       <WebComponent
         data={{ allUsers: getUsers(state.data), group: currentGroupState?.data?.group }}
         hasData={data => !!data.allUsers}

@@ -21,7 +21,7 @@ class Tools {
   }
 
   static generateId(): string {
-    return Array(3)
+    return Array(1)
       .fill(0)
       .reduce(acc => acc + shortId.generate(), '');
   }

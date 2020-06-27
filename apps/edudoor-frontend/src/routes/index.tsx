@@ -107,7 +107,7 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           }),
           studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
-            viewStudentGroup: new Route('/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
+            viewStudentGroup: new Route('/view/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
               updateStudentGroup: new Route('/update', UpdateStudentGroup).roles(Roles.TEACHER),
             }),
           }),

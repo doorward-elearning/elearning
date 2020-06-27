@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { MutableRefObject, PropsWithChildren, useEffect, useRef, useState } from 'react';
 import './Table.scss';
 import classNames from 'classnames';
 import Panel from '../Panel';
@@ -39,7 +39,12 @@ function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element 
   );
 }
 
-function renderRow<T, K extends TableColumns>(item: T, index: number, props: TableProps<T, K>): JSX.Element {
+function renderRow<T, K extends TableColumns>(
+  item: T,
+  index: number,
+  props: TableProps<T, K>,
+  actionMenuRef: MutableRefObject<any>
+): JSX.Element {
   const onRowClick = (): void => {
     if (props.onRowClick) {
       props.onRowClick(item, index);
@@ -60,12 +65,23 @@ function renderRow<T, K extends TableColumns>(item: T, index: number, props: Tab
   };
 
   return (
-    <tr key={index} onClick={onRowClick}>
+    <tr
+      key={index}
+      onClick={e => {
+        if (actionMenuRef.current) {
+          if (!actionMenuRef.current.contains(e.target)) {
+            onRowClick();
+          }
+        } else {
+          onRowClick();
+        }
+      }}
+    >
       {Object.keys(props.columns).map(columnKey => {
         return <td key={columnKey}>{propsRenderCell(columnKey)}</td>;
       })}
       {props.actionMenu && (
-        <td className="menu">
+        <td className="menu" ref={actionMenuRef}>
           <Dropdown positionX="right">
             <Icon icon="more_vert" />
             {props.actionMenu(item)}
@@ -77,11 +93,12 @@ function renderRow<T, K extends TableColumns>(item: T, index: number, props: Tab
 }
 
 function TableBody<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
+  const actionMenuRef = useRef();
   return (
     <tbody>
       {props.data.map(
         (item: T, index: number): JSX.Element => {
-          return renderRow(item, index, props);
+          return renderRow(item, index, props, actionMenuRef);
         }
       )}
     </tbody>
@@ -115,16 +132,20 @@ export type GetCell<T, K extends TableColumns> = (
   index: number
 ) => { [name in keyof K]?: JSX.Element | string };
 
+export type ActionMenu<T> = (row: T) => JSX.Element;
+
+export type FilterTable<T> = (data: Array<T>, text: string) => Array<T>;
+
 export interface TableProps<T, K extends TableColumns> extends PropsWithChildren<any> {
   onRowClick?: OnRowClick<T>;
   className?: string;
   data: Array<T>;
   getCell?: GetCell<T, K>;
   columns: K;
-  filter?: (data: Array<T>, text: string) => Array<T>;
+  filter?: FilterTable<T>;
   searchText?: string;
   noPanel?: boolean;
-  actionMenu?: (row: T) => JSX.Element;
+  actionMenu?: ActionMenu<T>;
 }
 
 export default Table;
