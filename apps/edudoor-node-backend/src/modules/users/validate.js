@@ -1,6 +1,8 @@
 import bcrypt from 'bcrypt';
 import models from '../../database/models';
 import Tools from '../../utils/Tools';
+import { Organization } from '../../../../../libs/common/src/models/Organization';
+import OrganizationUtils from '../../utils/OrganizationUtils';
 
 export const validateLogin = async req => {
   const existing = await models.User.unscoped().findOne({ where: { username: req.body.username } });
@@ -59,8 +61,11 @@ export const validateUpdateAccount = async req => {
 
 export const validatePassword = async req => {
   const username = req.body.username || req.user.username;
-  const existing = await models.User.unscoped().findOne({ where: { username } });
+  const existing = await models.User.unscoped().findOne({
+    where: { username, organizationId: OrganizationUtils.getId() },
+  });
   const password = req.checkBody('password');
+  console.log(existing);
 
   password.custom(() => existing.password).withMessage('Your password has not been set.');
   if (existing.password) {

@@ -11,7 +11,7 @@ const useRoleManager = (roles?: Array<Roles | RoleEvaluator>, superAdmin = true,
     return (role as RoleEvaluator).apply;
   });
 
-  if (evaluators.length && user) {
+  if (evaluators.length) {
     const hasPermission = evaluators.find(role => {
       const evaluate = role as RoleEvaluator;
       return evaluate(user, organization);

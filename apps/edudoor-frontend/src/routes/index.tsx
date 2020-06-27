@@ -112,10 +112,15 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
             }),
           }),
         }),
-        organizations: new Route('/organizations', Organizations).roles(Roles.SUPER_ADMINISTRATOR).with({
-          createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-          editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-        }),
+        organizations: new Route('/organizations', Organizations)
+          .roles(Roles.SUPER_ADMINISTRATOR, (user, organization) => {
+            console.log({ user, organization });
+            return organization.id === process.env.DEFAULT_ORGANIZATION_ID;
+          })
+          .with({
+            createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+            editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
+          }),
         chat: new Route('/chat', ChatScreen),
       }),
       password: new Route('/password')

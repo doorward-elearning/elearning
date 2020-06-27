@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Roles } from './index';
+import { RoleEvaluator, Roles } from './index';
 import useRoleManager from '../../hooks/useRoleManager';
 import IfElse from '../IfElse';
 
@@ -19,7 +19,7 @@ const RoleContainer: FunctionComponent<RoleProps> = ({
 };
 
 export interface RoleProps {
-  roles?: Array<Roles> | Roles;
+  roles?: Array<Roles | RoleEvaluator> | Roles;
   showSuperAdmin?: boolean;
   condition?: boolean;
 }

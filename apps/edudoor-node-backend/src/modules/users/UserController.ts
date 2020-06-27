@@ -83,6 +83,7 @@ class UserController {
     const paginationOptions = {
       page: req.query.page || 1,
       paginate: req.query.limit || +process.env.ITEMS_PER_PAGE,
+      unique: true,
       ...options,
     };
     const { docs, pages, total } = await UserController.findByRole<PaginateResult<T>>(
@@ -90,6 +91,7 @@ class UserController {
       paginationOptions,
       'paginate'
     );
+    console.log(paginationOptions);
 
     return {
       model: docs,
