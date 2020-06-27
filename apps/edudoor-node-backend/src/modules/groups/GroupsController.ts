@@ -1,6 +1,7 @@
 import models from '../../database/models';
 import GroupHelper from '../../helpers/GroupHelper';
 import OrganizationUtils from '../../utils/OrganizationUtils';
+import compareLists from '../../utils/compareLists';
 
 class GroupsController {
   static async createGroup(req) {
@@ -28,6 +29,39 @@ class GroupsController {
       ],
     });
     return [201, { group }, 'The group has been created'];
+  }
+
+  static async updateGroupMembers(req) {
+    const {
+      body: { members, name },
+      user,
+      params: { groupId },
+    } = req;
+
+    const existingUsers = await models.GroupMember.findAll({
+      where: {
+        groupId,
+      },
+    });
+
+    const { newItems, removed } = compareLists(existingUsers, members as Array<string>, (a, b) => a.userId === b);
+
+    await GroupHelper.addUsersToGroup(groupId, newItems, user.id);
+    await GroupHelper.removeUsersFromGroup(groupId, removed);
+
+    const group = await models.Group.findByPk(groupId, {
+      include: [
+        {
+          model: models.User,
+          as: 'members',
+        },
+      ],
+    });
+
+    await group.update({ name });
+    await group.reload();
+
+    return [200, { group }, 'Group has been updated.'];
   }
 
   static async addUserToGroup(req) {

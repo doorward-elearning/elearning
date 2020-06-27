@@ -40,6 +40,8 @@ import AssignmentsList from '../screens/Courses/Modules/AssignmentsList';
 import Classrooms from '../screens/Classrooms';
 import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
 import ViewStudent from '../screens/Students/ViewStudent';
+import ViewStudentGroup from '../screens/Groups/Students/ViewStudentGroup';
+import UpdateStudentGroup from '../screens/Groups/Students/UpdateStudentGroup';
 
 export type EdudoorRoutes = typeof routeNames;
 
@@ -105,7 +107,9 @@ export const routeConfigurations: Routes<EdudoorRoutes> = {
           }),
           studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
-            viewStudentGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.TEACHER),
+            viewStudentGroup: new Route('/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
+              updateStudentGroup: new Route('/update', UpdateStudentGroup).roles(Roles.TEACHER),
+            }),
           }),
         }),
         organizations: new Route('/organizations', Organizations).roles(Roles.SUPER_ADMINISTRATOR).with({

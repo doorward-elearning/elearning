@@ -49,7 +49,7 @@ function withInput<R extends InputProps>(
         _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
           handler(e);
           setValueUpdated(true);
-        }, 500),
+        }, 200),
         []
       );
 

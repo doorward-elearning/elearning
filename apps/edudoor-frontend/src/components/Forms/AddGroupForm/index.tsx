@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import TextField from '@edudoor/ui/components/Input/TextField';
 import useForm from '@edudoor/ui/hooks/useForm';
 import { User } from '@edudoor/common/models/User';
@@ -15,19 +15,20 @@ import useUserChooser from '@edudoor/ui/hooks/useUserChooser';
 import TextLink from '@edudoor/ui/components/TextLink';
 import IfElse from '@edudoor/ui/components/IfElse';
 import BasicForm from '../BasicForm';
-import { createGroupAction } from '../../../reducers/groups/actions';
+import { createGroupAction, updateGroupAction } from '../../../reducers/groups/actions';
 import validation from './validation';
+import { Group } from '@edudoor/common/models/Group';
 
-type InitialValues = {
+interface InitialValues {
   name: string;
   members: Array<User>;
-};
+}
 
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
   const form = useForm();
-  const hook = useUserChooser(props.users);
-  const state = useSelector((state: State) => state.groups.createGroup);
-  const initialValues: InitialValues = {
+  const hook = useUserChooser(props.users, props.group?.members);
+  const state = useSelector((state: State) => (props.group ? state.groups.updateGroup : state.groups.createGroup));
+  const initialValues: InitialValues = props.group || {
     name: '',
     members: [],
   };
@@ -39,15 +40,20 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
       validationSchema={validation}
       showSuccessToast
       onSuccess={props.onSuccess}
-      submitAction={createGroupAction}
+      submitAction={props.group ? updateGroupAction : createGroupAction}
       state={state}
-      createData={values => [
-        {
+      createData={values => {
+        const data = [];
+        if (props.group) {
+          data.push(props.group.id);
+        }
+        data.push({
           name: values.name,
           members: values.members.map(member => member.id),
           type: props.type,
-        },
-      ]}
+        });
+        return data;
+      }}
     >
       {formikProps => (
         <div className="add-group-form">
@@ -113,6 +119,7 @@ export interface AddGroupFormProps {
   title: string;
   type?: string;
   onSuccess: () => void;
+  group?: Group;
 }
 
 export default AddGroupForm;

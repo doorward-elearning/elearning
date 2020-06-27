@@ -69,13 +69,16 @@ export interface RegisterStudentsBody {
   students: Array<string>;
 }
 
-export interface CreateGroupBody extends AddGroupMembersBody {
-  name: string;
-  type: string;
-}
-
 export interface AddGroupMembersBody {
   members: Array<string>;
+}
+
+export interface UpdateGroupBody extends AddGroupMembersBody {
+  name: string;
+}
+
+export interface CreateGroupBody extends UpdateGroupBody {
+  type: string;
 }
 
 export interface CreateOrganizationBody {

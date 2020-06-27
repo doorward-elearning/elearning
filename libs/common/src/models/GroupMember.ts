@@ -5,6 +5,9 @@ import { Group } from './Group';
 
 export class GroupMember extends Model implements DBModel {
   public id: string;
+  public userId: string;
+  public groupId: string;
+  public addedBy: string;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;

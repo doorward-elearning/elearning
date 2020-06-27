@@ -9,6 +9,8 @@ Router.post('', validateCreateGroup, validateAddUserToGroup, GroupsController.cr
 
 Router.post('/:groupId', validateGroupExists, validateAddUserToGroup, GroupsController.addUserToGroup);
 
+Router.put('/:groupId', validateGroupExists, validateAddUserToGroup, GroupsController.updateGroupMembers);
+
 Router.get('/:groupId', validateGroupExists, GroupsController.getGroup);
 
 Router.get('', GroupsController.getGroups);

@@ -13,6 +13,9 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
     const list = props.data as Array<any>;
     hasItems = !!list.length;
   }
+  if (props.hasData) {
+    hasItems = props.hasData(props.data);
+  }
 
   useEffect(() => {
     return (): void => {
@@ -84,6 +87,7 @@ export interface WebComponentProps<T> extends EmptyProps {
   showPageProgress?: boolean;
   inline?: boolean;
   errors?: any;
+  hasData?: (data: T) => boolean;
   modelName?: string;
   showRefreshingProgress?: boolean;
 }

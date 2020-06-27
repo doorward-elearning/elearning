@@ -52,6 +52,9 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
               tableProps={{
                 actionMenu: student => <StudentDropdownMenu student={student} />,
               }}
+              onClickStudent={student => {
+                routes.navigate(routes.viewStudent, { studentId: student.id });
+              }}
               students={students}
             />
           );

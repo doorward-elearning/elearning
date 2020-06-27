@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { User } from '@edudoor/common/models/User';
 import './UserChooser.scss';
 import ItemArray from '../ItemArray';

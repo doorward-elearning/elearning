@@ -1,11 +1,18 @@
 import models from '../database/models';
+import { GroupMember } from '@edudoor/common/models/GroupMember';
 
 class GroupHelper {
   static async addUserToGroup(groupId: string, userId: string, addedBy: string) {
-    await models.GroupMember.create({
-      userId,
-      groupId,
-      addedBy,
+    await models.GroupMember.findOrCreate({
+      where: {
+        userId,
+        groupId,
+      },
+      defaults: {
+        userId,
+        groupId,
+        addedBy,
+      },
     });
   }
 
@@ -13,6 +20,14 @@ class GroupHelper {
     await Promise.all(
       members.map(async member => {
         return GroupHelper.addUserToGroup(groupId, member, addedBy);
+      })
+    );
+  }
+
+  static async removeUsersFromGroup(groupId: string, members: Array<GroupMember>) {
+    await Promise.all(
+      members.map(async member => {
+        return member.destroy();
       })
     );
   }

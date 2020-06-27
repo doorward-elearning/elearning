@@ -18,7 +18,7 @@ import {
   PaginationBody,
   RegisterStudentsBody,
   RegistrationBody,
-  SubmitAssignmentBody,
+  SubmitAssignmentBody, UpdateGroupBody,
   UpdateModulesBody,
 } from './models/requestBody';
 import {
@@ -221,6 +221,9 @@ const Api = {
     },
     get: (id: string): Promise<GroupResponse> => {
       return GET(`/groups/${id}`);
+    },
+    update: (id: string, body: UpdateGroupBody): Promise<GroupResponse> => {
+      return PUT(`/groups/${id}`, body);
     },
     addMembers: (groupId: string, members: AddGroupMembersBody): Promise<GroupResponse> => {
       return POST(`/groups/${groupId}`, members);

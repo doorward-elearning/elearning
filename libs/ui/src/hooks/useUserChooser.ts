@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { User } from '@edudoor/common/models/User';
 
 export interface UseUserChooser {
@@ -11,7 +11,7 @@ export interface UseUserChooser {
   count: number;
   filter: (query: string) => void;
 }
-const useUserChooser = (users: Array<User>): UseUserChooser => {
+const useUserChooser = (users: Array<User>, initiallySelectedUsers?: Array<User>): UseUserChooser => {
   const createSelected = (value: boolean) => {
     return users.reduce((acc, cur) => {
       return {
@@ -20,16 +20,17 @@ const useUserChooser = (users: Array<User>): UseUserChooser => {
       };
     }, {});
   };
-  const [selected, setSelected] = useState<{ string?: boolean }>({});
+  const [selected, setSelected] = useState<{ [name: string]: boolean }>({});
   const [count, setCount] = useState(0);
   const [filteredUsers, setFilteredUsers] = useState(users);
 
-  const chooseUser = useMemo(() => {
-    return (id: string, choose: boolean) => {
+  const chooseUser = useCallback(
+    (id: string, choose: boolean) => {
       setSelected({ ...selected, [id]: choose });
       setCount(count + (choose ? 1 : -1));
-    };
-  }, [selected]);
+    },
+    [selected, count, initiallySelectedUsers]
+  );
 
   useEffect(() => {
     setFilteredUsers(users);
@@ -37,7 +38,7 @@ const useUserChooser = (users: Array<User>): UseUserChooser => {
       users.reduce((acc, cur) => {
         return {
           ...acc,
-          [cur.id]: !!selected[cur.id],
+          [cur.id]: !!selected[cur.id] || (initiallySelectedUsers || []).find(x => x.id === cur.id),
         };
       }, {})
     );

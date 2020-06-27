@@ -29,6 +29,5 @@ module.exports = config => {
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-  console.log(config);
   return babelWebpackConfig(config);
 };
