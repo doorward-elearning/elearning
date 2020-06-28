@@ -40,13 +40,14 @@
   &__content {
     background: var(--bg-primary);
     min-width: 500px;
-    max-width: calc(100% - (var(--padding-xlg) * 2));
+    max-width: var(--container-width);
     border-radius: 5px;
     border: 1px solid var(--line-color);
     opacity: 0;
     z-index: 1;
     transform: scale(0.9);
     transition: 0.2s transform cubic-bezier(0.175, 0.885, 0.32, 1.275), 0.2s opacity, 0.5s width;
+    max-height: calc(100vh - var(--padding-xlg) * 2);
 
     &__header,
     &__footer {
@@ -59,15 +60,27 @@
       //background: var(--bg-secondary);
     }
 
+    &__headerContainer {
+      .ed-modal__content__header--searchBar {
+        padding: 0 var(--padding-xlg) var(--padding-lg);
+
+        .ed-search__bar {
+          width: 100%;
+        }
+      }
+    }
+
     &__header {
       grid-auto-flow: column;
       justify-content: space-between;
+      grid-gap: 1em;
     }
 
     &__body {
       padding: var(--padding-xlg);
-      max-height: 70vh;
+      max-height: 68vh;
       overflow-y: auto;
+      height: 100%;
     }
 
     &__footer {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DraftHTMLContent from '@edudoor/ui/components/DraftHTMLContent';
 import { Assignment } from '@edudoor/common/models/Assignment';
 import Panel from '@edudoor/ui/components/Panel';
@@ -6,12 +6,13 @@ import Header from '@edudoor/ui/components/Header';
 import RoleContainer from '@edudoor/ui/components/RolesManager/RoleContainer';
 import { Roles } from '@edudoor/ui/components/RolesManager';
 import { useHistory } from 'react-router';
-import IfElse from '@edudoor/ui/components/IfElse';
 import AssignmentSubmissionForm from '../../Forms/AssignmentSubmissionForm';
-import { AssignmentSubmissionType } from '@edudoor/common/models';
-import { Link } from 'react-router-dom';
-import Api from '../../../services/api';
-import Button from '@edudoor/ui/components/Buttons/Button';
+import AssignmentSubmissionView from '../../AssignmentSubmissionView';
+import WebComponent from '@edudoor/ui/components/WebComponent';
+import Table from '@edudoor/ui/components/Table';
+import Tools from '@edudoor/common/utils/Tools';
+import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
+import useModal from '@edudoor/ui/hooks/useModal';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
   const initialValues = {
@@ -19,6 +20,14 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
     submissionType: '',
   };
   const history = useHistory();
+  const viewAssignmentSubmissionModal = useModal(false);
+  const [currentSubmission, setCurrentSubmission] = useState(null);
+
+  useEffect(() => {
+    if (currentSubmission) {
+      viewAssignmentSubmissionModal.openModal();
+    }
+  }, [currentSubmission]);
 
   const submission = props.assignment?.assignmentSubmission;
   return (
@@ -33,29 +42,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
         </div>
         <Panel style={{ marginTop: 'var(--padding-lg)' }} noBackground>
           {submission ? (
-            <div>
-              <IfElse condition={submission.submissionType === AssignmentSubmissionType.TEXT_ENTRY}>
-                <div>{submission.submission}</div>
-              </IfElse>
-              <IfElse condition={submission.submissionType === AssignmentSubmissionType.WEBSITE_URL}>
-                <Link to={submission.submission} target="_blank">
-                  {submission.submission}
-                </Link>
-              </IfElse>
-              <IfElse condition={submission.submissionType === AssignmentSubmissionType.FILE_UPLOAD}>
-                <div>
-                  <span>{submission.file?.name}</span>
-                  <Button
-                    onClick={() => {
-                      window.location.href = Api.fileURL(submission.submission, true);
-                    }}
-                    icon="cloud_download"
-                  >
-                    Download Assignment
-                  </Button>
-                </div>
-              </IfElse>
-            </div>
+            <AssignmentSubmissionView submission={submission} />
           ) : (
             <AssignmentSubmissionForm
               assignment={props.assignment}
@@ -64,6 +51,44 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
             />
           )}
         </Panel>
+      </RoleContainer>
+      <RoleContainer roles={[Roles.TEACHER]}>
+        <Header size={2} style={{ paddingBottom: 'var(--padding-lg)', paddingTop: 'var(--padding-lg)' }}>
+          Submissions
+        </Header>
+        <AssignmentSubmissionModal submission={currentSubmission} useModal={viewAssignmentSubmissionModal} />
+        <WebComponent
+          data={props.assignment?.assignmentSubmissions}
+          loading={false}
+          emptyMessage="No student has submitted their assignment."
+          size="medium"
+          icon="assessment"
+        >
+          {submissions => {
+            return (
+              <div>
+                <Table
+                  data={submissions}
+                  onRowClick={row => {
+                    setCurrentSubmission(row);
+                  }}
+                  columns={{
+                    student: 'Student',
+                    submittedOn: 'Date',
+                    submittedAt: 'Time',
+                    submissionType: 'Type',
+                  }}
+                  getCell={row => ({
+                    student: row.student.fullName,
+                    submittedOn: Tools.normalDate(row.createdAt),
+                    submittedAt: Tools.normalTime(row.createdAt),
+                    type: row.submissionType,
+                  })}
+                />
+              </div>
+            );
+          }}
+        </WebComponent>
       </RoleContainer>
     </div>
   );

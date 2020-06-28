@@ -23,6 +23,7 @@ const TeacherList: React.FunctionComponent<StudentListProps> = props => {
     <Layout
       {...props}
       header="All Teachers"
+      suggestionsType="teachers"
       actionBtnProps={{
         text: 'Add Teacher',
         onClick: (): void => props.history.push(routes.routes.addTeacher.link),

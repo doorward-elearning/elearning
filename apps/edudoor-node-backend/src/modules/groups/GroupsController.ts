@@ -2,6 +2,7 @@ import models from '../../database/models';
 import GroupHelper from '../../helpers/GroupHelper';
 import OrganizationUtils from '../../utils/OrganizationUtils';
 import compareLists from '../../utils/compareLists';
+import { searchQuery } from '../../utils/query';
 
 class GroupsController {
   static async createGroup(req) {
@@ -103,7 +104,9 @@ class GroupsController {
   static async getGroups(req) {
     const { type } = req.query;
 
-    const where: { type?: string } = {};
+    const search = searchQuery(req, ['name']);
+
+    const where: { [name: string]: string } = { ...search };
     if (type) {
       where.type = type;
     }

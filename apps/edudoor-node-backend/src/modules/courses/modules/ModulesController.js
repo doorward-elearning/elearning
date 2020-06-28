@@ -1,5 +1,6 @@
 import models from '../../../database/models';
 import { ModuleInclude } from '../../../utils/includes';
+import Tools from '../../../utils/Tools';
 
 class ModulesController {
   static async getCourseModules(req) {
@@ -171,29 +172,50 @@ class ModulesController {
 
   static async getModuleItem(req) {
     const { params, user } = req;
+    const include = [
+      {
+        model: models.Module,
+        as: 'module',
+      },
+    ];
+
+    if (Tools.isStudent(user)) {
+      include.push({
+        model: models.AssignmentSubmission,
+        where: {
+          studentId: user.id,
+        },
+        required: false,
+        as: 'assignmentSubmission',
+        include: [
+          {
+            model: models.File,
+            as: 'file',
+            required: false,
+          },
+        ],
+      });
+    } else {
+      include.push({
+        model: models.AssignmentSubmission,
+        required: false,
+        as: 'assignmentSubmissions',
+        include: [
+          {
+            model: models.File,
+            as: 'file',
+            required: false,
+          },
+          {
+            model: models.User,
+            as: 'student',
+          },
+        ],
+      });
+    }
 
     const item = await models.ModuleItem.findByPk(params.id, {
-      include: [
-        {
-          model: models.Module,
-          as: 'module',
-        },
-        {
-          model: models.AssignmentSubmission,
-          where: {
-            studentId: user.id,
-          },
-          required: false,
-          as: 'assignmentSubmission',
-          include: [
-            {
-              model: models.File,
-              as: 'file',
-              required: false,
-            },
-          ],
-        },
-      ],
+      include,
     });
     if (item.type === 'Quiz') {
       const questions = await models.Question.findAll({

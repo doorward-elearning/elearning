@@ -103,6 +103,14 @@ export interface CreateCourseManagerBody {
 
 export interface PaginationBody extends PaginationQuery, ParsedUrlQuery {}
 
+export interface SearchQueryBody extends ParsedUrlQuery {
+  search?: string;
+}
+
+export interface FetchGroupQuery extends SearchQueryBody {
+  type: string;
+}
+
 export interface ListStudentsBody {
   notRegisteredTo?: string;
 }

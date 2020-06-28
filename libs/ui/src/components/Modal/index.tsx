@@ -9,6 +9,7 @@ import Button, { ButtonProps } from '../Buttons/Button';
 import IfElse from '../IfElse';
 import useModalBlur from '../../hooks/useModalBlur';
 import { UseModal } from '../../hooks/useModal';
+import NavBarSearch from '../NavBar/NavBarSearch';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -17,6 +18,7 @@ export enum ModalFeatures {
   NEUTRAL_BUTTON = 4,
   NEGATIVE_BUTTON = 5,
   CLOSE_BUTTON_FOOTER = 6,
+  SEARCH_BAR = 7,
 }
 
 const DEFAULT_FEATURES = [ModalFeatures.CLOSE_BUTTON_HEADER, ModalFeatures.TITLE];
@@ -28,7 +30,7 @@ const ModalContext = React.createContext<ModalContext>({
   cancellable: true,
 });
 
-const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true }) => {
+const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true, ...props }) => {
   const [visible, setVisible] = useState(false);
   const modal = useModalBlur(useModal);
   useEffect(() => {
@@ -60,6 +62,7 @@ const Modal: ModalComponent = ({ features = [], children, useModal, cancellable 
           className={classNames({
             'ed-modal': true,
             open: visible,
+            [props.className]: true,
           })}
         >
           <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
@@ -74,16 +77,23 @@ const ModalHeader: React.FunctionComponent<ModalHeaderProps> = props => {
   return (
     <ModalContext.Consumer>
       {({ closeModal, cancellable }): JSX.Element => (
-        <div className="ed-modal__content__header">
-          <Feature feature={ModalFeatures.TITLE}>
-            <Header size={2}>{props.title}</Header>
-          </Feature>
-          {props.children}
-          <IfElse condition={cancellable}>
-            <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
-              <Icon icon="close" onClick={closeModal} />
+        <div className="ed-modal__content__headerContainer">
+          <div className="ed-modal__content__header">
+            <Feature feature={ModalFeatures.TITLE}>
+              <Header size={2}>{props.title}</Header>
             </Feature>
-          </IfElse>
+            {props.children}
+            <IfElse condition={cancellable}>
+              <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
+                <Icon icon="close" onClick={closeModal} />
+              </Feature>
+            </IfElse>
+          </div>
+          <Feature feature={ModalFeatures.SEARCH_BAR}>
+            <div className="ed-modal__content__header--searchBar">
+              <NavBarSearch onSearch={props.onSearch} />
+            </div>
+          </Feature>
         </div>
       )}
     </ModalContext.Consumer>
@@ -168,9 +178,11 @@ export interface ModalProps {
   features?: Array<ModalFeatures | string | typeof ModalFeatures>;
   useModal: UseModal;
   cancellable?: boolean;
+  className?: string;
 }
 export interface ModalHeaderProps {
   title?: string;
+  onSearch?: (search: string) => void;
 }
 export interface ModalBodyProps {}
 export interface ModalFooterProps {
@@ -197,12 +209,12 @@ export interface ModalComponent extends React.FunctionComponent<ModalProps> {
   Footer: React.FunctionComponent<ModalFooterProps>;
 }
 
-export type ModalContext = {
+export interface ModalContext {
   isOpen: boolean;
   openModal: () => void;
   closeModal: () => void;
   cancellable: boolean;
-};
+}
 
 Modal.Body = Body;
 Modal.Footer = Footer;

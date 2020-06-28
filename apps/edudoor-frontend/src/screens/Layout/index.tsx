@@ -124,12 +124,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
-          <NavBarSearchContext
-            value={{
-              state: searchSuggestions,
-              placeholder: props.searchPlaceholder,
-            }}
-          >
+          <NavBarSearchContext state={searchSuggestions} placeholder={props.searchPlaceholder}>
             <NavBar
               icon={icon}
               history={history}

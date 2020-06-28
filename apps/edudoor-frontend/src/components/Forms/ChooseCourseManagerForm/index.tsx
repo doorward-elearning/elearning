@@ -6,6 +6,8 @@ import { State } from '../../../store';
 import { fetchTeacherListAction } from '../../../reducers/teachers/actions';
 import { User } from '@edudoor/common/models/User';
 import { UseForm } from '@edudoor/ui/hooks/useForm';
+import { WebComponentState } from '@edudoor/ui/reducers/reducers';
+import { TeacherListResponse } from '../../../services/models/responseBody';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.createCourseManager);
@@ -17,6 +19,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
   return (
     <ChooseItemsForm
       items={props.managers}
+      getItems={state1 => state1.data.teachers}
       state={state}
       form={props.form}
       singleChoice
@@ -39,7 +42,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
 };
 
 export interface ChooseCourseManagerFormProps {
-  managers: Array<User>;
+  managers: WebComponentState<TeacherListResponse>;
   onSuccess: () => void;
   form: UseForm<{ items: Array<User> }>;
   courseId: string;

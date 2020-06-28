@@ -17,34 +17,25 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
   const state = useSelector((state: State) => state.students.changePassword);
   const changeDetails = useSelector((state: State) => state.students.changeAccountDetails);
 
-  const userCardContext: OptionalKeys<UserCardProps> = {
-    changePassword: true,
-    onOpenChangePasswordModal: () => {
-      setPasswordModalOpen(true);
-    },
-    onPasswordChanged: () => {
-      setPasswordModalOpen(false);
-    },
-    openModal: passwordModalOpen,
-  };
-
-  const changePasswordForm: OptionalKeys<ChangePasswordFormProps> = {
-    submitAction: changeStudentsPassword,
-    createData: data => [props.student.id, { password: data.newPassword }],
-    dontEnterCurrentPassword: true,
-    state,
-  };
   return (
     <div className="ed-student__profile_view">
-      <UserCardContext value={userCardContext}>
+      <UserCardContext
+        changePassword
+        onOpenChangePasswordModal={() => setPasswordModalOpen(true)}
+        onPasswordChanged={() => setPasswordModalOpen(false)}
+        openModal={passwordModalOpen}
+      >
         <ProfileAccountFormContext
-          value={{
-            submitAction: changeStudentsAccountInformationAction,
-            state: changeDetails,
-            createData: values => [props.student.id, values],
-          }}
+          submitAction={changeStudentsAccountInformationAction}
+          state={changeDetails}
+          createData={values => [props.student.id, values]}
         >
-          <ChangePasswordFormContext value={changePasswordForm}>
+          <ChangePasswordFormContext
+            submitAction={changeStudentsPassword}
+            createData={data => [props.student.id, { password: data.newPassword }]}
+            dontEnterCurrentPassword
+            state={state}
+          >
             <UserProfileCard form={form} user={props.student} editable />
           </ChangePasswordFormContext>
         </ProfileAccountFormContext>

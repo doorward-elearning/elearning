@@ -146,6 +146,7 @@ $suggestionsHeight: 500px;
         border-bottom-left-radius: $borderRadius;
         transform: translateY(0);
         opacity: 1;
+        display: none;
       }
 
       &--input {
@@ -163,6 +164,7 @@ $suggestionsHeight: 500px;
       }
 
       &--suggestions {
+        display: block;
         padding-bottom: $borderRadius;
         box-shadow: 0 4px 4px 2px var(--shadow-color);
         border: 1px solid var(--line-color);

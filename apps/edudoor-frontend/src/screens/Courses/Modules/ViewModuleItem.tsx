@@ -91,7 +91,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
       }}
       header={Tools.str(state.fetching ? '' : item?.title)}
     >
-      <WebComponent data={item} loading={state.fetching} showRefreshingProgress>
+      <WebComponent data={item} hasData={() => !state.fetching} loading={state.fetching}>
         {(item): JSX.Element => {
           return (
             <React.Fragment>

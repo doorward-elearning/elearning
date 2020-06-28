@@ -40,7 +40,7 @@ const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> =
   );
 };
 
-const NavBarSearch: React.FunctionComponent<NavBarSearchProps> = props => {
+const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props => {
   const [searchText, setSearchText] = useState('');
   const [focused, setFocused] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -216,8 +216,8 @@ export interface NavBarSearchProps {
   state?: WebComponentState<{ suggestions: Array<SearchSuggestion> }>;
 }
 
-const { ContextConsumer, Context } = withContext(NavBarSearch, {});
+const { ContextConsumer: NavBarSearch, Context } = withContext(NavBarSearchComponent, {});
 
 export const NavBarSearchContext = Context;
 
-export default ContextConsumer;
+export default NavBarSearch;

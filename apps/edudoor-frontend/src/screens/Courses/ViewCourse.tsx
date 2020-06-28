@@ -127,12 +127,17 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 />
                 <ChooseStudentModal
                   courseId={course.id}
+                  className="choose__student__modal"
                   onSuccess={addStudentModal.closeModal}
                   useModal={addStudentModal}
-                  features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
+                  features={[
+                    ModalFeatures.POSITIVE_BUTTON,
+                    ModalFeatures.CLOSE_BUTTON_FOOTER,
+                    ModalFeatures.SEARCH_BAR,
+                  ]}
                 />
                 <ChooseCourseManagerModal
-                  managers={teacherList.data.teachers}
+                  managers={teacherList}
                   onSuccess={addCourseManagerModal.closeModal}
                   courseId={course.id}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}

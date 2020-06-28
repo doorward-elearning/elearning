@@ -108,7 +108,7 @@ class Tools {
     return allColors[Math.abs(Tools.hashCode(str)) % allColors.length];
   }
 
-  static shortDate(str: string): string {
+  static shortDate(str: string | Date): string {
     return moment(str).format('DD/MM/YYYY');
   }
 
@@ -116,19 +116,23 @@ class Tools {
     return moment(str).format('Do MMMM YYYY');
   }
 
-  static longDate(str: string): string {
+  static longDate(str: string | Date): string {
     return moment(str).format('dddd, MMMM Do YYYY');
   }
-  static shortDateTime(str: string): string {
+  static shortDateTime(str: string | Date): string {
     return moment(str).format('DD/MM/YYYY hh:mm a');
   }
 
-  static normalDateTime(str: string): string {
+  static normalDateTime(str: string | Date): string {
     return moment(str).format('Do MMMM YYYY hh:mm a');
   }
 
-  static longDateTime(str: string): string {
+  static longDateTime(str: string | Date): string {
     return moment(str).format('dddd, MMMM Do YYYY at hh:mm a');
+  }
+
+  static normalTime(str: string | Date): string {
+    return moment(str).format('hh:mm a');
   }
 
   static handleReorder<T>(items: Array<T>, key: keyof T, dropResult: DropResult): Array<T> {

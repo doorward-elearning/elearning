@@ -12,13 +12,16 @@ import {
   CreatePasswordBody,
   CreateStudentBody,
   CreateTeacherBody,
+  FetchGroupQuery,
   ForgotPasswordBody,
   ListStudentsBody,
   LoginBody,
   PaginationBody,
   RegisterStudentsBody,
   RegistrationBody,
-  SubmitAssignmentBody, UpdateGroupBody,
+  SearchQueryBody,
+  SubmitAssignmentBody,
+  UpdateGroupBody,
   UpdateModulesBody,
 } from './models/requestBody';
 import {
@@ -181,8 +184,8 @@ const Api = {
       create: (courseId: string, student: CreateStudentBody): Promise<StudentResponse> => {
         return POST(`/courses/${courseId}/students`, student);
       },
-      notRegistered: (courseId: string): Promise<StudentListResponse> => {
-        return GET(`/courses/${courseId}/students/not-registered`);
+      notRegistered: (courseId: string, query: SearchQueryBody): Promise<StudentListResponse> => {
+        return GET(`/courses/${courseId}/students/not-registered`, query);
       },
       register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
         return POST(`/courses/${courseId}/students/register`, data);
@@ -213,8 +216,8 @@ const Api = {
     },
   },
   groups: {
-    list: (type: string): Promise<GroupsResponse> => {
-      return GET('/groups?type=' + type);
+    list: (query: FetchGroupQuery): Promise<GroupsResponse> => {
+      return GET('/groups', query);
     },
     create: (body: CreateGroupBody): Promise<GroupResponse> => {
       return POST('/groups', body);

@@ -28,6 +28,7 @@ import {
   CreateCourseManagerBody,
   CreateStudentBody,
   RegisterStudentsBody,
+  SearchQueryBody,
   SubmitAssignmentBody,
   UpdateModulesBody,
 } from '../../services/models/requestBody';
@@ -69,9 +70,9 @@ export const addCourseStudentAction = (courseId: string, body: CreateStudentBody
   payload: [courseId, body],
 });
 
-export const fetchStudentsNotRegisteredAction = (courseId: string) => ({
+export const fetchStudentsNotRegisteredAction = (courseId: string, query?: SearchQueryBody) => ({
   type: FETCH_STUDENTS_NOT_REGISTERED,
-  payload: [courseId],
+  payload: [courseId, query],
 });
 
 export const createCourseModuleItemAction = (moduleId: string, item: CourseModuleItemBody): Action => ({

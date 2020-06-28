@@ -4,7 +4,7 @@ function withContext<Q>(
   Component: React.FunctionComponent<Q>,
   initialProps: { [x in keyof Q]?: Q[x] }
 ): {
-  Context: React.Provider<{ [x in keyof Q]?: Q[x] }>;
+  Context: React.FunctionComponent<{ [x in keyof Q]?: Q[x] }>;
   ContextConsumer: React.FunctionComponent<Q>;
 } {
   const Context = React.createContext<{ [x in keyof Q]?: Q[x] }>(initialProps);
@@ -14,7 +14,7 @@ function withContext<Q>(
   };
 
   return {
-    Context: Context.Provider,
+    Context: props => <Context.Provider value={props}>{props.children}</Context.Provider>,
     ContextConsumer,
   };
 }

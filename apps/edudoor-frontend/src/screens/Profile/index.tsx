@@ -18,16 +18,14 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="My Profile">
       <UserCardContext
-        value={{
-          openModal: match.path === routes.changePassword.link,
-          onOpenChangePasswordModal: () => {
-            routes.navigate(routes.changePassword, { username: user.username });
-          },
-          onPasswordChanged: () => {
-            routes.navigate(routes.myProfile, { username: user.username });
-          },
-          changePassword: true,
+        openModal={match.path === routes.changePassword.link}
+        onOpenChangePasswordModal={() => {
+          routes.navigate(routes.changePassword, { username: user.username });
         }}
+        onPasswordChanged={() => {
+          routes.navigate(routes.myProfile, { username: user.username });
+        }}
+        changePassword
       >
         <UserProfileCard form={form} user={user} editable />
       </UserCardContext>

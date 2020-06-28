@@ -10,7 +10,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
   return (
     <SimpleWebComponent
       action={fetchGroupsAction}
-      params={[props.type]}
+      params={[{ type: props.type }]}
       selector={(state: State) => state.groups.groupList}
       dataSelector={data => data.groups}
     >

@@ -4,6 +4,7 @@ import StudentController from '../../users/students/StudentController';
 import UserController from '../../users/UserController';
 import * as roles from '../../../utils/roles';
 import MeetingRoomsHelper from '../../../helpers/MeetingRoomsHelper';
+import { searchQuery } from '../../../utils/query';
 
 class StudentCourseController {
   static async getStudents(req) {
@@ -20,6 +21,7 @@ class StudentCourseController {
    */
   static async getStudentsNotRegistered(req) {
     const { params } = req;
+    const query = searchQuery(req, ['firstName', 'lastName', 'email', 'username']);
     const registered = await models.sequelize.query('SELECT "studentId" from "StudentCourses" WHERE "courseId" = ?', {
       replacements: [params.courseId],
     });
@@ -29,6 +31,7 @@ class StudentCourseController {
         id: {
           [Op.notIn]: ids,
         },
+        ...query,
       },
     });
     return [200, { students }];

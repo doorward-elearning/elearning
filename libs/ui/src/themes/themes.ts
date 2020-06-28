@@ -8,6 +8,7 @@ const base = {
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
   '--text-alternate': '#f4f4f4',
+  '--container-width': '1200px',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
   '--font-family':

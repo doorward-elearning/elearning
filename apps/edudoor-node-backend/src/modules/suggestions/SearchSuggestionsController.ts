@@ -10,14 +10,18 @@ export default class SearchSuggestionsController {
     let suggestions: Array<SearchSuggestion> = [];
 
     if (type === 'students') {
-      suggestions = await SearchSuggestionsController.getStudentSuggestions();
+      suggestions = await SearchSuggestionsController.getUserSuggestions(roles.STUDENT);
+    } else if (type === 'teachers') {
+      suggestions = await SearchSuggestionsController.getUserSuggestions(roles.TEACHER);
     }
 
     return [200, { suggestions }];
   }
 
-  static async getStudentSuggestions() {
-    const students = await UserController.findByRole(roles.STUDENT, {
+  static async getCourseSuggestions() {}
+
+  static async getUserSuggestions(role) {
+    const students = await UserController.findByRole(role, {
       attributes: ['email'],
     });
 

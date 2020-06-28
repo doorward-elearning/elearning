@@ -20,6 +20,7 @@ export class ModuleItem extends Model implements DBModel {
 
   public readonly module: Module;
   public readonly assignmentSubmission: AssignmentSubmission;
+  public readonly assignmentSubmissions: Array<AssignmentSubmission>;
 }
 
 export default (sequelize: Sequelize) => {
@@ -65,6 +66,10 @@ export default (sequelize: Sequelize) => {
     ModuleItem.hasOne(AssignmentSubmission, {
       foreignKey: 'assignmentId',
       as: 'assignmentSubmission',
+    });
+    ModuleItem.hasMany(AssignmentSubmission, {
+      foreignKey: 'assignmentId',
+      as: 'assignmentSubmissions',
     });
     return ModuleItem;
   };

@@ -26,9 +26,9 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
   const { courseId } = props;
 
   useEffect(() => {
-    fetchStudents(courseId);
-    fetchGroups(Groups.STUDENT);
-  }, []);
+    fetchStudents(courseId, { search: props.search });
+    fetchGroups({ type: Groups.STUDENT, search: props.search });
+  }, [props.search]);
 
   const onSuccess = () => {
     fetchStudents(courseId);
@@ -55,8 +55,11 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
         <Tab title="Students">
           <Panel plain>
             <ChooseItemsForm
-              items={studentList.data.students}
+              getItems={state1 => state1.data.students}
+              items={studentList}
               state={state}
+              onRemoveFilter={props.onClearSearch}
+              hasSearch={!!props.search}
               form={props.form}
               onSuccess={onSuccess}
               submitAction={registerStudents}
@@ -83,11 +86,14 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
           <Panel plain>
             <Row style={{ alignItems: 'start' }}>
               <ChooseItemsForm
-                items={groupList.data.groups}
+                items={groupList}
+                getItems={state1 => state1.data.groups}
                 state={state}
                 form={props.groupForm}
                 onSuccess={onSuccess}
                 submitAction={registerStudents}
+                onRemoveFilter={props.onClearSearch}
+                hasSearch={!!props.search}
                 createData={values => [courseId, { students: createStudentsFromGroups(values) }]}
                 columns={{
                   name: 'Group name',
@@ -136,11 +142,11 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
 };
 
 export interface ChooseStudentFormState {
-  items: Array<{ selected: boolean } & Student>;
+  items: Array<Student>;
 }
 
 export interface ChooseStudentGroupFormState {
-  items: Array<{ selected: boolean } & Group>;
+  items: Array<Group>;
 }
 
 export interface ChooseStudentFormProps {
@@ -149,6 +155,8 @@ export interface ChooseStudentFormProps {
   courseId: string;
   onSuccess: () => void;
   onTabChange: (current: number) => void;
+  search?: string;
+  onClearSearch?: () => void;
 }
 
 export default ChooseStudentForm;

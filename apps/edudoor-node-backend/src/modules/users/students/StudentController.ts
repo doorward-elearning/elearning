@@ -56,13 +56,6 @@ class StudentController {
   static async getAllStudents(req) {
     const result = await UserController.paginate<User>(req, roles.STUDENT, {
       where: searchQuery(req, ['username', 'firstName', 'lastName', 'email']),
-      include: [
-        {
-          model: models.Course,
-          as: 'courses',
-          required: false,
-        },
-      ],
     });
 
     return [200, { students: result.model }, undefined, { pagination: result.pagination }];
