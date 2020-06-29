@@ -5,13 +5,12 @@ import WebComponent from '@edudoor/ui/components/WebComponent';
 import AddGroupForm from '../../components/Forms/AddGroupForm';
 import { PageComponent } from '@edudoor/ui/types';
 import { User } from '@edudoor/common/models/User';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
-import { ActionCreator } from 'redux';
+import { ActionCreator, WebComponentState } from '@edudoor/ui/reducers/reducers';
 import useAction from '@edudoor/ui/hooks/useActions';
 import { ROUTES } from '../../routes/routes';
 import { GroupResponse } from '../../services/models/responseBody';
 
-function CreateGroup<T>({
+function CreateGroup<T, Args extends Array<any>>({
   state,
   actionCreator,
   emptyMessage,
@@ -21,7 +20,7 @@ function CreateGroup<T>({
   type,
   currentGroupState,
   ...props
-}: CreateGroupProps<T>) {
+}: CreateGroupProps<T, Args>) {
   const [loading, setLoading] = useState(true);
   const routes = useRoutes();
   const action = useAction(actionCreator);
@@ -35,7 +34,7 @@ function CreateGroup<T>({
   }, [state, currentGroupState]);
 
   useEffect(() => {
-    action();
+    action(...((props.actionArgs || []) as Args));
   }, []);
 
   return (
@@ -64,15 +63,16 @@ function CreateGroup<T>({
   );
 }
 
-export interface CreateGroupProps<T> extends PageComponent {
+export interface CreateGroupProps<T, Args = any[]> extends PageComponent {
   emptyMessage: string;
   title: string;
   type: string;
   state: WebComponentState<T>;
   getUsers: (data: T) => Array<User>;
-  actionCreator: ActionCreator<any>;
+  actionCreator: ActionCreator<Args>;
   redirectOnSuccess: keyof typeof ROUTES;
   currentGroupState?: WebComponentState<GroupResponse>;
+  actionArgs?: Args;
 }
 
 export default CreateGroup;

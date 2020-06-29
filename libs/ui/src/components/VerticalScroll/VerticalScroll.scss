@@ -1,0 +1,30 @@
+.ed-verticalScroll {
+  &::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+  overflow-y: scroll;
+  &__content {
+    position: relative;
+
+
+    &--pointer {
+      position: absolute;
+      z-index: 100;
+      display: grid;
+      align-items: center;
+      width: 100%;
+      background: linear-gradient(var(--bg-primary), transparent);
+      padding: var(--padding) 0;
+
+      &.pointer__down {
+        bottom: 0;
+        background: linear-gradient(transparent, var(--bg-primary));
+      }
+
+      &.pointer__up {
+        top: 0;
+      }
+    }
+  }
+}

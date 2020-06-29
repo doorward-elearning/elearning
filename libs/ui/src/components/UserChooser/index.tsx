@@ -8,6 +8,7 @@ import Icon from '../Icon';
 import { UseUserChooser } from '@edudoor/ui/hooks/useUserChooser';
 import WebComponent from '../WebComponent';
 import Search from '../Search';
+import VerticalScroll from '@edudoor/ui/components/VerticalScroll';
 
 const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.Element => {
   const { users, selected, select, count, filter } = props.useUserChooser;
@@ -21,32 +22,34 @@ const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.El
   return (
     <div className="ed-user-chooser__root">
       <Search onChange={filter} />
-      <WebComponent
-        data={count < users.length}
-        loading={false}
-        size="small"
-        emptyMessage="No users"
-        icon="account_circle"
-      >
-        {() => (
-          <div className="ed-user-chooser">
-            <ItemArray data={users} filter={props.removeOnSelection && filterFunction}>
-              {item => (
-                <SimpleUserView
-                  user={item}
-                  onClick={() => {
-                    select(item.id);
-                  }}
-                >
-                  <IfElse condition={selected[item.id]}>
-                    <Icon icon="check" />
-                  </IfElse>
-                </SimpleUserView>
-              )}
-            </ItemArray>
-          </div>
-        )}
-      </WebComponent>
+      <VerticalScroll maxHeight={500}>
+        <WebComponent
+          data={count < users.length}
+          loading={false}
+          size="small"
+          emptyMessage="No users"
+          icon="account_circle"
+        >
+          {() => (
+            <div className="ed-user-chooser">
+              <ItemArray data={users} filter={props.removeOnSelection && filterFunction}>
+                {item => (
+                  <SimpleUserView
+                    user={item}
+                    onClick={() => {
+                      select(item.id);
+                    }}
+                  >
+                    <IfElse condition={selected[item.id]}>
+                      <Icon icon="check" />
+                    </IfElse>
+                  </SimpleUserView>
+                )}
+              </ItemArray>
+            </div>
+          )}
+        </WebComponent>
+      </VerticalScroll>
     </div>
   );
 };

@@ -18,6 +18,7 @@ import BasicForm from '../BasicForm';
 import { createGroupAction, updateGroupAction } from '../../../reducers/groups/actions';
 import validation from './validation';
 import { Group } from '@edudoor/common/models/Group';
+import VerticalScroll from '@edudoor/ui/components/VerticalScroll';
 
 interface InitialValues {
   name: string;

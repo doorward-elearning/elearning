@@ -16,6 +16,7 @@ const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (pr
       state={studentList}
       getUsers={data => data.students}
       actionCreator={fetchStudentListAction}
+      actionArgs={[{ limit: Number.MAX_SAFE_INTEGER }]}
       redirectOnSuccess="studentGroups"
       {...props}
     />
