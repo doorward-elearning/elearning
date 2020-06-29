@@ -43,6 +43,7 @@ const base = {
   '--button-success': '#1e8a1f',
   '--button-success-color': '#ffffff',
   '--button-info': '#4d63df',
+  '--scrollbar-color': '#ccc',
   '--button-info-color': '#ccc',
   '--button-danger': '#850e09',
   '--button-danger-color': '#f1f1f1',

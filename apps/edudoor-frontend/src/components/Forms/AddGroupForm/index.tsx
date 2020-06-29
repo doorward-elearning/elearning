@@ -84,30 +84,32 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
                 <TextLink onClick={hook.deselectAll}>Deselect All</TextLink>
               </IfElse>
             </div>
-            <WebComponent
-              data={formikProps.values.members as Array<User>}
-              loading={false}
-              size="medium"
-              emptyMessage="None selected yet."
-            >
-              {items => (
-                <div className="add-group-form__selected--list">
-                  <ItemArray data={items}>
-                    {item => (
-                      <SimpleUserView user={item}>
-                        <Icon
-                          icon="close"
-                          className="remove-member"
-                          onClick={() => {
-                            hook.deselect(item.id);
-                          }}
-                        />
-                      </SimpleUserView>
-                    )}
-                  </ItemArray>
-                </div>
-              )}
-            </WebComponent>
+            <VerticalScroll maxHeight={500}>
+              <WebComponent
+                data={formikProps.values.members as Array<User>}
+                loading={false}
+                size="medium"
+                emptyMessage="None selected yet."
+              >
+                {items => (
+                  <div className="add-group-form__selected--list">
+                    <ItemArray data={items}>
+                      {item => (
+                        <SimpleUserView user={item}>
+                          <Icon
+                            icon="close"
+                            className="remove-member"
+                            onClick={() => {
+                              hook.deselect(item.id);
+                            }}
+                          />
+                        </SimpleUserView>
+                      )}
+                    </ItemArray>
+                  </div>
+                )}
+              </WebComponent>
+            </VerticalScroll>
           </div>
         </div>
       )}
