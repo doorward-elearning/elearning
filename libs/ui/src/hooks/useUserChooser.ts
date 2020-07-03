@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { User } from '@edudoor/common/models/User';
 
 export interface UseUserChooser {
@@ -7,30 +7,20 @@ export interface UseUserChooser {
   deselect: (id: string) => void;
   selectAll: () => void;
   deselectAll: () => void;
+  filteredUsers: Array<User>;
   users: Array<User>;
   count: number;
   filter: (query: string) => void;
 }
-const useUserChooser = (users: Array<User>, initiallySelectedUsers?: Array<User>): UseUserChooser => {
-  const createSelected = (value: boolean) => {
-    return users.reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur.id]: value,
-      };
-    }, {});
-  };
+const useUserChooser = (_users: Array<User>, initiallySelectedUsers?: Array<User>): UseUserChooser => {
   const [selected, setSelected] = useState<{ [name: string]: boolean }>({});
-  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState(_users);
   const [filteredUsers, setFilteredUsers] = useState(users);
+  const [filterString, setFilterString] = useState('');
 
-  const chooseUser = useCallback(
-    (id: string, choose: boolean) => {
-      setSelected({ ...selected, [id]: choose });
-      setCount(count + (choose ? 1 : -1));
-    },
-    [selected, count, initiallySelectedUsers]
-  );
+  useEffect(() => {
+    setUsers(users);
+  }, [users]);
 
   useEffect(() => {
     setFilteredUsers(users);
@@ -44,17 +34,40 @@ const useUserChooser = (users: Array<User>, initiallySelectedUsers?: Array<User>
     );
   }, [users]);
 
-  const filter = useMemo(
-    () => (query: string) => {
-      const regex = new RegExp(query, 'ig');
-      setFilteredUsers(
-        users.filter(user => {
-          return regex.test(user.fullName) || regex.test(user.email);
-        })
-      );
+  const createSelected = useCallback(
+    (value: boolean) => {
+      return users.reduce((acc, cur) => {
+        return {
+          ...acc,
+          [cur.id]: value,
+        };
+      }, {});
     },
     [users]
   );
+
+  const filterFunction = useCallback(() => {
+    const regex = new RegExp(filterString, 'ig');
+    return users
+      .filter(user => {
+        return !selected[user.id];
+      })
+      .filter(user => {
+        return regex.test(user.fullName) || regex.test(user.email);
+      });
+  }, [filterString, users, selected]);
+
+  const chooseUser = useCallback(
+    (id: string, choose: boolean) => {
+      console.log(selected);
+      setSelected({ ...selected, [id]: choose });
+    },
+    [selected, initiallySelectedUsers, filteredUsers]
+  );
+
+  useEffect(() => {
+    setFilteredUsers(filterFunction());
+  }, [filterString, users, selected]);
 
   return {
     selected,
@@ -62,15 +75,14 @@ const useUserChooser = (users: Array<User>, initiallySelectedUsers?: Array<User>
     deselect: (id: string) => chooseUser(id, false),
     selectAll: () => {
       setSelected(createSelected(true));
-      setCount(users.length);
     },
     deselectAll: () => {
       setSelected(createSelected(false));
-      setCount(0);
     },
-    count,
-    users: filteredUsers,
-    filter,
+    count: Object.values(selected).reduce((acc, cur) => acc + (cur ? 1 : 0), 0),
+    filteredUsers: filteredUsers,
+    filter: setFilterString,
+    users,
   };
 };
 

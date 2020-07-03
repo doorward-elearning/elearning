@@ -62,6 +62,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
 
   useClickOutside(e => {
     setFocused(false);
+    setSubmit(true);
   }, searchElement);
 
   useEffect(() => {
@@ -109,6 +110,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
           setSearchText(predictedText);
         }
       } else if (e.keyCode === 13) {
+        e.preventDefault();
         setFocused(false);
         setSubmit(true);
         props.onSearch(searchText);
@@ -120,6 +122,9 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
   const onChange = (e: any) => {
     const text = e.target.value;
     setSearchText(text);
+    if (props.instantSearch) {
+      setSubmit(true);
+    }
   };
 
   useEffect(() => {
@@ -127,7 +132,12 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
       const prediction = suggestions.find(suggestion => {
         return suggestion.text.toLowerCase().startsWith(searchText.toLowerCase());
       });
-      setPredictedText(prediction?.text || '');
+      let predictionText = prediction?.text || '';
+      if (predictionText) {
+        const endText = predictionText.substring(searchText.length);
+        predictionText = searchText + endText;
+      }
+      setPredictedText(predictionText);
     } else {
       setPredictedText('');
     }
@@ -211,6 +221,7 @@ export interface SearchSuggestionViewProps {
 export interface NavBarSearchProps {
   placeholder?: string;
   suggestions?: Array<SearchSuggestion>;
+  instantSearch?: boolean;
   searchText?: string;
   onSearch: (search: string) => void;
   state?: WebComponentState<{ suggestions: Array<SearchSuggestion> }>;

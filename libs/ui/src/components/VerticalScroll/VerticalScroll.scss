@@ -4,14 +4,13 @@
     overflow-y: scroll;
 
     &::-webkit-scrollbar {
-      width: 0;
-      height: 0;
+      width: 5px;
     }
 
     &--pointer {
       position: absolute;
       z-index: 100;
-      display: grid;
+      display: none;
       align-items: center;
       width: 100%;
       background: linear-gradient(var(--bg-primary), transparent);
@@ -34,25 +33,6 @@
         opacity: 1;
         transform: scale(1);
       }
-    }
-  }
-
-  &__scrollBar {
-    position: absolute;
-    right: 1px;
-    top: 0;
-    z-index: 101;
-    width: 3px;
-    opacity: 0;
-    border-radius: 2px;
-    background: var(--scrollbar-color);
-    height: 400px;
-    transition: 0.2s opacity;
-  }
-
-  &:hover {
-    .ed-verticalScroll__scrollBar {
-      opacity: 1;
     }
   }
 }

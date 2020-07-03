@@ -23,7 +23,6 @@ const compareLists = <T, R>(
   });
 
   newItems.push(...newList.filter(x => existingList.find(y => !compare(y, x))));
-  console.log(removed, newItems, unchanged);
 
   return { removed, newItems, unchanged };
 };

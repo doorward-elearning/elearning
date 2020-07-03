@@ -8,7 +8,6 @@ import '@material/react-linear-progress/dist/linear-progress.css';
 import { Router } from './routes/routes';
 import { EdudoorRoutes } from './routes';
 import useApp, { appInitialValue } from './hooks/useApp';
-import { RouteDefinitions } from '@edudoor/ui/types';
 import RolesManager from '@edudoor/ui/components/RolesManager';
 import ApplicationTheme from '@edudoor/ui/components/ApplicationTheme';
 import useOfflineToast from '@edudoor/ui/hooks/useOfflineToast';

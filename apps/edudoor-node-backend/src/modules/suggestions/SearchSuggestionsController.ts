@@ -1,24 +1,36 @@
 import UserController from '../users/UserController';
 import roles from '../../utils/roles';
 import { SearchSuggestion } from '@edudoor/common/types/api';
+import models from '../../database/models';
 
 export default class SearchSuggestionsController {
   static async getSuggestions(req) {
     const {
-      params: { type },
+      params: { type: suggestionType },
+      query: { type },
     } = req;
     let suggestions: Array<SearchSuggestion> = [];
 
-    if (type === 'students') {
-      suggestions = await SearchSuggestionsController.getUserSuggestions(roles.STUDENT);
-    } else if (type === 'teachers') {
-      suggestions = await SearchSuggestionsController.getUserSuggestions(roles.TEACHER);
+    switch (suggestionType) {
+      case 'students':
+        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.STUDENT);
+        break;
+      case 'teachers':
+        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.TEACHER);
+        break;
+      case 'groups':
+        suggestions = await SearchSuggestionsController.getGroupSuggestions(type);
+        break;
     }
 
     return [200, { suggestions }];
   }
 
-  static async getCourseSuggestions() {}
+  static async getGroupSuggestions(type) {
+    return (await models.Group.findAll({ where: { type } })).map(group => ({
+      text: group.name,
+    }));
+  }
 
   static async getUserSuggestions(role) {
     const students = await UserController.findByRole(role, {

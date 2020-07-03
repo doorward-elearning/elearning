@@ -1,7 +1,7 @@
 import models from '../../database/models';
 import GroupHelper from '../../helpers/GroupHelper';
 import OrganizationUtils from '../../utils/OrganizationUtils';
-import compareLists from '../../utils/compareLists';
+import compareLists from '@edudoor/common/utils/compareLists';
 import { searchQuery } from '../../utils/query';
 
 class GroupsController {

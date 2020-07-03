@@ -35,6 +35,7 @@ import { State } from '../../store';
 import useAction from '@edudoor/ui/hooks/useActions';
 import { clearSuggestionsAction, getSuggestionsAction } from '../../reducers/suggestions/actions';
 import { NavBarSearchContext } from '@edudoor/ui/components/NavBar/NavBarSearch';
+import { ParsedUrlQuery } from 'querystring';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -88,7 +89,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   useEffect(() => {
     if (suggestionsType) {
-      fetchSuggestions(suggestionsType);
+      fetchSuggestions(suggestionsType, props.searchQuery);
     }
 
     return clearSuggestions;
@@ -239,6 +240,7 @@ export interface LayoutProps extends PageComponent {
   renderTopContent?: () => JSX.Element;
   suggestionsType?: string;
   searchPlaceholder?: string;
+  searchQuery?: ParsedUrlQuery;
 }
 
 export default Layout;

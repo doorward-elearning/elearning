@@ -10,15 +10,6 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
   const [scrollEvent, setScrollEvent] = useState(null);
   const [moreContentUp, setMoreContentUp] = useState(false);
   const [moreContentDown, setMoreContentDown] = useState(false);
-  const [scrollBar, setScrollBar] = useState({ height: props.maxHeight, top: 0 });
-
-  const calculateScrollBar = useCallback((top, scrollHeight) => {
-    const scrollBarHeight = (props.maxHeight / scrollHeight) * props.maxHeight;
-    setScrollBar({
-      height: scrollBarHeight,
-      top: (top / scrollHeight) * props.maxHeight,
-    });
-  }, []);
 
   useEffect(() => {
     if (scrollEvent) {
@@ -28,7 +19,6 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
 
       setMoreContentUp(top > POINTER_OFFSET && top < height);
       setMoreContentDown(bottom > 0);
-      calculateScrollBar(top, height);
     }
   }, [scrollEvent]);
 
@@ -97,9 +87,6 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
           }}
         />
       </span>
-      {scrollBar.height !== props.maxHeight && (
-        <span className="ed-verticalScroll__scrollBar" style={{ ...scrollBar }} />
-      )}
     </div>
   );
 };

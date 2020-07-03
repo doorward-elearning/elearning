@@ -27,7 +27,7 @@ const base = {
   '--accent': '#FF4081',
   '--box-shadow': '0 2px 15px 6px var(--shadow-color)',
   '--box-shadow--hover': '2px 6px 12px 2px var(--shadow-color--darker)',
-  '--sidebar-size': '250px',
+  '--sidebar-size': '280px',
   '--navBar-size': '70px',
   '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '40px',
@@ -44,6 +44,7 @@ const base = {
   '--button-success-color': '#ffffff',
   '--button-info': '#4d63df',
   '--scrollbar-color': '#ccc',
+  '--scrollbar-color__hover': '#aaa',
   '--button-info-color': '#ccc',
   '--button-danger': '#850e09',
   '--button-danger-color': '#f1f1f1',
@@ -75,6 +76,8 @@ const dark: Theme = {
   '--submitting-spinner-background': 'rgba(0, 0, 0, .4)',
   '--accent': '#c76a00',
   '--refreshing-bg': 'rgba(0, 0, 0, .1)',
+  '--scrollbar-color': '#666',
+  '--scrollbar-color__hover': '#777',
   logo: darkLogo,
 };
 

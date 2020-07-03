@@ -13,7 +13,7 @@ function SimpleWebComponent<
   useEffect(() => {
     const params = props.params || [];
     action(...(params as Parameters<S>));
-  }, []);
+  }, [props.params]);
   const state = useSelector(props.selector);
   return (
     <WebComponent {...props} data={props.dataSelector(state.data)} loading={state.fetching}>

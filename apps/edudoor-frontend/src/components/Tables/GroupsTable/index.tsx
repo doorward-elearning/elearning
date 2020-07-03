@@ -10,7 +10,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
   return (
     <SimpleWebComponent
       action={fetchGroupsAction}
-      params={[{ type: props.type }]}
+      params={[{ type: props.type, search: props.search }]}
       selector={(state: State) => state.groups.groupList}
       dataSelector={data => data.groups}
     >
@@ -38,6 +38,7 @@ export interface GroupsTableProps {
   type: string;
   onRowClick?: (row: Group, index: number) => void;
   actionMenu?: ActionMenu<Group>;
+  search?: string;
 }
 
 export default GroupsTable;

@@ -21,6 +21,7 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
       getUsers={data => data.students}
       currentGroupState={group}
       actionCreator={fetchStudentListAction}
+      actionArgs={[{ limit: 10000 }]}
       redirectOnSuccess="studentGroups"
       {...props}
     />

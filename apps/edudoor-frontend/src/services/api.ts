@@ -54,6 +54,7 @@ import ApiRequest from '@edudoor/ui/services/apiRequest';
 import { ModuleItemTypes } from '@edudoor/common/models';
 import axios from 'axios';
 import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
+import { ParsedUrlQuery } from 'querystring';
 
 /**
  * Use the return keyword in the functions to improve readability
@@ -263,8 +264,8 @@ const Api = {
     },
   },
   suggestions: {
-    get: (type: string): Promise<SuggestionsResponse> => {
-      return GET(`/suggestions/${type}`);
+    get: (type: string, query?: ParsedUrlQuery): Promise<SuggestionsResponse> => {
+      return GET(`/suggestions/${type}`, query);
     },
   },
   storage: {
