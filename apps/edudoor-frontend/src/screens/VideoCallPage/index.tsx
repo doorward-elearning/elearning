@@ -22,6 +22,8 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
     <div>
       <OpenviduWebComponent
         scriptUrl="assets/js/openvidu-webcomponent.js"
+        stylesUrl="assets/css/openvidu-webcomponent.css"
+        openviduServerApiURL={process.env.OPENVIDU_API_URL}
         openviduServerURL={process.env.OPENVIDU_URL}
         openviduSecret={process.env.OPENVIDU_SECRET}
       />

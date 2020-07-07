@@ -68,6 +68,7 @@ declare global {
     interface IntrinsicElements {
       'openvidu-webcomponent': {
         openviduServerUrl?: string;
+        openviduServerApiUrl?: string;
         openviduSecret?: string;
         theme?: string;
         sessionConfig?: string;

@@ -97,6 +97,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
         sessionConfig={JSON.stringify(this.props.sessionConfig || {})}
         theme={this.props.theme}
         openviduServerUrl={this.props.openviduServerURL}
+        openviduServerApiUrl={this.props.openviduServerApiURL}
         ref={component => {
           this.component = component;
         }}
@@ -131,6 +132,7 @@ export interface OpenviduWebComponentProps {
   onJoinedSession?: () => void;
   theme?: string;
   openviduServerURL?: string;
+  openviduServerApiURL?: string;
   openviduSecret?: string;
   sessionConfig?: SessionConfig;
   scriptUrl: string;
