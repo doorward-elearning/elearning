@@ -27,7 +27,7 @@ namespace: myaccount-edudoor
 image:
   swagat:
     repository: gcr.io/edudoorlms/swagat@sha256
-    version: 9f710ade62e5a102e5ad331a0cd1833def6b4bdd93f96bfc4378d52abf34c354
+    version: 84a03f38c24e094facfe0d7dd4844d544704f6cde55794531a5f7892abd1e3c5
     pullPolicy: IfNotPresent
   thaladb:
     repository: postgres
@@ -35,7 +35,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: gcr.io/edudoorlms/thala@sha256
-    version: fec980a94faa5d5088d2f733e66d0dc0597748ecbc99613b1721a2ce2a973a7f
+    version: 02ca92f77e036cfb52f98fa7b6524bd25c0798810a2a28186400153930e4bef0
     pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
@@ -43,9 +43,8 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoorlms/chuchu@sha256
-    version: 019df8f5d28d739eb934db3bdea87601b432f85069ae3138ed477cf785697c27
+    version: 894710a83a450a4d1f8bfe9dbad8d9a65e80a9b6657458456f464d6d2d2bfd93
     pullPolicy: IfNotPresent
-
 
 organization:
   # Organization Logo

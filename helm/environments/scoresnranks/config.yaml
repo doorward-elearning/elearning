@@ -1,28 +1,26 @@
 # Name of the Customer / Website
-customer: makonis
-
-customer_type: institute
+customer: scoresnranks
 
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: lms.makonis.ai
+app_domain: lms.scoresnranks.in
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+# welcomepage_domain: www.edudoor.org
 
 # Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://lms.makonis.ai
+app_url: https://lms.scoresnranks.in
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.makonis.edudoor.org
+samvadam_domain: samvadam.scoresnranks.edudoor.org
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.makonis.edudoor.org
+thala_domain: thala.scoresnranks.edudoor.org
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Makonis
+websitename: scoresnranks
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: makonis-edudoor
+namespace: scoresnranks-edudoor
 
 # Override default variables for stage environments
 
@@ -37,23 +35,23 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: gcr.io/edudoorlms/thala@sha256
-    version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
-    pullPolicy: Always
+    version: e4bdda21c51f6f33834bf2e59f473500b84c9297f163674046b978ef6673f736
+    pullPolicy: IfNotPresent
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoorlms/chuchu@sha256
-    version: bfd6ca9298b16f59a73a664d99bf4f1b4c34da011d20fc4c1b9ad6ea377a54f6
-    pullPolicy: Always
+    version: 1123770e852738f249267edc3f19d79aca2e9e586703307ceee46531809322b9
+    pullPolicy: IfNotPresent
 
 organization:
   # Organization Logo
-  logo: "https://edudoorlms.s3.amazonaws.com/makonis/makonis.png"
+  logo: "https://edudoorlms.s3.amazonaws.com/scoresnranks/scoresnranks.jpg"
   # Display Name of Organization
-  name: Makonis
+  name: Scores N ranks
   # Application URL
-  website: lms.makonis.ai
+  website: lms.scoresnranks.in
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: Kandasamy@pppindia.com

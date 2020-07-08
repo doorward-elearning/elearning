@@ -1,28 +1,26 @@
 # Name of the Customer / Website
-customer: makonis
-
-customer_type: institute
+customer: cttfkerala
 
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: lms.makonis.ai
+app_domain: myaccount.cttfkerala.in
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: beta.edudoor.org
 
 # Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://lms.makonis.ai
+app_url: https://myaccount.cttfkerala.in
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.makonis.edudoor.org
+samvadam_domain: samvadam.cttfkerala.edudoor.org
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.makonis.edudoor.org
+thala_domain: thala.cttfkerala.edudoor.org
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Makonis
+websitename: cttfkerala
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: makonis-edudoor
+namespace: cttfkerala-edudoor
 
 # Override default variables for stage environments
 
@@ -30,14 +28,14 @@ image:
   swagat:
     repository: gcr.io/edudoorlms/swagat
     version: 1.1.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   thaladb:
     repository: postgres
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
     repository: gcr.io/edudoorlms/thala@sha256
-    version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
+    version: 02ca92f77e036cfb52f98fa7b6524bd25c0798810a2a28186400153930e4bef0
     pullPolicy: Always
   samvadam:
     repository: gcr.io/edudoorlms/samvadam
@@ -45,15 +43,15 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: gcr.io/edudoorlms/chuchu@sha256
-    version: bfd6ca9298b16f59a73a664d99bf4f1b4c34da011d20fc4c1b9ad6ea377a54f6
+    version: 894710a83a450a4d1f8bfe9dbad8d9a65e80a9b6657458456f464d6d2d2bfd93
     pullPolicy: Always
 
 organization:
   # Organization Logo
-  logo: "https://edudoorlms.s3.amazonaws.com/makonis/makonis.png"
+  logo: "https://cttfkerala.s3.amazonaws.com/cttfkerala.jpg"
   # Display Name of Organization
-  name: Makonis
+  name: "CTTF Kerala"
   # Application URL
-  website: lms.makonis.ai
+  website: cttfkerala.edudoor.org
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: archanaraj10@gmail.com

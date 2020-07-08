@@ -1,0 +1,42 @@
+releases:
+  - name: luims-thaladb
+    namespace: luims-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: luims-samvadam
+    namespace: luims-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - luims-edudoor/luims-thaladb
+    values:
+      - config.yaml
+
+  - name: luims-thala
+    namespace: luims-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - luims-edudoor/luims-thaladb
+    values:
+      - config.yaml
+
+  - name: luims-chuchu
+    namespace: luims-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - luims-edudoor/luims-thaladb
+    values:
+      - config.yaml

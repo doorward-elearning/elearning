@@ -1,0 +1,42 @@
+releases:
+  - name: demo-thaladb
+    namespace: demo-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/postgresql
+    values:
+      - config.yaml
+
+  - name: demo-samvadam
+    namespace: demo-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - demo-edudoor/demo-thaladb
+    values:
+      - config.yaml
+
+  - name: demo-thala
+    namespace: demo-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - demo-edudoor/demo-thaladb
+    values:
+      - config.yaml
+
+  - name: demo-chuchu
+    namespace: demo-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - demo-edudoor/demo-thaladb
+    values:
+      - config.yaml

@@ -1,6 +1,6 @@
 releases:
-  - name: myaccount-thaladb
-    namespace: myaccount-edudoor
+  - name: basil-thaladb
+    namespace: basil-edudoor
     labels:
       stage: 1
       name: thaladb
@@ -8,46 +8,46 @@ releases:
     values:
       - config.yaml
 
-  - name: myaccount-samvadam
-    namespace: myaccount-edudoor
+  - name: basil-samvadam
+    namespace: basil-edudoor
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - basil-edudoor/basil-thaladb
     values:
       - config.yaml
 
-  - name: myaccount-thala
-    namespace: myaccount-edudoor
+  - name: basil-thala
+    namespace: basil-edudoor
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - basil-edudoor/basil-thaladb
     values:
       - config.yaml
 
-  - name: myaccount-chuchu
-    namespace: myaccount-edudoor
+  - name: basil-chuchu
+    namespace: basil-edudoor
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - basil-edudoor/basil-thaladb
     values:
       - config.yaml
 
-  - name: myaccount-swagat
-    namespace: myaccount-edudoor
+  - name: basil-swagat
+    namespace: basil-edudoor
     labels:
-      stage: 3
+      stage: 2
       name: swagat
     chart: ../../charts/swagat
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - basil-edudoor/basil-thaladb
     values:
       - config.yaml

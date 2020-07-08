@@ -1,0 +1,42 @@
+releases:
+  - name: scoresnranks-thaladb
+    namespace: scoresnranks-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: scoresnranks-samvadam
+    namespace: scoresnranks-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - scoresnranks-edudoor/scoresnranks-thaladb
+    values:
+      - config.yaml
+
+  - name: scoresnranks-thala
+    namespace: scoresnranks-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - scoresnranks-edudoor/scoresnranks-thaladb
+    values:
+      - config.yaml
+
+  - name: scoresnranks-chuchu
+    namespace: scoresnranks-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - scoresnranks-edudoor/scoresnranks-thaladb
+    values:
+      - config.yaml

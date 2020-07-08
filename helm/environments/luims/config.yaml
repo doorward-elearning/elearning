@@ -1,28 +1,26 @@
 # Name of the Customer / Website
-customer: makonis
-
-customer_type: institute
+customer: luims
 
 # HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: lms.makonis.ai
+app_domain: luims.makonis.ai
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: beta.edudoor.org
 
 # Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://lms.makonis.ai
+app_url: https://luims.makonis.ai
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.makonis.edudoor.org
+samvadam_domain: samvadam.luims.edudoor.org
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.makonis.edudoor.org
+thala_domain: thala.luims.edudoor.org
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Makonis
+websitename: luims
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: makonis-edudoor
+namespace: luims-edudoor
 
 # Override default variables for stage environments
 
@@ -30,7 +28,7 @@ image:
   swagat:
     repository: gcr.io/edudoorlms/swagat
     version: 1.1.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   thaladb:
     repository: postgres
     version: 9.6-alpine
@@ -50,10 +48,14 @@ image:
 
 organization:
   # Organization Logo
-  logo: "https://edudoorlms.s3.amazonaws.com/makonis/makonis.png"
+  logo: "https://luims.s3.amazonaws.com/luims.jpeg"
   # Display Name of Organization
-  name: Makonis
+  name: "University of Lucknow"
   # Application URL
-  website: lms.makonis.ai
+  website: luims.edudoor.org
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: archanaraj10@gmail.com
+classrooms:
+  url: classrooms.makonis.ai
+  username: OPENVIDUAPP
+  password: ghGNCF756dgn56gdspdyhafsrgwb5GHJWDFPGDGH

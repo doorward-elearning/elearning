@@ -1,0 +1,42 @@
+releases:
+  - name: demo-college-thaladb
+    namespace: demo-college-edudoor
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/thaladb
+    values:
+      - config.yaml
+
+  - name: demo-college-samvadam
+    namespace: demo-college-edudoor
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/samvadam
+    needs:
+      - demo-college-edudoor/demo-college-thaladb
+    values:
+      - config.yaml
+
+  - name: demo-college-thala
+    namespace: demo-college-edudoor
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/thala
+    needs:
+      - demo-college-edudoor/demo-college-thaladb
+    values:
+      - config.yaml
+
+  - name: demo-college-chuchu
+    namespace: demo-college-edudoor
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/chuchu
+    needs:
+      - demo-college-edudoor/demo-college-thaladb
+    values:
+      - config.yaml
