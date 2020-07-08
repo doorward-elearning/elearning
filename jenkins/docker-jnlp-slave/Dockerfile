@@ -43,8 +43,7 @@ ENV NODE_VERSION 0.0.0
 
 RUN ARCH='x64' && set -ex \
   && for key in \
-    "${NODE_KEYS[@]}"
-  ; do \
+    "${NODE_KEYS[@]}"; do \
     gpg --batch --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys "$key" || \
     gpg --batch --keyserver hkp://ipv4.pool.sks-keyservers.net --recv-keys "$key" || \
     gpg --batch --keyserver hkp://pgp.mit.edu:80 --recv-keys "$key" ; \
@@ -58,5 +57,5 @@ RUN ARCH='x64' && set -ex \
   && ln -s /usr/local/bin/node /usr/local/bin/nodejs
 
 RUN pip install --user jenkins-job-builder
-
+RUN apt-get update && apt-get -y install docker docker.io
 ENTRYPOINT ["jenkins-agent"]
