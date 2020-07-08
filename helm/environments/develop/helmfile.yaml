@@ -41,6 +41,18 @@ releases:
     values:
       - config.yaml
 
+  - name: develop-vidu
+    namespace: develop-edudoor
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/vidu
+    needs:
+      - develop-edudoor/develop-thaladb
+    values:
+      - config.yaml
+
+
   - name: develop-swagat
     namespace: develop-edudoor
     labels:

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  OPENVIDU_URL: https://{{ .Values.classrooms_url }}
+  OPENVIDU_USERNAME: {{ .Values.classrooms.username }}
+  OPENVIDU_PASSWORD: {{ .Values.classrooms.password }}
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "vidu.labels" . | nindent 4 }}
+  name: {{ include "vidu.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor

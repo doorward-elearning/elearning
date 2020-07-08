@@ -1,23 +1,22 @@
-# Default values for chuchu.
+# Default values for vidu.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  chuchu:
-    repository: gcr.io/edudoorlms/chuchu
-    version: 1.1.0
-    pullPolicy: IfNotPresent
+  repository: nginx
+  pullPolicy: IfNotPresent
 
-imagePullSecrets:
-  - name: gcr-json-key
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -36,7 +35,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 5000
 
 ingress:
   enabled: false
@@ -69,18 +67,10 @@ tolerations: []
 
 affinity: {}
 
-# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.edudoor.org/api/v1)
-thalaapiprefix: nodeapi
-containerport: 5000
+openviduapi_containerport: 3333
 
-container:
-  startupseconds: 100
-
-api:
-
-  samvadamuri: samvadam
-  thalauri: thala
-
-app_domain: beta.edudoor.org
-
+classrooms:
+  url: classrooms.edudoor.org
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
 classrooms_url: classrooms.edudoor.org

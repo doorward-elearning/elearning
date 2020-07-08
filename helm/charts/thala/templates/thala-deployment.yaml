@@ -46,6 +46,16 @@ spec:
             tcpSocket:
               port: {{ .Values.service.targetport }}
           env:
+          - name: OPENVIDU_API_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_API_PORT
+                name: {{ include "thala.fullname" . }}
+          - name: OPENVIDU_API_URL
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_API_URL
+                name: {{ include "thala.fullname" . }}
           - name: DATABASE_URL
             valueFrom:
               configMapKeyRef:
@@ -85,6 +95,11 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: ORGANIZATION_WEBSITE_LINK
+                name: {{ include "thala.fullname" . }}
+          - name: USE_LATENCY
+            valueFrom:
+              configMapKeyRef:
+                key: USE_LATENCY
                 name: {{ include "thala.fullname" . }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
