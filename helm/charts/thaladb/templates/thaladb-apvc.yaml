@@ -12,7 +12,7 @@ spec:
 #  volumeName: {{ include "thaladb.fullname" . }}
   resources:
     requests:
-      storage: "10Gi"
+      storage: "25Gi"
 
 
 # Source: ghost/templates/pvc.yaml

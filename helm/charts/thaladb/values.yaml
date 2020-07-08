@@ -90,4 +90,4 @@ container:
 
 databasevolume:
   storageClassName: databases-slow
-  size: 10G
+  size: 25G
