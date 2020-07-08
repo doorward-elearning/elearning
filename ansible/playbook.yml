@@ -1,9 +1,9 @@
-- hosts: demo.edudoor
+- hosts: demo.doorward
   remote_user: basil
   become_user: root
   become_method: sudo
   become: yes
 
   roles:
-   - edudoor_app
+   - doorward_app
 

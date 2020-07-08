@@ -1,7 +1,7 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
-import { User } from '@edudoor/common/models/User';
+import { DBModel } from '@doorward/common/models/DBModel';
+import { User } from '@doorward/common/models/User';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { Course } from '@edudoor/common/models/Course';
+import { Course } from '@doorward/common/models/Course';
 
 export class CourseManager extends Model implements DBModel {
   public id: string;

@@ -2,10 +2,10 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import TextField, { TextFieldProps } from './TextField';
 import './styles/PasswordField.scss';
 import Icon from '../Icon';
-import IfElse from '@edudoor/ui/components/IfElse';
-import Button from '@edudoor/ui/components/Buttons/Button';
-import Row from '@edudoor/ui/components/Row';
-import Tools from '@edudoor/common/utils/Tools';
+import IfElse from '@doorward/ui/components/IfElse';
+import Button from '@doorward/ui/components/Buttons/Button';
+import Row from '@doorward/ui/components/Row';
+import Tools from '@doorward/common/utils/Tools';
 
 const PasswordField: FunctionComponent<PasswordFieldProps> = props => {
   const [visibility, setVisibility] = useState(props.showPassword);

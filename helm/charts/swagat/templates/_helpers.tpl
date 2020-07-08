@@ -63,7 +63,7 @@ Create the name of the service account to use
 {{- end -}}
 
 {{/*
-Create the public UR for Thala Api. Defaults to thala.customer-name.edudoor.org, but user can override it by passing thala_domain.
+Create the public UR for Thala Api. Defaults to thala.customer-name.doorward.org, but user can override it by passing thala_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -71,13 +71,13 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.thala_domain -}}
 {{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org/api/v1/
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org/api/v1/
 {{- end -}}
 {{- end -}}
 
 
 {{/*
-Create the public UR for swagat. Defaults to customer-name.edudoor.org, but user can override it by passing welcomepage_domain.
+Create the public UR for swagat. Defaults to customer-name.doorward.org, but user can override it by passing welcomepage_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -85,6 +85,6 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.welcomepage_domain -}}
 {{- .Values.welcomepage_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.edudoor.org
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org
 {{- end -}}
 {{- end -}}

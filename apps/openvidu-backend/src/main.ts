@@ -2,8 +2,8 @@ import { Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
-import { TransformInterceptor } from '@edudoor/backend/interceptors/transform.interceptor';
-import { TransformExceptionFilter } from '@edudoor/backend/exceptions/transform-exception.filter';
+import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
+import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import helmet from 'helmet';
 
 async function bootstrap() {

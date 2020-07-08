@@ -4,7 +4,7 @@ import './styles/TextField.scss';
 import Icon from '../Icon';
 import classNames from 'classnames';
 import IfElse from '../IfElse';
-import Tools from '@edudoor/common/utils/Tools';
+import Tools from '@doorward/common/utils/Tools';
 import { Icons } from '../../types/icons';
 
 const TextField: FunctionComponent<TextFieldProps> = ({

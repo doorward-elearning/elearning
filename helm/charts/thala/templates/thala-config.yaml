@@ -4,7 +4,7 @@ data:
   OPENVIDU_URL: https://{{ .Values.classrooms.url }}
   OPENVIDU_USERNAME: {{ .Values.classrooms.username }}
   OPENVIDU_PASSWORD: {{ .Values.classrooms.password }}
-  EDUDOOR_ADMIN_EMAIL: {{ .Values.organization.email }}
+  DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
   ORGANIZATION_LOGO: {{ .Values.organization.logo }}
   ORGANIZATION_NAME: {{ .Values.organization.name }}
   ORGANIZATION_WEBSITE_LINK: https://{{ .Values.organization.website }}
@@ -14,4 +14,4 @@ metadata:
   labels:
     {{- include "thala.labels" . | nindent 4 }}
   name: {{ include "thala.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

@@ -3,15 +3,15 @@ version: '2.1'
 volumes:
   openolat_data:
     external: true
-  edudoor_data:
+  doorward_data:
     external: true
 
 services:
-  edudoor_frontend:
-    image: gitaumoses4/edudoor_frontend
-    container_name: edudoor_frontend
+  doorward_frontend:
+    image: gitaumoses4/doorward_frontend
+    container_name: doorward_frontend
     links:
-      - edudoor_rest_api
+      - doorward_rest_api
     environment:
       REACT_APP_BASE_URL: http://lms.makonis.ai/api/v1/
       REACT_APP_REQUEST_DELAY: 500
@@ -20,27 +20,27 @@ services:
     expose:
       - '5000'
     depends_on:
-      edudoor_rest_api:
+      doorward_rest_api:
         condition: service_healthy
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:8000']
       interval: 10s
       timeout: 10s
       retries: 20
-  edudoor_rest_api:
-    image: gitaumoses4/edudoor_backend
-    container_name: edudoor_node_backend
+  doorward_rest_api:
+    image: gitaumoses4/doorward_backend
+    container_name: doorward_node_backend
     links:
-      - edudoor_node_database
+      - doorward_node_database
     environment:
-      DATABASE_URL: postgres://postgres:postgres@edudoor_node_database/edudoor
-      OPENOLAT_API_URL: http://edudoor_openolat_backend:8080/openolat/restapi
+      DATABASE_URL: postgres://postgres:postgres@doorward_node_database/doorward
+      OPENOLAT_API_URL: http://doorward_openolat_backend:8080/openolat/restapi
     ports:
       - '7000:7000'
     expose:
       - '7000'
     depends_on:
-      edudoor_node_database:
+      doorward_node_database:
         condition: service_healthy
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
@@ -48,8 +48,8 @@ services:
       timeout: 10s
       retries: 20
   openolat:
-    image: gitaumoses4/openolat-edudoor
-    container_name: edudoor_openolat_backend
+    image: gitaumoses4/openolat-doorward
+    container_name: doorward_openolat_backend
     links:
       - openolat_database
     ports:
@@ -63,7 +63,7 @@ services:
       timeout: 10s
       retries: 20
   openolat_database:
-    image: gitaumoses4/edudoor_database
+    image: gitaumoses4/doorward_database
     container_name: openolat_database
     restart: always
     ports:
@@ -79,21 +79,21 @@ services:
       interval: 5s
       timeout: 10s
       retries: 10
-  edudoor_node_database:
+  doorward_node_database:
     image: postgres:9.6-alpine
-    container_name: edudoor_node_backend_db
+    container_name: doorward_node_backend_db
     restart: always
     ports:
       - '5434:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: edudoor
+      POSTGRES_DB: doorward
     depends_on:
       openolat:
         condition: service_started
     volumes:
-      - edudoor_data:/var/lib/postgresql/edudoor
+      - doorward_data:/var/lib/postgresql/doorward
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s

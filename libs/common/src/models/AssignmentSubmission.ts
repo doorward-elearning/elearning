@@ -1,12 +1,12 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { Student } from '@edudoor/common/models/Student';
-import { Assignment } from '@edudoor/common/models/Assignment';
-import { Teacher } from '@edudoor/common/models/Teacher';
-import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
-import { User } from '@edudoor/common/models/User';
-import { ModuleItem } from '@edudoor/common/models/ModuleItem';
-import { File } from '@edudoor/common/models/File';
+import { Student } from '@doorward/common/models/Student';
+import { Assignment } from '@doorward/common/models/Assignment';
+import { Teacher } from '@doorward/common/models/Teacher';
+import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
+import { User } from '@doorward/common/models/User';
+import { ModuleItem } from '@doorward/common/models/ModuleItem';
+import { File } from '@doorward/common/models/File';
 
 export class AssignmentSubmission extends Model implements DBModel {
   createdAt: Date;

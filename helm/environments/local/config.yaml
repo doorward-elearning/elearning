@@ -1,7 +1,7 @@
 # Name of the Customer / Website
 customer: local
 
-# HOME Page of the website. By default it will be customer.edudoor.org. Customers are allowed to register a custom domain if they prefer so
+# HOME Page of the website. By default it will be customer.doorward.org. Customers are allowed to register a custom domain if they prefer so
 app_domain: localhost
 
 # Name of the Website. This name will be most probably same as Customer Name
@@ -11,7 +11,7 @@ websitename: local
 websitelogo:
 
 # Namespace for Stage
-namespace: local-edudoor
+namespace: local-doorward
 
 # Override default variables for stage environments
 
@@ -21,14 +21,14 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala
+    repository: gcr.io/doorwardlms/thala
     version: 1.0.4
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
+    repository: gcr.io/doorwardlms/chuchu
     version: 1.0.2
     pullPolicy: IfNotPresent

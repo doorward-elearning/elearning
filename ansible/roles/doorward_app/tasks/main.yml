@@ -1,0 +1,79 @@
+- name: Install Packages
+  apt:
+    pkg:
+      - docker-compose
+      - python3-pip
+    state: latest
+    update_cache: yes
+
+- name: include variables for ubuntu
+  include_vars: ubuntu.yml
+
+- name: Install docker and docker-compose dependencies
+  pip:
+    executable: pip3
+    name:
+      - ipython
+      - docker-compose
+      - docker
+      - docker-py
+
+- name: Copy SSH Config
+  template:
+    src: config
+    dest: /root/.ssh/config
+    mode: 644
+
+- name: Git stash
+  command: "git stash"
+  args:
+    chdir:  "{{deploy_dir}}"
+
+- name: Checkout from git
+  git:
+    repo: "{{git_url}}"
+    dest: "{{deploy_dir}}"
+    version: "{{git_branch}}"
+
+- name: Pull latest code from git
+  command: "git pull origin {{ git_branch }}"
+  args:
+    chdir:  "{{deploy_dir}}"
+
+- name: Replace Logo_Dark
+  copy:
+    src: "{{website_logo}}"
+    dest: "{{deploy_dir}}/doorward_frontend/src/assets/images/doorward.png"
+
+- name: Replace Logo_White
+  copy:
+    src: "{{website_logo}}"
+    dest: "{{deploy_dir}}/doorward_frontend/src/assets/images/doorward_white.png"
+
+- name: Change Name of website
+  template:
+    src: constants.ts
+    dest: "{{deploy_dir}}/doorward_frontend/src/assets/constants.ts"
+
+- name: Change Logo text in portal
+  template:
+    src: NavLogo.tsx
+    dest: "{{deploy_dir}}/doorward_frontend/src/components/ui/NavBar/NavLogo.tsx"
+
+- name: Replace API URL in docker compose
+  replace:
+    path: "{{deploy_dir}}/docker/dev/docker-compose.yml"
+    regexp: localhost:7000
+    replace: "{{website_url}}"
+
+- name: Create Docker volumes
+  docker_volume:
+    name: "{{item}}"
+  with_items: "{{volumes}}"
+
+
+- name: Push images to google cloud
+  docker_image:
+    push: yes
+    repository: gcr.io/doorward/dev_doorward_fronten:1.0.0-RC1
+    name:

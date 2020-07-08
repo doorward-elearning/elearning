@@ -1,4 +1,4 @@
-import { RouteDefinitions, RouteNames } from '@edudoor/ui/types';
+import { RouteDefinitions, RouteNames } from '@doorward/ui/types';
 import * as React from 'react';
 
 export interface AppContextProps<T extends RouteNames> {

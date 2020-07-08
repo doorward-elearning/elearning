@@ -1,7 +1,7 @@
 FROM node:dubnium
 
 LABEL MAINTAINER="Moses Gitau <gitaumoses4@gmail.com>"
-LABEL APPLICATION="edudoor"
+LABEL APPLICATION="doorward"
 
 ENV TERM=xterm-256color
 

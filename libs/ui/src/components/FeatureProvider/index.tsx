@@ -1,5 +1,5 @@
 import React, { createContext, PropsWithChildren } from 'react';
-import { Enum } from '@edudoor/common/types';
+import { Enum } from '@doorward/common/types';
 
 export const FeatureContext = createContext<{ features: Array<any> }>({ features: [] });
 

@@ -2,9 +2,9 @@ import React, { MutableRefObject, PropsWithChildren, useEffect, useRef, useState
 import './Table.scss';
 import classNames from 'classnames';
 import Panel from '../Panel';
-import Tools from '@edudoor/common/utils/Tools';
+import Tools from '@doorward/common/utils/Tools';
 import Icon from '../Icon';
-import Dropdown from '@edudoor/ui/components/Dropdown';
+import Dropdown from '@doorward/ui/components/Dropdown';
 
 function Table<T, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);

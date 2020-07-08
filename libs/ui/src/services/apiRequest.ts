@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import Tools from '@edudoor/common/utils/Tools';
+import Tools from '@doorward/common/utils/Tools';
 import { ParsedUrlQuery } from 'querystring';
 import * as queryString from 'querystring';
 

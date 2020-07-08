@@ -1,6 +1,6 @@
 releases:
   - name: apex-thaladb
-    namespace: apex-edudoor
+    namespace: apex-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: apex-samvadam
-    namespace: apex-edudoor
+    namespace: apex-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - apex-edudoor/apex-thaladb
+      - apex-doorward/apex-thaladb
     values:
       - config.yaml
 
   - name: apex-thala
-    namespace: apex-edudoor
+    namespace: apex-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - apex-edudoor/apex-thaladb
+      - apex-doorward/apex-thaladb
     values:
       - config.yaml
 
   - name: apex-chuchu
-    namespace: apex-edudoor
+    namespace: apex-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - apex-edudoor/apex-thaladb
+      - apex-doorward/apex-thaladb
     values:
       - config.yaml

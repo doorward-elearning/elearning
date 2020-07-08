@@ -1,12 +1,12 @@
 import { MeetingRoom } from './MeetingRoom';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { StudentCourse } from './StudentCourse';
-import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
+import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
 import { Student } from './Student';
 import { User } from './User';
 import { DBModel } from './DBModel';
 import { Module } from './Module';
-import { CourseManager } from '@edudoor/common/models/CourseManager';
+import { CourseManager } from '@doorward/common/models/CourseManager';
 
 export class Course extends Model implements DBModel {
   public id: string;

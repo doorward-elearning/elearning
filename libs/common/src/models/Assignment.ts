@@ -1,6 +1,6 @@
-import { ModuleItem } from '@edudoor/common/models/ModuleItem';
-import { AssignmentSubmissionType } from '@edudoor/common/models/index';
-import { Module } from '@edudoor/common/models/Module';
+import { ModuleItem } from '@doorward/common/models/ModuleItem';
+import { AssignmentSubmissionType } from '@doorward/common/models/index';
+import { Module } from '@doorward/common/models/Module';
 
 
 export interface Assignment extends ModuleItem {

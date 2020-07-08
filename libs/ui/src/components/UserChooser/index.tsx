@@ -1,14 +1,14 @@
 import React, { useEffect, useMemo } from 'react';
-import { User } from '@edudoor/common/models/User';
+import { User } from '@doorward/common/models/User';
 import './UserChooser.scss';
 import ItemArray from '../ItemArray';
 import SimpleUserView from './SimpleUserView';
 import IfElse from '../IfElse';
 import Icon from '../Icon';
-import { UseUserChooser } from '@edudoor/ui/hooks/useUserChooser';
+import { UseUserChooser } from '@doorward/ui/hooks/useUserChooser';
 import WebComponent from '../WebComponent';
 import Search from '../Search';
-import VerticalScroll from '@edudoor/ui/components/VerticalScroll';
+import VerticalScroll from '@doorward/ui/components/VerticalScroll';
 import NavBarSearch from '../NavBar/NavBarSearch';
 
 const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.Element => {

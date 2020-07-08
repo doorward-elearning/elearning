@@ -1,6 +1,6 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { Sequelize, DataTypes, Model } from 'sequelize';
-import { Question } from '@edudoor/common/models/Question';
+import { Question } from '@doorward/common/models/Question';
 
 export class Answer extends Model implements DBModel {
   public id: string;

@@ -1,0 +1,9 @@
+extends base_template
+block greeting
+    p.title
+    span Hello #{username || 'there'}
+block content
+    p.
+        Thank you for joining Doorward. This email is confirmation that the user #{username} is registering for a new account.
+    a(href=link)
+        span Click here to complete the registration

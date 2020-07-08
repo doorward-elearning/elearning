@@ -1,32 +1,32 @@
 # Name of the Customer / Website
 customer: mindbox
 
-# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: mindbox.edudoor.org
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
+app_domain: mindbox.doorward.org
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: www.doorward.org
 
-# Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://mindbox.edudoor.org
+# Application URL. Default Value: https://<customer-name>.doorward.org
+app_url: https://mindbox.doorward.org
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.mindbox.edudoor.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
+samvadam_domain: samvadam.mindbox.doorward.org
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.mindbox.edudoor.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
+thala_domain: thala.mindbox.doorward.org
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: Mindbox
 
-# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: mindbox-edudoor
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: mindbox-doorward
 
 # Override default variables for stage environments
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat
+    repository: gcr.io/doorwardlms/swagat
     version: 1.1.0
     pullPolicy: IfNotPresent
   thaladb:
@@ -34,24 +34,24 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala
+    repository: gcr.io/doorwardlms/thala
     version: 1.1.0
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
+    repository: gcr.io/doorwardlms/chuchu
     version: 1.1.0
     pullPolicy: IfNotPresent
 
 organization:
   # Organization Logo
-  logo: "https://edudoor.s3.amazonaws.com/logos/download1.png"
+  logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
   # Display Name of Organization
   name: Mindbox
   # Application URL
-  website: mindbox.edudoor.org
+  website: mindbox.doorward.org
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: info@doorward.org

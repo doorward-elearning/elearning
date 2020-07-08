@@ -1,5 +1,5 @@
 import React from 'react';
-import Dropdown from '@edudoor/ui/components/Dropdown';
+import Dropdown from '@doorward/ui/components/Dropdown';
 import './MoreInfo.scss';
 
 const MoreInfo: React.FunctionComponent<MoreInfoProps> = (props): JSX.Element => {

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "swagat.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "swagat.labels" . | nindent 4 }}
 spec:
@@ -47,10 +47,10 @@ spec:
             tcpSocket:
               port: {{ .Values.service.targetport }}
           env:
-            - name: EDUDOOR_APPLICATION_LINK
+            - name: DOORWARD_APPLICATION_LINK
               valueFrom:
                 configMapKeyRef:
-                  key: EDUDOOR_APPLICATION_LINK
+                  key: DOORWARD_APPLICATION_LINK
                   name: {{ include "swagat.fullname" . }}
             - name: REACT_APP_BASE_URL
               valueFrom:

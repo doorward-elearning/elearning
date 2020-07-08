@@ -18,10 +18,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@edudoor/ui/*": ["libs/ui/src/*"],
-      "@edudoor/common/*": ["libs/common/src/*"],
-      "@edudoor/backend/*": ["libs/backend/src/*"],
-      "@edudoor/chat/*": ["libs/chat/src/*"]
+      "@doorward/ui/*": ["libs/ui/src/*"],
+      "@doorward/common/*": ["libs/common/src/*"],
+      "@doorward/backend/*": ["libs/backend/src/*"],
+      "@doorward/chat/*": ["libs/chat/src/*"]
     },
     "plugins": [
       {

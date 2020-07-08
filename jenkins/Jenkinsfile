@@ -2,7 +2,7 @@ pipeline {
 
   agent any
   environment {
-    PROJECT_NAME = 'edudoor'
+    PROJECT_NAME = 'doorward'
   }
 
   stages {

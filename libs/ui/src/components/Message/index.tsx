@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Message.scss';
-import Icon from '@edudoor/ui/components/Icon';
-import IfElse from '@edudoor/ui/components/IfElse';
+import Icon from '@doorward/ui/components/Icon';
+import IfElse from '@doorward/ui/components/IfElse';
 
 const Message: React.FunctionComponent<MessageProps> = (props): JSX.Element => {
   const [show, setShow] = useState(true);

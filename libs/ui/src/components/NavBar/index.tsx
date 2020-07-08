@@ -7,8 +7,8 @@ import Feature from '../FeatureProvider/Feature';
 import { Location, MemoryHistory } from 'history';
 import NavLogo from './NavLogo';
 import { NavbarFeatures } from './features';
-import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
-import { SearchSuggestion } from '@edudoor/common/types/api';
+import useQueryParams from '@doorward/ui/hooks/useQueryParams';
+import { SearchSuggestion } from '@doorward/common/types/api';
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({
   onHamburgerClick,

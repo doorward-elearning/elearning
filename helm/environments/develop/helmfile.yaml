@@ -1,6 +1,6 @@
 releases:
   - name: develop-thaladb
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,45 +9,45 @@ releases:
       - config.yaml
 
   - name: develop-samvadam
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - develop-edudoor/develop-thaladb
+      - develop-doorward/develop-thaladb
     values:
       - config.yaml
 
   - name: develop-thala
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - develop-edudoor/develop-thaladb
+      - develop-doorward/develop-thaladb
     values:
       - config.yaml
 
   - name: develop-chuchu
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - develop-edudoor/develop-thaladb
+      - develop-doorward/develop-thaladb
     values:
       - config.yaml
 
   - name: develop-swagat
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 2
       name: swagat
     chart: ../../charts/swagat
     needs:
-      - develop-edudoor/develop-thaladb
+      - develop-doorward/develop-thaladb
     values:
       - config.yaml

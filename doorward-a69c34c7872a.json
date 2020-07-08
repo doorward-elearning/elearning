@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "doorward",
+  "private_key_id": "a69c34c7872a62c07c7d99d2344916a374cb4d69",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDG8qrWHUGa4KHT\nKzJaxxpkUjJI2IjmxxOxywxek/MzG+Yi+wPufwFSwyc5LGKZHkoIAItQEoncboQJ\nizGYwUAEFzpkYtcvWP8IeZFsXrzhCNNef2WPvFa3w9YXQSC4wxeXY034r49Dy4qy\nubFzpczkDtNudGcyunpZUu/3Dg4kqCiDg7AG+4Gnxme+TXu7hMpmVb3lqQDtIbH5\nzF4D8ToZxvadUZLWXs0Yd/KVHHI0n4vFt7MSfuG4SCoCO0mZCYickETnHRsYjGxd\nLUX1AJy4XLX1z8WkcDm5NleihQ3rSWNkE7/1tNb42miz0gn94or7Y/lNh+iE29eK\ndY/LxgLvAgMBAAECggEACnG13zy0830EcdIMODDIpWidRC697SOZWJWYxiRNOasm\nx0JXP/+B4cbl+b3nRTOOXmIs7hyzCRPyMZARn/vRMQXJJnj74/vvk5HSPRayIrw0\nYHseqU+RW99Xj2v3XEu9otBvSPVqd3wpgV13P+N94KEYn21T95lLkAHnIBioTGtB\nyWFXnzgzITds/YrzTkWTXKhxRi3wHKt8IwO0G6QdNAO/ivKYJ02krWgoowPThCl5\nnYjHJ27NwxR4uL/i/G/tCHGRPG5AWIlWleotUEgPLfRXUKm9Jad0imkorHT6KsZq\nKFWAQsS2Ofr8Reb1gOcQHQOGgdqPRH85P32ue4UpAQKBgQDxdX4345nsAx3k+pBn\n8aLRtParHpAFdeborrhYOxX94jCO5vZMTywtrH1JVbVS7Ho4snQIRNKrlO+XBsTk\nMDZj1KphmH3jL3ACTRgDfC5A+gQsV2O4Oul9RRRa6r8ZUCYbo69zQINYJTRF2qVk\nSPd9pnUUNFyDbUr/bcL7HCix7wKBgQDS7csPG2VHaN4Rqsd37Mntg6mPg2htmWmt\ndv2d4rvYwvT5ILZX1eYrkKykLM26bEV8ONkjcKD/pJy1kMDvaW01DHUShN280ZWd\nkkbycxCHa33CNKW7iM6jBCJaWfiUrPPQKOK/pdSF9KIP4fl2NSexeDq3Av2zETRf\n0OGbxuS/AQKBgQDitAnZt5xg91wuDQNgVIMmmd2vNHbMabJvbPwv+unfAWvOABPn\n+b3k9Dp9jDc+sEDg0swWp2eVKbT5+6UJCitG9/kwwNgRYgysXG3bd9CFuTgJ2dMK\numVW9HD0G8tonNPqx3iHoV6wd93oaC05Rzj3hD4QxkjGLOtpf0i+M+YRiQKBgQCJ\nHqTe0URpw7Z5bbf2MiyjBvB3p0l/1jdo2O3OcdMD+tkeCzH+r8LNl2Nj5uxmwHP7\naUlfTJydE/n73npOKQ8haVPCEjXDxcupf6o3eq3IGwzJ70e+PhV2y/05FzwOCtEF\nBU9Cnx8lZf7krFZrjeqb6DjjOEKM4iZWE4hWqFmUAQKBgHtXWKs1Sar6bCFlHxVD\ncjjKOAvAm9Po+W/X4FhsJWgNB4KRHpKd4LN23qlrzOZvMOFGsAuM7OFVCcl57CgQ\nFef/lIIioG34FX7Hs0VZkVJ3O4FCVuvrs4UZTJ5ylP1EK+ki24MKhbOKIhMeVUQp\nJZVPrt4k2pji/FX0nPxMyw9b\n-----END PRIVATE KEY-----\n",
+  "client_email": "static-files@doorward.iam.gserviceaccount.com",
+  "client_id": "102776755069666045873",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/static-files%40doorward.iam.gserviceaccount.com"
+}

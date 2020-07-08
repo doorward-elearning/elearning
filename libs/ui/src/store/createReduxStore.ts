@@ -1,6 +1,6 @@
 import { applyMiddleware, CombinedState, compose, createStore, Store } from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import build, { GeneratedReducers, ReducerObject } from '@edudoor/ui/store/middleware';
+import build, { GeneratedReducers, ReducerObject } from '@doorward/ui/store/middleware';
 
 export default function<T extends ReducerObject>(reducers: T): Store<CombinedState<GeneratedReducers<T>>> {
   const sagaMiddleware = createSagaMiddleware();

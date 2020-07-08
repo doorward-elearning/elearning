@@ -1,6 +1,6 @@
-import useApplicationRoutes, { UseApplicationRoutes } from '@edudoor/ui/hooks/useApplicationRoutes';
-import { RouteDefinition, RouteDefinitions, RouteNames } from '@edudoor/ui/types';
-import { AppContextProps } from '@edudoor/ui/template/appContext';
+import useApplicationRoutes, { UseApplicationRoutes } from '@doorward/ui/hooks/useApplicationRoutes';
+import { RouteDefinition, RouteDefinitions, RouteNames } from '@doorward/ui/types';
+import { AppContextProps } from '@doorward/ui/template/appContext';
 
 export type UseBaseRoutes<T extends RouteNames> = UseApplicationRoutes<T> &
   AppContextProps<T> &

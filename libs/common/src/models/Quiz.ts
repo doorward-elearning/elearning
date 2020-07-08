@@ -1,5 +1,5 @@
-import { ModuleItem } from '@edudoor/common/models/ModuleItem';
-import { Question } from '@edudoor/common/models/Question';
+import { ModuleItem } from '@doorward/common/models/ModuleItem';
+import { Question } from '@doorward/common/models/Question';
 
 export interface Quiz extends ModuleItem {
   content: {

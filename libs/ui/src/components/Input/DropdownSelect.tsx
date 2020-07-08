@@ -6,7 +6,7 @@ import './styles/DropdownSelect.scss';
 import './styles/TextField.scss';
 import { ThemeContext } from '../ApplicationTheme';
 import { Icons } from '../../types/icons';
-import { Omit } from '@edudoor/common/types';
+import { Omit } from '@doorward/common/types';
 
 const generateOptionsList = (options: { [name: string]: string }): Array<Option> => {
   return (Object.keys(options) as Array<keyof typeof options>).reduce(

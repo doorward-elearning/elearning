@@ -1,6 +1,6 @@
 releases:
   - name: webuse-thaladb
-    namespace: webuse-edudoor
+    namespace: webuse-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: webuse-samvadam
-    namespace: webuse-edudoor
+    namespace: webuse-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - webuse-edudoor/webuse-thaladb
+      - webuse-doorward/webuse-thaladb
     values:
       - config.yaml
 
   - name: webuse-thala
-    namespace: webuse-edudoor
+    namespace: webuse-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - webuse-edudoor/webuse-thaladb
+      - webuse-doorward/webuse-thaladb
     values:
       - config.yaml
 
   - name: webuse-chuchu
-    namespace: webuse-edudoor
+    namespace: webuse-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - webuse-edudoor/webuse-thaladb
+      - webuse-doorward/webuse-thaladb
     values:
       - config.yaml

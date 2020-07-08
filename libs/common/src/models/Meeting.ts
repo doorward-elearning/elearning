@@ -1,7 +1,7 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { MeetingRoom } from './MeetingRoom';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { User } from '@edudoor/common/models/User';
+import { User } from '@doorward/common/models/User';
 
 export class Meeting extends Model implements DBModel {
   public id: string;

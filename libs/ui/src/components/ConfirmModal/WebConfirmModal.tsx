@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import ConfirmModal, { ConfirmModalProps } from './index';
 import useRequestModal, { UseRequestModalProps } from '../../hooks/useRequestModal';
 import { UseModal } from '../../hooks/useModal';
-import { Omit } from '@edudoor/common/types';
+import { Omit } from '@doorward/common/types';
 
 const WebConfirmModal: React.FunctionComponent<Omit<WebConfirmModalProps, 'onConfirm'>> = props => {
   const modal = props.useModal;

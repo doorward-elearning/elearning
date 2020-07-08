@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   thala:
-    repository: gcr.io/edudoorlms/thala
+    repository: gcr.io/doorwardlms/thala
     version: 1.1.0
     pullPolicy: IfNotPresent
 
@@ -69,13 +69,13 @@ tolerations: []
 
 affinity: {}
 
-#thaladburl: postgres://postgres:postgres@edudoor-database-service:5434/edudoor
-thaladbname: edudoor
+#thaladburl: postgres://postgres:postgres@doorward-database-service:5434/doorward
+thaladbname: doorward
 thaladbuser: postgres
 thaladbpassword: postgres
 thaladbhostpostfix: thaladb
 thaladbport: 5434
-#samvadamurl: https://edudoor-openvidu-service:4443
+#samvadamurl: https://doorward-openvidu-service:4443
 samvadamhostpostfix: samvadam
 samvadamport: 4443
 
@@ -83,6 +83,6 @@ container:
   startupseconds: 100
 
 classrooms:
-  url: classrooms.edudoor.org
+  url: classrooms.doorward.org
   username: OPENVIDUAPP
   password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj

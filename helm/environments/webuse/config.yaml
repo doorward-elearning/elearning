@@ -1,32 +1,32 @@
 # Name of the Customer / Website
 customer: webuse
 
-# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: webuse.edudoor.org
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
+app_domain: webuse.doorward.org
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: www.doorward.org
 
-# Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://webuse.edudoor.org
+# Application URL. Default Value: https://<customer-name>.doorward.org
+app_url: https://webuse.doorward.org
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.webuse.edudoor.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
+samvadam_domain: samvadam.webuse.doorward.org
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.webuse.edudoor.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
+thala_domain: thala.webuse.doorward.org
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: webuse
 
-# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: webuse-edudoor
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: webuse-doorward
 
 # Override default variables for stage environments
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat
+    repository: gcr.io/doorwardlms/swagat
     version: 1.1.0
     pullPolicy: IfNotPresent
   thaladb:
@@ -34,24 +34,24 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala
+    repository: gcr.io/doorwardlms/thala
     version: 1.1.0
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
+    repository: gcr.io/doorwardlms/chuchu
     version: 1.1.0
     pullPolicy: IfNotPresent
 
 organization:
   # Organization Logo
-  logo: "https://edudoorlms.s3.amazonaws.com/webuse/webuse.jpg"
+  logo: "https://doorwardlms.s3.amazonaws.com/webuse/webuse.jpg"
   # Display Name of Organization
   name: Webuse
   # Application URL
-  website: webuse.edudoor.org
+  website: webuse.doorward.org
   #Organization Admin Email ID
   email: Kandasamy@pppindia.com

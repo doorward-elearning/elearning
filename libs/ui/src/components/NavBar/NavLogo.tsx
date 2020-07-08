@@ -7,7 +7,7 @@ import './NavLogo.scss';
 import { MemoryHistory } from 'history';
 import EImage from '../Image';
 import { ThemeContext } from '../ApplicationTheme';
-import { NavbarFeatures } from '@edudoor/ui/components/NavBar/features';
+import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
   const theme = useContext(ThemeContext);

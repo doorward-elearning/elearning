@@ -1,32 +1,32 @@
 # Name of the Customer / Website
 customer: myaccount
 
-# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
-app_domain: myaccount.edudoor.org
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
+app_domain: myaccount.doorward.org
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: www.doorward.org
 
-# Application URL. Default Value: https://<customer-name>.edudoor.org
-app_url: https://myaccount.edudoor.org
+# Application URL. Default Value: https://<customer-name>.doorward.org
+app_url: https://myaccount.doorward.org
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.myaccount.edudoor.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
+samvadam_domain: samvadam.myaccount.doorward.org
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.myaccount.edudoor.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
+thala_domain: thala.myaccount.doorward.org
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: Myaccount
 
-# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: myaccount-edudoor
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: myaccount-doorward
 
 # Override default variables for stage environments
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat@sha256
+    repository: gcr.io/doorwardlms/swagat@sha256
     version: 9f710ade62e5a102e5ad331a0cd1833def6b4bdd93f96bfc4378d52abf34c354
     pullPolicy: IfNotPresent
   thaladb:
@@ -34,25 +34,25 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256
+    repository: gcr.io/doorwardlms/thala@sha256
     version: fec980a94faa5d5088d2f733e66d0dc0597748ecbc99613b1721a2ce2a973a7f
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu@sha256
+    repository: gcr.io/doorwardlms/chuchu@sha256
     version: 019df8f5d28d739eb934db3bdea87601b432f85069ae3138ed477cf785697c27
     pullPolicy: IfNotPresent
 
 
 organization:
   # Organization Logo
-  logo: "https://edudoor.s3.amazonaws.com/logos/download1.png"
+  logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
   # Display Name of Organization
-  name: Edudoor
+  name: Doorward
   # Application URL
-  website: myaccount.edudoor.org
+  website: myaccount.doorward.org
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: info@doorward.org

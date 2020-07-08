@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ include "thala.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "thala.labels" . | nindent 4 }}
 spec:
@@ -66,10 +66,10 @@ spec:
               configMapKeyRef:
                 key: OPENVIDU_PASSWORD
                 name: {{ include "thala.fullname" . }}
-          - name: EDUDOOR_ADMIN_EMAIL
+          - name: DOORWARD_ADMIN_EMAIL
             valueFrom:
               configMapKeyRef:
-                key: EDUDOOR_ADMIN_EMAIL
+                key: DOORWARD_ADMIN_EMAIL
                 name: {{ include "thala.fullname" . }}
           - name: ORGANIZATION_LOGO
             valueFrom:

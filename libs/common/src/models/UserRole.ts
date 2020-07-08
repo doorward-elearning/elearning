@@ -1,7 +1,7 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { User } from '@edudoor/common/models/User';
-import { Role } from '@edudoor/common/models/Role';
+import { User } from '@doorward/common/models/User';
+import { Role } from '@doorward/common/models/Role';
 
 export class UserRole extends Model implements DBModel {
   public readonly id: string;

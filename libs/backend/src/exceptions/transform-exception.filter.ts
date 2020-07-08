@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { ResponseBuilder } from '@edudoor/backend/api/ResponseBuilder';
+import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 
 @Catch(HttpException)
 @Injectable()
