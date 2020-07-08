@@ -1,7 +1,7 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
-import { ApiResponse, PaginationMetaData } from '@edudoor/backend/interceptors/transform.interceptor';
-import { PaginationQuery } from '@edudoor/common/types/api';
+import { ApiResponse, PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
+import { PaginationQuery } from '@doorward/common/types/api';
 
 export type SagaFunction = () => IterableIterator<any>;
 

@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
 

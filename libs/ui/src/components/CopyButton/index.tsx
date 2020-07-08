@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Icon from '@edudoor/ui/components/Icon';
-import copyToClipboard from '@edudoor/ui/utils/copyToClipboard';
+import Icon from '@doorward/ui/components/Icon';
+import copyToClipboard from '@doorward/ui/utils/copyToClipboard';
 import './CopyButton.scss';
 
 const CopyButton: React.FunctionComponent<CopyButtonProps> = (props): JSX.Element => {

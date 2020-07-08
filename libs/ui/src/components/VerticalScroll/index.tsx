@@ -1,6 +1,6 @@
 import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
 import './VerticalScroll.scss';
-import Button from '@edudoor/ui/components/Buttons/Button';
+import Button from '@doorward/ui/components/Buttons/Button';
 import classNames from 'classnames';
 
 const POINTER_OFFSET = 20;

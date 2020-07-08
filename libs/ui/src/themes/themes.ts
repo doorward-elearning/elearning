@@ -1,5 +1,5 @@
-import baseLogo from '../../assets/images/edudoor.png';
-import darkLogo from '../../assets/images/edudoor_white.png';
+import baseLogo from '../../assets/images/doorward.png';
+import darkLogo from '../../assets/images/doorward_white.png';
 
 const base = {
   '--bg-primary': '#FFFFFF',

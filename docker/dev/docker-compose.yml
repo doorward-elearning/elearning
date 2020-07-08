@@ -1,20 +1,20 @@
 version: '2.1'
 
 volumes:
-  edudoor_data:
+  doorward_data:
     external: true
 
 services:
-  edudoor:
-    image: dev_edudoor:latest
+  doorward:
+    image: dev_doorward:latest
     build:
       context: ../../
       dockerfile: docker/dev/Dockerfile
-  edudoor_frontend:
-    image: dev_edudoor:latest
-    container_name: edudoor_frontend
+  doorward_frontend:
+    image: dev_doorward:latest
+    container_name: doorward_frontend
     links:
-      - edudoor_rest_api
+      - doorward_rest_api
     volumes:
       - /usr/app/node_modules
       - ../../:/usr/app
@@ -23,91 +23,105 @@ services:
     environment:
       REACT_APP_BASE_URL: http://localhost:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
-      EDUDOOR_WEBSITE_LINK: http://localhost:3006
+      DOORWARD_WEBSITE_LINK: http://localhost:3006
     ports:
       - '3005:3000'
     expose:
       - '3000'
     entrypoint:
-      - /usr/app/apps/edudoor-frontend/entrypoint.sh
+      - /usr/app/apps/doorward-frontend/entrypoint.sh
     depends_on:
-      edudoor_rest_api:
+      doorward_rest_api:
         condition: service_started
-      edudoor_website:
+      doorward_website:
         condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:3000']
       interval: 10s
       timeout: 10s
       retries: 20
-  edudoor_rest_api:
-    image: dev_edudoor:latest
-    container_name: edudoor_node_backend
+  doorward_rest_api:
+    image: dev_doorward:latest
+    container_name: doorward_node_backend
     volumes:
       - /usr/app/node_modules
       - ../../:/usr/app
     environment:
-      DATABASE_URL: postgres://postgres:postgres@edudoor_node_database:5432/edudoor
-      OPENOLAT_API_URL: http://localhost:8080/openolat/restapi
+      DATABASE_URL: postgres://postgres:postgres@doorward_node_database:5432/doorward
       FRONTEND_URL: http://localhost:3005
     ports:
       - '7000:7000'
     expose:
       - '7000'
     entrypoint:
-      - /usr/app/apps/edudoor-node-backend/entrypoint.sh
+      - /usr/app/apps/doorward-node-backend/entrypoint.sh
     depends_on:
-      edudoor_node_database:
+      doorward_node_database:
         condition: service_healthy
-      edudoor_openvidu:
+      doorward_openvidu:
         condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:7000']
       interval: 10s
       timeout: 10s
       retries: 20
-  edudoor_website:
-    image: dev_edudoor:latest
-    container_name: edudoor_website
+  openvidu_api:
+    image: dev_doorward:latest
+    container_name: openvidu_backend
+    volumes:
+      - /usr/app/node_modules
+      - ../../:/usr/app
+    ports:
+      - '3333:3333'
+    expose:
+      - '3333'
+    entrypoint:
+      - /usr/app/apps/openvidu-backend/entrypoint.sh
+    depends_on:
+      doorward_openvidu:
+        condition: service_started
+  doorward_website:
+    image: dev_doorward:latest
+    container_name: doorward_website
     volumes:
       - /usr/app/node_modules
       - ../../:/usr/app
     environment:
-      EDUDOOR_APPLICATION_LINK: http://localhost:3005
+      DOORWARD_APPLICATION_LINK: http://localhost:3005
     ports:
       - '3006:3001'
     expose:
       - '3001'
     entrypoint:
-      - /usr/app/apps/edudoor-website/entrypoint.sh
+      - /usr/app/apps/doorward-website/entrypoint.sh
     depends_on:
-      edudoor_rest_api:
+      doorward_rest_api:
         condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s localhost:3001']
       interval: 10s
       timeout: 10s
       retries: 20
-  edudoor_node_database:
+  doorward_node_database:
     image: postgres:9.6-alpine
-    container_name: edudoor_node_backend_db
+    container_name: doorward_node_backend_db
     restart: always
     ports:
       - '5434:5432'
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: edudoor
+      POSTGRES_DB: doorward
     volumes:
-      - edudoor_data:/var/lib/postgresql/edudoor
+      - doorward_data:/var/lib/postgresql/doorward
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 5s
       timeout: 10s
       retries: 10
-  edudoor_openvidu:
+  doorward_openvidu:
     image: openvidu/openvidu-server-kms:2.13.0
-    container_name: edudoor_openvidu
+    container_name: doorward_openvidu
     network_mode: host
     ports:
       - '4443:4443'

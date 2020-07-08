@@ -1,5 +1,5 @@
 import { BreadCrumb } from '../components/BreadCrumbs';
-import { RouteNames, Routes } from '@edudoor/ui/types';
+import { RouteNames, Routes } from '@doorward/ui/types';
 
 function useBreadCrumbs<T extends RouteNames>(
   routes: Routes<T>

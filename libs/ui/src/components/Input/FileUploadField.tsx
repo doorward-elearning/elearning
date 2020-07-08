@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './styles/FileUploadField.scss';
-import withInput, { InputFeatures } from '@edudoor/ui/components/Input/index';
-import IfElse from '@edudoor/ui/components/IfElse';
-import Plural from '@edudoor/ui/components/Plural';
+import withInput, { InputFeatures } from '@doorward/ui/components/Input/index';
+import IfElse from '@doorward/ui/components/IfElse';
+import Plural from '@doorward/ui/components/Plural';
 import { InputProps } from './index';
-import Panel from '@edudoor/ui/components/Panel';
-import Tools from '@edudoor/common/utils/Tools';
-import Icon from '@edudoor/ui/components/Icon';
-import ProgressBar from '@edudoor/ui/components/ProgressBar';
+import Panel from '@doorward/ui/components/Panel';
+import Tools from '@doorward/common/utils/Tools';
+import Icon from '@doorward/ui/components/Icon';
+import ProgressBar from '@doorward/ui/components/ProgressBar';
 import classNames from 'classnames';
-import Spinner from '@edudoor/ui/components/Spinner';
-import MoreInfo from '@edudoor/ui/components/MoreInfo';
-import { File as FileModel } from '@edudoor/common/models/File';
+import Spinner from '@doorward/ui/components/Spinner';
+import MoreInfo from '@doorward/ui/components/MoreInfo';
+import { File as FileModel } from '@doorward/common/models/File';
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
   const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');

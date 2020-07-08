@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { HttpClientService } from '../http-client/http-client.service';
-import { OPENVIDU_ROLES } from '@edudoor/common/types/openvidu';
+import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 const openviduUrl = process.env.OPENVIDU_URL;
 

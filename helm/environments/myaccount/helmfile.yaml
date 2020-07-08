@@ -1,6 +1,6 @@
 releases:
   - name: myaccount-thaladb
-    namespace: myaccount-edudoor
+    namespace: myaccount-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,45 +9,45 @@ releases:
       - config.yaml
 
   - name: myaccount-samvadam
-    namespace: myaccount-edudoor
+    namespace: myaccount-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml
 
   - name: myaccount-thala
-    namespace: myaccount-edudoor
+    namespace: myaccount-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml
 
   - name: myaccount-chuchu
-    namespace: myaccount-edudoor
+    namespace: myaccount-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml
 
   - name: myaccount-swagat
-    namespace: myaccount-edudoor
+    namespace: myaccount-doorward
     labels:
       stage: 3
       name: swagat
     chart: ../../charts/swagat
     needs:
-      - myaccount-edudoor/myaccount-thaladb
+      - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml

@@ -1,7 +1,7 @@
 import React from 'react';
 import './ConversationHeader.scss';
-import EImage from '@edudoor/ui/components/Image';
-import Header from '@edudoor/ui/components/Header';
+import EImage from '@doorward/ui/components/Image';
+import Header from '@doorward/ui/components/Header';
 
 const ConversationHeader: React.FunctionComponent<ConversationHeaderProps> = (props): JSX.Element => {
   return (

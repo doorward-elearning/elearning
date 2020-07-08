@@ -1,6 +1,6 @@
 releases:
   - name: your-company-thaladb
-    namespace: your-company-edudoor
+    namespace: your-company-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: your-company-samvadam
-    namespace: your-company-edudoor
+    namespace: your-company-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - your-company-edudoor/your-company-thaladb
+      - your-company-doorward/your-company-thaladb
     values:
       - config.yaml
 
   - name: your-company-thala
-    namespace: your-company-edudoor
+    namespace: your-company-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - your-company-edudoor/your-company-thaladb
+      - your-company-doorward/your-company-thaladb
     values:
       - config.yaml
 
   - name: your-company-chuchu
-    namespace: your-company-edudoor
+    namespace: your-company-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - your-company-edudoor/your-company-thaladb
+      - your-company-doorward/your-company-thaladb
     values:
       - config.yaml

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { RoleEvaluator, Roles } from '../components/RolesManager';
-import { RouteNames, Routes } from '@edudoor/ui/types';
+import { RouteNames, Routes } from '@doorward/ui/types';
 
 export default class MRoute<T extends RouteNames> {
   path: string;

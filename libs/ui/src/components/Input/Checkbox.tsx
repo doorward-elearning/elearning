@@ -2,7 +2,7 @@ import withInput, { InputFeatures, InputProps } from './index';
 import * as React from 'react';
 import { FunctionComponent } from 'react';
 import './styles/Checkbox.scss';
-import Tools from '@edudoor/common/utils/Tools';
+import Tools from '@doorward/common/utils/Tools';
 
 const Checkbox: FunctionComponent<CheckboxProps> = ({ formikProps, ...props }) => {
   return (

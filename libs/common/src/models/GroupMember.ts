@@ -1,4 +1,4 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import { User } from './User';
 import { Group } from './Group';

@@ -1,6 +1,6 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
-import { ModuleItem } from '@edudoor/common/models/ModuleItem';
-import { Course } from '@edudoor/common/models/Course';
+import { DBModel } from '@doorward/common/models/DBModel';
+import { ModuleItem } from '@doorward/common/models/ModuleItem';
+import { Course } from '@doorward/common/models/Course';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class Module extends Model implements DBModel {

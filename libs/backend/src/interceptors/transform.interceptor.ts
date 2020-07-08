@@ -1,7 +1,7 @@
 import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ResponseBuilder } from '@edudoor/backend/api/ResponseBuilder';
+import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 
 export interface PaginationMetaData {
   pagination: {

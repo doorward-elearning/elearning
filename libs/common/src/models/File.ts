@@ -1,8 +1,8 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
+import { DBModel } from '@doorward/common/models/DBModel';
 import { Sequelize, Model, DataTypes } from 'sequelize';
-import { User } from '@edudoor/common/models/User';
-import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
-import { Organization } from '@edudoor/common/models/Organization';
+import { User } from '@doorward/common/models/User';
+import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
+import { Organization } from '@doorward/common/models/Organization';
 
 export class File extends Model implements DBModel {
   createdAt: Date;

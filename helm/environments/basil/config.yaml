@@ -34,15 +34,15 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala
+    repository: gcr.io/doorwardlms/thala
     version: 1.1.0
     pullPolicy: Always
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
+    repository: gcr.io/doorwardlms/chuchu
     version: 1.1.0
     pullPolicy: Always
 

@@ -1,8 +1,8 @@
-import { BreadCrumb } from '@edudoor/ui/components/BreadCrumbs';
-import { RouteNames, Routes } from '@edudoor/ui/types';
+import { BreadCrumb } from '@doorward/ui/components/BreadCrumbs';
+import { RouteNames, Routes } from '@doorward/ui/types';
 import * as React from 'react';
 import { match, RouteComponentProps } from 'react-router';
-import { MRoute } from '@edudoor/ui/routes/MRoute';
+import { MRoute } from '@doorward/ui/routes/MRoute';
 import { Location, MemoryHistory } from 'history';
 import { FormikActions } from 'formik';
 import { ReactNode } from 'react';

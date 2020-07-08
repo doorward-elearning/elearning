@@ -1,22 +1,22 @@
 {
   "version": 1,
   "projects": {
-    "edudoor-frontend": {
-      "root": "apps/edudoor-frontend",
-      "sourceRoot": "apps/edudoor-frontend/src",
+    "doorward-frontend": {
+      "root": "apps/doorward-frontend",
+      "sourceRoot": "apps/doorward-frontend/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
           "options": {
-            "outputPath": "dist/apps/edudoor-frontend",
-            "index": "apps/edudoor-frontend/src/index.html",
-            "main": "apps/edudoor-frontend/src/main.tsx",
-            "polyfills": "apps/edudoor-frontend/src/polyfills.ts",
-            "tsConfig": "apps/edudoor-frontend/tsconfig.app.json",
-            "assets": ["apps/edudoor-frontend/src/favicon.ico", "apps/edudoor-frontend/src/assets"],
-            "styles": ["apps/edudoor-frontend/src/styles.scss"],
+            "outputPath": "dist/apps/doorward-frontend",
+            "index": "apps/doorward-frontend/src/index.html",
+            "main": "apps/doorward-frontend/src/main.tsx",
+            "polyfills": "apps/doorward-frontend/src/polyfills.ts",
+            "tsConfig": "apps/doorward-frontend/tsconfig.app.json",
+            "assets": ["apps/doorward-frontend/src/favicon.ico", "apps/doorward-frontend/src/assets"],
+            "styles": ["apps/doorward-frontend/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -24,8 +24,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/edudoor-frontend/src/environments/environment.ts",
-                  "with": "apps/edudoor-frontend/src/environments/environment.prod.ts"
+                  "replace": "apps/doorward-frontend/src/environments/environment.ts",
+                  "with": "apps/doorward-frontend/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -48,12 +48,12 @@
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "edudoor-frontend:build",
+            "buildTarget": "doorward-frontend:build",
             "port": 3000
           },
           "configurations": {
             "production": {
-              "buildTarget": "edudoor-frontend:build:production"
+              "buildTarget": "doorward-frontend:build:production"
             }
           }
         },
@@ -61,35 +61,35 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-frontend/.eslintrc",
-            "tsConfig": ["apps/edudoor-frontend/tsconfig.app.json", "apps/edudoor-frontend/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-frontend/**"]
+            "config": "apps/doorward-frontend/.eslintrc",
+            "tsConfig": ["apps/doorward-frontend/tsconfig.app.json", "apps/doorward-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-frontend/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/edudoor-frontend/jest.config.js",
-            "tsConfig": "apps/edudoor-frontend/tsconfig.spec.json"
+            "jestConfig": "apps/doorward-frontend/jest.config.js",
+            "tsConfig": "apps/doorward-frontend/tsconfig.spec.json"
           }
         }
       }
     },
-    "edudoor-frontend-e2e": {
-      "root": "apps/edudoor-frontend-e2e",
-      "sourceRoot": "apps/edudoor-frontend-e2e/src",
+    "doorward-frontend-e2e": {
+      "root": "apps/doorward-frontend-e2e",
+      "sourceRoot": "apps/doorward-frontend-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/edudoor-frontend-e2e/cypress.json",
-            "tsConfig": "apps/edudoor-frontend-e2e/tsconfig.e2e.json",
-            "devServerTarget": "edudoor-frontend:serve"
+            "cypressConfig": "apps/doorward-frontend-e2e/cypress.json",
+            "tsConfig": "apps/doorward-frontend-e2e/tsconfig.e2e.json",
+            "devServerTarget": "doorward-frontend:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "edudoor-frontend:serve:production"
+              "devServerTarget": "doorward-frontend:serve:production"
             }
           }
         },
@@ -97,9 +97,9 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-frontend-e2e/.eslintrc",
-            "tsConfig": ["apps/edudoor-frontend-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-frontend-e2e/**"]
+            "config": "apps/doorward-frontend-e2e/.eslintrc",
+            "tsConfig": ["apps/doorward-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-frontend-e2e/**"]
           }
         }
       }
@@ -152,20 +152,20 @@
         }
       }
     },
-    "edudoor-node-backend": {
-      "root": "apps/edudoor-node-backend",
-      "sourceRoot": "apps/edudoor-node-backend",
+    "doorward-node-backend": {
+      "root": "apps/doorward-node-backend",
+      "sourceRoot": "apps/doorward-node-backend",
       "projectType": "application",
-      "prefix": "edudoor-node-backend",
+      "prefix": "doorward-node-backend",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/edudoor-node-backend",
-            "main": "apps/edudoor-node-backend/index.ts",
-            "tsConfig": "apps/edudoor-node-backend/tsconfig.app.json",
-            "assets": ["apps/edudoor-node-backend/src/assets", "apps/edudoor-node-backend/emails"]
+            "outputPath": "dist/apps/doorward-node-backend",
+            "main": "apps/doorward-node-backend/index.ts",
+            "tsConfig": "apps/doorward-node-backend/tsconfig.app.json",
+            "assets": ["apps/doorward-node-backend/src/assets", "apps/doorward-node-backend/emails"]
           },
           "configurations": {
             "production": {
@@ -174,8 +174,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/edudoor-node-backend/src/environments/environment.ts",
-                  "with": "apps/edudoor-node-backend/src/environments/environment.prod.ts"
+                  "replace": "apps/doorward-node-backend/src/environments/environment.ts",
+                  "with": "apps/doorward-node-backend/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -184,7 +184,7 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "edudoor-node-backend:build",
+            "buildTarget": "doorward-node-backend:build",
             "port": 0
           }
         },
@@ -192,36 +192,36 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-node-backend/.eslintrc",
-            "tsConfig": ["apps/edudoor-node-backend/tsconfig.app.json", "apps/edudoor-node-backend/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/apps/edudoor-node-backend/**"]
+            "config": "apps/doorward-node-backend/.eslintrc",
+            "tsConfig": ["apps/doorward-node-backend/tsconfig.app.json", "apps/doorward-node-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/apps/doorward-node-backend/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/edudoor-node-backend/jest.config.js",
-            "tsConfig": "apps/edudoor-node-backend/tsconfig.spec.json"
+            "jestConfig": "apps/doorward-node-backend/jest.config.js",
+            "tsConfig": "apps/doorward-node-backend/tsconfig.spec.json"
           }
         }
       }
     },
-    "edudoor-website": {
-      "root": "apps/edudoor-website",
-      "sourceRoot": "apps/edudoor-website/src",
+    "doorward-website": {
+      "root": "apps/doorward-website",
+      "sourceRoot": "apps/doorward-website/src",
       "projectType": "application",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/web:build",
           "options": {
-            "outputPath": "dist/apps/edudoor-website",
-            "index": "apps/edudoor-website/src/index.html",
-            "main": "apps/edudoor-website/src/main.tsx",
-            "polyfills": "apps/edudoor-website/src/polyfills.ts",
-            "tsConfig": "apps/edudoor-website/tsconfig.app.json",
-            "assets": ["apps/edudoor-website/src/favicon.ico", "apps/edudoor-website/src/assets/"],
-            "styles": ["apps/edudoor-website/src/styles.scss"],
+            "outputPath": "dist/apps/doorward-website",
+            "index": "apps/doorward-website/src/index.html",
+            "main": "apps/doorward-website/src/main.tsx",
+            "polyfills": "apps/doorward-website/src/polyfills.ts",
+            "tsConfig": "apps/doorward-website/tsconfig.app.json",
+            "assets": ["apps/doorward-website/src/favicon.ico", "apps/doorward-website/src/assets/"],
+            "styles": ["apps/doorward-website/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -229,8 +229,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "apps/edudoor-website/src/environments/environment.ts",
-                  "with": "apps/edudoor-website/src/environments/environment.prod.ts"
+                  "replace": "apps/doorward-website/src/environments/environment.ts",
+                  "with": "apps/doorward-website/src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -253,13 +253,13 @@
         "serve": {
           "builder": "@nrwl/web:dev-server",
           "options": {
-            "buildTarget": "edudoor-website:build",
+            "buildTarget": "doorward-website:build",
             "port": 3001,
             "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
-              "buildTarget": "edudoor-website:build:production"
+              "buildTarget": "doorward-website:build:production"
             }
           }
         },
@@ -267,35 +267,35 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-website/.eslintrc",
-            "tsConfig": ["apps/edudoor-website/tsconfig.app.json", "apps/edudoor-website/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-website/**"]
+            "config": "apps/doorward-website/.eslintrc",
+            "tsConfig": ["apps/doorward-website/tsconfig.app.json", "apps/doorward-website/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-website/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/edudoor-website/jest.config.js",
-            "tsConfig": "apps/edudoor-website/tsconfig.spec.json"
+            "jestConfig": "apps/doorward-website/jest.config.js",
+            "tsConfig": "apps/doorward-website/tsconfig.spec.json"
           }
         }
       }
     },
-    "edudoor-website-e2e": {
-      "root": "apps/edudoor-website-e2e",
-      "sourceRoot": "apps/edudoor-website-e2e/src",
+    "doorward-website-e2e": {
+      "root": "apps/doorward-website-e2e",
+      "sourceRoot": "apps/doorward-website-e2e/src",
       "projectType": "application",
       "architect": {
         "e2e": {
           "builder": "@nrwl/cypress:cypress",
           "options": {
-            "cypressConfig": "apps/edudoor-website-e2e/cypress.json",
-            "tsConfig": "apps/edudoor-website-e2e/tsconfig.e2e.json",
-            "devServerTarget": "edudoor-website:serve"
+            "cypressConfig": "apps/doorward-website-e2e/cypress.json",
+            "tsConfig": "apps/doorward-website-e2e/tsconfig.e2e.json",
+            "devServerTarget": "doorward-website:serve"
           },
           "configurations": {
             "production": {
-              "devServerTarget": "edudoor-website:serve:production"
+              "devServerTarget": "doorward-website:serve:production"
             }
           }
         },
@@ -303,9 +303,9 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-website-e2e/.eslintrc",
-            "tsConfig": ["apps/edudoor-website-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-website-e2e/**"]
+            "config": "apps/doorward-website-e2e/.eslintrc",
+            "tsConfig": ["apps/doorward-website-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-website-e2e/**"]
           }
         }
       }
@@ -358,20 +358,20 @@
         }
       }
     },
-    "edudoor-chat-api": {
-      "root": "apps/edudoor-chat-api",
-      "sourceRoot": "apps/edudoor-chat-api/src",
+    "doorward-chat-api": {
+      "root": "apps/doorward-chat-api",
+      "sourceRoot": "apps/doorward-chat-api/src",
       "projectType": "application",
-      "prefix": "edudoor-chat-api",
+      "prefix": "doorward-chat-api",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/edudoor-chat-api",
-            "main": "apps/edudoor-chat-api/src/main.ts",
-            "tsConfig": "apps/edudoor-chat-api/tsconfig.app.json",
-            "assets": ["apps/edudoor-chat-api/src/assets"]
+            "outputPath": "dist/apps/doorward-chat-api",
+            "main": "apps/doorward-chat-api/src/main.ts",
+            "tsConfig": "apps/doorward-chat-api/tsconfig.app.json",
+            "assets": ["apps/doorward-chat-api/src/assets"]
           },
           "configurations": {
             "production": {
@@ -380,8 +380,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/edudoor-chat-api/src/environments/environment.ts",
-                  "with": "apps/edudoor-chat-api/src/environments/environment.prod.ts"
+                  "replace": "apps/doorward-chat-api/src/environments/environment.ts",
+                  "with": "apps/doorward-chat-api/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -390,7 +390,7 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "edudoor-chat-api:build",
+            "buildTarget": "doorward-chat-api:build",
             "port": 0
           }
         },
@@ -398,34 +398,34 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-chat-api/.eslintrc",
-            "tsConfig": ["apps/edudoor-chat-api/tsconfig.app.json", "apps/edudoor-chat-api/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-chat-api/**"]
+            "config": "apps/doorward-chat-api/.eslintrc",
+            "tsConfig": ["apps/doorward-chat-api/tsconfig.app.json", "apps/doorward-chat-api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-chat-api/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/edudoor-chat-api/jest.config.js",
-            "tsConfig": "apps/edudoor-chat-api/tsconfig.spec.json"
+            "jestConfig": "apps/doorward-chat-api/jest.config.js",
+            "tsConfig": "apps/doorward-chat-api/tsconfig.spec.json"
           }
         }
       }
     },
-    "edudoor-backend": {
-      "root": "apps/edudoor-backend",
-      "sourceRoot": "apps/edudoor-backend/src",
+    "doorward-backend": {
+      "root": "apps/doorward-backend",
+      "sourceRoot": "apps/doorward-backend/src",
       "projectType": "application",
-      "prefix": "edudoor-backend",
+      "prefix": "doorward-backend",
       "schematics": {},
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "outputPath": "dist/apps/edudoor-backend",
-            "main": "apps/edudoor-backend/src/main.ts",
-            "tsConfig": "apps/edudoor-backend/tsconfig.app.json",
-            "assets": ["apps/edudoor-backend/src/assets"]
+            "outputPath": "dist/apps/doorward-backend",
+            "main": "apps/doorward-backend/src/main.ts",
+            "tsConfig": "apps/doorward-backend/tsconfig.app.json",
+            "assets": ["apps/doorward-backend/src/assets"]
           },
           "configurations": {
             "production": {
@@ -434,8 +434,8 @@
               "inspect": false,
               "fileReplacements": [
                 {
-                  "replace": "apps/edudoor-backend/src/environments/environment.ts",
-                  "with": "apps/edudoor-backend/src/environments/environment.prod.ts"
+                  "replace": "apps/doorward-backend/src/environments/environment.ts",
+                  "with": "apps/doorward-backend/src/environments/environment.prod.ts"
                 }
               ]
             }
@@ -444,23 +444,23 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "edudoor-backend:build"
+            "buildTarget": "doorward-backend:build"
           }
         },
         "lint": {
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "config": "apps/edudoor-backend/.eslintrc",
-            "tsConfig": ["apps/edudoor-backend/tsconfig.app.json", "apps/edudoor-backend/tsconfig.spec.json"],
-            "exclude": ["**/node_modules/**", "!apps/edudoor-backend/**"]
+            "config": "apps/doorward-backend/.eslintrc",
+            "tsConfig": ["apps/doorward-backend/tsconfig.app.json", "apps/doorward-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-backend/**"]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
           "options": {
-            "jestConfig": "apps/edudoor-backend/jest.config.js",
-            "tsConfig": "apps/edudoor-backend/tsconfig.spec.json"
+            "jestConfig": "apps/doorward-backend/jest.config.js",
+            "tsConfig": "apps/doorward-backend/tsconfig.spec.json"
           }
         }
       }
@@ -474,7 +474,7 @@
       },
       "root": "apps/openvidu-frontend",
       "sourceRoot": "apps/openvidu-frontend/src",
-      "prefix": "edudoor",
+      "prefix": "doorward",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -696,5 +696,5 @@
       "unitTestRunner": "jest"
     }
   },
-  "defaultProject": "edudoor-frontend"
+  "defaultProject": "doorward-frontend"
 }

@@ -16,18 +16,18 @@ I have created a storageclass "databases" in the file db-sc.yml
 
 **2) PVC**: A PersistentVolumeClaim (PVC) is a request for storage by a pod.
 
-I have created 2 PVC - edudoor-data and openolat-data. Files are pvc-nodedb.yml and pvc-olatdb.yml respectively. When a claim is made, kubernetes will look for an existing volume (or create new one ).
+I have created 2 PVC - doorward-data and openolat-data. Files are pvc-nodedb.yml and pvc-olatdb.yml respectively. When a claim is made, kubernetes will look for an existing volume (or create new one ).
 
-**3) Claim by POD**: This is the requst by pod to mount a volume created by pvc into the pod. This is how pod mount a disk (created by PVC edudoor-data) to /var/lib/postgresql/data folder. Look into the files edudoor-database.yaml and openolat-database.yaml for more details.
+**3) Claim by POD**: This is the requst by pod to mount a volume created by pvc into the pod. This is how pod mount a disk (created by PVC doorward-data) to /var/lib/postgresql/data folder. Look into the files doorward-database.yaml and openolat-database.yaml for more details.
 
         volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: edudoor-data-postgresql
+          name: doorward-data-postgresql
 
       volumes:
-      - name: edudoor-data-postgresql
+      - name: doorward-data-postgresql
         persistentVolumeClaim:
-          claimName: edudoor-data
+          claimName: doorward-data
 
 
 **4) Persistant Disks**: To view the disks in GCP console, look under "Disks"

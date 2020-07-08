@@ -9,4 +9,4 @@ metadata:
   labels:
     {{- include "thaladb.labels" . | nindent 4 }}
   name: {{ include "thaladb.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

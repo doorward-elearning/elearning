@@ -1,10 +1,10 @@
-import { DBModel } from '@edudoor/common/models/DBModel';
-import { Question } from '@edudoor/common/models/Question';
-import { ModuleItemTypes } from '@edudoor/common/models/index';
+import { DBModel } from '@doorward/common/models/DBModel';
+import { Question } from '@doorward/common/models/Question';
+import { ModuleItemTypes } from '@doorward/common/models/index';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { User } from './User';
-import { Module } from '@edudoor/common/models/Module';
-import { AssignmentSubmission } from '@edudoor/common/models/AssignmentSubmission';
+import { Module } from '@doorward/common/models/Module';
+import { AssignmentSubmission } from '@doorward/common/models/AssignmentSubmission';
 
 export class ModuleItem extends Model implements DBModel {
   public id: string;

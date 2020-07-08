@@ -3,32 +3,32 @@ customer: makonis
 
 customer_type: institute
 
-# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
 app_domain: lms.makonis.ai
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.edudoor.org
+welcomepage_domain: www.doorward.org
 
-# Application URL. Default Value: https://<customer-name>.edudoor.org
+# Application URL. Default Value: https://<customer-name>.doorward.org
 app_url: https://lms.makonis.ai
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.makonis.edudoor.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
+samvadam_domain: samvadam.makonis.doorward.org
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.makonis.edudoor.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
+thala_domain: thala.makonis.doorward.org
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: Makonis
 
-# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: makonis-edudoor
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: makonis-doorward
 
 # Override default variables for stage environments
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat
+    repository: gcr.io/doorwardlms/swagat
     version: 1.1.0
     pullPolicy: IfNotPresent
   thaladb:
@@ -40,7 +40,7 @@ image:
     version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
     pullPolicy: Always
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: gcr.io/doorwardlms/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
@@ -50,10 +50,10 @@ image:
 
 organization:
   # Organization Logo
-  logo: "https://edudoorlms.s3.amazonaws.com/makonis/makonis.png"
+  logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
   # Display Name of Organization
   name: Makonis
   # Application URL
   website: lms.makonis.ai
   #Organization Admin Email ID
-  email: info@edudoor.org
+  email: info@doorward.org

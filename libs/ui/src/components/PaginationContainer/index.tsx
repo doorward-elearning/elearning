@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { PaginatedWebComponentState } from '@edudoor/ui/reducers/reducers';
-import Pagination from '@edudoor/ui/components/Pagination';
-import WebComponent, { WebComponentProps } from '@edudoor/ui/components/WebComponent';
-import useQueryParams from '@edudoor/ui/hooks/useQueryParams';
+import { PaginatedWebComponentState } from '@doorward/ui/reducers/reducers';
+import Pagination from '@doorward/ui/components/Pagination';
+import WebComponent, { WebComponentProps } from '@doorward/ui/components/WebComponent';
+import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 
 function PaginationContainer<T>(props: PaginationContainerProps<T>): JSX.Element {
   const {

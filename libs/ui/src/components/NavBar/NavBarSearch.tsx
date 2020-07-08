@@ -1,16 +1,16 @@
 import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import './NavBarSearch.scss';
-import Icon from '@edudoor/ui/components/Icon';
-import useClickOutside from '@edudoor/ui/hooks/useClickOutside';
+import Icon from '@doorward/ui/components/Icon';
+import useClickOutside from '@doorward/ui/hooks/useClickOutside';
 import classNames from 'classnames';
-import EImage from '@edudoor/ui/components/Image';
-import IfElse from '@edudoor/ui/components/IfElse';
-import useCaptureKeyDown from '@edudoor/ui/hooks/useCaptureKeyDown';
-import { SearchSuggestion } from '@edudoor/common/types/api';
-import withContext from '@edudoor/ui/hoc/withContext';
-import { WebComponentState } from '@edudoor/ui/reducers/reducers';
-import WebComponent from '@edudoor/ui/components/WebComponent';
-import Spinner from '@edudoor/ui/components/Spinner';
+import EImage from '@doorward/ui/components/Image';
+import IfElse from '@doorward/ui/components/IfElse';
+import useCaptureKeyDown from '@doorward/ui/hooks/useCaptureKeyDown';
+import { SearchSuggestion } from '@doorward/common/types/api';
+import withContext from '@doorward/ui/hoc/withContext';
+import { WebComponentState } from '@doorward/ui/reducers/reducers';
+import WebComponent from '@doorward/ui/components/WebComponent';
+import Spinner from '@doorward/ui/components/Spinner';
 
 const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> = ({
   suggestion,

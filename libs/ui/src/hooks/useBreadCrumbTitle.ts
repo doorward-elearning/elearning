@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { WebComponentState } from '../reducers/reducers';
-import { RouteNames, Routes } from '@edudoor/ui/types';
+import { RouteNames, Routes } from '@doorward/ui/types';
 
 const useBreadCrumbTitle = <T, R extends RouteNames>(
   state: WebComponentState<T>,

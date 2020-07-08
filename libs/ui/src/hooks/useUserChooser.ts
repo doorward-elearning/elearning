@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { User } from '@edudoor/common/models/User';
+import { User } from '@doorward/common/models/User';
 
 export interface UseUserChooser {
   selected: { string?: boolean };

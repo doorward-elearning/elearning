@@ -1,10 +1,10 @@
-import { RouteNames } from '@edudoor/ui/types';
-import { AppContextProps } from '@edudoor/ui/template/appContext';
-import { ActionCreator } from '@edudoor/ui/reducers/reducers';
+import { RouteNames } from '@doorward/ui/types';
+import { AppContextProps } from '@doorward/ui/template/appContext';
+import { ActionCreator } from '@doorward/ui/reducers/reducers';
 import { useRouteMatch } from 'react-router';
-import useAction from '@edudoor/ui/hooks/useActions';
+import useAction from '@doorward/ui/hooks/useActions';
 import { useEffect } from 'react';
-import useBaseRoutes from '@edudoor/ui/hooks/useBaseRoutes';
+import useBaseRoutes from '@doorward/ui/hooks/useBaseRoutes';
 
 const usePageResource = <T extends RouteNames>(
   context: AppContextProps<T>,

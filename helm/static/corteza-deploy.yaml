@@ -38,10 +38,10 @@ data:
   CORREDOR_VERSION:         "2019.12.0"
   WEBAPP_VERSION:           "2019.12.0"
 
-  HOST_DOMAIN:              "clients.edudoor.org"
-  API_DOMAIN:               "api.clients.edudoor.org"
-  VIRTUAL_HOST:             "clients.edudoor.org"
-  LETSENCRYPT_HOST:         "clients.edudoor.org"
+  HOST_DOMAIN:              "clients.doorward.org"
+  API_DOMAIN:               "api.clients.doorward.org"
+  VIRTUAL_HOST:             "clients.doorward.org"
+  LETSENCRYPT_HOST:         "clients.doorward.org"
   SYSTEM_API_URL:           "/system"
   MESSAGING_API_URL:        "/messaging"
   COMPOSE_API_URL:          "/compose"
@@ -62,7 +62,7 @@ data:
   SMTP_HOST:                "email-smtp.eu-west-1.amazonaws.com:587"
   SMTP_USER:                "AKIAQ36OBT5W3ZYJ7SKQ"
   SMTP_PASS:                "BLEjzDg2ZsIWDmvYIsfwJyGsNXQEWmviLkgE3Q5iSsVu"
-  SMTP_FROM:                "info@edudoor.org"
+  SMTP_FROM:                "info@doorward.org"
 
   # Secret to use for JWT token
   # Make sure you change it (>30 random characters) if
@@ -101,18 +101,18 @@ data:
   # External auth
 
   # PROVISION_SETTINGS_AUTH_EXTERNAL_ENABLED:                             "true"
-  # PROVISION_SETTINGS_AUTH_EXTERNAL_REDIRECT_URL:                        "https://clients.edudoor.org/auth"
+  # PROVISION_SETTINGS_AUTH_EXTERNAL_REDIRECT_URL:                        "https://clients.doorward.org/auth"
   # PROVISION_SETTINGS_AUTH_EXTERNAL_SESSION_STORE_SECRET:                ""
   # PROVISION_SETTINGS_AUTH_EXTERNAL_SESSION_STORE_SECURE:                ""
 
   # Auth frontend
 
-  PROVISION_SETTINGS_AUTH_FRONTEND_URL_BASE:                            "https://clients.edudoor.org/"
-  PROVISION_SETTINGS_AUTH_FRONTEND_URL_PASSWORD_RESET:                  "https://clients.edudoor.org/auth/reset-password?token="
-  PROVISION_SETTINGS_AUTH_FRONTEND_URL_EMAIL_CONFIRMATION:              "https://clients.edudoor.org/auth/confirm-email?token="
-  PROVISION_SETTINGS_AUTH_FRONTEND_URL_REDIRECT:                        "https://clients.edudoor.org/auth"
-  PROVISION_SETTINGS_AUTH_EMAIL_FROM_ADDRESS:                           "info@edudoor.org"
-  PROVISION_SETTINGS_AUTH_EMAIL_FROM_NAME:                              "Edudoor"
+  PROVISION_SETTINGS_AUTH_FRONTEND_URL_BASE:                            "https://clients.doorward.org/"
+  PROVISION_SETTINGS_AUTH_FRONTEND_URL_PASSWORD_RESET:                  "https://clients.doorward.org/auth/reset-password?token="
+  PROVISION_SETTINGS_AUTH_FRONTEND_URL_EMAIL_CONFIRMATION:              "https://clients.doorward.org/auth/confirm-email?token="
+  PROVISION_SETTINGS_AUTH_FRONTEND_URL_REDIRECT:                        "https://clients.doorward.org/auth"
+  PROVISION_SETTINGS_AUTH_EMAIL_FROM_ADDRESS:                           "info@doorward.org"
+  PROVISION_SETTINGS_AUTH_EMAIL_FROM_NAME:                              "Doorward"
 
   # Enable internal login
 
@@ -173,9 +173,9 @@ data:
   # corteza-webapp.kube-system.svc.cluster.local:80
 
   # Informing Corredor where it he contact us
-  CORREDOR_API_BASE_URL_SYSTEM:    "https://api.clients.edudoor.org/system"
-  CORREDOR_API_BASE_URL_MESSAGING: "https://api.clients.edudoor.org/messaging"
-  CORREDOR_API_BASE_URL_COMPOSE:   "https://api.clients.edudoor.org/compose"
+  CORREDOR_API_BASE_URL_SYSTEM:    "https://api.clients.doorward.org/system"
+  CORREDOR_API_BASE_URL_MESSAGING: "https://api.clients.doorward.org/messaging"
+  CORREDOR_API_BASE_URL_COMPOSE:   "https://api.clients.doorward.org/compose"
 
   # CORREDOR_API_BASE_URL_SYSTEM:    "corteza-server.kube-system.svc.cluster.local:80/system"
   # CORREDOR_API_BASE_URL_MESSAGING: "corteza-server.kube-system.svc.cluster.local:80/messaging"
@@ -186,8 +186,8 @@ data:
   #####################
 
   MONOLITH_API:             "true"
-  VIRTUAL_HOST:             "clients.edudoor.org"
-  LETSENCRYPT_HOST:         "clients.edudoor.org"
+  VIRTUAL_HOST:             "clients.doorward.org"
+  LETSENCRYPT_HOST:         "clients.doorward.org"
 
   ###########################
   # 5. Storage configuration

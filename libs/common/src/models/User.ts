@@ -3,12 +3,12 @@ import { Group } from './Group';
 import { PasswordResets } from './PasswordResets';
 import { GroupMember } from './GroupMember';
 import { StudentCourse } from './StudentCourse';
-import { Course } from '@edudoor/common/models/Course';
-import { UserRole } from '@edudoor/common/models/UserRole';
-import { DBModel } from '@edudoor/common/models/DBModel';
-import { Organization } from '@edudoor/common/models/Organization';
-import { Role } from '@edudoor/common/models/Role';
-import OrganizationUtils from '../../../../apps/edudoor-node-backend/src/utils/OrganizationUtils';
+import { Course } from '@doorward/common/models/Course';
+import { UserRole } from '@doorward/common/models/UserRole';
+import { DBModel } from '@doorward/common/models/DBModel';
+import { Organization } from '@doorward/common/models/Organization';
+import { Role } from '@doorward/common/models/Role';
+import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
 import { CourseManager } from './CourseManager';
 const sequelizePaginate = require('sequelize-paginate');
 

@@ -1,12 +1,17 @@
 apiVersion: v1
 data:
   REACT_APP_BASE_URL: https://{{ include "chuchu.thalapublicurl" . -}}/api/v1
+<<<<<<< HEAD
   REACT_APP_OPENVIDU_URL: https://{{ .Values.classrooms_url }}
   EDUDOOR_WEBSITE_LINK: https://{{ .Values.app_domain }}
+=======
+  REACT_APP_OPENVIDU_URL: https://{{ .Values.classrooms.url }}
+  DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
+>>>>>>> 34d0d17b27997696a05a342c6a4f0a2fc374e216
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"
   labels:
     {{- include "chuchu.labels" . | nindent 4 }}
   name: {{ include "chuchu.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

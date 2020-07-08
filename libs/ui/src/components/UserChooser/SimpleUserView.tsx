@@ -1,10 +1,10 @@
 import React, { MouseEventHandler } from 'react';
-import EImage from '@edudoor/ui/components/Image';
+import EImage from '@doorward/ui/components/Image';
 import profile from '../../../assets/images/profile.svg';
-import Panel from '@edudoor/ui/components/Panel';
-import Header from '@edudoor/ui/components/Header';
+import Panel from '@doorward/ui/components/Panel';
+import Header from '@doorward/ui/components/Header';
 import './SimpleUserView.scss';
-import { User } from '@edudoor/common/models/User';
+import { User } from '@doorward/common/models/User';
 import classNames from 'classnames';
 
 const SimpleUserView: React.FunctionComponent<SimpleUserViewProps> = (props): JSX.Element => {

@@ -76,7 +76,7 @@ service:
   targetport: 5432
   protocol: mysql
 
-thaladbname: edudoor
+thaladbname: doorward
 thaladbpassword: postgres
 thaladbuser: postgres
 thaladbconfigmappostfix: thaladb

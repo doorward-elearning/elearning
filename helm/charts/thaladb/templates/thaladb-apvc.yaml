@@ -3,7 +3,7 @@ kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
   name: {{ include "thaladb.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "thaladb.labels" . | nindent 4 }}
 spec:

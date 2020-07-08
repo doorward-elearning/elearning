@@ -1,5 +1,5 @@
 {
-  "npmScope": "edudoor",
+  "npmScope": "doorward",
   "implicitDependencies": {
     "workspace.json": "*",
     "package.json": "*",
@@ -8,10 +8,10 @@
     "nx.json": "*"
   },
   "projects": {
-    "edudoor-frontend": {
+    "doorward-frontend": {
       "tags": []
     },
-    "edudoor-frontend-e2e": {
+    "doorward-frontend-e2e": {
       "tags": []
     },
     "ui": {
@@ -20,13 +20,13 @@
     "common": {
       "tags": []
     },
-    "edudoor-node-backend": {
+    "doorward-node-backend": {
       "tags": []
     },
-    "edudoor-website": {
+    "doorward-website": {
       "tags": []
     },
-    "edudoor-website-e2e": {
+    "doorward-website-e2e": {
       "tags": []
     },
     "backend": {
@@ -35,10 +35,10 @@
     "chat": {
       "tags": []
     },
-    "edudoor-chat-api": {
+    "doorward-chat-api": {
       "tags": []
     },
-    "edudoor-backend": {
+    "doorward-backend": {
       "tags": []
     },
     "openvidu-frontend": {

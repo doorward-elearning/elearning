@@ -1,6 +1,6 @@
 import React from 'react';
 import './ConversationFrame.scss';
-import ConversationHeader from '@edudoor/chat/components/ConversationHeader';
+import ConversationHeader from '@doorward/chat/components/ConversationHeader';
 
 const ConversationFrame: React.FunctionComponent<ConversationFrameProps> = (props): JSX.Element => {
   return (

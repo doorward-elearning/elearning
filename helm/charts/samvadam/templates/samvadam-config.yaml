@@ -13,4 +13,4 @@ metadata:
   labels:
     {{- include "samvadam.labels" . | nindent 4 }}
   name: {{ include "samvadam.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

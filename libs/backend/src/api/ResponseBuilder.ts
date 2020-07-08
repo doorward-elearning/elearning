@@ -1,4 +1,4 @@
-import { ApiResponse } from '@edudoor/backend/interceptors/transform.interceptor';
+import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { HttpStatus } from '@nestjs/common';
 
 export class ResponseBuilder {

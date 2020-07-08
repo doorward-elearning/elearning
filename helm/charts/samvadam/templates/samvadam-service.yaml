@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "samvadam.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "samvadam.labels" . | nindent 4 }}
 spec:

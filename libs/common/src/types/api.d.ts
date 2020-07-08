@@ -1,4 +1,4 @@
-import { Icons } from '@edudoor/ui/types/icons';
+import { Icons } from '@doorward/ui/types/icons';
 
 export interface CourseModuleStatistics {
   assignments: number;

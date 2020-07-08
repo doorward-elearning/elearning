@@ -8,9 +8,9 @@ metadata:
   labels:
     app: openolat-database
   name: openolat-database
-  namespace: basil-edudoor
+  namespace: basil-doorward
   resourceVersion: "5130290"
-  selfLink: /apis/apps/v1/namespaces/basil-edudoor/deployments/openolat-database
+  selfLink: /apis/apps/v1/namespaces/basil-doorward/deployments/openolat-database
   uid: 33d2c03f-1e3a-11ea-812a-42010a8e0185
 spec:
   progressDeadlineSeconds: 600
@@ -47,9 +47,9 @@ spec:
             configMapKeyRef:
               key: POSTGRES_DB
               name: openolat-database-config
-        image: gcr.io/doorward/edudoor_database@sha256:a7be6cc9f47915913a22cbf9fe7c95881bb566a4d21c0d5e2b6d556c1c7d3d02
+        image: gcr.io/doorward/doorward_database@sha256:a7be6cc9f47915913a22cbf9fe7c95881bb566a4d21c0d5e2b6d556c1c7d3d02
         imagePullPolicy: IfNotPresent
-        name: edudoor-database-sha256
+        name: doorward-database-sha256
         resources: {}
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File

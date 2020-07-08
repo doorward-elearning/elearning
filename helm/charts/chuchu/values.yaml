@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu
+    repository: gcr.io/doorwardlms/chuchu
     version: 1.1.0
     pullPolicy: IfNotPresent
 
@@ -69,7 +69,7 @@ tolerations: []
 
 affinity: {}
 
-# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.edudoor.org/api/v1)
+# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.org/api/v1)
 thalaapiprefix: nodeapi
 containerport: 5000
 
@@ -81,6 +81,7 @@ api:
   samvadamuri: samvadam
   thalauri: thala
 
-app_domain: beta.edudoor.org
-
+app_domain: beta.doorward.org
 classrooms_url: classrooms.edudoor.org
+classrooms:
+  url: classrooms.doorward.org
