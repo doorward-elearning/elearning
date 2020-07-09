@@ -5,15 +5,16 @@ import { OvSettingsModel } from './ovSettings';
 export class ExternalConfigModel {
   protected ovSettings: OvSettingsModel;
   protected sessionName: string;
-  protected ovServerUrl: string;
-  protected ovServerApiUrl: string;
-  protected ovSecret: string;
+  protected ovServerUrl: string = process.env.OPENVIDU_URL;
+  protected ovServerApiUrl: string = process.env.OPENVIDU_API_URL;
+  protected ovSecret: string = process.env.OPENVIDU_SECRET;
   protected theme = Theme.DARK;
   protected nickname: string;
   protected tokens: string[];
 
   constructor() {
     this.ovSettings = new OvSettingsModel();
+    console.log(this.ovServerApiUrl);
   }
 
   public getComponentName() {}
