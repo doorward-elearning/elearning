@@ -1,6 +1,6 @@
 releases:
   - name: demo-college-thaladb
-    namespace: demo-college-edudoor
+    namespace: demo-college-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: demo-college-samvadam
-    namespace: demo-college-edudoor
+    namespace: demo-college-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - demo-college-edudoor/demo-college-thaladb
+      - demo-college-doorward/demo-college-thaladb
     values:
       - config.yaml
 
   - name: demo-college-thala
-    namespace: demo-college-edudoor
+    namespace: demo-college-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - demo-college-edudoor/demo-college-thaladb
+      - demo-college-doorward/demo-college-thaladb
     values:
       - config.yaml
 
   - name: demo-college-chuchu
-    namespace: demo-college-edudoor
+    namespace: demo-college-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - demo-college-edudoor/demo-college-thaladb
+      - demo-college-doorward/demo-college-thaladb
     values:
       - config.yaml

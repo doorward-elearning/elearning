@@ -6,7 +6,7 @@ data:
   OPENVIDU_PASSWORD: {{ .Values.classrooms.password }}
   OPENVIDU_API_PORT: "{{ .Values.openviduapi_port }}"
   OPENVIDU_API_URL: {{ .Values.openviduapi_url }}
-  EDUDOOR_ADMIN_EMAIL: {{ .Values.organization.email }}
+  DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
   DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
   ORGANIZATION_LOGO: {{ .Values.organization.logo }}
   ORGANIZATION_NAME: {{ .Values.organization.name }}

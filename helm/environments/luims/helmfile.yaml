@@ -1,6 +1,6 @@
 releases:
   - name: luims-thaladb
-    namespace: luims-edudoor
+    namespace: luims-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: luims-samvadam
-    namespace: luims-edudoor
+    namespace: luims-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - luims-edudoor/luims-thaladb
+      - luims-doorward/luims-thaladb
     values:
       - config.yaml
 
   - name: luims-thala
-    namespace: luims-edudoor
+    namespace: luims-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - luims-edudoor/luims-thaladb
+      - luims-doorward/luims-thaladb
     values:
       - config.yaml
 
   - name: luims-chuchu
-    namespace: luims-edudoor
+    namespace: luims-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - luims-edudoor/luims-thaladb
+      - luims-doorward/luims-thaladb
     values:
       - config.yaml

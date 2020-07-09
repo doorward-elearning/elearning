@@ -9,7 +9,7 @@ metadata:
 
 spec:
   rules:
-    - host: dash.edudoor.org
+    - host: dash.doorward.tech
       http:
         paths:
           - backend:
@@ -20,6 +20,5 @@ spec:
 
   tls:
   - hosts:
-    - dash.edudoor.org
-    secretName: dash.edudoor.org
-
+    - dash.doorward.tech
+    secretName: dash.doorward.tech

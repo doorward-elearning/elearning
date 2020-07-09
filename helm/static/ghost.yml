@@ -139,7 +139,7 @@ data:
   database__connection__host: ghostdb-service
   database__connection__password: ghj54gsdDJ
   database__connection__user: ghost
-  url: https://www.edudoor.org/blog
+  url: https://www.doorward.tech/blog
 kind: ConfigMap
 metadata:
   labels:
@@ -261,7 +261,7 @@ metadata:
 
 spec:
   rules:
-    - host: blog.edudoor.org
+    - host: blog.doorward.tech
       http:
         paths:
           - backend:
@@ -269,7 +269,7 @@ spec:
               servicePort: 80
             path: /
 
-    - host: www.edudoor.org
+    - host: www.doorward.tech
       http:
         paths:
           - backend:
@@ -277,7 +277,7 @@ spec:
               servicePort: 80
             path: /blog
 
-    - host: edudoor.org
+    - host: doorward.tech
       http:
         paths:
           - backend:
@@ -287,5 +287,5 @@ spec:
 
   tls:
   - hosts:
-    - blog.edudoor.org
-    secretName: blog.edudoor.org
+    - blog.doorward.tech
+    secretName: blog.doorward.tech

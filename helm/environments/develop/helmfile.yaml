@@ -42,13 +42,13 @@ releases:
       - config.yaml
 
   - name: develop-vidu
-    namespace: develop-edudoor
+    namespace: develop-doorward
     labels:
       stage: 2
       name: vidu
     chart: ../../charts/vidu
     needs:
-      - develop-edudoor/develop-thaladb
+      - develop-doorward/develop-thaladb
     values:
       - config.yaml
 

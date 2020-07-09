@@ -82,6 +82,6 @@ api:
   thalauri: thala
 
 app_domain: beta.doorward.org
-classrooms_url: classrooms.edudoor.org
+classrooms_url: classrooms.doorward.tech
 classrooms:
   url: classrooms.doorward.org

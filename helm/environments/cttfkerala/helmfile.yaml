@@ -1,6 +1,6 @@
 releases:
   - name: cttfkerala-thaladb
-    namespace: cttfkerala-edudoor
+    namespace: cttfkerala-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: cttfkerala-samvadam
-    namespace: cttfkerala-edudoor
+    namespace: cttfkerala-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - cttfkerala-edudoor/cttfkerala-thaladb
+      - cttfkerala-doorward/cttfkerala-thaladb
     values:
       - config.yaml
 
   - name: cttfkerala-thala
-    namespace: cttfkerala-edudoor
+    namespace: cttfkerala-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - cttfkerala-edudoor/cttfkerala-thaladb
+      - cttfkerala-doorward/cttfkerala-thaladb
     values:
       - config.yaml
 
   - name: cttfkerala-chuchu
-    namespace: cttfkerala-edudoor
+    namespace: cttfkerala-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - cttfkerala-edudoor/cttfkerala-thaladb
+      - cttfkerala-doorward/cttfkerala-thaladb
     values:
       - config.yaml

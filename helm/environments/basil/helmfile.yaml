@@ -1,6 +1,6 @@
 releases:
   - name: basil-thaladb
-    namespace: basil-edudoor
+    namespace: basil-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,45 +9,45 @@ releases:
       - config.yaml
 
   - name: basil-samvadam
-    namespace: basil-edudoor
+    namespace: basil-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - basil-edudoor/basil-thaladb
+      - basil-doorward/basil-thaladb
     values:
       - config.yaml
 
   - name: basil-thala
-    namespace: basil-edudoor
+    namespace: basil-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - basil-edudoor/basil-thaladb
+      - basil-doorward/basil-thaladb
     values:
       - config.yaml
 
   - name: basil-chuchu
-    namespace: basil-edudoor
+    namespace: basil-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - basil-edudoor/basil-thaladb
+      - basil-doorward/basil-thaladb
     values:
       - config.yaml
 
   - name: basil-swagat
-    namespace: basil-edudoor
+    namespace: basil-doorward
     labels:
       stage: 2
       name: swagat
     chart: ../../charts/swagat
     needs:
-      - basil-edudoor/basil-thaladb
+      - basil-doorward/basil-thaladb
     values:
       - config.yaml

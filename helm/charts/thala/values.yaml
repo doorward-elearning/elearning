@@ -89,6 +89,6 @@ classrooms:
 
 openviduapi_port: "80"
 #openviduapi_url: https://openvidu-api.doorward.tech/api/
-classrooms_url: classrooms.edudoor.org
+classrooms_url: classrooms.doorward.tech
 
 swagat_enable_latency: "false"

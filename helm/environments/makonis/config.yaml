@@ -36,7 +36,7 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256
+    repository: core.harbor.doorward.tech/doorward/thala@sha256
     version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
     pullPolicy: Always
   samvadam:
@@ -44,7 +44,7 @@ image:
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu@sha256
+    repository: core.harbor.doorward.tech/doorward/chuchu@sha256
     version: bfd6ca9298b16f59a73a664d99bf4f1b4c34da011d20fc4c1b9ad6ea377a54f6
     pullPolicy: Always
 

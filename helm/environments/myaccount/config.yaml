@@ -26,7 +26,7 @@ namespace: myaccount-doorward
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat@sha256
+    repository: core.harbor.doorward.tech/doorward/swagat@sha256
     version: 84a03f38c24e094facfe0d7dd4844d544704f6cde55794531a5f7892abd1e3c5
     pullPolicy: IfNotPresent
   thaladb:
@@ -34,7 +34,7 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256
+    repository: core.harbor.doorward.tech/doorward/thala@sha256
     version: 02ca92f77e036cfb52f98fa7b6524bd25c0798810a2a28186400153930e4bef0
     pullPolicy: IfNotPresent
   samvadam:
@@ -42,7 +42,7 @@ image:
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu@sha256
+    repository: core.harbor.doorward.tech/doorward/chuchu@sha256
     version: 894710a83a450a4d1f8bfe9dbad8d9a65e80a9b6657458456f464d6d2d2bfd93
     pullPolicy: IfNotPresent
 

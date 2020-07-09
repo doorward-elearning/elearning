@@ -116,7 +116,7 @@ metadata:
     app: kibana
 spec:
   rules:
-    - host: theliv.edudoor.org
+    - host: theliv.doorward.tech
       http:
         paths:
           - backend:
@@ -126,8 +126,8 @@ spec:
 
   tls:
   - hosts:
-    - theliv.edudoor.org
-    secretName: theliv.edudoor.org
+    - theliv.doorward.tech
+    secretName: theliv.doorward.tech
 
 ---
 apiVersion: apps/v1

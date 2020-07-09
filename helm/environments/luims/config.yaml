@@ -1,32 +1,32 @@
 # Name of the Customer / Website
 customer: luims
 
-# HOME Page of the website. Default Value: https://<customer-name>.edudoor.org.
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
 app_domain: luims.makonis.ai
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: beta.edudoor.org
+welcomepage_domain: beta.doorward.tech
 
-# Application URL. Default Value: https://<customer-name>.edudoor.org
+# Application URL. Default Value: https://<customer-name>.doorward.tech
 app_url: https://luims.makonis.ai
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.edudoor.org
-samvadam_domain: samvadam.luims.edudoor.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.luims.doorward.tech
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.edudoor.org
-thala_domain: thala.luims.edudoor.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.luims.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: luims
 
-# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-edudoor
-namespace: luims-edudoor
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: luims-doorward
 
 # Override default variables for stage environments
 
 image:
   swagat:
-    repository: gcr.io/edudoorlms/swagat
+    repository: core.harbor.doorward.tech/doorward/swagat
     version: 1.1.0
     pullPolicy: Always
   thaladb:
@@ -34,15 +34,15 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/edudoorlms/thala@sha256
+    repository: core.harbor.doorward.tech/doorward/thala@sha256
     version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
     pullPolicy: Always
   samvadam:
-    repository: gcr.io/edudoorlms/samvadam
+    repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/edudoorlms/chuchu@sha256
+    repository: core.harbor.doorward.tech/doorward/chuchu@sha256
     version: bfd6ca9298b16f59a73a664d99bf4f1b4c34da011d20fc4c1b9ad6ea377a54f6
     pullPolicy: Always
 
@@ -52,7 +52,7 @@ organization:
   # Display Name of Organization
   name: "University of Lucknow"
   # Application URL
-  website: luims.edudoor.org
+  website: luims.doorward.tech
   #Organization Admin Email ID
   email: archanaraj10@gmail.com
 classrooms:

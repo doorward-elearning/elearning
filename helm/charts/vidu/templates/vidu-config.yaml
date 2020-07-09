@@ -9,4 +9,4 @@ metadata:
   labels:
     {{- include "vidu.labels" . | nindent 4 }}
   name: {{ include "vidu.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

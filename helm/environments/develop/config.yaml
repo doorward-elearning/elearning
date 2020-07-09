@@ -17,13 +17,13 @@ samvadam_domain: samvadam.develop.doorward.org
 thala_domain: thala.develop.doorward.org
 
 # Public Domain for openvidu API.
-openviduapi_url: https://vidu.develop.edudoor.org/api/
+openviduapi_url: https://vidu.develop.doorward.tech/api/
 
 # Public Domain for OpenVidu API
-openviduapi_domain: vidu.develop.edudoor.org
+openviduapi_domain: vidu.develop.doorward.tech
 
 # Public URL of Openvidu Server
-classrooms_url: classrooms.edudoor.org
+classrooms_url: classrooms.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: develop
@@ -55,7 +55,7 @@ image:
     version: 1.1.0
     pullPolicy: Always
   vidu:
-    repository: gcr.io/edudoorlms/vidu
+    repository: core.harbor.doorward.tech/doorward/vidu
     version: 1.1.0
     pullPolicy: Always
 

@@ -5,7 +5,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
     cert-manager.io/issuer: letsencrypt-prod
   name: {{ include "vidu.fullname" . }}
-  namespace: {{ required "A valid foo is required!" .Values.customer -}}-edudoor
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "vidu.labels" . | nindent 4 }}
 

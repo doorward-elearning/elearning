@@ -1,6 +1,6 @@
 releases:
   - name: demo-thaladb
-    namespace: demo-edudoor
+    namespace: demo-doorward
     labels:
       stage: 1
       name: thaladb
@@ -9,34 +9,34 @@ releases:
       - config.yaml
 
   - name: demo-samvadam
-    namespace: demo-edudoor
+    namespace: demo-doorward
     labels:
       stage: 2
       name: samvadam
     chart: ../../charts/samvadam
     needs:
-      - demo-edudoor/demo-thaladb
+      - demo-doorward/demo-thaladb
     values:
       - config.yaml
 
   - name: demo-thala
-    namespace: demo-edudoor
+    namespace: demo-doorward
     labels:
       stage: 2
       name: thala
     chart: ../../charts/thala
     needs:
-      - demo-edudoor/demo-thaladb
+      - demo-doorward/demo-thaladb
     values:
       - config.yaml
 
   - name: demo-chuchu
-    namespace: demo-edudoor
+    namespace: demo-doorward
     labels:
       stage: 2
       name: chuchu
     chart: ../../charts/chuchu
     needs:
-      - demo-edudoor/demo-thaladb
+      - demo-doorward/demo-thaladb
     values:
       - config.yaml
