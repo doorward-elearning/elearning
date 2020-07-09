@@ -56,7 +56,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   compact = false;
   sidenavMode: 'side' | 'over' = 'side';
   lightTheme: boolean;
-  showConfigRoomCard = false;
+  showConfigRoomCard = true;
   session: Session;
   sessionScreen: Session;
   openviduLayout: OpenViduLayout;
