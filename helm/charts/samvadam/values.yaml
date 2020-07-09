@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   samvadam:
-    repository: gcr.io/doorwardlms/samvadam
+    repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
 

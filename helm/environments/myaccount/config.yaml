@@ -38,7 +38,7 @@ image:
     version: 02ca92f77e036cfb52f98fa7b6524bd25c0798810a2a28186400153930e4bef0
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/doorwardlms/samvadam
+    repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:

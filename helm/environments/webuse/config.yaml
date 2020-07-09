@@ -26,7 +26,7 @@ namespace: webuse-doorward
 
 image:
   swagat:
-    repository: gcr.io/doorwardlms/swagat
+    repository: core.harbor.doorward.tech/doorward/swagat
     version: 1.1.0
     pullPolicy: IfNotPresent
   thaladb:
@@ -34,15 +34,15 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: gcr.io/doorwardlms/thala
+    repository: core.harbor.doorward.tech/doorward/thala
     version: 1.1.0
     pullPolicy: IfNotPresent
   samvadam:
-    repository: gcr.io/doorwardlms/samvadam
+    repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: gcr.io/doorwardlms/chuchu
+    repository: core.harbor.doorward.tech/doorward/chuchu
     version: 1.1.0
     pullPolicy: IfNotPresent
 

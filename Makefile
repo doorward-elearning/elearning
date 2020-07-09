@@ -33,6 +33,8 @@ build:
 	@ docker tag thala:${APP_VERSION} core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ ${INFO} "Tagging website image"
 	@ docker tag swagat:${APP_VERSION} core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
+	@ ${INFO} "Tagging vidu image"
+	@ docker tag vidu:${APP_VERSION} core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
 	@
 	@ ${INFO} "Pushing images to GCP"
 	@ docker push core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
