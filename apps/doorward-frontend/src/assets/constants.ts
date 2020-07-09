@@ -2,8 +2,8 @@ const CONSTANTS = {
   APP_NAME: 'Doorward',
 };
 
-type Constants = {
+interface Constants {
   [name: string]: any;
-};
+}
 
 export default CONSTANTS;

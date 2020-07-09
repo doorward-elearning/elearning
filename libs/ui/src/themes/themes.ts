@@ -12,7 +12,7 @@ const base = {
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
   '--font-family':
-    '"Sailec-Regular",system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Helvetica,Arial,sans-serif',
+    '"Sailec-Regular",sans-serif',
   '--line-color': 'rgba(0, 0, 0, .1)',
   '--shadow-color': 'rgba(50, 50, 50, .08)',
   '--shadow-color--darker': 'rgba(0, 0, 0, .15)',
