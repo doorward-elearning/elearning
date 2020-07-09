@@ -1,13 +1,13 @@
-import { OvSettings } from '../types/ov-settings';
+import { OvSettings } from './ov-settings';
 
 export interface ISessionConfig {
-	sessionName: string;
-	user: string;
-	tokens: string[];
-	ovSettings: OvSettings;
+  sessionName: string;
+  user: string;
+  tokens: string[];
+  ovSettings: OvSettings;
 }
 
 export enum Theme {
-	DARK = 'dark',
-	LIGHT = 'light'
+  DARK = 'dark',
+  LIGHT = 'light'
 }

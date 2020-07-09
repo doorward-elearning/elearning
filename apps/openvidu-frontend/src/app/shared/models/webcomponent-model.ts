@@ -13,7 +13,7 @@ export class WebComponentModel extends ExternalConfigModel {
 
 		this.sessionConfig = config;
 
-		if (!!this.sessionConfig) {
+		if (this.sessionConfig) {
 			this.sessionName = this.sessionConfig.sessionName;
 			this.nickname = this.sessionConfig.user;
 			this.tokens = this.sessionConfig.tokens;

@@ -2,7 +2,7 @@
   position: absolute;
   z-index: 0;
   width: 100%;
-  height: calc(100% - 20px);
+  height: calc(100% - 50px);
 }
 input {
   font-family: 'Ubuntu', sans-serif;
@@ -16,8 +16,6 @@ input {
   font-size: 14px;
   text-align: center;
   padding-top: 4px;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
   color: #ffffff;
 }
 
@@ -25,6 +23,14 @@ input {
   position: absolute;
   right: 0;
   top: -5px;
+  cursor: pointer;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+#closeButton .mat-icon {
+  color: white;
 }
 
 #chatComponent {
@@ -159,8 +165,6 @@ span.triangle {
   text-align: center;
   padding: 10px 0px;
   height: 30px;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
 }
 #messageInput input {
   width: 90%;

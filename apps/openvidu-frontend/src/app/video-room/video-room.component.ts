@@ -100,6 +100,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    const defaultConfig = new ExternalConfigModel();
+    defaultConfig.setNickname('test');
+    this.externalConfig = this.externalConfig || defaultConfig;
     this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
     this.ovSettings = !!this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
@@ -473,12 +476,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   private async getToken(): Promise<string> {
     this.log.d('Generating tokens...');
     try {
-      return await this.networkSrv.getToken(
-        this.mySessionId,
-        this.externalConfig?.getOvServerUrl(),
-        this.externalConfig?.getOvSecret(),
-        this.externalConfig?.getOvServerApiUrl()
-      );
+      return await this.networkSrv.getToken(this.mySessionId, this.externalConfig?.getOvServerApiUrl());
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
       this.log.e('There was an error getting the token:', error.status, error.message);

@@ -90,18 +90,35 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   };
 
   render(): JSX.Element {
+    const { sessionName, user, tokens, chat, autoPublish, toolbarButtons } = this.props;
+    const sessionConfig: SessionConfig = {
+      sessionName,
+      user,
+      tokens,
+      ovSettings: {
+        chat: !!chat,
+        autopublish: !!autoPublish,
+        toolbarButtons: {
+          audio: true,
+          video: true,
+          screenShare: true,
+          fullscreen: true,
+          layoutSpeaking: true,
+          exit: true,
+          ...(toolbarButtons || {}),
+        },
+      },
+    };
     return (
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       <openvidu-webcomponent
-        sessionConfig={JSON.stringify(this.props.sessionConfig || {})}
+        sessionConfig={JSON.stringify(sessionConfig)}
         theme={this.props.theme}
-        openviduServerUrl={this.props.openviduServerURL}
         openviduServerApiUrl={this.props.openviduServerApiURL}
         ref={component => {
           this.component = component;
         }}
-        openviduSecret={this.props.openviduSecret}
       />
     );
   }
@@ -124,19 +141,31 @@ export interface SessionConfig {
   };
 }
 
+export enum OpenviduToolbarButtons {
+  AUDIO = 'audio',
+  VIDEO = 'video',
+  SCREEN_SHARE = 'screenShare',
+  FULL_SCREEN = 'fullScreen',
+  LAYOUT_SPEAKING = 'layoutSpeaking',
+  EXIT = 'exit',
+}
+
 export interface OpenviduWebComponentProps {
+  scriptUrl: string;
+  stylesUrl: string;
+  sessionName: string;
+  user: string;
   onSessionCreated?: () => void;
   onPublisherCreated?: () => void;
   onError?: () => void;
   onLeftSession?: () => void;
   onJoinedSession?: () => void;
   theme?: string;
-  openviduServerURL?: string;
   openviduServerApiURL?: string;
-  openviduSecret?: string;
-  sessionConfig?: SessionConfig;
-  scriptUrl: string;
-  stylesUrl: string;
+  tokens?: string[];
+  chat?: boolean;
+  autoPublish?: boolean;
+  toolbarButtons?: Record<OpenviduToolbarButtons, boolean>;
 }
 
 export default OpenviduWebComponent;
