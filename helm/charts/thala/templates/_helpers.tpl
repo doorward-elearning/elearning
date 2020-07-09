@@ -79,7 +79,7 @@ http://{{- .Values.customer -}}-{{- .Values.samvadamhostpostfix -}}:443
 
 
 {{/*
-Public URL for Thala Api. Defaults to thala.customer-name.doorward.org, but user can override it by passing thala_domain.
+Public URL for Thala Api. Defaults to thala.customer-name.doorward.tech, but user can override it by passing thala_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -87,6 +87,6 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.thala_domain -}}
 {{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org/api/v1/
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech/api/v1/
 {{- end -}}
 {{- end -}}

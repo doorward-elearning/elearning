@@ -10,7 +10,7 @@ metadata:
 
 spec:
   rules:
-    - host: api.clients.doorward.org
+    - host: api.clients.doorward.tech
       http:
         paths:
           - backend:
@@ -18,7 +18,7 @@ spec:
               servicePort: 80
             path: /
 
-    - host: clients.doorward.org
+    - host: clients.doorward.tech
       http:
         paths:
           - backend:
@@ -26,7 +26,7 @@ spec:
               servicePort: 80
             path: /
 
-    - host: ci.doorward.org
+    - host: ci.doorward.tech
       http:
         paths:
           - backend:
@@ -34,7 +34,7 @@ spec:
               servicePort: 80
             path: /
 
-    - host: docs.doorward.org
+    - host: docs.doorward.tech
       http:
         paths:
           - backend:
@@ -42,7 +42,7 @@ spec:
               servicePort: 80
             path: /
 
-    - host: www.doorward.org
+    - host: www.doorward.tech
       http:
         paths:
           - backend:
@@ -50,7 +50,7 @@ spec:
               servicePort: 80
             path: /docs
 
-    - host: doorward.org
+    - host: doorward.tech
       http:
         paths:
           - backend:
@@ -60,8 +60,8 @@ spec:
 
   tls:
   - hosts:
-    - api.clients.doorward.org
-    - clients.doorward.org
-    - ci.doorward.org
-    - docs.doorward.org
-    secretName: clients.doorward.org
+    - api.clients.doorward.tech
+    - clients.doorward.tech
+    - ci.doorward.tech
+    - docs.doorward.tech
+    secretName: clients.doorward.tech

@@ -11,7 +11,7 @@ metadata:
 
 spec:
   rules:
-    - host: patika.doorward.org
+    - host: patika.doorward.tech
       http:
         paths:
           - backend:
@@ -20,11 +20,11 @@ spec:
             path: /
   tls:
   - hosts:
-    - patika.doorward.org
-    secretName: patika.doorward.org
+    - patika.doorward.tech
+    secretName: patika.doorward.tech
 
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:
 #      - hosts:
-#          - {{ .Values.customer -}}.doorward.org
+#          - {{ .Values.customer -}}.doorward.tech
 #        secretName: example-tls

@@ -26,20 +26,20 @@ build:
 	@ docker build -f docker/production/openvidu-backend/Dockerfile -t vidu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@
 	@ ${INFO} "Tagging doorward image"
-	@ docker tag doorward:${APP_VERSION} gcr.io/doorwardlms/doorward:${APP_VERSION}
+	@ docker tag doorward:${APP_VERSION} core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
 	@ ${INFO} "Tagging frontend image"
-	@ docker tag chuchu:${APP_VERSION} gcr.io/doorwardlms/chuchu:${APP_VERSION}
+	@ docker tag chuchu:${APP_VERSION} core.harbor.doorward.tech/doorward/chuchu:${APP_VERSION}
 	@ ${INFO} "Tagging backend image"
-	@ docker tag thala:${APP_VERSION} gcr.io/doorwardlms/thala:${APP_VERSION}
+	@ docker tag thala:${APP_VERSION} core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ ${INFO} "Tagging website image"
-	@ docker tag swagat:${APP_VERSION} gcr.io/doorwardlms/swagat:${APP_VERSION}
+	@ docker tag swagat:${APP_VERSION} core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
 	@
 	@ ${INFO} "Pushing images to GCP"
-	@ docker push gcr.io/doorwardlms/doorward:${APP_VERSION}
-	@ docker push gcr.io/doorwardlms/chuchu:${APP_VERSION}
-	@ docker push gcr.io/doorwardlms/thala:${APP_VERSION}
-	@ docker push gcr.io/doorwardlms/swagat:${APP_VERSION}
-	@ docker push gcr.io/edudoorlms/vidu:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/chuchu:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"

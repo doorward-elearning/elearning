@@ -1,20 +1,20 @@
 # Name of the Customer / Website
 customer: your-company
 
-# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
-app_domain: your-company.doorward.org
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: your-company.doorward.tech
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.doorward.org
+welcomepage_domain: www.doorward.tech
 
-# Application URL. Default Value: https://<customer-name>.doorward.org
-app_url: https://your-company.doorward.org
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://your-company.doorward.tech
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
-samvadam_domain: samvadam.your-company.doorward.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.your-company.doorward.tech
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
-thala_domain: thala.your-company.doorward.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.your-company.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: your-company
@@ -52,6 +52,6 @@ organization:
   # Display Name of Organization
   name: Doorward
   # Application URL
-  website: your-company.doorward.org
+  website: your-company.doorward.tech
   #Organization Admin Email ID
-  email: info@doorward.org
+  email: info@doorward.tech

@@ -83,7 +83,7 @@ container:
   startupseconds: 100
 
 classrooms:
-  url: classrooms.doorward.org
+  url: classrooms.doorward.tech
   username: OPENVIDUAPP
   password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
 

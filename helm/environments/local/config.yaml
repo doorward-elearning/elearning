@@ -1,7 +1,7 @@
 # Name of the Customer / Website
 customer: local
 
-# HOME Page of the website. By default it will be customer.doorward.org. Customers are allowed to register a custom domain if they prefer so
+# HOME Page of the website. By default it will be customer.doorward.tech. Customers are allowed to register a custom domain if they prefer so
 app_domain: localhost
 
 # Name of the Website. This name will be most probably same as Customer Name

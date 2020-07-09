@@ -63,7 +63,7 @@ Create the name of the service account to use
 
 
 {{/*
-Create the public UR for Thala Api. Defaults to thala.customer-name.doorward.org, but user can override it by passing thala_domain.
+Create the public UR for Thala Api. Defaults to thala.customer-name.doorward.tech, but user can override it by passing thala_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -71,13 +71,13 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.thala_domain -}}
 {{- .Values.thala_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
+thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech//{{- .Values.customer -}}/{{- .Values.api.thalauri -}}/api/v1/
 {{- end -}}
 {{- end -}}
 
 
 {{/*
-Create the public UR for chuchu. Defaults to customer-name.doorward.org, but user can override it by passing app_url.
+Create the public UR for chuchu. Defaults to customer-name.doorward.tech, but user can override it by passing app_url.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -85,13 +85,13 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.app_domain -}}
 {{- .Values.app_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org
+{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech
 {{- end -}}
 {{- end -}}
 
 
 {{/*
-Create the public UR for Samvadam. Defaults to samvadam.customer-name.doorward.org, but user can override it by passing samvadam_domain.
+Create the public UR for Samvadam. Defaults to samvadam.customer-name.doorward.tech, but user can override it by passing samvadam_domain.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
@@ -99,6 +99,6 @@ If release name contains chart name it will be used as a full name.
 {{- if .Values.samvadam_domain -}}
 {{- .Values.samvadam_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-samvadam.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.org
+samvadam.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech
 {{- end -}}
 {{- end -}}

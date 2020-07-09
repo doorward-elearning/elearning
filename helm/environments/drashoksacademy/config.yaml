@@ -1,20 +1,20 @@
 # Name of the Customer / Website
 customer: drashoksacademy
 
-# HOME Page of the website. Default Value: https://<customer-name>.doorward.org.
-app_domain: drashoksacademy.doorward.org
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: drashoksacademy.doorward.tech
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.doorward.org
+welcomepage_domain: www.doorward.tech
 
-# Application URL. Default Value: https://<customer-name>.doorward.org
-app_url: https://drashoksacademy.doorward.org
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://drashoksacademy.doorward.tech
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
-samvadam_domain: samvadam.drashoksacademy.doorward.org
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.drashoksacademy.doorward.tech
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
-thala_domain: thala.drashoksacademy.doorward.org
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.drashoksacademy.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: drashoksacademy
@@ -52,6 +52,6 @@ organization:
   # Display Name of Organization
   name: Dr Ashok's Academy
   # Application URL
-  website: drashoksacademy.doorward.org
+  website: drashoksacademy.doorward.tech
   #Organization Admin Email ID
   email: drashokgopalakrishnan@gmail.com

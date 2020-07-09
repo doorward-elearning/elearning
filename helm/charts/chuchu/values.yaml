@@ -69,7 +69,7 @@ tolerations: []
 
 affinity: {}
 
-# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.org/api/v1)
+# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.tech/api/v1)
 thalaapiprefix: nodeapi
 containerport: 5000
 
@@ -81,7 +81,7 @@ api:
   samvadamuri: samvadam
   thalauri: thala
 
-app_domain: beta.doorward.org
+app_domain: beta.doorward.tech
 classrooms_url: classrooms.doorward.tech
 classrooms:
-  url: classrooms.doorward.org
+  url: classrooms.doorward.tech
