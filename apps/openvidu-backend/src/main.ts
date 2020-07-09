@@ -18,7 +18,7 @@ async function bootstrap() {
 
   const port = process.env.OPENVIDU_API_PORT || 3333;
   await app.listen(port, () => {
-    Logger.log('Listening at http://localhost:' + port + '/' + globalPrefix);
+    Logger.log('Listening on port: ' + port);
   });
 }
 

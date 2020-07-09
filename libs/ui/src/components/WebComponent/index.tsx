@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import NotFound from '../NotFound';
 import { PageProgressContext } from '../PageProgress';
 
-function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
+function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Element {
   const pageProgress = useContext(PageProgressContext);
   let hasItems = !!props.data;
   if (props.data instanceof Array) {
@@ -53,7 +53,7 @@ function WebComponent<T>(props: WebComponentProps<T>): JSX.Element {
         <div className="web-component__refreshing">
           <div>{loader}</div>
         </div>
-        <React.Fragment>{props.children(props.data)}</React.Fragment>
+        <React.Fragment>{children(props.data)}</React.Fragment>
       </div>
     );
   } else if (props.errors?.statusCode === 404) {

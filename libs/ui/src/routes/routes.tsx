@@ -4,12 +4,14 @@ import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '@doorward
 import Tools from '@doorward/common/utils/Tools';
 import { RoleEvaluator, Roles } from '../components/RolesManager';
 import MRoute from './MRoute';
+import React from 'react';
 
 const routeDefinitions: any = {};
 
 interface MRouteProps<T extends RouteNames> extends RouteProps {
   authRedirect: keyof T;
   roles: Array<Roles | RoleEvaluator>;
+  key?: string;
 }
 
 function generateRoutes<T extends RouteNames>(
@@ -44,7 +46,7 @@ function generateRoutes<T extends RouteNames>(
         more.push(...generateRoutes(routeNames, detail.routes, fullLink, newPath, render));
       }
       if (props.component) {
-        more.push(render(props));
+        more.push(render({ ...props, key: fullLink }));
       }
 
       routeDefinitions[current] = {

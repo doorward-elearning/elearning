@@ -114,7 +114,6 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         }),
         organizations: new Route('/organizations', Organizations)
           .roles(Roles.SUPER_ADMINISTRATOR, (user, organization) => {
-            console.log({ user, organization });
             return organization.id === process.env.DEFAULT_ORGANIZATION_ID;
           })
           .with({

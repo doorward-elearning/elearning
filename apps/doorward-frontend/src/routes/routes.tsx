@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Error404 from '../screens/ErrorPages/Error404';
-import { routeConfigurations} from './index';
+import { routeConfigurations } from './index';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { generate } from '@doorward/ui/routes/routes';
 import { routeNames } from './routeNames';

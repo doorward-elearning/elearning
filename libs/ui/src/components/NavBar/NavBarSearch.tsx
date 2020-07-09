@@ -161,7 +161,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
           </IfElse>
         </div>
         <div className="ed-search__bar--input__input">
-          <input type="text" className="prediction" disabled value={predictedText} />
+          <input type="text" className="prediction" disabled value={predictedText || ''} />
           <input
             type="text"
             autoComplete="off"
@@ -172,7 +172,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
             placeholder={props.placeholder || 'Search...'}
             name="search"
             ref={inputElement}
-            value={searchText}
+            value={searchText || ''}
             onChange={onChange}
           />
         </div>
