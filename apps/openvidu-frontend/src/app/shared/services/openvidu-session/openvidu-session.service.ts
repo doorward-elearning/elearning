@@ -313,16 +313,12 @@ export class OpenViduSessionService {
 		return this.sessionId;
 	}
 
-	setWebcamAvatar() {
-		this.webcamUser.setUserAvatar();
+	setWebcamAvatar(img?: string) {
+		this.webcamUser.setUserAvatar(img);
 	}
 
 	setAvatar(option: AvatarType, avatar?: string): void {
-		if ((option === AvatarType.RANDOM && avatar) || (AvatarType.VIDEO && avatar)) {
-			if (option === AvatarType.RANDOM) {
-				this.webcamUser.setUserAvatar(avatar);
-			}
-		}
+    this.webcamUser.setUserAvatar(avatar);
 	}
 
 	setWebcamName(nickname: string) {

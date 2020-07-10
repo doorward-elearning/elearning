@@ -5,6 +5,9 @@ import models from '../../database/models';
 class MeetingsController {
   static async joinMeeting(req) {
     const meeting = await MeetingRoomsHelper.joinMeeting(req.params.id, req);
+    if (!meeting) {
+      return [404, undefined, 'Meeting does not exist'];
+    }
 
     return [200, { meeting }];
   }

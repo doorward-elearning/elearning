@@ -11,6 +11,10 @@ class MeetingRoomsHelper {
         },
       ],
     });
+
+    if (!meeting) {
+      return null;
+    }
     let token;
 
     try {
@@ -25,7 +29,7 @@ class MeetingRoomsHelper {
     const user = req.user ? req.user.fullName : 'Participant';
 
     // @ts-ignore
-    return { ...meeting.dataValues, token, user };
+    return { ...(meeting ? meeting.dataValues : {}), token, user };
   }
 
   static async joinMeetingRoom(meetingRoomId, userId, role = 'PUBLISHER') {

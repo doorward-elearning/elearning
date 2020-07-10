@@ -47,7 +47,18 @@ button:hover {
 
 #navSessionInfo {
   height: 100%;
-  display: inline-flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1em;
+}
+
+#navSessionInfo img {
+  height: 40px;
+}
+
+#navSessionInfo > div {
+  display: grid;
+  align-items: center;
 }
 
 #navChatButton .mat-badge-medium.mat-badge-overlap.mat-badge-before .mat-badge-content {

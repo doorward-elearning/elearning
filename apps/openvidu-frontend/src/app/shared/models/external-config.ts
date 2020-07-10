@@ -7,6 +7,7 @@ export class ExternalConfigModel {
   protected ovSettings: OvSettingsModel;
   protected sessionName: string;
   protected ovServerUrl: string;
+  protected avatar: string;
   protected ovServerApiUrl: string = environment.OPENVIDU_API_URL;
   protected ovSecret: string;
   protected theme = Theme.DARK;
@@ -22,6 +23,15 @@ export class ExternalConfigModel {
   public getOvSettings(): OvSettingsModel {
     return this.ovSettings;
   }
+
+  public getAvatar(): string {
+    return this.avatar;
+  }
+
+  public setAvatar(avatar: string) {
+    this.avatar = avatar;
+  }
+
   public getSessionName(): string {
     return this.sessionName;
   }

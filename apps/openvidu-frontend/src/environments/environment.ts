@@ -8,5 +8,6 @@
 
 export const environment = {
   "production": false,
-  "OPENVIDU_API_URL": "http://localhost:3333/api/"
+  "OPENVIDU_API_URL": "http://localhost:3333/api/",
+  "CLOUDINARY_IMAGE_DIRECTORY": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/"
 };

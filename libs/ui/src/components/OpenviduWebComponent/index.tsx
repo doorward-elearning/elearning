@@ -90,10 +90,11 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   };
 
   render(): JSX.Element {
-    const { sessionName, user, logoUrl, tokens, chat, autoPublish, toolbarButtons } = this.props;
+    const { sessionName, user, logoUrl, avatar, tokens, chat, autoPublish, toolbarButtons } = this.props;
     const sessionConfig: SessionConfig = {
       sessionName,
       user,
+      avatar,
       tokens,
       ovSettings: {
         chat: !!chat,
@@ -102,11 +103,11 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
         toolbarButtons: {
           audio: true,
           video: true,
-          screenShare: true,
           fullscreen: true,
           layoutSpeaking: true,
           exit: true,
           ...(toolbarButtons || {}),
+          screenShare: true,
         },
       },
     };
@@ -128,6 +129,7 @@ export interface SessionConfig {
   sessionName: string;
   user: string;
   tokens: string[];
+  avatar: string;
   ovSettings: {
     logoUrl: string;
     chat: boolean;
@@ -169,6 +171,7 @@ export interface OpenviduWebComponentProps {
   autoPublish?: boolean;
   toolbarButtons?: Record<OpenviduToolbarButtons, boolean>;
   logoUrl?: string;
+  avatar?: string;
 }
 
 export default OpenviduWebComponent;

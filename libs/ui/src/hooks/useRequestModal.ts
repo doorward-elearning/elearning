@@ -16,11 +16,19 @@ const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {
   useFormSubmit(props.state, () => {
     if (props.state.fetched) {
       props.useModal.closeModal();
-      props.onSuccess && props.onSuccess(props.state.data);
+      setTimeout(() => {
+        if (props.onSuccess) {
+          props.onSuccess(props.state.data);
+        }
+      }, 200);
     }
     if (props.state.errors.message || props.state.errors.errors) {
       props.useModal.closeModal();
-      props.onError && props.onError(props.state.errors);
+      setTimeout(() => {
+        if (props.onError) {
+          props.onError(props.state.errors);
+        }
+      }, 200);
     }
   });
   return {

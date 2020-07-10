@@ -102,10 +102,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const defaultConfig = new ExternalConfigModel();
     defaultConfig.setNickname('test');
+    defaultConfig.setSessionName('test-meeting');
     this.externalConfig = this.externalConfig || defaultConfig;
     this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
-    this.ovSettings = !!this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
+    this.ovSettings = this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
+    this.oVSessionService.setWebcamAvatar(this.externalConfig.getAvatar());
     if (!this.showConfigRoomCard) {
       this.onConfigRoomJoin();
     }
@@ -474,7 +476,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private async getToken(): Promise<string> {
-    this.log.d('Generating tokens...');
+    this.log.d('Generating tokens...', this.mySessionId);
     try {
       return await this.networkSrv.getToken(this.mySessionId, this.externalConfig?.getOvServerApiUrl());
     } catch (error) {

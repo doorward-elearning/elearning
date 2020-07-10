@@ -4,6 +4,7 @@ import { VideoFullscreenIcon } from '../../types/icon-type';
 import { OvSettingsModel } from '../../models/ovSettings';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-toolbar',
@@ -34,7 +35,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl = 'https://raw.githubusercontent.com/OpenVidu/openvidu-call/master/openvidu-call-front/src/assets/images/';
+  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_dark_mask_logo_128x128.png';
 
   participantsNames: string[] = [];
 
@@ -61,12 +62,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.ovSettings.getLogo()) {
       this.logoUrl = this.ovSettings.getLogo();
-    } else {
-      if (this.lightTheme) {
-        this.logoUrl += 'openvidu_logo_grey.png';
-        return;
-      }
-      this.logoUrl += 'openvidu_logo.png';
     }
   }
 
