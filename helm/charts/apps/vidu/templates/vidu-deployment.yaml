@@ -31,14 +31,15 @@ spec:
             - name: http
               containerPort: {{ .Values.openviduapi_containerport }}
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            initialDelaySeconds: 120
+#            httpGet:
+#              path: /
+#              port: http
           env:
           - name: OPENVIDU_URL
             valueFrom:

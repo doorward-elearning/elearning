@@ -53,7 +53,7 @@ class Emails {
   static async selfRegistration(user) {
     return EmailSender.sendMail('new_account.pug', user.email, 'Confirm Registration', {
       username: user.fullName,
-      link: 'https://doorward.org',
+      link: 'https://doorward.tech',
     });
   }
 

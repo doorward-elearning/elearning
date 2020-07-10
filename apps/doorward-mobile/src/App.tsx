@@ -19,7 +19,7 @@ import { RTCView } from 'react-native-webrtc';
 import axios from 'axios';
 import btoa from 'btoa';
 
-const OPENVIDU_SERVER_URL = 'https://classrooms.doorward.org';
+const OPENVIDU_SERVER_URL = 'https://classrooms.doorward.tech';
 const OPENVIDU_SERVER_SECRET = 'Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj';
 
 type Props = {};

@@ -1,16 +1,17 @@
-# Default values for thala.
+# Default values for chuchu.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  thala:
-    repository: core.harbor.doorward.tech/doorward/thala
+  chuchu:
+    repository: core.harbor.doorward.tech/doorward/chuchu
     version: 1.1.0
     pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: deploy-pull-harbor
 nameOverride: ""
 fullnameOverride: ""
 
@@ -35,8 +36,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 7000
-  protocol: http
+  targetport: 5000
 
 ingress:
   enabled: false
@@ -69,26 +69,19 @@ tolerations: []
 
 affinity: {}
 
-#thaladburl: postgres://postgres:postgres@doorward-database-service:5434/doorward
-thaladbname: doorward
-thaladbuser: postgres
-thaladbpassword: postgres
-thaladbhostpostfix: thaladb
-thaladbport: 5434
-#samvadamurl: https://doorward-openvidu-service:4443
-samvadamhostpostfix: samvadam
-samvadamport: 4443
+# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.tech/api/v1)
+thalaapiprefix: nodeapi
+containerport: 5000
 
 container:
   startupseconds: 100
 
+api:
+
+  samvadamuri: samvadam
+  thalauri: thala
+
+app_domain: beta.doorward.tech
+classrooms_url: classrooms.doorward.tech
 classrooms:
   url: classrooms.doorward.tech
-  username: OPENVIDUAPP
-  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
-
-openviduapi_port: "80"
-#openviduapi_url: https://openvidu-api.doorward.tech/api/
-classrooms_url: classrooms.doorward.tech
-
-swagat_enable_latency: "false"

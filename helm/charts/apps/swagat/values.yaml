@@ -1,22 +1,25 @@
-# Default values for samvadam.
+# Default values for swagat.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  samvadam:
-    repository: core.harbor.doorward.tech/doorward/samvadam
-    version: 1.0.0
-    pullPolicy: IfNotPresent
+  swagat:
+    repository: core.harbor.doorward.tech/doorward/swagat
+    version: 1.1.0
+    pullPolicy: Always
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: deploy-pull-harbor
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
   create: false
+  # Annotations to add to the service account
+  annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -34,8 +37,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 443
-  targetport: 4443
+  port: 80
+  targetport: 5000
 
 ingress:
   enabled: false
@@ -68,14 +71,8 @@ tolerations: []
 
 affinity: {}
 
-samvadamcontainerport: 4443
-samvadamsecretkey: password
-samvadamwebhook: true
-samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
-samvadamsslenabled: false
-
 container:
-  startupseconds: 180
+  startupseconds: 100
 
 api:
 

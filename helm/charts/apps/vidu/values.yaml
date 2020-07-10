@@ -1,22 +1,21 @@
-# Default values for swagat.
+# Default values for vidu.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  swagat:
-    repository: core.harbor.doorward.tech/doorward/swagat
-    version: 1.1.0
-    pullPolicy: Always
+  repository: nginx
+  pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: deploy-pull-harbor
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: false
+  create: true
   # Annotations to add to the service account
   annotations: {}
   # The name of the service account to use.
@@ -37,7 +36,6 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 5000
 
 ingress:
   enabled: false
@@ -70,10 +68,10 @@ tolerations: []
 
 affinity: {}
 
-container:
-  startupseconds: 100
+openviduapi_containerport: 3333
 
-api:
-  
-  samvadamuri: samvadam
-  thalauri: thala
+classrooms:
+  url: classrooms.doorward.tech
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
+classrooms_url: classrooms.doorward.tech

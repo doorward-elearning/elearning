@@ -1,22 +1,23 @@
-# Default values for vidu.
+# Default values for samvadam.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
+  samvadam:
+    repository: core.harbor.doorward.tech/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name: deploy-pull-harbor
 nameOverride: ""
 fullnameOverride: ""
 
 serviceAccount:
   # Specifies whether a service account should be created
-  create: true
-  # Annotations to add to the service account
-  annotations: {}
+  create: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name:
@@ -34,7 +35,8 @@ securityContext: {}
 
 service:
   type: ClusterIP
-  port: 80
+  port: 443
+  targetport: 4443
 
 ingress:
   enabled: false
@@ -67,10 +69,16 @@ tolerations: []
 
 affinity: {}
 
-openviduapi_containerport: 3333
+samvadamcontainerport: 4443
+samvadamsecretkey: password
+samvadamwebhook: true
+samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
+samvadamsslenabled: false
 
-classrooms:
-  url: classrooms.doorward.tech
-  username: OPENVIDUAPP
-  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
-classrooms_url: classrooms.doorward.tech
+container:
+  startupseconds: 180
+
+api:
+
+  samvadamuri: samvadam
+  thalauri: thala

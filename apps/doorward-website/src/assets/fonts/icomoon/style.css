@@ -316,7 +316,7 @@
 
 
             <h2 class="section-title mb-3">Contact US</h2>
-            <p class="mb-5">Address: 126A, Parayil, Anappara PO, Angamaly - 683581 <br> Phone: +91-8197408582 <br> Email: info@doorward.org <br> <br> Alternatively you can fill and submit the below form and we will get back to you. </p>
+            <p class="mb-5">Address: 126A, Parayil, Anappara PO, Angamaly - 683581 <br> Phone: +91-8197408582 <br> Email: info@doorward.tech <br> <br> Alternatively you can fill and submit the below form and we will get back to you. </p>
 
             <form method="post" data-aos="fade">
               <div class="form-group row">
