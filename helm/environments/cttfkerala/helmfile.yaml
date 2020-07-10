@@ -4,7 +4,7 @@ releases:
     labels:
       stage: 1
       name: thaladb
-    chart: ../../charts/thaladb
+    chart: ../../charts/apps/thaladb
     values:
       - config.yaml
 
@@ -13,7 +13,7 @@ releases:
     labels:
       stage: 2
       name: samvadam
-    chart: ../../charts/samvadam
+    chart: ../../charts/apps/samvadam
     needs:
       - cttfkerala-doorward/cttfkerala-thaladb
     values:
@@ -24,7 +24,7 @@ releases:
     labels:
       stage: 2
       name: thala
-    chart: ../../charts/thala
+    chart: ../../charts/apps/thala
     needs:
       - cttfkerala-doorward/cttfkerala-thaladb
     values:
@@ -35,7 +35,7 @@ releases:
     labels:
       stage: 2
       name: chuchu
-    chart: ../../charts/chuchu
+    chart: ../../charts/apps/chuchu
     needs:
       - cttfkerala-doorward/cttfkerala-thaladb
     values:

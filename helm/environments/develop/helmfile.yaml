@@ -4,7 +4,7 @@ releases:
     labels:
       stage: 1
       name: thaladb
-    chart: ../../charts/thaladb
+    chart: ../../charts/apps/thaladb
     values:
       - config.yaml
 
@@ -13,7 +13,7 @@ releases:
     labels:
       stage: 2
       name: samvadam
-    chart: ../../charts/samvadam
+    chart: ../../charts/apps/samvadam
     needs:
       - develop-doorward/develop-thaladb
     values:
@@ -24,7 +24,7 @@ releases:
     labels:
       stage: 2
       name: thala
-    chart: ../../charts/thala
+    chart: ../../charts/apps/thala
     needs:
       - develop-doorward/develop-thaladb
     values:
@@ -35,7 +35,7 @@ releases:
     labels:
       stage: 2
       name: chuchu
-    chart: ../../charts/chuchu
+    chart: ../../charts/apps/chuchu
     needs:
       - develop-doorward/develop-thaladb
     values:
@@ -46,7 +46,7 @@ releases:
     labels:
       stage: 2
       name: vidu
-    chart: ../../charts/vidu
+    chart: ../../charts/apps/vidu
     needs:
       - develop-doorward/develop-thaladb
     values:
@@ -58,7 +58,7 @@ releases:
     labels:
       stage: 2
       name: swagat
-    chart: ../../charts/swagat
+    chart: ../../charts/apps/swagat
     needs:
       - develop-doorward/develop-thaladb
     values:
