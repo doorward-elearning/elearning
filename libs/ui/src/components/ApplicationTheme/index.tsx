@@ -27,15 +27,27 @@ const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'b
 
   useEffect(() => {
     localStorage.setItem('theme', currentTheme);
+    const head: HTMLHeadElement = document.getElementsByTagName('head')[0];
+    const style: HTMLStyleElement = document.createElement('style');
     if (currentTheme) {
-      const html: HTMLElement = document.getElementsByTagName('html')[0];
+      let styleContent = '';
+
       const themeProperties = themes[currentTheme || 'base'];
       (Object.keys(themeProperties) as Array<keyof Theme>).forEach(key => {
         if (key.startsWith('--')) {
-          html.style.setProperty(key, themeProperties[key]);
+          styleContent += `${key}: ${themeProperties[key]};`;
         }
       });
+
+      style.innerHTML = `:root {
+        ${styleContent}
+      }`;
+
+      head.appendChild(style);
     }
+    return () => {
+      head.removeChild(style);
+    };
   }, [currentTheme]);
 
   return (

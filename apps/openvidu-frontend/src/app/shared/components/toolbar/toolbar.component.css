@@ -1,19 +1,43 @@
 #header {
   color: #ffffff;
-  height: 40px;
+  height: 60px;
   background-color: #333333;
   padding: 0 14px 0 0;
   position: absolute;
   top: 0;
   left: 0;
+  display: grid;
   z-index: 999999;
   min-width: 400px !important;
+  align-items: center;
+  grid-template-columns: auto 1fr auto;
 }
 
 .buttonsContainer {
-  position: absolute;
-  left: 0;
-  right: 0;
+  display: grid;
+  align-items: center;
+  grid-gap: 1em;
+  grid-auto-flow: column;
+  justify-content: center;
+}
+
+button {
+  background: none;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  transition: 0.3s all;
+}
+
+button:hover {
+  background: #222;
+}
+
+.mat-icon {
+  color: white;
 }
 
 .headerLight {
@@ -25,7 +49,6 @@
   height: 100%;
   display: inline-flex;
 }
-
 
 #navChatButton .mat-badge-medium.mat-badge-overlap.mat-badge-before .mat-badge-content {
   left: -17px;

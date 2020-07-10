@@ -5,7 +5,7 @@ const Container: FunctionComponent<ContainerProps> = ({ children, fullHeight }):
   return (
     <div
       className={classNames({
-        container: true,
+        'ed-container': true,
         fullHeight,
       })}
     >

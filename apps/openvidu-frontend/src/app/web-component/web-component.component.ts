@@ -46,29 +46,27 @@ export class WebComponentComponent {
     this.log = this.loggerSrv.get('WebComponentComponent');
   }
 
-  @Input('sessionConfig')
+  @Input('sessionconfig')
   set sessionConfig(config: string | ISessionConfig | Record<string, any>) {
     this.log.d('Webcomponent sessionConfig: ', config);
-    setTimeout(() => {
-      if (typeof config === 'string') {
-        try {
-          config = JSON.parse(config);
-        } catch (error) {
-          this.log.e('Unexpected JSON', error);
-          return;
-        }
-      }
-      // Leave session when sessionConfig is an empty Object
-      if (this.isEmpty(config)) {
-        this.log.w('Parameters received are incorrect.', config);
-        this.log.w('Exit session');
-        this.videoRoom?.leaveSession();
+    if (typeof config === 'string') {
+      try {
+        config = JSON.parse(config);
+      } catch (error) {
+        this.log.e('Unexpected JSON', error);
         return;
       }
+    }
+    // Leave session when sessionConfig is an empty Object
+    if (this.isEmpty(config)) {
+      this.log.w('Parameters received are incorrect.', config);
+      this.log.w('Exit session');
+      this.videoRoom?.leaveSession();
+      return;
+    }
 
-      this.webComponent.setSessionConfig(config);
-      this.display = this.webComponent.canJoinToSession();
-    }, 200);
+    this.webComponent.setSessionConfig(config);
+    this.display = this.webComponent.canJoinToSession();
   }
 
   @Input()

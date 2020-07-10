@@ -1,20 +1,20 @@
 import { Theme } from '../types/webcomponent-config';
 import { OvSettings } from '../types/ov-settings';
 import { OvSettingsModel } from './ovSettings';
+import { environment } from '../../../environments/environment';
 
 export class ExternalConfigModel {
   protected ovSettings: OvSettingsModel;
   protected sessionName: string;
-  protected ovServerUrl: string = process.env.OPENVIDU_URL;
-  protected ovServerApiUrl: string = process.env.OPENVIDU_API_URL;
-  protected ovSecret: string = process.env.OPENVIDU_SECRET;
+  protected ovServerUrl: string;
+  protected ovServerApiUrl: string = environment.OPENVIDU_API_URL;
+  protected ovSecret: string;
   protected theme = Theme.DARK;
   protected nickname: string;
   protected tokens: string[];
 
   constructor() {
     this.ovSettings = new OvSettingsModel();
-    console.log(this.ovServerApiUrl);
   }
 
   public getComponentName() {}
@@ -92,9 +92,9 @@ export class ExternalConfigModel {
   }
 
   private canOVCallGenerateToken(): boolean {
-    return !!this.sessionName && !!this.ovServerUrl && !!this.ovSecret && !!this.nickname;
+    return !!(this.sessionName && this.nickname);
   }
   private hasReceivedToken(): boolean {
-    return !!this.tokens && this.tokens.length > 0 && !!this.nickname;
+    return !!(this.tokens && this.tokens.length > 0 && this.nickname);
   }
 }

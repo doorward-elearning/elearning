@@ -18,8 +18,6 @@ export class NetworkService {
 
   async getToken(
     sessionId: string,
-    openviduServerUrl: string,
-    openviduSecret: string,
     openviduServerApiUrl?: string
   ): Promise<string> {
     try {

@@ -18,7 +18,7 @@ const createEnvironmentFile = (environment: string) => {
   if (fs.existsSync(environment)) {
     const data = fs.readFileSync(environment, 'utf8').replace('export const environment', 'module.exports');
     // skip this file if it has been ignored
-    if (data.includes('//ignore-config')) {
+    if (data.trim().startsWith('//ignore-config')) {
       return;
     }
     fs.writeFileSync(environment, data);
@@ -31,7 +31,8 @@ const createEnvironmentFile = (environment: string) => {
       });
     }
 
-    const output = beautify(`
+    const output = beautify(
+      `
     // This is an automatically generated file.
     // Only update the environment keys and not the values.
 
@@ -40,12 +41,14 @@ const createEnvironmentFile = (environment: string) => {
 
     // Add //ignore-config at the top of this file to avoid automatic generation
 
-    export const environment = ${JSON.stringify(file)}; `, {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      indent_size: 2,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      space_in_empty_paren: true,
-    });
+    export const environment = ${JSON.stringify(file)}; `,
+      {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        indent_size: 2,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        space_in_empty_paren: true,
+      }
+    );
 
     fs.writeFileSync(environment, output);
   }
@@ -59,4 +62,3 @@ folders.forEach(folder => {
   createEnvironmentFile(path.join('./apps', folder.name, 'src', 'environments', 'environment.prod.ts'));
   process.stdout.write(color.cyan('...') + color.green('Done\n'));
 });
-
