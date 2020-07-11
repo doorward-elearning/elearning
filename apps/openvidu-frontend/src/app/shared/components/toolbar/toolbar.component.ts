@@ -14,6 +14,7 @@ import { environment } from '../../../../environments/environment';
 export class ToolbarComponent implements OnInit, OnDestroy {
   @Input() lightTheme: boolean;
   @Input() mySessionId: boolean;
+  @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
   @Input() ovSettings: OvSettingsModel;

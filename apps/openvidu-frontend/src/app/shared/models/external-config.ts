@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 export class ExternalConfigModel {
   protected ovSettings: OvSettingsModel;
   protected sessionName: string;
+  protected sessionTitle: string;
   protected ovServerUrl: string;
   protected avatar: string;
   protected ovServerApiUrl: string = environment.OPENVIDU_API_URL;
@@ -22,6 +23,14 @@ export class ExternalConfigModel {
 
   public getOvSettings(): OvSettingsModel {
     return this.ovSettings;
+  }
+
+  public getSessionTitle(): string {
+    return this.sessionTitle;
+  }
+
+  public setSessionTitle(title?: string) {
+    this.sessionTitle = title;
   }
 
   public getAvatar(): string {

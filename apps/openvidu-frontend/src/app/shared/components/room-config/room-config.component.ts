@@ -86,7 +86,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.subscribeToUsers();
     this.setNicknameForm();
-    this.setRandomAvatar();
     this.columns = window.innerWidth > 900 ? 2 : 1;
     this.setSessionName();
     await this.oVDevicesService.initDevices();

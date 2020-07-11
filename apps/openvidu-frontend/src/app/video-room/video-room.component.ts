@@ -31,6 +31,9 @@ import { RemoteUsersService } from '../shared/services/remote-users/remote-users
 import { UtilsService } from '../shared/services/utils/utils.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ChatService } from '../shared/services/chat/chat.service';
+import { environment } from '../../environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
 
 @Component({
   selector: 'app-video-room',
@@ -81,7 +84,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     public oVSessionService: OpenViduSessionService,
     private oVDevicesService: DevicesService,
     private loggerSrv: LoggerService,
-    private chatService: ChatService
+    private chatService: ChatService,
+    private matDialog: MatDialog
   ) {
     this.log = this.loggerSrv.get('VideoRoomComponent');
   }
@@ -107,7 +111,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
     this.ovSettings = this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
-    this.oVSessionService.setWebcamAvatar(this.externalConfig.getAvatar());
+    this.oVSessionService.setWebcamAvatar(
+      this.externalConfig.getAvatar() || environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_light_logo_64x64.png'
+    );
     if (!this.showConfigRoomCard) {
       this.onConfigRoomJoin();
     }
@@ -168,10 +174,27 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   leaveSession() {
-    this.log.d('Leaving session...');
-    this.oVSessionService.disconnect();
-    this.router.navigate(['']);
-    this._leaveSession.emit();
+    const result = this.matDialog.open(DialogEndMeetingComponent, {
+      data: {
+        isSubscriber: false,
+      },
+    });
+    result
+      .afterClosed()
+      .toPromise()
+      .then(dialogResult => {
+        if (dialogResult.meetingEnded) {
+          this.oVSessionService.disconnect();
+          this.oVSessionService.destroyUsers();
+          this._leaveSession.emit();
+        }
+        if (dialogResult.meetingLeft) {
+          this.oVSessionService.disconnect();
+          this._leaveSession.emit();
+        }
+      });
+    // this.log.d('Leaving session...');
+    // this.router.navigate(['']);
   }
 
   onNicknameUpdate(nickname: string) {

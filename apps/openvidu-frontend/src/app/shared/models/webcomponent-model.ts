@@ -17,6 +17,7 @@ export class WebComponentModel extends ExternalConfigModel {
       this.nickname = this.sessionConfig.user;
       this.avatar = this.sessionConfig.avatar;
       this.tokens = this.sessionConfig.tokens;
+      this.sessionTitle = this.sessionConfig.sessionTitle;
       if (this.sessionConfig.ovSettings && this.isOvSettingsType(this.sessionConfig.ovSettings)) {
         this.ovSettings.set(this.sessionConfig.ovSettings);
       }

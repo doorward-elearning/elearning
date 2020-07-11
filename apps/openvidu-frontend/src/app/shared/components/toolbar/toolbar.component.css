@@ -2,15 +2,16 @@
   color: #ffffff;
   height: 60px;
   background-color: #333333;
-  padding: 0 14px 0 0;
   position: absolute;
   top: 0;
   left: 0;
   display: grid;
   z-index: 999999;
   min-width: 400px !important;
+  padding: 0 1em;
   align-items: center;
   grid-template-columns: auto 1fr auto;
+  grid-gap: 1em;
 }
 
 .buttonsContainer {
@@ -18,7 +19,7 @@
   align-items: center;
   grid-gap: 1em;
   grid-auto-flow: column;
-  justify-content: center;
+  justify-content: end;
 }
 
 button {
@@ -59,6 +60,7 @@ button:hover {
 #navSessionInfo > div {
   display: grid;
   align-items: center;
+  padding: 0 1em;
 }
 
 #navChatButton .mat-badge-medium.mat-badge-overlap.mat-badge-before .mat-badge-content {

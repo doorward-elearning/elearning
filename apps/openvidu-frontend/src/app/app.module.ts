@@ -6,7 +6,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatOptionModule } from '@angular/material/core';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,14 +28,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // Pipes
 import { LinkifyPipe } from './shared/pipes/linkfy';
 import {
-	HasChatPipe,
-	HasAudioPipe,
-	HasVideoPipe,
-	IsAutoPublishPipe,
-	HasScreenSharingPipe,
-	HasFullscreenPipe,
-	HasLayoutSpeakingPipe,
-	HasExitPipe
+  HasChatPipe,
+  HasAudioPipe,
+  HasVideoPipe,
+  IsAutoPublishPipe,
+  HasScreenSharingPipe,
+  HasFullscreenPipe,
+  HasLayoutSpeakingPipe,
+  HasExitPipe,
 } from './shared/pipes/ovSettings.pipe';
 import { TooltipListPipe } from './shared/pipes/tooltipList.pipe';
 
@@ -63,78 +63,81 @@ import { ChatService } from './shared/services/chat/chat.service';
 import { LoggerService } from './shared/services/logger/logger.service';
 import { NotificationService } from './shared/services/notifications/notification.service';
 import { StorageService } from './shared/services/storage/storage.service';
+import { DialogEndMeetingComponent } from './shared/components/dialog-end-meeting/dialog-end-meeting.component';
 
 @NgModule({
-	declarations: [
-		AppComponent,
-		VideoRoomComponent,
-		HomeComponent,
-		StreamComponent,
-		ChatComponent,
-		OpenViduVideoComponent,
-		DialogErrorComponent,
-		RoomConfigComponent,
-		WebComponentComponent,
-		ToolbarComponent,
-		ToolbarLogoComponent,
-		LinkifyPipe,
-		HasChatPipe,
-		HasAudioPipe,
-		HasVideoPipe,
-		IsAutoPublishPipe,
-		HasScreenSharingPipe,
-		HasFullscreenPipe,
-		HasLayoutSpeakingPipe,
-		HasExitPipe,
-		TooltipListPipe,
-		FooterComponent
-	],
-	imports: [
-		FormsModule,
-		ReactiveFormsModule,
-		BrowserModule,
-		BrowserAnimationsModule,
-		MatButtonModule,
-		MatCardModule,
-		MatToolbarModule,
-		MatIconModule,
-		MatInputModule,
-		MatFormFieldModule,
-		MatDialogModule,
-		MatTooltipModule,
-		MatBadgeModule,
-		MatGridListModule,
-		MatSelectModule,
-		MatOptionModule,
-		MatProgressSpinnerModule,
-		MatSliderModule,
-		MatSidenavModule,
-		MatSnackBarModule,
-		AppRoutingModule,
-		HttpClientModule,
-		FlexLayoutModule,
-		NgxLinkifyjsModule.forRoot()
-	],
-	entryComponents: [DialogErrorComponent, WebComponentComponent],
-	providers: [
-		NetworkService,
-		OpenViduSessionService,
-		UtilsService,
-		RemoteUsersService,
-		DevicesService,
-		LoggerService,
-		ChatService,
-		NotificationService,
-		StorageService
-	],
-	bootstrap: [AppComponent]
+  declarations: [
+    AppComponent,
+    VideoRoomComponent,
+    HomeComponent,
+    StreamComponent,
+    ChatComponent,
+    OpenViduVideoComponent,
+    DialogErrorComponent,
+    RoomConfigComponent,
+    WebComponentComponent,
+    ToolbarComponent,
+    ToolbarLogoComponent,
+    LinkifyPipe,
+    HasChatPipe,
+    HasAudioPipe,
+    HasVideoPipe,
+    IsAutoPublishPipe,
+    HasScreenSharingPipe,
+    HasFullscreenPipe,
+    HasLayoutSpeakingPipe,
+    HasExitPipe,
+    TooltipListPipe,
+    FooterComponent,
+    DialogEndMeetingComponent,
+  ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatDialogModule,
+    MatTooltipModule,
+    MatBadgeModule,
+    MatGridListModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatProgressSpinnerModule,
+    MatSliderModule,
+    MatSidenavModule,
+    MatSnackBarModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FlexLayoutModule,
+    NgxLinkifyjsModule.forRoot(),
+  ],
+  entryComponents: [DialogErrorComponent, WebComponentComponent, DialogEndMeetingComponent],
+  providers: [
+    NetworkService,
+    OpenViduSessionService,
+    UtilsService,
+    RemoteUsersService,
+    DevicesService,
+    LoggerService,
+    ChatService,
+    NotificationService,
+    StorageService,
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule {
-	constructor(private injector: Injector) {
-		const strategyFactory = new ElementZoneStrategyFactory(WebComponentComponent, this.injector);
-		const element = createCustomElement(WebComponentComponent, { injector: this.injector, strategyFactory });
-		customElements.define('openvidu-webcomponent', element);
-	}
+  constructor(private injector: Injector) {
+    const strategyFactory = new ElementZoneStrategyFactory(WebComponentComponent, this.injector);
+    const element = createCustomElement(WebComponentComponent, { injector: this.injector, strategyFactory });
+    customElements.define('openvidu-webcomponent', element);
+  }
 
-	ngDoBootstrap() {}
+  ngDoBootstrap() {}
 }

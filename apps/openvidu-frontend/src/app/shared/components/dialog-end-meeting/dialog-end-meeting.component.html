@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>{{ data.isSubscriber ? 'Leave meeting' : 'End meeting' }}</h2>
+<mat-dialog-content class="mat-typography">
+  <p>
+    {{
+      data.isSubscriber
+        ? 'Are you sure that you want to leave this meeting?'
+        : 'You can leave the meeting, or end it for all participants.'
+    }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" (click)="leaveMeeting()" cdkFocusInitial>
+    Leave meeting
+  </button>
+  <button mat-button [mat-dialog-close]="true" (click)="endMeeting()" cdkFocusInitial *ngIf="!data.isSubscriber">
+    End meeting for all
+  </button>
+</mat-dialog-actions>

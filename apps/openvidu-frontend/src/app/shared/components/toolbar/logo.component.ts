@@ -7,10 +7,7 @@ import { Component, Input } from '@angular/core';
       <a>
         <img id="header_img" alt="Logo" [src]="logoUrl" />
       </a>
-      <div
-        *ngIf="!compact && sessionId"
-        [ngClass]="{ titleContent: true, titleContentLight: lightTheme, titleContentDark: !lightTheme }"
-      >
+      <div *ngIf="!compact && sessionId" [ngClass]="{ titleContentLight: lightTheme, titleContentDark: !lightTheme }">
         <span id="session-title">{{ sessionId }}</span>
       </div>
     </div>

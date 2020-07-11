@@ -14,6 +14,7 @@
       [lightTheme]="lightTheme"
       [compact]="compact"
       [mySessionId]="mySessionId"
+      [sessionTitle]="externalConfig.getSessionTitle() || mySessionId"
       [ovSettings]="ovSettings"
       [hasVideoDevices]="hasVideoDevices"
       [hasAudioDevices]="hasAudioDevices"
@@ -29,10 +30,11 @@
       (leaveSessionButtonClicked)="leaveSession()"
     ></app-toolbar>
 
+
     <mat-sidenav-container class="sidenav-container" id="room-container" [class.boundsLight]="lightTheme" fullscreen>
       <mat-sidenav
         #sidenav
-        mode="{{sidenavMode}}"
+        mode="{{ sidenavMode }}"
         position="end"
         class="sidenav-chat"
         [class.boundsLight]="lightTheme"
@@ -41,49 +43,41 @@
         fixedBottomGap="0"
         *ngIf="ovSettings | hasChat"
       >
-        <chat-component
-          #chatComponent
-          [lightTheme]="lightTheme"
-        ></chat-component>
+        <chat-component #chatComponent [lightTheme]="lightTheme"></chat-component>
       </mat-sidenav>
 
       <mat-sidenav-content class="sidenav-main">
         <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
-          <div
-            class="OT_root OT_publisher custom-class"
-            id="localUser"
-            *ngFor="let localUser of localUsers"
-            [style.display]="!localUser.streamManager?.stream?.videoActive ? 'none' : 'block'"
-          >
-          <!-- Only webcam video will be shown if webcamera is available -->
+          <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
+            <!-- Only webcam video will be shown if webcamera is available -->
             <stream-component
+              [style.display]="!localUser.streamManager?.stream?.videoActive ? 'none' : 'block'"
               [user]="localUser"
               [videoSizeBig]="localUser.videoSizeBig"
               (nicknameClicked)="onNicknameUpdate($event)"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
+            <div class="no-video" [style.display]="!localUser.streamManager?.stream?.videoActive ? 'grid' : 'none'">
+              <span>{{ localUser.getNickname() }}</span>
+            </div>
           </div>
 
-          <div
-            *ngFor="let user of remoteUsers"
-            class="OT_root OT_publisher custom-class"
-            id="remoteUsers"
-            [style.display]="!user.streamManager?.stream?.videoActive ? 'none' : 'block'"
-          >
+          <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
             <stream-component
+              [style.display]="!user.streamManager?.stream?.videoActive ? 'none' : 'block'"
               [user]="user"
               [videoSizeBig]="user.videoSizeBig"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
+            <div class="no-video" [style.display]="!user.streamManager?.stream?.videoActive ? 'grid' : 'none'">
+              <span>{{ user.getNickname() }}</span>
+            </div>
           </div>
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
 
-    <app-footer
-      [lightTheme]="lightTheme"
-      [participants]="remoteUsers"
-    ></app-footer>
+    <app-footer [lightTheme]="lightTheme" [participants]="remoteUsers"></app-footer>
   </div>
 </div>

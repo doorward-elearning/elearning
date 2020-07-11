@@ -31,7 +31,8 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
           user={auth.authenticated ? auth.user.fullName : 'Anonymous'}
           autoPublish
           chat
-          sessionName={videoCallState.data.meeting.sessionId}
+          sessionId={videoCallState.data.meeting.sessionId}
+          sessionName={videoCallState.data.meeting.meetingRoom.title}
           avatar="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwidgetwhats.com%2F2019%2F11%2F06%2Ffree-agent-profile-photo%2F&psig=AOvVaw2cKReuMyayagKW_HKTkDBO&ust=1594480379649000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIDo97j8wuoCFQAAAAAdAAAAABAD"
         />
       </div>

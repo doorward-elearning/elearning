@@ -90,9 +90,10 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   };
 
   render(): JSX.Element {
-    const { sessionName, user, logoUrl, avatar, tokens, chat, autoPublish, toolbarButtons } = this.props;
+    const { sessionId, sessionName, user, logoUrl, avatar, tokens, chat, autoPublish, toolbarButtons } = this.props;
     const sessionConfig: SessionConfig = {
-      sessionName,
+      sessionName: sessionId,
+      sessionTitle: sessionName,
       user,
       avatar,
       tokens,
@@ -127,6 +128,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
 }
 export interface SessionConfig {
   sessionName: string;
+  sessionTitle: string;
   user: string;
   tokens: string[];
   avatar: string;
@@ -157,6 +159,7 @@ export enum OpenviduToolbarButtons {
 export interface OpenviduWebComponentProps {
   scriptUrl: string;
   stylesUrl: string;
+  sessionId: string;
   sessionName: string;
   user: string;
   onSessionCreated?: () => void;
