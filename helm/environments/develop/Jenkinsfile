@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Docker Login') {
        steps {
-	        sh "cat /etc/.jenkins-master-harbor/.dockerconfigjson | docker login -u jenkins --password-stdin https://core.harbor.doorward.tech"
+	        sh "cat /etc/.jenkins-master-harbor/.dockerconfigjson && cat /etc/.jenkins-master-harbor/.dockerconfigjson | docker login -u jenkins --password-stdin https://core.harbor.doorward.tech"
        }
     }
 
