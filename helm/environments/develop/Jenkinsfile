@@ -1,0 +1,31 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Docker Login') {
+       steps {
+	        sh "cat /etc/.jenkins-master-harbor/.dockerconfigjson | docker login -u jenkins --password-stdin https://core.harbor.doorward.tech"
+       }
+    }
+
+    stage('App Version') {
+	     steps {
+          sh "export APP_VERSION=1.1.0"
+	     }
+    }
+
+    stage('Build and Push Images') {
+	     steps {
+          sh 'make build'
+	     }
+    }
+
+    stage('Archieve') {
+        steps {
+           sh 'cd helm/environments/develop && helmfile -l stage=2 delete && sleep 50 && helmfile -l stage=2 sync'
+        }
+    }
+
+  }
+
+}
