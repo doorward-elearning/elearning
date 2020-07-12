@@ -26,13 +26,6 @@ spec:
               servicePort: 80
             path: /
 
-    - host: ci.doorward.tech
-      http:
-        paths:
-          - backend:
-              serviceName: doorward-ciserver-jenkins
-              servicePort: 80
-            path: /
 
     - host: docs.doorward.tech
       http:
@@ -62,6 +55,5 @@ spec:
   - hosts:
     - api.clients.doorward.tech
     - clients.doorward.tech
-    - ci.doorward.tech
     - docs.doorward.tech
     secretName: clients.doorward.tech

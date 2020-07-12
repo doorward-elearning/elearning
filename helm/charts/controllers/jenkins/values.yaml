@@ -215,6 +215,7 @@ master:
     - workflow-aggregator:2.6
     - credentials-binding:1.20
     - git:4.0.0
+    - kubernetes-credentials-provider:0.15
 
   # Enable to always override the installed plugins with the values of 'master.installPlugins' on upgrade or redeployment.
   # overwritePlugins: true
@@ -339,21 +340,22 @@ master:
   overwriteJobs: false
 
   ingress:
-    enabled: false
+    enabled: true
     # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
     apiVersion: "extensions/v1beta1"
     labels: {}
-    annotations: {}
+    annotations:
+      cert-manager.io/issuer: letsencrypt-prod
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
     # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
     # path: "/jenkins"
     # configures the hostname e.g. jenkins.example.com
-    hostName:
+    hostName: ci.doorward.tech
     tls:
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
+      - secretName: ci.doorward.tech
+        hosts:
+          - ci.doorward.tech
 
   # If you're running on GKE and need to configure a backendconfig
   # to finish ingress setup, use the following values.
@@ -411,8 +413,8 @@ agent:
   enabled: true
   #image: "jenkins/jnlp-slave"
   #tag: "3.27-1"
-  image: "docker.io/library/node"
-  tag: dubnium
+  image: "core.harbor.doorward.tech/doorward/node-jnlp-slave"
+  tag: 1.0.1
   customJenkinsLabels: []
   # name of the secret to be used for image pulling
   imagePullSecretName:
@@ -424,7 +426,7 @@ agent:
       memory: "512Mi"
     limits:
       cpu: "512m"
-      memory: "512Mi"
+      memory: "1024Mi"
   # You may want to change this to true while testing a new image
   alwaysPullImage: false
   # Controls how agent pods are retained after the Jenkins build completes
@@ -483,7 +485,7 @@ persistence:
   ## A manually managed Persistent Volume and Claim
   ## Requires persistence.enabled: true
   ## If defined, PVC must be created manually before volume will be bound
-  existingClaim: doorward-ciserver-jenkins
+  ## existingClaim: doorward-ciserver-jenkins
   ## jenkins data Persistent Volume Storage Class
   ## If defined, storageClassName: <storageClass>
   ## If set to "-", storageClassName: "", which disables dynamic provisioning

@@ -31,3 +31,9 @@ RUN npm install -g yarn
 
 # Install Jenkins Job Builder plugin
 RUN pip install --user jenkins-job-builder
+
+# Install Anisble
+RUN apt-get install -y ansible
+
+# Copy docker daemon.json 
+COPY daemon.json /etc/docker/daemon.json
