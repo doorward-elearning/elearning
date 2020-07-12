@@ -4,7 +4,7 @@ pipeline {
   stages {
     stage('Docker Login') {
        steps {
-	        sh "cp /etc/.jenkins-master-harbor/.dockerconfigjson $HOME/.docker/config.json"
+	        sh "mkdir /root/.docker && cp /etc/.jenkins-master-harbor/.dockerconfigjson $HOME/.docker/config.json"
        }
     }
 
