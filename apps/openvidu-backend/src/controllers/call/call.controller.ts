@@ -1,5 +1,5 @@
-import { Body, Controller, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { CreateTokenResponse, OpenviduService } from '../../services/openvidu/openvidu.service';
+import { Body, Controller, Delete, HttpException, HttpStatus, Post } from '@nestjs/common';
+import { CreateTokenResponse, DeleteSessionResponse, OpenviduService } from '../../services/openvidu/openvidu.service';
 import { AxiosError } from 'axios';
 
 @Controller('call')
@@ -36,6 +36,15 @@ export class CallController {
     }
     try {
       return this.openviduService.createToken(id);
+    } catch (error) {
+      CallController.handleError(error);
+    }
+  }
+
+  @Delete()
+  async endSession(@Body('sessionId') sessionId: string): Promise<DeleteSessionResponse> {
+    try {
+      return await this.openviduService.deleteSession(sessionId);
     } catch (error) {
       CallController.handleError(error);
     }

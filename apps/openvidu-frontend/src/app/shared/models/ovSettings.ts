@@ -6,7 +6,7 @@ export class OvSettingsModel {
   constructor() {
     this.ovSettings = {
       chat: true,
-      autopublish: false,
+      autopublish: true,
       logoUrl: '',
       toolbarButtons: {
         video: true,

@@ -193,7 +193,10 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-node-backend/.eslintrc",
-            "tsConfig": ["apps/doorward-node-backend/tsconfig.app.json", "apps/doorward-node-backend/tsconfig.spec.json"],
+            "tsConfig": [
+              "apps/doorward-node-backend/tsconfig.app.json",
+              "apps/doorward-node-backend/tsconfig.spec.json"
+            ],
             "exclude": ["**/node_modules/**", "!apps/apps/doorward-node-backend/**"]
           }
         },
@@ -490,6 +493,7 @@
             "scripts": []
           },
           "configurations": {
+            "hmr": {},
             "production": {
               "fileReplacements": [
                 {
@@ -528,6 +532,10 @@
           "configurations": {
             "production": {
               "browserTarget": "openvidu-frontend:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "openvidu-frontend:build:hmr"
             }
           }
         },

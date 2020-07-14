@@ -6,10 +6,11 @@ export interface ISessionConfig {
   user: string;
   avatar: string;
   tokens: string[];
+  redirectOnEnd: string;
   ovSettings: OvSettings;
 }
 
 export enum Theme {
   DARK = 'dark',
-  LIGHT = 'light'
+  LIGHT = 'light',
 }

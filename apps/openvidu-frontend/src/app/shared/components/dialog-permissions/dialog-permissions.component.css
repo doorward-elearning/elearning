@@ -1,0 +1,7 @@
+h2 {
+  display: grid;
+  align-items: center;
+  grid-auto-flow: column;
+  grid-gap: 1em;
+  justify-content: start;
+}

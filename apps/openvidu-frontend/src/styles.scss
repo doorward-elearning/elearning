@@ -1,3 +1,26 @@
+@font-face {
+  src: url('./assets/fonts/Sailec-Regular-thin.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('./assets/fonts/Sailec-Regular-normal.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('./assets/fonts/Sailec-Regular-bold.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('./assets/fonts/Sailec-Regular-bold.woff2') format('woff2');
+  font-family: 'Sailec-Regular';
+  font-weight: bold;
+}
 
 html {
   height: 100%;
@@ -5,8 +28,9 @@ html {
 }
 body {
   margin: 0;
-  font-family: 'Ubuntu', sans-serif;
+  font-family: 'Sailec-Regular', sans-serif;
   height: 100%;
+  font-size: 14px;
   width: 100%;
 }
 
@@ -41,3 +65,20 @@ body {
 .messageSnackbar {
   margin-top: 50px !important;
 }
+
+mat-icon {
+  cursor: pointer;
+  position: relative;
+}
+
+mat-icon:hover:before {
+  position: absolute;
+  content: '';
+  left: -25%;
+  top: -25%;
+  width: 150%;
+  height: 150%;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 50%;
+}
+

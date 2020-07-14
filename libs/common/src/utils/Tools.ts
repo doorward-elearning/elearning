@@ -1,13 +1,13 @@
 import { Enum } from '@doorward/common/types';
 import moment from 'moment';
-import colors from '@doorward/common/utils/colors';
+import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
 
-const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET);
+const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET || '');
 
 class Tools {
   static AUTHORIZATION_TOKEN = 'token';
@@ -94,6 +94,7 @@ class Tools {
   }
 
   static hashCode(str: string): number {
+    str = str || '';
     let hash = 0;
     for (let i = 0; i < str.length; i++) {
       const character = str.charCodeAt(i);

@@ -4,6 +4,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   component: any;
   script: HTMLScriptElement;
   style: HTMLLinkElement;
+  materialStyle: HTMLLinkElement;
   jqueryScript: HTMLScriptElement;
 
   componentDidMount(): void {
@@ -24,6 +25,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     this.jqueryScript.crossOrigin = 'anonymous';
 
     this.style = this.addStyles(this.props.stylesUrl);
+    this.materialStyle = this.addStyles('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css');
   };
 
   addScript = (url: string): HTMLScriptElement => {
@@ -37,6 +39,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   addStyles = (url: string): HTMLLinkElement => {
     const style = document.createElement('link');
     style.href = url;
+    style.rel = 'stylesheet';
     document.head.appendChild(style);
     return style;
   };
@@ -52,6 +55,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     document.body.removeChild(this.script);
     document.body.removeChild(this.jqueryScript);
     document.head.removeChild(this.style);
+    document.head.removeChild(this.materialStyle);
   }
 
   onSessionCreated = () => {

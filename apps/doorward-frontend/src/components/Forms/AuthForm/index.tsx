@@ -19,7 +19,7 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
       <Card.Header image />
       <Card.Body>
         <div className="login-form__header">
-          <EImage alt="" src={icon} circle size="xLarge" />
+          <EImage alt="" src={icon} size="xLarge" />
           <Header size={1}>{props.title}</Header>
           <IfElse condition={props.message}>
             <p>{props.message}</p>

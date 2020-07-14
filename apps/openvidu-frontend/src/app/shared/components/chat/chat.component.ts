@@ -1,90 +1,103 @@
-import { Component, ElementRef, Input, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  HostListener,
+  OnDestroy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatMessage } from '../../types/chat-type';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
-	selector: 'chat-component',
-	templateUrl: './chat.component.html',
-	styleUrls: ['./chat.component.css']
+  selector: 'chat-component',
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css'],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-	@ViewChild('chatScroll') chatScroll: ElementRef;
-	@ViewChild('chatInput') chatInput: ElementRef;
+  @ViewChild('chatScroll') chatScroll: ElementRef;
+  @ViewChild('chatInput') chatInput: ElementRef;
 
-	@Input() lightTheme: boolean;
+  @Input() lightTheme: boolean;
 
-	message: string;
+  @Output() closeButtonClicked = new EventEmitter<any>();
 
-	messageList: ChatMessage[] = [];
-	chatOpened: boolean;
+  message: string;
 
-	private chatMessageSubscription: Subscription;
-	private chatToggleSubscription: Subscription;
+  messageList: ChatMessage[] = [];
+  chatOpened: boolean;
 
-	constructor(private chatService: ChatService) {}
+  private chatMessageSubscription: Subscription;
+  private chatToggleSubscription: Subscription;
 
-	@HostListener('document:keydown.escape', ['$event'])
-	onKeydownHandler(event: KeyboardEvent) {
-		console.log(event);
-		if (this.chatOpened) {
-			this.close();
-		}
-	}
+  constructor(private chatService: ChatService) {}
 
-	ngOnInit() {
-		this.subscribeToMessages();
-		this.subscribeToToggleChat();
-	}
+  @HostListener('document:keydown.escape', ['$event'])
+  onKeydownHandler(event: KeyboardEvent) {
+    console.log(event);
+    if (this.chatOpened) {
+      this.close();
+    }
+  }
 
-	ngOnDestroy(): void {
-		if (this.chatMessageSubscription) {
-			this.chatMessageSubscription.unsubscribe();
-		}
-		if (this.chatToggleSubscription) {
-			this.chatToggleSubscription.unsubscribe();
-		}
-	}
+  ngOnInit() {
+    this.subscribeToMessages();
+    this.subscribeToToggleChat();
+  }
 
-	eventKeyPress(event) {
-		// Pressed 'Enter' key
-		if (event && event.keyCode === 13) {
-			this.sendMessage();
-		}
-	}
+  ngOnDestroy(): void {
+    if (this.chatMessageSubscription) {
+      this.chatMessageSubscription.unsubscribe();
+    }
+    if (this.chatToggleSubscription) {
+      this.chatToggleSubscription.unsubscribe();
+    }
+  }
 
-	sendMessage(): void {
-		this.chatService.sendMessage(this.message);
-		this.message = '';
-	}
+  eventKeyPress(event) {
+    // Pressed 'Enter' key
+    if (event && event.keyCode === 13) {
+      this.sendMessage();
+    }
+  }
 
-	scrollToBottom(): void {
-		setTimeout(() => {
-			try {
-				this.chatScroll.nativeElement.scrollTop = this.chatScroll.nativeElement.scrollHeight;
-			} catch (err) {}
-		}, 20);
-	}
+  sendMessage(): void {
+    this.chatService.sendMessage(this.message);
+    // this.message = '';
+  }
 
-	close() {
-		this.chatService.toggleChat();
-	}
+  scrollToBottom(): void {
+    setTimeout(() => {
+      try {
+        this.chatScroll.nativeElement.scrollTop = this.chatScroll.nativeElement.scrollHeight;
+      } catch (err) {}
+    }, 20);
+  }
 
-	private subscribeToMessages() {
-		this.chatMessageSubscription = this.chatService.messagesObs.subscribe((messages: ChatMessage[]) => {
-			this.messageList = messages;
-		});
-	}
+  close() {
+    this.closeButtonClicked.emit();
+  }
 
-	private subscribeToToggleChat() {
-		this.chatToggleSubscription = this.chatService.toggleChatObs.subscribe((opened) => {
-			this.chatOpened = opened;
-			if (this.chatOpened) {
-				this.scrollToBottom();
-				setTimeout(() => {
-					this.chatInput.nativeElement.focus();
-				});
-			}
-		});
-	}
+  private subscribeToMessages() {
+    this.chatMessageSubscription = this.chatService.messagesObs.subscribe((messages: ChatMessage[]) => {
+      this.messageList = messages;
+      this.scrollToBottom();
+    });
+  }
+
+  private subscribeToToggleChat() {
+    this.chatToggleSubscription = this.chatService.toggleChatObs.subscribe(opened => {
+      this.chatOpened = opened;
+      if (this.chatOpened) {
+        this.scrollToBottom();
+        setTimeout(() => {
+          this.chatInput.nativeElement.focus();
+        });
+      }
+    });
+  }
 }

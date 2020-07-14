@@ -76,6 +76,7 @@ export interface ButtonProps {
   onClick?: MouseEventHandler;
   tooltip?: string;
   style?: CSSProperties;
+  openInNewTab?: string;
 }
 
 export default Button;

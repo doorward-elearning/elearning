@@ -4,12 +4,8 @@ import { Component, Input } from '@angular/core';
   selector: 'app-toolbar-logo',
   template: `
     <div id="navSessionInfo">
-      <a>
-        <img id="header_img" alt="Logo" [src]="logoUrl" />
-      </a>
-      <div *ngIf="!compact && sessionId" [ngClass]="{ titleContentLight: lightTheme, titleContentDark: !lightTheme }">
-        <span id="session-title">{{ sessionId }}</span>
-      </div>
+      <img id="header_img" alt="Logo" [src]="logoUrl" />
+      <h3 *ngIf="sessionId" id="session-title">{{ sessionId }}</h3>
     </div>
   `,
   styleUrls: ['./toolbar.component.css'],

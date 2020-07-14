@@ -1,0 +1,28 @@
+<div class="participants-list">
+  <div class="header">
+    <div class="title">
+      <h2>
+        Participants
+      </h2>
+      <mat-icon matBadge="{{ remoteUsers?.length }}" matBadgePosition="above before" matBadgeColor="accent"
+        >people</mat-icon
+      >
+    </div>
+    <mat-icon (click)="close()">close</mat-icon>
+  </div>
+  <div class="header meeting-info">
+    <div>Currently in this meeting</div>
+    <span>Mute all</span>
+  </div>
+  <div class="users-list">
+    <div *ngFor="let remoteUser of remoteUsers" class="user">
+      <div class="avatar">
+        <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
+      </div>
+      <div class="name">
+        {{ remoteUser.getNickname() }}
+      </div>
+      <div class="status"></div>
+    </div>
+  </div>
+</div>

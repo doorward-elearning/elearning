@@ -50,8 +50,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 60px;
-  bottom: 50px;
+  top: 0;
+  bottom: 0;
   min-width: 400px !important;
   width: inherit;
 }
@@ -82,7 +82,6 @@
   padding: 0;
   border: 0;
   font-size: 100%;
-  font-family: 'Ubuntu', sans-serif;
   vertical-align: baseline;
 }
 
@@ -105,7 +104,6 @@
   margin-left: auto;
 
   color: #fff;
-  font-family: 'Ubuntu', sans-serif;
   font-size: 13px;
   line-height: 1.4;
 }
@@ -268,16 +266,24 @@
 }
 
 .no-video {
-  background: black;
   height: 100%;
+  position: relative;
   display: grid;
   place-items: center;
-  text-align: center;
-  grid-template-rows: 1fr;
 }
 
-.no-video span {
-  font-size: 2rem;
+.no-video__image {
+  width: 150px;
+  height: 150px;
+  font-size: 50px;
+}
+
+.no-video__nickname {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 0.5em;
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .OT_publisher .OT_video-element,

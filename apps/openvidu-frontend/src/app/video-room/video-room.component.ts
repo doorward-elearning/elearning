@@ -2,15 +2,15 @@ import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {
+  Connection,
   Publisher,
-  Subscriber,
+  PublisherSpeakingEvent,
   Session,
+  SessionDisconnectedEvent,
   SignalOptions,
   StreamEvent,
   StreamPropertyChangedEvent,
-  SessionDisconnectedEvent,
-  PublisherSpeakingEvent,
-  Connection,
+  Subscriber,
 } from 'openvidu-browser';
 import { OpenViduLayout, OpenViduLayoutOptions } from '../shared/layout/openvidu-layout';
 import { UserModel } from '../shared/models/user-model';
@@ -21,7 +21,6 @@ import { ILogger } from '../shared/types/logger-type';
 import { LayoutType } from '../shared/types/layout-type';
 import { Theme } from '../shared/types/webcomponent-config';
 import { ExternalConfigModel } from '../shared/models/external-config';
-
 // Services
 import { DevicesService } from '../shared/services/devices/devices.service';
 import { OpenViduSessionService } from '../shared/services/openvidu-session/openvidu-session.service';
@@ -31,9 +30,10 @@ import { RemoteUsersService } from '../shared/services/remote-users/remote-users
 import { UtilsService } from '../shared/services/utils/utils.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ChatService } from '../shared/services/chat/chat.service';
-import { environment } from '../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
+import greys from '@doorward/ui/colors/greys';
+import Tools from '@doorward/common/utils/Tools';
 
 @Component({
   selector: 'app-video-room',
@@ -49,7 +49,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   // !Deprecated
   @Output() _joinSession = new EventEmitter<any>();
-  // !Deprecated
+  // !Deprecated</participants-list>
   @Output() _leaveSession = new EventEmitter<any>();
 
   @ViewChild('chatComponent') chatComponent: ChatComponent;
@@ -58,6 +58,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   ovSettings: OvSettingsModel;
   compact = false;
   sidenavMode: 'side' | 'over' = 'side';
+  sidenavContent: 'chat' | 'participants' | null = null;
   lightTheme: boolean;
   showConfigRoomCard = true;
   session: Session;
@@ -105,15 +106,18 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const defaultConfig = new ExternalConfigModel();
-    defaultConfig.setNickname('test');
+    defaultConfig.setNickname('test user');
     defaultConfig.setSessionName('test-meeting');
+    if (Math.random() * 1000 > 1000) {
+      defaultConfig.setAvatar(
+        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+      );
+    }
     this.externalConfig = this.externalConfig || defaultConfig;
     this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
     this.ovSettings = this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
-    this.oVSessionService.setWebcamAvatar(
-      this.externalConfig.getAvatar() || environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_light_logo_64x64.png'
-    );
+    this.oVSessionService.setWebcamAvatar(this.externalConfig.getAvatar());
     if (!this.showConfigRoomCard) {
       this.onConfigRoomJoin();
     }
@@ -173,28 +177,33 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.connectToSession();
   }
 
-  leaveSession() {
-    const result = this.matDialog.open(DialogEndMeetingComponent, {
-      data: {
-        isSubscriber: false,
-      },
-    });
-    result
-      .afterClosed()
-      .toPromise()
-      .then(dialogResult => {
-        if (dialogResult.meetingEnded) {
-          this.oVSessionService.disconnect();
-          this.oVSessionService.destroyUsers();
-          this._leaveSession.emit();
-        }
-        if (dialogResult.meetingLeft) {
-          this.oVSessionService.disconnect();
-          this._leaveSession.emit();
-        }
+  leaveSession(showDialog = false) {
+    this.log.d('Leaving session...');
+    if (showDialog) {
+      const result = this.matDialog.open(DialogEndMeetingComponent, {
+        data: {
+          isSubscriber: false,
+        },
       });
-    // this.log.d('Leaving session...');
-    // this.router.navigate(['']);
+      result
+        .afterClosed()
+        .toPromise()
+        .then(dialogResult => {
+          if (dialogResult.meetingEnded) {
+            this.oVSessionService.disconnect();
+            this.oVSessionService.destroyUsers();
+            this._leaveSession.emit();
+          }
+          if (dialogResult.meetingLeft) {
+            this.oVSessionService.disconnect();
+            this._leaveSession.emit();
+          }
+        });
+    } else {
+      this.oVSessionService.disconnect();
+      this.router.navigate(['']);
+      this._leaveSession.emit();
+    }
   }
 
   onNicknameUpdate(nickname: string) {
@@ -208,6 +217,18 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       return;
     }
     this.oVSessionService.publishScreenAudio(!this.oVSessionService.hasScreenAudioActive());
+  }
+
+  toggleNav(content) {
+    if (!(content !== this.sidenavContent && this.sidenavContent)) {
+      this.chatSidenav.toggle().then(() => {
+        if (!this.chatSidenav.opened) {
+          this.sidenavContent = null;
+        }
+      });
+    }
+    this.sidenavContent = content;
+    this.chatService.toggleChat(content === 'chat');
   }
 
   async toggleCam() {
@@ -308,7 +329,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   onToggleVideoSize(event: { element: HTMLElement; connectionId?: string; resetAll?: boolean }) {
     const element = event.element;
-    if (!!event.resetAll) {
+    if (event.resetAll) {
       this.resetAllBigElements();
     }
 
@@ -316,7 +337,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
     // Has been mandatory change the user zoom property here because of
     // zoom icons and cannot handle publisherStartSpeaking event in other component
-    if (!!event?.connectionId) {
+    if (event?.connectionId) {
       if (this.oVSessionService.isMyOwnConnection(event.connectionId)) {
         this.oVSessionService.toggleZoom(event.connectionId);
       } else {
@@ -337,7 +358,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     let webcamToken: string;
     let screenToken: string;
     // Webcomponent or Angular Library
-    if (!!this.externalConfig) {
+    if (this.externalConfig) {
       if (this.externalConfig.hasTokens()) {
         this.log.d('Received external tokens from ' + this.externalConfig.getComponentName());
         webcamToken = this.externalConfig.getWebcamToken();
@@ -376,9 +397,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       await this.oVSessionService.connectScreenSession(screenToken);
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
-        (<HTMLElement>this.localUsers[0].getStreamManager().videos[0].video).parentElement.classList.remove(
-          'custom-class'
-        );
+        this.localUsers[0].getStreamManager().videos[0].video.parentElement.classList.remove('custom-class');
       });
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
@@ -519,7 +538,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private updateOpenViduLayout(timeout?: number) {
-    if (!!this.openviduLayout) {
+    if (this.openviduLayout) {
       if (!timeout) {
         this.openviduLayout.updateLayout();
         return;
@@ -548,5 +567,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       this.remoteUsers = [...users];
       this.updateOpenViduLayout();
     });
+  }
+
+  greyBackground(user: string): string {
+    const colors = greys;
+    const index = Tools.hashCode(user);
+    return colors[index % colors.length];
   }
 }

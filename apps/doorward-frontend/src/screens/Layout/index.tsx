@@ -43,6 +43,7 @@ export enum LayoutFeatures {
   ACTION_BUTTON = 3,
   BREAD_CRUMBS = 4,
   SEARCH_BAR = 5,
+  ANNOUNCEMENT = 6,
 }
 
 const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, text, ...props }) => {
@@ -163,7 +164,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           <Container fullHeight={loading}>
             <IfElse condition={loading}>
               <ContentSpinner type="Grid" />
-              <React.Fragment>
+              <div>
                 <div className="ed-page-layout__topContent">{renderTopContent && renderTopContent()}</div>
                 <div className="ed-page-layout__topHeader">
                   <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
@@ -206,8 +207,15 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                     </Feature>
                   </div>
                 </div>
-                {children}
-              </React.Fragment>
+                <div className={'ed-page-layout__full_content'}>
+                  <div className={'ed-page-layout__full_content--body'}>{children}</div>
+                  <div className={'ed-page-layout__full_content--footer'}>
+                    <Feature feature={LayoutFeatures.ANNOUNCEMENT}>
+                      <div className="ed-page-layout__announcement">{props.announcement && props.announcement()}</div>
+                    </Feature>
+                  </div>
+                </div>
+              </div>
             </IfElse>
           </Container>
         </div>
@@ -241,6 +249,7 @@ export interface LayoutProps extends PageComponent {
   suggestionsType?: string;
   searchPlaceholder?: string;
   searchQuery?: ParsedUrlQuery;
+  announcement?: () => JSX.Element;
 }
 
 export default Layout;

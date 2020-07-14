@@ -1,38 +1,35 @@
 <div id="chatContainer">
-	<div id="chatComponent" [class.chatComponentLight]="lightTheme">
-		<div id="chatToolbar">
-			<span> CHAT</span>
-			<button mat-icon-button (click)="close()" id="closeButton">
-				<mat-icon matTooltip="Close" color="warn">highlight_off</mat-icon>
-			</button>
-		</div>
-		<div class="message-wrap" #chatScroll>
-			<div *ngFor="let data of messageList" class="message" [ngClass]="data.isLocal ? 'right' : 'left'">
-				<img class="user-img" [src]="data.userAvatar" />
-				<div class="msg-detail">
-					<div class="msg-info">
-						<p>{{ data.nickname }}</p>
-					</div>
-					<div class="msg-content">
-						<span class="triangle"></span>
-						<p class="text" [innerHTML]="data.message | linkify"></p>
-					</div>
-				</div>
-			</div>
-		</div>
+  <div id="chatComponent" [class.chatComponentLight]="lightTheme">
+    <div id="chatToolbar">
+      <h3>Chat</h3>
+      <mat-icon (click)="close()" matTooltip="Close">close</mat-icon>
+    </div>
+    <div class="message-wrap" #chatScroll>
+      <div *ngFor="let data of messageList" class="message" [ngClass]="data.isLocal ? 'right' : 'left'">
+        <div class="user-img">
+          <user-avatar [name]="data.nickname" [avatar]="data.userAvatar"> </user-avatar>
+        </div>
+        <div class="msg-detail">
+          <div class="msg-info">
+            <span>{{ data.nickname }}</span>
+          </div>
+          <div class="msg-content">
+            <p class="text" [innerHTML]="data.message | linkify"></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
-		<div id="messageInput">
-			<input
-				#chatInput
-				placeholder="Send a message"
-				autocomplete="off"
-				(keypress)="eventKeyPress($event)"
-				[(ngModel)]="message"
-				id="chatInput"
-			/>
-			<button mat-mini-fab id="sendButton" (click)="sendMessage()">
-				<mat-icon matTooltip="Send">send</mat-icon>
-			</button>
-		</div>
-	</div>
+    <div id="messageInput">
+      <input
+        #chatInput
+        placeholder="Send a message"
+        autocomplete="off"
+        (keypress)="eventKeyPress($event)"
+        [(ngModel)]="message"
+        id="chatInput"
+      />
+      <mat-icon id="sendButton" matTooltip="Send" (click)="sendMessage()">send</mat-icon>
+    </div>
+  </div>
 </div>

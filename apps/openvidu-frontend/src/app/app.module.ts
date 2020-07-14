@@ -18,7 +18,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { AppRoutingModule } from './/app-routing.module';
+import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { createCustomElement } from '@angular/elements';
 import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
@@ -64,6 +64,10 @@ import { LoggerService } from './shared/services/logger/logger.service';
 import { NotificationService } from './shared/services/notifications/notification.service';
 import { StorageService } from './shared/services/storage/storage.service';
 import { DialogEndMeetingComponent } from './shared/components/dialog-end-meeting/dialog-end-meeting.component';
+import { DialogPermissionsComponent } from './shared/components/dialog-permissions/dialog-permissions.component';
+import { ParticipantsListComponent } from './shared/components/participants-list/participants-list.component';
+import { ActiveUserWrapperComponent } from './shared/components/active-user-wrapper/active-user-wrapper.component';
+import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +94,10 @@ import { DialogEndMeetingComponent } from './shared/components/dialog-end-meetin
     TooltipListPipe,
     FooterComponent,
     DialogEndMeetingComponent,
+    DialogPermissionsComponent,
+    ParticipantsListComponent,
+    ActiveUserWrapperComponent,
+    UserAvatarComponent,
   ],
   imports: [
     FormsModule,
@@ -117,7 +125,7 @@ import { DialogEndMeetingComponent } from './shared/components/dialog-end-meetin
     FlexLayoutModule,
     NgxLinkifyjsModule.forRoot(),
   ],
-  entryComponents: [DialogErrorComponent, WebComponentComponent, DialogEndMeetingComponent],
+  entryComponents: [DialogErrorComponent, WebComponentComponent, DialogEndMeetingComponent, DialogPermissionsComponent],
   providers: [
     NetworkService,
     OpenViduSessionService,
@@ -128,7 +136,7 @@ import { DialogEndMeetingComponent } from './shared/components/dialog-end-meetin
     ChatService,
     NotificationService,
     StorageService,
-    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: false } },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
   ],
   bootstrap: [AppComponent],
 })

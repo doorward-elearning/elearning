@@ -82,16 +82,17 @@ export class ChatService {
     }
   }
 
-  toggleChat() {
-    this.log.d('Toggling chat');
-    this.chatComponent.toggle().then(() => {
-      this.chatOpened = this.chatComponent.opened;
-      this._toggleChat.next(this.chatOpened);
-      if (this.chatOpened) {
-        this.messagesUnread = 0;
-        this._messagesUnread.next(this.messagesUnread);
-      }
-    });
+  closeSideBar() {
+    this.chatComponent.toggle();
+  }
+
+  toggleChat(open) {
+    this.chatOpened = open;
+    this._toggleChat.next(this.chatOpened);
+    if (this.chatOpened) {
+      this.messagesUnread = 0;
+      this._messagesUnread.next(this.messagesUnread);
+    }
   }
 
   private isChatOpened(): boolean {

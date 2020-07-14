@@ -91,4 +91,18 @@
       }
     }
   }
+
+  &__full_content {
+    display: grid;
+    &--body {
+    }
+
+    &--footer {
+      position: fixed;
+      bottom: 0;
+      display: grid;
+      width: 100%;
+      left: 0;
+    }
+  }
 }

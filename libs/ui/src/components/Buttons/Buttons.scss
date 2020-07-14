@@ -34,6 +34,9 @@
     background: var(--primary);
     color: var(--text-icons);
     position: relative;
+    a {
+      color: var(--text-icons);
+    }
 
     &:hover {
       box-shadow: var(--box-shadow);
@@ -47,44 +50,69 @@
     background: var(--primary);
     border: 1px solid var(--primary);
     color: var(--text-alternate);
+
+    a {
+      color: var(--text-alternate);
+    }
   }
 
   &.btn-default {
     background: var(--button-default);
     border: 1px solid var(--button-default);
     color: var(--button-default-color);
+    a {
+      color: var(--button-default-color);
+    }
   }
 
   &.btn-success {
     background: var(--button-success);
     border: 1px solid var(--button-success);
     color: var(--button-success-color);
+    a {
+      color: var(--button-success-color);
+    }
   }
 
   &.btn-info {
     background: var(--button-info);
     border: 1px solid var(--button-info);
     color: var(--button-info-color);
+    a {
+      color: var(--button-info-color);
+    }
   }
   &.btn-danger {
     background: var(--button-danger);
     border: 1px solid var(--button-danger);
     color: var(--button-danger-color);
+    a {
+      color: var(--button-danger-color);
+    }
   }
   &.btn-warning {
     border: 1px solid var(--button-warning);
     background: var(--button-warning);
     color: var(--button-warning-color);
+    a {
+      color: var(--button-warning-color);
+    }
   }
   &.btn-accent {
     background: var(--accent);
     border: 1px solid var(--accent);
     color: var(--text-alternate);
+    a {
+      color: var(--text-alternate);
+    }
   }
 
   &.bordered {
     background: none;
     color: var(--text-primary);
+    a {
+      color: var(--text-primary);
+    }
   }
 
   &.btn-secondary {
@@ -92,6 +120,9 @@
     background: none;
     color: var(--text-primary);
     transition: 0.5s background;
+    a {
+      color: var(--text-primary);
+    }
 
     &:hover {
       background: var(--bg-primary-dark);

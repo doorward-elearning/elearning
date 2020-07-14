@@ -1,0 +1,4 @@
+<div class="user-avatar">
+  <img *ngIf="avatar" src="{{ avatar }}" alt=" " />
+  <span *ngIf="!avatar" [style.background]="color" [style.fontSize]="fontSize">{{ getInitials(name) }}</span>
+</div>

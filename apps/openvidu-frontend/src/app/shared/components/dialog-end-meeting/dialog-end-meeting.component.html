@@ -10,10 +10,19 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancel</button>
-  <button mat-button [mat-dialog-close]="true" (click)="leaveMeeting()" cdkFocusInitial>
+  <button mat-button color="warn" [mat-dialog-close]="true" (click)="leaveMeeting()" cdkFocusInitial>
     Leave meeting
   </button>
-  <button mat-button [mat-dialog-close]="true" (click)="endMeeting()" cdkFocusInitial *ngIf="!data.isSubscriber">
-    End meeting for all
+  <button
+    mat-button
+    color="warn"
+    [mat-dialog-close]="true"
+    (click)="endMeeting()"
+    cdkFocusInitial
+    *ngIf="!data.isSubscriber"
+  >
+    <b>
+      End meeting for all
+    </b>
   </button>
 </mat-dialog-actions>

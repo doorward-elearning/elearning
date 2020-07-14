@@ -1,0 +1,20 @@
+.ed-covid19-banner {
+  display: grid;
+  padding: var(--padding);
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--padding);
+
+  .header {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: var(--padding-sm);
+    justify-content: start;
+    align-items: center;
+  }
+
+  > div {
+    display: grid;
+  }
+}

@@ -9,7 +9,7 @@ const btoa = require('btoa');
 export class HttpClientService {
   private options: AxiosRequestConfig = {};
 
-  public async post<T>(url: string, body: string): Promise<T> {
+  constructor() {
     this.options.headers = {
       Authorization: 'Basic ' + btoa((process.env.OPENVIDU_USERNAME + ':' + process.env.OPENVIDU_PASSWORD).trim()),
       'Content-Type': 'application/json',
@@ -19,8 +19,16 @@ export class HttpClientService {
     this.options.httpsAgent = new https.Agent({
       rejectUnauthorized: false,
     });
+    this.options.baseURL = process.env.OPENVIDU_URL;
+  }
 
+  public async post<T>(url: string, body: string): Promise<T> {
     const response = await axios.post<T>(url, body, this.options);
     return response.data;
+  }
+
+  public async delete<T>(url: string): Promise<T> {
+    const { data } = await axios.delete<T>(url, this.options);
+    return data;
   }
 }

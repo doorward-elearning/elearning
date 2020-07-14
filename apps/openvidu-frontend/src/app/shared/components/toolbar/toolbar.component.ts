@@ -5,6 +5,7 @@ import { OvSettingsModel } from '../../models/ovSettings';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
+import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 
 @Component({
   selector: 'app-toolbar',
@@ -31,16 +32,23 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Output() screenShareClicked = new EventEmitter<any>();
   @Output() layoutButtonClicked = new EventEmitter<any>();
   @Output() leaveSessionButtonClicked = new EventEmitter<any>();
+  @Output() participantsListButtonClicked = new EventEmitter<any>();
+  @Output() chatButtonClicked = new EventEmitter<any>();
 
   newMessagesNum: number;
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_dark_mask_logo_128x128.png';
+  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png';
 
   participantsNames: string[] = [];
+  numParticipants = 0;
 
-  constructor(private utilsSrv: UtilsService, private chatService: ChatService) {
+  constructor(
+    private utilsSrv: UtilsService,
+    private chatService: ChatService,
+    private remoteUserService: RemoteUsersService
+  ) {
     this.chatServiceSubscription = this.chatService.messagesUnreadObs.subscribe(num => {
       this.newMessagesNum = num;
     });
@@ -64,6 +72,10 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     if (this.ovSettings.getLogo()) {
       this.logoUrl = this.ovSettings.getLogo();
     }
+
+    this.remoteUserService.getRemoteUsers().subscribe(users => {
+      this.numParticipants = users.length;
+    });
   }
 
   toggleMicrophone() {
@@ -87,7 +99,11 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   toggleChat() {
-    this.chatService.toggleChat();
+    this.chatButtonClicked.emit();
+  }
+
+  toggleParticipants() {
+    this.participantsListButtonClicked.emit();
   }
 
   toggleFullscreen() {

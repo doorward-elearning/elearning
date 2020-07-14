@@ -10,6 +10,7 @@ export class ExternalConfigModel {
   protected ovServerUrl: string;
   protected avatar: string;
   protected ovServerApiUrl: string = environment.OPENVIDU_API_URL;
+  protected redirectOnEnd = '/';
   protected ovSecret: string;
   protected theme = Theme.DARK;
   protected nickname: string;
@@ -17,6 +18,10 @@ export class ExternalConfigModel {
 
   constructor() {
     this.ovSettings = new OvSettingsModel();
+  }
+
+  public getRedirectOnEnd() {
+    return this.redirectOnEnd;
   }
 
   public getComponentName() {}
@@ -100,6 +105,10 @@ export class ExternalConfigModel {
   }
   public setTokens(tokens: string[]) {
     this.tokens = tokens;
+  }
+
+  public setRedirectOnEnd(redirectUrl: string) {
+    this.redirectOnEnd = redirectUrl;
   }
 
   public canJoinToSession(): boolean {

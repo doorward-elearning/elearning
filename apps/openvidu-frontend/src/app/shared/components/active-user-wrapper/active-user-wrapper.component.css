@@ -1,0 +1,10 @@
+.active-user-wrapper.hidden {
+  display: none;
+}
+
+.active-user-wrapper {
+  display: grid;
+}
+
+.active-user-wrapper * {
+}

@@ -40,7 +40,7 @@ export class UserModel {
    */
   constructor(connectionId?: string, streamManager?: StreamManager, nickname?: string) {
     this.connectionId = connectionId || '';
-    this.nickname = nickname || 'OpenVidu';
+    this.nickname = nickname || '---';
     this.streamManager = streamManager || null;
   }
 

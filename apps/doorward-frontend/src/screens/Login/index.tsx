@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import './Login.scss';
-import Layout from '../Layout';
+import Layout, { LayoutFeatures } from '../Layout';
 import { clearLoginAction } from '../../reducers/login/actions';
 import { State } from '../../store';
 import LoginForm from '../../components/Forms/LoginForm';
@@ -19,6 +19,7 @@ import Header from '@doorward/ui/components/Header';
 import Message from '@doorward/ui/components/Message';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
+import COVID19Banner from '@doorward/ui/components/COVID19Banner';
 
 const Login: React.FunctionComponent<LoginProps> = props => {
   const [showMessage, setShowMessage] = useState(false);
@@ -48,8 +49,10 @@ const Login: React.FunctionComponent<LoginProps> = props => {
       <Layout
         {...props}
         withBackground
+        features={[LayoutFeatures.ANNOUNCEMENT]}
         noNavBar
         navFeatures={[NavbarFeatures.PAGE_LOGO]}
+        announcement={() => <COVID19Banner />}
         renderNavEnd={() => (
           <Button theme="secondary" onClick={() => routes.navigate(routes.register)}>
             Register

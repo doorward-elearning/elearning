@@ -92,6 +92,10 @@
           "configurations": {
             "production": {
               "browserTarget": "openvidu-call:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "openvidu-call:build:hmr"
             }
           }
         },

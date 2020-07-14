@@ -1,0 +1,42 @@
+.participants-list {
+  padding: 30px 1em;
+}
+
+.header {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  color: white;
+  align-items: center;
+}
+
+.header .title {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1em;
+  align-items: center;
+}
+
+.meeting-info span {
+  cursor: pointer;
+}
+
+.users-list {
+  display: grid;
+  grid-auto-flow: row;
+  grid-gap: 1em;
+  padding: 1em 0;
+}
+
+.user {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: 1em;
+  align-items: center;
+  color: white;
+}
+
+.user .avatar {
+  width: 40px;
+  height: 40px;
+}

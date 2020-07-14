@@ -1,36 +1,59 @@
 #header {
   color: #ffffff;
-  height: 60px;
-  background-color: #333333;
   position: absolute;
+  bottom: 0;
   top: 0;
   left: 0;
+  height: 100%;
   display: grid;
-  z-index: 999999;
-  min-width: 400px !important;
-  padding: 0 1em;
-  align-items: center;
-  grid-template-columns: auto 1fr auto;
+  width: 100%;
+  z-index: 100000;
+  grid-template-rows: auto auto;
+  justify-content: center;
+  align-content: space-between;
+  grid-template-columns: 1fr;
   grid-gap: 1em;
+  pointer-events: none;
+}
+
+#header > * {
+  pointer-events: all;
+}
+
+.title {
+  display: grid;
+  justify-self: stretch;
+  justify-items: center;
+  justify-content: center;
+  padding-top: 1em;
+  background: linear-gradient(rgba(0, 0, 0, 0.5), transparent);
+  padding-bottom: 2em;
 }
 
 .buttonsContainer {
   display: grid;
   align-items: center;
+  padding: 1em 2em;
+  margin-bottom: 1em;
   grid-gap: 1em;
   grid-auto-flow: column;
-  justify-content: end;
+  justify-content: center;
 }
 
 button {
-  background: none;
+  background: #333;
   outline: none;
   border: none;
   cursor: pointer;
   border-radius: 50%;
-  height: 40px;
-  width: 40px;
+  height: 60px;
+  width: 60px;
   transition: 0.3s all;
+  box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+}
+
+button#navLeaveButton {
+  background: #bd0000;
 }
 
 button:hover {
@@ -49,18 +72,25 @@ button:hover {
 #navSessionInfo {
   height: 100%;
   display: grid;
-  grid-auto-flow: column;
+  grid-auto-flow: row;
   grid-gap: 1em;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
 }
 
 #navSessionInfo img {
-  height: 40px;
+  height: 30px;
+  width: auto;
+  max-width: none;
+  margin-top: 0;
+  margin-right: 0;
 }
 
-#navSessionInfo > div {
-  display: grid;
-  align-items: center;
-  padding: 0 1em;
+#navSessionInfo > h3 {
+  padding: 0;
+  margin: 0;
+  text-align: center;
 }
 
 #navChatButton .mat-badge-medium.mat-badge-overlap.mat-badge-before .mat-badge-content {
@@ -76,7 +106,6 @@ button:hover {
 }
 
 .titleContent {
-  font-family: 'Ubuntu', sans-serif;
   max-width: 100px;
   margin: 5px -18px;
   padding: 0px 15px;

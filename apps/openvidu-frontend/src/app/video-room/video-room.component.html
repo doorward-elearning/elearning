@@ -10,26 +10,6 @@
 
   <div *ngIf="localUsers && localUsers.length > 0">
     <div *ngIf="isConnectionLost" class="reconnecting-container"></div>
-    <app-toolbar
-      [lightTheme]="lightTheme"
-      [compact]="compact"
-      [mySessionId]="mySessionId"
-      [sessionTitle]="externalConfig.getSessionTitle() || mySessionId"
-      [ovSettings]="ovSettings"
-      [hasVideoDevices]="hasVideoDevices"
-      [hasAudioDevices]="hasAudioDevices"
-      [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"
-      [isWebcamAudioEnabled]="toolbarMicIconEnabled()"
-      [isScreenEnabled]="oVSessionService.isScreenShareEnabled()"
-      [isAutoLayout]="isAutoLayout"
-      [isConnectionLost]="isConnectionLost"
-      (camButtonClicked)="toggleCam()"
-      (micButtonClicked)="toggleMic()"
-      (screenShareClicked)="toggleScreenShare()"
-      (layoutButtonClicked)="toggleSpeakerLayout()"
-      (leaveSessionButtonClicked)="leaveSession()"
-    ></app-toolbar>
-
 
     <mat-sidenav-container class="sidenav-container" id="room-container" [class.boundsLight]="lightTheme" fullscreen>
       <mat-sidenav
@@ -39,45 +19,90 @@
         class="sidenav-chat"
         [class.boundsLight]="lightTheme"
         fixedInViewport="true"
-        fixedTopGap="60"
+        fixedTopGap="0"
         fixedBottomGap="0"
         *ngIf="ovSettings | hasChat"
       >
-        <chat-component #chatComponent [lightTheme]="lightTheme"></chat-component>
+        <chat-component
+          (closeButtonClicked)="toggleNav('chat')"
+          *ngIf="sidenavContent === 'chat'"
+          #chatComponent
+          [lightTheme]="lightTheme"
+        ></chat-component>
+        <participants-list
+          *ngIf="sidenavContent === 'participants'"
+          #participantsListComponent
+          (closeButtonClicked)="toggleNav('participants')"
+        ></participants-list>
       </mat-sidenav>
 
       <mat-sidenav-content class="sidenav-main">
+        <app-active-user-wrapper>
+          <app-toolbar
+            [lightTheme]="lightTheme"
+            [compact]="compact"
+            [mySessionId]="mySessionId"
+            [sessionTitle]="externalConfig.getSessionTitle() || mySessionId"
+            [ovSettings]="ovSettings"
+            [hasVideoDevices]="hasVideoDevices"
+            [hasAudioDevices]="hasAudioDevices"
+            [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"
+            [isWebcamAudioEnabled]="toolbarMicIconEnabled()"
+            [isScreenEnabled]="oVSessionService.isScreenShareEnabled()"
+            [isAutoLayout]="isAutoLayout"
+            [isConnectionLost]="isConnectionLost"
+            (camButtonClicked)="toggleCam()"
+            (micButtonClicked)="toggleMic()"
+            (screenShareClicked)="toggleScreenShare()"
+            (layoutButtonClicked)="toggleSpeakerLayout()"
+            (leaveSessionButtonClicked)="leaveSession(true)"
+            (participantsListButtonClicked)="toggleNav('participants')"
+            (chatButtonClicked)="toggleNav('chat')"
+          ></app-toolbar>
+        </app-active-user-wrapper>
         <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
           <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
             <!-- Only webcam video will be shown if webcamera is available -->
             <stream-component
-              [style.display]="!localUser.streamManager?.stream?.videoActive ? 'none' : 'block'"
               [user]="localUser"
               [videoSizeBig]="localUser.videoSizeBig"
               (nicknameClicked)="onNicknameUpdate($event)"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
-            <div class="no-video" [style.display]="!localUser.streamManager?.stream?.videoActive ? 'grid' : 'none'">
-              <span>{{ localUser.getNickname() }}</span>
+            <div
+              class="no-video"
+              [style.display]="!localUser.streamManager?.stream?.videoActive ? 'grid' : 'none'"
+              [style.background]="greyBackground(localUser.getNickname())"
+            >
+              <div class="no-video__image">
+                <user-avatar
+                  fontSize="50px"
+                  [name]="localUser.getNickname()"
+                  [avatar]="localUser.getAvatar()"
+                ></user-avatar>
+              </div>
             </div>
           </div>
 
           <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
             <stream-component
-              [style.display]="!user.streamManager?.stream?.videoActive ? 'none' : 'block'"
               [user]="user"
               [videoSizeBig]="user.videoSizeBig"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
-            <div class="no-video" [style.display]="!user.streamManager?.stream?.videoActive ? 'grid' : 'none'">
-              <span>{{ user.getNickname() }}</span>
+            <div
+              class="no-video"
+              [style.background]="greyBackground(user.getNickname())"
+              [style.display]="!user.streamManager?.stream?.videoActive ? 'grid' : 'none'"
+            >
+              <div class="no-video__image">
+                <user-avatar fontSize="50px" [name]="user.getNickname()" [avatar]="user.getAvatar()"></user-avatar>
+              </div>
             </div>
           </div>
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>
-
-    <app-footer [lightTheme]="lightTheme" [participants]="remoteUsers"></app-footer>
   </div>
 </div>

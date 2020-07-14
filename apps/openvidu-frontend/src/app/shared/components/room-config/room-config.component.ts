@@ -26,6 +26,8 @@ import { ScreenType } from '../../types/video-type';
 import { ExternalConfigModel } from '../../models/external-config';
 import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
 
 @Component({
   selector: 'app-room-config',
@@ -73,7 +75,8 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     public oVSessionService: OpenViduSessionService,
     private oVDevicesService: DevicesService,
     private loggerSrv: LoggerService,
-    private storageSrv: StorageService
+    private storageSrv: StorageService,
+    private dialog: MatDialog
   ) {
     this.log = this.loggerSrv.get('RoomConfigComponent');
   }
@@ -90,11 +93,57 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.setSessionName();
     await this.oVDevicesService.initDevices();
     this.setDevicesInfo();
+    await this.checkPermissions();
     this.initwebcamPublisher();
 
     // publisher.on('streamAudioVolumeChange', (event: any) => {
     //   this.volumeValue = Math.round(Math.abs(event.value.newValue));
     // });
+  }
+
+  async checkPermissions() {
+    let microphone;
+    let video;
+    try {
+      microphone = await navigator.permissions.query({ name: 'microphone' });
+      video = await navigator.permissions.query({ name: 'camera' });
+    } catch (error) {
+      microphone = {
+        state: atob(localStorage.getItem(btoa('audioAllowed'))) === '__true__' ? 'allowed' : 'prompt',
+      };
+      video = {
+        state: atob(localStorage.getItem(btoa('videoAllowed'))) === '__true__' ? 'allowed' : 'prompt',
+      };
+    }
+
+    const devices = await this.oVSessionService.getDevices();
+
+    const requestMicrophone = microphone.state === 'prompt' && devices.some(device => device.kind === 'audioinput');
+    const requestVideo = video.state === 'prompt' && devices.some(device => device.kind === 'videoinput');
+
+    if (requestMicrophone || requestVideo) {
+      await this.dialog
+        .open(DialogPermissionsComponent, {
+          data: {
+            requestAudio: requestMicrophone,
+            requestVideo: requestVideo,
+            redirectOnClose: this.externalConfig.getRedirectOnEnd(),
+          },
+        })
+        .afterClosed()
+        .toPromise();
+
+      try {
+        if (requestMicrophone) {
+          await navigator.mediaDevices.getUserMedia({ audio: true });
+          localStorage.setItem(btoa('audioAllowed'), btoa('__true__'));
+        }
+        if (requestVideo) {
+          await navigator.mediaDevices.getUserMedia({ video: true });
+          localStorage.setItem(btoa('videoAllowed'), btoa('__true__'));
+        }
+      } catch (error) {}
+    }
   }
 
   ngOnDestroy() {
@@ -369,12 +418,13 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     publisher.once('accessDenied', (e: any) => {
       let message: string;
       if (e.name === 'DEVICE_ACCESS_DENIED') {
-        message = 'Access to media devices was not allowed.';
+        message =
+          "Access to media devices was not allowed. \nKindly confirm that you have a microphone & a webcam installed, or check whether they are blocked in your browser's settings";
       }
       if (e.name === 'NO_INPUT_SOURCE_SET') {
         message = 'No video or audio devices have been found. Please, connect at least one.';
       }
-      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true);
+      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true, this.externalConfig.getRedirectOnEnd());
       this.log.e(e.message);
     });
   }
