@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { CallController } from '../controllers/call/call.controller';
-import { OpenviduService } from '../services/openvidu/openvidu.service';
-import { HttpClientService } from '../services/http-client/http-client.service';
+import { CallModule } from '../modules/call/call.module';
+import { SignalsModule } from '../modules/signals/signals.module';
 
 @Module({
-  imports: [],
-  controllers: [CallController],
-  providers: [OpenviduService, HttpClientService],
+  imports: [CallModule, SignalsModule],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

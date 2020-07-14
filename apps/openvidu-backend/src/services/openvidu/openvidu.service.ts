@@ -1,6 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { HttpClientService } from '../http-client/http-client.service';
-import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
+import {
+  CreateSessionResponse,
+  CreateTokenResponse,
+  DeleteSessionResponse,
+  SessionInfoResponse,
+  SessionsInfoResponse,
+} from '../../types';
 
 @Injectable()
 export class OpenviduService {
@@ -20,26 +26,22 @@ export class OpenviduService {
   public async deleteSession(sessionId: string): Promise<DeleteSessionResponse> {
     return await this.httpClientService.delete<DeleteSessionResponse>('/api/sessions/' + sessionId);
   }
-}
 
-export interface CreateSessionResponse {
-  id: string;
-  createdAt: string;
-}
+  public async getSessionInfo(sessionId: string): Promise<SessionInfoResponse> {
+    return await this.httpClientService.get<SessionInfoResponse>('/api/sessions/' + sessionId);
+  }
 
-export interface DeleteSessionResponse {}
+  public async getSessionsInfo(): Promise<SessionsInfoResponse> {
+    return await this.httpClientService.get('/api/sessions');
+  }
 
-export interface CreateTokenResponse {
-  id: string;
-  session: string;
-  role: OPENVIDU_ROLES;
-  data: string;
-  token: string;
-  kurentoOptions?: {
-    videoMaxRecvBandwidth: number;
-    videoMinRecvBandwidth: number;
-    videoMaxSendBandwidth: number;
-    videoMinSendBandwidth: number;
-    allowedFilters: Array<string>;
-  };
+  public async sendSignal<T>(sessionId: string, type: string, data?: T, to?: Array<string>) {
+    const body: string = JSON.stringify({
+      session: sessionId,
+      to,
+      type,
+      data: JSON.stringify(data),
+    });
+    return await this.httpClientService.post('/api/signal', body);
+  }
 }

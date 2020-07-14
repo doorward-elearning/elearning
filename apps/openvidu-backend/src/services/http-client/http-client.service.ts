@@ -31,4 +31,9 @@ export class HttpClientService {
     const { data } = await axios.delete<T>(url, this.options);
     return data;
   }
+
+  public async get<T>(url: string): Promise<T> {
+    const { data } = await axios.get<T>(url, this.options);
+    return data;
+  }
 }

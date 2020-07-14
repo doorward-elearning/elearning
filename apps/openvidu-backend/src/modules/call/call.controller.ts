@@ -49,4 +49,7 @@ export class CallController {
       CallController.handleError(error);
     }
   }
+
+  @Post()
+  async muteAllParticipants(): Promise<void> {}
 }
