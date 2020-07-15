@@ -6,6 +6,7 @@ import { ScreenType } from '../../types/video-type';
 import { AvatarType } from '../../types/chat-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
+import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
@@ -61,22 +62,24 @@ export class OpenViduSessionService {
     return this.screenSession;
   }
 
-  async connectWebcamSession(token: string): Promise<any> {
-    if (!!token) {
-      await this.webcamSession.connect(token, { clientData: this.getWebcamUserName(), avatar: this.getWebCamAvatar() });
+  async connectWebcamSession(token: string, role: OPENVIDU_ROLES): Promise<any> {
+    if (token) {
+      await this.webcamSession.connect(token, { name: this.getWebcamUserName(), avatar: this.getWebCamAvatar(), role });
+      this.setRole(role);
     }
   }
 
-  async connectScreenSession(token: string): Promise<any> {
-    if (!!token) {
-      await this.screenSession.connect(token, { clientData: this.getScreenUserName(), avatar: this.getWebCamAvatar() });
+  async connectScreenSession(token: string, role: OPENVIDU_ROLES): Promise<any> {
+    if (token) {
+      await this.screenSession.connect(token, { name: this.getScreenUserName(), avatar: this.getWebCamAvatar(), role });
+      this.setRole(role);
     }
   }
 
   async publishWebcam(): Promise<any> {
     if (this.webcamSession.capabilities.publish) {
       const publisher = <Publisher>this.webcamUser.getStreamManager();
-      if (!!publisher) {
+      if (publisher) {
         return await this.webcamSession.publish(publisher);
       }
     }
@@ -130,6 +133,10 @@ export class OpenViduSessionService {
 
     this.log.d('ENABLED SCREEN SHARE');
     this._OVUsers.next([this.screenUser]);
+  }
+
+  getUsers(): Observable<UserModel[]> {
+    return this.OVUsers;
   }
 
   disableScreenUser() {
@@ -324,6 +331,15 @@ export class OpenViduSessionService {
     this.webcamUser.setNickname(nickname);
   }
 
+  setRole(role: OPENVIDU_ROLES) {
+    if (this.webcamUser) {
+      this.webcamUser.setRole(role);
+    }
+    if (this.screenUser) {
+      this.screenUser.setRole(role);
+    }
+  }
+
   getWebCamAvatar(): string {
     return this.webcamUser.getAvatar();
   }
@@ -333,7 +349,7 @@ export class OpenViduSessionService {
   }
 
   getScreenUserName() {
-    return this.getWebcamUserName() + '_SCREEN';
+    return this.getWebcamUserName() + "'s screen";
   }
 
   resetUsersZoom() {
@@ -399,4 +415,6 @@ export class OpenViduSessionService {
       track.stop();
     });
   }
+
+  public subscribeToMute() {}
 }

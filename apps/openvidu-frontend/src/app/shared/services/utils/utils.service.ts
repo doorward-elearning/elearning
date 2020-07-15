@@ -75,7 +75,7 @@ export class UtilsService {
   }
 
   generateNickname(): string {
-    return 'OpenVidu_User' + Math.floor(Math.random() * 100);
+    return 'Doorward ' + Math.floor(Math.random() * 100) + '_User';
   }
 
   isFF(): boolean {

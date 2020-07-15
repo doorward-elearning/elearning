@@ -69,8 +69,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.ovSettings.getLogo()) {
-      this.logoUrl = this.ovSettings.getLogo();
+    if (this.ovSettings.logoUrl) {
+      this.logoUrl = this.ovSettings.logoUrl;
     }
 
     this.remoteUserService.getRemoteUsers().subscribe(users => {

@@ -19,7 +19,6 @@ import { OvSettingsModel } from '../shared/models/ovSettings';
 import { ScreenType } from '../shared/types/video-type';
 import { ILogger } from '../shared/types/logger-type';
 import { LayoutType } from '../shared/types/layout-type';
-import { Theme } from '../shared/types/webcomponent-config';
 import { ExternalConfigModel } from '../shared/models/external-config';
 // Services
 import { DevicesService } from '../shared/services/devices/devices.service';
@@ -34,6 +33,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
 import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
+import { SignalsService } from '../shared/services/signals/signals.service';
+import { OPENVIDU_ROLES, OpenviduTheme } from '@doorward/common/types/openvidu';
 
 @Component({
   selector: 'app-video-room',
@@ -86,7 +87,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     private oVDevicesService: DevicesService,
     private loggerSrv: LoggerService,
     private chatService: ChatService,
-    private matDialog: MatDialog
+    private matDialog: MatDialog,
+    private signalService: SignalsService
   ) {
     this.log = this.loggerSrv.get('VideoRoomComponent');
   }
@@ -106,18 +108,19 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const defaultConfig = new ExternalConfigModel();
-    defaultConfig.setNickname('test user');
-    defaultConfig.setSessionName('test-meeting');
-    if (Math.random() * 1000 > 1000) {
-      defaultConfig.setAvatar(
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-      );
+    defaultConfig.nickname = this.utilsSrv.generateNickname();
+    defaultConfig.sessionId = 'test-meeting';
+    defaultConfig.role = this.utilsSrv.isFF() ? OPENVIDU_ROLES.PUBLISHER : OPENVIDU_ROLES.MODERATOR;
+    if (Math.random() * 1000 > 500) {
+      defaultConfig.avatar =
+        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
     }
     this.externalConfig = this.externalConfig || defaultConfig;
-    this.lightTheme = this.externalConfig?.getTheme() === Theme.LIGHT;
-    this.ovSettings = this.externalConfig ? this.externalConfig.getOvSettings() : new OvSettingsModel();
+    this.lightTheme = this.externalConfig.theme === OpenviduTheme.LIGHT;
+    this.ovSettings = this.externalConfig.ovSettings || new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
-    this.oVSessionService.setWebcamAvatar(this.externalConfig.getAvatar());
+    this.oVSessionService.setWebcamAvatar(this.externalConfig.avatar);
+    this.networkSrv.setBaseUrl(this.externalConfig.ovServerApiUrl);
     if (!this.showConfigRoomCard) {
       this.onConfigRoomJoin();
     }
@@ -175,6 +178,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.subscribeToChatComponent();
     this.subscribeToReconnection();
     this.connectToSession();
+    this.signalService.subscribeAll();
   }
 
   leaveSession(showDialog = false) {
@@ -355,20 +359,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private async connectToSession(): Promise<void> {
-    let webcamToken: string;
     let screenToken: string;
-    // Webcomponent or Angular Library
-    if (this.externalConfig) {
-      if (this.externalConfig.hasTokens()) {
-        this.log.d('Received external tokens from ' + this.externalConfig.getComponentName());
-        webcamToken = this.externalConfig.getWebcamToken();
-        // Only connect screen if screen sharing feature is available
-        screenToken = this.ovSettings?.hasScreenSharing() ? this.externalConfig.getScreenToken() : undefined;
-      }
-    }
-
-    webcamToken = webcamToken ? webcamToken : await this.getToken();
-    // Only get screentoken if screen sharing feature is available
+    const webcamToken = await this.getToken();
     if (!screenToken && this.ovSettings?.hasScreenSharing()) {
       screenToken = await this.getToken();
     }
@@ -393,14 +385,14 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private async connectBothSessions(webcamToken: string, screenToken: string) {
     try {
-      await this.oVSessionService.connectWebcamSession(webcamToken);
-      await this.oVSessionService.connectScreenSession(screenToken);
+      await this.oVSessionService.connectWebcamSession(webcamToken, this.externalConfig.role);
+      await this.oVSessionService.connectScreenSession(screenToken, this.externalConfig.role);
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
         this.localUsers[0].getStreamManager().videos[0].video.parentElement.classList.remove('custom-class');
       });
     } catch (error) {
-      this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
+      this._error.emit({ error: error.error, message: error.message, code: error.code, status: error.status });
       this.log.e('There was an error connecting to the session:', error.code, error.message);
       this.utilsSrv.showErrorMessage('There was an error connecting to the session:', error?.error || error?.message);
     }
@@ -457,7 +449,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToSpeachDetection() {
-    this.log.d('Subscribe to speach detection', this.session);
+    this.log.d('Subscribe to speech detection', this.session);
     // Has been mandatory change the user zoom property here because of
     // zoom icons and cannot handle publisherStartSpeaking event in other component
     this.session.on('publisherStartSpeaking', (event: PublisherSpeakingEvent) => {
@@ -520,7 +512,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   private async getToken(): Promise<string> {
     this.log.d('Generating tokens...', this.mySessionId);
     try {
-      return await this.networkSrv.getToken(this.mySessionId, this.externalConfig?.getOvServerApiUrl());
+      return await this.networkSrv.getToken(this.mySessionId, this.externalConfig.role);
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
       this.log.e('There was an error getting the token:', error.status, error.message);
@@ -573,5 +565,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     const colors = greys;
     const index = Tools.hashCode(user);
     return colors[index % colors.length];
+  }
+
+  muteAllParticipants() {
+    this.networkSrv.muteAllParticipants(this.mySessionId, false);
   }
 }

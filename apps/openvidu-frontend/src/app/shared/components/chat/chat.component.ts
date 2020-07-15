@@ -67,7 +67,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   sendMessage(): void {
     this.chatService.sendMessage(this.message);
-    // this.message = '';
+    this.message = '';
   }
 
   scrollToBottom(): void {

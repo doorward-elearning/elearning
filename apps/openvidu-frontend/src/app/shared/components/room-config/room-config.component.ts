@@ -127,7 +127,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
           data: {
             requestAudio: requestMicrophone,
             requestVideo: requestVideo,
-            redirectOnClose: this.externalConfig.getRedirectOnEnd(),
+            redirectOnClose: this.externalConfig.redirectOnEnd,
           },
         })
         .afterClosed()
@@ -142,7 +142,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
           await navigator.mediaDevices.getUserMedia({ video: true });
           localStorage.setItem(btoa('videoAllowed'), btoa('__true__'));
         }
-      } catch (error) {}
+      } catch (error) {
+        console.log(error);
+      }
     }
   }
 
@@ -152,7 +154,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
   async onCameraSelected(event: any) {
     const videoSource = event?.value;
-    if (!!videoSource) {
+    if (videoSource) {
       // Is New deviceId different from the old one?
       if (this.oVDevicesService.needUpdateVideoTrack(videoSource)) {
         const mirror = this.oVDevicesService.cameraNeedsMirror(videoSource);
@@ -173,7 +175,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   async onMicrophoneSelected(event: any) {
     const audioSource = event?.value;
 
-    if (!!audioSource) {
+    if (audioSource) {
       // Is New deviceId different than older?
       if (this.oVDevicesService.needUpdateAudioTrack(audioSource)) {
         console.log(this.camSelected);
@@ -244,7 +246,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
   setNicknameForm() {
     if (this.externalConfig) {
-      this.nicknameFormControl.setValue(this.externalConfig.getNickname());
+      this.nicknameFormControl.setValue(this.externalConfig.nickname);
       return;
     }
     const nickname = this.storageSrv.get(this.USER_NICKNAME) || this.utilsSrv.generateNickname();
@@ -320,7 +322,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
   private setSessionName() {
     this.route.params.subscribe((params: Params) => {
-      this.mySessionId = this.externalConfig ? this.externalConfig.getSessionName() : params.roomName;
+      this.mySessionId = this.externalConfig ? this.externalConfig.sessionId : params.roomName;
       this.oVSessionService.setSessionId(this.mySessionId);
     });
   }
@@ -334,7 +336,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private scrollToBottom(): void {
     try {
       this.bodyCard.nativeElement.scrollTop = this.bodyCard.nativeElement.scrollHeight;
-    } catch (err) {}
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   private initScreenPublisher(): Publisher {
@@ -406,7 +410,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       // Emit publisher to webcomponent and angular-library
       this.emitPublisher(publisher);
 
-      if (this.ovSettings.isAutoPublish()) {
+      if (this.ovSettings.autopublish) {
         this.joinSession();
         return;
       }
@@ -424,7 +428,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       if (e.name === 'NO_INPUT_SOURCE_SET') {
         message = 'No video or audio devices have been found. Please, connect at least one.';
       }
-      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true, this.externalConfig.getRedirectOnEnd());
+      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true, this.externalConfig.redirectOnEnd);
       this.log.e(e.message);
     });
   }

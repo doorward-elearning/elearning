@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { UserModel } from '../../models/user-model';
-import { StreamEvent, Subscriber } from 'openvidu-browser';
+import { ConnectionEvent, StreamEvent, Subscriber } from 'openvidu-browser';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 
@@ -29,20 +29,26 @@ export class RemoteUsersService {
     return this.remoteUsers;
   }
 
-  add(event: StreamEvent, subscriber: Subscriber) {
+  private addUser(connectionId: string, data?: string, subscriber?: Subscriber) {
     let nickname = '';
     let avatar = '';
-    const connectionId = event.stream.connection.connectionId;
+    let role;
     try {
-      nickname = JSON.parse(event.stream.connection.data)?.clientData;
-      avatar = JSON.parse(event.stream.connection.data)?.avatar;
+      const info = JSON.parse(data);
+      nickname = info?.name;
+      avatar = info?.avatar;
+      role = info?.role;
     } catch (error) {
       nickname = 'Unknown';
     }
-    const newUser = new UserModel(connectionId, subscriber, nickname);
+    const newUser = new UserModel(connectionId, subscriber, nickname, role);
     newUser.setUserAvatar(avatar);
     this.users.push(newUser);
     this.updateUsers();
+  }
+
+  add(event: StreamEvent, subscriber: Subscriber) {
+    this.addUser(event.stream.connection.connectionId, event.stream.connection.data, subscriber);
   }
 
   removeUserByConnectionId(connectionId: string) {

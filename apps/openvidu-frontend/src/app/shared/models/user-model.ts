@@ -1,5 +1,6 @@
-import { StreamManager, Publisher } from 'openvidu-browser';
+import { Publisher, StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
+import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 /**
  * Packs all the information about the user
@@ -14,6 +15,11 @@ export class UserModel {
    * The user nickname
    */
   nickname: string;
+
+  /**
+   * The users role
+   */
+  role: OPENVIDU_ROLES;
 
   /**
    * StreamManager object ([[Publisher]] or [[Subscriber]])
@@ -38,10 +44,11 @@ export class UserModel {
   /**
    * @hidden
    */
-  constructor(connectionId?: string, streamManager?: StreamManager, nickname?: string) {
+  constructor(connectionId?: string, streamManager?: StreamManager, nickname?: string, role?: OPENVIDU_ROLES) {
     this.connectionId = connectionId || '';
     this.nickname = nickname || '---';
     this.streamManager = streamManager || null;
+    this.role = role;
   }
 
   /**
@@ -107,7 +114,10 @@ export class UserModel {
    */
   public isScreen(): boolean {
     // console.log("isScreen");
-    return (<Publisher>this.streamManager)?.stream?.typeOfVideo === VideoType.SCREEN;
+    return (
+      (<Publisher>this.streamManager)?.stream?.typeOfVideo === VideoType.SCREEN ||
+      (this.streamManager as Subscriber)?.stream?.typeOfVideo === VideoType.SCREEN
+    );
   }
 
   /**
@@ -156,5 +166,25 @@ export class UserModel {
 
   public removeVideoAvatar() {
     this.videoAvatar = null;
+  }
+
+  public getRole() {
+    return this.role;
+  }
+
+  public setRole(role: OPENVIDU_ROLES) {
+    this.role = role;
+  }
+
+  public isModerator(): boolean {
+    return this.role === OPENVIDU_ROLES.MODERATOR;
+  }
+
+  public isSubscriber(): boolean {
+    return this.role === OPENVIDU_ROLES.SUBSCRIBER;
+  }
+
+  public isPublisher() {
+    return this.role === OPENVIDU_ROLES.PUBLISHER;
   }
 }

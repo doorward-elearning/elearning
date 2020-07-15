@@ -21,7 +21,7 @@
         fixedInViewport="true"
         fixedTopGap="0"
         fixedBottomGap="0"
-        *ngIf="ovSettings | hasChat"
+        *ngIf="ovSettings?.chat"
       >
         <chat-component
           (closeButtonClicked)="toggleNav('chat')"
@@ -31,6 +31,7 @@
         ></chat-component>
         <participants-list
           *ngIf="sidenavContent === 'participants'"
+          (muteAllButtonClicked)="muteAllParticipants()"
           #participantsListComponent
           (closeButtonClicked)="toggleNav('participants')"
         ></participants-list>
@@ -42,7 +43,7 @@
             [lightTheme]="lightTheme"
             [compact]="compact"
             [mySessionId]="mySessionId"
-            [sessionTitle]="externalConfig.getSessionTitle() || mySessionId"
+            [sessionTitle]="externalConfig.sessionTitle || mySessionId"
             [ovSettings]="ovSettings"
             [hasVideoDevices]="hasVideoDevices"
             [hasAudioDevices]="hasAudioDevices"

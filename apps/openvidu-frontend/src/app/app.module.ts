@@ -68,6 +68,7 @@ import { DialogPermissionsComponent } from './shared/components/dialog-permissio
 import { ParticipantsListComponent } from './shared/components/participants-list/participants-list.component';
 import { ActiveUserWrapperComponent } from './shared/components/active-user-wrapper/active-user-wrapper.component';
 import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar.component';
+import { SignalsService } from './shared/services/signals/signals.service';
 
 @NgModule({
   declarations: [
@@ -136,6 +137,7 @@ import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar
     ChatService,
     NotificationService,
     StorageService,
+    SignalsService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
   ],
   bootstrap: [AppComponent],

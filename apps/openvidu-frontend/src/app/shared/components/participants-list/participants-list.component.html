@@ -4,7 +4,10 @@
       <h2>
         Participants
       </h2>
-      <mat-icon matBadge="{{ remoteUsers?.length }}" matBadgePosition="above before" matBadgeColor="accent"
+      <mat-icon
+        matBadge="{{ remoteUsers?.length + localUsers?.length }}"
+        matBadgePosition="above before"
+        matBadgeColor="accent"
         >people</mat-icon
       >
     </div>
@@ -12,15 +15,30 @@
   </div>
   <div class="header meeting-info">
     <div>Currently in this meeting</div>
-    <span>Mute all</span>
+    <span (click)="muteAll()" *ngIf="localUsers[0]?.isModerator()">Mute all</span>
   </div>
   <div class="users-list">
+    <div *ngFor="let remoteUser of localUsers" class="user">
+      <div class="avatar">
+        <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
+      </div>
+      <div class="name">
+        <h4>
+          {{ remoteUser.getNickname() }}
+        </h4>
+        <span *ngIf="remoteUser.isModerator()">Moderator</span>
+      </div>
+      <div class="status"></div>
+    </div>
     <div *ngFor="let remoteUser of remoteUsers" class="user">
       <div class="avatar">
         <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
       </div>
       <div class="name">
-        {{ remoteUser.getNickname() }}
+        <h4>
+          {{ remoteUser.getNickname() }}
+        </h4>
+        <span *ngIf="remoteUser.isModerator()">Moderator</span>
       </div>
       <div class="status"></div>
     </div>

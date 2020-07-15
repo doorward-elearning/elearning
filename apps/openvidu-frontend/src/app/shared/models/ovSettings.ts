@@ -1,64 +1,53 @@
-import { OvSettings } from '../types/ov-settings';
+import { OvSettings } from '@doorward/common/types/openvidu';
+import _ from 'lodash';
 
-export class OvSettingsModel {
-  private ovSettings: OvSettings;
+export class OvSettingsModel implements OvSettings {
+  chat = true;
+  autopublish = true;
+  logoUrl = '';
+  toolbarButtons = {
+    video: true,
+    audio: true,
+    fullscreen: true,
+    screenShare: true,
+    layoutSpeaking: true,
+    exit: true,
+  };
 
-  constructor() {
-    this.ovSettings = {
-      chat: true,
-      autopublish: true,
-      logoUrl: '',
-      toolbarButtons: {
-        video: true,
-        audio: true,
-        fullscreen: true,
-        screenShare: true,
-        layoutSpeaking: true,
-        exit: true,
-      },
-    };
-  }
-
-  public set(ovSettings: OvSettings) {
-    this.ovSettings = ovSettings;
-  }
-
-  public isAutoPublish(): boolean {
-    return this.ovSettings.autopublish;
+  public set(settings?: OvSettings) {
+    if (settings) {
+      this.chat = settings.chat === undefined ? this.chat : settings.chat;
+      this.autopublish = settings.autopublish === undefined ? this.autopublish : settings.autopublish;
+      this.logoUrl = settings.logoUrl || this.logoUrl;
+      this.toolbarButtons = _.merge({}, this.toolbarButtons, _.pickBy(settings.toolbarButtons || {}, _.identity));
+    }
   }
 
   public hasVideo(): boolean {
-    return this.ovSettings.toolbarButtons.video;
+    return this.toolbarButtons.video;
   }
 
   public hasScreenSharing(): boolean {
-    return this.ovSettings.toolbarButtons.screenShare;
+    return this.toolbarButtons.screenShare;
   }
 
   public hasLayoutSpeaking(): boolean {
-    return this.ovSettings.toolbarButtons.layoutSpeaking;
+    return this.toolbarButtons.layoutSpeaking;
   }
 
   public hasFullscreen(): boolean {
-    return this.ovSettings.toolbarButtons.fullscreen;
+    return this.toolbarButtons.fullscreen;
   }
 
   public hasAudio(): boolean {
-    return this.ovSettings.toolbarButtons.audio;
+    return this.toolbarButtons.audio;
   }
 
-  public hasChat(): boolean {
-    return this.ovSettings.chat;
-  }
   public hasExit(): boolean {
-    return this.ovSettings.toolbarButtons.exit;
+    return this.toolbarButtons.exit;
   }
 
   public setScreenSharing(screenShare: boolean) {
-    this.ovSettings.toolbarButtons.screenShare = screenShare;
-  }
-
-  public getLogo(): string {
-    return this.ovSettings.logoUrl;
+    this.toolbarButtons.screenShare = screenShare;
   }
 }

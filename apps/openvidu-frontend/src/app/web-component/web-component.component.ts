@@ -5,7 +5,7 @@ import { WebComponentModel } from '../shared/models/webcomponent-model';
 import { LoggerService } from '../shared/services/logger/logger.service';
 import { ILogger } from '../shared/types/logger-type';
 import { ConnectionEvent, Publisher } from 'openvidu-browser';
-import { ISessionConfig } from '../shared/types/webcomponent-config';
+import { OpenviduWebComponentConfig } from '@doorward/common/types/openvidu';
 
 @Component({
   selector: 'app-web-component',
@@ -25,7 +25,6 @@ import { ISessionConfig } from '../shared/types/webcomponent-config';
   styleUrls: ['./web-component.component.css'],
 })
 export class WebComponentComponent {
-  @Input() ovSettings: OvSettings;
   @Output() sessionCreated = new EventEmitter<any>();
   @Output() publisherCreated = new EventEmitter<any>();
   @Output() error = new EventEmitter<any>();
@@ -46,8 +45,10 @@ export class WebComponentComponent {
     this.log = this.loggerSrv.get('WebComponentComponent');
   }
 
-  @Input('sessionconfig')
-  set sessionConfig(config: string | ISessionConfig | Record<string, any>) {
+  @Input('config')
+  set sessionConfig(key) {
+    let config: any = localStorage.getItem(key);
+    localStorage.removeItem(key);
     this.log.d('Webcomponent sessionConfig: ', config);
     if (typeof config === 'string') {
       try {
@@ -65,28 +66,8 @@ export class WebComponentComponent {
       return;
     }
 
-    this.webComponent.setSessionConfig(config);
+    this.webComponent.setSessionConfig(config as OpenviduWebComponentConfig);
     this.display = this.webComponent.canJoinToSession();
-  }
-
-  @Input()
-  set theme(theme: string) {
-    this.webComponent.setTheme(theme);
-  }
-
-  @Input('openviduserverurl')
-  set openviduServerUrl(url: string) {
-    this.webComponent.setOvServerUrl(url);
-  }
-
-  @Input('openviduserverapiurl')
-  set openviduServerApiUrl(url: string) {
-    this.webComponent.setOvServerApiUrl(url);
-  }
-
-  @Input('openvidusecret')
-  set openviduSecret(secret: string) {
-    this.webComponent.setOvSecret(secret);
   }
 
   emitErrorEvent(event) {

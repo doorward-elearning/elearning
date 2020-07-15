@@ -1,4 +1,8 @@
-import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
+export enum OPENVIDU_ROLES {
+  PUBLISHER = 'PUBLISHER',
+  SUBSCRIBER = 'SUBSCRIBER',
+  MODERATOR = 'MODERATOR',
+}
 
 export interface CreateSessionResponse {
   id: string;

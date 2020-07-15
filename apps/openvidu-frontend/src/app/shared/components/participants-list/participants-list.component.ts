@@ -1,6 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
+import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
 
 @Component({
   selector: 'participants-list',
@@ -9,17 +10,27 @@ import { UserModel } from '../../models/user-model';
 })
 export class ParticipantsListComponent implements OnInit {
   remoteUsers: UserModel[];
-  constructor(private remoteUserService: RemoteUsersService) {}
+  localUsers: UserModel[];
+  constructor(private remoteUserService: RemoteUsersService, private openviduSessionService: OpenViduSessionService) {}
 
-  @Output() closeButtonClicked= new EventEmitter<any>();
+  @Output() closeButtonClicked = new EventEmitter<any>();
+  @Output() muteAllButtonClicked = new EventEmitter<any>();
 
   ngOnInit(): void {
     this.remoteUserService.getRemoteUsers().subscribe(next => {
-      this.remoteUsers = next;
+      this.remoteUsers = next.filter(user => !user.isScreen());
+    });
+
+    this.openviduSessionService.getUsers().subscribe(next => {
+      this.localUsers = next.filter(user => !user.isScreen());
     });
   }
 
   close(): void {
     this.closeButtonClicked.emit();
+  }
+
+  muteAll(): void {
+    this.muteAllButtonClicked.emit();
   }
 }

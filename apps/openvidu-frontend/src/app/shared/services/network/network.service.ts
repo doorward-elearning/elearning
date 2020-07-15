@@ -1,28 +1,30 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError as observableThrowError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { CreateTokenResponse } from '../../../../../../openvidu-backend/src/services/openvidu/openvidu.service';
-import { AxiosResponse } from 'axios';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { CreateTokenResponse } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NetworkService {
   private log: ILogger;
+  private baseUrl: string;
 
   constructor(private http: HttpClient, private loggerSrv: LoggerService) {
     this.log = this.loggerSrv.get('NetworkService');
   }
 
-  async getToken(sessionId: string, openviduServerApiUrl?: string): Promise<string> {
+  setBaseUrl(url: string) {
+    this.baseUrl = url;
+  }
+
+  async getToken(sessionId: string, role: string): Promise<string> {
     try {
       this.log.d('Getting token from backend');
       const response = await this.http
-        .post<ApiResponse<CreateTokenResponse>>(openviduServerApiUrl + 'call', { sessionId })
+        .post<ApiResponse<CreateTokenResponse>>(this.baseUrl + 'call', { sessionId, role })
         .toPromise();
 
       return response.data.token;
@@ -32,5 +34,9 @@ export class NetworkService {
       }
       throw error;
     }
+  }
+
+  async muteAllParticipants(sessionId: string, permanent = false) {
+    return this.http.post(this.baseUrl + 'signals/audio/mute-all', { sessionId, permanent }).toPromise();
   }
 }
