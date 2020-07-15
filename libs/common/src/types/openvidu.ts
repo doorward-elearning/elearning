@@ -9,6 +9,13 @@ export interface CreateSessionResponse {
   createdAt: string;
 }
 
+export interface CreateTokenBody {
+  session: string;
+  role: OPENVIDU_ROLES;
+  data?: string;
+  kurentoOptions?: KurentoOptions;
+}
+
 export interface DeleteSessionResponse {}
 
 export interface Subscriber {
@@ -61,17 +68,45 @@ export interface SessionsInfoResponse {
   content: Array<SessionInfoResponse>;
 }
 
-export interface CreateTokenResponse<T = any> {
+export interface KurentoOptions {
+  videoMaxRecvBandwidth: number;
+  videoMinRecvBandwidth: number;
+  videoMaxSendBandwidth: number;
+  videoMinSendBandwidth: number;
+  allowedFilters: Array<string>;
+}
+
+export interface CreateTokenResponse extends CreateTokenBody {
   id: string;
-  session: string;
-  role: OPENVIDU_ROLES;
-  data: T;
   token: string;
-  kurentoOptions?: {
-    videoMaxRecvBandwidth: number;
-    videoMinRecvBandwidth: number;
-    videoMaxSendBandwidth: number;
-    videoMinSendBandwidth: number;
-    allowedFilters: Array<string>;
+}
+
+export enum OpenviduTheme {
+  DARK = 'dark',
+  LIGHT = 'light',
+}
+export interface OvSettings {
+  chat: boolean;
+  autopublish: boolean;
+  logoUrl: string;
+  toolbarButtons: {
+    audio: boolean;
+    video: boolean;
+    screenShare: boolean;
+    fullscreen: boolean;
+    layoutSpeaking: boolean;
+    exit: boolean;
   };
+}
+
+export interface OpenviduWebComponentConfig {
+  ovSettings: OvSettings;
+  sessionId: string;
+  sessionTitle: string;
+  avatar: string;
+  ovServerApiUrl: string;
+  redirectOnEnd: string;
+  theme: OpenviduTheme;
+  nickname: string;
+  role: OPENVIDU_ROLES;
 }

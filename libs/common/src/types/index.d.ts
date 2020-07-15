@@ -15,3 +15,6 @@ export type ReturnValue<T> = T extends (...args: any[]) => infer U ? U : T;
 export type FunctionComponentWithType<T> = T extends React.FunctionComponent<infer U> ? React.FunctionComponent<U> : T;
 
 export type OptionalKeys<T extends {}> = { [name in keyof T]?: T[name] };
+
+export type OptionalKeysExcept<T extends {}, K extends keyof T = {}> = Pick<T, K> &
+  { [name in keyof Omit<T, K>]?: T[name] };

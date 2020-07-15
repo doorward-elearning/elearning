@@ -1,4 +1,6 @@
 import React from 'react';
+import { OpenviduWebComponentConfig } from '@doorward/common/types/openvidu';
+import { OptionalKeysExcept } from '@doorward/common/types';
 
 class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   component: any;
@@ -62,67 +64,45 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     if (this.props.onSessionCreated) {
       this.props.onSessionCreated();
     }
-    console.log('OpenviduWebComponent', 'onSessionCreated');
+    console.log('OpenviduWebComponentConfig', 'onSessionCreated');
   };
 
   onPublisherCreated = () => {
     if (this.props.onPublisherCreated) {
       this.props.onPublisherCreated();
     }
-    console.log('OpenviduWebComponent', 'onPublisherCreated');
+    console.log('OpenviduWebComponentConfig', 'onPublisherCreated');
   };
 
   onSessionError = () => {
     if (this.props.onError) {
       this.props.onError();
     }
-    console.log('OpenviduWebComponent', 'onError');
+    console.log('OpenviduWebComponentConfig', 'onError');
   };
 
   onLeftSession = () => {
     if (this.props.onLeftSession) {
       this.props.onLeftSession();
     }
-    console.log('OpenviduWebComponent', 'onLeftSession');
+    console.log('OpenviduWebComponentConfig', 'onLeftSession');
   };
 
   onJoinedSession = () => {
     if (this.props.onJoinedSession) {
       this.props.onJoinedSession();
     }
-    console.log('OpenviduWebComponent', 'onJoinedSession');
+    console.log('OpenviduWebComponentConfig', 'onJoinedSession');
   };
 
   render(): JSX.Element {
-    const { sessionId, sessionName, user, logoUrl, avatar, tokens, chat, autoPublish, toolbarButtons } = this.props;
-    const sessionConfig: SessionConfig = {
-      sessionName: sessionId,
-      sessionTitle: sessionName,
-      user,
-      avatar,
-      tokens,
-      ovSettings: {
-        chat: !!chat,
-        logoUrl: logoUrl || '',
-        autopublish: !!autoPublish,
-        toolbarButtons: {
-          audio: true,
-          video: true,
-          fullscreen: true,
-          layoutSpeaking: true,
-          exit: true,
-          ...(toolbarButtons || {}),
-          screenShare: true,
-        },
-      },
-    };
+    // save an encryption key to the localstorage
+    localStorage.setItem('openvidu-webcomponent', JSON.stringify(this.props.config));
     return (
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       <openvidu-webcomponent
-        sessionConfig={JSON.stringify(sessionConfig)}
-        theme={this.props.theme}
-        openviduServerApiUrl={this.props.openviduServerApiURL}
+        config="openvidu-webcomponent"
         ref={component => {
           this.component = component;
         }}
@@ -130,55 +110,18 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     );
   }
 }
-export interface SessionConfig {
-  sessionName: string;
-  sessionTitle: string;
-  user: string;
-  tokens: string[];
-  avatar: string;
-  ovSettings: {
-    logoUrl: string;
-    chat: boolean;
-    autopublish: boolean;
-    toolbarButtons: {
-      audio: boolean;
-      video: boolean;
-      screenShare: boolean;
-      fullscreen: boolean;
-      layoutSpeaking: boolean;
-      exit: boolean;
-    };
-  };
-}
 
-export enum OpenviduToolbarButtons {
-  AUDIO = 'audio',
-  VIDEO = 'video',
-  SCREEN_SHARE = 'screenShare',
-  FULL_SCREEN = 'fullScreen',
-  LAYOUT_SPEAKING = 'layoutSpeaking',
-  EXIT = 'exit',
-}
+type Config = OptionalKeysExcept<OpenviduWebComponentConfig, 'ovServerApiUrl' | 'sessionId'>;
 
 export interface OpenviduWebComponentProps {
   scriptUrl: string;
   stylesUrl: string;
-  sessionId: string;
-  sessionName: string;
-  user: string;
+  config: Config;
   onSessionCreated?: () => void;
   onPublisherCreated?: () => void;
   onError?: () => void;
   onLeftSession?: () => void;
   onJoinedSession?: () => void;
-  theme?: string;
-  openviduServerApiURL?: string;
-  tokens?: string[];
-  chat?: boolean;
-  autoPublish?: boolean;
-  toolbarButtons?: Record<OpenviduToolbarButtons, boolean>;
-  logoUrl?: string;
-  avatar?: string;
 }
 
 export default OpenviduWebComponent;

@@ -2,11 +2,13 @@ import { Injectable } from '@nestjs/common';
 import { HttpClientService } from '../http-client/http-client.service';
 import {
   CreateSessionResponse,
+  CreateTokenBody,
   CreateTokenResponse,
   DeleteSessionResponse,
+  OPENVIDU_ROLES,
   SessionInfoResponse,
   SessionsInfoResponse,
-} from '../../types';
+} from '@doorward/common/types/openvidu';
 
 @Injectable()
 export class OpenviduService {
@@ -17,8 +19,8 @@ export class OpenviduService {
     return await this.httpClientService.post<CreateSessionResponse>('/api/sessions', body);
   }
 
-  public async createToken(sessionId: string): Promise<CreateTokenResponse> {
-    const body: string = JSON.stringify({ session: sessionId });
+  public async createToken(data: CreateTokenBody): Promise<CreateTokenResponse> {
+    const body: string = JSON.stringify(data);
 
     return await this.httpClientService.post<CreateTokenResponse>('/api/tokens', body);
   }

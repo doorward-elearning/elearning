@@ -1,6 +1,7 @@
 import { Body, Controller, Delete, HttpException, HttpStatus, Post } from '@nestjs/common';
-import { CreateTokenResponse, DeleteSessionResponse, OpenviduService } from '../../services/openvidu/openvidu.service';
 import { AxiosError } from 'axios';
+import { OpenviduService } from '../../services/openvidu/openvidu.service';
+import { CreateTokenResponse, DeleteSessionResponse, OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 @Controller('call')
 export class CallController {
@@ -24,7 +25,10 @@ export class CallController {
   }
 
   @Post()
-  async createSession(@Body('sessionId') sessionId: string): Promise<CreateTokenResponse> {
+  async createSession(
+    @Body('sessionId') sessionId: string,
+    @Body('role') role: OPENVIDU_ROLES
+  ): Promise<CreateTokenResponse> {
     let id = sessionId;
     try {
       const response = await this.openviduService.createSession(sessionId);
@@ -35,7 +39,10 @@ export class CallController {
       }
     }
     try {
-      return this.openviduService.createToken(id);
+      return this.openviduService.createToken({
+        session: id,
+        role,
+      });
     } catch (error) {
       CallController.handleError(error);
     }

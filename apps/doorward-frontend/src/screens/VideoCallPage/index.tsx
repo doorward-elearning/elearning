@@ -27,13 +27,13 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
         <OpenviduWebComponent
           scriptUrl="assets/js/openvidu-webcomponent.js"
           stylesUrl="assets/css/openvidu-webcomponent.css"
-          openviduServerApiURL={process.env.OPENVIDU_API_URL}
-          user={auth.authenticated ? auth.user.fullName : 'Anonymous'}
-          autoPublish
-          chat
-          sessionId={videoCallState.data.meeting.sessionId}
-          sessionName={videoCallState.data.meeting.meetingRoom.title}
-          avatar="https://www.google.com/url?sa=i&url=https%3A%2F%2Fwidgetwhats.com%2F2019%2F11%2F06%2Ffree-agent-profile-photo%2F&psig=AOvVaw2cKReuMyayagKW_HKTkDBO&ust=1594480379649000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIDo97j8wuoCFQAAAAAdAAAAABAD"
+          config={{
+            ovServerApiUrl: process.env.OPENVIDU_API_URL,
+            sessionId: videoCallState.data.meeting.sessionId,
+            sessionTitle: videoCallState.data.meeting.meetingRoom.title,
+            nickname: auth.authenticated ? auth.user.fullName : 'Participant',
+            avatar: 'https://pbs.twimg.com/profile_images/1197241648926937089/oahb2HSm_400x400.jpg',
+          }}
         />
       </div>
     );
