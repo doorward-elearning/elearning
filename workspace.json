@@ -489,7 +489,7 @@
             "tsConfig": "apps/openvidu-frontend/tsconfig.app.json",
             "aot": true,
             "assets": ["apps/openvidu-frontend/src/favicon.ico", "apps/openvidu-frontend/src/assets"],
-            "styles": ["apps/openvidu-frontend/src/styles.scss"],
+            "styles": ["apps/openvidu-frontend/src/styles.css"],
             "scripts": []
           },
           "configurations": {

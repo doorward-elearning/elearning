@@ -1,6 +1,6 @@
 #videoRoomNavBar {
   min-width: 400px;
-  background-color: #494949;
+  background-color: var(--bg-primary);
   height: 100%;
 }
 
@@ -29,13 +29,13 @@
   align-items: center;
   justify-content: center;
   width: 450px;
-  background-color: #494949;
+  background-color: var(--bg-secondary);
   border-left: none;
   position: absolute;
 }
 
 .mat-drawer-container {
-  background-color: #494949;
+  background-color: var(--bg-secondary);
 }
 
 .sidenav-main {
@@ -46,7 +46,7 @@
 }
 
 .bounds {
-  background-color: #494949;
+  background-color: var(--bg-primary);
   position: absolute;
   left: 0;
   right: 0;
@@ -54,10 +54,6 @@
   bottom: 0;
   min-width: 400px !important;
   width: inherit;
-}
-
-.boundsLight {
-  background-color: #dfdfdf !important;
 }
 
 /*!
@@ -77,7 +73,7 @@
 /* Root OT object, this is where our CSS reset happens */
 .OT_root,
 .OT_root * {
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
   border: 0;
@@ -115,7 +111,7 @@
 }
 
 .OT_closeButton {
-  color: #999999;
+  color: var(--text-primary);
   cursor: pointer;
   font-size: 32px;
   line-height: 36px;
@@ -141,11 +137,11 @@
 
   font-size: 13px;
   line-height: 18px;
-  color: #a4a4a4;
+  color: var(--text-primary);
 }
 
 .OT_dialog-messages-minor strong {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .OT_dialog-actions-card {
@@ -159,7 +155,7 @@
   font-weight: 300;
   text-align: center;
   font-size: 14px;
-  color: #999999;
+  color: var(--text-primary);
 }
 .OT_dialog-button-title label {
   color: #999999;
@@ -168,7 +164,7 @@
 .OT_dialog-button-title a,
 .OT_dialog-button-title a:link,
 .OT_dialog-button-title a:active {
-  color: #02a1de;
+  color: var(--accent);
 }
 
 .OT_dialog-button-title strong {
@@ -183,7 +179,7 @@
   margin-bottom: 18px;
   padding: 0 1em;
 
-  background-color: #1ca3dc;
+  background-color: var(--bg-primary);
   text-align: center;
   cursor: pointer;
 }
@@ -207,8 +203,8 @@
   padding-top: 9px;
   padding-bottom: 9px;
 
-  background-color: #444444;
-  color: #999999;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   font-size: 16px;
 }
 
@@ -225,7 +221,7 @@
 .OT_dialog-progress-bar-fill {
   height: 100%;
 
-  background-color: #29a4da;
+  background-color: var(--accent);
 }
 
 .OT_dialog-plugin-upgrading .OT_dialog-plugin-upgrade-percentage {
@@ -352,7 +348,7 @@
 .OT_publisher .OT_name,
 .OT_subscriber .OT_name {
   background-color: transparent;
-  color: #ffffff;
+  color: var(--text-primary);
   font-size: 15px;
   line-height: 34px;
   font-weight: normal;
@@ -366,7 +362,7 @@
   bottom: 0;
   left: 34px;
   padding: 0 4px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-primary);
   font-size: 15px;
   line-height: 34px;
   font-weight: normal;

@@ -81,3 +81,8 @@ mat-icon:hover:before {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 50%;
 }
+
+.mat-dialog-container {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}

@@ -1,5 +1,5 @@
 #header {
-  color: #ffffff;
+  color: var(--text-primary);
   position: absolute;
   bottom: 0;
   top: 0;
@@ -41,7 +41,7 @@
 }
 
 button {
-  background: #333;
+  background: var(--bg-primary);
   outline: none;
   border: none;
   cursor: pointer;
@@ -53,20 +53,19 @@ button {
 }
 
 button#navLeaveButton {
-  background: #bd0000;
+  background: var(--text-error);
 }
 
-button:hover {
-  background: #222;
-}
-
-.mat-icon {
+button#navLeaveButton .mat-icon {
   color: white;
 }
 
-.headerLight {
-  color: #706969 !important;
-  background-color: #eeeeee !important;
+button:hover {
+  background: var(--bg-secondary);
+}
+
+mat-icon {
+  color: var(--text-primary);
 }
 
 #navSessionInfo {
@@ -77,6 +76,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   justify-items: center;
+  color: white;
 }
 
 #navSessionInfo img {
@@ -102,7 +102,7 @@ button:hover {
 }
 
 .mat-icon-button[disabled] {
-  color: #fff;
+  color: var(--text-primary);
 }
 
 .titleContent {
@@ -114,35 +114,10 @@ button:hover {
   text-overflow: ellipsis;
 }
 
-.titleContentDark {
-  background-color: #494949;
-  color: #ffffff;
-}
-
-.titleContentLight {
-  background-color: #dfdfdf !important;
-  color: #000000;
-}
-
 #header_img {
   max-width: 135px;
   margin-right: 10px;
   margin-top: -3px;
-}
-
-#point {
-  width: 10px;
-  height: 10px;
-  position: absolute;
-  top: 12px;
-  right: 33px;
-  border-radius: 50%;
-  background-color: #ffa600;
-  border: 1px solid #000;
-  z-index: 99999;
-}
-.pointLight {
-  border: 1px solid #ffffff !important;
 }
 
 .tooltipList {

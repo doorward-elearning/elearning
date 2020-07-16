@@ -1,10 +1,10 @@
 .cardHeader {
-  background-color: #cccccc;
+  background-color: var(--bg-primary);
   border-radius: 14px 14px 0px 0px;
   text-align: center;
   height: 50px;
 }
-.headerLogo{
+.headerLogo {
   position: absolute;
   top: 0;
   left: 0;
@@ -46,13 +46,13 @@
   font-size: large;
   display: table;
 }
-.cameraMessageContainer > span{
+.cameraMessageContainer > span {
   display: table-cell;
   vertical-align: middle;
 }
 .deviceButton {
   box-shadow: none;
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
 }
 
 .rightSection {
@@ -60,7 +60,7 @@
   text-align: center;
 }
 .avatarContainer {
-  background-color: #f5f5f5;
+  background-color: var(--bg-secondary);
   height: 40px;
   text-align: center;
   display: flex;
@@ -77,14 +77,11 @@
   background-color: transparent;
 }
 
-
-
 #roomConfig {
   position: absolute;
   width: 100%;
   height: 100%;
 }
-
 
 /* .volumeSlider {
   position: absolute;
@@ -101,7 +98,6 @@
 #sessionInfo {
   margin-top: 0;
 }
-
 
 #joinButton {
   margin: 15px;
@@ -191,7 +187,7 @@ mat-card {
 }
 
 ::ng-deep .mat-option-text {
-  color: black !important;
+  color: var(--text-primary) !important;
 }
 
 ::ng-deep .mat-slider-thumb {
@@ -209,19 +205,18 @@ mat-card {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #b8afaf;
+  background: var(--scrollbar-color);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #888888;
+  background: var(--scrollbar-color__hover);
 }
 
 ::-webkit-scrollbar-track {
-  background: #e1e1e1;
+  background: var(--bg-secondary);
   border-radius: 4px;
 }
-
 
 /*!
  * Generated using the Bootstrap Customizer (https://getbootstrap.com/docs/3.4/customize/)
@@ -232,8 +227,6 @@ mat-card {
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
-
-
 
 * {
   -webkit-box-sizing: border-box;
@@ -246,7 +239,6 @@ mat-card {
   -moz-box-sizing: border-box;
   box-sizing: border-box;
 }
-
 
 .container {
   padding-right: 15px;
@@ -283,17 +275,75 @@ mat-card {
   margin-right: 0;
   margin-left: 0;
 }
-.row-no-gutters [class*="col-"] {
+.row-no-gutters [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
 }
-.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+.col-xs-1,
+.col-sm-1,
+.col-md-1,
+.col-lg-1,
+.col-xs-2,
+.col-sm-2,
+.col-md-2,
+.col-lg-2,
+.col-xs-3,
+.col-sm-3,
+.col-md-3,
+.col-lg-3,
+.col-xs-4,
+.col-sm-4,
+.col-md-4,
+.col-lg-4,
+.col-xs-5,
+.col-sm-5,
+.col-md-5,
+.col-lg-5,
+.col-xs-6,
+.col-sm-6,
+.col-md-6,
+.col-lg-6,
+.col-xs-7,
+.col-sm-7,
+.col-md-7,
+.col-lg-7,
+.col-xs-8,
+.col-sm-8,
+.col-md-8,
+.col-lg-8,
+.col-xs-9,
+.col-sm-9,
+.col-md-9,
+.col-lg-9,
+.col-xs-10,
+.col-sm-10,
+.col-md-10,
+.col-lg-10,
+.col-xs-11,
+.col-sm-11,
+.col-md-11,
+.col-lg-11,
+.col-xs-12,
+.col-sm-12,
+.col-md-12,
+.col-lg-12 {
   position: relative;
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
 }
-.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9, .col-xs-10, .col-xs-11, .col-xs-12 {
+.col-xs-1,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12 {
   float: left;
 }
 .col-xs-12 {
@@ -450,7 +500,18 @@ mat-card {
   margin-left: 0%;
 }
 @media (min-width: 768px) {
-  .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12 {
+  .col-sm-1,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12 {
     float: left;
   }
   .col-sm-12 {
@@ -608,7 +669,18 @@ mat-card {
   }
 }
 @media (min-width: 992px) {
-  .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12 {
+  .col-md-1,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12 {
     float: left;
   }
   .col-md-12 {
@@ -766,7 +838,18 @@ mat-card {
   }
 }
 @media (min-width: 1200px) {
-  .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12 {
+  .col-lg-1,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12 {
     float: left;
   }
   .col-lg-12 {
@@ -971,7 +1054,7 @@ mat-card {
 }
 .modal-content {
   position: relative;
-  background-color: #ffffff;
+  background-color: var(--bg-primary);
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
   border: 1px solid #999999;
@@ -989,7 +1072,7 @@ mat-card {
   bottom: 0;
   left: 0;
   z-index: 1040;
-  background-color: #000000;
+  background-color: var(--modal-background);
 }
 .modal-backdrop.fade {
   filter: alpha(opacity=0);
@@ -1041,7 +1124,7 @@ mat-card {
   .modal {
     /* position: fixed; */
   }
-  .headerTitle{
+  .headerTitle {
     display: none;
   }
   .headerLogo {
@@ -1050,7 +1133,7 @@ mat-card {
 }
 
 @media (max-width: 767px) {
-  .row{
+  .row {
     height: 100%;
   }
   .leftSection {
@@ -1059,14 +1142,14 @@ mat-card {
   .rightSection {
     padding-right: 0 !important;
   }
-  .headerTitle{
+  .headerTitle {
     font-size: medium;
   }
   .modal-content {
     max-height: 100%;
     height: 100%;
   }
-  .modal-dialog{
+  .modal-dialog {
     height: calc(100% - 10px);
     margin: 5px;
     padding: 0;
@@ -1080,14 +1163,14 @@ mat-card {
     overflow: auto;
     height: calc(100% - 120px);
 
-    overflow:-moz-scrollbars-vertical;
-    overflow-x:hidden;
-    overflow-y:scroll;
+    overflow: -moz-scrollbars-vertical;
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
   .modal {
-    max-height: 100% ;
+    max-height: 100%;
   }
-  .videoContainer{
+  .videoContainer {
     width: 60%;
   }
 }

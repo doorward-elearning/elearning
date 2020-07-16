@@ -3,6 +3,8 @@ import { OpenViduLayoutOptions } from '../../layout/openvidu-layout';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogErrorComponent } from '../../components/dialog-error/dialog-error.component';
 import { LayoutBigElement } from '../../types/layout-type';
+import { OpenviduTheme } from '@doorward/common/types/openvidu';
+import updateTheme from '@doorward/ui/themes/updateTheme';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +12,31 @@ import { LayoutBigElement } from '../../types/layout-type';
 export class UtilsService {
   private dialogRef: MatDialogRef<DialogErrorComponent, any>;
 
+  private refreshTheme: () => void;
+  private themeEventListener: (e: KeyboardEvent) => void;
   constructor(public dialog: MatDialog) {}
+
+  setTheme(theme: OpenviduTheme) {
+    if (this.refreshTheme) {
+      this.refreshTheme();
+    }
+    this.refreshTheme = updateTheme(theme);
+  }
+
+  subscribeToThemeChangeShortcut() {
+    const eventListener = (e: KeyboardEvent): void => {
+      const fire = e.which === 186 && (e.ctrlKey || e.metaKey);
+      if (fire) {
+        this.setTheme(localStorage.getItem('theme') === OpenviduTheme.DARK ? OpenviduTheme.LIGHT : OpenviduTheme.DARK);
+      }
+    };
+    document.addEventListener('keydown', eventListener);
+    this.themeEventListener = eventListener;
+  }
+
+  unsubscribeFromThemeChangeShortcut() {
+    document.removeEventListener('keydown', this.themeEventListener);
+  }
 
   toggleFullscreen(elementId: string) {
     const document: any = window.document;

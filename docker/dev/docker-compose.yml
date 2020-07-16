@@ -122,13 +122,11 @@ services:
   doorward_openvidu:
     image: openvidu/openvidu-server-kms:2.13.0
     container_name: doorward_openvidu
-    network_mode: host
+    env_file:
+      - .env
     ports:
-      - '4443:4443'
-      - '8888:8888'
-      - '9091:9091'
+      - '443:4443'
     environment:
       OPENVIDU_SECRET: password
       OPENVIDU_WEBHOOK: 'true'
       OPENVIDU_WEBHOOK_ENDPOINT: http://localhost:7000/api/v1/meetings/webhook
-      OPENVIDU_WEBHOOK_EVENTS: "['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']"

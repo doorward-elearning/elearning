@@ -9,7 +9,7 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   avatar: string;
   ovServerApiUrl: string = environment.OPENVIDU_API_URL;
   redirectOnEnd = '/';
-  theme = OpenviduTheme.DARK;
+  theme = (localStorage.getItem('theme') as OpenviduTheme) || OpenviduTheme.DARK;
   nickname: string;
   role: OPENVIDU_ROLES = OPENVIDU_ROLES.PUBLISHER;
 

@@ -1,9 +1,6 @@
-import baseLogo from '../../assets/images/doorward.png';
-import darkLogo from '../../assets/images/doorward_white.png';
-
 const base = {
   '--bg-primary': '#FFFFFF',
-  '--bg-primary-dark': 'rgba(203,203,203,0.61)',
+  '--bg-primary-dark': 'rgba(221,221,221,0.61)',
   '--bg-secondary': '#f3f5fa',
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
@@ -53,13 +50,13 @@ const base = {
   '--submitting-spinner-background': 'rgba(255, 255, 255, .4)',
   '--tabLayout--header-height': '40px',
   '--refreshing-bg': 'rgba(255, 255, 255, .2)',
-  logo: baseLogo,
+  logo: '',
 };
 
 const dark: Theme = {
   ...base,
   '--bg-primary': '#2b2b2b',
-  '--bg-primary-dark': '#1d1d1d',
+  '--bg-primary-dark': '#252525',
   '--bg-secondary': '#343434',
   '--search-bar-background': 'rgba(135,135,135,0.07)',
   '--text-alternate': '#000000',
@@ -78,7 +75,7 @@ const dark: Theme = {
   '--refreshing-bg': 'rgba(0, 0, 0, .1)',
   '--scrollbar-color': '#666',
   '--scrollbar-color__hover': '#777',
-  logo: darkLogo,
+  logo: '',
 };
 
 const themes = {

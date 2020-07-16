@@ -15368,6 +15368,13 @@ ng-packagr@9.0.3:
     terser "^4.3.8"
     update-notifier "^4.0.0"
 
+ngx-emoji-picker@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/ngx-emoji-picker/-/ngx-emoji-picker-0.1.4.tgz#281a20ea1f28e85fa20d23d5c53c8e6d5f24c55a"
+  integrity sha512-btdmaf3FanUOsH9zPtT+t5fVNDeTFhflb0DbRgLv4f3MejGf2Od8bmoMT5DGFrk5rP1l1GS7odUIn9PuHM685A==
+  dependencies:
+    tslib "^1.10.0"
+
 ngx-linkifyjs@1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/ngx-linkifyjs/-/ngx-linkifyjs-1.3.0.tgz#7a9160738d53fd01526d1409b08cce53b5834f6c"

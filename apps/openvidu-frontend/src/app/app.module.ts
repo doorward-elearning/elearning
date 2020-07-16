@@ -69,6 +69,7 @@ import { ParticipantsListComponent } from './shared/components/participants-list
 import { ActiveUserWrapperComponent } from './shared/components/active-user-wrapper/active-user-wrapper.component';
 import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar.component';
 import { SignalsService } from './shared/services/signals/signals.service';
+import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { SignalsService } from './shared/services/signals/signals.service';
     AppRoutingModule,
     HttpClientModule,
     FlexLayoutModule,
+    NgxEmojiPickerModule,
     NgxLinkifyjsModule.forRoot(),
   ],
   entryComponents: [DialogErrorComponent, WebComponentComponent, DialogEndMeetingComponent, DialogPermissionsComponent],

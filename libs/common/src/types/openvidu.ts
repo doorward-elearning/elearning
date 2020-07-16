@@ -83,7 +83,7 @@ export interface CreateTokenResponse extends CreateTokenBody {
 
 export enum OpenviduTheme {
   DARK = 'dark',
-  LIGHT = 'light',
+  LIGHT = 'base',
 }
 export interface OvSettings {
   chat: boolean;

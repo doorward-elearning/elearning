@@ -1,6 +1,10 @@
 import React, { FunctionComponent, useCallback, useEffect, useState } from 'react';
 import useKeyPress from '../../hooks/useKeyPress';
 import themes, { Theme, ThemePack } from '../../themes/themes';
+import updateTheme from '@doorward/ui/themes/updateTheme';
+import baseLogo from '../../assets/images/doorward.png';
+import darkLogo from '../../assets/images/doorward_white.png';
+
 
 export interface ThemeContextProps {
   theme: Theme;
@@ -26,28 +30,7 @@ const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'b
   useKeyPress(186, onKeyPress, true);
 
   useEffect(() => {
-    localStorage.setItem('theme', currentTheme);
-    const head: HTMLHeadElement = document.getElementsByTagName('head')[0];
-    const style: HTMLStyleElement = document.createElement('style');
-    if (currentTheme) {
-      let styleContent = '';
-
-      const themeProperties = themes[currentTheme || 'base'];
-      (Object.keys(themeProperties) as Array<keyof Theme>).forEach(key => {
-        if (key.startsWith('--')) {
-          styleContent += `${key}: ${themeProperties[key]};`;
-        }
-      });
-
-      style.innerHTML = `:root {
-        ${styleContent}
-      }`;
-
-      head.appendChild(style);
-    }
-    return () => {
-      head.removeChild(style);
-    };
+    updateTheme(currentTheme);
   }, [currentTheme]);
 
   return (

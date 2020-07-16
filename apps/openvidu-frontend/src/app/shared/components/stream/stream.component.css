@@ -3,17 +3,17 @@
   position: absolute;
   z-index: 999;
   border-radius: 5px;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 .nicknameContainer {
-  background-color: #0000005e;
+  background-color: var(--bg-secondary);
   padding: 5px;
-  color: #ffffff;
+  color: var(--text-primary);
   font-weight: bold;
 }
 
 #dialogNickname {
-  background-color: #0000005e;
+  background-color: var(--bg-primary);
   border-radius: 5px;
 }
 
@@ -34,7 +34,7 @@
 
 mat-error {
   text-align: center;
-  color: #353535;
+  color: var(--text-primary);
 }
 
 video {
@@ -42,7 +42,7 @@ video {
   object-fit: cover;
   width: 100%;
   height: 100%;
-  color: #ffffff;
+  color: var(--text-primary);
   margin: 0;
   padding: 0;
   border: 0;
@@ -55,7 +55,7 @@ video {
   width: 40px;
   height: fit-content;
   position: absolute;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .statusIcons mat-icon {
@@ -84,7 +84,8 @@ video {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background: #c71100;
+  background: var(--text-error);
+  color: white;
   margin: 5px auto;
 }
 
@@ -98,7 +99,7 @@ video {
   pointer-events: all;
 }
 .videoButtons button {
-  background-color: #000000c4;
+  background-color: var(--bg-primary);
   width: 30px;
   height: 30px;
   margin: 1px;
@@ -115,7 +116,7 @@ video {
 mat-error,
 ::ng-deep .mat-focused .mat-form-field-label,
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-label {
-  color: #cacaca !important;
+  color: var(--text-primary) !important;
 }
 
 ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-underline,

@@ -26,7 +26,9 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   @Output() closeButtonClicked = new EventEmitter<any>();
 
-  message: string;
+  message = '';
+
+  emojiKeyboardVisible: boolean;
 
   messageList: ChatMessage[] = [];
   chatOpened: boolean;
@@ -80,6 +82,11 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   close() {
     this.closeButtonClicked.emit();
+  }
+
+  handleEmojiSelected(e) {
+    this.message += e.char;
+    this.emojiKeyboardVisible = false;
   }
 
   private subscribeToMessages() {

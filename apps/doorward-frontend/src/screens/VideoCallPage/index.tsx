@@ -5,7 +5,6 @@ import { PageComponent } from '@doorward/ui/types';
 import { joinMeetingAction } from '../../reducers/videoCall/actions';
 import usePageResource from '../../hooks/usePageResource';
 import OpenviduWebComponent from '@doorward/ui/components/OpenviduWebComponent';
-import WebComponent from '@doorward/ui/components/WebComponent';
 import useAuth from '@doorward/ui/hooks/useAuth';
 import Layout from '../Layout';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
@@ -33,6 +32,9 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
             sessionTitle: videoCallState.data.meeting.meetingRoom.title,
             nickname: auth.authenticated ? auth.user.fullName : 'Participant',
             avatar: 'https://pbs.twimg.com/profile_images/1197241648926937089/oahb2HSm_400x400.jpg',
+          }}
+          onLeftSession={() => {
+            props.history.goBack();
           }}
         />
       </div>

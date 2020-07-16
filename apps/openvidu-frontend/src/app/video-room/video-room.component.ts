@@ -121,6 +121,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
     this.oVSessionService.setWebcamAvatar(this.externalConfig.avatar);
     this.networkSrv.setBaseUrl(this.externalConfig.ovServerApiUrl);
+    this.utilsSrv.setTheme(this.externalConfig.theme);
+    this.utilsSrv.subscribeToThemeChangeShortcut();
     if (!this.showConfigRoomCard) {
       this.onConfigRoomJoin();
     }
@@ -145,6 +147,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     if (this.chatSubscription) {
       this.chatSubscription.unsubscribe();
     }
+    this.utilsSrv.unsubscribeFromThemeChangeShortcut();
   }
 
   onConfigRoomJoin() {

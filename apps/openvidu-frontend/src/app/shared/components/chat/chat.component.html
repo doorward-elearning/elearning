@@ -21,6 +21,13 @@
     </div>
 
     <div id="messageInput">
+      <mat-icon
+        (click)="emojiKeyboardVisible = !emojiKeyboardVisible"
+        [(emojiPickerIf)]="emojiKeyboardVisible"
+        [emojiPickerDirection]="'right'"
+        (emojiPickerSelect)="handleEmojiSelected($event)"
+        >mood</mat-icon
+      >
       <input
         #chatInput
         placeholder="Send a message"
