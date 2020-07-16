@@ -3,16 +3,20 @@
 directory="docker/dev/openvidu/certificates"
 
 rm -rf ${directory}/*
-openssl req -x509 -nodes -new -sha256 -days 1024 -newkey rsa:2048 -keyout ${directory}/Doorward.key -out ${directory}/Doorward.pem -subj "/C=US/CN=Doorward"
-openssl x509 -outform pem -in ${directory}/Doorward.pem -out ${directory}/Doorward.crt
 
-openssl req -new -nodes -newkey rsa:2048 -keyout ${directory}/certificate.key -out ${directory}/certificate.csr -subj "/C=US/ST=Nairobi/L=Nairobi/O=Doorward/CN=doorward.local"
-openssl x509 -req -sha256 -days 4024 -in ${directory}/certificate.csr -CA ${directory}/Doorward.pem -CAkey ${directory}/Doorward.key -CAcreateserial -extfile tools/domains.ext -out ${directory}/certificate.crt
+cd ${directory}
 
-openssl pkcs12 -export -in ${directory}/certificate.pem -inkey ${directory}/certificate.key -out ${directory}/doorward.p12 -name "doorward"
+cp ../../../../tools/domains.ext ./domains.ext
 
-#keytool -importcert -alias openvidu -file ${directory}/Doorward.pem -keystore ${directory}/openvidu.jks -trustcacerts -storepass password
-#keytool -importcert -alias intermediate -file ${directory}/certificate.crt -keystore ${directory}/openvidu.jks -trustcacerts -storepass password
-#keytool -importcert -alias openvidu -file ${directory}/certificate.crt -keystore ${directory}/openvidu.jks -trustcacerts -storepass password
 
-keytool -importkeystore -destkeystore ${directory}/openvidu.jks -deststorepass password -srckeystore ${directory}/doorward.p12 -srcstoretype PKCS12 -srcstorepass password -alias doorward
+openssl req -x509 -nodes -new -sha256 -days 4024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Doorward"
+openssl x509 -outform pem -in RootCA.pem -out RootCA.crt
+
+keytool -genkeypair -alias doorward -storetype jks -keystore openvidu.jks -validity 4066 -keyalg RSA -keysize 4096 -storepass password
+keytool -certreq -alias doorward -file certificate.csr -keystore openvidu.jks -ext san=dns:doorward.local -storepass password
+
+openssl x509 -req -sha256 -days 4024 -in certificate.csr -CA RootCA.pem -CAkey RootCA.key -CAcreateserial -extfile domains.ext -out certificate.crt
+
+keytool -importcert -alias root -file RootCA.crt -keystore openvidu.jks -trustcacerts
+keytool -importcert -alias intermediate -file RootCA.pem -keystore openvidu.jks -trustcacerts
+keytool -importcert -alias doorward -file certificate.crt -keystore openvidu.jks -trustcacerts
