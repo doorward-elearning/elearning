@@ -4,10 +4,10 @@
   "openviduVersion": "2.14.0",
   "license": "MIT",
   "scripts": {
-    "angular-config": "ts-node tools/angular-config.ts",
+    "env-config": "./tools/environment.sh",
     "nx": "nx",
-    "start": "yarn angular-config && nx serve",
-    "build": "yarn angular-config && nx build",
+    "start": "yarn env-config && nx serve",
+    "build": "yarn env-config && nx build",
     "openvidu-webcomponent:build": "cd apps/openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').prepareWebcomponent()\" ; yarn build --prod --output-hashing none openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').buildWebcomponent()\"",
     "db:migrate": "cd apps/doorward-node-backend && sequelize db:migrate",
     "db:migrate:undo": "cd apps/doorward-node-backend && sequelize db:migrate:undo",

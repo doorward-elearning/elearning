@@ -49,7 +49,8 @@
           "builder": "@nrwl/web:dev-server",
           "options": {
             "buildTarget": "doorward-frontend:build",
-            "port": 3000
+            "port": 3000,
+            "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
@@ -185,7 +186,8 @@
           "builder": "@nrwl/node:execute",
           "options": {
             "buildTarget": "doorward-node-backend:build",
-            "port": 0
+            "port": 0,
+            "host": "0.0.0.0"
           }
         },
         "lint": {
@@ -527,7 +529,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "openvidu-frontend:build"
+            "browserTarget": "openvidu-frontend:build",
+            "host": "0.0.0.0"
           },
           "configurations": {
             "production": {
@@ -621,7 +624,8 @@
         "serve": {
           "builder": "@nrwl/node:execute",
           "options": {
-            "buildTarget": "openvidu-backend:build"
+            "buildTarget": "openvidu-backend:build",
+            "host": "0.0.0.0"
           }
         },
         "lint": {
