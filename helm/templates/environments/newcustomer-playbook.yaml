@@ -1,0 +1,28 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+  vars:
+    CUSTOMER_NAME: develop
+    APP_VERSION: 1.1.0
+    LOGO_URL:
+    ORGANIZATION_DISPLAY_NAME:
+    APP_WEBSITE_NAME:
+    ORGANIZATION_ADMIN_EMAIL:
+    WELCOME_WEBSITE_NAME:
+  tasks:
+    - name: generate config.yaml
+      template:
+        src: config.yaml.j2
+        dest: "../../environments/{{ CUSTOMER_NAME }}/config.yaml"
+    - name: helmfile
+      template:
+        src: helmfile.j2
+        dest: "../../environments/{{ CUSTOMER_NAME }}/helmfile.yaml"
+    - name: Jenkinsfile
+      template:
+        src: Jenkinsfile.j2
+        dest: "../../environments/{{ CUSTOMER_NAME }}/Jenkinsfile"
+    - name: new-jenkins-job.yaml
+      template:
+        src: new-jenkins-job.yaml.j2
+        dest: "/tmp/new-jenkins-job.yaml"

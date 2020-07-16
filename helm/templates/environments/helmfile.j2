@@ -1,0 +1,53 @@
+releases:
+  - name: {{ CUSTOMER_NAME }}-thaladb
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/apps/thaladb
+    values:
+      - config.yaml
+
+  - name: {{ CUSTOMER_NAME }}-samvadam
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/apps/samvadam
+    needs:
+      - {{ CUSTOMER_NAME }}-doorward/{{ CUSTOMER_NAME }}-thaladb
+    values:
+      - config.yaml
+
+  - name: {{ CUSTOMER_NAME }}-thala
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/apps/thala
+    needs:
+      - {{ CUSTOMER_NAME }}-doorward/{{ CUSTOMER_NAME }}-thaladb
+    values:
+      - config.yaml
+
+  - name: {{ CUSTOMER_NAME }}-chuchu
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/apps/chuchu
+    needs:
+      - {{ CUSTOMER_NAME }}-doorward/{{ CUSTOMER_NAME }}-thaladb
+    values:
+      - config.yaml
+
+  - name: {{ CUSTOMER_NAME }}-vidu
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - {{ CUSTOMER_NAME }}-doorward/{{ CUSTOMER_NAME }}-thaladb
+    values:
+      - config.yaml
