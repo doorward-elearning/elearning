@@ -120,13 +120,15 @@ services:
       timeout: 10s
       retries: 10
   doorward_openvidu:
-    image: openvidu/openvidu-server-kms:2.13.0
+    image: doorward_openvidu:latest
+    build:
+      context: ./openvidu
+      dockerfile: Dockerfile
     container_name: doorward_openvidu
     env_file:
-      - .env
+      - openvidu/.env
     ports:
-      - '443:4443'
+      - '4443:4443'
     environment:
       OPENVIDU_SECRET: password
       OPENVIDU_WEBHOOK: 'true'
-      OPENVIDU_WEBHOOK_ENDPOINT: http://localhost:7000/api/v1/meetings/webhook

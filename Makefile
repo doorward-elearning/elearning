@@ -45,7 +45,8 @@ build:
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
-	@ ./docker/dev/openvidu.sh
+	@ ./docker/dev/openvidu/openvidu.sh
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up --build doorward_openvidu
 
 stop:
 	${INFO} "Stopping all containers"
