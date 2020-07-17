@@ -4,7 +4,7 @@ export CLASSROOM_IMAGE="classrooms-Jul-15-current"
 export AWS_ACCESS_KEY_ID=`cat /etc/.route53-zone-admin/.access_key`
 export AWS_SECRET_ACCESS_KEY=`cat /etc/.route53-zone-admin/.secret_key`
 export DO_API_TOKEN=`cat /etc/.jenkins-do-admin/.token`
-export CUSTOMER_NAME=stage
+export CUSTOMER_NAME=develop
 
 
 doctl compute image list | grep $CLASSROOM_IMAGE | awk '{print $1}' > /tmp/image-id
@@ -62,7 +62,9 @@ fi
 ansible-playbook $ARGS helm/templates/environments/newcustomer-playbook.yaml
 
 cd helm/environments/$CUSTOMER_NAME
-helmfile -l stage=1 sync && sleep 100 && helmfile -l stage=2 sync
+helmfile -l stage=1 sync
+sleep 120
+helmfile -l stage=2 sync
 
 
 git add helmfile.yaml Jenkinsfile config.yaml variables.yaml || true
