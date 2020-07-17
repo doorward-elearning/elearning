@@ -7,6 +7,7 @@ metadata:
   labels:
     {{- include "thaladb.labels" . | nindent 4 }}
 spec:
+  storageClassName: do-block-storage
   accessModes:
     - "ReadWriteOnce"
 #  volumeName: {{ include "thaladb.fullname" . }}

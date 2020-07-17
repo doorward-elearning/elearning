@@ -1,6 +1,6 @@
 ---
 - job:
-    name: {{ CUSTOMER_NAME }}-rollingupdates
+    name: rollingupdate-{{ CUSTOMER_NAME }}
     project-type: pipeline
     sandbox: true
     parameters:
@@ -9,10 +9,11 @@
           default: {{ APP_VERSION }}
           description: Version of the application to be deployed
     pipeline-scm:
+      script-path: helm/environments/{{ CUSTOMER_NAME }}/Jenkinsfile
       scm:
         - git:
-            url: http://hg.example.org/test_job
-            credentials-id: APKA2TLREYOL5SFLT3WT
+            url: ssh://git-codecommit.us-east-1.amazonaws.com/v1/repos/edudoor_frontend
+            credentials-id: Git-Access
             branches:
              - origin/develop
     builders:
