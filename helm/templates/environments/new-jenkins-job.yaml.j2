@@ -1,10 +1,19 @@
 ---
 - job:
     name: {{ CUSTOMER_NAME }}-rollingupdates
+    project-type: pipeline
+    sandbox: true
     parameters:
       - string:
           name: APP_VERSION
           default: {{ APP_VERSION }}
           description: Version of the application to be deployed
+    pipeline-scm:
+      scm:
+        - git:
+            url: http://hg.example.org/test_job
+            credentials-id: APKA2TLREYOL5SFLT3WT
+            branches:
+             - origin/develop
     builders:
       - shell: "cd helm/environment/{{ CUSTOMER_NAME }} && helmfile -l stage=1 sync && sleep 100 && helmfile -l stage=2 sync"

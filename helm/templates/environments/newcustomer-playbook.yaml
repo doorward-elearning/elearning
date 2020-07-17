@@ -1,15 +1,13 @@
 - hosts: localhost
   connection: local
   gather_facts: no
-  vars:
-    CUSTOMER_NAME: develop
-    APP_VERSION: 1.1.0
-    LOGO_URL:
-    ORGANIZATION_DISPLAY_NAME:
-    APP_WEBSITE_NAME:
-    ORGANIZATION_ADMIN_EMAIL:
-    WELCOME_WEBSITE_NAME:
   tasks:
+    - name: Generate newcustomer-vars.yaml
+      template:
+        src: newcustomer-vars.yaml.j2
+        dest: "../../environments/{{ CUSTOMER_NAME }}/variables.yaml"
+    - name: Include all customer environment variables
+      include_vars: "../../environments/{{ CUSTOMER_NAME }}/variables.yaml"
     - name: generate config.yaml
       template:
         src: config.yaml.j2
