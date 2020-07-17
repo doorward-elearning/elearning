@@ -2,28 +2,11 @@ pipeline {
   agent any
 
   stages {
-    stage('Docker Login') {
-       steps {
-	        sh "mkdir $HOME/.docker"
-          sh "cp /etc/.jenkins-master-harbor/.dockerconfigjson $HOME/.docker/config.json"
-       }
-    }
-
-    stage('Build and Push Images') {
-       environment {
-          APP_VERSION = '{{ APP_VERSION }}'
-       }
-	     steps {
-          sh 'make build'
-	     }
-    }
-
     stage('Deploy') {
         steps {
            sh 'cd ${WORKSPACE}/helm/environments/{{ CUSTOMER_NAME }} && helmfile -l stage=2 delete && sleep 50 && helmfile -l stage=2 sync'
         }
     }
-
   }
 
 }
