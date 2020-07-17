@@ -1,11 +1,13 @@
 #!/usr/bin/env bash
 
-KEYSTORE=docker/dev/openvidu/certificates/openvidu.jks
+KEYSTORE=./ssl/openvidu.jks
 
 if [[ ! -f ${KEYSTORE} ]]; then
   echo "-------- Creating openvidu SSL certificate with password: (password) ------------";
   ./tools/ssl-certificate.sh
 fi
+
+cp ./ssl/openvidu.jks docker/dev/openvidu/openvidu.jks
 
 IP_ADDRESS=$(hostname -I | awk '{print $1}')
 

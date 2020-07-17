@@ -1,0 +1,24 @@
+diff --git a/node_modules/@nrwl/node/src/builders/execute/schema.json b/node_modules/@nrwl/node/src/builders/execute/schema.json
+index 609c7c2..fb6153d 100644
+--- a/node_modules/@nrwl/node/src/builders/execute/schema.json
++++ b/node_modules/@nrwl/node/src/builders/execute/schema.json
+@@ -15,6 +15,19 @@
+         "type": "string"
+       }
+     },
++    "ssl": {
++      "type": "boolean",
++      "description": "Serve using HTTPS.",
++      "default": false
++    },
++    "sslKey": {
++      "type": "string",
++      "description": "SSL key to use for serving HTTPS."
++    },
++    "sslCert": {
++      "type": "string",
++      "description": "SSL certificate to use for serving HTTPS."
++    },
+     "host": {
+       "type": "string",
+       "default": "localhost",

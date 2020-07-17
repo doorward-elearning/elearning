@@ -1,5 +1,5 @@
 FROM openvidu/openvidu-server-kms:2.13.0
 
-COPY certificates/openvidu.jks /
+COPY openvidu.jks /openvidu.jks
 
 EXPOSE 4443

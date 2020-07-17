@@ -1,22 +1,27 @@
 #!/usr/bin/env bash
 
-directory="docker/dev/openvidu/certificates"
+directory="ssl"
 
 rm -rf ${directory}/*
 
 cd ${directory}
 
-cp ../../../../tools/domains.ext ./domains.ext
+
+cp ../tools/domains.ext ./domains.ext
 
 
-openssl req -x509 -nodes -new -sha256 -days 4024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Doorward"
+echo "Step 1"
+openssl req -x509 -nodes -new -sha256 -days 8024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Doorward LMS"
+echo "Step 2"
 openssl x509 -outform pem -in RootCA.pem -out RootCA.crt
 
-keytool -genkeypair -alias doorward -storetype jks -keystore openvidu.jks -validity 4066 -keyalg RSA -keysize 4096 -storepass password
-keytool -certreq -alias doorward -file certificate.csr -keystore openvidu.jks -ext san=dns:doorward.local -storepass password
+echo "Step 3"
+openssl req -new -nodes -newkey rsa:2048 -keyout certificate.key -out certificate.csr -subj "/C=KE/ST=Nairobi/L=Nairobi/O=Doorward/CN=Doorward"
+echo "Step 4"
+openssl x509 -req -sha256 -days 8024 -in certificate.csr -CA RootCA.pem -CAkey RootCA.key -CAcreateserial -extfile domains.ext -out certificate.crt
 
-openssl x509 -req -sha256 -days 4024 -in certificate.csr -CA RootCA.pem -CAkey RootCA.key -CAcreateserial -extfile domains.ext -out certificate.crt
+echo "Step 5"
+openssl pkcs12 -export -in certificate.crt -inkey certificate.key -certfile RootCA.pem -name "doorward" -out doorward.p12
 
-keytool -importcert -alias root -file RootCA.crt -keystore openvidu.jks -trustcacerts
-keytool -importcert -alias intermediate -file RootCA.pem -keystore openvidu.jks -trustcacerts
-keytool -importcert -alias doorward -file certificate.crt -keystore openvidu.jks -trustcacerts
+echo "Step 6"
+keytool -importkeystore -srckeystore doorward.p12 -srcstoretype pkcs12 -destkeystore openvidu.jks -deststoretype JKS -storepass password
