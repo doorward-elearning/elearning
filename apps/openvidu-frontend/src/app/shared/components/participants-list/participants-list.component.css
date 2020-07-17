@@ -1,4 +1,12 @@
 .participants-list {
+  height: 100vh;
+  width: 100%;
+  max-height: 100vh;
+  overflow: hidden;
+  background: var(--bg-primary-dark);
+}
+
+.participants-list__container {
   padding: 30px 1em;
 }
 
@@ -7,6 +15,13 @@
   grid-auto-flow: column;
   justify-content: space-between;
   color: var(--text-primary);
+  align-items: center;
+}
+
+.header-buttons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1em;
   align-items: center;
 }
 
@@ -55,4 +70,11 @@
 
 .user .name span {
   font-size: 0.8em;
+}
+
+.user .status {
+  display: grid;
+  align-items: center;
+  grid-gap: var(--padding-sm);
+  grid-auto-flow: column;
 }

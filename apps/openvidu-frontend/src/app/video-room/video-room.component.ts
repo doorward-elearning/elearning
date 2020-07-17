@@ -219,6 +219,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   toggleMic() {
+    if (!this.hasAudioDevices) {
+      this.utilsSrv.showErrorMessage(
+        "Can't find your microphone",
+        'Check that your microphone is available. If not, plug one in.'
+      );
+      return;
+    }
     if (this.oVSessionService.isWebCamEnabled()) {
       this.oVSessionService.publishWebcamAudio(!this.oVSessionService.hasWebcamAudioActive());
       return;
@@ -239,6 +246,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   async toggleCam() {
+    if (!this.hasVideoDevices) {
+      this.utilsSrv.showErrorMessage(
+        "Can't find your camera",
+        'Check that your camera is available. If not, plug one in.'
+      );
+      return;
+    }
     const isVideoActive = !this.oVSessionService.hasWebcamVideoActive();
 
     // Disabling webcam
@@ -564,13 +578,19 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  greyBackground(user: string): string {
-    const colors = greys;
-    const index = Tools.hashCode(user);
-    return colors[index % colors.length];
+  toggleEveryoneMic(on: boolean) {
+    if (on) {
+      this.networkSrv.unmuteAllParticipants(this.mySessionId);
+    } else {
+      this.networkSrv.muteAllParticipants(this.mySessionId, false);
+    }
   }
 
-  muteAllParticipants() {
-    this.networkSrv.muteAllParticipants(this.mySessionId, false);
+  toggleEveryoneVideo(on: boolean) {
+    if (on) {
+      this.networkSrv.turnOnEveryoneVideo(this.mySessionId);
+    } else {
+      this.networkSrv.turnOffEveryoneVideo(this.mySessionId, false);
+    }
   }
 }

@@ -15,10 +15,16 @@ export class ParticipantsListComponent implements OnInit {
 
   @Output() closeButtonClicked = new EventEmitter<any>();
   @Output() muteAllButtonClicked = new EventEmitter<any>();
+  @Output() turnOffVideoForAllButtonClicked = new EventEmitter<any>();
+
+  allMuted = false;
+  allVideosTurnedOff = false;
 
   ngOnInit(): void {
     this.remoteUserService.getRemoteUsers().subscribe(next => {
       this.remoteUsers = next.filter(user => !user.isScreen());
+      this.allVideosTurnedOff = !this.remoteUsers.find(user => user?.streamManager?.stream?.videoActive);
+      this.allMuted = !this.remoteUsers.find(user => user?.streamManager?.stream?.audioActive);
     });
 
     this.openviduSessionService.getUsers().subscribe(next => {
@@ -31,6 +37,12 @@ export class ParticipantsListComponent implements OnInit {
   }
 
   muteAll(): void {
-    this.muteAllButtonClicked.emit();
+    this.muteAllButtonClicked.emit(this.allMuted);
+    this.allMuted = !this.allMuted;
+  }
+
+  turnOfVideoForAll(): void {
+    this.turnOffVideoForAllButtonClicked.emit(this.allVideosTurnedOff);
+    this.allVideosTurnedOff = !this.allVideosTurnedOff;
   }
 }

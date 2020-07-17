@@ -5,7 +5,6 @@ import { Component, Input } from '@angular/core';
   template: `
     <div id="navSessionInfo">
       <img id="header_img" alt="Logo" [src]="logoUrl" />
-      <h3 *ngIf="sessionId" id="session-title">{{ sessionId }}</h3>
     </div>
   `,
   styleUrls: ['./toolbar.component.css'],

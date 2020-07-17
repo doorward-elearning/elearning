@@ -5,7 +5,7 @@
   #streamComponent
   (dblclick)="toggleVideoSize()"
 >
-  <app-active-user-wrapper>
+  <ng-template>
     <div class="nickname" [class.fullscreen]="isFullscreen">
       <div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
         <span id="nickname">{{ this._user.nickname }}</span>
@@ -40,42 +40,59 @@
         </form>
       </div>
     </div>
-  </app-active-user-wrapper>
+  </ng-template>
+
+  <div
+    class="no-video"
+    [style.display]="!this._user.streamManager?.stream?.videoActive ? 'grid' : 'none'"
+    [style.background]="greyBackground(this._user.getNickname())"
+  >
+    <div class="no-video__image">
+      <user-avatar fontSize="50px" [name]="this._user.getNickname()" [avatar]="this._user.getAvatar()"></user-avatar>
+    </div>
+  </div>
 
   <ov-video
     [streamManager]="this._user.streamManager"
     [mutedSound]="mutedSound"
     (toggleVideoSizeEvent)="toggleVideoSize($event)"
   ></ov-video>
-  <app-active-user-wrapper>
-    <div class="statusIcons">
-      <div id="statusMic" *ngIf="!this._user.streamManager.stream.audioActive">
-        <mat-icon>mic_off</mat-icon>
-      </div>
-      <div id="statusCam" *ngIf="!this._user.streamManager.stream.videoActive">
-        <mat-icon>videocam_off</mat-icon>
-      </div>
-    </div>
 
-    <div class="videoButtons">
-      <button mat-icon-button id="videoZoomButton" (click)="toggleVideoSize()">
-        <mat-icon>{{ this.videoSizeIcon }}</mat-icon>
+  <div class="videoStatusInfo">
+    <user-avatar [name]="this._user.nickname" [avatar]="this._user.getAvatar()" fontSize="0.7em"></user-avatar>
+    <div class="user-nickname">{{ this._user.nickname }}</div>
+    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.audioActive">mic_off</mat-icon>
+    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.videoActive">videocam_off</mat-icon>
+
+    <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
+    <mat-menu #menu="matMenu" size="small">
+      <button mat-menu-item (click)="toggleVideoSize()">
+        <mat-icon class="disabled">{{ this.isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
+        <span>
+          {{ this.isZoomedIn ? 'Zoom out' : 'Zoom in' }}
+        </span>
       </button>
-      <button mat-icon-button id="fullscreenButton" (click)="toggleFullscreen()">
-        <mat-icon>{{ this.fullscreenIcon }}</mat-icon>
+      <button mat-menu-item (click)="toggleFullscreen()">
+        <mat-icon class="disabled">{{ !this.isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
+        <span>
+          {{ !this.isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
+        </span>
       </button>
-      <button mat-icon-button id="volumeButton" *ngIf="this._user.streamManager.remote" (click)="toggleSound()">
-        <mat-icon *ngIf="!mutedSound" matTooltip="Mute sound">volume_up</mat-icon>
-        <mat-icon *ngIf="mutedSound" color="warn" matTooltip="Unmute sound">volume_off</mat-icon>
-      </button>
-      <button
-        mat-icon-button
-        (click)="replaceScreenTrack()"
-        id="changeScreenButton"
-        *ngIf="!this._user.streamManager.remote && this._user.isScreen()"
-      >
-        <mat-icon matTooltip="Choose screen">picture_in_picture</mat-icon>
-      </button>
-    </div>
-  </app-active-user-wrapper>
+    </mat-menu>
+  </div>
+
+  <div class="videoButtons">
+    <button mat-icon-button id="volumeButton" *ngIf="this._user.streamManager.remote" (click)="toggleSound()">
+      <mat-icon *ngIf="!mutedSound" matTooltip="Mute sound">volume_up</mat-icon>
+      <mat-icon *ngIf="mutedSound" color="warn" matTooltip="Unmute sound">volume_off</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      (click)="replaceScreenTrack()"
+      id="changeScreenButton"
+      *ngIf="!this._user.streamManager.remote && this._user.isScreen()"
+    >
+      <mat-icon matTooltip="Choose screen">picture_in_picture</mat-icon>
+    </button>
+  </div>
 </div>

@@ -1,46 +1,66 @@
 <div class="participants-list">
-  <div class="header">
-    <div class="title">
-      <h2>
-        Participants
-      </h2>
-      <mat-icon
-        matBadge="{{ remoteUsers?.length + localUsers?.length }}"
-        matBadgePosition="above before"
-        matBadgeColor="accent"
-        >people</mat-icon
-      >
+  <div class="participants-list__container">
+    <div class="header">
+      <div class="title">
+        <h2>
+          Participants
+        </h2>
+        <mat-icon
+          matBadge="{{ remoteUsers?.length + localUsers?.length }}"
+          matBadgePosition="above before"
+          matBadgeColor="accent"
+          >people</mat-icon
+        >
+      </div>
+      <mat-icon (click)="close()">close</mat-icon>
     </div>
-    <mat-icon (click)="close()">close</mat-icon>
-  </div>
-  <div class="header meeting-info">
-    <div>Currently in this meeting</div>
-    <span (click)="muteAll()" *ngIf="localUsers[0]?.isModerator()">Mute all</span>
-  </div>
-  <div class="users-list">
-    <div *ngFor="let remoteUser of localUsers" class="user">
-      <div class="avatar">
-        <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
+    <div class="header meeting-info">
+      <div>Currently in this meeting</div>
+      <div class="header-buttons">
+        <mat-icon
+          (click)="muteAll()"
+          *ngIf="localUsers[0]?.isModerator() && remoteUsers.length"
+          [matTooltip]="allMuted ? 'Unmute all' : 'Mute all'"
+        >
+          {{ allMuted ? 'mic_off' : 'mic_on' }}
+        </mat-icon>
+        <mat-icon
+          (click)="turnOfVideoForAll()"
+          *ngIf="localUsers[0]?.isModerator() && remoteUsers.length"
+          [matTooltip]="allVideosTurnedOff ? 'Turn on all videos' : 'Turn off all videos'"
+        >
+          {{ allVideosTurnedOff ? 'videocam_off' : 'videocam_on' }}
+        </mat-icon>
       </div>
-      <div class="name">
-        <h4>
-          {{ remoteUser.getNickname() }}
-        </h4>
-        <span *ngIf="remoteUser.isModerator()">Moderator</span>
-      </div>
-      <div class="status"></div>
     </div>
-    <div *ngFor="let remoteUser of remoteUsers" class="user">
-      <div class="avatar">
-        <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
+    <div class="users-list">
+      <div *ngFor="let remoteUser of localUsers.concat(remoteUsers)" class="user">
+        <div class="avatar">
+          <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
+        </div>
+        <div class="name">
+          <h4>
+            {{ remoteUser.getNickname() }}
+          </h4>
+          <span *ngIf="remoteUser.isModerator()">Moderator</span>
+        </div>
+        <div class="status">
+          <mat-icon
+            class="disabled tiny"
+            [ngClass]="!remoteUser.streamManager?.stream?.audioActive ? 'inactive' : ''"
+            [matTooltip]="remoteUser.streamManager?.stream?.audioActive ? 'Mic on' : 'Mic off'"
+          >
+            {{ !remoteUser.streamManager?.stream?.audioActive ? 'mic_off' : 'mic_on' }}
+          </mat-icon>
+          <mat-icon
+            class="disabled tiny"
+            [ngClass]="!remoteUser.streamManager?.stream?.videoActive ? 'inactive' : ''"
+            [matTooltip]="remoteUser.streamManager?.stream?.videoActive ? 'Video on' : 'Video off'"
+          >
+            {{ !remoteUser.streamManager?.stream?.videoActive ? 'videocam_off' : 'videocam_on' }}
+          </mat-icon>
+        </div>
       </div>
-      <div class="name">
-        <h4>
-          {{ remoteUser.getNickname() }}
-        </h4>
-        <span *ngIf="remoteUser.isModerator()">Moderator</span>
-      </div>
-      <div class="status"></div>
     </div>
   </div>
 </div>

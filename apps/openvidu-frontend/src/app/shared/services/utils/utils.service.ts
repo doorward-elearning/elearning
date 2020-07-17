@@ -5,33 +5,57 @@ import { DialogErrorComponent } from '../../components/dialog-error/dialog-error
 import { LayoutBigElement } from '../../types/layout-type';
 import { OpenviduTheme } from '@doorward/common/types/openvidu';
 import updateTheme from '@doorward/ui/themes/updateTheme';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
   private dialogRef: MatDialogRef<DialogErrorComponent, any>;
+  theme: Observable<OpenviduTheme>;
+  themeObs: BehaviorSubject<OpenviduTheme>;
 
   private refreshTheme: () => void;
   private themeEventListener: (e: KeyboardEvent) => void;
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog) {
+    this.themeObs = new BehaviorSubject(OpenviduTheme.DARK);
+    this.theme = this.themeObs.asObservable();
+  }
 
   setTheme(theme: OpenviduTheme) {
     if (this.refreshTheme) {
       this.refreshTheme();
     }
     this.refreshTheme = updateTheme(theme);
+    this.themeObs.next(theme);
   }
 
-  subscribeToThemeChangeShortcut() {
+  getTheme(): OpenviduTheme {
+    return (localStorage.getItem('theme') as OpenviduTheme) || OpenviduTheme.DARK;
+  }
+
+  isDarkTheme(): boolean {
+    return this.getTheme() === OpenviduTheme.DARK;
+  }
+
+  isLightTheme(): boolean {
+    return this.getTheme() === OpenviduTheme.LIGHT;
+  }
+
+  toggleTheme() {
+    this.setTheme(this.isDarkTheme() ? OpenviduTheme.LIGHT : OpenviduTheme.DARK);
+  }
+
+  subscribeToThemeChangeShortcut(): Observable<OpenviduTheme> {
     const eventListener = (e: KeyboardEvent): void => {
       const fire = e.which === 186 && (e.ctrlKey || e.metaKey);
       if (fire) {
-        this.setTheme(localStorage.getItem('theme') === OpenviduTheme.DARK ? OpenviduTheme.LIGHT : OpenviduTheme.DARK);
+        this.toggleTheme();
       }
     };
     document.addEventListener('keydown', eventListener);
     this.themeEventListener = eventListener;
+    return this.theme;
   }
 
   unsubscribeFromThemeChangeShortcut() {

@@ -66,12 +66,20 @@ body {
   margin-top: 50px !important;
 }
 
-mat-icon {
+.mat-menu-panel {
+  background: var(--bg-primary);
+}
+
+.mat-menu-panel .mat-menu-item mat-icon, .mat-menu-panel span {
+  color: var(--text-primary);
+}
+
+mat-icon:not(.disabled) {
   cursor: pointer;
   position: relative;
 }
 
-mat-icon:hover:before {
+mat-icon:not(.disabled):hover:before {
   position: absolute;
   content: '';
   left: -25%;
@@ -82,7 +90,23 @@ mat-icon:hover:before {
   border-radius: 50%;
 }
 
+mat-icon.tiny {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
 .mat-dialog-container {
   background: var(--bg-primary);
   color: var(--text-primary);
+}
+
+mat-tooltip-component .mat-tooltip {
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--line-color);
+}
+
+.inactive {
+  opacity: 0.5;
 }

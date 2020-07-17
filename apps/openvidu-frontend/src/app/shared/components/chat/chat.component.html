@@ -10,7 +10,7 @@
           <user-avatar [name]="data.nickname" [avatar]="data.userAvatar"> </user-avatar>
         </div>
         <div class="msg-detail">
-          <div class="msg-info">
+          <div class="msg-info" *ngIf="!data.isLocal">
             <span>{{ data.nickname }}</span>
           </div>
           <div class="msg-content">

@@ -9,7 +9,7 @@ import {
   SignalEvent,
   StreamEvent,
 } from 'openvidu-browser';
-import SignalTypes from '../../../../../../openvidu-backend/src/modules/signals/types';
+import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -19,11 +19,32 @@ export class SignalsService {
 
   subscribeAll() {
     this.subscribeToMuteAudio();
+    this.subscribeToMuteVideo();
+    this.subscribeToUnmuteAudio();
+    this.subscribeToUnmuteVideo();
   }
 
   subscribeToMuteAudio() {
     this.subscribe(SignalTypes.MUTE_AUDIO, () => {
       this.openviduService.publishWebcamAudio(false);
+    });
+  }
+
+  subscribeToMuteVideo() {
+    this.subscribe(SignalTypes.MUTE_VIDEO, () => {
+      this.openviduService.publishVideo(false);
+    });
+  }
+
+  subscribeToUnmuteAudio() {
+    this.subscribe(SignalTypes.UNMUTE_AUDIO, () => {
+      this.openviduService.publishWebcamAudio(true);
+    });
+  }
+
+  subscribeToUnmuteVideo() {
+    this.subscribe(SignalTypes.UNMUTE_VIDEO, () => {
+      this.openviduService.publishVideo(true);
     });
   }
 

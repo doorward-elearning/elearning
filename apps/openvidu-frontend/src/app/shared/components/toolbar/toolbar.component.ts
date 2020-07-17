@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output, HostListener, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 import { VideoFullscreenIcon } from '../../types/icon-type';
 import { OvSettingsModel } from '../../models/ovSettings';
@@ -6,6 +6,7 @@ import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
+import { OpenviduTheme } from '@doorward/common/types/openvidu';
 
 @Component({
   selector: 'app-toolbar',
@@ -39,7 +40,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png';
+  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
 
   participantsNames: string[] = [];
   numParticipants = 0;
@@ -71,6 +72,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.ovSettings.logoUrl) {
       this.logoUrl = this.ovSettings.logoUrl;
+    } else {
+      this.utilsSrv.theme.subscribe(next => {
+        this.logoUrl =
+          environment.CLOUDINARY_IMAGE_DIRECTORY +
+          (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
+      });
     }
 
     this.remoteUserService.getRemoteUsers().subscribe(users => {
