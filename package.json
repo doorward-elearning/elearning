@@ -4,10 +4,10 @@
   "openviduVersion": "2.14.0",
   "license": "MIT",
   "scripts": {
-    "env-config": "./tools/environment.sh",
+    "env-config": "ts-node tools/angular-config.ts",
     "nx": "nx",
-    "start": "yarn env-config && nx serve",
-    "start:dev": "yarn env-config && nx serve --ssl true --ssl-cert 'ssl/certificate.crt' --ssl-key 'ssl/certificate.key'",
+    "start": "NODE_ENV=production yarn env-config && nx serve",
+    "start:dev": "NODE_ENV=development yarn env-config && nx serve --ssl true --ssl-cert 'ssl/certificate.crt' --ssl-key 'ssl/certificate.key'",
     "build": "yarn env-config && nx build",
     "openvidu-webcomponent:build": "cd apps/openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').prepareWebcomponent()\" ; yarn build --prod --output-hashing none openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').buildWebcomponent()\"",
     "db:migrate": "cd apps/doorward-node-backend && sequelize db:migrate",

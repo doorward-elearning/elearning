@@ -24,8 +24,8 @@ module.exports = config => {
     })
   );
   if (config.devServer) {
-    config.devServer.liveReload = true;
-    // config.devServer.hot = true;
+    // config.devServer.liveReload = true;
+    config.devServer.hot = true;
   }
   config.plugins.push(new webpack.HotModuleReplacementPlugin());
 

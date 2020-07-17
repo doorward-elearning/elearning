@@ -1,13 +1,13 @@
 import { Logger } from '@nestjs/common';
-import { NestFactory } from '@nestjs/core';
 
 import { AppModule } from './app/app.module';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import helmet from 'helmet';
+import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await setUpNestApplication(AppModule);
   const globalPrefix = 'api';
 
   app.use(helmet());

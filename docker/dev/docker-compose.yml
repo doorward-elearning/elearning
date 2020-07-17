@@ -128,7 +128,7 @@ services:
     env_file:
       - openvidu/.env
     ports:
-      - '4443:4443'
+      - '443:4443'
     environment:
       OPENVIDU_SECRET: password
       OPENVIDU_WEBHOOK: 'true'
