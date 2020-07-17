@@ -3,8 +3,6 @@ data:
   REACT_APP_BASE_URL: https://{{ include "chuchu.thalapublicurl" . -}}/api/v1
   REACT_APP_OPENVIDU_URL: https://{{ .Values.classrooms_url }}
   DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
-  REACT_APP_OPENVIDU_URL: https://{{ .Values.classrooms.url }}
-  DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
 
 kind: ConfigMap
 metadata:

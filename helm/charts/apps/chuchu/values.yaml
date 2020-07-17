@@ -83,5 +83,3 @@ api:
 
 app_domain: beta.doorward.tech
 classrooms_url: classrooms.doorward.tech
-classrooms:
-  url: classrooms.doorward.tech
