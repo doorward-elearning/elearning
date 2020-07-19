@@ -47,6 +47,16 @@ spec:
             tcpSocket:
               port: {{ .Values.service.targetport }}
           env:
+            - name: OPENVIDU_API_PORT
+              valueFrom:
+                configMapKeyRef:
+                  key: OPENVIDU_API_PORT
+                  name: {{ include "thala.fullname" . }}
+            - name: OPENVIDU_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: OPENVIDU_API_URL
+                  name: {{ include "thala.fullname" . }}
             - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:
