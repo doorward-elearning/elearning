@@ -24,6 +24,7 @@ services:
       REACT_APP_BASE_URL: https://doorward.local:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
       DOORWARD_WEBSITE_LINK: https://doorward.local:3001
+      OPENVIDU_API_URL: https://doorward.local:3002/api/
     ports:
       - '3000:3000'
     entrypoint:
@@ -34,6 +35,8 @@ services:
       doorward_website:
         condition: service_started
       openvidu_api:
+        condition: service_started
+      openvidu_frontend:
         condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s -k https://localhost:3000']
@@ -72,7 +75,11 @@ services:
       - /usr/app/node_modules
       - ../../:/usr/app
     ports:
-      - '3333:3333'
+      - '3002:3333'
+    links:
+      - doorward_openvidu
+    environment:
+      OPENVIDU_URL: https://doorward_openvidu:4443
     entrypoint:
       - /usr/app/apps/openvidu-backend/entrypoint.sh
     depends_on:

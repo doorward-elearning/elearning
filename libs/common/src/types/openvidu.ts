@@ -85,6 +85,13 @@ export enum OpenviduTheme {
   DARK = 'dark',
   LIGHT = 'base',
 }
+
+export interface OpenviduUser {
+  name: string;
+  avatar: string;
+  role: OPENVIDU_ROLES;
+  data: any;
+}
 export interface OvSettings {
   chat: boolean;
   autopublish: boolean;
