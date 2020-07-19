@@ -8,7 +8,7 @@ export class CallController {
   constructor(private openviduService: OpenviduService) {}
 
   static handleError(error: AxiosError) {
-    console.error(error.response.data);
+    console.error(error.response?.data);
     const statusCode = error.response?.status;
 
     if (error.code === 'DEPTH_ZERO_SELF_SIGNED_CERT' || (error.code || '').includes('SELF_SIGNED_CERT')) {

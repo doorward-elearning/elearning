@@ -5,7 +5,6 @@ import {
   CreateTokenBody,
   CreateTokenResponse,
   DeleteSessionResponse,
-  OPENVIDU_ROLES,
   SessionInfoResponse,
   SessionsInfoResponse,
 } from '@doorward/common/types/openvidu';

@@ -13,12 +13,15 @@ export class HttpClientService {
     this.options.headers = {
       Authorization: 'Basic ' + btoa((process.env.OPENVIDU_USERNAME + ':' + process.env.OPENVIDU_PASSWORD).trim()),
       'Content-Type': 'application/json',
+      Host: 'localhost:4443',
     };
 
-    // TODO: Check for certificate type or openvidu server location
-    this.options.httpsAgent = new https.Agent({
-      rejectUnauthorized: false,
-    });
+    if(process.env.NODE_ENV === 'development'){
+      this.options.httpsAgent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+    }
+
     this.options.baseURL = process.env.OPENVIDU_URL;
   }
 
