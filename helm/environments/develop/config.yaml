@@ -50,7 +50,7 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: docker pull core.harbor.doorward.tech/doorward/thala@sha256
+    repository: core.harbor.doorward.tech/doorward/thala@sha256
     version: 72731523a557d3e6dd44be336e350ecc84ad46dc79b4e10a9e0206b581ab956a
     pullPolicy: Always
   samvadam:
