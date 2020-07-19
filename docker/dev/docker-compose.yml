@@ -21,13 +21,11 @@ services:
     env_file:
       - ../../.env
     environment:
-      REACT_APP_BASE_URL: http://localhost:7000/api/v1/
+      REACT_APP_BASE_URL: https://doorward.local:7000/api/v1/
       REACT_APP_REQUEST_DELAY: 500
-      DOORWARD_WEBSITE_LINK: http://localhost:3006
+      DOORWARD_WEBSITE_LINK: https://doorward.local:3001
     ports:
-      - '3005:3000'
-    expose:
-      - '3000'
+      - '3000:3000'
     entrypoint:
       - /usr/app/apps/doorward-frontend/entrypoint.sh
     depends_on:
@@ -35,8 +33,10 @@ services:
         condition: service_started
       doorward_website:
         condition: service_started
+      openvidu_api:
+        condition: service_started
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:3000']
+      test: ['CMD-SHELL', 'curl -s -k https://localhost:3000']
       interval: 10s
       timeout: 10s
       retries: 20
@@ -48,7 +48,7 @@ services:
       - ../../:/usr/app
     environment:
       DATABASE_URL: postgres://postgres:postgres@doorward_node_database:5432/doorward
-      FRONTEND_URL: http://localhost:3005
+      OPENVIDU_URL: https://doorward_openvidu:4443
     ports:
       - '7000:7000'
     expose:
@@ -61,7 +61,7 @@ services:
       doorward_openvidu:
         condition: service_started
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:7000']
+      test: ['CMD-SHELL', 'curl -s -k https://localhost:7000']
       interval: 10s
       timeout: 10s
       retries: 20
@@ -73,12 +73,28 @@ services:
       - ../../:/usr/app
     ports:
       - '3333:3333'
-    expose:
-      - '3333'
     entrypoint:
       - /usr/app/apps/openvidu-backend/entrypoint.sh
     depends_on:
       doorward_openvidu:
+        condition: service_started
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -s -k https://localhost:3333']
+      interval: 10s
+      timeout: 10s
+      retries: 20
+  openvidu_frontend:
+    image: dev_doorward:latest
+    container_name: openvidu_frontend
+    volumes:
+      - /usr/app/node_modules
+      - ../../:/usr/app
+    ports:
+      - '4200:4200'
+    entrypoint:
+      - /usr/app/apps/openvidu-frontend/entrypoint.sh
+    depends_on:
+      openvidu_api:
         condition: service_started
   doorward_website:
     image: dev_doorward:latest
@@ -87,18 +103,16 @@ services:
       - /usr/app/node_modules
       - ../../:/usr/app
     environment:
-      DOORWARD_APPLICATION_LINK: http://localhost:3005
+      DOORWARD_APPLICATION_LINK: https://doorward.local:3000
     ports:
-      - '3006:3001'
-    expose:
-      - '3001'
+      - '3001:3001'
     entrypoint:
       - /usr/app/apps/doorward-website/entrypoint.sh
     depends_on:
       doorward_rest_api:
         condition: service_started
     healthcheck:
-      test: ['CMD-SHELL', 'curl -s localhost:3001']
+      test: ['CMD-SHELL', 'curl -s -k https://localhost:3001']
       interval: 10s
       timeout: 10s
       retries: 20

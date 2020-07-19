@@ -7,6 +7,6 @@ printf "\n\n======================================\n"
 printf "Starting the application"
 printf "\n=======================================\n"
 
-yarn start openvidu-backend
+yarn start:dev openvidu-backend
 
 exit 0

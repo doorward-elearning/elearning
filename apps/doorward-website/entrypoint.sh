@@ -10,6 +10,6 @@ printf "\n\n======================================\n"
 printf "Starting the application"
 printf "\n=======================================\n"
 
-yarn start doorward-website
+yarn start:dev doorward-website
 
 exit 0
