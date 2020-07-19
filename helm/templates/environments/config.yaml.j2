@@ -48,6 +48,10 @@ websitename: {{ CUSTOMER_NAME }}
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
 namespace: {{ CUSTOMER_NAME }}-doorward
 
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-harbor
+
 # Override default variables for stage environments
 
 image:

@@ -1,27 +1,80 @@
 CUSTOMER_NAME: {{ CUSTOMER_NAME }}
 APP_VERSION: {{ APP_VERSION }}
+
 {% if LOGO_URL is defined %}
 LOGO_URL: "{{ LOGO_URL }}"
 {% else %}
 LOGO_URL: "https://doorward.s3.amazonaws.com/logos/download1.png"
 {% endif %}
+
 {% if ORGANIZATION_DISPLAY_NAME is defined %}
 ORGANIZATION_DISPLAY_NAME: "{{ ORGANIZATION_DISPLAY_NAME }}"
 {% else %}
 ORGANIZATION_DISPLAY_NAME: "Doorward E-Learning"
 {% endif %}
+
 {% if APP_WEBSITE_NAME is defined %}
 APP_WEBSITE_NAME: "{{ APP_WEBSITE_NAME }}"
 {% else %}
 APP_WEBSITE_NAME: "{{ CUSTOMER_NAME }}.doorward.tech"
 {% endif %}
+
 {% if ORGANIZATION_ADMIN_EMAIL is defined %}
 ORGANIZATION_ADMIN_EMAIL: "{{ ORGANIZATION_ADMIN_EMAIL }}"
 {% else %}
 ORGANIZATION_ADMIN_EMAIL: "info@doorward.tech"
 {% endif %}
+
 {% if WELCOME_WEBSITE_NAME is defined %}
 WELCOME_WEBSITE_NAME: "{{ WELCOME_WEBSITE_NAME }}"
 {% else %}
 WELCOME_WEBSITE_NAME: "www.doorward.tech"
+{% endif %}
+
+{% if TEACHER_UPLOAD_SPEED_MAX is defined %}
+TEACHER_UPLOAD_SPEED_MAX: {{ TEACHER_UPLOAD_SPEED_MAX }}
+{% else %}
+TEACHER_UPLOAD_SPEED_MAX: 30
+{% endif %}
+
+{% if TEACHER_UPLOAD_SPEED_MIN is defined %}
+TEACHER_UPLOAD_SPEED_MIN: {{ TEACHER_UPLOAD_SPEED_MIN }}
+{% else %}
+TEACHER_UPLOAD_SPEED_MIN: 25
+{% endif %}
+
+{% if STUDENT_DOWNLOAD_SPEED_MAX is defined %}
+STUDENT_DOWNLOAD_SPEED_MAX: {{ STUDENT_DOWNLOAD_SPEED_MAX }}
+{% else %}
+STUDENT_DOWNLOAD_SPEED_MAX: 30
+{% endif %}
+
+{% if STUDENT_DOWNLOAD_SPEED_MIN is defined %}
+STUDENT_DOWNLOAD_SPEED_MIN: {{ STUDENT_DOWNLOAD_SPEED_MIN }}
+{% else %}
+STUDENT_DOWNLOAD_SPEED_MIN: 25
+{% endif %}
+
+{% if WEEK_START_DAY is defined %}
+WEEK_START_DAY: {{ WEEK_START_DAY }}
+{% else %}
+WEEK_START_DAY: monday
+{% endif %}
+
+{% if WEEK_END_DAY is defined %}
+WEEK_END_DAY: {{ WEEK_END_DAY }}
+{% else %}
+WEEK_END_DAY: friday
+{% endif %}
+
+{% if CLASS_START_TIME is defined %}
+CLASS_START_TIME: {{ CLASS_START_TIME }}
+{% else %}
+CLASS_START_TIME: 9
+{% endif %}
+
+{% if CLASS_END_TIME is defined %}
+CLASS_END_TIME: {{ CLASS_END_TIME }}
+{% else %}
+CLASS_END_TIME: 12
 {% endif %}

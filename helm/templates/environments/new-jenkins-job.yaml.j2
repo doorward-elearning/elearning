@@ -17,4 +17,4 @@
             branches:
              - origin/develop
     builders:
-      - shell: "cd helm/environment/{{ CUSTOMER_NAME }} && helmfile -l stage=1 sync && sleep 100 && helmfile -l stage=2 sync"
+      - shell: "cd helm/environment/{{ CUSTOMER_NAME }} && helmfile -l stage=2 sync"
