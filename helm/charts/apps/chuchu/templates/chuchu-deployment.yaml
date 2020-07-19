@@ -51,12 +51,12 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: OPENVIDU_API_PORT
-                  name: {{ include "thala.fullname" . }}
+                  name: {{ include "chuchu.fullname" . }}
             - name: OPENVIDU_API_URL
               valueFrom:
                 configMapKeyRef:
                   key: OPENVIDU_API_URL
-                  name: {{ include "thala.fullname" . }}
+                  name: {{ include "chuchu.fullname" . }}
             - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:
