@@ -37,7 +37,7 @@ export interface Publisher {
   };
 }
 
-export interface Connection {
+export interface OpenviduConnection {
   connectionId: string;
   createdAt: number;
   location: string;
@@ -59,7 +59,10 @@ export interface SessionInfoResponse {
   defaultRecordingLayout: string;
   defaultCustomLayout: string;
   customSessionId: string;
-  connections: Array<Connection>;
+  connections: {
+    numberOfElements: number;
+    content: Array<OpenviduConnection>;
+  };
   subscriber: Array<Subscriber>;
 }
 
@@ -76,7 +79,7 @@ export interface KurentoOptions {
   allowedFilters: Array<string>;
 }
 
-export interface CreateTokenResponse extends CreateTokenBody {
+export interface OpenviduSessionResponse extends CreateTokenBody {
   id: string;
   token: string;
 }
@@ -87,11 +90,27 @@ export enum OpenviduTheme {
 }
 
 export interface OpenviduUser {
-  name: string;
-  avatar: string;
-  role: OPENVIDU_ROLES;
-  data: any;
+  name?: string;
+  avatar?: string;
+  role?: OPENVIDU_ROLES;
+  data?: any;
 }
+
+export interface OpenviduUserSession {
+  user: OpenviduUser;
+  jwtToken?: string;
+  sessionInfo: CreateTokenBody & {
+    screenToken: string;
+    webcamToken: string;
+    connectionId: string;
+  };
+}
+
+export interface OpenviduJWTPayload {
+  user: OpenviduUser;
+  sessionInfo: OpenviduSessionResponse;
+}
+
 export interface OvSettings {
   chat: boolean;
   autopublish: boolean;
@@ -110,10 +129,8 @@ export interface OpenviduWebComponentConfig {
   ovSettings: OvSettings;
   sessionId: string;
   sessionTitle: string;
-  avatar: string;
   ovServerApiUrl: string;
   redirectOnEnd: string;
   theme: OpenviduTheme;
-  nickname: string;
-  role: OPENVIDU_ROLES;
+  user: OpenviduUser;
 }

@@ -34,7 +34,8 @@ import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeti
 import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../shared/services/signals/signals.service';
-import { OPENVIDU_ROLES, OpenviduTheme } from '@doorward/common/types/openvidu';
+import { OPENVIDU_ROLES, OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-video-room',
@@ -108,19 +109,23 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     const defaultConfig = new ExternalConfigModel();
-    defaultConfig.nickname = this.utilsSrv.generateNickname();
+    defaultConfig.user = {
+      name: this.utilsSrv.generateNickname(),
+      role: this.utilsSrv.isFF() ? OPENVIDU_ROLES.PUBLISHER : OPENVIDU_ROLES.MODERATOR,
+      avatar:
+        Math.random() * 1000 > 500
+          ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+          : null,
+    };
     defaultConfig.sessionId = 'test-meeting';
-    defaultConfig.role = this.utilsSrv.isFF() ? OPENVIDU_ROLES.PUBLISHER : OPENVIDU_ROLES.MODERATOR;
-    if (Math.random() * 1000 > 500) {
-      defaultConfig.avatar =
-        'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
-    }
     this.externalConfig = this.externalConfig || defaultConfig;
     this.lightTheme = this.externalConfig.theme === OpenviduTheme.LIGHT;
     this.ovSettings = this.externalConfig.ovSettings || new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
-    this.oVSessionService.setWebcamAvatar(this.externalConfig.avatar);
-    this.networkSrv.setBaseUrl(this.externalConfig.ovServerApiUrl);
+    this.oVSessionService.setWebcamAvatar(this.externalConfig.user.avatar);
+    if (this.externalConfig.ovServerApiUrl) {
+      environment.OPENVIDU_API_URL = this.externalConfig.ovServerApiUrl;
+    }
     this.utilsSrv.setTheme(this.externalConfig.theme);
     this.utilsSrv.subscribeToThemeChangeShortcut();
     if (!this.showConfigRoomCard) {
@@ -377,9 +382,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private async connectToSession(): Promise<void> {
     let screenToken: string;
-    const webcamToken = await this.getToken();
+    const userSession = await this.initializeSession();
+    const webcamToken = userSession.sessionInfo.webcamToken;
     if (!screenToken && this.ovSettings?.hasScreenSharing()) {
-      screenToken = await this.getToken();
+      screenToken = userSession.sessionInfo.screenToken;
     }
 
     if (webcamToken || screenToken) {
@@ -402,8 +408,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private async connectBothSessions(webcamToken: string, screenToken: string) {
     try {
-      await this.oVSessionService.connectWebcamSession(webcamToken, this.externalConfig.role);
-      await this.oVSessionService.connectScreenSession(screenToken, this.externalConfig.role);
+      await this.oVSessionService.connectWebcamSession(webcamToken, this.externalConfig.user.role);
+      await this.oVSessionService.connectScreenSession(screenToken, this.externalConfig.user.role);
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
         this.localUsers[0].getStreamManager().videos[0].video.parentElement.classList.remove('custom-class');
@@ -526,10 +532,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async getToken(): Promise<string> {
+  private async initializeSession(): Promise<OpenviduUserSession> {
     this.log.d('Generating tokens...', this.mySessionId);
     try {
-      return await this.networkSrv.getToken(this.mySessionId, this.externalConfig.role);
+      return await this.networkSrv.getToken(this.mySessionId, {
+        ...this.externalConfig.user,
+      });
     } catch (error) {
       this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
       this.log.e('There was an error getting the token:', error.status, error.message);

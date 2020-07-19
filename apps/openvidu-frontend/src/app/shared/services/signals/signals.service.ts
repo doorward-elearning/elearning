@@ -5,6 +5,7 @@ import {
   EventDispatcher,
   PublisherSpeakingEvent,
   RecordingEvent,
+  Session,
   SessionDisconnectedEvent,
   SignalEvent,
   StreamEvent,
@@ -64,7 +65,7 @@ export class SignalsService {
     const session = webCam ? this.openviduService.getWebcamSession() : this.openviduService.getScreenSession();
     if (session) {
       return session.on('signal', event => {
-        if (event.type === 'signal:' + type) {
+        if (event.type === 'signal:' + type && event) {
           handler(event);
         }
       });

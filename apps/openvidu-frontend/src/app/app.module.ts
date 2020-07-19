@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { createCustomElement } from '@angular/elements';
 import { ElementZoneStrategyFactory } from 'elements-zone-strategy';
 import { NgxLinkifyjsModule } from 'ngx-linkifyjs';
@@ -71,6 +71,8 @@ import { UserAvatarComponent } from './shared/components/user-avatar/user-avatar
 import { SignalsService } from './shared/services/signals/signals.service';
 import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { MatMenuModule } from '@angular/material/menu';
+import { environment } from '../environments/environment';
+import { NetworkInterceptor } from './shared/services/network/network.interceptor';
 
 @NgModule({
   declarations: [
@@ -143,6 +145,8 @@ import { MatMenuModule } from '@angular/material/menu';
     StorageService,
     SignalsService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
+    { provide: 'BASE_API_URL', useValue: environment.OPENVIDU_API_URL },
+    { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

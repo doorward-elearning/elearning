@@ -3,31 +3,28 @@ import { Injectable } from '@angular/core';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
-import { CreateTokenResponse } from '@doorward/common/types/openvidu';
+import { OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
 })
 export class NetworkService {
   private log: ILogger;
-  private baseUrl: string;
 
   constructor(private http: HttpClient, private loggerSrv: LoggerService) {
     this.log = this.loggerSrv.get('NetworkService');
   }
 
-  setBaseUrl(url: string) {
-    this.baseUrl = url;
-  }
-
-  async getToken(sessionId: string, role: string): Promise<string> {
+  async getToken(sessionId: string, user: OpenviduUser): Promise<OpenviduUserSession> {
     try {
       this.log.d('Getting token from backend');
       const response = await this.http
-        .post<ApiResponse<CreateTokenResponse>>(this.baseUrl + 'call', { sessionId, role })
+        .post<ApiResponse<OpenviduUserSession>>('call', { sessionId, user })
         .toPromise();
 
-      return response.data.token;
+      localStorage.setItem('jwtToken', response.data.jwtToken);
+
+      return response.data;
     } catch (error) {
       if (error.status === 404) {
         throw { status: error.status, message: 'Cannot connect with backend. ' + error.url + ' not found' };
@@ -37,17 +34,17 @@ export class NetworkService {
   }
 
   async muteAllParticipants(sessionId: string, permanent = false) {
-    return this.http.post(this.baseUrl + 'signals/audio/mute-all', { sessionId, permanent }).toPromise();
+    return this.http.post('signals/audio/mute-all', { sessionId, permanent }).toPromise();
   }
 
   async turnOffEveryoneVideo(sessionId: string, permanent = false) {
-    return this.http.post(this.baseUrl + 'signals/video/mute-all', { sessionId, permanent }).toPromise();
+    return this.http.post('signals/video/mute-all', { sessionId, permanent }).toPromise();
   }
 
   async unmuteAllParticipants(sessionId: string) {
-    return this.http.post(this.baseUrl + 'signals/audio/unmute-all/', { sessionId }).toPromise();
+    return this.http.post('signals/audio/unmute-all/', { sessionId }).toPromise();
   }
   async turnOnEveryoneVideo(sessionId: string) {
-    return this.http.post(this.baseUrl + 'signals/video/unmute-all/', { sessionId }).toPromise();
+    return this.http.post('signals/video/unmute-all/', { sessionId }).toPromise();
   }
 }

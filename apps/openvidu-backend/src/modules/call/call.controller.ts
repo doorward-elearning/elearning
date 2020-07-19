@@ -1,11 +1,13 @@
 import { Body, Controller, Delete, HttpException, HttpStatus, Post } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { OpenviduService } from '../../services/openvidu/openvidu.service';
-import { CreateTokenResponse, DeleteSessionResponse, OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
+import { DeleteSessionResponse, OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { AuthService } from '../auth/auth.service';
+import Tools from '@doorward/common/utils/Tools';
 
 @Controller('call')
 export class CallController {
-  constructor(private openviduService: OpenviduService) {}
+  constructor(private openviduService: OpenviduService, private authService: AuthService) {}
 
   static handleError(error: AxiosError) {
     console.error(error.response?.data);
@@ -27,8 +29,8 @@ export class CallController {
   @Post()
   async createSession(
     @Body('sessionId') sessionId: string,
-    @Body('role') role: OPENVIDU_ROLES
-  ): Promise<CreateTokenResponse> {
+    @Body('user') user: OpenviduUser
+  ): Promise<OpenviduUserSession> {
     let id = sessionId;
     try {
       const response = await this.openviduService.createSession(sessionId);
@@ -38,11 +40,35 @@ export class CallController {
         CallController.handleError(error);
       }
     }
+
     try {
-      return this.openviduService.createToken({
+      const webcamToken = await this.openviduService.createToken({
         session: id,
-        role,
+        role: user.role,
+        data: JSON.stringify(user),
       });
+      const screenToken = await this.openviduService.createToken({
+        session: id,
+        role: user.role,
+        data: JSON.stringify(user),
+      });
+
+      const userSession: OpenviduUserSession = {
+        user,
+        sessionInfo: {
+          webcamToken: webcamToken.token,
+          screenToken: screenToken.token,
+          connectionId: `conn_${Tools.randomString(10)}`,
+          role: user.role,
+          session: sessionId,
+        },
+      };
+
+      const jwtToken = await this.authService.generateAccessToken(userSession);
+      return {
+        ...userSession,
+        jwtToken,
+      };
     } catch (error) {
       CallController.handleError(error);
     }
@@ -56,7 +82,4 @@ export class CallController {
       CallController.handleError(error);
     }
   }
-
-  @Post()
-  async muteAllParticipants(): Promise<void> {}
 }

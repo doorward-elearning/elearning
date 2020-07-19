@@ -246,7 +246,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
   setNicknameForm() {
     if (this.externalConfig) {
-      this.nicknameFormControl.setValue(this.externalConfig.nickname);
+      this.nicknameFormControl.setValue(this.externalConfig.user.name);
       return;
     }
     const nickname = this.storageSrv.get(this.USER_NICKNAME) || this.utilsSrv.generateNickname();
