@@ -1,4 +1,4 @@
-FROM node:dubnium
+FROM node:12.18
 
 LABEL MAINTAINER="Moses Gitau <gitaumoses4@gmail.com>"
 LABEL APPLICATION="doorward-frontend"

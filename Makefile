@@ -6,9 +6,7 @@ DOCKER_DEV_COMPOSE_FILE := docker/dev/docker-compose.yml
 
 start:
 	${INFO} "Creating PostgreSQL database volume"
-	@ docker volume create --name=openolat_data > /dev/null
 	@ docker volume create --name=doorward_data > /dev/null
-	@ docker volume create --name=ldap_data > /dev/null
 	@ echo " "
 	@ ${INFO} "Building required docker images"
 	@ docker image inspect dev_doorward:latest >/dev/null 2>&1 && echo "Image already exists" ||  docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} build doorward
@@ -60,7 +58,7 @@ clean:
 	@ docker volume rm doorward_data
 	@ ${INFO} "Removing dangling images"
 	@ docker images -q -f label=application${PROJECT_NAME} | xargs -I ARGS docker rmi -f ARGS
-	docker system prune
+	@ docker system prune
 	@ ${SUCCESS} "Clean complete"
 
 ssh:
