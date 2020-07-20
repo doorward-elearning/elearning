@@ -34,6 +34,10 @@ export class RemoteUsersService {
     let avatar = '';
     let role;
     try {
+      if (data.includes('}%/%{')) {
+        data = data.substring(0, data.indexOf('}%/%{') + 1);
+      }
+      console.log(data, 'Moses');
       const info = JSON.parse(data);
       nickname = info?.name;
       avatar = info?.avatar;

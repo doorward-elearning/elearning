@@ -32,19 +32,4 @@ export class NetworkService {
       throw error;
     }
   }
-
-  async muteAllParticipants(sessionId: string, permanent = false) {
-    return this.http.post('signals/audio/mute-all', { sessionId, permanent }).toPromise();
-  }
-
-  async turnOffEveryoneVideo(sessionId: string, permanent = false) {
-    return this.http.post('signals/video/mute-all', { sessionId, permanent }).toPromise();
-  }
-
-  async unmuteAllParticipants(sessionId: string) {
-    return this.http.post('signals/audio/unmute-all/', { sessionId }).toPromise();
-  }
-  async turnOnEveryoneVideo(sessionId: string) {
-    return this.http.post('signals/video/unmute-all/', { sessionId }).toPromise();
-  }
 }

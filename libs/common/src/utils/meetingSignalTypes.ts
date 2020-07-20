@@ -1,8 +1,13 @@
-const SignalTypes = {
-  MUTE_AUDIO: 'MUTE_AUDIO',
-  MUTE_VIDEO: 'MUTE_VIDEO',
-  UNMUTE_AUDIO: 'UNMUTE_AUDIO',
-  UNMUTE_VIDEO: 'UNMUTE_VIDEO',
-};
+enum SignalTypes {
+  TOGGLE_AUDIO = 'TOGGLE_AUDIO',
+  TOGGLE_VIDEO = 'TOGGLE_VIDEO',
+  LEAVE_MEETING = 'LEAVE_MEETING',
+}
+
+export interface SignalData extends Record<SignalTypes, unknown> {
+  [SignalTypes.TOGGLE_AUDIO]: { permanent: boolean };
+  [SignalTypes.TOGGLE_VIDEO]: { permanent: boolean };
+  [SignalTypes.LEAVE_MEETING]: undefined;
+}
 
 export default SignalTypes;

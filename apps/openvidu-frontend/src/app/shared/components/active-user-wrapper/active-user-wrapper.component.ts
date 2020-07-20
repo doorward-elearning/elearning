@@ -1,12 +1,25 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import _ from 'lodash';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-active-user-wrapper',
   templateUrl: './active-user-wrapper.component.html',
   styleUrls: ['./active-user-wrapper.component.css'],
 })
-export class ActiveUserWrapperComponent implements OnInit, AfterViewInit {
+export class ActiveUserWrapperComponent implements OnInit, AfterViewInit, OnDestroy {
   hidden = false;
   mouseMoveListener: () => void;
 
@@ -14,18 +27,29 @@ export class ActiveUserWrapperComponent implements OnInit, AfterViewInit {
 
   @Input() delay = 2000;
 
+  @Input() parent: HTMLElement;
+
   @ViewChild('userWrapper') wrapper;
 
-  constructor() {
+  element: any;
+
+  constructor(@Inject(DOCUMENT) private document: Document) {}
+
+  ngOnInit(): void {
     this.mouseMoveListener = _.debounce(() => {
       this.hidden = true;
       this.contentHidden.emit(true);
     }, this.delay);
+
+    if (this.parent) {
+      this.element = this.parent;
+    } else {
+      this.element = this.document.body;
+    }
+
+    this.element.addEventListener('mousemove', this.onMouseMove.bind(this));
   }
 
-  ngOnInit(): void {}
-
-  @HostListener('document:mousemove', ['$event'])
   onMouseMove() {
     if (this.hidden) {
       this.contentHidden.emit(false);
@@ -35,4 +59,10 @@ export class ActiveUserWrapperComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {}
+
+  ngOnDestroy(): void {
+    if (this.element) {
+      this.element.removeEventListener('mousemove', this.onMouseMove());
+    }
+  }
 }

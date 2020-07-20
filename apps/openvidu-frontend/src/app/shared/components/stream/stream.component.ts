@@ -17,6 +17,8 @@ import { LayoutType } from '../../types/layout-type';
 import { VideoFullscreenIcon, VideoSizeIcon } from '../../types/icon-type';
 import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
+import { SignalsService } from '../../services/signals/signals.service';
+import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
 @Component({
   selector: 'stream-component',
@@ -26,7 +28,6 @@ import Tools from '@doorward/common/utils/Tools';
 export class StreamComponent implements OnInit {
   videoSizeIcon: VideoSizeIcon = VideoSizeIcon.BIG;
   fullscreenIcon: VideoFullscreenIcon = VideoFullscreenIcon.BIG;
-  mutedSound: boolean;
   toggleNickname: boolean;
   isFullscreen: boolean;
   isZoomedIn: boolean;
@@ -35,13 +36,14 @@ export class StreamComponent implements OnInit {
   matcher: NicknameMatcher;
 
   _user: UserModel;
+  @Input() localUser: UserModel;
   @Output() nicknameClicked = new EventEmitter<any>();
   @Output() replaceScreenTrackClicked = new EventEmitter<any>();
   @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
   @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
 
-  constructor(private utilsSrv: UtilsService) {}
+  constructor(private utilsSrv: UtilsService, private signalsService: SignalsService) {}
 
   @HostListener('window:resize', ['$event'])
   sizeChange(event) {
@@ -92,7 +94,15 @@ export class StreamComponent implements OnInit {
   }
 
   toggleSound() {
-    this.mutedSound = !this.mutedSound;
+    this.signalsService.send(SignalTypes.TOGGLE_AUDIO, { permanent: false }, [this._user]);
+  }
+
+  toggleVideo() {
+    this.signalsService.send(SignalTypes.TOGGLE_VIDEO, { permanent: false }, [this._user]);
+  }
+
+  isMine() {
+    return this._user.isLocal();
   }
 
   toggleNicknameForm() {

@@ -73,6 +73,7 @@ import { NgxEmojiPickerModule } from 'ngx-emoji-picker';
 import { MatMenuModule } from '@angular/material/menu';
 import { environment } from '../environments/environment';
 import { NetworkInterceptor } from './shared/services/network/network.interceptor';
+import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,7 @@ import { NetworkInterceptor } from './shared/services/network/network.intercepto
     ParticipantsListComponent,
     ActiveUserWrapperComponent,
     UserAvatarComponent,
+    AlertDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -132,7 +134,13 @@ import { NetworkInterceptor } from './shared/services/network/network.intercepto
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
   ],
-  entryComponents: [DialogErrorComponent, WebComponentComponent, DialogEndMeetingComponent, DialogPermissionsComponent],
+  entryComponents: [
+    DialogErrorComponent,
+    WebComponentComponent,
+    DialogEndMeetingComponent,
+    DialogPermissionsComponent,
+    AlertDialogComponent,
+  ],
   providers: [
     NetworkService,
     OpenViduSessionService,

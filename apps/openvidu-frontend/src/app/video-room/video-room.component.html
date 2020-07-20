@@ -65,6 +65,7 @@
             <!-- Only webcam video will be shown if webcamera is available -->
             <stream-component
               [user]="localUser"
+              [localUser]="getLocalUser()"
               [videoSizeBig]="localUser.videoSizeBig"
               (nicknameClicked)="onNicknameUpdate($event)"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
@@ -74,6 +75,7 @@
 
           <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
             <stream-component
+              [localUser]="getLocalUser()"
               [user]="user"
               [videoSizeBig]="user.videoSizeBig"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"

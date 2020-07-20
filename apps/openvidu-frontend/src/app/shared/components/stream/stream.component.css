@@ -20,14 +20,18 @@ video {
 }
 
 .videoStatusInfo {
-  bottom: var(--padding);
-  left: var(--padding);
+  bottom: 0;
+  left: 0;
+  display: none;
   position: absolute;
+  width: 100%;
   z-index: 2;
   color: white;
-  display: grid;
+  justify-content: start;
+  padding: 50px var(--padding) var(--padding);
   grid-auto-flow: column;
   align-items: center;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.5));
   grid-gap: var(--padding);
 }
 
@@ -87,6 +91,10 @@ video {
   height: 100%;
   position: absolute;
   overflow: hidden;
+}
+
+.OT_widget-container:hover .videoStatusInfo {
+  display: grid;
 }
 
 mat-error,

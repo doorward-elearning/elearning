@@ -52,17 +52,18 @@
     </div>
   </div>
 
-  <ov-video
-    [streamManager]="this._user.streamManager"
-    [mutedSound]="mutedSound"
-    (toggleVideoSizeEvent)="toggleVideoSize($event)"
-  ></ov-video>
+  <ov-video [streamManager]="this._user.streamManager" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
     <user-avatar [name]="this._user.nickname" [avatar]="this._user.getAvatar()" fontSize="0.7em"></user-avatar>
     <div class="user-nickname">{{ this._user.nickname }}</div>
-    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.audioActive">mic_off</mat-icon>
-    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.videoActive">videocam_off</mat-icon>
+    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.audioActive && _user.isCamera()"
+      >mic_off</mat-icon
+    >
+    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.videoActive && _user.isCamera()"
+      >videocam_off</mat-icon
+    >
+    <mat-icon class="disabled tiny" *ngIf="this._user.isScreen()">screen_share</mat-icon>
 
     <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
     <mat-menu #menu="matMenu" size="small">
@@ -78,14 +79,24 @@
           {{ !this.isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
         </span>
       </button>
+      <button mat-menu-item (click)="toggleSound()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
+        <mat-icon class="disabled">{{ this._user.streamManager?.stream?.audioActive ? 'mic_off' : 'mic_on' }}</mat-icon>
+        <span>
+          {{ this._user.streamManager?.stream?.audioActive ? 'Mute participant' : 'Unmute participant' }}
+        </span>
+      </button>
+      <button mat-menu-item (click)="toggleVideo()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
+        <mat-icon class="disabled">{{
+          this._user.streamManager?.stream?.videoActive ? 'videocam_off' : 'videocam_on'
+        }}</mat-icon>
+        <span>
+          {{ this._user.streamManager?.stream?.videoActive ? 'Turn off video' : 'Request to turn on video' }}
+        </span>
+      </button>
     </mat-menu>
   </div>
 
   <div class="videoButtons">
-    <button mat-icon-button id="volumeButton" *ngIf="this._user.streamManager.remote" (click)="toggleSound()">
-      <mat-icon *ngIf="!mutedSound" matTooltip="Mute sound">volume_up</mat-icon>
-      <mat-icon *ngIf="mutedSound" color="warn" matTooltip="Unmute sound">volume_off</mat-icon>
-    </button>
     <button
       mat-icon-button
       (click)="replaceScreenTrack()"

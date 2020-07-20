@@ -6,6 +6,7 @@ import { LayoutBigElement } from '../../types/layout-type';
 import { OpenviduTheme } from '@doorward/common/types/openvidu';
 import updateTheme from '@doorward/ui/themes/updateTheme';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { AlertDialogButton, AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,7 @@ export class UtilsService {
   private dialogRef: MatDialogRef<DialogErrorComponent, any>;
   theme: Observable<OpenviduTheme>;
   themeObs: BehaviorSubject<OpenviduTheme>;
+  private alertDialogRef: MatDialogRef<AlertDialogComponent>;
 
   private refreshTheme: () => void;
   private themeEventListener: (e: KeyboardEvent) => void;
@@ -136,7 +138,7 @@ export class UtilsService {
     return this.isAndroid() || this.isIos();
   }
 
-  showErrorMessage(header: string, message: string, disableClose: boolean = false, redirectUrl?: string) {
+  showErrorMessage(header: string, message: string, disableClose = false, redirectUrl?: string) {
     this.dialogRef = this.dialog.open(DialogErrorComponent, {
       data: { header: header, message: message, onClose: redirectUrl },
       disableClose,
@@ -178,5 +180,22 @@ export class UtilsService {
 
   private isIos(): boolean {
     return /\b(\w*iOS\w*)\b/.test(navigator.userAgent);
+  }
+
+  alert(title: string, message: string, buttons: Array<AlertDialogButton>, disableClose = false) {
+    this.alertDialogRef = this.dialog.open(AlertDialogComponent, {
+      data: {
+        title,
+        message,
+        buttons,
+      },
+      disableClose,
+    });
+  }
+
+  closeAlert() {
+    if (this.alertDialogRef) {
+      this.alertDialogRef.close();
+    }
   }
 }

@@ -31,11 +31,10 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { ChatService } from '../shared/services/chat/chat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
-import greys from '@doorward/ui/colors/greys';
-import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../shared/services/signals/signals.service';
 import { OPENVIDU_ROLES, OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { environment } from '../../environments/environment';
+import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
 @Component({
   selector: 'app-video-room',
@@ -118,11 +117,17 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           : null,
     };
     defaultConfig.sessionId = 'test-meeting';
-    this.externalConfig = this.externalConfig || defaultConfig;
+    if (!this.externalConfig) {
+      this.externalConfig = defaultConfig;
+      this._leaveSession.subscribe(() => {
+        this.router.navigate(['']);
+      });
+    }
     this.lightTheme = this.externalConfig.theme === OpenviduTheme.LIGHT;
     this.ovSettings = this.externalConfig.ovSettings || new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
     this.oVSessionService.setWebcamAvatar(this.externalConfig.user.avatar);
+
     if (this.externalConfig.ovServerApiUrl) {
       environment.OPENVIDU_API_URL = this.externalConfig.ovServerApiUrl;
     }
@@ -187,6 +192,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.subscribeToReconnection();
     this.connectToSession();
     this.signalService.subscribeAll();
+    this.signalService.subscribeToLeaveSession(() => {
+      this.oVSessionService.disconnect();
+      this._leaveSession.emit();
+    });
   }
 
   leaveSession(showDialog = false) {
@@ -202,9 +211,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         .toPromise()
         .then(dialogResult => {
           if (dialogResult.meetingEnded) {
-            this.oVSessionService.disconnect();
-            this.oVSessionService.destroyUsers();
-            this._leaveSession.emit();
+            this.signalService.send(SignalTypes.LEAVE_MEETING, undefined).then(() => {
+              this.oVSessionService.disconnect();
+              this._leaveSession.emit();
+            });
           }
           if (dialogResult.meetingLeft) {
             this.oVSessionService.disconnect();
@@ -213,7 +223,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         });
     } else {
       this.oVSessionService.disconnect();
-      this.router.navigate(['']);
       this._leaveSession.emit();
     }
   }
@@ -586,19 +595,15 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  toggleEveryoneMic(on: boolean) {
-    if (on) {
-      this.networkSrv.unmuteAllParticipants(this.mySessionId);
-    } else {
-      this.networkSrv.muteAllParticipants(this.mySessionId, false);
-    }
+  toggleEveryoneMic() {
+    this.signalService.send(SignalTypes.TOGGLE_AUDIO, { permanent: false });
   }
 
-  toggleEveryoneVideo(on: boolean) {
-    if (on) {
-      this.networkSrv.turnOnEveryoneVideo(this.mySessionId);
-    } else {
-      this.networkSrv.turnOffEveryoneVideo(this.mySessionId, false);
-    }
+  toggleEveryoneVideo() {
+    this.signalService.send(SignalTypes.TOGGLE_VIDEO, { permanent: false });
+  }
+
+  getLocalUser() {
+    return this.localUsers.find(user => user.isCamera());
   }
 }
