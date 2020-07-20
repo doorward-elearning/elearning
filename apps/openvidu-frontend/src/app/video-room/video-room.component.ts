@@ -203,7 +203,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     if (showDialog) {
       const result = this.matDialog.open(DialogEndMeetingComponent, {
         data: {
-          isSubscriber: false,
+          user: this.getLocalUser(),
         },
       });
       result

@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>{{ data.isSubscriber ? 'Leave meeting' : 'End meeting' }}</h2>
+<h2 mat-dialog-title>{{ !data.user.isModerator() ? 'Leave meeting' : 'End meeting' }}</h2>
 <mat-dialog-content class="mat-typography">
   <p>
     {{
-      data.isSubscriber
+      !data.user.isModerator()
         ? 'Are you sure that you want to leave this meeting?'
         : 'You can leave the meeting, or end it for all participants.'
     }}
@@ -19,7 +19,7 @@
     [mat-dialog-close]="true"
     (click)="endMeeting()"
     cdkFocusInitial
-    *ngIf="!data.isSubscriber"
+    *ngIf="data.user.isModerator()"
   >
     <b>
       End meeting for all

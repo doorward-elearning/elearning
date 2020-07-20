@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { UserModel } from '../../models/user-model';
 
 export interface EndMeetingDialogData {
-  isSubscriber: boolean;
+  user: UserModel;
 }
 
 export interface EndMeetingDialogResult {
