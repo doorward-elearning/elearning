@@ -1,15 +1,11 @@
 import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
 import { VideoFullscreenIcon } from '../../types/icon-type';
-import { OvSettingsModel } from '../../models/ovSettings';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 import { OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
-import { ExternalConfigModel } from '../../models/external-config';
-import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
-import { UserModel } from '../../models/user-model';
 
 @Component({
   selector: 'app-toolbar',
@@ -76,12 +72,15 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.remoteUserService.getRemoteUsers().subscribe(users => {
       this.numParticipants = users.length;
     });
+
+    console.log(this.localUserSession.sessionConfig.logoUrl, 'Moses');
     if (typeof this.localUserSession.sessionConfig.logoUrl === 'object') {
       this.utilsSrv.theme.subscribe(next => {
         const logo =
           environment.CLOUDINARY_IMAGE_DIRECTORY +
           (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
         this.logoUrl = this.localUserSession.sessionConfig.logoUrl[next] || logo;
+        console.log(logo, this.logoUrl, 'Moses');
       });
     } else {
       this.logoUrl = this.localUserSession.sessionConfig.logoUrl;

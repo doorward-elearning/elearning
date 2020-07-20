@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { ChatMessage } from '../../types/chat-type';
 import { OpenViduSessionService } from '../openvidu-session/openvidu-session.service';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -7,6 +7,9 @@ import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { NotificationService } from '../notifications/notification.service';
+import { UserModel } from '../../models/user-model';
+import { SignalsService } from '../signals/signals.service';
+import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
 @Injectable({
   providedIn: 'root',
@@ -26,18 +29,24 @@ export class ChatService {
   private messagesUnread = 0;
   private log: ILogger;
 
+  private localUser: UserModel;
+
   private _messagesUnread = <BehaviorSubject<number>>new BehaviorSubject(0);
 
   constructor(
     private loggerSrv: LoggerService,
     private oVSessionService: OpenViduSessionService,
     private remoteUsersService: RemoteUsersService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private signalsService: SignalsService
   ) {
     this.log = this.loggerSrv.get('ChatService');
     this.messagesObs = this._messageList.asObservable();
     this.toggleChatObs = this._toggleChat.asObservable();
     this.messagesUnreadObs = this._messagesUnread.asObservable();
+    this.oVSessionService.getUsers().subscribe(user => {
+      this.localUser = user[0];
+    });
   }
 
   setChatComponent(chatSidenav: MatSidenav) {
@@ -45,39 +54,29 @@ export class ChatService {
   }
 
   subscribeToChat() {
-    const session = this.oVSessionService.getWebcamSession();
-    session.on('signal:chat', (event: any) => {
+    this.signalsService.subscribe(SignalTypes.CHAT, ({ message, sender }, event) => {
       const connectionId = event.from.connectionId;
-      const data = JSON.parse(event.data);
       const isMyOwnConnection = this.oVSessionService.isMyOwnConnection(connectionId);
       this.messageList.push({
         isLocal: isMyOwnConnection,
-        nickname: data.nickname,
-        message: data.message,
-        userAvatar: isMyOwnConnection
-          ? this.oVSessionService.getWebCamAvatar()
-          : this.remoteUsersService.getUserAvatar(connectionId),
+        nickname: sender.name,
+        message,
+        userAvatar: sender.avatar,
       });
       if (!this.isChatOpened()) {
         this.addMessageUnread();
-        this.notificationService.newMessage(data.nickname.toUpperCase(), this.toggleChat.bind(this));
+        this.notificationService.newMessage(sender.name.toUpperCase(), this.toggleChat.bind(this));
       }
       this._messageList.next(this.messageList);
     });
   }
 
   sendMessage(message: string) {
-    message = message.replace(/ +(?= )/g, '');
-    if (message !== '' && message !== ' ') {
-      const data = {
-        message: message,
-        nickname: this.oVSessionService.getWebcamUserName(),
-        userAvatar: this.oVSessionService.getWebCamAvatar(),
-      };
-      const sessionAvailable = this.oVSessionService.getConnectedUserSession();
-      sessionAvailable.signal({
-        data: JSON.stringify(data),
-        type: 'chat',
+    message = message.replace(/ +(?= )/g, '').trim();
+    if (message !== '') {
+      this.signalsService.send(SignalTypes.CHAT, {
+        message,
+        sender: this.localUser.session.user,
       });
     }
   }

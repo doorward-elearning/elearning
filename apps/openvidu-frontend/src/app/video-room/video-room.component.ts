@@ -603,7 +603,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToLocalUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
-      console.log(users, 'Moses');
       this.localUsers = users;
       this.updateOpenViduLayout();
     });
