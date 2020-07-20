@@ -96,14 +96,17 @@ export interface OpenviduUser {
   data?: any;
 }
 
+export interface SessionInfo extends CreateTokenBody {
+  screenToken: string;
+  webcamToken: string;
+  connectionId: string;
+}
+
 export interface OpenviduUserSession {
   user: OpenviduUser;
   jwtToken?: string;
-  sessionInfo: CreateTokenBody & {
-    screenToken: string;
-    webcamToken: string;
-    connectionId: string;
-  };
+  sessionInfo: SessionInfo;
+  sessionConfig: SessionConfig;
 }
 
 export interface OpenviduJWTPayload {
@@ -126,7 +129,6 @@ export interface OvSettings {
 }
 
 export interface OpenviduWebComponentConfig {
-  ovSettings: OvSettings;
   sessionId: string;
   sessionTitle: string;
   ovServerApiUrl: string;
@@ -134,11 +136,19 @@ export interface OpenviduWebComponentConfig {
   theme: OpenviduTheme;
   user: OpenviduUser;
   sessionConfig: SessionConfig;
+  sessionInfo?: SessionInfo;
 }
 
 export interface SessionConfig {
   joinWithActiveAudio?: boolean;
   joinWithActiveVideo?: boolean;
-  disableVideo?: boolean;
-  disableAudio?: boolean;
+  hasVideo?: boolean;
+  hasAudio?: boolean;
+  canChat?: boolean;
+  autoJoinsSession?: boolean;
+  logoUrl?: string | { dark: string; base: string };
+  canScreenShare?: boolean;
+  canGoFullScreen?: boolean;
+  hasSpeakingLayout?: boolean;
+  canExit?: boolean;
 }

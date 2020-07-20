@@ -6,8 +6,10 @@ import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
-import { OpenviduTheme } from '@doorward/common/types/openvidu';
+import { OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { ExternalConfigModel } from '../../models/external-config';
+import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
+import { UserModel } from '../../models/user-model';
 
 @Component({
   selector: 'app-toolbar',
@@ -20,7 +22,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
-  @Input() externalConfig: ExternalConfigModel;
+  @Input() localUserSession: OpenviduUserSession;
 
   @Input() isWebcamVideoEnabled: boolean;
   @Input() isWebcamAudioEnabled: boolean;
@@ -41,7 +43,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
+  logoUrl: string;
 
   participantsNames: string[] = [];
   numParticipants = 0;
@@ -71,19 +73,19 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.externalConfig.ovSettings.logoUrl) {
-      this.logoUrl = this.externalConfig.ovSettings.logoUrl;
-    } else {
-      this.utilsSrv.theme.subscribe(next => {
-        this.logoUrl =
-          environment.CLOUDINARY_IMAGE_DIRECTORY +
-          (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
-      });
-    }
-
     this.remoteUserService.getRemoteUsers().subscribe(users => {
       this.numParticipants = users.length;
     });
+    if (typeof this.localUserSession.sessionConfig.logoUrl === 'object') {
+      this.utilsSrv.theme.subscribe(next => {
+        const logo =
+          environment.CLOUDINARY_IMAGE_DIRECTORY +
+          (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
+        this.logoUrl = this.localUserSession.sessionConfig.logoUrl[next] || logo;
+      });
+    } else {
+      this.logoUrl = this.localUserSession.sessionConfig.logoUrl;
+    }
   }
 
   toggleMicrophone() {

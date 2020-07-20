@@ -89,9 +89,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.oVSessionService.sessionConfig.subscribe(next => {
-      this.handleSessionConfig(next);
-    });
+    this.handleSessionConfig(this.externalConfig.sessionConfig);
     this.subscribeToUsers();
     this.setNicknameForm();
     this.columns = window.innerWidth > 900 ? 2 : 1;
@@ -348,6 +346,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
+      this.handleSessionConfig(users[0].session.sessionConfig);
     });
   }
 

@@ -5,7 +5,9 @@ import {
   OpenviduUser,
   OpenviduWebComponentConfig,
   SessionConfig,
+  SessionInfo,
 } from '@doorward/common/types/openvidu';
+import { environment } from '../../../environments/environment';
 
 export class ExternalConfigModel implements OpenviduWebComponentConfig {
   constructor() {
@@ -15,8 +17,18 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   public static DEFAULT_SESSION_CONFIG: SessionConfig = {
     joinWithActiveAudio: false,
     joinWithActiveVideo: true,
-    disableVideo: true,
-    disableAudio: false,
+    hasVideo: true,
+    hasAudio: true,
+    canChat: true,
+    autoJoinsSession: true,
+    logoUrl: {
+      dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
+      base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
+    },
+    canScreenShare: true,
+    canGoFullScreen: true,
+    hasSpeakingLayout: true,
+    canExit: true,
   };
   ovSettings: OvSettingsModel;
   sessionId: string;
@@ -24,31 +36,32 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   ovServerApiUrl: string;
   redirectOnEnd = '/';
   theme = (localStorage.getItem('theme') as OpenviduTheme) || OpenviduTheme.DARK;
+  sessionConfig = ExternalConfigModel.DEFAULT_SESSION_CONFIG;
+  sessionInfo: SessionInfo = null;
   user: OpenviduUser;
-  sessionConfig: SessionConfig = ExternalConfigModel.DEFAULT_SESSION_CONFIG;
 
   public hasVideo(): boolean {
-    return this.isModerator() || (this.ovSettings.toolbarButtons.video && !this.sessionConfig.disableVideo);
+    return this.sessionConfig.hasVideo;
   }
 
   public hasScreenSharing(): boolean {
-    return this.ovSettings.toolbarButtons.screenShare;
+    return this.sessionConfig.canScreenShare;
   }
 
   public hasLayoutSpeaking(): boolean {
-    return this.ovSettings.toolbarButtons.layoutSpeaking;
+    return this.sessionConfig.hasSpeakingLayout;
   }
 
   public hasFullscreen(): boolean {
-    return this.ovSettings.toolbarButtons.fullscreen;
+    return this.sessionConfig.canGoFullScreen;
   }
 
   public hasAudio(): boolean {
-    return this.isModerator() || (this.ovSettings.toolbarButtons.audio && !this.sessionConfig.disableAudio);
+    return this.sessionConfig.hasAudio;
   }
 
   public hasExit(): boolean {
-    return this.ovSettings.toolbarButtons.exit;
+    return this.sessionConfig.canExit;
   }
 
   public isModerator(): boolean {

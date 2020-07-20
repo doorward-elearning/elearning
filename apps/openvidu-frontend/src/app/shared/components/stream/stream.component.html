@@ -85,10 +85,24 @@
           {{ this._user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
         </span>
       </button>
-      <button mat-menu-item (click)="toggleVideo()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
+      <button
+        mat-menu-item
+        (click)="toggleVideo()"
+        *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera() && _user.session.sessionConfig.hasVideo"
+      >
         <mat-icon class="disabled">{{ this._user.isVideoActive() ? 'videocam_off' : 'videocam_on' }}</mat-icon>
         <span>
           {{ this._user.isVideoActive() ? 'Turn off video' : 'Request to turn on video' }}
+        </span>
+      </button>
+      <button
+        mat-menu-item
+        (click)="toggleVideoControl()"
+        *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()"
+      >
+        <mat-icon class="disabled">{{ _user.session.sessionConfig.hasVideo ? 'checkmark' : '' }}</mat-icon>
+        <span>
+          Allow video control
         </span>
       </button>
     </mat-menu>

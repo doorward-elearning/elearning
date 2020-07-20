@@ -101,6 +101,10 @@ export class StreamComponent implements OnInit {
     this.signalsService.send(SignalTypes.TOGGLE_VIDEO, { permanent: false }, [this._user]);
   }
 
+  toggleVideoControl() {
+    this.signalsService.send(SignalTypes.TOGGLE_VIDEO_CONTROL, undefined, [this._user]);
+  }
+
   isMine() {
     return this._user.isLocal();
   }

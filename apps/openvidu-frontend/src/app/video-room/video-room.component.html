@@ -42,9 +42,9 @@
         <app-toolbar
           [lightTheme]="lightTheme"
           [compact]="compact"
+          [localUserSession]="localUsers[0].session"
           [mySessionId]="mySessionId"
           [sessionTitle]="externalConfig.sessionTitle || mySessionId"
-          [externalConfig]="externalConfig"
           [hasVideoDevices]="hasVideoDevices"
           [hasAudioDevices]="hasAudioDevices"
           [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"

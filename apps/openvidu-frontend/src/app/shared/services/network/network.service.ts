@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
-import { OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { OpenviduUser, OpenviduUserSession, SessionConfig } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
@@ -15,11 +15,11 @@ export class NetworkService {
     this.log = this.loggerSrv.get('NetworkService');
   }
 
-  async getToken(sessionId: string, user: OpenviduUser): Promise<OpenviduUserSession> {
+  async getToken(sessionId: string, user: OpenviduUser, sessionConfig: SessionConfig): Promise<OpenviduUserSession> {
     try {
       this.log.d('Getting token from backend');
       const response = await this.http
-        .post<ApiResponse<OpenviduUserSession>>('call', { sessionId, user })
+        .post<ApiResponse<OpenviduUserSession>>('call', { sessionId, user, sessionConfig })
         .toPromise();
 
       localStorage.setItem('jwtToken', response.data.jwtToken);

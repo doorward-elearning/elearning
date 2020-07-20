@@ -110,12 +110,16 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     const defaultConfig = new ExternalConfigModel();
     defaultConfig.user = {
       name: this.utilsSrv.generateNickname(),
-      role: this.utilsSrv.isFF() ? OPENVIDU_ROLES.PUBLISHER : OPENVIDU_ROLES.MODERATOR,
+      role: OPENVIDU_ROLES.MODERATOR,
       avatar:
         Math.random() * 1000 > 500
           ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
           : null,
     };
+    if (this.utilsSrv.isFF()) {
+      defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
+      defaultConfig.sessionConfig.hasVideo = false;
+    }
     defaultConfig.sessionId = 'test-meeting';
     if (!this.externalConfig) {
       this.externalConfig = defaultConfig;
@@ -123,7 +127,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         this.router.navigate(['']);
       });
     }
-    this.oVSessionService.handleSessionConfig(this.externalConfig.sessionConfig);
     this.lightTheme = this.externalConfig.theme === OpenviduTheme.LIGHT;
     this.ovSettings = this.externalConfig.ovSettings || new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
@@ -177,6 +180,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   joinToSession() {
+    this.oVSessionService.setLocalUserSession({
+      user: this.externalConfig.user,
+      sessionConfig: this.externalConfig.sessionConfig,
+      sessionInfo: this.externalConfig.sessionInfo,
+    });
     this.oVSessionService.initSessions();
     this.session = this.oVSessionService.getWebcamSession();
     this._session.emit(this.session);
@@ -189,11 +197,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.chatService.subscribeToChat();
     this.subscribeToChatComponent();
     this.subscribeToReconnection();
-    this.connectToSession();
-    this.signalService.subscribeAll();
-    this.signalService.subscribeToLeaveSession(() => {
-      this.oVSessionService.disconnect();
-      this._leaveSession.emit();
+    this.connectToSession().then(() => {
+      this.signalService.subscribeAll();
+      this.signalService.subscribeToLeaveSession(() => {
+        this.oVSessionService.disconnect();
+        this._leaveSession.emit();
+      });
     });
   }
 
@@ -544,9 +553,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   private async initializeSession(): Promise<OpenviduUserSession> {
     this.log.d('Generating tokens...', this.mySessionId);
     try {
-      return await this.networkSrv.getToken(this.mySessionId, {
-        ...this.externalConfig.user,
-      });
+      return await this.networkSrv.getToken(
+        this.mySessionId,
+        this.externalConfig.user,
+        this.externalConfig.sessionConfig
+      );
     } catch (error) {
       this._error.emit({ error: error.error, message: error.message, code: error.code, status: error.status });
       if (error.status === 404) {
@@ -592,6 +603,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
   private subscribeToLocalUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
+      console.log(users, 'Moses');
       this.localUsers = users;
       this.updateOpenViduLayout();
     });

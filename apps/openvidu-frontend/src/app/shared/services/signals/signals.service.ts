@@ -1,22 +1,12 @@
 import { Injectable } from '@angular/core';
 import { OpenViduSessionService } from '../openvidu-session/openvidu-session.service';
-import {
-  Connection,
-  ConnectionEvent,
-  EventDispatcher,
-  PublisherSpeakingEvent,
-  RecordingEvent,
-  SessionDisconnectedEvent,
-  SignalEvent,
-  SignalOptions,
-  StreamEvent,
-} from 'openvidu-browser';
+import { EventDispatcher, SignalEvent, SignalOptions } from 'openvidu-browser';
 import SignalTypes, { SignalData } from '@doorward/common/utils/meetingSignalTypes';
 import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
 
-export type SignalHandler = (event: SignalEvent) => void;
+export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -38,9 +28,24 @@ export class SignalsService {
   subscribeAll() {
     this.subscribeToToggleAudio();
     this.subscribeToToggleVideo();
+    this.subscribeToLocalUserUpdate();
+    this.subscribeToRemoteUsersDetails();
+    this.subscribeToVideoControl();
   }
 
-  subscribeToLeaveSession(handler: SignalHandler) {
+  subscribeToVideoControl() {
+    this.subscribe(SignalTypes.TOGGLE_VIDEO_CONTROL, () => {
+      this.openviduService.updateLocalUserSession(user => ({
+        ...user,
+        sessionConfig: {
+          ...user.sessionConfig,
+          hasVideo: !user.sessionConfig.hasVideo,
+        },
+      }));
+    });
+  }
+
+  subscribeToLeaveSession(handler: SignalHandler<SignalTypes.LEAVE_MEETING>) {
     this.subscribe(SignalTypes.LEAVE_MEETING, handler);
   }
 
@@ -50,8 +55,26 @@ export class SignalsService {
     });
   }
 
+  subscribeToRemoteUsersDetails() {
+    this.subscribe(SignalTypes.USER_UPDATED, (data, event) => {
+      const userModel = this.remoteUsersService.getRemoteUserByConnectionId(event.from.connectionId);
+      userModel.session = data.session;
+      this.remoteUsersService.updateUsers();
+    });
+  }
+
+  subscribeToLocalUserUpdate() {
+    this.openviduService.getUsers().subscribe(next => {
+      next.forEach(user => {
+        this.send(SignalTypes.USER_UPDATED, {
+          session: user.session,
+        });
+      });
+    });
+  }
+
   subscribeToToggleVideo() {
-    this.subscribe(SignalTypes.TOGGLE_VIDEO, event => {
+    this.subscribe(SignalTypes.TOGGLE_VIDEO, (data, event) => {
       if (this.openviduService.hasWebcamVideoActive()) {
         this.openviduService.publishVideo(false);
       } else {
@@ -93,11 +116,15 @@ export class SignalsService {
     }
   }
 
-  private subscribe(type: string, handler: SignalHandler, webCam = true): EventDispatcher {
+  subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>, webCam = true): EventDispatcher {
     const session = webCam ? this.openviduService.getWebcamSession() : this.openviduService.getScreenSession();
     if (session) {
-      return session.on('signal:' + type, event => {
-        handler(event);
+      return session.on('signal:' + type, (event: SignalEvent) => {
+        try {
+          handler(event.data ? JSON.parse(event.data) : undefined, event);
+        } catch (error) {
+          handler(undefined, event);
+        }
       });
     }
   }

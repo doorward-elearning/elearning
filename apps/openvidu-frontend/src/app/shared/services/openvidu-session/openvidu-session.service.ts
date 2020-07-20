@@ -5,10 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ScreenType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { OpenviduUserSession, SessionConfig } from '@doorward/common/types/openvidu';
-import { ExternalConfigModel } from '../../models/external-config';
-import { OptionalKeys } from '@doorward/common/types';
-import _ from 'lodash';
+import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
@@ -33,8 +30,6 @@ export class OpenViduSessionService {
   private screenMediaStream: MediaStream = null;
   private webcamMediaStream: MediaStream = null;
 
-  private sessionConfigBehaviorSubject: BehaviorSubject<SessionConfig> = new BehaviorSubject(null);
-  public sessionConfig: Observable<SessionConfig> = new Observable();
   private user: OpenviduUserSession;
 
   constructor(private loggerSrv: LoggerService) {
@@ -45,12 +40,15 @@ export class OpenViduSessionService {
     this.OVUsers = this._OVUsers.asObservable();
     this.webcamUser = new UserModel();
     this._OVUsers.next([this.webcamUser]);
-    this.sessionConfig = this.sessionConfigBehaviorSubject.asObservable();
   }
 
   initSessions() {
     this.webcamSession = this.OV.initSession();
     this.screenSession = this.OVScreen.initSession();
+  }
+
+  updateLocalUserSession(callback: (user: OpenviduUserSession) => OpenviduUserSession) {
+    this.setLocalUserSession(callback(this.user));
   }
 
   setLocalUserSession(user: OpenviduUserSession) {
@@ -61,6 +59,7 @@ export class OpenViduSessionService {
     if (this.screenUser) {
       this.screenUser.session = user;
     }
+    this._OVUsers.next(this._OVUsers.getValue());
   }
 
   getWebcamSession(): Session {
@@ -226,16 +225,6 @@ export class OpenViduSessionService {
   initScreenPublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
     this.log.d('init screen properties', properties);
     return this.initPublisher(targetElement, properties);
-  }
-
-  handleSessionConfig(sessionConfig: OptionalKeys<SessionConfig>) {
-    this.sessionConfigBehaviorSubject.next(
-      _.merge(
-        {},
-        this.sessionConfigBehaviorSubject.getValue() || ExternalConfigModel.DEFAULT_SESSION_CONFIG,
-        sessionConfig
-      )
-    );
   }
 
   destroyUsers() {

@@ -1,4 +1,4 @@
-import { Publisher, StreamManager, Subscriber } from 'openvidu-browser';
+import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 
@@ -25,9 +25,9 @@ export class UserModel {
   /**
    * @hidden
    */
-  constructor(connectionId?: string, streamManager?: StreamManager, user?: OpenviduUserSession) {
+  constructor(connectionId?: string, streamManager?: StreamManager, session?: OpenviduUserSession) {
     this.connectionId = connectionId || '';
-    this.session = user;
+    this.session = session;
     this.streamManager = streamManager || null;
   }
 
@@ -37,6 +37,10 @@ export class UserModel {
   public isAudioActive(): boolean {
     // console.log("isAudioActive");
     return this.streamManager?.stream?.audioActive;
+  }
+
+  public updateSession(session: OpenviduUserSession) {
+    this.session = session;
   }
 
   /**

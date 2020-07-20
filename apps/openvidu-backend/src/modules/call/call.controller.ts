@@ -6,6 +6,7 @@ import {
   OPENVIDU_ROLES,
   OpenviduUser,
   OpenviduUserSession,
+  SessionConfig,
 } from '@doorward/common/types/openvidu';
 import { AuthService } from '../auth/auth.service';
 import Tools from '@doorward/common/utils/Tools';
@@ -33,7 +34,8 @@ export class CallController {
   @Post()
   async createSession(
     @Body('sessionId') sessionId: string,
-    @Body('user') user: OpenviduUser
+    @Body('user') user: OpenviduUser,
+    @Body('sessionConfig') sessionConfig: SessionConfig
   ): Promise<OpenviduUserSession> {
     let id = sessionId;
     try {
@@ -76,6 +78,7 @@ export class CallController {
           role: user.role,
           session: sessionId,
         },
+        sessionConfig,
       };
 
       const jwtToken = await this.authService.generateAccessToken(userSession);
