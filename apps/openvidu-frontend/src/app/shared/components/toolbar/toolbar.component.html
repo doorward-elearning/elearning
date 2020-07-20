@@ -7,7 +7,7 @@
       <button
         (click)="toggleFullscreen()"
         [disabled]="isConnectionLost"
-        *ngIf="ovSettings | hasFullscreen"
+        *ngIf="externalConfig.hasFullscreen()"
         class="fullscreen-button"
       >
         <mat-icon matTooltip="Fullscreen">{{ fullscreenIcon }}</mat-icon>
@@ -25,46 +25,38 @@
     </div>
     <div class="tool-bar">
       <div class="buttonsContainer" [ngClass]="lightTheme ? 'light' : 'dark'">
-        <div class="toolbar-button">
-          <button
-            (click)="toggleMicrophone()"
-            [disabled]="isConnectionLost"
-            *ngIf="(ovSettings | hasAudio)"
-          >
+        <div class="toolbar-button" *ngIf="externalConfig.hasAudio()">
+          <button (click)="toggleMicrophone()" [disabled]="isConnectionLost">
             <mat-icon *ngIf="isWebcamAudioEnabled" matTooltip="Mute your audio">mic</mat-icon>
             <mat-icon *ngIf="!isWebcamAudioEnabled" color="warn" matTooltip="Unmute your audio">mic_off</mat-icon>
           </button>
         </div>
 
-        <div class="toolbar-button">
+        <div class="toolbar-button" *ngIf="externalConfig.hasVideo()">
           <!-- Camera button -->
-          <button
-            (click)="toggleCamera()"
-            [disabled]="isConnectionLost"
-            *ngIf="!this.ovSettings || ((this.ovSettings | hasVideo))"
-          >
+          <button (click)="toggleCamera()" [disabled]="isConnectionLost">
             <mat-icon color="primary" *ngIf="isWebcamVideoEnabled" matTooltip="Turn off video">videocam</mat-icon>
             <mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Turn on video">videocam_off</mat-icon>
           </button>
         </div>
-        <div class="toolbar-button">
+        <div class="toolbar-button" *ngIf="externalConfig.hasScreenSharing()">
           <!-- Screenshare button -->
-          <button (click)="toggleScreenShare()" [disabled]="isConnectionLost" *ngIf="ovSettings | hasScreenSharing">
+          <button (click)="toggleScreenShare()" [disabled]="isConnectionLost">
             <mat-icon *ngIf="!isScreenEnabled" matTooltip="Start screen share" color="warn">stop_screen_share</mat-icon>
             <mat-icon *ngIf="isScreenEnabled" matTooltip="Stop screen sharing">screen_share</mat-icon>
           </button>
         </div>
 
-        <div class="toolbar-button">
+        <div class="toolbar-button" *ngIf="externalConfig.hasLayoutSpeaking()">
           <!-- Automatic / grid layout button -->
-          <button (click)="toggleSpeakerLayout()" [disabled]="isConnectionLost" *ngIf="ovSettings | hasLayoutSpeaking">
+          <button (click)="toggleSpeakerLayout()" [disabled]="isConnectionLost">
             <mat-icon matTooltip="Enable speaker layout" color="warn" *ngIf="!isAutoLayout">voice_over_off</mat-icon>
             <mat-icon matTooltip="Disable speaker layout" *ngIf="isAutoLayout">record_voice_over</mat-icon>
           </button>
         </div>
 
-        <div class="toolbar-button">
-          <button (click)="toggleChat()" [disabled]="isConnectionLost" *ngIf="ovSettings?.chat">
+        <div class="toolbar-button" *ngIf="externalConfig.ovSettings.chat">
+          <button (click)="toggleChat()" [disabled]="isConnectionLost">
             <mat-icon
               matBadge="{{ newMessagesNum }}"
               [matBadgeHidden]="newMessagesNum === 0"
@@ -80,8 +72,8 @@
             <mat-icon matTooltip="Participants">people</mat-icon>
           </button>
         </div>
-        <div class="toolbar-button">
-          <button (click)="leaveSession()" id="navLeaveButton" *ngIf="ovSettings | hasExit">
+        <div class="toolbar-button" *ngIf="externalConfig.hasExit()">
+          <button (click)="leaveSession()" id="navLeaveButton">
             <mat-icon color="warn" matTooltip="Leave the session">phone</mat-icon>
           </button>
         </div>

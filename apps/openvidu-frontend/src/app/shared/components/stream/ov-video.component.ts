@@ -3,61 +3,62 @@ import { StreamManager } from 'openvidu-browser';
 import { VideoType } from '../../types/video-type';
 
 @Component({
-	selector: 'ov-video',
-	template: `
-		<video
-			#videoElement
-			[attr.id]="streamManager && _streamManager.stream ? 'video-' + _streamManager.stream.streamId : 'video-undefined'"
-			[muted]="mutedSound"
-		></video>
-	`,
-	styleUrls: ['./stream.component.css']
+  selector: 'ov-video',
+  template: `
+    <video
+      #videoElement
+      [attr.id]="
+        _streamManager && _streamManager.stream ? 'video-' + _streamManager.stream.streamId : 'video-undefined'
+      "
+      [muted]="mutedSound"
+    ></video>
+  `,
+  styleUrls: ['./stream.component.css'],
 })
 export class OpenViduVideoComponent implements AfterViewInit {
+  @Input() mutedSound: boolean;
 
-	@Input() mutedSound: boolean;
+  @Output() toggleVideoSizeEvent = new EventEmitter<any>();
 
-	@Output() toggleVideoSizeEvent =  new EventEmitter<any>();
+  _streamManager: StreamManager;
 
-	_streamManager: StreamManager;
+  _videoElement: ElementRef;
 
-	_videoElement: ElementRef;
+  ngAfterViewInit() {
+    setTimeout(() => {
+      if (this._streamManager && this._videoElement) {
+        this._streamManager.addVideoElement(this._videoElement.nativeElement);
+      }
+    });
+  }
 
-	ngAfterViewInit() {
-		setTimeout(() => {
-			if (this._streamManager && this._videoElement) {
-				this._streamManager.addVideoElement(this._videoElement.nativeElement);
-			}
-		});
-	}
+  @ViewChild('videoElement')
+  set videoElement(element: ElementRef) {
+    this._videoElement = element;
+  }
 
-	@ViewChild('videoElement')
-	set videoElement(element: ElementRef) {
-		this._videoElement = element;
-	}
+  @Input()
+  set streamManager(streamManager: StreamManager) {
+    setTimeout(() => {
+      this._streamManager = streamManager;
+      if (!!this._videoElement && this._streamManager) {
+        if (this._streamManager.stream.typeOfVideo === VideoType.SCREEN) {
+          this._videoElement.nativeElement.style.objectFit = 'contain';
+          this._videoElement.nativeElement.style.background = '#272727';
+          this.enableVideoSizeBig();
+        } else {
+          this._videoElement.nativeElement.style.objectFit = 'cover';
+        }
+        this._streamManager.addVideoElement(this._videoElement.nativeElement);
+      }
+    });
+  }
 
-	@Input()
-	set streamManager(streamManager: StreamManager) {
-		setTimeout(() => {
-			this._streamManager = streamManager;
-			if (!!this._videoElement && this._streamManager) {
-				if (this._streamManager.stream.typeOfVideo === VideoType.SCREEN) {
-					this._videoElement.nativeElement.style.objectFit = 'contain';
-					this._videoElement.nativeElement.style.background = '#272727';
-					this.enableVideoSizeBig();
-				} else {
-					this._videoElement.nativeElement.style.objectFit = 'cover';
-				}
-				this._streamManager.addVideoElement(this._videoElement.nativeElement);
-			}
-		});
-	}
-
-	enableVideoSizeBig() {
-		// Doing video size bigger.
-		// Timeout because of connectionId is null and icon does not change
-		setTimeout(() => {
-			this.toggleVideoSizeEvent.emit(true);
-		}, 590);
-	}
+  enableVideoSizeBig() {
+    // Doing video size bigger.
+    // Timeout because of connectionId is null and icon does not change
+    setTimeout(() => {
+      this.toggleVideoSizeEvent.emit(true);
+    }, 590);
+  }
 }

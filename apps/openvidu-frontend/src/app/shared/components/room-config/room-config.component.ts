@@ -28,6 +28,7 @@ import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
+import { SessionConfig } from '@doorward/common/types/openvidu';
 
 @Component({
   selector: 'app-room-config',
@@ -67,6 +68,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
   showConfigCard: boolean;
+
   private log: ILogger;
 
   constructor(
@@ -87,6 +89,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.oVSessionService.sessionConfig.subscribe(next => {
+      this.handleSessionConfig(next);
+    });
     this.subscribeToUsers();
     this.setNicknameForm();
     this.columns = window.innerWidth > 900 ? 2 : 1;
@@ -95,10 +100,11 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.setDevicesInfo();
     await this.checkPermissions();
     this.initwebcamPublisher();
+  }
 
-    // publisher.on('streamAudioVolumeChange', (event: any) => {
-    //   this.volumeValue = Math.round(Math.abs(event.value.newValue));
-    // });
+  handleSessionConfig(next: SessionConfig) {
+    this.isVideoActive = next.joinWithActiveVideo && this.externalConfig.hasVideo();
+    this.isAudioActive = next.joinWithActiveAudio && this.externalConfig.hasAudio();
   }
 
   async checkPermissions() {
@@ -238,12 +244,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.publishAudio(this.isAudioActive);
   }
 
-  takePhoto() {
-    this.oVSessionService.setWebcamAvatar();
-    this.videoAvatar = this.oVSessionService.getWebCamAvatar();
-    this.oVSessionService.setAvatar(AvatarType.VIDEO);
-  }
-
   setNicknameForm() {
     if (this.externalConfig) {
       this.nicknameFormControl.setValue(this.externalConfig.user.name);
@@ -276,16 +276,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
   joinSession() {
     if (this.nicknameFormControl.valid) {
-      // this.localUsers.forEach(user => {
-      // 	user.getStreamManager().off('streamAudioVolumeChange');
-      // });
-      // if (this.avatarSelected === AVATAR_TYPE.RANDOM) {
-      // 	this.localUsers[0].removeVideoAvatar();
-      // }
-      // if (this.localUsers[1]) {
-      // 	this.localUsers[1].setUserAvatar(this.localUsers[0].getAvatar());
-      // }
-      this.oVSessionService.setWebcamName(this.nicknameFormControl.value);
       this.storageSrv.set(this.USER_NICKNAME, this.nicknameFormControl.value);
       this.join.emit();
     }
@@ -325,12 +315,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       this.mySessionId = this.externalConfig ? this.externalConfig.sessionId : params.roomName;
       this.oVSessionService.setSessionId(this.mySessionId);
     });
-  }
-
-  private setRandomAvatar() {
-    this.randomAvatar = this.utilsSrv.getOpenViduAvatar();
-    this.oVSessionService.setAvatar(AvatarType.RANDOM, this.randomAvatar);
-    this.avatarSelected = AvatarType.RANDOM;
   }
 
   private scrollToBottom(): void {

@@ -1,25 +1,16 @@
 import { Publisher, StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
-import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
+import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 /**
  * Packs all the information about the user
  */
 export class UserModel {
+  session: OpenviduUserSession;
   /**
    * The Connection ID that is publishing the stream
    */
   connectionId: string;
-
-  /**
-   * The user nickname
-   */
-  nickname: string;
-
-  /**
-   * The users role
-   */
-  role: OPENVIDU_ROLES;
 
   /**
    * StreamManager object ([[Publisher]] or [[Subscriber]])
@@ -29,26 +20,15 @@ export class UserModel {
   /**
    * @hidden
    */
-  videoAvatar: string;
-
-  /**
-   * @hidden
-   */
-  private randomAvatar: string;
-
-  /**
-   * @hidden
-   */
   private videoSizeBig: boolean;
 
   /**
    * @hidden
    */
-  constructor(connectionId?: string, streamManager?: StreamManager, nickname?: string, role?: OPENVIDU_ROLES) {
+  constructor(connectionId?: string, streamManager?: StreamManager, user?: OpenviduUserSession) {
     this.connectionId = connectionId || '';
-    this.nickname = nickname || '---';
+    this.session = user;
     this.streamManager = streamManager || null;
-    this.role = role;
   }
 
   /**
@@ -56,7 +36,7 @@ export class UserModel {
    */
   public isAudioActive(): boolean {
     // console.log("isAudioActive");
-    return (<Publisher>this.streamManager)?.stream?.audioActive;
+    return this.streamManager?.stream?.audioActive;
   }
 
   /**
@@ -64,7 +44,7 @@ export class UserModel {
    */
   public isVideoActive(): boolean {
     // console.log("isVideoActive");
-    return (<Publisher>this.streamManager)?.stream?.videoActive;
+    return this.streamManager?.stream?.videoActive;
   }
 
   /**
@@ -78,7 +58,7 @@ export class UserModel {
    * Return the user nickname
    */
   public getNickname(): string {
-    return this.nickname;
+    return this.session?.user?.name;
   }
 
   /**
@@ -92,7 +72,7 @@ export class UserModel {
    * Return the user avatar
    */
   public getAvatar(): string {
-    return this.videoAvatar;
+    return this.session?.user?.avatar;
   }
 
   /**
@@ -106,7 +86,7 @@ export class UserModel {
    * Return `true` if user has a remote role and `false` if not
    */
   public isRemote(): boolean {
-    return (<Publisher>this.streamManager)?.remote;
+    return this.streamManager?.remote;
   }
 
   /**
@@ -115,7 +95,7 @@ export class UserModel {
   public isScreen(): boolean {
     // console.log("isScreen");
     return (
-      (<Publisher>this.streamManager)?.stream?.typeOfVideo === VideoType.SCREEN ||
+      this.streamManager?.stream?.typeOfVideo === VideoType.SCREEN ||
       (this.streamManager as Subscriber)?.stream?.typeOfVideo === VideoType.SCREEN
     );
   }
@@ -125,9 +105,7 @@ export class UserModel {
    */
   public isCamera(): boolean {
     // console.log("CCC");
-    return (
-      (<Publisher>this.streamManager)?.stream?.typeOfVideo === VideoType.CAMERA || (this.isLocal() && !this.isScreen())
-    );
+    return this.streamManager?.stream?.typeOfVideo === VideoType.CAMERA || (this.isLocal() && !this.isScreen());
   }
 
   /**
@@ -143,7 +121,7 @@ export class UserModel {
    * @param nickname value of user nickname
    */
   public setNickname(nickname: string) {
-    this.nickname = nickname;
+    this.session.user.name = nickname;
   }
 
   public isVideoSizeBig(): boolean {
@@ -161,30 +139,22 @@ export class UserModel {
    * @hidden
    */
   public setUserAvatar(img?: string) {
-    this.videoAvatar = img;
-  }
-
-  public removeVideoAvatar() {
-    this.videoAvatar = null;
+    this.session.user.avatar = img;
   }
 
   public getRole() {
-    return this.role;
-  }
-
-  public setRole(role: OPENVIDU_ROLES) {
-    this.role = role;
+    return this.session.user.role;
   }
 
   public isModerator(): boolean {
-    return this.role === OPENVIDU_ROLES.MODERATOR;
+    return this.session.user.role === OPENVIDU_ROLES.MODERATOR;
   }
 
   public isSubscriber(): boolean {
-    return this.role === OPENVIDU_ROLES.SUBSCRIBER;
+    return this.session.user.role === OPENVIDU_ROLES.SUBSCRIBER;
   }
 
   public isPublisher() {
-    return this.role === OPENVIDU_ROLES.PUBLISHER;
+    return this.session.user.role === OPENVIDU_ROLES.PUBLISHER;
   }
 }

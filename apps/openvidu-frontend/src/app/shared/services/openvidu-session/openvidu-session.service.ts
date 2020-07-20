@@ -1,19 +1,21 @@
 import { Injectable } from '@angular/core';
 import { UserModel } from '../../models/user-model';
-import { OpenVidu, PublisherProperties, Publisher, Session, Device } from 'openvidu-browser';
+import { Device, OpenVidu, Publisher, PublisherProperties, Session } from 'openvidu-browser';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { ScreenType } from '../../types/video-type';
-import { AvatarType } from '../../types/chat-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
+import { OpenviduUserSession, SessionConfig } from '@doorward/common/types/openvidu';
+import { ExternalConfigModel } from '../../models/external-config';
+import { OptionalKeys } from '@doorward/common/types';
+import _ from 'lodash';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OpenViduSessionService {
   OVUsers: Observable<UserModel[]>;
-  private _OVUsers = <BehaviorSubject<UserModel[]>>new BehaviorSubject([]);
+  private _OVUsers = new BehaviorSubject([]);
   private OV: OpenVidu = null;
   private OVScreen: OpenVidu = null;
 
@@ -31,6 +33,10 @@ export class OpenViduSessionService {
   private screenMediaStream: MediaStream = null;
   private webcamMediaStream: MediaStream = null;
 
+  private sessionConfigBehaviorSubject: BehaviorSubject<SessionConfig> = new BehaviorSubject(null);
+  public sessionConfig: Observable<SessionConfig> = new Observable();
+  private user: OpenviduUserSession;
+
   constructor(private loggerSrv: LoggerService) {
     this.log = this.loggerSrv.get('OpenViduSessionService');
     this.OV = new OpenVidu();
@@ -39,11 +45,22 @@ export class OpenViduSessionService {
     this.OVUsers = this._OVUsers.asObservable();
     this.webcamUser = new UserModel();
     this._OVUsers.next([this.webcamUser]);
+    this.sessionConfig = this.sessionConfigBehaviorSubject.asObservable();
   }
 
   initSessions() {
     this.webcamSession = this.OV.initSession();
     this.screenSession = this.OVScreen.initSession();
+  }
+
+  setLocalUserSession(user: OpenviduUserSession) {
+    this.user = user;
+    if (this.webcamUser) {
+      this.webcamUser.session = user;
+    }
+    if (this.screenUser) {
+      this.screenUser.session = user;
+    }
   }
 
   getWebcamSession(): Session {
@@ -62,23 +79,17 @@ export class OpenViduSessionService {
     return this.screenSession;
   }
 
-  async connectWebcamSession(token: string, role: OPENVIDU_ROLES): Promise<any> {
-    if (token) {
-      await this.webcamSession.connect(token, { name: this.getWebcamUserName(), avatar: this.getWebCamAvatar(), role });
-      this.setRole(role);
-    }
+  async connectWebcamSession(): Promise<any> {
+    await this.webcamSession.connect(this.user.sessionInfo.webcamToken, { ...this.user });
   }
 
-  async connectScreenSession(token: string, role: OPENVIDU_ROLES): Promise<any> {
-    if (token) {
-      await this.screenSession.connect(token, { name: this.getScreenUserName(), avatar: this.getWebCamAvatar(), role });
-      this.setRole(role);
-    }
+  async connectScreenSession(): Promise<any> {
+    await this.screenSession.connect(this.user.sessionInfo.screenToken, { ...this.user });
   }
 
   async publishWebcam(): Promise<any> {
     if (this.webcamSession.capabilities.publish) {
-      const publisher = <Publisher>this.webcamUser.getStreamManager();
+      const publisher = this.webcamUser.getStreamManager() as Publisher;
       if (publisher) {
         return await this.webcamSession.publish(publisher);
       }
@@ -88,8 +99,8 @@ export class OpenViduSessionService {
 
   async publishScreen(): Promise<any> {
     if (this.screenSession.capabilities.publish) {
-      const publisher = <Publisher>this.screenUser.getStreamManager();
-      if (!!publisher) {
+      const publisher = this.screenUser.getStreamManager() as Publisher;
+      if (publisher) {
         return await this.screenSession.publish(publisher);
       }
     }
@@ -97,16 +108,16 @@ export class OpenViduSessionService {
   }
 
   unpublishWebcam() {
-    const publisher = <Publisher>this.webcamUser.getStreamManager();
-    if (!!publisher) {
+    const publisher = this.webcamUser.getStreamManager() as Publisher;
+    if (publisher) {
       this.publishScreenAudio(this.hasWebcamAudioActive());
       this.webcamSession.unpublish(publisher);
     }
   }
 
   unpublishScreen() {
-    const publisher = <Publisher>this.screenUser.getStreamManager();
-    if (!!publisher) {
+    const publisher = this.screenUser.getStreamManager() as Publisher;
+    if (publisher) {
       this.screenSession.unpublish(publisher);
     }
   }
@@ -116,15 +127,12 @@ export class OpenViduSessionService {
   }
 
   disableWebcamUser() {
-    // this.destryowebcamUser();
     this._OVUsers.next([this.screenUser]);
   }
 
   enableScreenUser(screenPublisher: Publisher) {
     const connectionId = this.screenSession?.connection?.connectionId;
-
-    this.screenUser = new UserModel(connectionId, screenPublisher, this.getScreenUserName());
-    this.screenUser.setUserAvatar(this.webcamUser.getAvatar());
+    this.screenUser = new UserModel(connectionId, screenPublisher);
 
     if (this.isWebCamEnabled()) {
       this._OVUsers.next([this.webcamUser, this.screenUser]);
@@ -151,33 +159,34 @@ export class OpenViduSessionService {
   }
 
   publishVideo(isVideoActive: boolean) {
-    (<Publisher>this.webcamUser.getStreamManager()).publishVideo(isVideoActive);
-    // Send event to subscribers because of viedeo has changed and view must update
+    (this.webcamUser.getStreamManager() as Publisher).publishVideo(isVideoActive);
     this._OVUsers.next(this._OVUsers.getValue());
   }
 
   publishWebcamAudio(audio: boolean) {
-    const publisher = <Publisher>this.webcamUser?.getStreamManager();
-    if (!!publisher) {
+    const publisher = this.webcamUser?.getStreamManager() as Publisher;
+    if (publisher) {
       publisher.publishAudio(audio);
     }
+    this._OVUsers.next(this._OVUsers.getValue());
   }
 
   publishScreenAudio(audio: boolean) {
-    const publisher = <Publisher>this.screenUser?.getStreamManager();
-    if (!!publisher) {
+    const publisher = this.screenUser?.getStreamManager() as Publisher;
+    if (publisher) {
       publisher.publishAudio(audio);
     }
+    this._OVUsers.next(this._OVUsers.getValue());
   }
 
-  replaceTrack(videoSource: string, audioSource: string, mirror: boolean = true): Promise<any> {
+  replaceTrack(videoSource: string, audioSource: string, mirror = true): Promise<any> {
     return new Promise((resolve, reject) => {
-      if (!!videoSource) {
+      if (videoSource) {
         this.log.d('Replacing video track ' + videoSource);
         this.videoSource = videoSource;
         // this.stopVideoTracks(this.webcamUser.getStreamManager().stream.getMediaStream());
       }
-      if (!!audioSource) {
+      if (audioSource) {
         this.log.d('Replacing audio track ' + audioSource);
         this.audioSource = audioSource;
         // this.stopAudioTracks(this.webcamUser.getStreamManager().stream.getMediaStream());
@@ -201,18 +210,6 @@ export class OpenViduSessionService {
       publisher.once('accessDenied', () => {
         reject();
       });
-
-      // Reeplace track method
-      // this.webcamMediaStream = await this.OV.getUserMedia(properties);
-      // const track: MediaStreamTrack = !!videoSource
-      // 	? this.webcamMediaStream.getVideoTracks()[0]
-      // 	: this.webcamMediaStream.getAudioTracks()[0];
-
-      // try {
-      // 	await (<Publisher>this.webcamUser.getStreamManager()).replaceTrack(track);
-      // } catch (error) {
-      // 	this.log.e('Error replacing track ', error);
-      // }
     });
   }
 
@@ -223,12 +220,22 @@ export class OpenViduSessionService {
 
     this.stopScreenTracks();
     this.screenMediaStream = await this.OVScreen.getUserMedia(properties);
-    await (<Publisher>this.screenUser.getStreamManager()).replaceTrack(this.screenMediaStream.getVideoTracks()[0]);
+    await (this.screenUser.getStreamManager() as Publisher).replaceTrack(this.screenMediaStream.getVideoTracks()[0]);
   }
 
   initScreenPublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
     this.log.d('init screen properties', properties);
     return this.initPublisher(targetElement, properties);
+  }
+
+  handleSessionConfig(sessionConfig: OptionalKeys<SessionConfig>) {
+    this.sessionConfigBehaviorSubject.next(
+      _.merge(
+        {},
+        this.sessionConfigBehaviorSubject.getValue() || ExternalConfigModel.DEFAULT_SESSION_CONFIG,
+        sessionConfig
+      )
+    );
   }
 
   destroyUsers() {
@@ -319,37 +326,8 @@ export class OpenViduSessionService {
     return this.sessionId;
   }
 
-  setWebcamAvatar(img?: string) {
-    this.webcamUser.setUserAvatar(img);
-  }
-
-  setAvatar(option: AvatarType, avatar?: string): void {
-    this.webcamUser.setUserAvatar(avatar);
-  }
-
-  setWebcamName(nickname: string) {
-    this.webcamUser.setNickname(nickname);
-  }
-
-  setRole(role: OPENVIDU_ROLES) {
-    if (this.webcamUser) {
-      this.webcamUser.setRole(role);
-    }
-    if (this.screenUser) {
-      this.screenUser.setRole(role);
-    }
-  }
-
-  getWebCamAvatar(): string {
-    return this.webcamUser.getAvatar();
-  }
-
-  getWebcamUserName(): string {
-    return this.webcamUser.getNickname();
-  }
-
   getScreenUserName() {
-    return this.getWebcamUserName() + "'s screen";
+    return this.user.user.name + "'s screen";
   }
 
   resetUsersZoom() {
@@ -416,5 +394,11 @@ export class OpenViduSessionService {
     });
   }
 
-  public subscribeToMute() {}
+  updateNickname(name: string) {
+    this.user.user.name = name;
+  }
+
+  getUserSession(): OpenviduUserSession {
+    return this.user;
+  }
 }

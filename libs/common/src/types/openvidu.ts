@@ -133,4 +133,12 @@ export interface OpenviduWebComponentConfig {
   redirectOnEnd: string;
   theme: OpenviduTheme;
   user: OpenviduUser;
+  sessionConfig: SessionConfig;
+}
+
+export interface SessionConfig {
+  joinWithActiveAudio?: boolean;
+  joinWithActiveVideo?: boolean;
+  disableVideo?: boolean;
+  disableAudio?: boolean;
 }

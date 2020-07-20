@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { UserModel } from '../../models/user-model';
-import { ConnectionEvent, StreamEvent, Subscriber } from 'openvidu-browser';
+import { StreamEvent, Subscriber } from 'openvidu-browser';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
+import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 @Injectable({
   providedIn: 'root',
@@ -30,25 +31,16 @@ export class RemoteUsersService {
   }
 
   private addUser(connectionId: string, data?: string, subscriber?: Subscriber) {
-    let nickname = '';
-    let avatar = '';
-    let role;
     try {
       if (data.includes('}%/%{')) {
         data = data.substring(0, data.indexOf('}%/%{') + 1);
       }
-      console.log(data, 'Moses');
-      const info = JSON.parse(data);
-      nickname = info?.name;
-      avatar = info?.avatar;
-      role = info?.role;
-    } catch (error) {
-      nickname = 'Unknown';
-    }
-    const newUser = new UserModel(connectionId, subscriber, nickname, role);
-    newUser.setUserAvatar(avatar);
-    this.users.push(newUser);
-    this.updateUsers();
+      const info: OpenviduUserSession = JSON.parse(data);
+
+      const newUser = new UserModel(connectionId, subscriber, info);
+      this.users.push(newUser);
+      this.updateUsers();
+    } catch (error) {}
   }
 
   add(event: StreamEvent, subscriber: Subscriber) {

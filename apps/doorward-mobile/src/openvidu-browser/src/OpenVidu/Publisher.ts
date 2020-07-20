@@ -145,7 +145,7 @@ export class Publisher extends StreamManager {
                         }
                     });
             }
-            this.stream.audioActive = value;
+            this.stream.startWithActiveAudio = value;
             logger.info("'Publisher' has " + (value ? 'published' : 'unpublished') + ' its audio stream');
         }
     }

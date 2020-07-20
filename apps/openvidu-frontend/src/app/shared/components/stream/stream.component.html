@@ -8,7 +8,7 @@
   <ng-template>
     <div class="nickname" [class.fullscreen]="isFullscreen">
       <div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
-        <span id="nickname">{{ this._user.nickname }}</span>
+        <span id="nickname">{{ this._user.getNickname() }}</span>
         <span *ngIf="!this._user.streamManager.remote"> (edit)</span>
       </div>
       <div
@@ -24,7 +24,7 @@
             <input
               matInput
               #nicknameInput
-              placeholder="Nick: {{ this._user.nickname }}"
+              placeholder="Nick: {{ this._user.getNickname() }}"
               [formControl]="nicknameFormControl"
               [errorStateMatcher]="matcher"
               (keypress)="eventKeyPress($event)"
@@ -44,7 +44,7 @@
 
   <div
     class="no-video"
-    [style.display]="!this._user.streamManager?.stream?.videoActive ? 'grid' : 'none'"
+    [style.display]="!this._user.isVideoActive() ? 'grid' : 'none'"
     [style.background]="greyBackground(this._user.getNickname())"
   >
     <div class="no-video__image">
@@ -55,14 +55,14 @@
   <ov-video [streamManager]="this._user.streamManager" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
-    <user-avatar [name]="this._user.nickname" [avatar]="this._user.getAvatar()" fontSize="0.7em"></user-avatar>
-    <div class="user-nickname">{{ this._user.nickname }}</div>
-    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.audioActive && _user.isCamera()"
-      >mic_off</mat-icon
-    >
-    <mat-icon class="disabled tiny" *ngIf="!this._user.streamManager.stream.videoActive && _user.isCamera()"
-      >videocam_off</mat-icon
-    >
+    <user-avatar [name]="this._user.getNickname()" [avatar]="this._user.getAvatar()" fontSize="0.7em"></user-avatar>
+    <div class="user-nickname">{{ this._user.getNickname() }}</div>
+    <mat-icon class="disabled tiny" *ngIf="_user.isCamera()" [ngClass]="_user.isAudioActive() ? '' : 'inactive'">
+      {{ this._user.isAudioActive() ? 'mic_on' : 'mic_off' }}
+    </mat-icon>
+    <mat-icon class="disabled tiny" *ngIf="_user.isCamera()" [ngClass]="this._user.isVideoActive() ? '' : 'inactive'">
+      {{ this._user.isVideoActive() ? 'videocam_on' : 'videocam_off' }}
+    </mat-icon>
     <mat-icon class="disabled tiny" *ngIf="this._user.isScreen()">screen_share</mat-icon>
 
     <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
@@ -80,17 +80,15 @@
         </span>
       </button>
       <button mat-menu-item (click)="toggleSound()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
-        <mat-icon class="disabled">{{ this._user.streamManager?.stream?.audioActive ? 'mic_off' : 'mic_on' }}</mat-icon>
+        <mat-icon class="disabled">{{ this._user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
         <span>
-          {{ this._user.streamManager?.stream?.audioActive ? 'Mute participant' : 'Unmute participant' }}
+          {{ this._user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
         </span>
       </button>
       <button mat-menu-item (click)="toggleVideo()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
-        <mat-icon class="disabled">{{
-          this._user.streamManager?.stream?.videoActive ? 'videocam_off' : 'videocam_on'
-        }}</mat-icon>
+        <mat-icon class="disabled">{{ this._user.isVideoActive() ? 'videocam_off' : 'videocam_on' }}</mat-icon>
         <span>
-          {{ this._user.streamManager?.stream?.videoActive ? 'Turn off video' : 'Request to turn on video' }}
+          {{ this._user.isVideoActive() ? 'Turn off video' : 'Request to turn on video' }}
         </span>
       </button>
     </mat-menu>

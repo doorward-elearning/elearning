@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 import { OpenviduTheme } from '@doorward/common/types/openvidu';
+import { ExternalConfigModel } from '../../models/external-config';
 
 @Component({
   selector: 'app-toolbar',
@@ -19,7 +20,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
-  @Input() ovSettings: OvSettingsModel;
+  @Input() externalConfig: ExternalConfigModel;
 
   @Input() isWebcamVideoEnabled: boolean;
   @Input() isWebcamAudioEnabled: boolean;
@@ -70,8 +71,8 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.ovSettings.logoUrl) {
-      this.logoUrl = this.ovSettings.logoUrl;
+    if (this.externalConfig.ovSettings.logoUrl) {
+      this.logoUrl = this.externalConfig.ovSettings.logoUrl;
     } else {
       this.utilsSrv.theme.subscribe(next => {
         this.logoUrl =

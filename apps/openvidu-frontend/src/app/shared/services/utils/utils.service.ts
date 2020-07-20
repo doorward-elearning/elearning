@@ -19,6 +19,7 @@ export class UtilsService {
 
   private refreshTheme: () => void;
   private themeEventListener: (e: KeyboardEvent) => void;
+
   constructor(public dialog: MatDialog) {
     this.themeObs = new BehaviorSubject(OpenviduTheme.DARK);
     this.theme = this.themeObs.asObservable();

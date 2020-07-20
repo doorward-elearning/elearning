@@ -123,10 +123,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         this.router.navigate(['']);
       });
     }
+    this.oVSessionService.handleSessionConfig(this.externalConfig.sessionConfig);
     this.lightTheme = this.externalConfig.theme === OpenviduTheme.LIGHT;
     this.ovSettings = this.externalConfig.ovSettings || new OvSettingsModel();
     this.ovSettings.setScreenSharing(this.ovSettings.hasScreenSharing() && !this.utilsSrv.isMobile());
-    this.oVSessionService.setWebcamAvatar(this.externalConfig.user.avatar);
+    this.mySessionId = this.externalConfig.sessionId;
 
     if (this.externalConfig.ovServerApiUrl) {
       environment.OPENVIDU_API_URL = this.externalConfig.ovServerApiUrl;
@@ -163,10 +164,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   onConfigRoomJoin() {
     this.hasVideoDevices = this.oVDevicesService.hasVideoDeviceAvailable();
     this.hasAudioDevices = this.oVDevicesService.hasAudioDeviceAvailable();
-    this.showConfigRoomCard = false;
     this.subscribeToLocalUsers();
     this.subscribeToRemoteUsers();
-    this.mySessionId = this.oVSessionService.getSessionId();
 
     setTimeout(() => {
       this.openviduLayout = new OpenViduLayout();
@@ -228,7 +227,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   }
 
   onNicknameUpdate(nickname: string) {
-    this.oVSessionService.setWebcamName(nickname);
+    this.oVSessionService.updateNickname(nickname);
     this.sendNicknameSignal(nickname);
   }
 
@@ -341,16 +340,16 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
       this.log.d('Automatic Layout ', this.isAutoLayout ? 'Disabled' : 'Enabled');
       if (this.isAutoLayout) {
-        this.subscribeToSpeachDetection();
+        this.subscribeToSpeechDetection();
         return;
       }
-      this.log.d('Unsubscribe to speach detection');
+      this.log.d('Unsubscribe to speech detection');
       this.session.off('publisherStartSpeaking');
       this.resetAllBigElements();
       this.updateOpenViduLayout();
       return;
     }
-    this.log.w('Screen is enabled. Speach detection has been rejected');
+    this.log.w('Screen is enabled. Speech detection has been rejected');
   }
 
   onReplaceScreenTrack(event) {
@@ -396,9 +395,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     if (!screenToken && this.ovSettings?.hasScreenSharing()) {
       screenToken = userSession.sessionInfo.screenToken;
     }
+    this.oVSessionService.setLocalUserSession(userSession);
 
     if (webcamToken || screenToken) {
-      await this.connectBothSessions(webcamToken, screenToken);
+      await this.connectBothSessions();
 
       if (this.oVSessionService.areBothConnected()) {
         this.oVSessionService.publishWebcam();
@@ -415,10 +415,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     }
   }
 
-  private async connectBothSessions(webcamToken: string, screenToken: string) {
+  private async connectBothSessions() {
     try {
-      await this.oVSessionService.connectWebcamSession(webcamToken, this.externalConfig.user.role);
-      await this.oVSessionService.connectScreenSession(screenToken, this.externalConfig.user.role);
+      await this.oVSessionService.connectWebcamSession();
+      await this.oVSessionService.connectScreenSession();
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
         this.localUsers[0].getStreamManager().videos[0].video.parentElement.classList.remove('custom-class');
@@ -440,7 +440,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
       const subscriber: Subscriber = this.session.subscribe(event.stream, undefined);
       this.remoteUsersService.add(event, subscriber);
-      this.sendNicknameSignal(this.oVSessionService.getWebcamUserName(), event.stream.connection);
+      this.sendNicknameSignal(this.oVSessionService.getUserSession().user.name, event.stream.connection);
     });
   }
 
@@ -480,7 +480,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     });
   }
 
-  private subscribeToSpeachDetection() {
+  private subscribeToSpeechDetection() {
     this.log.d('Subscribe to speech detection', this.session);
     // Has been mandatory change the user zoom property here because of
     // zoom icons and cannot handle publisherStartSpeaking event in other component
@@ -548,9 +548,18 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         ...this.externalConfig.user,
       });
     } catch (error) {
-      this._error.emit({ error: error.error, messgae: error.message, code: error.code, status: error.status });
-      this.log.e('There was an error getting the token:', error.status, error.message);
-      this.utilsSrv.showErrorMessage('There was an error getting the token:', error.error || error.message);
+      this._error.emit({ error: error.error, message: error.message, code: error.code, status: error.status });
+      if (error.status === 404) {
+        this.utilsSrv.showErrorMessage(
+          'Meeting not started',
+          'The meeting has not yet been started by the organizer.',
+          true,
+          this.externalConfig.redirectOnEnd
+        );
+      } else {
+        this.log.e('There was an error getting the token:', error.status, error.message);
+        this.utilsSrv.showErrorMessage('There was an error getting the token:', error.error || error.message);
+      }
     }
   }
 

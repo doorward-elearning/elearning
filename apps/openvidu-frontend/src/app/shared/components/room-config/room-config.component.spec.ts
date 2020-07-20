@@ -10,7 +10,6 @@ import { UtilsServiceMock } from '../../services/utils/utils.service.mock';
 import { OpenViduSessionServiceMock } from '../../services/openvidu-session/openvidu-session.service.mock';
 import { LoggerServiceMock } from '../../services/logger/logger.service.mock';
 import { RouterTestingModule } from '@angular/router/testing';
-import { IsAutoPublishPipe } from '../../pipes/ovSettings.pipe';
 import { StorageService } from '../../services/storage/storage.service';
 import { StorageServiceMock } from '../../services/storage/storage.service.mock';
 
@@ -20,7 +19,7 @@ describe('RoomConfigComponent', () => {
 
 	beforeEach(async(() => {
 		TestBed.configureTestingModule({
-			declarations: [RoomConfigComponent, IsAutoPublishPipe],
+			declarations: [RoomConfigComponent],
 			providers: [
 				{provide: LoggerService, useClass: LoggerServiceMock},
 				{provide: UtilsService, useClass: UtilsServiceMock},

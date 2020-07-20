@@ -27,16 +27,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 // Pipes
 import { LinkifyPipe } from './shared/pipes/linkfy';
-import {
-  HasChatPipe,
-  HasAudioPipe,
-  HasVideoPipe,
-  IsAutoPublishPipe,
-  HasScreenSharingPipe,
-  HasFullscreenPipe,
-  HasLayoutSpeakingPipe,
-  HasExitPipe,
-} from './shared/pipes/ovSettings.pipe';
+
 import { TooltipListPipe } from './shared/pipes/tooltipList.pipe';
 
 // Components
@@ -89,14 +80,6 @@ import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dia
     ToolbarComponent,
     ToolbarLogoComponent,
     LinkifyPipe,
-    HasChatPipe,
-    HasAudioPipe,
-    HasVideoPipe,
-    IsAutoPublishPipe,
-    HasScreenSharingPipe,
-    HasFullscreenPipe,
-    HasLayoutSpeakingPipe,
-    HasExitPipe,
     TooltipListPipe,
     FooterComponent,
     DialogEndMeetingComponent,
