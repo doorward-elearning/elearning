@@ -50,13 +50,13 @@ image:
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: core.harbor.doorward.tech/doorward/thala@sha256
-    version: 72731523a557d3e6dd44be336e350ecc84ad46dc79b4e10a9e0206b581ab956a
+    repository: core.harbor.doorward.tech/doorward/thala
+    version: 1.1.0
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
-    pullPolicy: IfNotPresent
+    pullPolicy: Always
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
     version: 1.1.0
