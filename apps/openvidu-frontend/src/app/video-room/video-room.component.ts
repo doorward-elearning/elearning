@@ -1,14 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {
@@ -24,7 +14,6 @@ import {
 } from 'openvidu-browser';
 import { OpenViduLayout, OpenViduLayoutOptions } from '../shared/layout/openvidu-layout';
 import { UserModel } from '../shared/models/user-model';
-import { ChatComponent } from '../shared/components/chat/chat.component';
 import { OvSettingsModel } from '../shared/models/ovSettings';
 import { ScreenType } from '../shared/types/video-type';
 import { ILogger } from '../shared/types/logger-type';
@@ -631,15 +620,30 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     });
   }
 
-  toggleEveryoneMic() {
-    this.signalService.send(SignalTypes.TOGGLE_AUDIO, { permanent: false });
+  toggleEveryoneMic(unmute: boolean) {
+    const request = !(unmute
+      ? this.can(MeetingCapabilities.UNMUTE_PARTICIPANTS)
+      : this.can(MeetingCapabilities.MUTE_PARTICIPANTS));
+
+    this.signalService.send(SignalTypes.TOGGLE_AUDIO, {
+      request,
+    });
   }
 
-  toggleEveryoneVideo() {
-    this.signalService.send(SignalTypes.TOGGLE_VIDEO, { permanent: false });
+  toggleEveryoneVideo(turnOn: boolean) {
+    const request = !(turnOn
+      ? this.can(MeetingCapabilities.TURN_ON_PARTICIPANTS_VIDEO)
+      : this.can(MeetingCapabilities.TURN_OFF_PARTICIPANTS_VIDEO));
+    this.signalService.send(SignalTypes.TOGGLE_VIDEO, {
+      request,
+    });
   }
 
   getLocalUser() {
     return this.localUsers.find(user => user.isCamera());
+  }
+
+  can(capability: MeetingCapabilities) {
+    return this.getLocalUser().can(capability);
   }
 }

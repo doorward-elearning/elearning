@@ -2,6 +2,7 @@ import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import Capabilities from '@doorward/common/utils/Capabilities';
 
 /**
  * Packs all the information about the user
@@ -167,5 +168,27 @@ export class UserModel {
     return !!(
       this.session?.sessionConfig?.capabilities?.has && this.session.sessionConfig.capabilities.has(capability)
     );
+  }
+
+  public getCapabilities(): Capabilities<typeof MeetingCapabilities> | undefined {
+    return this.session?.sessionConfig?.capabilities;
+  }
+
+  public addCapability(capability: MeetingCapabilities) {
+    if (this.getCapabilities()) {
+      this.getCapabilities().add(capability);
+    }
+  }
+
+  public removeCapability(capability: MeetingCapabilities) {
+    if (this.getCapabilities()) {
+      this.getCapabilities().remove(capability);
+    }
+  }
+
+  public toggleCapability(capability: MeetingCapabilities) {
+    if (this.getCapabilities()) {
+      this.getCapabilities().toggle(capability);
+    }
   }
 }

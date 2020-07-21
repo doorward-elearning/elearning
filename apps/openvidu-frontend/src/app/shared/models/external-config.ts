@@ -9,7 +9,7 @@ import {
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../../environments/environment';
 import Capabilities from '@doorward/common/utils/Capabilities';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities as MC } from '@doorward/common/types/meetinCapabilities';
 
 export class ExternalConfigModel implements OpenviduWebComponentConfig {
   constructor() {
@@ -21,16 +21,19 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
       dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
       base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
     },
-    capabilities: new Capabilities(MeetingCapabilities, [
-      MeetingCapabilities.JOIN_WITH_ACTIVE_VIDEO,
-      MeetingCapabilities.PUBLISH_VIDEO,
-      MeetingCapabilities.PUBLISH_AUDIO,
-      MeetingCapabilities.CHAT,
-      MeetingCapabilities.AUTO_JOIN_SESSION,
-      MeetingCapabilities.SHARE_SCREEN,
-      MeetingCapabilities.GO_FULL_SCREEN,
-      MeetingCapabilities.EXIT_MEETING,
-      MeetingCapabilities.SPEAKING_LAYOUT,
+    capabilities: new Capabilities(MC, [
+      MC.JOIN_WITH_ACTIVE_VIDEO,
+      MC.PUBLISH_VIDEO,
+      MC.PUBLISH_AUDIO,
+      MC.CHAT,
+      MC.AUTO_JOIN_SESSION,
+      MC.SHARE_SCREEN,
+      MC.GO_FULL_SCREEN,
+      MC.EXIT_MEETING,
+      MC.SPEAKING_LAYOUT,
+      MC.TURN_ON_PARTICIPANTS_VIDEO,
+      MC.TURN_OFF_PARTICIPANTS_VIDEO,
+      MC.UNMUTE_PARTICIPANTS,
     ]),
   };
   ovSettings: OvSettingsModel;
@@ -44,34 +47,34 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   user: OpenviduUser;
 
   public hasVideo(): boolean {
-    return this.can(MeetingCapabilities.PUBLISH_VIDEO);
+    return this.can(MC.PUBLISH_VIDEO);
   }
 
   public hasScreenSharing(): boolean {
-    return this.can(MeetingCapabilities.SHARE_SCREEN);
+    return this.can(MC.SHARE_SCREEN);
   }
 
   public hasLayoutSpeaking(): boolean {
-    return this.can(MeetingCapabilities.SPEAKING_LAYOUT);
+    return this.can(MC.SPEAKING_LAYOUT);
   }
 
   public hasFullscreen(): boolean {
-    return this.can(MeetingCapabilities.GO_FULL_SCREEN);
+    return this.can(MC.GO_FULL_SCREEN);
   }
 
   public hasAudio(): boolean {
-    return this.can(MeetingCapabilities.PUBLISH_AUDIO);
+    return this.can(MC.PUBLISH_AUDIO);
   }
 
   public hasExit(): boolean {
-    return this.can(MeetingCapabilities.EXIT_MEETING);
+    return this.can(MC.EXIT_MEETING);
   }
 
   public isModerator(): boolean {
     return this.user.role === OPENVIDU_ROLES.MODERATOR;
   }
 
-  public can(capability: MeetingCapabilities) {
+  public can(capability: MC) {
     return !!this.sessionConfig.capabilities.has(capability);
   }
 }

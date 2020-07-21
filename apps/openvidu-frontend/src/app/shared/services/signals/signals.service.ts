@@ -5,7 +5,6 @@ import SignalTypes, { SignalData } from '@doorward/common/utils/meetingSignalTyp
 import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
-import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
 
 export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
@@ -38,7 +37,7 @@ export class SignalsService {
   subscribeToVideoControl() {
     this.subscribe(SignalTypes.TOGGLE_VIDEO_CONTROL, () => {
       this.openviduService.updateLocalUserSession(user => {
-        user.sessionConfig.capabilities.toggle(MeetingCapabilities.PUBLISH_VIDEO);
+        user.toggleCapability(MeetingCapabilities.PUBLISH_VIDEO);
         return user;
       });
     });
@@ -49,8 +48,37 @@ export class SignalsService {
   }
 
   subscribeToToggleAudio() {
-    this.subscribe(SignalTypes.TOGGLE_AUDIO, () => {
-      this.openviduService.publishWebcamAudio(!this.openviduService.hasWebcamAudioActive());
+    this.subscribe(SignalTypes.TOGGLE_AUDIO, (data, event) => {
+      const active = this.openviduService.hasWebcamAudioActive();
+      if (data.request) {
+        const title = active ? 'Mute' : 'Unmute';
+        const message = active
+          ? 'is requesting you to turn off your microphone'
+          : 'is requesting you to turn on your microphone.';
+        const button = active ? 'Turn off' : 'Turn on';
+        this.utilsService.alert(
+          title,
+          `${this.remoteUsersService.getRemoteUserByConnectionId(event.from.connectionId).getNickname()} ${message}`,
+          [
+            {
+              text: 'Not now',
+              onClick: () => {},
+            },
+            {
+              text: button,
+              onClick: () => {
+                this.openviduService.publishWebcamAudio(!active);
+                this.openviduService.updateLocalUserSession(user => {
+                  user.addCapability(MeetingCapabilities.PUBLISH_AUDIO);
+                  return user;
+                });
+              },
+            },
+          ]
+        );
+      } else {
+        this.openviduService.publishWebcamAudio(!active);
+      }
     });
   }
 
@@ -76,27 +104,35 @@ export class SignalsService {
 
   subscribeToToggleVideo() {
     this.subscribe(SignalTypes.TOGGLE_VIDEO, (data, event) => {
-      if (this.openviduService.hasWebcamVideoActive()) {
-        this.openviduService.publishVideo(false);
-      } else {
+      const active = this.openviduService.hasWebcamVideoActive();
+      if (data.request) {
+        const title = active ? 'Turn off video' : 'Turn on video';
+        const message = active
+          ? 'is requesting you to turn off your video'
+          : 'is requesting you to turn on your video.';
+        const button = active ? 'Turn off' : 'Turn on';
         this.utilsService.alert(
-          'Turn on video',
-          `${this.remoteUsersService
-            .getRemoteUserByConnectionId(event.from.connectionId)
-            .getNickname()} is requesting you to turn on your video`,
+          title,
+          `${this.remoteUsersService.getRemoteUserByConnectionId(event.from.connectionId).getNickname()} ${message}`,
           [
             {
               text: 'Not now',
               onClick: () => {},
             },
             {
-              text: 'Turn on',
+              text: button,
               onClick: () => {
-                this.openviduService.publishVideo(true);
+                this.openviduService.publishVideo(!active);
+                this.openviduService.updateLocalUserSession(user => {
+                  user.addCapability(MeetingCapabilities.PUBLISH_VIDEO);
+                  return user;
+                });
               },
             },
           ]
         );
+      } else {
+        this.openviduService.publishVideo(!active);
       }
     });
   }

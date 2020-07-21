@@ -49,8 +49,8 @@ export class OpenViduSessionService {
     this.screenSession = this.OVScreen.initSession();
   }
 
-  updateLocalUserSession(callback: (user: OpenviduUserSession) => OpenviduUserSession) {
-    this.setLocalUserSession(callback(this.user));
+  updateLocalUserSession(callback: (user: UserModel) => UserModel) {
+    this.setLocalUserSession(callback(this.webcamUser).session);
   }
 
   setLocalUserSession(user: OpenviduUserSession) {

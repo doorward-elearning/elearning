@@ -10,8 +10,8 @@ enum SignalTypes {
 }
 
 export interface SignalData extends Record<SignalTypes, unknown> {
-  [SignalTypes.TOGGLE_AUDIO]: { permanent: boolean };
-  [SignalTypes.TOGGLE_VIDEO]: { permanent: boolean };
+  [SignalTypes.TOGGLE_AUDIO]: { request: boolean };
+  [SignalTypes.TOGGLE_VIDEO]: { request: boolean };
   [SignalTypes.LEAVE_MEETING]: undefined;
   [SignalTypes.USER_UPDATED]: { session: OpenviduUserSession };
   [SignalTypes.TOGGLE_VIDEO_CONTROL]: undefined;

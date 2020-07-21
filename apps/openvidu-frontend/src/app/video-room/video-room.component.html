@@ -29,8 +29,8 @@
         ></chat-component>
         <participants-list
           *ngIf="utilsSrv.isParticipantsOpen()"
-          (muteAllButtonClicked)="this.toggleEveryoneMic()"
-          (turnOffVideoForAllButtonClicked)="this.toggleEveryoneVideo()"
+          (muteAllButtonClicked)="this.toggleEveryoneMic($event)"
+          (turnOffVideoForAllButtonClicked)="this.toggleEveryoneVideo($event)"
           (closeButtonClicked)="toggleParticipants()"
         ></participants-list>
       </mat-sidenav>

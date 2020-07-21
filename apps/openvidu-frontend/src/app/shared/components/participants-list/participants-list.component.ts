@@ -38,7 +38,6 @@ export class ParticipantsListComponent implements OnInit {
 
   muteAll(): void {
     this.muteAllButtonClicked.emit(this.allMuted);
-    this.allMuted = !this.allMuted;
   }
 
   turnOfVideoForAll(): void {
