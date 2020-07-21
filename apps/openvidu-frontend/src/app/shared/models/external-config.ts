@@ -1,6 +1,5 @@
 import { OvSettingsModel } from './ovSettings';
 import {
-  MeetingCapabilities,
   OPENVIDU_ROLES,
   OpenviduTheme,
   OpenviduUser,
@@ -10,6 +9,7 @@ import {
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../../environments/environment';
 import Capabilities from '@doorward/common/utils/Capabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
 
 export class ExternalConfigModel implements OpenviduWebComponentConfig {
   constructor() {

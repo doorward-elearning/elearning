@@ -1,4 +1,5 @@
 import Capabilities from '@doorward/common/utils/Capabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
 
 export enum OPENVIDU_ROLES {
   PUBLISHER = 'PUBLISHER',
@@ -139,19 +140,6 @@ export interface OpenviduWebComponentConfig {
   user: OpenviduUser;
   sessionConfig: SessionConfig;
   sessionInfo?: SessionInfo;
-}
-
-export enum MeetingCapabilities {
-  JOIN_WITH_ACTIVE_AUDIO = 'JOIN_WITH_ACTIVE_AUDIO',
-  JOIN_WITH_ACTIVE_VIDEO = 'JOIN_WITH_ACTIVE_VIDEO',
-  PUBLISH_VIDEO = 'PUBLISH_VIDEO',
-  PUBLISH_AUDIO = 'PUBLISH_AUDIO',
-  CHAT = 'CHAT',
-  SHARE_SCREEN = 'SHARE_SCREEN',
-  GO_FULL_SCREEN = 'GO_FULL_SCREEN',
-  SPEAKING_LAYOUT = 'SPEAKING_LAYOUT',
-  AUTO_JOIN_SESSION = 'AUTO_JOIN_SESSION',
-  EXIT_MEETING = 'EXIT_MEETING',
 }
 
 export class MeetingCapabilitiesComponent {

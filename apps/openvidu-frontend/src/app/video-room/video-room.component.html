@@ -24,7 +24,7 @@
       >
         <chat-component
           (closeButtonClicked)="toggleChat()"
-          *ngIf="utilsSrv.isChatOpen() && getLocalUser() | capabilities: MeetingCapabilities.CHAT"
+          *ngIf="utilsSrv.isChatOpen() && getLocalUser().can(MeetingCapabilities.CHAT)"
           [lightTheme]="lightTheme"
         ></chat-component>
         <participants-list

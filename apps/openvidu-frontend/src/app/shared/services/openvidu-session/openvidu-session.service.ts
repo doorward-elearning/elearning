@@ -6,6 +6,8 @@ import { ScreenType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import Capabilities from '@doorward/common/utils/Capabilities';
 
 @Injectable({
   providedIn: 'root',
@@ -53,6 +55,12 @@ export class OpenViduSessionService {
 
   setLocalUserSession(user: OpenviduUserSession) {
     this.user = user;
+    if (this.user.sessionConfig?.capabilities && !this.user.sessionConfig.capabilities?.has) {
+      this.user.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
+        MeetingCapabilities,
+        (this.user.sessionConfig.capabilities as any).capabilities
+      );
+    }
     if (this.webcamUser) {
       this.webcamUser.session = user;
     }

@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { UserModel } from '../models/user-model';
-import { MeetingCapabilities } from '@doorward/common/types/openvidu';
+import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
 
 @Pipe({
   name: 'capabilities',

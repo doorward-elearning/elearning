@@ -43,7 +43,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
 import { SignalsService } from '../shared/services/signals/signals.service';
 import {
-  MeetingCapabilities,
   MeetingCapabilitiesComponent,
   OPENVIDU_ROLES,
   OpenviduTheme,
@@ -51,6 +50,7 @@ import {
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../environments/environment';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
+import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
