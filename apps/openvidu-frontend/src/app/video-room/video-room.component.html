@@ -24,7 +24,7 @@
       >
         <chat-component
           (closeButtonClicked)="toggleChat()"
-          *ngIf="utilsSrv.isChatOpen() && getLocalUser().session.sessionConfig.canChat"
+          *ngIf="utilsSrv.isChatOpen() && getLocalUser() | capabilities: MeetingCapabilities.CHAT"
           [lightTheme]="lightTheme"
         ></chat-component>
         <participants-list
@@ -59,7 +59,6 @@
         ></app-toolbar>
         <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
           <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
-            <!-- Only webcam video will be shown if webcamera is available -->
             <stream-component
               [user]="localUser"
               [localUser]="getLocalUser()"

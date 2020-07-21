@@ -163,6 +163,6 @@ export class UserModel {
   }
 
   public can(capability: MeetingCapabilities): boolean {
-    return this.session?.sessionConfig && !!this.session.sessionConfig.capabilities.find(cap => cap === capability);
+    return !!(this.session?.sessionConfig && this.session.sessionConfig.capabilities.has(capability));
   }
 }

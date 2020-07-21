@@ -9,6 +9,7 @@ import {
   SessionInfo,
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../../environments/environment';
+import Capabilities from '@doorward/common/utils/Capabilities';
 
 export class ExternalConfigModel implements OpenviduWebComponentConfig {
   constructor() {
@@ -20,7 +21,8 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
       dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
       base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
     },
-    capabilities: new Capabilities([
+    capabilities: new Capabilities(MeetingCapabilities, [
+      MeetingCapabilities.JOIN_WITH_ACTIVE_VIDEO,
       MeetingCapabilities.PUBLISH_VIDEO,
       MeetingCapabilities.PUBLISH_AUDIO,
       MeetingCapabilities.CHAT,
@@ -70,6 +72,6 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   }
 
   public can(capability: MeetingCapabilities) {
-    return !!this.sessionConfig.capabilities.find(c => c === capability);
+    return !!this.sessionConfig.capabilities.has(capability);
   }
 }

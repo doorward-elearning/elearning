@@ -184,7 +184,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     if (audioSource) {
       // Is New deviceId different than older?
       if (this.oVDevicesService.needUpdateAudioTrack(audioSource)) {
-        console.log(this.camSelected);
         const mirror = this.oVDevicesService.cameraNeedsMirror(this.camSelected.device);
         await this.oVSessionService.replaceTrack(null, audioSource, mirror);
         this.oVDevicesService.setMicSelected(audioSource);
@@ -195,7 +194,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       this.isAudioActive = true;
       return;
     }
-    // Unpublish microhpone
     this.publishAudio(false);
     this.isAudioActive = false;
   }
@@ -320,9 +318,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private scrollToBottom(): void {
     try {
       this.bodyCard.nativeElement.scrollTop = this.bodyCard.nativeElement.scrollHeight;
-    } catch (err) {
-      this.log.e(err);
-    }
+    } catch (err) {}
   }
 
   private initScreenPublisher(): Publisher {
@@ -348,7 +344,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
-      this.handleSessionConfig(users[0]);
+      if (users[0].session) {
+        this.handleSessionConfig(users[0]);
+      }
     });
   }
 

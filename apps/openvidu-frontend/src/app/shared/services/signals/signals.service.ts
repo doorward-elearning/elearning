@@ -5,6 +5,8 @@ import SignalTypes, { SignalData } from '@doorward/common/utils/meetingSignalTyp
 import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
+import { MeetingCapabilities } from '@doorward/common/types/openvidu';
+import Capabilities from '@doorward/common/utils/Capabilities';
 
 export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
 
@@ -35,13 +37,10 @@ export class SignalsService {
 
   subscribeToVideoControl() {
     this.subscribe(SignalTypes.TOGGLE_VIDEO_CONTROL, () => {
-      this.openviduService.updateLocalUserSession(user => ({
-        ...user,
-        sessionConfig: {
-          ...user.sessionConfig,
-          hasVideo: !user.sessionConfig.hasVideo,
-        },
-      }));
+      this.openviduService.updateLocalUserSession(user => {
+        user.sessionConfig.capabilities.toggle(MeetingCapabilities.PUBLISH_VIDEO);
+        return user;
+      });
     });
   }
 

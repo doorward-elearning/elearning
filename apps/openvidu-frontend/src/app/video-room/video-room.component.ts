@@ -42,7 +42,13 @@ import { ChatService } from '../shared/services/chat/chat.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeting/dialog-end-meeting.component';
 import { SignalsService } from '../shared/services/signals/signals.service';
-import { OPENVIDU_ROLES, OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import {
+  MeetingCapabilities,
+  MeetingCapabilitiesComponent,
+  OPENVIDU_ROLES,
+  OpenviduTheme,
+  OpenviduUserSession,
+} from '@doorward/common/types/openvidu';
 import { environment } from '../../environments/environment';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
@@ -56,7 +62,7 @@ export enum SideNavComponents {
   templateUrl: './video-room.component.html',
   styleUrls: ['./video-room.component.css'],
 })
-export class VideoRoomComponent implements OnInit, OnDestroy {
+export class VideoRoomComponent extends MeetingCapabilitiesComponent implements OnInit, OnDestroy {
   // Config from webcomponent or angular-library
   @Input() externalConfig: ExternalConfigModel;
   @Output() _session = new EventEmitter<any>();
@@ -103,6 +109,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog,
     private signalService: SignalsService
   ) {
+    super();
     this.log = this.loggerSrv.get('VideoRoomComponent');
   }
 
@@ -131,6 +138,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     };
     if (this.utilsSrv.isFF()) {
       defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
+      defaultConfig.sessionConfig.capabilities.remove(MeetingCapabilities.PUBLISH_VIDEO);
     }
     defaultConfig.sessionId = 'test-meeting';
     if (!this.externalConfig) {
