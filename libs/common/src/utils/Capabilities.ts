@@ -1,7 +1,9 @@
-export class Capabilities<T extends Record<keyof T, number | string>> {
+import { Enum } from '@doorward/common/types';
+
+export default class Capabilities<T extends Enum<T>> {
   private readonly capabilities: Record<keyof T, boolean>;
 
-  constructor(enumeration: T, initial: Array<T>) {
+  constructor(enumeration: T, initial: Array<keyof T>) {
     this.capabilities = Object.keys(enumeration).reduce((acc, cur) => {
       return {
         ...acc,
@@ -22,5 +24,13 @@ export class Capabilities<T extends Record<keyof T, number | string>> {
 
   add(capability: keyof T) {
     this.capabilities[capability] = true;
+  }
+
+  has(capability: keyof T) {
+    return this.capabilities[capability];
+  }
+
+  toggle(capability: keyof T) {
+    this.capabilities[capability] = !this.capabilities[capability];
   }
 }

@@ -1,3 +1,5 @@
+import Capabilities from '@doorward/common/utils/Capabilities';
+
 export enum OPENVIDU_ROLES {
   PUBLISHER = 'PUBLISHER',
   SUBSCRIBER = 'SUBSCRIBER',
@@ -152,12 +154,11 @@ export enum MeetingCapabilities {
   EXIT_MEETING = 'EXIT_MEETING',
 }
 
-
 export class MeetingCapabilitiesComponent {
   public MeetingCapabilities = MeetingCapabilities;
 }
 
 export interface SessionConfig {
   logoUrl?: string | { dark: string; base: string };
-  capabilities: Capabilities;
+  capabilities: Capabilities<typeof MeetingCapabilities>;
 }
