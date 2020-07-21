@@ -1,6 +1,6 @@
 import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
-import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { MeetingCapabilities, OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 /**
  * Packs all the information about the user
@@ -160,5 +160,9 @@ export class UserModel {
 
   public isPublisher() {
     return this.session.user.role === OPENVIDU_ROLES.PUBLISHER;
+  }
+
+  public can(capability: MeetingCapabilities): boolean {
+    return this.session?.sessionConfig && !!this.session.sessionConfig.capabilities.find(cap => cap === capability);
   }
 }

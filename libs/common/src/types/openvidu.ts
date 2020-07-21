@@ -139,16 +139,25 @@ export interface OpenviduWebComponentConfig {
   sessionInfo?: SessionInfo;
 }
 
+export enum MeetingCapabilities {
+  JOIN_WITH_ACTIVE_AUDIO = 'JOIN_WITH_ACTIVE_AUDIO',
+  JOIN_WITH_ACTIVE_VIDEO = 'JOIN_WITH_ACTIVE_VIDEO',
+  PUBLISH_VIDEO = 'PUBLISH_VIDEO',
+  PUBLISH_AUDIO = 'PUBLISH_AUDIO',
+  CHAT = 'CHAT',
+  SHARE_SCREEN = 'SHARE_SCREEN',
+  GO_FULL_SCREEN = 'GO_FULL_SCREEN',
+  SPEAKING_LAYOUT = 'SPEAKING_LAYOUT',
+  AUTO_JOIN_SESSION = 'AUTO_JOIN_SESSION',
+  EXIT_MEETING = 'EXIT_MEETING',
+}
+
+
+export class MeetingCapabilitiesComponent {
+  public MeetingCapabilities = MeetingCapabilities;
+}
+
 export interface SessionConfig {
-  joinWithActiveAudio?: boolean;
-  joinWithActiveVideo?: boolean;
-  hasVideo?: boolean;
-  hasAudio?: boolean;
-  canChat?: boolean;
-  autoJoinsSession?: boolean;
   logoUrl?: string | { dark: string; base: string };
-  canScreenShare?: boolean;
-  canGoFullScreen?: boolean;
-  hasSpeakingLayout?: boolean;
-  canExit?: boolean;
+  capabilities: Capabilities;
 }

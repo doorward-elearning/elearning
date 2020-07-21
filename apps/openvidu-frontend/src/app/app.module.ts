@@ -66,6 +66,7 @@ import { environment } from '../environments/environment';
 import { NetworkInterceptor } from './shared/services/network/network.interceptor';
 import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
 import { ChatNotificationComponent } from './shared/components/chat-notification/chat-notification.component';
+import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { ChatNotificationComponent } from './shared/components/chat-notification
     UserAvatarComponent,
     AlertDialogComponent,
     ChatNotificationComponent,
+    CapabilitiesPipe,
   ],
   imports: [
     FormsModule,

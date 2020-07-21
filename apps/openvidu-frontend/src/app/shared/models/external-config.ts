@@ -1,5 +1,6 @@
 import { OvSettingsModel } from './ovSettings';
 import {
+  MeetingCapabilities,
   OPENVIDU_ROLES,
   OpenviduTheme,
   OpenviduUser,
@@ -15,20 +16,20 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   }
 
   public static DEFAULT_SESSION_CONFIG: SessionConfig = {
-    joinWithActiveAudio: false,
-    joinWithActiveVideo: true,
-    hasVideo: true,
-    hasAudio: true,
-    canChat: true,
-    autoJoinsSession: true,
     logoUrl: {
       dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
       base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
     },
-    canScreenShare: true,
-    canGoFullScreen: true,
-    hasSpeakingLayout: true,
-    canExit: true,
+    capabilities: new Capabilities([
+      MeetingCapabilities.PUBLISH_VIDEO,
+      MeetingCapabilities.PUBLISH_AUDIO,
+      MeetingCapabilities.CHAT,
+      MeetingCapabilities.AUTO_JOIN_SESSION,
+      MeetingCapabilities.SHARE_SCREEN,
+      MeetingCapabilities.GO_FULL_SCREEN,
+      MeetingCapabilities.EXIT_MEETING,
+      MeetingCapabilities.SPEAKING_LAYOUT,
+    ]),
   };
   ovSettings: OvSettingsModel;
   sessionId: string;
@@ -41,30 +42,34 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   user: OpenviduUser;
 
   public hasVideo(): boolean {
-    return this.sessionConfig.hasVideo;
+    return this.can(MeetingCapabilities.PUBLISH_VIDEO);
   }
 
   public hasScreenSharing(): boolean {
-    return this.sessionConfig.canScreenShare;
+    return this.can(MeetingCapabilities.SHARE_SCREEN);
   }
 
   public hasLayoutSpeaking(): boolean {
-    return this.sessionConfig.hasSpeakingLayout;
+    return this.can(MeetingCapabilities.SPEAKING_LAYOUT);
   }
 
   public hasFullscreen(): boolean {
-    return this.sessionConfig.canGoFullScreen;
+    return this.can(MeetingCapabilities.GO_FULL_SCREEN);
   }
 
   public hasAudio(): boolean {
-    return this.sessionConfig.hasAudio;
+    return this.can(MeetingCapabilities.PUBLISH_AUDIO);
   }
 
   public hasExit(): boolean {
-    return this.sessionConfig.canExit;
+    return this.can(MeetingCapabilities.EXIT_MEETING);
   }
 
   public isModerator(): boolean {
     return this.user.role === OPENVIDU_ROLES.MODERATOR;
+  }
+
+  public can(capability: MeetingCapabilities) {
+    return !!this.sessionConfig.capabilities.find(c => c === capability);
   }
 }

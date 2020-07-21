@@ -5,20 +5,21 @@ import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
-import { OpenviduTheme, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { MeetingCapabilitiesComponent, OpenviduTheme } from '@doorward/common/types/openvidu';
+import { UserModel } from '../../models/user-model';
 
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
   styleUrls: ['./toolbar.component.css'],
 })
-export class ToolbarComponent implements OnInit, OnDestroy {
+export class ToolbarComponent extends MeetingCapabilitiesComponent implements OnInit, OnDestroy {
   @Input() lightTheme: boolean;
   @Input() mySessionId: boolean;
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
-  @Input() localUserSession: OpenviduUserSession | undefined;
+  @Input() localUser: UserModel | undefined;
 
   @Input() isWebcamVideoEnabled: boolean;
   @Input() isWebcamAudioEnabled: boolean;
@@ -49,6 +50,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     private chatService: ChatService,
     private remoteUserService: RemoteUsersService
   ) {
+    super();
     this.chatServiceSubscription = this.chatService.messagesUnreadObs.subscribe(num => {
       this.newMessagesNum = num;
     });
@@ -73,16 +75,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       this.numParticipants = users.length;
     });
 
-    if (typeof this.localUserSession?.sessionConfig.logoUrl === 'object') {
+    const localUserSession = this.localUser?.session;
+
+    if (typeof localUserSession?.sessionConfig.logoUrl === 'object') {
       this.utilsSrv.theme.subscribe(next => {
         const logo =
           environment.CLOUDINARY_IMAGE_DIRECTORY +
           (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
-        this.logoUrl = (this.localUserSession && this.localUserSession.sessionConfig.logoUrl[next]) || logo;
+        this.logoUrl = (localUserSession && localUserSession.sessionConfig.logoUrl[next]) || logo;
       });
     } else {
-      this.logoUrl = this.localUserSession
-        ? this.localUserSession.sessionConfig.logoUrl
+      this.logoUrl = localUserSession
+        ? localUserSession.sessionConfig.logoUrl
         : environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
     }
   }

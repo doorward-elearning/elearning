@@ -131,7 +131,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     };
     if (this.utilsSrv.isFF()) {
       defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
-      defaultConfig.sessionConfig.hasVideo = false;
     }
     defaultConfig.sessionId = 'test-meeting';
     if (!this.externalConfig) {

@@ -1,4 +1,4 @@
-<div class="app-toolbar-component" *ngIf="localUserSession">
+<div class="app-toolbar-component" *ngIf="localUser?.session">
   <app-active-user-wrapper>
     <div class="session-header">
       <div class="session-title">
@@ -7,7 +7,7 @@
       <button
         (click)="toggleFullscreen()"
         [disabled]="isConnectionLost"
-        *ngIf="localUserSession.sessionConfig.canGoFullScreen"
+        *ngIf="localUser | capabilities: MeetingCapabilities.GO_FULL_SCREEN"
         class="fullscreen-button"
       >
         <mat-icon matTooltip="Fullscreen">{{ fullscreenIcon }}</mat-icon>
@@ -25,21 +25,21 @@
     </div>
     <div class="tool-bar">
       <div class="buttonsContainer" [ngClass]="lightTheme ? 'light' : 'dark'">
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.hasAudio">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.PUBLISH_AUDIO">
           <button (click)="toggleMicrophone()" [disabled]="isConnectionLost">
             <mat-icon *ngIf="isWebcamAudioEnabled" matTooltip="Mute your audio">mic</mat-icon>
             <mat-icon *ngIf="!isWebcamAudioEnabled" color="warn" matTooltip="Unmute your audio">mic_off</mat-icon>
           </button>
         </div>
 
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.hasVideo">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.PUBLISH_VIDEO">
           <!-- Camera button -->
           <button (click)="toggleCamera()" [disabled]="isConnectionLost">
             <mat-icon color="primary" *ngIf="isWebcamVideoEnabled" matTooltip="Turn off video">videocam</mat-icon>
             <mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Turn on video">videocam_off</mat-icon>
           </button>
         </div>
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.canScreenShare">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.SHARE_SCREEN">
           <!-- Screenshare button -->
           <button (click)="toggleScreenShare()" [disabled]="isConnectionLost">
             <mat-icon *ngIf="!isScreenEnabled" matTooltip="Start screen share" color="warn">stop_screen_share</mat-icon>
@@ -47,7 +47,7 @@
           </button>
         </div>
 
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.hasSpeakingLayout">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.SPEAKING_LAYOUT">
           <!-- Automatic / grid layout button -->
           <button (click)="toggleSpeakerLayout()" [disabled]="isConnectionLost">
             <mat-icon matTooltip="Enable speaker layout" color="warn" *ngIf="!isAutoLayout">voice_over_off</mat-icon>
@@ -55,7 +55,7 @@
           </button>
         </div>
 
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.canChat">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.CHAT">
           <button (click)="toggleChat()" [disabled]="isConnectionLost">
             <mat-icon
               matBadge="{{ newMessagesNum }}"
@@ -72,7 +72,7 @@
             <mat-icon matTooltip="Participants">people</mat-icon>
           </button>
         </div>
-        <div class="toolbar-button" *ngIf="localUserSession.sessionConfig.canExit">
+        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.EXIT_MEETING">
           <button (click)="leaveSession()" id="navLeaveButton">
             <mat-icon color="warn" matTooltip="Leave the session">phone</mat-icon>
           </button>

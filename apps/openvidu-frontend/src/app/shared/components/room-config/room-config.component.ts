@@ -1,13 +1,13 @@
 import {
   Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
   OnInit,
   Output,
-  EventEmitter,
-  Input,
-  HostListener,
-  OnDestroy,
   ViewChild,
-  ElementRef,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { UserModel } from '../../models/user-model';
@@ -16,7 +16,7 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { Publisher } from 'openvidu-browser';
 import { ActivatedRoute, Params } from '@angular/router';
 import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
-import { IDevice, CameraType } from '../../types/device-type';
+import { CameraType, IDevice } from '../../types/device-type';
 import { DevicesService } from '../../services/devices/devices.service';
 import { Subscription } from 'rxjs';
 import { AvatarType } from '../../types/chat-type';
@@ -28,7 +28,7 @@ import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
-import { SessionConfig } from '@doorward/common/types/openvidu';
+import { MeetingCapabilities } from '@doorward/common/types/openvidu';
 
 @Component({
   selector: 'app-room-config',
@@ -89,7 +89,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    this.handleSessionConfig(this.externalConfig.sessionConfig);
+    this.handleSessionConfig(this.externalConfig);
     this.subscribeToUsers();
     this.setNicknameForm();
     this.columns = window.innerWidth > 900 ? 2 : 1;
@@ -100,10 +100,10 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.initwebcamPublisher();
   }
 
-  handleSessionConfig(next: SessionConfig) {
-    if (next) {
-      this.isVideoActive = next.joinWithActiveVideo && this.externalConfig.hasVideo();
-      this.isAudioActive = next.joinWithActiveAudio && this.externalConfig.hasAudio();
+  handleSessionConfig(user: UserModel | ExternalConfigModel) {
+    if (user) {
+      this.isVideoActive = user.can(MeetingCapabilities.JOIN_WITH_ACTIVE_VIDEO) && this.externalConfig.hasVideo();
+      this.isAudioActive = user.can(MeetingCapabilities.JOIN_WITH_ACTIVE_AUDIO) && this.externalConfig.hasAudio();
     }
   }
 
@@ -320,7 +320,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private scrollToBottom(): void {
     try {
       this.bodyCard.nativeElement.scrollTop = this.bodyCard.nativeElement.scrollHeight;
-    } catch (err) {}
+    } catch (err) {
+      this.log.e(err);
+    }
   }
 
   private initScreenPublisher(): Publisher {
@@ -346,7 +348,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
-      this.handleSessionConfig(users[0].session?.sessionConfig);
+      this.handleSessionConfig(users[0]);
     });
   }
 
