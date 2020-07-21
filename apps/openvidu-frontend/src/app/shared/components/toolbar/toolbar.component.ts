@@ -18,7 +18,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
-  @Input() localUserSession: OpenviduUserSession;
+  @Input() localUserSession: OpenviduUserSession | undefined;
 
   @Input() isWebcamVideoEnabled: boolean;
   @Input() isWebcamAudioEnabled: boolean;
@@ -39,7 +39,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl: string;
+  logoUrl: string = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png';
 
   participantsNames: string[] = [];
   numParticipants = 0;
@@ -73,17 +73,17 @@ export class ToolbarComponent implements OnInit, OnDestroy {
       this.numParticipants = users.length;
     });
 
-    console.log(this.localUserSession.sessionConfig.logoUrl, 'Moses');
-    if (typeof this.localUserSession.sessionConfig.logoUrl === 'object') {
+    if (typeof this.localUserSession?.sessionConfig.logoUrl === 'object') {
       this.utilsSrv.theme.subscribe(next => {
         const logo =
           environment.CLOUDINARY_IMAGE_DIRECTORY +
           (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
-        this.logoUrl = this.localUserSession.sessionConfig.logoUrl[next] || logo;
-        console.log(logo, this.logoUrl, 'Moses');
+        this.logoUrl = (this.localUserSession && this.localUserSession.sessionConfig.logoUrl[next]) || logo;
       });
     } else {
-      this.logoUrl = this.localUserSession.sessionConfig.logoUrl;
+      this.logoUrl = this.localUserSession
+        ? this.localUserSession.sessionConfig.logoUrl
+        : environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
     }
   }
 

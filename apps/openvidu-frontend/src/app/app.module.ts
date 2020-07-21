@@ -65,6 +65,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { environment } from '../environments/environment';
 import { NetworkInterceptor } from './shared/services/network/network.interceptor';
 import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
+import { ChatNotificationComponent } from './shared/components/chat-notification/chat-notification.component';
 
 @NgModule({
   declarations: [
@@ -88,6 +89,7 @@ import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dia
     ActiveUserWrapperComponent,
     UserAvatarComponent,
     AlertDialogComponent,
+    ChatNotificationComponent,
   ],
   imports: [
     FormsModule,
@@ -123,6 +125,7 @@ import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dia
     DialogEndMeetingComponent,
     DialogPermissionsComponent,
     AlertDialogComponent,
+    ChatNotificationComponent,
   ],
   providers: [
     NetworkService,

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ViewChild } from '@angular/core';
 import { OpenViduLayoutOptions } from '../../layout/openvidu-layout';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DialogErrorComponent } from '../../components/dialog-error/dialog-error.component';
@@ -7,14 +7,23 @@ import { OpenviduTheme } from '@doorward/common/types/openvidu';
 import updateTheme from '@doorward/ui/themes/updateTheme';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AlertDialogButton, AlertDialogComponent } from '../../components/alert-dialog/alert-dialog.component';
+import { SideNavComponents } from '../../../video-room/video-room.component';
+import { MatSidenav } from '@angular/material/sidenav';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
   private dialogRef: MatDialogRef<DialogErrorComponent, any>;
-  theme: Observable<OpenviduTheme>;
   themeObs: BehaviorSubject<OpenviduTheme>;
+
+  @ViewChild('sidenav') private chatSidenav: MatSidenav;
+
+  private sideNavOpenBehaviourSubject = new BehaviorSubject<SideNavComponents | null>(undefined);
+
+  theme: Observable<OpenviduTheme>;
+  sidenavContentObs: Observable<SideNavComponents>;
+
   private alertDialogRef: MatDialogRef<AlertDialogComponent>;
 
   private refreshTheme: () => void;
@@ -23,6 +32,11 @@ export class UtilsService {
   constructor(public dialog: MatDialog) {
     this.themeObs = new BehaviorSubject(OpenviduTheme.DARK);
     this.theme = this.themeObs.asObservable();
+    this.sidenavContentObs = this.sideNavOpenBehaviourSubject.asObservable();
+  }
+
+  setSideNav(sideNav: MatSidenav) {
+    this.chatSidenav = sideNav;
   }
 
   setTheme(theme: OpenviduTheme) {
@@ -31,6 +45,28 @@ export class UtilsService {
     }
     this.refreshTheme = updateTheme(theme);
     this.themeObs.next(theme);
+  }
+
+  isChatOpen() {
+    return this.getSideNavComponent() === SideNavComponents.CHAT;
+  }
+
+  isParticipantsOpen() {
+    return this.getSideNavComponent() === SideNavComponents.PARTICIPANTS;
+  }
+
+  getSideNavComponent(): SideNavComponents {
+    return this.sideNavOpenBehaviourSubject.getValue();
+  }
+
+  toggleSideNav(component: SideNavComponents) {
+    if (this.sideNavOpenBehaviourSubject.getValue() === component) {
+      this.sideNavOpenBehaviourSubject.next(null);
+      this.chatSidenav.toggle(false);
+    } else {
+      this.sideNavOpenBehaviourSubject.next(component);
+      this.chatSidenav.toggle(true);
+    }
   }
 
   getTheme(): OpenviduTheme {

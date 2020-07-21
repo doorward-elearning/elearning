@@ -1,4 +1,4 @@
-<div *ngIf="!!ovSettings" id="videoRoomNavBar" [class.boundsLight]="lightTheme">
+<div id="videoRoomNavBar" [class.boundsLight]="lightTheme">
   <app-room-config
     *ngIf="showConfigRoomCard"
     [ovSettings]="ovSettings"
@@ -21,20 +21,17 @@
         fixedInViewport="true"
         fixedTopGap="0"
         fixedBottomGap="0"
-        *ngIf="ovSettings?.chat"
       >
         <chat-component
-          (closeButtonClicked)="toggleNav('chat')"
-          *ngIf="sidenavContent === 'chat'"
-          #chatComponent
+          (closeButtonClicked)="toggleChat()"
+          *ngIf="utilsSrv.isChatOpen() && getLocalUser().session.sessionConfig.canChat"
           [lightTheme]="lightTheme"
         ></chat-component>
         <participants-list
-          *ngIf="sidenavContent === 'participants'"
+          *ngIf="utilsSrv.isParticipantsOpen()"
           (muteAllButtonClicked)="this.toggleEveryoneMic()"
           (turnOffVideoForAllButtonClicked)="this.toggleEveryoneVideo()"
-          #participantsListComponent
-          (closeButtonClicked)="toggleNav('participants')"
+          (closeButtonClicked)="toggleParticipants()"
         ></participants-list>
       </mat-sidenav>
 
@@ -57,8 +54,8 @@
           (screenShareClicked)="toggleScreenShare()"
           (layoutButtonClicked)="toggleSpeakerLayout()"
           (leaveSessionButtonClicked)="leaveSession(true)"
-          (participantsListButtonClicked)="toggleNav('participants')"
-          (chatButtonClicked)="toggleNav('chat')"
+          (participantsListButtonClicked)="toggleParticipants()"
+          (chatButtonClicked)="toggleChat()"
         ></app-toolbar>
         <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
           <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">

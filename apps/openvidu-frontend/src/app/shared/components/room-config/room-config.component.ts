@@ -101,8 +101,10 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   }
 
   handleSessionConfig(next: SessionConfig) {
-    this.isVideoActive = next.joinWithActiveVideo && this.externalConfig.hasVideo();
-    this.isAudioActive = next.joinWithActiveAudio && this.externalConfig.hasAudio();
+    if (next) {
+      this.isVideoActive = next.joinWithActiveVideo && this.externalConfig.hasVideo();
+      this.isAudioActive = next.joinWithActiveAudio && this.externalConfig.hasAudio();
+    }
   }
 
   async checkPermissions() {
@@ -318,9 +320,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private scrollToBottom(): void {
     try {
       this.bodyCard.nativeElement.scrollTop = this.bodyCard.nativeElement.scrollHeight;
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   }
 
   private initScreenPublisher(): Publisher {
@@ -346,7 +346,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
-      this.handleSessionConfig(users[0].session.sessionConfig);
+      this.handleSessionConfig(users[0].session?.sessionConfig);
     });
   }
 

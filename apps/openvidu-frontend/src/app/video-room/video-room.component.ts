@@ -1,4 +1,14 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {
@@ -36,6 +46,11 @@ import { OPENVIDU_ROLES, OpenviduTheme, OpenviduUserSession } from '@doorward/co
 import { environment } from '../../environments/environment';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 
+export enum SideNavComponents {
+  CHAT = 'CHAT',
+  PARTICIPANTS = 'PARTICIPANTS',
+}
+
 @Component({
   selector: 'app-video-room',
   templateUrl: './video-room.component.html',
@@ -53,13 +68,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   // !Deprecated</participants-list>
   @Output() _leaveSession = new EventEmitter<any>();
 
-  @ViewChild('chatComponent') chatComponent: ChatComponent;
   @ViewChild('sidenav') chatSidenav: MatSidenav;
 
   ovSettings: OvSettingsModel;
   compact = false;
   sidenavMode: 'side' | 'over' = 'side';
-  sidenavContent: 'chat' | 'participants' | null = null;
   lightTheme: boolean;
   showConfigRoomCard = true;
   session: Session;
@@ -76,7 +89,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
   private log: ILogger;
   private oVUsersSubscription: Subscription;
   private remoteUsersSubscription: Subscription;
-  private chatSubscription: Subscription;
+  private sideNavSubscription: Subscription;
 
   constructor(
     private networkSrv: NetworkService,
@@ -158,8 +171,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     if (this.remoteUsersSubscription) {
       this.remoteUsersSubscription.unsubscribe();
     }
-    if (this.chatSubscription) {
-      this.chatSubscription.unsubscribe();
+    if (this.sideNavSubscription) {
+      this.sideNavSubscription.unsubscribe();
     }
     this.utilsSrv.unsubscribeFromThemeChangeShortcut();
   }
@@ -193,9 +206,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.subscribeToStreamDestroyed();
     this.subscribeToStreamPropertyChange();
     this.subscribeToNicknameChanged();
-    this.chatService.setChatComponent(this.chatSidenav);
+    this.utilsSrv.setSideNav(this.chatSidenav);
     this.chatService.subscribeToChat();
-    this.subscribeToChatComponent();
+    this.subscribeToSideNav();
     this.subscribeToReconnection();
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
@@ -255,16 +268,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.oVSessionService.publishScreenAudio(!this.oVSessionService.hasScreenAudioActive());
   }
 
-  toggleNav(content) {
-    if (!(content !== this.sidenavContent && this.sidenavContent)) {
-      this.chatSidenav.toggle().then(() => {
-        if (!this.chatSidenav.opened) {
-          this.sidenavContent = null;
-        }
-      });
-    }
-    this.sidenavContent = content;
-    this.chatService.toggleChat(content === 'chat');
+  toggleChat() {
+    this.utilsSrv.toggleSideNav(SideNavComponents.CHAT);
+  }
+
+  toggleParticipants() {
+    this.utilsSrv.toggleSideNav(SideNavComponents.PARTICIPANTS);
   }
 
   async toggleCam() {
@@ -317,7 +326,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
             this.log.d('Clicked native stop button. Stopping screen sharing');
             this.toggleScreenShare();
           });
-        this.log.d('ACCESS ALOWED screenPublisher');
+        this.log.d('ACCESS ALLOWED screenPublisher');
         this.oVSessionService.enableScreenUser(screenPublisher);
         this.oVSessionService.publishScreen();
         if (!this.oVSessionService.hasWebcamVideoActive()) {
@@ -510,8 +519,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.oVSessionService.unpublishScreen();
   }
 
-  private subscribeToChatComponent() {
-    this.chatSubscription = this.chatService.toggleChatObs.subscribe(opened => {
+  private subscribeToSideNav() {
+    this.sideNavSubscription = this.utilsSrv.sidenavContentObs.subscribe(value => {
       const timeout = this.externalConfig ? 300 : 0;
       this.updateOpenViduLayout(timeout);
     });

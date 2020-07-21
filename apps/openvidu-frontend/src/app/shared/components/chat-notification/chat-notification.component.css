@@ -1,0 +1,41 @@
+.chat-notification {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-gap: var(--padding);
+  align-items: center;
+}
+
+.user-avatar {
+  width: 25px;
+  height: 25px;
+}
+
+.notification-body {
+  cursor: pointer;
+  display: grid;
+  align-items: start;
+  justify-items: start;
+}
+
+.notification-content {
+}
+
+.notification-header {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+}
+
+.notification-header h5 {
+  padding: 0;
+  margin: 0;
+}
+
+.notification-content p {
+  padding: 0;
+  margin: 0;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  max-width: 250px;
+  overflow: hidden;
+}

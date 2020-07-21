@@ -1,0 +1,14 @@
+<div class="chat-notification">
+  <div class="user-avatar">
+    <user-avatar fontSize="12px" [name]="data.sender.name" [avatar]="data.sender.avatar"></user-avatar>
+  </div>
+  <div class="notification-body" (click)="onClick()">
+    <div class="notification-header">
+      <h5>{{ data.sender.name }}</h5>
+    </div>
+    <div class="notification-content">
+      <p>{{ data.message }}</p>
+    </div>
+  </div>
+  <mat-icon (click)="close()">close</mat-icon>
+</div>

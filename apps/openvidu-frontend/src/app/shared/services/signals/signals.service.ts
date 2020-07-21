@@ -58,8 +58,10 @@ export class SignalsService {
   subscribeToRemoteUsersDetails() {
     this.subscribe(SignalTypes.USER_UPDATED, (data, event) => {
       const userModel = this.remoteUsersService.getRemoteUserByConnectionId(event.from.connectionId);
-      userModel.session = data.session;
-      this.remoteUsersService.updateUsers();
+      if (userModel) {
+        userModel.session = data.session;
+        this.remoteUsersService.updateUsers();
+      }
     });
   }
 

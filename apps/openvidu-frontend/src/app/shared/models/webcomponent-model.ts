@@ -17,7 +17,6 @@ export class WebComponentModel extends ExternalConfigModel {
         } else if (typeof config[key] === 'object') {
           this[key] = _.merge({}, this[key], config[key]);
         } else {
-          this.ovSettings.set(config.ovSettings);
         }
       }
     });

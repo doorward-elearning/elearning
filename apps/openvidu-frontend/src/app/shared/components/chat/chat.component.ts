@@ -1,17 +1,19 @@
 import {
   Component,
   ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  HostListener,
-  OnDestroy,
-  Output,
   EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { ChatService } from '../../services/chat/chat.service';
 import { ChatMessage } from '../../types/chat-type';
 import { Subscription } from 'rxjs/internal/Subscription';
+import { UtilsService } from '../../services/utils/utils.service';
+import { SideNavComponents } from '../../../video-room/video-room.component';
 
 @Component({
   selector: 'chat-component',
@@ -34,13 +36,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   chatOpened: boolean;
 
   private chatMessageSubscription: Subscription;
-  private chatToggleSubscription: Subscription;
 
-  constructor(private chatService: ChatService) {}
+  constructor(private chatService: ChatService, private utilsService: UtilsService) {}
 
   @HostListener('document:keydown.escape', ['$event'])
   onKeydownHandler(event: KeyboardEvent) {
-    console.log(event);
     if (this.chatOpened) {
       this.close();
     }
@@ -54,9 +54,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.chatMessageSubscription) {
       this.chatMessageSubscription.unsubscribe();
-    }
-    if (this.chatToggleSubscription) {
-      this.chatToggleSubscription.unsubscribe();
     }
   }
 
@@ -97,8 +94,8 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToToggleChat() {
-    this.chatToggleSubscription = this.chatService.toggleChatObs.subscribe(opened => {
-      this.chatOpened = opened;
+    this.utilsService.sidenavContentObs.subscribe(open => {
+      this.chatOpened = open === SideNavComponents.CHAT;
       if (this.chatOpened) {
         this.scrollToBottom();
         setTimeout(() => {

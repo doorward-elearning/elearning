@@ -66,7 +66,7 @@
     <mat-icon class="disabled tiny" *ngIf="this._user.isScreen()">screen_share</mat-icon>
 
     <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
-    <mat-menu #menu="matMenu" size="small">
+    <mat-menu #menu="matMenu" class="small">
       <button mat-menu-item (click)="toggleVideoSize()">
         <mat-icon class="disabled">{{ this.isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
         <span>
@@ -83,26 +83,6 @@
         <mat-icon class="disabled">{{ this._user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
         <span>
           {{ this._user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
-        </span>
-      </button>
-      <button
-        mat-menu-item
-        (click)="toggleVideo()"
-        *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera() && _user.session.sessionConfig.hasVideo"
-      >
-        <mat-icon class="disabled">{{ this._user.isVideoActive() ? 'videocam_off' : 'videocam_on' }}</mat-icon>
-        <span>
-          {{ this._user.isVideoActive() ? 'Turn off video' : 'Request to turn on video' }}
-        </span>
-      </button>
-      <button
-        mat-menu-item
-        (click)="toggleVideoControl()"
-        *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()"
-      >
-        <mat-icon class="disabled">{{ _user.session.sessionConfig.hasVideo ? 'checkmark' : '' }}</mat-icon>
-        <span>
-          Allow video control
         </span>
       </button>
     </mat-menu>

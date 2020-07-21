@@ -10,6 +10,8 @@ import { NotificationService } from '../notifications/notification.service';
 import { UserModel } from '../../models/user-model';
 import { SignalsService } from '../signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
+import { UtilsService } from '../utils/utils.service';
+import { SideNavComponents } from '../../../video-room/video-room.component';
 
 @Injectable({
   providedIn: 'root',
@@ -17,40 +19,39 @@ import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 export class ChatService {
   messagesObs: Observable<ChatMessage[]>;
   messagesUnreadObs: Observable<number>;
-  toggleChatObs: Observable<boolean>;
 
-  private chatComponent: MatSidenav;
-
-  private _messageList = <BehaviorSubject<ChatMessage[]>>new BehaviorSubject([]);
-  private _toggleChat = <BehaviorSubject<boolean>>new BehaviorSubject(false);
+  private _messageList = new BehaviorSubject([]);
 
   private messageList: ChatMessage[] = [];
-  private chatOpened: boolean;
+  private chatOpened = false;
   private messagesUnread = 0;
   private log: ILogger;
 
   private localUser: UserModel;
 
-  private _messagesUnread = <BehaviorSubject<number>>new BehaviorSubject(0);
+  private _messagesUnread = new BehaviorSubject(0);
 
   constructor(
     private loggerSrv: LoggerService,
     private oVSessionService: OpenViduSessionService,
     private remoteUsersService: RemoteUsersService,
     private notificationService: NotificationService,
-    private signalsService: SignalsService
+    private signalsService: SignalsService,
+    private utilsService: UtilsService
   ) {
     this.log = this.loggerSrv.get('ChatService');
     this.messagesObs = this._messageList.asObservable();
-    this.toggleChatObs = this._toggleChat.asObservable();
     this.messagesUnreadObs = this._messagesUnread.asObservable();
     this.oVSessionService.getUsers().subscribe(user => {
       this.localUser = user[0];
     });
-  }
-
-  setChatComponent(chatSidenav: MatSidenav) {
-    this.chatComponent = chatSidenav;
+    this.utilsService.sidenavContentObs.subscribe(open => {
+      this.chatOpened = open === SideNavComponents.CHAT;
+      if (this.chatOpened) {
+        this.messagesUnread = 0;
+        this._messagesUnread.next(this.messagesUnread);
+      }
+    });
   }
 
   subscribeToChat() {
@@ -65,7 +66,7 @@ export class ChatService {
       });
       if (!this.isChatOpened()) {
         this.addMessageUnread();
-        this.notificationService.newMessage(sender.name.toUpperCase(), this.toggleChat.bind(this));
+        this.notificationService.newMessage(sender, message, this.toggleChat.bind(this));
       }
       this._messageList.next(this.messageList);
     });
@@ -74,24 +75,25 @@ export class ChatService {
   sendMessage(message: string) {
     message = message.replace(/ +(?= )/g, '').trim();
     if (message !== '') {
-      this.signalsService.send(SignalTypes.CHAT, {
+      const sender = this.localUser.session.user;
+      this.messageList.push({
+        isLocal: true,
+        nickname: sender.name,
         message,
-        sender: this.localUser.session.user,
+        userAvatar: sender.avatar,
       });
+      this._messageList.next(this.messageList);
+      this.signalsService
+        .send(SignalTypes.CHAT, {
+          message,
+          sender,
+        })
+        .then(() => {});
     }
   }
 
-  closeSideBar() {
-    this.chatComponent.toggle();
-  }
-
-  toggleChat(open) {
-    this.chatOpened = open;
-    this._toggleChat.next(this.chatOpened);
-    if (this.chatOpened) {
-      this.messagesUnread = 0;
-      this._messagesUnread.next(this.messagesUnread);
-    }
+  toggleChat() {
+    this.utilsService.toggleSideNav(SideNavComponents.CHAT);
   }
 
   private isChatOpened(): boolean {
