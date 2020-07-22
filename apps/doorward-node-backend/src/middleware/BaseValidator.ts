@@ -42,7 +42,7 @@ export default class BaseValidator {
 
   static findModelOrThrow(param, Model, message) {
     return BaseValidator.modelExists(
-      req => ({
+      (req: any) => ({
         id: req.params[param],
       }),
       Model,

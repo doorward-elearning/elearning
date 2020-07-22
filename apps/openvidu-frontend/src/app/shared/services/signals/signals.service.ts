@@ -5,7 +5,7 @@ import SignalTypes, { SignalData } from '@doorward/common/utils/meetingSignalTyp
 import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
 

@@ -6,7 +6,7 @@ import { ScreenType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import Capabilities from '@doorward/common/utils/Capabilities';
 
 @Injectable({

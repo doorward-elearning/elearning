@@ -9,7 +9,7 @@ class MeetingsController {
       return [404, undefined, 'Meeting does not exist'];
     }
 
-    return [200, { meeting }];
+    return [200, { ...meeting }];
   }
 
   static async authenticateWebhook(req) {

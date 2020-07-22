@@ -12,6 +12,9 @@ import { AssignmentSubmission } from '@doorward/common/models/AssignmentSubmissi
 import { School } from '@doorward/common/models/School';
 import { ApiResponse, PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
 import { SearchSuggestion } from '@doorward/common/types/api';
+import { OpenviduUser } from '@doorward/common/types/openvidu';
+import Capabilities from '@doorward/common/utils/Capabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -64,6 +67,8 @@ export interface CourseModuleListResponse extends ApiResponse {
 
 export interface MeetingResponse extends ApiResponse {
   meeting: Meeting;
+  user: OpenviduUser;
+  capabilities: Capabilities<typeof MeetingCapabilities>;
 }
 
 export interface GroupResponse extends ApiResponse {

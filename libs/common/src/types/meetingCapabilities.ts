@@ -14,3 +14,14 @@ export enum MeetingCapabilities {
   MUTE_PARTICIPANTS = 'MUTE_PARTICIPANTS',
   UNMUTE_PARTICIPANTS = 'UNMUTE_PARTICIPANTS',
 }
+
+export const defaultMeetingCapabilities = [
+  MeetingCapabilities.PUBLISH_VIDEO,
+  MeetingCapabilities.PUBLISH_AUDIO,
+  MeetingCapabilities.CHAT,
+  MeetingCapabilities.SPEAKING_LAYOUT,
+  MeetingCapabilities.SHARE_SCREEN,
+  MeetingCapabilities.GO_FULL_SCREEN,
+  MeetingCapabilities.AUTO_JOIN_SESSION,
+  MeetingCapabilities.EXIT_MEETING,
+];

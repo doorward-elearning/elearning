@@ -19,6 +19,7 @@ import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../../services/signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 @Component({
   selector: 'stream-component',
@@ -94,15 +95,17 @@ export class StreamComponent implements OnInit {
   }
 
   toggleSound() {
-    this.signalsService.send(SignalTypes.TOGGLE_AUDIO, { permanent: false }, [this._user]);
-  }
-
-  toggleVideo() {
-    this.signalsService.send(SignalTypes.TOGGLE_VIDEO, { permanent: false }, [this._user]);
-  }
-
-  toggleVideoControl() {
-    this.signalsService.send(SignalTypes.TOGGLE_VIDEO_CONTROL, undefined, [this._user]);
+    this.signalsService.send(
+      SignalTypes.TOGGLE_AUDIO,
+      {
+        request: this.localUser.can(
+          !this.localUser.isAudioActive()
+            ? MeetingCapabilities.MUTE_PARTICIPANTS
+            : MeetingCapabilities.UNMUTE_PARTICIPANTS
+        ),
+      },
+      [this._user]
+    );
   }
 
   isMine() {

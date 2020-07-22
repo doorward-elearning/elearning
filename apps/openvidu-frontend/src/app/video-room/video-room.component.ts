@@ -39,7 +39,7 @@ import {
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../environments/environment';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -116,21 +116,21 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   }
 
   async ngOnInit() {
-    const defaultConfig = new ExternalConfigModel();
-    defaultConfig.user = {
-      name: this.utilsSrv.generateNickname(),
-      role: OPENVIDU_ROLES.MODERATOR,
-      avatar:
-        Math.random() * 1000 > 500
-          ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
-          : null,
-    };
-    if (this.utilsSrv.isFF()) {
-      defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
-      defaultConfig.sessionConfig.capabilities.remove(MeetingCapabilities.PUBLISH_VIDEO);
-    }
-    defaultConfig.sessionId = 'test-meeting';
     if (!this.externalConfig) {
+      const defaultConfig = new ExternalConfigModel();
+      defaultConfig.user = {
+        name: this.utilsSrv.generateNickname(),
+        role: OPENVIDU_ROLES.MODERATOR,
+        avatar:
+          Math.random() * 1000 > 500
+            ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'
+            : null,
+      };
+      defaultConfig.sessionId = 'test-meeting';
+      if (this.utilsSrv.isFF()) {
+        defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
+        defaultConfig.sessionConfig.capabilities.remove(MeetingCapabilities.PUBLISH_VIDEO);
+      }
       this.externalConfig = defaultConfig;
       this._leaveSession.subscribe(() => {
         this.router.navigate(['']);

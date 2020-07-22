@@ -40,7 +40,7 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   private chatServiceSubscription: Subscription;
 
   fullscreenIcon = VideoFullscreenIcon.BIG;
-  logoUrl: string = environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png';
+  logoUrl: string;
 
   participantsNames: string[] = [];
   numParticipants = 0;
@@ -75,20 +75,19 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
       this.numParticipants = users.length;
     });
 
-    const localUserSession = this.localUser?.session;
-
-    if (typeof localUserSession?.sessionConfig.logoUrl === 'object') {
-      this.utilsSrv.theme.subscribe(next => {
+    this.utilsSrv.theme.subscribe(next => {
+      const localUserSession = this.localUser?.session;
+      if (typeof localUserSession?.sessionConfig.logoUrl === 'object') {
         const logo =
           environment.CLOUDINARY_IMAGE_DIRECTORY +
           (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
         this.logoUrl = (localUserSession && localUserSession.sessionConfig.logoUrl[next]) || logo;
-      });
-    } else {
-      this.logoUrl = localUserSession
-        ? localUserSession.sessionConfig.logoUrl
-        : environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
-    }
+      } else {
+        this.logoUrl = localUserSession
+          ? localUserSession.sessionConfig.logoUrl
+          : environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
+      }
+    });
   }
 
   toggleMicrophone() {

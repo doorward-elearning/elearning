@@ -28,7 +28,7 @@ import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 @Component({
   selector: 'app-room-config',

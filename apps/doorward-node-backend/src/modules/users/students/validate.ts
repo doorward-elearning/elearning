@@ -2,11 +2,9 @@ import BaseValidator from '../../../middleware/BaseValidator';
 import models from '../../../database/models';
 
 export const validateStudentExists = BaseValidator.modelExists(
-  req => {
+  (req: any) => {
     const {
-      params: {
-        studentId
-      }
+      params: { studentId },
     } = req;
     return {
       id: studentId,

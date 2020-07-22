@@ -10,10 +10,12 @@ import Layout from '../Layout';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import Empty from '@doorward/ui/components/Empty';
 import LoadingPage from '../LoadingPage';
+import useOrganization from '@doorward/ui/hooks/useOrganization';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
   const videoCallState = useSelector((state: State) => state.videoCall.joinMeeting);
   const auth = useAuth();
+  const organization = useOrganization();
 
   usePageResource('meetingId', joinMeetingAction);
 
@@ -21,6 +23,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
     return <LoadingPage />;
   }
   if (videoCallState.data?.meeting) {
+    const { meeting, user, capabilities } = videoCallState.data;
     return (
       <div>
         <OpenviduWebComponent
@@ -28,10 +31,15 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = props => {
           stylesUrl="assets/css/openvidu-webcomponent.css"
           config={{
             ovServerApiUrl: process.env.OPENVIDU_API_URL,
-            sessionId: videoCallState.data.meeting.sessionId,
-            sessionTitle: videoCallState.data.meeting.meetingRoom.title,
-            nickname: auth.authenticated ? auth.user.fullName : 'Participant',
-            avatar: 'https://pbs.twimg.com/profile_images/1197241648926937089/oahb2HSm_400x400.jpg',
+            sessionId: meeting.sessionId,
+            sessionTitle: meeting.meetingRoom.title,
+            user: {
+              ...user,
+              avatar: user.avatar || 'https://pbs.twimg.com/profile_images/1197241648926937089/oahb2HSm_400x400.jpg',
+            },
+            sessionConfig: {
+              capabilities,
+            },
           }}
           onLeftSession={() => {
             props.history.goBack();

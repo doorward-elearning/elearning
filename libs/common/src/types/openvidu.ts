@@ -1,5 +1,5 @@
 import Capabilities from '@doorward/common/utils/Capabilities';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 export enum OPENVIDU_ROLES {
   PUBLISHER = 'PUBLISHER',
@@ -147,6 +147,6 @@ export class MeetingCapabilitiesComponent {
 }
 
 export interface SessionConfig {
-  logoUrl?: string | { dark: string; base: string };
+  logoUrl?: string | { dark: string; base: string } | undefined;
   capabilities: Capabilities<typeof MeetingCapabilities>;
 }

@@ -6,9 +6,7 @@ import express from 'express';
 import cors from 'cors';
 import modules from './modules';
 import ApiRequest from './utils/ApiRequest';
-import fs from 'fs';
 import httpsOptions from '@doorward/backend/bootstrap/httpsOptions';
-import mime from 'mime';
 
 ApiRequest.setBaseURL(process.env.OPENOLAT_API_URL);
 ApiRequest.setAuth(process.env.OPENOLAT_USERNAME, process.env.OPENOLAT_PASSWORD);
@@ -20,6 +18,8 @@ const app = express();
 app.use(cors());
 app.use(logger('dev'));
 app.use(cookieParser());
+// eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+// @ts-ignore
 app.use(expressValidator());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json({ limit: '100mb' }));

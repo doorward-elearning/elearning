@@ -26,8 +26,9 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
     this.jqueryScript.integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=';
     this.jqueryScript.crossOrigin = 'anonymous';
 
-    this.style = this.addStyles(this.props.stylesUrl);
+    // Keep this order of styles, to ensure we can override the default material styles
     this.materialStyle = this.addStyles('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css');
+    this.style = this.addStyles(this.props.stylesUrl);
   };
 
   addScript = (url: string): HTMLScriptElement => {
@@ -111,7 +112,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   }
 }
 
-type Config = OptionalKeysExcept<OpenviduWebComponentConfig, 'ovServerApiUrl' | 'sessionId'>;
+type Config = OptionalKeysExcept<OpenviduWebComponentConfig, 'ovServerApiUrl' | 'sessionId' | 'sessionConfig' | 'user'>;
 
 export interface OpenviduWebComponentProps {
   scriptUrl: string;

@@ -2,6 +2,10 @@ import JWT from '../utils/auth';
 import models from '../database/models';
 
 export default class Authorization {
+  static async authenticatePublic(req) {
+    await Authorization.authenticate(req);
+    return null;
+  }
   static async authenticate(req) {
     const auth = req.headers.authorization;
 

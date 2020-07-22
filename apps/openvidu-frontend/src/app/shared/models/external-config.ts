@@ -9,7 +9,7 @@ import {
 } from '@doorward/common/types/openvidu';
 import { environment } from '../../../environments/environment';
 import Capabilities from '@doorward/common/utils/Capabilities';
-import { MeetingCapabilities as MC } from '@doorward/common/types/meetinCapabilities';
+import { defaultMeetingCapabilities, MeetingCapabilities as MC } from '@doorward/common/types/meetingCapabilities';
 
 export class ExternalConfigModel implements OpenviduWebComponentConfig {
   constructor() {
@@ -21,20 +21,7 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
       dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
       base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
     },
-    capabilities: new Capabilities(MC, [
-      MC.JOIN_WITH_ACTIVE_VIDEO,
-      MC.PUBLISH_VIDEO,
-      MC.PUBLISH_AUDIO,
-      MC.CHAT,
-      MC.AUTO_JOIN_SESSION,
-      MC.SHARE_SCREEN,
-      MC.GO_FULL_SCREEN,
-      MC.EXIT_MEETING,
-      MC.SPEAKING_LAYOUT,
-      MC.TURN_ON_PARTICIPANTS_VIDEO,
-      MC.TURN_OFF_PARTICIPANTS_VIDEO,
-      MC.UNMUTE_PARTICIPANTS,
-    ]),
+    capabilities: new Capabilities(MC, [...defaultMeetingCapabilities]),
   };
   ovSettings: OvSettingsModel;
   sessionId: string;

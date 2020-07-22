@@ -1,7 +1,7 @@
 import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
-import { MeetingCapabilities } from '@doorward/common/types/meetinCapabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import Capabilities from '@doorward/common/utils/Capabilities';
 
 /**
