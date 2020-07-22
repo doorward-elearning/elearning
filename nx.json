@@ -49,6 +49,9 @@
     },
     "openvidu-backend": {
       "tags": []
+    },
+    "whiteboard": {
+      "tags": []
     }
   }
 }
