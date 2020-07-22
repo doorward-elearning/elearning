@@ -1,3 +1,4 @@
+import './config';
 import debug from 'debug';
 import shortid from 'shortid';
 import app from './src/app';
@@ -5,13 +6,17 @@ import JWT from './src/utils/auth';
 import httpsOptions from '@doorward/backend/bootstrap/httpsOptions';
 
 const https = require('https');
+const http = require('http');
 const socketIO = require('socket.io');
 
 const logger = debug('log');
-const server = https.createServer(app);
+let server;
 if (process.env.NODE_ENV === 'development') {
+  server = https.createServer(app);
   const { key, cert } = httpsOptions;
   server.setSecureContext({ key, cert });
+} else {
+  server = http.createServer(app);
 }
 
 const io = socketIO(server);

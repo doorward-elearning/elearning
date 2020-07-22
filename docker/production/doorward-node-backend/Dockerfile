@@ -6,8 +6,14 @@ EXPOSE 7000
 
 COPY . /usr/app
 
+RUN cd /usr/app/
+
 RUN yarn install
 
-RUN chmod +x /usr/app/docker/production/doorward-node-backend/entrypoint.sh
+RUN yarn build doorward-node-backend --prod
+
+RUN cp .env dist/apps/doorward-node-backend/.env
+
+RUN chmod +x docker/production/doorward-node-backend/entrypoint.sh
 
 ENTRYPOINT ["/usr/app/docker/production/doorward-node-backend/entrypoint.sh"]
