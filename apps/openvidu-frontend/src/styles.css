@@ -124,6 +124,11 @@ mat-tooltip-component .mat-tooltip {
   opacity: 0.5;
 }
 
+:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .mat-menu-panel.small .mat-menu-content:not(:empty) {
   padding-top: var(--padding-sm);
   padding-bottom: var(--padding-sm);
