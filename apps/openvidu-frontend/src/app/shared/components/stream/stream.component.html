@@ -79,7 +79,12 @@
           {{ !this.isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
         </span>
       </button>
-      <button mat-menu-item (click)="toggleSound()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
+      <button
+        mat-menu-item
+        (click)="toggleSound()"
+        *ngIf="!isMine() && _user.isCamera()"
+        [disabled]="!localUser?.isModerator()"
+      >
         <mat-icon class="disabled">{{ this._user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
         <span>
           {{ this._user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
