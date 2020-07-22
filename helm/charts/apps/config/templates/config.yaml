@@ -1,0 +1,51 @@
+apiVersion: v1
+data:
+  # Chuchu and Swagat
+  REACT_APP_BASE_URL: https://{{- .Values.thala_domain -}}/api/v1
+
+  # Chuchu and Thala
+  OPENVIDU_API_PORT: "{{ .Values.openviduapi_port }}"
+  OPENVIDU_API_URL: {{ .Values.openviduapi_url }}
+  REACT_APP_OPENVIDU_URL: https://{{- .Values.classrooms_url}}
+  
+  # Thala and Vidu
+  OPENVIDU_URL: https://{{- .Values.classrooms_url }}
+  OPENVIDU_USERNAME: {{ .Values.classrooms.username }}
+  OPENVIDU_PASSWORD: {{ .Values.classrooms.password }}
+
+  #Chuchu Configs
+  DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
+
+  # Thala Configs
+  DATABASE_URL: postgres://{{- .Values.postgres_user -}}:{{- .Values.postgres_password -}}@{{- .Values.customer -}}-thaladb:{{- .Values.postgres_port -}}/{{- .Values.postgres_db }}
+  DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
+  ORGANIZATION_LOGO: {{ .Values.organization.logo }}
+  ORGANIZATION_NAME: {{ .Values.organization.name }}
+  ORGANIZATION_WEBSITE_LINK: https://{{ .Values.organization.website }}
+  USE_LATENCY: "{{ .Values.swagat_enable_latency }}"
+
+  # Samvadam Configs
+  openvidu.secret: {{ .Values.samvadamsecretkey }}
+  server.ssl.enabled: {{ .Values.samvadamsslenabled | quote }}
+  server.servlet.context-path: /{{- .Values.customer -}}/samvadam
+  openvidu.publicurl: https://{{- .Values.samvadam_domain }}
+  openvidu.webhook: {{ .Values.samvadamwebhook | quote }}
+  openvidu.webhook.endpoint: http://{{- .Values.customer -}}-thala/api/v1/meetingRooms/webhook
+  openvidu.webhook.events: {{ .Values.samvadamwebhookevents | toJson | quote }}
+
+  # Swagat Configs
+  DOORWARD_APPLICATION_LINK: {{ .Values.app_url }}
+
+  # Thaladb Configs
+  POSTGRES_DB: {{ .Values.postgres_db }}
+  POSTGRES_PASSWORD: {{ .Values.postgres_password }}
+  POSTGRES_USER: {{ .Values.postgres_user }}
+
+
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "config.labels" . | nindent 4 }}
+  name: {{ include "config.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

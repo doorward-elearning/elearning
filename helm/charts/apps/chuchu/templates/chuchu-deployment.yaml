@@ -51,22 +51,22 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   key: OPENVIDU_API_PORT
-                  name: {{ include "chuchu.fullname" . }}
+                  name: {{ .Values.customer -}}-config
             - name: OPENVIDU_API_URL
               valueFrom:
                 configMapKeyRef:
                   key: OPENVIDU_API_URL
-                  name: {{ include "chuchu.fullname" . }}
+                  name: {{ .Values.customer -}}-config
             - name: REACT_APP_BASE_URL
               valueFrom:
                 configMapKeyRef:
                   key: REACT_APP_BASE_URL
-                  name: {{ include "chuchu.fullname" . }}
+                  name: {{ .Values.customer -}}-config
             - name: REACT_APP_OPENVIDU_URL
               valueFrom:
                 configMapKeyRef:
                   key: REACT_APP_OPENVIDU_URL
-                  name: {{ include "chuchu.fullname" . }}
+                  name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

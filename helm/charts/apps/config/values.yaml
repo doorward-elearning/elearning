@@ -66,3 +66,27 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+openviduapi_port: 80
+
+#db
+postgres_user: postgres
+postgres_password: postgres
+postgres_port: 5434
+postgres_db: doorward
+
+#classrooms
+classrooms:
+  url: classrooms.doorward.tech
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
+
+# disable latency
+swagat_enable_latency: false
+
+#samvadam
+samvadamcontainerport: 4443
+samvadamsecretkey: password
+samvadamwebhook: true
+samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
+samvadamsslenabled: false

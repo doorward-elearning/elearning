@@ -45,17 +45,17 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_URL
-                name: {{ include "vidu.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_USERNAME
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_USERNAME
-                name: {{ include "vidu.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_PASSWORD
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_PASSWORD
-                name: {{ include "vidu.fullname" . }}
+                name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

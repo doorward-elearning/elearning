@@ -51,37 +51,37 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: openvidu.secret
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: openvidu.publicurl
             valueFrom:
               configMapKeyRef:
                 key: openvidu.publicurl
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: openvidu.webhook
             valueFrom:
               configMapKeyRef:
                 key: openvidu.webhook
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: openvidu.webhook.endpoint
             valueFrom:
               configMapKeyRef:
                 key: openvidu.webhook.endpoint
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: openvidu.webhook.events
             valueFrom:
               configMapKeyRef:
                 key: openvidu.webhook.events
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: server.ssl.enabled
             valueFrom:
               configMapKeyRef:
                 key: server.ssl.enabled
-                name: {{ include "samvadam.fullname" . }}
+                name: {{ .Values.customer -}}-config
 #          - name: server.servlet.context-path
 #            valueFrom:
 #              configMapKeyRef:
 #                key: server.servlet.context-path
-#                name: {{ include "samvadam.fullname" . }}
+#                name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

@@ -50,57 +50,57 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_API_PORT
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_API_URL
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_API_URL
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: DATABASE_URL
             valueFrom:
               configMapKeyRef:
                 key: DATABASE_URL
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_URL
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_URL
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_USERNAME
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_USERNAME
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_PASSWORD
             valueFrom:
               configMapKeyRef:
                 key: OPENVIDU_PASSWORD
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: DOORWARD_ADMIN_EMAIL
             valueFrom:
               configMapKeyRef:
                 key: DOORWARD_ADMIN_EMAIL
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: ORGANIZATION_LOGO
             valueFrom:
               configMapKeyRef:
                 key: ORGANIZATION_LOGO
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: ORGANIZATION_NAME
             valueFrom:
               configMapKeyRef:
                 key: ORGANIZATION_NAME
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: ORGANIZATION_WEBSITE_LINK
             valueFrom:
               configMapKeyRef:
                 key: ORGANIZATION_WEBSITE_LINK
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           - name: USE_LATENCY
             valueFrom:
               configMapKeyRef:
                 key: USE_LATENCY
-                name: {{ include "thala.fullname" . }}
+                name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
