@@ -1,15 +1,10 @@
 import { Body, Controller, Delete, HttpException, HttpStatus, NotFoundException, Post } from '@nestjs/common';
 import { AxiosError } from 'axios';
 import { OpenviduService } from '../../services/openvidu/openvidu.service';
-import {
-  DeleteSessionResponse,
-  OPENVIDU_ROLES,
-  OpenviduUser,
-  OpenviduUserSession,
-  SessionConfig,
-} from '@doorward/common/types/openvidu';
+import { DeleteSessionResponse, OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { AuthService } from '../auth/auth.service';
 import Tools from '@doorward/common/utils/Tools';
+import { CreateSessionBody } from '@doorward/backend/dto/openviduBackend';
 
 @Controller('call')
 export class CallController {
@@ -31,12 +26,13 @@ export class CallController {
     }
   }
 
+  /**
+   * Creates a session, if the user is a moderator and generates an openvidu token and user session information
+   * @param body
+   */
   @Post()
-  async createSession(
-    @Body('sessionId') sessionId: string,
-    @Body('user') user: OpenviduUser,
-    @Body('sessionConfig') sessionConfig: SessionConfig
-  ): Promise<OpenviduUserSession> {
+  async createSession(@Body() body: CreateSessionBody): Promise<OpenviduUserSession> {
+    const { sessionId, user, sessionConfig } = body;
     let id = sessionId;
     try {
       try {
