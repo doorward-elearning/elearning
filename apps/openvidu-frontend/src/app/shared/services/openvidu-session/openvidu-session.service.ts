@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserModel } from '../../models/user-model';
 import { Device, OpenVidu, Publisher, PublisherProperties, Session } from 'openvidu-browser';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ScreenType, VideoType } from '../../types/video-type';
+import { ScreenType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';

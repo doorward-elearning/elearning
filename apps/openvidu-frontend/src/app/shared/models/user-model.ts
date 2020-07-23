@@ -3,6 +3,7 @@ import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/open
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import UserConnection from './user-connection';
+import { Device, OpenVidu } from 'openvidu-browser';
 
 /**
  * Packs all the information about the user
@@ -10,31 +11,33 @@ import UserConnection from './user-connection';
 export class UserModel {
   session: OpenviduUserSession;
 
-  private connections: Partial<Record<VideoType, UserConnection>>;
+  private readonly connections: Partial<Record<VideoType, UserConnection>>;
+
+  private readonly openvidu: OpenVidu;
 
   /**
    * @hidden
    */
-  private videoSizeBig: boolean;
-
-  /**
-   * @hidden
-   */
-  constructor() {
+  constructor(user: OpenviduUserSession) {
+    this.openvidu = new OpenVidu();
+    this.session = user;
     this.connections = {};
     if (this.hasCamera()) {
-      this.connections.CAMERA = new UserConnection(!this.isSubscriber(), true, VideoType.CAMERA);
+      this.connections.CAMERA = new UserConnection(user, VideoType.CAMERA, this.openvidu);
     }
     if (this.hasScreen()) {
-      this.connections.SCREEN = new UserConnection(!this.isSubscriber(), true, VideoType.SCREEN);
+      this.connections.SCREEN = new UserConnection(user, VideoType.SCREEN, this.openvidu);
     }
     if (this.hasWhiteboard()) {
-      this.connections.WHITEBOARD = new UserConnection(!this.isSubscriber(), true, VideoType.WHITEBOARD);
+      this.connections.WHITEBOARD = new UserConnection(user, VideoType.WHITEBOARD, this.openvidu);
     }
   }
 
   public updateSession(session: OpenviduUserSession) {
     this.session = session;
+    this.forEach(connection => {
+      connection.updateUser(session);
+    });
   }
 
   /**
@@ -149,5 +152,41 @@ export class UserModel {
 
   public getWhiteboard(): UserConnection {
     return this.connections.WHITEBOARD;
+  }
+
+  public forEach(callback: (connection: UserConnection, type: VideoType) => void) {
+    Object.keys(this.connections).forEach(conn => callback(this.connections[conn], conn as VideoType));
+  }
+
+  public getConnections(): Array<{ type: VideoType; connection: UserConnection }> {
+    return Object.keys(this.connections).map(conn => ({ type: conn as VideoType, connection: this.connections[conn] }));
+  }
+
+  public async connect() {
+    return Promise.all(
+      this.getConnections().map(async ({ type, connection }) => {
+        const { sessionInfo } = this.session;
+        const token = {
+          [VideoType.WHITEBOARD]: sessionInfo.whiteboardToken,
+          [VideoType.SCREEN]: sessionInfo.screenToken,
+          [VideoType.CAMERA]: sessionInfo.webcamToken,
+        };
+
+        return connection.connect(token[type], this.session);
+      })
+    );
+  }
+
+  getDevices(): Promise<Device[]> {
+    return this.openvidu.getDevices();
+  }
+
+  getConnectedSession(): UserConnection | null {
+    const conn = this.getConnections().find(({ connection }) => connection.isActive());
+    return conn ? conn.connection : null;
+  }
+
+  isMyOwnConnection(connectionId: string): boolean {
+    return !!this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
   }
 }

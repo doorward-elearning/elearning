@@ -1,17 +1,25 @@
 import { Connection, OpenVidu, Publisher, PublisherProperties, Session, Stream, StreamManager } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
+import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 
 export default class UserConnection {
   private active = false;
-  private openvidu: OpenVidu;
   private session: Session;
+  private openvidu: OpenVidu;
   private publisher: Publisher | undefined;
   private readonly type: VideoType;
+  private user: OpenviduUserSession;
+  private zoomedIn = false;
 
-  constructor(publisher = true, active = false, type: VideoType) {
-    this.active = active;
-    this.openvidu = new OpenVidu();
+  constructor(user: OpenviduUserSession, type: VideoType, openvidu: OpenVidu) {
+    this.active = true;
+    this.openvidu = openvidu;
     this.type = type;
+    this.user = user;
+  }
+
+  updateUser(user: OpenviduUserSession) {
+    this.user = user;
   }
 
   initializeSession() {
@@ -43,6 +51,10 @@ export default class UserConnection {
 
   getPublisher(): Publisher {
     return this.publisher;
+  }
+
+  async connect(token: string, data: OpenviduUserSession) {
+    return this.session.connect(token, data);
   }
 
   isAudioActive() {
@@ -83,5 +95,36 @@ export default class UserConnection {
 
   isCamera() {
     return this.type === VideoType.CAMERA;
+  }
+
+  getDisplayedName(): string {
+    const name = this.user.user.name;
+    if (this.isScreen()) {
+      return name + "'s screen";
+    } else if (this.isWhiteboard()) {
+      return 'Whiteboard';
+    } else {
+      return name;
+    }
+  }
+
+  zoomIn() {
+    this.zoomedIn = true;
+  }
+
+  zoomOut() {
+    this.zoomedIn = false;
+  }
+
+  toggleZoom() {
+    this.zoomedIn = !this.zoomedIn;
+  }
+
+  isZoomedIn(): boolean {
+    return this.zoomedIn;
+  }
+
+  isZoomedOut(): boolean {
+    return !this.zoomedIn;
   }
 }
