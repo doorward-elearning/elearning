@@ -4,7 +4,7 @@ import { Subject } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class WhiteboardService {
+export class WhiteboardCanvasService {
   // Observable string sources
   private eraseSvgMethodCallSource = new Subject<any>();
   private saveSvgMethodCallSource = new Subject<{ name: string; format: 'png' | 'jpeg' | 'svg' }>();

@@ -65,11 +65,18 @@ export class CallController {
         data: JSON.stringify(user),
       });
 
+      const whiteboardToken = await this.openviduService.createToken({
+        session: id,
+        role: user.role,
+        data: JSON.stringify(user),
+      });
+
       const userSession: OpenviduUserSession = {
         user,
         sessionInfo: {
           webcamToken: webcamToken.token,
           screenToken: screenToken.token,
+          whiteboardToken: whiteboardToken.token,
           connectionId: `conn_${Tools.randomString(10)}`,
           role: user.role,
           session: sessionId,

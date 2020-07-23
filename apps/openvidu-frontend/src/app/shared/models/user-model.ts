@@ -1,23 +1,16 @@
-import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import Capabilities from '@doorward/common/utils/Capabilities';
+import UserConnection from './user-connection';
 
 /**
  * Packs all the information about the user
  */
 export class UserModel {
   session: OpenviduUserSession;
-  /**
-   * The Connection ID that is publishing the stream
-   */
-  connectionId: string;
 
-  /**
-   * StreamManager object ([[Publisher]] or [[Subscriber]])
-   */
-  streamManager: StreamManager;
+  private connections: Partial<Record<VideoType, UserConnection>>;
 
   /**
    * @hidden
@@ -27,18 +20,17 @@ export class UserModel {
   /**
    * @hidden
    */
-  constructor(connectionId?: string, streamManager?: StreamManager, session?: OpenviduUserSession) {
-    this.connectionId = connectionId || '';
-    this.session = session;
-    this.streamManager = streamManager || null;
-  }
-
-  /**
-   * Return `true` if audio track is active and `false` if audio track is muted
-   */
-  public isAudioActive(): boolean {
-    // console.log("isAudioActive");
-    return this.streamManager?.stream?.audioActive;
+  constructor() {
+    this.connections = {};
+    if (this.hasCamera()) {
+      this.connections.CAMERA = new UserConnection(!this.isSubscriber(), true, VideoType.CAMERA);
+    }
+    if (this.hasScreen()) {
+      this.connections.SCREEN = new UserConnection(!this.isSubscriber(), true, VideoType.SCREEN);
+    }
+    if (this.hasWhiteboard()) {
+      this.connections.WHITEBOARD = new UserConnection(!this.isSubscriber(), true, VideoType.WHITEBOARD);
+    }
   }
 
   public updateSession(session: OpenviduUserSession) {
@@ -46,32 +38,10 @@ export class UserModel {
   }
 
   /**
-   * Return `true` if video track is active and `false` if video track is muted
-   */
-  public isVideoActive(): boolean {
-    // console.log("isVideoActive");
-    return this.streamManager?.stream?.videoActive;
-  }
-
-  /**
-   * Return the connection ID
-   */
-  public getConnectionId(): string {
-    return this.streamManager?.stream?.connection?.connectionId;
-  }
-
-  /**
    * Return the user nickname
    */
   public getNickname(): string {
     return this.session?.user?.name;
-  }
-
-  /**
-   * Return the [[streamManger]] object
-   */
-  public getStreamManager(): StreamManager {
-    return this.streamManager;
   }
 
   /**
@@ -92,42 +62,7 @@ export class UserModel {
    * Return `true` if user has a remote role and `false` if not
    */
   public isRemote(): boolean {
-    return this.streamManager?.remote;
-  }
-
-  /**
-   * Return `true` if user has a screen role and `false` if not
-   */
-  public isScreen(): boolean {
-    // console.log("isScreen");
-    return (
-      this.streamManager?.stream?.typeOfVideo === VideoType.SCREEN ||
-      (this.streamManager as Subscriber)?.stream?.typeOfVideo === VideoType.SCREEN
-    );
-  }
-
-  /**
-   * Return `true` if user has a camera role and `false` if not
-   */
-  public isCamera(): boolean {
-    // console.log("CCC");
-    return this.streamManager?.stream?.typeOfVideo === VideoType.CAMERA || (this.isLocal() && !this.isScreen());
-  }
-
-  /**
-   * Set the streamManager value object
-   * @param streamManager value of streamManager
-   */
-  public setStreamManager(streamManager: StreamManager) {
-    this.streamManager = streamManager;
-  }
-
-  /**
-   * Set the user nickname value
-   * @param nickname value of user nickname
-   */
-  public setNickname(nickname: string) {
-    this.session.user.name = nickname;
+    return this.connections.CAMERA.getPublisher().remote;
   }
 
   public isVideoSizeBig(): boolean {
@@ -157,11 +92,11 @@ export class UserModel {
   }
 
   public isSubscriber(): boolean {
-    return this.session.user.role === OPENVIDU_ROLES.SUBSCRIBER;
+    return this.session?.user?.role === OPENVIDU_ROLES.SUBSCRIBER;
   }
 
   public isPublisher() {
-    return this.session.user.role === OPENVIDU_ROLES.PUBLISHER;
+    return this.session?.user?.role === OPENVIDU_ROLES.PUBLISHER;
   }
 
   public can(capability: MeetingCapabilities): boolean {
@@ -190,5 +125,29 @@ export class UserModel {
     if (this.getCapabilities()) {
       this.getCapabilities().toggle(capability);
     }
+  }
+
+  public hasScreen() {
+    return this.can(MeetingCapabilities.SHARE_SCREEN);
+  }
+
+  public hasWhiteboard() {
+    return this.can(MeetingCapabilities.USE_WHITEBOARD);
+  }
+
+  public hasCamera() {
+    return this.can(MeetingCapabilities.PUBLISH_VIDEO || MeetingCapabilities.PUBLISH_AUDIO);
+  }
+
+  public getCamera(): UserConnection {
+    return this.connections.CAMERA;
+  }
+
+  public getScreen(): UserConnection {
+    return this.connections.SCREEN;
+  }
+
+  public getWhiteboard(): UserConnection {
+    return this.connections.WHITEBOARD;
   }
 }

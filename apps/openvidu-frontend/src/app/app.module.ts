@@ -68,6 +68,7 @@ import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dia
 import { ChatNotificationComponent } from './shared/components/chat-notification/chat-notification.component';
 import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
 import { BehaviorSubject } from 'rxjs';
+import { WhiteboardCanvasModule } from '@doorward/whiteboard';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,7 @@ import { BehaviorSubject } from 'rxjs';
     NgxEmojiPickerModule,
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
+    WhiteboardCanvasModule,
   ],
   entryComponents: [
     DialogErrorComponent,

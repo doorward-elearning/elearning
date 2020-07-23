@@ -883,6 +883,15 @@
   margin-top: 40px;
 }
 
+#whiteboard-layout {
+  width: 100%;
+  display: grid;
+  border-bottom: 1px solid var(--line-color);
+}
+
+doorward-whiteboard {
+}
+
 @media only screen and (max-width: 600px) {
   .bounds {
     bottom: 60px;

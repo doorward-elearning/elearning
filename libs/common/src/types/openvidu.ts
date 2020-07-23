@@ -102,6 +102,7 @@ export interface OpenviduUser {
 export interface SessionInfo extends CreateTokenBody {
   screenToken: string;
   webcamToken: string;
+  whiteboardToken: string;
   connectionId: string;
 }
 

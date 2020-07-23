@@ -1,19 +1,19 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WhiteboardComponent } from './whiteboard.component';
+import { WhiteboardCanvasComponent } from './whiteboard-canvas.component';
 
 describe('NgWhiteboardComponent', () => {
-  let component: WhiteboardComponent;
-  let fixture: ComponentFixture<WhiteboardComponent>;
+  let component: WhiteboardCanvasComponent;
+  let fixture: ComponentFixture<WhiteboardCanvasComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [WhiteboardComponent],
+      declarations: [WhiteboardCanvasComponent],
     }).compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(WhiteboardComponent);
+    fixture = TestBed.createComponent(WhiteboardCanvasComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
