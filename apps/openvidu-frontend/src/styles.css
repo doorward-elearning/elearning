@@ -184,3 +184,7 @@ emoji-picker emoji-content .emoji-buttons {
   background: var(--bg-primary);
   color: var(--text-primary);
 }
+
+.mat-stroked-button:not(.mat-button-disabled) {
+  border-color: var(--line-color);
+}

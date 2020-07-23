@@ -1,18 +1,18 @@
-import { Component, AfterViewInit, ViewChild, Input, ElementRef, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { WhiteboardService } from './whiteboard.service';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { WhiteboardCanvasService } from './whiteboard-canvas.service';
 import { Subscription } from 'rxjs';
-import { WhiteboardOptions, ActionStack, ActionType } from './whiteboard.types';
-import { ContainerElement, curveBasis, select, drag, Selection, line, event, mouse } from 'd3';
+import { ActionStack, ActionType, WhiteboardOptions } from './whiteboard-canvas.types';
+import { ContainerElement, curveBasis, drag, event, line, mouse, select, Selection } from 'd3';
 
 @Component({
-  // tslint:disable-next-line: component-selector
-  selector: 'ng-whiteboard',
+  // tslint:disable-next-line:component-selector
+  selector: 'whiteboard-canvas',
   template: `
     <svg #svgContainer [style.background-color]="this.backgroundColor || this.whiteboardOptions.backgroundColor"></svg>
   `,
-  styleUrls: ['whiteboard.component.scss'],
+  styleUrls: ['whiteboard-canvas.component.scss'],
 })
-export class WhiteboardComponent implements AfterViewInit, OnDestroy {
+export class WhiteboardCanvasComponent implements AfterViewInit, OnDestroy {
   @ViewChild('svgContainer', { static: false }) private svgContainer: ElementRef<ContainerElement>;
   @Input() whiteboardOptions: WhiteboardOptions = new WhiteboardOptions();
   @Input() color: string;
@@ -35,7 +35,7 @@ export class WhiteboardComponent implements AfterViewInit, OnDestroy {
   private undoStack: ActionStack[] = [];
   private redoStack: ActionStack[] = [];
 
-  constructor(private whiteboardService: WhiteboardService) {}
+  constructor(private whiteboardService: WhiteboardCanvasService) {}
 
   ngAfterViewInit() {
     this.subscriptionList.push(

@@ -91,6 +91,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   isAutoLayout = false;
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
+  whiteboardShown = false;
   private log: ILogger;
   private oVUsersSubscription: Subscription;
   private remoteUsersSubscription: Subscription;
@@ -283,6 +284,10 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.utilsSrv.toggleSideNav(SideNavComponents.PARTICIPANTS);
   }
 
+  toggleWhiteboard() {
+    this.whiteboardShown = !this.whiteboardShown;
+  }
+
   async toggleCam() {
     if (!this.hasVideoDevices) {
       this.utilsSrv.showErrorMessage(
@@ -414,12 +419,9 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   }
 
   private async connectToSession(): Promise<void> {
-    let screenToken: string;
     const userSession = await this.initializeSession();
     const webcamToken = userSession.sessionInfo.webcamToken;
-    if (!screenToken && this.ovSettings?.hasScreenSharing()) {
-      screenToken = userSession.sessionInfo.screenToken;
-    }
+    const screenToken = userSession.sessionInfo.screenToken;
     this.oVSessionService.setLocalUserSession(userSession);
 
     if (webcamToken || screenToken) {
@@ -444,6 +446,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     try {
       await this.oVSessionService.connectWebcamSession();
       await this.oVSessionService.connectScreenSession();
+      await this.oVSessionService.connectToWhiteboardSession();
 
       this.localUsers[0].getStreamManager().on('streamPlaying', () => {
         this.localUsers[0].getStreamManager().videos[0].video.parentElement.classList.remove('custom-class');

@@ -20,6 +20,15 @@
   padding: 0 var(--padding-lg) 50px;
 }
 
+.session-header.no-title {
+  background: none;
+  pointer-events: none;
+}
+
+.session-header.no-title .session-title {
+  display: none;
+}
+
 .session-title {
   justify-self: center;
 }
@@ -170,17 +179,23 @@ mat-icon {
   white-space: pre;
 }
 
+.toolbar-actions {
+  display: grid;
+  grid-auto-flow: column;
+  justify-items: end;
+  padding: 0 var(--padding);
+}
+
 @media (max-width: 800px) {
   #header {
-    grid-template-columns:  1fr auto;
+    grid-template-columns: 1fr auto;
   }
   .title {
     display: none;
   }
 }
 
-
-@media (max-width: 600px){
+@media (max-width: 600px) {
   #header {
     height: 60px;
   }

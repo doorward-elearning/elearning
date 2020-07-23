@@ -44,6 +44,7 @@
           [sessionTitle]="externalConfig.sessionTitle || mySessionId"
           [hasVideoDevices]="hasVideoDevices"
           [hasAudioDevices]="hasAudioDevices"
+          [whiteboardActive]="whiteboardShown"
           [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"
           [isWebcamAudioEnabled]="toolbarMicIconEnabled()"
           [isScreenEnabled]="oVSessionService.isScreenShareEnabled()"
@@ -56,8 +57,17 @@
           (leaveSessionButtonClicked)="leaveSession(true)"
           (participantsListButtonClicked)="toggleParticipants()"
           (chatButtonClicked)="toggleChat()"
+          (whiteboardButtonClicked)="toggleWhiteboard()"
         ></app-toolbar>
-        <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
+        <div id="whiteboard-layout" class="bounds" [style.display]="whiteboardShown ? 'block' : 'none'">
+          <whiteboard-canvas></whiteboard-canvas>
+        </div>
+        <div
+          id="layout"
+          class="bounds"
+          [class.boundsLight]="lightTheme"
+          [style.display]="whiteboardShown ? 'none' : 'block'"
+        >
           <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
             <stream-component
               [user]="localUser"

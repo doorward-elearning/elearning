@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { UserModel } from '../../models/user-model';
 import { Device, OpenVidu, Publisher, PublisherProperties, Session } from 'openvidu-browser';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { ScreenType } from '../../types/video-type';
+import { ScreenType, VideoType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
@@ -17,12 +17,15 @@ export class OpenViduSessionService {
   private _OVUsers = new BehaviorSubject([]);
   private OV: OpenVidu = null;
   private OVScreen: OpenVidu = null;
+  private OVWhiteboard: OpenVidu = null;
 
   private webcamSession: Session = null;
   private screenSession: Session = null;
+  private whiteboardSession: Session = null;
 
   private webcamUser: UserModel = null;
   private screenUser: UserModel = null;
+  private whiteboardUser: UserModel = null;
 
   private videoSource = undefined;
   private audioSource = undefined;
@@ -47,6 +50,7 @@ export class OpenViduSessionService {
   initSessions() {
     this.webcamSession = this.OV.initSession();
     this.screenSession = this.OVScreen.initSession();
+    this.whiteboardSession = this.OVWhiteboard.initSession();
   }
 
   updateLocalUserSession(callback: (user: UserModel) => UserModel) {
@@ -74,6 +78,10 @@ export class OpenViduSessionService {
     return this.webcamSession;
   }
 
+  getWhiteboardSession(): Session {
+    return this.whiteboardSession;
+  }
+
   getDevices(): Promise<Device[]> {
     return this.OV.getDevices();
   }
@@ -92,6 +100,10 @@ export class OpenViduSessionService {
 
   async connectScreenSession(): Promise<any> {
     await this.screenSession.connect(this.user.sessionInfo.screenToken, { ...this.user });
+  }
+
+  async connectToWhiteboardSession(): Promise<any> {
+    await this.whiteboardSession.connect(this.user.sessionInfo.whiteboardToken, { ...this.user });
   }
 
   async publishWebcam(): Promise<any> {
@@ -139,7 +151,7 @@ export class OpenViduSessionService {
 
   enableScreenUser(screenPublisher: Publisher) {
     const connectionId = this.screenSession?.connection?.connectionId;
-    this.screenUser = new UserModel(connectionId, screenPublisher);
+    this.screenUser = new UserModel(connectionId, screenPublisher, this.user);
 
     if (this.isWebCamEnabled()) {
       this._OVUsers.next([this.webcamUser, this.screenUser]);
@@ -148,6 +160,25 @@ export class OpenViduSessionService {
 
     this.log.d('ENABLED SCREEN SHARE');
     this._OVUsers.next([this.screenUser]);
+  }
+
+  enableWhiteboardUser(whiteboardPublisher: Publisher) {
+    const connectionId = this.whiteboardSession?.connection?.connectionId;
+    this.whiteboardUser = new UserModel(connectionId, whiteboardPublisher, this.user);
+
+    if (this.isWebCamEnabled()) {
+      if (this.isScreenShareEnabled()) {
+        this._OVUsers.next([this.webcamUser, this.screenUser, this.whiteboardUser]);
+      } else {
+        this._OVUsers.next([this.webcamUser, this.whiteboardUser]);
+      }
+    } else {
+      if (this.isScreenShareEnabled()) {
+        this._OVUsers.next([this.screenUser, this.whiteboardUser]);
+      } else {
+        this._OVUsers.next([this.whiteboardUser]);
+      }
+    }
   }
 
   getUsers(): Observable<UserModel[]> {
