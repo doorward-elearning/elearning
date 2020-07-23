@@ -1,5 +1,5 @@
 CUSTOMER_NAME: develop
-APP_VERSION: 1.1.0
+APP_VERSION: 1.1.1
 
 LOGO_URL: "https://doorward.s3.amazonaws.com/logos/download1.png"
 
@@ -19,10 +19,10 @@ STUDENT_DOWNLOAD_SPEED_MAX: 30
 
 STUDENT_DOWNLOAD_SPEED_MIN: 25
 
-WEEK_START_DAY: tuesday
+WEEK_START_DAY: sunday
 
-WEEK_END_DAY: thursday
+WEEK_END_DAY: sunday
 
-CLASS_START_TIME: 9
+CLASS_START_TIME: 4
 
-CLASS_END_TIME: 11
+CLASS_END_TIME: 4
