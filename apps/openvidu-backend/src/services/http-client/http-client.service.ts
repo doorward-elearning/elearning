@@ -13,10 +13,10 @@ export class HttpClientService {
     this.options.headers = {
       Authorization: 'Basic ' + btoa((process.env.OPENVIDU_USERNAME + ':' + process.env.OPENVIDU_PASSWORD).trim()),
       'Content-Type': 'application/json',
-      Host: 'localhost:4443',
+      Host: process.env.OPENVIDU_URL.replace('https://', '').replace('http://', ''),
     };
 
-    if(process.env.NODE_ENV === 'development'){
+    if (process.env.NODE_ENV === 'development') {
       this.options.httpsAgent = new https.Agent({
         rejectUnauthorized: false,
       });
