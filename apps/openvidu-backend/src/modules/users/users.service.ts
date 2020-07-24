@@ -8,7 +8,7 @@ export class UsersService {
   async findOne(connectionId: string, sessionId: string): Promise<OpenviduUser | null> {
     const sessionInfo = await this.openviduService.getSessionInfo(sessionId);
 
-    const connectionInfo = sessionInfo.connections.find(connection => connection.connectionId === connectionId);
+    const connectionInfo = sessionInfo.connections.content.find(connection => connection.connectionId === connectionId);
 
     if (connectionInfo) {
       return JSON.parse(connectionInfo.clientData) as OpenviduUser;

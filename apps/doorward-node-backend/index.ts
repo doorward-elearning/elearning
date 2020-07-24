@@ -1,4 +1,4 @@
-import './config';
+import '@doorward/backend/bootstrap/setUpEnvironment';
 import debug from 'debug';
 import shortid from 'shortid';
 import app from './src/app';
