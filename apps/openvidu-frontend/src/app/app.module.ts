@@ -67,6 +67,7 @@ import { NetworkInterceptor } from './shared/services/network/network.intercepto
 import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dialog.component';
 import { ChatNotificationComponent } from './shared/components/chat-notification/chat-notification.component';
 import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
+import { BehaviorSubject } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -141,7 +142,7 @@ import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
     StorageService,
     SignalsService,
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
-    { provide: 'BASE_API_URL', useValue: environment.OPENVIDU_API_URL },
+    { provide: 'BASE_API_URL', useValue: new BehaviorSubject(environment.OPENVIDU_API_URL) },
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
