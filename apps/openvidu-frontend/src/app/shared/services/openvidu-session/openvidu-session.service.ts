@@ -49,9 +49,8 @@ export class OpenViduSessionService {
   }
 
   setLocalUserSession(user: OpenviduUserSession) {
-    const userModel = this._user.getValue();
-    userModel.updateSession(user);
-    this._user.next(userModel);
+    this.getUser().updateSession(user);
+    this.refresh();
   }
 
   getUser(): LocalUserModel {
@@ -67,13 +66,15 @@ export class OpenViduSessionService {
   }
 
   async connectSessions(): Promise<any> {
-    return this.getUser().connect();
+    await this.getUser().connect();
+    this.refresh();
   }
 
   enableWebcam() {
     this.getUser()
       .getCamera()
       .enable();
+    this.refresh();
   }
 
   enableScreen(screenPublisher: Publisher) {
@@ -149,13 +150,15 @@ export class OpenViduSessionService {
     const properties = OpenViduSessionService.createProperties(videoSource, undefined, true, false, false);
 
     this.stopScreenTracks();
-    return this.getUser()
+    await this.getUser()
       .getScreen()
       .createMediaStream(properties);
+    this.refresh();
   }
 
   destroyUsers() {
     this.getUser().destroyAll();
+    this.refresh();
   }
 
   disconnect() {
@@ -182,6 +185,7 @@ export class OpenViduSessionService {
       .forEach(connection => {
         connection.connection.zoomOut();
       });
+    this.refresh();
   }
 
   toggleZoom(connectionId: string) {
@@ -190,12 +194,14 @@ export class OpenViduSessionService {
         .getByConnectionId(connectionId)
         .toggleZoom();
     }
+    this.refresh();
   }
 
   private stopScreenTracks() {
     this.getUser()
       .getScreen()
       .stopVideoTracks();
+    this.refresh();
   }
 
   getUserSession(): OpenviduUserSession {
@@ -203,20 +209,23 @@ export class OpenViduSessionService {
   }
 
   async unPublishScreen() {
-    return this.getUser()
+    await this.getUser()
       .getScreen()
       .unPublish();
+    this.refresh();
   }
 
   async unPublishWebcam() {
-    return this.getUser()
+    await this.getUser()
       .getCamera()
       .unPublish();
+    this.refresh();
   }
 
   async unPublishWhiteboard() {
-    return this.getUser()
+    await this.getUser()
       .getWhiteboard()
       .unPublish();
+    this.refresh();
   }
 }

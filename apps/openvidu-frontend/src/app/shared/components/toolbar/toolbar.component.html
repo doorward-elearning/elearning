@@ -27,23 +27,25 @@
       <div class="buttonsContainer" [ngClass]="lightTheme ? 'light' : 'dark'">
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.PUBLISH_AUDIO">
           <button (click)="toggleMicrophone()" [disabled]="isConnectionLost">
-            <mat-icon *ngIf="isWebcamAudioEnabled" matTooltip="Mute your audio">mic</mat-icon>
-            <mat-icon *ngIf="!isWebcamAudioEnabled" color="warn" matTooltip="Unmute your audio">mic_off</mat-icon>
+            <mat-icon *ngIf="localUser.isAudioActive()" matTooltip="Mute your audio">mic</mat-icon>
+            <mat-icon *ngIf="!localUser.isAudioActive()" color="warn" matTooltip="Unmute your audio">mic_off</mat-icon>
           </button>
         </div>
 
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.PUBLISH_VIDEO">
           <!-- Camera button -->
           <button (click)="toggleCamera()" [disabled]="isConnectionLost">
-            <mat-icon color="primary" *ngIf="isWebcamVideoEnabled" matTooltip="Turn off video">videocam</mat-icon>
-            <mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Turn on video">videocam_off</mat-icon>
+            <mat-icon color="primary" *ngIf="localUser.isVideoActive()" matTooltip="Turn off video">videocam</mat-icon>
+            <mat-icon *ngIf="!localUser.isVideoActive()" color="warn" matTooltip="Turn on video">videocam_off</mat-icon>
           </button>
         </div>
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.SHARE_SCREEN">
           <!-- Screenshare button -->
           <button (click)="toggleScreenShare()" [disabled]="isConnectionLost">
-            <mat-icon *ngIf="!isScreenEnabled" matTooltip="Start screen share" color="warn">stop_screen_share</mat-icon>
-            <mat-icon *ngIf="isScreenEnabled" matTooltip="Stop screen sharing">screen_share</mat-icon>
+            <mat-icon *ngIf="!localUser.screenEnabled()" matTooltip="Start screen share" color="warn"
+              >stop_screen_share</mat-icon
+            >
+            <mat-icon *ngIf="localUser.screenEnabled()" matTooltip="Stop screen sharing">screen_share</mat-icon>
           </button>
         </div>
 

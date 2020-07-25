@@ -25,16 +25,18 @@ export class LocalUserModel extends UserModel {
 
   public async connect() {
     return Promise.all(
-      this.getConnections().map(async ({ type, connection }) => {
-        const { sessionInfo } = this.session;
-        const token = {
-          [VideoType.WHITEBOARD]: sessionInfo.whiteboardToken,
-          [VideoType.SCREEN]: sessionInfo.screenToken,
-          [VideoType.CAMERA]: sessionInfo.webcamToken,
-        };
+      this.getConnections()
+        .filter(conn => !!conn.connection.getPublisher())
+        .map(async ({ type, connection }) => {
+          const { sessionInfo } = this.session;
+          const token = {
+            [VideoType.WHITEBOARD]: sessionInfo.whiteboardToken,
+            [VideoType.SCREEN]: sessionInfo.screenToken,
+            [VideoType.CAMERA]: sessionInfo.webcamToken,
+          };
 
-        return connection.connect(token[type], this.session);
-      })
+          return connection.connect(token[type], this.session);
+        })
     );
   }
 

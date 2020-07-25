@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -10,11 +9,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { UserModel } from '../../models/user-model';
-import { FormControl } from '@angular/forms';
-import { NicknameMatcher } from '../../forms-matchers/nickname';
 import { UtilsService } from '../../services/utils/utils.service';
 import { LayoutType } from '../../types/layout-type';
-import { VideoFullscreenIcon, VideoSizeIcon } from '../../types/icon-type';
 import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../../services/signals/signals.service';
@@ -29,22 +25,17 @@ import UserConnection from '../../models/user-connection';
   templateUrl: './stream.component.html',
 })
 export class StreamComponent implements OnInit {
-  videoSizeIcon: VideoSizeIcon = VideoSizeIcon.BIG;
-  fullscreenIcon: VideoFullscreenIcon = VideoFullscreenIcon.BIG;
-  toggleNickname: boolean;
+  @Input() localUser: UserModel;
+  @Input() type: VideoType;
+  user: UserModel;
+
+  @Output() replaceScreenTrackClicked = new EventEmitter<any>();
+  @Output() toggleVideoSizeClicked = new EventEmitter<any>();
+
   isFullscreen: boolean;
   isZoomedIn: boolean;
 
-  nicknameFormControl: FormControl;
-  matcher: NicknameMatcher;
-
-  user: UserModel;
   connection: UserConnection;
-  @Input() localUser: UserModel;
-  @Input() type: VideoType;
-  @Output() nicknameClicked = new EventEmitter<any>();
-  @Output() replaceScreenTrackClicked = new EventEmitter<any>();
-  @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
   @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
 
@@ -59,24 +50,14 @@ export class StreamComponent implements OnInit {
     this.isFullscreen = maxWidth === curWidth && maxHeight === curHeight;
   }
 
-  // Has been mandatory fullscreen Input because of Input user did not fire changing
-  // the fullscreen user property in publisherStartSpeaking event in VideoRoom Component
   @Input()
-  set videoSizeBig(videoSizeBig: boolean) {
-    this.isZoomedIn = videoSizeBig;
-  }
-
-  @ViewChild('nicknameInput')
-  set nicknameInputElement(element: ElementRef) {
-    setTimeout(() => {
-      element?.nativeElement.focus();
-    });
-  }
-
-  ngOnInit() {
-    this.matcher = new NicknameMatcher();
+  set currentUser(user: UserModel) {
+    this.user = user;
     this.connection = this.user.getConnection(this.type);
+    this.isZoomedIn = this.connection.isZoomedIn();
   }
+
+  ngOnInit() {}
 
   toggleVideoSize(resetAll?) {
     const element = this.utilsSrv.getHTMLElementByClassName(
@@ -106,19 +87,6 @@ export class StreamComponent implements OnInit {
 
   isMine() {
     return this.user.isLocal();
-  }
-
-  toggleNicknameForm() {
-    if (this.user.isLocal()) {
-      this.toggleNickname = !this.toggleNickname;
-    }
-  }
-
-  eventKeyPress(event) {
-    if (event && event.keyCode === 13 && this.nicknameFormControl.valid) {
-      this.nicknameClicked.emit(this.nicknameFormControl.value);
-      this.toggleNicknameForm();
-    }
   }
 
   replaceScreenTrack() {

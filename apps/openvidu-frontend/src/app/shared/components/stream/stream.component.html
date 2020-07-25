@@ -1,58 +1,25 @@
 <div
-  *ngIf="user"
+  *ngIf="connection"
   class="OT_widget-container"
-  [id]="'container-' + connection.getStream().streamId"
+  [id]="'container-' + connection.getStream()?.streamId"
   #streamComponent
   (dblclick)="toggleVideoSize()"
 >
-  <ng-template>
-    <div class="nickname" [class.fullscreen]="isFullscreen">
-      <div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
-        <span id="nickname">{{ user.getNickname() }}</span>
-        <span *ngIf="!user.isRemote()"> (edit)</span>
-      </div>
-      <div *ngIf="toggleNickname && !user.isRemote()" [class.fullscreen]="isFullscreen" id="dialogNickname">
-        <button mat-icon-button (click)="toggleNicknameForm()" id="closeButton">
-          <mat-icon matTooltip="Close">highlight_off</mat-icon>
-        </button>
-        <form id="nicknameForm">
-          <mat-form-field color="primary">
-            <input
-              matInput
-              #nicknameInput
-              placeholder="Nick: {{ user.getNickname() }}"
-              [formControl]="nicknameFormControl"
-              [errorStateMatcher]="matcher"
-              (keypress)="eventKeyPress($event)"
-              autocomplete="off"
-            />
-            <mat-error *ngIf="nicknameFormControl.hasError('required')">
-              Nickname is <strong>required</strong>
-            </mat-error>
-            <mat-error *ngIf="nicknameFormControl.hasError('maxlength')">
-              Nickname is <strong>too long!</strong>
-            </mat-error>
-          </mat-form-field>
-        </form>
-      </div>
-    </div>
-  </ng-template>
-
   <div
     class="no-video"
-    [style.display]="!user.isVideoActive() ? 'grid' : 'none'"
-    [style.background]="greyBackground(user.getNickname())"
+    [style.display]="!connection.isVideoActive() ? 'grid' : 'none'"
+    [style.background]="greyBackground(connection.getDisplayedName())"
   >
     <div class="no-video__image">
-      <user-avatar fontSize="50px" [name]="user.getNickname()" [avatar]="user.getAvatar()"></user-avatar>
+      <user-avatar fontSize="50px" [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()"></user-avatar>
     </div>
   </div>
 
   <ov-video [streamManager]="connection.getPublisher()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
-    <user-avatar [name]="user.getNickname()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
-    <div class="user-nickname">{{ user.getNickname() }}</div>
+    <user-avatar [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
+    <div class="user-nickname">{{ connection.getDisplayedName() }}</div>
     <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isAudioActive() ? '' : 'inactive'">
       {{ user.isAudioActive() ? 'mic_on' : 'mic_off' }}
     </mat-icon>

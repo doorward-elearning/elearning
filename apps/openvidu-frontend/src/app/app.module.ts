@@ -67,6 +67,7 @@ import { ChatNotificationComponent } from './shared/components/chat-notification
 import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
 import { BehaviorSubject } from 'rxjs';
 import { WhiteboardCanvasModule } from '@doorward/whiteboard';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +91,7 @@ import { WhiteboardCanvasModule } from '@doorward/whiteboard';
     AlertDialogComponent,
     ChatNotificationComponent,
     CapabilitiesPipe,
+    HomeComponent,
   ],
   imports: [
     FormsModule,
