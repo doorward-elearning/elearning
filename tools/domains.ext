@@ -6,3 +6,4 @@ subjectAltName = @alt_names
 DNS.1 = localhost
 DNS.2 = doorward.local
 DNS.3 = *.localhost
+DNS.4 = *.doorward.local
