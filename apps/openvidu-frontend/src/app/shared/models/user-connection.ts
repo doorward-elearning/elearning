@@ -12,8 +12,8 @@ export default class UserConnection {
   private zoomedIn = false;
   private mediaStream: MediaStream;
 
-  constructor(user: OpenviduUserSession, type: VideoType, openvidu: OpenVidu) {
-    this.active = true;
+  constructor(user: OpenviduUserSession, type: VideoType, openvidu: OpenVidu, active = true) {
+    this.active = active;
     this.openvidu = openvidu;
     this.type = type;
     this.user = user;
@@ -28,19 +28,15 @@ export default class UserConnection {
     this.session = this.openvidu.initSession();
   }
 
-  initializePublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Promise<Publisher> {
-    return new Promise((resolve, reject) => {
-      const publisher = this.openvidu.initPublisher(targetElement, properties);
+  initializePublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
+    const publisher = this.openvidu.initPublisher(targetElement, properties);
 
-      publisher.once('streamPlaying', () => {
-        this.publisher = publisher;
-        resolve(this.publisher);
-      });
-
-      publisher.once('accessDenied', () => {
-        reject();
-      });
+    publisher.once('streamPlaying', () => {
+      this.publisher = publisher;
     });
+
+    publisher.once('accessDenied', () => {});
+    return publisher;
   }
 
   setPublisher(publisher: Publisher) {
@@ -68,6 +64,7 @@ export default class UserConnection {
       this.publisher.stream.disposeWebRtcPeer();
       this.publisher.stream.disposeMediaStream();
     }
+    this.disable();
   }
 
   getConnectionId() {

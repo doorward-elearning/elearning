@@ -11,23 +11,18 @@ import { Device, OpenVidu, Publisher, PublisherProperties } from 'openvidu-brows
 export class UserModel {
   session: OpenviduUserSession;
 
-  private readonly connections: Partial<Record<VideoType, UserConnection>>;
+  private readonly connections: Record<VideoType, UserConnection>;
 
   private readonly openvidu: OpenVidu;
 
   constructor(user: OpenviduUserSession) {
     this.openvidu = new OpenVidu();
     this.session = user;
-    this.connections = {};
-    if (this.hasCamera()) {
-      this.connections.CAMERA = new UserConnection(user, VideoType.CAMERA, this.openvidu);
-    }
-    if (this.hasScreen()) {
-      this.connections.SCREEN = new UserConnection(user, VideoType.SCREEN, this.openvidu);
-    }
-    if (this.hasWhiteboard()) {
-      this.connections.WHITEBOARD = new UserConnection(user, VideoType.WHITEBOARD, this.openvidu);
-    }
+    this.connections = {
+      CAMERA: new UserConnection(user, VideoType.CAMERA, this.openvidu, this.hasCamera()),
+      SCREEN: new UserConnection(user, VideoType.SCREEN, this.openvidu, this.hasScreen()),
+      WHITEBOARD: new UserConnection(user, VideoType.WHITEBOARD, this.openvidu, this.hasWhiteboard()),
+    };
   }
 
   public updateSession(session: OpenviduUserSession) {
@@ -172,7 +167,7 @@ export class UserModel {
     type: VideoType,
     targetElement: string | HTMLElement,
     properties: PublisherProperties
-  ): Promise<Publisher> {
+  ): Publisher {
     return this.connections[type].initializePublisher(targetElement, properties);
   }
 
@@ -191,4 +186,25 @@ export class UserModel {
     });
   }
 
+  connectionEnabled(type: VideoType) {
+    return !!this.connections[type];
+  }
+
+  cameraEnabled(): boolean {
+    return this.getCamera().isActive();
+  }
+
+  screenEnabled(): boolean {
+    return this.getScreen().isActive();
+  }
+
+  whiteboardEnabled(): boolean {
+    return this.getWhiteboard().isActive();
+  }
+
+  getEnabledConnections(): UserConnection[] {
+    return this.getConnections()
+      .map(({ connection }) => (connection.isActive() ? connection : null))
+      .filter(conn => !!conn);
+  }
 }

@@ -69,20 +69,20 @@ export class OpenViduSessionService {
     return this.getUser().connect();
   }
 
-  disableWebcamUser() {
+  enableWebcam() {
     this.getUser()
       .getCamera()
-      .disable();
+      .enable();
   }
 
-  enableScreenUser(screenPublisher: Publisher) {
+  enableScreen(screenPublisher: Publisher) {
     this.getUser()
       .getScreen()
       .setPublisher(screenPublisher);
     this.refresh();
   }
 
-  enableWhiteboardUser(whiteboardPublisher: Publisher) {
+  enableWhiteboard(whiteboardPublisher: Publisher) {
     this.getUser()
       .getWhiteboard()
       .setPublisher(whiteboardPublisher);
@@ -93,12 +93,21 @@ export class OpenViduSessionService {
     this._user.next(this.getUser());
   }
 
-  disableScreenUser() {
-    this.destroyScreenUser();
+  disableWebcam() {
+    this.getUser()
+      .getCamera()
+      .destroy();
     this.refresh();
   }
 
-  publishVideo(isVideoActive: boolean) {
+  disableScreen() {
+    this.getUser()
+      .getScreen()
+      .destroy();
+    this.refresh();
+  }
+
+  publishWebcam(isVideoActive: boolean) {
     this.getUser()
       .getCamera()
       .publishVideo(isVideoActive);
@@ -112,20 +121,14 @@ export class OpenViduSessionService {
     this.refresh();
   }
 
-  publishScreenAudio(audio: boolean) {
-    this.getUser()
-      .getScreen()
-      .publishAudio(audio);
-  }
-
-  replaceTrack(videoSource: string, audioSource: string, mirror = true): Promise<any> {
+  replaceTrack(videoSource: string, audioSource: string, mirror = true): Publisher {
     if (videoSource) {
       this.log.d('Replacing video track ' + videoSource);
     }
     if (audioSource) {
       this.log.d('Replacing audio track ' + audioSource);
     }
-    this.destroyWebcamUser();
+    this.disableWebcam();
     const properties = OpenViduSessionService.createProperties(
       videoSource,
       audioSource,
@@ -188,18 +191,6 @@ export class OpenViduSessionService {
     }
   }
 
-  private destroyScreenUser() {
-    this.getUser()
-      .getScreen()
-      .destroy();
-  }
-
-  private destroyWebcamUser() {
-    this.getUser()
-      .getCamera()
-      .destroy();
-  }
-
   private stopScreenTracks() {
     this.getUser()
       .getScreen()
@@ -208,5 +199,23 @@ export class OpenViduSessionService {
 
   getUserSession(): OpenviduUserSession {
     return this.getUser().session;
+  }
+
+  async unPublishScreen() {
+    return this.getUser()
+      .getScreen()
+      .unPublish();
+  }
+
+  async unPublishWebcam() {
+    return this.getUser()
+      .getCamera()
+      .unPublish();
+  }
+
+  async unPublishWhiteboard() {
+    return this.getUser()
+      .getWhiteboard()
+      .unPublish();
   }
 }
