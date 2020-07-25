@@ -17,44 +17,46 @@
 
   <ov-video [streamManager]="connection.getStreamManager()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
-  <div class="videoStatusInfo">
-    <user-avatar [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
-    <div class="user-nickname">{{ connection.getDisplayedName() }}</div>
-    <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isAudioActive() ? '' : 'inactive'">
-      {{ user.isAudioActive() ? 'mic_on' : 'mic_off' }}
-    </mat-icon>
-    <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isVideoActive() ? '' : 'inactive'">
-      {{ user.isVideoActive() ? 'videocam_on' : 'videocam_off' }}
-    </mat-icon>
-    <mat-icon class="disabled tiny" *ngIf="connection.isScreen()">screen_share</mat-icon>
+  <app-active-user-wrapper>
+    <div class="videoStatusInfo">
+      <user-avatar [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
+      <div class="user-nickname">{{ connection.getDisplayedName() }}</div>
+      <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isAudioActive() ? '' : 'inactive'">
+        {{ user.isAudioActive() ? 'mic_on' : 'mic_off' }}
+      </mat-icon>
+      <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isVideoActive() ? '' : 'inactive'">
+        {{ user.isVideoActive() ? 'videocam_on' : 'videocam_off' }}
+      </mat-icon>
+      <mat-icon class="disabled tiny" *ngIf="connection.isScreen()">screen_share</mat-icon>
 
-    <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
-    <mat-menu #menu="matMenu" class="small">
-      <button mat-menu-item (click)="toggleVideoSize(connection)">
-        <mat-icon class="disabled">{{ isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
-        <span>
-          {{ isZoomedIn ? 'Zoom out' : 'Zoom in' }}
-        </span>
-      </button>
-      <button mat-menu-item (click)="toggleFullscreen(connection)">
-        <mat-icon class="disabled">{{ !isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
-        <span>
-          {{ !isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
-        </span>
-      </button>
-      <button
-        mat-menu-item
-        (click)="toggleSound()"
-        *ngIf="!isMine() && connection.isCamera()"
-        [disabled]="!localUser?.isModerator()"
-      >
-        <mat-icon class="disabled">{{ user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
-        <span>
-          {{ user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
-        </span>
-      </button>
-    </mat-menu>
-  </div>
+      <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
+      <mat-menu #menu="matMenu" class="small">
+        <button mat-menu-item (click)="toggleVideoSize(connection)">
+          <mat-icon class="disabled">{{ isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
+          <span>
+            {{ isZoomedIn ? 'Zoom out' : 'Zoom in' }}
+          </span>
+        </button>
+        <button mat-menu-item (click)="toggleFullscreen(connection)">
+          <mat-icon class="disabled">{{ !isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
+          <span>
+            {{ !isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
+          </span>
+        </button>
+        <button
+          mat-menu-item
+          (click)="toggleSound()"
+          *ngIf="!isMine() && connection.isCamera()"
+          [disabled]="!localUser?.isModerator()"
+        >
+          <mat-icon class="disabled">{{ user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
+          <span>
+            {{ user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
+          </span>
+        </button>
+      </mat-menu>
+    </div>
+  </app-active-user-wrapper>
 
   <div class="videoButtons">
     <button
