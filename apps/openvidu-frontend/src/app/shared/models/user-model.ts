@@ -3,7 +3,7 @@ import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/open
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import UserConnection from './user-connection';
-import { Device, OpenVidu } from 'openvidu-browser';
+import { Device, OpenVidu, Publisher, PublisherProperties } from 'openvidu-browser';
 
 /**
  * Packs all the information about the user
@@ -15,9 +15,6 @@ export class UserModel {
 
   private readonly openvidu: OpenVidu;
 
-  /**
-   * @hidden
-   */
   constructor(user: OpenviduUserSession) {
     this.openvidu = new OpenVidu();
     this.session = user;
@@ -35,53 +32,34 @@ export class UserModel {
 
   public updateSession(session: OpenviduUserSession) {
     this.session = session;
+
+    if (session.sessionConfig?.capabilities && session.sessionConfig.capabilities?.has) {
+      session.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
+        MeetingCapabilities,
+        (session.sessionConfig.capabilities as any).capabilities
+      );
+    }
     this.forEach(connection => {
       connection.updateUser(session);
     });
   }
 
-  /**
-   * Return the user nickname
-   */
   public getNickname(): string {
     return this.session?.user?.name;
   }
 
-  /**
-   * Return the user avatar
-   */
   public getAvatar(): string {
     return this.session?.user?.avatar;
   }
 
-  /**
-   * Return `true` if user has a local role and `false` if not
-   */
   public isLocal(): boolean {
     return !this.isRemote();
   }
 
-  /**
-   * Return `true` if user has a remote role and `false` if not
-   */
   public isRemote(): boolean {
     return this.connections.CAMERA.getPublisher().remote;
   }
 
-  public isVideoSizeBig(): boolean {
-    return this.videoSizeBig;
-  }
-
-  /**
-   * @hidden
-   */
-  public setVideoSizeBig(big: boolean) {
-    this.videoSizeBig = big;
-  }
-
-  /**
-   * @hidden
-   */
   public setUserAvatar(img?: string) {
     this.session.user.avatar = img;
   }
@@ -189,4 +167,28 @@ export class UserModel {
   isMyOwnConnection(connectionId: string): boolean {
     return !!this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
   }
+
+  initializePublisher(
+    type: VideoType,
+    targetElement: string | HTMLElement,
+    properties: PublisherProperties
+  ): Promise<Publisher> {
+    return this.connections[type].initializePublisher(targetElement, properties);
+  }
+
+  getByConnectionId(connectionId: string): UserConnection | undefined {
+    const conn = this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
+    return conn ? conn.connection : undefined;
+  }
+
+  destroyAll() {
+    this.forEach(connection => connection.destroy());
+  }
+
+  disconnectAll() {
+    this.forEach(connection => {
+      connection.disconnectSession();
+    });
+  }
+
 }

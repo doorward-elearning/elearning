@@ -55,16 +55,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   micSelected: IDevice;
   isVideoActive = true;
   isAudioActive = true;
-  // volumeValue = 100;
   oVUsersSubscription: Subscription;
   localUsers: UserModel[] = [];
-  randomAvatar: string;
-  videoAvatar: string;
-  avatarSelected: AvatarType;
-  columns: number;
 
-  nicknameFormControl = new FormControl('', [Validators.maxLength(25), Validators.required]);
-  matcher = new NicknameMatcher();
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
   showConfigCard: boolean;
@@ -83,21 +76,14 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.log = this.loggerSrv.get('RoomConfigComponent');
   }
 
-  @HostListener('window:beforeunload')
-  beforeunloadHandler() {
-    this.close();
-  }
-
   async ngOnInit() {
     this.handleSessionConfig(this.externalConfig);
     this.subscribeToUsers();
-    this.setNicknameForm();
-    this.columns = window.innerWidth > 900 ? 2 : 1;
     this.setSessionName();
     await this.oVDevicesService.initDevices();
     this.setDevicesInfo();
     await this.checkPermissions();
-    this.initwebcamPublisher();
+    this.initWebcamPublisher();
   }
 
   handleSessionConfig(user: UserModel | ExternalConfigModel) {
@@ -158,145 +144,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.oVUsersSubscription.unsubscribe();
   }
 
-  async onCameraSelected(event: any) {
-    const videoSource = event?.value;
-    if (videoSource) {
-      // Is New deviceId different from the old one?
-      if (this.oVDevicesService.needUpdateVideoTrack(videoSource)) {
-        const mirror = this.oVDevicesService.cameraNeedsMirror(videoSource);
-        await this.oVSessionService.replaceTrack(videoSource, null, mirror);
-        this.oVDevicesService.setCamSelected(videoSource);
-        this.camSelected = this.oVDevicesService.getCamSelected();
-      }
-      // Publish Webcam
-      this.oVSessionService.publishVideo(true);
-      this.isVideoActive = true;
-      return;
-    }
-    // Unpublish webcam
-    this.oVSessionService.publishVideo(false);
-    this.isVideoActive = false;
-  }
-
-  async onMicrophoneSelected(event: any) {
-    const audioSource = event?.value;
-
-    if (audioSource) {
-      // Is New deviceId different than older?
-      if (this.oVDevicesService.needUpdateAudioTrack(audioSource)) {
-        const mirror = this.oVDevicesService.cameraNeedsMirror(this.camSelected.device);
-        await this.oVSessionService.replaceTrack(null, audioSource, mirror);
-        this.oVDevicesService.setMicSelected(audioSource);
-        this.micSelected = this.oVDevicesService.getMicSelected();
-      }
-      // Publish microphone
-      this.publishAudio(true);
-      this.isAudioActive = true;
-      return;
-    }
-    this.publishAudio(false);
-    this.isAudioActive = false;
-  }
-
-  toggleCam() {
-    this.isVideoActive = !this.isVideoActive;
-    this.oVSessionService.publishVideo(this.isVideoActive);
-
-    if (this.oVSessionService.areBothConnected()) {
-      this.oVSessionService.disableWebcamUser();
-      this.oVSessionService.publishScreenAudio(this.isAudioActive);
-      // !this.subscribeToVolumeChange(<Publisher>this.localUsers[0].getStreamManager());
-    } else if (this.oVSessionService.isOnlyScreenConnected()) {
-      // (<Publisher>this.localUsers[0].getStreamManager()).off('streamAudioVolumeChange');
-      this.oVSessionService.enableWebcamUser();
-    }
-  }
-
-  toggleScreenShare() {
-    if (this.oVSessionService.areBothConnected()) {
-      this.oVSessionService.disableScreenUser();
-      return;
-    }
-
-    if (this.oVSessionService.isOnlyWebcamConnected()) {
-      const screenPublisher = this.initScreenPublisher();
-
-      screenPublisher.on('accessAllowed', event => {
-        this.oVSessionService.enableScreenUser(screenPublisher);
-        if (!this.oVSessionService.hasWebcamVideoActive()) {
-          this.oVSessionService.disableWebcamUser();
-        }
-      });
-
-      screenPublisher.on('accessDenied', event => {
-        this.log.w('ScreenShare: Access Denied');
-      });
-      return;
-    }
-    this.oVSessionService.enableWebcamUser();
-    this.oVSessionService.disableScreenUser();
-  }
-
-  toggleMic() {
-    this.isAudioActive = !this.isAudioActive;
-    this.publishAudio(this.isAudioActive);
-  }
-
-  setNicknameForm() {
-    if (this.externalConfig) {
-      this.nicknameFormControl.setValue(this.externalConfig.user.name);
-      return;
-    }
-    const nickname = this.storageSrv.get(this.USER_NICKNAME) || this.utilsSrv.generateNickname();
-    this.nicknameFormControl.setValue(nickname);
-  }
-
-  eventKeyPress(event) {
-    if (event && event.keyCode === 13 && this.nicknameFormControl.valid) {
-      this.joinSession();
-    }
-  }
-
-  onResize(event) {
-    this.columns = event.target.innerWidth > 900 ? 2 : 1;
-  }
-
-  // updateVolumeColor(): string {
-  // 	// max = 0 / min = 100
-  // 	if (this.volumeValue <= 20) {
-  // 		return 'warn';
-  // 	} else if (this.volumeValue > 20 && this.volumeValue <= 35) {
-  // 		return 'accent';
-  // 	} else if (this.volumeValue > 35) {
-  // 		return 'primary';
-  // 	}
-  // }
-
   joinSession() {
-    if (this.nicknameFormControl.valid) {
-      this.storageSrv.set(this.USER_NICKNAME, this.nicknameFormControl.value);
-      this.join.emit();
-    }
+    this.join.emit();
     this.scrollToBottom();
-  }
-
-  close() {
-    this.leaveSession.emit();
-    this.showConfigCard = false;
-  }
-
-  setAvatar(avatar: string) {
-    // !! REFACTOR
-    const avatarType = avatar === AvatarType.VIDEO ? AvatarType.VIDEO : AvatarType.RANDOM;
-    if (
-      (avatarType === AvatarType.RANDOM && this.randomAvatar) ||
-      (avatarType === AvatarType.VIDEO && this.videoAvatar)
-    ) {
-      this.avatarSelected = avatarType;
-      // if (avatarType === AVATAR_TYPE.RANDOM) {
-      //   this.localUsers[0].setUserAvatar(this.randomAvatar);
-      // }
-    }
   }
 
   private setDevicesInfo() {
@@ -321,26 +171,6 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     } catch (err) {}
   }
 
-  private initScreenPublisher(): Publisher {
-    const videoSource = ScreenType.SCREEN;
-    const willThereBeWebcam = this.oVSessionService.isWebCamEnabled() && this.oVSessionService.hasWebcamVideoActive();
-    const hasAudio = willThereBeWebcam ? false : this.isAudioActive;
-    const properties = this.oVSessionService.createProperties(videoSource, undefined, true, hasAudio, false);
-
-    try {
-      return this.oVSessionService.initScreenPublisher(undefined, properties);
-    } catch (error) {
-      this.log.e(error);
-      this.utilsSrv.handlerScreenShareError(error);
-    }
-  }
-
-  private publishAudio(audio: boolean) {
-    this.oVSessionService.isWebCamEnabled()
-      ? this.oVSessionService.publishWebcamAudio(audio)
-      : this.oVSessionService.publishScreenAudio(audio);
-  }
-
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
       this.localUsers = users;
@@ -350,7 +180,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initwebcamPublisher() {
+  private initWebcamPublisher() {
     const micStorageDevice = this.micSelected?.device || undefined;
     const camStorageDevice = this.camSelected?.device || undefined;
 
