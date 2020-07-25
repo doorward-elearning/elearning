@@ -1,17 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UserModel } from '../../models/user-model';
-import { NicknameMatcher } from '../../forms-matchers/nickname';
 import { UtilsService } from '../../services/utils/utils.service';
 import { Publisher } from 'openvidu-browser';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -19,16 +7,15 @@ import { OpenViduSessionService } from '../../services/openvidu-session/openvidu
 import { CameraType, IDevice } from '../../types/device-type';
 import { DevicesService } from '../../services/devices/devices.service';
 import { Subscription } from 'rxjs';
-import { AvatarType } from '../../types/chat-type';
 import { LoggerService } from '../../services/logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { ScreenType } from '../../types/video-type';
 import { ExternalConfigModel } from '../../models/external-config';
 import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { VideoType } from '../../types/video-type';
 
 @Component({
   selector: 'app-room-config',
@@ -36,7 +23,6 @@ import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities'
   styleUrls: ['./room-config.component.css'],
 })
 export class RoomConfigComponent implements OnInit, OnDestroy {
-  private readonly USER_NICKNAME = 'openviduCallNickname';
   @ViewChild('bodyCard') bodyCard: ElementRef;
 
   @Input() externalConfig: ExternalConfigModel;
@@ -56,7 +42,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   isVideoActive = true;
   isAudioActive = true;
   oVUsersSubscription: Subscription;
-  localUsers: UserModel[] = [];
+  localUser: UserModel = null;
 
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
@@ -172,10 +158,10 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   }
 
   private subscribeToUsers() {
-    this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
-      this.localUsers = users;
-      if (users[0].session) {
-        this.handleSessionConfig(users[0]);
+    this.oVUsersSubscription = this.oVSessionService.userObs.subscribe(user => {
+      this.localUser = user;
+      if (this.localUser.session[0]) {
+        this.handleSessionConfig(this.localUser[0]);
       }
     });
   }
@@ -189,14 +175,14 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     const publishAudio = this.hasAudioDevices ? this.isAudioActive : false;
     const publishVideo = this.hasVideoDevices ? this.isVideoActive : false;
     const mirror = this.camSelected && this.camSelected.type === CameraType.FRONT;
-    const properties = this.oVSessionService.createProperties(
+    const properties = OpenViduSessionService.createProperties(
       videoSource,
       audioSource,
       publishVideo,
       publishAudio,
       mirror
     );
-    const publisher = this.oVSessionService.initCamPublisher(undefined, properties);
+    const publisher = this.oVSessionService.getUser().initializePublisher(VideoType.CAMERA, undefined, properties);
     this.handlePublisherSuccess(publisher);
     this.handlePublisherError(publisher);
   }
