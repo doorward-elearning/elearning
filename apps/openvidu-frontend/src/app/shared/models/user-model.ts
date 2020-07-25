@@ -13,7 +13,9 @@ export abstract class UserModel {
   private readonly connections: Partial<Record<VideoType, UserConnection>> = {};
 
   constructor(user: OpenviduUserSession) {
-    this.session = user;
+    if (user) {
+      this.updateSession(user);
+    }
   }
 
   public setConnection(connection: UserConnection) {
@@ -29,14 +31,13 @@ export abstract class UserModel {
   }
 
   public updateSession(session: OpenviduUserSession) {
-    this.session = session;
-
-    if (session.sessionConfig?.capabilities && session.sessionConfig.capabilities?.has) {
+    if (session.sessionConfig?.capabilities && !session.sessionConfig.capabilities?.has) {
       session.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
         MeetingCapabilities,
         (session.sessionConfig.capabilities as any).capabilities
       );
     }
+    this.session = session;
     this.forEach(connection => {
       connection.updateUser(session);
     });

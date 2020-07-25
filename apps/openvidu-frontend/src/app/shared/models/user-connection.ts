@@ -85,7 +85,7 @@ export default class UserConnection {
   }
 
   getStream(): Stream {
-    return this.getPublisher()?.stream;
+    return this.getStreamManager()?.stream;
   }
 
   getSubscriber() {
