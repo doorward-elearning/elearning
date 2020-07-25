@@ -5,10 +5,7 @@
         <h2>
           Participants
         </h2>
-        <mat-icon
-          matBadge="{{ remoteUsers?.length + localUsers?.length }}"
-          matBadgePosition="above before"
-          matBadgeColor="accent"
+        <mat-icon matBadge="{{ remoteUsers?.length + 1 }}" matBadgePosition="above before" matBadgeColor="accent"
           >people</mat-icon
         >
       </div>
@@ -19,14 +16,14 @@
       <div class="header-buttons">
         <mat-icon
           (click)="muteAll()"
-          *ngIf="localUsers[0]?.isModerator() && remoteUsers.length"
+          *ngIf="localUser?.isModerator() && remoteUsers.length"
           [matTooltip]="allMuted ? 'Unmute all' : 'Mute all'"
         >
           {{ allMuted ? 'mic_off' : 'mic_on' }}
         </mat-icon>
         <mat-icon
           (click)="turnOfVideoForAll()"
-          *ngIf="localUsers[0]?.isModerator() && remoteUsers.length"
+          *ngIf="localUser?.isModerator() && remoteUsers.length"
           [matTooltip]="allVideosTurnedOff ? 'Turn on all videos' : 'Turn off all videos'"
         >
           {{ allVideosTurnedOff ? 'videocam_off' : 'videocam_on' }}
@@ -34,7 +31,7 @@
       </div>
     </div>
     <div class="users-list">
-      <div *ngFor="let remoteUser of localUsers.concat(remoteUsers)" class="user">
+      <div *ngFor="let remoteUser of remoteUsers.concat(localUser).reverse()" class="user">
         <div class="avatar">
           <user-avatar [name]="remoteUser.getNickname()" [avatar]="remoteUser.getAvatar()"></user-avatar>
         </div>
@@ -47,17 +44,17 @@
         <div class="status">
           <mat-icon
             class="disabled tiny"
-            [ngClass]="!remoteUser.streamManager?.stream?.audioActive ? 'inactive' : ''"
-            [matTooltip]="remoteUser.streamManager?.stream?.audioActive ? 'Mic on' : 'Mic off'"
+            [ngClass]="!remoteUser.isAudioActive() ? 'inactive' : ''"
+            [matTooltip]="remoteUser.isAudioActive() ? 'Mic on' : 'Mic off'"
           >
-            {{ !remoteUser.streamManager?.stream?.audioActive ? 'mic_off' : 'mic_on' }}
+            {{ !remoteUser.isAudioActive() ? 'mic_off' : 'mic_on' }}
           </mat-icon>
           <mat-icon
             class="disabled tiny"
-            [ngClass]="!remoteUser.streamManager?.stream?.videoActive ? 'inactive' : ''"
-            [matTooltip]="remoteUser.streamManager?.stream?.videoActive ? 'Video on' : 'Video off'"
+            [ngClass]="!remoteUser.isVideoActive() ? 'inactive' : ''"
+            [matTooltip]="remoteUser.isVideoActive() ? 'Video on' : 'Video off'"
           >
-            {{ !remoteUser.streamManager?.stream?.videoActive ? 'videocam_off' : 'videocam_on' }}
+            {{ !remoteUser.isVideoActive() ? 'videocam_off' : 'videocam_on' }}
           </mat-icon>
         </div>
       </div>

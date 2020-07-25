@@ -16,6 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { VideoType } from '../../types/video-type';
+import { LocalUserModel } from '../../models/local-user-model';
 
 @Component({
   selector: 'app-room-config',
@@ -42,7 +43,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   isVideoActive = true;
   isAudioActive = true;
   oVUsersSubscription: Subscription;
-  localUser: UserModel = null;
+  localUser: LocalUserModel = null;
 
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;

@@ -1,28 +1,31 @@
 import { VideoType } from '../types/video-type';
 import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
-import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
-import Capabilities from '@doorward/common/utils/Capabilities';
 import UserConnection from './user-connection';
-import { Device, OpenVidu, Publisher, PublisherProperties } from 'openvidu-browser';
+import Capabilities from '@doorward/common/utils/Capabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 /**
  * Packs all the information about the user
  */
-export class UserModel {
+export abstract class UserModel {
   session: OpenviduUserSession;
 
-  private readonly connections: Record<VideoType, UserConnection>;
-
-  private readonly openvidu: OpenVidu;
+  private readonly connections: Partial<Record<VideoType, UserConnection>> = {};
 
   constructor(user: OpenviduUserSession) {
-    this.openvidu = new OpenVidu();
     this.session = user;
-    this.connections = {
-      CAMERA: new UserConnection(user, VideoType.CAMERA, this.openvidu, this.hasCamera()),
-      SCREEN: new UserConnection(user, VideoType.SCREEN, this.openvidu, this.hasScreen()),
-      WHITEBOARD: new UserConnection(user, VideoType.WHITEBOARD, this.openvidu, this.hasWhiteboard()),
-    };
+  }
+
+  public setConnection(connection: UserConnection) {
+    this.connections[connection.getType()] = connection;
+  }
+
+  public getNickname(): string {
+    return this.session?.user?.name;
+  }
+
+  public getAvatar(): string {
+    return this.session?.user?.avatar;
   }
 
   public updateSession(session: OpenviduUserSession) {
@@ -39,21 +42,8 @@ export class UserModel {
     });
   }
 
-  public getNickname(): string {
-    return this.session?.user?.name;
-  }
-
-  public getAvatar(): string {
-    return this.session?.user?.avatar;
-  }
-
-  public isLocal(): boolean {
-    return !this.isRemote();
-  }
-
-  public isRemote(): boolean {
-    return this.connections.CAMERA.getPublisher().remote;
-  }
+  public abstract isLocal(): boolean;
+  public abstract isRemote(): boolean;
 
   public setUserAvatar(img?: string) {
     this.session.user.avatar = img;
@@ -135,23 +125,8 @@ export class UserModel {
     return Object.keys(this.connections).map(conn => ({ type: conn as VideoType, connection: this.connections[conn] }));
   }
 
-  public async connect() {
-    return Promise.all(
-      this.getConnections().map(async ({ type, connection }) => {
-        const { sessionInfo } = this.session;
-        const token = {
-          [VideoType.WHITEBOARD]: sessionInfo.whiteboardToken,
-          [VideoType.SCREEN]: sessionInfo.screenToken,
-          [VideoType.CAMERA]: sessionInfo.webcamToken,
-        };
-
-        return connection.connect(token[type], this.session);
-      })
-    );
-  }
-
-  getDevices(): Promise<Device[]> {
-    return this.openvidu.getDevices();
+  public getConnection(type: VideoType): UserConnection {
+    return this.connections[type];
   }
 
   getConnectedSession(): UserConnection | null {
@@ -163,27 +138,9 @@ export class UserModel {
     return !!this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
   }
 
-  initializePublisher(
-    type: VideoType,
-    targetElement: string | HTMLElement,
-    properties: PublisherProperties
-  ): Publisher {
-    return this.connections[type].initializePublisher(targetElement, properties);
-  }
-
   getByConnectionId(connectionId: string): UserConnection | undefined {
     const conn = this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
     return conn ? conn.connection : undefined;
-  }
-
-  destroyAll() {
-    this.forEach(connection => connection.destroy());
-  }
-
-  disconnectAll() {
-    this.forEach(connection => {
-      connection.disconnectSession();
-    });
   }
 
   connectionEnabled(type: VideoType) {
@@ -206,5 +163,13 @@ export class UserModel {
     return this.getConnections()
       .map(({ connection }) => (connection.isActive() ? connection : null))
       .filter(conn => !!conn);
+  }
+
+  isAudioActive(): boolean {
+    return this.getCamera().isAudioActive();
+  }
+
+  isVideoActive(): boolean {
+    return this.getCamera().isVideoActive();
   }
 }

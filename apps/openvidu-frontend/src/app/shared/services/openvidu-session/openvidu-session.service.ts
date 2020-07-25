@@ -7,6 +7,7 @@ import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 import UserConnection from '../../models/user-connection';
+import { LocalUserModel } from '../../models/local-user-model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,8 +21,8 @@ export class OpenViduSessionService {
   private sessionId = '';
   private log: ILogger;
 
-  userObs: Observable<UserModel>;
-  private _user = new BehaviorSubject<UserModel>(null);
+  userObs: Observable<LocalUserModel>;
+  private _user = new BehaviorSubject<LocalUserModel>(null);
 
   static createProperties(
     videoSource: string | MediaStreamTrack | boolean,
@@ -40,7 +41,7 @@ export class OpenViduSessionService {
   }
 
   initialize(session: OpenviduUserSession) {
-    this._user.next(new UserModel(session));
+    this._user.next(new LocalUserModel(session));
   }
 
   updateLocalUserSession(callback: (user: UserModel) => UserModel) {
@@ -53,7 +54,7 @@ export class OpenViduSessionService {
     this._user.next(userModel);
   }
 
-  getUser(): UserModel {
+  getUser(): LocalUserModel {
     return this._user.getValue();
   }
 
