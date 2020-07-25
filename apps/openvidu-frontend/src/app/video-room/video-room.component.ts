@@ -79,7 +79,6 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   compact = false;
   sidenavMode: 'side' | 'over' = 'side';
   lightTheme: boolean;
-  showConfigRoomCard = true;
   session: Session;
   sessionScreen: Session;
   openviduLayout: OpenViduLayout;
@@ -163,10 +162,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       sessionConfig: this.externalConfig.sessionConfig,
       sessionInfo: this.externalConfig.sessionInfo,
     };
-    this.oVSessionService.initialize(userSession);
-    if (!this.showConfigRoomCard) {
-      this.onConfigRoomJoin();
-    }
+    this.oVSessionService.setLocalUserSession(userSession);
   }
 
   ngOnDestroy() {
@@ -207,15 +203,10 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   }
 
   joinToSession() {
-    this.session = this.oVSessionService
-      .getUser()
-      .getCamera()
-      .getSession();
+    this.oVSessionService.initialize();
+    this.session = this.localUser.getCamera().getSession();
     this._session.emit(this.session);
-    this.sessionScreen = this.oVSessionService
-      .getUser()
-      .getScreen()
-      .getSession();
+    this.sessionScreen = this.localUser.getScreen().getSession();
     this.subscribeToStreamCreated();
     this.subscribeToStreamDestroyed();
     this.subscribeToStreamPropertyChange();
@@ -225,11 +216,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.subscribeToSideNav();
     this.subscribeToReconnection();
     this.connectToSession().then(() => {
-      // this.signalService.subscribeAll();
-      // this.signalService.subscribeToLeaveSession(() => {
-      //   this.oVSessionService.disconnect();
-      //   this._leaveSession.emit();
-      // });
+      this.signalService.subscribeAll();
+      this.signalService.subscribeToLeaveSession(() => {
+        this.oVSessionService.disconnect();
+        this._leaveSession.emit();
+      });
     });
   }
 
@@ -403,9 +394,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
     await this.connectAllSessions();
 
-    this.localUser.getEnabledConnections().forEach(connection => {
-      connection.publish();
-    });
+    Promise.all(
+      this.localUser.getEnabledConnections().map(async connection => {
+        await connection.publish();
+      })
+    );
 
     // !Deprecated
     this._joinSession.emit();
@@ -438,10 +431,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       if (this.oVSessionService.isMyOwnConnection(connectionId)) {
         return;
       }
-
       const subscriber: Subscriber = this.session.subscribe(event.stream, undefined);
       this.remoteUsersService.add(event, subscriber);
-      this.sendNicknameSignal(this.oVSessionService.getUserSession().user.name, event.stream.connection);
     });
   }
 
@@ -594,15 +585,15 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   }
 
   private subscribeToLocalUsers() {
-    this.oVUsersSubscription = this.oVSessionService.userObs.subscribe(users => {
-      this.localUser = users;
+    this.oVUsersSubscription = this.oVSessionService.userObs.subscribe(user => {
+      this.localUser = user;
       this.updateOpenViduLayout();
     });
   }
 
   private subscribeToRemoteUsers() {
     this.remoteUsersSubscription = this.remoteUsersService.remoteUsers.subscribe(users => {
-      this.remoteUsers = [...users];
+      this.remoteUsers = users;
       this.updateOpenViduLayout();
     });
   }

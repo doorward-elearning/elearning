@@ -1,4 +1,13 @@
-import { Connection, OpenVidu, Publisher, PublisherProperties, Session, Stream, Subscriber } from 'openvidu-browser';
+import {
+  Connection,
+  OpenVidu,
+  Publisher,
+  PublisherProperties,
+  Session,
+  Stream,
+  StreamManager,
+  Subscriber,
+} from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 
@@ -6,18 +15,17 @@ export default class UserConnection {
   private active = false;
   private session: Session;
   private openvidu: OpenVidu;
-  private streamManager: Subscriber | Publisher | undefined;
+  private streamManager: StreamManager | undefined;
   private readonly type: VideoType;
   private user: OpenviduUserSession;
   private zoomedIn = false;
   private mediaStream: MediaStream;
 
-  constructor(user: OpenviduUserSession, type: VideoType, openvidu?: OpenVidu, active = true) {
+  constructor(user: OpenviduUserSession, type: VideoType, active = true) {
     this.active = active;
-    this.openvidu = openvidu;
+    this.openvidu = new OpenVidu();
     this.type = type;
     this.user = user;
-    this.initializeSession();
   }
 
   updateUser(user: OpenviduUserSession) {
@@ -40,17 +48,13 @@ export default class UserConnection {
     return publisher;
   }
 
-  setSubscriber(subscriber: Subscriber) {
-    this.streamManager = subscriber;
-  }
-
-  setPublisher(publisher: Publisher) {
-    this.streamManager = publisher;
+  setStreamManager(streamManager: StreamManager) {
+    this.streamManager = streamManager;
     this.enable();
   }
 
   async publish() {
-    if (this.streamManager) {
+    if (this.getPublisher()) {
       return await this.session.publish(this.getPublisher());
     }
   }
@@ -92,12 +96,16 @@ export default class UserConnection {
     return !!(this.streamManager as Publisher)?.publishVideo;
   }
 
+  getStreamManager(): StreamManager {
+    return this.streamManager;
+  }
+
   getPublisher(): Publisher {
     return this.isPublisher() ? (this.streamManager as Publisher) : null;
   }
 
   async connect(token: string, data: OpenviduUserSession) {
-    return this.session.connect(token, data);
+    return await this.session.connect(token, data);
   }
 
   isAudioActive() {
@@ -197,6 +205,10 @@ export default class UserConnection {
       this.session.disconnect();
       this.session = null;
     }
+  }
+
+  disposeSession() {
+    this.session = null;
   }
 
   stopAudioTracks() {

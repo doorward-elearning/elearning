@@ -16,7 +16,6 @@ import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../../services/signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
-import { VideoType } from '../../types/video-type';
 import UserConnection from '../../models/user-connection';
 
 @Component({
@@ -26,16 +25,13 @@ import UserConnection from '../../models/user-connection';
 })
 export class StreamComponent implements OnInit {
   @Input() localUser: UserModel;
-  @Input() type: VideoType;
-  user: UserModel;
+  @Input() user: UserModel;
 
   @Output() replaceScreenTrackClicked = new EventEmitter<any>();
   @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
   isFullscreen: boolean;
   isZoomedIn: boolean;
-
-  connection: UserConnection;
 
   @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
 
@@ -50,25 +46,18 @@ export class StreamComponent implements OnInit {
     this.isFullscreen = maxWidth === curWidth && maxHeight === curHeight;
   }
 
-  @Input()
-  set currentUser(user: UserModel) {
-    this.user = user;
-    this.connection = this.user.getConnection(this.type);
-    this.isZoomedIn = this.connection.isZoomedIn();
-  }
-
   ngOnInit() {}
 
-  toggleVideoSize(resetAll?) {
+  toggleVideoSize(connection: UserConnection, resetAll?) {
     const element = this.utilsSrv.getHTMLElementByClassName(
       this.streamComponent.element.nativeElement,
       LayoutType.ROOT_CLASS
     );
-    this.toggleVideoSizeClicked.emit({ element, connectionId: this.connection.getConnectionId(), resetAll });
+    this.toggleVideoSizeClicked.emit({ element, connectionId: connection.getConnectionId(), resetAll });
   }
 
-  toggleFullscreen() {
-    this.utilsSrv.toggleFullscreen('container-' + this.connection.getStream().streamId);
+  toggleFullscreen(connection: UserConnection) {
+    this.utilsSrv.toggleFullscreen('container-' + connection.getStream().streamId);
   }
 
   toggleSound() {

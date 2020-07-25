@@ -1,5 +1,4 @@
 import { UserModel } from './user-model';
-import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 import { VideoType } from '../types/video-type';
 import UserConnection from './user-connection';
 import { Device, OpenVidu, Publisher, PublisherProperties } from 'openvidu-browser';
@@ -7,12 +6,18 @@ import { Device, OpenVidu, Publisher, PublisherProperties } from 'openvidu-brows
 export class LocalUserModel extends UserModel {
   private readonly openvidu: OpenVidu;
 
-  constructor(user: OpenviduUserSession) {
-    super(user);
+  constructor() {
+    super(null);
     this.openvidu = new OpenVidu();
-    this.setConnection(new UserConnection(user, VideoType.CAMERA, this.openvidu, this.hasCamera()));
-    this.setConnection(new UserConnection(user, VideoType.SCREEN, this.openvidu, this.hasScreen()));
-    this.setConnection(new UserConnection(user, VideoType.WHITEBOARD, this.openvidu, this.hasWhiteboard()));
+    this.setConnection(new UserConnection(null, VideoType.CAMERA, true));
+    this.setConnection(new UserConnection(null, VideoType.SCREEN, false));
+    this.setConnection(new UserConnection(null, VideoType.WHITEBOARD, false));
+  }
+
+  initialize() {
+    this.forEach(connection => {
+      connection.initializeSession();
+    });
   }
 
   public isLocal(): boolean {
@@ -24,20 +29,10 @@ export class LocalUserModel extends UserModel {
   }
 
   public async connect() {
-    return Promise.all(
-      this.getConnections()
-        .filter(conn => !!conn.connection.getPublisher())
-        .map(async ({ type, connection }) => {
-          const { sessionInfo } = this.session;
-          const token = {
-            [VideoType.WHITEBOARD]: sessionInfo.whiteboardToken,
-            [VideoType.SCREEN]: sessionInfo.screenToken,
-            [VideoType.CAMERA]: sessionInfo.webcamToken,
-          };
-
-          return connection.connect(token[type], this.session);
-        })
-    );
+    const { sessionInfo } = this.session;
+    await this.getCamera().connect(sessionInfo.webcamToken, this.session);
+    await this.getScreen().connect(sessionInfo.screenToken, this.session);
+    await this.getWhiteboard().connect(sessionInfo.whiteboardToken, this.session);
   }
 
   getDevices(): Promise<Device[]> {
@@ -60,5 +55,11 @@ export class LocalUserModel extends UserModel {
     this.forEach(connection => {
       connection.disconnectSession();
     });
+  }
+
+  getActiveSession(): UserConnection {
+    return this.getConnections()
+      .map(({ connection }) => connection)
+      .find(session => !!session.getSession());
   }
 }
