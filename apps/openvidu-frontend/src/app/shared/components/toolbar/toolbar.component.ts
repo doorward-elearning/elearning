@@ -3,9 +3,8 @@ import { UtilsService } from '../../services/utils/utils.service';
 import { VideoFullscreenIcon } from '../../types/icon-type';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
-import { MeetingCapabilitiesComponent, OpenviduTheme } from '@doorward/common/types/openvidu';
+import { MeetingCapabilitiesComponent } from '@doorward/common/types/openvidu';
 import { UserModel } from '../../models/user-model';
 import { ExternalConfigModel } from '../../models/external-config';
 

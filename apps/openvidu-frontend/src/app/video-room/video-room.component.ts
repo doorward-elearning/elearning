@@ -49,6 +49,8 @@ import {
 } from '@doorward/common/types/openvidu';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { LocalUserModel } from '../shared/models/local-user-model';
+import { RemoteUserModel } from '../shared/models/remote-user-model';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -84,8 +86,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   openviduLayout: OpenViduLayout;
   openviduLayoutOptions: OpenViduLayoutOptions;
   mySessionId: string;
-  localUser: UserModel;
-  remoteUsers: UserModel[] = [];
+  localUser: LocalUserModel;
+  remoteUsers: RemoteUserModel[] = [];
   isConnectionLost: boolean;
   isAutoLayout = false;
   hasVideoDevices: boolean;

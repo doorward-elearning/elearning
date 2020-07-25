@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  ElementRef,
   EventEmitter,
   Inject,
   Input,
@@ -9,7 +8,6 @@ import {
   OnInit,
   Output,
   ViewChild,
-  ViewContainerRef,
 } from '@angular/core';
 import _ from 'lodash';
 import { DOCUMENT } from '@angular/common';

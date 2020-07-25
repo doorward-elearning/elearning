@@ -1,4 +1,4 @@
-import { Connection, OpenVidu, Publisher, PublisherProperties, Session, Stream, StreamManager } from 'openvidu-browser';
+import { Connection, OpenVidu, Publisher, PublisherProperties, Session, Stream, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
 import { OpenviduUserSession } from '@doorward/common/types/openvidu';
 
@@ -6,13 +6,13 @@ export default class UserConnection {
   private active = false;
   private session: Session;
   private openvidu: OpenVidu;
-  private publisher: Publisher | undefined;
+  private streamManager: Subscriber | Publisher | undefined;
   private readonly type: VideoType;
   private user: OpenviduUserSession;
   private zoomedIn = false;
   private mediaStream: MediaStream;
 
-  constructor(user: OpenviduUserSession, type: VideoType, openvidu: OpenVidu, active = true) {
+  constructor(user: OpenviduUserSession, type: VideoType, openvidu?: OpenVidu, active = true) {
     this.active = active;
     this.openvidu = openvidu;
     this.type = type;
@@ -25,44 +25,50 @@ export default class UserConnection {
   }
 
   initializeSession() {
-    this.session = this.openvidu.initSession();
+    if (this.openvidu) {
+      this.session = this.openvidu.initSession();
+    }
   }
 
   initializePublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
     const publisher = this.openvidu.initPublisher(targetElement, properties);
 
     publisher.once('streamPlaying', () => {
-      this.publisher = publisher;
+      this.streamManager = publisher;
     });
 
     publisher.once('accessDenied', () => {});
     return publisher;
   }
 
+  setSubscriber(subscriber: Subscriber) {
+    this.streamManager = subscriber;
+  }
+
   setPublisher(publisher: Publisher) {
-    this.publisher = publisher;
+    this.streamManager = publisher;
     this.enable();
   }
 
   async publish() {
-    if (this.publisher) {
-      return await this.session.publish(this.publisher);
+    if (this.streamManager) {
+      return await this.session.publish(this.getPublisher());
     }
   }
 
   async unPublish() {
-    if (this.publisher) {
+    if (this.streamManager) {
       if (this.isAudioActive()) {
-        this.publisher.publishAudio(false);
+        this.getPublisher().publishAudio(false);
       }
-      return this.session.unpublish(this.publisher);
+      return this.session.unpublish(this.getPublisher());
     }
   }
 
   destroy() {
-    if (this.publisher) {
-      this.publisher.stream.disposeWebRtcPeer();
-      this.publisher.stream.disposeMediaStream();
+    if (this.streamManager) {
+      this.streamManager.stream.disposeWebRtcPeer();
+      this.streamManager.stream.disposeMediaStream();
     }
     this.disable();
   }
@@ -79,8 +85,16 @@ export default class UserConnection {
     return this.getPublisher().stream;
   }
 
+  getSubscriber() {
+    return this.isPublisher() ? null : (this.streamManager as Subscriber);
+  }
+
+  isPublisher(): boolean {
+    return !!(this.streamManager as Publisher).publishVideo;
+  }
+
   getPublisher(): Publisher {
-    return this.publisher;
+    return this.isPublisher() ? (this.streamManager as Publisher) : null;
   }
 
   async connect(token: string, data: OpenviduUserSession) {
@@ -146,6 +160,10 @@ export default class UserConnection {
     this.zoomedIn = false;
   }
 
+  setZoom(value: boolean) {
+    this.zoomedIn = value;
+  }
+
   toggleZoom() {
     this.zoomedIn = !this.zoomedIn;
   }
@@ -159,20 +177,20 @@ export default class UserConnection {
   }
 
   publishAudio(value: boolean) {
-    if (this.publisher) {
-      this.publisher.publishAudio(value);
+    if (this.streamManager) {
+      this.getPublisher().publishAudio(value);
     }
   }
 
   publishVideo(value: boolean) {
-    if (this.publisher) {
-      this.publisher.publishVideo(value);
+    if (this.streamManager) {
+      this.getPublisher().publishVideo(value);
     }
   }
 
   async createMediaStream(properties: PublisherProperties) {
     this.mediaStream = await this.openvidu.getUserMedia(properties);
-    await this.publisher.replaceTrack(this.mediaStream.getVideoTracks()[0]);
+    await this.getPublisher().replaceTrack(this.mediaStream.getVideoTracks()[0]);
   }
 
   disconnectSession() {
@@ -194,5 +212,9 @@ export default class UserConnection {
     this.mediaStream?.getVideoTracks().forEach(track => {
       track.stop();
     });
+  }
+
+  getType(): VideoType {
+    return this.type;
   }
 }
