@@ -172,4 +172,8 @@ export abstract class UserModel {
   isVideoActive(): boolean {
     return this.getCamera().isVideoActive();
   }
+
+  getActiveSession(): UserConnection {
+    return this.getEnabledConnections().find(session => session.getSession() != null);
+  }
 }

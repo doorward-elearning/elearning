@@ -49,7 +49,7 @@ export class SignalsService {
 
   subscribeToToggleAudio() {
     this.subscribe(SignalTypes.TOGGLE_AUDIO, (data, event) => {
-      const active = this.openviduService.hasWebcamAudioActive();
+      const active = this.openviduService.getUser().isAudioActive();
       if (data.request) {
         const title = active ? 'Mute' : 'Unmute';
         const message = active
@@ -93,18 +93,16 @@ export class SignalsService {
   }
 
   subscribeToLocalUserUpdate() {
-    this.openviduService.getUsers().subscribe(next => {
-      next.forEach(user => {
-        this.send(SignalTypes.USER_UPDATED, {
-          session: user.session,
-        });
+    this.openviduService.userObs.subscribe(user => {
+      this.send(SignalTypes.USER_UPDATED, {
+        session: user.session,
       });
     });
   }
 
   subscribeToToggleVideo() {
     this.subscribe(SignalTypes.TOGGLE_VIDEO, (data, event) => {
-      const active = this.openviduService.hasWebcamVideoActive();
+      const active = this.openviduService.getUser().isVideoActive();
       if (data.request) {
         const title = active ? 'Turn off video' : 'Turn on video';
         const message = active
@@ -122,7 +120,7 @@ export class SignalsService {
             {
               text: button,
               onClick: () => {
-                this.openviduService.publishVideo(!active);
+                this.openviduService.publishWebcam(!active);
                 this.openviduService.updateLocalUserSession(user => {
                   user.addCapability(MeetingCapabilities.PUBLISH_VIDEO);
                   return user;
@@ -132,13 +130,16 @@ export class SignalsService {
           ]
         );
       } else {
-        this.openviduService.publishVideo(!active);
+        this.openviduService.publishWebcam(!active);
       }
     });
   }
 
   send<T extends SignalTypes>(type: T, data: SignalData[T], to?: Array<UserModel>) {
-    const session = this.openviduService.getWebcamSession();
+    const session = this.openviduService
+      .getUser()
+      .getActiveSession()
+      .getSession();
     const participants = to || [];
     if (!to) {
       participants.push(...this.remoteUsers);
@@ -147,14 +148,19 @@ export class SignalsService {
       const signalOptions: SignalOptions = {
         data: JSON.stringify(data),
         type: type,
-        to: participants.map(participant => participant.streamManager?.stream?.connection).filter(conn => !!conn),
+        to: participants
+          .map(participant => participant.getActiveSession().getStream().connection)
+          .filter(conn => !!conn),
       };
       return session.signal(signalOptions);
     }
   }
 
-  subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>, webCam = true): EventDispatcher {
-    const session = webCam ? this.openviduService.getWebcamSession() : this.openviduService.getScreenSession();
+  subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>): EventDispatcher {
+    const session = this.openviduService
+      .getUser()
+      .getActiveSession()
+      .getSession();
     if (session) {
       return session.on('signal:' + type, (event: SignalEvent) => {
         try {
