@@ -2,6 +2,7 @@ import { UserModel } from './user-model';
 import UserConnection from './user-connection';
 
 export class RemoteUserModel extends UserModel {
+
   isLocal(): boolean {
     return false;
   }

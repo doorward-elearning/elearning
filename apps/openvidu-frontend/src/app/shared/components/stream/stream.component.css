@@ -22,7 +22,7 @@ video {
 .videoStatusInfo {
   bottom: 0;
   left: 0;
-  display: none;
+  display: grid;
   position: absolute;
   width: 100%;
   z-index: 2;
@@ -91,10 +91,6 @@ video {
   height: 100%;
   position: absolute;
   overflow: hidden;
-}
-
-.OT_widget-container:hover .videoStatusInfo {
-  display: grid;
 }
 
 mat-error,

@@ -141,22 +141,20 @@ export class SignalsService {
 
   send<T extends SignalTypes>(type: T, data: SignalData[T], to?: Array<UserModel>) {
     const connection = this.localUser.getActiveSession();
-    if (connection) {
-      const session = connection.getSession();
-      const participants = to || [];
-      if (!to) {
-        participants.push(...this.remoteUsers);
-      }
-      if (session) {
-        const signalOptions: SignalOptions = {
-          data: JSON.stringify(data),
-          type: type,
-          to: participants
-            .map(participant => participant.getActiveSession().getStream()?.connection)
-            .filter(conn => !!conn),
-        };
-        return session.signal(signalOptions);
-      }
+    const session = connection.getSession();
+    const participants = to || [];
+    if (!to) {
+      participants.push(...this.remoteUsers);
+    }
+    if (session) {
+      const signalOptions: SignalOptions = {
+        data: JSON.stringify(data),
+        type: type,
+        to: participants
+          .map(participant => participant.getActiveSession().getStream()?.connection)
+          .filter(conn => !!conn),
+      };
+      return session.signal(signalOptions);
     }
   }
 

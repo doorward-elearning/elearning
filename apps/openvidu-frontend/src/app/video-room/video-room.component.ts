@@ -456,7 +456,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         return;
       }
       if (event.changedProperty === 'videoActive') {
-        this.remoteUsersService.updateUsers();
+        const allUsers = this.remoteUsers;
+        this.remoteUsersService.updateUsers(allUsers);
       }
     });
   }
@@ -593,7 +594,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   private subscribeToRemoteUsers() {
     this.remoteUsersSubscription = this.remoteUsersService.remoteUsers.subscribe(users => {
-      this.remoteUsers = users;
+      this.remoteUsers = [...users];
       this.updateOpenViduLayout();
     });
   }

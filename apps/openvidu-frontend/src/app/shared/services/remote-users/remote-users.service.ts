@@ -25,8 +25,8 @@ export class RemoteUsersService {
     this.remoteUsers = this._remoteUsers.asObservable();
   }
 
-  updateUsers() {
-    this._remoteUsers.next(this.users);
+  updateUsers(users = this.users) {
+    this._remoteUsers.next(users);
   }
 
   getRemoteUsers(): Observable<RemoteUserModel[]> {

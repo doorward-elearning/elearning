@@ -21,7 +21,11 @@
         fixedTopGap="0"
         fixedBottomGap="0"
       >
-        <chat-component (closeButtonClicked)="toggleChat()" [lightTheme]="lightTheme"></chat-component>
+        <chat-component
+          (closeButtonClicked)="toggleChat()"
+          *ngIf="utilsSrv.isChatOpen() && localUser.can(MeetingCapabilities.CHAT)"
+          [lightTheme]="lightTheme"
+        ></chat-component>
         <participants-list
           *ngIf="utilsSrv.isParticipantsOpen()"
           (muteAllButtonClicked)="this.toggleEveryoneMic($event)"
