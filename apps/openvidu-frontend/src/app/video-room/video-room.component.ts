@@ -23,7 +23,6 @@ import {
   Subscriber,
 } from 'openvidu-browser';
 import { OpenViduLayout, OpenViduLayoutOptions } from '../shared/layout/openvidu-layout';
-import { UserModel } from '../shared/models/user-model';
 import { OvSettingsModel } from '../shared/models/ovSettings';
 import { ScreenType, VideoType } from '../shared/types/video-type';
 import { ILogger } from '../shared/types/logger-type';
@@ -226,11 +225,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.subscribeToSideNav();
     this.subscribeToReconnection();
     this.connectToSession().then(() => {
-      this.signalService.subscribeAll();
-      this.signalService.subscribeToLeaveSession(() => {
-        this.oVSessionService.disconnect();
-        this._leaveSession.emit();
-      });
+      // this.signalService.subscribeAll();
+      // this.signalService.subscribeToLeaveSession(() => {
+      //   this.oVSessionService.disconnect();
+      //   this._leaveSession.emit();
+      // });
     });
   }
 
@@ -419,9 +418,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       await this.oVSessionService.connectSessions();
 
       this.localUser.forEach(connection => {
-        connection.getPublisher().on('streamPlaying', () => {
-          connection.getPublisher().videos[0].video.parentElement.classList.remove('custom-class');
-        });
+        if (connection.getPublisher()) {
+          connection.getPublisher().on('streamPlaying', () => {
+            connection.getPublisher().videos[0].video.parentElement.classList.remove('custom-class');
+          });
+        }
       });
     } catch (error) {
       this._error.emit({ error: error.error, message: error.message, code: error.code, status: error.status });

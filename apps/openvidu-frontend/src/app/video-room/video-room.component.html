@@ -8,7 +8,7 @@
     (publisherCreated)="emitPublisher($event)"
   ></app-room-config>
 
-  <div *ngIf="localUsers && localUsers.length > 0">
+  <div *ngIf="localUser">
     <div *ngIf="isConnectionLost" class="reconnecting-container"></div>
 
     <mat-sidenav-container class="sidenav-container" id="room-container" [class.boundsLight]="lightTheme" fullscreen>
@@ -39,15 +39,12 @@
         <app-toolbar
           [lightTheme]="lightTheme"
           [compact]="compact"
-          [localUser]="localUsers[0]"
+          [localUser]="localUser"
           [mySessionId]="mySessionId"
           [sessionTitle]="externalConfig.sessionTitle || mySessionId"
           [hasVideoDevices]="hasVideoDevices"
           [hasAudioDevices]="hasAudioDevices"
           [whiteboardActive]="whiteboardShown"
-          [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"
-          [isWebcamAudioEnabled]="toolbarMicIconEnabled()"
-          [isScreenEnabled]="oVSessionService.isScreenShareEnabled()"
           [isAutoLayout]="isAutoLayout"
           [isConnectionLost]="isConnectionLost"
           (camButtonClicked)="toggleCam()"
@@ -68,12 +65,15 @@
           [class.boundsLight]="lightTheme"
           [style.display]="whiteboardShown ? 'none' : 'block'"
         >
-          <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
+          <div
+            class="OT_root OT_publisher custom-class"
+            id="localUser"
+            *ngFor="let connection of localUser.getEnabledConnections()"
+          >
             <stream-component
-              [user]="localUser"
-              [localUser]="getLocalUser()"
-              [videoSizeBig]="localUser.isVideoSizeBig()"
-              (nicknameClicked)="onNicknameUpdate($event)"
+              [type]="connection.getType()"
+              [localUser]="localUser"
+              [currentUser]="localUser"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
@@ -82,8 +82,9 @@
           <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
             <stream-component
               [localUser]="getLocalUser()"
-              [user]="user"
-              [videoSizeBig]="user.isVideoSizeBig()"
+              *ngFor="let connection of user.getEnabledConnections()"
+              [currentUser]="user"
+              [type]="connection.getType()"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
           </div>

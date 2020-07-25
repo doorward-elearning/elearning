@@ -32,10 +32,9 @@ export default class UserConnection {
 
   initializePublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
     const publisher = this.openvidu.initPublisher(targetElement, properties);
+    this.streamManager = publisher;
 
-    publisher.once('streamPlaying', () => {
-      this.streamManager = publisher;
-    });
+    publisher.once('streamPlaying', () => {});
 
     publisher.once('accessDenied', () => {});
     return publisher;
@@ -74,15 +73,15 @@ export default class UserConnection {
   }
 
   getConnectionId() {
-    return this.getConnection().connectionId;
+    return this.getConnection()?.connectionId;
   }
 
   getConnection(): Connection {
-    return this.getStream().connection;
+    return this.getStream()?.connection;
   }
 
   getStream(): Stream {
-    return this.getPublisher().stream;
+    return this.getPublisher()?.stream;
   }
 
   getSubscriber() {
@@ -90,7 +89,7 @@ export default class UserConnection {
   }
 
   isPublisher(): boolean {
-    return !!(this.streamManager as Publisher).publishVideo;
+    return !!(this.streamManager as Publisher)?.publishVideo;
   }
 
   getPublisher(): Publisher {
@@ -102,11 +101,11 @@ export default class UserConnection {
   }
 
   isAudioActive() {
-    return this.getStream().audioActive;
+    return this.getStream()?.audioActive;
   }
 
   isVideoActive() {
-    return this.getStream().videoActive;
+    return this.getStream()?.videoActive;
   }
 
   isActive(): boolean {

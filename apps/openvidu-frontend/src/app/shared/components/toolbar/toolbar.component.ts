@@ -22,9 +22,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Input() whiteboardActive: boolean;
   @Input() localUser: UserModel | undefined;
 
-  @Input() isWebcamVideoEnabled: boolean;
-  @Input() isWebcamAudioEnabled: boolean;
-  @Input() isScreenEnabled: boolean;
   @Input() isAutoLayout: boolean;
   @Input() isConnectionLost: boolean;
   @Input() hasVideoDevices: boolean;
