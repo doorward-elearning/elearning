@@ -6,6 +6,7 @@ import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { LocalUserModel } from '../../models/local-user-model';
 
 export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
 
@@ -14,7 +15,7 @@ export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: 
 })
 export class SignalsService {
   remoteUsers: Array<UserModel>;
-  localUsers: Array<UserModel>;
+  localUser: LocalUserModel;
 
   constructor(
     private openviduService: OpenViduSessionService,
@@ -23,6 +24,9 @@ export class SignalsService {
   ) {
     this.remoteUsersService.remoteUsers.subscribe(next => {
       this.remoteUsers = [...next];
+    });
+    this.openviduService.userObs.subscribe(user => {
+      this.localUser = user;
     });
   }
 
@@ -136,31 +140,28 @@ export class SignalsService {
   }
 
   send<T extends SignalTypes>(type: T, data: SignalData[T], to?: Array<UserModel>) {
-    const session = this.openviduService
-      .getUser()
-      .getActiveSession()
-      .getSession();
-    const participants = to || [];
-    if (!to) {
-      participants.push(...this.remoteUsers);
-    }
-    if (session) {
-      const signalOptions: SignalOptions = {
-        data: JSON.stringify(data),
-        type: type,
-        to: participants
-          .map(participant => participant.getActiveSession().getStream().connection)
-          .filter(conn => !!conn),
-      };
-      return session.signal(signalOptions);
+    const connection = this.localUser.getActiveSession();
+    if (connection) {
+      const session = connection.getSession();
+      const participants = to || [];
+      if (!to) {
+        participants.push(...this.remoteUsers);
+      }
+      if (session) {
+        const signalOptions: SignalOptions = {
+          data: JSON.stringify(data),
+          type: type,
+          to: participants
+            .map(participant => participant.getActiveSession().getStream()?.connection)
+            .filter(conn => !!conn),
+        };
+        return session.signal(signalOptions);
+      }
     }
   }
 
   subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>): EventDispatcher {
-    const session = this.openviduService
-      .getUser()
-      .getActiveSession()
-      .getSession();
+    const session = this.localUser.getActiveSession().getSession();
     if (session) {
       return session.on('signal:' + type, (event: SignalEvent) => {
         try {

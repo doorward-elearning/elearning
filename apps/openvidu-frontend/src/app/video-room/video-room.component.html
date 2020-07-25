@@ -1,6 +1,5 @@
 <div id="videoRoomNavBar" [class.boundsLight]="lightTheme">
   <app-room-config
-    *ngIf="showConfigRoomCard"
     [ovSettings]="ovSettings"
     [externalConfig]="externalConfig"
     (join)="onConfigRoomJoin()"
@@ -22,11 +21,7 @@
         fixedTopGap="0"
         fixedBottomGap="0"
       >
-        <chat-component
-          (closeButtonClicked)="toggleChat()"
-          *ngIf="utilsSrv.isChatOpen() && getLocalUser().can(MeetingCapabilities.CHAT)"
-          [lightTheme]="lightTheme"
-        ></chat-component>
+        <chat-component (closeButtonClicked)="toggleChat()" [lightTheme]="lightTheme"></chat-component>
         <participants-list
           *ngIf="utilsSrv.isParticipantsOpen()"
           (muteAllButtonClicked)="this.toggleEveryoneMic($event)"
@@ -65,15 +60,10 @@
           [class.boundsLight]="lightTheme"
           [style.display]="whiteboardShown ? 'none' : 'block'"
         >
-          <div
-            class="OT_root OT_publisher custom-class"
-            id="localUser"
-            *ngFor="let connection of localUser.getEnabledConnections()"
-          >
+          <div class="OT_root OT_publisher custom-class" id="localUser">
             <stream-component
-              [type]="connection.getType()"
               [localUser]="localUser"
-              [currentUser]="localUser"
+              [user]="localUser"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
@@ -81,10 +71,8 @@
 
           <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
             <stream-component
-              [localUser]="getLocalUser()"
-              *ngFor="let connection of user.getEnabledConnections()"
-              [currentUser]="user"
-              [type]="connection.getType()"
+              [localUser]="localUser"
+              [user]="user"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
           </div>

@@ -49,7 +49,8 @@ export class RemoteUsersService {
       );
 
       const videoType = subscriber.stream.typeOfVideo as VideoType;
-      const connection = new UserConnection(newUser.session, videoType, null, true);
+      const connection = new UserConnection(newUser.session, videoType, true);
+      connection.setStreamManager(subscriber);
 
       if (existingUser) {
         existingUser.setConnection(connection);
@@ -58,7 +59,9 @@ export class RemoteUsersService {
         this.users.push(newUser);
       }
       this.updateUsers();
-    } catch (error) {}
+    } catch (error) {
+      this.log.e(error);
+    }
   }
 
   add(event: StreamEvent, subscriber: Subscriber) {

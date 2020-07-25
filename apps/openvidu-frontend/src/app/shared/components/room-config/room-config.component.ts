@@ -161,8 +161,8 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private subscribeToUsers() {
     this.oVUsersSubscription = this.oVSessionService.userObs.subscribe(user => {
       this.localUser = user;
-      if (this.localUser.session[0]) {
-        this.handleSessionConfig(this.localUser[0]);
+      if (this.localUser.session) {
+        this.handleSessionConfig(this.localUser);
       }
     });
   }

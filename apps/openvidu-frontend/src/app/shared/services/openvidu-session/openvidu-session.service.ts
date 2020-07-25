@@ -22,7 +22,7 @@ export class OpenViduSessionService {
   private log: ILogger;
 
   userObs: Observable<LocalUserModel>;
-  private _user = new BehaviorSubject<LocalUserModel>(null);
+  private _user = new BehaviorSubject<LocalUserModel>(new LocalUserModel());
 
   static createProperties(
     videoSource: string | MediaStreamTrack | boolean,
@@ -40,8 +40,9 @@ export class OpenViduSessionService {
     };
   }
 
-  initialize(session: OpenviduUserSession) {
-    this._user.next(new LocalUserModel(session));
+  initialize() {
+    this.getUser().initialize();
+    this.refresh();
   }
 
   updateLocalUserSession(callback: (user: UserModel) => UserModel) {
@@ -67,7 +68,6 @@ export class OpenViduSessionService {
 
   async connectSessions(): Promise<any> {
     await this.getUser().connect();
-    this.refresh();
   }
 
   enableWebcam() {
@@ -80,14 +80,14 @@ export class OpenViduSessionService {
   enableScreen(screenPublisher: Publisher) {
     this.getUser()
       .getScreen()
-      .setPublisher(screenPublisher);
+      .setStreamManager(screenPublisher);
     this.refresh();
   }
 
   enableWhiteboard(whiteboardPublisher: Publisher) {
     this.getUser()
       .getWhiteboard()
-      .setPublisher(whiteboardPublisher);
+      .setStreamManager(whiteboardPublisher);
     this.refresh();
   }
 

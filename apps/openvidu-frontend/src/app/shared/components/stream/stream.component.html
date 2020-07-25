@@ -1,9 +1,9 @@
 <div
-  *ngIf="connection"
+  *ngFor="let connection of user.getEnabledConnections()"
   class="OT_widget-container"
   [id]="'container-' + connection.getStream()?.streamId"
   #streamComponent
-  (dblclick)="toggleVideoSize()"
+  (dblclick)="toggleVideoSize(connection)"
 >
   <div
     class="no-video"
@@ -15,7 +15,7 @@
     </div>
   </div>
 
-  <ov-video [streamManager]="connection.getPublisher()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
+  <ov-video [streamManager]="connection.getStreamManager()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
     <user-avatar [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
@@ -30,13 +30,13 @@
 
     <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
     <mat-menu #menu="matMenu" class="small">
-      <button mat-menu-item (click)="toggleVideoSize()">
+      <button mat-menu-item (click)="toggleVideoSize(connection)">
         <mat-icon class="disabled">{{ isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
         <span>
           {{ isZoomedIn ? 'Zoom out' : 'Zoom in' }}
         </span>
       </button>
-      <button mat-menu-item (click)="toggleFullscreen()">
+      <button mat-menu-item (click)="toggleFullscreen(connection)">
         <mat-icon class="disabled">{{ !isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
         <span>
           {{ !isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
