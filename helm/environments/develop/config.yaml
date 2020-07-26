@@ -56,7 +56,7 @@ image:
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
-    pullPolicy: Always
+    pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu@sha256
     version: 0127539bd5fc7c1bce74e1659b6fa951714b6918ccf31c0d9fba21933592982a
@@ -70,12 +70,13 @@ image:
 organization:
   # Organization Logo
     logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
-
+  
   # Display Name of Organization
     name: Doorward E-Learning
-
+  
   # Application URL
     website: develop.doorward.tech
-
+  
   #Organization Admin Email ID
     email: info@doorward.tech
+  

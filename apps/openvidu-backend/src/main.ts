@@ -1,3 +1,4 @@
+import '@doorward/backend/bootstrap/setUpEnvironment';
 import { Logger } from '@nestjs/common';
 
 import { AppModule } from './app/app.module';

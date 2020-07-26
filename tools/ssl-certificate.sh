@@ -10,10 +10,15 @@ cd ${directory}
 cp ../tools/domains.ext ./domains.ext
 
 
+if [[ ! -f ./RootCA.key ]]; then
 echo "Step 1"
 openssl req -x509 -nodes -new -sha256 -days 8024 -newkey rsa:2048 -keyout RootCA.key -out RootCA.pem -subj "/C=US/CN=Doorward LMS"
+fi
+
+if [[ ! -f ./RootCA.crt ]];then
 echo "Step 2"
 openssl x509 -outform pem -in RootCA.pem -out RootCA.crt
+fi
 
 echo "Step 3"
 openssl req -new -nodes -newkey rsa:2048 -keyout certificate.key -out certificate.csr -subj "/C=KE/ST=Nairobi/L=Nairobi/O=Doorward/CN=Doorward"

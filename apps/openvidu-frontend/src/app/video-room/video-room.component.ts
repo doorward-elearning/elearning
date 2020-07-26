@@ -1,5 +1,15 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Subscription } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import {
   Connection,
@@ -96,7 +106,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     private loggerSrv: LoggerService,
     private chatService: ChatService,
     private matDialog: MatDialog,
-    private signalService: SignalsService
+    private signalService: SignalsService,
+    @Inject('BASE_API_URL') private _baseUrl: BehaviorSubject<string>
   ) {
     super();
     this.log = this.loggerSrv.get('VideoRoomComponent');
@@ -142,7 +153,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.mySessionId = this.externalConfig.sessionId;
 
     if (this.externalConfig.ovServerApiUrl) {
-      environment.OPENVIDU_API_URL = this.externalConfig.ovServerApiUrl;
+      this._baseUrl.next(this.externalConfig.ovServerApiUrl);
     }
     this.utilsSrv.setTheme(this.externalConfig.theme);
     this.utilsSrv.subscribeToThemeChangeShortcut();

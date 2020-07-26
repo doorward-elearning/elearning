@@ -1,10 +1,17 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable()
 export class NetworkInterceptor implements HttpInterceptor {
-  constructor(@Inject('BASE_API_URL') private baseUrl: string) {}
+  private baseUrl: string;
+
+  constructor(@Inject('BASE_API_URL') private _baseUrl: BehaviorSubject<string>) {
+    _baseUrl.subscribe(value => {
+      this.baseUrl = value;
+    });
+  }
+
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let apiReq = request.clone({ url: `${this.baseUrl}${request.url}` });
 
