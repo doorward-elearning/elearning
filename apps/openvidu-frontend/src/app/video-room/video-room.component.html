@@ -64,22 +64,34 @@
           [class.boundsLight]="lightTheme"
           [style.display]="whiteboardShown ? 'none' : 'block'"
         >
-          <div class="OT_root OT_publisher custom-class" id="localUser">
+          <div
+            class="OT_root OT_publisher custom-class"
+            id="localUser"
+            *ngFor="let user of localUser.getEnabledConnections()"
+          >
             <stream-component
               [localUser]="localUser"
               [user]="localUser"
+              [connection]="user"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
           </div>
 
-          <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
-            <stream-component
-              [localUser]="localUser"
-              [user]="user"
-              (toggleVideoSizeClicked)="onToggleVideoSize($event)"
-            ></stream-component>
-          </div>
+          <ng-container *ngFor="let user of remoteUsers">
+            <div
+              class="OT_root OT_publisher custom-class"
+              id="remoteUsers"
+              *ngFor="let connection of user.getEnabledConnections()"
+            >
+              <stream-component
+                [localUser]="localUser"
+                [connection]="connection"
+                [user]="user"
+                (toggleVideoSizeClicked)="onToggleVideoSize($event)"
+              ></stream-component>
+            </div>
+          </ng-container>
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>

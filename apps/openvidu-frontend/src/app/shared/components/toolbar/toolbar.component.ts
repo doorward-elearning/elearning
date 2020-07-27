@@ -71,7 +71,7 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
 
   ngOnInit() {
     this.remoteUserService.getRemoteUsers().subscribe(users => {
-      this.numParticipants = users.length;
+      this.numParticipants = users.length + 1;
     });
 
     this.checkLogo();

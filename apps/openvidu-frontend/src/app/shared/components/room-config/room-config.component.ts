@@ -83,6 +83,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   async checkPermissions() {
     let microphone;
     let video;
+    let screen;
     try {
       microphone = await navigator.permissions.query({ name: 'microphone' });
       video = await navigator.permissions.query({ name: 'camera' });

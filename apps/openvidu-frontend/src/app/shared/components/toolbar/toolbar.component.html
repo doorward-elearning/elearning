@@ -71,7 +71,13 @@
         </div>
         <div class="toolbar-button">
           <button (click)="toggleParticipants()">
-            <mat-icon matTooltip="Participants">people</mat-icon>
+            <mat-icon
+              matBadge="{{ numParticipants }}"
+              matBadgePosition="above before"
+              matBadgeColor="primary"
+              matTooltip="Participants"
+              >people</mat-icon
+            >
           </button>
         </div>
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.EXIT_MEETING">

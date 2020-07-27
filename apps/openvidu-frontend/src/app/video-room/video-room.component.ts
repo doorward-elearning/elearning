@@ -50,6 +50,8 @@ import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
+import { UserModel } from '../shared/models/user-model';
+import UserConnection from '../shared/models/user-connection';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -316,25 +318,28 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
           });
         this.log.d('ACCESS ALLOWED screenPublisher');
         this.oVSessionService.enableScreen(screenPublisher);
-        this.localUser.getScreen().publish();
-        if (!this.localUser.getCamera().isVideoActive()) {
-          // Disabling webcam
-          this.oVSessionService.disableWebcam();
-          this.localUser.getCamera().unPublish();
-        }
+        this.localUser
+          .getScreen()
+          .publish()
+          .then(() => {
+            this.localUser.getScreen().publishAudio(false);
+          });
       });
 
       screenPublisher.once('accessDenied', event => {
-        this.log.w('ScreenShare: Access Denied');
+        this.utilsSrv.showErrorMessage(
+          'Screen Sharing Error',
+          'An error occurred while screen sharing. Please try again.'
+        );
       });
 
       return;
+    } else {
+      await this.oVSessionService.publishWebcam(true);
+      this.oVSessionService.publishWebcamAudio(true);
+      this.oVSessionService.enableWebcam();
+      this.removeScreen();
     }
-
-    await this.oVSessionService.publishWebcam(true);
-    this.oVSessionService.publishWebcamAudio(true);
-    this.oVSessionService.enableWebcam();
-    this.removeScreen();
   }
 
   toggleSpeakerLayout() {
@@ -439,8 +444,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   private subscribeToStreamDestroyed() {
     this.session.on('streamDestroyed', (event: StreamEvent) => {
       const connectionId = event.stream.connection.connectionId;
-      this.remoteUsersService.removeUserByConnectionId(connectionId);
-      // event.preventDefault();
+      this.remoteUsersService.remove(connectionId);
     });
   }
 
@@ -522,9 +526,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   private initScreenPublisher(): Publisher {
     const videoSource = ScreenType.SCREEN;
-    const willThereBeWebcam = this.localUser.cameraEnabled();
-    const hasAudio = willThereBeWebcam ? false : this.localUser.getCamera().isAudioActive();
-    const properties = OpenViduSessionService.createProperties(videoSource, undefined, true, hasAudio, false);
+    const properties = OpenViduSessionService.createProperties(videoSource, undefined, true, false, false);
 
     try {
       return this.localUser.initializePublisher(VideoType.SCREEN, undefined, properties);

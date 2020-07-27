@@ -54,8 +54,9 @@ export default class UserConnection {
   }
 
   async publish() {
-    if (this.getPublisher()) {
-      return await this.session.publish(this.getPublisher());
+    const publisher = this.getPublisher();
+    if (publisher) {
+      return await this.session.publish(publisher);
     }
   }
 
