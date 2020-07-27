@@ -244,6 +244,36 @@ export class UtilsService {
     });
   }
 
+  confirmSync(
+    title: string,
+    message: string,
+    disableClose = false,
+    buttons?: {
+      positive?: string;
+      negative?: string;
+    }
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.alertDialogRef = this.dialog.open(AlertDialogComponent, {
+        data: {
+          title,
+          message,
+          buttons: [
+            {
+              text: buttons?.positive || 'Okay',
+              onClick: resolve,
+            },
+            {
+              text: buttons?.negative || 'Cancel',
+              onClick: reject,
+            },
+          ],
+        },
+        disableClose,
+      });
+    });
+  }
+
   closeAlert() {
     if (this.alertDialogRef) {
       this.alertDialogRef.close();

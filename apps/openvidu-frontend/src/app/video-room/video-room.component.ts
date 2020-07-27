@@ -282,10 +282,6 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.utilsSrv.toggleSideNav(SideNavComponents.PARTICIPANTS);
   }
 
-  toggleWhiteboard() {
-    this.whiteboardShown = !this.whiteboardShown;
-  }
-
   async toggleCam() {
     if (!this.hasVideoDevices) {
       this.utilsSrv.showErrorMessage(
@@ -297,6 +293,40 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     const isVideoActive = !this.localUser.getCamera().isVideoActive();
 
     this.localUser.getCamera().publishVideo(isVideoActive);
+  }
+
+  toggleWhiteboard() {
+    if (this.localUser.screenEnabled()) {
+      this.utilsSrv.alert(
+        'Stop screen sharing',
+        'Stop screen sharing in order to share whiteboard.',
+        [
+          {
+            text: 'Yes',
+            onClick: () => {
+              this.toggleScreenShare();
+              this.startWhiteboardSharing();
+            },
+          },
+          {
+            text: 'No',
+            onClick: () => {},
+          },
+        ],
+        true
+      );
+    } else {
+      if (this.whiteboardShown) {
+        this.removeWhiteboard();
+        this.whiteboardShown = false;
+      } else {
+        this.startWhiteboardSharing();
+      }
+    }
+  }
+
+  startWhiteboardSharing() {
+    const publisher = this.initWhiteboardPublisher();
   }
 
   async toggleScreenShare() {
@@ -498,6 +528,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.oVSessionService.unPublishScreen();
   }
 
+  private removeWhiteboard() {
+    this.oVSessionService.disableWhiteboard();
+    this.oVSessionService.unPublishWhiteboard();
+  }
+
   private subscribeToSideNav() {
     this.sideNavSubscription = this.utilsSrv.sidenavContentObs.subscribe(value => {
       const timeout = this.externalConfig ? 300 : 0;
@@ -522,6 +557,17 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         this.leaveSession();
       }
     });
+  }
+
+  private initWhiteboardPublisher(): Publisher {
+    const videoSource = VideoType.WHITEBOARD;
+    const properties = OpenViduSessionService.createProperties(videoSource, undefined, true, false, false);
+
+    try {
+      return this.localUser.initializePublisher(VideoType.WHITEBOARD, undefined, properties);
+    } catch (error) {
+      this.log.e(error);
+    }
   }
 
   private initScreenPublisher(): Publisher {
