@@ -109,6 +109,13 @@ export class OpenViduSessionService {
     this.refresh();
   }
 
+  disableWhiteboard() {
+    this.getUser()
+      .getWhiteboard()
+      .destroy();
+    this.refresh();
+  }
+
   publishWebcam(isVideoActive: boolean) {
     this.getUser()
       .getCamera()
