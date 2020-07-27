@@ -29,7 +29,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Output() micButtonClicked = new EventEmitter<any>();
   @Output() camButtonClicked = new EventEmitter<any>();
   @Output() screenShareClicked = new EventEmitter<any>();
-  @Output() layoutButtonClicked = new EventEmitter<any>();
   @Output() leaveSessionButtonClicked = new EventEmitter<any>();
   @Output() participantsListButtonClicked = new EventEmitter<any>();
   @Output() chatButtonClicked = new EventEmitter<any>();
@@ -98,10 +97,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
 
   toggleScreenShare() {
     this.screenShareClicked.emit();
-  }
-
-  toggleSpeakerLayout() {
-    this.layoutButtonClicked.emit();
   }
 
   leaveSession() {

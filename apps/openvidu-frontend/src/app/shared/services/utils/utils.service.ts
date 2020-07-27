@@ -186,6 +186,16 @@ export class UtilsService {
     this.dialogRef.close();
   }
 
+  getElementsByClassName(className: string): Array<Element> {
+    const elements = [];
+    const found = document.getElementsByClassName(className);
+    let i = 0;
+    while (i < found.length) {
+      elements.push(found[i++]);
+    }
+    return elements;
+  }
+
   getHTMLElementByClassName(element: HTMLElement, className: string): HTMLElement {
     while (!!element && element !== document.body) {
       if (element.className.includes(className)) {
@@ -196,12 +206,16 @@ export class UtilsService {
     return null;
   }
 
-  toggleBigElementClass(element: HTMLElement | Element) {
-    if (element?.className.includes(LayoutBigElement.BIG_ELEMENT_CLASS)) {
-      element?.classList.remove(LayoutBigElement.BIG_ELEMENT_CLASS);
+  toggleClass(element: HTMLElement | Element, className: string) {
+    if (element?.className.includes(className)) {
+      element?.classList.remove(className);
     } else {
-      element.classList.add(LayoutBigElement.BIG_ELEMENT_CLASS);
+      element.classList.add(className);
     }
+  }
+
+  toggleBigElementClass(element: HTMLElement | Element) {
+    this.toggleClass(element, LayoutBigElement.BIG_ELEMENT_CLASS);
   }
 
   removeAllBigElementClass() {

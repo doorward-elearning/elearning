@@ -49,14 +49,6 @@
           </button>
         </div>
 
-        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.SPEAKING_LAYOUT">
-          <!-- Automatic / grid layout button -->
-          <button (click)="toggleSpeakerLayout()" [disabled]="isConnectionLost">
-            <mat-icon matTooltip="Enable speaker layout" color="warn" *ngIf="!isAutoLayout">voice_over_off</mat-icon>
-            <mat-icon matTooltip="Disable speaker layout" *ngIf="isAutoLayout">record_voice_over</mat-icon>
-          </button>
-        </div>
-
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.CHAT">
           <button (click)="toggleChat()" [disabled]="isConnectionLost">
             <mat-icon
