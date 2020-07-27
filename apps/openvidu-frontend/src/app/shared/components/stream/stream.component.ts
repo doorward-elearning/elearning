@@ -26,12 +26,12 @@ import UserConnection from '../../models/user-connection';
 export class StreamComponent implements OnInit {
   @Input() localUser: UserModel;
   @Input() user: UserModel;
+  @Input() connection: UserConnection;
 
   @Output() replaceScreenTrackClicked = new EventEmitter<any>();
   @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
   isFullscreen: boolean;
-  isZoomedIn: boolean;
 
   @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
 
@@ -46,18 +46,22 @@ export class StreamComponent implements OnInit {
     this.isFullscreen = maxWidth === curWidth && maxHeight === curHeight;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    if (this.connection.isZoomedIn()) {
+      this.toggleVideoSize();
+    }
+  }
 
-  toggleVideoSize(connection: UserConnection, resetAll?) {
+  toggleVideoSize(resetAll?) {
     const element = this.utilsSrv.getHTMLElementByClassName(
       this.streamComponent.element.nativeElement,
       LayoutType.ROOT_CLASS
     );
-    this.toggleVideoSizeClicked.emit({ element, connectionId: connection.getConnectionId(), resetAll });
+    this.toggleVideoSizeClicked.emit({ element, connectionId: this.connection.getConnectionId(), resetAll });
   }
 
-  toggleFullscreen(connection: UserConnection) {
-    this.utilsSrv.toggleFullscreen('container-' + connection.getStream().streamId);
+  toggleFullscreen() {
+    this.utilsSrv.toggleFullscreen('container-' + this.connection.getStream().streamId);
   }
 
   toggleSound() {

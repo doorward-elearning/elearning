@@ -13,4 +13,5 @@ export class RemoteUserModel extends UserModel {
   getActiveSession(): UserConnection {
     return this.getConnections().find(connection => connection.connection.isActive())?.connection;
   }
+
 }

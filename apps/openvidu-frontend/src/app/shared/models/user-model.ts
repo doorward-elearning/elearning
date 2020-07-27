@@ -175,4 +175,8 @@ export abstract class UserModel {
   }
 
   abstract getActiveSession(): UserConnection;
+
+  removeConnection(type: string) {
+    delete this.connections[type];
+  }
 }

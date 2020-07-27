@@ -51,6 +51,9 @@ export class RemoteUsersService {
       const videoType = subscriber.stream.typeOfVideo as VideoType;
       const connection = new UserConnection(newUser.session, videoType, true);
       connection.setStreamManager(subscriber);
+      if (videoType !== VideoType.CAMERA) {
+        connection.zoomIn();
+      }
 
       if (existingUser) {
         existingUser.setConnection(connection);
@@ -66,6 +69,28 @@ export class RemoteUsersService {
 
   add(event: StreamEvent, subscriber: Subscriber) {
     this.addUser(event.stream.connection.data, subscriber);
+  }
+
+  remove(connectionId: string) {
+    const user = this.getRemoteUserByConnectionId(connectionId);
+    if (user) {
+      const connection = user.getByConnectionId(connectionId);
+
+      user.removeConnection(connection.getType());
+
+      if (Object.keys(user.getConnections()).length === 0) {
+        this.removeUser(user);
+      }
+      this.updateUsers();
+    }
+  }
+
+  removeUser(user: RemoteUserModel) {
+    const index = this.users.indexOf(user, 0);
+    if (index > -1) {
+      this.users.splice(index, 1);
+      this.updateUsers();
+    }
   }
 
   removeUserByConnectionId(connectionId: string) {
