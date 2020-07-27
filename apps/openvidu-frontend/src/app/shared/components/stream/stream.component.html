@@ -1,6 +1,7 @@
 <div
   class="OT_widget-container"
   [id]="'container-' + connection.getStream()?.streamId"
+  [ngClass]="connection.isSpeaking() ? 'speaking' : ''"
   #streamComponent
   (dblclick)="toggleVideoSize()"
 >

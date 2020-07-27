@@ -149,15 +149,15 @@ export abstract class UserModel {
   }
 
   cameraEnabled(): boolean {
-    return this.getCamera().isActive();
+    return this.getCamera()?.isActive();
   }
 
   screenEnabled(): boolean {
-    return this.getScreen().isActive();
+    return this.getScreen()?.isActive();
   }
 
   whiteboardEnabled(): boolean {
-    return this.getWhiteboard().isActive();
+    return this.getWhiteboard()?.isActive();
   }
 
   getEnabledConnections(): UserConnection[] {

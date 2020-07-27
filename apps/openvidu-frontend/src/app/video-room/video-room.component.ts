@@ -26,7 +26,7 @@ import { OpenViduLayout, OpenViduLayoutOptions } from '../shared/layout/openvidu
 import { OvSettingsModel } from '../shared/models/ovSettings';
 import { ScreenType, VideoType } from '../shared/types/video-type';
 import { ILogger } from '../shared/types/logger-type';
-import { LayoutType } from '../shared/types/layout-type';
+import { LayoutSpeaking, LayoutType } from '../shared/types/layout-type';
 import { ExternalConfigModel } from '../shared/models/external-config';
 // Services
 import { DevicesService } from '../shared/services/devices/devices.service';
@@ -219,6 +219,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.subscribeToReconnection();
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
+      this.subscribeToSpeechDetection();
       this.signalService.subscribeToLeaveSession(() => {
         this.oVSessionService.disconnect();
         this._leaveSession.emit();
@@ -348,7 +349,6 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
       this.log.d('Automatic Layout ', this.isAutoLayout ? 'Disabled' : 'Enabled');
       if (this.isAutoLayout) {
-        this.subscribeToSpeechDetection();
         return;
       }
       this.log.d('Unsubscribe to speech detection');
@@ -479,17 +479,17 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   private subscribeToSpeechDetection() {
     this.log.d('Subscribe to speech detection', this.session);
-    // Has been mandatory change the user zoom property here because of
-    // zoom icons and cannot handle publisherStartSpeaking event in other component
     this.session.on('publisherStartSpeaking', (event: PublisherSpeakingEvent) => {
-      const someoneIsSharingScreen = this.remoteUsersService.someoneIsSharingScreen();
-      if (!this.localUser.screenEnabled() && !someoneIsSharingScreen) {
-        const elem = event.connection.stream.streamManager.videos[0].video;
-        const element = this.utilsSrv.getHTMLElementByClassName(elem, LayoutType.ROOT_CLASS);
-        this.resetAllBigElements();
-        this.remoteUsersService.setUserZoom(event.connection.connectionId, true);
-        this.onToggleVideoSize({ element });
-      }
+      const user = this.remoteUsersService.getRemoteUserByConnectionId(event.connection.connectionId);
+      const connection = user.getByConnectionId(event.connection.connectionId);
+      connection.setSpeaking(true);
+      this.remoteUsersService.updateUsers();
+    });
+    this.session.on('publisherStopSpeaking', (event: PublisherSpeakingEvent) => {
+      const user = this.remoteUsersService.getRemoteUserByConnectionId(event.connection.connectionId);
+      const connection = user.getByConnectionId(event.connection.connectionId);
+      connection.setSpeaking(false);
+      this.remoteUsersService.updateUsers();
     });
   }
 

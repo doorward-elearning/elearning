@@ -19,6 +19,7 @@ export default class UserConnection {
   private readonly type: VideoType;
   private user: OpenviduUserSession;
   private zoomedIn = false;
+  private speaking = false;
   private mediaStream: MediaStream;
 
   constructor(user: OpenviduUserSession, type: VideoType, active = true) {
@@ -228,5 +229,13 @@ export default class UserConnection {
 
   getType(): VideoType {
     return this.type;
+  }
+
+  isSpeaking(): boolean {
+    return this.speaking;
+  }
+
+  setSpeaking(value: boolean) {
+    this.speaking = value;
   }
 }
