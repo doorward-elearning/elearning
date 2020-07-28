@@ -351,16 +351,6 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     });
   }
 
-  public getMediaStream(): Promise<MediaStream> {
-    return new Promise<MediaStream>((resolve, reject) => {
-      setTimeout(() => {
-        this._redrawCanvasOnResize();
-        const stream = this.canvas.nativeElement.captureStream(20);
-        resolve(stream);
-      }, 100);
-    });
-  }
-
   /**
    * Calculate the canvas width and height from it's parent container width and height (use aspect ratio if needed)
    */

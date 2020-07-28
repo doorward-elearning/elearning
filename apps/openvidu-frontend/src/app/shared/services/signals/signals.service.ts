@@ -139,7 +139,7 @@ export class SignalsService {
     });
   }
 
-  send<T extends SignalTypes>(type: T, data: SignalData[T], to?: Array<UserModel>) {
+  send<T extends SignalTypes>(type: T, data?: SignalData[T], to?: Array<UserModel>) {
     const connection = this.localUser.getActiveSession();
     const session = connection.getSession();
     const participants = to || [];

@@ -50,7 +50,7 @@ export class CanvasWhiteboardUpdate {
   }
 
   stringify(): string {
-    let objectToSerialize = {
+    const objectToSerialize = {
       x: this.x.toFixed(3),
       y: this.y.toFixed(3),
       type: this.type,
