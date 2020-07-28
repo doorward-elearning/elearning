@@ -22,7 +22,7 @@
       "@doorward/common/*": ["libs/common/src/*"],
       "@doorward/backend/*": ["libs/backend/src/*"],
       "@doorward/chat/*": ["libs/chat/src/*"],
-      "@doorward/whiteboard": ["libs/whiteboard/src/index.ts"]
+      "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"]
     },
     "plugins": [
       {
@@ -30,5 +30,5 @@
       }
     ]
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp", "libs/whiteboard"]
 }

@@ -26,7 +26,6 @@ import { OpenViduLayout, OpenViduLayoutOptions } from '../shared/layout/openvidu
 import { OvSettingsModel } from '../shared/models/ovSettings';
 import { ScreenType, VideoType } from '../shared/types/video-type';
 import { ILogger } from '../shared/types/logger-type';
-import { LayoutSpeaking, LayoutType } from '../shared/types/layout-type';
 import { ExternalConfigModel } from '../shared/models/external-config';
 // Services
 import { DevicesService } from '../shared/services/devices/devices.service';
@@ -50,8 +49,7 @@ import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
-import { UserModel } from '../shared/models/user-model';
-import UserConnection from '../shared/models/user-connection';
+import { CanvasWhiteboardComponent } from '@doorward/whiteboard/ng2-canvas-whiteboard';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -61,6 +59,7 @@ export enum SideNavComponents {
 @Component({
   selector: 'app-video-room',
   templateUrl: './video-room.component.html',
+  viewProviders: [CanvasWhiteboardComponent],
   styleUrls: ['./video-room.component.css'],
 })
 export class VideoRoomComponent extends MeetingCapabilitiesComponent implements OnInit, OnDestroy {
@@ -97,6 +96,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   private oVUsersSubscription: Subscription;
   private remoteUsersSubscription: Subscription;
   private sideNavSubscription: Subscription;
+
+  @ViewChild('canvasWhiteboard') whiteboardCanvas: CanvasWhiteboardComponent;
 
   constructor(
     private networkSrv: NetworkService,
@@ -305,7 +306,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
             text: 'Yes',
             onClick: () => {
               this.toggleScreenShare();
-              this.startWhiteboardSharing();
+              this.initializeWhiteboard();
             },
           },
           {
@@ -320,13 +321,32 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         this.removeWhiteboard();
         this.whiteboardShown = false;
       } else {
-        this.startWhiteboardSharing();
+        this.whiteboardShown = true;
+        this.initializeWhiteboard();
       }
     }
   }
 
-  startWhiteboardSharing() {
-    const publisher = this.initWhiteboardPublisher();
+  async initializeWhiteboard() {
+    const publisher = await this.initWhiteboardPublisher();
+
+    publisher.once('accessAllowed', event => {
+      publisher.stream
+        .getMediaStream()
+        .getVideoTracks()[0]
+        .addEventListener('ended', () => {
+          this.toggleWhiteboard();
+        });
+
+      this.oVSessionService.enableWhiteboard(publisher);
+
+      this.localUser
+        .getWhiteboard()
+        .publish()
+        .then(() => {
+          this.localUser.getWhiteboard().publishAudio(false);
+        });
+    });
   }
 
   async toggleScreenShare() {
@@ -559,9 +579,15 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     });
   }
 
-  private initWhiteboardPublisher(): Publisher {
-    const videoSource = VideoType.WHITEBOARD;
-    const properties = OpenViduSessionService.createProperties(videoSource, undefined, true, false, false);
+  private async initWhiteboardPublisher(): Promise<Publisher> {
+    const mediaStream = await this.whiteboardCanvas.getMediaStream();
+    const properties = OpenViduSessionService.createProperties(
+      mediaStream.getVideoTracks()[0],
+      undefined,
+      true,
+      false,
+      false
+    );
 
     try {
       return this.localUser.initializePublisher(VideoType.WHITEBOARD, undefined, properties);

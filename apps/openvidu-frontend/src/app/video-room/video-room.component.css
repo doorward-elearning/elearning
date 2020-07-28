@@ -887,9 +887,7 @@
   width: 100%;
   display: grid;
   border-bottom: 1px solid var(--line-color);
-}
-
-doorward-whiteboard {
+  background: white;
 }
 
 @media only screen and (max-width: 600px) {
