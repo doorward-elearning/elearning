@@ -1,4 +1,5 @@
 import { OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { CanvasWhiteboardUpdate } from '@doorward/whiteboard/canvas-whiteboard-update.model';
 
 enum SignalTypes {
   TOGGLE_AUDIO = 'TOGGLE_AUDIO',
@@ -7,6 +8,9 @@ enum SignalTypes {
   USER_UPDATED = 'USER_UPDATED',
   TOGGLE_VIDEO_CONTROL = 'TOGGLE_VIDEO_CONTROL',
   CHAT = 'CHAT',
+  WHITEBOARD_SHARING_STARTED = 'WHITEBOARD_SHARING_STARTED',
+  WHITEBOARD_SHARING_ENDED = 'WHITEBOARD_SHARING_ENDED',
+  WHITEBOARD_UPDATE = 'WHITEBOARD_UPDATE',
 }
 
 export interface SignalData extends Record<SignalTypes, unknown> {
@@ -16,6 +20,7 @@ export interface SignalData extends Record<SignalTypes, unknown> {
   [SignalTypes.USER_UPDATED]: { session: OpenviduUserSession };
   [SignalTypes.TOGGLE_VIDEO_CONTROL]: undefined;
   [SignalTypes.CHAT]: { message: string; sender: OpenviduUser };
+  [SignalTypes.WHITEBOARD_UPDATE]: { batch: CanvasWhiteboardUpdate[] };
 }
 
 export default SignalTypes;

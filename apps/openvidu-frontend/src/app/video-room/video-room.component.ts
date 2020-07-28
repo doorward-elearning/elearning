@@ -49,7 +49,7 @@ import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
-import { CanvasWhiteboardComponent } from '@doorward/whiteboard/ng2-canvas-whiteboard';
+import { CanvasWhiteboardComponent, CanvasWhiteboardUpdate } from '@doorward/whiteboard/ng2-canvas-whiteboard';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -218,6 +218,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.chatService.subscribeToChat();
     this.subscribeToSideNav();
     this.subscribeToReconnection();
+    this.subscribeToWhiteboardUpdates();
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
       this.subscribeToSpeechDetection();
@@ -306,7 +307,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
             text: 'Yes',
             onClick: () => {
               this.toggleScreenShare();
-              this.initializeWhiteboard();
+              this.whiteboardShown = true;
             },
           },
           {
@@ -322,30 +323,30 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         this.whiteboardShown = false;
       } else {
         this.whiteboardShown = true;
-        this.initializeWhiteboard();
       }
     }
+    this.signalService.send(
+      this.whiteboardShown ? SignalTypes.WHITEBOARD_SHARING_STARTED : SignalTypes.WHITEBOARD_SHARING_ENDED
+    );
   }
 
-  async initializeWhiteboard() {
-    const publisher = await this.initWhiteboardPublisher();
+  onWhiteboardUpdate(updates: Array<CanvasWhiteboardUpdate>) {
+    this.signalService.send(SignalTypes.WHITEBOARD_UPDATE, {
+      batch: updates,
+    });
+  }
 
-    publisher.once('accessAllowed', event => {
-      publisher.stream
-        .getMediaStream()
-        .getVideoTracks()[0]
-        .addEventListener('ended', () => {
-          this.toggleWhiteboard();
-        });
+  subscribeToWhiteboardUpdates() {
+    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_STARTED, () => {
+      this.whiteboardShown = true;
+    });
 
-      this.oVSessionService.enableWhiteboard(publisher);
+    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, () => {
+      this.whiteboardShown = false;
+    });
 
-      this.localUser
-        .getWhiteboard()
-        .publish()
-        .then(() => {
-          this.localUser.getWhiteboard().publishAudio(false);
-        });
+    this.signalService.subscribe(SignalTypes.WHITEBOARD_UPDATE, data => {
+      this.whiteboardCanvas.drawUpdates(data.batch);
     });
   }
 
@@ -577,23 +578,6 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         this.leaveSession();
       }
     });
-  }
-
-  private async initWhiteboardPublisher(): Promise<Publisher> {
-    const mediaStream = await this.whiteboardCanvas.getMediaStream();
-    const properties = OpenViduSessionService.createProperties(
-      mediaStream.getVideoTracks()[0],
-      undefined,
-      true,
-      false,
-      false
-    );
-
-    try {
-      return this.localUser.initializePublisher(VideoType.WHITEBOARD, undefined, properties);
-    } catch (error) {
-      this.log.e(error);
-    }
   }
 
   private initScreenPublisher(): Publisher {
