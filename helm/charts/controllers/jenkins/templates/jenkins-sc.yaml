@@ -1,0 +1,16 @@
+allowVolumeExpansion: true
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"},"name":"do-block-storage"},"provisioner":"dobs.csi.digitalocean.com","reclaimPolicy":"Delete"}
+    storageclass.kubernetes.io/is-default-class: "true"
+  creationTimestamp: "2020-05-31T03:40:10Z"
+  name: {{ .Values.persistence.storageClass }}
+  resourceVersion: "199"
+  selfLink: /apis/storage.k8s.io/v1/storageclasses/do-block-storage
+  uid: 18b562b8-e9a2-40cb-9a69-b99d70785911
+provisioner: dobs.csi.digitalocean.com
+reclaimPolicy: Retain
+volumeBindingMode: Immediate
