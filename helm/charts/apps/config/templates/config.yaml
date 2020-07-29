@@ -7,7 +7,7 @@ data:
   OPENVIDU_API_PORT: "{{ .Values.openviduapi_port }}"
   OPENVIDU_API_URL: {{ .Values.openviduapi_url }}
   REACT_APP_OPENVIDU_URL: https://{{- .Values.classrooms_url}}
-  
+
   # Thala and Vidu
   OPENVIDU_URL: https://{{- .Values.classrooms_url }}
   OPENVIDU_USERNAME: {{ .Values.classrooms.username }}

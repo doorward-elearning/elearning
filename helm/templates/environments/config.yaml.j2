@@ -52,6 +52,9 @@ namespace: {{ CUSTOMER_NAME }}-doorward
 imagePullSecrets:
   - name: deploy-pull-harbor
 
+# Postgresql Password:
+postgres_password: {{ POSTGRES_PASS }}
+
 # Override default variables for stage environments
 
 image:
