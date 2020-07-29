@@ -5,11 +5,9 @@ releases:
       stage: 0
       name: config
     chart: ../../charts/apps/config
-    needs:
-      - develop-doorward/develop-thaladb
     values:
       - config.yaml
-      
+
   - name: develop-thaladb
     namespace: develop-doorward
     labels:
