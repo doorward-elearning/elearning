@@ -13,7 +13,7 @@ pipeline {
           }
           sh 'sleep 10'
           dir('helm/environments/jeevanadi'){
-            sh 'helmfile -l stage=2 sync --set image.swagat.version=${params.APP_VERSION} --set image.chuchu.version=${params.APP_VERSION} --set image.thala.version=${params.APP_VERSION} --set image.vidu.version=${params.APP_VERSION}'
+            sh 'helmfile -l stage=2 sync --set image.swagat.version=${APP_VERSION} --set image.chuchu.version=${APP_VERSION} --set image.thala.version=${APP_VERSION} --set image.vidu.version=${APP_VERSION}'
           }
         }
     }
