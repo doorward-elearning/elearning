@@ -1,6 +1,7 @@
 # Name of the Customer / Website
 customer: makonis
 
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
 customer-type: college-india
 
 # HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
@@ -25,10 +26,10 @@ openviduapi_url: https://vidu.makonis.doorward.tech/api/
 openviduapi_domain: vidu.makonis.doorward.tech
 
 # Public URL of Openvidu Server
-classrooms_url: classrooms.develop.doorward.tech
+classrooms_url: classrooms.makonis.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Makonis
+websitename: makonis
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
 namespace: makonis-doorward
@@ -42,15 +43,15 @@ imagePullSecrets:
 image:
   swagat:
     repository: core.harbor.doorward.tech/doorward/swagat
-    version: 1.1.1
-    pullPolicy: IfNotPresent
+    version: 1.1.0
+    pullPolicy: Always
   thaladb:
     repository: postgres
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
@@ -58,19 +59,24 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
+
 
 organization:
   # Organization Logo
-  logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
+    logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
+  
   # Display Name of Organization
-  name: Makonis
+    name: Doorward E-Learning
+  
   # Application URL
-  website: lms.makonis.ai
+    website: lms.makonis.ai
+  
   #Organization Admin Email ID
-  email: info@doorward.tech
+    email: info@doorward.tech
+  
