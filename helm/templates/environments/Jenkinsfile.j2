@@ -8,7 +8,11 @@ pipeline {
   stages {
     stage('Deploy') {
         steps {
-           sh 'cd ${WORKSPACE}/helm/environments/{{ CUSTOMER_NAME }} && helmfile -l stage=2 sync --set image.swagat.version=${params.APP_VERSION} --set image.chuchu.version=${params.APP_VERSION} --set image.thala.version=${params.APP_VERSION} --set image.vidu.version=${params.APP_VERSION}'
+          dir('helm/environments/{{ CUSTOMER_NAME }}'){
+            sh 'helmfile -l stage=0 sync'
+            sh 'sleep 10'
+            sh 'helmfile -l stage=2 sync --set image.swagat.version=${params.APP_VERSION} --set image.chuchu.version=${params.APP_VERSION} --set image.thala.version=${params.APP_VERSION} --set image.vidu.version=${params.APP_VERSION}'
+          }
         }
     }
   }
