@@ -72,7 +72,7 @@ openviduapi_port: 80
 #db
 postgres_user: postgres
 postgres_password: postgres
-postgres_port: 5434
+postgres_port: 5432
 postgres_db: doorward
 
 #classrooms
