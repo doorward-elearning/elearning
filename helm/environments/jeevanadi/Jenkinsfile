@@ -10,7 +10,9 @@ pipeline {
         steps {
           dir('helm/environments/jeevanadi'){
             sh 'helmfile -l stage=0 sync'
-            sh 'sleep 10'
+          }
+          sh 'sleep 10'
+          dir('helm/environments/jeevanadi'){
             sh 'helmfile -l stage=2 sync --set image.swagat.version=${params.APP_VERSION} --set image.chuchu.version=${params.APP_VERSION} --set image.thala.version=${params.APP_VERSION} --set image.vidu.version=${params.APP_VERSION}'
           }
         }
