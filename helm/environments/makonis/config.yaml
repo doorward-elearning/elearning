@@ -70,13 +70,12 @@ image:
 organization:
   # Organization Logo
     logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
-  
+
   # Display Name of Organization
-    name: Doorward E-Learning
-  
+    name: "Makonis E-Learning"
+
   # Application URL
     website: lms.makonis.ai
-  
+
   #Organization Admin Email ID
     email: info@doorward.tech
-  
