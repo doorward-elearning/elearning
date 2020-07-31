@@ -5,8 +5,6 @@ releases:
       stage: 0
       name: config
     chart: ../../charts/apps/config
-    needs:
-      - demo-school-doorward/demo-school-thaladb
     values:
       - config.yaml
 
