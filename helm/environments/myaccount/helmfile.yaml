@@ -5,8 +5,6 @@ releases:
       stage: 0
       name: config
     chart: ../../charts/apps/config
-    needs:
-      - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml
 
@@ -58,17 +56,6 @@ releases:
       stage: 2
       name: vidu
     chart: ../../charts/apps/vidu
-    needs:
-      - myaccount-doorward/myaccount-thaladb
-    values:
-      - config.yaml
-
-  - name: myaccount-swagat
-    namespace: myaccount-doorward
-    labels:
-      stage: 3
-      name: swagat
-    chart: ../../charts/apps/swagat
     needs:
       - myaccount-doorward/myaccount-thaladb
     values:
