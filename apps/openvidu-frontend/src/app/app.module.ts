@@ -68,6 +68,8 @@ import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
 import { BehaviorSubject } from 'rxjs';
 import { HomeComponent } from './home/home.component';
 import { CanvasWhiteboardModule } from '@doorward/whiteboard/ng2-canvas-whiteboard';
+import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
+import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-sync.service';
 
 @NgModule({
   declarations: [
@@ -120,7 +122,7 @@ import { CanvasWhiteboardModule } from '@doorward/whiteboard/ng2-canvas-whiteboa
     NgxEmojiPickerModule,
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
-    CanvasWhiteboardModule
+    CanvasWhiteboardModule,
   ],
   entryComponents: [
     DialogErrorComponent,
@@ -144,6 +146,7 @@ import { CanvasWhiteboardModule } from '@doorward/whiteboard/ng2-canvas-whiteboa
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
     { provide: 'BASE_API_URL', useValue: new BehaviorSubject(environment.OPENVIDU_API_URL) },
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
+    { provide: CANVAS_WHITEBOARD_SYNC_SERVICE, useClass: WhiteboardSyncService },
   ],
   bootstrap: [AppComponent],
 })
