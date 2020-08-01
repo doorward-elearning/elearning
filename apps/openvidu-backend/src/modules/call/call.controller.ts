@@ -5,6 +5,8 @@ import { DeleteSessionResponse, OPENVIDU_ROLES, OpenviduUserSession } from '@doo
 import { AuthService } from '../auth/auth.service';
 import Tools from '@doorward/common/utils/Tools';
 import { CreateSessionBody } from '@doorward/backend/dto/openviduBackend';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import Capabilities from '@doorward/common/utils/Capabilities';
 
 @Controller('call')
 export class CallController {
@@ -53,6 +55,11 @@ export class CallController {
       }
     }
 
+    sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
+      MeetingCapabilities,
+      (sessionConfig.capabilities as any).capabilities
+    );
+
     try {
       const webcamToken = await this.openviduService.createToken({
         session: id,
@@ -65,19 +72,16 @@ export class CallController {
         data: JSON.stringify(user),
       });
 
-      const whiteboardToken = await this.openviduService.createToken({
-        session: id,
-        role: user.role,
-        data: JSON.stringify(user),
-      });
-
       const userSession: OpenviduUserSession = {
         user,
         sessionInfo: {
           webcamToken: webcamToken.token,
           screenToken: screenToken.token,
-          whiteboardToken: whiteboardToken.token,
-          connectionId: `conn_${Tools.randomString(10)}`,
+          userId: `user_${Tools.randomString(20)}`,
+          whiteboardSessionInfo: {
+            active: false,
+            createdBy: null,
+          },
           role: user.role,
           session: sessionId,
         },

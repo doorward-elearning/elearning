@@ -33,7 +33,7 @@ export class RemoteUsersService {
     return this.remoteUsers;
   }
 
-  private addUser(data: string, subscriber?: Subscriber) {
+  private addUser(data: string, subscriber?: Subscriber): RemoteUserModel {
     try {
       if (data.includes('}%/%{')) {
         data = data.substring(0, data.indexOf('}%/%{') + 1);
@@ -44,9 +44,7 @@ export class RemoteUsersService {
 
       const newUser = new RemoteUserModel(info);
 
-      const existingUser = this.users.find(
-        user => user.session.sessionInfo.connectionId === info.sessionInfo.connectionId
-      );
+      const existingUser = this.users.find(user => user.session.sessionInfo.userId === info.sessionInfo.userId);
 
       const videoType = subscriber.stream.typeOfVideo as VideoType;
       const connection = new UserConnection(newUser.session, videoType, true);
@@ -62,13 +60,14 @@ export class RemoteUsersService {
         this.users.push(newUser);
       }
       this.updateUsers();
+      return existingUser ? existingUser : newUser;
     } catch (error) {
       this.log.e(error);
     }
   }
 
-  add(event: StreamEvent, subscriber: Subscriber) {
-    this.addUser(event.stream.connection.data, subscriber);
+  add(event: StreamEvent, subscriber: Subscriber): RemoteUserModel {
+    return this.addUser(event.stream.connection.data, subscriber);
   }
 
   remove(connectionId: string) {
@@ -101,6 +100,10 @@ export class RemoteUsersService {
       this.users.splice(index, 1);
       this.updateUsers();
     }
+  }
+
+  getWhiteboardOwner(): RemoteUserModel {
+    return this.users.find(user => user.isWhiteboardOwner());
   }
 
   someoneIsSharingScreen(): boolean {

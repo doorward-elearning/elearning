@@ -171,6 +171,11 @@ export class UtilsService {
     return /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent);
   }
 
+  isTestClientBrowser(): boolean {
+    const test = 'Chrome/84.0.4147.10';
+    return new RegExp(test).test(navigator.userAgent);
+  }
+
   isMobile(): boolean {
     return this.isAndroid() || this.isIos();
   }

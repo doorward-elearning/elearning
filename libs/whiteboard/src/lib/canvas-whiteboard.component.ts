@@ -27,13 +27,14 @@ import CanvasWhiteboardSyncService, {
   CANVAS_WHITEBOARD_SYNC_SERVICE,
   CanvasWhiteboardUpdateTypes,
 } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
+import { PointerShape } from '@doorward/whiteboard/shapes/pointer-shape';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'canvas-whiteboard',
   template: `
     <div class="canvas_wrapper_div">
-      <div class="canvas_whiteboard_buttons">
+      <div class="canvas_whiteboard_buttons" *ngIf="!readOnly">
         <canvas-whiteboard-shape-selector
           *ngIf="shapeSelectorEnabled"
           [showShapeSelector]="showShapeSelector"
@@ -121,6 +122,8 @@ import CanvasWhiteboardSyncService, {
         (touchend)="canvasUserEvents($event)"
         (touchcancel)="canvasUserEvents($event)"
       ></canvas>
+
+      <div class="canvas_whiteboard__title">Whiteboard</div>
     </div>
   `,
   styleUrls: ['./canvas-whiteboard.component.scss'],
@@ -152,6 +155,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   @Input() clearButtonText = '';
   @Input() undoButtonText = '';
   @Input() redoButtonText = '';
+  @Input() readOnly = false;
   @Input() saveDataButtonText = '';
   @Input() drawButtonEnabled = true;
   @Input() clearButtonEnabled = true;
@@ -344,6 +348,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _initCanvasServiceObservables(): void {
     this._canvasWhiteboardServiceSubscriptions.push(
       this._canvasWhiteboardService.canvasDrawSubject$.subscribe(updates => this.drawUpdates(updates))
+    );
+    this._canvasWhiteboardServiceSubscriptions.push(
+      this._canvasWhiteboardService.canvasPointerSubject$.subscribe(update => this._draw(update))
     );
     this._canvasWhiteboardServiceSubscriptions.push(
       this._canvasWhiteboardService.canvasClearSubject$.subscribe(() => this.clearCanvas())
@@ -659,9 +666,19 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   canvasUserEvents(event: any): void {
     //Ignore all if we didn't click the _draw! button or the image did not load
-    if (!this.drawingEnabled || !this._canDraw) {
+    if (!this.drawingEnabled || !this._canDraw || this.readOnly) {
       return;
     }
+
+    let update: CanvasWhiteboardUpdate;
+    const eventPosition: CanvasWhiteboardPoint = this._getCanvasEventPosition(event);
+    update = new CanvasWhiteboardUpdate(eventPosition.x, eventPosition.y);
+
+    update.type = CanvasWhiteboardUpdateType.MOUSE_MOVE;
+    this._canvasWhiteboardSyncService.send({
+      type: CanvasWhiteboardUpdateTypes.MOUSE_MOVE,
+      update,
+    });
 
     // Ignore mouse move Events if we're not dragging
     if (
@@ -681,10 +698,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       event.preventDefault();
     }
 
-    let update: CanvasWhiteboardUpdate;
     let updateType: number;
-    const eventPosition: CanvasWhiteboardPoint = this._getCanvasEventPosition(event);
-    update = new CanvasWhiteboardUpdate(eventPosition.x, eventPosition.y);
 
     switch (event.type) {
       case 'mousedown':
@@ -818,7 +832,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    * @param update The update object.
    */
   private _draw(update: CanvasWhiteboardUpdate): void {
-    this._updateHistory.push(update);
+    if (update.type !== CanvasWhiteboardUpdateType.MOUSE_MOVE) {
+      this._updateHistory.push(update);
+    }
 
     //map the canvas coordinates to our canvas size since they are scaled.
     update = Object.assign(new CanvasWhiteboardUpdate(), update, {
@@ -840,13 +856,25 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       const shape = this._incompleteShapesMap.get(update.UUID);
       shape?.onUpdateReceived(update);
       this._drawIncompleteShapes();
-    } else if (CanvasWhiteboardUpdateType.STOP) {
+    } else if (update.type === CanvasWhiteboardUpdateType.STOP) {
       const shape = this._incompleteShapesMap.get(update.UUID);
       shape?.onStopReceived(update);
 
       this._shapesMap.set(update.UUID, shape);
       this._incompleteShapesMap.delete(update.UUID);
       this._swapCompletedShapeToActualCanvas(shape);
+    } else if (update.type === CanvasWhiteboardUpdateType.MOUSE_MOVE) {
+      let pointer = this._incompleteShapesMap.get('__pointer__');
+      if (!pointer) {
+        pointer = new PointerShape(
+          new CanvasWhiteboardPoint(update.x, update.y),
+          Object.assign(new CanvasWhiteboardShapeOptions(), update.selectedShapeOptions)
+        );
+        this._incompleteShapesMap.set('__pointer__', pointer);
+      } else {
+        pointer.onUpdateReceived(update);
+      }
+      this._drawIncompleteShapes();
     }
   }
 

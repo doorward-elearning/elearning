@@ -49,7 +49,7 @@ import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
-import { CanvasWhiteboardComponent, CanvasWhiteboardUpdate } from '@doorward/whiteboard/ng2-canvas-whiteboard';
+import { CanvasWhiteboardComponent } from '@doorward/whiteboard/ng2-canvas-whiteboard';
 import { WhiteboardSyncService } from '../shared/services/whiteboard/whiteboard-sync.service';
 import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
@@ -93,7 +93,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   isAutoLayout = false;
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
-  whiteboardShown = false;
+  whiteboardShown: boolean;
   private log: ILogger;
   private oVUsersSubscription: Subscription;
   private remoteUsersSubscription: Subscription;
@@ -144,9 +144,12 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
             : null,
       };
       defaultConfig.sessionId = 'test-meeting';
-      if (this.utilsSrv.isFF()) {
+      if (this.utilsSrv.isTestClientBrowser()) {
         defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
-        defaultConfig.sessionConfig.capabilities.remove(MeetingCapabilities.PUBLISH_VIDEO);
+        defaultConfig.sessionConfig.capabilities.remove(
+          MeetingCapabilities.PUBLISH_VIDEO,
+          MeetingCapabilities.PUBLISH_WHITEBOARD
+        );
       }
       this.externalConfig = defaultConfig;
       this._leaveSession.subscribe(() => {
@@ -221,10 +224,10 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.chatService.subscribeToChat();
     this.subscribeToSideNav();
     this.subscribeToReconnection();
-    this.subscribeToWhiteboardUpdates();
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
       this.subscribeToSpeechDetection();
+      this.subscribeToWhiteboardState();
       this.whiteboardService.subscribeToUpdates();
       this.signalService.subscribeToLeaveSession(() => {
         this.oVSessionService.disconnect();
@@ -302,48 +305,47 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   }
 
   toggleWhiteboard() {
-    if (this.localUser.screenEnabled()) {
-      this.utilsSrv.alert(
-        'Stop screen sharing',
-        'Stop screen sharing in order to share whiteboard.',
-        [
-          {
-            text: 'Yes',
-            onClick: () => {
-              this.toggleScreenShare();
-              this.whiteboardShown = true;
+    if (!this.localUser.isWhiteboardActive() || this.localUser.isWhiteboardOwner()) {
+      if (this.localUser.screenEnabled()) {
+        this.utilsSrv.alert(
+          'Stop screen sharing',
+          'Stop screen sharing in order to share whiteboard.',
+          [
+            {
+              text: 'Yes',
+              onClick: () => {
+                this.toggleScreenShare();
+                this.whiteboardShown = true;
+                this.fireWhiteboardStateChanged();
+              },
             },
-          },
-          {
-            text: 'No',
-            onClick: () => {},
-          },
-        ],
-        true
-      );
-    } else {
-      if (this.whiteboardShown) {
-        this.removeWhiteboard();
-        this.whiteboardShown = false;
+            {
+              text: 'No',
+              onClick: () => {},
+            },
+          ],
+          true
+        );
       } else {
-        this.whiteboardShown = true;
+        this.whiteboardShown = !this.whiteboardShown;
+        this.fireWhiteboardStateChanged();
       }
+    } else {
+      this.whiteboardShown = !this.whiteboardShown;
     }
-    this.signalService.send(
-      this.whiteboardShown ? SignalTypes.WHITEBOARD_SHARING_STARTED : SignalTypes.WHITEBOARD_SHARING_ENDED
-    );
-    this.whiteboardCanvas.calculateDimensions();
   }
 
-  subscribeToWhiteboardUpdates() {
-    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_STARTED, () => {
-      this.whiteboardShown = true;
-      this.whiteboardCanvas.calculateDimensions();
-    });
-
-    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, () => {
-      this.whiteboardShown = false;
-    });
+  private fireWhiteboardStateChanged() {
+    const sessionInfo = {
+      active: this.whiteboardShown,
+      createdBy: this.whiteboardShown ? this.localUser.getUserId() : null,
+    };
+    this.oVSessionService.updateWhiteboard(sessionInfo);
+    this.whiteboardCanvas.calculateDimensions();
+    this.signalService.send(
+      this.whiteboardShown ? SignalTypes.WHITEBOARD_SHARING_STARTED : SignalTypes.WHITEBOARD_SHARING_ENDED,
+      sessionInfo
+    );
   }
 
   async toggleScreenShare() {
@@ -352,7 +354,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       this.removeScreen();
       return;
     }
-    if (!this.localUser.whiteboardEnabled()) {
+    if (!this.localUser.isWhiteboardActive()) {
       const screenPublisher = this.initScreenPublisher();
 
       screenPublisher.once('accessAllowed', event => {
@@ -446,7 +448,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
     await this.connectAllSessions();
 
-    Promise.all(
+    await Promise.all(
       this.localUser.getEnabledConnections().map(async connection => {
         await connection.publish();
       })
@@ -483,8 +485,13 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       if (this.oVSessionService.isMyOwnConnection(connectionId)) {
         return;
       }
+
       const subscriber: Subscriber = this.session.subscribe(event.stream, undefined);
       this.remoteUsersService.add(event, subscriber);
+
+      if (this.localUser.isWhiteboardOwner()) {
+        this.fireWhiteboardStateChanged();
+      }
     });
   }
 
@@ -515,12 +522,30 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   private subscribeToNicknameChanged() {
     this.session.on('signal:nicknameChanged', (event: any) => {
-      const connectionId = event.from.connectionId;
+      const connectionId = event.from.userId;
       if (this.oVSessionService.isMyOwnConnection(connectionId)) {
         return;
       }
       const nickname = JSON.parse(event.data).nickname;
       this.remoteUsersService.updateNickname(connectionId, nickname);
+    });
+  }
+
+  private subscribeToWhiteboardState() {
+    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_STARTED, data => {
+      this.whiteboardShown = true;
+      this.oVSessionService.updateLocalUserSession(user => {
+        user.setWhiteboardSession(data);
+        return user;
+      });
+      this.whiteboardCanvas?.calculateDimensions();
+    });
+    this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, data => {
+      this.oVSessionService.updateLocalUserSession(user => {
+        user.setWhiteboardSession(data);
+        return user;
+      });
+      this.whiteboardShown = false;
     });
   }
 
@@ -543,11 +568,6 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   private removeScreen() {
     this.oVSessionService.disableScreen();
     this.oVSessionService.unPublishScreen();
-  }
-
-  private removeWhiteboard() {
-    this.oVSessionService.disableWhiteboard();
-    this.oVSessionService.unPublishWhiteboard();
   }
 
   private subscribeToSideNav() {

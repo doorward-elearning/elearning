@@ -142,10 +142,6 @@ export default class UserConnection {
     return this.type === VideoType.SCREEN;
   }
 
-  isWhiteboard() {
-    return this.type === VideoType.WHITEBOARD;
-  }
-
   isCamera() {
     return this.type === VideoType.CAMERA;
   }
@@ -154,8 +150,6 @@ export default class UserConnection {
     const name = this.user.user.name;
     if (this.isScreen()) {
       return name + "'s screen";
-    } else if (this.isWhiteboard()) {
-      return 'Whiteboard';
     } else {
       return name;
     }

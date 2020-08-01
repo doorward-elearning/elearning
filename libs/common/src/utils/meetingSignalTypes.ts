@@ -1,4 +1,4 @@
-import { OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { OpenviduUser, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
 import { CanvasWhiteboardSyncData } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 enum SignalTypes {
@@ -21,6 +21,8 @@ export interface SignalData extends Record<SignalTypes, unknown> {
   [SignalTypes.TOGGLE_VIDEO_CONTROL]: undefined;
   [SignalTypes.CHAT]: { message: string; sender: OpenviduUser };
   [SignalTypes.WHITEBOARD_UPDATE]: CanvasWhiteboardSyncData;
+  [SignalTypes.WHITEBOARD_SHARING_STARTED]: WhiteboardSessionInfo;
+  [SignalTypes.WHITEBOARD_SHARING_ENDED]: WhiteboardSessionInfo;
 }
 
 export default SignalTypes;

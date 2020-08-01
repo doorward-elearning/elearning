@@ -1,7 +1,7 @@
 export enum VideoType {
   CAMERA = 'CAMERA',
   SCREEN = 'SCREEN',
-  WHITEBOARD = 'WHITEBOARD',
+  CUSTOM = 'CUSTOM',
 }
 
 export enum ScreenType {

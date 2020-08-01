@@ -4,6 +4,7 @@ export enum CanvasWhiteboardUpdateType {
   START = 0,
   DRAG = 1,
   STOP = 2,
+  MOUSE_MOVE = 3
 }
 
 export class CanvasWhiteboardUpdate {
