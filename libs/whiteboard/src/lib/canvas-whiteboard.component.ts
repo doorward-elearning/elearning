@@ -1,16 +1,17 @@
 import {
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
-  Input,
-  Output,
-  EventEmitter,
-  ViewChild,
   ElementRef,
-  OnInit,
+  EventEmitter,
+  Inject,
+  Input,
+  NgZone,
   OnChanges,
   OnDestroy,
-  AfterViewInit,
-  NgZone,
-  ChangeDetectorRef,
+  OnInit,
+  Output,
+  ViewChild,
 } from '@angular/core';
 import { CanvasWhiteboardUpdate, CanvasWhiteboardUpdateType } from './canvas-whiteboard-update.model';
 import { CanvasWhiteboardService } from './canvas-whiteboard.service';
@@ -22,6 +23,10 @@ import { CanvasWhiteboardShapeOptions } from './shapes/canvas-whiteboard-shape-o
 import { fromEvent, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { cloneDeep } from 'lodash';
+import CanvasWhiteboardSyncService, {
+  CANVAS_WHITEBOARD_SYNC_SERVICE,
+  CanvasWhiteboardUpdateTypes,
+} from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 @Component({
   // tslint:disable-next-line:component-selector
@@ -212,7 +217,8 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     private ngZone: NgZone,
     private _changeDetector: ChangeDetectorRef,
     private _canvasWhiteboardService: CanvasWhiteboardService,
-    private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService
+    private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService,
+    @Inject(CANVAS_WHITEBOARD_SYNC_SERVICE) private _canvasWhiteboardSyncService: CanvasWhiteboardSyncService
   ) {
     this._shapesMap = new Map<string, CanvasWhiteboardShape>();
     this._incompleteShapesMap = new Map<string, CanvasWhiteboardShape>();
@@ -244,6 +250,14 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    * Recalculate the width and height of the canvas after the view has been fully initialized
    */
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this._calculateCanvasWidthAndHeight();
+      this._redrawHistory();
+      this._canvasWhiteboardSyncService.setWhiteboardService(this._canvasWhiteboardService);
+    }, 100);
+  }
+
+  public calculateDimensions() {
     setTimeout(() => {
       this._calculateCanvasWidthAndHeight();
       this._redrawHistory();
@@ -401,6 +415,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    * If the client calls this method he may create a circular clear action which may cause danger.
    */
   clearCanvasLocal(): void {
+    this._canvasWhiteboardSyncService.send({
+      type: CanvasWhiteboardUpdateTypes.CLEAR_CANVAS,
+    });
     this.clearCanvas();
     this.onClear.emit(true);
   }
@@ -544,6 +561,10 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   undoLocal(): void {
     this.undo(updateUUID => {
+      this._canvasWhiteboardSyncService.send({
+        type: CanvasWhiteboardUpdateTypes.UNDO,
+        updateUUID,
+      });
       this._redoStack.push(updateUUID);
       this.onUndo.emit(updateUUID);
     });
@@ -584,6 +605,10 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   redoLocal(): void {
     this.redo(updateUUID => {
+      this._canvasWhiteboardSyncService.send({
+        type: CanvasWhiteboardUpdateTypes.REDO,
+        updateUUID,
+      });
       this._undoStack.push(updateUUID);
       this.onRedo.emit(updateUUID);
     });
@@ -658,7 +683,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
 
     let update: CanvasWhiteboardUpdate;
     let updateType: number;
-    let eventPosition: CanvasWhiteboardPoint = this._getCanvasEventPosition(event);
+    const eventPosition: CanvasWhiteboardPoint = this._getCanvasEventPosition(event);
     update = new CanvasWhiteboardUpdate(eventPosition.x, eventPosition.y);
 
     switch (event.type) {
@@ -703,13 +728,13 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    * @param eventData
    */
   private _getCanvasEventPosition(eventData: any): CanvasWhiteboardPoint {
-    let canvasBoundingRect = this.context.canvas.getBoundingClientRect();
+    const canvasBoundingRect = this.context.canvas.getBoundingClientRect();
 
     let hasTouches = eventData.touches && eventData.touches.length ? eventData.touches[0] : null;
     if (!hasTouches)
       hasTouches = eventData.changedTouches && eventData.changedTouches.length ? eventData.changedTouches[0] : null;
 
-    let event = hasTouches ? hasTouches : eventData;
+    const event = hasTouches ? hasTouches : eventData;
 
     const scaleWidth = canvasBoundingRect.width / this.context.canvas.width;
     const scaleHeight = canvasBoundingRect.height / this.context.canvas.height;
@@ -802,22 +827,22 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     });
 
     if (update.type === CanvasWhiteboardUpdateType.START) {
-      let updateShapeConstructor = this._canvasWhiteboardShapeService.getShapeConstructorFromShapeName(
+      const updateShapeConstructor = this._canvasWhiteboardShapeService.getShapeConstructorFromShapeName(
         update.selectedShape
       );
-      let shape = new updateShapeConstructor(
+      const shape = new updateShapeConstructor(
         new CanvasWhiteboardPoint(update.x, update.y),
         Object.assign(new CanvasWhiteboardShapeOptions(), update.selectedShapeOptions)
       );
       this._incompleteShapesMap.set(update.UUID, shape);
       this._drawIncompleteShapes();
     } else if (update.type === CanvasWhiteboardUpdateType.DRAG) {
-      let shape = this._incompleteShapesMap.get(update.UUID);
-      shape && shape.onUpdateReceived(update);
+      const shape = this._incompleteShapesMap.get(update.UUID);
+      shape?.onUpdateReceived(update);
       this._drawIncompleteShapes();
     } else if (CanvasWhiteboardUpdateType.STOP) {
-      let shape = this._incompleteShapesMap.get(update.UUID);
-      shape && shape.onStopReceived(update);
+      const shape = this._incompleteShapesMap.get(update.UUID);
+      shape?.onStopReceived(update);
 
       this._shapesMap.set(update.UUID, shape);
       this._incompleteShapesMap.delete(update.UUID);
@@ -909,6 +934,10 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     if (!this._updateTimeout) {
       this._updateTimeout = setTimeout(() => {
         this.onBatchUpdate.emit(this._batchUpdates);
+        this._canvasWhiteboardSyncService.send({
+          type: CanvasWhiteboardUpdateTypes.BATCH_UPDATE,
+          batch: this._batchUpdates,
+        });
         this._batchUpdates = [];
         this._updateTimeout = null;
       }, this.batchUpdateTimeoutDuration);
@@ -936,7 +965,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   private _drawMissingUpdates(): void {
     if (this._updatesNotDrawn.length > 0) {
-      let updatesToDraw = this._updatesNotDrawn;
+      const updatesToDraw = this._updatesNotDrawn;
       this._updatesNotDrawn = [];
 
       updatesToDraw.forEach((update: CanvasWhiteboardUpdate) => {

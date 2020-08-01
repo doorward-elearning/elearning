@@ -50,6 +50,8 @@ import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities'
 import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
 import { CanvasWhiteboardComponent, CanvasWhiteboardUpdate } from '@doorward/whiteboard/ng2-canvas-whiteboard';
+import { WhiteboardSyncService } from '../shared/services/whiteboard/whiteboard-sync.service';
+import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -110,6 +112,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     private chatService: ChatService,
     private matDialog: MatDialog,
     private signalService: SignalsService,
+    @Inject(CANVAS_WHITEBOARD_SYNC_SERVICE) private whiteboardService: WhiteboardSyncService,
     @Inject('BASE_API_URL') private _baseUrl: BehaviorSubject<string>
   ) {
     super();
@@ -222,6 +225,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
       this.subscribeToSpeechDetection();
+      this.whiteboardService.subscribeToUpdates();
       this.signalService.subscribeToLeaveSession(() => {
         this.oVSessionService.disconnect();
         this._leaveSession.emit();
@@ -328,25 +332,17 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.signalService.send(
       this.whiteboardShown ? SignalTypes.WHITEBOARD_SHARING_STARTED : SignalTypes.WHITEBOARD_SHARING_ENDED
     );
-  }
-
-  onWhiteboardUpdate(updates: Array<CanvasWhiteboardUpdate>) {
-    this.signalService.send(SignalTypes.WHITEBOARD_UPDATE, {
-      batch: updates,
-    });
+    this.whiteboardCanvas.calculateDimensions();
   }
 
   subscribeToWhiteboardUpdates() {
     this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_STARTED, () => {
       this.whiteboardShown = true;
+      this.whiteboardCanvas.calculateDimensions();
     });
 
     this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, () => {
       this.whiteboardShown = false;
-    });
-
-    this.signalService.subscribe(SignalTypes.WHITEBOARD_UPDATE, data => {
-      this.whiteboardCanvas.drawUpdates(data.batch);
     });
   }
 
