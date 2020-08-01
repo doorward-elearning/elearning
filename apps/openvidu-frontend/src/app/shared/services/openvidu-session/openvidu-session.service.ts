@@ -5,7 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ScreenType, VideoType } from '../../types/video-type';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
 import UserConnection from '../../models/user-connection';
 import { LocalUserModel } from '../../models/local-user-model';
 
@@ -84,10 +84,8 @@ export class OpenViduSessionService {
     this.refresh();
   }
 
-  enableWhiteboard(whiteboardPublisher: Publisher) {
-    this.getUser()
-      .getWhiteboard()
-      .setStreamManager(whiteboardPublisher);
+  updateWhiteboard(whiteboardSession: WhiteboardSessionInfo) {
+    this.getUser().setWhiteboardSession(whiteboardSession);
     this.refresh();
   }
 
@@ -105,13 +103,6 @@ export class OpenViduSessionService {
   disableScreen() {
     this.getUser()
       .getScreen()
-      .destroy();
-    this.refresh();
-  }
-
-  disableWhiteboard() {
-    this.getUser()
-      .getWhiteboard()
       .destroy();
     this.refresh();
   }
@@ -225,13 +216,6 @@ export class OpenViduSessionService {
   async unPublishWebcam() {
     await this.getUser()
       .getCamera()
-      .unPublish();
-    this.refresh();
-  }
-
-  async unPublishWhiteboard() {
-    await this.getUser()
-      .getWhiteboard()
       .unPublish();
     this.refresh();
   }

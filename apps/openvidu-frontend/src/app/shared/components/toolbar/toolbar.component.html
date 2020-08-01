@@ -1,6 +1,6 @@
 <div class="app-toolbar-component" *ngIf="localUser?.session">
   <app-active-user-wrapper>
-    <div class="session-header" [ngClass]="whiteboardActive ? 'no-title' : ''">
+    <div class="session-header" [ngClass]="whiteboardShown ? 'no-title' : ''">
       <div class="session-title">
         <h1>{{ sessionTitle }}</h1>
       </div>
@@ -80,9 +80,18 @@
       </div>
     </div>
     <div class="toolbar-actions">
-      <button (click)="whiteboardButtonClicked.emit()" mat-stroked-button>
-        <mat-icon>{{ whiteboardActive ? 'meeting_room' : 'video_label' }}</mat-icon>
-        {{ whiteboardActive ? 'Back to meeting' : 'Whiteboard' }}
+      <button
+        (click)="whiteboardButtonClicked.emit()"
+        mat-stroked-button
+        *ngIf="localUser.isWhiteboardActive() || localUser.isWhiteboardPublisher()"
+      >
+        <mat-icon>{{ whiteboardShown ? 'meeting_room' : 'video_label' }}</mat-icon>
+        <span *ngIf="whiteboardShown">
+          {{ localUser.isWhiteboardOwner() ? 'Close whiteboard' : 'Back to meeting' }}
+        </span>
+        <span *ngIf="!whiteboardShown">
+          Whiteboard
+        </span>
       </button>
     </div>
   </div>

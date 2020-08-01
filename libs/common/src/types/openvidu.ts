@@ -99,11 +99,16 @@ export interface OpenviduUser {
   data?: any;
 }
 
+export interface WhiteboardSessionInfo {
+  active?: boolean;
+  createdBy: string;
+}
+
 export interface SessionInfo extends CreateTokenBody {
   screenToken: string;
   webcamToken: string;
-  whiteboardToken: string;
-  connectionId: string;
+  userId: string;
+  whiteboardSessionInfo?: WhiteboardSessionInfo;
 }
 
 export interface OpenviduUserSession {

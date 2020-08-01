@@ -11,7 +11,6 @@ export class LocalUserModel extends UserModel {
     this.openvidu = new OpenVidu();
     this.setConnection(new UserConnection(null, VideoType.CAMERA, true));
     this.setConnection(new UserConnection(null, VideoType.SCREEN, false));
-    this.setConnection(new UserConnection(null, VideoType.WHITEBOARD, false));
   }
 
   initialize() {
@@ -32,7 +31,6 @@ export class LocalUserModel extends UserModel {
     const { sessionInfo } = this.session;
     await this.getCamera().connect(sessionInfo.webcamToken, this.session);
     await this.getScreen().connect(sessionInfo.screenToken, this.session);
-    await this.getWhiteboard().connect(sessionInfo.whiteboardToken, this.session);
   }
 
   getDevices(): Promise<Device[]> {

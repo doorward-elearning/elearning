@@ -20,6 +20,16 @@
   border: 2px solid transparent;
 }
 
+.canvas_whiteboard__title {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: black;
+  padding: 0.5em 1em;
+  color: white;
+  z-index: 10;
+}
+
 .canvas_whiteboard_buttons {
   z-index: 3;
 }

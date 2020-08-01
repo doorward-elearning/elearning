@@ -14,6 +14,9 @@ export class CanvasWhiteboardService {
   private _canvasRedoSubject: Subject<any> = new Subject();
   canvasRedoSubject$: Observable<any> = this._canvasRedoSubject.asObservable();
 
+  private _canvasPointerSubject: Subject<any> = new Subject<any>();
+  canvasPointerSubject$: Observable<any> = this._canvasPointerSubject.asObservable();
+
   public drawCanvas(updates: CanvasWhiteboardUpdate[]): void {
     this._canvasDrawSubject.next(updates);
   }
@@ -28,5 +31,9 @@ export class CanvasWhiteboardService {
 
   public redoCanvas(updateUUD: string): void {
     this._canvasRedoSubject.next(updateUUD);
+  }
+
+  public updatePosition(update: CanvasWhiteboardUpdate) {
+    this._canvasPointerSubject.next(update);
   }
 }

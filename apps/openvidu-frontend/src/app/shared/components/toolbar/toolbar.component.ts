@@ -19,7 +19,7 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
-  @Input() whiteboardActive: boolean;
+  @Input() whiteboardShown: boolean;
   @Input() localUser: UserModel | undefined;
 
   @Input() isAutoLayout: boolean;

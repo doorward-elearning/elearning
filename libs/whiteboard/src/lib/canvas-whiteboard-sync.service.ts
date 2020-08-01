@@ -7,6 +7,7 @@ export enum CanvasWhiteboardUpdateTypes {
   CLEAR_CANVAS = 2,
   UNDO = 3,
   REDO = 4,
+  MOUSE_MOVE = 5,
 }
 
 export type CanvasWhiteboardSyncData =
@@ -20,6 +21,10 @@ export type CanvasWhiteboardSyncData =
   | {
       type: CanvasWhiteboardUpdateTypes.REDO | CanvasWhiteboardUpdateTypes.UNDO;
       updateUUID: string;
+    }
+  | {
+      type: CanvasWhiteboardUpdateTypes.MOUSE_MOVE;
+      update: CanvasWhiteboardUpdate;
     };
 
 export const CANVAS_WHITEBOARD_SYNC_SERVICE = new InjectionToken<CanvasWhiteboardSyncService>(
@@ -49,6 +54,8 @@ export default abstract class CanvasWhiteboardSyncService {
       this.canvasWhiteboardService.undoCanvas(data.updateUUID);
     } else if (data.type === CanvasWhiteboardUpdateTypes.REDO) {
       this.canvasWhiteboardService.redoCanvas(data.updateUUID);
+    } else if (data.type === CanvasWhiteboardUpdateTypes.MOUSE_MOVE) {
+      this.canvasWhiteboardService.updatePosition(data.update);
     }
   }
 }

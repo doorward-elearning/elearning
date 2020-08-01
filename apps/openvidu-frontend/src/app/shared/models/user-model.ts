@@ -1,5 +1,5 @@
 import { VideoType } from '../types/video-type';
-import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { OPENVIDU_ROLES, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
 import UserConnection from './user-connection';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
@@ -99,7 +99,7 @@ export abstract class UserModel {
   }
 
   public hasWhiteboard() {
-    return this.can(MeetingCapabilities.USE_WHITEBOARD);
+    return this.can(MeetingCapabilities.PUBLISH_WHITEBOARD);
   }
 
   public hasCamera() {
@@ -112,10 +112,6 @@ export abstract class UserModel {
 
   public getScreen(): UserConnection {
     return this.connections.SCREEN;
-  }
-
-  public getWhiteboard(): UserConnection {
-    return this.connections.WHITEBOARD;
   }
 
   public forEach(callback: (connection: UserConnection, type: VideoType) => void) {
@@ -156,10 +152,6 @@ export abstract class UserModel {
     return this.getScreen()?.isActive();
   }
 
-  whiteboardEnabled(): boolean {
-    return this.getWhiteboard()?.isActive();
-  }
-
   getEnabledConnections(): UserConnection[] {
     return this.getConnections()
       .map(({ connection }) => (connection.isActive() ? connection : null))
@@ -178,5 +170,32 @@ export abstract class UserModel {
 
   removeConnection(type: string) {
     delete this.connections[type];
+  }
+
+  isWhiteboardActive(): boolean {
+    return this.session?.sessionInfo?.whiteboardSessionInfo?.active;
+  }
+
+  getWhiteboardSession(): WhiteboardSessionInfo {
+    return this.session?.sessionInfo?.whiteboardSessionInfo;
+  }
+
+  getUserId(): string {
+    return this.session?.sessionInfo?.userId;
+  }
+
+  setWhiteboardSession(whiteboardSession: Partial<WhiteboardSessionInfo>) {
+    this.session.sessionInfo.whiteboardSessionInfo = {
+      ...this.session.sessionInfo.whiteboardSessionInfo,
+      ...whiteboardSession,
+    };
+  }
+
+  isWhiteboardOwner(): boolean {
+    return this.getUserId() && this.getUserId() === this.getWhiteboardSession()?.createdBy;
+  }
+
+  isWhiteboardPublisher() {
+    return this.can(MeetingCapabilities.PUBLISH_WHITEBOARD);
   }
 }

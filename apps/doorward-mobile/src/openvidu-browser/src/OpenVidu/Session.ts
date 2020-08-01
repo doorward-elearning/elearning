@@ -712,7 +712,7 @@ export class Session extends EventDispatcher {
      * @hidden
      */
     onParticipantLeft(msg): void {
-        this.getRemoteConnection(msg.connectionId, 'Remote connection ' + msg.connectionId + " unknown when 'onParticipantLeft'. " +
+        this.getRemoteConnection(msg.userId, 'Remote connection ' + msg.userId + " unknown when 'onParticipantLeft'. " +
             'Existing remote connections: ' + JSON.stringify(Object.keys(this.remoteConnections)))
 
             .then(connection => {
@@ -744,7 +744,7 @@ export class Session extends EventDispatcher {
     onParticipantPublished(response: ConnectionOptions): void {
 
         const afterConnectionFound = (connection) => {
-            this.remoteConnections[connection.connectionId] = connection;
+            this.remoteConnections[connection.userId] = connection;
 
             if (!this.remoteStreamsCreated[connection.stream.streamId]) {
                 // Avoid race condition between stream.subscribe() in "onParticipantPublished" and in "joinRoom" rpc callback
@@ -782,11 +782,11 @@ export class Session extends EventDispatcher {
      * @hidden
      */
     onParticipantUnpublished(msg): void {
-        if (msg.connectionId === this.connection.connectionId) {
+        if (msg.userId === this.connection.connectionId) {
             // Your stream has been forcedly unpublished from the session
             this.stopPublisherStream(msg.reason);
         } else {
-            this.getRemoteConnection(msg.connectionId, "Remote connection '" + msg.connectionId + "' unknown when 'onParticipantUnpublished'. " +
+            this.getRemoteConnection(msg.userId, "Remote connection '" + msg.userId + "' unknown when 'onParticipantUnpublished'. " +
                 'Existing remote connections: ' + JSON.stringify(Object.keys(this.remoteConnections)))
 
                 .then(connection => {
@@ -816,7 +816,7 @@ export class Session extends EventDispatcher {
      * @hidden
      */
     onParticipantEvicted(msg): void {
-        if (msg.connectionId === this.connection.connectionId) {
+        if (msg.userId === this.connection.connectionId) {
             // You have been evicted from the session
             if (!!this.sessionId && !this.connection.disposed) {
                 this.leave(true, msg.reason);
@@ -901,15 +901,15 @@ export class Session extends EventDispatcher {
                     stream.streamManager.emitEvent('streamPropertyChanged', [new StreamPropertyChangedEvent(stream.streamManager, stream, msg.property, msg.newValue, oldValue, msg.reason)]);
                 }
             } else {
-                logger.error("No stream with streamId '" + msg.streamId + "' found for connection '" + msg.connectionId + "' on 'streamPropertyChanged' event");
+                logger.error("No stream with streamId '" + msg.streamId + "' found for connection '" + msg.userId + "' on 'streamPropertyChanged' event");
             }
         };
 
-        if (msg.connectionId === this.connection.connectionId) {
+        if (msg.userId === this.connection.connectionId) {
             // Your stream has been forcedly changed (filter feature)
             callback(this.connection);
         } else {
-            this.getRemoteConnection(msg.connectionId, 'Remote connection ' + msg.connectionId + " unknown when 'onStreamPropertyChanged'. " +
+            this.getRemoteConnection(msg.userId, 'Remote connection ' + msg.userId + " unknown when 'onStreamPropertyChanged'. " +
                 'Existing remote connections: ' + JSON.stringify(Object.keys(this.remoteConnections)))
                 .then(connection => {
                     callback(connection);
@@ -1023,7 +1023,7 @@ export class Session extends EventDispatcher {
      * response = {connectionId: string, streamId: string, type: string, data: Object}
      */
     onFilterEventDispatched(response): void {
-        const connectionId: string = response.connectionId;
+        const connectionId: string = response.userId;
         const streamId: string = response.streamId;
         this.getConnection(connectionId, 'No connection found for connectionId ' + connectionId)
             .then(connection => {
@@ -1132,7 +1132,7 @@ export class Session extends EventDispatcher {
 
                             // Initialize local Connection object with values returned by openvidu-server
                             this.connection = new Connection(this);
-                            this.connection.connectionId = response.id;
+                            this.connection.userId = response.id;
                             this.connection.creationTime = response.createdAt;
                             this.connection.data = response.metadata;
                             this.connection.rpcSessionId = response.sessionId;
