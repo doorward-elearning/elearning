@@ -95,3 +95,35 @@
   position: absolute;
   z-index: 2;
 }
+
+.canvas_whiteboard__pointers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.canvas_whiteboard__pointer {
+  position: relative;
+  z-index: 4;
+
+  img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+  }
+
+  span {
+    position: absolute;
+    left: 100%;
+    bottom: 100%;
+    background: rgba(0, 0, 0, 0.1);
+    border: 1px solid black;
+    border-radius: 3px;
+    color: black;
+    padding: 0.2em 0.5em;
+    white-space: nowrap;
+    opacity: 0.6;
+  }
+}

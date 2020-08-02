@@ -14,17 +14,33 @@ export type CanvasWhiteboardSyncData =
   | {
       type: CanvasWhiteboardUpdateTypes.BATCH_UPDATE;
       batch: CanvasWhiteboardUpdate[];
+      sender?: {
+        name: string;
+        id: string;
+      };
     }
   | {
       type: CanvasWhiteboardUpdateTypes.CLEAR_CANVAS;
+      sender?: {
+        name: string;
+        id: string;
+      };
     }
   | {
       type: CanvasWhiteboardUpdateTypes.REDO | CanvasWhiteboardUpdateTypes.UNDO;
       updateUUID: string;
+      sender?: {
+        name: string;
+        id: string;
+      };
     }
   | {
       type: CanvasWhiteboardUpdateTypes.MOUSE_MOVE;
       update: CanvasWhiteboardUpdate;
+      sender?: {
+        name: string;
+        id: string;
+      };
     };
 
 export const CANVAS_WHITEBOARD_SYNC_SERVICE = new InjectionToken<CanvasWhiteboardSyncService>(
@@ -55,7 +71,7 @@ export default abstract class CanvasWhiteboardSyncService {
     } else if (data.type === CanvasWhiteboardUpdateTypes.REDO) {
       this.canvasWhiteboardService.redoCanvas(data.updateUUID);
     } else if (data.type === CanvasWhiteboardUpdateTypes.MOUSE_MOVE) {
-      this.canvasWhiteboardService.updatePosition(data.update);
+      this.canvasWhiteboardService.updatePosition(data.update, data.sender);
     }
   }
 }

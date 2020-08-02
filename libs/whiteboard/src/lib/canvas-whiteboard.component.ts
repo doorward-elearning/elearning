@@ -27,112 +27,24 @@ import CanvasWhiteboardSyncService, {
   CANVAS_WHITEBOARD_SYNC_SERVICE,
   CanvasWhiteboardUpdateTypes,
 } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
-import { PointerShape } from '@doorward/whiteboard/shapes/pointer-shape';
+import pencil from '../assets/cursors/pencil';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'canvas-whiteboard',
-  template: `
-    <div class="canvas_wrapper_div">
-      <div class="canvas_whiteboard_buttons" *ngIf="!readOnly">
-        <canvas-whiteboard-shape-selector
-          *ngIf="shapeSelectorEnabled"
-          [showShapeSelector]="showShapeSelector"
-          [selectedShapeConstructor]="selectedShapeConstructor"
-          [shapeOptions]="generateShapePreviewOptions()"
-          (onToggleShapeSelector)="toggleShapeSelector($event)"
-          (onShapeSelected)="selectShape($event)"
-        ></canvas-whiteboard-shape-selector>
-
-        <canvas-whiteboard-colorpicker
-          *ngIf="colorPickerEnabled"
-          [previewText]="'Fill'"
-          [showColorPicker]="showFillColorPicker"
-          [selectedColor]="fillColor"
-          (onToggleColorPicker)="toggleFillColorPicker($event)"
-          (onColorSelected)="changeFillColor($event)"
-        >
-        </canvas-whiteboard-colorpicker>
-
-        <canvas-whiteboard-colorpicker
-          *ngIf="colorPickerEnabled"
-          [previewText]="'Stroke'"
-          [showColorPicker]="showStrokeColorPicker"
-          [selectedColor]="strokeColor"
-          (onToggleColorPicker)="toggleStrokeColorPicker($event)"
-          (onColorSelected)="changeStrokeColor($event)"
-        >
-        </canvas-whiteboard-colorpicker>
-
-        <button
-          *ngIf="drawButtonEnabled"
-          (click)="toggleDrawingEnabled()"
-          [class.canvas_whiteboard_button-draw_animated]="getDrawingEnabled()"
-          class="canvas_whiteboard_button canvas_whiteboard_button-draw"
-          type="button"
-        >
-          <i [class]="drawButtonClass" aria-hidden="true"></i> {{ drawButtonText }}
-        </button>
-
-        <button
-          *ngIf="clearButtonEnabled"
-          (click)="clearCanvasLocal()"
-          type="button"
-          class="canvas_whiteboard_button canvas_whiteboard_button-clear"
-        >
-          <i [class]="clearButtonClass" aria-hidden="true"></i> {{ clearButtonText }}
-        </button>
-
-        <button
-          *ngIf="undoButtonEnabled"
-          (click)="undoLocal()"
-          type="button"
-          class="canvas_whiteboard_button canvas_whiteboard_button-undo"
-        >
-          <i [class]="undoButtonClass" aria-hidden="true"></i> {{ undoButtonText }}
-        </button>
-
-        <button
-          *ngIf="redoButtonEnabled"
-          (click)="redoLocal()"
-          type="button"
-          class="canvas_whiteboard_button canvas_whiteboard_button-redo"
-        >
-          <i [class]="redoButtonClass" aria-hidden="true"></i> {{ redoButtonText }}
-        </button>
-        <button
-          *ngIf="saveDataButtonEnabled"
-          (click)="saveLocal()"
-          type="button"
-          class="canvas_whiteboard_button canvas_whiteboard_button-save"
-        >
-          <i [class]="saveDataButtonClass" aria-hidden="true"></i> {{ saveDataButtonText }}
-        </button>
-      </div>
-      <canvas #canvas class="canvas_whiteboard"></canvas>
-      <canvas
-        #incompleteShapesCanvas
-        class="incomplete_shapes_canvas_whiteboard"
-        (mousedown)="canvasUserEvents($event)"
-        (mouseup)="canvasUserEvents($event)"
-        (mousemove)="canvasUserEvents($event)"
-        (mouseout)="canvasUserEvents($event)"
-        (touchstart)="canvasUserEvents($event)"
-        (touchmove)="canvasUserEvents($event)"
-        (touchend)="canvasUserEvents($event)"
-        (touchcancel)="canvasUserEvents($event)"
-      ></canvas>
-
-      <div class="canvas_whiteboard__title">Whiteboard</div>
-    </div>
-  `,
+  templateUrl: './canvas-whiteboard.component.html',
   styleUrls: ['./canvas-whiteboard.component.scss'],
 })
 export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   @Input() options: CanvasWhiteboardOptions;
 
+  pointerIcon = 'data:image/svg+xml;base64,' + btoa(pencil);
+
   // Number of ms to wait before sending out the updates as an array
   @Input() batchUpdateTimeoutDuration = 100;
+
+  pointerSize = 20;
 
   private _imageUrl: string;
   @Input() set imageUrl(imageUrl: string) {
@@ -214,6 +126,8 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _resizeSubscription: Subscription;
   private _registeredShapesSubscription: Subscription;
 
+  private _pointers: Map<string, CanvasWhiteboardUpdate> = new Map();
+
   selectedShapeConstructor: INewCanvasWhiteboardShape<CanvasWhiteboardShape>;
   canvasWhiteboardShapePreviewOptions: CanvasWhiteboardShapeOptions;
 
@@ -222,7 +136,8 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     private _changeDetector: ChangeDetectorRef,
     private _canvasWhiteboardService: CanvasWhiteboardService,
     private _canvasWhiteboardShapeService: CanvasWhiteboardShapeService,
-    @Inject(CANVAS_WHITEBOARD_SYNC_SERVICE) private _canvasWhiteboardSyncService: CanvasWhiteboardSyncService
+    @Inject(CANVAS_WHITEBOARD_SYNC_SERVICE) private _canvasWhiteboardSyncService: CanvasWhiteboardSyncService,
+    private sanitizationService: DomSanitizer
   ) {
     this._shapesMap = new Map<string, CanvasWhiteboardShape>();
     this._incompleteShapesMap = new Map<string, CanvasWhiteboardShape>();
@@ -864,17 +779,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       this._incompleteShapesMap.delete(update.UUID);
       this._swapCompletedShapeToActualCanvas(shape);
     } else if (update.type === CanvasWhiteboardUpdateType.MOUSE_MOVE) {
-      let pointer = this._incompleteShapesMap.get('__pointer__');
-      if (!pointer) {
-        pointer = new PointerShape(
-          new CanvasWhiteboardPoint(update.x, update.y),
-          Object.assign(new CanvasWhiteboardShapeOptions(), update.selectedShapeOptions)
-        );
-        this._incompleteShapesMap.set('__pointer__', pointer);
-      } else {
-        pointer.onUpdateReceived(update);
+      if (update.sender) {
+        this._pointers.set(update.sender.id, update);
       }
-      this._drawIncompleteShapes();
     }
   }
 
