@@ -49,3 +49,14 @@ releases:
       - cttfkerala-doorward/cttfkerala-thaladb
     values:
       - config.yaml
+
+  - name: cttfkerala-vidu
+    namespace: cttfkerala-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - cttfkerala-doorward/cttfkerala-thaladb
+    values:
+      - config.yaml
