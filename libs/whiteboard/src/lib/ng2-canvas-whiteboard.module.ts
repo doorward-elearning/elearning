@@ -6,7 +6,6 @@ import { CanvasWhiteboardService } from './canvas-whiteboard.service';
 import { CanvasWhiteboardShapeService } from './shapes/canvas-whiteboard-shape.service';
 import { CanvasWhiteboardShapeSelectorComponent } from './shapes/canvas-whiteboard-shape-selector.component';
 import { CanvasWhiteboardShapePreviewComponent } from './shapes/canvas-whiteboard-shape-preview.component';
-import CanvasWhiteboardSyncService from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 @NgModule({
   imports: [CommonModule],
@@ -16,7 +15,7 @@ import CanvasWhiteboardSyncService from '@doorward/whiteboard/canvas-whiteboard-
     CanvasWhiteboardShapeSelectorComponent,
     CanvasWhiteboardShapePreviewComponent,
   ],
-  providers: [CanvasWhiteboardService, CanvasWhiteboardShapeService, CanvasWhiteboardSyncService],
+  providers: [CanvasWhiteboardService, CanvasWhiteboardShapeService],
   exports: [CanvasWhiteboardComponent],
 })
 export class CanvasWhiteboardModule {}

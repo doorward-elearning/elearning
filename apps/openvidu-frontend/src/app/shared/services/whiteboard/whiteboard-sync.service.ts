@@ -4,10 +4,11 @@ import CanvasWhiteboardSyncService, {
 } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 import { SignalsService } from '../signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
+import { OpenViduSessionService } from '../openvidu-session/openvidu-session.service';
 
 @Injectable()
 export class WhiteboardSyncService extends CanvasWhiteboardSyncService {
-  constructor(private signalService: SignalsService) {
+  constructor(private signalService: SignalsService, private openviduSessionService: OpenViduSessionService) {
     super();
   }
 
@@ -16,6 +17,12 @@ export class WhiteboardSyncService extends CanvasWhiteboardSyncService {
   }
 
   send(data: CanvasWhiteboardSyncData) {
-    this.signalService.send(SignalTypes.WHITEBOARD_UPDATE, data);
+    this.signalService.send(SignalTypes.WHITEBOARD_UPDATE, {
+      ...data,
+      sender: {
+        name: this.openviduSessionService.getUser()?.getNickname(),
+        id: this.openviduSessionService.getUser()?.getUserId(),
+      },
+    });
   }
 }

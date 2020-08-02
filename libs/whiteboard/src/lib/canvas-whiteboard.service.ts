@@ -33,7 +33,8 @@ export class CanvasWhiteboardService {
     this._canvasRedoSubject.next(updateUUD);
   }
 
-  public updatePosition(update: CanvasWhiteboardUpdate) {
+  public updatePosition(update: CanvasWhiteboardUpdate, sender: { name: string; id: string }) {
+    update.sender = sender;
     this._canvasPointerSubject.next(update);
   }
 }

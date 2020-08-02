@@ -4,7 +4,7 @@ export enum CanvasWhiteboardUpdateType {
   START = 0,
   DRAG = 1,
   STOP = 2,
-  MOUSE_MOVE = 3
+  MOUSE_MOVE = 3,
 }
 
 export class CanvasWhiteboardUpdate {
@@ -12,6 +12,10 @@ export class CanvasWhiteboardUpdate {
   y: number;
   type: CanvasWhiteboardUpdateType;
   UUID: string;
+  sender?: {
+    name: string;
+    id: string;
+  };
 
   selectedShape: string;
   selectedShapeOptions: CanvasWhiteboardShapeOptions;
