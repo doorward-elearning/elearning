@@ -129,6 +129,10 @@ export class RemoteUsersService {
     return this.users.find(u => u.getByConnectionId(connectionId) !== undefined);
   }
 
+  getRemoteUserByUserId(userId: string): UserModel {
+    return this.users.find(u => u.getUserId() === userId);
+  }
+
   updateNickname(connectionId: any, nickname: any) {
     const user = this.getRemoteUserByConnectionId(connectionId);
     this._remoteUsers.next(this.users);

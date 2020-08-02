@@ -74,9 +74,14 @@
       <i [class]="saveDataButtonClass" aria-hidden="true"></i> {{ saveDataButtonText }}
     </button>
   </div>
-  <canvas #canvas class="canvas_whiteboard"></canvas>
+  <canvas [style.display]="_loading ? 'none' : 'block'" #canvas class="canvas_whiteboard"></canvas>
+  <div [style.display]="_loading ? 'block' : 'none'" class="canvas_whiteboard__loading">
+    <div>Loading Whiteboard...</div>
+    <mat-progress-bar mode="determinate" [value]="_loading"></mat-progress-bar>
+  </div>
   <canvas
     #incompleteShapesCanvas
+    [style.display]="_loading ? 'none' : 'block'"
     class="incomplete_shapes_canvas_whiteboard"
     (mousedown)="canvasUserEvents($event)"
     (mouseup)="canvasUserEvents($event)"
@@ -89,18 +94,18 @@
   ></canvas>
   <div class="canvas_whiteboard__pointers">
     <div
-      *ngFor="let pointer of _pointers.entries()"
+      *ngFor="let pointer of _pointers"
       class="canvas_whiteboard__pointer"
-      [id]="'pointer-' + pointer[0]"
-      [style.left]="pointer[1].x + 'px'"
-      [style.top]="pointer[1].y - pointerSize + 'px'"
+      [id]="'pointer-' + pointer"
+      [style.left]="pointer.x + 'px'"
+      [style.top]="pointer.y - pointerSize + 'px'"
       [style.width]="pointerSize + 'px'"
       [style.height]="pointerSize + 'px'"
     >
-      <span>{{ pointer[1].sender.name }}</span>
+      <span>{{ pointer.sender.name }}</span>
       <img
         [src]="sanitizationService.bypassSecurityTrustResourceUrl(pointerIcon)"
-        [alt]="pointer[1].sender.name"
+        [alt]="pointer.sender.name"
         [style.width]="pointerSize + 'px'"
         [style.height]="pointerSize + 'px'"
       />

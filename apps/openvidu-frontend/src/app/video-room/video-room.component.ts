@@ -51,7 +51,10 @@ import { LocalUserModel } from '../shared/models/local-user-model';
 import { RemoteUserModel } from '../shared/models/remote-user-model';
 import { CanvasWhiteboardComponent } from '@doorward/whiteboard/ng2-canvas-whiteboard';
 import { WhiteboardSyncService } from '../shared/services/whiteboard/whiteboard-sync.service';
-import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
+import {
+  CANVAS_WHITEBOARD_SYNC_SERVICE,
+  CanvasWhiteboardUpdateTypes,
+} from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -538,6 +541,11 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         user.setWhiteboardSession(data);
         return user;
       });
+
+      this.whiteboardService.send({
+        type: CanvasWhiteboardUpdateTypes.SYNCHRONIZATION_REQUEST,
+      });
+
       this.whiteboardCanvas?.calculateDimensions();
     });
     this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, data => {
