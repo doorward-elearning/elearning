@@ -91,6 +91,18 @@
   z-index: 1;
 }
 
+.canvas_whiteboard__loading {
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  max-width: 500px;
+  width: 90%;
+  height: 10px;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
 .incomplete_shapes_canvas_whiteboard {
   position: absolute;
   z-index: 2;

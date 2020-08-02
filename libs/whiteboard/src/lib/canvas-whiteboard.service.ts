@@ -1,9 +1,15 @@
 import { CanvasWhiteboardUpdate } from './canvas-whiteboard-update.model';
 import { Observable, Subject } from 'rxjs';
 
+export interface CanvasBatchUpdate {
+  batch: CanvasWhiteboardUpdate[];
+  totalBatches: number;
+  currentBatch: number;
+}
+
 export class CanvasWhiteboardService {
-  private _canvasDrawSubject: Subject<CanvasWhiteboardUpdate[]> = new Subject();
-  canvasDrawSubject$: Observable<CanvasWhiteboardUpdate[]> = this._canvasDrawSubject.asObservable();
+  private _canvasDrawSubject: Subject<CanvasBatchUpdate> = new Subject();
+  canvasDrawSubject$: Observable<CanvasBatchUpdate> = this._canvasDrawSubject.asObservable();
 
   private _canvasClearSubject: Subject<any> = new Subject();
   canvasClearSubject$: Observable<any> = this._canvasClearSubject.asObservable();
@@ -17,8 +23,8 @@ export class CanvasWhiteboardService {
   private _canvasPointerSubject: Subject<any> = new Subject<any>();
   canvasPointerSubject$: Observable<any> = this._canvasPointerSubject.asObservable();
 
-  public drawCanvas(updates: CanvasWhiteboardUpdate[]): void {
-    this._canvasDrawSubject.next(updates);
+  public drawCanvas(update: CanvasBatchUpdate): void {
+    this._canvasDrawSubject.next(update);
   }
 
   public clearCanvas(): void {

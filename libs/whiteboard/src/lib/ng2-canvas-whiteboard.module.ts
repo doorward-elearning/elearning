@@ -6,9 +6,11 @@ import { CanvasWhiteboardService } from './canvas-whiteboard.service';
 import { CanvasWhiteboardShapeService } from './shapes/canvas-whiteboard-shape.service';
 import { CanvasWhiteboardShapeSelectorComponent } from './shapes/canvas-whiteboard-shape-selector.component';
 import { CanvasWhiteboardShapePreviewComponent } from './shapes/canvas-whiteboard-shape-preview.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
-  imports: [CommonModule],
+  imports: [CommonModule, MatProgressSpinnerModule, MatProgressBarModule],
   declarations: [
     CanvasWhiteboardComponent,
     CanvasWhiteboardColorPickerComponent,

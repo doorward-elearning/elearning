@@ -119,6 +119,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _redoStack: string[] = [];
   private _batchUpdates: CanvasWhiteboardUpdate[] = [];
   private _updatesNotDrawn: any = [];
+  private _loading: number;
 
   private _updateTimeout: any;
 
@@ -126,7 +127,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _resizeSubscription: Subscription;
   private _registeredShapesSubscription: Subscription;
 
-  private _pointers: Map<string, CanvasWhiteboardUpdate> = new Map();
+  private _pointers: Array<CanvasWhiteboardUpdate> = [];
 
   selectedShapeConstructor: INewCanvasWhiteboardShape<CanvasWhiteboardShape>;
   canvasWhiteboardShapePreviewOptions: CanvasWhiteboardShapeOptions;
@@ -173,6 +174,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       this._calculateCanvasWidthAndHeight();
       this._redrawHistory();
       this._canvasWhiteboardSyncService.setWhiteboardService(this._canvasWhiteboardService);
+      this._canvasWhiteboardSyncService.setWhiteboard(this);
     }, 100);
   }
 
@@ -262,7 +264,14 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   private _initCanvasServiceObservables(): void {
     this._canvasWhiteboardServiceSubscriptions.push(
-      this._canvasWhiteboardService.canvasDrawSubject$.subscribe(updates => this.drawUpdates(updates))
+      this._canvasWhiteboardService.canvasDrawSubject$.subscribe(updates => {
+        if (updates.totalBatches === updates.currentBatch) {
+          this._loading = null;
+        } else {
+          this._loading = Math.ceil((updates.currentBatch / updates.totalBatches) * 100);
+        }
+        this.drawUpdates(updates.batch);
+      })
     );
     this._canvasWhiteboardServiceSubscriptions.push(
       this._canvasWhiteboardService.canvasPointerSubject$.subscribe(update => this._draw(update))
@@ -779,8 +788,13 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       this._incompleteShapesMap.delete(update.UUID);
       this._swapCompletedShapeToActualCanvas(shape);
     } else if (update.type === CanvasWhiteboardUpdateType.MOUSE_MOVE) {
-      if (update.sender) {
-        this._pointers.set(update.sender.id, update);
+      const pointer = this._pointers.find(p => p.sender.id === update.sender.id);
+      if (pointer) {
+        pointer.sender = update.sender;
+        pointer.x = update.x;
+        pointer.y = update.y;
+      } else {
+        this._pointers.push(update);
       }
     }
   }
@@ -869,10 +883,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     if (!this._updateTimeout) {
       this._updateTimeout = setTimeout(() => {
         this.onBatchUpdate.emit(this._batchUpdates);
-        this._canvasWhiteboardSyncService.send({
-          type: CanvasWhiteboardUpdateTypes.BATCH_UPDATE,
-          batch: this._batchUpdates,
-        });
+        this._canvasWhiteboardSyncService.sendBatch(this._batchUpdates);
         this._batchUpdates = [];
         this._updateTimeout = null;
       }, this.batchUpdateTimeoutDuration);
@@ -1188,6 +1199,10 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
       .substring(1);
+  }
+
+  public cloneWhiteboard(): Array<CanvasWhiteboardUpdate> {
+    return this._updateHistory;
   }
 
   /**
