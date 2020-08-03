@@ -49,16 +49,32 @@ video {
 }
 
 .no-video {
+  user-select: none;
+  position: static;
   height: 100%;
-  position: relative;
   display: grid;
   place-items: center;
 }
 
 .no-video__image {
-  width: 150px;
-  height: 150px;
-  font-size: 50px;
+  position: relative;
+  width: 30%;
+  padding-top: 30%;
+  max-width: 150px;
+
+  .no-video__image--avatar {
+    max-height: 150px !important;
+    transform: translate(-50%, -50%);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+
+    user-avatar {
+      font-size: 25.5vw;
+    }
+  }
 }
 
 .no-video__nickname {

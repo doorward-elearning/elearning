@@ -191,14 +191,18 @@ export class UtilsService {
     this.dialogRef.close();
   }
 
-  getElementsByClassName(className: string): Array<Element> {
+  querySelector(query: string): Array<HTMLElement> {
     const elements = [];
-    const found = document.getElementsByClassName(className);
+    const found = document.querySelectorAll(query);
     let i = 0;
     while (i < found.length) {
       elements.push(found[i++]);
     }
     return elements;
+  }
+
+  getElementsByClassName(className: string): Array<Element> {
+    return this.querySelector('.' + className);
   }
 
   getHTMLElementByClassName(element: HTMLElement, className: string): HTMLElement {

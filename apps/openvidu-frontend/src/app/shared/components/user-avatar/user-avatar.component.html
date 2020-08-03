@@ -1,4 +1,6 @@
-<div class="user-avatar">
+<div class="user-avatar" [style.background]="color">
   <img *ngIf="avatar" src="{{ avatar }}" alt=" " />
-  <span *ngIf="!avatar" [style.background]="color" [style.fontSize]="fontSize">{{ getInitials(name) }}</span>
+  <div *ngIf="!avatar" class="initials">
+    <span [fittext]="true" [modelToWatch]="name">{{ getInitials(name) }}</span>
+  </div>
 </div>

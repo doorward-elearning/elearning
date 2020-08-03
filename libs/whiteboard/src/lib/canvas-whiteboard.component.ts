@@ -119,7 +119,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _redoStack: string[] = [];
   private _batchUpdates: CanvasWhiteboardUpdate[] = [];
   private _updatesNotDrawn: any = [];
-  private _loading: number;
+  _loading: number;
 
   private _updateTimeout: any;
 
@@ -127,7 +127,7 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
   private _resizeSubscription: Subscription;
   private _registeredShapesSubscription: Subscription;
 
-  private _pointers: Array<CanvasWhiteboardUpdate> = [];
+  _pointers: Array<CanvasWhiteboardUpdate> = [];
 
   selectedShapeConstructor: INewCanvasWhiteboardShape<CanvasWhiteboardShape>;
   canvasWhiteboardShapePreviewOptions: CanvasWhiteboardShapeOptions;
@@ -956,9 +956,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     if (offsetX > 1) offsetX = 1;
     if (offsetY > 1) offsetY = 1;
 
-    let imageWidth = image.width;
-    let imageHeight = image.height;
-    let radius = Math.min(width / imageWidth, height / imageHeight);
+    const imageWidth = image.width;
+    const imageHeight = image.height;
+    const radius = Math.min(width / imageWidth, height / imageHeight);
     let newWidth = imageWidth * radius;
     let newHeight = imageHeight * radius;
     let finalDrawX: any;
@@ -1028,14 +1028,17 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
       };
     }
 
-    toBlobMethod &&
+    if (toBlobMethod) {
       toBlobMethod(
         (blob: Blob) => {
-          callbackFn && callbackFn(blob, returnedDataType);
+          if (callbackFn) {
+            callbackFn(blob, returnedDataType);
+          }
         },
         returnedDataType,
         returnedDataQuality
       );
+    }
   }
 
   /**
@@ -1053,13 +1056,13 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
     customFileName?: string
   ): void {
     if (window.navigator.msSaveOrOpenBlob === undefined) {
-      let downloadLink = document.createElement('a');
+      const downloadLink = document.createElement('a');
       downloadLink.setAttribute(
         'href',
         downloadData ? <string>downloadData : this.generateCanvasDataUrl(returnedDataType)
       );
 
-      let fileName = customFileName
+      const fileName = customFileName
         ? customFileName
         : this.downloadedFileName
         ? this.downloadedFileName
@@ -1101,7 +1104,9 @@ export class CanvasWhiteboardComponent implements OnInit, AfterViewInit, OnChang
    */
   generateCanvasData(callback: any, returnedDataType: string = 'image/png', returnedDataQuality: number = 1): void {
     if (window.navigator.msSaveOrOpenBlob === undefined) {
-      callback && callback(this.generateCanvasDataUrl(returnedDataType, returnedDataQuality));
+      if (callback) {
+        callback(this.generateCanvasDataUrl(returnedDataType, returnedDataQuality));
+      }
     } else {
       this.generateCanvasBlob(callback, returnedDataType, returnedDataQuality);
     }

@@ -75,19 +75,16 @@
             [shouldDownloadDrawing]="true"
           >
           </canvas-whiteboard>
+          <participants-window></participants-window>
         </div>
-        <div
-          id="layout"
-          class="bounds"
-          [class.boundsLight]="lightTheme"
-          [style.display]="whiteboardShown ? 'none' : 'block'"
-        >
+        <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
           <div
             class="OT_root OT_publisher custom-class"
             id="localUser"
             *ngFor="let user of localUser.getEnabledConnections()"
           >
             <stream-component
+              *ngIf="!whiteboardShown"
               [localUser]="localUser"
               [user]="localUser"
               [connection]="user"
@@ -104,6 +101,7 @@
             >
               <stream-component
                 [localUser]="localUser"
+                *ngIf="!whiteboardShown"
                 [connection]="connection"
                 [user]="user"
                 (toggleVideoSizeClicked)="onToggleVideoSize($event)"
