@@ -1,11 +1,35 @@
-<div class="participants_window">
-  <div class="OT_root OT_publisher custom-class localUser" *ngFor="let user of localUser.getEnabledConnections()">
-    <stream-component [localUser]="localUser" [user]="localUser" [connection]="user"></stream-component>
-  </div>
-
-  <ng-container *ngFor="let user of remoteUsers">
-    <div class="OT_root OT_publisher custom-class remoteUser" *ngFor="let connection of user.getEnabledConnections()">
-      <stream-component [localUser]="localUser" [connection]="connection" [user]="user"></stream-component>
+<div #bounds class="participants_window">
+  <div
+    class="participants_window--content"
+    #participantsWindow
+    [ngClass]="minimized ? 'minimized' : 'maximized'"
+    ngDraggable
+    (edge)="onEdge($event)"
+    [bounds]="bounds"
+    inBounds="true"
+    [handle]="dragHandle"
+  >
+    <div class="dragHandle" #dragHandle>
+      <span>
+        {{ getTitle() }}
+      </span>
+      <mat-icon [matTooltip]="minimized ? 'Maximize' : 'Minimize'" (click)="setMinimized(!minimized)">
+        {{ !minimized ? 'close' : 'open_in_new' }}
+      </mat-icon>
     </div>
-  </ng-container>
+    <div class="participants_content" *ngIf="!minimized">
+      <div class="OT_root OT_publisher custom-class localUser" *ngFor="let user of localUser.getEnabledConnections()">
+        <stream-component [localUser]="localUser" [user]="localUser" [connection]="user"></stream-component>
+      </div>
+
+      <ng-container *ngFor="let user of remoteUsers">
+        <div
+          class="OT_root OT_publisher custom-class remoteUser"
+          *ngFor="let connection of user.getEnabledConnections()"
+        >
+          <stream-component [localUser]="localUser" [connection]="connection" [user]="user"></stream-component>
+        </div>
+      </ng-container>
+    </div>
+  </div>
 </div>

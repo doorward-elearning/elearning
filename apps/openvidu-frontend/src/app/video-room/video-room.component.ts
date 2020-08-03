@@ -175,6 +175,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       sessionInfo: this.externalConfig.sessionInfo,
     };
     this.oVSessionService.setLocalUserSession(userSession);
+    this.oVSessionService.setSessionTitle(this.externalConfig.sessionTitle || this.externalConfig.sessionId);
   }
 
   ngOnDestroy() {
