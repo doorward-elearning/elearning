@@ -1,5 +1,6 @@
 .user-avatar {
   display: grid;
+  border-radius: 50%;
   place-items: center;
   font-size: inherit;
   width: 100%;
@@ -16,12 +17,16 @@ img {
   height: 100%;
 }
 
-span {
-  font-size: 1em;
-  color: white;
-  width: 100%;
-  height: 100%;
+.initials {
+  position: absolute;
+  top: 20%;
+  left: 20%;
+  width: 60%;
+  height: 60%;
   display: grid;
   place-items: center;
-  border-radius: 50%;
+}
+
+span {
+  color: white;
 }

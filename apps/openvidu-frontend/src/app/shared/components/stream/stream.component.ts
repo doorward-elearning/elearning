@@ -1,5 +1,7 @@
 import {
+  AfterViewInit,
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
@@ -20,10 +22,10 @@ import UserConnection from '../../models/user-connection';
 
 @Component({
   selector: 'stream-component',
-  styleUrls: ['./stream.component.css'],
+  styleUrls: ['./stream.component.scss'],
   templateUrl: './stream.component.html',
 })
-export class StreamComponent implements OnInit {
+export class StreamComponent implements OnInit, AfterViewInit {
   @Input() localUser: UserModel;
   @Input() user: UserModel;
   @Input() connection: UserConnection;
@@ -33,7 +35,7 @@ export class StreamComponent implements OnInit {
 
   isFullscreen: boolean;
 
-  @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
+  @ViewChild('streamComponent') streamComponent: ElementRef<HTMLDivElement>;
 
   constructor(private utilsSrv: UtilsService, private signalsService: SignalsService) {}
 
@@ -52,11 +54,10 @@ export class StreamComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit(): void {}
+
   toggleVideoSize(resetAll?) {
-    const element = this.utilsSrv.getHTMLElementByClassName(
-      this.streamComponent.element.nativeElement,
-      LayoutType.ROOT_CLASS
-    );
+    const element = this.utilsSrv.getHTMLElementByClassName(this.streamComponent.nativeElement, LayoutType.ROOT_CLASS);
     this.toggleVideoSizeClicked.emit({ element, connectionId: this.connection.getConnectionId(), resetAll });
   }
 

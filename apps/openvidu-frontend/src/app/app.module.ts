@@ -70,6 +70,8 @@ import { HomeComponent } from './home/home.component';
 import { CanvasWhiteboardModule } from '@doorward/whiteboard/ng2-canvas-whiteboard';
 import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-sync.service';
+import { ParticipantsWindowComponent } from './shared/components/participants-window/participants-window.component';
+import { Ng2FittextModule } from 'ng2-fittext';
 
 @NgModule({
   declarations: [
@@ -94,6 +96,7 @@ import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-s
     ChatNotificationComponent,
     CapabilitiesPipe,
     HomeComponent,
+    ParticipantsWindowComponent,
   ],
   imports: [
     FormsModule,
@@ -123,6 +126,7 @@ import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-s
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
     CanvasWhiteboardModule,
+    Ng2FittextModule
   ],
   entryComponents: [
     DialogErrorComponent,

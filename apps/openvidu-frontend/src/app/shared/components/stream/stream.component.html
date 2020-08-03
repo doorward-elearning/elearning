@@ -11,7 +11,9 @@
     [style.background]="greyBackground(connection.getDisplayedName())"
   >
     <div class="no-video__image">
-      <user-avatar fontSize="50px" [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()"></user-avatar>
+      <div class="no-video__image--avatar">
+        <user-avatar fontSize="50px" [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()"></user-avatar>
+      </div>
     </div>
   </div>
 

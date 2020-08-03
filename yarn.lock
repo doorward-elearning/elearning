@@ -5240,6 +5240,13 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
+angular2-draggable@^2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/angular2-draggable/-/angular2-draggable-2.3.2.tgz#54ca569a6b3aa9ca1a8a4d663d3eee3024c48af3"
+  integrity sha512-rw2O/icgVang8uSVIU7nmm59f1DceSAUQkOuSGYnKbv/h8EbhJ9099sCjh/I5LymZBza1XPKeFZofIvhekdE+A==
+  dependencies:
+    tslib "^1.9.0"
+
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ansi-align/-/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -15985,6 +15992,11 @@ ng-packagr@9.0.3:
     stylus "^0.54.7"
     terser "^4.3.8"
     update-notifier "^4.0.0"
+
+ng2-fittext@^1.2.12:
+  version "1.2.12"
+  resolved "https://registry.yarnpkg.com/ng2-fittext/-/ng2-fittext-1.2.12.tgz#ea9b57ccc158e7381d82118c1ed1a5e67bfdb86a"
+  integrity sha512-UW0Ds9cBvCOLfwJFLundfmAnSg9gwsFYg9NewbmfkKqrgcvDQsGhnTdecXbn2hqZd3LkdbaFF+rJcwxLZFWFJg==
 
 ngx-emoji-picker@^0.1.4:
   version "0.1.4"
