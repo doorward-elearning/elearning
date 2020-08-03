@@ -20,6 +20,7 @@ export class OpenViduSessionService {
 
   private sessionId = '';
   private log: ILogger;
+  private sessionTitle = '';
 
   userObs: Observable<LocalUserModel>;
   private _user = new BehaviorSubject<LocalUserModel>(new LocalUserModel());
@@ -52,6 +53,14 @@ export class OpenViduSessionService {
   setLocalUserSession(user: OpenviduUserSession) {
     this.getUser().updateSession(user);
     this.refresh();
+  }
+
+  setSessionTitle(title: string) {
+    this.sessionTitle = title;
+  }
+
+  getSessionTitle(): string {
+    return this.sessionTitle;
   }
 
   getUser(): LocalUserModel {

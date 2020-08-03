@@ -72,6 +72,7 @@ import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whit
 import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-sync.service';
 import { ParticipantsWindowComponent } from './shared/components/participants-window/participants-window.component';
 import { Ng2FittextModule } from 'ng2-fittext';
+import { AngularDraggableModule } from 'angular2-draggable';
 
 @NgModule({
   declarations: [
@@ -126,7 +127,8 @@ import { Ng2FittextModule } from 'ng2-fittext';
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
     CanvasWhiteboardModule,
-    Ng2FittextModule
+    Ng2FittextModule,
+    AngularDraggableModule,
   ],
   entryComponents: [
     DialogErrorComponent,

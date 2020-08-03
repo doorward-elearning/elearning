@@ -20,7 +20,12 @@
   <ov-video [streamManager]="connection.getStreamManager()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
-    <user-avatar [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()" fontSize="0.7em"></user-avatar>
+    <user-avatar
+      *ngIf="width > 300"
+      [name]="connection.getDisplayedName()"
+      [avatar]="user.getAvatar()"
+      fontSize="0.7em"
+    ></user-avatar>
     <div class="user-nickname">{{ connection.getDisplayedName() }}</div>
     <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isAudioActive() ? '' : 'inactive'">
       {{ user.isAudioActive() ? 'mic_on' : 'mic_off' }}
@@ -31,7 +36,7 @@
     <mat-icon class="disabled tiny" *ngIf="connection.isScreen()">screen_share</mat-icon>
 
     <app-active-user-wrapper>
-      <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
+      <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen && width > 300">more_horiz</mat-icon>
       <mat-menu #menu="matMenu" class="small">
         <button mat-menu-item (click)="toggleVideoSize()">
           <mat-icon class="disabled">{{ connection.isZoomedIn() ? 'zoom_out' : 'zoom_in' }}</mat-icon>

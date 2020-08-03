@@ -34,6 +34,8 @@ export class StreamComponent implements OnInit, AfterViewInit {
   @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
   isFullscreen: boolean;
+  width: number;
+  height: number;
 
   @ViewChild('streamComponent') streamComponent: ElementRef<HTMLDivElement>;
 
@@ -46,6 +48,12 @@ export class StreamComponent implements OnInit, AfterViewInit {
     const curHeight = window.innerHeight;
     const curWidth = window.innerWidth;
     this.isFullscreen = maxWidth === curWidth && maxHeight === curHeight;
+
+    const dimensions = this.streamComponent.nativeElement?.getBoundingClientRect();
+    if (dimensions) {
+      this.width = dimensions.width;
+      this.height = dimensions.height;
+    }
   }
 
   ngOnInit() {

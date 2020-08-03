@@ -198,4 +198,8 @@ export abstract class UserModel {
   isWhiteboardPublisher() {
     return this.can(MeetingCapabilities.PUBLISH_WHITEBOARD);
   }
+
+  getOVSession() {
+    return this.session;
+  }
 }
