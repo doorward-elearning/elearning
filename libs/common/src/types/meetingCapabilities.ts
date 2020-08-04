@@ -14,6 +14,7 @@ export enum MeetingCapabilities {
   MUTE_PARTICIPANTS = 'MUTE_PARTICIPANTS',
   UNMUTE_PARTICIPANTS = 'UNMUTE_PARTICIPANTS',
   PUBLISH_WHITEBOARD = 'PUBLISH_WHITEBOARD',
+  ASK_QUESTIONS = 'ASK_QUESTIONS',
 }
 
 export const defaultMeetingCapabilities = [

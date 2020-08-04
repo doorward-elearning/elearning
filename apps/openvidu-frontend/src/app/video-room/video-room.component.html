@@ -32,6 +32,10 @@
           (turnOffVideoForAllButtonClicked)="this.toggleEveryoneVideo($event)"
           (closeButtonClicked)="toggleParticipants()"
         ></participants-list>
+        <questions-answers
+          (closeButtonClicked)="toggleQuestionsAndAnswers()"
+          *ngIf="utilsSrv.isQuestionsAndAnswersOpen()"
+        ></questions-answers>
       </mat-sidenav>
 
       <mat-sidenav-content class="sidenav-main">
@@ -52,7 +56,6 @@
           (leaveSessionButtonClicked)="leaveSession(true)"
           (participantsListButtonClicked)="toggleParticipants()"
           (chatButtonClicked)="toggleChat()"
-          (whiteboardButtonClicked)="toggleWhiteboard()"
         ></app-toolbar>
         <div id="whiteboard-layout" class="bounds" [style.display]="whiteboardShown ? 'block' : 'none'">
           <canvas-whiteboard
@@ -76,6 +79,13 @@
           >
           </canvas-whiteboard>
           <participants-window></participants-window>
+        </div>
+        <div class="meeting-action-bounds">
+          <meeting-actions
+            [whiteboardActive]="whiteboardShown"
+            (toggleWhiteboard)="toggleWhiteboard()"
+            (toggleQuestionsAndAnswers)="toggleQuestionsAndAnswers()"
+          ></meeting-actions>
         </div>
         <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
           <div

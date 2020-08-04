@@ -1,6 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
-import { VideoFullscreenIcon } from '../../types/icon-type';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
@@ -32,12 +31,10 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Output() leaveSessionButtonClicked = new EventEmitter<any>();
   @Output() participantsListButtonClicked = new EventEmitter<any>();
   @Output() chatButtonClicked = new EventEmitter<any>();
-  @Output() whiteboardButtonClicked = new EventEmitter();
 
   newMessagesNum: number;
   private chatServiceSubscription: Subscription;
 
-  fullscreenIcon = VideoFullscreenIcon.BIG;
   logoUrl: string;
 
   participantsNames: string[] = [];
@@ -55,17 +52,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   }
   ngOnDestroy(): void {
     this.chatServiceSubscription.unsubscribe();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  sizeChange(event) {
-    const maxHeight = window.screen.height;
-    const maxWidth = window.screen.width;
-    const curHeight = window.innerHeight;
-    const curWidth = window.innerWidth;
-    if (maxWidth !== curWidth && maxHeight !== curHeight) {
-      this.fullscreenIcon = VideoFullscreenIcon.BIG;
-    }
   }
 
   ngOnInit() {
@@ -109,11 +95,5 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
 
   toggleParticipants() {
     this.participantsListButtonClicked.emit();
-  }
-
-  toggleFullscreen() {
-    this.utilsSrv.toggleFullscreen('videoRoomNavBar');
-    this.fullscreenIcon =
-      this.fullscreenIcon === VideoFullscreenIcon.BIG ? VideoFullscreenIcon.NORMAL : VideoFullscreenIcon.BIG;
   }
 }

@@ -109,6 +109,7 @@ export interface SessionInfo extends CreateTokenBody {
   webcamToken: string;
   userId: string;
   whiteboardSessionInfo?: WhiteboardSessionInfo;
+  raisingHand?: boolean;
 }
 
 export interface OpenviduUserSession {
@@ -155,4 +156,21 @@ export class MeetingCapabilitiesComponent {
 export interface SessionConfig {
   logoUrl?: string | { dark: string; base: string } | undefined;
   capabilities: Capabilities<typeof MeetingCapabilities>;
+}
+
+export enum MeetingQuestionTypes {
+  TRUE_OR_FALSE = 'TRUE_OR_FALSE',
+  TEXT_INPUT = 'TEXT_INPUT',
+}
+
+export interface MeetingQuestion {
+  author: string;
+  question: string;
+  type: MeetingQuestionTypes;
+  answers?: Array<MeetingAnswer>;
+}
+
+export interface MeetingAnswer {
+  answer: string;
+  author: string;
 }

@@ -73,6 +73,9 @@ import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-s
 import { ParticipantsWindowComponent } from './shared/components/participants-window/participants-window.component';
 import { Ng2FittextModule } from 'ng2-fittext';
 import { AngularDraggableModule } from 'angular2-draggable';
+import { MeetingActionsComponent } from './shared/components/meeting-actions/meeting-actions.component';
+import { QuestionsAnswersComponent } from './shared/components/questions-answers/questions-answers.component';
+import { AskQuestionDialogComponent } from './shared/components/ask-question-dialog/ask-question-dialog.component';
 
 @NgModule({
   declarations: [
@@ -98,6 +101,9 @@ import { AngularDraggableModule } from 'angular2-draggable';
     CapabilitiesPipe,
     HomeComponent,
     ParticipantsWindowComponent,
+    MeetingActionsComponent,
+    QuestionsAnswersComponent,
+    AskQuestionDialogComponent,
   ],
   imports: [
     FormsModule,

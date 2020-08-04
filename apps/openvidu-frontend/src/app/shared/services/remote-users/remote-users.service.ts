@@ -147,4 +147,12 @@ export class RemoteUsersService {
   getUserAvatar(connectionId: string): string {
     return this.getRemoteUserByConnectionId(connectionId).getAvatar();
   }
+
+  getModerators(): Array<RemoteUserModel> {
+    return this._remoteUsers.getValue().filter(user => user.isModerator());
+  }
+
+  getPublishers(): Array<RemoteUserModel> {
+    return this._remoteUsers.getValue().filter(user => user.isPublisher());
+  }
 }

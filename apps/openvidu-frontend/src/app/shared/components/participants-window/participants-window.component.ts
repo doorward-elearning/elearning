@@ -3,7 +3,6 @@ import { RemoteUsersService } from '../../services/remote-users/remote-users.ser
 import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
 import { RemoteUserModel } from '../../models/remote-user-model';
 import { LocalUserModel } from '../../models/local-user-model';
-import { IPosition } from 'angular2-draggable';
 
 interface Position {
   x: number;

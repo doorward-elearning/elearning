@@ -1,0 +1,30 @@
+.questions-and-answers {
+  display: grid;
+  height: calc(100% - (2 * var(--padding)));
+  grid-template-rows: auto 1fr auto;
+  grid-gap: var(--padding);
+
+  .header {
+    color: var(--text-primary);
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--padding);
+  }
+
+  .questions {
+    padding: var(--padding);
+    overflow: scroll;
+  }
+
+  .footer {
+    padding: var(--padding);
+    display: grid;
+    justify-content: end;
+  }
+}
+
+button {
+  color: var(--text-primary);
+}

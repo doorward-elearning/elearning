@@ -18,16 +18,15 @@ export class NotificationService {
         message,
         onClick: callback,
       },
-      'messageSnackbar',
       5000
     );
   }
 
-  private launchCustomNotification<T>(
+  launchCustomNotification<T>(
     component: ComponentType<any>,
     data: T,
-    className: string,
-    durationTimeMs: number
+    durationTimeMs = 5000,
+    className = ''
   ): MatSnackBarRef<SimpleSnackBar> {
     return this.snackBar.openFromComponent(component, {
       duration: durationTimeMs,

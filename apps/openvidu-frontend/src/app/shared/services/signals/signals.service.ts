@@ -7,8 +7,15 @@ import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../../models/local-user-model';
+import { NotificationService } from '../notifications/notification.service';
+import { ChatNotificationComponent } from '../../components/chat-notification/chat-notification.component';
+import { RemoteUserModel } from '../../models/remote-user-model';
 
-export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
+export type SignalHandler<T extends SignalTypes> = (
+  data: SignalData[T],
+  event: SignalEvent,
+  user: RemoteUserModel
+) => void;
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +27,8 @@ export class SignalsService {
   constructor(
     private openviduService: OpenViduSessionService,
     private remoteUsersService: RemoteUsersService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private notificationService: NotificationService
   ) {
     this.remoteUsersService.remoteUsers.subscribe(next => {
       this.remoteUsers = [...next];
@@ -36,6 +44,20 @@ export class SignalsService {
     this.subscribeToLocalUserUpdate();
     this.subscribeToRemoteUsersDetails();
     this.subscribeToVideoControl();
+    this._subscribeToRaisingHands();
+  }
+
+  private _subscribeToRaisingHands() {
+    this.subscribe(SignalTypes.RAISE_HAND, (data, event, user) => {
+      this.notificationService.launchCustomNotification(
+        ChatNotificationComponent,
+        {
+          sender: user.getOVSession()?.user,
+          message: '✋ is raising their hand.',
+        },
+        1000
+      );
+    });
   }
 
   subscribeToVideoControl() {
@@ -162,10 +184,12 @@ export class SignalsService {
     const session = this.localUser.getActiveSession().getSession();
     if (session) {
       return session.on('signal:' + type, (event: SignalEvent) => {
+        const from = event.from.connectionId;
+        const user = this.remoteUsersService.getRemoteUserByConnectionId(from);
         try {
-          handler(event.data ? JSON.parse(event.data) : undefined, event);
+          handler(event.data ? JSON.parse(event.data) : undefined, event, user);
         } catch (error) {
-          handler(undefined, event);
+          handler(undefined, event, user);
         }
       });
     }

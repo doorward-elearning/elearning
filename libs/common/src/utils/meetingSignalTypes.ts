@@ -1,4 +1,9 @@
-import { OpenviduUser, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
+import {
+  MeetingQuestion,
+  OpenviduUser,
+  OpenviduUserSession,
+  WhiteboardSessionInfo,
+} from '@doorward/common/types/openvidu';
 import { CanvasWhiteboardSyncData } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
 
 enum SignalTypes {
@@ -11,6 +16,8 @@ enum SignalTypes {
   WHITEBOARD_SHARING_STARTED = 'WHITEBOARD_SHARING_STARTED',
   WHITEBOARD_SHARING_ENDED = 'WHITEBOARD_SHARING_ENDED',
   WHITEBOARD_UPDATE = 'WHITEBOARD_UPDATE',
+  RAISE_HAND = 'RAISE_HAND',
+  ASK_QUESTION = 'ASK_QUESTION',
 }
 
 export interface SignalData extends Record<SignalTypes, unknown> {
@@ -23,6 +30,7 @@ export interface SignalData extends Record<SignalTypes, unknown> {
   [SignalTypes.WHITEBOARD_UPDATE]: CanvasWhiteboardSyncData;
   [SignalTypes.WHITEBOARD_SHARING_STARTED]: WhiteboardSessionInfo;
   [SignalTypes.WHITEBOARD_SHARING_ENDED]: WhiteboardSessionInfo;
+  [SignalTypes.ASK_QUESTION]: MeetingQuestion;
 }
 
 export default SignalTypes;

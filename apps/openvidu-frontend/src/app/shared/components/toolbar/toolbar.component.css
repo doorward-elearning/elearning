@@ -95,26 +95,31 @@
   place-items: center;
 }
 
+.toolbar-button.leave-meeting {
+}
+
 .buttonsContainer button {
-  border: 1px solid var(--text-primary);
+  background: var(--bg-secondary);
+  border: 1px solid var(--line-color);
   outline: none;
   cursor: pointer;
-  background: none;
   border-radius: 50%;
   height: 60px;
   width: 60px;
   transition: 0.3s all;
+  box-shadow: 0 0 8px 4px var(--shadow-color);
 }
 .buttonsContainer button mat-icon {
   transition: 0.3s all;
 }
 
 .buttonsContainer button:hover {
-  box-shadow: 0 0 16px 8px var(--shadow-color);
 }
 
 button#navLeaveButton {
   background: var(--text-error);
+  height: 70px;
+  width: 70px;
 }
 
 button#navLeaveButton .mat-icon {
@@ -184,7 +189,16 @@ mat-icon {
   display: grid;
   grid-auto-flow: column;
   justify-items: end;
+  align-items: center;
+  justify-content: end;
+  grid-gap: var(--padding);
   padding: 0 var(--padding);
+}
+
+.toolbar-actions mat-icon {
+  width: 40px;
+  height: 40px;
+  font-size: 40px;
 }
 
 @media (max-width: 800px) {

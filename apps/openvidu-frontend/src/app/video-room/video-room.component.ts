@@ -44,6 +44,7 @@ import {
   OPENVIDU_ROLES,
   OpenviduTheme,
   OpenviduUserSession,
+  WhiteboardSessionInfo,
 } from '@doorward/common/types/openvidu';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
@@ -59,13 +60,14 @@ import {
 export enum SideNavComponents {
   CHAT = 'CHAT',
   PARTICIPANTS = 'PARTICIPANTS',
+  QUESTIONS_AND_ANSWERS = 'QUESTIONS_AND_ANSWERS',
 }
 
 @Component({
   selector: 'app-video-room',
   templateUrl: './video-room.component.html',
   viewProviders: [CanvasWhiteboardComponent],
-  styleUrls: ['./video-room.component.css'],
+  styleUrls: ['./video-room.component.scss'],
 })
 export class VideoRoomComponent extends MeetingCapabilitiesComponent implements OnInit, OnDestroy {
   // Config from webcomponent or angular-library
@@ -151,7 +153,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
         defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
         defaultConfig.sessionConfig.capabilities.remove(
           MeetingCapabilities.PUBLISH_VIDEO,
-          MeetingCapabilities.PUBLISH_WHITEBOARD
+          MeetingCapabilities.PUBLISH_WHITEBOARD,
+          MeetingCapabilities.ASK_QUESTIONS
         );
       }
       this.externalConfig = defaultConfig;
@@ -293,6 +296,10 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   toggleParticipants() {
     this.utilsSrv.toggleSideNav(SideNavComponents.PARTICIPANTS);
+  }
+
+  toggleQuestionsAndAnswers() {
+    this.utilsSrv.toggleSideNav(SideNavComponents.QUESTIONS_AND_ANSWERS);
   }
 
   async toggleCam() {
@@ -502,6 +509,14 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   private subscribeToStreamDestroyed() {
     this.session.on('streamDestroyed', (event: StreamEvent) => {
       const connectionId = event.stream.connection.connectionId;
+
+      const user = this.remoteUsersService.getRemoteUserByConnectionId(connectionId);
+      if (user.isWhiteboardOwner()) {
+        this.whiteboardSharingEnded({
+          createdBy: null,
+          active: false,
+        });
+      }
       this.remoteUsersService.remove(connectionId);
     });
   }
@@ -550,12 +565,19 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       this.whiteboardCanvas?.calculateDimensions();
     });
     this.signalService.subscribe(SignalTypes.WHITEBOARD_SHARING_ENDED, data => {
-      this.oVSessionService.updateLocalUserSession(user => {
-        user.setWhiteboardSession(data);
-        return user;
-      });
-      this.whiteboardShown = false;
+      this.whiteboardSharingEnded(data);
     });
+  }
+
+  private whiteboardSharingEnded(data: WhiteboardSessionInfo) {
+    this.oVSessionService.updateLocalUserSession(user => {
+      user.setWhiteboardSession(data);
+      return user;
+    });
+    this.whiteboardService.receive({
+      type: CanvasWhiteboardUpdateTypes.CLEAR_CANVAS,
+    });
+    this.whiteboardShown = false;
   }
 
   private subscribeToSpeechDetection() {

@@ -1,0 +1,33 @@
+<div class="ask-question-dialog">
+  <form [formGroup]="questionForm" (ngSubmit)="onSubmitQuestion()">
+    <h1 mat-dialog-title>
+      Ask a question
+    </h1>
+    <div mat-dialog-content>
+      <mat-form-field appearance="fill">
+        <mat-label>Question Type</mat-label>
+        <mat-select required formControlName="type">
+          <mat-option value="TEXT_INPUT">Text input</mat-option>
+          <mat-option value="TRUE_OR_FALSE">True or False</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Question</mat-label>
+        <textarea
+          required
+          cols="30"
+          rows="10"
+          matInput
+          placeholder="Ask a question..."
+          formControlName="question"
+        ></textarea>
+      </mat-form-field>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close type="button">Close</button>
+      <button mat-button mat-dialog-close mat-raised-button [disabled]="!questionForm.valid" type="submit">
+        Ask Question
+      </button>
+    </mat-dialog-actions>
+  </form>
+</div>
