@@ -4,14 +4,6 @@
       <div class="session-title">
         <h1>{{ sessionTitle }}</h1>
       </div>
-      <button
-        (click)="toggleFullscreen()"
-        [disabled]="isConnectionLost"
-        *ngIf="localUser | capabilities: MeetingCapabilities.GO_FULL_SCREEN"
-        class="fullscreen-button"
-      >
-        <mat-icon matTooltip="Fullscreen">{{ fullscreenIcon }}</mat-icon>
-      </button>
     </div>
   </app-active-user-wrapper>
   <div id="header" role="heading" [class.headerLight]="lightTheme" class="container video-toolbar">
@@ -48,6 +40,11 @@
             <mat-icon *ngIf="localUser.screenEnabled()" matTooltip="Stop screen sharing">screen_share</mat-icon>
           </button>
         </div>
+        <div class="toolbar-button leave-meeting" *ngIf="localUser | capabilities: MeetingCapabilities.EXIT_MEETING">
+          <button (click)="leaveSession()" id="navLeaveButton">
+            <mat-icon color="warn" matTooltip="Leave the session">phone</mat-icon>
+          </button>
+        </div>
 
         <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.CHAT">
           <button (click)="toggleChat()" [disabled]="isConnectionLost">
@@ -72,27 +69,8 @@
             >
           </button>
         </div>
-        <div class="toolbar-button" *ngIf="localUser | capabilities: MeetingCapabilities.EXIT_MEETING">
-          <button (click)="leaveSession()" id="navLeaveButton">
-            <mat-icon color="warn" matTooltip="Leave the session">phone</mat-icon>
-          </button>
-        </div>
       </div>
     </div>
-    <div class="toolbar-actions">
-      <button
-        (click)="whiteboardButtonClicked.emit()"
-        mat-stroked-button
-        *ngIf="localUser.isWhiteboardActive() || localUser.isWhiteboardPublisher()"
-      >
-        <mat-icon>{{ whiteboardShown ? 'meeting_room' : 'video_label' }}</mat-icon>
-        <span *ngIf="whiteboardShown">
-          {{ localUser.isWhiteboardOwner() ? 'Close whiteboard' : 'Back to meeting' }}
-        </span>
-        <span *ngIf="!whiteboardShown">
-          Whiteboard
-        </span>
-      </button>
-    </div>
+    <div class="toolbar-actions"></div>
   </div>
 </div>

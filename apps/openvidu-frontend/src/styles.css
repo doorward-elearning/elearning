@@ -32,6 +32,7 @@ body {
   height: 100%;
   font-size: 14px;
   width: 100%;
+  color: var(--text-primary);
 }
 
 /* webcomponent */
@@ -81,6 +82,7 @@ body {
 
 .mat-menu-panel {
   background: var(--bg-primary);
+  min-height: unset !important;
 }
 
 .mat-menu-panel .mat-menu-item mat-icon,
@@ -188,4 +190,25 @@ emoji-picker emoji-content .emoji-buttons {
 
 .mat-stroked-button:not(.mat-button-disabled) {
   border-color: var(--line-color);
+}
+
+.mat-select-panel {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.mat-select-arrow {
+  color: var(--text-primary);
+}
+
+.mat-form-field-label {
+  color: var(--text-primary);
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+  color: var(--text-primary);
+}
+
+.mat-select-value {
+  color: var(--text-primary);
 }

@@ -202,4 +202,16 @@ export abstract class UserModel {
   getOVSession() {
     return this.session;
   }
+
+  isRaisingHand(): boolean {
+    return this.session?.sessionInfo?.raisingHand;
+  }
+
+  setRaisingHand(value: boolean) {
+    this.session.sessionInfo.raisingHand = value;
+  }
+
+  toggleRaisingHand() {
+    this.session.sessionInfo.raisingHand = !this.isRaisingHand();
+  }
 }

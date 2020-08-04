@@ -55,17 +55,23 @@ export class UtilsService {
     return this.getSideNavComponent() === SideNavComponents.PARTICIPANTS;
   }
 
+  isQuestionsAndAnswersOpen() {
+    return this.getSideNavComponent() === SideNavComponents.QUESTIONS_AND_ANSWERS;
+  }
+
   getSideNavComponent(): SideNavComponents {
     return this.sideNavOpenBehaviourSubject.getValue();
   }
 
   toggleSideNav(component: SideNavComponents) {
-    if (this.sideNavOpenBehaviourSubject.getValue() === component) {
-      this.sideNavOpenBehaviourSubject.next(null);
-      this.chatSidenav.toggle(false);
-    } else {
-      this.sideNavOpenBehaviourSubject.next(component);
-      this.chatSidenav.toggle(true);
+    if (this.chatSidenav) {
+      if (this.sideNavOpenBehaviourSubject.getValue() === component) {
+        this.sideNavOpenBehaviourSubject.next(null);
+        this.chatSidenav.toggle(false);
+      } else {
+        this.sideNavOpenBehaviourSubject.next(component);
+        this.chatSidenav.toggle(true);
+      }
     }
   }
 
