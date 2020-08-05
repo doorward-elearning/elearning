@@ -164,6 +164,7 @@ export enum MeetingQuestionTypes {
 }
 
 export interface MeetingQuestion {
+  id: string;
   author: string;
   question: string;
   type: MeetingQuestionTypes;
@@ -171,6 +172,8 @@ export interface MeetingQuestion {
 }
 
 export interface MeetingAnswer {
+  id: string;
+  questionId: string;
   answer: string;
   author: string;
 }
