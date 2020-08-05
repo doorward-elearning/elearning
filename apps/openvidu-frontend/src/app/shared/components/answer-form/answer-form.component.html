@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" (ngSubmit)="onFormSubmit()">
+  <div *ngIf="question.type === 'TEXT_INPUT'">
+    <mat-form-field>
+      <mat-label>Answer</mat-label>
+      <textarea matInput required formControlName="answer"></textarea>
+    </mat-form-field>
+  </div>
+  <div *ngIf="question.type === 'TRUE_OR_FALSE'">
+    <h5>Answer</h5>
+    <mat-button-toggle-group formControlName="answer">
+      <mat-button-toggle value="yes">Yes</mat-button-toggle>
+      <mat-button-toggle value="no">No</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+  <button mat-raised-button class="submit-answer" type="submit" [disabled]="!formGroup.valid">
+    Submit
+  </button>
+</form>

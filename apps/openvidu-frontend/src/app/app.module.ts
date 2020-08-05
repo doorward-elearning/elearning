@@ -76,6 +76,9 @@ import { AngularDraggableModule } from 'angular2-draggable';
 import { MeetingActionsComponent } from './shared/components/meeting-actions/meeting-actions.component';
 import { QuestionsAnswersComponent } from './shared/components/questions-answers/questions-answers.component';
 import { AskQuestionDialogComponent } from './shared/components/ask-question-dialog/ask-question-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AnswerFormComponent } from './shared/components/answer-form/answer-form.component';
 
 @NgModule({
   declarations: [
@@ -104,6 +107,7 @@ import { AskQuestionDialogComponent } from './shared/components/ask-question-dia
     MeetingActionsComponent,
     QuestionsAnswersComponent,
     AskQuestionDialogComponent,
+    AnswerFormComponent,
   ],
   imports: [
     FormsModule,
@@ -135,6 +139,8 @@ import { AskQuestionDialogComponent } from './shared/components/ask-question-dia
     CanvasWhiteboardModule,
     Ng2FittextModule,
     AngularDraggableModule,
+    MatExpansionModule,
+    MatButtonToggleModule,
   ],
   entryComponents: [
     DialogErrorComponent,

@@ -1,0 +1,8 @@
+form {
+  display: grid;
+  grid-gap: var(--padding);
+}
+
+mat-form-field {
+  width: 100%;
+}

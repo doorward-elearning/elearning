@@ -56,6 +56,7 @@ import {
   CANVAS_WHITEBOARD_SYNC_SERVICE,
   CanvasWhiteboardUpdateTypes,
 } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
+import { QuestionsAnswersService } from '../shared/components/questions-answers/questions-answers.service';
 
 export enum SideNavComponents {
   CHAT = 'CHAT',
@@ -117,6 +118,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     private chatService: ChatService,
     private matDialog: MatDialog,
     private signalService: SignalsService,
+    private qaService: QuestionsAnswersService,
     @Inject(CANVAS_WHITEBOARD_SYNC_SERVICE) private whiteboardService: WhiteboardSyncService,
     @Inject('BASE_API_URL') private _baseUrl: BehaviorSubject<string>
   ) {
@@ -233,6 +235,8 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     this.subscribeToReconnection();
     this.connectToSession().then(() => {
       this.signalService.subscribeAll();
+      this.qaService.subscribeToAnswers();
+      this.qaService.subscribeToQuestion();
       this.subscribeToSpeechDetection();
       this.subscribeToWhiteboardState();
       this.whiteboardService.subscribeToUpdates();

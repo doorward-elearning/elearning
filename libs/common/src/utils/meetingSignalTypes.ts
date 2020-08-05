@@ -1,4 +1,5 @@
 import {
+  MeetingAnswer,
   MeetingQuestion,
   OpenviduUser,
   OpenviduUserSession,
@@ -18,6 +19,7 @@ enum SignalTypes {
   WHITEBOARD_UPDATE = 'WHITEBOARD_UPDATE',
   RAISE_HAND = 'RAISE_HAND',
   ASK_QUESTION = 'ASK_QUESTION',
+  SUBMIT_ANSWER = 'SUBMIT_ANSWER',
 }
 
 export interface SignalData extends Record<SignalTypes, unknown> {
@@ -31,6 +33,7 @@ export interface SignalData extends Record<SignalTypes, unknown> {
   [SignalTypes.WHITEBOARD_SHARING_STARTED]: WhiteboardSessionInfo;
   [SignalTypes.WHITEBOARD_SHARING_ENDED]: WhiteboardSessionInfo;
   [SignalTypes.ASK_QUESTION]: MeetingQuestion;
+  [SignalTypes.SUBMIT_ANSWER]: MeetingAnswer;
 }
 
 export default SignalTypes;

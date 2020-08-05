@@ -13,8 +13,13 @@
       >pan_tool</mat-icon
     >
   </div>
-  <div class="meeting-action" (click)="toggleQuestionsAndAnswers.emit()">
-    <mat-icon matTooltip="Questions & Answers">question_answer</mat-icon>
+  <div class="meeting-action" (click)="toggleQAPanel()">
+    <mat-icon
+      matTooltip="Questions & Answers"
+      [matBadge]="'' + (newQuestions + newAnswers)"
+      [matBadgeHidden]="!(newQuestions + newAnswers)"
+      >question_answer</mat-icon
+    >
   </div>
   <div
     class="meeting-action"

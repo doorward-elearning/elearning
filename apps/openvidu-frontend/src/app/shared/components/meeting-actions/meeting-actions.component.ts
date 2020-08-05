@@ -6,6 +6,7 @@ import { OpenViduSessionService } from '../../services/openvidu-session/openvidu
 import { SignalsService } from '../../services/signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
+import { QuestionsAnswersService } from '../questions-answers/questions-answers.service';
 
 @Component({
   selector: 'meeting-actions',
@@ -21,18 +22,43 @@ export class MeetingActionsComponent extends MeetingCapabilitiesComponent implem
 
   isFullScreen = false;
   localUser: LocalUserModel;
+  newQuestions = 0;
+  newAnswers = 0;
 
   constructor(
     private utilsService: UtilsService,
     private ovSessionService: OpenViduSessionService,
     private signalsService: SignalsService,
-    private remoteUsersService: RemoteUsersService
+    private remoteUsersService: RemoteUsersService,
+    private qaService: QuestionsAnswersService
   ) {
     super();
   }
 
   ngOnInit(): void {
     this._subscribeToLocalUser();
+    this._subscribeToNewQuestionsAndAnswers();
+    this.utilsService.sidenavContentObs.subscribe(() => {
+      this._onSideBarToggle();
+    });
+  }
+
+  private _onSideBarToggle() {
+    this.qaService.clearNewQuestions();
+    this.qaService.clearNewAnswers();
+  }
+
+  private _subscribeToNewQuestionsAndAnswers() {
+    this.qaService.numNewQuestions.subscribe(questions => {
+      if (!this.utilsService.isQuestionsAndAnswersOpen()) {
+        this.newQuestions = questions;
+      }
+    });
+    this.qaService.numNewAnswers.subscribe(answers => {
+      if (!this.utilsService.isQuestionsAndAnswersOpen()) {
+        this.newAnswers = answers;
+      }
+    });
   }
 
   private _subscribeToLocalUser() {
@@ -65,5 +91,10 @@ export class MeetingActionsComponent extends MeetingCapabilitiesComponent implem
       user.toggleRaisingHand();
       return user;
     });
+  }
+
+  toggleQAPanel() {
+    this._onSideBarToggle();
+    this.toggleQuestionsAndAnswers.emit();
   }
 }

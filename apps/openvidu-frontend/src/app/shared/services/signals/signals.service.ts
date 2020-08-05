@@ -47,6 +47,7 @@ export class SignalsService {
     this._subscribeToRaisingHands();
   }
 
+
   private _subscribeToRaisingHands() {
     this.subscribe(SignalTypes.RAISE_HAND, (data, event, user) => {
       this.notificationService.launchCustomNotification(
