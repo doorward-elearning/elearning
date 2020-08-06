@@ -66,7 +66,13 @@ export class ChatService {
       });
       if (!this.isChatOpened()) {
         this.addMessageUnread();
-        this.notificationService.newMessage(sender, message, this.toggleChat.bind(this));
+        this.notificationService.newMessage({
+          title: 'Chat',
+          icon: 'chat_bubble',
+          sender,
+          message,
+          onClick: this.toggleChat.bind(this),
+        });
       }
       this._messageList.next(this.messageList);
     });

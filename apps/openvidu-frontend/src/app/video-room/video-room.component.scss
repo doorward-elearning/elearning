@@ -54,6 +54,12 @@
   bottom: 100px;
   min-width: 400px !important;
   width: inherit;
+  border-bottom: 1px solid var(--line-color);
+
+  &.full-size {
+    bottom: 0;
+    border: none;
+  }
 }
 
 /*!
@@ -909,5 +915,9 @@
   z-index: 1000;
   right: 1px;
   top: 0;
-  bottom: 100px;
+  bottom: 0;
+
+  &.full-size {
+    bottom: 0;
+  }
 }

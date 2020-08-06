@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { SignalsService } from '../../services/signals/signals.service';
 import { MeetingQuestion, MeetingQuestionTypes } from '@doorward/common/types/openvidu';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 import Tools from '@doorward/common/utils/Tools';
+import { NotificationService } from '../../services/notifications/notification.service';
+import { UtilsService } from '../../services/utils/utils.service';
+import { SideNavComponents } from '../../../video-room/video-room.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { AnswerQuestionDialogComponent } from '../answer-question-dialog/answer-question-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -16,6 +21,8 @@ export class QuestionsAnswersService {
   private questionsSubject = new BehaviorSubject<Array<MeetingQuestion>>([]);
   private numAnswersSubject = new BehaviorSubject<number>(0);
   private numQuestionsSubject = new BehaviorSubject<number>(0);
+  private questionDialogRef: MatDialogRef<AnswerQuestionDialogComponent, string>;
+  private questionDialogResponse: Subscription;
 
   questions = new Observable<Array<MeetingQuestion>>();
   numNewQuestions = new Observable<number>();
@@ -24,7 +31,10 @@ export class QuestionsAnswersService {
   constructor(
     private signalsService: SignalsService,
     private ovSessionService: OpenViduSessionService,
-    private remoteUsersService: RemoteUsersService
+    private remoteUsersService: RemoteUsersService,
+    private notificationService: NotificationService,
+    private utilsService: UtilsService,
+    private matDialog: MatDialog
   ) {
     this.questions = this.questionsSubject.asObservable();
     this.numNewQuestions = this.numQuestionsSubject.asObservable();
@@ -32,20 +42,31 @@ export class QuestionsAnswersService {
     this.questions.subscribe(questions => {
       this._questions = questions;
     });
-    this.ovSessionService.userObs.subscribe(user => {
-      if (!this._questions.length && user.getUserId() && user.isModerator()) {
-        setTimeout(() => {
-          this.askQuestion(MeetingQuestionTypes.TEXT_INPUT, 'What is the answer for the following question?');
-          this.askQuestion(MeetingQuestionTypes.TRUE_OR_FALSE, 'What is the truth value of this question?');
-        }, 1000);
-      }
-    });
   }
 
   subscribeToQuestion() {
     this.signalsService.subscribe(SignalTypes.ASK_QUESTION, data => {
-      this.numQuestionsSubject.next(this.numQuestionsSubject.getValue() + 1);
       this.questionsSubject.next([...this._questions, data]);
+
+      if (this.questionDialogResponse) {
+        this.questionDialogResponse.unsubscribe();
+        this.questionDialogRef.close();
+        this.numQuestionsSubject.next(this.numQuestionsSubject.getValue() + 1);
+      }
+
+      this.questionDialogRef = this.matDialog.open(AnswerQuestionDialogComponent, {
+        disableClose: true,
+        data: {
+          question: data,
+        },
+      });
+      this.questionDialogResponse = this.questionDialogRef.afterClosed().subscribe(response => {
+        if (response) {
+          this.submitAnswer(response, data.id);
+        } else {
+          this.numQuestionsSubject.next(this.numQuestionsSubject.getValue() + 1);
+        }
+      });
     });
   }
 
@@ -58,11 +79,22 @@ export class QuestionsAnswersService {
   }
 
   subscribeToAnswers() {
-    this.signalsService.subscribe(SignalTypes.SUBMIT_ANSWER, data => {
+    this.signalsService.subscribe(SignalTypes.SUBMIT_ANSWER, (data, event, user) => {
       this.numAnswersSubject.next(this.numAnswersSubject.getValue() + 1);
       const question = this._questions.find(que => que.id === data.questionId);
       if (question) {
         question.answers = [...(question.answers || []), data];
+      }
+      if (!this.utilsService.isQuestionsAndAnswersOpen()) {
+        this.notificationService.newMessage({
+          title: 'Q/A',
+          icon: 'question_answer',
+          sender: user.session.user,
+          message: 'Responded to a question.',
+          onClick: () => {
+            this.utilsService.toggleSideNav(SideNavComponents.QUESTIONS_AND_ANSWERS);
+          },
+        });
       }
       this.questionsSubject.next([...this._questions]);
     });

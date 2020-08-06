@@ -57,7 +57,12 @@
           (participantsListButtonClicked)="toggleParticipants()"
           (chatButtonClicked)="toggleChat()"
         ></app-toolbar>
-        <div id="whiteboard-layout" class="bounds" [style.display]="whiteboardShown ? 'block' : 'none'">
+        <div
+          id="whiteboard-layout"
+          class="bounds"
+          [style.display]="whiteboardShown ? 'block' : 'none'"
+          [ngClass]="isFullSize ? 'full-size' : ''"
+        >
           <canvas-whiteboard
             #canvasWhiteboard
             [drawButtonClass]="'drawButtonClass'"
@@ -80,14 +85,16 @@
           </canvas-whiteboard>
           <participants-window></participants-window>
         </div>
-        <div class="meeting-action-bounds">
+        <div class="meeting-action-bounds" [ngClass]="isFullSize ? 'full-size' : ''">
           <meeting-actions
             [whiteboardActive]="whiteboardShown"
             (toggleWhiteboard)="toggleWhiteboard()"
+            [isFullSize]="isFullSize"
+            (toggleFullSize)="toggleFullSize()"
             (toggleQuestionsAndAnswers)="toggleQuestionsAndAnswers()"
           ></meeting-actions>
         </div>
-        <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
+        <div id="layout" class="bounds" [class.boundsLight]="lightTheme" [ngClass]="isFullSize ? 'full-size' : ''">
           <div
             class="OT_root OT_publisher custom-class"
             id="localUser"

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { OpenviduUser } from '@doorward/common/types/openvidu';
 import { ComponentType } from '@angular/cdk/portal';
-import { ChatNotificationComponent } from '../../components/chat-notification/chat-notification.component';
+import {
+  ChatNotificationComponent,
+  ChatNotificationData,
+} from '../../components/chat-notification/chat-notification.component';
 
 @Injectable({
   providedIn: 'root',
@@ -10,16 +13,13 @@ import { ChatNotificationComponent } from '../../components/chat-notification/ch
 export class NotificationService {
   constructor(private snackBar: MatSnackBar) {}
 
-  newMessage(sender: OpenviduUser, message: string, callback) {
-    this.launchCustomNotification(
-      ChatNotificationComponent,
-      {
-        sender,
-        message,
-        onClick: callback,
-      },
-      5000
-    );
+  newMessage({
+    duration,
+    ...data
+  }: ChatNotificationData & {
+    duration?: number;
+  }) {
+    this.launchCustomNotification(ChatNotificationComponent, { ...data }, duration);
   }
 
   launchCustomNotification<T>(

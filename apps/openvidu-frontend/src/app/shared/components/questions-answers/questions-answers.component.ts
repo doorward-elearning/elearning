@@ -37,7 +37,8 @@ export class QuestionsAnswersComponent implements OnInit {
     this.askQuestionDialog = this.matDialog.open(AskQuestionDialogComponent, { disableClose: true });
   }
 
-  submitAnswer(answer: string, questionId: string) {
+  submitAnswer(questionId: string) {
+    const answer = this.formGroups[questionId].get('answer').value;
     this.qaService.submitAnswer(answer, questionId);
   }
 
@@ -54,15 +55,15 @@ export class QuestionsAnswersComponent implements OnInit {
     });
   }
 
-  private isQuestionAuthor(question) {
+  isQuestionAuthor(question) {
     return question.author === this.ovSessionService.getUser()?.getUserId();
   }
 
-  private isAnswerAuthor(answer) {
+  isAnswerAuthor(answer) {
     return answer.author === this.ovSessionService.getUser()?.getUserId();
   }
 
-  private getMyAnswer(question: MeetingQuestion) {
+  getMyAnswer(question: MeetingQuestion) {
     return (question.answers || []).find(answer => this.isAnswerAuthor(answer));
   }
 
@@ -70,11 +71,11 @@ export class QuestionsAnswersComponent implements OnInit {
     return (question.answers || []).filter(answer => this.isAnswerAuthor(answer));
   }
 
-  private isModerator() {
+  isModerator() {
     return this.ovSessionService.getUser()?.isModerator();
   }
 
-  private getUser(id): RemoteUserModel {
+  getUser(id): RemoteUserModel {
     return this.remoteUsersService.getRemoteUserByUserId(id);
   }
 }

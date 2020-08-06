@@ -100,6 +100,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
   whiteboardShown: boolean;
+  isFullSize = false;
   private log: ILogger;
   private oVUsersSubscription: Subscription;
   private remoteUsersSubscription: Subscription;
@@ -733,5 +734,10 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
 
   can(capability: MeetingCapabilities) {
     return this.getLocalUser().can(capability);
+  }
+
+  toggleFullSize() {
+    this.isFullSize = !this.isFullSize;
+    this.updateOpenViduLayout(100);
   }
 }

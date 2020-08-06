@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MeetingQuestion } from '@doorward/common/types/openvidu';
 
 @Component({
@@ -9,19 +9,9 @@ import { MeetingQuestion } from '@doorward/common/types/openvidu';
 })
 export class AnswerFormComponent implements OnInit {
   @Input() question: MeetingQuestion;
-  formGroup: FormGroup;
+  @Input() formGroup: FormGroup;
 
-  @Output() submitAnswer = new EventEmitter<string>();
-
-  constructor(formBuilder: FormBuilder) {
-    this.formGroup = formBuilder.group({
-      answer: ['', Validators.required],
-    });
-  }
+  constructor() {}
 
   ngOnInit(): void {}
-
-  onFormSubmit() {
-    this.submitAnswer.emit(this.formGroup.get('answer').value);
-  }
 }

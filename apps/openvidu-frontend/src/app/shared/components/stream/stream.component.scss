@@ -103,11 +103,10 @@ video {
 
 /* Contains the video element, used to fix video letter-boxing */
 .OT_widget-container {
-  width: calc(100% - 5px);
-  height: calc(100% - 5px);
+  width: calc(100%);
+  height: calc(100%);
   position: absolute;
   overflow: hidden;
-  border: 2px solid transparent;
 }
 
 .OT_widget-container.speaking {
