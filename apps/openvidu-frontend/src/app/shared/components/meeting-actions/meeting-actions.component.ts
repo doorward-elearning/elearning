@@ -14,9 +14,11 @@ import { QuestionsAnswersService } from '../questions-answers/questions-answers.
   styleUrls: ['./meeting-actions.component.scss'],
 })
 export class MeetingActionsComponent extends MeetingCapabilitiesComponent implements OnInit {
+  @Input() isFullSize = false;
   @Input() whiteboardActive: boolean;
 
   @Output() toggleWhiteboard = new EventEmitter<any>();
+  @Output() toggleFullSize = new EventEmitter<any>();
 
   @Output() toggleQuestionsAndAnswers = new EventEmitter<any>();
 
@@ -91,6 +93,10 @@ export class MeetingActionsComponent extends MeetingCapabilitiesComponent implem
       user.toggleRaisingHand();
       return user;
     });
+  }
+
+  toggleBounds() {
+    this.toggleFullSize.emit();
   }
 
   toggleQAPanel() {

@@ -1,0 +1,26 @@
+<div class="answer-question-dialog">
+  <h3 mat-dialog-title>Respond to question</h3>
+  <div mat-dialog-content>
+    <div class="author">
+      <span class="author-avatar">
+        <user-avatar [avatar]="getAuthorAvatar()" [name]="getAuthorNickname()"></user-avatar>
+      </span>
+      <span>{{ getAuthorNickname() }}</span>
+    </div>
+    <div>{{ data.question.question }}</div>
+    <answer-form [question]="data.question" [formGroup]="formGroup"></answer-form>
+  </div>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close type="button">Close</button>
+    <button
+      mat-button
+      mat-dialog-close
+      mat-raised-button
+      [disabled]="!formGroup.valid"
+      type="submit"
+      (click)="onAnswer()"
+    >
+      Submit Answer
+    </button>
+  </mat-dialog-actions>
+</div>

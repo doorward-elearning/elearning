@@ -79,6 +79,7 @@ import { AskQuestionDialogComponent } from './shared/components/ask-question-dia
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { AnswerFormComponent } from './shared/components/answer-form/answer-form.component';
+import { AnswerQuestionDialogComponent } from './shared/components/answer-question-dialog/answer-question-dialog.component';
 
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { AnswerFormComponent } from './shared/components/answer-form/answer-form
     QuestionsAnswersComponent,
     AskQuestionDialogComponent,
     AnswerFormComponent,
+    AnswerQuestionDialogComponent,
   ],
   imports: [
     FormsModule,

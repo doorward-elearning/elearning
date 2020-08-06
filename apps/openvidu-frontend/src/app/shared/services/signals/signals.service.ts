@@ -47,17 +47,14 @@ export class SignalsService {
     this._subscribeToRaisingHands();
   }
 
-
   private _subscribeToRaisingHands() {
     this.subscribe(SignalTypes.RAISE_HAND, (data, event, user) => {
-      this.notificationService.launchCustomNotification(
-        ChatNotificationComponent,
-        {
-          sender: user.getOVSession()?.user,
-          message: '✋ is raising their hand.',
-        },
-        1000
-      );
+      this.notificationService.newMessage({
+        sender: user.getOVSession()?.user,
+        message: '✋ is raising their hand.',
+        onClick: () => {},
+        duration: 1000,
+      });
     });
   }
 

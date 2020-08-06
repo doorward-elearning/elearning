@@ -1,14 +1,21 @@
 <div class="chat-notification">
-  <div class="user-avatar">
-    <user-avatar fontSize="12px" [name]="data.sender.name" [avatar]="data.sender.avatar"></user-avatar>
+  <div class="notification-title" *ngIf="data.title">
+    <mat-icon *ngIf="data.icon">{{ data.icon }}</mat-icon>
+    <h5>{{ data.title }}</h5>
+    <mat-icon (click)="close()">close</mat-icon>
   </div>
-  <div class="notification-body" (click)="onClick()">
-    <div class="notification-header">
-      <h5>{{ data.sender.name }}</h5>
+  <div class="notification-content" (click)="onClick()">
+    <div class="notification-user-info">
+      <div class="user">
+        <div class="user-avatar">
+          <user-avatar fontSize="12px" [name]="data.sender.name" [avatar]="data.sender.avatar"></user-avatar>
+        </div>
+        <span>{{ data.sender.name }}</span>
+      </div>
+      <mat-icon (click)="close()" *ngIf="!data.title">close</mat-icon>
     </div>
-    <div class="notification-content">
+    <div class="notification-body">
       <p>{{ data.message }}</p>
     </div>
   </div>
-  <mat-icon (click)="close()">close</mat-icon>
 </div>

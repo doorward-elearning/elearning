@@ -34,12 +34,27 @@
         <div class="answers" *ngIf="!isQuestionAuthor(question)">
           <div *ngIf="getMyAnswer(question)">
             <h5>Answer</h5>
-            <div>
+            <div *ngIf="question.type === 'TEXT_INPUT'">
               {{ getMyAnswer(question).answer }}
+            </div>
+            <div *ngIf="question.type === 'TRUE_OR_FALSE'">
+              <mat-button-toggle-group disabled [value]="getMyAnswer(question).answer">
+                <mat-button-toggle value="yes" disabled>Yes</mat-button-toggle>
+                <mat-button-toggle value="no" disabled>No</mat-button-toggle>
+              </mat-button-toggle-group>
             </div>
           </div>
           <div class="answer-input-panel" *ngIf="!getMyAnswer(question)">
-            <answer-form [question]="question" (submitAnswer)="submitAnswer($event, question.id)"></answer-form>
+            <answer-form [question]="question" [formGroup]="formGroups[question.id]"></answer-form>
+            <button
+              mat-raised-button
+              class="submit-answer"
+              type="submit"
+              [disabled]="!formGroups[question.id].valid"
+              (click)="submitAnswer(question.id)"
+            >
+              Submit
+            </button>
           </div>
         </div>
         <div class="answers" *ngIf="isQuestionAuthor(question)">

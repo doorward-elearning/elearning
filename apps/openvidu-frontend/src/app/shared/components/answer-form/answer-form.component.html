@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" (ngSubmit)="onFormSubmit()">
+<form [formGroup]="formGroup">
   <div *ngIf="question.type === 'TEXT_INPUT'">
     <mat-form-field>
       <mat-label>Answer</mat-label>
@@ -12,7 +12,4 @@
       <mat-button-toggle value="no">No</mat-button-toggle>
     </mat-button-toggle-group>
   </div>
-  <button mat-raised-button class="submit-answer" type="submit" [disabled]="!formGroup.valid">
-    Submit
-  </button>
 </form>

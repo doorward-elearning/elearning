@@ -1,37 +1,52 @@
 .chat-notification {
   display: grid;
+  grid-gap: var(--padding);
+}
+
+.notification-title {
+  display: grid;
   grid-template-columns: auto 1fr auto;
   grid-gap: var(--padding);
   align-items: center;
 }
 
+.notification-content {
+  display: grid;
+  grid-gap: var(--padding-sm);
+  cursor: pointer;
+}
+
+.notification-user-info {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-user-info .user {
+  align-items: center;
+  display: grid;
+  grid-gap: var(--padding);
+  grid-auto-flow: column;
+}
+
 .user-avatar {
-  width: 25px;
-  height: 25px;
+  width: 20px;
+  height: 20px;
 }
 
 .notification-body {
-  cursor: pointer;
   display: grid;
   align-items: start;
   justify-items: start;
 }
 
-.notification-content {
-}
-
-.notification-header {
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: space-between;
-}
-
-.notification-header h5 {
+.notification-title h5 {
   padding: 0;
   margin: 0;
 }
 
-.notification-content p {
+.notification-body p {
   padding: 0;
   margin: 0;
   text-overflow: ellipsis;
