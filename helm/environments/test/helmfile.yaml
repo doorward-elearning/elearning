@@ -1,0 +1,62 @@
+releases:
+  - name: test-config
+    namespace: test-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
+  - name: test-thaladb
+    namespace: test-doorward
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/apps/thaladb
+    values:
+      - config.yaml
+
+  - name: test-samvadam
+    namespace: test-doorward
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/apps/samvadam
+    needs:
+      - test-doorward/test-thaladb
+    values:
+      - config.yaml
+
+  - name: test-thala
+    namespace: test-doorward
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/apps/thala
+    needs:
+      - test-doorward/test-thaladb
+    values:
+      - config.yaml
+
+  - name: test-chuchu
+    namespace: test-doorward
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/apps/chuchu
+    needs:
+      - test-doorward/test-thaladb
+    values:
+      - config.yaml
+
+  - name: test-vidu
+    namespace: test-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - test-doorward/test-thaladb
+    values:
+      - config.yaml
