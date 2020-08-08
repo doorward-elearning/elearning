@@ -53,7 +53,7 @@ const useUserChooser = (_users: Array<User>, initiallySelectedUsers?: Array<User
         return !selected[user.id];
       })
       .filter(user => {
-        return regex.test(user.fullName) || regex.test(user.email);
+        return regex.test(user.fullName) || regex.test(user.email) || regex.test(user.username);
       });
   }, [filterString, users, selected]);
 

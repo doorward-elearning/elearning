@@ -17,6 +17,7 @@ import {
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
   SUBMIT_ASSIGNMENT,
+  UN_ENROLL_STUDENT,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -63,6 +64,11 @@ export const fetchCourseModuleAction = (moduleId: string) => ({
 export const fetchCourseStudentListAction = (courseId: string): Action => ({
   type: FETCH_COURSE_STUDENTS,
   payload: [courseId],
+});
+
+export const unEnrollStudentAction = (studentId: string, courseId: string): Action => ({
+  type: UN_ENROLL_STUDENT,
+  payload: [studentId, courseId],
 });
 
 export const addCourseStudentAction = (courseId: string, body: CreateStudentBody): Action => ({

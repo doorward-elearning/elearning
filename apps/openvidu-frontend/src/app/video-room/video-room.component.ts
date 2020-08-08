@@ -152,14 +152,14 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
             : null,
       };
       defaultConfig.sessionId = 'test-meeting';
-      if (this.utilsSrv.isTestClientBrowser()) {
-        defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
-        defaultConfig.sessionConfig.capabilities.remove(
-          MeetingCapabilities.PUBLISH_VIDEO,
-          MeetingCapabilities.PUBLISH_WHITEBOARD,
-          MeetingCapabilities.ASK_QUESTIONS
-        );
-      }
+      // if (this.utilsSrv.isTestClientBrowser()) {
+      //   defaultConfig.user.role = OPENVIDU_ROLES.PUBLISHER;
+      //   defaultConfig.sessionConfig.capabilities.remove(
+      //     MeetingCapabilities.PUBLISH_VIDEO,
+      //     MeetingCapabilities.PUBLISH_WHITEBOARD,
+      //     MeetingCapabilities.ASK_QUESTIONS
+      //   );
+      // }
       this.externalConfig = defaultConfig;
       this._leaveSession.subscribe(() => {
         this.router.navigate(['']);
@@ -311,7 +311,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
     if (!this.hasVideoDevices) {
       this.utilsSrv.showErrorMessage(
         "Can't find your camera",
-        'Check that your camera is available. If not, plug one in.'
+        "Check that your camera is available and not in use by another application. If it's not available, plug one in."
       );
       return;
     }

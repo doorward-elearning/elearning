@@ -43,21 +43,22 @@ function withInput<R extends InputProps>(
       const props = { ...defaultProps, ...passedProps };
 
       const [changeEvent, setChangeEvent] = useState<ChangeEvent<HTMLInputElement>>();
-      const [valueUpdated, setValueUpdated] = useState(true);
 
       const onValueChange = useCallback(
         _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
           handler(e);
-          setValueUpdated(true);
         }, 200),
         []
       );
 
       const onChange = useCallback((e, handler: ChangeEventHandler) => {
-        setValueUpdated(false);
+        if (!changeEvent) {
+          handler(e);
+        } else {
+          onValueChange({ ...e }, handler);
+        }
         setChangeEvent({ ...e });
-        onValueChange({ ...e }, handler);
-      }, []);
+      }, [changeEvent]);
 
       const { name } = props;
       return (
@@ -97,7 +98,7 @@ function withInput<R extends InputProps>(
                   <div className="eb-input__input">
                     <Input
                       {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
-                      value={valueUpdated ? inputProps.value : changeEvent?.target?.value}
+                      value={changeEvent ? changeEvent?.target?.value : inputProps.value}
                       onChange={e => onChange(e, inputProps.onChange)}
                     />
                   </div>

@@ -46,6 +46,9 @@ export class QuestionsAnswersService {
 
   subscribeToQuestion() {
     this.signalsService.subscribe(SignalTypes.ASK_QUESTION, data => {
+      if (data.author === this.ovSessionService.getUser()?.getUserId()) {
+        return;
+      }
       this.questionsSubject.next([...this._questions, data]);
 
       if (this.questionDialogResponse) {
@@ -80,6 +83,9 @@ export class QuestionsAnswersService {
 
   subscribeToAnswers() {
     this.signalsService.subscribe(SignalTypes.SUBMIT_ANSWER, (data, event, user) => {
+      if (data.author === this.ovSessionService.getUser()?.getUserId()) {
+        return;
+      }
       this.numAnswersSubject.next(this.numAnswersSubject.getValue() + 1);
       const question = this._questions.find(que => que.id === data.questionId);
       if (question) {

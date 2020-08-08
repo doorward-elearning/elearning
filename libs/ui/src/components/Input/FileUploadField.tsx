@@ -115,6 +115,7 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
       let existing = files;
       existing = existing.filter(file => !newFiles.find(aFile => Tools.compareFiles(aFile, file)));
       setFiles([...existing, ...newFiles]);
+      inputRef.current.value = null;
     }
   };
   return (

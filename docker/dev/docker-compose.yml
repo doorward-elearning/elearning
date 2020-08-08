@@ -85,6 +85,8 @@ services:
     depends_on:
       doorward_openvidu:
         condition: service_started
+      doorward_redis:
+        condition: service_started
     healthcheck:
       test: ['CMD-SHELL', 'curl -s -k https://localhost:3333']
       interval: 10s
@@ -153,3 +155,13 @@ services:
     environment:
       OPENVIDU_SECRET: password
       OPENVIDU_WEBHOOK: 'true'
+  doorward_redis:
+    image: bitnami/redis
+    container_name: doorward_redis
+    restart: always
+    environment:
+      REDIS_PASSWORD: password
+    ports:
+      - '6380:6379'
+    volumes:
+      - /var/lib/docker/doorward_redis_data:/bitnami/redis/data

@@ -46,6 +46,11 @@ openvidu:
 	@ ./docker/dev/openvidu/openvidu.sh
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up --build doorward_openvidu
 
+redis:
+	@ ${INFO} "Starting the REDIS server"
+	@ echo "--> Ensure the volume has permissions for the UID 1001 (chown 1001 /var/lib/docker/doorward_redis_data)"
+	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} up -d --build doorward_redis
+
 stop:
 	${INFO} "Stopping all containers"
 	@ docker-compose -f ${DOCKER_DEV_COMPOSE_FILE} down -v

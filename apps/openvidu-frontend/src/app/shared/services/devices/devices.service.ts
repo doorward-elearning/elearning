@@ -1,6 +1,6 @@
-import { Injectable, ɵConsole } from '@angular/core';
-import { OpenVidu, Device } from 'openvidu-browser';
-import { IDevice, CameraType } from '../../types/device-type';
+import { Injectable } from '@angular/core';
+import { Device, OpenVidu } from 'openvidu-browser';
+import { CameraType, IDevice } from '../../types/device-type';
 import { ILogger } from '../../types/logger-type';
 import { LoggerService } from '../logger/logger.service';
 import { UtilsService } from '../utils/utils.service';
@@ -17,6 +17,7 @@ export class DevicesService {
   private devices: Device[];
   private cameras: IDevice[] = [];
   private microphones: IDevice[] = [];
+  private disabledDevices: Device[] = [];
   private camSelected: IDevice;
   private micSelected: IDevice;
   private log: ILogger;
@@ -40,7 +41,9 @@ export class DevicesService {
     }
   }
   private async initOpenViduDevices() {
-    this.devices = await this.OV.getDevices();
+    this.devices = (await this.OV.getDevices()).filter(
+      device => !this.disabledDevices.find(disabledDevice => disabledDevice.deviceId === device.deviceId)
+    );
   }
 
   private initAudioDevices() {
@@ -101,14 +104,14 @@ export class DevicesService {
       this.log.e('No audio devices found!');
       return;
     }
-    const storageDevice = this.getMicFromStogare();
+    const storageDevice = this.getMicFromStorage();
     if (storageDevice) {
       return storageDevice;
     }
     return this.micSelected || this.microphones[0];
   }
 
-  private getMicFromStogare(): IDevice {
+  private getMicFromStorage(): IDevice {
     let storageDevice = this.storageSrv.get(this.AUDIO_DEVICE);
     storageDevice = this.getMicrophoneByDeviceField(storageDevice?.device);
     if (storageDevice) {
@@ -176,5 +179,11 @@ export class DevicesService {
   private resetDevicesArray() {
     this.cameras = [{ label: 'None', device: null, type: null }];
     this.microphones = [{ label: 'None', device: null, type: null }];
+  }
+
+  public disableVideoDevice(videoDevice: string) {
+    this.disabledDevices.push(this.devices.find(device => device.deviceId === videoDevice));
+    this.devices = this.devices.filter(device => device.deviceId !== videoDevice);
+    this.cameras = this.cameras.filter(camera => camera.device !== videoDevice);
   }
 }

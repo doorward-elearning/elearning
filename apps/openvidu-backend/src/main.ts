@@ -1,7 +1,7 @@
 import '@doorward/backend/bootstrap/setUpEnvironment';
 import { Logger } from '@nestjs/common';
 
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import helmet from 'helmet';
