@@ -15,7 +15,7 @@ export default class UserEntity extends BaseEntity {
   @Column()
   fullName: string;
 
-  @Column()
+  @Column({ nullable: true })
   avatar: string;
 
   @Column({
@@ -25,7 +25,7 @@ export default class UserEntity extends BaseEntity {
   })
   role: OPENVIDU_ROLES;
 
-  @Column()
+  @Column({ nullable: true })
   data: string;
 
   @Column({ name: 'screen_token' })
@@ -34,7 +34,7 @@ export default class UserEntity extends BaseEntity {
   @Column({ name: 'webcam_token' })
   webcamToken: string;
 
-  @Column({ name: 'raising_hand' })
+  @Column({ name: 'raising_hand', default: true })
   raisingHand: boolean;
 
   @ManyToMany(() => CapabilityEntity, { cascade: true, onDelete: 'CASCADE' })
@@ -46,7 +46,10 @@ export default class UserEntity extends BaseEntity {
 
   @ManyToOne(
     () => MeetingEntity,
-    meeting => meeting.participants
+    meeting => meeting.participants,
+    {
+      onDelete: 'CASCADE',
+    }
   )
   @JoinTable()
   meeting: MeetingEntity;

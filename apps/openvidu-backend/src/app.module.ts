@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { CallModule } from './modules/call/call.module';
+import { MeetingsModule } from './modules/meetings/meetings.module';
 import { SignalsModule } from './modules/signals/signals.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { RedisModule } from 'nestjs-redis';
@@ -10,9 +10,11 @@ import MeetingEntity from './database/entities/meeting.entity';
 import UserEntity from './database/entities/user.entity';
 import WhiteboardEntity from './database/entities/whiteboard.entity';
 
+const entities = [CapabilityEntity, MeetingEntity, UserEntity, WhiteboardEntity];
+
 @Module({
   imports: [
-    CallModule,
+    MeetingsModule,
     SignalsModule,
     AuthModule,
     RedisModule.register({
@@ -22,9 +24,11 @@ import WhiteboardEntity from './database/entities/whiteboard.entity';
       db: +process.env.OPENVIDU_API_REDIS_DATABASE,
     }),
     TypeOrmModule.forRootAsync({
-      useFactory: () => ormConfig,
+      useFactory: () => ({
+        ...ormConfig,
+        entities,
+      }),
     }),
-    TypeOrmModule.forFeature([CapabilityEntity, MeetingEntity, UserEntity, WhiteboardEntity]),
   ],
   controllers: [],
   providers: [],

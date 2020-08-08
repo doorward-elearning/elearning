@@ -5,7 +5,7 @@ import UserEntity from './user.entity';
 
 @Entity({ name: 'whiteboards' })
 export default class WhiteboardEntity extends BaseEntity {
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   state: string;
 
   @Column()

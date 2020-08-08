@@ -6,13 +6,13 @@ import { CreateMeetingBody } from '@doorward/backend/dto/openviduBackend';
 import { OPENVIDU_ROLES, SessionLogo } from '@doorward/common/types/openvidu';
 import { InjectRepository } from '@nestjs/typeorm';
 import MeetingEntity from '../../database/entities/meeting.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CapabilityEntity } from '../../database/entities/capability.entity';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import UserEntity from '../../database/entities/user.entity';
 
 @Injectable()
-export default class CallService {
+export default class MeetingsService {
   constructor(
     private openviduService: OpenviduService,
     private authService: AuthService,
@@ -34,7 +34,9 @@ export default class CallService {
   }
 
   static handleError(error: AxiosError) {
-    const statusCode = error.response?.status;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    const statusCode = error.response?.status || error.status;
 
     if (error.code === 'DEPTH_ZERO_SELF_SIGNED_CERT' || (error.code || '').includes('SELF_SIGNED_CERT')) {
       throw new HttpException(
@@ -56,18 +58,18 @@ export default class CallService {
         throw new HttpException('Could not create meeting session as it already exists.', HttpStatus.CONFLICT);
       } else if (user.role === OPENVIDU_ROLES.MODERATOR) {
         const { id } = await this.openviduService.createSession(sessionId);
-        const logo = CallService.extractLogo(logoUrl);
+        const logo = MeetingsService.extractLogo(logoUrl);
         // create the meeting.
         const meeting = this.meetingRepository.create({
           sessionId: id,
           logo: logo.base,
           darkThemeLogo: logo.dark,
-          capabilities: await this.getCapabilities(capabilities),
+          capabilities: await this._getCapabilities(capabilities),
         });
 
         await this.meetingRepository.save(meeting);
 
-        const [screenToken, webcamToken] = await this.createTokens(sessionId, user.role, 2);
+        const [screenToken, webcamToken] = await this._createTokens(sessionId, user.role, 2);
         const userEntity = this.userRepository.create({
           fullName: user.name,
           avatar: user.avatar,
@@ -76,7 +78,7 @@ export default class CallService {
           screenToken,
           webcamToken,
           raisingHand: false,
-          capabilities: await this.getCapabilities(moderatorCapabilities),
+          capabilities: await this._getCapabilities([...moderatorCapabilities]),
           meeting,
         });
 
@@ -85,19 +87,49 @@ export default class CallService {
         throw new HttpException('You do not have permissions to start this meeting.', HttpStatus.UNAUTHORIZED);
       }
     } catch (error) {
-      CallService.handleError(error);
+      MeetingsService.handleError(error);
     }
   }
 
-  async getCapabilities(capabilities: Array<MeetingCapabilities>): Promise<Array<CapabilityEntity>> {
+  async deleteMeeting(meetingId: string): Promise<any> {
+    const meeting = await this.meetingRepository.findOneOrFail({ id: meetingId });
+    await this.meetingRepository.remove(meeting);
+    const sessionId = meeting.sessionId;
+    if (await this.openviduService.sessionExists(sessionId)) {
+      await this.openviduService.deleteSession(sessionId);
+    }
+  }
+
+  async getMeeting(meetingId: string): Promise<MeetingEntity> {
+    return this.meetingRepository.findOneOrFail(meetingId, {
+      relations: ['capabilities', 'participants', 'whiteboards'],
+    });
+  }
+
+  async getMeetingParticipants(meetingId: string): Promise<Array<UserEntity>> {
+    return this.userRepository.find({
+      where: {
+        meeting: {
+          id: meetingId,
+        },
+      },
+      relations: ['capabilities'],
+    });
+  }
+
+  async getMeetings(): Promise<Array<MeetingEntity>> {
+    return this.meetingRepository.find();
+  }
+
+  private async _getCapabilities(capabilities: Array<MeetingCapabilities>): Promise<Array<CapabilityEntity>> {
     return await this.capabilityRepository.find({
       where: {
-        capability: capabilities,
+        capability: In(capabilities),
       },
     });
   }
 
-  async createTokens(sessionId: string, role: OPENVIDU_ROLES, numTokens: number): Promise<Array<string>> {
+  private async _createTokens(sessionId: string, role: OPENVIDU_ROLES, numTokens: number): Promise<Array<string>> {
     return Promise.all(
       Array(numTokens)
         .fill(0)

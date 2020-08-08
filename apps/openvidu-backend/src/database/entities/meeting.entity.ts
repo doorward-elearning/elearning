@@ -11,10 +11,10 @@ export default class MeetingEntity extends BaseEntity {
   @Column()
   sessionId: string;
 
-  @Column()
+  @Column({ nullable: true })
   darkThemeLogo: string;
 
-  @Column()
+  @Column({ nullable: true })
   logo: string;
 
   @ManyToMany(() => CapabilityEntity, {
