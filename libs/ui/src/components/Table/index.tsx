@@ -65,20 +65,24 @@ function renderRow<T, K extends TableColumns>(
   };
 
   return (
-    <tr
-      key={index}
-      onClick={e => {
-        if (actionMenuRef.current) {
-          if (!actionMenuRef.current.contains(e.target)) {
-            onRowClick();
-          }
-        } else {
-          onRowClick();
-        }
-      }}
-    >
+    <tr key={index}>
       {Object.keys(props.columns).map(columnKey => {
-        return <td key={columnKey}>{propsRenderCell(columnKey)}</td>;
+        return (
+          <td
+            key={columnKey}
+            onClick={e => {
+              if (actionMenuRef.current) {
+                if (!actionMenuRef.current.contains(e.target)) {
+                  onRowClick();
+                }
+              } else {
+                onRowClick();
+              }
+            }}
+          >
+            {propsRenderCell(columnKey)}
+          </td>
+        );
       })}
       {props.actionMenu && (
         <td className="menu" ref={actionMenuRef}>

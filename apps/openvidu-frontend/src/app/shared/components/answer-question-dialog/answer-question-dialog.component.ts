@@ -16,7 +16,7 @@ export class AnswerQuestionDialogComponent implements OnInit {
   formGroup: FormGroup;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: AnswerQuestionDialogData,
+    @Inject(MAT_DIALOG_DATA) public data: AnswerQuestionDialogData,
     private dialogRef: MatDialogRef<AnswerQuestionDialogComponent, string>,
     private formBuilder: FormBuilder,
     private remoteUsersService: RemoteUsersService

@@ -8,7 +8,6 @@ import { UtilsService } from '../utils/utils.service';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { LocalUserModel } from '../../models/local-user-model';
 import { NotificationService } from '../notifications/notification.service';
-import { ChatNotificationComponent } from '../../components/chat-notification/chat-notification.component';
 import { RemoteUserModel } from '../../models/remote-user-model';
 
 export type SignalHandler<T extends SignalTypes> = (
@@ -171,6 +170,7 @@ export class SignalsService {
         data: JSON.stringify(data),
         type: type,
         to: participants
+          .filter(participant => !!participant)
           .map(participant => participant.getActiveSession().getStream()?.connection)
           .filter(conn => !!conn),
       };

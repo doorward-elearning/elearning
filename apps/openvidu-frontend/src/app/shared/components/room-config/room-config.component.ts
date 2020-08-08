@@ -67,10 +67,21 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.handleSessionConfig(this.externalConfig);
     this.subscribeToUsers();
     this.setSessionName();
-    await this.oVDevicesService.initDevices();
-    this.setDevicesInfo();
+    await this.setDevicesInfo();
     await this.checkPermissions();
-    this.initWebcamPublisher();
+    this.setUpWebcam();
+  }
+
+  private setUpWebcam() {
+    const micStorageDevice = this.micSelected?.device || undefined;
+    const camStorageDevice = this.camSelected?.device || undefined;
+
+    const videoSource = this.hasVideoDevices ? camStorageDevice : false;
+    const audioSource = this.hasAudioDevices ? micStorageDevice : false;
+    const publishAudio = this.hasAudioDevices ? this.isAudioActive : false;
+    const publishVideo = this.hasVideoDevices ? this.isVideoActive : false;
+    const mirror = this.camSelected && this.camSelected.type === CameraType.FRONT;
+    this.initWebcamPublisher(videoSource, audioSource, publishAudio, publishVideo, mirror);
   }
 
   handleSessionConfig(user: UserModel | ExternalConfigModel) {
@@ -137,7 +148,8 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.scrollToBottom();
   }
 
-  private setDevicesInfo() {
+  private async setDevicesInfo() {
+    await this.oVDevicesService.initDevices();
     this.hasVideoDevices = this.oVDevicesService.hasVideoDeviceAvailable();
     this.hasAudioDevices = this.oVDevicesService.hasAudioDeviceAvailable();
     this.microphones = this.oVDevicesService.getMicrophones();
@@ -168,15 +180,13 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     });
   }
 
-  private initWebcamPublisher() {
-    const micStorageDevice = this.micSelected?.device || undefined;
-    const camStorageDevice = this.camSelected?.device || undefined;
-
-    const videoSource = this.hasVideoDevices ? camStorageDevice : false;
-    const audioSource = this.hasAudioDevices ? micStorageDevice : false;
-    const publishAudio = this.hasAudioDevices ? this.isAudioActive : false;
-    const publishVideo = this.hasVideoDevices ? this.isVideoActive : false;
-    const mirror = this.camSelected && this.camSelected.type === CameraType.FRONT;
+  private initWebcamPublisher(
+    videoSource: string | MediaStreamTrack | boolean,
+    audioSource: string | MediaStreamTrack | boolean,
+    publishVideo: boolean,
+    publishAudio: boolean,
+    mirror: boolean
+  ) {
     const properties = OpenViduSessionService.createProperties(
       videoSource,
       audioSource,
@@ -222,14 +232,24 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private handlePublisherError(publisher: Publisher) {
     publisher.once('accessDenied', (e: any) => {
       let message: string;
+      let title = e.name.replace(/_/g, ' ');
       if (e.name === 'DEVICE_ACCESS_DENIED') {
         message =
           "Access to media devices was not allowed. \nKindly confirm that you have a microphone & a webcam installed, or check whether they are blocked in your browser's settings";
       }
       if (e.name === 'NO_INPUT_SOURCE_SET') {
+        title = 'No video / audio devices';
         message = 'No video or audio devices have been found. Please, connect at least one.';
       }
-      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true, this.externalConfig.redirectOnEnd);
+      if (e.name === 'DEVICE_ALREADY_IN_USE') {
+        // start the webcam with no video devices.
+        this.oVDevicesService.disableVideoDevice(this.oVDevicesService.getCamSelected().device);
+        this.setDevicesInfo().then(() => {
+          this.setUpWebcam();
+        });
+        return;
+      }
+      this.utilsSrv.showErrorMessage(title, message, true, this.externalConfig.redirectOnEnd);
       this.log.e(e.message);
     });
   }

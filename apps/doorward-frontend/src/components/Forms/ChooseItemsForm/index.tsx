@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
@@ -7,11 +7,17 @@ import Table, { TableColumns } from '@doorward/ui/components/Table';
 import SwitchInput from '@doorward/ui/components/Input/SwitchInput';
 import { FormikProps } from 'formik';
 import Row from '@doorward/ui/components/Row';
+import objectHash from 'object-hash';
 
-function ChooseItemsForm<T, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
-  const createList = (items: Array<T>): Array<T & { selected: boolean }> => {
-    return items.map(item => ({ ...item, selected: false }));
-  };
+function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
+  const [itemsState, setItemsState] = useState<Record<string, boolean>>({});
+
+  const createList = useCallback(
+    (items: Array<T>): Array<T & { selected: boolean }> => {
+      return items.map(item => ({ ...item, selected: !!itemsState[item.id] }));
+    },
+    [itemsState]
+  );
 
   return (
     <div>
@@ -42,12 +48,16 @@ function ChooseItemsForm<T, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
                   }}
                   data={formikProps.values.items}
                   onRowClick={(row, index): void => {
+                    let result = { ...itemsState };
                     if (props.singleChoice) {
+                      result = {};
                       for (let i = 0; i < items.length; i++) {
                         formikProps.setFieldValue(`items.${i}.selected`, false);
                       }
                     }
                     formikProps.setFieldValue(`items.${index}.selected`, !formikProps.values.items[index].selected);
+                    result[items[index].id] = !formikProps.values.items[index].selected;
+                    setItemsState(result);
                   }}
                   getCell={(row, index) => {
                     return {
@@ -66,7 +76,7 @@ function ChooseItemsForm<T, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
   );
 }
 
-export interface ChooseItemsFormProps<T, R> {
+export interface ChooseItemsFormProps<T extends { id: string | number }, R> {
   items: WebComponentState<R>;
   getItems: (state: WebComponentState<R>) => Array<T>;
   state: WebComponentState<any>;

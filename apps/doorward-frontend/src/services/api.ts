@@ -191,6 +191,9 @@ const Api = {
       register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
         return POST(`/courses/${courseId}/students/register`, data);
       },
+      unEnroll: (studentId: string, courseId: string): Promise<ApiResponse> => {
+        return DELETE(`/courses/${courseId}/students/${studentId}`);
+      },
     },
   },
   reports: {
