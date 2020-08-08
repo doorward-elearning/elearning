@@ -34,6 +34,15 @@ export class OpenviduService {
     return await this.httpClientService.get<SessionInfoResponse>('/api/sessions/' + sessionId);
   }
 
+  public async sessionExists(sessionId: string): Promise<boolean> {
+    try {
+      await this.getSessionInfo(sessionId);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   public async getSessionsInfo(): Promise<SessionsInfoResponse> {
     return await this.httpClientService.get('/api/sessions');
   }

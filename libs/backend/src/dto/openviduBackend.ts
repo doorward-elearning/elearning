@@ -1,16 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { OpenviduUser, SessionConfig } from '@doorward/common/types/openvidu';
-import Capabilities from '@doorward/common/utils/Capabilities';
+import { OpenviduUser } from '@doorward/common/types/openvidu';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import UserEntity from '../../../../apps/openvidu-backend/src/database/entities/user.entity';
 
-export class ISessionConfig implements SessionConfig {
-  @ApiProperty()
-  capabilities: Capabilities<typeof MeetingCapabilities>;
-  @ApiProperty()
-  logoUrl: string | { dark: string; base: string } | undefined;
-}
-
-export class CreateSessionBody {
+export class CreateMeetingBody {
   @ApiProperty()
   sessionId: string;
 
@@ -18,5 +11,15 @@ export class CreateSessionBody {
   user: OpenviduUser;
 
   @ApiProperty()
-  sessionConfig: ISessionConfig;
+  logoUrl: string | { dark: string; base: string } | undefined;
+
+  @ApiProperty()
+  capabilities: Array<MeetingCapabilities>;
+
+  @ApiProperty()
+  moderatorCapabilities: Array<MeetingCapabilities>;
+}
+
+export class CreateMeetingResponse extends UserEntity {
+  jwtToken: string;
 }
