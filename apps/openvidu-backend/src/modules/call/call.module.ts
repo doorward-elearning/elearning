@@ -6,10 +6,11 @@ import { HttpClientService } from '../../services/http-client/http-client.servic
 import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { StorageService } from '../../services/storage/storage.service';
+import CallService from './call.service';
 
 @Module({
   imports: [AuthModule, UsersModule],
   controllers: [CallController],
-  providers: [SignalsService, OpenviduService, HttpClientService, StorageService],
+  providers: [SignalsService, OpenviduService, HttpClientService, StorageService, CallService],
 })
 export class CallModule {}

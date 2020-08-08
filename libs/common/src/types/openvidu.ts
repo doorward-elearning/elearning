@@ -153,8 +153,10 @@ export class MeetingCapabilitiesComponent {
   public MeetingCapabilities = MeetingCapabilities;
 }
 
+export type SessionLogo = string | { dark: string; base: string } | undefined;
+
 export interface SessionConfig {
-  logoUrl?: string | { dark: string; base: string } | undefined;
+  logoUrl?: SessionLogo;
   capabilities: Capabilities<typeof MeetingCapabilities>;
 }
 
@@ -177,4 +179,3 @@ export interface MeetingAnswer {
   answer: string;
   author: string;
 }
-

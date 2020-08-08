@@ -5,6 +5,10 @@ import { AuthModule } from './modules/auth/auth.module';
 import { RedisModule } from 'nestjs-redis';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from '../ormconfig.js';
+import { CapabilityEntity } from './database/entities/capability.entity';
+import MeetingEntity from './database/entities/meeting.entity';
+import UserEntity from './database/entities/user.entity';
+import WhiteboardEntity from './database/entities/whiteboard.entity';
 
 @Module({
   imports: [
@@ -20,6 +24,7 @@ import ormConfig from '../ormconfig.js';
     TypeOrmModule.forRootAsync({
       useFactory: () => ormConfig,
     }),
+    TypeOrmModule.forFeature([CapabilityEntity, MeetingEntity, UserEntity, WhiteboardEntity]),
   ],
   controllers: [],
   providers: [],
