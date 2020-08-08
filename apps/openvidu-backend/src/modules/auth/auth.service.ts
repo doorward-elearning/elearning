@@ -13,6 +13,6 @@ export class AuthService {
   }
 
   async generateAccessToken(openviduUserSession: UserEntity): Promise<string> {
-    return this.jwtService.sign(openviduUserSession);
+    return this.jwtService.sign({ ...openviduUserSession });
   }
 }
