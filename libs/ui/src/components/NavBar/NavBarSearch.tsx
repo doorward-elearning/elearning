@@ -150,6 +150,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
         focused,
         empty: !searchText,
         suggestions: mainSuggestions.length || props.state,
+        collapsed: props.collapsed,
       })}
       ref={searchElement}
     >
@@ -225,6 +226,7 @@ export interface NavBarSearchProps {
   searchText?: string;
   onSearch: (search: string) => void;
   state?: WebComponentState<{ suggestions: Array<SearchSuggestion> }>;
+  collapsed?: boolean;
 }
 
 const { ContextConsumer: NavBarSearch, Context } = withContext(NavBarSearchComponent, {});
