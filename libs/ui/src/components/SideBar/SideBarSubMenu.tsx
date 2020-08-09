@@ -22,7 +22,14 @@ const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
                 active: item === active,
               })}
             >
-              <Link to={item.link} className="side-nav-link" onClick={(): void => item.onClick && item.onClick(props)}>
+              <Link
+                to={item.link}
+                className="side-nav-link"
+                onClick={(): void => {
+                  item.onClick && item.onClick(props);
+                  props.onItemSelected && props.onItemSelected(item);
+                }}
+              >
                 <span className="title">{item.name}</span>
               </Link>
             </li>
@@ -39,6 +46,7 @@ export interface SideBarSubMenuProps {
   open: boolean;
   collapsed: boolean;
   history: MemoryHistory;
+  onItemSelected?: (item: SubMenuItem) => void;
 }
 
 export default SideBarSubMenu;

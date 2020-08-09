@@ -1,6 +1,7 @@
-import React, { MouseEventHandler, useCallback, useEffect, useState } from 'react';
+import React, { MouseEventHandler, useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 import './Layout.scss';
+import './Layout.mobile.scss';
 import ContentSpinner from '../../components/UI/ContentSpinner';
 import _ from 'lodash';
 import Helmet from 'react-helmet';
@@ -87,6 +88,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const icon = useLogo();
   const fetchSuggestions = useAction(getSuggestionsAction);
   const clearSuggestions = useAction(clearSuggestionsAction);
+  const sideBarRef = useRef();
 
   useEffect(() => {
     if (suggestionsType) {
@@ -119,6 +121,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   const title = pageTitle || titles || (currentRoute ? routes.routes[currentRoute].name : '');
 
+  const isMobile = window.innerWidth < 500;
+
   return (
     <FeatureProvider features={features}>
       <Helmet>
@@ -147,9 +151,21 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             />
           </NavBarSearchContext>
         </div>
-        <div className="ed-page-layout__sidebar">
+        <div
+          className={classNames({
+            'ed-page-layout__sidebar': true,
+            collapsed: sidebarCollapsed,
+          })}
+          onClick={e => {
+            const current = sideBarRef?.current;
+            if (current && !current?.contains(e.target)) {
+              toggleSidebar();
+            }
+          }}
+        >
           <SideBar
             schema={schema}
+            sideBarRef={sideBarRef}
             navBarShown={!noNavBar}
             history={history}
             icon={icon}
@@ -157,7 +173,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             title={organization.name}
             onHamburgerClick={toggleSidebar}
             location={location}
-            collapsed={sidebarCollapsed}
+            onItemSelected={() => {
+              if (isMobile) {
+                toggleSidebar();
+              }
+            }}
+            collapsed={isMobile ? false : sidebarCollapsed}
           />
         </div>
         <div className="ed-page-layout__content">

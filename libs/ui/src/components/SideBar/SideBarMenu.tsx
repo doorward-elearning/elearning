@@ -26,6 +26,15 @@ const Item: React.FunctionComponent<ItemProps> = props => {
     } else if (onClick) {
       onClick();
     }
+    if (!subMenu) {
+      props.onItemSelected &&
+        props.onItemSelected({
+          icon,
+          link,
+          subMenu,
+          name,
+        });
+    }
   };
 
   return (
@@ -36,7 +45,14 @@ const Item: React.FunctionComponent<ItemProps> = props => {
         <Icon icon="keyboard_arrow_right" className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
       </Link>
       {subMenu && (
-        <SideBarSubMenu history={history} menu={subMenu} active={activeSubItem} open={open} collapsed={collapsed} />
+        <SideBarSubMenu
+          history={history}
+          menu={subMenu}
+          active={activeSubItem}
+          open={open}
+          collapsed={collapsed}
+          onItemSelected={props.onItemSelected}
+        />
       )}
     </li>
   );
@@ -47,6 +63,7 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   location,
   collapsed,
   selected,
+  ...props
 }): JSX.Element => {
   const activeMenu: MenuItem | undefined = menu.find(item => {
     if (item.link === selected) {
@@ -71,6 +88,7 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
             collapsed={collapsed}
             location={location}
             selected={selected}
+            onItemSelected={props.onItemSelected}
             open={(open && open.link === item.link) || collapsed}
             setOpen={(value): void => handleOpen(item, value)}
           />
@@ -86,6 +104,7 @@ export interface SideBarMenuProps {
   location: Location;
   collapsed: boolean;
   selected: string;
+  onItemSelected?: (item: MenuItem) => void;
 }
 
 export interface ItemProps extends MenuItem {
@@ -95,6 +114,7 @@ export interface ItemProps extends MenuItem {
   collapsed: boolean;
   selected: string;
   setOpen: (open: boolean) => void;
+  onItemSelected?: (item: MenuItem) => void;
 }
 
 export default SideBarMenu;

@@ -5,8 +5,9 @@
   padding: 3em 0;
   grid-gap: var(--padding-lg);
 
-  form {
-    width: 450px;
+  .ed-card {
+    max-width: 450px;
+    width: 100% !important;
   }
 
   &--footer {
