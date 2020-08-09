@@ -24,6 +24,8 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
   const { query, updateLocation } = useQueryParams<{ search: string }>();
   const isMobile = window.innerWidth < 500;
   const [collapsedSearch, setCollapsedSearch] = useState(isMobile);
+
+  
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">

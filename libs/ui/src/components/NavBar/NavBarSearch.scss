@@ -176,6 +176,7 @@ $suggestionsHeight: 500px;
 
   &.collapsed {
     .ed-search__bar--input {
+      display: none;
     }
     .ed-search__bar--suggestions {
       display: none !important;
