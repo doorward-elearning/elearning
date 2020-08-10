@@ -6,7 +6,7 @@ import { PageComponent } from '@doorward/ui/types';
 const TeacherGroups: React.FunctionComponent<TeacherGroupsProps> = (props): JSX.Element => {
   return (
     <GroupList
-      header="Teacher Groups"
+      header="Moderator Groups"
       createRoute="addTeacherGroup"
       type={Groups.TEACHER}
       viewRoute="viewTeacherGroup"

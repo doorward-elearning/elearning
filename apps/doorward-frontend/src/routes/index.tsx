@@ -58,10 +58,10 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         schoolClassrooms: new Route('/:schoolId', SchoolClassrooms).public(),
       }),
       dashboard: new Route('/dashboard', Dashboard).with({
-        courses: new Route('/courses').with({
+        courses: new Route('/meetings').with({
           courseList: new Route('/', Courses).with({
             viewCourse: new Route('/:courseId', ViewCourse).with({
-              courseStudents: new Route('/students', CourseStudentList).with({
+              courseStudents: new Route('/members', CourseStudentList).with({
                 addCourseStudent: new Route('/new', AddCourseStudent),
               }),
               modules: new Route('/modules').with({
@@ -78,13 +78,13 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           }),
           createCourse: new Route('/create', Courses),
         }),
-        students: new Route('/students').roles(Roles.TEACHER).with({
+        students: new Route('/members').roles(Roles.TEACHER).with({
           studentList: new Route('/', StudentList).roles(Roles.TEACHER).with({
             viewStudent: new Route('/:studentId', ViewStudent).roles(Roles.TEACHER),
           }),
           newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
         }),
-        teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
+        teachers: new Route('/moderators').roles(Roles.SUPER_ADMINISTRATOR).with({
           teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
           addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
         }),
@@ -92,20 +92,20 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           changePassword: new Route('/changePassword', Profile),
         }),
         reports: new Route('/reports').roles(Roles.TEACHER).with({
-          studentListReports: new Route('/students', StudentListReport).with({
+          studentListReports: new Route('/members', StudentListReport).with({
             studentReport: new Route('/:studentId', StudentReport),
           }),
-          courseListReports: new Route('/courses', Error404),
-          teacherListReports: new Route('/teachers', TeacherListReport).roles().with({
+          courseListReports: new Route('/meetings', Error404),
+          teacherListReports: new Route('/moderators', TeacherListReport).roles().with({
             teacherReport: new Route('/:teacherId', TeacherReport),
           }),
         }),
         groups: new Route('/groups').roles(Roles.SUPER_ADMINISTRATOR, Roles.TEACHER).with({
-          teacherGroups: new Route('/teachers', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
+          teacherGroups: new Route('/moderators', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
             addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
             viewTeacherGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.SUPER_ADMINISTRATOR),
           }),
-          studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
+          studentGroups: new Route('/members', StudentGroups).roles(Roles.TEACHER).with({
             addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
             viewStudentGroup: new Route('/view/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
               updateStudentGroup: new Route('/update', UpdateStudentGroup).roles(Roles.TEACHER),
