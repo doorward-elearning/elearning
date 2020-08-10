@@ -14,8 +14,8 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
   const group = useSelector((state: State) => state.groups.viewGroup);
   return (
     <CreateGroup
-      emptyMessage="No students have been created yet"
-      title="Students"
+      emptyMessage="No members have been created yet"
+      title="Members"
       type={Groups.STUDENT}
       state={studentList}
       getUsers={data => data.students}

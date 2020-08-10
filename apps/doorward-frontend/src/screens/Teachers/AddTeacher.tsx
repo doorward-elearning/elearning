@@ -21,7 +21,7 @@ const AddTeacher: React.FunctionComponent<AddStudentProps> = props => {
       <Redirect to={routes.routes.teacherList.link} />
       <Layout
         {...props}
-        header="Add Teacher"
+        header={routes.addTeacher.name}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
         <AddTeacherForm

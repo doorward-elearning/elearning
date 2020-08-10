@@ -11,8 +11,8 @@ const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (pr
   const teacherList = useSelector((state: State) => state.teachers.teacherList);
   return (
     <CreateGroup
-      emptyMessage={'No teachers have been created yet'}
-      title="Teachers"
+      emptyMessage={'No moderators have been created yet'}
+      title="Moderators"
       type={Groups.TEACHER}
       state={teacherList}
       getUsers={data => data.teachers}

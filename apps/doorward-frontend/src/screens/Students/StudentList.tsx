@@ -30,12 +30,12 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
   return (
     <Layout
       {...props}
-      header="All Students"
-      suggestionsType="students"
-      searchPlaceholder="Search students..."
+      header="All Members"
+      suggestionsType="members"
+      searchPlaceholder="Search members..."
       headerBadge={total === undefined ? null : `${total}`}
       actionBtnProps={{
-        text: 'Add Student',
+        text: 'Add Member',
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}

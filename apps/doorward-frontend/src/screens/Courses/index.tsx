@@ -21,12 +21,12 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
     fetchCourses();
   }, [props.location.pathname]);
 
-  const TITLE = 'CREATE A NEW COURSE';
+  const TITLE = 'CREATE A NEW MEETING';
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
-      header="COURSES"
+      header="MEETINGS"
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createCourse.link),
@@ -34,7 +34,7 @@ const Courses: React.FunctionComponent<CoursesProps> = props => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <WebComponent data={courses.data.courses} loading={courses.fetching} modelName="Courses">
+      <WebComponent data={courses.data.courses} loading={courses.fetching} modelName="Meetings">
         {(list): JSX.Element => {
           return <CourseTable courses={list} history={props.history} />;
         }}
