@@ -1,0 +1,62 @@
+releases:
+  - name: abcd-config
+    namespace: abcd-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
+  - name: abcd-thaladb
+    namespace: abcd-doorward
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/apps/thaladb
+    values:
+      - config.yaml
+
+  - name: abcd-samvadam
+    namespace: abcd-doorward
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/apps/samvadam
+    needs:
+      - abcd-doorward/abcd-thaladb
+    values:
+      - config.yaml
+
+  - name: abcd-thala
+    namespace: abcd-doorward
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/apps/thala
+    needs:
+      - abcd-doorward/abcd-thaladb
+    values:
+      - config.yaml
+
+  - name: abcd-chuchu
+    namespace: abcd-doorward
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/apps/chuchu
+    needs:
+      - abcd-doorward/abcd-thaladb
+    values:
+      - config.yaml
+
+  - name: abcd-vidu
+    namespace: abcd-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - abcd-doorward/abcd-thaladb
+    values:
+      - config.yaml
