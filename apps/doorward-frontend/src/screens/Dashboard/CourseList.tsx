@@ -16,14 +16,14 @@ import { Course } from '@doorward/common/models/Course';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { Roles } from '@doorward/ui/components/RolesManager';
 import ProgressModal from '../../components/Modals/ProgressModal';
-import IfElse from '@doorward/ui/components/IfElse';
-import Button from '@doorward/ui/components/Buttons/Button';
 import useModal from '@doorward/ui/hooks/useModal';
 import { useSelector } from 'react-redux';
+import Icon from '@doorward/ui/components/Icon';
+import classNames from 'classnames';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
-  const [classroomCourse, startClassroom] = useState();
+  const [classroomCourse, startClassroom] = useState<Course>(null);
 
   const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
   const routes = useRoutes();
@@ -36,7 +36,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   return (
     <SimpleWebComponent
       action={fetchCoursesAction}
-      dataSelector={data => data.courses}
+      dataSelector={data => (data.courses || []).sort((a, b) => (a?.meetingRoom?.currentMeeting ? -1 : 1))}
       selector={(state: State) => state.courses.courseList}
     >
       {data => (
@@ -46,8 +46,8 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               state={launchClassroom}
               cancellable={false}
               showErrorToast
-              action={() => startLiveClassroom(classroomCourse)}
-              title="Starting classroom"
+              action={() => startLiveClassroom(classroomCourse?.id)}
+              title={(classroomCourse?.meetingRoom?.currentMeeting ? 'Joining ' : 'Starting ') + ' classroom.'}
               useModal={liveClassroomModal}
               onSuccess={data => {
                 routes.navigate(routes.videoCall, {
@@ -60,14 +60,16 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                 <div className="dashboard__course-list__course">
                   <Card>
                     <Card.Header image>
-                      <div className="card-image" style={{ background: Tools.color(course.id) }}>
+                      <div
+                        className="card-image"
+                        style={{ background: Tools.color(course.id) }}
+                        onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}
+                      >
                         <EImage src={courseImage} />
                       </div>
                     </Card.Header>
                     <Card.Body>
-                      <Header size={2} onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}>
-                        {course.title}
-                      </Header>
+                      <Header size={2}>{course.title}</Header>
                       <div>
                         <ItemArray
                           data={Tools.truncate(course.modules, 3)}
@@ -84,16 +86,17 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                           </span>
                         </RoleContainer>
                       </Row>
-                      <IfElse condition={course?.meetingRoom?.currentMeeting}>
-                        <Button icon="phone" mini onClick={() => startClassroom(course.id)}>
-                          Join live classroom
-                        </Button>
-                        <RoleContainer roles={[Roles.TEACHER]}>
-                          <Button icon="phone" mini onClick={() => startClassroom(course.id)}>
-                            Start live classroom
-                          </Button>
-                        </RoleContainer>
-                      </IfElse>
+                      <div className="actions">
+                        <Icon
+                          className={classNames({
+                            joinMeeting: course?.meetingRoom?.currentMeeting,
+                            action: true,
+                          })}
+                          icon="phone"
+                          title="Live classroom"
+                          onClick={() => startClassroom(course)}
+                        />
+                      </div>
                     </Card.Body>
                   </Card>
                 </div>
