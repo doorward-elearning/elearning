@@ -8,8 +8,7 @@ const base = {
   '--container-width': '1200px',
   '--text-primary': '#333333',
   '--text-secondary': '#565656',
-  '--font-family':
-    '"Sailec-Regular",sans-serif',
+  '--font-family': '"Graphik", sans-serif',
   '--line-color': 'rgba(0, 0, 0, .1)',
   '--shadow-color': 'rgba(50, 50, 50, .08)',
   '--shadow-color--darker': 'rgba(0, 0, 0, .15)',
