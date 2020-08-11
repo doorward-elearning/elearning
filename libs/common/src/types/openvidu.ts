@@ -99,10 +99,17 @@ export interface OpenviduUser {
   data?: any;
 }
 
+export interface WhiteboardSessionInfo {
+  active?: boolean;
+  createdBy: string;
+}
+
 export interface SessionInfo extends CreateTokenBody {
   screenToken: string;
   webcamToken: string;
-  connectionId: string;
+  userId: string;
+  whiteboardSessionInfo?: WhiteboardSessionInfo;
+  raisingHand?: boolean;
 }
 
 export interface OpenviduUserSession {
@@ -146,7 +153,29 @@ export class MeetingCapabilitiesComponent {
   public MeetingCapabilities = MeetingCapabilities;
 }
 
+export type SessionLogo = string | { dark: string; base: string } | undefined;
+
 export interface SessionConfig {
-  logoUrl?: string | { dark: string; base: string } | undefined;
+  logoUrl?: SessionLogo;
   capabilities: Capabilities<typeof MeetingCapabilities>;
+}
+
+export enum MeetingQuestionTypes {
+  TRUE_OR_FALSE = 'TRUE_OR_FALSE',
+  TEXT_INPUT = 'TEXT_INPUT',
+}
+
+export interface MeetingQuestion {
+  id: string;
+  author: string;
+  question: string;
+  type: MeetingQuestionTypes;
+  answers?: Array<MeetingAnswer>;
+}
+
+export interface MeetingAnswer {
+  id: string;
+  questionId: string;
+  answer: string;
+  author: string;
 }

@@ -1,0 +1,54 @@
+<div class="meeting-actions" *ngIf="localUser">
+  <div class="actions-container"></div>
+  <div class="actions-container">
+    <div
+      class="meeting-action"
+      (click)="toggleFullScreen()"
+      *ngIf="localUser | capabilities: MeetingCapabilities.GO_FULL_SCREEN"
+    >
+      <mat-icon matTooltip="Toggle fullscreen">{{ !isFullScreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
+    </div>
+    <div class="meeting-action" *ngIf="!localUser.isModerator()" (click)="toggleRaisingHand()">
+      <mat-icon
+        [matTooltip]="localUser.isRaisingHand() ? 'Stop raising hand' : 'Raise hand'"
+        [color]="localUser.isRaisingHand() && 'primary'"
+        >pan_tool</mat-icon
+      >
+    </div>
+    <div class="meeting-action" (click)="toggleQAPanel()">
+      <mat-icon
+        matTooltip="Questions & Answers"
+        [matBadge]="'' + (newQuestions + newAnswers)"
+        [matBadgeHidden]="!(newQuestions + newAnswers)"
+        >question_answer</mat-icon
+      >
+    </div>
+    <div
+      class="meeting-action"
+      *ngIf="localUser.isWhiteboardActive() || localUser.isWhiteboardPublisher()"
+      (click)="toggleWhiteboard.emit()"
+    >
+      <mat-icon
+        *ngIf="whiteboardActive"
+        color="primary"
+        [matTooltip]="
+          whiteboardActive ? (localUser.isWhiteboardOwner() ? 'Close whiteboard' : 'Back to meeting') : 'Whiteboard'
+        "
+        >video_label</mat-icon
+      >
+      <mat-icon
+        *ngIf="!whiteboardActive"
+        color="warn"
+        [matTooltip]="
+          whiteboardActive ? (localUser.isWhiteboardOwner() ? 'Close whiteboard' : 'Back to meeting') : 'Whiteboard'
+        "
+        >video_label</mat-icon
+      >
+    </div>
+  </div>
+  <div class="actions-container">
+    <div class="meeting-action full-size-button" [ngClass]="isFullSize ? 'full-size': ''" (click)="toggleBounds()">
+      <mat-icon>keyboard_arrow_down</mat-icon>
+    </div>
+  </div>
+</div>

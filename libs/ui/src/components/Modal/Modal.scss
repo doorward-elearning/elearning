@@ -38,6 +38,8 @@
   }
 
   &__content {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     background: var(--bg-primary);
     min-width: 500px;
     max-width: var(--container-width);
@@ -57,7 +59,7 @@
       padding: 0 var(--padding-xlg);
     }
     &__footer {
-      //background: var(--bg-secondary);
+      background: var(--bg-primary);
     }
 
     &__headerContainer {

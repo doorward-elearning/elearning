@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useState } from 'react';
 import './NavBar.scss';
 import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
@@ -22,6 +22,10 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
   ...props
 }) => {
   const { query, updateLocation } = useQueryParams<{ search: string }>();
+  const isMobile = window.innerWidth < 500;
+  const [collapsedSearch, setCollapsedSearch] = useState(isMobile);
+
+  
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
@@ -38,6 +42,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
           <Feature feature={NavbarFeatures.SEARCH_BAR}>
             <NavBarSearch
               searchText={query.search}
+              collapsed={collapsedSearch}
               onSearch={search => updateLocation({ search })}
             />
           </Feature>

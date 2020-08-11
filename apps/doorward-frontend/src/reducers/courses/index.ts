@@ -19,6 +19,7 @@ import {
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
   SUBMIT_ASSIGNMENT,
+  UN_ENROLL_STUDENT,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -83,6 +84,11 @@ const managersList = reducerApiAction({
 const createStudent = reducerApiAction({
   action: CREATE_COURSE_STUDENT,
   api: Api.courses.students.create,
+});
+
+const unEnrollStudent = reducerApiAction({
+  action: UN_ENROLL_STUDENT,
+  api: Api.courses.students.unEnroll,
 });
 
 const notRegistered = reducerApiAction({
@@ -186,5 +192,6 @@ export default reducerBuilder({
     submitAssignment,
     createCourseManager,
     managersList,
+    unEnrollStudent,
   },
 });

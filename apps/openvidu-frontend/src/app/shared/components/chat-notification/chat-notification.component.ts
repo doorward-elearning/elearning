@@ -3,6 +3,8 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 import { OpenviduUser } from '@doorward/common/types/openvidu';
 
 export interface ChatNotificationData {
+  icon?: string;
+  title?: string;
   sender: OpenviduUser;
   message: string;
   onClick: () => void;

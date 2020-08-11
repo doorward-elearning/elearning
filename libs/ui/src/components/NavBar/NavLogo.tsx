@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useContext } from 'react';
+import React, { MouseEventHandler } from 'react';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -6,11 +6,9 @@ import { Link } from 'react-router-dom';
 import './NavLogo.scss';
 import { MemoryHistory } from 'history';
 import EImage from '../Image';
-import { ThemeContext } from '../ApplicationTheme';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
-  const theme = useContext(ThemeContext);
   return (
     <div className="nav-logo">
       <FeatureProvider features={props.features}>

@@ -42,8 +42,8 @@ export class ChatService {
     this.log = this.loggerSrv.get('ChatService');
     this.messagesObs = this._messageList.asObservable();
     this.messagesUnreadObs = this._messagesUnread.asObservable();
-    this.oVSessionService.getUsers().subscribe(user => {
-      this.localUser = user[0];
+    this.oVSessionService.userObs.subscribe(user => {
+      this.localUser = user;
     });
     this.utilsService.sidenavContentObs.subscribe(open => {
       this.chatOpened = open === SideNavComponents.CHAT;
@@ -66,7 +66,13 @@ export class ChatService {
       });
       if (!this.isChatOpened()) {
         this.addMessageUnread();
-        this.notificationService.newMessage(sender, message, this.toggleChat.bind(this));
+        this.notificationService.newMessage({
+          title: 'Chat',
+          icon: 'chat_bubble',
+          sender,
+          message,
+          onClick: this.toggleChat.bind(this),
+        });
       }
       this._messageList.next(this.messageList);
     });

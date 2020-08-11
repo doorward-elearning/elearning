@@ -32,6 +32,7 @@ body {
   height: 100%;
   font-size: 14px;
   width: 100%;
+  color: var(--text-primary) !important;
 }
 
 /* webcomponent */
@@ -44,6 +45,7 @@ body {
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -80,6 +82,7 @@ body {
 
 .mat-menu-panel {
   background: var(--bg-primary);
+  min-height: unset !important;
 }
 
 .mat-menu-panel .mat-menu-item mat-icon,
@@ -122,6 +125,11 @@ mat-tooltip-component .mat-tooltip {
 
 .inactive {
   opacity: 0.5;
+}
+
+:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .mat-menu-panel.small .mat-menu-content:not(:empty) {
@@ -178,4 +186,65 @@ emoji-picker emoji-content .emoji-buttons {
 .mat-snack-bar-container {
   background: var(--bg-primary);
   color: var(--text-primary);
+}
+
+.mat-stroked-button:not(.mat-button-disabled) {
+  border-color: var(--line-color);
+}
+
+.mat-select-panel {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+.mat-select-arrow {
+  color: var(--text-primary);
+}
+
+.mat-form-field-label {
+  color: var(--text-primary);
+}
+
+.mat-form-field-appearance-fill .mat-form-field-underline::before {
+  color: var(--text-primary);
+}
+
+.mat-select-value {
+  color: var(--text-primary);
+}
+
+.mat-expansion-panel {
+  color: var(--text-primary);
+}
+
+.mat-expansion-panel {
+  background: var(--bg-primary);
+}
+
+.mat-expansion-panel-header-title {
+  color: var(--text-primary);
+}
+
+.mat-expansion-panel-header-description,
+.mat-expansion-indicator::after {
+  color: var(--text-primary);
+}
+
+.mat-button-toggle {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.mat-button-toggle-group {
+  box-shadow: 0 0 4px 2px var(--shadow-color);
+}
+
+.mat-button-toggle-disabled.mat-button-toggle-appearance-standard {
+  color: var(--text-primary);
+  background: var(--bg-primary);
+}
+
+.mat-button-toggle-checked.mat-button-toggle-appearance-standard {
+  color: white;
+  background-color: var(--accent);
 }

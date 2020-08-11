@@ -1,17 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { UserModel } from '../../models/user-model';
-import { NicknameMatcher } from '../../forms-matchers/nickname';
 import { UtilsService } from '../../services/utils/utils.service';
 import { Publisher } from 'openvidu-browser';
 import { ActivatedRoute, Params } from '@angular/router';
@@ -19,16 +7,16 @@ import { OpenViduSessionService } from '../../services/openvidu-session/openvidu
 import { CameraType, IDevice } from '../../types/device-type';
 import { DevicesService } from '../../services/devices/devices.service';
 import { Subscription } from 'rxjs';
-import { AvatarType } from '../../types/chat-type';
 import { LoggerService } from '../../services/logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { ScreenType } from '../../types/video-type';
 import { ExternalConfigModel } from '../../models/external-config';
 import { OvSettingsModel } from '../../models/ovSettings';
 import { StorageService } from '../../services/storage/storage.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogPermissionsComponent } from '../dialog-permissions/dialog-permissions.component';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { VideoType } from '../../types/video-type';
+import { LocalUserModel } from '../../models/local-user-model';
 
 @Component({
   selector: 'app-room-config',
@@ -36,7 +24,6 @@ import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities'
   styleUrls: ['./room-config.component.css'],
 })
 export class RoomConfigComponent implements OnInit, OnDestroy {
-  private readonly USER_NICKNAME = 'openviduCallNickname';
   @ViewChild('bodyCard') bodyCard: ElementRef;
 
   @Input() externalConfig: ExternalConfigModel;
@@ -55,16 +42,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   micSelected: IDevice;
   isVideoActive = true;
   isAudioActive = true;
-  // volumeValue = 100;
   oVUsersSubscription: Subscription;
-  localUsers: UserModel[] = [];
-  randomAvatar: string;
-  videoAvatar: string;
-  avatarSelected: AvatarType;
-  columns: number;
+  localUser: LocalUserModel = null;
 
-  nicknameFormControl = new FormControl('', [Validators.maxLength(25), Validators.required]);
-  matcher = new NicknameMatcher();
   hasVideoDevices: boolean;
   hasAudioDevices: boolean;
   showConfigCard: boolean;
@@ -83,21 +63,25 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.log = this.loggerSrv.get('RoomConfigComponent');
   }
 
-  @HostListener('window:beforeunload')
-  beforeunloadHandler() {
-    this.close();
-  }
-
   async ngOnInit() {
     this.handleSessionConfig(this.externalConfig);
     this.subscribeToUsers();
-    this.setNicknameForm();
-    this.columns = window.innerWidth > 900 ? 2 : 1;
     this.setSessionName();
-    await this.oVDevicesService.initDevices();
-    this.setDevicesInfo();
+    await this.setDevicesInfo();
     await this.checkPermissions();
-    this.initwebcamPublisher();
+    this.setUpWebcam();
+  }
+
+  private setUpWebcam() {
+    const micStorageDevice = this.micSelected?.device || undefined;
+    const camStorageDevice = this.camSelected?.device || undefined;
+
+    const videoSource = this.hasVideoDevices ? camStorageDevice : false;
+    const audioSource = this.hasAudioDevices ? micStorageDevice : false;
+    const publishAudio = this.hasAudioDevices ? this.isAudioActive : false;
+    const publishVideo = this.hasVideoDevices ? this.isVideoActive : false;
+    const mirror = this.camSelected && this.camSelected.type === CameraType.FRONT;
+    this.initWebcamPublisher(videoSource, audioSource, publishAudio, publishVideo, mirror);
   }
 
   handleSessionConfig(user: UserModel | ExternalConfigModel) {
@@ -110,6 +94,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   async checkPermissions() {
     let microphone;
     let video;
+    let screen;
     try {
       microphone = await navigator.permissions.query({ name: 'microphone' });
       video = await navigator.permissions.query({ name: 'camera' });
@@ -158,148 +143,13 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     this.oVUsersSubscription.unsubscribe();
   }
 
-  async onCameraSelected(event: any) {
-    const videoSource = event?.value;
-    if (videoSource) {
-      // Is New deviceId different from the old one?
-      if (this.oVDevicesService.needUpdateVideoTrack(videoSource)) {
-        const mirror = this.oVDevicesService.cameraNeedsMirror(videoSource);
-        await this.oVSessionService.replaceTrack(videoSource, null, mirror);
-        this.oVDevicesService.setCamSelected(videoSource);
-        this.camSelected = this.oVDevicesService.getCamSelected();
-      }
-      // Publish Webcam
-      this.oVSessionService.publishVideo(true);
-      this.isVideoActive = true;
-      return;
-    }
-    // Unpublish webcam
-    this.oVSessionService.publishVideo(false);
-    this.isVideoActive = false;
-  }
-
-  async onMicrophoneSelected(event: any) {
-    const audioSource = event?.value;
-
-    if (audioSource) {
-      // Is New deviceId different than older?
-      if (this.oVDevicesService.needUpdateAudioTrack(audioSource)) {
-        const mirror = this.oVDevicesService.cameraNeedsMirror(this.camSelected.device);
-        await this.oVSessionService.replaceTrack(null, audioSource, mirror);
-        this.oVDevicesService.setMicSelected(audioSource);
-        this.micSelected = this.oVDevicesService.getMicSelected();
-      }
-      // Publish microphone
-      this.publishAudio(true);
-      this.isAudioActive = true;
-      return;
-    }
-    this.publishAudio(false);
-    this.isAudioActive = false;
-  }
-
-  toggleCam() {
-    this.isVideoActive = !this.isVideoActive;
-    this.oVSessionService.publishVideo(this.isVideoActive);
-
-    if (this.oVSessionService.areBothConnected()) {
-      this.oVSessionService.disableWebcamUser();
-      this.oVSessionService.publishScreenAudio(this.isAudioActive);
-      // !this.subscribeToVolumeChange(<Publisher>this.localUsers[0].getStreamManager());
-    } else if (this.oVSessionService.isOnlyScreenConnected()) {
-      // (<Publisher>this.localUsers[0].getStreamManager()).off('streamAudioVolumeChange');
-      this.oVSessionService.enableWebcamUser();
-    }
-  }
-
-  toggleScreenShare() {
-    if (this.oVSessionService.areBothConnected()) {
-      this.oVSessionService.disableScreenUser();
-      return;
-    }
-
-    if (this.oVSessionService.isOnlyWebcamConnected()) {
-      const screenPublisher = this.initScreenPublisher();
-
-      screenPublisher.on('accessAllowed', event => {
-        this.oVSessionService.enableScreenUser(screenPublisher);
-        if (!this.oVSessionService.hasWebcamVideoActive()) {
-          this.oVSessionService.disableWebcamUser();
-        }
-      });
-
-      screenPublisher.on('accessDenied', event => {
-        this.log.w('ScreenShare: Access Denied');
-      });
-      return;
-    }
-    this.oVSessionService.enableWebcamUser();
-    this.oVSessionService.disableScreenUser();
-  }
-
-  toggleMic() {
-    this.isAudioActive = !this.isAudioActive;
-    this.publishAudio(this.isAudioActive);
-  }
-
-  setNicknameForm() {
-    if (this.externalConfig) {
-      this.nicknameFormControl.setValue(this.externalConfig.user.name);
-      return;
-    }
-    const nickname = this.storageSrv.get(this.USER_NICKNAME) || this.utilsSrv.generateNickname();
-    this.nicknameFormControl.setValue(nickname);
-  }
-
-  eventKeyPress(event) {
-    if (event && event.keyCode === 13 && this.nicknameFormControl.valid) {
-      this.joinSession();
-    }
-  }
-
-  onResize(event) {
-    this.columns = event.target.innerWidth > 900 ? 2 : 1;
-  }
-
-  // updateVolumeColor(): string {
-  // 	// max = 0 / min = 100
-  // 	if (this.volumeValue <= 20) {
-  // 		return 'warn';
-  // 	} else if (this.volumeValue > 20 && this.volumeValue <= 35) {
-  // 		return 'accent';
-  // 	} else if (this.volumeValue > 35) {
-  // 		return 'primary';
-  // 	}
-  // }
-
   joinSession() {
-    if (this.nicknameFormControl.valid) {
-      this.storageSrv.set(this.USER_NICKNAME, this.nicknameFormControl.value);
-      this.join.emit();
-    }
+    this.join.emit();
     this.scrollToBottom();
   }
 
-  close() {
-    this.leaveSession.emit();
-    this.showConfigCard = false;
-  }
-
-  setAvatar(avatar: string) {
-    // !! REFACTOR
-    const avatarType = avatar === AvatarType.VIDEO ? AvatarType.VIDEO : AvatarType.RANDOM;
-    if (
-      (avatarType === AvatarType.RANDOM && this.randomAvatar) ||
-      (avatarType === AvatarType.VIDEO && this.videoAvatar)
-    ) {
-      this.avatarSelected = avatarType;
-      // if (avatarType === AVATAR_TYPE.RANDOM) {
-      //   this.localUsers[0].setUserAvatar(this.randomAvatar);
-      // }
-    }
-  }
-
-  private setDevicesInfo() {
+  private async setDevicesInfo() {
+    await this.oVDevicesService.initDevices();
     this.hasVideoDevices = this.oVDevicesService.hasVideoDeviceAvailable();
     this.hasAudioDevices = this.oVDevicesService.hasAudioDeviceAvailable();
     this.microphones = this.oVDevicesService.getMicrophones();
@@ -321,52 +171,30 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
     } catch (err) {}
   }
 
-  private initScreenPublisher(): Publisher {
-    const videoSource = ScreenType.SCREEN;
-    const willThereBeWebcam = this.oVSessionService.isWebCamEnabled() && this.oVSessionService.hasWebcamVideoActive();
-    const hasAudio = willThereBeWebcam ? false : this.isAudioActive;
-    const properties = this.oVSessionService.createProperties(videoSource, undefined, true, hasAudio, false);
-
-    try {
-      return this.oVSessionService.initScreenPublisher(undefined, properties);
-    } catch (error) {
-      this.log.e(error);
-      this.utilsSrv.handlerScreenShareError(error);
-    }
-  }
-
-  private publishAudio(audio: boolean) {
-    this.oVSessionService.isWebCamEnabled()
-      ? this.oVSessionService.publishWebcamAudio(audio)
-      : this.oVSessionService.publishScreenAudio(audio);
-  }
-
   private subscribeToUsers() {
-    this.oVUsersSubscription = this.oVSessionService.OVUsers.subscribe(users => {
-      this.localUsers = users;
-      if (users[0].session) {
-        this.handleSessionConfig(users[0]);
+    this.oVUsersSubscription = this.oVSessionService.userObs.subscribe(user => {
+      this.localUser = user;
+      if (this.localUser.session) {
+        this.handleSessionConfig(this.localUser);
       }
     });
   }
 
-  private initwebcamPublisher() {
-    const micStorageDevice = this.micSelected?.device || undefined;
-    const camStorageDevice = this.camSelected?.device || undefined;
-
-    const videoSource = this.hasVideoDevices ? camStorageDevice : false;
-    const audioSource = this.hasAudioDevices ? micStorageDevice : false;
-    const publishAudio = this.hasAudioDevices ? this.isAudioActive : false;
-    const publishVideo = this.hasVideoDevices ? this.isVideoActive : false;
-    const mirror = this.camSelected && this.camSelected.type === CameraType.FRONT;
-    const properties = this.oVSessionService.createProperties(
+  private initWebcamPublisher(
+    videoSource: string | MediaStreamTrack | boolean,
+    audioSource: string | MediaStreamTrack | boolean,
+    publishVideo: boolean,
+    publishAudio: boolean,
+    mirror: boolean
+  ) {
+    const properties = OpenViduSessionService.createProperties(
       videoSource,
       audioSource,
       publishVideo,
       publishAudio,
       mirror
     );
-    const publisher = this.oVSessionService.initCamPublisher(undefined, properties);
+    const publisher = this.oVSessionService.getUser().initializePublisher(VideoType.CAMERA, undefined, properties);
     this.handlePublisherSuccess(publisher);
     this.handlePublisherError(publisher);
   }
@@ -404,14 +232,24 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
   private handlePublisherError(publisher: Publisher) {
     publisher.once('accessDenied', (e: any) => {
       let message: string;
+      let title = e.name.replace(/_/g, ' ');
       if (e.name === 'DEVICE_ACCESS_DENIED') {
         message =
           "Access to media devices was not allowed. \nKindly confirm that you have a microphone & a webcam installed, or check whether they are blocked in your browser's settings";
       }
       if (e.name === 'NO_INPUT_SOURCE_SET') {
+        title = 'No video / audio devices';
         message = 'No video or audio devices have been found. Please, connect at least one.';
       }
-      this.utilsSrv.showErrorMessage(e.name.replace(/_/g, ' '), message, true, this.externalConfig.redirectOnEnd);
+      if (e.name === 'DEVICE_ALREADY_IN_USE') {
+        // start the webcam with no video devices.
+        this.oVDevicesService.disableVideoDevice(this.oVDevicesService.getCamSelected().device);
+        this.setDevicesInfo().then(() => {
+          this.setUpWebcam();
+        });
+        return;
+      }
+      this.utilsSrv.showErrorMessage(title, message, true, this.externalConfig.redirectOnEnd);
       this.log.e(e.message);
     });
   }

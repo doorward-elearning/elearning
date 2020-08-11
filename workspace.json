@@ -174,12 +174,7 @@
               "optimization": true,
               "extractLicenses": true,
               "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/doorward-node-backend/src/environments/environment.ts",
-                  "with": "apps/doorward-node-backend/src/environments/environment.prod.ts"
-                }
-              ]
+              "fileReplacements": []
             }
           }
         },
@@ -647,6 +642,34 @@
             "jestConfig": "apps/openvidu-backend/jest.config.js",
             "tsConfig": "apps/openvidu-backend/tsconfig.spec.json"
           }
+        }
+      }
+    },
+    "whiteboard": {
+      "projectType": "library",
+      "root": "libs/whiteboard",
+      "sourceRoot": "libs/whiteboard/src",
+      "prefix": "doorward",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/whiteboard/tsconfig.lib.json", "libs/whiteboard/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/whiteboard/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/whiteboard/jest.config.js",
+            "tsConfig": "libs/whiteboard/tsconfig.spec.json",
+            "setupFile": "libs/whiteboard/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       }
     }

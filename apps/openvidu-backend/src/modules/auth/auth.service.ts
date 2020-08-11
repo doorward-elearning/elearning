@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
-import { OpenviduUser, OpenviduUserSession } from '@doorward/common/types/openvidu';
+import { OpenviduUser } from '@doorward/common/types/openvidu';
 import { JwtService } from '@nestjs/jwt';
+import UserEntity from '../../database/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -11,7 +12,7 @@ export class AuthService {
     return this.usersService.findOne(connectionId, sessionId);
   }
 
-  async generateAccessToken(openviduUserSession: OpenviduUserSession): Promise<string> {
-    return this.jwtService.sign(openviduUserSession);
+  async generateAccessToken(openviduUserSession: UserEntity): Promise<string> {
+    return this.jwtService.sign({ ...openviduUserSession });
   }
 }

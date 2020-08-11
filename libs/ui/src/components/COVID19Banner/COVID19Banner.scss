@@ -1,3 +1,5 @@
+@import '../../responsive';
+
 .ed-covid19-banner {
   display: grid;
   padding: var(--padding);
@@ -16,5 +18,10 @@
 
   > div {
     display: grid;
+  }
+
+  @include mobile {
+    grid-template-rows: auto auto;
+    grid-template-columns: none;
   }
 }

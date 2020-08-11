@@ -1,0 +1,96 @@
+<div class="questions-and-answers">
+  <div class="header">
+    <h1>Q and A</h1>
+    <mat-icon (click)="closeButtonClicked.emit()" matTooltip="Close">close</mat-icon>
+  </div>
+  <div class="questions">
+    <div *ngIf="!questions.length">
+      No questions asked.
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel *ngFor="let question of questions; let i = index" [attr.data-index]="i">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="question-text">
+              <div class="content">
+                <div>
+                  {{ question.question }}
+                </div>
+                <div class="info">
+                  <span *ngIf="isQuestionAuthor(question)">
+                    {{ question.answers?.length || 0 }} response{{ question.answers?.length === 1 ? '' : 's' }}
+                  </span>
+                  <span
+                    *ngIf="!isQuestionAuthor(question)"
+                    [ngClass]="getMyAnswer(question) ? 'answered' : 'not-answered'"
+                  >
+                    {{ getMyAnswer(question) ? 'Answered' : 'Not Answered' }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="answers" *ngIf="!isQuestionAuthor(question)">
+          <div *ngIf="getMyAnswer(question)">
+            <h5>Answer</h5>
+            <div *ngIf="question.type === 'TEXT_INPUT'">
+              {{ getMyAnswer(question).answer }}
+            </div>
+            <div *ngIf="question.type === 'TRUE_OR_FALSE'">
+              <mat-button-toggle-group disabled [value]="getMyAnswer(question).answer">
+                <mat-button-toggle value="yes" disabled>Yes</mat-button-toggle>
+                <mat-button-toggle value="no" disabled>No</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+          </div>
+          <div class="answer-input-panel" *ngIf="!getMyAnswer(question)">
+            <answer-form [question]="question" [formGroup]="formGroups[question.id]"></answer-form>
+            <button
+              mat-raised-button
+              class="submit-answer"
+              type="submit"
+              [disabled]="!formGroups[question.id].valid"
+              (click)="submitAnswer(question.id)"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+        <div class="answers" *ngIf="isQuestionAuthor(question)">
+          <h4>Answers</h4>
+          <div *ngFor="let answer of question.answers || []" class="user-answer">
+            <div class="user">
+              <div class="avatar">
+                <user-avatar
+                  [name]="getUser(answer.author).getNickname()"
+                  [avatar]="getUser(answer.author).getAvatar()"
+                ></user-avatar>
+              </div>
+              <span>{{ getUser(answer.author).getNickname() }}</span>
+            </div>
+            <div class="answer">
+              <div *ngIf="question.type === 'TEXT_INPUT'">
+                {{ answer.answer }}
+              </div>
+              <div *ngIf="question.type === 'TRUE_OR_FALSE'">
+                <mat-button-toggle-group disabled [value]="answer.answer">
+                  <mat-button-toggle value="yes" disabled>Yes</mat-button-toggle>
+                  <mat-button-toggle value="no" disabled>No</mat-button-toggle>
+                </mat-button-toggle-group>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!question.answers?.length">
+            No answers yet.
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <div class="footer">
+    <button mat-button (click)="askQuestion()" *ngIf="isModerator()">
+      Ask Question
+    </button>
+  </div>
+</div>

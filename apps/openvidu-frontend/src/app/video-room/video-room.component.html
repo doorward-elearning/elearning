@@ -1,6 +1,5 @@
 <div id="videoRoomNavBar" [class.boundsLight]="lightTheme">
   <app-room-config
-    *ngIf="showConfigRoomCard"
     [ovSettings]="ovSettings"
     [externalConfig]="externalConfig"
     (join)="onConfigRoomJoin()"
@@ -8,7 +7,7 @@
     (publisherCreated)="emitPublisher($event)"
   ></app-room-config>
 
-  <div *ngIf="localUsers && localUsers.length > 0">
+  <div *ngIf="localUser">
     <div *ngIf="isConnectionLost" class="reconnecting-container"></div>
 
     <mat-sidenav-container class="sidenav-container" id="room-container" [class.boundsLight]="lightTheme" fullscreen>
@@ -24,7 +23,7 @@
       >
         <chat-component
           (closeButtonClicked)="toggleChat()"
-          *ngIf="utilsSrv.isChatOpen() && getLocalUser().can(MeetingCapabilities.CHAT)"
+          *ngIf="utilsSrv.isChatOpen() && localUser.can(MeetingCapabilities.CHAT)"
           [lightTheme]="lightTheme"
         ></chat-component>
         <participants-list
@@ -33,50 +32,99 @@
           (turnOffVideoForAllButtonClicked)="this.toggleEveryoneVideo($event)"
           (closeButtonClicked)="toggleParticipants()"
         ></participants-list>
+        <questions-answers
+          (closeButtonClicked)="toggleQuestionsAndAnswers()"
+          *ngIf="utilsSrv.isQuestionsAndAnswersOpen()"
+        ></questions-answers>
       </mat-sidenav>
 
       <mat-sidenav-content class="sidenav-main">
         <app-toolbar
           [lightTheme]="lightTheme"
           [compact]="compact"
-          [localUser]="localUsers[0]"
+          [localUser]="localUser"
           [mySessionId]="mySessionId"
           [sessionTitle]="externalConfig.sessionTitle || mySessionId"
           [hasVideoDevices]="hasVideoDevices"
           [hasAudioDevices]="hasAudioDevices"
-          [isWebcamVideoEnabled]="oVSessionService.hasWebcamVideoActive()"
-          [isWebcamAudioEnabled]="toolbarMicIconEnabled()"
-          [isScreenEnabled]="oVSessionService.isScreenShareEnabled()"
+          [whiteboardShown]="whiteboardShown"
           [isAutoLayout]="isAutoLayout"
           [isConnectionLost]="isConnectionLost"
           (camButtonClicked)="toggleCam()"
           (micButtonClicked)="toggleMic()"
           (screenShareClicked)="toggleScreenShare()"
-          (layoutButtonClicked)="toggleSpeakerLayout()"
           (leaveSessionButtonClicked)="leaveSession(true)"
           (participantsListButtonClicked)="toggleParticipants()"
           (chatButtonClicked)="toggleChat()"
         ></app-toolbar>
-        <div id="layout" class="bounds" [class.boundsLight]="lightTheme">
-          <div class="OT_root OT_publisher custom-class" id="localUser" *ngFor="let localUser of localUsers">
+        <div
+          id="whiteboard-layout"
+          class="bounds"
+          [style.display]="whiteboardShown ? 'block' : 'none'"
+          [ngClass]="isFullSize ? 'full-size' : ''"
+        >
+          <canvas-whiteboard
+            #canvasWhiteboard
+            [drawButtonClass]="'drawButtonClass'"
+            [drawButtonText]="'Draw'"
+            [clearButtonClass]="'clearButtonClass'"
+            [clearButtonText]="'Clear'"
+            [undoButtonText]="'Undo'"
+            [undoButtonEnabled]="true"
+            [redoButtonText]="'Redo'"
+            [drawingEnabled]="true"
+            [redoButtonEnabled]="true"
+            [readOnly]="!localUser.isWhiteboardPublisher()"
+            [colorPickerEnabled]="true"
+            [saveDataButtonEnabled]="true"
+            [saveDataButtonText]="'Save'"
+            [lineWidth]="5"
+            [strokeColor]="'rgb(0,0,0)'"
+            [shouldDownloadDrawing]="true"
+          >
+          </canvas-whiteboard>
+          <participants-window></participants-window>
+        </div>
+        <div class="meeting-action-bounds" [ngClass]="isFullSize ? 'full-size' : ''">
+          <meeting-actions
+            [whiteboardActive]="whiteboardShown"
+            (toggleWhiteboard)="toggleWhiteboard()"
+            [isFullSize]="isFullSize"
+            (toggleFullSize)="toggleFullSize()"
+            (toggleQuestionsAndAnswers)="toggleQuestionsAndAnswers()"
+          ></meeting-actions>
+        </div>
+        <div id="layout" class="bounds" [class.boundsLight]="lightTheme" [ngClass]="isFullSize ? 'full-size' : ''">
+          <div
+            class="OT_root OT_publisher custom-class"
+            id="localUser"
+            *ngFor="let user of localUser.getEnabledConnections()"
+          >
             <stream-component
+              *ngIf="!whiteboardShown"
+              [localUser]="localUser"
               [user]="localUser"
-              [localUser]="getLocalUser()"
-              [videoSizeBig]="localUser.isVideoSizeBig()"
-              (nicknameClicked)="onNicknameUpdate($event)"
+              [connection]="user"
               (replaceScreenTrackClicked)="onReplaceScreenTrack($event)"
               (toggleVideoSizeClicked)="onToggleVideoSize($event)"
             ></stream-component>
           </div>
 
-          <div *ngFor="let user of remoteUsers" class="OT_root OT_publisher custom-class" id="remoteUsers">
-            <stream-component
-              [localUser]="getLocalUser()"
-              [user]="user"
-              [videoSizeBig]="user.isVideoSizeBig()"
-              (toggleVideoSizeClicked)="onToggleVideoSize($event)"
-            ></stream-component>
-          </div>
+          <ng-container *ngFor="let user of remoteUsers">
+            <div
+              class="OT_root OT_publisher custom-class"
+              id="remoteUsers"
+              *ngFor="let connection of user.getEnabledConnections()"
+            >
+              <stream-component
+                [localUser]="localUser"
+                *ngIf="!whiteboardShown"
+                [connection]="connection"
+                [user]="user"
+                (toggleVideoSizeClicked)="onToggleVideoSize($event)"
+              ></stream-component>
+            </div>
+          </ng-container>
         </div>
       </mat-sidenav-content>
     </mat-sidenav-container>

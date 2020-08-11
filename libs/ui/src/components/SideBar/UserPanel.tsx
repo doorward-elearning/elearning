@@ -2,7 +2,6 @@ import React from 'react';
 import './UserPanel.scss';
 import EImage from '../Image';
 import { Link } from 'react-router-dom';
-import Icon from '../Icon';
 import classNames from 'classnames';
 import useAuth from '../../hooks/useAuth';
 
@@ -11,12 +10,11 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed, profile
   return (
     <div className={classNames({ 'sidebar-user-panel': true, collapsed })}>
       <div className="user-panel">
-        <EImage src={profilePicture} alt="User Image" circle size="large" />
+        <EImage src={profilePicture} alt="User Image" circle size="medium" />
         <div>
           <span>{user?.fullName}</span>
           <Link to="#" className="online-status">
-            <Icon icon="brightness_low" />
-            <span className="online">Online</span>
+            <span className="online">{user?.email}</span>
           </Link>
         </div>
       </div>

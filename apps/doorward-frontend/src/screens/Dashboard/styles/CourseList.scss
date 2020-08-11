@@ -1,16 +1,21 @@
+@import '../../../responsive';
+
 .dashboard__course-list {
   display: grid;
-  grid-auto-flow: column;
-  justify-content: start;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
+  width: 100%;
+  justify-content: space-between;
   grid-gap: var(--padding);
+
   &__course {
-    width: 300px;
+    width: 100%;
     .ed-card {
       height: 100%;
       &__header {
         .card-image {
           height: 200px;
           position: relative;
+          cursor: pointer;
 
           img {
             width: 100%;
@@ -33,5 +38,33 @@
         grid-gap: var(--padding);
       }
     }
+
+    .actions {
+      .action {
+        &.joinMeeting {
+          animation: pulse 2s infinite;
+          border-radius: 50%;
+          color: var(--accent);
+        }
+      }
+    }
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--accent);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
 }

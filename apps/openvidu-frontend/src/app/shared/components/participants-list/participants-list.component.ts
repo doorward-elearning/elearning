@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { OpenViduSessionService } from '../../services/openvidu-session/openvidu-session.service';
+import { LocalUserModel } from '../../models/local-user-model';
 
 @Component({
   selector: 'participants-list',
@@ -10,7 +11,7 @@ import { OpenViduSessionService } from '../../services/openvidu-session/openvidu
 })
 export class ParticipantsListComponent implements OnInit {
   remoteUsers: UserModel[];
-  localUsers: UserModel[];
+  localUser: LocalUserModel;
   constructor(private remoteUserService: RemoteUsersService, private openviduSessionService: OpenViduSessionService) {}
 
   @Output() closeButtonClicked = new EventEmitter<any>();
@@ -22,13 +23,13 @@ export class ParticipantsListComponent implements OnInit {
 
   ngOnInit(): void {
     this.remoteUserService.getRemoteUsers().subscribe(next => {
-      this.remoteUsers = next.filter(user => !user.isScreen());
-      this.allVideosTurnedOff = !this.remoteUsers.find(user => user?.streamManager?.stream?.videoActive);
-      this.allMuted = !this.remoteUsers.find(user => user?.streamManager?.stream?.audioActive);
+      this.remoteUsers = next;
+      this.allVideosTurnedOff = !this.remoteUsers.find(user => user.getCamera().isVideoActive());
+      this.allMuted = !this.remoteUsers.find(user => user.getCamera().isAudioActive());
     });
 
-    this.openviduSessionService.getUsers().subscribe(next => {
-      this.localUsers = next.filter(user => !user.isScreen());
+    this.openviduSessionService.userObs.subscribe(next => {
+      this.localUser = next;
     });
   }
 

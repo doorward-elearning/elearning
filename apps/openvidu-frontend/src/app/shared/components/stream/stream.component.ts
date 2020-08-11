@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   EventEmitter,
@@ -10,39 +11,33 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { UserModel } from '../../models/user-model';
-import { FormControl, Validators } from '@angular/forms';
-import { NicknameMatcher } from '../../forms-matchers/nickname';
 import { UtilsService } from '../../services/utils/utils.service';
 import { LayoutType } from '../../types/layout-type';
-import { VideoFullscreenIcon, VideoSizeIcon } from '../../types/icon-type';
 import greys from '@doorward/ui/colors/greys';
 import Tools from '@doorward/common/utils/Tools';
 import { SignalsService } from '../../services/signals/signals.service';
 import SignalTypes from '@doorward/common/utils/meetingSignalTypes';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import UserConnection from '../../models/user-connection';
 
 @Component({
   selector: 'stream-component',
-  styleUrls: ['./stream.component.css'],
+  styleUrls: ['./stream.component.scss'],
   templateUrl: './stream.component.html',
 })
-export class StreamComponent implements OnInit {
-  videoSizeIcon: VideoSizeIcon = VideoSizeIcon.BIG;
-  fullscreenIcon: VideoFullscreenIcon = VideoFullscreenIcon.BIG;
-  toggleNickname: boolean;
-  isFullscreen: boolean;
-  isZoomedIn: boolean;
-
-  nicknameFormControl: FormControl;
-  matcher: NicknameMatcher;
-
-  _user: UserModel;
+export class StreamComponent implements OnInit, AfterViewInit {
   @Input() localUser: UserModel;
-  @Output() nicknameClicked = new EventEmitter<any>();
+  @Input() user: UserModel;
+  @Input() connection: UserConnection;
+
   @Output() replaceScreenTrackClicked = new EventEmitter<any>();
   @Output() toggleVideoSizeClicked = new EventEmitter<any>();
 
-  @ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
+  isFullscreen: boolean;
+  width: number;
+  height: number;
+
+  @ViewChild('streamComponent') streamComponent: ElementRef<HTMLDivElement>;
 
   constructor(private utilsSrv: UtilsService, private signalsService: SignalsService) {}
 
@@ -53,45 +48,29 @@ export class StreamComponent implements OnInit {
     const curHeight = window.innerHeight;
     const curWidth = window.innerWidth;
     this.isFullscreen = maxWidth === curWidth && maxHeight === curHeight;
-  }
 
-  // Has been mandatory fullscreen Input because of Input user did not fire changing
-  // the fullscreen user property in publisherStartSpeaking event in VideoRoom Component
-  @Input()
-  set videoSizeBig(videoSizeBig: boolean) {
-    this.isZoomedIn = videoSizeBig;
-  }
-
-  @Input()
-  set user(user: UserModel) {
-    this._user = user;
-    this.nicknameFormControl = new FormControl(this._user.getNickname(), [
-      Validators.maxLength(25),
-      Validators.required,
-    ]);
-  }
-
-  @ViewChild('nicknameInput')
-  set nicknameInputElement(element: ElementRef) {
-    setTimeout(() => {
-      element?.nativeElement.focus();
-    });
+    const dimensions = this.streamComponent.nativeElement?.getBoundingClientRect();
+    if (dimensions) {
+      this.width = dimensions.width;
+      this.height = dimensions.height;
+    }
   }
 
   ngOnInit() {
-    this.matcher = new NicknameMatcher();
+    if (this.connection.isZoomedIn()) {
+      this.toggleVideoSize();
+    }
   }
 
+  ngAfterViewInit(): void {}
+
   toggleVideoSize(resetAll?) {
-    const element = this.utilsSrv.getHTMLElementByClassName(
-      this.streamComponent.element.nativeElement,
-      LayoutType.ROOT_CLASS
-    );
-    this.toggleVideoSizeClicked.emit({ element, connectionId: this._user.getConnectionId(), resetAll });
+    const element = this.utilsSrv.getHTMLElementByClassName(this.streamComponent.nativeElement, LayoutType.ROOT_CLASS);
+    this.toggleVideoSizeClicked.emit({ element, connectionId: this.connection.getConnectionId(), resetAll });
   }
 
   toggleFullscreen() {
-    this.utilsSrv.toggleFullscreen('container-' + this._user.getStreamManager().stream.streamId);
+    this.utilsSrv.toggleFullscreen('container-' + this.connection.getStream().streamId);
   }
 
   toggleSound() {
@@ -104,25 +83,12 @@ export class StreamComponent implements OnInit {
             : MeetingCapabilities.UNMUTE_PARTICIPANTS
         ),
       },
-      [this._user]
+      [this.user]
     );
   }
 
   isMine() {
-    return this._user.isLocal();
-  }
-
-  toggleNicknameForm() {
-    if (this._user.isLocal()) {
-      this.toggleNickname = !this.toggleNickname;
-    }
-  }
-
-  eventKeyPress(event) {
-    if (event && event.keyCode === 13 && this.nicknameFormControl.valid) {
-      this.nicknameClicked.emit(this.nicknameFormControl.value);
-      this.toggleNicknameForm();
-    }
+    return this.user.isLocal();
   }
 
   replaceScreenTrack() {

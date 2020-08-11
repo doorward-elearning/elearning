@@ -55,17 +55,23 @@ export class UtilsService {
     return this.getSideNavComponent() === SideNavComponents.PARTICIPANTS;
   }
 
+  isQuestionsAndAnswersOpen() {
+    return this.getSideNavComponent() === SideNavComponents.QUESTIONS_AND_ANSWERS;
+  }
+
   getSideNavComponent(): SideNavComponents {
     return this.sideNavOpenBehaviourSubject.getValue();
   }
 
   toggleSideNav(component: SideNavComponents) {
-    if (this.sideNavOpenBehaviourSubject.getValue() === component) {
-      this.sideNavOpenBehaviourSubject.next(null);
-      this.chatSidenav.toggle(false);
-    } else {
-      this.sideNavOpenBehaviourSubject.next(component);
-      this.chatSidenav.toggle(true);
+    if (this.chatSidenav) {
+      if (this.sideNavOpenBehaviourSubject.getValue() === component) {
+        this.sideNavOpenBehaviourSubject.next(null);
+        this.chatSidenav.toggle(false);
+      } else {
+        this.sideNavOpenBehaviourSubject.next(component);
+        this.chatSidenav.toggle(true);
+      }
     }
   }
 
@@ -171,6 +177,11 @@ export class UtilsService {
     return /Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent);
   }
 
+  isTestClientBrowser(): boolean {
+    const test = 'Chrome/84.0.4147.10';
+    return new RegExp(test).test(navigator.userAgent);
+  }
+
   isMobile(): boolean {
     return this.isAndroid() || this.isIos();
   }
@@ -186,6 +197,20 @@ export class UtilsService {
     this.dialogRef.close();
   }
 
+  querySelector(query: string): Array<HTMLElement> {
+    const elements = [];
+    const found = document.querySelectorAll(query);
+    let i = 0;
+    while (i < found.length) {
+      elements.push(found[i++]);
+    }
+    return elements;
+  }
+
+  getElementsByClassName(className: string): Array<Element> {
+    return this.querySelector('.' + className);
+  }
+
   getHTMLElementByClassName(element: HTMLElement, className: string): HTMLElement {
     while (!!element && element !== document.body) {
       if (element.className.includes(className)) {
@@ -196,12 +221,16 @@ export class UtilsService {
     return null;
   }
 
-  toggleBigElementClass(element: HTMLElement | Element) {
-    if (element?.className.includes(LayoutBigElement.BIG_ELEMENT_CLASS)) {
-      element?.classList.remove(LayoutBigElement.BIG_ELEMENT_CLASS);
+  toggleClass(element: HTMLElement | Element, className: string) {
+    if (element?.className.includes(className)) {
+      element?.classList.remove(className);
     } else {
-      element.classList.add(LayoutBigElement.BIG_ELEMENT_CLASS);
+      element.classList.add(className);
     }
+  }
+
+  toggleBigElementClass(element: HTMLElement | Element) {
+    this.toggleClass(element, LayoutBigElement.BIG_ELEMENT_CLASS);
   }
 
   removeAllBigElementClass() {
@@ -227,6 +256,36 @@ export class UtilsService {
         buttons,
       },
       disableClose,
+    });
+  }
+
+  confirmSync(
+    title: string,
+    message: string,
+    disableClose = false,
+    buttons?: {
+      positive?: string;
+      negative?: string;
+    }
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.alertDialogRef = this.dialog.open(AlertDialogComponent, {
+        data: {
+          title,
+          message,
+          buttons: [
+            {
+              text: buttons?.positive || 'Okay',
+              onClick: resolve,
+            },
+            {
+              text: buttons?.negative || 'Cancel',
+              onClick: reject,
+            },
+          ],
+        },
+        disableClose,
+      });
     });
   }
 

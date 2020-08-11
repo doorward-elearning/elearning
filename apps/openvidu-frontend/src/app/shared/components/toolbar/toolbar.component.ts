@@ -1,12 +1,11 @@
-import { Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { UtilsService } from '../../services/utils/utils.service';
-import { VideoFullscreenIcon } from '../../types/icon-type';
 import { ChatService } from '../../services/chat/chat.service';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { environment } from '../../../../environments/environment';
 import { RemoteUsersService } from '../../services/remote-users/remote-users.service';
-import { MeetingCapabilitiesComponent, OpenviduTheme } from '@doorward/common/types/openvidu';
+import { MeetingCapabilitiesComponent } from '@doorward/common/types/openvidu';
 import { UserModel } from '../../models/user-model';
+import { ExternalConfigModel } from '../../models/external-config';
 
 @Component({
   selector: 'app-toolbar',
@@ -19,11 +18,9 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Input() sessionTitle: string;
   @Input() compact: boolean;
   @Input() showNotification: boolean;
+  @Input() whiteboardShown: boolean;
   @Input() localUser: UserModel | undefined;
 
-  @Input() isWebcamVideoEnabled: boolean;
-  @Input() isWebcamAudioEnabled: boolean;
-  @Input() isScreenEnabled: boolean;
   @Input() isAutoLayout: boolean;
   @Input() isConnectionLost: boolean;
   @Input() hasVideoDevices: boolean;
@@ -31,7 +28,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   @Output() micButtonClicked = new EventEmitter<any>();
   @Output() camButtonClicked = new EventEmitter<any>();
   @Output() screenShareClicked = new EventEmitter<any>();
-  @Output() layoutButtonClicked = new EventEmitter<any>();
   @Output() leaveSessionButtonClicked = new EventEmitter<any>();
   @Output() participantsListButtonClicked = new EventEmitter<any>();
   @Output() chatButtonClicked = new EventEmitter<any>();
@@ -39,7 +35,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
   newMessagesNum: number;
   private chatServiceSubscription: Subscription;
 
-  fullscreenIcon = VideoFullscreenIcon.BIG;
   logoUrl: string;
 
   participantsNames: string[] = [];
@@ -59,35 +54,23 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
     this.chatServiceSubscription.unsubscribe();
   }
 
-  @HostListener('window:resize', ['$event'])
-  sizeChange(event) {
-    const maxHeight = window.screen.height;
-    const maxWidth = window.screen.width;
-    const curHeight = window.innerHeight;
-    const curWidth = window.innerWidth;
-    if (maxWidth !== curWidth && maxHeight !== curHeight) {
-      this.fullscreenIcon = VideoFullscreenIcon.BIG;
-    }
-  }
-
   ngOnInit() {
     this.remoteUserService.getRemoteUsers().subscribe(users => {
-      this.numParticipants = users.length;
+      this.numParticipants = users.length + 1;
     });
 
-    this.utilsSrv.theme.subscribe(next => {
-      const localUserSession = this.localUser?.session;
-      if (typeof localUserSession?.sessionConfig.logoUrl === 'object') {
-        const logo =
-          environment.CLOUDINARY_IMAGE_DIRECTORY +
-          (next === OpenviduTheme.LIGHT ? 'doorward_full_logo_blue.png' : 'doorward_full_logo_white.png');
-        this.logoUrl = (localUserSession && localUserSession.sessionConfig.logoUrl[next]) || logo;
-      } else {
-        this.logoUrl = localUserSession
-          ? localUserSession.sessionConfig.logoUrl
-          : environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png';
-      }
-    });
+    this.checkLogo();
+    this.utilsSrv.theme.subscribe(this.checkLogo);
+  }
+
+  checkLogo(theme = this.utilsSrv.getTheme()) {
+    const localUserSession = this.localUser?.session;
+    const defaultLogo = ExternalConfigModel.DEFAULT_SESSION_CONFIG.logoUrl[theme];
+    if (typeof localUserSession?.sessionConfig.logoUrl === 'object') {
+      this.logoUrl = (localUserSession && localUserSession.sessionConfig.logoUrl[theme]) || defaultLogo;
+    } else {
+      this.logoUrl = localUserSession ? localUserSession.sessionConfig.logoUrl : defaultLogo;
+    }
   }
 
   toggleMicrophone() {
@@ -102,10 +85,6 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
     this.screenShareClicked.emit();
   }
 
-  toggleSpeakerLayout() {
-    this.layoutButtonClicked.emit();
-  }
-
   leaveSession() {
     this.leaveSessionButtonClicked.emit();
   }
@@ -116,11 +95,5 @@ export class ToolbarComponent extends MeetingCapabilitiesComponent implements On
 
   toggleParticipants() {
     this.participantsListButtonClicked.emit();
-  }
-
-  toggleFullscreen() {
-    this.utilsSrv.toggleFullscreen('videoRoomNavBar');
-    this.fullscreenIcon =
-      this.fullscreenIcon === VideoFullscreenIcon.BIG ? VideoFullscreenIcon.NORMAL : VideoFullscreenIcon.BIG;
   }
 }

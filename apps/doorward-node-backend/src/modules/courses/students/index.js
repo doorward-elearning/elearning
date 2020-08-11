@@ -14,4 +14,6 @@ Router.get('/not-registered', StudentCourseController.getStudentsNotRegistered);
 
 Router.post('/register', StudentCourseController.addStudent);
 
+Router.delete('/:studentId', StudentCourseController.unEnrollStudent);
+
 export default Router;

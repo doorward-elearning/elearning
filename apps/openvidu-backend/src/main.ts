@@ -1,14 +1,22 @@
 import '@doorward/backend/bootstrap/setUpEnvironment';
 import { Logger } from '@nestjs/common';
 
-import { AppModule } from './app/app.module';
+import { AppModule } from './app.module';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import helmet from 'helmet';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
+import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 
 async function bootstrap() {
   const app = await setUpNestApplication(AppModule);
+  swaggerDocumentation(app, {
+    title: 'Openvidu Backend',
+    description: 'The openvidu backend api',
+    version: '1.0',
+    tag: 'openvidu-backend',
+  });
+
   const globalPrefix = 'api';
 
   app.use(helmet());

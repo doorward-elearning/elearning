@@ -1,91 +1,68 @@
 <div
-  *ngIf="this._user"
   class="OT_widget-container"
-  [id]="'container-' + this._user.streamManager.stream.streamId"
+  [id]="'container-' + connection.getStream()?.streamId"
+  [ngClass]="connection.isSpeaking() ? 'speaking' : ''"
   #streamComponent
   (dblclick)="toggleVideoSize()"
 >
-  <ng-template>
-    <div class="nickname" [class.fullscreen]="isFullscreen">
-      <div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
-        <span id="nickname">{{ this._user.getNickname() }}</span>
-        <span *ngIf="!this._user.streamManager.remote"> (edit)</span>
-      </div>
-      <div
-        *ngIf="toggleNickname && !this._user.streamManager.remote"
-        [class.fullscreen]="isFullscreen"
-        id="dialogNickname"
-      >
-        <button mat-icon-button (click)="toggleNicknameForm()" id="closeButton">
-          <mat-icon matTooltip="Close">highlight_off</mat-icon>
-        </button>
-        <form id="nicknameForm">
-          <mat-form-field color="primary">
-            <input
-              matInput
-              #nicknameInput
-              placeholder="Nick: {{ this._user.getNickname() }}"
-              [formControl]="nicknameFormControl"
-              [errorStateMatcher]="matcher"
-              (keypress)="eventKeyPress($event)"
-              autocomplete="off"
-            />
-            <mat-error *ngIf="nicknameFormControl.hasError('required')">
-              Nickname is <strong>required</strong>
-            </mat-error>
-            <mat-error *ngIf="nicknameFormControl.hasError('maxlength')">
-              Nickname is <strong>too long!</strong>
-            </mat-error>
-          </mat-form-field>
-        </form>
-      </div>
-    </div>
-  </ng-template>
-
   <div
     class="no-video"
-    [style.display]="!this._user.isVideoActive() ? 'grid' : 'none'"
-    [style.background]="greyBackground(this._user.getNickname())"
+    [style.display]="!connection.isVideoActive() ? 'grid' : 'none'"
+    [style.background]="greyBackground(connection.getDisplayedName())"
   >
     <div class="no-video__image">
-      <user-avatar fontSize="50px" [name]="this._user.getNickname()" [avatar]="this._user.getAvatar()"></user-avatar>
+      <div class="no-video__image--avatar">
+        <user-avatar fontSize="50px" [name]="connection.getDisplayedName()" [avatar]="user.getAvatar()"></user-avatar>
+      </div>
     </div>
   </div>
 
-  <ov-video [streamManager]="this._user.streamManager" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
+  <ov-video [streamManager]="connection.getStreamManager()" (toggleVideoSizeEvent)="toggleVideoSize($event)"></ov-video>
 
   <div class="videoStatusInfo">
-    <user-avatar [name]="this._user.getNickname()" [avatar]="this._user.getAvatar()" fontSize="0.7em"></user-avatar>
-    <div class="user-nickname">{{ this._user.getNickname() }}</div>
-    <mat-icon class="disabled tiny" *ngIf="_user.isCamera()" [ngClass]="_user.isAudioActive() ? '' : 'inactive'">
-      {{ this._user.isAudioActive() ? 'mic_on' : 'mic_off' }}
+    <user-avatar
+      *ngIf="width > 300"
+      [name]="connection.getDisplayedName()"
+      [avatar]="user.getAvatar()"
+      fontSize="0.7em"
+    ></user-avatar>
+    <div class="user-nickname">{{ connection.getDisplayedName() }}</div>
+    <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isAudioActive() ? '' : 'inactive'">
+      {{ user.isAudioActive() ? 'mic_on' : 'mic_off' }}
     </mat-icon>
-    <mat-icon class="disabled tiny" *ngIf="_user.isCamera()" [ngClass]="this._user.isVideoActive() ? '' : 'inactive'">
-      {{ this._user.isVideoActive() ? 'videocam_on' : 'videocam_off' }}
+    <mat-icon class="disabled tiny" *ngIf="connection.isCamera()" [ngClass]="user.isVideoActive() ? '' : 'inactive'">
+      {{ user.isVideoActive() ? 'videocam_on' : 'videocam_off' }}
     </mat-icon>
-    <mat-icon class="disabled tiny" *ngIf="this._user.isScreen()">screen_share</mat-icon>
+    <mat-icon class="disabled tiny" *ngIf="connection.isScreen()">screen_share</mat-icon>
 
-    <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen">more_horiz</mat-icon>
-    <mat-menu #menu="matMenu" class="small">
-      <button mat-menu-item (click)="toggleVideoSize()">
-        <mat-icon class="disabled">{{ this.isZoomedIn ? 'zoom_out' : 'zoom_in' }}</mat-icon>
-        <span>
-          {{ this.isZoomedIn ? 'Zoom out' : 'Zoom in' }}
-        </span>
-      </button>
-      <button mat-menu-item (click)="toggleFullscreen()">
-        <mat-icon class="disabled">{{ !this.isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
-        <span>
-          {{ !this.isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
-        </span>
-      </button>
-      <button mat-menu-item (click)="toggleSound()" *ngIf="!isMine() && localUser?.isModerator() && _user.isCamera()">
-        <mat-icon class="disabled">{{ this._user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
-        <span>
-          {{ this._user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
-        </span>
-      </button>
-    </mat-menu>
+    <app-active-user-wrapper>
+      <mat-icon [matMenuTriggerFor]="menu" class="tiny" *ngIf="!isFullscreen && width > 300">more_horiz</mat-icon>
+      <mat-menu #menu="matMenu" class="small">
+        <button mat-menu-item (click)="toggleVideoSize()">
+          <mat-icon class="disabled">{{ connection.isZoomedIn() ? 'zoom_out' : 'zoom_in' }}</mat-icon>
+          <span>
+            {{ connection.isZoomedIn() ? 'Zoom out' : 'Zoom in' }}
+          </span>
+        </button>
+        <button mat-menu-item (click)="toggleFullscreen()">
+          <mat-icon class="disabled">{{ !isFullscreen ? 'fullscreen' : 'fullscreen_exit' }}</mat-icon>
+          <span>
+            {{ !isFullscreen ? 'Fullscreen' : 'Exit fullscreen' }}
+          </span>
+        </button>
+        <button
+          mat-menu-item
+          (click)="toggleSound()"
+          *ngIf="!isMine() && connection.isCamera()"
+          [disabled]="!localUser?.isModerator()"
+        >
+          <mat-icon class="disabled">{{ user.isAudioActive() ? 'mic_off' : 'mic_on' }}</mat-icon>
+          <span>
+            {{ user.isAudioActive() ? 'Mute participant' : 'Unmute participant' }}
+          </span>
+        </button>
+      </mat-menu>
+    </app-active-user-wrapper>
   </div>
 
   <div class="videoButtons">
@@ -93,7 +70,7 @@
       mat-icon-button
       (click)="replaceScreenTrack()"
       id="changeScreenButton"
-      *ngIf="!this._user.streamManager.remote && this._user.isScreen()"
+      *ngIf="!user.isRemote() && connection.isScreen()"
     >
       <mat-icon matTooltip="Choose screen">picture_in_picture</mat-icon>
     </button>

@@ -22,25 +22,35 @@ export default class Capabilities<T extends Enum<T>> {
     }
   }
 
-  clear() {
+  clear(): Capabilities<T> {
     Object.keys(this.capabilities).forEach(value => {
       this.remove(value as keyof T);
     });
+    return this;
   }
 
-  remove(capability: keyof T) {
-    this.capabilities[capability] = false;
+  remove(...capabilities: Array<keyof T>): Capabilities<T> {
+    capabilities.forEach(capability => {
+      this.capabilities[capability] = false;
+    });
+    return this;
   }
 
-  add(capability: keyof T) {
-    this.capabilities[capability] = true;
+  add(...capabilities: Array<keyof T>): Capabilities<T> {
+    capabilities.forEach(capability => {
+      this.capabilities[capability] = true;
+    });
+    return this;
   }
 
-  has(capability: keyof T) {
-    return this.capabilities[capability];
+  has(...capabilities: Array<keyof T>) {
+    return !capabilities.find(capability => !this.capabilities[capability]);
   }
 
-  toggle(capability: keyof T) {
-    this.capabilities[capability] = !this.capabilities[capability];
+  toggle(...capabilities: Array<keyof T>): Capabilities<T> {
+    capabilities.forEach(capability => {
+      this.capabilities[capability] = !this.capabilities[capability];
+    });
+    return this;
   }
 }

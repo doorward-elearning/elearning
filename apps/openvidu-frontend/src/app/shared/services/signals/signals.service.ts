@@ -6,23 +6,34 @@ import { RemoteUsersService } from '../remote-users/remote-users.service';
 import { UserModel } from '../../models/user-model';
 import { UtilsService } from '../utils/utils.service';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { LocalUserModel } from '../../models/local-user-model';
+import { NotificationService } from '../notifications/notification.service';
+import { RemoteUserModel } from '../../models/remote-user-model';
 
-export type SignalHandler<T extends SignalTypes> = (data: SignalData[T], event: SignalEvent) => void;
+export type SignalHandler<T extends SignalTypes> = (
+  data: SignalData[T],
+  event: SignalEvent,
+  user: RemoteUserModel
+) => void;
 
 @Injectable({
   providedIn: 'root',
 })
 export class SignalsService {
   remoteUsers: Array<UserModel>;
-  localUsers: Array<UserModel>;
+  localUser: LocalUserModel;
 
   constructor(
     private openviduService: OpenViduSessionService,
     private remoteUsersService: RemoteUsersService,
-    private utilsService: UtilsService
+    private utilsService: UtilsService,
+    private notificationService: NotificationService
   ) {
     this.remoteUsersService.remoteUsers.subscribe(next => {
       this.remoteUsers = [...next];
+    });
+    this.openviduService.userObs.subscribe(user => {
+      this.localUser = user;
     });
   }
 
@@ -32,6 +43,18 @@ export class SignalsService {
     this.subscribeToLocalUserUpdate();
     this.subscribeToRemoteUsersDetails();
     this.subscribeToVideoControl();
+    this._subscribeToRaisingHands();
+  }
+
+  private _subscribeToRaisingHands() {
+    this.subscribe(SignalTypes.RAISE_HAND, (data, event, user) => {
+      this.notificationService.newMessage({
+        sender: user.getOVSession()?.user,
+        message: '✋ is raising their hand.',
+        onClick: () => {},
+        duration: 1000,
+      });
+    });
   }
 
   subscribeToVideoControl() {
@@ -49,7 +72,7 @@ export class SignalsService {
 
   subscribeToToggleAudio() {
     this.subscribe(SignalTypes.TOGGLE_AUDIO, (data, event) => {
-      const active = this.openviduService.hasWebcamAudioActive();
+      const active = this.openviduService.getUser().isAudioActive();
       if (data.request) {
         const title = active ? 'Mute' : 'Unmute';
         const message = active
@@ -93,18 +116,16 @@ export class SignalsService {
   }
 
   subscribeToLocalUserUpdate() {
-    this.openviduService.getUsers().subscribe(next => {
-      next.forEach(user => {
-        this.send(SignalTypes.USER_UPDATED, {
-          session: user.session,
-        });
+    this.openviduService.userObs.subscribe(user => {
+      this.send(SignalTypes.USER_UPDATED, {
+        session: user.session,
       });
     });
   }
 
   subscribeToToggleVideo() {
     this.subscribe(SignalTypes.TOGGLE_VIDEO, (data, event) => {
-      const active = this.openviduService.hasWebcamVideoActive();
+      const active = this.openviduService.getUser().isVideoActive();
       if (data.request) {
         const title = active ? 'Turn off video' : 'Turn on video';
         const message = active
@@ -122,7 +143,7 @@ export class SignalsService {
             {
               text: button,
               onClick: () => {
-                this.openviduService.publishVideo(!active);
+                this.openviduService.publishWebcam(!active);
                 this.openviduService.updateLocalUserSession(user => {
                   user.addCapability(MeetingCapabilities.PUBLISH_VIDEO);
                   return user;
@@ -132,13 +153,14 @@ export class SignalsService {
           ]
         );
       } else {
-        this.openviduService.publishVideo(!active);
+        this.openviduService.publishWebcam(!active);
       }
     });
   }
 
-  send<T extends SignalTypes>(type: T, data: SignalData[T], to?: Array<UserModel>) {
-    const session = this.openviduService.getWebcamSession();
+  send<T extends SignalTypes>(type: T, data?: SignalData[T], to?: Array<UserModel>) {
+    const connection = this.localUser.getActiveSession();
+    const session = connection.getSession();
     const participants = to || [];
     if (!to) {
       participants.push(...this.remoteUsers);
@@ -147,20 +169,25 @@ export class SignalsService {
       const signalOptions: SignalOptions = {
         data: JSON.stringify(data),
         type: type,
-        to: participants.map(participant => participant.streamManager?.stream?.connection).filter(conn => !!conn),
+        to: participants
+          .filter(participant => !!participant)
+          .map(participant => participant.getActiveSession().getStream()?.connection)
+          .filter(conn => !!conn),
       };
       return session.signal(signalOptions);
     }
   }
 
-  subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>, webCam = true): EventDispatcher {
-    const session = webCam ? this.openviduService.getWebcamSession() : this.openviduService.getScreenSession();
+  subscribe<T extends SignalTypes>(type: T, handler: SignalHandler<T>): EventDispatcher {
+    const session = this.localUser.getActiveSession().getSession();
     if (session) {
       return session.on('signal:' + type, (event: SignalEvent) => {
+        const from = event.from.connectionId;
+        const user = this.remoteUsersService.getRemoteUserByConnectionId(from);
         try {
-          handler(event.data ? JSON.parse(event.data) : undefined, event);
+          handler(event.data ? JSON.parse(event.data) : undefined, event, user);
         } catch (error) {
-          handler(undefined, event);
+          handler(undefined, event, user);
         }
       });
     }

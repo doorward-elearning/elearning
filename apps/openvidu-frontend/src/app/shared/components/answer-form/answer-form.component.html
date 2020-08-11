@@ -1,0 +1,15 @@
+<form [formGroup]="formGroup">
+  <div *ngIf="question.type === 'TEXT_INPUT'">
+    <mat-form-field>
+      <mat-label>Answer</mat-label>
+      <textarea matInput required formControlName="answer"></textarea>
+    </mat-form-field>
+  </div>
+  <div *ngIf="question.type === 'TRUE_OR_FALSE'">
+    <h5>Answer</h5>
+    <mat-button-toggle-group formControlName="answer">
+      <mat-button-toggle value="yes">Yes</mat-button-toggle>
+      <mat-button-toggle value="no">No</mat-button-toggle>
+    </mat-button-toggle-group>
+  </div>
+</form>

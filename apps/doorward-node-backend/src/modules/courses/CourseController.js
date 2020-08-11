@@ -115,6 +115,20 @@ class CourseController {
             },
             required: managed.length,
           },
+          {
+            model: models.MeetingRoom,
+            as: 'meetingRoom',
+            required: false,
+            include: [
+              {
+                model: models.Meeting,
+                as: 'currentMeeting',
+                where: {
+                  status: 'STARTED',
+                },
+              },
+            ],
+          },
         ],
         attributes: {
           include: [[Sequelize.fn('COUNT', Sequelize.col('students.id')), 'numStudents']],
@@ -123,6 +137,25 @@ class CourseController {
         order: [['createdAt', 'desc']],
       });
     }
+
+    courses = await Promise.all(
+      courses.map(async course => {
+        if (course.meetingRoomId) {
+          course.dataValues.meetingRoom = await models.MeetingRoom.findByPk(course.meetingRoomId, {
+            include: [
+              {
+                model: models.Meeting,
+                as: 'currentMeeting',
+                where: {
+                  status: 'STARTED',
+                },
+              },
+            ],
+          });
+        }
+        return course;
+      })
+    );
 
     return [200, { courses }];
   }

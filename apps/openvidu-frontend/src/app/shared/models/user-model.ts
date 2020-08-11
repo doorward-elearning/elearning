@@ -1,149 +1,51 @@
-import { StreamManager, Subscriber } from 'openvidu-browser';
 import { VideoType } from '../types/video-type';
-import { OPENVIDU_ROLES, OpenviduUserSession } from '@doorward/common/types/openvidu';
-import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { OPENVIDU_ROLES, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
+import UserConnection from './user-connection';
 import Capabilities from '@doorward/common/utils/Capabilities';
+import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
 /**
  * Packs all the information about the user
  */
-export class UserModel {
+export abstract class UserModel {
   session: OpenviduUserSession;
-  /**
-   * The Connection ID that is publishing the stream
-   */
-  connectionId: string;
 
-  /**
-   * StreamManager object ([[Publisher]] or [[Subscriber]])
-   */
-  streamManager: StreamManager;
+  private readonly connections: Partial<Record<VideoType, UserConnection>> = {};
 
-  /**
-   * @hidden
-   */
-  private videoSizeBig: boolean;
-
-  /**
-   * @hidden
-   */
-  constructor(connectionId?: string, streamManager?: StreamManager, session?: OpenviduUserSession) {
-    this.connectionId = connectionId || '';
-    this.session = session;
-    this.streamManager = streamManager || null;
+  constructor(user: OpenviduUserSession) {
+    if (user) {
+      this.updateSession(user);
+    }
   }
 
-  /**
-   * Return `true` if audio track is active and `false` if audio track is muted
-   */
-  public isAudioActive(): boolean {
-    // console.log("isAudioActive");
-    return this.streamManager?.stream?.audioActive;
+  public setConnection(connection: UserConnection) {
+    this.connections[connection.getType()] = connection;
   }
 
-  public updateSession(session: OpenviduUserSession) {
-    this.session = session;
-  }
-
-  /**
-   * Return `true` if video track is active and `false` if video track is muted
-   */
-  public isVideoActive(): boolean {
-    // console.log("isVideoActive");
-    return this.streamManager?.stream?.videoActive;
-  }
-
-  /**
-   * Return the connection ID
-   */
-  public getConnectionId(): string {
-    return this.streamManager?.stream?.connection?.connectionId;
-  }
-
-  /**
-   * Return the user nickname
-   */
   public getNickname(): string {
     return this.session?.user?.name;
   }
 
-  /**
-   * Return the [[streamManger]] object
-   */
-  public getStreamManager(): StreamManager {
-    return this.streamManager;
-  }
-
-  /**
-   * Return the user avatar
-   */
   public getAvatar(): string {
     return this.session?.user?.avatar;
   }
 
-  /**
-   * Return `true` if user has a local role and `false` if not
-   */
-  public isLocal(): boolean {
-    return !this.isRemote();
+  public updateSession(session: OpenviduUserSession) {
+    if (session.sessionConfig?.capabilities && !session.sessionConfig.capabilities?.has) {
+      session.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
+        MeetingCapabilities,
+        (session.sessionConfig.capabilities as any).capabilities
+      );
+    }
+    this.session = session;
+    this.forEach(connection => {
+      connection.updateUser(session);
+    });
   }
 
-  /**
-   * Return `true` if user has a remote role and `false` if not
-   */
-  public isRemote(): boolean {
-    return this.streamManager?.remote;
-  }
+  public abstract isLocal(): boolean;
+  public abstract isRemote(): boolean;
 
-  /**
-   * Return `true` if user has a screen role and `false` if not
-   */
-  public isScreen(): boolean {
-    // console.log("isScreen");
-    return (
-      this.streamManager?.stream?.typeOfVideo === VideoType.SCREEN ||
-      (this.streamManager as Subscriber)?.stream?.typeOfVideo === VideoType.SCREEN
-    );
-  }
-
-  /**
-   * Return `true` if user has a camera role and `false` if not
-   */
-  public isCamera(): boolean {
-    // console.log("CCC");
-    return this.streamManager?.stream?.typeOfVideo === VideoType.CAMERA || (this.isLocal() && !this.isScreen());
-  }
-
-  /**
-   * Set the streamManager value object
-   * @param streamManager value of streamManager
-   */
-  public setStreamManager(streamManager: StreamManager) {
-    this.streamManager = streamManager;
-  }
-
-  /**
-   * Set the user nickname value
-   * @param nickname value of user nickname
-   */
-  public setNickname(nickname: string) {
-    this.session.user.name = nickname;
-  }
-
-  public isVideoSizeBig(): boolean {
-    return this.videoSizeBig;
-  }
-
-  /**
-   * @hidden
-   */
-  public setVideoSizeBig(big: boolean) {
-    this.videoSizeBig = big;
-  }
-
-  /**
-   * @hidden
-   */
   public setUserAvatar(img?: string) {
     this.session.user.avatar = img;
   }
@@ -157,11 +59,11 @@ export class UserModel {
   }
 
   public isSubscriber(): boolean {
-    return this.session.user.role === OPENVIDU_ROLES.SUBSCRIBER;
+    return this.session?.user?.role === OPENVIDU_ROLES.SUBSCRIBER;
   }
 
   public isPublisher() {
-    return this.session.user.role === OPENVIDU_ROLES.PUBLISHER;
+    return this.session?.user?.role === OPENVIDU_ROLES.PUBLISHER;
   }
 
   public can(capability: MeetingCapabilities): boolean {
@@ -190,5 +92,126 @@ export class UserModel {
     if (this.getCapabilities()) {
       this.getCapabilities().toggle(capability);
     }
+  }
+
+  public hasScreen() {
+    return this.can(MeetingCapabilities.SHARE_SCREEN);
+  }
+
+  public hasWhiteboard() {
+    return this.can(MeetingCapabilities.PUBLISH_WHITEBOARD);
+  }
+
+  public hasCamera() {
+    return this.can(MeetingCapabilities.PUBLISH_VIDEO || MeetingCapabilities.PUBLISH_AUDIO);
+  }
+
+  public getCamera(): UserConnection {
+    return this.connections.CAMERA;
+  }
+
+  public getScreen(): UserConnection {
+    return this.connections.SCREEN;
+  }
+
+  public forEach(callback: (connection: UserConnection, type: VideoType) => void) {
+    Object.keys(this.connections).forEach(conn => callback(this.connections[conn], conn as VideoType));
+  }
+
+  public getConnections(): Array<{ type: VideoType; connection: UserConnection }> {
+    return Object.keys(this.connections).map(conn => ({ type: conn as VideoType, connection: this.connections[conn] }));
+  }
+
+  public getConnection(type: VideoType): UserConnection {
+    return this.connections[type];
+  }
+
+  getConnectedSession(): UserConnection | null {
+    const conn = this.getConnections().find(({ connection }) => connection.isActive());
+    return conn ? conn.connection : null;
+  }
+
+  isMyOwnConnection(connectionId: string): boolean {
+    return !!this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
+  }
+
+  getByConnectionId(connectionId: string): UserConnection | undefined {
+    const conn = this.getConnections().find(({ connection }) => connection.getConnectionId() === connectionId);
+    return conn ? conn.connection : undefined;
+  }
+
+  connectionEnabled(type: VideoType) {
+    return !!this.connections[type];
+  }
+
+  cameraEnabled(): boolean {
+    return this.getCamera()?.isActive();
+  }
+
+  screenEnabled(): boolean {
+    return this.getScreen()?.isActive();
+  }
+
+  getEnabledConnections(): UserConnection[] {
+    return this.getConnections()
+      .map(({ connection }) => (connection.isActive() ? connection : null))
+      .filter(conn => !!conn);
+  }
+
+  isAudioActive(): boolean {
+    return this.getCamera().isAudioActive();
+  }
+
+  isVideoActive(): boolean {
+    return this.getCamera().isVideoActive();
+  }
+
+  abstract getActiveSession(): UserConnection;
+
+  removeConnection(type: string) {
+    delete this.connections[type];
+  }
+
+  isWhiteboardActive(): boolean {
+    return this.session?.sessionInfo?.whiteboardSessionInfo?.active;
+  }
+
+  getWhiteboardSession(): WhiteboardSessionInfo {
+    return this.session?.sessionInfo?.whiteboardSessionInfo;
+  }
+
+  getUserId(): string {
+    return this.session?.sessionInfo?.userId;
+  }
+
+  setWhiteboardSession(whiteboardSession: Partial<WhiteboardSessionInfo>) {
+    this.session.sessionInfo.whiteboardSessionInfo = {
+      ...this.session.sessionInfo.whiteboardSessionInfo,
+      ...whiteboardSession,
+    };
+  }
+
+  isWhiteboardOwner(): boolean {
+    return this.getUserId() && this.getUserId() === this.getWhiteboardSession()?.createdBy;
+  }
+
+  isWhiteboardPublisher() {
+    return this.can(MeetingCapabilities.PUBLISH_WHITEBOARD);
+  }
+
+  getOVSession() {
+    return this.session;
+  }
+
+  isRaisingHand(): boolean {
+    return this.session?.sessionInfo?.raisingHand;
+  }
+
+  setRaisingHand(value: boolean) {
+    this.session.sessionInfo.raisingHand = value;
+  }
+
+  toggleRaisingHand() {
+    this.session.sessionInfo.raisingHand = !this.isRaisingHand();
   }
 }

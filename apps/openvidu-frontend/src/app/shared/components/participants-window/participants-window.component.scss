@@ -1,0 +1,73 @@
+.participants_window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  user-select: none;
+  pointer-events: none;
+  z-index: 100000;
+
+  &--content {
+    position: absolute;
+    top: 80px;
+    right: 30px;
+    pointer-events: all;
+    background: var(--bg-secondary);
+    border: 1px solid var(--line-color);
+    box-shadow: 0 0 12px 2px var(--shadow-color);
+    transition: 0.1s right, 0.1s top;
+    transition-timing-function: ease-in-out;
+
+    &.minimized {
+      right: 0;
+      top: calc(100% - 30px);
+      transform: translate(0, 0) !important;
+      pointer-events: none;
+
+      mat-icon {
+        pointer-events: all;
+      }
+    }
+  }
+}
+
+.participants_window--content.horizontal {
+  .participants_content {
+    grid-auto-flow: column;
+  }
+}
+
+.participants_content {
+  overflow: scroll;
+  max-height: calc(60vh);
+  max-width: calc(60vw);
+  display: grid;
+  grid-auto-flow: row;
+  align-items: start;
+  align-content: start;
+}
+
+.dragHandle {
+  height: 30px;
+  background: var(--bg-primary);
+  cursor: grab;
+  grid-gap: var(--padding-lg);
+  color: var(--text-primary);
+  text-transform: uppercase;
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 var(--padding);
+}
+
+.OT_root {
+  width: 250px;
+  height: 150px;
+  position: relative;
+
+  .OT_widget-container {
+    position: static;
+  }
+}

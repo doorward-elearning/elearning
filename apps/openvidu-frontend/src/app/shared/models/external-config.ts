@@ -21,7 +21,7 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
       dark: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_white.png',
       base: environment.CLOUDINARY_IMAGE_DIRECTORY + 'doorward_full_logo_blue.png',
     },
-    capabilities: new Capabilities(MC, [...defaultMeetingCapabilities]),
+    capabilities: new Capabilities(MC, [...defaultMeetingCapabilities, MC.PUBLISH_WHITEBOARD, MC.ASK_QUESTIONS]),
   };
   ovSettings: OvSettingsModel;
   sessionId: string;

@@ -40,9 +40,7 @@ import { ToolbarLogoComponent } from './shared/components/toolbar/logo.component
 import { RoomConfigComponent } from './shared/components/room-config/room-config.component';
 import { WebComponentComponent } from './web-component/web-component.component';
 import { VideoRoomComponent } from './video-room/video-room.component';
-import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
-import { FooterComponent } from './shared/components/footer/footer.component';
 
 // Services
 import { NetworkService } from './shared/services/network/network.service';
@@ -68,12 +66,25 @@ import { AlertDialogComponent } from './shared/components/alert-dialog/alert-dia
 import { ChatNotificationComponent } from './shared/components/chat-notification/chat-notification.component';
 import { CapabilitiesPipe } from './shared/pipes/capabilities.pipe';
 import { BehaviorSubject } from 'rxjs';
+import { HomeComponent } from './home/home.component';
+import { CanvasWhiteboardModule } from '@doorward/whiteboard/ng2-canvas-whiteboard';
+import { CANVAS_WHITEBOARD_SYNC_SERVICE } from '@doorward/whiteboard/canvas-whiteboard-sync.service';
+import { WhiteboardSyncService } from './shared/services/whiteboard/whiteboard-sync.service';
+import { ParticipantsWindowComponent } from './shared/components/participants-window/participants-window.component';
+import { Ng2FittextModule } from 'ng2-fittext';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { MeetingActionsComponent } from './shared/components/meeting-actions/meeting-actions.component';
+import { QuestionsAnswersComponent } from './shared/components/questions-answers/questions-answers.component';
+import { AskQuestionDialogComponent } from './shared/components/ask-question-dialog/ask-question-dialog.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { AnswerFormComponent } from './shared/components/answer-form/answer-form.component';
+import { AnswerQuestionDialogComponent } from './shared/components/answer-question-dialog/answer-question-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     VideoRoomComponent,
-    HomeComponent,
     StreamComponent,
     ChatComponent,
     OpenViduVideoComponent,
@@ -84,7 +95,6 @@ import { BehaviorSubject } from 'rxjs';
     ToolbarLogoComponent,
     LinkifyPipe,
     TooltipListPipe,
-    FooterComponent,
     DialogEndMeetingComponent,
     DialogPermissionsComponent,
     ParticipantsListComponent,
@@ -93,6 +103,13 @@ import { BehaviorSubject } from 'rxjs';
     AlertDialogComponent,
     ChatNotificationComponent,
     CapabilitiesPipe,
+    HomeComponent,
+    ParticipantsWindowComponent,
+    MeetingActionsComponent,
+    QuestionsAnswersComponent,
+    AskQuestionDialogComponent,
+    AnswerFormComponent,
+    AnswerQuestionDialogComponent,
   ],
   imports: [
     FormsModule,
@@ -121,6 +138,11 @@ import { BehaviorSubject } from 'rxjs';
     NgxEmojiPickerModule,
     NgxLinkifyjsModule.forRoot(),
     MatMenuModule,
+    CanvasWhiteboardModule,
+    Ng2FittextModule,
+    AngularDraggableModule,
+    MatExpansionModule,
+    MatButtonToggleModule,
   ],
   entryComponents: [
     DialogErrorComponent,
@@ -144,6 +166,7 @@ import { BehaviorSubject } from 'rxjs';
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: { hasBackdrop: true } },
     { provide: 'BASE_API_URL', useValue: new BehaviorSubject(environment.OPENVIDU_API_URL) },
     { provide: HTTP_INTERCEPTORS, useClass: NetworkInterceptor, multi: true },
+    { provide: CANVAS_WHITEBOARD_SYNC_SERVICE, useClass: WhiteboardSyncService },
   ],
   bootstrap: [AppComponent],
 })

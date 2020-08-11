@@ -73,6 +73,24 @@ class StudentCourseController {
     }
   }
 
+  static async unEnrollStudent(req) {
+    const {
+      params: { courseId, studentId },
+    } = req;
+    const course = await models.Course.findByPk(courseId);
+
+    await models.StudentCourse.destroy({
+      where: {
+        studentId,
+        courseId,
+      },
+    });
+
+    await MeetingRoomsHelper.leaveMeetingRoom(course.meetingRoomId, studentId);
+
+    return [200, undefined, 'Student has been enrolled from the course.'];
+  }
+
   static async addStudent(req) {
     const {
       params: { courseId },

@@ -1,3 +1,4 @@
+@import '../../responsive';
 .ed-navBar {
   background: var(--bg-primary);
   height: var(--navBar-size);
@@ -9,16 +10,33 @@
   grid-gap: var(--padding-xlg);
   border-bottom: 1px solid var(--primary);
 
+  @include mobile {
+    padding-right: var(--padding);
+    grid-gap: var(--padding);
+  }
 
-  &__inner, &__end {
+  &__inner,
+  &__end {
     display: grid;
     grid-auto-flow: column;
     align-items: center;
     justify-items: start;
     grid-gap: var(--padding-xlg);
+
+    @include mobile {
+      grid-gap: var(--padding-sm);
+    }
   }
 
   .user-management {
     justify-self: end;
+  }
+
+  @include mobile {
+    .ed-navBar__start {
+      .page-logo {
+        display: none;
+      }
+    }
   }
 }

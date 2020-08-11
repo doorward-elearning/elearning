@@ -60,6 +60,15 @@ class MeetingRoomsHelper {
     return { meeting, token, user: userDetails, capabilities };
   }
 
+  static async leaveMeetingRoom(meetingRoomId, userId) {
+    return models.MeetingRoomMember.destroy({
+      where: {
+        meetingRoomId,
+        participantId: userId,
+      },
+    });
+  }
+
   static async joinMeetingRoom(meetingRoomId, userId, role = 'PUBLISHER') {
     return models.MeetingRoomMember.findOrCreate({
       defaults: {

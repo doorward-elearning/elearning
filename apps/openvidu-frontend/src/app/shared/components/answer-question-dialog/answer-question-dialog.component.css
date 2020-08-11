@@ -1,0 +1,17 @@
+.answer-question-dialog {
+  min-width: 300px;
+}
+
+.author {
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: var(--padding);
+  align-items: center;
+  justify-content: start;
+  padding: var(--padding) 0;
+}
+
+.author .author-avatar {
+  width: 30px;
+  height: 30px;
+}

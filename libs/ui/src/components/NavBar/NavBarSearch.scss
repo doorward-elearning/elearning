@@ -5,7 +5,8 @@ $suggestionsHeight: 500px;
 .ed-search__bar {
   display: grid;
   position: relative;
-  width: 500px;
+  max-width: 500px;
+  width: 100%;
   grid-template-columns: 1fr;
   z-index: 1000;
 
@@ -170,6 +171,15 @@ $suggestionsHeight: 500px;
         border: 1px solid var(--line-color);
         border-top: none;
       }
+    }
+  }
+
+  &.collapsed {
+    .ed-search__bar--input {
+      display: none;
+    }
+    .ed-search__bar--suggestions {
+      display: none !important;
     }
   }
 }
