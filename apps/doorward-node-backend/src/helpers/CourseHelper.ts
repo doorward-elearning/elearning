@@ -80,7 +80,7 @@ class CourseHelper {
         const result = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
         token = result.token;
       } catch (err) {
-        if (!Tools.isStudent(participant)) {
+        if (!Tools.isMember(participant)) {
           const { id } = await OpenViduHelper.createSession();
           const result = await OpenViduHelper.getToken(id, meetingInstance.role);
           token = result.token;
@@ -124,12 +124,12 @@ class CourseHelper {
       });
     }
     await course.reload();
-    await CourseHelper.addStudentsToCourseMeetingRoom(course.id);
+    await CourseHelper.addMembersToCourseMeetingRoom(course.id);
     await MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, hostId, 'MODERATOR');
     return course;
   }
 
-  static async addStudentsToCourseMeetingRoom(courseId) {
+  static async addMembersToCourseMeetingRoom(courseId) {
     const course = await models.Course.findByPk(courseId, {
       include: [
         {
@@ -139,20 +139,20 @@ class CourseHelper {
         },
         {
           model: models.User,
-          as: 'students',
+          as: 'members',
           required: false,
         },
       ],
     });
 
     return Promise.all(
-      (course.students || []).map(async student => {
-        return MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
+      (course.members || []).map(async member => {
+        return MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, member.id);
       })
     );
   }
 
-  static async getStudentsForCourse(courseId) {
+  static async getMembersForCourse(courseId) {
     return models.User.findAll({
       include: [
         {

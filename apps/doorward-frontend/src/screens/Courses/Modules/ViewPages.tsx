@@ -48,7 +48,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
           </div>
         }
         creator={[Roles.TEACHER]}
-        viewer={[Roles.STUDENT]}
+        viewer={[Roles.MEMBER]}
       />
       {page > 0 && (
         <Pagination

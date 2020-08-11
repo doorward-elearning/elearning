@@ -8,7 +8,7 @@ const AboutUs: React.FunctionComponent<AboutUsProps> = (props): JSX.Element => {
           <div className="col-lg-7 mb-5 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">About US</h2>
             <p className="mb-5">
-              Doorward E-Learning is a platform for teachers to create and run courses, Instantly collaborate with students, Collect
+              Doorward E-Learning is a platform for teachers to create and run courses, Instantly collaborate with members, Collect
               feedback, share course materials, Conduct and track assessment, live virtual classroom, and many more
               features that makes learning engaging. <br />
               <br />

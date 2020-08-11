@@ -118,7 +118,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                         />
                       }
                       creator={[Roles.TEACHER]}
-                      viewer={[Roles.STUDENT]}
+                      viewer={[Roles.MEMBER]}
                       isEditing={editing}
                     />
                   </IfElse>
@@ -136,7 +136,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                       isEditing={editing}
                       viewerView={<AssignmentView assignment={item} />}
                       creator={[Roles.TEACHER]}
-                      viewer={[Roles.STUDENT]}
+                      viewer={[Roles.MEMBER]}
                     />
                   </IfElse>
                 </React.Fragment>

@@ -17,9 +17,9 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       subMenu: [routes.courseList],
     },
     {
-      ...routes.students,
+      ...routes.members,
       icon: 'account_circle',
-      subMenu: [routes.studentList, routes.newStudent],
+      subMenu: [routes.memberList, routes.newMember],
     },
     {
       ...routes.teachers,
@@ -29,12 +29,12 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
     {
       ...routes.groups,
       icon: 'people',
-      subMenu: [routes.studentGroups, routes.teacherGroups],
+      subMenu: [routes.memberGroups, routes.teacherGroups],
     },
     {
       ...routes.reports,
       icon: 'trending_up',
-      subMenu: [routes.studentListReports, routes.teacherListReports],
+      subMenu: [routes.memberListReports, routes.teacherListReports],
     },
     {
       ...routes.organizations,

@@ -5,21 +5,21 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MANAGER,
   CREATE_COURSE_MODULE,
-  CREATE_COURSE_STUDENT,
+  CREATE_COURSE_MEMBER,
   DELETE_COURSE,
   DELETE_COURSE_MODULE,
   FETCH_COURSE_MANAGERS,
   FETCH_COURSE_MODULE,
-  FETCH_COURSE_STUDENTS,
+  FETCH_COURSE_MEMBERS,
   FETCH_COURSES,
   FETCH_MODULE_ITEM,
-  FETCH_STUDENTS_NOT_REGISTERED,
+  FETCH_MEMBERS_NOT_REGISTERED,
   LIST_MODULE_ITEMS,
-  REGISTER_STUDENTS,
+  REGISTER_MEMBERS,
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
   SUBMIT_ASSIGNMENT,
-  UN_ENROLL_STUDENT,
+  UN_ENROLL_MEMBER,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -63,13 +63,13 @@ const createModule = reducerApiAction({
   api: Api.courses.modules.create,
 });
 
-const studentList = reducerApiAction({
-  action: FETCH_COURSE_STUDENTS,
-  api: Api.courses.students.get,
+const memberList = reducerApiAction({
+  action: FETCH_COURSE_MEMBERS,
+  api: Api.courses.members.get,
   reducer: (state, action) => {
-    if (action.type === `${REGISTER_STUDENTS}_SUCCESS`) {
-      return modifyReducer('data.students', state, action, students => {
-        return _.uniqBy([...students, ...action.payload.students], 'id');
+    if (action.type === `${REGISTER_MEMBERS}_SUCCESS`) {
+      return modifyReducer('data.members', state, action, members => {
+        return _.uniqBy([...members, ...action.payload.members], 'id');
       });
     }
     return state;
@@ -81,19 +81,19 @@ const managersList = reducerApiAction({
   api: Api.courses.managers.get,
 });
 
-const createStudent = reducerApiAction({
-  action: CREATE_COURSE_STUDENT,
-  api: Api.courses.students.create,
+const createMember = reducerApiAction({
+  action: CREATE_COURSE_MEMBER,
+  api: Api.courses.members.create,
 });
 
-const unEnrollStudent = reducerApiAction({
-  action: UN_ENROLL_STUDENT,
-  api: Api.courses.students.unEnroll,
+const unEnrollMember = reducerApiAction({
+  action: UN_ENROLL_MEMBER,
+  api: Api.courses.members.unEnroll,
 });
 
 const notRegistered = reducerApiAction({
-  action: FETCH_STUDENTS_NOT_REGISTERED,
-  api: Api.courses.students.notRegistered,
+  action: FETCH_MEMBERS_NOT_REGISTERED,
+  api: Api.courses.members.notRegistered,
 });
 
 const addModuleItem = reducerApiAction({
@@ -121,9 +121,9 @@ const courseModules = reducerApiAction({
   api: Api.courses.updateModules,
 });
 
-const registerStudents = reducerApiAction({
-  action: REGISTER_STUDENTS,
-  api: Api.courses.students.register,
+const registerMembers = reducerApiAction({
+  action: REGISTER_MEMBERS,
+  api: Api.courses.members.register,
 });
 
 const launchClassroom = reducerApiAction({
@@ -175,15 +175,15 @@ export default reducerBuilder({
     courseList,
     viewCourse,
     createModule,
-    studentList,
-    createStudent,
+    memberList,
+    createMember,
     notRegistered,
     addModuleItem,
     viewModule,
     updateCourse,
     updateModule,
     courseModules,
-    registerStudents,
+    registerMembers,
     launchClassroom,
     deleteCourse,
     deleteModule,
@@ -192,6 +192,6 @@ export default reducerBuilder({
     submitAssignment,
     createCourseManager,
     managersList,
-    unEnrollStudent,
+    unEnrollMember,
   },
 });

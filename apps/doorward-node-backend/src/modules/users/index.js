@@ -8,7 +8,7 @@ import {
   validateUpdateAccount,
   validateRegistration, validateUserExistsByUsername,
 } from './validate';
-import students from './students';
+import members from './members';
 import teachers from './teachers';
 import Authorization from '../../middleware/Authorization';
 import BaseValidator from '../../middleware/BaseValidator';
@@ -22,7 +22,7 @@ Router.post('/register', validateRegistration, UserController.register);
 
 Router.get('/auth', Authorization.authenticate, UserController.getCurrentUser);
 
-Router.use('/students', students);
+Router.use('/members', members);
 Router.use('/profile', ProfileRouter);
 Router.use('/teachers', teachers);
 

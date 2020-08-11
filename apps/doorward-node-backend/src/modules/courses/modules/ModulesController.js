@@ -179,11 +179,11 @@ class ModulesController {
       },
     ];
 
-    if (Tools.isStudent(user)) {
+    if (Tools.isMember(user)) {
       include.push({
         model: models.AssignmentSubmission,
         where: {
-          studentId: user.id,
+          memberId: user.id,
         },
         required: false,
         as: 'assignmentSubmission',
@@ -208,7 +208,7 @@ class ModulesController {
           },
           {
             model: models.User,
-            as: 'student',
+            as: 'member',
           },
         ],
       });
@@ -259,7 +259,7 @@ class ModulesController {
     const { body, user, params } = req;
     const submission = await models.AssignmentSubmission.create(
       {
-        studentId: user.id,
+        memberId: user.id,
         assignmentId: params.id,
         submissionType: body.submissionType,
         submission: body.submission,

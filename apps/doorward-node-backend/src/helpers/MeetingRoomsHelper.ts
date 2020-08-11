@@ -22,7 +22,7 @@ class MeetingRoomsHelper {
     }
     let token;
 
-    const role = !Tools.isStudent(req.user) ? OPENVIDU_ROLES.MODERATOR : OPENVIDU_ROLES.PUBLISHER;
+    const role = !Tools.isMember(req.user) ? OPENVIDU_ROLES.MODERATOR : OPENVIDU_ROLES.PUBLISHER;
 
     try {
       const details = await OpenViduHelper.getToken(meeting.sessionId, role);

@@ -1,8 +1,8 @@
 import { MeetingRoom } from './MeetingRoom';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { StudentCourse } from './StudentCourse';
+import { MemberCourse } from './MemberCourse';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
-import { Student } from './Student';
+import { Member } from './Member';
 import { User } from './User';
 import { DBModel } from './DBModel';
 import { Module } from './Module';
@@ -24,14 +24,14 @@ export class Course extends Model implements DBModel {
 
   public readonly author: User;
   public readonly modules: Array<Module>;
-  public readonly numStudents: string;
+  public readonly numMembers: string;
   public readonly meetingRoom: MeetingRoom;
   public readonly itemCount: {
     assignments: number;
     quizzes: number;
     pages: number;
   };
-  public readonly students: Array<Student>;
+  public readonly members: Array<Member>;
 }
 
 export default (sequelize: Sequelize) => {
@@ -71,8 +71,8 @@ export default (sequelize: Sequelize) => {
     });
     Course.belongsToMany(User, {
       foreignKey: 'courseId',
-      as: 'students',
-      through: StudentCourse,
+      as: 'members',
+      through: MemberCourse,
     });
     Course.belongsTo(MeetingRoom, {
       foreignKey: 'meetingRoomId',

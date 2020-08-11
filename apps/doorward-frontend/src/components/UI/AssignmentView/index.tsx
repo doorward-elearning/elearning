@@ -36,7 +36,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
         Description
       </Header>
       <DraftHTMLContent content={props.assignment.content.assignment} />
-      <RoleContainer roles={[Roles.STUDENT]} showSuperAdmin={false}>
+      <RoleContainer roles={[Roles.MEMBER]} showSuperAdmin={false}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
           <Header size={3}>Submission</Header>
         </div>
@@ -60,7 +60,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
         <WebComponent
           data={props.assignment?.assignmentSubmissions}
           loading={false}
-          emptyMessage="No student has submitted their assignment."
+          emptyMessage="No member has submitted their assignment."
           size="medium"
           icon="assessment"
         >
@@ -73,13 +73,13 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
                     setCurrentSubmission(row);
                   }}
                   columns={{
-                    student: 'Student',
+                    member: 'Member',
                     submittedOn: 'Date',
                     submittedAt: 'Time',
                     submissionType: 'Type',
                   }}
                   getCell={row => ({
-                    student: row.student.fullName,
+                    member: row.member.fullName,
                     submittedOn: Tools.normalDate(row.createdAt),
                     submittedAt: Tools.normalTime(row.createdAt),
                     type: row.submissionType,

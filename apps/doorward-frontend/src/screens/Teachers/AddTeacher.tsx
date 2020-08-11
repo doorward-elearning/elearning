@@ -10,7 +10,7 @@ import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 
-const AddTeacher: React.FunctionComponent<AddStudentProps> = props => {
+const AddTeacher: React.FunctionComponent<AddMemberProps> = props => {
   const teacherForm = useForm();
   const routes = useRoutes();
   const newTeacher = useSelector((state: State) => state.teachers.createTeacher);
@@ -34,6 +34,6 @@ const AddTeacher: React.FunctionComponent<AddStudentProps> = props => {
   );
 };
 
-export interface AddStudentProps extends PageComponent {}
+export interface AddMemberProps extends PageComponent {}
 
 export default AddTeacher;

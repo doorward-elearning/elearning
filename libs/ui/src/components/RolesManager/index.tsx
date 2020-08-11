@@ -7,7 +7,7 @@ import { Organization } from '@doorward/common/models/Organization';
 export enum Roles {
   SUPER_ADMINISTRATOR = 'Super Administrator',
   TEACHER = 'Teacher',
-  STUDENT = 'Student',
+  MEMBER = 'Member',
   ALL = 'All',
 }
 

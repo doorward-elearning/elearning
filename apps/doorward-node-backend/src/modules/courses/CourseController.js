@@ -1,6 +1,6 @@
 import Sequelize from 'sequelize';
 import models from '../../database/models';
-import { CourseInclude, StudentCoursesInclude } from '../../utils/includes';
+import { CourseInclude, MemberCoursesInclude } from '../../utils/includes';
 import ModulesController from './modules/ModulesController';
 import ModulesHelper from '../../helpers/ModulesHelper';
 import CourseHelper from '../../helpers/CourseHelper';
@@ -71,11 +71,11 @@ class CourseController {
     const { user } = req;
 
     let courses;
-    if (Tools.isStudent(user)) {
+    if (Tools.isMember(user)) {
       // eslint-disable-next-line prefer-destructuring
       courses = (
         await models.User.findByPk(user.id, {
-          include: StudentCoursesInclude(),
+          include: MemberCoursesInclude(),
         })
       ).courses;
     } else {
@@ -95,7 +95,7 @@ class CourseController {
         include: [
           {
             model: models.User,
-            as: 'students',
+            as: 'members',
             attributes: [],
             required: false,
             subQuery: true,
@@ -131,7 +131,7 @@ class CourseController {
           },
         ],
         attributes: {
-          include: [[Sequelize.fn('COUNT', Sequelize.col('students.id')), 'numStudents']],
+          include: [[Sequelize.fn('COUNT', Sequelize.col('members.id')), 'numMembers']],
         },
         group: ['Course.id'],
         order: [['createdAt', 'desc']],
@@ -201,9 +201,9 @@ class CourseController {
       await MeetingRoomsHelper.createMeeting(meetingRoom.id, user.id);
     }
 
-    const students = await CourseHelper.getStudentsForCourse(course.id);
+    const members = await CourseHelper.getMembersForCourse(course.id);
 
-    Socket.send(students, LIVE_CLASSROOM_STARTED, {
+    Socket.send(members, LIVE_CLASSROOM_STARTED, {
       courseId: course.id,
     });
 

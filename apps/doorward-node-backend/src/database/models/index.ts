@@ -15,7 +15,7 @@ import User from '@doorward/common/models/User';
 import UserRole from '@doorward/common/models/UserRole';
 import PasswordResets from '@doorward/common/models/PasswordResets';
 import Question from '@doorward/common/models/Question';
-import StudentCourse from '@doorward/common/models/StudentCourse';
+import MemberCourse from '@doorward/common/models/MemberCourse';
 import MeetingRoomMember from '@doorward/common/models/MeetingRoomMember';
 import Module from '@doorward/common/models/Module';
 import File from '@doorward/common/models/File';
@@ -38,7 +38,7 @@ const modelNames = {
   PasswordResets,
   Question,
   Role,
-  StudentCourse,
+  MemberCourse,
   User,
   UserRole,
   Group,

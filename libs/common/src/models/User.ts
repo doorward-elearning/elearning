@@ -2,7 +2,7 @@ import { Association, DataTypes, Model, Sequelize } from 'sequelize';
 import { Group } from './Group';
 import { PasswordResets } from './PasswordResets';
 import { GroupMember } from './GroupMember';
-import { StudentCourse } from './StudentCourse';
+import { MemberCourse } from './MemberCourse';
 import { Course } from '@doorward/common/models/Course';
 import { UserRole } from '@doorward/common/models/UserRole';
 import { DBModel } from '@doorward/common/models/DBModel';
@@ -123,9 +123,9 @@ export default (sequelize: Sequelize) => {
       as: 'authoredCourses',
     });
     User.belongsToMany(Course, {
-      foreignKey: 'studentId',
+      foreignKey: 'memberId',
       as: 'courses',
-      through: StudentCourse,
+      through: MemberCourse,
     });
     User.hasMany(PasswordResets, {
       foreignKey: 'userId',

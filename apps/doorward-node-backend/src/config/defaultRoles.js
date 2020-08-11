@@ -20,7 +20,7 @@ const defaultRoles = organizationId => [
   },
   {
     id: generateId(),
-    name: roles.STUDENT,
+    name: roles.MEMBER,
     description: 'A learner in the system',
     organizationId,
     createdAt: new Date(),

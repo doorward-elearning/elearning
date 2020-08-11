@@ -1,7 +1,7 @@
 import createReduxStore from '@doorward/ui/store/createReduxStore';
 import login from '../reducers/login';
 import courses from '../reducers/courses';
-import students from '../reducers/students';
+import members from '../reducers/members';
 import users from '../reducers/users';
 import reports from '../reducers/reports';
 import videoCall from '../reducers/videoCall';
@@ -15,7 +15,7 @@ import suggestions from '../reducers/suggestions';
 const store = createReduxStore({
   login,
   courses,
-  students,
+  members,
   users,
   reports,
   videoCall,

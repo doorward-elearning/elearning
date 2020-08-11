@@ -1,6 +1,6 @@
 import { DBModel } from '@doorward/common/models/DBModel';
 import { DataTypes, Model, Sequelize } from 'sequelize';
-import { Student } from '@doorward/common/models/Student';
+import { Member } from '@doorward/common/models/Member';
 import { Assignment } from '@doorward/common/models/Assignment';
 import { Teacher } from '@doorward/common/models/Teacher';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
@@ -13,7 +13,7 @@ export class AssignmentSubmission extends Model implements DBModel {
   deletedAt: Date;
   id: string;
   updatedAt: Date;
-  studentId: string;
+  memberId: string;
   assignmentId: string;
   reviewerId: string;
   reviewedOn: Date;
@@ -22,7 +22,7 @@ export class AssignmentSubmission extends Model implements DBModel {
   submissionType: string;
   submission: string;
 
-  student: Student;
+  member: Member;
   assignment: Assignment;
   reviewer: Teacher;
   file: File;
@@ -35,7 +35,7 @@ export default (sequelize: Sequelize) => {
         type: DataTypes.STRING,
         primaryKey: true,
       },
-      studentId: DataTypes.STRING,
+      memberId: DataTypes.STRING,
       assignmentId: DataTypes.STRING,
       reviewerId: DataTypes.STRING,
       reviewedOn: DataTypes.DATE,
@@ -54,8 +54,8 @@ export default (sequelize: Sequelize) => {
 
   return () => {
     AssignmentSubmission.belongsTo(User, {
-      as: 'student',
-      foreignKey: 'studentId',
+      as: 'member',
+      foreignKey: 'memberId',
     });
     AssignmentSubmission.belongsTo(User, {
       as: 'reviewer',

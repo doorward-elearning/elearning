@@ -30,7 +30,7 @@ const College: React.FunctionComponent<CollegeProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Accurately Track and Report Every Student Activities. Automatically Build Public Profiles of Your College, Teachers, and Students</h3>
+                <h3 className="m-0">Accurately Track and Report Every Member Activities. Automatically Build Public Profiles of Your College, Teachers, and Members</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">

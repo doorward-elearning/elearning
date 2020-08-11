@@ -11,7 +11,7 @@ import Accordion from '@doorward/ui/components/Accordion';
 import Button from '@doorward/ui/components/Buttons/Button';
 import { useEffect } from 'react';
 import List from '@doorward/ui/components/List';
-import { fetchCourseManagersAction, fetchCourseStudentListAction } from '../../reducers/courses/actions';
+import { fetchCourseManagersAction, fetchCourseMemberListAction } from '../../reducers/courses/actions';
 import ListItem from '@doorward/ui/components/List/ListItem';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import { Link, useRouteMatch } from 'react-router-dom';
@@ -19,49 +19,49 @@ import { State } from '../../store';
 import Header from '@doorward/ui/components/Header';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props => {
-  const students = useSelector((state: State) => state.courses.studentList);
+  const members = useSelector((state: State) => state.courses.memberList);
   const managers = useSelector((state: State) => state.courses.managersList);
   const match: any = useRouteMatch<{ courseId: string }>();
   const routes = useRoutes();
-  const fetchStudents = useAction(fetchCourseStudentListAction);
+  const fetchMembers = useAction(fetchCourseMemberListAction);
   const fetchManagers = useAction(fetchCourseManagersAction);
   const courseId = match.params.courseId;
 
   useEffect(() => {
-    fetchStudents(courseId);
+    fetchMembers(courseId);
     fetchManagers(courseId);
   }, []);
 
-  const MAX_STUDENTS = 3;
+  const MAX_MEMBERS = 3;
   const MAX_MANAGERS = 3;
   return (
     <div className="course-view-sidebar">
       <RoleContainer roles={[Roles.TEACHER]}>
         <Accordion
           open
-          title={() => <Header size={5}>Student List</Header>}
-          action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
+          title={() => <Header size={5}>Member List</Header>}
+          action={() => <Button mini bordered icon="add" onClick={props.addMemberModal.openModal} />}
         >
           <WebComponent
-            data={students.data.students}
-            loading={students.fetching}
-            message="No students have been added to the course yet."
+            data={members.data.members}
+            loading={members.fetching}
+            message="No members have been added to the course yet."
             size="medium"
-            actionMessage="Create a new student"
+            actionMessage="Create a new member"
             onAction={(): void =>
-              routes.navigate(routes.routes.addCourseStudent, {
+              routes.navigate(routes.routes.addCourseMember, {
                 courseId,
               })
             }
           >
-            {(students): JSX.Element => (
+            {(members): JSX.Element => (
               <List>
-                <ItemArray data={students} max={MAX_STUDENTS}>
-                  {student => <ListItem key={student.id}>{student.fullName}</ListItem>}
+                <ItemArray data={members} max={MAX_MEMBERS}>
+                  {member => <ListItem key={member.id}>{member.fullName}</ListItem>}
                 </ItemArray>
                 <ListItem>
                   <Link
-                    to={routes.routes.courseStudents.withParams({
+                    to={routes.routes.courseMembers.withParams({
                       courseId: courseId,
                     })}
                   >
@@ -80,7 +80,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
           >
             <WebComponent
               data={managers.data.managers}
-              loading={students.fetching}
+              loading={members.fetching}
               message="No managers have been added to the course yet."
               size="medium"
               actionMessage="Create a new teacher"
@@ -112,7 +112,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
 };
 
 export interface CourseViewSidebarProps {
-  addStudentModal: UseModal;
+  addMemberModal: UseModal;
   addCourseManagerModal: UseModal;
 }
 

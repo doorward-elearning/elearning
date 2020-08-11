@@ -20,7 +20,7 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">We Will Build Your Website, Courses, Subjects, School Login, Teacher Logins, Student Logins, Live Classrooms, and All Other LMS Services.</h3>
+                <h3 className="m-0">We Will Build Your Website, Courses, Subjects, School Login, Teacher Logins, Member Logins, Live Classrooms, and All Other LMS Services.</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -28,7 +28,7 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">Your Teachers and Students Will Login at Your Website and Start Collaboration.</h3>
+                <h3 className="m-0">Your Teachers and Members Will Login at Your Website and Start Collaboration.</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -36,7 +36,7 @@ const Setup: React.FunctionComponent<SetupProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0">Get Access to All LMS Features Free. Pay Only when Your Students Are Ready and Comfortable.</h3>
+                <h3 className="m-0">Get Access to All LMS Features Free. Pay Only when Your Members Are Ready and Comfortable.</h3>
               </div>
             </div>
           </div>

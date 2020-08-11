@@ -31,7 +31,7 @@ const K12: React.FunctionComponent<K12Props> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0"> Create Assignments, Quiz, Student Notes and Send Notification Through Email or SMS. Accessible from Any Device - Computer or Mobile</h3>
+                <h3 className="m-0"> Create Assignments, Quiz, Member Notes and Send Notification Through Email or SMS. Accessible from Any Device - Computer or Mobile</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -39,7 +39,7 @@ const K12: React.FunctionComponent<K12Props> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap" />
               </span>
               <div>
-                <h3 className="m-0"> Parents Meetings, Online Exams, Assessments, Students Progress Reports, Onboarding etc</h3>
+                <h3 className="m-0"> Parents Meetings, Online Exams, Assessments, Members Progress Reports, Onboarding etc</h3>
               </div>
             </div>
           </div>

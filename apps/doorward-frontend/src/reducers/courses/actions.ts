@@ -3,21 +3,21 @@ import {
   CREATE_COURSE,
   CREATE_COURSE_MANAGER,
   CREATE_COURSE_MODULE,
-  CREATE_COURSE_STUDENT,
+  CREATE_COURSE_MEMBER,
   DELETE_COURSE,
   DELETE_COURSE_MODULE,
   FETCH_COURSE_MANAGERS,
   FETCH_COURSE_MODULE,
-  FETCH_COURSE_STUDENTS,
+  FETCH_COURSE_MEMBERS,
   FETCH_COURSES,
   FETCH_MODULE_ITEM,
-  FETCH_STUDENTS_NOT_REGISTERED,
+  FETCH_MEMBERS_NOT_REGISTERED,
   LIST_MODULE_ITEMS,
-  REGISTER_STUDENTS,
+  REGISTER_MEMBERS,
   REORDER_COURSE_MODULES,
   START_LIVE_CLASSROOM,
   SUBMIT_ASSIGNMENT,
-  UN_ENROLL_STUDENT,
+  UN_ENROLL_MEMBER,
   UPDATE_COURSE,
   UPDATE_COURSE_MODULE,
   VIEW_COURSE,
@@ -27,8 +27,8 @@ import {
   CourseModuleItemBody,
   CreateCourseBody,
   CreateCourseManagerBody,
-  CreateStudentBody,
-  RegisterStudentsBody,
+  CreateMemberBody,
+  RegisterMembersBody,
   SearchQueryBody,
   SubmitAssignmentBody,
   UpdateModulesBody,
@@ -61,23 +61,23 @@ export const fetchCourseModuleAction = (moduleId: string) => ({
   payload: [moduleId],
 });
 
-export const fetchCourseStudentListAction = (courseId: string): Action => ({
-  type: FETCH_COURSE_STUDENTS,
+export const fetchCourseMemberListAction = (courseId: string): Action => ({
+  type: FETCH_COURSE_MEMBERS,
   payload: [courseId],
 });
 
-export const unEnrollStudentAction = (studentId: string, courseId: string): Action => ({
-  type: UN_ENROLL_STUDENT,
-  payload: [studentId, courseId],
+export const unEnrollMemberAction = (memberId: string, courseId: string): Action => ({
+  type: UN_ENROLL_MEMBER,
+  payload: [memberId, courseId],
 });
 
-export const addCourseStudentAction = (courseId: string, body: CreateStudentBody): Action => ({
-  type: CREATE_COURSE_STUDENT,
+export const addCourseMemberAction = (courseId: string, body: CreateMemberBody): Action => ({
+  type: CREATE_COURSE_MEMBER,
   payload: [courseId, body],
 });
 
-export const fetchStudentsNotRegisteredAction = (courseId: string, query?: SearchQueryBody) => ({
-  type: FETCH_STUDENTS_NOT_REGISTERED,
+export const fetchMembersNotRegisteredAction = (courseId: string, query?: SearchQueryBody) => ({
+  type: FETCH_MEMBERS_NOT_REGISTERED,
   payload: [courseId, query],
 });
 
@@ -101,8 +101,8 @@ export const reorderCourseModules = (courseId: string, body: UpdateModulesBody):
   payload: [courseId, body],
 });
 
-export const registerStudents = (courseId: string, body: RegisterStudentsBody): Action => ({
-  type: REGISTER_STUDENTS,
+export const registerMembers = (courseId: string, body: RegisterMembersBody): Action => ({
+  type: REGISTER_MEMBERS,
   payload: [courseId, body],
 });
 

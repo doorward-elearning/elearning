@@ -1,20 +1,20 @@
 import {
   FETCH_COURSE_CREATOR_REPORT,
   FETCH_COURSE_CREATOR_REPORT_LIST,
-  FETCH_STUDENT_REPORT,
-  FETCH_STUDENT_REPORT_LIST
+  FETCH_MEMBER_REPORT,
+  FETCH_MEMBER_REPORT_LIST
 } from './types';
 import Api from '../../services/api';
 import reducerBuilder, { reducerApiAction } from '@doorward/ui/reducers/builder';
 
-const studentReportList = reducerApiAction({
-  action: FETCH_STUDENT_REPORT_LIST,
-  api: Api.reports.students.list
+const memberReportList = reducerApiAction({
+  action: FETCH_MEMBER_REPORT_LIST,
+  api: Api.reports.members.list
 });
 
-const singleStudent = reducerApiAction({
-  action: FETCH_STUDENT_REPORT,
-  api: Api.reports.students.get
+const singleMember = reducerApiAction({
+  action: FETCH_MEMBER_REPORT,
+  api: Api.reports.members.get
 });
 
 const teacherReportList = reducerApiAction({
@@ -29,8 +29,8 @@ const singleTeacher = reducerApiAction({
 
 export default reducerBuilder({
   middleware: {
-    studentReportList,
-    singleStudent,
+    memberReportList,
+    singleMember,
     teacherReportList,
     singleTeacher
   }

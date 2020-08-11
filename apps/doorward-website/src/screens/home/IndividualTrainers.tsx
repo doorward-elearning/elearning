@@ -9,7 +9,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
             <h2 className="section-title">Solutions for Trainers</h2>
             <p>
               Our Individual Trainer platform allow you to create live courses and self paced trainings, collect real
-              time automated feedback, Interact easily with students, and many more. Save your time by leaving your
+              time automated feedback, Interact easily with members, and many more. Save your time by leaving your
               repeated jobs to our platform!
             </p>
           </div>
@@ -49,7 +49,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Automate Student Assessments</h3>
+                <h3 className="m-0">Automate Member Assessments</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -57,7 +57,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Track your students reports</h3>
+                <h3 className="m-0">Track your members reports</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -65,7 +65,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Automated Reminders to Students</h3>
+                <h3 className="m-0">Automated Reminders to Members</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
