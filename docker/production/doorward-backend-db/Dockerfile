@@ -1,9 +1,4 @@
-FROM postgres
+FROM postgres:9.6
 
-COPY dump.sql /dump.sql
 
-COPY dump.sql /docker-entrypoint-initdb.d/dump.sql
-
-RUN chmod 777 /docker-entrypoint-initdb.d/dump.sql
-
-EXPOSE 5432
+COPY *.sql /docker-entrypoint-initdb.d/
