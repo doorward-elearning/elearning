@@ -5,4 +5,4 @@ export enum AssignmentSubmissionType {
   FILE_UPLOAD = 'File Upload',
 }
 
-export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Forum' | 'Quiz';
+export type ModuleItemTypes = 'Page' | 'Assignment' | 'File' | 'Discussion Conference' | 'Quiz';

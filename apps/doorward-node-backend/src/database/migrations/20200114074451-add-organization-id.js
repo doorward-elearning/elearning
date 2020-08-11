@@ -1,4 +1,4 @@
-const tables = ['MeetingRooms', 'Forums'];
+const tables = ['MeetingRooms', 'Conferences'];
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

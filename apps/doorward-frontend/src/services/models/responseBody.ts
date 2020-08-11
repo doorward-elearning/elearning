@@ -3,7 +3,7 @@ import { Member } from '@doorward/common/models/Member';
 import { Moderator } from '@doorward/common/models/Moderator';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
-import { Forum } from '@doorward/common/models/Forum';
+import { Conference } from '@doorward/common/models/Conference';
 import { Meeting } from '@doorward/common/models/Meeting';
 import { Group } from '@doorward/common/models/Group';
 import { Organization } from '@doorward/common/models/Organization';
@@ -24,15 +24,15 @@ export interface UserResponse extends ApiResponse {
   user: User;
 }
 
-export interface CreateForumResponse extends ApiResponse {
-  forum: Forum;
+export interface CreateConferenceResponse extends ApiResponse {
+  conference: Conference;
 }
 
-export interface ForumListResponse extends ApiResponse {
-  forums: Array<Forum>;
+export interface ConferenceListResponse extends ApiResponse {
+  conferences: Array<Conference>;
 }
 
-export interface ForumModuleResponse extends ApiResponse {
+export interface ConferenceModuleResponse extends ApiResponse {
   module: Module;
 }
 
@@ -61,7 +61,7 @@ export interface ModeratorResponse extends ApiResponse {
   moderator: Moderator;
 }
 
-export interface ForumModuleListResponse extends ApiResponse {
+export interface ConferenceModuleListResponse extends ApiResponse {
   modules: Array<Module>;
 }
 
@@ -103,11 +103,11 @@ export interface SchoolsResponse extends ApiResponse {
   schools: Array<School>;
 }
 
-export interface ForumManagerBody extends ApiResponse {
+export interface ConferenceManagerBody extends ApiResponse {
   manager: User;
 }
 
-export interface ForumManagersBody extends ApiResponse {
+export interface ConferenceManagersBody extends ApiResponse {
   managers: Array<User>;
 }
 

@@ -42,7 +42,7 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
       initialValues={initialValues}
     >
       {formikProps => (
-        <div className="add-forum-assignment">
+        <div className="add-conference-assignment">
           <TextField name="title" placeholder="Title of the assignment" label="Title" />
           <DraftTextArea
             fluid

@@ -3,8 +3,8 @@ import Form from '@doorward/ui/components/Form';
 import TextField from '@doorward/ui/components/Input/TextField';
 import addModuleForm from './validation';
 import useAction from '@doorward/ui/hooks/useActions';
-import { createForumModuleAction } from '../../../reducers/forums/actions';
-import { ForumModuleBody } from '../../../services/models/requestBody';
+import { createConferenceModuleAction } from '../../../reducers/conferences/actions';
+import { ConferenceModuleBody } from '../../../services/models/requestBody';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { UseForm } from '@doorward/ui/hooks/useForm';
@@ -13,12 +13,12 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
   const initialValues = {
     title: '',
   };
-  const state = useSelector((state: State) => state.forums.createModule);
+  const state = useSelector((state: State) => state.conferences.createModule);
 
-  const createForumModule = useAction(createForumModuleAction);
+  const createConferenceModule = useAction(createConferenceModuleAction);
 
   const onSubmit = (values: AddModuleFormState): void => {
-    createForumModule(props.forumId, values);
+    createConferenceModule(props.conferenceId, values);
   };
 
   return (
@@ -35,10 +35,10 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = props => {
   );
 };
 
-export interface AddModuleFormState extends ForumModuleBody {}
+export interface AddModuleFormState extends ConferenceModuleBody {}
 
 export interface AddModuleFormProps {
   useForm: UseForm<AddModuleFormState>;
-  forumId: string;
+  conferenceId: string;
 }
 export default AddModuleForm;

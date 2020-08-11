@@ -71,7 +71,7 @@ const WhyUs: React.FunctionComponent<WhyUsProps> = (props): JSX.Element => {
                   </span>
                 </div>
                 <div>
-                  <h3 className="m-0">Forum creation assistance</h3>
+                  <h3 className="m-0">Conference creation assistance</h3>
                 </div>
               </div>
 

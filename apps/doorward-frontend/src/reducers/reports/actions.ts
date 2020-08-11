@@ -1,6 +1,6 @@
 import {
-  FETCH_FORUM_CREATOR_REPORT,
-  FETCH_FORUM_CREATOR_REPORT_LIST,
+  FETCH_CONFERENCE_CREATOR_REPORT,
+  FETCH_CONFERENCE_CREATOR_REPORT_LIST,
   FETCH_MEMBER_REPORT,
   FETCH_MEMBER_REPORT_LIST,
 } from './types';
@@ -15,11 +15,11 @@ export const fetchMemberReport = (memberId: string): Action => ({
   payload: [memberId],
 });
 
-export const fetchForumCreatorReportList = (): Action => ({
-  type: FETCH_FORUM_CREATOR_REPORT_LIST,
+export const fetchConferenceCreatorReportList = (): Action => ({
+  type: FETCH_CONFERENCE_CREATOR_REPORT_LIST,
 });
 
-export const fetchForumCreatorReport = (moderatorId: string): Action => ({
-  type: FETCH_FORUM_CREATOR_REPORT,
+export const fetchConferenceCreatorReport = (moderatorId: string): Action => ({
+  type: FETCH_CONFERENCE_CREATOR_REPORT,
   payload: [moderatorId],
 });

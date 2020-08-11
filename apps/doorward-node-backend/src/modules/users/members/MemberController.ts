@@ -71,8 +71,8 @@ class MemberController {
       },
       include: [
         {
-          model: models.Forum,
-          as: 'forums',
+          model: models.Conference,
+          as: 'conferences',
           required: false,
         },
       ],

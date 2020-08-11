@@ -1,7 +1,7 @@
 import { User } from '@doorward/common/models/User';
-import { Forum } from '@doorward/common/models/Forum';
+import { Conference } from '@doorward/common/models/Conference';
 
 export interface Member extends User {
-  forums: Array<Forum>;
-  forumsInProgress: Array<Forum>;
+  conferences: Array<Conference>;
+  conferencesInProgress: Array<Conference>;
 }

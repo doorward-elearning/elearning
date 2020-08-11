@@ -13,7 +13,7 @@ const PricingHeader: React.FunctionComponent<PricingHeaderProps> = (props): JSX.
             <nav className="site-navigation position-relative text-right" role="navigation">
               <ul className="site-menu main-menu js-clone-nav mx-auto d-none d-lg-block  m-0 p-0">
                 <li>
-                  <a href="#forums-section" className="nav-link">
+                  <a href="#conferences-section" className="nav-link">
                     Plans and Pricing
                   </a>
                 </li>

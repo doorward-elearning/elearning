@@ -13,7 +13,7 @@ const defaultRoles = organizationId => [
   {
     id: generateId(),
     name: roles.MODERATOR,
-    description: 'A user who can manage forums, modules and other resources',
+    description: 'A user who can manage conferences, modules and other resources',
     organizationId,
     createdAt: new Date(),
     updatedAt: new Date(),
