@@ -3,6 +3,7 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr;
   align-items: center;
+  width: 100%;
 
   > div {
     grid-row: 1 / 1;
@@ -15,6 +16,7 @@
     grid-template-columns: auto auto;
     grid-gap: var(--padding);
     justify-items: start;
+    justify-content: start;
     align-items: center;
 
     i {

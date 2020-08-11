@@ -21,12 +21,12 @@ const Conferences: React.FunctionComponent<ConferencesProps> = props => {
     fetchConferences();
   }, [props.location.pathname]);
 
-  const TITLE = 'CREATE A NEW MEETING';
+  const TITLE = 'CREATE A NEW CONFERENCE';
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
-      header="MEETINGS"
+      header="CONFERENCES"
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createConference.link),
@@ -34,7 +34,7 @@ const Conferences: React.FunctionComponent<ConferencesProps> = props => {
       }}
     >
       <AddConference history={props.history} useModal={addConferenceModal} title={TITLE} />
-      <WebComponent data={conferences.data.conferences} loading={conferences.fetching} modelName="Meetings">
+      <WebComponent data={conferences.data.conferences} loading={conferences.fetching} modelName="Conferences">
         {(list): JSX.Element => {
           return <ConferenceTable conferences={list} history={props.history} />;
         }}

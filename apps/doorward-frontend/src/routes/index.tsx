@@ -58,9 +58,10 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         schoolClassrooms: new Route('/:schoolId', SchoolClassrooms).public(),
       }),
       dashboard: new Route('/dashboard', Dashboard).with({
-        conferences: new Route('/meetings').with({
+        conferences: new Route('/conferences').with({
           conferenceList: new Route('/', Conferences).with({
             viewConference: new Route('/:conferenceId', ViewConference).with({
+              createPoll: new Route('/createPoll', ViewConference).roles(Roles.MODERATOR),
               conferenceMembers: new Route('/members', ConferenceMemberList).with({
                 addConferenceMember: new Route('/new', AddConferenceMember),
               }),

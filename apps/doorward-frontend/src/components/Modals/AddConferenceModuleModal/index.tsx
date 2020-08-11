@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import AddModuleForm, { AddModuleFormState } from '../../Forms/AddModuleForm';
+import CreatePollForm, { AddModuleFormState } from '../../Forms/CreatePollForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useForm from '@doorward/ui/hooks/useForm';
@@ -7,7 +7,7 @@ import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import Header from '@doorward/ui/components/Header';
 
-const AddConferenceModuleModal: React.FunctionComponent<AddConferenceModuleModalProps> = props => {
+const AddConferencePollModal: React.FunctionComponent<AddConferencePollModalProps> = props => {
   const form = useForm<AddModuleFormState>();
   const { formikProps } = form;
 
@@ -25,19 +25,28 @@ const AddConferenceModuleModal: React.FunctionComponent<AddConferenceModuleModal
   return (
     <Modal {...props}>
       <Modal.Header>
-        <Header size={2}>Add Conference Module</Header>
+        <Header size={2}>Create a poll</Header>
       </Modal.Header>
       <Modal.Body>
-        <AddModuleForm conferenceId={props.conferenceId} useForm={form} />
+        {props.conferenceId && <CreatePollForm conferenceId={props.conferenceId} useForm={form} />}
       </Modal.Body>
-      <Modal.Footer buttons={{ positive: 'Save' }} onPositiveClick={formikProps && formikProps.submitForm} />
+      <Modal.Footer
+        buttons={{ positive: 'Save' }}
+        props={{
+          positive: {
+            disabled: !formikProps?.isValid,
+            loading: state.submitting,
+          },
+        }}
+        onPositiveClick={formikProps && formikProps.submitForm}
+      />
     </Modal>
   );
 };
 
-export interface AddConferenceModuleModalProps extends ModalProps {
+export interface AddConferencePollModalProps extends ModalProps {
   conferenceId: string;
   useModal: UseModal;
 }
 
-export default AddConferenceModuleModal;
+export default AddConferencePollModal;

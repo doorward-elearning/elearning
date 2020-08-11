@@ -1,0 +1,12 @@
+.ed-create-poll-form {
+  .poll-choices {
+    display: grid;
+
+    .choice {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-gap: var(--padding);
+      align-items: center;
+    }
+  }
+}

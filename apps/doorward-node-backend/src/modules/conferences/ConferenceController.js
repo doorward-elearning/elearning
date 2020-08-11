@@ -24,12 +24,6 @@ class ConferenceController {
       }
     );
 
-    await Promise.all(
-      modules.map(async module => {
-        return ModulesController.createModule(conference.id, module);
-      })
-    );
-
     await conference.reload();
 
     return [201, { conference }, 'Conference created successfully'];

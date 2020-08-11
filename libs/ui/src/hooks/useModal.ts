@@ -3,7 +3,7 @@ import useStateRef from './useStateRef';
 
 const useModal = (defaultState?: boolean): UseModal => {
   const [open, setOpen, openRef] = useStateRef(defaultState || false);
-  let onClose: any = null;
+  const onClose: Array<(...args: Array<any>) => any> = [];
 
   useEffect(() => {
     setOpen(defaultState);
@@ -19,12 +19,12 @@ const useModal = (defaultState?: boolean): UseModal => {
     openModal: (): void => setOpen(true),
     closeModal: (...args: any[]): void => {
       setOpen(false);
-      if (onClose) {
-        onClose(...args);
-      }
+      onClose.forEach(func => {
+        func(...args);
+      });
     },
     onClose: (listener: () => void): void => {
-      onClose = listener;
+      onClose.push(listener);
     },
   };
 };
