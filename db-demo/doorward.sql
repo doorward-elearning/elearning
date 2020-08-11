@@ -121,14 +121,14 @@ COMMENT ON SCHEMA public IS 'standard public schema';
 
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -682,7 +682,6 @@ INSERT INTO public."Courses" (id, title, description, objectives, requirements, 
 INSERT INTO public."Courses" (id, title, description, objectives, requirements, status, "createdBy", "createdAt", "updatedAt", "deletedAt", "meetingRoomId", "organizationId") VALUES ('Pkj3LNIbXAcz0oo2OMKGtqTXas7av', '12th-Chemistry', '', NULL, NULL, 'REVIEW', 'HbA0IiWqZ3FpYo7YJHrUtWHW1uTca', '2020-06-27 09:48:23.62+00', '2020-06-27 10:14:08.823+00', NULL, 'SoZcckPulH1_dXr1ElQcrNsEUQ7PR', '2eVFJKef4-dYEK4V_8opP4msRCUQtj');
 INSERT INTO public."Courses" (id, title, description, objectives, requirements, status, "createdBy", "createdAt", "updatedAt", "deletedAt", "meetingRoomId", "organizationId") VALUES ('TL0dZhg48FzaupA70ydo0pEtrKS3L', 'Class8-Mathematics', '', NULL, NULL, 'REVIEW', 'HbA0IiWqZ3FpYo7YJHrUtWHW1uTca', '2020-06-16 15:32:27.169+00', '2020-07-21 11:12:43.616+00', NULL, '63wV9cgIGVC3zrSyGQY7D6zfEA6OO', '2eVFJKef4-dYEK4V_8opP4msRCUQtj');
 INSERT INTO public."Courses" (id, title, description, objectives, requirements, status, "createdBy", "createdAt", "updatedAt", "deletedAt", "meetingRoomId", "organizationId") VALUES ('bxISQK3fR', '4th-Mathematics', '', NULL, NULL, 'REVIEW', 'HbA0IiWqZ3FpYo7YJHrUtWHW1uTca', '2020-07-23 11:07:12.435+00', '2020-07-23 11:27:55.654+00', NULL, 'M5zSDIVjQ', '2eVFJKef4-dYEK4V_8opP4msRCUQtj');
-INSERT INTO public."Courses" (id, title, description, objectives, requirements, status, "createdBy", "createdAt", "updatedAt", "deletedAt", "meetingRoomId", "organizationId") VALUES ('6q-1AQUKQ', 'Test', '', NULL, NULL, 'REVIEW', 'x8Ib7mziN3', '2020-07-31 11:09:45+00', '2020-07-31 11:09:49.258+00', NULL, '52B4s3tBD', 'rlpmZ1JDEu');
 
 
 --
@@ -811,7 +810,6 @@ INSERT INTO public."MeetingRooms" (id, title, "createdAt", "updatedAt", "organiz
 INSERT INTO public."MeetingRooms" (id, title, "createdAt", "updatedAt", "organizationId", "deletedAt", type) VALUES ('SoZcckPulH1_dXr1ElQcrNsEUQ7PR', '[Room] 12th-Chemistry', '2020-06-27 10:14:08.816+00', '2020-06-27 10:14:08.816+00', '2eVFJKef4-dYEK4V_8opP4msRCUQtj', NULL, 'PRIVATE');
 INSERT INTO public."MeetingRooms" (id, title, "createdAt", "updatedAt", "organizationId", "deletedAt", type) VALUES ('63wV9cgIGVC3zrSyGQY7D6zfEA6OO', '[Room] Class8-Mathematics', '2020-07-21 11:12:43.397+00', '2020-07-21 11:12:43.397+00', '2eVFJKef4-dYEK4V_8opP4msRCUQtj', NULL, 'PRIVATE');
 INSERT INTO public."MeetingRooms" (id, title, "createdAt", "updatedAt", "organizationId", "deletedAt", type) VALUES ('M5zSDIVjQ', '[Room] 4th-Mathematics', '2020-07-23 11:27:55.647+00', '2020-07-23 11:27:55.647+00', '2eVFJKef4-dYEK4V_8opP4msRCUQtj', NULL, 'PRIVATE');
-INSERT INTO public."MeetingRooms" (id, title, "createdAt", "updatedAt", "organizationId", "deletedAt", type) VALUES ('52B4s3tBD', '[Room] Test', '2020-07-31 11:09:49.238+00', '2020-07-31 11:09:49.238+00', 'rlpmZ1JDEu', NULL, 'PRIVATE');
 
 
 --
@@ -937,7 +935,6 @@ INSERT INTO public."Modules" (id, description, title, "courseId", "deletedAt", "
 
 INSERT INTO public."Organizations" (id, name, description, "createdAt", "updatedAt", "deletedAt", icon, link, "darkThemeIcon") VALUES ('0000000000000000000000', '__ROOT__', 'The default organization for the application. A user from this organization can access all other organizations', '2020-06-16 14:47:29.595+00', '2020-06-16 14:47:29.595+00', NULL, '', '', '');
 INSERT INTO public."Organizations" (id, name, description, "createdAt", "updatedAt", "deletedAt", icon, link, "darkThemeIcon") VALUES ('2eVFJKef4-dYEK4V_8opP4msRCUQtj', 'Demo School', '', '2020-06-16 14:47:50.959+00', '2020-06-16 14:47:50.959+00', NULL, 'https://edudoor-logos.s3.ap-south-1.amazonaws.com/demo-school/logo.png', 'https://demo-school.edudoor.org', 'https://res.cloudinary.com/dldhztrbs/image/upload/v1573674362/Edudoor/edudoor_white.png');
-INSERT INTO public."Organizations" (id, name, description, "createdAt", "updatedAt", "deletedAt", icon, link, "darkThemeIcon") VALUES ('rlpmZ1JDEu', 'Doorward E-Learning', '', '2020-07-31 11:03:53.758+00', '2020-07-31 11:03:53.758+00', NULL, 'https://doorward.s3.amazonaws.com/logos/download1.png', 'https://demo-school.doorward.tech', 'https://res.cloudinary.com/dldhztrbs/image/upload/v1573674362/Doorward/doorward_white.png');
 
 
 --
@@ -1094,7 +1091,6 @@ INSERT INTO public."Users" (id, username, password, "firstName", "lastName", ema
 INSERT INTO public."Users" (id, username, password, "firstName", "lastName", email, "zipCode", country, city, gender, "organizationId", status, "createdAt", "updatedAt", "deletedAt") VALUES ('Vkg7oFyyr3n5EIHTElnyUN8gUM4Dw', 'student8', '$2b$10$3IRbApZmK2UUkcp6TB/awOuCncLyXbniceI7fjHFYv.h9crCN6RNS', 'Student8', 'S', 'student8@gmail.com', NULL, '', '', NULL, '2eVFJKef4-dYEK4V_8opP4msRCUQtj', 'PENDING', '2020-06-16 15:10:46.285+00', '2020-06-16 15:10:46.285+00', NULL);
 INSERT INTO public."Users" (id, username, password, "firstName", "lastName", email, "zipCode", country, city, gender, "organizationId", status, "createdAt", "updatedAt", "deletedAt") VALUES ('2OlY7Txw7N-Npy4Wl-SgOokHV5we2', 'rajesh', '$2b$10$ZCRIVFJRWDz74bWNFVhruumOeH27WnPo6sMRz2S9X.q4M4si/N9BO', 'Rajesh', 'R', 'trajesh@gmail.com', NULL, '', '', NULL, '2eVFJKef4-dYEK4V_8opP4msRCUQtj', 'PENDING', '2020-07-07 08:22:46.562+00', '2020-07-07 08:22:46.562+00', NULL);
 INSERT INTO public."Users" (id, username, password, "firstName", "lastName", email, "zipCode", country, city, gender, "organizationId", status, "createdAt", "updatedAt", "deletedAt") VALUES ('tSXqFNK8SCmCqt6l6NkTtIxOq0fU6', 'teacher10', '$2b$10$/ua3.W5/DDCJzIg0ZMR.PO524diMbiNswXUlUIXIZ8t6b5Km3BJdi', 'teacher10', 'T', 'teacher10@gmail.com', NULL, '', '', NULL, '2eVFJKef4-dYEK4V_8opP4msRCUQtj', 'PENDING', '2020-07-07 08:29:01.823+00', '2020-07-07 08:29:01.823+00', NULL);
-INSERT INTO public."Users" (id, username, password, "firstName", "lastName", email, "zipCode", country, city, gender, "organizationId", status, "createdAt", "updatedAt", "deletedAt") VALUES ('x8Ib7mziN3', 'administrator', '$2b$10$jI/f8r9codH7Vxk/L/QKR.jL9K7OktK2.EggJbzkR5hQj5qF5pasS', 'admin', 'user', 'gitaumoses4@gmail.com', NULL, NULL, NULL, NULL, 'rlpmZ1JDEu', 'ACTIVE_NOT_DELETABLE', '2020-07-31 11:03:53.898+00', '2020-07-31 11:03:53.898+00', NULL);
 
 
 --
@@ -1579,4 +1575,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-
