@@ -27,7 +27,7 @@ import { PageComponent } from '@doorward/ui/types';
 import { Link } from 'react-router-dom';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
-import { fetchTeacherListAction } from '../../reducers/teachers/actions';
+import { fetchModeratorListAction } from '../../reducers/moderators/actions';
 import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManagerModal';
 import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
@@ -39,11 +39,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
   const isAdmin = useRoleManager();
-  const fetchTeachers = useAction(fetchTeacherListAction);
+  const fetchModerators = useAction(fetchModeratorListAction);
 
   useEffect(() => {
     if (isAdmin) {
-      fetchTeachers();
+      fetchModerators();
     }
   }, [isAdmin]);
 
@@ -56,7 +56,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
 
   const updateCourse = useSelector((state: State) => state.courses.updateCourse);
   const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
-  const teacherList = useSelector((state: State) => state.teachers.teacherList);
+  const moderatorList = useSelector((state: State) => state.moderators.moderatorList);
   return (
     <Layout
       {...props}
@@ -70,7 +70,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               submitAction={updateCourseAction}
               state={updateCourse}
               name="title"
-              roles={[Roles.TEACHER]}
+              roles={[Roles.MODERATOR]}
               createData={values => [courseId, values]}
               value={course.data.course?.title}
             />
@@ -80,7 +80,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
       renderHeaderEnd={(): JSX.Element => {
         return (
           <React.Fragment>
-            <RoleContainer roles={[Roles.TEACHER]}>
+            <RoleContainer roles={[Roles.MODERATOR]}>
               <Button onClick={addModuleModal.openModal} bordered>
                 Add Module
               </Button>
@@ -89,7 +89,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                 Join live classroom
               </Button>
-              <RoleContainer roles={[Roles.TEACHER]}>
+              <RoleContainer roles={[Roles.MODERATOR]}>
                 <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                   Start live classroom
                 </Button>
@@ -137,7 +137,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                   ]}
                 />
                 <ChooseCourseManagerModal
-                  managers={teacherList}
+                  managers={moderatorList}
                   onSuccess={addCourseManagerModal.closeModal}
                   courseId={course.id}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}

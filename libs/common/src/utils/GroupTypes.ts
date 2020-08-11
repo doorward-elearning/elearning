@@ -1,6 +1,6 @@
 const Groups = {
   MEMBER: 'Member',
-  TEACHER: 'Teacher',
+  MODERATOR: 'Moderator',
 };
 
 export default Groups;

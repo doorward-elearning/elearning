@@ -1,6 +1,6 @@
 import { User } from '@doorward/common/models/User';
 import { Member } from '@doorward/common/models/Member';
-import { Teacher } from '@doorward/common/models/Teacher';
+import { Moderator } from '@doorward/common/models/Moderator';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
 import { Course } from '@doorward/common/models/Course';
@@ -53,12 +53,12 @@ export interface ModuleItemsResponse extends ApiResponse {
   items: Array<ModuleItem>;
 }
 
-export interface TeacherListResponse extends ApiResponse {
-  teachers: Array<Teacher>;
+export interface ModeratorListResponse extends ApiResponse {
+  moderators: Array<Moderator>;
 }
 
-export interface TeacherResponse extends ApiResponse {
-  teacher: Teacher;
+export interface ModeratorResponse extends ApiResponse {
+  moderator: Moderator;
 }
 
 export interface CourseModuleListResponse extends ApiResponse {

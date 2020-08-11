@@ -4,30 +4,30 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
 import { Redirect } from 'react-router';
-import AddTeacherForm from '../../components/Forms/AddTeacherForm';
+import AddModeratorForm from '../../components/Forms/AddModeratorForm';
 import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 
-const AddTeacher: React.FunctionComponent<AddMemberProps> = props => {
-  const teacherForm = useForm();
+const AddModerator: React.FunctionComponent<AddMemberProps> = props => {
+  const moderatorForm = useForm();
   const routes = useRoutes();
-  const newTeacher = useSelector((state: State) => state.teachers.createTeacher);
-  const submitted = useFormSubmit(newTeacher);
+  const newModerator = useSelector((state: State) => state.moderators.createModerator);
+  const submitted = useFormSubmit(newModerator);
 
   return (
     <IfElse condition={submitted}>
-      <Redirect to={routes.routes.teacherList.link} />
+      <Redirect to={routes.routes.moderatorList.link} />
       <Layout
         {...props}
-        header={routes.addTeacher.name}
+        header={routes.addModerator.name}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
-        <AddTeacherForm
-          onCancel={() => routes.navigate(routes.routes.teacherList)}
-          useForm={teacherForm}
-          state={newTeacher}
+        <AddModeratorForm
+          onCancel={() => routes.navigate(routes.routes.moderatorList)}
+          useForm={moderatorForm}
+          state={newModerator}
         />
       </Layout>
     </IfElse>
@@ -36,4 +36,4 @@ const AddTeacher: React.FunctionComponent<AddMemberProps> = props => {
 
 export interface AddMemberProps extends PageComponent {}
 
-export default AddTeacher;
+export default AddModerator;

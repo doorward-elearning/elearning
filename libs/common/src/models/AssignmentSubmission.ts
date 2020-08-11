@@ -2,7 +2,7 @@ import { DBModel } from '@doorward/common/models/DBModel';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Member } from '@doorward/common/models/Member';
 import { Assignment } from '@doorward/common/models/Assignment';
-import { Teacher } from '@doorward/common/models/Teacher';
+import { Moderator } from '@doorward/common/models/Moderator';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
 import { User } from '@doorward/common/models/User';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
@@ -24,7 +24,7 @@ export class AssignmentSubmission extends Model implements DBModel {
 
   member: Member;
   assignment: Assignment;
-  reviewer: Teacher;
+  reviewer: Moderator;
   file: File;
 }
 

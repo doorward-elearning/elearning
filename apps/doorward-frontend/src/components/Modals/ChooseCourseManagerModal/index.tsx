@@ -7,7 +7,7 @@ import { User } from '@doorward/common/models/User';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { TeacherListResponse } from '../../../services/models/responseBody';
+import { ModeratorListResponse } from '../../../services/models/responseBody';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
   const form = useForm<ChooseMemberFormState>();
@@ -41,7 +41,7 @@ const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModal
 export interface ChooseCourseManagerModalProps extends ModalProps {
   courseId: string;
   onSuccess: () => void;
-  managers: WebComponentState<TeacherListResponse>;
+  managers: WebComponentState<ModeratorListResponse>;
 }
 
 export default ChooseCourseManagerModal;

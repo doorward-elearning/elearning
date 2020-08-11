@@ -52,7 +52,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
           )}
         </Panel>
       </RoleContainer>
-      <RoleContainer roles={[Roles.TEACHER]}>
+      <RoleContainer roles={[Roles.MODERATOR]}>
         <Header size={2} style={{ paddingBottom: 'var(--padding-lg)', paddingTop: 'var(--padding-lg)' }}>
           Submissions
         </Header>

@@ -36,7 +36,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
   const MAX_MANAGERS = 3;
   return (
     <div className="course-view-sidebar">
-      <RoleContainer roles={[Roles.TEACHER]}>
+      <RoleContainer roles={[Roles.MODERATOR]}>
         <Accordion
           open
           title={() => <Header size={5}>Member List</Header>}
@@ -83,9 +83,9 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = props
               loading={members.fetching}
               message="No managers have been added to the course yet."
               size="medium"
-              actionMessage="Create a new teacher"
+              actionMessage="Create a new moderator"
               onAction={(): void =>
-                routes.navigate(routes.routes.addTeacher, {
+                routes.navigate(routes.routes.addModerator, {
                   courseId,
                 })
               }

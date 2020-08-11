@@ -57,29 +57,29 @@ class Emails {
     });
   }
 
-  static async teacherCreated(teacher, resetToken, origin) {
-    const organization = await models.Organization.findByPk(teacher.organizationId);
+  static async moderatorCreated(moderator, resetToken, origin) {
+    const organization = await models.Organization.findByPk(moderator.organizationId);
 
-    return EmailSender.sendMail('teacher_new_account.pug', teacher.email, `${organization.name} new teacher account`, {
-      username: teacher.username,
-      fullName: teacher.fullName,
+    return EmailSender.sendMail('moderator_new_account.pug', moderator.email, `${organization.name} new moderator account`, {
+      username: moderator.username,
+      fullName: moderator.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
-        Tools.encrypt(teacher.email)
+        Tools.encrypt(moderator.email)
       )}`,
     });
   }
 
-  static async teacherCreatedWithPassword(teacher, origin, password) {
-    const organization = await models.Organization.findByPk(teacher.organizationId);
+  static async moderatorCreatedWithPassword(moderator, origin, password) {
+    const organization = await models.Organization.findByPk(moderator.organizationId);
 
     return EmailSender.sendMail(
-      'teacher_new_account_with_password.pug',
-      teacher.email,
-      `${organization.name} new teacher account`,
+      'moderator_new_account_with_password.pug',
+      moderator.email,
+      `${organization.name} new moderator account`,
       {
-        username: teacher.username,
-        fullName: teacher.fullName,
+        username: moderator.username,
+        fullName: moderator.fullName,
         organization: organization.name,
         password,
         link: `${origin}/login/`,

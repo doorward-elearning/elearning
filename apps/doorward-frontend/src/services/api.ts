@@ -11,7 +11,7 @@ import {
   CreateOrganizationBody,
   CreatePasswordBody,
   CreateMemberBody,
-  CreateTeacherBody,
+  CreateModeratorBody,
   FetchGroupQuery,
   ForgotPasswordBody,
   ListMembersBody,
@@ -46,8 +46,8 @@ import {
   MemberListResponse,
   MemberResponse,
   SuggestionsResponse,
-  TeacherListResponse,
-  TeacherResponse,
+  ModeratorListResponse,
+  ModeratorResponse,
   UserResponse,
 } from './models/responseBody';
 import ApiRequest from '@doorward/ui/services/apiRequest';
@@ -106,12 +106,12 @@ const Api = {
         return PUT(`/users/members/${id}`, body);
       },
     },
-    teachers: {
-      list: (query: string): Promise<TeacherListResponse> => {
-        return GET('/users/teachers?' + query);
+    moderators: {
+      list: (query: string): Promise<ModeratorListResponse> => {
+        return GET('/users/moderators?' + query);
       },
-      create: (body: CreateTeacherBody): Promise<TeacherResponse> => {
-        return POST('/users/teachers', body);
+      create: (body: CreateModeratorBody): Promise<ModeratorResponse> => {
+        return POST('/users/moderators', body);
       },
     },
   },
@@ -205,12 +205,12 @@ const Api = {
         return GET(`/reports/members/${memberId}`);
       },
     },
-    teachers: {
-      list: (): Promise<TeacherListResponse> => {
-        return GET('/reports/teachers');
+    moderators: {
+      list: (): Promise<ModeratorListResponse> => {
+        return GET('/reports/moderators');
       },
-      get: (teacherId: string): Promise<TeacherResponse> => {
-        return GET(`/reports/teachers/${teacherId}`);
+      get: (moderatorId: string): Promise<ModeratorResponse> => {
+        return GET(`/reports/moderators/${moderatorId}`);
       },
     },
   },

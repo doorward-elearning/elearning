@@ -39,7 +39,7 @@ menu items:
   - dashboard
   - etc etc
 
-customer_type: teacher, school etc
+customer_type: moderator, school etc
 
 features disabled:
   - reports
@@ -48,7 +48,7 @@ features disabled:
 
 stakeholder_names:
   member: employee, user etc
-  teacher: course creator, trainer, etc
+  moderator: course creator, trainer, etc
   admin: hr, admin, principal etc
   department: department, unit etc
   division: batch, division etc

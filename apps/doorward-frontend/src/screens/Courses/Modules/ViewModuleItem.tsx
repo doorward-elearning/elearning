@@ -85,7 +85,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
         icon: 'edit',
         text: item ? `Edit ${item?.type}` : '',
         theme: 'secondary',
-        roles: [Roles.TEACHER],
+        roles: [Roles.MODERATOR],
         onClick: () => routes.navigate(routes.editModuleItem, params),
         disabled: editing,
       }}
@@ -117,7 +117,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                           quiz={item}
                         />
                       }
-                      creator={[Roles.TEACHER]}
+                      creator={[Roles.MODERATOR]}
                       viewer={[Roles.MEMBER]}
                       isEditing={editing}
                     />
@@ -135,7 +135,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
                       }
                       isEditing={editing}
                       viewerView={<AssignmentView assignment={item} />}
-                      creator={[Roles.TEACHER]}
+                      creator={[Roles.MODERATOR]}
                       viewer={[Roles.MEMBER]}
                     />
                   </IfElse>

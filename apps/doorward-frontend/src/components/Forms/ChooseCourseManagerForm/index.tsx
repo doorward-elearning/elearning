@@ -3,23 +3,23 @@ import ChooseItemsForm from '../ChooseItemsForm';
 import { createCourseManagerAction, registerMembers } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { fetchTeacherListAction } from '../../../reducers/teachers/actions';
+import { fetchModeratorListAction } from '../../../reducers/moderators/actions';
 import { User } from '@doorward/common/models/User';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { TeacherListResponse } from '../../../services/models/responseBody';
+import { ModeratorListResponse } from '../../../services/models/responseBody';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
   const state = useSelector((state: State) => state.courses.createCourseManager);
 
   useEffect(() => {
-    fetchTeacherListAction();
+    fetchModeratorListAction();
   }, []);
 
   return (
     <ChooseItemsForm
       items={props.managers}
-      getItems={state1 => state1.data.teachers}
+      getItems={state1 => state1.data.moderators}
       state={state}
       form={props.form}
       singleChoice
@@ -42,7 +42,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
 };
 
 export interface ChooseCourseManagerFormProps {
-  managers: WebComponentState<TeacherListResponse>;
+  managers: WebComponentState<ModeratorListResponse>;
   onSuccess: () => void;
   form: UseForm<{ items: Array<User> }>;
   courseId: string;

@@ -11,13 +11,13 @@ import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import { PageComponent } from '@doorward/ui/types';
 
-const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.reports.singleTeacher);
+const ModeratorReport: FunctionComponent<ModeratorReportProps> = (props): JSX.Element => {
+  const state = useSelector((state: State) => state.reports.singleModerator);
   const routes = useRoutes();
-  usePageResource('teacherId', fetchCourseCreatorReport);
-  useBreadCrumbTitle(state, state => state.data.teacher?.fullName, routes);
+  usePageResource('moderatorId', fetchCourseCreatorReport);
+  useBreadCrumbTitle(state, state => state.data.moderator?.fullName, routes);
 
-  const courseCreator = state.data.teacher;
+  const courseCreator = state.data.moderator;
   return (
     <Layout
       {...props}
@@ -35,6 +35,6 @@ const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Elemen
   );
 };
 
-export interface TeacherReportProps extends PageComponent {}
+export interface ModeratorReportProps extends PageComponent {}
 
-export default TeacherReport;
+export default ModeratorReport;

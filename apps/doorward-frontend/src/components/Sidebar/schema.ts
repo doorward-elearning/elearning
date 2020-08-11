@@ -22,19 +22,19 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       subMenu: [routes.memberList, routes.newMember],
     },
     {
-      ...routes.teachers,
+      ...routes.moderators,
       icon: 'work',
-      subMenu: [routes.teacherList, routes.addTeacher],
+      subMenu: [routes.moderatorList, routes.addModerator],
     },
     {
       ...routes.groups,
       icon: 'people',
-      subMenu: [routes.memberGroups, routes.teacherGroups],
+      subMenu: [routes.memberGroups, routes.moderatorGroups],
     },
     {
       ...routes.reports,
       icon: 'trending_up',
-      subMenu: [routes.memberListReports, routes.teacherListReports],
+      subMenu: [routes.memberListReports, routes.moderatorListReports],
     },
     {
       ...routes.organizations,

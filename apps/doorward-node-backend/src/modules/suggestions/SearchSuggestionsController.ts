@@ -15,8 +15,8 @@ export default class SearchSuggestionsController {
       case 'members':
         suggestions = await SearchSuggestionsController.getUserSuggestions(roles.MEMBER);
         break;
-      case 'teachers':
-        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.TEACHER);
+      case 'moderators':
+        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.MODERATOR);
         break;
       case 'groups':
         suggestions = await SearchSuggestionsController.getGroupSuggestions(type);

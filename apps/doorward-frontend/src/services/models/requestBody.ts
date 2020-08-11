@@ -31,7 +31,7 @@ export interface CreateMemberBody {
   country: string;
 }
 
-export interface CreateTeacherBody extends CreateMemberBody {}
+export interface CreateModeratorBody extends CreateMemberBody {}
 
 export interface CourseModuleItemBody {
   type: ModuleItemTypes;
