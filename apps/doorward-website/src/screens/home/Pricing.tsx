@@ -8,7 +8,7 @@ const Pricing: React.FunctionComponent<PricingProps> = (props): JSX.Element => {
           <div className="col-lg-7 mb-5 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">Pricing</h2>
             <p className="mb-5">
-              All mentioned Features are available at a rate of 140 INR Per Student Per Month (Billed Annually).
+              All mentioned Features are available at a rate of 140 INR Per Member Per Month (Billed Annually).
             </p>
           </div>
         </div>

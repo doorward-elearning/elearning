@@ -5,7 +5,7 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import { getNames } from 'country-list';
 import BasicForm from '../BasicForm';
-import addStudentForm from '../AddStudentForm/validation';
+import addMemberForm from '../AddMemberForm/validation';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
@@ -29,8 +29,8 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
     <BasicForm
       form={props.useForm}
       initialValues={initialValues}
-      validationSchema={addStudentForm}
-      formClassName="add-student-form"
+      validationSchema={addMemberForm}
+      formClassName="add-member-form"
       showOverlay
       onCancel={props.onCancel}
       submitAction={props.action}

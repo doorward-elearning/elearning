@@ -9,7 +9,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 
-const TeacherList: React.FunctionComponent<StudentListProps> = props => {
+const TeacherList: React.FunctionComponent<MemberListProps> = props => {
   const teacherList = useSelector((state: State) => state.teachers.teacherList);
   const routes = useRoutes();
 
@@ -39,6 +39,6 @@ const TeacherList: React.FunctionComponent<StudentListProps> = props => {
   );
 };
 
-export interface StudentListProps extends PageComponent {}
+export interface MemberListProps extends PageComponent {}
 
 export default TeacherList;

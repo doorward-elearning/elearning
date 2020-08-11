@@ -33,7 +33,7 @@ site_administrator:
 menu items:
   - courses
   - reports
-  - students
+  - members
   - departments
   - notifications
   - dashboard
@@ -47,7 +47,7 @@ features disabled:
   - etc
 
 stakeholder_names:
-  student: employee, user etc
+  member: employee, user etc
   teacher: course creator, trainer, etc
   admin: hr, admin, principal etc
   department: department, unit etc

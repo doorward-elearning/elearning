@@ -17,7 +17,7 @@ const Lms: React.FunctionComponent<LmsProps> = (props): JSX.Element => {
             <img src="assets/images/sam-balye-w1FwDvIreZU-unsplash.jpg" alt="Image" className="img-fluid" />
           </div>
           <div className="col-lg-4 mr-auto order-2 order-lg-1" data-aos="fade-up" data-aos-delay="200">
-            <h4 className="text-black mb-4"> Your teachers can create Self-Paced Courses and enroll students. <br /><br />Teachers can Easily Create Contents such as Videos, HTML Tutorials, Assignments, Assessments, Quiz, Books. <br /><br /> We support all Indian Native Languages and Special Characters (Eg: Roman).<br /><br /> Automatic Reports.</h4>
+            <h4 className="text-black mb-4"> Your teachers can create Self-Paced Courses and enroll members. <br /><br />Teachers can Easily Create Contents such as Videos, HTML Tutorials, Assignments, Assessments, Quiz, Books. <br /><br /> We support all Indian Native Languages and Special Characters (Eg: Roman).<br /><br /> Automatic Reports.</h4>
           </div>
         </div>
       </div>

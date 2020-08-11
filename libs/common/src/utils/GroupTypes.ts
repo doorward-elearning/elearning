@@ -1,5 +1,5 @@
 const Groups = {
-  STUDENT: 'Student',
+  MEMBER: 'Member',
   TEACHER: 'Teacher',
 };
 

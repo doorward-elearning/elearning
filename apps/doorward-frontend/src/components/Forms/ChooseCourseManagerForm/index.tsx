@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import ChooseItemsForm from '../ChooseItemsForm';
-import { createCourseManagerAction, registerStudents } from '../../../reducers/courses/actions';
+import { createCourseManagerAction, registerMembers } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import { fetchTeacherListAction } from '../../../reducers/teachers/actions';

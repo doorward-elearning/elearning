@@ -62,7 +62,7 @@ const QuizDetails: React.FunctionComponent<QuizDetailsProps> = props => {
               </Panel>
               <Panel noBackground>
                 <Header size={3}>Responses</Header>
-                <Checkbox name="content.options.responses.show" label="Let students see their quiz responses." />
+                <Checkbox name="content.options.responses.show" label="Let members see their quiz responses." />
                 <IfElse condition={formikProps?.values.content.options.responses.show}>
                   <React.Fragment>
                     <Checkbox
@@ -71,7 +71,7 @@ const QuizDetails: React.FunctionComponent<QuizDetailsProps> = props => {
                     />
                     <Checkbox
                       name="content.options.responses.frequency.range.allow"
-                      label="Let students see the correct answers"
+                      label="Let members see the correct answers"
                     />
                     <IfElse condition={formikProps?.values.content.options.responses.frequency.range.allow}>
                       <React.Fragment>

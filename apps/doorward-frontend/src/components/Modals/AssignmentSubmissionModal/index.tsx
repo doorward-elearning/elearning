@@ -6,7 +6,7 @@ import AssignmentSubmissionView from '../../AssignmentSubmissionView';
 const AssignmentSubmissionModal: React.FunctionComponent<AssignmentSubmissionModalProps> = (props): JSX.Element => {
   return (
     <Modal {...props}>
-      <Modal.Header title={`Assignment Submission - ${props.submission?.student?.fullName}`} />
+      <Modal.Header title={`Assignment Submission - ${props.submission?.member?.fullName}`} />
       <Modal.Body>{props.submission && <AssignmentSubmissionView submission={props.submission} />}</Modal.Body>
     </Modal>
   );

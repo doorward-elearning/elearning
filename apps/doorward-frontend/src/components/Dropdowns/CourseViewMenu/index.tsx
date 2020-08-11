@@ -49,7 +49,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
             <div>
               <p>Deleting a course will have the following effects.</p>
               <ul>
-                <li>Students will be un-enrolled from the course</li>
+                <li>Members will be un-enrolled from the course</li>
                 <li>Course resources will be deleted</li>
                 <li>Course report will no longer be accessible.</li>
               </ul>

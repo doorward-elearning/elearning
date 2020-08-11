@@ -102,7 +102,7 @@ function fileIsAscii(filename) {
 const renameFileContents = async () => {
   const files = fileList
     .filter(file => !file.endsWith('/'))
-    .filter(file => !file.test('scripts/rename-project.js'))
+    .filter(file => !new RegExp('scripts/rename-project.js').test(file))
     .filter(file => fileIsAscii(file));
   files.forEach(file => {
     const contents = fs.readFileSync(file).toString();

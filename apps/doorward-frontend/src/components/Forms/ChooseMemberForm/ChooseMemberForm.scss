@@ -1,0 +1,12 @@
+.choose-member-form {
+  .member-list {
+    &__item {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+    }
+  }
+
+  &__value {
+    padding: 0 calc(var(--padding-lg) * 3) 0 0;
+  }
+}

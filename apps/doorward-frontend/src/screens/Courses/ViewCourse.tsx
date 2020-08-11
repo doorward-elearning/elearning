@@ -5,7 +5,7 @@ import './Courses.scss';
 import CourseModuleList from '../../components/Lists/CourseModuleList';
 import CourseViewSidebar from '../../components/CourseViewSidebar';
 import useViewCourse from '../../hooks/useViewCourse';
-import ChooseStudentModal from '../../components/Modals/ChooseStudentModal';
+import ChooseMemberModal from '../../components/Modals/ChooseMemberModal';
 import AddCourseModuleModal from '../../components/Modals/AddCourseModuleModal';
 import EditableLabelForm from '../../components/Forms/EditableLabelForm';
 import { startLiveClassroom, updateCourseAction } from '../../reducers/courses/actions';
@@ -35,7 +35,7 @@ import Grid from '@doorward/ui/components/Grid';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
   const addModuleModal = useModal(false);
-  const addStudentModal = useModal(false);
+  const addMemberModal = useModal(false);
   const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
   const isAdmin = useRoleManager();
@@ -125,11 +125,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                   useModal={addModuleModal}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                 />
-                <ChooseStudentModal
+                <ChooseMemberModal
                   courseId={course.id}
-                  className="choose__student__modal"
-                  onSuccess={addStudentModal.closeModal}
-                  useModal={addStudentModal}
+                  className="choose__member__modal"
+                  onSuccess={addMemberModal.closeModal}
+                  useModal={addMemberModal}
                   features={[
                     ModalFeatures.POSITIVE_BUTTON,
                     ModalFeatures.CLOSE_BUTTON_FOOTER,
@@ -165,7 +165,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
             );
           }}
         </WebComponent>
-        <CourseViewSidebar addStudentModal={addStudentModal} addCourseManagerModal={addCourseManagerModal} />
+        <CourseViewSidebar addMemberModal={addMemberModal} addCourseManagerModal={addCourseManagerModal} />
       </div>
     </Layout>
   );

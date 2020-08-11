@@ -1,7 +1,7 @@
 import MRouter from '../../utils/router';
 import Authorization from '../../middleware/Authorization';
 import modules from './modules';
-import students from './students';
+import members from './members';
 import managers from './managers';
 import { validateCourseExists, validateCreateCourse, validateUpdateCourse } from './validate';
 import CourseController from './CourseController';
@@ -26,7 +26,7 @@ Router.post('/:courseId/room/join', validateCourseExists(), CourseController.joi
 
 Router.use('/', modules);
 
-Router.use('/', students);
+Router.use('/', members);
 
 Router.use('/', managers);
 

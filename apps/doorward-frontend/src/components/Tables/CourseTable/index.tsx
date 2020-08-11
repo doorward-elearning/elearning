@@ -10,7 +10,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
   return (
     <Table
       className="course-table"
-      columns={{ displayName: 'Course Name', students: 'No of students', status: 'Status' }}
+      columns={{ displayName: 'Course Name', members: 'No of members', status: 'Status' }}
       data={props.courses}
       onRowClick={(course): void => {
         props.history.push(ROUTES.viewCourse.withParams({ courseId: course.id }));
@@ -23,7 +23,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
               <span>{row.title}</span>
             </div>
           ),
-          students: <span>{row.numStudents}</span>,
+          members: <span>{row.numMembers}</span>,
         };
       }}
     />

@@ -22,7 +22,7 @@ class UserController {
   }
 
   static async register(req) {
-    const { user } = await UserController.createUser(req, Roles.STUDENT);
+    const { user } = await UserController.createUser(req, Roles.MEMBER);
 
     Emails.selfRegistration(user);
 

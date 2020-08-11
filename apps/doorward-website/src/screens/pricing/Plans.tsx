@@ -25,7 +25,7 @@ const Plans: React.FunctionComponent<PlansProps> = (props): JSX.Element => {
                 <div className="course-inner-text py-4 px-4">
                   <span className="course-price">350 INR</span>
                   <h3>
-                    <a href="#">Institutes - Per Student Per Month</a>
+                    <a href="#">Institutes - Per Member Per Month</a>
                   </h3>
                 </div>
               </div>
@@ -53,7 +53,7 @@ const Plans: React.FunctionComponent<PlansProps> = (props): JSX.Element => {
                 <div className="course-inner-text py-4 px-4">
                   <span className="course-price">350 INR</span>
                   <h3>
-                    <a href="#">Individuals - Per Student Per Month</a>
+                    <a href="#">Individuals - Per Member Per Month</a>
                   </h3>
                 </div>
               </div>

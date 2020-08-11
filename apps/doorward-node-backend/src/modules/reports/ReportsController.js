@@ -3,10 +3,10 @@ import * as roles from '../../utils/roles';
 import models from '../../database/models';
 
 class ReportsController {
-  static async studentsReport() {
-    const students = await UserController.findByRole(roles.STUDENT);
+  static async membersReport() {
+    const members = await UserController.findByRole(roles.MEMBER);
 
-    return [200, { students }];
+    return [200, { members }];
   }
 
   static async teachersReport() {
@@ -38,10 +38,10 @@ class ReportsController {
     return [200, { teacher }];
   }
 
-  static async studentReport(req) {
-    const coursesInProgress = await models.StudentCourse.findAll({
+  static async memberReport(req) {
+    const coursesInProgress = await models.MemberCourse.findAll({
       where: {
-        studentId: req.params.studentId,
+        memberId: req.params.memberId,
       },
       include: [
         {
@@ -50,13 +50,13 @@ class ReportsController {
         },
       ],
     });
-    const student = await UserController.findOneByRole(roles.STUDENT, {
+    const member = await UserController.findOneByRole(roles.MEMBER, {
       where: {
-        id: req.params.studentId,
+        id: req.params.memberId,
       },
     });
-    student.dataValues.coursesInProgress = coursesInProgress.map(studentCourse => studentCourse.course);
-    return [200, { student }];
+    member.dataValues.coursesInProgress = coursesInProgress.map(memberCourse => memberCourse.course);
+    return [200, { member }];
   }
 }
 

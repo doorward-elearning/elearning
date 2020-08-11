@@ -12,8 +12,8 @@ export default class SearchSuggestionsController {
     let suggestions: Array<SearchSuggestion> = [];
 
     switch (suggestionType) {
-      case 'students':
-        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.STUDENT);
+      case 'members':
+        suggestions = await SearchSuggestionsController.getUserSuggestions(roles.MEMBER);
         break;
       case 'teachers':
         suggestions = await SearchSuggestionsController.getUserSuggestions(roles.TEACHER);
@@ -33,13 +33,13 @@ export default class SearchSuggestionsController {
   }
 
   static async getUserSuggestions(role) {
-    const students = await UserController.findByRole(role, {
+    const members = await UserController.findByRole(role, {
       attributes: ['email'],
     });
 
-    const suggestions: Array<SearchSuggestion> = students.map(student => {
+    const suggestions: Array<SearchSuggestion> = members.map(member => {
       return {
-        text: student.email,
+        text: member.email,
       };
     });
 

@@ -45,7 +45,7 @@ export const CourseInclude = [
   },
   {
     model: models.User,
-    as: 'students',
+    as: 'members',
     required: false,
   },
   {
@@ -69,7 +69,7 @@ export const CourseInclude = [
   },
 ];
 
-export const StudentsByCourse = courseId => [
+export const MembersByCourse = courseId => [
   {
     model: models.Course,
     as: 'courses',
@@ -90,7 +90,7 @@ export const MyCoursesInclude = () =>
     },
   ]);
 
-export const StudentCoursesInclude = () => {
+export const MemberCoursesInclude = () => {
   return [
     {
       model: models.Course,

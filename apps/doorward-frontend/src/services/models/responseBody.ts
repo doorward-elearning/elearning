@@ -1,5 +1,5 @@
 import { User } from '@doorward/common/models/User';
-import { Student } from '@doorward/common/models/Student';
+import { Member } from '@doorward/common/models/Member';
 import { Teacher } from '@doorward/common/models/Teacher';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
@@ -36,13 +36,13 @@ export interface CourseModuleResponse extends ApiResponse {
   module: Module;
 }
 
-export interface StudentListResponse extends ApiResponse {
-  students: Array<Student>;
+export interface MemberListResponse extends ApiResponse {
+  members: Array<Member>;
   meta: PaginationMetaData;
 }
 
-export interface StudentResponse extends ApiResponse {
-  student: Student;
+export interface MemberResponse extends ApiResponse {
+  member: Member;
 }
 
 export interface ModuleItemResponse extends ApiResponse {

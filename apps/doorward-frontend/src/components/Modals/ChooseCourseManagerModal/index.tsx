@@ -1,6 +1,6 @@
 import React from 'react';
 import useForm from '@doorward/ui/hooks/useForm';
-import { ChooseStudentFormState } from '../../Forms/ChooseStudentForm';
+import { ChooseMemberFormState } from '../../Forms/ChooseMemberForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import ChooseCourseManagerForm from '../../Forms/ChooseCourseManagerForm';
 import { User } from '@doorward/common/models/User';
@@ -10,7 +10,7 @@ import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import { TeacherListResponse } from '../../../services/models/responseBody';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
-  const form = useForm<ChooseStudentFormState>();
+  const form = useForm<ChooseMemberFormState>();
   const state = useSelector((state: State) => state.courses.createCourseManager);
   return (
     <Modal {...props}>

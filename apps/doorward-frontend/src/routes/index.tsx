@@ -4,30 +4,30 @@ import Dashboard from '../screens/Dashboard';
 import Courses from '../screens/Courses';
 import AddModulePage from '../screens/Courses/Modules/AddModulePage';
 import ViewModuleItem from '../screens/Courses/Modules/ViewModuleItem';
-import CourseStudentList from '../screens/Courses/CourseStudentList';
+import CourseMemberList from '../screens/Courses/CourseMemberList';
 import TeacherList from '../screens/Teachers/TeacherList';
-import StudentReport from '../screens/Reports/StudentReport';
+import MemberReport from '../screens/Reports/MemberReport';
 import CreatePassword from '../screens/Password/CreatePassword';
 import Home from '../screens/Home';
 import AddTeacher from '../screens/Teachers/AddTeacher';
 import VideoCallPage from '../screens/VideoCallPage';
-import StudentList from '../screens/Students/StudentList';
-import AddCourseStudent from '../screens/Students/AddCourseStudent';
+import MemberList from '../screens/Members/MemberList';
+import AddCourseMember from '../screens/Members/AddCourseMember';
 import TeacherReport from '../screens/Reports/TeacherReport';
-import StudentListReport from '../screens/Reports/StudentListReport';
+import MemberListReport from '../screens/Reports/MemberListReport';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import TeacherListReport from '../screens/Reports/TeacherListReport';
 import Register from '../screens/Register';
 import CreateAssignment from '../screens/Courses/Modules/CreateAssignment';
-import AddStudent from '../screens/Students/AddStudent';
+import AddMember from '../screens/Members/AddMember';
 import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 import Profile from '../screens/Profile';
 import MRoute from '@doorward/ui/routes/MRoute';
 import { Routes } from '@doorward/ui/types';
 import { Roles } from '@doorward/ui/components/RolesManager';
-import StudentGroups from '../screens/Groups/Students/StudentGroups';
-import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
+import MemberGroups from '../screens/Groups/Members/MemberGroups';
+import CreateMemberGroup from '../screens/Groups/Members/CreateMemberGroup';
 import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';
 import CreateTeacherGroup from '../screens/Groups/Teachers/CreateTeacherGroup';
 import ViewGroup from '../screens/Groups/ViewGroup';
@@ -39,9 +39,9 @@ import { routeNames } from './routeNames';
 import AssignmentsList from '../screens/Courses/Modules/AssignmentsList';
 import Classrooms from '../screens/Classrooms';
 import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
-import ViewStudent from '../screens/Students/ViewStudent';
-import ViewStudentGroup from '../screens/Groups/Students/ViewStudentGroup';
-import UpdateStudentGroup from '../screens/Groups/Students/UpdateStudentGroup';
+import ViewMember from '../screens/Members/ViewMember';
+import ViewMemberGroup from '../screens/Groups/Members/ViewMemberGroup';
+import UpdateMemberGroup from '../screens/Groups/Members/UpdateMemberGroup';
 
 export type DoorwardRoutes = typeof routeNames;
 
@@ -61,8 +61,8 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         courses: new Route('/meetings').with({
           courseList: new Route('/', Courses).with({
             viewCourse: new Route('/:courseId', ViewCourse).with({
-              courseStudents: new Route('/members', CourseStudentList).with({
-                addCourseStudent: new Route('/new', AddCourseStudent),
+              courseMembers: new Route('/members', CourseMemberList).with({
+                addCourseMember: new Route('/new', AddCourseMember),
               }),
               modules: new Route('/modules').with({
                 moduleItems: new Route('/:moduleId/items').with({
@@ -78,11 +78,11 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           }),
           createCourse: new Route('/create', Courses),
         }),
-        students: new Route('/members').roles(Roles.TEACHER).with({
-          studentList: new Route('/', StudentList).roles(Roles.TEACHER).with({
-            viewStudent: new Route('/:studentId', ViewStudent).roles(Roles.TEACHER),
+        members: new Route('/members').roles(Roles.TEACHER).with({
+          memberList: new Route('/', MemberList).roles(Roles.TEACHER).with({
+            viewMember: new Route('/:memberId', ViewMember).roles(Roles.TEACHER),
           }),
-          newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
+          newMember: new Route('/create', AddMember).roles(Roles.TEACHER),
         }),
         teachers: new Route('/moderators').roles(Roles.SUPER_ADMINISTRATOR).with({
           teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
@@ -92,8 +92,8 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           changePassword: new Route('/changePassword', Profile),
         }),
         reports: new Route('/reports').roles(Roles.TEACHER).with({
-          studentListReports: new Route('/members', StudentListReport).with({
-            studentReport: new Route('/:studentId', StudentReport),
+          memberListReports: new Route('/members', MemberListReport).with({
+            memberReport: new Route('/:memberId', MemberReport),
           }),
           courseListReports: new Route('/meetings', Error404),
           teacherListReports: new Route('/moderators', TeacherListReport).roles().with({
@@ -105,10 +105,10 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
             addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
             viewTeacherGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.SUPER_ADMINISTRATOR),
           }),
-          studentGroups: new Route('/members', StudentGroups).roles(Roles.TEACHER).with({
-            addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
-            viewStudentGroup: new Route('/view/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
-              updateStudentGroup: new Route('/update', UpdateStudentGroup).roles(Roles.TEACHER),
+          memberGroups: new Route('/members', MemberGroups).roles(Roles.TEACHER).with({
+            addMemberGroup: new Route('/create', CreateMemberGroup).roles(Roles.TEACHER),
+            viewMemberGroup: new Route('/view/:groupId', ViewMemberGroup).roles(Roles.TEACHER).with({
+              updateMemberGroup: new Route('/update', UpdateMemberGroup).roles(Roles.TEACHER),
             }),
           }),
         }),

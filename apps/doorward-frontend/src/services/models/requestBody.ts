@@ -22,7 +22,7 @@ export type CreateCourseBody = {
   modules: Array<CourseModuleBody>;
 };
 
-export interface CreateStudentBody {
+export interface CreateMemberBody {
   firstName: string;
   lastName: string;
   email: string;
@@ -31,7 +31,7 @@ export interface CreateStudentBody {
   country: string;
 }
 
-export interface CreateTeacherBody extends CreateStudentBody {}
+export interface CreateTeacherBody extends CreateMemberBody {}
 
 export interface CourseModuleItemBody {
   type: ModuleItemTypes;
@@ -65,8 +65,8 @@ export interface UpdateModulesBody {
   modules: Array<Module>;
 }
 
-export interface RegisterStudentsBody {
-  students: Array<string>;
+export interface RegisterMembersBody {
+  members: Array<string>;
 }
 
 export interface AddGroupMembersBody {
@@ -111,6 +111,6 @@ export interface FetchGroupQuery extends SearchQueryBody {
   type: string;
 }
 
-export interface ListStudentsBody {
+export interface ListMembersBody {
   notRegisteredTo?: string;
 }

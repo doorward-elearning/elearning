@@ -1,0 +1,9 @@
+.member-report__page {
+  display: grid;
+  grid-auto-flow: row;
+  align-items: start;
+  align-content: start;
+  grid-gap: var(--padding-lg);
+  .course-information {
+  }
+}

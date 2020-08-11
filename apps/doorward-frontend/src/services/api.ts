@@ -10,14 +10,14 @@ import {
   CreateGroupBody,
   CreateOrganizationBody,
   CreatePasswordBody,
-  CreateStudentBody,
+  CreateMemberBody,
   CreateTeacherBody,
   FetchGroupQuery,
   ForgotPasswordBody,
-  ListStudentsBody,
+  ListMembersBody,
   LoginBody,
   PaginationBody,
-  RegisterStudentsBody,
+  RegisterMembersBody,
   RegistrationBody,
   SearchQueryBody,
   SubmitAssignmentBody,
@@ -43,8 +43,8 @@ import {
   OrganizationsResponse,
   SchoolResponse,
   SchoolsResponse,
-  StudentListResponse,
-  StudentResponse,
+  MemberListResponse,
+  MemberResponse,
   SuggestionsResponse,
   TeacherListResponse,
   TeacherResponse,
@@ -89,21 +89,21 @@ const Api = {
         return POST('/users/profile/forgotPassword', body);
       },
     },
-    students: {
-      list: (pagination?: PaginationBody, query?: ListStudentsBody): Promise<StudentListResponse> => {
-        return GET('/users/students', { ...(pagination || {}), ...(query || {}) });
+    members: {
+      list: (pagination?: PaginationBody, query?: ListMembersBody): Promise<MemberListResponse> => {
+        return GET('/users/members', { ...(pagination || {}), ...(query || {}) });
       },
-      create: (body: CreateStudentBody): Promise<StudentResponse> => {
-        return POST('/users/students', body);
+      create: (body: CreateMemberBody): Promise<MemberResponse> => {
+        return POST('/users/members', body);
       },
-      get: (id: string): Promise<StudentResponse> => {
-        return GET(`/users/students/${id}`);
+      get: (id: string): Promise<MemberResponse> => {
+        return GET(`/users/members/${id}`);
       },
       changePassword: (id: string, body: ChangePasswordBody): Promise<ApiResponse> => {
-        return POST(`/users/students/${id}/changePassword`, body);
+        return POST(`/users/members/${id}/changePassword`, body);
       },
-      update: (id: string, body: AccountDetailsBody): Promise<StudentResponse> => {
-        return PUT(`/users/students/${id}`, body);
+      update: (id: string, body: AccountDetailsBody): Promise<MemberResponse> => {
+        return PUT(`/users/members/${id}`, body);
       },
     },
     teachers: {
@@ -178,31 +178,31 @@ const Api = {
         return DELETE(`/courses/modules/${moduleId}`);
       },
     },
-    students: {
-      get: (courseId: string): Promise<StudentListResponse> => {
-        return GET(`/courses/${courseId}/students`);
+    members: {
+      get: (courseId: string): Promise<MemberListResponse> => {
+        return GET(`/courses/${courseId}/members`);
       },
-      create: (courseId: string, student: CreateStudentBody): Promise<StudentResponse> => {
-        return POST(`/courses/${courseId}/students`, student);
+      create: (courseId: string, member: CreateMemberBody): Promise<MemberResponse> => {
+        return POST(`/courses/${courseId}/members`, member);
       },
-      notRegistered: (courseId: string, query: SearchQueryBody): Promise<StudentListResponse> => {
-        return GET(`/courses/${courseId}/students/not-registered`, query);
+      notRegistered: (courseId: string, query: SearchQueryBody): Promise<MemberListResponse> => {
+        return GET(`/courses/${courseId}/members/not-registered`, query);
       },
-      register: (courseId: string, data: RegisterStudentsBody): Promise<StudentListResponse> => {
-        return POST(`/courses/${courseId}/students/register`, data);
+      register: (courseId: string, data: RegisterMembersBody): Promise<MemberListResponse> => {
+        return POST(`/courses/${courseId}/members/register`, data);
       },
-      unEnroll: (studentId: string, courseId: string): Promise<ApiResponse> => {
-        return DELETE(`/courses/${courseId}/students/${studentId}`);
+      unEnroll: (memberId: string, courseId: string): Promise<ApiResponse> => {
+        return DELETE(`/courses/${courseId}/members/${memberId}`);
       },
     },
   },
   reports: {
-    students: {
-      list: (): Promise<StudentListResponse> => {
-        return GET('/reports/students');
+    members: {
+      list: (): Promise<MemberListResponse> => {
+        return GET('/reports/members');
       },
-      get: (studentId: string): Promise<StudentResponse> => {
-        return GET(`/reports/students/${studentId}`);
+      get: (memberId: string): Promise<MemberResponse> => {
+        return GET(`/reports/members/${memberId}`);
       },
     },
     teachers: {

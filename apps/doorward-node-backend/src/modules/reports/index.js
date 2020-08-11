@@ -6,14 +6,14 @@ import models from '../../database/models';
 
 const Router = new MRouter('/reports', Authorization.authenticate);
 
-Router.get('/students', ReportsController.studentsReport);
+Router.get('/members', ReportsController.membersReport);
 
 Router.get('/teachers', ReportsController.teachersReport);
 
 Router.get(
-  '/students/:studentId',
-  BaseValidator.findModelOrThrow('studentId', models.User, 'The student does not exist.'),
-  ReportsController.studentReport
+  '/members/:memberId',
+  BaseValidator.findModelOrThrow('memberId', models.User, 'The member does not exist.'),
+  ReportsController.memberReport
 );
 
 Router.get(

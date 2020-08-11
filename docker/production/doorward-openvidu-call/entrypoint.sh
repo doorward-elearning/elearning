@@ -22,7 +22,7 @@ sed -i 's/openvidu_logo_grey.png/doorward_logo_grey.png/g' /opt/openvidu-call/pu
 sed -i 's/openvidu_grey_bg_transp_cropped.png/doorward_grey_bg_transp_cropped.png/g' /opt/openvidu-call/public/main.*.js
 sed -i 's/openvidu_globe_bg_transp_cropped.png/doorward_globe_bg_transp_cropped.png/g' /opt/openvidu-call/public/main.*.js
 
-sed -i 's/Videoconference rooms in one click/Click JOIN Button to Create Your Live Classroom And Share The URL With Your Students/g' /opt/openvidu-call/public/main.*.js
+sed -i 's/Videoconference rooms in one click/Click JOIN Button to Create Your Live Classroom And Share The URL With Your Members/g' /opt/openvidu-call/public/main.*.js
 
 sed -i 's/https:\/\/raw.githubusercontent.com\/OpenVidu\/openvidu-call\/master\/openvidu-call-front\/src\/assets\/images\//https:\/\/doorward.s3.amazonaws.com\/logos\//g' /opt/openvidu-call/public/main.*.$
 sed -i 's/https:\/\/openvidu.io\/img\/logos\//https:\/\/doorward.s3.amazonaws.com\/logos\//g' /opt/openvidu-call/public/main.*.js

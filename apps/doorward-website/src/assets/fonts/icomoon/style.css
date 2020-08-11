@@ -80,7 +80,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 mb-4">
                   <h1  data-aos="fade-up" data-aos-delay="100">Everything You Need For Teaching and Learning</h1>
-                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for teachers to create and run courses, Instantly collaborate with students, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
+                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for teachers to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
                   <p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary py-3 px-5 btn-pill">Login Now</a></p>
 
                 </div>
@@ -117,7 +117,7 @@
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">Solutions for Trainers</h2>
-            <p>Our Individual Trainer platform allow you to create live courses and self paced trainings, collect real time automated feedbacks, Interact easily with students, and many more. Save your time by leaving your repeated jobs to our platform!</p>
+            <p>Our Individual Trainer platform allow you to create live courses and self paced trainings, collect real time automated feedbacks, Interact easily with members, and many more. Save your time by leaving your repeated jobs to our platform!</p>
           </div>
         </div>
         <div class="row mb-5 align-items-center">
@@ -140,15 +140,15 @@
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Automate Student Assessments</h3></div>
+              <div><h3 class="m-0">Automate Member Assessments</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Track your students reports</h3></div>
+              <div><h3 class="m-0">Track your members reports</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Automated Reminders to Students</h3></div>
+              <div><h3 class="m-0">Automated Reminders to Members</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
@@ -213,7 +213,7 @@
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 mb-5 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">About US</h2>
-            <p class="mb-5">Doorward is a platform for teachers to create and run courses, Instantly collaborate with students, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
+            <p class="mb-5">Doorward is a platform for teachers to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
             <p class="mb-5"><br><br>OUR TEAM</p>
           </div>
         </div>

@@ -3,37 +3,37 @@ import models from '../database/models';
 import Tools from './Tools';
 
 class Emails {
-  static async studentCreated(student, resetToken, origin) {
-    const organization = await models.Organization.findByPk(student.organizationId);
+  static async memberCreated(member, resetToken, origin) {
+    const organization = await models.Organization.findByPk(member.organizationId);
 
-    return EmailSender.sendMail('student_new_account.pug', student.email, `${organization.name} new student account`, {
-      username: student.username,
-      fullName: student.fullName,
+    return EmailSender.sendMail('member_new_account.pug', member.email, `${organization.name} new member account`, {
+      username: member.username,
+      fullName: member.fullName,
       organization: organization.name,
       link: `${origin}/password/create/${encodeURIComponent(resetToken)}/${encodeURIComponent(
-        Tools.encrypt(student.email)
+        Tools.encrypt(member.email)
       )}`,
     });
   }
 
-  static async studentPasswordChanged(student, password) {
-    return EmailSender.sendMail('password_changed.pug', student.email, `Password changed`, {
-      username: student.username,
-      fullName: student.fullName,
+  static async memberPasswordChanged(member, password) {
+    return EmailSender.sendMail('password_changed.pug', member.email, `Password changed`, {
+      username: member.username,
+      fullName: member.fullName,
       password,
     });
   }
 
-  static async studentCreatedWithPassword(student, resetToken, origin, originalPassword) {
-    const organization = await models.Organization.findByPk(student.organizationId);
+  static async memberCreatedWithPassword(member, resetToken, origin, originalPassword) {
+    const organization = await models.Organization.findByPk(member.organizationId);
 
     return EmailSender.sendMail(
-      'student_new_account_with_password.pug',
-      student.email,
-      `${organization.name} new student account`,
+      'member_new_account_with_password.pug',
+      member.email,
+      `${organization.name} new member account`,
       {
-        username: student.username,
-        fullName: student.fullName,
+        username: member.username,
+        fullName: member.fullName,
         organization: organization.name,
         password: originalPassword,
         link: `${origin}/login/`,

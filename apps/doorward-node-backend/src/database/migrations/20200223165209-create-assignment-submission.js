@@ -7,13 +7,13 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.STRING,
       },
-      studentId: {
+      memberId: {
         type: Sequelize.STRING,
         allowNull: false,
         onDelete: 'cascade',
         references: {
           model: 'Users',
-          as: 'studentId',
+          as: 'memberId',
         },
       },
       assignmentId: {
