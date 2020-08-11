@@ -19,21 +19,17 @@ const AddConferenceModal: React.FunctionComponent<AddConferenceModalProps> = pro
     <Modal {...props}>
       <Modal.Header title={props.title} />
       <Modal.Body>
-        <AddConferenceForm
-          onSubmit={props.onSubmit}
-          useModal={props.useModal}
-          title={props.title}
-          useForm={form}
-        />
+        <AddConferenceForm onSubmit={props.onSubmit} useModal={props.useModal} title={props.title} useForm={form} />
       </Modal.Body>
       <Modal.Footer
         buttons={{ positive: 'Save' }}
         onPositiveClick={formikProps && formikProps.submitForm}
         props={{
           positive: {
+            loading: props.loading,
             disabled: !(formikProps && formikProps.isValid),
-            type: 'submit'
-          }
+            type: 'submit',
+          },
         }}
       />
     </Modal>
@@ -43,6 +39,7 @@ const AddConferenceModal: React.FunctionComponent<AddConferenceModalProps> = pro
 export interface AddConferenceModalProps extends ModalProps {
   onSubmit: OnFormSubmit<AddConferenceFormState>;
   title: string;
+  loading?: boolean;
 }
 
 export default AddConferenceModal;
