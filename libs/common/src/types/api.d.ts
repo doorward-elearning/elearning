@@ -1,6 +1,6 @@
 import { Icons } from '@doorward/ui/types/icons';
 
-export interface CourseModuleStatistics {
+export interface ForumModuleStatistics {
   assignments: number;
   quizzes: number;
   pages: number;

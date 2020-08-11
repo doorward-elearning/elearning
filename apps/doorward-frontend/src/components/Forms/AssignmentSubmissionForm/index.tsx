@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import BasicForm from '../BasicForm';
-import { submitAssignmentAction } from '../../../reducers/courses/actions';
+import { submitAssignmentAction } from '../../../reducers/forums/actions';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TextArea from '@doorward/ui/components/Input/TextArea';
@@ -18,7 +18,7 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
   initialValues,
   onSuccess,
 }): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.moduleItemList);
+  const state = useSelector((state: State) => state.forums.moduleItemList);
   const form = useForm();
   const [currentTab, setCurrentTab] = useState();
   return (

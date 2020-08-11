@@ -5,7 +5,7 @@ import './AddModulePageForm.scss';
 import TextField from '@doorward/ui/components/Input/TextField';
 import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';
-import { CourseModuleItemBody } from '../../../services/models/requestBody';
+import { ForumModuleItemBody } from '../../../services/models/requestBody';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
 
@@ -39,7 +39,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   );
 }
 
-export interface AddModulePageFormState extends CourseModuleItemBody {}
+export interface AddModulePageFormState extends ForumModuleItemBody {}
 
 export interface AddModulePageFormProps<T = any> {
   useForm: UseForm<T>;

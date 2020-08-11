@@ -9,7 +9,7 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
             <h2 className="section-title">For Corporates</h2>
             <p>
               Our platform allow you to conduct your Employee training such as Skills Development, Onboarding elegantly.
-              A highly interactive learning portal that allow your Employee to take self paced courses and
+              A highly interactive learning portal that allow your Employee to take self paced forums and
               webconferences!
             </p>
           </div>
@@ -24,7 +24,7 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Self paced courses for Employee Training</h3>
+                <h3 className="m-0">Self paced forums for Employee Training</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
@@ -56,7 +56,7 @@ const Corporate: React.FunctionComponent<CorporateProps> = (props): JSX.Element 
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Course and Instructor Measurements</h3>
+                <h3 className="m-0">Forum and Instructor Measurements</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">

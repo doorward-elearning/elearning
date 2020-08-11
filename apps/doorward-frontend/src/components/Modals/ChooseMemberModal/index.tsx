@@ -10,18 +10,18 @@ const ChooseMemberModal: React.FunctionComponent<ChooseMemberModalProps> = props
   const [selected, setSelected] = useState(0);
   const form = useForm<ChooseMemberFormState>();
   const groupForm = useForm<ChooseMemberGroupFormState>();
-  const state = useSelector((state: State) => state.courses.registerMembers);
+  const state = useSelector((state: State) => state.forums.registerMembers);
   const [searchText, setSearchText] = useState('');
 
   return (
     <NavBarSearchContext searchText={searchText}>
       <Modal {...props}>
-        <Modal.Header title="Add Member to course" onSearch={setSearchText} />
+        <Modal.Header title="Add Member to forum" onSearch={setSearchText} />
         <Modal.Body>
           <ChooseMemberForm
             onTabChange={setSelected}
             form={form}
-            courseId={props.courseId}
+            forumId={props.forumId}
             search={searchText}
             onClearSearch={() => setSearchText('')}
             onSuccess={props.onSuccess}
@@ -49,7 +49,7 @@ const ChooseMemberModal: React.FunctionComponent<ChooseMemberModalProps> = props
 };
 
 export interface ChooseMemberModalProps extends ModalProps {
-  courseId: string;
+  forumId: string;
   onSuccess: () => void;
 }
 

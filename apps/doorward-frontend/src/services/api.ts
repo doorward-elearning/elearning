@@ -2,11 +2,11 @@ import {
   AccountDetailsBody,
   AddGroupMembersBody,
   ChangePasswordBody,
-  CourseModuleBody,
-  CourseModuleItemBody,
+  ForumModuleBody,
+  ForumModuleItemBody,
   CreateClassroomBody,
-  CreateCourseBody,
-  CreateCourseManagerBody,
+  CreateForumBody,
+  CreateForumManagerBody,
   CreateGroupBody,
   CreateOrganizationBody,
   CreatePasswordBody,
@@ -26,12 +26,12 @@ import {
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
-  CourseListResponse,
-  CourseManagerBody,
-  CourseManagersBody,
-  CourseModuleListResponse,
-  CourseModuleResponse,
-  CreateCourseResponse,
+  ForumListResponse,
+  ForumManagerBody,
+  ForumManagersBody,
+  ForumModuleListResponse,
+  ForumModuleResponse,
+  CreateForumResponse,
   FileUploadResponse,
   GroupResponse,
   GroupsResponse,
@@ -115,84 +115,84 @@ const Api = {
       },
     },
   },
-  courses: {
-    create: (course: CreateCourseBody): Promise<CreateCourseResponse> => {
-      return POST('/courses', course);
+  forums: {
+    create: (forum: CreateForumBody): Promise<CreateForumResponse> => {
+      return POST('/forums', forum);
     },
-    update: (courseId: string, course: CreateCourseBody): Promise<CreateCourseResponse> => {
-      return PUT(`/courses/${courseId}`, course);
+    update: (forumId: string, forum: CreateForumBody): Promise<CreateForumResponse> => {
+      return PUT(`/forums/${forumId}`, forum);
     },
-    updateModules: (courseId: string, modules: UpdateModulesBody): Promise<CourseModuleListResponse> => {
-      return PUT(`/courses/${courseId}/modules`, modules);
+    updateModules: (forumId: string, modules: UpdateModulesBody): Promise<ForumModuleListResponse> => {
+      return PUT(`/forums/${forumId}/modules`, modules);
     },
-    list: (): Promise<CourseListResponse> => {
-      return GET('/courses');
+    list: (): Promise<ForumListResponse> => {
+      return GET('/forums');
     },
-    get: (courseId: string): Promise<CreateCourseResponse> => {
-      return GET(`/courses/${courseId}`);
+    get: (forumId: string): Promise<CreateForumResponse> => {
+      return GET(`/forums/${forumId}`);
     },
-    delete: (courseId: string): Promise<ApiResponse> => {
-      return DELETE(`/courses/${courseId}`);
+    delete: (forumId: string): Promise<ApiResponse> => {
+      return DELETE(`/forums/${forumId}`);
     },
     managers: {
-      create: (courseId: string, body: CreateCourseManagerBody): Promise<CourseManagerBody> => {
-        return POST(`/courses/${courseId}/managers/register`, body);
+      create: (forumId: string, body: CreateForumManagerBody): Promise<ForumManagerBody> => {
+        return POST(`/forums/${forumId}/managers/register`, body);
       },
-      get: (courseId: string): Promise<CourseManagersBody> => {
-        return GET(`/courses/${courseId}/managers`);
+      get: (forumId: string): Promise<ForumManagersBody> => {
+        return GET(`/forums/${forumId}/managers`);
       },
     },
     room: {
-      start: (courseId: string): Promise<ApiResponse> => {
-        return POST(`/courses/${courseId}/room`);
+      start: (forumId: string): Promise<ApiResponse> => {
+        return POST(`/forums/${forumId}/room`);
       },
     },
     modules: {
-      list: (courseId: string): Promise<CourseModuleResponse> => {
-        return GET(`/courses/${courseId}/modules`);
+      list: (forumId: string): Promise<ForumModuleResponse> => {
+        return GET(`/forums/${forumId}/modules`);
       },
-      get: (moduleId: string): Promise<CourseModuleResponse> => {
-        return GET(`/courses/modules/${moduleId}`);
+      get: (moduleId: string): Promise<ForumModuleResponse> => {
+        return GET(`/forums/modules/${moduleId}`);
       },
-      create: (courseId: string, module: CourseModuleBody): Promise<CourseModuleResponse> => {
-        return POST(`/courses/${courseId}/modules`, module);
+      create: (forumId: string, module: ForumModuleBody): Promise<ForumModuleResponse> => {
+        return POST(`/forums/${forumId}/modules`, module);
       },
-      update: (moduleId: string, module: CourseModuleBody): Promise<CourseModuleResponse> => {
-        return PUT(`/courses/modules/${moduleId}`, module);
+      update: (moduleId: string, module: ForumModuleBody): Promise<ForumModuleResponse> => {
+        return PUT(`/forums/modules/${moduleId}`, module);
       },
       items: {
-        create: (moduleId: string, item: CourseModuleItemBody): Promise<ModuleItemResponse> => {
-          return POST(`/courses/modules/${moduleId}/items/`, item);
+        create: (moduleId: string, item: ForumModuleItemBody): Promise<ModuleItemResponse> => {
+          return POST(`/forums/modules/${moduleId}/items/`, item);
         },
-        list: (courseId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
-          return GET(`/courses/${courseId}/modules/items?type=${type}`);
+        list: (forumId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
+          return GET(`/forums/${forumId}/modules/items?type=${type}`);
         },
         get: (itemId: string): Promise<ModuleItemResponse> => {
-          return GET(`/courses/modules/items/${itemId}`);
+          return GET(`/forums/modules/items/${itemId}`);
         },
         submitAssignment: (assignmentId: string, body: SubmitAssignmentBody): Promise<AssignmentSubmissionResponse> => {
-          return POST(`/courses/modules/assignments/${assignmentId}/submit`, body);
+          return POST(`/forums/modules/assignments/${assignmentId}/submit`, body);
         },
       },
       delete: (moduleId: string): Promise<ApiResponse> => {
-        return DELETE(`/courses/modules/${moduleId}`);
+        return DELETE(`/forums/modules/${moduleId}`);
       },
     },
     members: {
-      get: (courseId: string): Promise<MemberListResponse> => {
-        return GET(`/courses/${courseId}/members`);
+      get: (forumId: string): Promise<MemberListResponse> => {
+        return GET(`/forums/${forumId}/members`);
       },
-      create: (courseId: string, member: CreateMemberBody): Promise<MemberResponse> => {
-        return POST(`/courses/${courseId}/members`, member);
+      create: (forumId: string, member: CreateMemberBody): Promise<MemberResponse> => {
+        return POST(`/forums/${forumId}/members`, member);
       },
-      notRegistered: (courseId: string, query: SearchQueryBody): Promise<MemberListResponse> => {
-        return GET(`/courses/${courseId}/members/not-registered`, query);
+      notRegistered: (forumId: string, query: SearchQueryBody): Promise<MemberListResponse> => {
+        return GET(`/forums/${forumId}/members/not-registered`, query);
       },
-      register: (courseId: string, data: RegisterMembersBody): Promise<MemberListResponse> => {
-        return POST(`/courses/${courseId}/members/register`, data);
+      register: (forumId: string, data: RegisterMembersBody): Promise<MemberListResponse> => {
+        return POST(`/forums/${forumId}/members/register`, data);
       },
-      unEnroll: (memberId: string, courseId: string): Promise<ApiResponse> => {
-        return DELETE(`/courses/${courseId}/members/${memberId}`);
+      unEnroll: (memberId: string, forumId: string): Promise<ApiResponse> => {
+        return DELETE(`/forums/${forumId}/members/${memberId}`);
       },
     },
   },

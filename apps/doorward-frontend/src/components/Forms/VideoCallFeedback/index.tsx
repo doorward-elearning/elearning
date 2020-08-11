@@ -12,7 +12,7 @@ import RatingInput from '@doorward/ui/components/Input/RatingInput';
 import validation from './validation';
 
 const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.createMember);
+  const state = useSelector((state: State) => state.forums.createMember);
   const form = useForm();
   const initialValues = {
     rating: null,

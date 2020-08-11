@@ -1,0 +1,30 @@
+.view-forum {
+  .forum-description {
+    margin: var(--padding-lg) 0;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    align-content: start;
+    align-items: start;
+    grid-gap: var(--padding-lg);
+    margin-top: var(--padding-lg);
+  }
+
+  &__module-list {
+    display: grid;
+    grid-gap: var(--padding);
+
+    button {
+      justify-self: end;
+    }
+  }
+}
+
+.choose__member__modal {
+  .ed-modal__content {
+    width: 100%;
+    max-width: 1200px;
+  }
+}

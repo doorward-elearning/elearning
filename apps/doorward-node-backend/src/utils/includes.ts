@@ -32,7 +32,7 @@ export const ModuleInclude = [
     ],
   },
 ];
-export const CourseInclude = [
+export const ForumInclude = [
   {
     model: models.User,
     as: 'author',
@@ -69,18 +69,18 @@ export const CourseInclude = [
   },
 ];
 
-export const MembersByCourse = courseId => [
+export const MembersByForum = forumId => [
   {
-    model: models.Course,
-    as: 'courses',
+    model: models.Forum,
+    as: 'forums',
     where: {
-      id: courseId,
+      id: forumId,
     },
   },
 ];
 
-export const MyCoursesInclude = () =>
-  _.merge(CourseInclude, [
+export const MyForumsInclude = () =>
+  _.merge(ForumInclude, [
     {
       model: models.User,
       as: 'author',
@@ -90,12 +90,12 @@ export const MyCoursesInclude = () =>
     },
   ]);
 
-export const MemberCoursesInclude = () => {
+export const MemberForumsInclude = () => {
   return [
     {
-      model: models.Course,
-      as: 'courses',
-      include: CourseInclude,
+      model: models.Forum,
+      as: 'forums',
+      include: ForumInclude,
       required: false,
     },
   ];

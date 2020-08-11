@@ -24,7 +24,7 @@ const MemberReportsTable: FunctionComponent<MemberReportsTableProps> = (props): 
           name: 'Name',
           department: 'Department',
           enrollments: 'No of enrollments',
-          courses: 'Courses completed',
+          forums: 'Forums completed',
           grade: 'Average Grade',
         }}
         getCell={row => {
@@ -32,7 +32,7 @@ const MemberReportsTable: FunctionComponent<MemberReportsTableProps> = (props): 
             name: row.fullName,
             department: 'Computer Science',
             enrollments: '23',
-            courses: '12',
+            forums: '12',
             grade: '12.4',
           };
         }}

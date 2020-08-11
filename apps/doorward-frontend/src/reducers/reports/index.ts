@@ -1,6 +1,6 @@
 import {
-  FETCH_COURSE_CREATOR_REPORT,
-  FETCH_COURSE_CREATOR_REPORT_LIST,
+  FETCH_FORUM_CREATOR_REPORT,
+  FETCH_FORUM_CREATOR_REPORT_LIST,
   FETCH_MEMBER_REPORT,
   FETCH_MEMBER_REPORT_LIST
 } from './types';
@@ -18,12 +18,12 @@ const singleMember = reducerApiAction({
 });
 
 const moderatorReportList = reducerApiAction({
-  action: FETCH_COURSE_CREATOR_REPORT_LIST,
+  action: FETCH_FORUM_CREATOR_REPORT_LIST,
   api: Api.reports.moderators.list
 });
 
 const singleModerator = reducerApiAction({
-  action: FETCH_COURSE_CREATOR_REPORT,
+  action: FETCH_FORUM_CREATOR_REPORT,
   api: Api.reports.moderators.get
 });
 
