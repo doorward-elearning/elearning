@@ -6,7 +6,7 @@ import ConferenceModuleList from '../../components/Lists/ConferenceModuleList';
 import ConferenceViewSidebar from '../../components/ConferenceViewSidebar';
 import useViewConference from '../../hooks/useViewConference';
 import ChooseMemberModal from '../../components/Modals/ChooseMemberModal';
-import AddConferenceModuleModal from '../../components/Modals/AddConferenceModuleModal';
+import AddConferencePollModal from '../../components/Modals/AddConferenceModuleModal';
 import EditableLabelForm from '../../components/Forms/EditableLabelForm';
 import { startLiveClassroom, updateConferenceAction } from '../../reducers/conferences/actions';
 import { useSelector } from 'react-redux';
@@ -17,14 +17,12 @@ import useRoutes from '../../hooks/useRoutes';
 import useEventListener from '../../hooks/useEventListener';
 import { LIVE_CLASSROOM_STARTED } from '../../reducers/socket/types';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import LabelRow from '@doorward/ui/components/LabelRow';
 import Button from '@doorward/ui/components/Buttons/Button';
 import { ModalFeatures } from '@doorward/ui/components/Modal';
 import useModal from '@doorward/ui/hooks/useModal';
 import IfElse from '@doorward/ui/components/IfElse';
 import { Roles } from '@doorward/ui/components/RolesManager';
 import { PageComponent } from '@doorward/ui/types';
-import { Link } from 'react-router-dom';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
 import { fetchModeratorListAction } from '../../reducers/moderators/actions';
@@ -34,12 +32,17 @@ import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 
 const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
-  const addModuleModal = useModal(false);
+  const routes = useRoutes();
+  const addConferencePoll = useModal(props.location.pathname === routes.createPoll.link);
   const addMemberModal = useModal(false);
   const addConferenceManagerModal = useModal(false);
-  const liveClassroomModal = useModal(false);
+  const meetingModal = useModal(false);
   const isAdmin = useRoleManager();
   const fetchModerators = useAction(fetchModeratorListAction);
+
+  addConferencePoll.onClose(() => {
+    routes.navigate(routes.viewConference, { conferenceId: conference?.data?.conference?.id });
+  });
 
   useEffect(() => {
     if (isAdmin) {
@@ -52,7 +55,6 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
   useEffect(() => {}, []);
 
   const [conferenceId, conference] = useViewConference();
-  const routes = useRoutes();
 
   const updateConference = useSelector((state: State) => state.conferences.updateConference);
   const launchClassroom = useSelector((state: State) => state.conferences.launchClassroom);
@@ -81,17 +83,22 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
         return (
           <React.Fragment>
             <RoleContainer roles={[Roles.MODERATOR]}>
-              <Button onClick={addModuleModal.openModal} bordered>
-                Add Module
+              <Button
+                onClick={() => {
+                  addConferencePoll.openModal();
+                }}
+                bordered
+              >
+                Create Poll
               </Button>
             </RoleContainer>
             <IfElse condition={liveClassroom?.conferenceId || conference.data.conference?.meetingRoom?.currentMeeting}>
-              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                Join live classroom
+              <Button icon="phone" mini onClick={meetingModal.openModal}>
+                Join meeting
               </Button>
               <RoleContainer roles={[Roles.MODERATOR]}>
-                <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                  Start live classroom
+                <Button icon="phone" mini onClick={meetingModal.openModal}>
+                  Start meeting
                 </Button>
               </RoleContainer>
             </IfElse>
@@ -101,7 +108,7 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
               showErrorToast
               action={() => startLiveClassroom(conferenceId)}
               title="Starting classroom"
-              useModal={liveClassroomModal}
+              useModal={meetingModal}
               onSuccess={data => {
                 routes.navigate(routes.videoCall, {
                   meetingId: data.id,
@@ -120,9 +127,9 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
           {(conference): JSX.Element => {
             return (
               <div>
-                <AddConferenceModuleModal
+                <AddConferencePollModal
                   conferenceId={conference.id}
-                  useModal={addModuleModal}
+                  useModal={addConferencePoll}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                 />
                 <ChooseMemberModal
@@ -145,15 +152,7 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
                 />
                 <div className="view-conference__module-list">
                   <Grid columns={2} justifyContent="space-between">
-                    <LabelRow>
-                      <span className="meta">{conference.modules.length} Modules</span>
-                      <Link to={routes.assignmentList.link} className="meta">
-                        {conference.itemCount.assignments} Assignments
-                      </Link>
-                      <span className="meta">{conference.itemCount.quizzes} Quizzes</span>
-                      <span className="meta">{conference.itemCount.pages} Pages</span>
-                    </LabelRow>
-                    <div style={{ justifySelf: 'end' }}>
+                    <div style={{ justifySelf: 'start' }}>
                       <Pill>
                         Authored by - <b>{conference.author.fullName}</b>
                       </Pill>

@@ -6,12 +6,14 @@ const useModalBlur = (useModal: UseModal): RefObject<HTMLDivElement> => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (!useModal.isOpen) {
-      setTimeout(() => {
-        setVisible(false);
-      }, 500);
-    } else {
-      setVisible(true);
+    if (useModal.isOpen !== visible) {
+      if (!useModal.isOpen) {
+        setTimeout(() => {
+          setVisible(false);
+        }, 500);
+      } else {
+        setVisible(true);
+      }
     }
   }, [useModal.isOpen]);
 

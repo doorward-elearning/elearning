@@ -4,7 +4,6 @@
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 300px));
   width: 100%;
-  justify-content: space-between;
   grid-gap: var(--padding);
 
   &__conference {

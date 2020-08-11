@@ -13,7 +13,7 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
     },
     {
       ...routes.conferences,
-      icon: 'school',
+      icon: 'meeting_room',
       subMenu: [routes.conferenceList],
     },
     {
