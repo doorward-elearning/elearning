@@ -1,0 +1,22 @@
+pipeline {
+  agent any
+
+  parameters {
+      string(name: 'APP_VERSION', defaultValue: '1.1.0', description: 'Version of the application to be deployed?')
+  }
+
+  stages {
+    stage('Deploy') {
+        steps {
+          dir('helm/environments/xyz'){
+            sh 'helmfile -l stage=0 sync'
+          }
+          sh 'sleep 10'
+          dir('helm/environments/xyz'){
+            sh 'helmfile -l stage=2 sync --set image.swagat.version=${APP_VERSION} --set image.chuchu.version=${APP_VERSION} --set image.thala.version=${APP_VERSION} --set image.vidu.version=${APP_VERSION}'
+          }
+        }
+    }
+  }
+
+}
