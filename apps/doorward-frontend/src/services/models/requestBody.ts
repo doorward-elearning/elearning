@@ -19,7 +19,6 @@ export type ConferenceModuleBody = {
 export type CreateConferenceBody = {
   title: string;
   description: string;
-  modules: Array<ConferenceModuleBody>;
 };
 
 export interface CreateMemberBody {
