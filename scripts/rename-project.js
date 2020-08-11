@@ -8,8 +8,8 @@ const ignored = ['.vscode/', 'dist/', 'node_modules/', '.git/', '.idea/', 'patch
 
 const projectDir = path.join(__dirname, '..');
 
-const INITIAL_PROJECT_NAME = 'doorward';
-const NEW_PROJECT_NAME = 'doorward';
+const INITIAL_PROJECT_NAME = 'student';
+const NEW_PROJECT_NAME = 'member';
 
 String.prototype.replaceAll = function(search, replacement) {
   return this.toString().replace(new RegExp(search, 'g'), replacement);
@@ -86,9 +86,24 @@ const renameAllFileNames = async () => {
     }
   });
 };
+function fileIsAscii(filename) {
+  // Read the file with no encoding for raw buffer access.
+  const buf = require('fs').readFileSync(filename);
+  let isAscii = true;
+  for (let i = 0, len = buf.length; i < len; i++) {
+    if (buf[i] > 127) {
+      isAscii = false;
+      break;
+    }
+  }
+  return isAscii;
+}
 
 const renameFileContents = async () => {
-  const files = fileList.filter(file => !file.endsWith('/'));
+  const files = fileList
+    .filter(file => !file.endsWith('/'))
+    .filter(file => !file.test('scripts/rename-project.js'))
+    .filter(file => fileIsAscii(file));
   files.forEach(file => {
     const contents = fs.readFileSync(file).toString();
     console.log('Updating file: ' + file);
