@@ -53,7 +53,6 @@ const ConferenceMemberList: React.FunctionComponent<MemberListProps> = props => 
 
   return (
     <Layout
-      noNavBar
       {...props}
       header={`${conference.data?.conference?.title ? conference.data.conference.title + ' - ' : ''} Member List`}
       actionBtnProps={{

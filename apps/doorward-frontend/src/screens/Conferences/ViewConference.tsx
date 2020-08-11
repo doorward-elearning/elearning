@@ -63,7 +63,6 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
     <Layout
       {...props}
       className="view-conference"
-      noNavBar
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
         <IfElse condition={conference.data.conference}>

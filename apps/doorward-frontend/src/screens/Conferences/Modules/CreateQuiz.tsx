@@ -30,7 +30,7 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   }, []);
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Quiz" noNavBar>
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Quiz" >
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>
         {module => <CreateQuizForm onSuccess={finish} onCancel={finish} module={module} />}
       </WebComponent>
