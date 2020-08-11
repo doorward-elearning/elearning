@@ -22,7 +22,7 @@ const College: React.FunctionComponent<CollegeProps> = (props): JSX.Element => {
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Build Self-Paced Video Forums, Live Classrooms, Live Conferences, Interactive Projects, Seminars, Tech-Fests, Classrooms, Placement Drives, Internship,  Placement Programs</h3>
+                <h3 className="m-0">Build Self-Paced Video Conferences, Live Classrooms, Live Conferences, Interactive Projects, Seminars, Tech-Fests, Classrooms, Placement Drives, Internship,  Placement Programs</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">

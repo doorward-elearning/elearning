@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import ForumList from './ForumList';
+import ConferenceList from './ConferenceList';
 import { PageComponent } from '@doorward/ui/types';
 import Message from '@doorward/ui/components/Message';
 import Header from '@doorward/ui/components/Header';
@@ -24,7 +24,7 @@ const Dashboard: React.FunctionComponent<DashboardProps> = props => {
         </IfElse>
       )}
     >
-      <ForumList />
+      <ConferenceList />
     </Layout>
   );
 };

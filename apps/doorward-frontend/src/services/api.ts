@@ -2,11 +2,11 @@ import {
   AccountDetailsBody,
   AddGroupMembersBody,
   ChangePasswordBody,
-  ForumModuleBody,
-  ForumModuleItemBody,
+  ConferenceModuleBody,
+  ConferenceModuleItemBody,
   CreateClassroomBody,
-  CreateForumBody,
-  CreateForumManagerBody,
+  CreateConferenceBody,
+  CreateConferenceManagerBody,
   CreateGroupBody,
   CreateOrganizationBody,
   CreatePasswordBody,
@@ -26,12 +26,12 @@ import {
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
-  ForumListResponse,
-  ForumManagerBody,
-  ForumManagersBody,
-  ForumModuleListResponse,
-  ForumModuleResponse,
-  CreateForumResponse,
+  ConferenceListResponse,
+  ConferenceManagerBody,
+  ConferenceManagersBody,
+  ConferenceModuleListResponse,
+  ConferenceModuleResponse,
+  CreateConferenceResponse,
   FileUploadResponse,
   GroupResponse,
   GroupsResponse,
@@ -115,84 +115,84 @@ const Api = {
       },
     },
   },
-  forums: {
-    create: (forum: CreateForumBody): Promise<CreateForumResponse> => {
-      return POST('/forums', forum);
+  conferences: {
+    create: (conference: CreateConferenceBody): Promise<CreateConferenceResponse> => {
+      return POST('/conferences', conference);
     },
-    update: (forumId: string, forum: CreateForumBody): Promise<CreateForumResponse> => {
-      return PUT(`/forums/${forumId}`, forum);
+    update: (conferenceId: string, conference: CreateConferenceBody): Promise<CreateConferenceResponse> => {
+      return PUT(`/conferences/${conferenceId}`, conference);
     },
-    updateModules: (forumId: string, modules: UpdateModulesBody): Promise<ForumModuleListResponse> => {
-      return PUT(`/forums/${forumId}/modules`, modules);
+    updateModules: (conferenceId: string, modules: UpdateModulesBody): Promise<ConferenceModuleListResponse> => {
+      return PUT(`/conferences/${conferenceId}/modules`, modules);
     },
-    list: (): Promise<ForumListResponse> => {
-      return GET('/forums');
+    list: (): Promise<ConferenceListResponse> => {
+      return GET('/conferences');
     },
-    get: (forumId: string): Promise<CreateForumResponse> => {
-      return GET(`/forums/${forumId}`);
+    get: (conferenceId: string): Promise<CreateConferenceResponse> => {
+      return GET(`/conferences/${conferenceId}`);
     },
-    delete: (forumId: string): Promise<ApiResponse> => {
-      return DELETE(`/forums/${forumId}`);
+    delete: (conferenceId: string): Promise<ApiResponse> => {
+      return DELETE(`/conferences/${conferenceId}`);
     },
     managers: {
-      create: (forumId: string, body: CreateForumManagerBody): Promise<ForumManagerBody> => {
-        return POST(`/forums/${forumId}/managers/register`, body);
+      create: (conferenceId: string, body: CreateConferenceManagerBody): Promise<ConferenceManagerBody> => {
+        return POST(`/conferences/${conferenceId}/managers/register`, body);
       },
-      get: (forumId: string): Promise<ForumManagersBody> => {
-        return GET(`/forums/${forumId}/managers`);
+      get: (conferenceId: string): Promise<ConferenceManagersBody> => {
+        return GET(`/conferences/${conferenceId}/managers`);
       },
     },
     room: {
-      start: (forumId: string): Promise<ApiResponse> => {
-        return POST(`/forums/${forumId}/room`);
+      start: (conferenceId: string): Promise<ApiResponse> => {
+        return POST(`/conferences/${conferenceId}/room`);
       },
     },
     modules: {
-      list: (forumId: string): Promise<ForumModuleResponse> => {
-        return GET(`/forums/${forumId}/modules`);
+      list: (conferenceId: string): Promise<ConferenceModuleResponse> => {
+        return GET(`/conferences/${conferenceId}/modules`);
       },
-      get: (moduleId: string): Promise<ForumModuleResponse> => {
-        return GET(`/forums/modules/${moduleId}`);
+      get: (moduleId: string): Promise<ConferenceModuleResponse> => {
+        return GET(`/conferences/modules/${moduleId}`);
       },
-      create: (forumId: string, module: ForumModuleBody): Promise<ForumModuleResponse> => {
-        return POST(`/forums/${forumId}/modules`, module);
+      create: (conferenceId: string, module: ConferenceModuleBody): Promise<ConferenceModuleResponse> => {
+        return POST(`/conferences/${conferenceId}/modules`, module);
       },
-      update: (moduleId: string, module: ForumModuleBody): Promise<ForumModuleResponse> => {
-        return PUT(`/forums/modules/${moduleId}`, module);
+      update: (moduleId: string, module: ConferenceModuleBody): Promise<ConferenceModuleResponse> => {
+        return PUT(`/conferences/modules/${moduleId}`, module);
       },
       items: {
-        create: (moduleId: string, item: ForumModuleItemBody): Promise<ModuleItemResponse> => {
-          return POST(`/forums/modules/${moduleId}/items/`, item);
+        create: (moduleId: string, item: ConferenceModuleItemBody): Promise<ModuleItemResponse> => {
+          return POST(`/conferences/modules/${moduleId}/items/`, item);
         },
-        list: (forumId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
-          return GET(`/forums/${forumId}/modules/items?type=${type}`);
+        list: (conferenceId: string, type: ModuleItemTypes): Promise<ModuleItemsResponse> => {
+          return GET(`/conferences/${conferenceId}/modules/items?type=${type}`);
         },
         get: (itemId: string): Promise<ModuleItemResponse> => {
-          return GET(`/forums/modules/items/${itemId}`);
+          return GET(`/conferences/modules/items/${itemId}`);
         },
         submitAssignment: (assignmentId: string, body: SubmitAssignmentBody): Promise<AssignmentSubmissionResponse> => {
-          return POST(`/forums/modules/assignments/${assignmentId}/submit`, body);
+          return POST(`/conferences/modules/assignments/${assignmentId}/submit`, body);
         },
       },
       delete: (moduleId: string): Promise<ApiResponse> => {
-        return DELETE(`/forums/modules/${moduleId}`);
+        return DELETE(`/conferences/modules/${moduleId}`);
       },
     },
     members: {
-      get: (forumId: string): Promise<MemberListResponse> => {
-        return GET(`/forums/${forumId}/members`);
+      get: (conferenceId: string): Promise<MemberListResponse> => {
+        return GET(`/conferences/${conferenceId}/members`);
       },
-      create: (forumId: string, member: CreateMemberBody): Promise<MemberResponse> => {
-        return POST(`/forums/${forumId}/members`, member);
+      create: (conferenceId: string, member: CreateMemberBody): Promise<MemberResponse> => {
+        return POST(`/conferences/${conferenceId}/members`, member);
       },
-      notRegistered: (forumId: string, query: SearchQueryBody): Promise<MemberListResponse> => {
-        return GET(`/forums/${forumId}/members/not-registered`, query);
+      notRegistered: (conferenceId: string, query: SearchQueryBody): Promise<MemberListResponse> => {
+        return GET(`/conferences/${conferenceId}/members/not-registered`, query);
       },
-      register: (forumId: string, data: RegisterMembersBody): Promise<MemberListResponse> => {
-        return POST(`/forums/${forumId}/members/register`, data);
+      register: (conferenceId: string, data: RegisterMembersBody): Promise<MemberListResponse> => {
+        return POST(`/conferences/${conferenceId}/members/register`, data);
       },
-      unEnroll: (memberId: string, forumId: string): Promise<ApiResponse> => {
-        return DELETE(`/forums/${forumId}/members/${memberId}`);
+      unEnroll: (memberId: string, conferenceId: string): Promise<ApiResponse> => {
+        return DELETE(`/conferences/${conferenceId}/members/${memberId}`);
       },
     },
   },

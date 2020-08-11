@@ -1,0 +1,13 @@
+.conference-table {
+  .conference-title {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    grid-gap: var(--padding);
+
+    img {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}

@@ -11,14 +11,14 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',
   Assignment: 'format_list_numbered',
   Quiz: 'view_list',
-  'Discussion Forum': 'more',
+  'Discussion Conference': 'more',
   File: 'file_copy',
 };
 
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = props => {
   const { routes } = useRoutes();
   const { module } = props;
-  const params = { forumId: module.forumId, moduleId: module.id };
+  const params = { conferenceId: module.conferenceId, moduleId: module.id };
   return (
     <Dropdown positionX="right">
       <Row>
@@ -34,7 +34,7 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Dropdown.Item icon={ModuleItemIcons.Quiz} link={routes.addQuiz.withParams(params)}>
           Quiz
         </Dropdown.Item>
-        {/*<Dropdown.Item icon={ModuleItemIcons['Discussion Forum']}>Discussion Forum</Dropdown.Item>*/}
+        {/*<Dropdown.Item icon={ModuleItemIcons['Discussion Conference']}>Discussion Conference</Dropdown.Item>*/}
         {/*<Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>*/}
       </Dropdown.Menu>
     </Dropdown>

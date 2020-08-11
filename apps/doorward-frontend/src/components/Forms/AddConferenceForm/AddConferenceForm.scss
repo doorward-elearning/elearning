@@ -1,0 +1,21 @@
+.add-conference-form {
+  display: grid;
+
+  .conference-module {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: var(--padding);
+    align-items: center;
+  }
+
+  .add-module {
+    margin-top: var(--padding);
+  }
+
+  .conference-modules {
+    > p {
+      margin: 0;
+      color: var(--text-secondary);
+    }
+  }
+}

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useAction from '@doorward/ui/hooks/useActions';
 import './ChooseMemberForm.scss';
-import { fetchMembersNotRegisteredAction, registerMembers } from '../../../reducers/forums/actions';
+import { fetchMembersNotRegisteredAction, registerMembers } from '../../../reducers/conferences/actions';
 import Tools from '@doorward/common/utils/Tools';
 import { Member } from '@doorward/common/models/Member';
 import ChooseItemsForm from '../ChooseItemsForm';
@@ -19,19 +19,19 @@ import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import WebComponent from '@doorward/ui/components/WebComponent';
 
 const ChooseMemberForm: React.FunctionComponent<ChooseMemberFormProps> = props => {
-  const memberList = useSelector((state: State) => state.forums.notRegistered);
+  const memberList = useSelector((state: State) => state.conferences.notRegistered);
   const groupList = useSelector((state: State) => state.groups.groupList);
   const fetchMembers = useAction(fetchMembersNotRegisteredAction);
   const fetchGroups = useAction(fetchGroupsAction);
-  const { forumId } = props;
+  const { conferenceId } = props;
 
   useEffect(() => {
-    fetchMembers(forumId, { search: props.search });
+    fetchMembers(conferenceId, { search: props.search });
     fetchGroups({ type: Groups.MEMBER, search: props.search });
   }, [props.search]);
 
   const onSuccess = () => {
-    fetchMembers(forumId);
+    fetchMembers(conferenceId);
     if (props.groupForm.formikProps) {
       props.groupForm.formikProps.resetForm();
     }
@@ -41,7 +41,7 @@ const ChooseMemberForm: React.FunctionComponent<ChooseMemberFormProps> = props =
     props.onSuccess();
   };
 
-  const state = useSelector((state: State) => state.forums.registerMembers);
+  const state = useSelector((state: State) => state.conferences.registerMembers);
   const createMembersFromGroups = ({ items }) => {
     return items
       .filter(item => item.selected)
@@ -64,7 +64,7 @@ const ChooseMemberForm: React.FunctionComponent<ChooseMemberFormProps> = props =
               onSuccess={onSuccess}
               submitAction={registerMembers}
               createData={values => [
-                forumId,
+                conferenceId,
                 {
                   members: values.items
                     .filter(member => {
@@ -94,7 +94,7 @@ const ChooseMemberForm: React.FunctionComponent<ChooseMemberFormProps> = props =
                 submitAction={registerMembers}
                 onRemoveFilter={props.onClearSearch}
                 hasSearch={!!props.search}
-                createData={values => [forumId, { members: createMembersFromGroups(values) }]}
+                createData={values => [conferenceId, { members: createMembersFromGroups(values) }]}
                 columns={{
                   name: 'Group name',
                   members: 'Members',
@@ -152,7 +152,7 @@ export interface ChooseMemberGroupFormState {
 export interface ChooseMemberFormProps {
   form: UseForm<ChooseMemberFormState>;
   groupForm: UseForm<ChooseMemberGroupFormState>;
-  forumId: string;
+  conferenceId: string;
   onSuccess: () => void;
   onTabChange: (current: number) => void;
   search?: string;

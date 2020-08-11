@@ -1,10 +1,10 @@
 import React, { ReactChild } from 'react';
 import BasicForm from '../BasicForm';
-import { createForumModuleItemAction } from '../../../reducers/forums/actions';
+import { createConferenceModuleItemAction } from '../../../reducers/conferences/actions';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { ForumModuleItemBody } from '../../../services/models/requestBody';
+import { ConferenceModuleItemBody } from '../../../services/models/requestBody';
 import { FormikProps } from 'formik';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItemTypes } from '@doorward/common/models';
@@ -16,10 +16,10 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
     type: props.type,
     ...(props.initialValues || ({} as T)),
   };
-  const state = useSelector((state: State) => state.forums.addModuleItem);
+  const state = useSelector((state: State) => state.conferences.addModuleItem);
   return (
     <BasicForm
-      submitAction={createForumModuleItemAction}
+      submitAction={createConferenceModuleItemAction}
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       initialValues={initialValues}
@@ -35,7 +35,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
   );
 }
 
-export interface AddModuleItemFormState extends ForumModuleItemBody {
+export interface AddModuleItemFormState extends ConferenceModuleItemBody {
   [name: string]: any;
 }
 
@@ -45,7 +45,7 @@ export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   type: ModuleItemTypes;
   form: UseForm<T>;
   item: Module;
-  initialValues?: Omit<T, keyof ForumModuleItemBody>;
+  initialValues?: Omit<T, keyof ConferenceModuleItemBody>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;
   children: Array<ReactChild> | ReactChild | ((formikProps: FormikProps<T>) => JSX.Element);

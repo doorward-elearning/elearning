@@ -992,23 +992,23 @@ h1, h2, h3, h4, h5,
   color: #343a40;
   font-size: 1rem; }
 
-.forums-title {
+.conferences-title {
   padding-bottom: 13rem;
   background: #7971ea; }
-  .forums-title .section-title {
+  .conferences-title .section-title {
     color: #fff; }
 
-.forums-entry-wrap {
+.conferences-entry-wrap {
   margin-top: -282px; }
   @media (max-width: 1199.98px) {
-    .forums-entry-wrap {
+    .conferences-entry-wrap {
       margin-top: -246px; } }
 
 .nonloop-block-14 .owl-stage {
   padding-top: 5rem;
   padding-bottom: 5rem; }
 
-.forum {
+.conference {
   -webkit-box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.3);
   box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.3);
   -webkit-transition: .3s all ease-in-out;
@@ -1016,10 +1016,10 @@ h1, h2, h3, h4, h5,
   transition: .3s all ease-in-out;
   top: 0;
   position: relative; }
-  .forum .forum-inner-text {
+  .conference .conference-inner-text {
     position: relative;
     padding-top: 35px !important; }
-  .forum .forum-price {
+  .conference .conference-price {
     position: absolute;
     padding: 10px 15px;
     background: #7971ea;
@@ -1028,18 +1028,18 @@ h1, h2, h3, h4, h5,
     right: 0;
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px; }
-  .forum .meta {
+  .conference .meta {
     font-size: .9rem;
     display: block;
     margin-bottom: .9rem; }
-    .forum .meta span {
+    .conference .meta span {
       margin-right: .5rem; }
-  .forum h3 {
+  .conference h3 {
     font-size: 1.15rem;
     color: #000; }
-  .forum .stats {
+  .conference .stats {
     font-size: .9rem; }
-  .forum:hover {
+  .conference:hover {
     top: -10px;
     -webkit-box-shadow: 0 2px 22px -1px rgba(0, 0, 0, 0.3);
     box-shadow: 0 2px 22px -1px rgba(0, 0, 0, 0.3); }
@@ -1076,9 +1076,9 @@ h1, h2, h3, h4, h5,
   .moderator .position {
     color: #adb5bd; }
 
-.forum-instructor {
+.conference-instructor {
   padding: 30px; }
-  .forum-instructor p {
+  .conference-instructor p {
     font-size: 1rem; }
 
 .comment-form-wrap {

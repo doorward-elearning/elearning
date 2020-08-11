@@ -3,7 +3,7 @@ import { Options, Sequelize } from 'sequelize';
 import Tools from '@doorward/common/utils/Tools';
 import { ReturnValue } from '@doorward/common/types';
 import Answer from '@doorward/common/models/Answer';
-import Forum from '@doorward/common/models/Forum';
+import Conference from '@doorward/common/models/Conference';
 import Meeting from '@doorward/common/models/Meeting';
 import MeetingRoom from '@doorward/common/models/MeetingRoom';
 import ModuleItem from '@doorward/common/models/ModuleItem';
@@ -15,12 +15,12 @@ import User from '@doorward/common/models/User';
 import UserRole from '@doorward/common/models/UserRole';
 import PasswordResets from '@doorward/common/models/PasswordResets';
 import Question from '@doorward/common/models/Question';
-import MemberForum from '@doorward/common/models/MemberForum';
+import MemberConference from '@doorward/common/models/MemberConference';
 import MeetingRoomMember from '@doorward/common/models/MeetingRoomMember';
 import Module from '@doorward/common/models/Module';
 import File from '@doorward/common/models/File';
 import AssignmentSubmission from '@doorward/common/models/AssignmentSubmission';
-import ForumManager from '@doorward/common/models/ForumManager';
+import ConferenceManager from '@doorward/common/models/ConferenceManager';
 import { ModelCreator } from '../../types';
 import OrganizationUtils from '../../utils/OrganizationUtils';
 import School from '@doorward/common/models/School';
@@ -28,7 +28,7 @@ import ClassRoom from '@doorward/common/models/Classroom';
 
 const modelNames = {
   Answer,
-  Forum,
+  Conference,
   Meeting,
   MeetingRoom,
   MeetingRoomMember,
@@ -38,7 +38,7 @@ const modelNames = {
   PasswordResets,
   Question,
   Role,
-  MemberForum,
+  MemberConference,
   User,
   UserRole,
   Group,
@@ -47,7 +47,7 @@ const modelNames = {
   AssignmentSubmission,
   School,
   ClassRoom,
-  ForumManager,
+  ConferenceManager,
 };
 
 const env = process.env.NODE_ENV || 'development';

@@ -12,9 +12,9 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       icon: 'dashboard',
     },
     {
-      ...routes.forums,
+      ...routes.conferences,
       icon: 'school',
-      subMenu: [routes.forumList],
+      subMenu: [routes.conferenceList],
     },
     {
       ...routes.members,

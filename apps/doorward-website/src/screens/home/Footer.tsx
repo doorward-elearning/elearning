@@ -31,7 +31,7 @@ const Footer: React.FunctionComponent<FooterProps> = (props): JSX.Element => {
                 <a href="#">Home</a>
               </li>
               <li>
-                <a href="#">Forums</a>
+                <a href="#">Conferences</a>
               </li>
               <li>
                 <a href="#">Programs</a>

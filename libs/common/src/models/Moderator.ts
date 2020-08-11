@@ -1,6 +1,6 @@
 import { User } from '@doorward/common/models/User';
-import { Forum } from '@doorward/common/models/Forum';
+import { Conference } from '@doorward/common/models/Conference';
 
 export interface Moderator extends User {
-  authoredForums: Array<Forum>;
+  authoredConferences: Array<Conference>;
 }

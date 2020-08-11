@@ -2,14 +2,14 @@ import { Association, DataTypes, Model, Sequelize } from 'sequelize';
 import { Group } from './Group';
 import { PasswordResets } from './PasswordResets';
 import { GroupMember } from './GroupMember';
-import { MemberForum } from './MemberForum';
-import { Forum } from '@doorward/common/models/Forum';
+import { MemberConference } from './MemberConference';
+import { Conference } from '@doorward/common/models/Conference';
 import { UserRole } from '@doorward/common/models/UserRole';
 import { DBModel } from '@doorward/common/models/DBModel';
 import { Organization } from '@doorward/common/models/Organization';
 import { Role } from '@doorward/common/models/Role';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
-import { ForumManager } from './ForumManager';
+import { ConferenceManager } from './ConferenceManager';
 const sequelizePaginate = require('sequelize-paginate');
 
 export class User extends Model implements DBModel {
@@ -118,14 +118,14 @@ export default (sequelize: Sequelize) => {
       foreignKey: 'organizationId',
       as: 'organization',
     });
-    User.hasMany(Forum, {
+    User.hasMany(Conference, {
       foreignKey: 'createdBy',
-      as: 'authoredForums',
+      as: 'authoredConferences',
     });
-    User.belongsToMany(Forum, {
+    User.belongsToMany(Conference, {
       foreignKey: 'memberId',
-      as: 'forums',
-      through: MemberForum,
+      as: 'conferences',
+      through: MemberConference,
     });
     User.hasMany(PasswordResets, {
       foreignKey: 'userId',
@@ -136,11 +136,11 @@ export default (sequelize: Sequelize) => {
       as: 'groups',
       through: GroupMember,
     });
-    User.belongsToMany(Forum, {
+    User.belongsToMany(Conference, {
       foreignKey: 'managerId',
-      as: 'managedForums',
-      through: ForumManager,
-      otherKey: 'forumId',
+      as: 'managedConferences',
+      through: ConferenceManager,
+      otherKey: 'conferenceId',
     });
 
     sequelizePaginate.paginate(User);

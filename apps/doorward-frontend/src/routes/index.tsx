@@ -1,10 +1,10 @@
 import Error404 from '../screens/ErrorPages/Error404';
-import ViewForum from '../screens/Forums/ViewForum';
+import ViewConference from '../screens/Conferences/ViewConference';
 import Dashboard from '../screens/Dashboard';
-import Forums from '../screens/Forums';
-import AddModulePage from '../screens/Forums/Modules/AddModulePage';
-import ViewModuleItem from '../screens/Forums/Modules/ViewModuleItem';
-import ForumMemberList from '../screens/Forums/ForumMemberList';
+import Conferences from '../screens/Conferences';
+import AddModulePage from '../screens/Conferences/Modules/AddModulePage';
+import ViewModuleItem from '../screens/Conferences/Modules/ViewModuleItem';
+import ConferenceMemberList from '../screens/Conferences/ConferenceMemberList';
 import ModeratorList from '../screens/Moderators/ModeratorList';
 import MemberReport from '../screens/Reports/MemberReport';
 import CreatePassword from '../screens/Password/CreatePassword';
@@ -12,16 +12,16 @@ import Home from '../screens/Home';
 import AddModerator from '../screens/Moderators/AddModerator';
 import VideoCallPage from '../screens/VideoCallPage';
 import MemberList from '../screens/Members/MemberList';
-import AddForumMember from '../screens/Members/AddForumMember';
+import AddConferenceMember from '../screens/Members/AddConferenceMember';
 import ModeratorReport from '../screens/Reports/ModeratorReport';
 import MemberListReport from '../screens/Reports/MemberListReport';
 import Login from '../screens/Login';
 import ForgotPassword from '../screens/Password/ForgotPassword';
 import ModeratorListReport from '../screens/Reports/ModeratorListReport';
 import Register from '../screens/Register';
-import CreateAssignment from '../screens/Forums/Modules/CreateAssignment';
+import CreateAssignment from '../screens/Conferences/Modules/CreateAssignment';
 import AddMember from '../screens/Members/AddMember';
-import CreateQuiz from '../screens/Forums/Modules/CreateQuiz';
+import CreateQuiz from '../screens/Conferences/Modules/CreateQuiz';
 import Profile from '../screens/Profile';
 import MRoute from '@doorward/ui/routes/MRoute';
 import { Routes } from '@doorward/ui/types';
@@ -36,7 +36,7 @@ import CreateOrganization from '../screens/Organizations/CreateOrganization';
 import EditOrganization from '../screens/Organizations/EditOrganization';
 import ChatScreen from '../screens/ChatScreen';
 import { routeNames } from './routeNames';
-import AssignmentsList from '../screens/Forums/Modules/AssignmentsList';
+import AssignmentsList from '../screens/Conferences/Modules/AssignmentsList';
 import Classrooms from '../screens/Classrooms';
 import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
 import ViewMember from '../screens/Members/ViewMember';
@@ -58,11 +58,11 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         schoolClassrooms: new Route('/:schoolId', SchoolClassrooms).public(),
       }),
       dashboard: new Route('/dashboard', Dashboard).with({
-        forums: new Route('/meetings').with({
-          forumList: new Route('/', Forums).with({
-            viewForum: new Route('/:forumId', ViewForum).with({
-              forumMembers: new Route('/members', ForumMemberList).with({
-                addForumMember: new Route('/new', AddForumMember),
+        conferences: new Route('/meetings').with({
+          conferenceList: new Route('/', Conferences).with({
+            viewConference: new Route('/:conferenceId', ViewConference).with({
+              conferenceMembers: new Route('/members', ConferenceMemberList).with({
+                addConferenceMember: new Route('/new', AddConferenceMember),
               }),
               modules: new Route('/modules').with({
                 moduleItems: new Route('/:moduleId/items').with({
@@ -76,7 +76,7 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
               }),
             }),
           }),
-          createForum: new Route('/create', Forums),
+          createConference: new Route('/create', Conferences),
         }),
         members: new Route('/members').roles(Roles.MODERATOR).with({
           memberList: new Route('/', MemberList).roles(Roles.MODERATOR).with({
@@ -95,7 +95,7 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           memberListReports: new Route('/members', MemberListReport).with({
             memberReport: new Route('/:memberId', MemberReport),
           }),
-          forumListReports: new Route('/meetings', Error404),
+          conferenceListReports: new Route('/meetings', Error404),
           moderatorListReports: new Route('/moderators', ModeratorListReport).roles().with({
             moderatorReport: new Route('/:moderatorId', ModeratorReport),
           }),

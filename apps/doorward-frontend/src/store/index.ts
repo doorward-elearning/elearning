@@ -1,6 +1,6 @@
 import createReduxStore from '@doorward/ui/store/createReduxStore';
 import login from '../reducers/login';
-import forums from '../reducers/forums';
+import conferences from '../reducers/conferences';
 import members from '../reducers/members';
 import users from '../reducers/users';
 import reports from '../reducers/reports';
@@ -14,7 +14,7 @@ import suggestions from '../reducers/suggestions';
 
 const store = createReduxStore({
   login,
-  forums,
+  conferences,
   members,
   users,
   reports,
