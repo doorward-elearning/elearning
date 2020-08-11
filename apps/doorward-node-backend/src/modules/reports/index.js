@@ -8,7 +8,7 @@ const Router = new MRouter('/reports', Authorization.authenticate);
 
 Router.get('/members', ReportsController.membersReport);
 
-Router.get('/teachers', ReportsController.teachersReport);
+Router.get('/moderators', ReportsController.moderatorsReport);
 
 Router.get(
   '/members/:memberId',
@@ -17,9 +17,9 @@ Router.get(
 );
 
 Router.get(
-  '/teachers/:teacherId',
-  BaseValidator.findModelOrThrow('teacherId', models.User, 'The teacher does not exist.'),
-  ReportsController.teacherReport
+  '/moderators/:moderatorId',
+  BaseValidator.findModelOrThrow('moderatorId', models.User, 'The moderator does not exist.'),
+  ReportsController.moderatorReport
 );
 
 export default Router;

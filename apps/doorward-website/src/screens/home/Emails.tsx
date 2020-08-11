@@ -8,7 +8,7 @@ const Emails: React.FunctionComponent<EmailsProps> = (props): JSX.Element => {
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">Email ID Services member@institute.com</h2>
             <p>
-              Every Staff, Teacher, and Member gets a Personnel email ID.
+              Every Staff, Moderator, and Member gets a Personnel email ID.
             </p>
           </div>
         </div>

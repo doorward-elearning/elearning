@@ -1064,16 +1064,16 @@ h1, h2, h3, h4, h5,
     left: -10rem;
     position: absolute; }
 
-.teacher {
+.moderator {
   border: 1px solid #e9ecef;
   padding: 30px;
   margin-bottom: 5rem; }
-  .teacher img {
+  .moderator img {
     position: relative;
     margin-top: -100px; }
-  .teacher h3 {
+  .moderator h3 {
     font-size: 1.2rem; }
-  .teacher .position {
+  .moderator .position {
     color: #adb5bd; }
 
 .course-instructor {

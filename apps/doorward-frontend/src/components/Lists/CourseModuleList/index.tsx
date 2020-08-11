@@ -44,7 +44,7 @@ import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModa
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
-  const hasRole = useRoleManager([Roles.TEACHER]);
+  const hasRole = useRoleManager([Roles.MODERATOR]);
   return (
     <DragAndDropListItem isDragDisabled={!hasRole} index={index} draggableId={moduleItem.id}>
       <ListItem>
@@ -112,13 +112,13 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
             state={updateModule}
             createData={values => [module.id, values]}
             name="title"
-            roles={[Roles.TEACHER]}
+            roles={[Roles.MODERATOR]}
             value={module.title}
             component={<Header size={3} />}
           />
         )}
         action={(): JSX.Element => (
-          <RoleContainer roles={[Roles.TEACHER]}>
+          <RoleContainer roles={[Roles.MODERATOR]}>
             <Row>
               <AddModuleItemDropdown module={module} />
               <Icon onClick={onDelete} icon="delete" />
@@ -136,7 +136,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useSelector((state: State) => state.courses.updateModule);
   const action = useAction(reorderCourseModules);
-  const hasRole = useRoleManager([Roles.TEACHER]);
+  const hasRole = useRoleManager([Roles.MODERATOR]);
   const [handleDrop] = useModuleDrop(course.id, action);
   const state = useSelector((state: State) => state.courses.deleteModule);
   const deleteModuleModal = useModal();

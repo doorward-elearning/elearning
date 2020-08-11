@@ -52,7 +52,7 @@
                 <li><a href="#home-section" class="nav-link">Home</a></li>
                 <li><a href="#trainer-section" class="nav-link">Individual Trainers</a></li>
                 <li><a href="#corporate-section" class="nav-link">Corporate</a></li>
-                <li><a href="#teachers-section" class="nav-link">About</a></li>
+                <li><a href="#moderators-section" class="nav-link">About</a></li>
                 <li><a href="pricing.html" class="nav-link">Pricing</a></li>
               </ul>
             </nav>
@@ -80,7 +80,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 mb-4">
                   <h1  data-aos="fade-up" data-aos-delay="100">Everything You Need For Teaching and Learning</h1>
-                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for teachers to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
+                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for moderators to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
                   <p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary py-3 px-5 btn-pill">Login Now</a></p>
 
                 </div>
@@ -88,7 +88,7 @@
                 <div class="col-lg-5 ml-auto" data-aos="fade-up" data-aos-delay="500">
                   <form action="" method="post" class="form-box">
                     <h2 style="color:#cc33ff;">One-Click FREE Trial</h2>
-                    <h4 class="mb-4"><br>14 days free trial for Teachers <br> No credit cards required<br></h4>
+                    <h4 class="mb-4"><br>14 days free trial for Moderators <br> No credit cards required<br></h4>
                     <div class="form-group">
                       <input type="text" class="form-control" placeholder="Email Addresss">
                     </div>
@@ -207,13 +207,13 @@
       </div>
     </div>
 
-    <div class="site-section" id="teachers-section">
+    <div class="site-section" id="moderators-section">
       <div class="container">
 
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 mb-5 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">About US</h2>
-            <p class="mb-5">Doorward is a platform for teachers to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
+            <p class="mb-5">Doorward is a platform for moderators to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
             <p class="mb-5"><br><br>OUR TEAM</p>
           </div>
         </div>
@@ -221,7 +221,7 @@
         <div class="row">
 
           <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="100">
-            <div class="teacher text-center">
+            <div class="moderator text-center">
               <div class="py-2">
                 <h3 class="text-black">Basil Varghese</h3>
                 <p class="position">Managing Director</p>
@@ -230,7 +230,7 @@
           </div>
 
           <div class="col-md-6 col-lg-4 mb-4" data-aos="fade-up" data-aos-delay="200">
-            <div class="teacher text-center">
+            <div class="moderator text-center">
               <div class="py-2">
                 <h3 class="text-black">Susanna K Kurian</h3>
                 <p class="position">Co-Founder</p>
@@ -373,7 +373,7 @@
               <li><a href="#">Home</a></li>
               <li><a href="#">Courses</a></li>
               <li><a href="#">Programs</a></li>
-              <li><a href="#">Teachers</a></li>
+              <li><a href="#">Moderators</a></li>
               <li><a href="tos.html">Terms</a></li>
               <li><a href="pp.html">Privacy Policy</a></li>
             </ul>

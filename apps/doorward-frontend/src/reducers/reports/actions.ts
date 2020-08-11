@@ -19,7 +19,7 @@ export const fetchCourseCreatorReportList = (): Action => ({
   type: FETCH_COURSE_CREATOR_REPORT_LIST,
 });
 
-export const fetchCourseCreatorReport = (teacherId: string): Action => ({
+export const fetchCourseCreatorReport = (moderatorId: string): Action => ({
   type: FETCH_COURSE_CREATOR_REPORT,
-  payload: [teacherId],
+  payload: [moderatorId],
 });

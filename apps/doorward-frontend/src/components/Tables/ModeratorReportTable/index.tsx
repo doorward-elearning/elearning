@@ -3,13 +3,13 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import Table from '@doorward/ui/components/Table';
 import { fetchCourseCreatorReportList } from '../../../reducers/reports/actions';
 import { State } from '../../../store';
-import { Teacher } from '@doorward/common/models/Teacher';
+import { Moderator } from '@doorward/common/models/Moderator';
 
-const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = props => (
+const ModeratorReportTable: React.FunctionComponent<ModeratorReportTableProps> = props => (
   <SimpleWebComponent
     action={fetchCourseCreatorReportList}
-    selector={(state: State) => state.reports.teacherReportList}
-    dataSelector={data => data.teachers}
+    selector={(state: State) => state.reports.moderatorReportList}
+    dataSelector={data => data.moderators}
   >
     {data => (
       <Table
@@ -34,8 +34,8 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = pro
   </SimpleWebComponent>
 );
 
-export interface TeacherReportTableProps {
-  onRowClick: (row: Teacher, index: number) => void;
+export interface ModeratorReportTableProps {
+  onRowClick: (row: Moderator, index: number) => void;
 }
 
-export default TeacherReportTable;
+export default ModeratorReportTable;

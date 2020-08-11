@@ -12,7 +12,7 @@ const defaultRoles = organizationId => [
   },
   {
     id: generateId(),
-    name: roles.TEACHER,
+    name: roles.MODERATOR,
     description: 'A user who can manage courses, modules and other resources',
     organizationId,
     createdAt: new Date(),

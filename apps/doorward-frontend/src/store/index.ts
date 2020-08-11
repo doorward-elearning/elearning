@@ -6,7 +6,7 @@ import users from '../reducers/users';
 import reports from '../reducers/reports';
 import videoCall from '../reducers/videoCall';
 import socket from '../reducers/socket';
-import teachers from '../reducers/teachers';
+import moderators from '../reducers/moderators';
 import groups from '../reducers/groups';
 import organizations from '../reducers/organizations';
 import schools from '../reducers/schools';
@@ -20,7 +20,7 @@ const store = createReduxStore({
   reports,
   videoCall,
   socket,
-  teachers,
+  moderators,
   groups,
   organizations,
   schools,

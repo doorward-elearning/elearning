@@ -9,8 +9,8 @@ class ReportsController {
     return [200, { members }];
   }
 
-  static async teachersReport() {
-    const teachers = await UserController.findByRole(roles.TEACHER, {
+  static async moderatorsReport() {
+    const moderators = await UserController.findByRole(roles.MODERATOR, {
       include: [
         {
           model: models.Course,
@@ -19,13 +19,13 @@ class ReportsController {
       ],
     });
 
-    return [200, { teachers }];
+    return [200, { moderators }];
   }
 
-  static async teacherReport(req) {
-    const teacher = await models.User.findOne({
+  static async moderatorReport(req) {
+    const moderator = await models.User.findOne({
       where: {
-        id: req.params.teacherId,
+        id: req.params.moderatorId,
       },
       include: [
         {
@@ -35,7 +35,7 @@ class ReportsController {
       ],
     });
 
-    return [200, { teacher }];
+    return [200, { moderator }];
   }
 
   static async memberReport(req) {

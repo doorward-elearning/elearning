@@ -17,21 +17,21 @@ const singleMember = reducerApiAction({
   api: Api.reports.members.get
 });
 
-const teacherReportList = reducerApiAction({
+const moderatorReportList = reducerApiAction({
   action: FETCH_COURSE_CREATOR_REPORT_LIST,
-  api: Api.reports.teachers.list
+  api: Api.reports.moderators.list
 });
 
-const singleTeacher = reducerApiAction({
+const singleModerator = reducerApiAction({
   action: FETCH_COURSE_CREATOR_REPORT,
-  api: Api.reports.teachers.get
+  api: Api.reports.moderators.get
 });
 
 export default reducerBuilder({
   middleware: {
     memberReportList,
     singleMember,
-    teacherReportList,
-    singleTeacher
+    moderatorReportList,
+    singleModerator
   }
 });
