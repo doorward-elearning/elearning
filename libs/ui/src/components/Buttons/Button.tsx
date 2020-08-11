@@ -13,7 +13,7 @@ const Button: React.FunctionComponent<ButtonProps> = ({
   onClick = (): void => {},
   flat = false,
   theme = 'primary',
-  type = 'button',
+  type,
   fab = false,
   mini,
   rounded,

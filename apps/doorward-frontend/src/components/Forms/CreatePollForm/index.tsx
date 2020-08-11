@@ -27,6 +27,7 @@ const PollChoices: React.FunctionComponent<PollChoicesProps> = ({ arrayHelpers, 
       })}
       <div>
         <Button
+          type="button"
           onClick={() => {
             arrayHelpers.push('');
           }}

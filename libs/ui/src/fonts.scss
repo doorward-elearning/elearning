@@ -22,3 +22,26 @@
   font-weight: bold;
 }
 
+@font-face {
+  src: url('../assets/fonts/graphik/GraphikLight.woff2') format('woff2');
+  font-family: 'Graphik';
+  font-weight: 300;
+}
+
+@font-face {
+  src: url('../assets/fonts/graphik/GraphikRegular.woff2') format('woff2');
+  font-family: 'Graphik';
+  font-weight: normal;
+}
+
+@font-face {
+  src: url('../assets/fonts/graphik/GraphikRegular.woff2') format('woff2');
+  font-family: 'Graphik';
+  font-weight: 500;
+}
+
+@font-face {
+  src: url('../assets/fonts/graphik/GraphikMedium.woff2') format('woff2');
+  font-family: 'Graphik';
+  font-weight: bold;
+}
