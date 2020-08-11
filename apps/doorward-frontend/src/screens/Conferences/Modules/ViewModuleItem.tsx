@@ -80,7 +80,6 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
         LayoutFeatures.BACK_BUTTON,
         LayoutFeatures.ACTION_BUTTON,
       ]}
-      noNavBar
       actionBtnProps={{
         icon: 'edit',
         text: item ? `Edit ${item?.type}` : '',
