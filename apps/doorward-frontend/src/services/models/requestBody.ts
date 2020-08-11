@@ -12,14 +12,14 @@ export interface RegistrationBody extends LoginBody {
   email: string;
 }
 
-export type CourseModuleBody = {
+export type ForumModuleBody = {
   title: string;
 };
 
-export type CreateCourseBody = {
+export type CreateForumBody = {
   title: string;
   description: string;
-  modules: Array<CourseModuleBody>;
+  modules: Array<ForumModuleBody>;
 };
 
 export interface CreateMemberBody {
@@ -33,7 +33,7 @@ export interface CreateMemberBody {
 
 export interface CreateModeratorBody extends CreateMemberBody {}
 
-export interface CourseModuleItemBody {
+export interface ForumModuleItemBody {
   type: ModuleItemTypes;
   content: any;
   title: string;
@@ -97,7 +97,7 @@ export interface CreateClassroomBody {
   name: string;
 }
 
-export interface CreateCourseManagerBody {
+export interface CreateForumManagerBody {
   managerId: string;
 }
 

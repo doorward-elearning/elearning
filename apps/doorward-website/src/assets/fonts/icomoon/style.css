@@ -80,7 +80,7 @@
               <div class="row align-items-center">
                 <div class="col-lg-6 mb-4">
                   <h1  data-aos="fade-up" data-aos-delay="100">Everything You Need For Teaching and Learning</h1>
-                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for moderators to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
+                  <p class="mb-4"  data-aos="fade-up" data-aos-delay="200">Doorward is a platform for moderators to create and run forums, Instantly collaborate with members, Collect feedbacks, share forum materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging..</p>
                   <p data-aos="fade-up" data-aos-delay="300"><a href="#" class="btn btn-primary py-3 px-5 btn-pill">Login Now</a></p>
 
                 </div>
@@ -117,7 +117,7 @@
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">Solutions for Trainers</h2>
-            <p>Our Individual Trainer platform allow you to create live courses and self paced trainings, collect real time automated feedbacks, Interact easily with members, and many more. Save your time by leaving your repeated jobs to our platform!</p>
+            <p>Our Individual Trainer platform allow you to create live forums and self paced trainings, collect real time automated feedbacks, Interact easily with members, and many more. Save your time by leaving your repeated jobs to our platform!</p>
           </div>
         </div>
         <div class="row mb-5 align-items-center">
@@ -132,7 +132,7 @@
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Create Self-paced courses</h3></div>
+              <div><h3 class="m-0">Create Self-paced forums</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
@@ -167,7 +167,7 @@
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">Solutions for Corporates</h2>
-            <p>Our platform allow you to conduct your Employee training such as Skills Development, Onboarding elegantly. A highly interactive learning portal that allow your Employee to take self paced courses and webconferences!</p>
+            <p>Our platform allow you to conduct your Employee training such as Skills Development, Onboarding elegantly. A highly interactive learning portal that allow your Employee to take self paced forums and webconferences!</p>
           </div>
         </div>
         <div class="row mb-5 align-items-center">
@@ -179,7 +179,7 @@
 
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Self paced courses for Employee Training</h3></div>
+              <div><h3 class="m-0">Self paced forums for Employee Training</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
@@ -195,7 +195,7 @@
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
-              <div><h3 class="m-0">Course and Instructor Measurements</h3></div>
+              <div><h3 class="m-0">Forum and Instructor Measurements</h3></div>
             </div>
                         <div class="d-flex align-items-center custom-icon-wrap mb-3">
               <span><span class="icon icon-graduation-cap"></span></span>
@@ -213,7 +213,7 @@
         <div class="row mb-5 justify-content-center">
           <div class="col-lg-7 mb-5 text-center"  data-aos="fade-up" data-aos-delay="">
             <h2 class="section-title">About US</h2>
-            <p class="mb-5">Doorward is a platform for moderators to create and run courses, Instantly collaborate with members, Collect feedbacks, share course materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
+            <p class="mb-5">Doorward is a platform for moderators to create and run forums, Instantly collaborate with members, Collect feedbacks, share forum materials, Conduct and track assessment, live virtual classroom, and many more features that makes learning engaging. <br><br> We serve LMS platform to Individual Trainers, Corporates, Schools and any educational institutes across the world. We aim to make Education and Learning, a better experience.</p>
             <p class="mb-5"><br><br>OUR TEAM</p>
           </div>
         </div>
@@ -284,7 +284,7 @@
 
               <div class="d-flex align-items-center custom-icon-wrap custom-icon-light mb-3">
                 <div class="mr-3"><span class="custom-icon-inner"><span class="icon icon-graduation-cap"></span></span></div>
-                <div><h3 class="m-0">Course creation assistance</h3></div>
+                <div><h3 class="m-0">Forum creation assistance</h3></div>
               </div>
 
               <div class="d-flex align-items-center custom-icon-wrap custom-icon-light">
@@ -371,7 +371,7 @@
             <h3>Links</h3>
             <ul class="list-unstyled footer-links">
               <li><a href="#">Home</a></li>
-              <li><a href="#">Courses</a></li>
+              <li><a href="#">Forums</a></li>
               <li><a href="#">Programs</a></li>
               <li><a href="#">Moderators</a></li>
               <li><a href="tos.html">Terms</a></li>

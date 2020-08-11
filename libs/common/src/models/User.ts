@@ -2,14 +2,14 @@ import { Association, DataTypes, Model, Sequelize } from 'sequelize';
 import { Group } from './Group';
 import { PasswordResets } from './PasswordResets';
 import { GroupMember } from './GroupMember';
-import { MemberCourse } from './MemberCourse';
-import { Course } from '@doorward/common/models/Course';
+import { MemberForum } from './MemberForum';
+import { Forum } from '@doorward/common/models/Forum';
 import { UserRole } from '@doorward/common/models/UserRole';
 import { DBModel } from '@doorward/common/models/DBModel';
 import { Organization } from '@doorward/common/models/Organization';
 import { Role } from '@doorward/common/models/Role';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
-import { CourseManager } from './CourseManager';
+import { ForumManager } from './ForumManager';
 const sequelizePaginate = require('sequelize-paginate');
 
 export class User extends Model implements DBModel {
@@ -118,14 +118,14 @@ export default (sequelize: Sequelize) => {
       foreignKey: 'organizationId',
       as: 'organization',
     });
-    User.hasMany(Course, {
+    User.hasMany(Forum, {
       foreignKey: 'createdBy',
-      as: 'authoredCourses',
+      as: 'authoredForums',
     });
-    User.belongsToMany(Course, {
+    User.belongsToMany(Forum, {
       foreignKey: 'memberId',
-      as: 'courses',
-      through: MemberCourse,
+      as: 'forums',
+      through: MemberForum,
     });
     User.hasMany(PasswordResets, {
       foreignKey: 'userId',
@@ -136,11 +136,11 @@ export default (sequelize: Sequelize) => {
       as: 'groups',
       through: GroupMember,
     });
-    User.belongsToMany(Course, {
+    User.belongsToMany(Forum, {
       foreignKey: 'managerId',
-      as: 'managedCourses',
-      through: CourseManager,
-      otherKey: 'courseId',
+      as: 'managedForums',
+      through: ForumManager,
+      otherKey: 'forumId',
     });
 
     sequelizePaginate.paginate(User);

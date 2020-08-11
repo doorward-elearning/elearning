@@ -2,7 +2,7 @@ import { DBModel } from '@doorward/common/models/DBModel';
 import { Meeting } from '@doorward/common/models/Meeting';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
-import { Course } from './Course';
+import { Forum } from './Forum';
 
 export class MeetingRoom extends Model implements DBModel {
   public id: string;
@@ -34,8 +34,8 @@ export default (sequelize: Sequelize) => {
   );
 
   return () => {
-    MeetingRoom.hasOne(Course, {
-      as: 'course',
+    MeetingRoom.hasOne(Forum, {
+      as: 'forum',
       foreignKey: 'meetingRoomId',
     });
     MeetingRoom.hasOne(Meeting, {

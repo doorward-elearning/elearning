@@ -1,0 +1,19 @@
+.forum-module-list {
+
+  .module-list {
+    display: grid;
+    grid-gap: var(--padding);
+    h3 {
+      padding: var(--padding-lg) 0;
+    }
+  }
+
+  .forum-module-item:not(.assignment) {
+    color: var(--text-primary);
+  }
+
+  .forum-module-item {
+    &.assignment {
+    }
+  }
+}

@@ -21,7 +21,7 @@ const QuizView: React.FunctionComponent<QuizViewProps> = props => {
     ),
   };
   const form = useForm();
-  const state = useSelector((state: State) => state.courses.addModuleItem);
+  const state = useSelector((state: State) => state.forums.addModuleItem);
   return (
     <QuizContext.Provider value={{ quiz: props.quiz }}>
       <BasicForm

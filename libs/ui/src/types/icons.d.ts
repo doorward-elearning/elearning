@@ -371,7 +371,7 @@ export type Icons =
   | 'gesture'
   | 'get_app'
   | 'gif'
-  | 'golf_course'
+  | 'golf_forum'
   | 'gps_fixed'
   | 'gps_not_fixed'
   | 'gps_off'

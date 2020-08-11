@@ -3,9 +3,9 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { fetchMemberReport } from '../../reducers/reports/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import CoursesInProgressTable from '../../components/Tables/CoursesInProgressTable';
+import ForumsInProgressTable from '../../components/Tables/ForumsInProgressTable';
 import './MemberReport.scss';
-import { fetchCoursesAction } from '../../reducers/courses/actions';
+import { fetchForumsAction } from '../../reducers/forums/actions';
 import useRoutes from '../../hooks/useRoutes';
 import Panel from '@doorward/ui/components/Panel';
 import WebComponent from '@doorward/ui/components/WebComponent';
@@ -20,29 +20,29 @@ import Badge from '@doorward/ui/components/Badge';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 
-const data = [['Course', 'Marks']];
+const data = [['Forum', 'Marks']];
 const MemberReport: React.FunctionComponent<MemberReportProps> = props => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
   const state = useSelector((state: State) => state.reports.singleMember);
-  const courses = useSelector((state: State) => state.courses.courseList.data?.courses);
+  const forums = useSelector((state: State) => state.forums.forumList.data?.forums);
   const routes = useRoutes();
 
   usePageResource('memberId', fetchMemberReport);
-  const fetchCourses = useAction(fetchCoursesAction);
+  const fetchForums = useAction(fetchForumsAction);
   useBreadCrumbTitle(state, state => state.data.member?.fullName, routes);
 
   useEffect(() => {
-    if (courses) {
+    if (forums) {
       const newGrades: Array<[string, number]> = [
-        ...Tools.truncate(courses, 10).map((course): [string, number] => [course.title, Tools.randomInt(20, 100)]),
+        ...Tools.truncate(forums, 10).map((forum): [string, number] => [forum.title, Tools.randomInt(20, 100)]),
       ];
       setGrades(newGrades);
     }
-  }, [courses]);
+  }, [forums]);
 
   useEffect(() => {
-    if (!courses) {
-      fetchCourses();
+    if (!forums) {
+      fetchForums();
     }
   }, []);
 
@@ -66,12 +66,12 @@ const MemberReport: React.FunctionComponent<MemberReportProps> = props => {
                 data={[...data, ...grades]}
                 options={{
                   hAxis: {
-                    title: 'Courses',
+                    title: 'Forums',
                   },
                   vAxis: {
                     title: 'Grade',
                   },
-                  title: 'Course Grades',
+                  title: 'Forum Grades',
                 }}
                 width="100%"
                 height="400px"
@@ -79,45 +79,45 @@ const MemberReport: React.FunctionComponent<MemberReportProps> = props => {
             </Panel>
           )}
         </WebComponent>
-        <Row className="courses-information">
+        <Row className="forums-information">
           <Grid columns={1}>
             <Header size={3}>
               <div>
-                Ongoing Courses{' '}
+                Ongoing Forums{' '}
                 <WebComponent data={state.data.member} inline loading={state.fetching} loader={null} empty={null}>
-                  {data => <Badge>{data.coursesInProgress.length}</Badge>}
+                  {data => <Badge>{data.forumsInProgress.length}</Badge>}
                 </WebComponent>
               </div>
             </Header>
             <WebComponent
               icon="school"
-              data={state.data.member?.coursesInProgress}
+              data={state.data.member?.forumsInProgress}
               loading={state.fetching}
-              message="The member does not have any ongoing courses."
+              message="The member does not have any ongoing forums."
               size="medium"
             >
-              {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
+              {(data): JSX.Element => <ForumsInProgressTable forums={data} />}
             </WebComponent>
           </Grid>
           <Grid columns={1}>
             <Row style={{ justifyContent: 'space-between' }}>
               <Header size={3}>
                 <div>
-                  Completed Courses{' '}
+                  Completed Forums{' '}
                   <WebComponent data={state.data.member} inline loading={state.fetching} loader={null} empty={null}>
-                    {(data): JSX.Element => <Badge>{data.coursesInProgress.length}</Badge>}
+                    {(data): JSX.Element => <Badge>{data.forumsInProgress.length}</Badge>}
                   </WebComponent>
                 </div>
               </Header>
             </Row>
             <WebComponent
               icon="school"
-              data={state.data.member?.coursesInProgress}
+              data={state.data.member?.forumsInProgress}
               loading={state.fetching}
-              message="The member has not completed any courses."
+              message="The member has not completed any forums."
               size="medium"
             >
-              {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
+              {(data): JSX.Element => <ForumsInProgressTable forums={data} />}
             </WebComponent>
           </Grid>
         </Row>

@@ -12,10 +12,10 @@ module.exports =  {
       title: {
         type: Sequelize.STRING,
       },
-      courseId: {
+      forumId: {
         type: Sequelize.STRING,
         references: {
-          model: 'Courses',
+          model: 'Forums',
           key: 'id',
         },
         onDelete: 'CASCADE',

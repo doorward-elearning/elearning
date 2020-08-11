@@ -1,20 +1,20 @@
 import { DBModel } from '@doorward/common/models/DBModel';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
-import { Course } from '@doorward/common/models/Course';
+import { Forum } from '@doorward/common/models/Forum';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 export class Module extends Model implements DBModel {
   public id: string;
   public title: string;
   public description?: string;
-  public courseId: string;
+  public forumId: string;
   public order: number;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
   public readonly updatedAt: Date;
 
-  public readonly course: Course;
+  public readonly forum: Forum;
   public  items: Array<ModuleItem>;
 }
 
@@ -37,9 +37,9 @@ export default (sequelize: Sequelize) => {
   );
 
   return () => {
-    Module.belongsTo(Course, {
-      foreignKey: 'courseId',
-      as: 'course',
+    Module.belongsTo(Forum, {
+      foreignKey: 'forumId',
+      as: 'forum',
     });
     Module.hasMany(ModuleItem, {
       foreignKey: 'moduleId',

@@ -1,6 +1,6 @@
 import MRouter from '../utils/router';
 import users from './users';
-import courses from './courses';
+import forums from './forums';
 import reports from './reports';
 import healthCheck from './healthcheck';
 import meetingRooms from './meetings';
@@ -13,7 +13,7 @@ import { Application } from 'express';
 
 const modules = {
   users,
-  courses,
+  forums,
   reports,
   storage,
   healthCheck,

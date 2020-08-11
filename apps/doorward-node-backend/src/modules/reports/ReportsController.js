@@ -13,8 +13,8 @@ class ReportsController {
     const moderators = await UserController.findByRole(roles.MODERATOR, {
       include: [
         {
-          model: models.Course,
-          as: 'authoredCourses',
+          model: models.Forum,
+          as: 'authoredForums',
         },
       ],
     });
@@ -29,8 +29,8 @@ class ReportsController {
       },
       include: [
         {
-          model: models.Course,
-          as: 'authoredCourses',
+          model: models.Forum,
+          as: 'authoredForums',
         },
       ],
     });
@@ -39,14 +39,14 @@ class ReportsController {
   }
 
   static async memberReport(req) {
-    const coursesInProgress = await models.MemberCourse.findAll({
+    const forumsInProgress = await models.MemberForum.findAll({
       where: {
         memberId: req.params.memberId,
       },
       include: [
         {
-          model: models.Course,
-          as: 'course',
+          model: models.Forum,
+          as: 'forum',
         },
       ],
     });
@@ -55,7 +55,7 @@ class ReportsController {
         id: req.params.memberId,
       },
     });
-    member.dataValues.coursesInProgress = coursesInProgress.map(memberCourse => memberCourse.course);
+    member.dataValues.forumsInProgress = forumsInProgress.map(memberForum => memberForum.forum);
     return [200, { member }];
   }
 }

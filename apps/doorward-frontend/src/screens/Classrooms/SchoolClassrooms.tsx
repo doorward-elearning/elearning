@@ -15,7 +15,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import Card from '@doorward/ui/components/Card';
 import Tools from '@doorward/common/utils/Tools';
 import EImage from '@doorward/ui/components/Image';
-import courseImage from '../../assets/images/course.svg';
+import forumImage from '../../assets/images/forum.svg';
 import Header from '@doorward/ui/components/Header';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -72,7 +72,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
                       >
                         <Card.Header image>
                           <div className="card-image" style={{ background: Tools.color(classroom.id) }}>
-                            <EImage src={courseImage} />
+                            <EImage src={forumImage} />
                           </div>
                         </Card.Header>
                         <Card.Body>

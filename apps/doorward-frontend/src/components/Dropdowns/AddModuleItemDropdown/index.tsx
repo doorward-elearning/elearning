@@ -18,7 +18,7 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = props => {
   const { routes } = useRoutes();
   const { module } = props;
-  const params = { courseId: module.courseId, moduleId: module.id };
+  const params = { forumId: module.forumId, moduleId: module.id };
   return (
     <Dropdown positionX="right">
       <Row>

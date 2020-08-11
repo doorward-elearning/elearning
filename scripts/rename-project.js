@@ -8,8 +8,8 @@ const ignored = ['.vscode/', 'dist/', 'node_modules/', '.git/', '.idea/', 'patch
 
 const projectDir = path.join(__dirname, '..');
 
-const INITIAL_PROJECT_NAME = 'teacher';
-const NEW_PROJECT_NAME = 'moderator';
+const INITIAL_PROJECT_NAME = 'course';
+const NEW_PROJECT_NAME = 'forum';
 
 String.prototype.replaceAll = function(search, replacement) {
   return this.toString().replace(new RegExp(search, 'g'), replacement);

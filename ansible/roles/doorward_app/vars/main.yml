@@ -31,7 +31,7 @@ site_administrator:
   linkedin_page:
 
 menu items:
-  - courses
+  - forums
   - reports
   - members
   - departments
@@ -48,7 +48,7 @@ features disabled:
 
 stakeholder_names:
   member: employee, user etc
-  moderator: course creator, trainer, etc
+  moderator: forum creator, trainer, etc
   admin: hr, admin, principal etc
   department: department, unit etc
   division: batch, division etc

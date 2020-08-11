@@ -8,7 +8,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
           <div className="col-lg-7 text-center" data-aos="fade-up" data-aos-delay="">
             <h2 className="section-title">Solutions for Trainers</h2>
             <p>
-              Our Individual Trainer platform allow you to create live courses and self paced trainings, collect real
+              Our Individual Trainer platform allow you to create live forums and self paced trainings, collect real
               time automated feedback, Interact easily with members, and many more. Save your time by leaving your
               repeated jobs to our platform!
             </p>
@@ -33,7 +33,7 @@ const IndividualTrainers: React.FunctionComponent<IndividualTrainersProps> = (pr
                 <span className="icon icon-graduation-cap"/>
               </span>
               <div>
-                <h3 className="m-0">Create Self-paced courses</h3>
+                <h3 className="m-0">Create Self-paced forums</h3>
               </div>
             </div>
             <div className="d-flex align-items-center custom-icon-wrap mb-3">
