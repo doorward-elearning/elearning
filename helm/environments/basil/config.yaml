@@ -70,13 +70,12 @@ image:
 organization:
   # Organization Logo
     logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
-  
+
   # Display Name of Organization
-    name: Doorward E-Learning
-  
+    name: Edudoor
+
   # Application URL
     website: basil.doorward.tech
-  
+
   #Organization Admin Email ID
     email: info@doorward.tech
-  
