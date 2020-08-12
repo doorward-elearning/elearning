@@ -16,7 +16,7 @@ export const searchQuery = (req: express.Request, fields: Array<string>) => {
   // @ts-ignore
   const { query } = req;
 
-  const search = query.search || '';
+  const search = (query.search || '') as string;
 
   const where = fields.reduce((acc, field) => {
     return {
