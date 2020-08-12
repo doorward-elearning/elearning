@@ -23,6 +23,7 @@ import {
   SubmitAssignmentBody,
   UpdateGroupBody,
   UpdateModulesBody,
+  CreatePollBody,
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
@@ -49,6 +50,8 @@ import {
   ModeratorListResponse,
   ModeratorResponse,
   UserResponse,
+  PollResponse,
+  PollsResponse,
 } from './models/responseBody';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
@@ -133,6 +136,14 @@ const Api = {
     },
     delete: (conferenceId: string): Promise<ApiResponse> => {
       return DELETE(`/conferences/${conferenceId}`);
+    },
+    polls: {
+      create: (conferenceId: string, body: CreatePollBody): Promise<PollResponse> => {
+        return POST(`/conferences/${conferenceId}/polls`, body);
+      },
+      list: (conferenceId: string): Promise<PollsResponse> => {
+        return GET(`/conferences/${conferenceId}/polls`);
+      },
     },
     managers: {
       create: (conferenceId: string, body: CreateConferenceManagerBody): Promise<ConferenceManagerBody> => {

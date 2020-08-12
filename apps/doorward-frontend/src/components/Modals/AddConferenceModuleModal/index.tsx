@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import CreatePollForm, { AddModuleFormState } from '../../Forms/CreatePollForm';
+import CreatePollForm, { AddPollFormState } from '../../Forms/CreatePollForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useForm from '@doorward/ui/hooks/useForm';
@@ -8,13 +8,13 @@ import { UseModal } from '@doorward/ui/hooks/useModal';
 import Header from '@doorward/ui/components/Header';
 
 const AddConferencePollModal: React.FunctionComponent<AddConferencePollModalProps> = props => {
-  const form = useForm<AddModuleFormState>();
+  const form = useForm<AddPollFormState>();
   const { formikProps } = form;
 
-  const state = useSelector((state: State) => state.conferences.createModule);
+  const state = useSelector((state: State) => state.conferences.createPoll);
 
   useEffect(() => {
-    if (state.data.module) {
+    if (state.data.poll) {
       props.useModal.closeModal();
     }
   }, [state.data]);

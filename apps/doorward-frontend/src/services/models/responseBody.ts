@@ -15,6 +15,7 @@ import { SearchSuggestion } from '@doorward/common/types/api';
 import { OpenviduUser } from '@doorward/common/types/openvidu';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import { Poll } from '@doorward/common/models/Poll';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -113,4 +114,12 @@ export interface ConferenceManagersBody extends ApiResponse {
 
 export interface SuggestionsResponse extends ApiResponse {
   suggestions: Array<SearchSuggestion>;
+}
+
+export interface PollResponse extends ApiResponse {
+  poll: Poll;
+}
+
+export interface PollsResponse extends ApiResponse {
+  polls: Array<Poll>;
 }

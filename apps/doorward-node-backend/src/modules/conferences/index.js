@@ -3,6 +3,7 @@ import Authorization from '../../middleware/Authorization';
 import modules from './modules';
 import members from './members';
 import managers from './managers';
+import polls from './polls';
 import { validateConferenceExists, validateCreateConference, validateUpdateConference } from './validate';
 import ConferenceController from './ConferenceController';
 
@@ -29,5 +30,7 @@ Router.use('/', modules);
 Router.use('/', members);
 
 Router.use('/', managers);
+
+Router.use('/', polls);
 
 export default Router;
