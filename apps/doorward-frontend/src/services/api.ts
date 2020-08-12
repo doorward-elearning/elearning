@@ -24,6 +24,7 @@ import {
   UpdateGroupBody,
   UpdateModulesBody,
   CreatePollBody,
+  VotePollBody,
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
@@ -143,6 +144,9 @@ const Api = {
       },
       list: (conferenceId: string): Promise<PollsResponse> => {
         return GET(`/conferences/${conferenceId}/polls`);
+      },
+      vote: (conferenceId: string, pollId: string, body: VotePollBody): Promise<ApiResponse> => {
+        return POST(`/conferences/${conferenceId}/polls/${pollId}`, body);
       },
     },
     managers: {

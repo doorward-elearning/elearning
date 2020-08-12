@@ -24,6 +24,7 @@ import {
   UPDATE_CONFERENCE_MODULE,
   VIEW_CONFERENCE,
   CREATE_POLL,
+  VOTE_POLL,
 } from './types';
 import reducerBuilder, { modifyReducer, reducerApiAction } from '@doorward/ui/reducers/builder';
 
@@ -175,6 +176,11 @@ const createPoll = reducerApiAction({
   api: Api.conferences.polls.create,
 });
 
+const votePoll = reducerApiAction({
+  action: VOTE_POLL,
+  api: Api.conferences.polls.vote,
+});
+
 export default reducerBuilder({
   middleware: {
     createConference,
@@ -200,5 +206,6 @@ export default reducerBuilder({
     managersList,
     unEnrollMember,
     createPoll,
+    votePoll,
   },
 });

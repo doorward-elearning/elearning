@@ -6,8 +6,12 @@ import { PollOptions } from '@doorward/common/models/PollOptions';
 export class Poll extends Model implements DBModel {
   public readonly id: string;
   public readonly title: string;
+  public readonly conferenceId: string;
 
   public readonly conference: Conference;
+  public readonly options: Array<PollOptions>;
+  public readonly startDate: Date;
+  public readonly endDate: Date;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;

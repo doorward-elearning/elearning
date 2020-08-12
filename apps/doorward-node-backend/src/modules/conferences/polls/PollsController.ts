@@ -47,4 +47,25 @@ export default class PollsController {
 
     return [200, { polls }];
   }
+
+  static async vote(req) {
+    const {
+      params: { conferenceId, pollId },
+      body: { optionId },
+      user,
+    } = req;
+
+    await models.PollVote.findOrCreate({
+      defaults: {
+        voterId: user.id,
+        optionId,
+      },
+      where: {
+        optionId,
+        voterId: user.id,
+      },
+    });
+
+    return [200, 'Vote successful.'];
+  }
 }

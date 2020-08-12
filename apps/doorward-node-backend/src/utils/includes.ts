@@ -51,6 +51,14 @@ export const ConferenceInclude = [
       {
         model: models.PollOptions,
         as: 'options',
+        required: false,
+        include: [
+          {
+            model: models.PollVote,
+            as: 'votes',
+            required: false,
+          },
+        ],
       },
     ],
   },

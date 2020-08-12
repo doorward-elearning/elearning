@@ -8,4 +8,6 @@ Router.get('/', PollsController.getPolls);
 
 Router.post('/', PollsController.createPoll);
 
+Router.post('/:pollId', PollsController.vote);
+
 export default Router;

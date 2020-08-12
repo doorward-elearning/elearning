@@ -3742,6 +3742,11 @@
     "@types/react" "*"
     hoist-non-react-statics "^3.3.0"
 
+"@types/human-date@^1.4.0":
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/@types/human-date/-/human-date-1.4.0.tgz#6acdd2722c04054ea9372329390f29aa9b5fefd1"
+  integrity sha512-rsDilFfoef3ugCed0mA3nU4v8YidW7l8nWFTDeNt3TGFISKeju/Xz+215/enW5uTv/xTOCeMpkqVLV7shfHV2A==
+
 "@types/ioredis@^4.0.4":
   version "4.17.3"
   resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.17.3.tgz#65ba8b9344576ecb229c57ec1db92be3fe830ee9"
@@ -10945,6 +10950,11 @@ https@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/https/-/https-1.0.0.tgz#3c37c7ae1a8eeb966904a2ad1e975a194b7ed3a4"
   integrity sha1-PDfHrhqO65ZpBKKtHpdaGUt+06Q=
+
+human-date@^1.4.0:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/human-date/-/human-date-1.4.0.tgz#88bb62bd804d00fd12ee2f47dc3c3bbb1e55f99a"
+  integrity sha1-iLtivYBNAP0S7i9H3Dw7ux5V+Zo=
 
 humanize-ms@^1.2.1:
   version "1.2.1"
