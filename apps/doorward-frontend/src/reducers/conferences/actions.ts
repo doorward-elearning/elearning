@@ -22,6 +22,7 @@ import {
   UPDATE_CONFERENCE_MODULE,
   VIEW_CONFERENCE,
   CREATE_POLL,
+  VOTE_POLL,
 } from './types';
 import {
   ConferenceModuleBody,
@@ -151,4 +152,9 @@ export const fetchConferenceManagersAction = (conferenceId: string): Action => (
 export const createPollAction = (conferenceId: string, body: CreatePollBody): Action => ({
   type: CREATE_POLL,
   payload: [conferenceId, body],
+});
+
+export const votePollAction = (conferenceId: string, pollId: string, optionId: string): Action => ({
+  type: VOTE_POLL,
+  payload: [conferenceId, pollId, { optionId }],
 });

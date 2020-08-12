@@ -120,3 +120,7 @@ export interface CreatePollBody {
   endDate: Date;
   choices: Array<string>;
 }
+
+export interface VotePollBody {
+  optionId: string;
+}
