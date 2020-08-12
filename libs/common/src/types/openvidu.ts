@@ -107,7 +107,7 @@ export interface WhiteboardSessionInfo {
 export interface SessionInfo extends CreateTokenBody {
   screenToken: string;
   webcamToken: string;
-  userId: string;
+  connectionId: string;
   whiteboardSessionInfo?: WhiteboardSessionInfo;
   raisingHand?: boolean;
 }
