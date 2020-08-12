@@ -35,9 +35,9 @@ export default (sequelize: Sequelize) => {
       content: {
         type: DataTypes.JSONB,
         get() {
-          const current = this.dataValues.content || {};
-          current.questions = this.dataValues.questions;
-          delete this.dataValues.questions;
+          const current = this.getDataValue('content') || {};
+          current.questions = this.getDataValue('questions');
+          this.setDataValue('questions', undefined);
           return current;
         },
       },
