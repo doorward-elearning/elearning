@@ -25,6 +25,8 @@ import { ModelCreator } from '../../types';
 import OrganizationUtils from '../../utils/OrganizationUtils';
 import School from '@doorward/common/models/School';
 import ClassRoom from '@doorward/common/models/Classroom';
+import Poll from '@doorward/common/models/Poll';
+import PollOptions from '@doorward/common/models/PollOptions';
 
 const modelNames = {
   Answer,
@@ -48,6 +50,8 @@ const modelNames = {
   School,
   ClassRoom,
   ConferenceManager,
+  Poll,
+  PollOptions,
 };
 
 const env = process.env.NODE_ENV || 'development';

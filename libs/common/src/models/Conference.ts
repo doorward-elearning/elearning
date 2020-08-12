@@ -7,6 +7,7 @@ import { User } from './User';
 import { DBModel } from './DBModel';
 import { Module } from './Module';
 import { ConferenceManager } from '@doorward/common/models/ConferenceManager';
+import { Poll } from '@doorward/common/models/Poll';
 
 export class Conference extends Model implements DBModel {
   public id: string;
@@ -32,6 +33,7 @@ export class Conference extends Model implements DBModel {
     pages: number;
   };
   public readonly members: Array<Member>;
+  public readonly polls: Array<Poll>;
 }
 
 export default (sequelize: Sequelize) => {
@@ -83,6 +85,10 @@ export default (sequelize: Sequelize) => {
       otherKey: 'managerId',
       as: 'managers',
       through: ConferenceManager,
+    });
+    Conference.hasMany(Poll, {
+      foreignKey: 'pollId',
+      as: 'polls',
     });
     return Conference;
   };

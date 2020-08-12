@@ -113,3 +113,10 @@ export interface FetchGroupQuery extends SearchQueryBody {
 export interface ListMembersBody {
   notRegisteredTo?: string;
 }
+
+export interface CreatePollBody {
+  title: string;
+  startDate: Date;
+  endDate: Date;
+  choices: Array<string>;
+}
