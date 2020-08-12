@@ -30,6 +30,7 @@ import ChooseConferenceManagerModal from '../../components/Modals/ChooseConferen
 import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
+import ConferencePollList from '../../components/Lists/ConferencePollList';
 
 const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
   const routes = useRoutes();
@@ -157,7 +158,7 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
                       </Pill>
                     </div>
                   </Grid>
-                  <ConferenceModuleList conference={conference} />
+                  <ConferencePollList conference={conference} />
                 </div>
               </div>
             );

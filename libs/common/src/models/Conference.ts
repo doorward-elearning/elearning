@@ -87,7 +87,7 @@ export default (sequelize: Sequelize) => {
       through: ConferenceManager,
     });
     Conference.hasMany(Poll, {
-      foreignKey: 'pollId',
+      foreignKey: 'conferenceId',
       as: 'polls',
     });
     return Conference;
