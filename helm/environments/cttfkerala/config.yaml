@@ -70,13 +70,12 @@ image:
 organization:
   # Organization Logo
     logo: "https://cttfkerala.s3.amazonaws.com/cttfkerala.jpg"
-  
+
   # Display Name of Organization
-    name: Doorward E-Learning
-  
+    name: "CTTF Kerala"
+
   # Application URL
     website: myaccount.cttfkerala.in
-  
+
   #Organization Admin Email ID
     email: archanaraj10@gmail.com
-  
