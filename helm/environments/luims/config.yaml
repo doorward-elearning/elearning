@@ -5,7 +5,7 @@ customer: luims
 customer-type: college-india
 
 # HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
-app_domain: luims.doorward.tech
+app_domain: luims.makonis.ai
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
 welcomepage_domain: www.doorward.tech
@@ -70,13 +70,12 @@ image:
 organization:
   # Organization Logo
     logo: "https://luims.s3.amazonaws.com/luims.jpeg"
-  
+
   # Display Name of Organization
     name: "University of Lucknow"
-  
+
   # Application URL
     website: luims.doorward.tech
-  
+
   #Organization Admin Email ID
     email: archanaraj10@gmail.com
-  

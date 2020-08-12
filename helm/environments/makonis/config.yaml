@@ -72,7 +72,7 @@ organization:
     logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
 
   # Display Name of Organization
-    name: "Makonis E-Learning"
+    name: "Makonis"
 
   # Application URL
     website: lms.makonis.ai
