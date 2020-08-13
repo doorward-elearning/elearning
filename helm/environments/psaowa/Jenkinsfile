@@ -1,0 +1,12 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Deploy') {
+        steps {
+           sh 'cd ${WORKSPACE}/helm/environments/psaowa && helmfile -l stage=2 delete && sleep 50 && helmfile -l stage=2 sync'
+        }
+    }
+  }
+
+}
