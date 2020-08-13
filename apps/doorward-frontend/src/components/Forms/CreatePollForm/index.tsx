@@ -3,8 +3,8 @@ import Form from '@doorward/ui/components/Form';
 import TextField from '@doorward/ui/components/Input/TextField';
 import addModuleForm from './validation';
 import useAction from '@doorward/ui/hooks/useActions';
-import { createConferenceModuleAction } from '../../../reducers/conferences/actions';
-import { ConferenceModuleBody } from '../../../services/models/requestBody';
+import { createConferenceModuleAction, createPollAction } from '../../../reducers/conferences/actions';
+import { CreatePollBody } from '../../../services/models/requestBody';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import './CreatePollForm.scss';
@@ -13,6 +13,8 @@ import { ArrayHelpers, FieldArray } from 'formik';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Icon from '@doorward/ui/components/Icon';
 import Header from '@doorward/ui/components/Header';
+import DateInput from '@doorward/ui/components/Input/DateInput';
+import moment from 'moment';
 
 const PollChoices: React.FunctionComponent<PollChoicesProps> = ({ arrayHelpers, choices }) => {
   return (
@@ -42,13 +44,17 @@ const PollChoices: React.FunctionComponent<PollChoicesProps> = ({ arrayHelpers, 
 const CreatePollForm: React.FunctionComponent<AddModuleFormProps> = props => {
   const initialValues = {
     title: '',
+    startDate: new Date(),
+    endDate: moment()
+      .add(1, 'hour')
+      .toDate(),
     choices: [''],
   };
-  const state = useSelector((state: State) => state.conferences.createModule);
+  const state = useSelector((state: State) => state.conferences.createPoll);
 
-  const createConferenceModule = useAction(createConferenceModuleAction);
+  const createConferenceModule = useAction(createPollAction);
 
-  const onSubmit = (values: AddModuleFormState): void => {
+  const onSubmit = (values: AddPollFormState): void => {
     createConferenceModule(props.conferenceId, values);
   };
 
@@ -62,18 +68,26 @@ const CreatePollForm: React.FunctionComponent<AddModuleFormProps> = props => {
       state={state}
       form={props.useForm}
     >
-      <TextField name="title" label="Poll" icon="poll" />
-      <Header size={5}>Options</Header>
-      <FieldArray name="choices">
-        {fieldArrayProps => {
-          return <PollChoices arrayHelpers={fieldArrayProps} choices={fieldArrayProps.form.values.choices} />;
-        }}
-      </FieldArray>
+      {formikProps => {
+        return (
+          <React.Fragment>
+            <TextField name="title" label="Poll" icon="poll" />
+            <DateInput minDate={new Date()} showTimeInput name="startDate" label="Start Date" />
+            <DateInput minDate={formikProps.values.startDate} showTimeInput name="endDate" label="End Date" />
+            <Header size={5}>Options</Header>
+            <FieldArray name="choices">
+              {fieldArrayProps => {
+                return <PollChoices arrayHelpers={fieldArrayProps} choices={fieldArrayProps.form.values.choices} />;
+              }}
+            </FieldArray>
+          </React.Fragment>
+        );
+      }}
     </Form>
   );
 };
 
-export interface AddModuleFormState extends ConferenceModuleBody {}
+export interface AddPollFormState extends CreatePollBody {}
 
 export interface PollChoicesProps {
   arrayHelpers: ArrayHelpers;
@@ -81,7 +95,7 @@ export interface PollChoicesProps {
 }
 
 export interface AddModuleFormProps {
-  useForm: UseForm<AddModuleFormState>;
+  useForm: UseForm<AddPollFormState>;
   conferenceId: string;
 }
 export default CreatePollForm;

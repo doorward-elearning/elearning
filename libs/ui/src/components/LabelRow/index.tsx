@@ -4,7 +4,7 @@ import IfElse from '../IfElse';
 
 const LabelRow: FunctionComponent<LabelRowProps> = (props): JSX.Element => {
   return (
-    <div className="ed-label-row">
+    <div className={`ed-label-row ${props.className || ''}`}>
       {props.children.map((child, index) => (
         <React.Fragment>
           {child}
@@ -19,6 +19,7 @@ const LabelRow: FunctionComponent<LabelRowProps> = (props): JSX.Element => {
 
 export interface LabelRowProps {
   children: Array<ReactElement>;
+  className?: string;
 }
 
 export default LabelRow;
