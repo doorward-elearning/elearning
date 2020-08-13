@@ -158,6 +158,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           })}
           onClick={e => {
             const current = sideBarRef?.current;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
             if (current && !current?.contains(e.target)) {
               toggleSidebar();
             }

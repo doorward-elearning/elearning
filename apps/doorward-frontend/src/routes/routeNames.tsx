@@ -53,4 +53,9 @@ export const routeNames = {
   viewMemberGroup: 'View Member Group',
   viewModeratorGroup: 'View Moderator Group',
   updateMemberGroup: 'Update',
+  elections: 'Elections',
+  electionList: 'Elections',
+  createElection: 'Create Election',
+  addNominee: 'Add Nominee',
+  viewElection: 'View Election',
 };

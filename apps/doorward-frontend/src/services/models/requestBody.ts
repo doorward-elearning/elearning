@@ -124,3 +124,9 @@ export interface CreatePollBody {
 export interface VotePollBody {
   optionId: string;
 }
+
+export interface CreateElectionBody {
+  title: string;
+  startDate: Date;
+  endDate: Date;
+}

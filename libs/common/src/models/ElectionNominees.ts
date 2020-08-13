@@ -7,6 +7,7 @@ export class ElectionNominees extends Model implements DBModel {
   public readonly id: string;
   public readonly profile: string;
   public readonly profilePicture: string;
+  public readonly name: string;
 
   public readonly votes: Array<ElectionVote>;
 
@@ -20,6 +21,7 @@ export default (sequelize: Sequelize) => {
     {
       profilePicture: DataTypes.STRING,
       profile: DataTypes.STRING,
+      name: DataTypes.STRING,
       electionId: DataTypes.STRING,
     },
     { sequelize, tableName: 'ElectionNominees', paranoid: true }

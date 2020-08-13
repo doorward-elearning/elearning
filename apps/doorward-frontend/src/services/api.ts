@@ -25,6 +25,7 @@ import {
   UpdateModulesBody,
   CreatePollBody,
   VotePollBody,
+  CreateElectionBody,
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
@@ -53,6 +54,8 @@ import {
   UserResponse,
   PollResponse,
   PollsResponse,
+  ElectionResponse,
+  ElectionsResponse,
 } from './models/responseBody';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
@@ -117,6 +120,14 @@ const Api = {
       create: (body: CreateModeratorBody): Promise<ModeratorResponse> => {
         return POST('/users/moderators', body);
       },
+    },
+  },
+  elections: {
+    create: (body: CreateElectionBody): Promise<ElectionResponse> => {
+      return POST('/elections', body);
+    },
+    list: (): Promise<ElectionsResponse> => {
+      return GET('/elections');
     },
   },
   conferences: {

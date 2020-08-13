@@ -10,4 +10,10 @@ Router.get('/', ElectionsController.getElections);
 
 Router.get('/:electionId', ElectionsController.getElection);
 
+Router.post('/:electionId/nominees', ElectionsController.addNominee);
+
+Router.get('/:electionId/nominees', ElectionsController.getNominees);
+
+Router.delete('/:electionId/nominees/:nomineeId', ElectionsController.deleteNominee);
+
 export default Router;

@@ -3,6 +3,7 @@ import { DataTypes, Model, Sequelize } from 'sequelize';
 import OrganizationUtils from '../../../../apps/doorward-node-backend/src/utils/OrganizationUtils';
 import { Organization } from '@doorward/common/models/Organization';
 import { ElectionNominees } from '@doorward/common/models/ElectionNominees';
+import { User } from '@doorward/common/models/User';
 
 export class Election extends Model implements DBModel {
   public readonly id: string;
@@ -13,6 +14,7 @@ export class Election extends Model implements DBModel {
   public readonly nominees: Array<ElectionNominees>;
   public readonly startDate: Date;
   public readonly endDate: Date;
+  public readonly author: User;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
@@ -48,6 +50,10 @@ export default (sequelize: Sequelize) => {
     Election.hasMany(ElectionNominees, {
       foreignKey: 'electionId',
       as: 'nominees',
+    });
+    Election.belongsTo(User, {
+      foreignKey: 'createdBy',
+      as: 'author',
     });
     return Election;
   };

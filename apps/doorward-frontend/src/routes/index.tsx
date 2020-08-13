@@ -42,6 +42,7 @@ import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
 import ViewMember from '../screens/Members/ViewMember';
 import ViewMemberGroup from '../screens/Groups/Members/ViewMemberGroup';
 import UpdateMemberGroup from '../screens/Groups/Members/UpdateMemberGroup';
+import Elections from '../screens/Elections';
 
 export type DoorwardRoutes = typeof routeNames;
 
@@ -122,6 +123,9 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
             editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
           }),
         chat: new Route('/chat', ChatScreen),
+        elections: new Route('/elections').with({
+          electionList: new Route('/', Elections),
+        }),
       }),
       password: new Route('/password')
         .public()

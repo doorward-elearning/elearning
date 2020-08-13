@@ -32,6 +32,10 @@ export default class ElectionsController {
             },
           ],
         },
+        {
+          model: models.User,
+          as: 'author',
+        },
       ],
     });
 
@@ -61,5 +65,47 @@ export default class ElectionsController {
     });
 
     return [200, { election }];
+  }
+
+  static async addNominee(req) {
+    const {
+      params: { electionId },
+      body: { profilePicture, profile, name },
+    } = req;
+
+    const nominee = await models.ElectionNominees.create({
+      profilePicture,
+      profile,
+      name,
+      electionId,
+    });
+
+    return [201, { nominee }, 'Nominee has been added.'];
+  }
+
+  static async getNominees(req) {
+    const {
+      params: { electionId },
+    } = req;
+
+    const nominees = await models.ElectionNominees.findAll({
+      where: {
+        electionId,
+      },
+    });
+
+    return [200, { nominees }];
+  }
+
+  static async deleteNominee(req) {
+    const {
+      params: { nomineeId },
+    } = req;
+
+    await models.ElectionNominees.destroy({
+      where: { id: nomineeId },
+    });
+
+    return [200, undefined, 'Nominee has been deleted.'];
   }
 }

@@ -10,7 +10,10 @@ module.exports = {
         type: Sequelize.TEXT,
       },
       profilePicture: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+      },
+      name: {
+        type: Sequelize.STRING,
       },
       electionId: {
         type: Sequelize.STRING,

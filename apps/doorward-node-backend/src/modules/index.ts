@@ -23,6 +23,7 @@ const modules = {
   groups,
   schools,
   suggestions,
+  elections,
 };
 
 const apiVersion = `${process.env.API_PREFIX || ''}`;
