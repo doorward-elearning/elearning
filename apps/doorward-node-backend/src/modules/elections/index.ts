@@ -16,4 +16,6 @@ Router.get('/:electionId/nominees', ElectionsController.getNominees);
 
 Router.delete('/:electionId/nominees/:nomineeId', ElectionsController.deleteNominee);
 
+Router.post('/:electionId/nominees/:nomineeId/vote', ElectionsController.vote);
+
 export default Router;

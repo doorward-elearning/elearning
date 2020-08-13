@@ -64,8 +64,8 @@ export default class ElectionsController {
         {
           model: models.User,
           as: 'author',
-          required: false
-        }
+          required: false,
+        },
       ],
     });
 
@@ -112,5 +112,25 @@ export default class ElectionsController {
     });
 
     return [200, undefined, 'Nominee has been deleted.'];
+  }
+
+  static async vote(req) {
+    const {
+      params: { nomineeId },
+      user,
+    } = req;
+
+    await models.ElectionVote.findOrCreate({
+      defaults: {
+        nomineeId,
+        voterId: user.id,
+      },
+      where: {
+        nomineeId,
+        voterId: user.id,
+      },
+    });
+
+    return [200, 'Voted successfully.'];
   }
 }

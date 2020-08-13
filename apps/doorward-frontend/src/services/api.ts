@@ -138,6 +138,9 @@ const Api = {
     createNominee: (electionId: string, body: CreateNomineeBody): Promise<NomineeResponse> => {
       return POST(`/elections/${electionId}/nominees`, body);
     },
+    vote: (electionId: string, nomineeId: string): Promise<ApiResponse> => {
+      return POST(`/elections/${electionId}/nominees/${nomineeId}/vote`);
+    },
   },
   conferences: {
     create: (conference: CreateConferenceBody): Promise<CreateConferenceResponse> => {

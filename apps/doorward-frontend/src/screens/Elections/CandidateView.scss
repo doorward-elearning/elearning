@@ -1,9 +1,13 @@
 .candidate-view {
   margin: var(--padding-sm) 0;
-  &__profile{
+  &__profile {
     display: grid;
     justify-content: center;
     justify-items: center;
+
+    .profile {
+      margin: var(--padding) 0;
+    }
 
     img {
       border: 1px solid var(--line-color);

@@ -7,6 +7,7 @@ const Pill: React.FunctionComponent<PillProps> = props => {
     <span
       className={classNames({
         'ed-pill': true,
+        [props.className || '']: true,
       })}
     >
       {props.children}
@@ -14,6 +15,8 @@ const Pill: React.FunctionComponent<PillProps> = props => {
   );
 };
 
-export interface PillProps {}
+export interface PillProps {
+  className?: string;
+}
 
 export default Pill;
