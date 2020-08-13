@@ -1,0 +1,14 @@
+extends base_template
+block greeting
+    p.title
+    span Hello #{fullName || 'there'}
+block content
+    p.
+        A new #{organization} moderator account has been created for you.
+        To proceed with the login. Kindly create a password first.
+    p.
+        You will use the following username to access your account.
+    div.centered
+        h2 #{username}
+    a(href=link)
+        span Create a password

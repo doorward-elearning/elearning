@@ -1,0 +1,99 @@
+.profile-picture-input {
+  .image-display {
+    width: 150px;
+    height: 150px;
+    position: relative;
+
+    .mask {
+      top: 0;
+      left: 0;
+      position: absolute;
+      width: calc(100% + 2px);
+      height: calc(100% + 2px);
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 50%;
+    }
+
+    .edit-icon {
+      position: absolute;
+      top: 10px;
+      right: 0;
+      transform: scale(0);
+      transform-origin: 50% 50%;
+      transition: 0.1s transform;
+      cursor: pointer;
+    }
+
+    .icon-container {
+      background: var(--bg-primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 0 4px 2px var(--shadow-color);
+    }
+
+    .cancel-icon,
+    .retry-icon {
+      position: absolute;
+      cursor: pointer;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-error);
+    }
+
+    img {
+      border: 1px solid var(--line-color);
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      object-position: center center;
+    }
+
+    &:hover {
+      .edit-icon {
+        transform: scale(1);
+      }
+    }
+
+    .CircularProgressbar {
+      position: absolute;
+      top: -3px;
+      left: -3px;
+      width: calc(100% + 8px);
+      height: calc(100% + 8px);
+    }
+  }
+
+  &.success {
+    .CircularProgressbar-path {
+      stroke: var(--text-success) !important;
+    }
+  }
+
+  &.error {
+    .CircularProgressbar-path {
+      stroke: var(--text-error) !important;
+    }
+  }
+
+  &.uploading {
+    .cancel-icon {
+    }
+  }
+
+  input {
+    display: none;
+  }
+}
+
+.eb-input.error {
+  .image-display {
+    img {
+      border: 2px solid var(--text-error);
+    }
+  }
+}

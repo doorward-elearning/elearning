@@ -1,4 +1,13 @@
 releases:
+  - name: demo-school-config
+    namespace: demo-school-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
   - name: demo-school-thaladb
     namespace: demo-school-doorward
     labels:
@@ -36,6 +45,17 @@ releases:
       stage: 2
       name: chuchu
     chart: ../../charts/apps/chuchu
+    needs:
+      - demo-school-doorward/demo-school-thaladb
+    values:
+      - config.yaml
+
+  - name: demo-school-vidu
+    namespace: demo-school-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
     needs:
       - demo-school-doorward/demo-school-thaladb
     values:

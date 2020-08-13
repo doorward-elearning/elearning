@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+.CircularProgressbar-path {
+  stroke: var(--primary) !important;
+}
+.CircularProgressbar-trail {
+  stroke: var(--bg-secondary) !important;
+}
+.CircularProgressbar-text {
+  fill: var(--text-primary) !important;
+}
+.CircularProgressbar-background {
+  fill: green !important;
+}

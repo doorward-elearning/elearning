@@ -43,7 +43,7 @@ imagePullSecrets:
 image:
   swagat:
     repository: core.harbor.doorward.tech/doorward/swagat
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
   thaladb:
     repository: postgres
@@ -51,7 +51,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
@@ -59,11 +59,11 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu
-    version: 1.1.1
+    version: 1.1.0
     pullPolicy: Always
 
 

@@ -1,4 +1,13 @@
 releases:
+  - name: develop-config
+    namespace: develop-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
   - name: develop-thaladb
     namespace: develop-doorward
     labels:

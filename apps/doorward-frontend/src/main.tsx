@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import '@doorward/ui/fonts.scss';
 import '@material/react-linear-progress/dist/linear-progress.css';
+import 'react-circular-progressbar/dist/styles.css';
 import { Router } from './routes/routes';
 import { DoorwardRoutes } from './routes';
 import useApp, { appInitialValue } from './hooks/useApp';
@@ -14,6 +15,7 @@ import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
+import './styles.scss';
 
 console.log(process.env.REACT_APP_BASE_URL);
 

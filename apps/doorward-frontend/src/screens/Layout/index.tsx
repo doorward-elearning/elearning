@@ -158,6 +158,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           })}
           onClick={e => {
             const current = sideBarRef?.current;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
             if (current && !current?.contains(e.target)) {
               toggleSidebar();
             }
@@ -204,15 +206,15 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                       />
                     </Feature>
                     <Feature feature={LayoutFeatures.HEADER}>
-                      <Header size={1} className="ed-page-layout__header--title">
+                      <div className="ed-page-layout__header--title">
                         <IfElse condition={header === '--'}>
                           <ContentSpinner width={20} height={20} />
                           <Row>
-                            <React.Fragment>{header}</React.Fragment>
+                            <React.Fragment>{(header as string).substring ? <h1>{header}</h1> : header}</React.Fragment>
                             {headerBadge && <Badge>{headerBadge}</Badge>}
                           </Row>
                         </IfElse>
-                      </Header>
+                      </div>
                     </Feature>
                     <Feature feature={LayoutFeatures.SEARCH_BAR}>
                       <PlainTextField icon="search" onChange={onSearch} value={search} />

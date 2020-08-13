@@ -1,4 +1,13 @@
 releases:
+  - name: cttfkerala-config
+    namespace: cttfkerala-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
   - name: cttfkerala-thaladb
     namespace: cttfkerala-doorward
     labels:
@@ -36,6 +45,17 @@ releases:
       stage: 2
       name: chuchu
     chart: ../../charts/apps/chuchu
+    needs:
+      - cttfkerala-doorward/cttfkerala-thaladb
+    values:
+      - config.yaml
+
+  - name: cttfkerala-vidu
+    namespace: cttfkerala-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
     needs:
       - cttfkerala-doorward/cttfkerala-thaladb
     values:

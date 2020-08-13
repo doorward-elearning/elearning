@@ -32,7 +32,13 @@ spec:
               serviceName: myaccount-swagat
               servicePort: 80
             path: /
-
+    - host: www.doorward.tech
+      http:
+        paths:
+          - backend:
+              serviceName: myaccount-swagat
+              servicePort: 80
+            path: /
 
   tls:
   - hosts:

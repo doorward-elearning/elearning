@@ -25,6 +25,14 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       ...routes.moderators,
       icon: 'work',
       subMenu: [routes.moderatorList, routes.addModerator],
+<<<<<<< HEAD
+=======
+    },
+    {
+      ...routes.elections,
+      icon: 'poll',
+      subMenu: [routes.electionList],
+>>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
     },
     {
       ...routes.groups,

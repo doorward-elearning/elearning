@@ -1,4 +1,13 @@
 releases:
+  - name: basil-config
+    namespace: basil-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
   - name: basil-thaladb
     namespace: basil-doorward
     labels:
@@ -41,12 +50,12 @@ releases:
     values:
       - config.yaml
 
-  - name: basil-swagat
+  - name: basil-vidu
     namespace: basil-doorward
     labels:
       stage: 2
-      name: swagat
-    chart: ../../charts/apps/swagat
+      name: vidu
+    chart: ../../charts/apps/vidu
     needs:
       - basil-doorward/basil-thaladb
     values:

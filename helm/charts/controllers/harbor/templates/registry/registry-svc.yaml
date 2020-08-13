@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: "{{ template "harbor.registry" . }}"
+  annotations:
+    service.beta.kubernetes.io/do-loadbalancer-hostname: core.harbor.doorward.tech
   labels:
 {{ include "harbor.labels" . | indent 4 }}
 spec:

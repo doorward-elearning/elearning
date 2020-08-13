@@ -11,6 +11,7 @@ import groups from '../reducers/groups';
 import organizations from '../reducers/organizations';
 import schools from '../reducers/schools';
 import suggestions from '../reducers/suggestions';
+import elections from '../reducers/elections';
 
 const store = createReduxStore({
   login,
@@ -25,6 +26,7 @@ const store = createReduxStore({
   organizations,
   schools,
   suggestions,
+  elections,
 });
 
 const state = store.getState();

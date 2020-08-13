@@ -1,7 +1,8 @@
 # Name of the Customer / Website
 customer: makonis
 
-customer_type: institute
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
 
 # HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
 app_domain: lms.makonis.ai
@@ -18,42 +19,63 @@ samvadam_domain: samvadam.makonis.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.makonis.doorward.tech
 
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.makonis.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.makonis.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.makonis.doorward.tech
+
 # Name of the Website. Default Value: <Customer-Name>
-websitename: Makonis
+websitename: makonis
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
 namespace: makonis-doorward
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-harbor
 
 # Override default variables for stage environments
 
 image:
   swagat:
     repository: core.harbor.doorward.tech/doorward/swagat
-    version: 1.1.0
-    pullPolicy: IfNotPresent
+    version: 1.1.1
+    pullPolicy: Always
   thaladb:
     repository: postgres
     version: 9.6-alpine
     pullPolicy: IfNotPresent
   thala:
-    repository: core.harbor.doorward.tech/doorward/thala@sha256
-    version: 780a2bcbf5750ddfb058a1ebf403b6a60ab6af5fc70094d60efa17ca65e20bc8
+    repository: core.harbor.doorward.tech/doorward/thala
+    version: 1.1.1
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
   chuchu:
-    repository: core.harbor.doorward.tech/doorward/chuchu@sha256
-    version: bfd6ca9298b16f59a73a664d99bf4f1b4c34da011d20fc4c1b9ad6ea377a54f6
+    repository: core.harbor.doorward.tech/doorward/chuchu
+    version: 1.1.1
     pullPolicy: Always
+  vidu:
+    repository: core.harbor.doorward.tech/doorward/vidu
+    version: 1.1.1
+    pullPolicy: Always
+
 
 organization:
   # Organization Logo
-  logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
+    logo: "https://doorwardlms.s3.amazonaws.com/makonis/makonis.png"
+
   # Display Name of Organization
-  name: Makonis
+    name: "Makonis"
+
   # Application URL
-  website: lms.makonis.ai
+    website: lms.makonis.ai
+
   #Organization Admin Email ID
-  email: info@doorward.tech
+    email: info@doorward.tech

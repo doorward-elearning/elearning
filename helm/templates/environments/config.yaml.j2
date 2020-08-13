@@ -40,7 +40,11 @@ openviduapi_url: https://vidu.{{ CUSTOMER_NAME }}.doorward.tech/api/
 openviduapi_domain: vidu.{{ CUSTOMER_NAME }}.doorward.tech
 
 # Public URL of Openvidu Server
+{% if CLASSROOM_URL is defined %}
+classrooms_url: {{ CLASSROOM_URL }}
+{% else %}
 classrooms_url: classrooms.{{ CUSTOMER_NAME }}.doorward.tech
+{% endif %}
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: {{ CUSTOMER_NAME }}
@@ -91,7 +95,7 @@ organization:
 
   # Display Name of Organization
   {% if ORGANIZATION_DISPLAY_NAME is defined %}
-  name: {{ ORGANIZATION_DISPLAY_NAME }}
+  name: "{{ ORGANIZATION_DISPLAY_NAME }}"
   {% else %}
   name: Doorward
   {% endif %}

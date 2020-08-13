@@ -1,11 +1,14 @@
 # Name of the Customer / Website
 customer: demo-school
 
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
 # HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
 app_domain: demo-school.doorward.tech
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: beta.doorward.tech
+welcomepage_domain: www.doorward.tech
 
 # Application URL. Default Value: https://<customer-name>.doorward.tech
 app_url: https://demo-school.doorward.tech
@@ -16,11 +19,24 @@ samvadam_domain: samvadam.demo-school.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.demo-school.doorward.tech
 
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.demo-school.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.demo-school.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.edudoor.org
+
 # Name of the Website. Default Value: <Customer-Name>
 websitename: demo-school
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
 namespace: demo-school-doorward
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-harbor
 
 # Override default variables for stage environments
 
@@ -45,13 +61,21 @@ image:
     repository: core.harbor.doorward.tech/doorward/chuchu
     version: 1.1.0
     pullPolicy: Always
+  vidu:
+    repository: core.harbor.doorward.tech/doorward/vidu
+    version: 1.1.0
+    pullPolicy: Always
+
 
 organization:
   # Organization Logo
-  logo: "https://doorward-logos.s3.ap-south-1.amazonaws.com/demo-school/logo.png"
+    logo: "https://edudoor-logos.s3.ap-south-1.amazonaws.com/demo-school/logo.png"
+
   # Display Name of Organization
-  name: "Demo School"
+    name: "Demo School"
+
   # Application URL
-  website: demo-school.doorward.tech
+    website: demo-school.doorward.tech
+
   #Organization Admin Email ID
-  email: info@doorward.tech
+    email: info@doorward.tech

@@ -9,6 +9,7 @@ import organizations from './organizations';
 import storage from './storage';
 import groups from './groups';
 import suggestions from './suggestions';
+import elections from './elections';
 import { Application } from 'express';
 
 const modules = {
@@ -22,6 +23,7 @@ const modules = {
   groups,
   schools,
   suggestions,
+  elections,
 };
 
 const apiVersion = `${process.env.API_PREFIX || ''}`;

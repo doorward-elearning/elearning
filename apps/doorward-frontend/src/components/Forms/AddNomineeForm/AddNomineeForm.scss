@@ -1,0 +1,8 @@
+.add-nominee-form {
+  .form-fields {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: start;
+    grid-gap: var(--padding-lg);
+  }
+}
