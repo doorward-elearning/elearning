@@ -9,11 +9,32 @@
     &:not(:last-child) {
     }
 
+    &.votedFor {
+      .ed-panel {
+        border: 1px solid var(--text-success);
+        background: rgba(0, 255, 0, 0.1);
+      }
+    }
+
     .candidate-profile {
       display: grid;
       align-items: center;
       grid-gap: var(--padding);
       grid-template-columns: auto auto;
+      position: relative;
+
+      .voted-nominee {
+        position: absolute;
+        right: -15px;
+        bottom: -15px;
+        background: var(--text-success);
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        color: white;
+        width: 30px;
+        height: 30px;
+      }
     }
 
     .votes-bar {
