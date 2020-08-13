@@ -1,0 +1,28 @@
+CUSTOMER_NAME: psaowa-makonis
+APP_VERSION: apartment-1.1.1
+
+LOGO_URL: "https://media.glassdoor.com/sqll/2171679/makonis-software-solutions-squarelogo-1594889799419.png"
+
+ORGANIZATION_DISPLAY_NAME: "PSAOWA ClubHouse"
+
+APP_WEBSITE_NAME: "psaowa-makonis.doorward.tech"
+
+ORGANIZATION_ADMIN_EMAIL: "info@doorward.tech"
+
+WELCOME_WEBSITE_NAME: "www.doorward.tech"
+
+MODERATOR_UPLOAD_SPEED_MAX: 30
+
+MODERATOR_UPLOAD_SPEED_MIN: 25
+
+MEMBER_DOWNLOAD_SPEED_MAX: 30
+
+MEMBER_DOWNLOAD_SPEED_MIN: 25
+
+WEEK_START_DAY: monday
+
+WEEK_END_DAY: friday
+
+CLASS_START_TIME: 9
+
+CLASS_END_TIME: 12
