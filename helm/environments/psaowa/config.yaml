@@ -1,0 +1,82 @@
+# Name of the Customer / Website
+customer: psaowa
+
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: makonis.doorward.tech
+
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: www.doorward.tech
+
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://makonis.doorward.tech
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.psaowa.doorward.tech
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.psaowa.doorward.tech
+
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.psaowa.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.psaowa.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.psaowa.doorward.tech
+
+# Name of the Website. Default Value: <Customer-Name>
+websitename: psaowa
+
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: psaowa-doorward
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-harbor
+
+# Override default variables for stage environments
+
+image:
+  swagat:
+    repository: core.harbor.doorward.tech/doorward/swagat
+    version: apartment-1.1.1
+    pullPolicy: Always
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: core.harbor.doorward.tech/doorward/thala
+    version: apartment-1.1.1
+    pullPolicy: Always
+  samvadam:
+    repository: core.harbor.doorward.tech/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: core.harbor.doorward.tech/doorward/chuchu
+    version: apartment-1.1.1
+    pullPolicy: Always
+  vidu:
+    repository: core.harbor.doorward.tech/doorward/vidu
+    version: apartment-1.1.1
+    pullPolicy: Always
+
+
+organization:
+  # Organization Logo
+    logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
+  
+  # Display Name of Organization
+    name: PSAOWA ClubHouse
+  
+  # Application URL
+    website: makonis.doorward.tech
+  
+  #Organization Admin Email ID
+    email: info@doorward.tech
+  
