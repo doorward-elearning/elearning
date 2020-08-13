@@ -1,0 +1,62 @@
+releases:
+  - name: psaowa-config
+    namespace: psaowa-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
+  - name: psaowa-thaladb
+    namespace: psaowa-doorward
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/apps/thaladb
+    values:
+      - config.yaml
+
+  - name: psaowa-samvadam
+    namespace: psaowa-doorward
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/apps/samvadam
+    needs:
+      - psaowa-doorward/psaowa-thaladb
+    values:
+      - config.yaml
+
+  - name: psaowa-thala
+    namespace: psaowa-doorward
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/apps/thala
+    needs:
+      - psaowa-doorward/psaowa-thaladb
+    values:
+      - config.yaml
+
+  - name: psaowa-chuchu
+    namespace: psaowa-doorward
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/apps/chuchu
+    needs:
+      - psaowa-doorward/psaowa-thaladb
+    values:
+      - config.yaml
+
+  - name: psaowa-vidu
+    namespace: psaowa-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - psaowa-doorward/psaowa-thaladb
+    values:
+      - config.yaml
