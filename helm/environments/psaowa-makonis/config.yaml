@@ -4,29 +4,29 @@ customer: psaowa-makonis
 # Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
 customer-type: college-india
 
-# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
-app_domain: psaowa-makonis.doorward.tech
+# HOME Page of the website. Default Value: https://<customer-name>.trainingdoor.info.
+app_domain: psaowa-makonis.trainingdoor.info
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
-welcomepage_domain: www.doorward.tech
+welcomepage_domain: www.trainingdoor.info
 
-# Application URL. Default Value: https://<customer-name>.doorward.tech
-app_url: https://psaowa-makonis.doorward.tech
+# Application URL. Default Value: https://<customer-name>.trainingdoor.info
+app_url: https://psaowa-makonis.trainingdoor.info
 
-# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
-samvadam_domain: samvadam.psaowa-makonis.doorward.tech
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.trainingdoor.info
+samvadam_domain: samvadam.psaowa-makonis.trainingdoor.info
 
-# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
-thala_domain: thala.psaowa-makonis.doorward.tech
+# Public Domain of REST API: Default Value: thala:<customer-name>.trainingdoor.info
+thala_domain: thala.psaowa-makonis.trainingdoor.info
 
 # Public Domain for openvidu API.
-openviduapi_url: https://vidu.psaowa-makonis.doorward.tech/api/
+openviduapi_url: https://vidu.psaowa-makonis.trainingdoor.info/api/
 
 # Public Domain for OpenVidu API
-openviduapi_domain: vidu.psaowa-makonis.doorward.tech
+openviduapi_domain: vidu.psaowa-makonis.trainingdoor.info
 
 # Public URL of Openvidu Server
-classrooms_url: classrooms.psaowa-makonis.doorward.tech
+classrooms_url: classrooms.psaowa-makonis.trainingdoor.info
 
 # Name of the Website. Default Value: <Customer-Name>
 websitename: psaowa-makonis
@@ -70,13 +70,12 @@ image:
 organization:
   # Organization Logo
     logo: "https://media.glassdoor.com/sqll/2171679/makonis-software-solutions-squarelogo-1594889799419.png"
-  
+
   # Display Name of Organization
     name: "PSAOWA ClubHouse"
-  
+
   # Application URL
-    website: psaowa-makonis.doorward.tech
-  
+    website: psaowa-makonis.trainingdoor.info
+
   #Organization Admin Email ID
-    email: info@doorward.tech
-  
+    email: info@trainingdoor.info
