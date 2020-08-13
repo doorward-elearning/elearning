@@ -26,7 +26,7 @@ export default (sequelize: Sequelize) => {
       endDate: DataTypes.DATE,
       title: DataTypes.STRING,
       createdBy: DataTypes.STRING,
-      organizationIdId: DataTypes.STRING,
+      organizationId: DataTypes.STRING,
     },
     {
       sequelize,
