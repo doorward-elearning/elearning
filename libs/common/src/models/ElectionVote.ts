@@ -6,6 +6,7 @@ export class ElectionVote extends Model implements DBModel {
   public readonly id: string;
   public readonly optionId: string;
   public readonly nomineeId: string;
+  public readonly voterId: string;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;

@@ -1,4 +1,4 @@
-import { CREATE_ELECTION, CREATE_NOMINEE, LIST_ELECTIONS, VIEW_ELECTION } from './types';
+import { CREATE_ELECTION, CREATE_NOMINEE, LIST_ELECTIONS, VIEW_ELECTION, VOTE_ELECTION } from './types';
 import { CreateElectionBody, CreateNomineeBody } from '../../services/models/requestBody';
 
 export const createElectionAction = (body: CreateElectionBody) => ({
@@ -19,4 +19,9 @@ export const fetchElectionAction = (electionId: string) => ({
 export const addNomineeAction = (electionId: string, body: CreateNomineeBody) => ({
   type: CREATE_NOMINEE,
   payload: [electionId, body],
+});
+
+export const voteElectionAction = (electionId: string, nomineeId: string) => ({
+  type: VOTE_ELECTION,
+  payload: [electionId, nomineeId],
 });

@@ -1,46 +1,38 @@
 # Name of the Customer / Website
-customer: psaowa
+customer: psaowa-makonis
 
 # Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
 customer-type: college-india
 
 # HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
-<<<<<<< HEAD
-app_domain: makonis.doorward.tech
-=======
 app_domain: psaowa-makonis.doorward.tech
->>>>>>> a9d3067ea7a595cc8a39cbe025d89b5a8c65f1a3
 
 # Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
 welcomepage_domain: www.doorward.tech
 
 # Application URL. Default Value: https://<customer-name>.doorward.tech
-<<<<<<< HEAD
-app_url: https://makonis.doorward.tech
-=======
 app_url: https://psaowa-makonis.doorward.tech
->>>>>>> a9d3067ea7a595cc8a39cbe025d89b5a8c65f1a3
 
 # Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
-samvadam_domain: samvadam.psaowa.doorward.tech
+samvadam_domain: samvadam.psaowa-makonis.doorward.tech
 
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
-thala_domain: thala.psaowa.doorward.tech
+thala_domain: thala.psaowa-makonis.doorward.tech
 
 # Public Domain for openvidu API.
-openviduapi_url: https://vidu.psaowa.doorward.tech/api/
+openviduapi_url: https://vidu.psaowa-makonis.doorward.tech/api/
 
 # Public Domain for OpenVidu API
-openviduapi_domain: vidu.psaowa.doorward.tech
+openviduapi_domain: vidu.psaowa-makonis.doorward.tech
 
 # Public URL of Openvidu Server
-classrooms_url: classrooms.psaowa.doorward.tech
+classrooms_url: classrooms.psaowa-makonis.doorward.tech
 
 # Name of the Website. Default Value: <Customer-Name>
-websitename: psaowa
+websitename: psaowa-makonis
 
 # Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
-namespace: psaowa-doorward
+namespace: psaowa-makonis-doorward
 
 # Secret to use to pull docker images for deployment
 imagePullSecrets:
@@ -77,23 +69,13 @@ image:
 
 organization:
   # Organization Logo
-<<<<<<< HEAD
-    logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
-  
-  # Display Name of Organization
-    name: PSAOWA ClubHouse
-  
-  # Application URL
-    website: makonis.doorward.tech
-=======
     logo: "https://media.glassdoor.com/sqll/2171679/makonis-software-solutions-squarelogo-1594889799419.png"
   
   # Display Name of Organization
-    name: "Makonis ClubHouse"
+    name: "PSAOWA ClubHouse"
   
   # Application URL
     website: psaowa-makonis.doorward.tech
->>>>>>> a9d3067ea7a595cc8a39cbe025d89b5a8c65f1a3
   
   #Organization Admin Email ID
     email: info@doorward.tech

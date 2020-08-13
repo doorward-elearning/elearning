@@ -1,0 +1,14 @@
+.election-status {
+  text-align: center;
+  &.pending {
+    color: #a76d00;
+  }
+
+  &.ongoing {
+    color: #006a00;
+  }
+
+  &.ended {
+    color: #8b0000;
+  }
+}

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import './ViewElection.scss';
 import { PageComponent } from '@doorward/ui/types';
 import moment from 'moment';
 import Layout, { LayoutFeatures } from '../Layout';
@@ -13,7 +14,6 @@ import useAction from '@doorward/ui/hooks/useActions';
 import { listElectionsAction } from '../../reducers/elections/actions';
 import Table from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
-import hdate from 'human-date';
 import useAuth from '@doorward/ui/hooks/useAuth';
 import useRoutes from '../../hooks/useRoutes';
 
@@ -63,15 +63,14 @@ const Elections: React.FunctionComponent<ElectionsProps> = (props): JSX.Element 
               onRowClick={row => {
                 routes.navigate(routes.viewElection, { electionId: row.id });
               }}
-              columns={{ title: 'Title', createdAt: 'Date Created', time: 'Time', createdBy: 'Created by' }}
+              columns={{ title: 'Title', createdAt: 'Date Created', status: 'Status', createdBy: 'Created by' }}
               getCell={row => {
                 const started = moment().isAfter(row.startDate);
                 const ended = moment().isAfter(row.endDate);
+                const status = started ? (ended ? 'ended' : 'ongoing') : 'pending';
                 return {
                   createdAt: Tools.normalDateTime(row.createdAt),
-                  time: started
-                    ? (ended ? 'Ended ' : 'Ends ') + hdate.relativeTime(row.endDate)
-                    : 'Starts ' + hdate.relativeTime(row.startDate),
+                  status: <span className={`election-status ${status}`}>{status.toUpperCase()}</span>,
                   createdBy: row.author.fullName,
                 };
               }}
