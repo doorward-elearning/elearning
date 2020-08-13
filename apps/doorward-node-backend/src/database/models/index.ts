@@ -28,6 +28,9 @@ import ClassRoom from '@doorward/common/models/Classroom';
 import Poll from '@doorward/common/models/Poll';
 import PollOptions from '@doorward/common/models/PollOptions';
 import PollVote from '@doorward/common/models/PollVote';
+import ElectionNominees from '@doorward/common/models/ElectionNominees';
+import ElectionVote from '@doorward/common/models/ElectionVote';
+import Election from '@doorward/common/models/Election';
 
 const modelNames = {
   Answer,
@@ -54,6 +57,9 @@ const modelNames = {
   Poll,
   PollOptions,
   PollVote,
+  Election,
+  ElectionNominees,
+  ElectionVote,
 };
 
 const env = process.env.NODE_ENV || 'development';

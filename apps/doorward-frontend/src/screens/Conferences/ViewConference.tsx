@@ -31,6 +31,8 @@ import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 import ConferencePollList from '../../components/Lists/ConferencePollList';
+import Row from '@doorward/ui/components/Row';
+import Header from '@doorward/ui/components/Header';
 
 const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
   const routes = useRoutes();
@@ -66,18 +68,27 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
       className="view-conference"
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
-        <IfElse condition={conference.data.conference}>
-          <React.Fragment>
-            <EditableLabelForm
-              submitAction={updateConferenceAction}
-              state={updateConference}
-              name="title"
-              roles={[Roles.MODERATOR]}
-              createData={values => [conferenceId, values]}
-              value={conference.data.conference?.title}
-            />
-          </React.Fragment>
-        </IfElse>
+        <div>
+          <Row>
+            <IfElse condition={conference.data.conference}>
+              <Header size={1}>
+                <EditableLabelForm
+                  submitAction={updateConferenceAction}
+                  state={updateConference}
+                  name="title"
+                  roles={[Roles.MODERATOR]}
+                  createData={values => [conferenceId, values]}
+                  value={conference.data.conference?.title}
+                />
+              </Header>
+            </IfElse>
+            <div>
+              <Pill>
+                Authored by - <b>{conference?.data?.conference?.author?.fullName}</b>
+              </Pill>
+            </div>
+          </Row>
+        </div>
       }
       renderHeaderEnd={(): JSX.Element => {
         return (
@@ -151,13 +162,6 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
                   useModal={addConferenceManagerModal}
                 />
                 <div className="view-conference__module-list">
-                  <Grid columns={2} justifyContent="space-between">
-                    <div style={{ justifySelf: 'start' }}>
-                      <Pill>
-                        Authored by - <b>{conference.author.fullName}</b>
-                      </Pill>
-                    </div>
-                  </Grid>
                   <ConferencePollList conference={conference} />
                 </div>
               </div>
