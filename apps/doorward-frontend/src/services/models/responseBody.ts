@@ -17,6 +17,7 @@ import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { Poll } from '@doorward/common/models/Poll';
 import { Election } from '@doorward/common/models/Election';
+import { ElectionNominees } from '@doorward/common/models/ElectionNominees';
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -131,4 +132,12 @@ export interface ElectionResponse extends ApiResponse {
 
 export interface ElectionsResponse extends ApiResponse {
   elections: Array<Election>;
+}
+
+export interface NomineeResponse extends ApiResponse {
+  nominee: ElectionNominees;
+}
+
+export interface NomineesResponse extends ApiResponse {
+  nominees: Array<ElectionNominees>;
 }

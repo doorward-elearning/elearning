@@ -64,4 +64,4 @@ export interface DraftTextAreaProps extends InputProps {
   exportAs?: 'html';
 }
 
-export default withInput(DraftTextArea, [InputFeatures.LABEL]);
+export default withInput(DraftTextArea, [InputFeatures.LABEL], { labelPosition: 'top' });

@@ -17,6 +17,7 @@ function useBaseRoutes<T extends RouteNames>(context: AppContextProps<T>): UseBa
     ...context,
     ...context.routes,
     currentRoute: data.currentRoute,
+    reload: data.reload,
     navigate: data.navigate,
     setCurrentTitle: (name: string) => {
       if (data.currentRoute) {

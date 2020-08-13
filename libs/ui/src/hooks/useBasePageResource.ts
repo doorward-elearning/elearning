@@ -18,8 +18,12 @@ const usePageResource = <T extends RouteNames>(
 
   const allArgs = [match.params[key], ...args];
   if (routes.currentRoute) {
-    routes.setParams(routes.currentRoute, {
-      ...match.params,
+    const info = routes[routes.currentRoute];
+
+    info.tree.forEach(key => {
+      routes.setParams(key, {
+        ...match.params,
+      });
     });
   }
 

@@ -61,6 +61,11 @@ export default class ElectionsController {
             },
           ],
         },
+        {
+          model: models.User,
+          as: 'author',
+          required: false
+        }
       ],
     });
 

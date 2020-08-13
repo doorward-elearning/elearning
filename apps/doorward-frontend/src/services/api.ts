@@ -26,6 +26,7 @@ import {
   CreatePollBody,
   VotePollBody,
   CreateElectionBody,
+  CreateNomineeBody,
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
@@ -56,6 +57,8 @@ import {
   PollsResponse,
   ElectionResponse,
   ElectionsResponse,
+  CloudinaryFileUploadResponse,
+  NomineeResponse,
 } from './models/responseBody';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
@@ -128,6 +131,12 @@ const Api = {
     },
     list: (): Promise<ElectionsResponse> => {
       return GET('/elections');
+    },
+    get: (electionId: string): Promise<ElectionResponse> => {
+      return GET(`/elections/${electionId}`);
+    },
+    createNominee: (electionId: string, body: CreateNomineeBody): Promise<NomineeResponse> => {
+      return POST(`/elections/${electionId}/nominees`, body);
     },
   },
   conferences: {
@@ -324,6 +333,7 @@ const Api = {
       return GET('/storage/files/' + fileId);
     },
   },
+  cloudinary: {},
 };
 
 export default Api;

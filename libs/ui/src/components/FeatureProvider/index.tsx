@@ -5,7 +5,7 @@ export const FeatureContext = createContext<{ features: Array<any> }>({ features
 
 function FeatureProvider<T>(props: FeatureProviderProps<T>): JSX.Element {
   const { features, exclude = [] } = props;
-  const requestedFeatures = features.filter(feature => !exclude.includes(feature));
+  const requestedFeatures = features.filter(feature => !!feature && !exclude.includes(feature));
   return <FeatureContext.Provider value={{ features: requestedFeatures }}>{props.children}</FeatureContext.Provider>;
 }
 

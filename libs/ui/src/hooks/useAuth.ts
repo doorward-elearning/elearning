@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Tools from '@doorward/common/utils/Tools';
 import { User } from '@doorward/common/models/User';
+import { Roles } from '@doorward/ui/components/RolesManager';
 
 const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
@@ -35,11 +36,21 @@ const useAuth = (): UseAuth => {
     []
   );
 
+  const isMember = () => {
+    return user?.roles?.length && user.roles.find(role => role.name === Roles.MEMBER);
+  };
+
+  const isModerator = () => {
+    return user?.roles?.length && user.roles.find(role => role.name === Roles.MODERATOR);
+  };
+
   return {
     authenticated,
     logout,
     authenticate,
     user,
+    isMember,
+    isModerator,
   };
 };
 
@@ -48,6 +59,8 @@ export interface UseAuth {
   logout: () => void;
   authenticate: (token: string) => void;
   user: User;
+  isMember: () => boolean;
+  isModerator: () => boolean;
 }
 
 export default useAuth;

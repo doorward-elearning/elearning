@@ -43,6 +43,8 @@ import ViewMember from '../screens/Members/ViewMember';
 import ViewMemberGroup from '../screens/Groups/Members/ViewMemberGroup';
 import UpdateMemberGroup from '../screens/Groups/Members/UpdateMemberGroup';
 import Elections from '../screens/Elections';
+import ViewElection from '../screens/Elections/ViewElection';
+import AddNominee from '../screens/Elections/AddNominee';
 
 export type DoorwardRoutes = typeof routeNames;
 
@@ -124,7 +126,11 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           }),
         chat: new Route('/chat', ChatScreen),
         elections: new Route('/elections').with({
-          electionList: new Route('/', Elections),
+          electionList: new Route('/', Elections).with({
+            viewElection: new Route('/:electionId', ViewElection).with({
+              addNominee: new Route('/addNominee', AddNominee).roles(Roles.MODERATOR),
+            }),
+          }),
         }),
       }),
       password: new Route('/password')

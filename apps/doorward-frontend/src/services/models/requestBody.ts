@@ -130,3 +130,9 @@ export interface CreateElectionBody {
   startDate: Date;
   endDate: Date;
 }
+
+export interface CreateNomineeBody {
+  name: string;
+  profilePicture: string;
+  profile: string;
+}

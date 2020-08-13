@@ -1,5 +1,5 @@
 import reducerBuilder, { reducerApiAction } from '@doorward/ui/reducers/builder';
-import { CREATE_ELECTION, LIST_ELECTIONS } from './types';
+import { CREATE_ELECTION, CREATE_NOMINEE, LIST_ELECTIONS, VIEW_ELECTION } from './types';
 import Api from '../../services/api';
 
 const electionList = reducerApiAction({
@@ -12,9 +12,21 @@ const createElection = reducerApiAction({
   api: Api.elections.create,
 });
 
+const viewElection = reducerApiAction({
+  action: VIEW_ELECTION,
+  api: Api.elections.get,
+});
+
+const createNominee = reducerApiAction({
+  action: CREATE_NOMINEE,
+  api: Api.elections.createNominee,
+});
+
 export default reducerBuilder({
   middleware: {
     electionList,
     createElection,
+    viewElection,
+    createNominee,
   },
 });

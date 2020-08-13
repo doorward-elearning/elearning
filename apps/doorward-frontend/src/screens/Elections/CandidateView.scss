@@ -1,0 +1,12 @@
+.candidate-view {
+  margin: var(--padding-sm) 0;
+  &__profile{
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+
+    img {
+      border: 1px solid var(--line-color);
+    }
+  }
+}

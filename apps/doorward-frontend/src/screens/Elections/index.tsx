@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PageComponent } from '@doorward/ui/types';
 import moment from 'moment';
 import Layout, { LayoutFeatures } from '../Layout';
@@ -14,10 +14,14 @@ import { listElectionsAction } from '../../reducers/elections/actions';
 import Table from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import hdate from 'human-date';
+import useAuth from '@doorward/ui/hooks/useAuth';
+import useRoutes from '../../hooks/useRoutes';
 
 const Elections: React.FunctionComponent<ElectionsProps> = (props): JSX.Element => {
   const { electionList: elections, createElection } = useSelector((state: State) => state.elections);
   const electionModal = useModal();
+  const routes = useRoutes();
+  const { isMember } = useAuth();
   useFormSubmit(createElection, electionModal.closeModal);
   const fetchElections = useAction(listElectionsAction);
 
@@ -30,9 +34,9 @@ const Elections: React.FunctionComponent<ElectionsProps> = (props): JSX.Element 
       {...props}
       features={[
         LayoutFeatures.BACK_BUTTON,
-        LayoutFeatures.ACTION_BUTTON,
         LayoutFeatures.BREAD_CRUMBS,
         LayoutFeatures.HEADER,
+        !isMember() && LayoutFeatures.ACTION_BUTTON,
       ]}
       header="Elections"
       actionBtnProps={{
@@ -56,6 +60,9 @@ const Elections: React.FunctionComponent<ElectionsProps> = (props): JSX.Element 
           return (
             <Table
               data={elections}
+              onRowClick={row => {
+                routes.navigate(routes.viewElection, { electionId: row.id });
+              }}
               columns={{ title: 'Title', createdAt: 'Date Created', time: 'Time', createdBy: 'Created by' }}
               getCell={row => {
                 const started = moment().isAfter(row.startDate);

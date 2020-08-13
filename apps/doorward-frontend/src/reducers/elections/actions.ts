@@ -1,5 +1,5 @@
-import { CREATE_ELECTION, LIST_ELECTIONS } from './types';
-import { CreateElectionBody } from '../../services/models/requestBody';
+import { CREATE_ELECTION, CREATE_NOMINEE, LIST_ELECTIONS, VIEW_ELECTION } from './types';
+import { CreateElectionBody, CreateNomineeBody } from '../../services/models/requestBody';
 
 export const createElectionAction = (body: CreateElectionBody) => ({
   type: CREATE_ELECTION,
@@ -9,4 +9,14 @@ export const createElectionAction = (body: CreateElectionBody) => ({
 export const listElectionsAction = () => ({
   type: LIST_ELECTIONS,
   payload: [],
+});
+
+export const fetchElectionAction = (electionId: string) => ({
+  type: VIEW_ELECTION,
+  payload: [electionId],
+});
+
+export const addNomineeAction = (electionId: string, body: CreateNomineeBody) => ({
+  type: CREATE_NOMINEE,
+  payload: [electionId, body],
 });
