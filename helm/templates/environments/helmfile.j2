@@ -1,4 +1,13 @@
 releases:
+  - name: {{ CUSTOMER_NAME }}-config
+    namespace: {{ CUSTOMER_NAME }}-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
   - name: {{ CUSTOMER_NAME }}-thaladb
     namespace: {{ CUSTOMER_NAME }}-doorward
     labels:
