@@ -42,12 +42,9 @@ import SchoolClassrooms from '../screens/Classrooms/SchoolClassrooms';
 import ViewMember from '../screens/Members/ViewMember';
 import ViewMemberGroup from '../screens/Groups/Members/ViewMemberGroup';
 import UpdateMemberGroup from '../screens/Groups/Members/UpdateMemberGroup';
-<<<<<<< HEAD
-=======
 import Elections from '../screens/Elections';
 import ViewElection from '../screens/Elections/ViewElection';
 import AddNominee from '../screens/Elections/AddNominee';
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 
 export type DoorwardRoutes = typeof routeNames;
 

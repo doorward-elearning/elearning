@@ -25,11 +25,8 @@ import {
   UpdateModulesBody,
   CreatePollBody,
   VotePollBody,
-<<<<<<< HEAD
-=======
   CreateElectionBody,
   CreateNomineeBody,
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 } from './models/requestBody';
 import {
   AssignmentSubmissionResponse,
@@ -58,13 +55,9 @@ import {
   UserResponse,
   PollResponse,
   PollsResponse,
-<<<<<<< HEAD
-=======
   ElectionResponse,
   ElectionsResponse,
-  CloudinaryFileUploadResponse,
   NomineeResponse,
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 } from './models/responseBody';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
@@ -131,21 +124,6 @@ const Api = {
       },
     },
   },
-<<<<<<< HEAD
-  conferences: {
-    create: (conference: CreateConferenceBody): Promise<CreateConferenceResponse> => {
-      return POST('/conferences', conference);
-    },
-    update: (conferenceId: string, conference: CreateConferenceBody): Promise<CreateConferenceResponse> => {
-      return PUT(`/conferences/${conferenceId}`, conference);
-    },
-    updateModules: (conferenceId: string, modules: UpdateModulesBody): Promise<ConferenceModuleListResponse> => {
-      return PUT(`/conferences/${conferenceId}/modules`, modules);
-    },
-    list: (): Promise<ConferenceListResponse> => {
-      return GET('/conferences');
-    },
-=======
   elections: {
     create: (body: CreateElectionBody): Promise<ElectionResponse> => {
       return POST('/elections', body);
@@ -176,7 +154,6 @@ const Api = {
     list: (): Promise<ConferenceListResponse> => {
       return GET('/conferences');
     },
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
     get: (conferenceId: string): Promise<CreateConferenceResponse> => {
       return GET(`/conferences/${conferenceId}`);
     },

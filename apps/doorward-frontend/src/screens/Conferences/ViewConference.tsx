@@ -31,11 +31,8 @@ import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 import ConferencePollList from '../../components/Lists/ConferencePollList';
-<<<<<<< HEAD
-=======
 import Row from '@doorward/ui/components/Row';
 import Header from '@doorward/ui/components/Header';
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 
 const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
   const routes = useRoutes();
@@ -71,42 +68,41 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
       className="view-conference"
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
-<<<<<<< HEAD
-        <IfElse condition={conference.data.conference}>
-          <React.Fragment>
-            <EditableLabelForm
-              submitAction={updateConferenceAction}
-              state={updateConference}
-              name="title"
-              roles={[Roles.MODERATOR]}
-              createData={values => [conferenceId, values]}
-              value={conference.data.conference?.title}
-            />
-          </React.Fragment>
-        </IfElse>
-=======
         <div>
-          <Row>
-            <IfElse condition={conference.data.conference}>
-              <Header size={1}>
-                <EditableLabelForm
-                  submitAction={updateConferenceAction}
-                  state={updateConference}
-                  name="title"
-                  roles={[Roles.MODERATOR]}
-                  createData={values => [conferenceId, values]}
-                  value={conference.data.conference?.title}
-                />
-              </Header>
-            </IfElse>
-            <div>
-              <Pill>
-                Authored by - <b>{conference?.data?.conference?.author?.fullName}</b>
-              </Pill>
-            </div>
-          </Row>
+          <IfElse condition={conference.data.conference}>
+            <React.Fragment>
+              <EditableLabelForm
+                submitAction={updateConferenceAction}
+                state={updateConference}
+                name="title"
+                roles={[Roles.MODERATOR]}
+                createData={values => [conferenceId, values]}
+                value={conference.data.conference?.title}
+              />
+            </React.Fragment>
+          </IfElse>
+          <div>
+            <Row>
+              <IfElse condition={conference.data.conference}>
+                <Header size={1}>
+                  <EditableLabelForm
+                    submitAction={updateConferenceAction}
+                    state={updateConference}
+                    name="title"
+                    roles={[Roles.MODERATOR]}
+                    createData={values => [conferenceId, values]}
+                    value={conference.data.conference?.title}
+                  />
+                </Header>
+              </IfElse>
+              <div>
+                <Pill>
+                  Authored by - <b>{conference?.data?.conference?.author?.fullName}</b>
+                </Pill>
+              </div>
+            </Row>
+          </div>
         </div>
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
       }
       renderHeaderEnd={(): JSX.Element => {
         return (
@@ -180,7 +176,6 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
                   useModal={addConferenceManagerModal}
                 />
                 <div className="view-conference__module-list">
-<<<<<<< HEAD
                   <Grid columns={2} justifyContent="space-between">
                     <div style={{ justifySelf: 'start' }}>
                       <Pill>
@@ -188,8 +183,6 @@ const ViewConference: React.FunctionComponent<ViewConferenceProps> = props => {
                       </Pill>
                     </div>
                   </Grid>
-=======
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
                   <ConferencePollList conference={conference} />
                 </div>
               </div>

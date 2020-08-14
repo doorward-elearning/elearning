@@ -2,7 +2,7 @@
   .candidate-result {
     padding: var(--padding-sm) 0;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 200px 1fr auto;
     align-items: center;
     grid-gap: var(--padding-lg);
 
@@ -20,8 +20,14 @@
       display: grid;
       align-items: center;
       grid-gap: var(--padding);
+      justify-content: start;
+      justify-items: start;
       grid-template-columns: auto auto;
       position: relative;
+
+      .ed-pill {
+        margin: 0;
+      }
 
       .voted-nominee {
         position: absolute;

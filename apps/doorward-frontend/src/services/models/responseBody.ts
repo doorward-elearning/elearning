@@ -16,11 +16,8 @@ import { OpenviduUser } from '@doorward/common/types/openvidu';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { Poll } from '@doorward/common/models/Poll';
-<<<<<<< HEAD
-=======
 import { Election } from '@doorward/common/models/Election';
 import { ElectionNominees } from '@doorward/common/models/ElectionNominees';
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 
 export interface LoginResponse extends UserResponse {
   token: string;
@@ -128,8 +125,6 @@ export interface PollResponse extends ApiResponse {
 export interface PollsResponse extends ApiResponse {
   polls: Array<Poll>;
 }
-<<<<<<< HEAD
-=======
 
 export interface ElectionResponse extends ApiResponse {
   election: Election;
@@ -146,4 +141,3 @@ export interface NomineeResponse extends ApiResponse {
 export interface NomineesResponse extends ApiResponse {
   nominees: Array<ElectionNominees>;
 }
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb

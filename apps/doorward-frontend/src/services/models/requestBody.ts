@@ -124,8 +124,6 @@ export interface CreatePollBody {
 export interface VotePollBody {
   optionId: string;
 }
-<<<<<<< HEAD
-=======
 
 export interface CreateElectionBody {
   title: string;
@@ -138,4 +136,3 @@ export interface CreateNomineeBody {
   profilePicture: string;
   profile: string;
 }
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
