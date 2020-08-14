@@ -9,6 +9,7 @@ const Home: React.FunctionComponent<HomeProps> = (props): JSX.Element => {
   return (
     <Layout {...props} withBackground>
       <div className="page__home">
+        <h1 className="application__name">Doorward</h1>
         <h1 className="header">Join a Meeting</h1>
         <p>Create a new meeting or join an existing one by entering the meeting id.</p>
         <div className="meeting-form">
