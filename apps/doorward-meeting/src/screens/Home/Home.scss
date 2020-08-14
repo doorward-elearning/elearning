@@ -1,0 +1,21 @@
+.page__layout {
+  .page__home {
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+
+    .header {
+      font-size: 40px;
+    }
+
+    .meeting-form {
+      max-width: 800px;
+      width: 100%;
+
+      .ed-form {
+        margin: var(--padding-lg);
+      }
+    }
+  }
+}

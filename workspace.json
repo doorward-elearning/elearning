@@ -672,6 +672,109 @@
           "style": "scss"
         }
       }
+    },
+    "doorward-meeting": {
+      "root": "apps/doorward-meeting",
+      "sourceRoot": "apps/doorward-meeting/src",
+      "projectType": "application",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@nrwl/web:build",
+          "options": {
+            "outputPath": "dist/apps/doorward-meeting",
+            "index": "apps/doorward-meeting/src/index.html",
+            "main": "apps/doorward-meeting/src/main.tsx",
+            "polyfills": "apps/doorward-meeting/src/polyfills.ts",
+            "tsConfig": "apps/doorward-meeting/tsconfig.app.json",
+            "assets": ["apps/doorward-meeting/src/favicon.ico", "apps/doorward-meeting/src/assets"],
+            "styles": ["apps/doorward-meeting/src/styles.scss"],
+            "scripts": [],
+            "webpackConfig": "webpack.config.js"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/doorward-meeting/src/environments/environment.ts",
+                  "with": "apps/doorward-meeting/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "doorward-meeting:build",
+            "port": 3002,
+            "host": "0.0.0.0"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "doorward-meeting:build:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/doorward-meeting/tsconfig.app.json", "apps/doorward-meeting/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-meeting/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/doorward-meeting/jest.config.js",
+            "tsConfig": "apps/doorward-meeting/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "doorward-meeting-e2e": {
+      "root": "apps/doorward-meeting-e2e",
+      "sourceRoot": "apps/doorward-meeting-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/doorward-meeting-e2e/cypress.json",
+            "tsConfig": "apps/doorward-meeting-e2e/tsconfig.e2e.json",
+            "devServerTarget": "doorward-meeting:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "doorward-meeting:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["apps/doorward-meeting-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-meeting-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

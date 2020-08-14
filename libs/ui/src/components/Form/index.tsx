@@ -21,6 +21,7 @@ function Form<T>({
   form,
   hideFormMessage,
   formClassName,
+  isInitialValid,
   spinnerProps = {},
 }: FormProps<T>): JSX.Element {
   const [allProps, setAllProps] = useState<FormikProps<T>>();
@@ -47,6 +48,7 @@ function Form<T>({
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
+      isInitialValid={isInitialValid}
       render={(props): ReactNode | JSX.Element => {
         if (!allProps) {
           setAllProps(props);
@@ -94,5 +96,6 @@ export interface FormContextProps {
   formikProps?: FormikProps<any>;
   editable?: boolean;
   validationSchema?: any;
+  isInitialValid?: boolean | (() => boolean);
 }
 export default Form;
