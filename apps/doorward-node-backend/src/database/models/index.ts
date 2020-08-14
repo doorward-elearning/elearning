@@ -28,12 +28,9 @@ import ClassRoom from '@doorward/common/models/Classroom';
 import Poll from '@doorward/common/models/Poll';
 import PollOptions from '@doorward/common/models/PollOptions';
 import PollVote from '@doorward/common/models/PollVote';
-<<<<<<< HEAD
-=======
 import ElectionNominees from '@doorward/common/models/ElectionNominees';
 import ElectionVote from '@doorward/common/models/ElectionVote';
 import Election from '@doorward/common/models/Election';
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 
 const modelNames = {
   Answer,
@@ -60,12 +57,9 @@ const modelNames = {
   Poll,
   PollOptions,
   PollVote,
-<<<<<<< HEAD
-=======
   Election,
   ElectionNominees,
   ElectionVote,
->>>>>>> 46574434d00d813f9b4aa3576cdc43f4e1494efb
 };
 
 const env = process.env.NODE_ENV || 'development';
