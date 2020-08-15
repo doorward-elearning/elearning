@@ -8,8 +8,14 @@ const outputDir = '../../dist/openvidu-webcomponent/';
 
 const outputFileName = 'openvidu-webcomponent-' + VERSION;
 
-const jsCopyDirs = ['../../apps/doorward-frontend/src/assets/js/openvidu-webcomponent.js'];
-const cssCopyDirs = ['../../apps/doorward-frontend/src/assets/css/openvidu-webcomponent.css'];
+const jsCopyDirs = [
+  '../../apps/doorward-frontend/src/assets/js/openvidu-webcomponent.js',
+  '../../apps/doorward-meeting/src/assets/js/openvidu-webcomponent.js',
+];
+const cssCopyDirs = [
+  '../../apps/doorward-frontend/src/assets/css/openvidu-webcomponent.css',
+  '../../apps/doorward-meeting/src/assets/css/openvidu-webcomponent.css',
+];
 
 async function buildElement() {
   const files = ['runtime-es5.js', 'polyfills-es5.js', 'main-es5.js'].map(file => `${buildDir}${file}`);

@@ -1,0 +1,6 @@
+.meeting-profile {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: var(--padding);
+  align-items: center;
+}

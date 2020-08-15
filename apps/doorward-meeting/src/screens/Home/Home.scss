@@ -1,0 +1,26 @@
+.page__layout {
+  padding-bottom: 50px;
+  .page__home {
+    height: 100%;
+    display: grid;
+    justify-content: center;
+    justify-items: center;
+
+    .header {
+      font-size: 40px;
+    }
+
+    .application__name {
+      font-size: 80px;
+    }
+
+    .meeting-form {
+      max-width: 800px;
+      width: 100%;
+
+      .ed-form {
+        margin: var(--padding-lg);
+      }
+    }
+  }
+}

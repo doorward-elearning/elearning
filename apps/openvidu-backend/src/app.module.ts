@@ -17,12 +17,12 @@ const entities = [CapabilityEntity, MeetingEntity, UserEntity, WhiteboardEntity]
     SignalsModule,
     AuthModule,
     CallModule,
-    RedisModule.register({
-      host: process.env.REDIS_HOST,
-      port: +process.env.REDIS_PORT,
-      password: process.env.REDIS_PASSWORD,
-      db: +process.env.OPENVIDU_API_REDIS_DATABASE,
-    }),
+    // RedisModule.register({
+    //   host: process.env.REDIS_HOST,
+    //   port: +process.env.REDIS_PORT,
+    //   password: process.env.REDIS_PASSWORD,
+    //   db: +process.env.OPENVIDU_API_REDIS_DATABASE,
+    // }),
     // TypeOrmModule.forRootAsync({
     //   useFactory: () => ({
     //     ...ormConfig,

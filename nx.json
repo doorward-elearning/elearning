@@ -52,6 +52,13 @@
     },
     "whiteboard": {
       "tags": []
+    },
+    "doorward-meeting": {
+      "tags": []
+    },
+    "doorward-meeting-e2e": {
+      "tags": [],
+      "implicitDependencies": ["doorward-meeting"]
     }
   }
 }
