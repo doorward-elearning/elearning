@@ -2,5 +2,5 @@
 
 yarn build doorward-meeting
 
-serve -s /usr/app/dist/apps/doorward-frontend/
+serve -s /usr/app/dist/apps/doorward-meeting/
 
