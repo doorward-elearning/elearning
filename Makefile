@@ -41,6 +41,14 @@ build:
 	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
 
+meeting
+	@ ${INFO} "Building the meeting docker image"
+	@ docker build -f docker/production/doorward-meeting/Dockerfile -t meeting:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	@ ${INFO} "Tagging meeting image"
+	@ docker tag meeting:${APP_VERSION} core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
+	@ ${INFO} "Pushing images to Harbor"
+	@ docker push core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
+
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
 	@ ./docker/dev/openvidu/openvidu.sh
