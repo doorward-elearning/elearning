@@ -41,7 +41,7 @@ build:
 	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
 
-meeting
+meeting:
 	@ ${INFO} "Building the meeting docker image"
 	@ docker build -f docker/production/doorward-meeting/Dockerfile -t meeting:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ ${INFO} "Tagging meeting image"
