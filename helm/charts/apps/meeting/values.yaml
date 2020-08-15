@@ -36,7 +36,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 3002
+  targetport: 5000
 
 ingress:
   enabled: false
@@ -71,7 +71,7 @@ affinity: {}
 
 # This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.tech/api/v1)
 thalaapiprefix: nodeapi
-containerport: 3002
+containerport: 5000
 
 container:
   startupseconds: 100

@@ -18,6 +18,18 @@ spec:
               serviceName: {{ include "meeting.fullname" . }}
               servicePort: 80
             path: /meetings
+    - host: doorward.tech
+      http:
+        paths:
+          - backend:
+              serviceName: {{ include "meeting.fullname" . }}
+              servicePort: 80
+            path: /meetings
+  tls:
+  - hosts:
+    - www.doorward.tech
+    - doorward.tech
+    secretName: www.doorward.tech
 
     # This section is only required if TLS is to be enabled for the Ingress
 #  tls:
