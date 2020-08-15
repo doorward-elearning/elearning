@@ -60,3 +60,14 @@ releases:
       - myaccount-doorward/myaccount-thaladb
     values:
       - config.yaml
+
+  - name: myaccount-meeting
+    namespace: myaccount-doorward
+    labels:
+      stage: 3
+      name: meeting
+    chart: ../../charts/apps/meeting
+    needs:
+      - myaccount-doorward/myaccount-thaladb
+    values:
+      - config.yaml
