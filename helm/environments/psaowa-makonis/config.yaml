@@ -43,7 +43,7 @@ imagePullSecrets:
 image:
   swagat:
     repository: core.harbor.doorward.tech/doorward/swagat
-    version: apartment-1.1.1
+    version: apartment-1.1.2
     pullPolicy: Always
   thaladb:
     repository: postgres
@@ -51,7 +51,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
-    version: apartment-1.1.1
+    version: apartment-1.1.2
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
@@ -59,17 +59,17 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
-    version: apartment-1.1.1
+    version: apartment-1.1.2
     pullPolicy: Always
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu
-    version: apartment-1.1.1
+    version: apartment-1.1.2
     pullPolicy: Always
 
 
 organization:
   # Organization Logo
-    logo: "https://media.glassdoor.com/sqll/2171679/makonis-software-solutions-squarelogo-1594889799419.png"
+    logo: "https://basil123.s3.amazonaws.com/psaowa.png"
 
   # Display Name of Organization
     name: "PSAOWA ClubHouse"
