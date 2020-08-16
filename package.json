@@ -15,10 +15,12 @@
     "db:rollback": "cd apps/doorward-node-backend && sequelize db:seed:undo:all && sequelize db:migrate:undo:all ",
     "db:seed": "cd apps/doorward-node-backend && sequelize db:seed:all --debug",
     "db:rollmigrate": "yarn db:rollback && yarn db:migrate && yarn db:seed",
-    "openvidu-backend": "cd apps/openvidu-backend && ts-node --project tsconfig.cli.json",
-    "openvidu-backend:db:seed": "yarn openvidu-backend ../../node_modules/typeorm-seeding/dist/cli.js seed",
-    "openvidu-backend:db:migrate": "yarn openvidu-backend ../../node_modules/typeorm/cli.js migration:run",
-    "openvidu-backend:db:migration:generate": "yarn openvidu-backend ../../node_modules/typeorm/cli.js migration:generate -n ",
+    "db:vidu:seed": "cd apps/openvidu-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm-seeding/dist/cli.js seed",
+    "db:vidu:migrate": "cd apps/openvidu-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js migration:run",
+    "db:vidu:migrate:generate": "cd apps/openvidu-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js migration:generate -n ",
+    "db:thala:seed": "cd apps/doorward-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm-seeding/dist/cli.js seed",
+    "db:thala:migrate": "cd apps/doorward-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js migration:run",
+    "db:thala:migrate:generate": "cd apps/doorward-backend && ts-node --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js migration:generate -n ",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",
     "e2e": "nx e2e",
@@ -153,8 +155,8 @@
     "react": "^16.13.1",
     "react-app-polyfill": "^1.0.4",
     "react-beautiful-dnd": "^12.1.1",
-    "react-datepicker": "^2.10.1",
     "react-circular-progressbar": "^2.0.3",
+    "react-datepicker": "^2.10.1",
     "react-dev-utils": "^9.1.0",
     "react-dom": "16.12.0",
     "react-draft-wysiwyg": "^1.13.2",
@@ -256,6 +258,7 @@
     "@types/sequelize": "^4.28.8",
     "@types/socket.io": "^2.1.4",
     "@types/socket.io-client": "^1.4.32",
+    "@types/yargs": "^15.0.5",
     "@types/yup": "^0.26.24",
     "@typescript-eslint/eslint-plugin": "2.19.2",
     "@typescript-eslint/parser": "2.19.2",
@@ -304,6 +307,7 @@
     "tslib": "1.11.1",
     "tslint": "~6.0.0",
     "typedoc": "0.17.6",
-    "typescript": "3.7.4"
+    "typescript": "3.7.4",
+    "yargs": "^15.4.1"
   }
 }
