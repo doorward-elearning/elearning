@@ -21,6 +21,7 @@ export class ModuleItem extends Model implements DBModel {
   public readonly module: Module;
   public readonly assignmentSubmission: AssignmentSubmission;
   public readonly assignmentSubmissions: Array<AssignmentSubmission>;
+  public dataValues: any;
 }
 
 export default (sequelize: Sequelize) => {
@@ -47,7 +48,7 @@ export default (sequelize: Sequelize) => {
       sequelize,
       tableName: 'ModuleItems',
       paranoid: true,
-    }
+    },
   );
 
   return () => {

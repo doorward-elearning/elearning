@@ -21,7 +21,7 @@ const PageProgress: React.FunctionComponent<PageProgressProps> = props => {
   const INITIAL_PROGRESS = 0.66;
   const INTERVAL = 100;
 
-  let timeout: NodeJS.Timeout;
+  let timeout: any;
   const setLoading = (loading: boolean): void => {
     setValue(loading ? INITIAL_PROGRESS : 1);
     if (loading) {
