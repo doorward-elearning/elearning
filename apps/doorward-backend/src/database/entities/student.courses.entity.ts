@@ -6,12 +6,12 @@ import { StudentCourseStatus } from '@doorward/common/types/courses';
 
 @Entity('StudentCourses')
 export default class StudentCoursesEntity extends BaseEntity {
-  @ManyToOne(() => UserEntity, (user) => user.studentCourses, {
+  @ManyToOne(() => UserEntity, (user) => user.courses, {
     onDelete: 'CASCADE',
   })
   student: UserEntity;
 
-  @ManyToOne(() => CourseEntity, (course) => course.studentCourses, {
+  @ManyToOne(() => CourseEntity, (course) => course.students, {
     onDelete: 'CASCADE',
   })
   course: CourseEntity;

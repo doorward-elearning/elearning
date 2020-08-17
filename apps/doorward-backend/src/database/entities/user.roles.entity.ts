@@ -5,12 +5,12 @@ import RoleEntity from './role.entity';
 
 @Entity('UserRoles')
 export default class UserRolesEntity extends BaseEntity {
-  @ManyToOne(() => UserEntity, (user) => user.userRoles, {
+  @ManyToOne(() => UserEntity, (user) => user.roles, {
     onDelete: 'CASCADE',
   })
   user: UserEntity;
 
-  @ManyToOne(() => RoleEntity, (role) => role.userRoles, {
+  @ManyToOne(() => RoleEntity, (role) => role.users, {
     onDelete: 'CASCADE',
   })
   role: RoleEntity;

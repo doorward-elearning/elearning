@@ -11,6 +11,9 @@ export default class ModuleEntity extends BaseEntity {
   @Column()
   title: string;
 
+  @Column({ default: 0 })
+  order: number;
+
   @ManyToOne(() => CourseEntity, (course) => course.modules, {
     onDelete: 'CASCADE',
   })

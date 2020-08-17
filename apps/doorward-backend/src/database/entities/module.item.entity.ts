@@ -16,6 +16,9 @@ export default class ModuleItemEntity extends BaseEntity {
   @Column({ enum: ModuleItemType, type: 'enum' })
   type: ModuleItemType;
 
+  @Column({ default: 0 })
+  order: number;
+
   @ManyToOne(() => ModuleEntity, (module) => module.items, {
     onDelete: 'CASCADE',
   })

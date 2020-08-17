@@ -18,5 +18,5 @@ export default class RoleEntity extends BaseEntity {
   organization: OrganizationEntity;
 
   @OneToMany(() => UserRolesEntity, (userRole) => userRole.role)
-  userRoles: Array<UserRolesEntity>;
+  users: Array<UserRolesEntity>;
 }

@@ -1,6 +1,7 @@
 import BaseEntity from './base.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import ModuleItemEntity from './module.item.entity';
+import AnswerEntity from './answer.entity';
 
 @Entity('Questions')
 export default class QuestionEntity extends BaseEntity {
@@ -14,4 +15,7 @@ export default class QuestionEntity extends BaseEntity {
     onDelete: 'CASCADE',
   })
   quiz: ModuleItemEntity;
+
+  @OneToMany(() => AnswerEntity, (answer) => answer.question)
+  answers: Array<AnswerEntity>;
 }

@@ -35,5 +35,5 @@ export default class CourseEntity extends BaseEntity {
   modules: Array<ModuleEntity>;
 
   @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course)
-  studentCourses: Array<StudentCoursesEntity>;
+  students: Array<StudentCoursesEntity>;
 }
