@@ -12,7 +12,7 @@ const folders = fs
   .readdirSync('apps', {
     withFileTypes: true,
   })
-  .filter(file => file.isDirectory());
+  .filter((file) => file.isDirectory());
 
 const createEnvironmentFile = (environment: string) => {
   if (fs.existsSync(environment)) {
@@ -26,7 +26,7 @@ const createEnvironmentFile = (environment: string) => {
     const file = require('../' + environment);
 
     if (file) {
-      Object.keys(file).map(key => {
+      Object.keys(file).map((key) => {
         file[key] = process.env[key] || file[key];
       });
     }
@@ -56,9 +56,9 @@ const createEnvironmentFile = (environment: string) => {
 
 console.log(color.cyan('Generating environment config'));
 // for each of the app, go to the environment
-folders.forEach(folder => {
-  process.stdout.write(color.cyan(folder.name));
+folders.forEach((folder) => {
   createEnvironmentFile(path.join('./apps', folder.name, 'src', 'environments', 'environment.ts'));
   createEnvironmentFile(path.join('./apps', folder.name, 'src', 'environments', 'environment.prod.ts'));
-  process.stdout.write(color.cyan('...') + color.green('Done\n'));
+  process.stdout.write(color.cyan('..'));
 });
+process.stdout.write(color.green('\nDone\n'));
