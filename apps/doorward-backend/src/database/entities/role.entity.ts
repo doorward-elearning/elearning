@@ -1,7 +1,6 @@
-import BaseEntity from './base.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import { OrganizationEntity } from './organization.entity';
+import { Column, Entity, OneToMany } from 'typeorm';
 import UserRolesEntity from './user.roles.entity';
+import BaseEntity from './base.entity';
 
 @Entity('Roles')
 export default class RoleEntity extends BaseEntity {
@@ -10,12 +9,6 @@ export default class RoleEntity extends BaseEntity {
 
   @Column({ type: 'text' })
   description: string;
-
-  @ManyToOne(() => OrganizationEntity, (organization) => organization.roles, {
-    onDelete: 'CASCADE',
-    cascade: true,
-  })
-  organization: OrganizationEntity;
 
   @OneToMany(() => UserRolesEntity, (userRole) => userRole.role)
   users: Array<UserRolesEntity>;

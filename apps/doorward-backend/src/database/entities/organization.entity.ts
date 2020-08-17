@@ -1,19 +1,46 @@
-import { Column, Entity, OneToMany } from 'typeorm';
-import BaseEntity from './base.entity';
+import {
+  BeforeInsert,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import UserEntity from './user.entity';
+import Tools from '@doorward/common/utils/Tools';
 import RoleEntity from './role.entity';
 
+/**
+ * Do not define relationships in this file as it will create cyclic imports.
+ */
 @Entity('Organizations')
-export class OrganizationEntity extends BaseEntity {
+export class OrganizationEntity {
+  @PrimaryColumn({ nullable: false })
+  public id: string;
+
+  @CreateDateColumn()
+  public createdAt: Date;
+
+  @UpdateDateColumn()
+  public updatedAt: Date;
+
+  @DeleteDateColumn()
+  public deletedAt: Date;
+
   @Column()
   public name: string;
 
   @Column()
   public description: string;
 
-  @OneToMany(() => UserEntity, (user) => user.organization)
   users: Array<UserEntity>;
 
-  @OneToMany(() => RoleEntity, (user) => user.organization)
   roles: Array<RoleEntity>;
+
+  @BeforeInsert()
+  generateUUID() {
+    this.id = Tools.generateId();
+  }
 }
