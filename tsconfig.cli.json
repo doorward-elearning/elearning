@@ -2,12 +2,10 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "module": "commonjs",
-    "paths": {
-      "@doorward/ui/*": ["../../libs/ui/src/*"],
-      "@doorward/common/*": ["../../libs/common/src/*"],
-      "@doorward/backend/*": ["../../libs/backend/src/*"],
-      "@doorward/chat/*": ["../../libs/chat/src/*"],
-      "@doorward/whiteboard/*": ["../../libs/whiteboard/src/lib/*"]
-    }
+    "plugins": [
+      {
+        "transform": "@zerollup/ts-transform-paths"
+      }
+    ]
   }
 }
