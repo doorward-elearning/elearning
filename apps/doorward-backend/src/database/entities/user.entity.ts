@@ -1,11 +1,11 @@
 import BaseEntity from './base.entity';
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
 import { OrganizationEntity } from './organization.entity';
-import RoleEntity from './role.entity';
 import UserRolesEntity from './user.roles.entity';
 import CourseEntity from './course.entity';
+import StudentCoursesEntity from './student.courses.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseEntity {
@@ -33,7 +33,7 @@ export default class UserEntity extends BaseEntity {
   @Column()
   city: string;
 
-  @Column({ enum: Gender })
+  @Column({ type: 'enum', enum: Gender })
   gender: Gender;
 
   @Column({ default: UserStatus.PENDING_ACTIVATION })
@@ -50,4 +50,7 @@ export default class UserEntity extends BaseEntity {
 
   @OneToMany(() => CourseEntity, (course) => course.author)
   authoredCourses: Array<CourseEntity>;
+
+  @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.student)
+  studentCourses: Array<StudentCoursesEntity>;
 }

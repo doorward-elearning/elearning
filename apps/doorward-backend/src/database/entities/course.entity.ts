@@ -1,7 +1,9 @@
 import BaseEntity from './base.entity';
-import { Column, Entity, JoinColumn, OneToMany } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
+import ModuleEntity from './module.entity';
+import StudentCoursesEntity from './student.courses.entity';
 
 @Entity('Courses')
 export default class CourseEntity extends BaseEntity {
@@ -17,10 +19,10 @@ export default class CourseEntity extends BaseEntity {
   @Column({ type: 'text' })
   requirements: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'enum', enum: CourseStatus })
   status: CourseStatus;
 
-  @OneToMany(() => UserEntity, (user) => user.authoredCourses, {
+  @ManyToOne(() => UserEntity, (user) => user.authoredCourses, {
     onDelete: 'SET NULL',
   })
   @JoinColumn({
@@ -28,4 +30,10 @@ export default class CourseEntity extends BaseEntity {
     referencedColumnName: 'id',
   })
   author: UserEntity;
+
+  @OneToMany(() => ModuleEntity, (module) => module.course)
+  modules: Array<ModuleEntity>;
+
+  @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course)
+  studentCourses: Array<StudentCoursesEntity>;
 }
