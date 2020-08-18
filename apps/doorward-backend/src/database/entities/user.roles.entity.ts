@@ -1,10 +1,10 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Entity, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import RoleEntity from './role.entity';
 
 @Entity('UserRoles')
-export default class UserRolesEntity extends BaseEntity {
+export default class UserRolesEntity extends BaseOrganizationEntity {
   @ManyToOne(() => UserEntity, (user) => user.roles, {
     onDelete: 'CASCADE',
   })

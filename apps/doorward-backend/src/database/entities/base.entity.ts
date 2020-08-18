@@ -1,13 +1,4 @@
-import {
-  BeforeInsert,
-  CreateDateColumn,
-  DeleteDateColumn,
-  JoinColumn,
-  ManyToOne,
-  PrimaryColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { OrganizationEntity } from './organization.entity';
+import { BeforeInsert, CreateDateColumn, DeleteDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import Tools from '@doorward/common/utils/Tools';
 
 export default class BaseEntity {
@@ -27,12 +18,4 @@ export default class BaseEntity {
   generateUUID() {
     this.id = Tools.generateId();
   }
-
-  @ManyToOne(() => OrganizationEntity, {
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({
-    name: 'organizationId',
-  })
-  organization: OrganizationEntity;
 }

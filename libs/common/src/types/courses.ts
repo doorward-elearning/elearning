@@ -12,3 +12,17 @@ export enum StudentCourseStatus {
   SUSPENDED = 'Suspended',
   EXPELLED = 'Expelled',
 }
+
+export enum AssignmentSubmissionType {
+  TEXT_ENTRY = 'Text Entry',
+  WEBSITE_URL = 'Website URL',
+  MEDIA_RECORDING = 'Media Recording',
+  FILE_UPLOAD = 'File Upload',
+}
+
+export enum AssignmentSubmissionStatus {
+  DRAFT = 'Draft',
+  SUBMITTED = 'Submitted',
+  GRADED = 'Graded',
+  RESUBMIT = 'Resubmit',
+}

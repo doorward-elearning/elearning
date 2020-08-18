@@ -1,4 +1,4 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
@@ -7,7 +7,7 @@ import StudentCoursesEntity from './student.courses.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 
 @Entity('Courses')
-export default class CourseEntity extends BaseEntity {
+export default class CourseEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 

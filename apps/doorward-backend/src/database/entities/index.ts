@@ -1,5 +1,3 @@
-import { User } from './organization.entity';
-
-const entities = [User];
+const entities = [];
 
 export default entities;

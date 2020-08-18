@@ -1,11 +1,11 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import MeetingRoomEntity from './meeting.room.entity';
 import UserEntity from './user.entity';
 import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 @Entity('MeetingRoomMembers')
-export default class MeetingRoomMemberEntity extends BaseEntity {
+export default class MeetingRoomMemberEntity extends BaseOrganizationEntity {
   @ManyToOne(() => MeetingRoomEntity, (meetingRoom) => meetingRoom.members, {
     onDelete: 'CASCADE',
   })

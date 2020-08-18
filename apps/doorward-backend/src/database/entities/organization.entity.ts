@@ -4,7 +4,6 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   Entity,
-  OneToMany,
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -18,22 +17,31 @@ import RoleEntity from './role.entity';
 @Entity('Organizations')
 export class OrganizationEntity {
   @PrimaryColumn({ nullable: false })
-  public id: string;
+  id: string;
+
+  @Column({ unique: true })
+  name: string;
+
+  @Column()
+  description: string;
+
+  @Column()
+  link: string;
+
+  @Column()
+  darkThemeIcon: string;
+
+  @Column()
+  icon: string;
 
   @CreateDateColumn()
-  public createdAt: Date;
+  createdAt: Date;
 
   @UpdateDateColumn()
-  public updatedAt: Date;
+  updatedAt: Date;
 
   @DeleteDateColumn()
-  public deletedAt: Date;
-
-  @Column()
-  public name: string;
-
-  @Column()
-  public description: string;
+  deletedAt: Date;
 
   users: Array<UserEntity>;
 

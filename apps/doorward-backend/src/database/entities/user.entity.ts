@@ -1,4 +1,4 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
@@ -12,8 +12,8 @@ import GroupEntity from './group.entity';
 import GroupMemberEntity from './group.member.entity';
 
 @Entity('Users')
-export default class UserEntity extends BaseEntity {
-  @Column({ nullable: false, unique: true })
+export default class UserEntity extends BaseOrganizationEntity {
+  @Column({ nullable: false })
   username: string;
 
   @Column()
@@ -25,7 +25,7 @@ export default class UserEntity extends BaseEntity {
   @Column()
   lastName: string;
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
   @Column()
@@ -42,12 +42,6 @@ export default class UserEntity extends BaseEntity {
 
   @Column({ default: UserStatus.PENDING_ACTIVATION })
   status: string;
-
-  @ManyToOne(() => OrganizationEntity, (organization) => organization.users, {
-    onDelete: 'CASCADE',
-    cascade: true,
-  })
-  organization: OrganizationEntity;
 
   @OneToMany(() => UserRolesEntity, (userRoles) => userRoles.user)
   roles: Array<UserRolesEntity>;

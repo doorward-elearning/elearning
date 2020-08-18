@@ -1,4 +1,4 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
@@ -6,7 +6,7 @@ import UserEntity from './user.entity';
 import QuestionEntity from './question.entity';
 
 @Entity('ModuleItems')
-export default class ModuleItemEntity extends BaseEntity {
+export default class ModuleItemEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 

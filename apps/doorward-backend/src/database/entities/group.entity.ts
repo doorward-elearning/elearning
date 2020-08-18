@@ -1,11 +1,11 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import UserEntity from './user.entity';
 import { OrganizationEntity } from './organization.entity';
 import GroupMemberEntity from './group.member.entity';
 
 @Entity('Groups')
-export default class GroupEntity extends BaseEntity {
+export default class GroupEntity extends BaseOrganizationEntity {
   @Column()
   name: string;
 
@@ -19,11 +19,6 @@ export default class GroupEntity extends BaseEntity {
     name: 'createdBy',
   })
   author: UserEntity;
-
-  @ManyToOne(() => OrganizationEntity, {
-    onDelete: 'CASCADE',
-  })
-  organization: OrganizationEntity;
 
   @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.group)
   members: Array<GroupMemberEntity>;

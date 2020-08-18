@@ -2,13 +2,19 @@ import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 
-@Entity('PasswordResets')
-export default class PasswordsResetsEntity extends BaseOrganizationEntity {
-  @Column({ type: 'text' })
-  token: string;
+@Entity('Files')
+export default class FileEntity extends BaseOrganizationEntity {
+  @Column()
+  name: string;
+
+  @Column()
+  public: boolean;
+
+  @Column()
+  publicUrl: string;
 
   @ManyToOne(() => UserEntity, {
     onDelete: 'CASCADE',
   })
-  user: UserEntity;
+  owner: UserEntity;
 }

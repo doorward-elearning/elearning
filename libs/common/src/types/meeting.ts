@@ -7,3 +7,8 @@ export enum MeetingStatus {
   STARTED = 'Started',
   ENDED = 'Ended',
 }
+
+export enum MeetingRoomTypes {
+  PRIVATE = 'Private',
+  PUBLIC = 'Public',
+}

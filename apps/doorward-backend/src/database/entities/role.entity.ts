@@ -1,9 +1,9 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import UserRolesEntity from './user.roles.entity';
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 
 @Entity('Roles')
-export default class RoleEntity extends BaseEntity {
+export default class RoleEntity extends BaseOrganizationEntity {
   @Column()
   name: string;
 

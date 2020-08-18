@@ -1,10 +1,10 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import ModuleItemEntity from './module.item.entity';
 import AnswerEntity from './answer.entity';
 
 @Entity('Questions')
-export default class QuestionEntity extends BaseEntity {
+export default class QuestionEntity extends BaseOrganizationEntity {
   @Column({ type: 'text' })
   question: string;
 

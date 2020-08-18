@@ -1,11 +1,11 @@
-import BaseEntity from './base.entity';
+import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import CourseEntity from './course.entity';
 import { StudentCourseStatus } from '@doorward/common/types/courses';
 
 @Entity('StudentCourses')
-export default class StudentCoursesEntity extends BaseEntity {
+export default class StudentCoursesEntity extends BaseOrganizationEntity {
   @ManyToOne(() => UserEntity, (user) => user.courses, {
     onDelete: 'CASCADE',
   })
