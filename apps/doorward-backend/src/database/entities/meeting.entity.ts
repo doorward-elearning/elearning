@@ -9,10 +9,10 @@ export default class MeetingEntity extends BaseOrganizationEntity {
   @Column({ nullable: false })
   sessionId: string;
 
-  @Column()
+  @Column({ default: 0 })
   numParticipants: number;
 
-  @Column({ type: 'enum', enum: MeetingStatus })
+  @Column({ type: 'enum', enum: MeetingStatus, default: MeetingStatus.PENDING })
   status: MeetingStatus;
 
   @ManyToOne(() => UserEntity, (host) => host.meetings, {

@@ -22,16 +22,16 @@ export class OrganizationEntity {
   @Column({ unique: true })
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   description: string;
 
   @Column()
   link: string;
 
-  @Column()
+  @Column({ nullable: true })
   darkThemeIcon: string;
 
-  @Column()
+  @Column({ nullable: true })
   icon: string;
 
   @CreateDateColumn()

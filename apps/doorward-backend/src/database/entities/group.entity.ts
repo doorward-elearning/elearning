@@ -1,7 +1,6 @@
 import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import UserEntity from './user.entity';
-import { OrganizationEntity } from './organization.entity';
 import GroupMemberEntity from './group.member.entity';
 
 @Entity('Groups')
@@ -9,7 +8,7 @@ export default class GroupEntity extends BaseOrganizationEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   type: string;
 
   @ManyToOne(() => UserEntity, (user) => user.authoredGroups, {

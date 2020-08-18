@@ -7,10 +7,10 @@ export default class FileEntity extends BaseOrganizationEntity {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ default: false })
   public: boolean;
 
-  @Column()
+  @Column({ nullable: false })
   publicUrl: string;
 
   @ManyToOne(() => UserEntity, {

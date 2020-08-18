@@ -10,7 +10,7 @@ export default class MeetingRoomEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 
-  @Column({ type: 'enum', enum: MeetingRoomTypes })
+  @Column({ type: 'enum', enum: MeetingRoomTypes, default: MeetingRoomTypes.PRIVATE })
   type: MeetingRoomTypes;
 
   @OneToMany(() => MeetingRoomMemberEntity, (meetingRoomMember) => meetingRoomMember.meetingRoom)

@@ -11,16 +11,16 @@ export default class CourseEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   objectives: string;
 
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   requirements: string;
 
-  @Column({ type: 'enum', enum: CourseStatus })
+  @Column({ type: 'enum', enum: CourseStatus, default: CourseStatus.DRAFT })
   status: CourseStatus;
 
   @OneToOne(() => MeetingRoomEntity, (meetingRoom) => meetingRoom.course, {

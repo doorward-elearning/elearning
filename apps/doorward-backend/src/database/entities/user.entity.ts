@@ -16,7 +16,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Column({ nullable: false })
   username: string;
 
-  @Column()
+  @Column({ nullable: true})
   password: string;
 
   @Column()
@@ -28,16 +28,16 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true})
   zipCode: string;
 
-  @Column()
+  @Column({ nullable: true})
   country: string;
 
-  @Column()
+  @Column({ nullable: true})
   city: string;
 
-  @Column({ type: 'enum', enum: Gender })
+  @Column({ type: 'enum', enum: Gender, nullable: true })
   gender: Gender;
 
   @Column({ default: UserStatus.PENDING_ACTIVATION })

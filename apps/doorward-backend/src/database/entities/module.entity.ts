@@ -5,7 +5,7 @@ import ModuleItemEntity from './module.item.entity';
 
 @Entity('Modules')
 export default class ModuleEntity extends BaseOrganizationEntity {
-  @Column({ type: 'text' })
+  @Column({ type: 'text', nullable: true })
   description: string;
 
   @Column()

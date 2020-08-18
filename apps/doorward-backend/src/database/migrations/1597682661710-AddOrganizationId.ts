@@ -36,9 +36,6 @@ export class AddOrganizationId1597682661710 implements MigrationInterface {
       `ALTER TABLE "GroupMembers" ADD CONSTRAINT "FK_824999b5a7a3cd3b573c7d4dd7f" FOREIGN KEY ("organizationId") REFERENCES "Organizations"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
-      `ALTER TABLE "Groups" ADD CONSTRAINT "FK_99a38bd7adba412daa8be562f32" FOREIGN KEY ("createdBy") REFERENCES "Users"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
-    );
-    await queryRunner.query(
       `ALTER TABLE "Courses" ADD CONSTRAINT "FK_c47efca7e56913a7495071596c7" FOREIGN KEY ("organizationId") REFERENCES "Organizations"("id") ON DELETE CASCADE ON UPDATE NO ACTION`
     );
     await queryRunner.query(
@@ -65,7 +62,6 @@ export class AddOrganizationId1597682661710 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "ModuleItems" DROP CONSTRAINT IF EXISTS "FK_31e6c5890c29399bf792c85b94f"`);
     await queryRunner.query(`ALTER TABLE "Modules" DROP CONSTRAINT IF EXISTS "FK_b4f3f0fee39ddc2b64b6109ee74"`);
     await queryRunner.query(`ALTER TABLE "Courses" DROP CONSTRAINT IF EXISTS "FK_c47efca7e56913a7495071596c7"`);
-    await queryRunner.query(`ALTER TABLE "Groups" DROP CONSTRAINT IF EXISTS "FK_99a38bd7adba412daa8be562f32"`);
     await queryRunner.query(`ALTER TABLE "GroupMembers" DROP CONSTRAINT IF EXISTS "FK_824999b5a7a3cd3b573c7d4dd7f"`);
     await queryRunner.query(
       `ALTER TABLE "MeetingRoomMembers" DROP CONSTRAINT IF EXISTS "FK_5237b8d8d684872f971703b2be1"`
