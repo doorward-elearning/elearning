@@ -201,6 +201,21 @@ export const restoreAssignmentSubmissions = async (queryRunner: QueryRunner) => 
   });
 };
 
+export const restoreSchools = async (queryRunner: QueryRunner) => {
+  return restoreData(queryRunner, 'Schools', {});
+};
+
+export const restoreClassrooms = async (queryRunner: QueryRunner) => {
+  return restoreData(queryRunner, 'Classrooms', {});
+};
+
+export const restoreCourseManagers = async (queryRunner: QueryRunner) => {
+  return restoreData(queryRunner, 'CourseManagers', {
+    organizationId: async (data, row) => getUserOrganization(queryRunner, row.managerId),
+    creatorId: (data, row) => row.enrolledById,
+  });
+};
+
 export default async (queryRunner: QueryRunner) => {
   await restoreOrganizations(queryRunner);
   await restoreUsers(queryRunner);
@@ -220,27 +235,7 @@ export default async (queryRunner: QueryRunner) => {
   await restoreGroupMembers(queryRunner);
   await restoreFiles(queryRunner);
   await restoreAssignmentSubmissions(queryRunner);
+  await restoreSchools(queryRunner);
+  await restoreClassrooms(queryRunner);
+  await restoreCourseManagers(queryRunner);
 };
-const TABLES = [
-  'Organizations',
-  'Users',
-  'Roles',
-  'UserRoles',
-  'Courses',
-  'Modules',
-  'StudentCourses',
-  'ModuleItems',
-  'PasswordResets',
-  'Questions',
-  'Answers',
-  'MeetingRooms',
-  'MeetingRoomMembers',
-  'Meetings',
-  'Groups',
-  'GroupMembers',
-  'Files',
-  'AssignmentSubmissions',
-  'Schools',
-  'Classrooms',
-  'CourseManagers',
-];
