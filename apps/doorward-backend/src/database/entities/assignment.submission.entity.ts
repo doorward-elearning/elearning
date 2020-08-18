@@ -16,7 +16,7 @@ export default class AssignmentSubmissionEntity extends BaseOrganizationEntity {
   points: number;
 
   @Column({ type: 'enum', enum: AssignmentSubmissionStatus, default: AssignmentSubmissionStatus.DRAFT })
-  resubmission: AssignmentSubmissionStatus;
+  status: AssignmentSubmissionStatus;
 
   @Column({ default: 0 })
   numResubmissions: number;

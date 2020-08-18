@@ -3,6 +3,7 @@ import { MigrationInterface, QueryRunner } from 'typeorm';
 export const SCHEMA = 'sequelize_data_backup';
 export const TABLES = [
   'Organizations',
+  'MeetingRooms',
   'Users',
   'Roles',
   'UserRoles',
@@ -13,7 +14,6 @@ export const TABLES = [
   'PasswordResets',
   'Questions',
   'Answers',
-  'MeetingRooms',
   'MeetingRoomMembers',
   'Meetings',
   'Groups',
@@ -24,23 +24,30 @@ export const TABLES = [
   'Classrooms',
   'CourseManagers',
 ];
+
+export const ENUMS = [
+  'enum_Courses_status',
+  'enum_GroupMembers_role',
+  'enum_MeetingRoomMembers_role',
+  'enum_Users_gender',
+  'enum_Users_status',
+];
 export class BackupSequelizeData1497735758507 implements MigrationInterface {
   name = 'BackupSequelizeData1497735758507';
 
   public async dropSchema(queryRunner: QueryRunner) {
+    await queryRunner.createSchema(SCHEMA, true);
     await Promise.all(
       TABLES.reverse().map(async (table) => {
-        await queryRunner.query(`DROP TABLE IF EXISTS public."${table}" CASCADE`);
+        await queryRunner.query(`DROP TABLE IF EXISTS ${SCHEMA}."${table}"`);
       })
     );
-    await queryRunner.query(`DROP TYPE IF EXISTS "public"."enum_Courses_status" CASCADE`);
-    await queryRunner.query(`DROP TYPE IF EXISTS "public"."enum_GroupMembers_role" CASCADE`);
-    await queryRunner.query(`DROP TYPE IF EXISTS "public"."enum_MeetingRoomMembers_role" CASCADE`);
-    await queryRunner.query(`DROP TYPE IF EXISTS "public"."enum_Users_gender" CASCADE`);
-    await queryRunner.query(`DROP TYPE IF EXISTS "public"."enum_Users_status" CASCADE;`);
+
+    await queryRunner.dropSchema(SCHEMA);
   }
 
   public async up(queryRunner: QueryRunner): Promise<void> {
+    await this.dropSchema(queryRunner);
     await queryRunner.createSchema(SCHEMA, true);
 
     await Promise.all(
@@ -52,12 +59,15 @@ export class BackupSequelizeData1497735758507 implements MigrationInterface {
           `SELECT FROM information_schema.tables WHERE table_schema = '${SCHEMA}' AND table_name = '${table}'`
         );
         if (tableExists.length && !backupTableExists.length) {
-          await queryRunner.query(`CREATE TABLE ${SCHEMA}."${table}" (LIKE public."${table}" INCLUDING ALL)`);
-          await queryRunner.query(`INSERT INTO ${SCHEMA}."${table}" SELECT * FROM public."${table}"`);
+          await queryRunner.query(`CREATE TABLE ${SCHEMA}."${table}" AS TABLE public."${table}"`);
         }
       })
     );
-    await this.dropSchema(queryRunner);
+    await Promise.all(
+      TABLES.reverse().map(async (table) => {
+        await queryRunner.query(`DROP TABLE IF EXISTS public."${table}" CASCADE`);
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
@@ -74,11 +84,7 @@ export class BackupSequelizeData1497735758507 implements MigrationInterface {
         }
       })
     );
-    await Promise.all(
-      TABLES.reverse().map(async (table) => {
-        await queryRunner.query(`DROP TABLE IF EXISTS ${SCHEMA}."${table}"`);
-      })
-    );
-    await queryRunner.dropSchema(SCHEMA);
+
+    await this.dropSchema(queryRunner);
   }
 }
