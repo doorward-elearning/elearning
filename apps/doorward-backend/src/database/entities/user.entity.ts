@@ -1,8 +1,7 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
-import { OrganizationEntity } from './organization.entity';
 import UserRolesEntity from './user.roles.entity';
 import CourseEntity from './course.entity';
 import StudentCoursesEntity from './student.courses.entity';
@@ -10,13 +9,14 @@ import MeetingRoomMemberEntity from './meeting.room.member.entity';
 import MeetingEntity from './meeting.entity';
 import GroupEntity from './group.entity';
 import GroupMemberEntity from './group.member.entity';
+import { Roles } from '@doorward/common/types/roles';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
   @Column({ nullable: false })
   username: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   password: string;
 
   @Column()
@@ -28,13 +28,13 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Column()
   email: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   zipCode: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   country: string;
 
-  @Column({ nullable: true})
+  @Column({ nullable: true })
   city: string;
 
   @Column({ type: 'enum', enum: Gender, nullable: true })
@@ -63,4 +63,16 @@ export default class UserEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.member)
   groups: Array<GroupMemberEntity>;
+
+  isSuperAdmin() {
+    return this.roles?.find((role) => role.role?.name === Roles.SUPER_ADMINISTRATOR);
+  }
+
+  isStudent() {
+    return this.roles?.find((role) => role.role?.name === Roles.STUDENT);
+  }
+
+  isTeacher() {
+    return this.roles?.find((role) => role.role?.name === Roles.TEACHER);
+  }
 }

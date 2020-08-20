@@ -16,6 +16,8 @@ export default class BaseEntity {
 
   @BeforeInsert()
   generateUUID() {
-    this.id = Tools.generateId();
+    if (!this.id) {
+      this.id = Tools.generateId();
+    }
   }
 }

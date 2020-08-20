@@ -15,7 +15,7 @@ import RoleEntity from './role.entity';
  * Do not define relationships in this file as it will create cyclic imports.
  */
 @Entity('Organizations')
-export class OrganizationEntity {
+export default class OrganizationEntity {
   @PrimaryColumn({ nullable: false })
   id: string;
 
@@ -49,6 +49,8 @@ export class OrganizationEntity {
 
   @BeforeInsert()
   generateUUID() {
-    this.id = Tools.generateId();
+    if (!this.id) {
+      this.id = Tools.generateId();
+    }
   }
 }

@@ -24,7 +24,7 @@ module.exports = {
         allowNull: true,
         references: {
           model: 'Organizations',
-          as: 'organization',
+          as: 'organization.json',
         },
       },
       publicFile: {

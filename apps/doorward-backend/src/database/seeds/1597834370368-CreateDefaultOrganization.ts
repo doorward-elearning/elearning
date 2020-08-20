@@ -1,6 +1,6 @@
 import SeederInterface from '@doorward/backend/database/SeederInterface';
 import { EntityManager } from 'typeorm';
-import { OrganizationEntity } from '../entities/organization.entity';
+import OrganizationEntity from '../entities/organization.entity';
 
 export class CreateDefaultOrganization1597834370368 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
@@ -26,7 +26,7 @@ export class CreateDefaultOrganization1597834370368 extends SeederInterface {
     await entityManager
       .createQueryBuilder()
       .delete()
-      .from(OrganizationEntity, 'organization')
+      .from(OrganizationEntity, 'organization.json')
       .where('id = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
       .execute();
   }

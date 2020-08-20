@@ -41,7 +41,7 @@ export default (sequelize: Sequelize) => {
     });
     Role.belongsTo(Organization, {
       foreignKey: 'organizationId',
-      as: 'organization',
+      as: 'organization.json',
     });
     return Role;
   };

@@ -1,8 +1,12 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
+import { AuthModule } from './modules/auth/auth.module';
+import { UsersModule } from './modules/users/users.module';
+import { OrganizationModule } from './modules/organization/organization.module';
 import ormConfig from '../ormconfig.js';
 import entities from './database/entities';
 
+@Global()
 @Module({
   imports: [
     TypeOrmModule.forRootAsync({
@@ -11,6 +15,10 @@ import entities from './database/entities';
         entities,
       }),
     }),
+    TypeOrmModule.forFeature(entities),
+    AuthModule,
+    UsersModule,
+    OrganizationModule,
   ],
   controllers: [],
   providers: [],

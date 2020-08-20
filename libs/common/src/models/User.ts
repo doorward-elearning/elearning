@@ -116,7 +116,7 @@ export default (sequelize: Sequelize) => {
     });
     User.belongsTo(Organization, {
       foreignKey: 'organizationId',
-      as: 'organization',
+      as: 'organization.json',
     });
     User.hasMany(Course, {
       foreignKey: 'createdBy',
