@@ -28,6 +28,7 @@
     "db:thala:migrate:sequelize": "yarn ts-node apps/doorward-backend/src/database/sequelize/index.ts",
     "db:thala:seeder:create": "cd apps/doorward-backend && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:create -n ",
     "db:thala:seed": "cd apps/doorward-backend && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:run",
+    "db:thala:seed:undo": "cd apps/doorward-backend && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:revert",
     "ts-node": "ts-node --compiler ttypescript --project tsconfig.cli.json",
     "test": "nx test",
     "lint": "nx workspace-lint && nx lint",

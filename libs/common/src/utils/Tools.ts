@@ -15,15 +15,16 @@ class Tools {
   static enumKeys<T extends Enum<S>, S>(enumeration: T): Array<T> {
     const keys: any[] = Object.keys(enumeration);
     return keys
-      .map(k => enumeration[k])
-      .filter(x => typeof x !== 'string')
+      .map((k) => enumeration[k])
+      .filter((x) => typeof x !== 'string')
       .map((x: any) => x as T);
   }
 
   static generateId(): string {
-    return Array(1)
+    return Array(2)
       .fill(0)
-      .reduce(acc => acc + shortId.generate(), '');
+      .map(() => shortId.generate())
+      .join('-');
   }
 
   static randomString(length = 6): string {
@@ -83,7 +84,7 @@ class Tools {
 
   static pick<T, K extends keyof T>(source: T, keys: K[]): Pick<T, K> {
     const returnValue = {} as Pick<T, K>;
-    keys.forEach(k => {
+    keys.forEach((k) => {
       returnValue[k] = source[k];
     });
     return returnValue;
