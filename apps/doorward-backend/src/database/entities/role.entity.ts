@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
-import UserRolesEntity from './user.roles.entity';
 import BaseOrganizationEntity from './base.organization.entity';
+import UserEntity from './user.entity';
 
 @Entity('Roles')
 export default class RoleEntity extends BaseOrganizationEntity {
@@ -10,6 +10,6 @@ export default class RoleEntity extends BaseOrganizationEntity {
   @Column({ type: 'text' })
   description: string;
 
-  @OneToMany(() => UserRolesEntity, (userRole) => userRole.role)
-  users: Array<UserRolesEntity>;
+  @OneToMany(() => UserEntity, (user) => user.role)
+  users: Array<UserEntity>;
 }

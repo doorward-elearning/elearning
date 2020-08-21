@@ -4,6 +4,7 @@ import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
 
 const SimpleCrypto = require('simple-crypto-js').default;
+const bcrypt = require('bcrypt');
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
 
@@ -53,6 +54,14 @@ class Tools {
 
   static getToken(): string | null {
     return Tools.decrypt(sessionStorage.getItem(Tools.AUTHORIZATION_TOKEN));
+  }
+
+  static hashPassword(password: string): string {
+    return bcrypt.hashSync(password, +process.env.BCRYPT_PASSWORD_SALT);
+  }
+
+  static verifyPassword(password: string, hashedPassword: string) {
+    return bcrypt.compareSync(password, hashedPassword);
   }
 
   static isLoggedIn(): boolean {

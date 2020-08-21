@@ -11,7 +11,7 @@ export default class GroupEntity extends BaseOrganizationEntity {
   @Column({ nullable: true })
   type: string;
 
-  @ManyToOne(() => UserEntity, (user) => user.authoredGroups, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({

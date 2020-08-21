@@ -4,9 +4,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { UserStatus } from '@doorward/common/types/users';
 import UserEntity from '../database/entities/user.entity';
-import UserRolesEntity from '../database/entities/user.roles.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '../database/entities/role.entity';
+import Tools from '@doorward/common/utils/Tools';
 const chalk = require('chalk');
 
 export let currentOrganization: OrganizationEntity = undefined;
@@ -69,6 +69,10 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     });
     organization = await entityManager.save(OrganizationEntity, organization);
 
+    const role = await entityManager.findOne(RoleEntity, {
+      name: Roles.SUPER_ADMINISTRATOR,
+    });
+
     if (!admins?.length) {
       console.error('Organization config file "organization.json" does not specify any admins');
       process.exit(1);
@@ -76,26 +80,14 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
 
     await Promise.all(
       admins.map(async (admin) => {
-        let user = entityManager.create(UserEntity, {
+        let user = await entityManager.findOne(UserEntity, admin.id);
+        user = entityManager.create(UserEntity, {
           ...admin,
+          password: user ? user.password : Tools.hashPassword(admin.password),
           organization,
+          role,
         });
-        user = await entityManager.save(UserEntity, user);
-        user = await entityManager.findOne(UserEntity, user.id, { relations: ['roles', 'roles.role'] });
-
-        if (!user.isSuperAdmin()) {
-          const superAdminRole = await entityManager.findOne(RoleEntity, {
-            where: { name: Roles.SUPER_ADMINISTRATOR },
-          });
-          await entityManager.save(
-            UserRolesEntity,
-            entityManager.create(UserRolesEntity, {
-              user,
-              role: superAdminRole,
-              organization,
-            })
-          );
-        }
+        await entityManager.save(UserEntity, user);
       })
     );
 

@@ -4,8 +4,10 @@ import * as bcrypt from 'bcrypt';
 import UserEntity from '../entities/user.entity';
 import { UserStatus } from '@doorward/common/types/users';
 import OrganizationEntity from '../entities/organization.entity';
+import RoleEntity from '../entities/role.entity';
+import { Roles } from '@doorward/common/types/roles';
 
-export class CreateDefaultUsers1597854216712 extends SeederInterface {
+export class CreateDefaultUsers1598854206712 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
     const password = await bcrypt.hash(
       process.env.DEFAULT_ADMIN_PASSWORD,
@@ -14,8 +16,13 @@ export class CreateDefaultUsers1597854216712 extends SeederInterface {
 
     const fullName = process.env.ORGANIZATION_DEFAULT_ADMIN_FULLNAME.trim().split(/\s+/);
     const organization = await entityManager
-      .createQueryBuilder(OrganizationEntity, 'organization.json')
-      .where('organization.json.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
+      .createQueryBuilder(OrganizationEntity, 'organization')
+      .where('organization.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
+      .getOne();
+
+    const role = await entityManager
+      .createQueryBuilder(RoleEntity, 'role')
+      .where('role.id = :name', { name: Roles.SUPER_ADMINISTRATOR })
       .getOne();
 
     await entityManager
@@ -32,6 +39,7 @@ export class CreateDefaultUsers1597854216712 extends SeederInterface {
           organization,
           firstName: fullName[0],
           lastName: fullName[1],
+          role,
         },
       ])
       .execute();

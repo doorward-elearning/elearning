@@ -1,15 +1,13 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
-import UserRolesEntity from './user.roles.entity';
-import CourseEntity from './course.entity';
-import StudentCoursesEntity from './student.courses.entity';
 import MeetingRoomMemberEntity from './meeting.room.member.entity';
 import MeetingEntity from './meeting.entity';
-import GroupEntity from './group.entity';
 import GroupMemberEntity from './group.member.entity';
 import { Roles } from '@doorward/common/types/roles';
+import RoleEntity from './role.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -17,6 +15,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   username: string;
 
   @Column({ nullable: true })
+  @Exclude()
   password: string;
 
   @Column()
@@ -43,14 +42,10 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Column({ default: UserStatus.PENDING_ACTIVATION })
   status: string;
 
-  @OneToMany(() => UserRolesEntity, (userRoles) => userRoles.user)
-  roles: Array<UserRolesEntity>;
-
-  @OneToMany(() => CourseEntity, (course) => course.author)
-  authoredCourses: Array<CourseEntity>;
-
-  @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.student)
-  courses: Array<StudentCoursesEntity>;
+  @ManyToOne(() => RoleEntity, (role) => role.users, {
+    eager: true,
+  })
+  role: RoleEntity;
 
   @OneToMany(() => MeetingRoomMemberEntity, (meetingRoomMember) => meetingRoomMember.meetingRoom)
   meetingRooms: Array<MeetingRoomMemberEntity>;
@@ -58,21 +53,18 @@ export default class UserEntity extends BaseOrganizationEntity {
   @OneToMany(() => MeetingEntity, (meeting) => meeting.host)
   meetings: Array<MeetingEntity>;
 
-  @OneToMany(() => GroupEntity, (group) => group.author)
-  authoredGroups: Array<GroupEntity>;
-
   @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.member)
   groups: Array<GroupMemberEntity>;
 
   isSuperAdmin() {
-    return this.roles?.find((role) => role.role?.name === Roles.SUPER_ADMINISTRATOR);
+    return this.role?.name === Roles.SUPER_ADMINISTRATOR;
   }
 
   isStudent() {
-    return this.roles?.find((role) => role.role?.name === Roles.STUDENT);
+    return this.role?.name === Roles.STUDENT;
   }
 
   isTeacher() {
-    return this.roles?.find((role) => role.role?.name === Roles.TEACHER);
+    return this.role?.name === Roles.TEACHER;
   }
 }

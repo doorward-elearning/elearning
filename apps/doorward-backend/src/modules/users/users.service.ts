@@ -6,7 +6,7 @@ import { UsersRepository } from './users.repository';
 export class UsersService {
   constructor(private usersRepository: UsersRepository) {}
 
-  async getAllUsers(): Promise<Array<UserEntity>> {
-    return this.usersRepository.find();
+  async getAllUsers(): Promise<UserEntity> {
+    return this.usersRepository.findOne();
   }
 }

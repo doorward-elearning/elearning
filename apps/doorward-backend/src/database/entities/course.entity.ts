@@ -31,7 +31,7 @@ export default class CourseEntity extends BaseOrganizationEntity {
   })
   meetingRoom: MeetingRoomEntity;
 
-  @ManyToOne(() => UserEntity, (user) => user.authoredCourses, {
+  @ManyToOne(() => UserEntity, {
     onDelete: 'SET NULL',
   })
   @JoinColumn({

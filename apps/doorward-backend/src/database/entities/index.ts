@@ -16,7 +16,6 @@ import RoleEntity from './role.entity';
 import SchoolEntity from './school.entity';
 import StudentCoursesEntity from './student.courses.entity';
 import UserEntity from './user.entity';
-import UserRolesEntity from './user.roles.entity';
 import OrganizationEntity from './organization.entity';
 
 const entities = [
@@ -39,7 +38,6 @@ const entities = [
   SchoolEntity,
   StudentCoursesEntity,
   UserEntity,
-  UserRolesEntity,
 ];
 
 export default entities;
