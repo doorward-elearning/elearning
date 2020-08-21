@@ -5,10 +5,17 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
 import organizationSetup from './config/organizationSetup';
+import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 
 async function bootstrap() {
   await organizationSetup();
   const app = await setUpNestApplication(AppModule);
+  swaggerDocumentation(app, {
+    title: 'Doorward Core API',
+    description: 'The doorward API documentation',
+    version: '1.0.0',
+    tag: 'doorward',
+  });
   const globalPrefix = process.env.API_PREFIX;
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));

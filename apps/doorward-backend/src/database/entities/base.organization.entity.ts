@@ -1,4 +1,4 @@
-import { JoinColumn, ManyToOne } from 'typeorm';
+import { BeforeInsert, getConnectionManager, JoinColumn, ManyToOne } from 'typeorm';
 import BaseEntity from './base.entity';
 import OrganizationEntity from './organization.entity';
 
@@ -11,4 +11,12 @@ export default class BaseOrganizationEntity extends BaseEntity {
     name: 'organizationId',
   })
   organization: OrganizationEntity;
+
+  @BeforeInsert()
+  async setOrganization() {
+    this.organization = await getConnectionManager()
+      .get()
+      .getRepository(OrganizationEntity)
+      .findOne(process.env.ORGANIZATION_ID);
+  }
 }

@@ -10,13 +10,13 @@ export interface PaginationMetaData {
     page: number;
   };
 }
-export interface ApiResponse<T = any, Meta extends PaginationMetaData = any> {
-  success: boolean;
-  statusCode: number;
-  timestamp: Date;
+export interface ApiResponse {
+  success?: boolean;
+  statusCode?: number;
+  timestamp?: Date;
   message?: string;
   errors?: Array<{ [name: string]: string }>;
-  meta?: Meta;
+  meta?: PaginationMetaData;
   [name: string]: any;
 }
 
