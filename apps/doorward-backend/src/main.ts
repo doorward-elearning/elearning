@@ -15,7 +15,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new TransformExceptionFilter());
 
-  const port = process.env.API_PORT || 3333;
+  const port = process.env.BACKEND_API_PORT || 3333;
   await app.listen(port, () => {
     const hostPrefix = process.env.NODE_ENV === 'development' ? 'https' : 'http';
 

@@ -34,7 +34,12 @@ export default class OrganizationBasedRepository<Entity extends BaseEntity> exte
     if (!arg1) {
       return super.findOne(this.appendOrganizationId(arg1));
     }
-    if (typeof arg1 === 'string' || typeof arg1 === 'number' || arg1 instanceof Date || arg1 instanceof ObjectID) {
+    if (
+      typeof arg1 === 'string' ||
+      typeof arg1 === 'number' ||
+      arg1 instanceof Date ||
+      (arg1 as ObjectID).toHexString
+    ) {
       return super.findOne(arg1, this.appendOrganizationId(arg2));
     } else {
       if (arg2) {

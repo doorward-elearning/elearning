@@ -8,6 +8,7 @@ import GroupMemberEntity from './group.member.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
 import { Exclude } from 'class-transformer';
+import Tools from '@doorward/common/utils/Tools';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -66,5 +67,9 @@ export default class UserEntity extends BaseOrganizationEntity {
 
   isTeacher() {
     return this.role?.name === Roles.TEACHER;
+  }
+
+  validatePassword(password: string): boolean {
+    return Tools.verifyPassword(password, this.password);
   }
 }
