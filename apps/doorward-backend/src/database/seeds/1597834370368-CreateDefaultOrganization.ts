@@ -26,7 +26,7 @@ export class CreateDefaultOrganization1597834370368 extends SeederInterface {
     await entityManager
       .createQueryBuilder()
       .delete()
-      .from(OrganizationEntity, 'organization.json')
+      .from(OrganizationEntity, 'organization')
       .where('id = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
       .execute();
   }

@@ -8,8 +8,8 @@ import OrganizationEntity from '../entities/organization.entity';
 export class CreateDefaultRoles1597916654826 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
     const organization = await entityManager
-      .createQueryBuilder(OrganizationEntity, 'organization.json')
-      .where('organization.json.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
+      .createQueryBuilder(OrganizationEntity, 'organization')
+      .where('organization.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
       .getOne();
 
     return entityManager

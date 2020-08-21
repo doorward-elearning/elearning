@@ -6,7 +6,7 @@ import { UserStatus } from '@doorward/common/types/users';
 import UserEntity from '../database/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '../database/entities/role.entity';
-import Tools from '@doorward/common/utils/Tools';
+import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 const chalk = require('chalk');
 
 export let currentOrganization: OrganizationEntity = undefined;
@@ -83,7 +83,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
         let user = await entityManager.findOne(UserEntity, admin.id);
         user = entityManager.create(UserEntity, {
           ...admin,
-          password: user ? user.password : Tools.hashPassword(admin.password),
+          password: user ? user.password : PasswordUtils.hashPassword(admin.password),
           organization,
           role,
         });

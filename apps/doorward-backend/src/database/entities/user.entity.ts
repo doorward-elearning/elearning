@@ -9,6 +9,7 @@ import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
 import { Exclude } from 'class-transformer';
 import Tools from '@doorward/common/utils/Tools';
+import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -69,7 +70,11 @@ export default class UserEntity extends BaseOrganizationEntity {
     return this.role?.name === Roles.TEACHER;
   }
 
+  hasRole(role: Roles) {
+    return this.role?.name === role;
+  }
+
   validatePassword(password: string): boolean {
-    return Tools.verifyPassword(password, this.password);
+    return PasswordUtils.verifyPassword(password, this.password);
   }
 }

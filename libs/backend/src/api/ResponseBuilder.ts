@@ -12,7 +12,7 @@ export class ResponseBuilder {
   ): ApiResponse<T> {
     return {
       success: status < 400,
-      data: classToPlain(data) as T,
+      ...classToPlain(data),
       message,
       errors,
       meta,

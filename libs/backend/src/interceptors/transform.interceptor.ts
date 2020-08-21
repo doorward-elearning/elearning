@@ -14,10 +14,10 @@ export interface ApiResponse<T = any, Meta extends PaginationMetaData = any> {
   success: boolean;
   statusCode: number;
   timestamp: Date;
-  data?: T;
   message?: string;
   errors?: Array<{ [name: string]: string }>;
   meta?: Meta;
+  [name: string]: any;
 }
 
 @Injectable()
@@ -27,7 +27,7 @@ export class TransformInterceptor<T extends ApiResponse> implements NestIntercep
     next: CallHandler<T>
   ): Observable<ApiResponse> | Promise<Observable<ApiResponse>> {
     return next.handle().pipe(
-      map(response => {
+      map((response) => {
         if (response) {
           if (!(response as ApiResponse).success) {
             return ResponseBuilder.create(HttpStatus.OK, response);

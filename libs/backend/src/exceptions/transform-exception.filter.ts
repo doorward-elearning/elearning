@@ -14,12 +14,9 @@ export class TransformExceptionFilter implements ExceptionFilter {
     if ((exception.message as string).toLowerCase) {
       data.message = exception.message as string;
     } else {
-      data.data = exception.message;
-      if (data.data.message) {
-        data.message = data.data.message;
-        delete data.data.message;
+      if (exception.message.error) {
+        data.message = exception.message?.error;
       }
-      delete data.data.statusCode;
     }
 
     response.status(status).json(data);

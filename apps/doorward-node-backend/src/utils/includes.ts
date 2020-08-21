@@ -5,7 +5,7 @@ import OrganizationUtils from './OrganizationUtils';
 export const UserInclude = [
   {
     model: models.Organization,
-    as: 'organization.json',
+    as: 'organization',
   },
   {
     model: models.Role,
