@@ -10,6 +10,11 @@ import { RolesService } from '../roles/roles.service';
 export class UsersService {
   constructor(private usersRepository: UsersRepository, private rolesService: RolesService) {}
 
+  async getUserDetails(id: string): Promise<UserEntity> {
+    return this.usersRepository.findOne(id, {
+      relations: ['organization', 'role'],
+    });
+  }
   /**
    * Retrieve all users
    */
@@ -22,8 +27,9 @@ export class UsersService {
       firstName: '',
       lastName: '',
       ...userBody,
-      role: await this.rolesService.student(),
     });
+    user.role = await this.rolesService.student();
+    console.log(user);
 
     if (user.password) {
       user.password = PasswordUtils.hashPassword(user.password);

@@ -7,7 +7,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
-import entities from '@doorward/common/entities';
+import entities from './database/entities';
 
 @Global()
 @Module({

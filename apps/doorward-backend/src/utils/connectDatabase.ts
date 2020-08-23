@@ -1,6 +1,6 @@
 import { ConnectionManager } from 'typeorm';
 import * as ormconfig from '../../ormconfig';
-import entities from '@doorward/common/entities';
+import entities from '../database/entities';
 
 const connectDatabase = async (): Promise<ConnectionManager> => {
   const connectionManager = new ConnectionManager();

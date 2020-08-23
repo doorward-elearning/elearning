@@ -3,15 +3,9 @@ import { EntityManager } from 'typeorm';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
 import Tools from '@doorward/common/utils/Tools';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 export class CreateDefaultRoles1597916654826 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
-    const organization = await entityManager
-      .createQueryBuilder(OrganizationEntity, 'organization')
-      .where('organization.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
-      .getOne();
-
     return entityManager
       .createQueryBuilder()
       .insert()
@@ -21,19 +15,16 @@ export class CreateDefaultRoles1597916654826 extends SeederInterface {
           id: Tools.generateId(),
           name: Roles.SUPER_ADMINISTRATOR,
           description: 'The system administrator who is responsible for all functions in the application',
-          organization,
         },
         {
           id: Tools.generateId(),
           name: Roles.TEACHER,
           description: 'A user who can manage courses, modules and other resources',
-          organization,
         },
         {
           id: Tools.generateId(),
           name: Roles.STUDENT,
           description: 'A learner in the system',
-          organization,
         },
       ])
       .execute();

@@ -4,7 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { UserStatus } from '@doorward/common/types/users';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { Roles } from '@doorward/common/types/roles';
+import { RoleDescription, Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 const chalk = require('chalk');

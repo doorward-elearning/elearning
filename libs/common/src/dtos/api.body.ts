@@ -1,5 +1,6 @@
 import { ObjectSchema } from 'yup';
+import { Connection } from 'typeorm';
 
-export default interface ApiBody {
-  validation(): ObjectSchema;
+export default abstract class ApiBody {
+  abstract async validation(connection?: Connection): Promise<ObjectSchema>;
 }

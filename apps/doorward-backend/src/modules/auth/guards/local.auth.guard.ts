@@ -4,12 +4,12 @@ import LoginBody from '@doorward/common/dtos/login.body';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 
 export default class LocalAuthGuard extends AuthGuard('local') {
-  canActivate(context: ExecutionContext) {
+  async canActivate(context: ExecutionContext): Promise<any> {
     const http = context.switchToHttp();
     const body = http.getRequest().body;
 
-    YupValidationPipe.validate(LoginBody, body);
+    await YupValidationPipe.validate(LoginBody, body);
 
-    return super.canActivate(context);
+    return super.canActivate(context) as any;
   }
 }

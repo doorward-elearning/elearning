@@ -1,19 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Request } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import LoginResponse from '@doorward/common/dtos/login.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import RegisterBody from '@doorward/common/dtos/register.body';
-import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import express from 'express';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private usersService: UsersService,
-    private jwtService: JwtService,
-    private emailService: EmailsService
-  ) {}
+  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+
+  /**
+   * Retrieve the current user details
+   *
+   * @param request
+   */
+  async getCurrentUser(request: express.Request): Promise<UserEntity> {
+    return this.usersService.getUserDetails((request.user as any).id);
+  }
 
   /**
    * Validate that a user with this username and password exists.

@@ -14,9 +14,11 @@ export default class BaseOrganizationEntity extends BaseEntity {
 
   @BeforeInsert()
   async setOrganization() {
-    this.organization = await getConnectionManager()
-      .get()
-      .getRepository(OrganizationEntity)
-      .findOne(process.env.ORGANIZATION_ID);
+    try {
+      this.organization = await getConnectionManager()
+        .get()
+        .getRepository(OrganizationEntity)
+        .findOne(process.env.ORGANIZATION_ID);
+    } catch (error) {}
   }
 }
