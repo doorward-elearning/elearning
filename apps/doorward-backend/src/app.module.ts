@@ -6,6 +6,8 @@ import { OrganizationModule } from './modules/organization/organization.module';
 import { RolesModule } from './modules/roles/roles.module';
 import ormConfig from '../ormconfig.js';
 import entities from './database/entities';
+import EmailsModule from '@doorward/backend/modules/emails/emails.module';
+import path from 'path';
 
 @Global()
 @Module({
@@ -15,6 +17,16 @@ import entities from './database/entities';
         ...ormConfig,
         entities,
       }),
+    }),
+    EmailsModule.register({
+      sendGrid: {
+        apiKey: process.env.SENDGRID_API_KEY,
+      },
+      templatesDir: path.join(__dirname, 'emails'),
+      senderEmail: process.env.EMAIL_SENDER,
+      sender: 'Doorward',
+      appName: 'Doorward',
+      appLogo: 'https://res.cloudinary.com/dldhztrbs/image/upload/v1594532831/Doorward/doorward_logo_blue.png',
     }),
     TypeOrmModule.forFeature(entities),
     AuthModule,

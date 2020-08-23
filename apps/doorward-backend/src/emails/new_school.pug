@@ -1,0 +1,20 @@
+extends base_template
+block greeting
+  p.title
+  span Hello Admin
+block content
+  p.
+    A new school has been created with the following details.
+  table
+    tr
+      td
+        b Name:
+      td #{name}
+    tr
+      td
+        b Email:
+      td #{email}
+    tr
+      td
+        b Phone Number:
+      td #{phoneNumber}

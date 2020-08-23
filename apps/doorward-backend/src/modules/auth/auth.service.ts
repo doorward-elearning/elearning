@@ -5,10 +5,15 @@ import { JwtService } from '@nestjs/jwt';
 import LoginResponse from '@doorward/common/dtos/login.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import RegisterBody from '@doorward/common/dtos/register.body';
+import EmailsService from '@doorward/backend/modules/emails/emails.service';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+    private emailService: EmailsService
+  ) {}
 
   /**
    * Validate that a user with this username and password exists.

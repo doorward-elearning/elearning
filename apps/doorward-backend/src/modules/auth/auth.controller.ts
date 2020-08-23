@@ -5,10 +5,12 @@ import LoginBody from '@doorward/common/dtos/login.body';
 import LocalAuthGuard from './guards/local.auth.guard';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import RegisterBody from '@doorward/common/dtos/register.body';
+import SelfRegistrationEmail from './emails/self.registration.email';
+import EmailsService from '@doorward/backend/modules/emails/emails.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private emailService: EmailsService) {}
 
   @UsePipes(new YupValidationPipe(LoginBody))
   @UseGuards(LocalAuthGuard)
@@ -19,7 +21,17 @@ export class AuthController {
 
   @UsePipes(new YupValidationPipe(RegisterBody))
   @Post('register')
-  async register(@Body() registerBody: RegisterBody): Promise<LoginResponse> {
-    return this.authService.register(registerBody);
+  async register(@Body() registerBody: RegisterBody, @Request() req): Promise<LoginResponse> {
+    const response = await this.authService.register(registerBody);
+    const { user } = response;
+
+    this.emailService.send(
+      new SelfRegistrationEmail().setRecipient(user.email).setData({
+        username: user.username,
+        link: req.headers.origin,
+      })
+    );
+
+    return response;
   }
 }
