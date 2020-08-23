@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Request, UseGuards, UsePipes } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards, UsePipes } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import LoginResponse from '@doorward/common/dtos/login.response';
 import LoginBody from '@doorward/common/dtos/login.body';
@@ -7,6 +7,9 @@ import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import RegisterBody from '@doorward/common/dtos/register.body';
 import SelfRegistrationEmail from './emails/self.registration.email';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import UserEntity from '@doorward/common/entities/user.entity';
+import JwtAuthGuard from './guards/jwt.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -33,5 +36,11 @@ export class AuthController {
     );
 
     return response;
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async getCurrentUser(@CurrentUser() user: UserEntity) {
+    return user;
   }
 }

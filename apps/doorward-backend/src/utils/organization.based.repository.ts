@@ -1,6 +1,6 @@
 import { FindConditions, FindManyOptions, FindOneOptions, ObjectID } from 'typeorm';
 import ModelRepository from './model.repository';
-import BaseEntity from '../database/entities/base.entity';
+import BaseEntity from '@doorward/common/entities/base.entity';
 import _ from 'lodash';
 
 export default class OrganizationBasedRepository<Entity extends BaseEntity> extends ModelRepository<Entity> {

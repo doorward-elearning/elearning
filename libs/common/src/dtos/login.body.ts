@@ -4,10 +4,10 @@ import { ObjectSchema } from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 
 export default class LoginBody implements ApiBody {
-  @ApiProperty()
+  @ApiProperty({ example: 'administrator' })
   username: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: 'password' })
   password: string;
 
   validation(): ObjectSchema<object> {

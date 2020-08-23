@@ -7,16 +7,19 @@ import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplicati
 import organizationSetup from './config/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 
+const globalPrefix = process.env.API_PREFIX;
+
 async function bootstrap() {
   await organizationSetup();
+
   const app = await setUpNestApplication(AppModule);
   swaggerDocumentation(app, {
     title: 'Doorward Core API',
     description: 'The doorward API documentation',
     version: '1.0.0',
     tag: 'doorward',
+    basePath: globalPrefix,
   });
-  const globalPrefix = process.env.API_PREFIX;
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
   app.useGlobalInterceptors(new TransformInterceptor());

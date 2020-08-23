@@ -5,9 +5,9 @@ import { UsersModule } from './modules/users/users.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { RolesModule } from './modules/roles/roles.module';
 import ormConfig from '../ormconfig.js';
-import entities from './database/entities';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
+import entities from '@doorward/common/entities';
 
 @Global()
 @Module({

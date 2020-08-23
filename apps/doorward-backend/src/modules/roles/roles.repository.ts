@@ -1,5 +1,5 @@
 import OrganizationBasedRepository from '../../utils/organization.based.repository';
-import RoleEntity from '../../database/entities/role.entity';
+import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
 import { EntityRepository } from 'typeorm';
 

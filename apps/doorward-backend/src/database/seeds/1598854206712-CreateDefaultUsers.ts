@@ -1,10 +1,10 @@
 import SeederInterface from '@doorward/backend/database/SeederInterface';
 import { EntityManager } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import UserEntity from '../entities/user.entity';
+import UserEntity from '@doorward/common/entities/user.entity';
 import { UserStatus } from '@doorward/common/types/users';
-import OrganizationEntity from '../entities/organization.entity';
-import RoleEntity from '../entities/role.entity';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
 
 export class CreateDefaultUsers1598854206712 extends SeederInterface {

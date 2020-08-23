@@ -6,7 +6,6 @@ console.log(process.env.NODE_ENV);
 
 module.exports = {
   type: 'postgres',
-  entities: ['./src/database/entities/*.ts'],
   migrations: ['./src/database/migrations/*.ts'],
   seeds: ['./src/database/seeds/*.ts'],
   logging: process.env.NODE_ENV === 'development',

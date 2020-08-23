@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import UserEntity from '../../database/entities/user.entity';
+import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { FindOneOptions } from 'typeorm';
 import RegisterBody from '@doorward/common/dtos/register.body';
