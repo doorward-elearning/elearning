@@ -4,6 +4,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { RolesModule } from './modules/roles/roles.module';
+import { CoursesModule } from './modules/courses/courses.module';
+import { ModulesModule } from './modules/modules/modules.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
@@ -33,6 +35,8 @@ import entities from './database/entities';
     UsersModule,
     OrganizationModule,
     RolesModule,
+    CoursesModule,
+    ModulesModule,
   ],
   controllers: [],
   providers: [],

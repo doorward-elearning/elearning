@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Injectable } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpException, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -23,6 +23,9 @@ export class TransformExceptionFilter implements ExceptionFilter {
       if (exception.message.error) {
         data.message = exception.message?.message || exception.message?.error;
       }
+    }
+    if (exception instanceof ForbiddenException) {
+      data.message = 'You are not allowed to access this resource.';
     }
 
     response.status(status).json(data);

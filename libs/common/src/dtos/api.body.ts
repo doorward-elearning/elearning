@@ -1,5 +1,5 @@
-import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
 
 export default abstract class ApiBody {
-  abstract async validation(): Promise<ObjectSchema>;
+  abstract async validation(): Promise<Yup.ObjectSchema>;
 }
