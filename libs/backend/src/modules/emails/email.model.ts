@@ -1,8 +1,13 @@
 import { EmailOptions } from '@doorward/backend/modules/emails/emails.service';
 
 export default abstract class EmailModel<T> {
-  constructor(private config: Partial<EmailOptions>) {
+  private readonly config: Partial<EmailOptions> = {};
+
+  constructor(options: { subject: string; data?: T; recipient: string }) {
     this.config.template = this.getTemplate();
+    this.config.subject = options.subject;
+    this.config.data = options.data;
+    this.config.recipient = options.recipient;
   }
 
   public abstract getTemplate(): string;

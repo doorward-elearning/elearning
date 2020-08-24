@@ -1,10 +1,10 @@
 import EmailModel from '@doorward/backend/modules/emails/email.model';
 
-export default class SelfRegistrationEmail extends EmailModel<{
+export default class ForgotPasswordEmail extends EmailModel<{
   username: string;
   link: string;
 }> {
   getTemplate(): string {
-    return 'new_account.pug';
+    return 'password_reset.pug';
   }
 }

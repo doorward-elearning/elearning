@@ -13,13 +13,18 @@ import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
 import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
 import Tools from '@doorward/common/utils/Tools';
 import PasswordResetsRepository from './password.resets.repository';
+import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';
+import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import ForgotPasswordEmail from './emails/forgot.password.email';
+import FrontendLinks from '../../utils/frontend.links';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
     private rolesService: RolesService,
-    private passwordResetsRepository: PasswordResetsRepository
+    private passwordResetsRepository: PasswordResetsRepository,
+    private emailsService: EmailsService
   ) {}
 
   async getUserDetails(id: string): Promise<UserEntity> {
@@ -105,34 +110,54 @@ export class UsersService {
    * @param body
    */
   async resetAccountPassword(body: ResetPasswordBody): Promise<boolean> {
-    const { resetToken, resetTokenBuffer } = body;
-    let username;
-    try {
-      username = Tools.decrypt(decodeURIComponent(resetTokenBuffer));
-    } catch (error) {
-      throw new BadRequestException('Unable to validate password reset token.');
-    }
-    if (resetToken && username) {
-      const user = await this.usersRepository.findOne({
-        username,
-      });
-      const hadPassword = !!user.password;
-      const passwordReset = await this.passwordResetsRepository.findOne({
-        user: {
-          id: user.id,
+    const { resetToken } = body;
+    if (resetToken) {
+      const passwordReset = await this.passwordResetsRepository.findOne(
+        {
+          token: resetToken,
         },
-        token: resetToken,
-      });
+        { relations: ['user'] }
+      );
+
+      const user = passwordReset.user;
+      const hadPassword = !!user.password;
 
       if (!passwordReset || !user) {
         throw new BadRequestException('The password reset token is invalid.');
       } else {
-        user.password = PasswordUtils.hashPassword(body.password);
-        await this.usersRepository.save(user);
+        await this.usersRepository.update(user.id, { password: PasswordUtils.hashPassword(body.password) });
         await this.passwordResetsRepository.softRemove(passwordReset);
 
         return hadPassword;
       }
     }
+  }
+
+  async userForgotPassword(body: ForgotPasswordBody, origin: string) {
+    const user = await this.findByUsername(body.username);
+    if (!user) {
+      throw new ValidationException({ username: 'No user with this username exists.' });
+    }
+
+    const resetToken = Tools.randomString(50);
+
+    // create the password reset link
+    await this.passwordResetsRepository.save(
+      this.passwordResetsRepository.create({
+        token: resetToken,
+        user,
+      })
+    );
+
+    this.emailsService.send(
+      new ForgotPasswordEmail({
+        subject: 'Forgot password',
+        data: {
+          username: user.username,
+          link: origin + FrontendLinks.passwordReset(resetToken),
+        },
+        recipient: user.email,
+      })
+    );
   }
 }

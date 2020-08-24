@@ -9,6 +9,9 @@ import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
 import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
+import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';
+import { Origin } from '@doorward/backend/decorators/origin.decorator';
+import Public from '@doorward/backend/decorators/public.decorator';
 
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)
@@ -39,6 +42,15 @@ export default class ProfileController {
       message: hadPassword
         ? 'Password has been created. You can now login with the new credentials'
         : 'Your password has been reset successfully.',
+    };
+  }
+
+  @Post('forgotPassword')
+  @Public()
+  async forgotAccountPassword(@Body() body: ForgotPasswordBody, @Origin() origin: string): Promise<ApiResponse> {
+    await this.usersService.userForgotPassword(body, origin);
+    return {
+      message: 'A password reset link has been sent to your email.',
     };
   }
 }

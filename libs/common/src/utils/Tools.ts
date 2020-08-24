@@ -7,6 +7,7 @@ const SimpleCrypto = require('simple-crypto-js').default;
 const bcrypt = require('bcrypt');
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
+const randomString = require('random-string');
 
 const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET || '');
 
@@ -29,7 +30,11 @@ class Tools {
   }
 
   static randomString(length = 6): string {
-    return `${Math.random()}`.substr(2, length);
+    return randomString({
+      length,
+      numeric: true,
+      letters: true,
+    });
   }
 
   static generateToken(username: string, password: string): string {
