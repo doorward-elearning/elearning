@@ -5,10 +5,11 @@ import { CoursesService } from './courses.service';
 import { ModulesService } from '../modules/modules.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import CourseResponse from '@doorward/common/dtos/course.response';
+import CourseResponse, { CoursesResponse } from '@doorward/common/dtos/course.response';
 import AllowedRoles from '../../decorators/roles.decorator';
 import { Roles } from '@doorward/common/types/roles';
 import RolesGuard from '../../guards/roles.guard';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -23,7 +24,9 @@ export class CoursesController {
   }
 
   @Get()
-  async getCourses(@CurrentUser() user: UserEntity) {
-    return this.coursesService.getCoursesForStudent(user);
+  async getCourses(@CurrentUser() user: UserEntity): Promise<CoursesResponse> {
+    const courses = await this.coursesService.getCoursesForStudent(user);
+
+    return { courses };
   }
 }
