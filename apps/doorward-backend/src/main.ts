@@ -7,6 +7,7 @@ import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplicati
 import organizationSetup from './config/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
+import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -25,7 +26,7 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new TransformExceptionFilter());
-  app.useGlobalPipes(new BodyFieldsValidationPipe());
+  app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
 
   const port = process.env.BACKEND_API_PORT || 3333;
   await app.listen(port, () => {

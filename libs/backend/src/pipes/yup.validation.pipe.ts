@@ -5,10 +5,13 @@ import ValidationException from '@doorward/backend/exceptions/validation.excepti
 
 @Injectable()
 export default class YupValidationPipe implements PipeTransform {
-  constructor(private Body: ClassType<ApiBody>) {}
+  constructor() {}
 
-  async transform(value: any, metadata: ArgumentMetadata) {
-    await YupValidationPipe.validate(this.Body, value);
+  async transform(value: any, { metatype }: ArgumentMetadata) {
+    if (!metatype || !(new metatype() instanceof ApiBody)) {
+      return value;
+    }
+    await YupValidationPipe.validate(metatype, value);
     return value;
   }
 

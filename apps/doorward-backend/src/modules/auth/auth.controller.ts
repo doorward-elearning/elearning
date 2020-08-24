@@ -14,14 +14,12 @@ import UserResponse from '@doorward/common/dtos/user.response';
 export class AuthController {
   constructor(private authService: AuthService, private emailService: EmailsService) {}
 
-  @UsePipes(new YupValidationPipe(LoginBody))
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req, @Body() loginBody: LoginBody): Promise<LoginResponse> {
     return this.authService.login(req.user);
   }
 
-  @UsePipes(new YupValidationPipe(RegisterBody))
   @Post('register')
   async register(@Body() registerBody: RegisterBody, @Request() req): Promise<LoginResponse> {
     const response = await this.authService.register(registerBody);

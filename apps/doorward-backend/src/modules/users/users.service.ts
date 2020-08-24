@@ -9,6 +9,7 @@ import UpdateAccountBody from '@doorward/common/dtos/update.account.body';
 import UserResponse from '@doorward/common/dtos/user.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import _ from 'lodash';
+import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,6 @@ export class UsersService {
       ...userBody,
     });
     user.role = await this.rolesService.student();
-    console.log(user);
 
     if (user.password) {
       user.password = PasswordUtils.hashPassword(user.password);
@@ -76,5 +76,20 @@ export class UsersService {
     user = await this.usersRepository.findOne(user.id);
 
     return { user };
+  }
+
+  /**
+   * Update the user's password.
+   *
+   * @param body
+   * @param user
+   */
+  async updateAccountPassword(body: UpdatePasswordBody, user: UserEntity): Promise<void> {
+    if (user.validatePassword(body.password)) {
+      user.password = PasswordUtils.hashPassword(body.newPassword);
+      await this.usersRepository.save(user);
+    } else {
+      throw new ValidationException({ password: 'Wrong password' });
+    }
   }
 }
