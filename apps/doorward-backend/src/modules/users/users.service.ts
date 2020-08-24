@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersRepository } from './users.repository';
 import { FindOneOptions } from 'typeorm';
@@ -10,10 +10,17 @@ import UserResponse from '@doorward/common/dtos/user.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import _ from 'lodash';
 import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
+import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
+import Tools from '@doorward/common/utils/Tools';
+import PasswordResetsRepository from './password.resets.repository';
 
 @Injectable()
 export class UsersService {
-  constructor(private usersRepository: UsersRepository, private rolesService: RolesService) {}
+  constructor(
+    private usersRepository: UsersRepository,
+    private rolesService: RolesService,
+    private passwordResetsRepository: PasswordResetsRepository
+  ) {}
 
   async getUserDetails(id: string): Promise<UserEntity> {
     return this.usersRepository.findOne(id, {
@@ -90,6 +97,42 @@ export class UsersService {
       await this.usersRepository.save(user);
     } else {
       throw new ValidationException({ password: 'Wrong password' });
+    }
+  }
+
+  /**
+   * Resets or sets a user's password.
+   * @param body
+   */
+  async resetAccountPassword(body: ResetPasswordBody): Promise<boolean> {
+    const { resetToken, resetTokenBuffer } = body;
+    let username;
+    try {
+      username = Tools.decrypt(decodeURIComponent(resetTokenBuffer));
+    } catch (error) {
+      throw new BadRequestException('Unable to validate password reset token.');
+    }
+    if (resetToken && username) {
+      const user = await this.usersRepository.findOne({
+        username,
+      });
+      const hadPassword = !!user.password;
+      const passwordReset = await this.passwordResetsRepository.findOne({
+        user: {
+          id: user.id,
+        },
+        token: resetToken,
+      });
+
+      if (!passwordReset || !user) {
+        throw new BadRequestException('The password reset token is invalid.');
+      } else {
+        user.password = PasswordUtils.hashPassword(body.password);
+        await this.usersRepository.save(user);
+        await this.passwordResetsRepository.softRemove(passwordReset);
+
+        return hadPassword;
+      }
     }
   }
 }

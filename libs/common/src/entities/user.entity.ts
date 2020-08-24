@@ -9,6 +9,7 @@ import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
 import { Exclude } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
+import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -56,6 +57,9 @@ export default class UserEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.member)
   groups: Array<GroupMemberEntity>;
+
+  @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
+  passwordResets: Array<PasswordsResetsEntity>;
 
   isSuperAdmin() {
     return this.role?.name === Roles.SUPER_ADMINISTRATOR;

@@ -1,4 +1,4 @@
-import { Body, Controller, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
 import UpdateAccountBody from '@doorward/common/dtos/update.account.body';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -8,6 +8,7 @@ import OrganizationService from '../organization/organization.service';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
+import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
 
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)
@@ -27,6 +28,17 @@ export default class ProfileController {
     await this.usersService.updateAccountPassword(body, currentUser);
     return {
       message: 'Password has been updated.',
+    };
+  }
+
+  @Post('resetPassword')
+  async resetAccountPassword(@Body() body: ResetPasswordBody): Promise<ApiResponse> {
+    const hadPassword = await this.usersService.resetAccountPassword(body);
+
+    return {
+      message: hadPassword
+        ? 'Password has been created. You can now login with the new credentials'
+        : 'Your password has been reset successfully.',
     };
   }
 }
