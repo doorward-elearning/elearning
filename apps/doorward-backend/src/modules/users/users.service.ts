@@ -5,6 +5,10 @@ import { FindOneOptions } from 'typeorm';
 import RegisterBody from '@doorward/common/dtos/register.body';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
+import UpdateAccountBody from '@doorward/common/dtos/update.account.body';
+import UserResponse from '@doorward/common/dtos/user.response';
+import ValidationException from '@doorward/backend/exceptions/validation.exception';
+import _ from 'lodash';
 
 @Injectable()
 export class UsersService {
@@ -50,5 +54,27 @@ export class UsersService {
       },
       options
     );
+  }
+
+  async findById(id: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
+    return this.usersRepository.findOne(id, options);
+  }
+
+  async updateAccountDetails(body: UpdateAccountBody, user: UserEntity): Promise<UserResponse> {
+    if (body.username !== user.username) {
+      if (
+        await this.usersRepository.findOne({
+          username: body.username,
+        })
+      ) {
+        throw new ValidationException({ username: 'This username is already in use.' });
+      }
+    }
+    const update = _.pickBy(body, _.identity);
+
+    await this.usersRepository.save({ ...user, ...update });
+    user = await this.usersRepository.findOne(user.id);
+
+    return { user };
   }
 }

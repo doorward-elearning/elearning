@@ -8,7 +8,6 @@ import GroupMemberEntity from './group.member.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
 import { Exclude } from 'class-transformer';
-import Tools from '@doorward/common/utils/Tools';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 
 @Entity('Users')
