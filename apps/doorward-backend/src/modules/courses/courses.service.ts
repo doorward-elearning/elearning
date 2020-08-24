@@ -7,10 +7,15 @@ import ValidationException from '@doorward/backend/exceptions/validation.excepti
 import { CourseStatus } from '@doorward/common/types/courses';
 import { ModulesService } from '../modules/modules.service';
 import UserEntity from '@doorward/common/entities/user.entity';
+import StudentsRepository from '../../repositories/students.repository';
 
 @Injectable()
 export class CoursesService {
-  constructor(private coursesRepository: CoursesRepository, private modulesService: ModulesService) {}
+  constructor(
+    private coursesRepository: CoursesRepository,
+    private modulesService: ModulesService,
+    private studentsRepository: StudentsRepository
+  ) {}
 
   async createCourse(body: CreateCourseBody, author: UserEntity): Promise<CourseEntity> {
     const courseExists = await this.coursesRepository.findOne({
@@ -41,7 +46,7 @@ export class CoursesService {
     return course;
   }
 
-  async getCoursesForStudent(student: UserEntity){
-    const courses = await
+  async getCoursesForStudent(student: UserEntity): Promise<CourseEntity[]> {
+    return [];
   }
 }

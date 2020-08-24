@@ -23,7 +23,7 @@ export class CoursesController {
   }
 
   @Get()
-  async getCourses(){
-
+  async getCourses(@CurrentUser() user: UserEntity) {
+    return this.coursesService.getCoursesForStudent(user);
   }
 }
