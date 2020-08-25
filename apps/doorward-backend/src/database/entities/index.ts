@@ -17,6 +17,8 @@ import SchoolEntity from '@doorward/common/entities/school.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
+
 
 const entities = [
   AnswerEntity,
@@ -25,6 +27,7 @@ const entities = [
   CourseEntity,
   FileEntity,
   GroupEntity,
+  CourseManagerEntity,
   GroupMemberEntity,
   MeetingEntity,
   MeetingRoomEntity,

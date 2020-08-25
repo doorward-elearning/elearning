@@ -25,7 +25,7 @@ export class CoursesController {
 
   @Get()
   async getCourses(@CurrentUser() user: UserEntity): Promise<CoursesResponse> {
-    const courses = await this.coursesService.getCoursesForStudent(user);
+    const courses = await this.coursesService.getCourses(user);
 
     return { courses };
   }

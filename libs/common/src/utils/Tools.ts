@@ -4,7 +4,6 @@ import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
 
 const SimpleCrypto = require('simple-crypto-js').default;
-const bcrypt = require('bcrypt');
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
 const randomString = require('random-string');

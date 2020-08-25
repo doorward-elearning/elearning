@@ -41,10 +41,45 @@ export class CoursesService {
     return course;
   }
 
+  async getCourses(user: UserEntity): Promise<CourseEntity[]> {
+    if (user.isSuperAdmin()) {
+      return this.getCoursesForAdmin(user);
+    } else if (user.isTeacher()) {
+      return this.getCoursesForTeacher(user);
+    } else {
+      return this.getCoursesForStudent(user);
+    }
+  }
+
   async getCoursesForStudent(student: UserEntity): Promise<CourseEntity[]> {
-    return await this.coursesRepository
+    const courses = await this.coursesRepository
       .createQueryBuilder('course')
-      .leftJoinAndSelect('course.students', 'courseStudents')
+      .leftJoinAndSelect('StudentCourses', 'courseStudents', '"courseStudents"."courseId" = "course".id')
+      .where('"courseStudents"."studentId" = :studentId', { studentId: student.id })
       .getMany();
+
+    return this.coursesRepository.findByIds(
+      courses.map((course) => course.id),
+      {
+        relations: ['author', 'meetingRoom'],
+      }
+    );
+  }
+
+  async getCoursesForTeacher(teacher: UserEntity): Promise<CourseEntity[]> {
+    return await this.coursesRepository.find({
+      where: {
+        author: {
+          id: teacher.id,
+        },
+      },
+      relations: ['author', 'meetingRoom'],
+    });
+  }
+
+  async getCoursesForAdmin(admin: UserEntity): Promise<CourseEntity[]> {
+    return this.coursesRepository.find({
+      relations: ['author', 'meetingRoom'],
+    });
   }
 }

@@ -23,4 +23,6 @@ export default class MeetingRoomEntity extends BaseOrganizationEntity {
     onDelete: 'CASCADE',
   })
   course: CourseEntity;
+
+  currentMeeting: MeetingEntity;
 }

@@ -10,7 +10,7 @@ export default class CourseManagerEntity extends BaseOrganizationEntity {
   })
   manager: UserEntity;
 
-  @ManyToOne(() => CourseEntity, {
+  @ManyToOne(() => CourseEntity, (course) => course.managers, {
     onDelete: 'CASCADE',
   })
   course: CourseEntity;

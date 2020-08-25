@@ -3,8 +3,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'type
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleEntity from './module.entity';
-import StudentCoursesEntity from './student.courses.entity';
 import MeetingRoomEntity from './meeting.room.entity';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
+import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 
 @Entity('Courses')
 export default class CourseEntity extends BaseOrganizationEntity {
@@ -42,6 +43,9 @@ export default class CourseEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => ModuleEntity, (module) => module.course)
   modules: Array<ModuleEntity>;
+
+  @OneToMany(() => CourseManagerEntity, (manager) => manager.course)
+  managers: Array<CourseManagerEntity>;
 
   @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course)
   students: Array<StudentCoursesEntity>;
