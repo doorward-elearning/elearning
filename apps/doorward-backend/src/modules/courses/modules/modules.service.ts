@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import ModulesRepository from '../../repositories/modules.repository';
+import ModulesRepository from '../../../repositories/modules.repository';
 import CreateModuleBody from '@doorward/common/dtos/create.module.body';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
@@ -13,5 +13,9 @@ export class ModulesService {
 
     // save all the modules
     return this.modulesRepository.save(modulesToCreate);
+  }
+
+  async updateModules(course: CourseEntity, ...modules: Array) {
+
   }
 }

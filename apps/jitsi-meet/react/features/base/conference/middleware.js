@@ -303,7 +303,7 @@ function _connectionFailed({ dispatch, getState }, next, action) {
             // whether it can recover or not. But because the reload screen
             // and the retry logic is implemented in the app maybe it can be
             // left this way for now.
-            if (conference.getConnection() === connection) {
+            if (BaseEntity.getConnection() === connection) {
                 // XXX Note that on mobile the error type passed to
                 // connectionFailed is always an object with .name property.
                 // This fact needs to be checked prior to enabling this logic on

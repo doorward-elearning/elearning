@@ -1,4 +1,12 @@
-import { BeforeInsert, CreateDateColumn, DeleteDateColumn, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  CreateDateColumn,
+  DeleteDateColumn,
+  getConnectionManager,
+  ObjectType,
+  PrimaryColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import Tools from '@doorward/common/utils/Tools';
 
 export default class BaseEntity {
@@ -19,5 +27,13 @@ export default class BaseEntity {
     if (!this.id) {
       this.id = Tools.generateId();
     }
+  }
+
+  getConnection() {
+    return getConnectionManager().get();
+  }
+
+  getRepository<Entity>(model: ObjectType<Entity>) {
+    return this.getConnection().getRepository<Entity>(model);
   }
 }

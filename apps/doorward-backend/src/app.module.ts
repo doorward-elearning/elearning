@@ -5,7 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { OrganizationModule } from './modules/organization/organization.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { CoursesModule } from './modules/courses/courses.module';
-import { ModulesModule } from './modules/modules/modules.module';
+import { ModulesModule } from './modules/courses/modules/modules.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';

@@ -1,5 +1,5 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleEntity from './module.entity';
@@ -41,12 +41,27 @@ export default class CourseEntity extends BaseOrganizationEntity {
   })
   author: UserEntity;
 
-  @OneToMany(() => ModuleEntity, (module) => module.course)
+  @OneToMany(() => ModuleEntity, (module) => module.course, {
+    cascade: true,
+  })
   modules: Array<ModuleEntity>;
 
-  @OneToMany(() => CourseManagerEntity, (manager) => manager.course)
+  @OneToMany(() => CourseManagerEntity, (manager) => manager.course, {
+    cascade: true,
+  })
   managers: Array<CourseManagerEntity>;
 
-  @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course)
+  @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course, {
+    cascade: true,
+  })
   students: Array<StudentCoursesEntity>;
+
+  numStudents: number;
+
+  @AfterLoad()
+  async setNumberOfStudents() {
+    this.numStudents = await this.getRepository(StudentCoursesEntity).count({
+      course: this,
+    });
+  }
 }

@@ -22,13 +22,17 @@ export default class YupValidationPipe implements PipeTransform {
         abortEarly: false,
       });
     } catch (err) {
-      const errors = err.inner.reduce((acc, { path, errors }) => {
-        return {
-          ...acc,
-          [path]: errors[0],
-        };
-      }, {});
-      throw new ValidationException(errors);
+      if (err.inner) {
+        const errors = err.inner.reduce((acc, { path, errors }) => {
+          return {
+            ...acc,
+            [path]: errors[0],
+          };
+        }, {});
+        throw new ValidationException(errors);
+      } else {
+        throw err;
+      }
     }
   }
 }

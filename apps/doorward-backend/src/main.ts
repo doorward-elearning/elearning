@@ -8,6 +8,8 @@ import organizationSetup from './config/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
+import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
+import { Reflector } from '@nestjs/core';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -22,11 +24,13 @@ async function bootstrap() {
     tag: 'doorward',
     basePath: globalPrefix,
   });
+  const reflector = app.get(Reflector);
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
   app.useGlobalInterceptors(new TransformInterceptor());
   app.useGlobalFilters(new TransformExceptionFilter());
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
+  app.useGlobalGuards(new ModelExistsGuard(reflector));
 
   const port = process.env.BACKEND_API_PORT || 3333;
   await app.listen(port, () => {

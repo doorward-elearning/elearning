@@ -238,7 +238,7 @@ function _sendConferenceFailedOnConnectionError(store, action) {
 
             // If there's any conference in the  base/conference state then the
             // base/conference feature is supposed to emit a failure.
-            conference => conference.getConnection() !== connection)
+            conference => BaseEntity.getConnection() !== connection)
         && sendEvent(
         store,
         CONFERENCE_TERMINATED,

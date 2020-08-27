@@ -1,9 +1,9 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
+import { AfterLoad, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import MeetingRoomMemberEntity from './meeting.room.member.entity';
 import MeetingEntity from './meeting.entity';
 import CourseEntity from './course.entity';
-import { MeetingRoomTypes } from '@doorward/common/types/meeting';
+import { MeetingRoomTypes, MeetingStatus } from '@doorward/common/types/meeting';
 
 @Entity('MeetingRooms')
 export default class MeetingRoomEntity extends BaseOrganizationEntity {
@@ -25,4 +25,16 @@ export default class MeetingRoomEntity extends BaseOrganizationEntity {
   course: CourseEntity;
 
   currentMeeting: MeetingEntity;
+
+  @AfterLoad()
+  async setCurrentMeeting() {
+    this.currentMeeting = await this.getRepository(MeetingEntity).findOne({
+      where: {
+        status: MeetingStatus.STARTED,
+        meetingRoom: {
+          id: this.id,
+        },
+      },
+    });
+  }
 }
