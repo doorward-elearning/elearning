@@ -28,7 +28,21 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
       form={props.form}
       showSuccessToast
       showOverlay
-      createData={props.createData || (values => [props.item.id, values])}
+      createData={
+        props.createData ||
+        ((values) => [
+          props.item.id,
+          {
+            ...values,
+            content: values.video
+              ? {
+                  content: values.content,
+                  video: values.video || '',
+                }
+              : values.content,
+          },
+        ])
+      }
     >
       {props.children}
     </BasicForm>

@@ -35,6 +35,22 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
       const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
       const event = { target: { value, name: name } };
       props.onChange(event);
+
+      setTimeout(() => {
+        const iframes = document
+          .querySelector('.eb-input--draft-text-area__wrapper')
+          .querySelector('figure')
+          ?.querySelectorAll('iframe');
+
+        if (iframes) {
+          iframes.forEach((iframe) => {
+            const button = iframe.contentWindow.document.getElementsByClassName(
+              'ytp-button ytp-overflow-button ytp-overflow-button-visible'
+            );
+            console.log(button);
+          });
+        }
+      }, 100);
     }
   }, [editorState]);
 
