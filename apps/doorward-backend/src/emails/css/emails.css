@@ -1,25 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap");
 html {
   padding: 0;
 }
 
 * {
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1, h2, h3, h4, h5, h6 {
   font-weight: bold;
 }
 
 body {
   height: 100%;
   min-height: 700px;
-  background-image: url('https://res.cloudinary.com/dldhztrbs/image/upload/v1598167492/Doorward/page_background.png');
+  background-image: url("https://res.cloudinary.com/dldhztrbs/image/upload/v1590752464/Doorward/page_background.png");
   background-size: cover;
   padding-top: 20px;
   font-size: 16px;
