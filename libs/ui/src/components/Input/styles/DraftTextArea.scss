@@ -58,12 +58,11 @@
     }
   }
 
-
   input {
-    width: unset !important;
+    width: auto !important;
   }
 
-  .rdw-embedded-modal, .rdw-image-modal {
+  .rdw-embedded-modal {
     width: auto;
   }
 }

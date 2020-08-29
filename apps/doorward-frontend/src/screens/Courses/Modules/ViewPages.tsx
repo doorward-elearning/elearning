@@ -10,7 +10,6 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { Module } from '@doorward/common/models/Module';
 import { ModuleItem } from '@doorward/common/models/ModuleItem';
 import Panel from '@doorward/ui/components/Panel';
-import YouTubePrivateVideo from '../../../components/YouTubePrivateVideo';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params, ...props }) => {
   const [pages] = useState(
@@ -44,8 +43,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         viewerView={
           <div>
             <Panel>
-              {item.content.video && <YouTubePrivateVideo link={item.content.video} />}
-              <DraftHTMLContent content={item.content.video ? item.content.content : item.content} />
+              <DraftHTMLContent content={item.content} />
             </Panel>
           </div>
         }
@@ -56,7 +54,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         <Pagination
           page={page}
           numPages={pages.length}
-          onChangePage={(page) => {
+          onChangePage={page => {
             routes.navigate(editing ? routes.editModuleItem : routes.viewModuleItem, {
               ...params,
               itemId: pages[page - 1].id,
