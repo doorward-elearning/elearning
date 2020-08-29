@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
-import _ from 'lodash';
+import React, { useEffect } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';

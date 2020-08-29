@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Editor } from 'react-draft-wysiwyg';
 import './DraftHTMLContent.scss';
 import handleDraftPagination from './handleDraftPagination';
@@ -6,19 +6,27 @@ import IfElse from '../IfElse';
 import Pagination from '../Pagination';
 import { ContentBlock, convertFromRaw, EditorState } from 'draft-js';
 import classNames from 'classnames';
+import createPlyrForYouTubeVideos from '@doorward/ui/components/DraftHTMLContent/createPlyrForYouTubeVideos';
+import useScript from '@doorward/ui/hooks/useScript';
 
-const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = props => {
+const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const paginationPosition = props.paginationPosition || 'bottom';
   const [page, setPage] = useState(1);
   const [blocks, setBlocks] = useState<Array<Array<ContentBlock>>>([]);
+  const editorRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
+    const content = props.content;
     if (props.paginate) {
-      setBlocks(handleDraftPagination(props.content));
+      setBlocks(handleDraftPagination(content));
     } else {
-      setEditorState(EditorState.createWithContent(convertFromRaw(props.content)));
+      setEditorState(EditorState.createWithContent(convertFromRaw(content)));
     }
   }, [props.content]);
+
+  useEffect(() => {
+    createPlyrForYouTubeVideos(editorRef.current);
+  }, [props.content, editorRef]);
 
   useEffect(() => {
     if (blocks.length) {
@@ -34,6 +42,7 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = props =
         'ed-draft-reader': true,
         [`stickyPagination__${props.stickyPagination}`]: true,
       })}
+      ref={editorRef}
     >
       <IfElse condition={props.paginate && paginationPosition === 'top'}>
         <div className="pagination__top">
