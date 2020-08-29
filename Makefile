@@ -18,7 +18,7 @@ start:
 build:
 	@ ${INFO} "Building required docker images"
 	@ docker image inspect doorward:${APP_VERSION} >/dev/null 2>&1 && echo "Image already exists" || docker build -t doorward:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
-	@ docker build -f docker/production/doorward-frontend/Dockerfile -t meeting:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	@ docker build -f docker/production/doorward-frontend/Dockerfile -t chuchu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/doorward-node-backend/Dockerfile -t thala:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/doorward-website/Dockerfile -t swagat:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/openvidu-backend/Dockerfile -t vidu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
@@ -26,7 +26,7 @@ build:
 	@ ${INFO} "Tagging doorward image"
 	@ docker tag doorward:${APP_VERSION} core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
 	@ ${INFO} "Tagging frontend image"
-	@ docker tag meeting:${APP_VERSION} core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
+	@ docker tag chuchu:${APP_VERSION} core.harbor.doorward.tech/doorward/chuchu:${APP_VERSION}
 	@ ${INFO} "Tagging backend image"
 	@ docker tag thala:${APP_VERSION} core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ ${INFO} "Tagging website image"
@@ -36,7 +36,7 @@ build:
 	@
 	@ ${INFO} "Pushing images to GCP"
 	@ docker push core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
-	@ docker push core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/chuchu:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
