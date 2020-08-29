@@ -9,15 +9,15 @@ export class ResponseBuilder {
     message?: string,
     errors?: Array<{ [name: string]: string }>,
     meta?: any
-  ): ApiResponse<T> {
+  ): ApiResponse {
     return {
       success: status < 400,
-      ...classToPlain(data),
+      statusCode: status,
+      timestamp: new Date(),
       message,
       errors,
       meta,
-      statusCode: status,
-      timestamp: new Date(),
+      ...classToPlain(data),
     };
   }
 }

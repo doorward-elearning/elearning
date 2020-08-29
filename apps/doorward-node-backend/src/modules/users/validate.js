@@ -4,7 +4,7 @@ import Tools from '../../utils/Tools';
 import { Organization } from '../../../../../libs/common/src/models/Organization';
 import OrganizationUtils from '../../utils/OrganizationUtils';
 
-export const validateLogin = async req => {
+export const validateLogin = async (req) => {
   const existing = await models.User.unscoped().findOne({ where: { username: req.body.username } });
 
   const username = req.checkBody('username');
@@ -18,7 +18,7 @@ export const validateLogin = async req => {
   password.notEmpty().withMessage('Password is required');
 };
 
-export const validateRegistration = async req => {
+export const validateRegistration = async (req) => {
   const existingUsername = await models.User.findOne({ where: { username: req.body.username } });
 
   req
@@ -28,17 +28,11 @@ export const validateRegistration = async req => {
     .custom(() => !existingUsername)
     .withMessage('This username is taken');
 
-  req
-    .checkBody('password')
-    .notEmpty()
-    .withMessage('Password is required.');
-  req
-    .checkBody('email')
-    .notEmpty()
-    .withMessage('Email is required');
+  req.checkBody('password').notEmpty().withMessage('Password is required.');
+  req.checkBody('email').notEmpty().withMessage('Email is required');
 };
 
-export const validateCreateUser = exclude => async req => {
+export const validateCreateUser = (exclude) => async (req) => {
   let existing = await models.User.findOne({ where: { username: req.body.username || '' } });
   const username = req.checkBody('username');
   const email = req.checkBody('email');
@@ -55,17 +49,16 @@ export const validateCreateUser = exclude => async req => {
   email.notEmpty().withMessage('Email is required');
 };
 
-export const validateUpdateAccount = async req => {
+export const validateUpdateAccount = async (req) => {
   return validateCreateUser(req.user)(req);
 };
 
-export const validatePassword = async req => {
+export const validatePassword = async (req) => {
   const username = req.body.username || req.user.username;
   const existing = await models.User.unscoped().findOne({
     where: { username, organizationId: OrganizationUtils.getId() },
   });
   const password = req.checkBody('password');
-  console.log(existing);
 
   password.custom(() => existing.password).withMessage('Your password has not been set.');
   if (existing.password) {
@@ -76,7 +69,7 @@ export const validatePassword = async req => {
   }
 };
 
-export const validateResetToken = async req => {
+export const validateResetToken = async (req) => {
   const { resetToken, resetTokenBuffer } = req.body;
 
   const email = Tools.decrypt(decodeURIComponent(resetTokenBuffer));
@@ -103,7 +96,7 @@ export const validateResetToken = async req => {
   }
 };
 
-export const validateHasPassword = async req => {
+export const validateHasPassword = async (req) => {
   const { username } = req.body;
   const user = await models.User.unscoped().findOne({ where: { username } });
 
@@ -112,7 +105,7 @@ export const validateHasPassword = async req => {
   }
 };
 
-export const validateUserExistsByUsername = async req => {
+export const validateUserExistsByUsername = async (req) => {
   const { username } = req.body;
   const user = await models.User.findOne({
     where: {
@@ -122,7 +115,7 @@ export const validateUserExistsByUsername = async req => {
   req.checkBody('username', 'No user exists with this username').custom(() => user);
 };
 
-export const validateUserExistsByEmail = async req => {
+export const validateUserExistsByEmail = async (req) => {
   const { email } = req.body;
   const user = await models.User.findOne({
     where: {

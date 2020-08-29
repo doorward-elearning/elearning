@@ -57,4 +57,13 @@
       cursor: not-allowed;
     }
   }
+
+
+  input {
+    width: unset !important;
+  }
+
+  .rdw-embedded-modal, .rdw-image-modal {
+    width: auto;
+  }
 }

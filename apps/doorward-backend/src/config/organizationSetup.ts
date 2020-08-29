@@ -1,12 +1,13 @@
 import connectDatabase from '../utils/connectDatabase';
-import OrganizationEntity from '../database/entities/organization.entity';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import * as fs from 'fs';
 import * as path from 'path';
 import { UserStatus } from '@doorward/common/types/users';
-import UserEntity from '../database/entities/user.entity';
+import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
-import RoleEntity from '../database/entities/role.entity';
+import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
+
 const chalk = require('chalk');
 
 export let currentOrganization: OrganizationEntity = undefined;

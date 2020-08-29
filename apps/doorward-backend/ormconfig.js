@@ -1,12 +1,12 @@
 const dotenv = require('dotenv');
+const entities = require('./src/database/entities').default;
 
 dotenv.config();
 dotenv.config({ path: '../../.env' });
-console.log(process.env.NODE_ENV);
 
 module.exports = {
   type: 'postgres',
-  entities: ['./src/database/entities/*.ts'],
+  entities: [...entities],
   migrations: ['./src/database/migrations/*.ts'],
   seeds: ['./src/database/seeds/*.ts'],
   logging: process.env.NODE_ENV === 'development',

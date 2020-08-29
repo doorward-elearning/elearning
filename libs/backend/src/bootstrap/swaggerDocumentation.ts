@@ -8,11 +8,13 @@ export const swaggerDocumentation = (
     description: string;
     version: string;
     tag: string;
+    basePath?: string;
   }
 ) => {
   const swaggerOptions = new DocumentBuilder()
     .setTitle(options.title)
     .setDescription(options.description)
+    .setBasePath(options.basePath)
     .setVersion(options.version)
     .addTag(options.tag)
     .build();

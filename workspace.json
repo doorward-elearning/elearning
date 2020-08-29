@@ -427,7 +427,7 @@
             "outputPath": "dist/apps/doorward-backend",
             "main": "apps/doorward-backend/src/main.ts",
             "tsConfig": "apps/doorward-backend/tsconfig.app.json",
-            "assets": ["apps/doorward-backend/src/assets"]
+            "assets": ["apps/doorward-backend/src/assets", "apps/doorward-backend/src/emails"]
           },
           "configurations": {
             "production": {

@@ -1,6 +1,6 @@
 import SeederInterface from '@doorward/backend/database/SeederInterface';
 import { EntityManager } from 'typeorm';
-import OrganizationEntity from '../entities/organization.entity';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 export class CreateDefaultOrganization1597834370368 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
