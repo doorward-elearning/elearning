@@ -22,7 +22,8 @@
       "@doorward/common/*": ["libs/common/src/*"],
       "@doorward/backend/*": ["libs/backend/src/*"],
       "@doorward/chat/*": ["libs/chat/src/*"],
-      "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"]
+      "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"],
+      "@repositories/*": ["apps/doorward-backend/src/repositories/*"]
     },
     "plugins": [
       {

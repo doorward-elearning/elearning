@@ -6,9 +6,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import CoursesRepository from '../../repositories/courses.repository';
 import { UsersRepository } from '@repositories/users.repository';
 import ModuleItemsRepository from '@repositories/module.items.repository';
+import { ItemsModule } from './modules/items/items.module';
 
 @Module({
-  imports: [ModulesModule, TypeOrmModule.forFeature([CoursesRepository, UsersRepository, ModuleItemsRepository])],
+  imports: [
+    ModulesModule,
+    ItemsModule,
+    TypeOrmModule.forFeature([CoursesRepository, UsersRepository, ModuleItemsRepository]),
+  ],
   controllers: [CoursesController],
   providers: [CoursesService],
   exports: [CoursesService],

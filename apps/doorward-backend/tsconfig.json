@@ -4,9 +4,6 @@
     "types": ["node", "jest"],
     "emitDecoratorMetadata": true,
     "target": "es2015",
-    "paths": {
-      "@repositories/*": ["apps/doorward-backend/src/repositories/*"]
-    }
   },
   "include": ["**/*.ts"]
 }

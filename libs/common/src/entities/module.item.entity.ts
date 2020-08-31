@@ -4,6 +4,7 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
 import UserEntity from './user.entity';
 import QuestionEntity from './question.entity';
+import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 
 @Entity('ModuleItems')
 export default class ModuleItemEntity extends BaseOrganizationEntity {
@@ -30,4 +31,7 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => QuestionEntity, (question) => question.quiz)
   questions: Array<QuestionEntity>;
+
+  @OneToMany(() => AssignmentSubmissionEntity, (assignment) => assignment.assignment)
+  assignmentSubmission: AssignmentSubmissionEntity;
 }

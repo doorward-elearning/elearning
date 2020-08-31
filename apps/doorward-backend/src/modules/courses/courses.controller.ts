@@ -15,13 +15,19 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { ModulesResponse } from '@doorward/common/dtos/module.response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { ItemsService } from './modules/items/items.service';
+import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, 'Course does not exist.');
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class CoursesController {
-  constructor(private coursesService: CoursesService, private modulesService: ModulesService) {}
+  constructor(
+    private coursesService: CoursesService,
+    private modulesService: ModulesService,
+    private moduleItemsService: ItemsService
+  ) {}
 
   @Post()
   @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
@@ -79,7 +85,12 @@ export class CoursesController {
 
   @Get(':courseId/modules/items')
   @CourseExists()
-  async getCourseModuleItems(@Param('courseId') courseId: string, @Query("type") type: ModuleItemType) {
+  async getCourseModuleItems(
+    @Param('courseId') courseId: string,
+    @Query('type') type: ModuleItemType
+  ): Promise<ModuleItemsResponse> {
+    const items = await this.moduleItemsService.getModuleItemsForCourse({ id: courseId }, type);
 
+    return { items };
   }
 }
