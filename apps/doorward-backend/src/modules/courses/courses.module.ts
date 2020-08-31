@@ -4,10 +4,11 @@ import { CoursesService } from './courses.service';
 import { ModulesModule } from './modules/modules.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import CoursesRepository from '../../repositories/courses.repository';
-import { UsersRepository } from '../../repositories/users.repository';
+import { UsersRepository } from '@repositories/users.repository';
+import ModuleItemsRepository from '@repositories/module.items.repository';
 
 @Module({
-  imports: [ModulesModule, TypeOrmModule.forFeature([CoursesRepository, UsersRepository])],
+  imports: [ModulesModule, TypeOrmModule.forFeature([CoursesRepository, UsersRepository, ModuleItemsRepository])],
   controllers: [CoursesController],
   providers: [CoursesService],
   exports: [CoursesService],

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Query, Post, Put, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import CreateCourseBody from '@doorward/common/dtos/create.course.body';
 import { CoursesService } from './courses.service';
@@ -13,6 +13,10 @@ import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { ModulesResponse } from '@doorward/common/dtos/module.response';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+
+export const CourseExists = () => ModelExists('courseId', CourseEntity, 'Course does not exist.');
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -34,7 +38,7 @@ export class CoursesController {
   }
 
   @Put(':courseId')
-  @ModelExists('courseId', CourseEntity, 'Course does not exist.')
+  @CourseExists()
   @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
   async updateCourse(
     @CurrentUser() user: UserEntity,
@@ -47,7 +51,7 @@ export class CoursesController {
   }
 
   @Get(':courseId')
-  @ModelExists('courseId', CourseEntity, 'Course does not exist.')
+  @CourseExists()
   async getCourse(@Param('courseId') courseId: string): Promise<CourseResponse> {
     const course = await this.coursesService.getCourse(courseId);
 
@@ -55,7 +59,7 @@ export class CoursesController {
   }
 
   @Delete(':courseId')
-  @ModelExists('courseId', CourseEntity, 'Course does not exist.')
+  @CourseExists()
   @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
   async deleteCourse(@Param('courseId') courseId: string): Promise<ApiResponse> {
     await this.coursesService.deleteCourse(courseId);
@@ -65,4 +69,17 @@ export class CoursesController {
     };
   }
 
+  @Get(':courseId/modules')
+  @CourseExists()
+  async getCourseModules(@Param('courseId') courseId: string): Promise<ModulesResponse> {
+    const modules = await this.modulesService.getModulesInCourse({ id: courseId });
+
+    return { modules };
+  }
+
+  @Get(':courseId/modules/items')
+  @CourseExists()
+  async getCourseModuleItems(@Param('courseId') courseId: string, @Query("type") type: ModuleItemType) {
+
+  }
 }

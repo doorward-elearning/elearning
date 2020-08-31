@@ -6,6 +6,7 @@ import { OrganizationModule } from './modules/organization/organization.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { CoursesModule } from './modules/courses/courses.module';
 import { ModulesModule } from './modules/courses/modules/modules.module';
+import { ItemsModule } from './modules/courses/modules/items/items.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
@@ -37,6 +38,7 @@ import entities from './database/entities';
     RolesModule,
     CoursesModule,
     ModulesModule,
+    ItemsModule,
   ],
   controllers: [],
   providers: [],

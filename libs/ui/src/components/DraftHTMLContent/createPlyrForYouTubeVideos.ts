@@ -23,7 +23,6 @@ export const createPlyrForYouTubeVideos = (element: HTMLDivElement) => {
           const player = new Plyr(newDiv);
 
           players.push(player);
-
         }
       });
     }, 100);

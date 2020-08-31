@@ -15,7 +15,14 @@ export class ModulesService {
     return this.modulesRepository.save(modulesToCreate);
   }
 
-  async updateModules(course: CourseEntity, ...modules: Array) {
+  async updateModules(course: CourseEntity, ...modules: Array<ModuleEntity>) {}
 
+  async getModulesInCourse(course: { id: string }) {
+    return this.modulesRepository.find({
+      where: {
+        course,
+      },
+      relations: ['items', 'items.questions', 'items.questions.answers'],
+    });
   }
 }

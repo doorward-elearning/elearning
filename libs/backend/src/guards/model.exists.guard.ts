@@ -7,10 +7,16 @@ import { getConnectionManager } from 'typeorm';
 export default class ModelExistsGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const { key, model, message } = this.reflector.get<ModelExistsDecoratorProps<any>>(
+    const modelExistsDecoratorProps = this.reflector.get<ModelExistsDecoratorProps<any>>(
       'modelExists',
       context.getHandler()
     );
+
+    if (!modelExistsDecoratorProps) {
+      return true;
+    }
+
+    const { key, model, message } = modelExistsDecoratorProps;
 
     const http = context.switchToHttp();
     if (http) {

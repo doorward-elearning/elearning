@@ -1,11 +1,10 @@
-import { Controller, Put, UseGuards } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import RolesGuard from '../../../guards/roles.guard';
+import { ModulesService } from './modules.service';
 
 @Controller()
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class ModulesController {
-
-  @Put(':courseId/modules')
-  async updateCourseModules() {}
+  constructor(private modulesService: ModulesService) {}
 }
