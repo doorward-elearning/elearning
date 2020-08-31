@@ -21,4 +21,5 @@ export class ItemsService {
 
     return queryBuilder.getMany();
   }
+
 }

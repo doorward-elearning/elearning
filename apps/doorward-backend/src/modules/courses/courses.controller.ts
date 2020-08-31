@@ -13,10 +13,11 @@ import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
-import { ModulesResponse } from '@doorward/common/dtos/module.response';
+import ModuleResponse, { ModulesResponse } from '@doorward/common/dtos/module.response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
 import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response';
+import CreateModuleBody from '@doorward/common/dtos/create.module.body';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, 'Course does not exist.');
 
@@ -92,5 +93,20 @@ export class CoursesController {
     const items = await this.moduleItemsService.getModuleItemsForCourse({ id: courseId }, type);
 
     return { items };
+  }
+
+  @Post(':courseId/modules')
+  @CourseExists()
+  async createCourseModule(
+    @Param('courseId') courseId: string,
+    @Body() body: CreateModuleBody
+  ): Promise<ModuleResponse> {
+    const course = await this.coursesService.getCourse(courseId);
+    const module = await this.modulesService.createModule({ id: courseId }, body);
+
+    return {
+      module,
+      message: module.title + ' has been added to ' + course.title,
+    };
   }
 }
