@@ -31,16 +31,18 @@ export abstract class UserModel {
   }
 
   public updateSession(session: OpenviduUserSession) {
-    if (session.sessionConfig?.capabilities && !session.sessionConfig.capabilities?.has) {
-      session.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
-        MeetingCapabilities,
-        (session.sessionConfig.capabilities as any).capabilities
-      );
+    if(session) {
+      if (session.sessionConfig?.capabilities && !session.sessionConfig.capabilities?.has) {
+        session.sessionConfig.capabilities = new Capabilities<typeof MeetingCapabilities>(
+          MeetingCapabilities,
+          (session.sessionConfig.capabilities as any).capabilities
+        );
+      }
+      this.session = session;
+      this.forEach(connection => {
+        connection.updateUser(session);
+      });
     }
-    this.session = session;
-    this.forEach(connection => {
-      connection.updateUser(session);
-    });
   }
 
   public abstract isLocal(): boolean;

@@ -1,13 +1,10 @@
 import React from 'react';
 import { OpenviduWebComponentConfig } from '@doorward/common/types/openvidu';
 import { OptionalKeysExcept } from '@doorward/common/types';
+import ScriptComponent from '@doorward/ui/components/ScriptComponent';
 
-class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
+class OpenviduWebComponent extends ScriptComponent<OpenviduWebComponentProps> {
   component: any;
-  script: HTMLScriptElement;
-  style: HTMLLinkElement;
-  materialStyle: HTMLLinkElement;
-  jqueryScript: HTMLScriptElement;
 
   componentDidMount(): void {
     this.initialize();
@@ -21,33 +18,18 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
   }
 
   initialize = (): void => {
-    this.script = this.addScript(this.props.scriptUrl);
-    this.jqueryScript = this.addScript('https://code.jquery.com/jquery-3.5.1.min.js');
-    this.jqueryScript.integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=';
-    this.jqueryScript.crossOrigin = 'anonymous';
+    this.addScript(this.props.scriptUrl);
+    const jqueryScript = this.addScript('https://code.jquery.com/jquery-3.5.1.min.js');
+    jqueryScript.integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=';
+    jqueryScript.crossOrigin = 'anonymous';
 
     // Keep this order of styles, to ensure we can override the default material styles
-    this.materialStyle = this.addStyles('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css');
-    this.style = this.addStyles(this.props.stylesUrl);
-  };
-
-  addScript = (url: string): HTMLScriptElement => {
-    const script = document.createElement('script');
-    script.src = url;
-    script.async = true;
-    document.body.appendChild(script);
-    return script;
-  };
-
-  addStyles = (url: string): HTMLLinkElement => {
-    const style = document.createElement('link');
-    style.href = url;
-    style.rel = 'stylesheet';
-    document.head.appendChild(style);
-    return style;
+    this.addStyle('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css');
+    this.addStyle(this.props.stylesUrl);
   };
 
   componentWillUnmount(): void {
+    super.componentWillUnmount();
     if (this.component) {
       this.component.removeEventListener('sessionCreated', this.onSessionCreated);
       this.component.removeEventListener('publisherCreated', this.onPublisherCreated);
@@ -55,10 +37,6 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       this.component.removeEventListener('joinSession', this.onJoinedSession);
       this.component.removeEventListener('leaveSession', this.onLeftSession);
     }
-    document.body.removeChild(this.script);
-    document.body.removeChild(this.jqueryScript);
-    document.head.removeChild(this.style);
-    document.head.removeChild(this.materialStyle);
   }
 
   onSessionCreated = () => {
@@ -104,7 +82,7 @@ class OpenviduWebComponent extends React.Component<OpenviduWebComponentProps> {
       // @ts-ignore
       <openvidu-webcomponent
         config="openvidu-webcomponent"
-        ref={component => {
+        ref={(component) => {
           this.component = component;
         }}
       />

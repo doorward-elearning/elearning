@@ -19,12 +19,12 @@ export class NetworkService {
     try {
       this.log.d('Getting token from backend');
       const response = await this.http
-        .post<ApiResponse<OpenviduUserSession>>('call', { sessionId, user, sessionConfig })
+        .post<ApiResponse & any>('call', { sessionId, user, sessionConfig })
         .toPromise();
 
-      localStorage.setItem('jwtToken', response.data.jwtToken);
+      localStorage.setItem('jwtToken', response.jwtToken);
 
-      return response.data;
+      return response;
     } catch (error) {
       if (error.status === 404) {
         throw { status: error.status, message: 'Cannot connect with backend. ' + error.url + ' not found' };
