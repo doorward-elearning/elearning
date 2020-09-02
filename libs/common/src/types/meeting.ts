@@ -12,3 +12,8 @@ export enum MeetingRoomTypes {
   PRIVATE = 'Private',
   PUBLIC = 'Public',
 }
+
+export enum MeetingPlatform {
+  OPENVIDU = 'Openvidu',
+  JITSI = 'Jitsi',
+}

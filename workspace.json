@@ -15,7 +15,11 @@
             "main": "apps/doorward-frontend/src/main.tsx",
             "polyfills": "apps/doorward-frontend/src/polyfills.ts",
             "tsConfig": "apps/doorward-frontend/tsconfig.app.json",
-            "assets": ["apps/doorward-frontend/src/favicon.ico", "apps/doorward-frontend/src/assets"],
+            "assets": [
+              "apps/doorward-frontend/src/favicon.ico",
+              "apps/doorward-frontend/src/assets",
+              "apps/doorward-frontend/src/libs"
+            ],
             "styles": ["apps/doorward-frontend/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"

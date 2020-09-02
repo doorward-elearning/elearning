@@ -17,15 +17,13 @@ class OpenviduWebComponent extends ScriptComponent<OpenviduWebComponentProps> {
     }
   }
 
-  initialize = (): void => {
-    this.addScript(this.props.scriptUrl);
-    const jqueryScript = this.addScript('https://code.jquery.com/jquery-3.5.1.min.js');
+  initialize = async (): Promise<void> => {
+    const [, jqueryScript] = await this.addScripts(this.props.scriptUrl, 'https://code.jquery.com/jquery-3.5.1.min.js');
     jqueryScript.integrity = 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=';
     jqueryScript.crossOrigin = 'anonymous';
 
     // Keep this order of styles, to ensure we can override the default material styles
-    this.addStyle('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css');
-    this.addStyle(this.props.stylesUrl);
+    this.addStyles('https://unpkg.com/@angular/material/prebuilt-themes/indigo-pink.css', this.props.stylesUrl);
   };
 
   componentWillUnmount(): void {

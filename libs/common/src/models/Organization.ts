@@ -2,6 +2,7 @@ import { DBModel } from '@doorward/common/models/DBModel';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 import { Role } from '@doorward/common/models/Role';
 import { User } from '@doorward/common/models/User';
+import { MeetingPlatform } from '@doorward/common/types/meeting';
 
 export class Organization extends Model implements DBModel {
   public id: string;
@@ -10,6 +11,7 @@ export class Organization extends Model implements DBModel {
   public darkThemeIcon: string;
   public link: string;
   public description?: string;
+  public meetingPlatform?: MeetingPlatform;
 
   public readonly createdAt: Date;
   public readonly deletedAt: Date;
@@ -28,6 +30,7 @@ export default (sequelize: Sequelize) => {
       darkThemeIcon: DataTypes.STRING,
       link: DataTypes.STRING,
       description: DataTypes.TEXT,
+      meetingPlatform: DataTypes.ENUM('Openvidu', 'Jitsi'),
     },
     { sequelize, tableName: 'Organizations', paranoid: true }
   );

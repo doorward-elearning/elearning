@@ -21,6 +21,7 @@ class OrganizationUtils {
           icon: process.env.ORGANIZATION_LOGO,
           link: process.env.ORGANIZATION_WEBSITE_LINK,
           darkThemeIcon: process.env.ORGANIZATION_LOGO_DARK_THEME,
+          meetingPlatform: process.env.DEFAULT_MEETING_PLATFORM
         });
 
         const fullName = process.env.ORGANIZATION_DEFAULT_ADMIN_FULLNAME.trim().split(/\s+/);

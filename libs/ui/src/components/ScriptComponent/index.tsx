@@ -4,23 +4,36 @@ class ScriptComponent<Props, State = {}> extends Component<Props, State> {
   scripts = [];
   styles = [];
 
-  public addScript(url: string) {
-    const script = document.createElement('script');
-    script.src = url;
-    script.async = true;
-    document.body.appendChild(script);
-    this.scripts.push(script);
-    return script;
+  public addScripts(...urls: Array<string>): Promise<Array<HTMLScriptElement>> {
+    return Promise.all(
+      urls.map(
+        (url) =>
+          new Promise<HTMLScriptElement>((resolve, reject) => {
+            const script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+            this.scripts.push(script);
+            script.onload = () => {
+              resolve(script);
+            };
+            script.onerror = () => {
+              reject();
+            };
+          })
+      )
+    );
   }
 
-  public addStyle(url: string) {
-    const style = document.createElement('link');
-    style.href = url;
-    style.rel = 'stylesheet';
-    document.head.appendChild(style);
+  public addStyles(...urls: Array<string>) {
+    urls.forEach((url) => {
+      const style = document.createElement('link');
+      style.href = url;
+      style.rel = 'stylesheet';
+      document.head.appendChild(style);
 
-    this.styles.push(style);
-    return style;
+      this.styles.push(style);
+    });
+    return this.styles;
   }
 
   componentWillUnmount(): void {
