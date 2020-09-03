@@ -37,7 +37,7 @@ export interface OrganizationConfig {
 
 const parseOrganization = (): OrganizationConfig => {
   try {
-    const filePath = path.join(__dirname, '../../../config/organization.json');
+    const filePath = path.join(__dirname, '../config/organization.json');
     const fileContents = fs.readFileSync(filePath).toString();
     return JSON.parse(fileContents) as OrganizationConfig;
   } catch (error) {

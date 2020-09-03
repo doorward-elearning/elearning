@@ -4,13 +4,13 @@ import { TransformInterceptor } from '@doorward/backend/interceptors/transform.i
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
-import organizationSetup from './config/organizationSetup';
+import organizationSetup from './bootstrap/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
-import rolesSetup from './config/roleSetup';
+import rolesSetup from './bootstrap/roleSetup';
 
 const globalPrefix = process.env.API_PREFIX;
 

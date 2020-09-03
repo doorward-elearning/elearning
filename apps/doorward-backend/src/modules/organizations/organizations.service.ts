@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import { currentOrganization } from '../../config/organizationSetup';
+import { currentOrganization } from '../../bootstrap/organizationSetup';
 
 @Injectable()
 export class OrganizationsService {

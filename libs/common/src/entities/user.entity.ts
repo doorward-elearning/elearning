@@ -77,6 +77,10 @@ export default class UserEntity extends BaseOrganizationEntity {
     return this.role?.name === role;
   }
 
+  hasPrivilege(privilege: string) {
+    return this.role?.privileges?.find((_privilege) => _privilege.name === privilege);
+  }
+
   validatePassword(password: string): boolean {
     return PasswordUtils.verifyPassword(password, this.password);
   }

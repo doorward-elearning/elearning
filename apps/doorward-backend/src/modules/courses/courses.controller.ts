@@ -6,9 +6,8 @@ import { ModulesService } from './modules/modules.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import CourseResponse, { CoursesResponse } from '@doorward/common/dtos/course.response';
-import AllowedRoles from '../../decorators/roles.decorator';
 import { Roles } from '@doorward/common/types/roles';
-import RolesGuard from '../../guards/roles.guard';
+import PrivilegesGuard from '../../guards/privileges.guard';
 import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
@@ -18,11 +17,12 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
 import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response';
 import CreateModuleBody from '@doorward/common/dtos/create.module.body';
+import Privileges from '../../decorators/privileges.decorator';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, 'Course does not exist.');
 
 @Controller('courses')
-@UseGuards(JwtAuthGuard, RolesGuard)
+@UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class CoursesController {
   constructor(
     private coursesService: CoursesService,
@@ -31,7 +31,7 @@ export class CoursesController {
   ) {}
 
   @Post()
-  @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
+  @Privileges('create-course')
   async createCourse(@Body() body: CreateCourseBody, @CurrentUser() user: UserEntity): Promise<CourseResponse> {
     const course = await this.coursesService.createCourse(body, user);
     return { course, statusCode: HttpStatus.CREATED };
@@ -46,7 +46,7 @@ export class CoursesController {
 
   @Put(':courseId')
   @CourseExists()
-  @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
+  @Privileges('update-course')
   async updateCourse(
     @CurrentUser() user: UserEntity,
     @Param('courseId') courseId: string,
@@ -67,7 +67,7 @@ export class CoursesController {
 
   @Delete(':courseId')
   @CourseExists()
-  @AllowedRoles(Roles.TEACHER, Roles.SUPER_ADMINISTRATOR)
+  @Privileges('delete-course')
   async deleteCourse(@Param('courseId') courseId: string): Promise<ApiResponse> {
     await this.coursesService.deleteCourse(courseId);
 

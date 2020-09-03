@@ -25,7 +25,7 @@ export class TransformExceptionFilter implements ExceptionFilter {
       }
     }
     if (exception instanceof ForbiddenException) {
-      data.message = 'You are not allowed to access this resource.';
+      data.message = 'You do not have sufficient privileges to perform this action.';
     }
 
     response.status(status).json(data);
