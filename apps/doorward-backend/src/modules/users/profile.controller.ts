@@ -4,7 +4,6 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import UserResponse from '@doorward/common/dtos/user.response';
 import { UsersService } from './users.service';
-import OrganizationService from '../organization/organization.service';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
@@ -16,7 +15,7 @@ import Public from '@doorward/backend/decorators/public.decorator';
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)
 export default class ProfileController {
-  constructor(private usersService: UsersService, private organizationService: OrganizationService) {}
+  constructor(private usersService: UsersService) {}
 
   @Put('account')
   updateAccountDetails(@Body() body: UpdateAccountBody, @CurrentUser() currentUser: UserEntity): Promise<UserResponse> {

@@ -31,8 +31,9 @@ async function bootstrap() {
   app.useGlobalFilters(new TransformExceptionFilter());
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
+  app.enableCors();
 
-  const port = process.env.BACKEND_API_PORT || 3333;
+  const port = process.env.API_PORT || 3333;
   await app.listen(port, () => {
     const hostPrefix = process.env.NODE_ENV === 'development' ? 'https' : 'http';
 

@@ -3,7 +3,7 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { currentOrganization } from '../../config/organizationSetup';
 
 @Injectable()
-export default class OrganizationService {
+export class OrganizationsService {
   organization: OrganizationEntity;
 
   constructor() {
