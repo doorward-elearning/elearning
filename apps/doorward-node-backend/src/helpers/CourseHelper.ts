@@ -74,33 +74,16 @@ class CourseHelper {
       if (!meetingInstance) {
         return [403, undefined, 'You are not authorized to join this meeting'];
       }
-      let token;
 
-      try {
-        const result = await OpenViduHelper.getToken(meeting.sessionId, meetingInstance.role);
-        token = result.token;
-      } catch (err) {
-        if (!Tools.isStudent(participant)) {
-          const { id } = await OpenViduHelper.createSession();
-          const result = await OpenViduHelper.getToken(id, meetingInstance.role);
-          token = result.token;
-        } else {
-          console.log(err);
-        }
-      }
-
-      if (token) {
-        return [
-          200,
-          {
-            id: meeting.id,
-            sessionId: meeting.sessionId,
-            sessionName: meetingRoom.title,
-            token,
-          },
-          'Joining the meeting.',
-        ];
-      }
+      return [
+        200,
+        {
+          id: meeting.id,
+          sessionId: meeting.sessionId,
+          sessionName: meetingRoom.title,
+        },
+        'Joining the meeting.',
+      ];
     }
     return [404, undefined, 'No meeting has been started for this course.'];
   }
@@ -146,7 +129,7 @@ class CourseHelper {
     });
 
     return Promise.all(
-      (course.students || []).map(async student => {
+      (course.students || []).map(async (student) => {
         return MeetingRoomsHelper.joinMeetingRoom(course.meetingRoomId, student.id);
       })
     );

@@ -22,6 +22,7 @@ export function fetchCustomBrandingData() {
         const baseUrl = state['features/base/config'].brandingDataUrl;
         const { customizationReady } = state['features/dynamic-branding'];
 
+        alert("Got here...")
         if (!customizationReady) {
             const fqn = extractFqnFromPath(state['features/base/connection'].locationURL.pathname);
             alert(fqn);
