@@ -8,7 +8,8 @@
     "delete-course",
     "create-module",
     "update-module",
-    "delete-module"
+    "delete-module",
+    "add-module-item"
   ],
   "roles": {
     "Super Administrator": {

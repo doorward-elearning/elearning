@@ -1,11 +1,11 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-export class AddPrivilegesEntity1599170388989 implements MigrationInterface {
-  name = 'AddPrivilegesEntity1599170388989';
+export class AddPrivilegesEntity1599172295946 implements MigrationInterface {
+  name = 'AddPrivilegesEntity1599172295946';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
-      `CREATE TABLE "Privileges" ("id" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "name" character varying NOT NULL, "description" text, CONSTRAINT "PK_40b588a42b3cc7c391da8f0d459" PRIMARY KEY ("id"))`
+      `CREATE TABLE "Privileges" ("id" character varying NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "name" character varying NOT NULL, "description" text, CONSTRAINT "UQ_d5888762317e6dccf5b9b7486a6" UNIQUE ("name"), CONSTRAINT "PK_40b588a42b3cc7c391da8f0d459" PRIMARY KEY ("id"))`
     );
     await queryRunner.query(
       `CREATE TABLE "RolePrivileges" ("roleId" character varying NOT NULL, "privilegeId" character varying NOT NULL, CONSTRAINT "PK_9f1ed27d0757f85206735a6aaf1" PRIMARY KEY ("roleId", "privilegeId"))`

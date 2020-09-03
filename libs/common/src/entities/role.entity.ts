@@ -14,7 +14,7 @@ export default class RoleEntity extends BaseEntity {
   @OneToMany(() => UserEntity, (user) => user.role)
   users: Array<UserEntity>;
 
-  @ManyToMany(() => PrivilegeEntity, { onDelete: 'CASCADE', eager: true, cascade: true })
+  @ManyToMany(() => PrivilegeEntity, { onDelete: 'CASCADE', eager: true, cascade: false })
   @JoinTable({ name: 'RolePrivileges', joinColumn: { name: 'roleId' }, inverseJoinColumn: { name: 'privilegeId' } })
   privileges: Array<PrivilegeEntity>;
 }
