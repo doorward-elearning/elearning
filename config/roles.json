@@ -1,0 +1,24 @@
+{
+  "privileges": [
+    {
+      "name": "create-course",
+      "description": "Can create a course"
+    },
+    "update-course",
+    "delete-course",
+    "create-module",
+    "update-module",
+    "delete-module"
+  ],
+  "roles": {
+    "Super Administrator": {
+      "privileges": "*"
+    },
+    "Teacher": {
+      "privileges": ["create-course", "update-course", "create-course", "update-module", "delete-module"]
+    },
+    "Student": {
+      "privileges": []
+    }
+  }
+}

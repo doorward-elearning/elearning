@@ -10,10 +10,12 @@ import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.valida
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
+import rolesSetup from './config/roleSetup';
 
 const globalPrefix = process.env.API_PREFIX;
 
 async function bootstrap() {
+  await rolesSetup();
   await organizationSetup();
 
   const app = await setUpNestApplication(AppModule);

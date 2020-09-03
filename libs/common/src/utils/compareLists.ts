@@ -13,8 +13,8 @@ const compareLists = <T, R>(
 
   const compare = areEqual || ((a, b: any) => a === b);
 
-  existingList.forEach(item => {
-    const newItem = newList.find(x => compare(item, x));
+  existingList.forEach((item) => {
+    const newItem = newList.find((x) => compare(item, x));
     if (newItem) {
       unchanged.push(item);
     } else {
@@ -22,7 +22,7 @@ const compareLists = <T, R>(
     }
   });
 
-  newItems.push(...newList.filter(x => existingList.find(y => !compare(y, x))));
+  newItems.push(...newList.filter((x) => !existingList.find((y) => compare(y, x))));
 
   return { removed, newItems, unchanged };
 };
