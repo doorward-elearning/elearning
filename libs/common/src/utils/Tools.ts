@@ -25,7 +25,7 @@ class Tools {
     return Array(2)
       .fill(0)
       .map(() => shortId.generate())
-      .join('-');
+      .join('');
   }
 
   static randomString(length = 6): string {

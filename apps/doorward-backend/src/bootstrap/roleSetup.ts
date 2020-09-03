@@ -18,7 +18,7 @@ export interface RolesConfig {
 
 const parseRoles = (): RolesConfig => {
   try {
-    const filePath = path.join(__dirname, '../config/roles.json');
+    const filePath = path.join(__dirname, './config/roles.json');
     const fileContents = fs.readFileSync(filePath).toString();
     return JSON.parse(fileContents) as RolesConfig;
   } catch (error) {
