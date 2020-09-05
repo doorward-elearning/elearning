@@ -1,25 +1,27 @@
 {
-  "privileges": [
-    {
-      "name": "create-course",
-      "description": "Can create a course"
-    },
-    "update-course",
-    "delete-course",
-    "create-module",
-    "update-module",
-    "delete-module",
-    "add-module-item"
-  ],
+  "privileges": {
+    "courses": [
+      {
+        "name": "create",
+        "description": "Can create a course"
+      },
+      "update",
+      "delete"
+    ],
+    "modules": ["create", "update", "delete"]
+  },
   "roles": {
     "Super Administrator": {
-      "privileges": "*"
+      "privileges": [".*"],
+      "exclude": []
     },
     "Teacher": {
-      "privileges": ["create-course", "update-course", "create-course", "update-module", "delete-module"]
+      "privileges": ["courses.*", "modules.*"],
+      "exclude": []
     },
     "Student": {
-      "privileges": []
+      "privileges": [],
+      "exclude": []
     }
   }
 }

@@ -8,10 +8,13 @@ import { In } from 'typeorm';
 const chalk = require('chalk').default;
 
 export interface RolesConfig {
-  privileges: Array<string | { name: string; description: string }>;
+  privileges: {
+    [base: string]: Array<string | { name: string; description: string }>;
+  };
   roles: {
     [role: string]: {
-      privileges: string | Array<string>;
+      privileges: Array<string>;
+      exclude: Array<string>;
     };
   };
 }
@@ -31,21 +34,26 @@ const rolesSetup = async (): Promise<void> => {
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {
-    const { privileges, roles } = parseRoles();
+    const { privileges: rawPrivileges, roles } = parseRoles();
     await queryRunner.startTransaction();
 
     const entityManager = queryRunner.manager;
+    console.log(rawPrivileges);
 
-    const privilegeNames = privileges.map((privilege) =>
-      (typeof privilege === 'string' ? privilege : privilege.name).toLowerCase().trim()
-    );
-
-    // create all the privileges if they do not exist.
-    await Promise.all(
-      privileges.map(async (_privilege) => {
+    const privileges: Array<{ name: string; description: string }> = Object.keys(rawPrivileges).reduce((acc, cur) => {
+      const generated = rawPrivileges[cur].map((_privilege) => {
         const name = (typeof _privilege === 'string' ? _privilege : _privilege.name).toLowerCase().trim();
         const description = typeof _privilege === 'string' ? '' : _privilege.description;
 
+        return { name: cur.toLowerCase() + '-' + name, description };
+      });
+      return [...acc, ...generated];
+    }, []);
+    const privilegeNames = privileges.map((privilege) => privilege.name);
+
+    // create all the privileges if they do not exist.
+    await Promise.all(
+      privileges.map(async ({ name, description }) => {
         const exists = await entityManager.findOne(PrivilegeEntity, {
           where: {
             name,
@@ -75,17 +83,14 @@ const rolesSetup = async (): Promise<void> => {
         if (roleExists) {
           // get all existing privileges
           const existingPrivileges = (await roleExists.privileges).map((x) => x.name);
-          let newPrivileges = [];
+          const rolePrivileges = roles[role].privileges;
+          const excludedPrivileges = roles[role].exclude;
 
-          if (typeof roles[role].privileges === 'string') {
-            if (roles[role].privileges === '*') {
-              newPrivileges = privilegeNames;
-            } else {
-              newPrivileges = [roles[role].privileges];
-            }
-          } else {
-            newPrivileges = roles[role].privileges as Array<string>;
-          }
+          let newPrivileges = privilegeNames.filter(
+            (privilege) =>
+              rolePrivileges.find((_rolePrivilege) => new RegExp(_rolePrivilege, 'ig').test(privilege)) &&
+              !excludedPrivileges.find((_excluded) => new RegExp(_excluded, 'ig').test(privilege))
+          );
 
           const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);
 
@@ -119,7 +124,5 @@ const rolesSetup = async (): Promise<void> => {
     await connection.close();
   }
 };
-
-rolesSetup();
 
 export default rolesSetup;
