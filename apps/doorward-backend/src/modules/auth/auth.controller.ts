@@ -10,6 +10,8 @@ import JwtAuthGuard from './guards/jwt.auth.guard';
 import UserResponse from '@doorward/common/dtos/user.response';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import FrontendLinks from '../../utils/frontend.links';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -42,8 +44,8 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getCurrentUser(@Request() request): Promise<UserResponse> {
-    const user = await this.authService.getCurrentUser(request);
+  async getCurrentUser(@CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
+    const user = await this.authService.getCurrentUser(currentUser.id);
     return { user };
   }
 }

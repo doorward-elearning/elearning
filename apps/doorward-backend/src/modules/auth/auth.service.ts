@@ -1,11 +1,10 @@
-import { Injectable, Request } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import LoginResponse from '@doorward/common/dtos/login.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import RegisterBody from '@doorward/common/dtos/register.body';
-import express from 'express';
 
 @Injectable()
 export class AuthService {
@@ -14,10 +13,10 @@ export class AuthService {
   /**
    * Retrieve the current user details
    *
-   * @param request
+   * @param id
    */
-  async getCurrentUser(request: express.Request): Promise<UserEntity> {
-    return this.usersService.getUserDetails((request.user as any).id);
+  async getCurrentUser(id: string): Promise<UserEntity> {
+    return this.usersService.getUserDetails(id);
   }
 
   /**

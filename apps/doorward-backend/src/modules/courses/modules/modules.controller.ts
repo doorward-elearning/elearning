@@ -10,6 +10,6 @@ export class ModulesController {
   constructor(private modulesService: ModulesService) {}
 
   @Put(':moduleId')
-  @Privileges('update-module')
+  @Privileges('update.module')
   async updateModule() {}
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Query, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import CreateCourseBody from '@doorward/common/dtos/create.course.body';
 import { CoursesService } from './courses.service';
@@ -6,7 +6,6 @@ import { ModulesService } from './modules/modules.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import CourseResponse, { CoursesResponse } from '@doorward/common/dtos/course.response';
-import { Roles } from '@doorward/common/types/roles';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
@@ -31,7 +30,7 @@ export class CoursesController {
   ) {}
 
   @Post()
-  @Privileges('create-course')
+  @Privileges('course.create')
   async createCourse(@Body() body: CreateCourseBody, @CurrentUser() user: UserEntity): Promise<CourseResponse> {
     const course = await this.coursesService.createCourse(body, user);
     return { course, statusCode: HttpStatus.CREATED };
@@ -46,7 +45,7 @@ export class CoursesController {
 
   @Put(':courseId')
   @CourseExists()
-  @Privileges('update-course')
+  @Privileges('course.update')
   async updateCourse(
     @CurrentUser() user: UserEntity,
     @Param('courseId') courseId: string,
@@ -67,7 +66,7 @@ export class CoursesController {
 
   @Delete(':courseId')
   @CourseExists()
-  @Privileges('delete-course')
+  @Privileges('course.delete')
   async deleteCourse(@Param('courseId') courseId: string): Promise<ApiResponse> {
     await this.coursesService.deleteCourse(courseId);
 
@@ -97,6 +96,7 @@ export class CoursesController {
 
   @Post(':courseId/modules')
   @CourseExists()
+  @Privileges('modules.create')
   async createCourseModule(
     @Param('courseId') courseId: string,
     @Body() body: CreateModuleBody

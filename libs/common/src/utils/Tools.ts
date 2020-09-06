@@ -24,7 +24,7 @@ class Tools {
   static generateId(): string {
     return Array(2)
       .fill(0)
-      .map(() => shortId.generate())
+      .map(() => Tools.randomString(6))
       .join('');
   }
 

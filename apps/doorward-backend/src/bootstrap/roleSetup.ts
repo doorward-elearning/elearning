@@ -8,6 +8,7 @@ import { In } from 'typeorm';
 const chalk = require('chalk').default;
 
 export interface RolesConfig {
+  delimiter: string;
   privileges: {
     [base: string]: Array<string | { name: string; description: string }>;
   };
@@ -34,18 +35,17 @@ const rolesSetup = async (): Promise<void> => {
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {
-    const { privileges: rawPrivileges, roles } = parseRoles();
+    const { privileges: rawPrivileges, roles, delimiter } = parseRoles();
     await queryRunner.startTransaction();
 
     const entityManager = queryRunner.manager;
-    console.log(rawPrivileges);
 
     const privileges: Array<{ name: string; description: string }> = Object.keys(rawPrivileges).reduce((acc, cur) => {
       const generated = rawPrivileges[cur].map((_privilege) => {
         const name = (typeof _privilege === 'string' ? _privilege : _privilege.name).toLowerCase().trim();
         const description = typeof _privilege === 'string' ? '' : _privilege.description;
 
-        return { name: cur.toLowerCase() + '-' + name, description };
+        return { name: cur.toLowerCase() + delimiter + name, description };
       });
       return [...acc, ...generated];
     }, []);
@@ -79,6 +79,7 @@ const rolesSetup = async (): Promise<void> => {
           where: {
             name: role.trim(),
           },
+          relations: ['privileges'],
         });
         if (roleExists) {
           // get all existing privileges

@@ -18,7 +18,7 @@ export default class YupValidationPipe implements PipeTransform {
   static async validate(Body: ClassType<ApiBody>, value: any) {
     const body = new Body();
     try {
-      await (await body.validation()).validate(value, {
+      await (await body.validation()).validate(value || {}, {
         abortEarly: false,
       });
     } catch (err) {

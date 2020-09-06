@@ -1,7 +1,8 @@
 import ApiBody from '@doorward/common/dtos/api.body';
-import Yup, { ObjectSchema } from 'yup';
+import { ObjectSchema } from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import * as Yup from 'yup';
 
 export default class CreateModuleBody extends ApiBody {
   @ApiProperty()

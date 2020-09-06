@@ -17,6 +17,7 @@ import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import ForgotPasswordEmail from './emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
+import PrivilegeRepository from '@repositories/privilege.repository';
 
 @Injectable()
 export class UsersService {
@@ -24,13 +25,23 @@ export class UsersService {
     private usersRepository: UsersRepository,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
-    private emailsService: EmailsService
+    private emailsService: EmailsService,
+    private privilegeRepository: PrivilegeRepository
   ) {}
 
   async getUserDetails(id: string): Promise<UserEntity> {
-    return this.usersRepository.findOne(id, {
-      relations: ['organization', 'role'],
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['organization', 'role', 'role.privileges'],
     });
+
+    user.role.privileges = await this.privilegeRepository
+      .createQueryBuilder('privilege')
+      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
+      .where('"rolePrivilege"."roleId" = :roleId', { roleId: user.role.id })
+      .getMany();
+
+    return user;
   }
   /**
    * Retrieve all users

@@ -37,10 +37,12 @@ export class ModulesService {
       throw new ValidationException({ title: 'A module with this title already exists.' });
     }
 
-    return await this.modulesRepository.create({
-      course,
-      title: body.title,
-    });
+    return await this.modulesRepository.save(
+      this.modulesRepository.create({
+        course,
+        title: body.title,
+      })
+    );
   }
 
   async getModulesInCourse(course: { id: string }) {
