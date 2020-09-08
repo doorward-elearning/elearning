@@ -18,7 +18,7 @@ import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response'
 import CreateModuleBody from '@doorward/common/dtos/create.module.body';
 import Privileges from '../../decorators/privileges.decorator';
 
-export const CourseExists = () => ModelExists('courseId', CourseEntity, 'Course does not exist.');
+export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
@@ -71,7 +71,7 @@ export class CoursesController {
     await this.coursesService.deleteCourse(courseId);
 
     return {
-      message: 'Course has been deleted.',
+      message: '{{course}} has been deleted.',
     };
   }
 
@@ -85,6 +85,7 @@ export class CoursesController {
 
   @Get(':courseId/modules/items')
   @CourseExists()
+  @Privileges('modules.read')
   async getCourseModuleItems(
     @Param('courseId') courseId: string,
     @Query('type') type: ModuleItemType

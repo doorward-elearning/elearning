@@ -7,7 +7,10 @@ export interface ModelExistsDecoratorProps<Entity> {
   message?: string;
 }
 
-function ModelExists<Entity>(key: string, model: ObjectType<Entity>, message?: string) {
+function ModelExists<Entity>(key: string, model: ObjectType<Entity>, message?: string | (() => string)) {
+  if (message) {
+    message = typeof message === 'string' ? message : message();
+  }
   return SetMetadata('modelExists', { key, model, message });
 }
 

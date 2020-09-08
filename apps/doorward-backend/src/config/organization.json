@@ -7,10 +7,15 @@
     "dark": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_white.png"
   },
   "description": "",
-  "roles": {
-    "SUPER_ADMINISTRATOR": "Super Administrator",
-    "TEACHER": "Teacher",
-    "STUDENT": "Learner"
+  "models": {
+    "course": "Course",
+    "module": "Module",
+    "meeting": "Meeting",
+    "assignment": "Assignment",
+    "user": "User",
+    "teacher": "Teacher",
+    "student": "Learner",
+    "superAdministrator": "Super Administrator"
   },
   "admins": [
     {

@@ -10,7 +10,7 @@
       "delete",
       "view-all"
     ],
-    "modules": ["create", "update", "delete"]
+    "modules": ["create", "update", "delete", "read"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -22,7 +22,7 @@
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {
-      "privileges": [],
+      "privileges": ["modules.read"],
       "exclude": []
     }
   }

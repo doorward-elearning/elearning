@@ -17,10 +17,10 @@ export default class CreateCourseBody extends UpdateCourseBody {
         modules: Yup.array()
           .of(
             Yup.object().shape({
-              title: Yup.string().required('The module name is required'),
+              title: Yup.string().required('The {{module}} name is required'),
             })
           )
-          .required('Please provide at least one module in the course'),
+          .required('Please provide at least one {{module}} in the course'),
       })
     );
     return validation;

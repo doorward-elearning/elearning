@@ -2,13 +2,12 @@ import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpExceptio
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
+import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 
 @Catch(HttpException)
 @Injectable()
 export class TransformExceptionFilter implements ExceptionFilter {
-  catch(exception: HttpException, host: ArgumentsHost): any {
-    const context = host.switchToHttp();
-    const response = context.getResponse<Response>();
+  performTransform(exception: HttpException): ApiResponse {
     const status = exception.getStatus();
 
     const data = ResponseBuilder.create(status);
@@ -28,6 +27,13 @@ export class TransformExceptionFilter implements ExceptionFilter {
       data.message = 'You do not have sufficient privileges to perform this action.';
     }
 
-    response.status(status).json(data);
+    return data;
+  }
+
+  catch(exception: HttpException, host: ArgumentsHost): any {
+    const context = host.switchToHttp();
+    const response = context.getResponse<Response>();
+    const data = this.performTransform(exception);
+    response.status(data.statusCode).json(data);
   }
 }

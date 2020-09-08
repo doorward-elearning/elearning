@@ -11,7 +11,7 @@ export default class UpdateCourseBody extends ApiBody {
 
   async validation(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required('The course title is required').nullable(),
+      title: Yup.string().required('The {{course}} title is required').nullable(),
     });
   }
 }

@@ -147,7 +147,7 @@ export class UsersService {
   async userForgotPassword(body: ForgotPasswordBody, origin: string) {
     const user = await this.findByUsername(body.username);
     if (!user) {
-      throw new ValidationException({ username: 'No user with this username exists.' });
+      throw new ValidationException({ username: 'No {{user}} with this username exists.' });
     }
 
     const resetToken = Tools.randomString(50);

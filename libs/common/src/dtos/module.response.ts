@@ -8,3 +8,7 @@ export default interface ModuleResponse extends ApiResponse {
 export interface ModulesResponse extends ApiResponse {
   modules: Array<ModuleEntity>;
 }
+
+export interface DeleteModuleResponse extends ApiResponse {
+  id: string;
+}

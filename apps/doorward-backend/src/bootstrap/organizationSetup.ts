@@ -7,10 +7,11 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
+import { OrganizationModels } from '@doorward/common/types/organization.models';
 
 const chalk = require('chalk');
 
-export let currentOrganization: OrganizationEntity = undefined;
+export let ORGANIZATION: OrganizationEntity = undefined;
 
 export interface OrganizationConfig {
   id: string;
@@ -21,7 +22,7 @@ export interface OrganizationConfig {
     light: string;
   };
   description: string;
-  roles: Record<Roles, string>;
+  models: Record<OrganizationModels, string>;
   admins: Array<{
     id: string;
     firstName: string;
@@ -56,7 +57,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     const entityManager = queryRunner.manager;
 
     const organizationConfig = parseOrganization();
-    const { id, link, name, icons, description, admins, roles } = organizationConfig;
+    const { id, link, name, icons, description, admins, models } = organizationConfig;
     if (!organizationConfig.id) {
       console.error('Organization id is required in the "organization.json" config file');
       process.exit(1);
@@ -82,7 +83,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
           name: roleName as Roles,
         });
 
-        role.displayName = roles[roleName as Roles] || role.displayName;
+        role.displayName = models[roleName as Roles] || role.displayName;
         await entityManager.save(RoleEntity, role);
       })
     );
@@ -107,12 +108,13 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
 
     await queryRunner.commitTransaction();
 
+    organization.models = models;
     console.log(chalk.cyan('Organization set up complete.'));
 
-    currentOrganization = organization;
+    ORGANIZATION = organization;
 
     //set it as an environment variable
-    process.env.ORGANIZATION_ID = currentOrganization.id;
+    process.env.ORGANIZATION_ID = ORGANIZATION.id;
 
     return organization;
   } catch (error) {

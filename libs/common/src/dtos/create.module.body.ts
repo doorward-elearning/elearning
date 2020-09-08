@@ -11,7 +11,7 @@ export default class CreateModuleBody extends ApiBody {
 
   async validation(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required('Please provide the module title.').nullable(),
+      title: Yup.string().required('Please provide the {{module}} title.').nullable(),
     });
   }
 }

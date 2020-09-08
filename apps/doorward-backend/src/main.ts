@@ -11,6 +11,8 @@ import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import rolesSetup from './bootstrap/roleSetup';
+import OrganizationModelsTransformInterceptor from './interceptors/organization.models.transform.interceptor';
+import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -29,8 +31,8 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
-  app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalFilters(new TransformExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor(), new OrganizationModelsTransformInterceptor());
+  app.useGlobalFilters(new OrganizationModelsExceptionFilter());
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();

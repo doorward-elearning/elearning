@@ -10,6 +10,7 @@ import {
 import UserEntity from './user.entity';
 import Tools from '@doorward/common/utils/Tools';
 import RoleEntity from './role.entity';
+import { OrganizationModels } from '@doorward/common/types/organization.models';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -46,6 +47,12 @@ export default class OrganizationEntity {
   users: Array<UserEntity>;
 
   roles: Array<RoleEntity>;
+
+  models: Record<OrganizationModels, string>;
+
+  getDisplayName(model: OrganizationModels) {
+    return this.models[model];
+  }
 
   @BeforeInsert()
   generateUUID() {

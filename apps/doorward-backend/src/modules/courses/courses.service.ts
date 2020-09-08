@@ -19,7 +19,7 @@ export class CoursesService {
       .getOne();
 
     if (courseExists) {
-      throw new ValidationException({ title: 'Course with this title already exists' });
+      throw new ValidationException({ title: 'A {{course}} with this title already exists' });
     }
     const { modules, title } = body;
 
@@ -109,7 +109,7 @@ export class CoursesService {
       .getOne();
 
     if (existingCourse) {
-      throw new ValidationException({ title: 'A course with this title already exists.' });
+      throw new ValidationException({ title: 'A {{course}} with this title already exists.' });
     }
 
     await this.coursesRepository.update(id, {
