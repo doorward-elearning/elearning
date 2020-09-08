@@ -21,6 +21,7 @@ export interface OrganizationConfig {
     light: string;
   };
   description: string;
+  roles: Record<Roles, string>;
   admins: Array<{
     id: string;
     firstName: string;
@@ -55,7 +56,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     const entityManager = queryRunner.manager;
 
     const organizationConfig = parseOrganization();
-    const { id, link, name, icons, description, admins } = organizationConfig;
+    const { id, link, name, icons, description, admins, roles } = organizationConfig;
     if (!organizationConfig.id) {
       console.error('Organization id is required in the "organization.json" config file');
       process.exit(1);
@@ -73,6 +74,18 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     const role = await entityManager.findOne(RoleEntity, {
       name: Roles.SUPER_ADMINISTRATOR,
     });
+
+    // update the roles
+    await Promise.all(
+      Object.keys(Roles).map(async (roleName) => {
+        const role = await entityManager.findOne(RoleEntity, {
+          name: roleName as Roles,
+        });
+
+        role.displayName = roles[roleName as Roles] || role.displayName;
+        await entityManager.save(RoleEntity, role);
+      })
+    );
 
     if (!admins?.length) {
       console.error('Organization config file "organization.json" does not specify any admins');

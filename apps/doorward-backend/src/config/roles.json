@@ -13,15 +13,15 @@
     "modules": ["create", "update", "delete"]
   },
   "roles": {
-    "Super Administrator": {
+    "SUPER_ADMINISTRATOR": {
       "privileges": ["*"],
       "exclude": []
     },
-    "Teacher": {
+    "TEACHER": {
       "privileges": ["courses.*", "modules.*"],
       "exclude": ["courses.view-all"]
     },
-    "Student": {
+    "STUDENT": {
       "privileges": [],
       "exclude": []
     }

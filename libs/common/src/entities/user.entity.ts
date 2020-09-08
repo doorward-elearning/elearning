@@ -11,9 +11,7 @@ import { Exclude } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
-import RolesRepository from '@repositories/roles.repository';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
-import findAsync from '@doorward/common/utils/findAsync';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {

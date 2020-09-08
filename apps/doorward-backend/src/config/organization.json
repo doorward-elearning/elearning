@@ -7,6 +7,11 @@
     "dark": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_white.png"
   },
   "description": "",
+  "roles": {
+    "SUPER_ADMINISTRATOR": "Super Administrator",
+    "TEACHER": "Teacher",
+    "STUDENT": "Learner"
+  },
   "admins": [
     {
       "id": "Gfz4r7sBK6u81",
