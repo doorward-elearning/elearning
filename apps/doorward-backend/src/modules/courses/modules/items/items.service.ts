@@ -22,4 +22,8 @@ export class ItemsService {
     return queryBuilder.getMany();
   }
 
+  async checkModuleItemExists(itemId: string, title: string) {
+    let queryBuilder = this.itemsRepository
+      .createQueryBuilder()
+  }
 }

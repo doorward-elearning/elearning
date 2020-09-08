@@ -5,6 +5,9 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import UpdateModuleBody from '@doorward/common/dtos/update.module.body';
+import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import CreateQuizBody from '@doorward/common/dtos/create.quiz.body';
 
 @Injectable()
 export class ModulesService {
@@ -73,5 +76,21 @@ export class ModulesService {
 
   async deleteModule(moduleId: string) {
     await this.modulesRepository.softDelete(moduleId);
+  }
+
+  async getModule(moduleId: string) {
+    return this.modulesRepository.findOne(moduleId, {
+      relations: ['items'],
+    });
+  }
+
+  async createModuleItem(moduleId: string, body: CreateModuleItemBody) {
+
+    if(body.type === ModuleItemType.QUIZ) {
+      body = body as CreateQuizBody;
+
+    }else {
+
+    }
   }
 }

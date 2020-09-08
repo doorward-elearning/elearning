@@ -15,7 +15,8 @@
     "user": "User",
     "teacher": "Teacher",
     "student": "Learner",
-    "superAdministrator": "Super Administrator"
+    "superAdministrator": "Super Administrator",
+    "moduleItem": "Module item"
   },
   "admins": [
     {
