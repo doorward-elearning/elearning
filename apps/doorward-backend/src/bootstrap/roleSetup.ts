@@ -5,6 +5,7 @@ import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import compareLists from '@doorward/common/utils/compareLists';
 import { In } from 'typeorm';
+import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 const chalk = require('chalk').default;
 
 export interface RolesConfig {
@@ -89,8 +90,8 @@ const rolesSetup = async (): Promise<void> => {
 
           let newPrivileges = privilegeNames.filter(
             (privilege) =>
-              rolePrivileges.find((_rolePrivilege) => new RegExp(_rolePrivilege, 'ig').test(privilege)) &&
-              !excludedPrivileges.find((_excluded) => new RegExp(_excluded, 'ig').test(privilege))
+              rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
+              !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
           );
 
           const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);

@@ -66,6 +66,8 @@ export class AuthService {
       role: user.role,
     };
 
+    await user.updatePrivileges();
+
     const token = await this.jwtService.sign(payload);
 
     return {

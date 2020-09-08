@@ -7,22 +7,23 @@
         "description": "Can create a course"
       },
       "update",
-      "delete"
+      "delete",
+      "view-all"
     ],
     "modules": ["create", "update", "delete"]
   },
   "roles": {
     "Super Administrator": {
-      "privileges": [".*"],
+      "privileges": ["*"],
       "exclude": []
     },
     "Teacher": {
       "privileges": ["courses.*", "modules.*"],
-      "exclude": []
+      "exclude": ["courses.view-all"]
     },
     "Student": {
       "privileges": [],
-      "exclude": [".*"]
+      "exclude": []
     }
   }
 }

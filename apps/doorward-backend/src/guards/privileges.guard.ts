@@ -15,6 +15,6 @@ export default class PrivilegesGuard implements CanActivate {
       return true;
     }
 
-    return !privileges.find((privilege) => !user.hasPrivilege(privilege));
+    return user.hasPrivileges(...privileges);
   }
 }

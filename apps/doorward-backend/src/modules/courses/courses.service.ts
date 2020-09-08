@@ -43,16 +43,19 @@ export class CoursesService {
   }
 
   async getCourses(user: UserEntity): Promise<CourseEntity[]> {
-    if (user.isSuperAdmin()) {
-      return this.getCoursesForAdmin(user);
-    } else if (user.isTeacher()) {
-      return this.getCoursesForTeacher(user);
+    let courses = [];
+    if (await user.hasPrivileges('courses.view-all')) {
+      courses = await this.getAllCourses(user);
     } else {
-      return this.getCoursesForStudent(user);
+      if (await user.hasPrivileges('courses.create')) {
+        courses.push(...(await this.getCoursesForAuthor(user)));
+      }
+      courses.push(...(await this.getCoursesForLearner(user)));
     }
+    return courses;
   }
 
-  async getCoursesForStudent(student: UserEntity): Promise<CourseEntity[]> {
+  async getCoursesForLearner(student: UserEntity): Promise<CourseEntity[]> {
     const courses = await this.coursesRepository
       .createQueryBuilder('course')
       .leftJoinAndSelect('StudentCourses', 'courseStudents', '"courseStudents"."courseId" = "course".id')
@@ -70,11 +73,11 @@ export class CoursesService {
     );
   }
 
-  async getCoursesForTeacher(teacher: UserEntity): Promise<CourseEntity[]> {
+  async getCoursesForAuthor(author: UserEntity): Promise<CourseEntity[]> {
     return await this.coursesRepository.find({
       where: {
         author: {
-          id: teacher.id,
+          id: author.id,
         },
       },
       relations: ['author', 'meetingRoom'],
@@ -84,7 +87,7 @@ export class CoursesService {
     });
   }
 
-  async getCoursesForAdmin(admin: UserEntity): Promise<CourseEntity[]> {
+  async getAllCourses(admin: UserEntity): Promise<CourseEntity[]> {
     return this.coursesRepository.find({
       relations: ['author', 'meetingRoom'],
       order: {

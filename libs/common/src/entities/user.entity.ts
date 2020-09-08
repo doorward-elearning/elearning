@@ -10,6 +10,10 @@ import RoleEntity from './role.entity';
 import { Exclude } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
+import wildcardPattern from '@doorward/common/utils/wildcardPattern';
+import RolesRepository from '@repositories/roles.repository';
+import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
+import findAsync from '@doorward/common/utils/findAsync';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -77,10 +81,21 @@ export default class UserEntity extends BaseOrganizationEntity {
     return this.role?.name === role;
   }
 
-  hasPrivilege(privilege: string) {
-    return this.role?.privileges?.find((_privilege) => {
-      return new RegExp(privilege, 'ig').test(_privilege.name);
-    });
+  async updatePrivileges() {
+    this.role.privileges = await this.getRepository(PrivilegeEntity)
+      .createQueryBuilder('privilege')
+      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
+      .where('"rolePrivilege"."roleId" = :roleId', { roleId: this.role.id })
+      .getMany();
+  }
+
+  async hasPrivileges(...privileges: Array<string>): Promise<boolean> {
+    if (!this.role.privileges) {
+      await this.updatePrivileges();
+    }
+    return privileges.reduce((acc, privilege) => {
+      return acc && this?.role?.privileges?.some((_privilege) => wildcardPattern(_privilege.name, privilege));
+    }, true);
   }
 
   validatePassword(password: string): boolean {
