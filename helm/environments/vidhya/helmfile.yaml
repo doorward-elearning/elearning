@@ -1,0 +1,62 @@
+releases:
+  - name: vidhya-config
+    namespace: vidhya-doorward
+    labels:
+      stage: 0
+      name: config
+    chart: ../../charts/apps/config
+    values:
+      - config.yaml
+
+  - name: vidhya-thaladb
+    namespace: vidhya-doorward
+    labels:
+      stage: 1
+      name: thaladb
+    chart: ../../charts/apps/thaladb
+    values:
+      - config.yaml
+
+  - name: vidhya-samvadam
+    namespace: vidhya-doorward
+    labels:
+      stage: 2
+      name: samvadam
+    chart: ../../charts/apps/samvadam
+    needs:
+      - vidhya-doorward/vidhya-thaladb
+    values:
+      - config.yaml
+
+  - name: vidhya-thala
+    namespace: vidhya-doorward
+    labels:
+      stage: 2
+      name: thala
+    chart: ../../charts/apps/thala
+    needs:
+      - vidhya-doorward/vidhya-thaladb
+    values:
+      - config.yaml
+
+  - name: vidhya-chuchu
+    namespace: vidhya-doorward
+    labels:
+      stage: 2
+      name: chuchu
+    chart: ../../charts/apps/chuchu
+    needs:
+      - vidhya-doorward/vidhya-thaladb
+    values:
+      - config.yaml
+
+  - name: vidhya-vidu
+    namespace: vidhya-doorward
+    labels:
+      stage: 2
+      name: vidu
+    chart: ../../charts/apps/vidu
+    needs:
+      - vidhya-doorward/vidhya-thaladb
+    values:
+      - config.yaml
