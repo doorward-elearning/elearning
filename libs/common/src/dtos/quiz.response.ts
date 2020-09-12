@@ -1,6 +1,6 @@
 import QuestionEntity from '@doorward/common/entities/question.entity';
 
-export default interface QuizResponse {
+export default class QuizResponse {
   content: {
     instructions: string;
     options: {

@@ -1,10 +1,10 @@
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import DApiResponse from '@doorward/common/dtos/d.api.response';
 
-export default interface OrganizationResponse extends ApiResponse {
+export default class OrganizationResponse extends DApiResponse {
   organization: OrganizationEntity;
 }
 
-export interface OrganizationsResponse extends ApiResponse {
+export class OrganizationsResponse extends DApiResponse {
   organizations: OrganizationEntity[];
 }

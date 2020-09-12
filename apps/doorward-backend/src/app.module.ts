@@ -43,4 +43,6 @@ import entities from './database/entities';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule {
+  constructor() {}
+}

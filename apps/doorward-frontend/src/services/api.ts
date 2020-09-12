@@ -53,7 +53,7 @@ import {
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
 import axios from 'axios';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { ParsedUrlQuery } from 'querystring';
 
 /**

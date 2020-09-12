@@ -10,7 +10,7 @@ import PrivilegesGuard from '../../guards/privileges.guard';
 import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import ModuleResponse, { ModulesResponse } from '@doorward/common/dtos/module.response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';

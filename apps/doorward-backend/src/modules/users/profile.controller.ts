@@ -5,7 +5,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import UserResponse from '@doorward/common/dtos/user.response';
 import { UsersService } from './users.service';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
 import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
 import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';

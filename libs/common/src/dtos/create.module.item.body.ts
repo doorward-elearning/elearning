@@ -1,11 +1,11 @@
-import ApiBody from '@doorward/common/dtos/api.body';
+import DApiBody from '@doorward/common/dtos/d.api.body';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { Expose } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
-export default class CreateModuleItemBody extends ApiBody {
+export default class CreateModuleItemBody extends DApiBody {
   @ApiProperty()
   @Expose()
   type: ModuleItemType;

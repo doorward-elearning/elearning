@@ -1,7 +1,7 @@
 import UserEntity from '../entities/user.entity';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import DApiResponse from '@doorward/common/dtos/d.api.response';
 
-export default interface LoginResponse extends ApiResponse {
+export default class LoginResponse extends DApiResponse {
   token: string;
   user: UserEntity;
 }

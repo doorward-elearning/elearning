@@ -10,7 +10,7 @@ import {
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 
 @Catch(HttpException)
 @Injectable()

@@ -1,4 +1,4 @@
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

@@ -17,7 +17,7 @@ import _ from 'lodash';
 import objectHash from 'object-hash';
 import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import queryString from 'querystring';
 
 export const webComponentState: WebComponentState<any> = {

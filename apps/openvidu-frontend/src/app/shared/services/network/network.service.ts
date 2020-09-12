@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoggerService } from '../logger/logger.service';
 import { ILogger } from '../../types/logger-type';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { OpenviduUser, OpenviduUserSession, SessionConfig } from '@doorward/common/types/openvidu';
 
 @Injectable({

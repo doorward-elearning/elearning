@@ -13,6 +13,7 @@ import { Reflector } from '@nestjs/core';
 import rolesSetup from './bootstrap/roleSetup';
 import OrganizationModelsTransformInterceptor from './interceptors/organization.models.transform.interceptor';
 import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
+import ApiDocumentation from '@doorward/backend/bootstrap/ApiDocumentation';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -36,6 +37,8 @@ async function bootstrap() {
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
+
+  const documentation = new ApiDocumentation(app);
 
   const port = process.env.API_PORT || 3333;
   await app.listen(port, () => {

@@ -13,6 +13,7 @@ import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -21,6 +22,11 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @TransformerGroups('privileges')
+  @ApiResponse({
+    status: 200,
+    description: 'The logged in user',
+    type: LoginResponse,
+  })
   async login(@Request() req, @Body() loginBody: LoginBody): Promise<LoginResponse> {
     return this.authService.login(req.user);
   }

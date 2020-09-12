@@ -1,10 +1,10 @@
-import ApiBody from '@doorward/common/dtos/api.body';
+import DApiBody from '@doorward/common/dtos/d.api.body';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
-export default class RegisterBody extends ApiBody {
+export default class RegisterBody extends DApiBody {
   @ApiProperty()
   @Expose()
   username: string;

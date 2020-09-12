@@ -1,14 +1,14 @@
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import DApiResponse from '@doorward/common/dtos/d.api.response';
 
-export default interface ModuleResponse extends ApiResponse {
+export default class ModuleResponse extends DApiResponse {
   module: ModuleEntity;
 }
 
-export interface ModulesResponse extends ApiResponse {
+export class ModulesResponse extends DApiResponse {
   modules: Array<ModuleEntity>;
 }
 
-export interface DeleteModuleResponse extends ApiResponse {
+export class DeleteModuleResponse extends DApiResponse {
   id: string;
 }
