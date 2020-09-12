@@ -1,4 +1,12 @@
-import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpException, Injectable } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -8,7 +16,7 @@ import { ApiResponse } from '@doorward/backend/interceptors/transform.intercepto
 @Injectable()
 export class TransformExceptionFilter implements ExceptionFilter {
   performTransform(exception: HttpException): ApiResponse {
-    const status = exception.getStatus();
+    const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
     const data = ResponseBuilder.create(status);
 

@@ -6,12 +6,12 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import UpdateModuleBody from '@doorward/common/dtos/update.module.body';
 import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import CreateQuizBody from '@doorward/common/dtos/create.quiz.body';
+import { ItemsService } from './items/items.service';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 @Injectable()
 export class ModulesService {
-  constructor(private modulesRepository: ModulesRepository) {}
+  constructor(private modulesRepository: ModulesRepository, private itemsService: ItemsService) {}
 
   async createModules(course: CourseEntity, ...modules: Array<CreateModuleBody>): Promise<Array<ModuleEntity>> {
     return (
@@ -84,13 +84,7 @@ export class ModulesService {
     });
   }
 
-  async createModuleItem(moduleId: string, body: CreateModuleItemBody) {
-
-    if(body.type === ModuleItemType.QUIZ) {
-      body = body as CreateQuizBody;
-
-    }else {
-
-    }
+  async createModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity) {
+    return this.itemsService.createOrUpdateModuleItem(moduleId, body, author);
   }
 }

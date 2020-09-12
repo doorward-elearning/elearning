@@ -31,7 +31,7 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
-  app.useGlobalInterceptors(new TransformInterceptor(), new OrganizationModelsTransformInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor(reflector), new OrganizationModelsTransformInterceptor());
   app.useGlobalFilters(new OrganizationModelsExceptionFilter());
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));

@@ -1,4 +1,32 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Param, Put, UseGuards } from '@nestjs/common';
+import JwtAuthGuard from '../../../auth/guards/jwt.auth.guard';
+import PrivilegesGuard from '../../../../guards/privileges.guard';
+import Privileges from '../../../../decorators/privileges.decorator';
+import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
+import { ItemsService } from './items.service';
+import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import UserEntity from '@doorward/common/entities/user.entity';
+
+const ModuleItemExists = () => ModelExists("itemId", ModuleItemEntity, 'This {{moduleItem}} does not exist.');
 
 @Controller('items')
-export class ItemsController {}
+@UseGuards(JwtAuthGuard, PrivilegesGuard)
+export class ItemsController {
+
+  constructor(private itemsService: ItemsService){}
+
+  @Put(":itemId")
+  @Privileges("moduleItems.update")
+  @ModuleItemExists()
+  async updateModuleItem(@Param("itemId") itemId: string, @Body() body: CreateModuleItemBody, @CurrentUser() author: UserEntity) {
+    const existingItem = await this.itemsService.getModuleItem(itemId);
+    const moduleItem = await this.itemsService.createOrUpdateModuleItem(existingItem.module.id, body, author, itemId);
+
+    return {
+      item: moduleItem,
+      message: `${body.title} has been updated.`,
+    };
+  }
+}

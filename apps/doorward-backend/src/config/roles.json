@@ -19,7 +19,7 @@
       "exclude": []
     },
     "TEACHER": {
-      "privileges": ["courses.*", "modules.*"],
+      "privileges": ["courses.*", "modules.*", "moduleItems.*"],
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {

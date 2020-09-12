@@ -43,10 +43,10 @@ const rolesSetup = async (): Promise<void> => {
 
     const privileges: Array<{ name: string; description: string }> = Object.keys(rawPrivileges).reduce((acc, cur) => {
       const generated = rawPrivileges[cur].map((_privilege) => {
-        const name = (typeof _privilege === 'string' ? _privilege : _privilege.name).toLowerCase().trim();
+        const name = (typeof _privilege === 'string' ? _privilege : _privilege.name).trim();
         const description = typeof _privilege === 'string' ? '' : _privilege.description;
 
-        return { name: cur.toLowerCase() + delimiter + name, description };
+        return { name: cur + delimiter + name, description };
       });
       return [...acc, ...generated];
     }, []);

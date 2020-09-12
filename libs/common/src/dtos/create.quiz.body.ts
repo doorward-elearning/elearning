@@ -1,9 +1,14 @@
-import { ObjectSchema, default as Yup } from 'yup';
+import { ObjectSchema } from 'yup';
 import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import * as Yup from 'yup';
 
 export class CreateQuestionBody {
+  @ApiProperty()
+  @Expose()
+  id?: string;
+
   @ApiProperty()
   @Expose()
   question: string;
@@ -18,6 +23,10 @@ export class CreateQuestionBody {
 }
 
 export class CreateAnswerBody {
+  @ApiProperty()
+  @Expose()
+  id?: string;
+
   @ApiProperty()
   @Expose()
   answer: string;
@@ -37,9 +46,9 @@ export default class CreateQuizBody extends CreateModuleItemBody {
   questions: Array<CreateQuestionBody>;
 
   async validation(): Promise<ObjectSchema> {
-    const schema = await super.validation();
+    let schema = await super.validation();
 
-    schema.concat(
+    schema = schema.concat(
       Yup.object({
         content: Yup.object({
           instructions: Yup.string().required('The instructions are required.').nullable(),
@@ -115,6 +124,7 @@ export default class CreateQuizBody extends CreateModuleItemBody {
         }),
       })
     );
+
     return schema;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../guards/privileges.guard';
 import { ModulesService } from './modules.service';
@@ -8,6 +8,10 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import ModuleResponse, { DeleteModuleResponse } from '@doorward/common/dtos/module.response';
 import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import UserEntity from '@doorward/common/entities/user.entity';
+import ModuleItemResponse from '@doorward/common/dtos/module.item.response';
+import CreateQuizBody from '@doorward/common/dtos/create.quiz.body';
 
 export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{module}} does not exist.');
 
@@ -48,10 +52,32 @@ export class ModulesController {
     };
   }
 
-  @Post(":moduleId/items")
-  @Privileges("moduleItems.create")
+  @Post(':moduleId/items')
+  @Privileges('moduleItems.create')
   @ModuleExists()
-  async createModuleItem(@Param("moduleId") moduleId: string, @Body() body: CreateModuleItemBody) {
-    const moduleItem = await this.modulesService.createModuleItem(moduleId, body);
+  async createModuleItem(
+    @Param('moduleId') moduleId: string,
+    @Body() body: CreateModuleItemBody,
+    @CurrentUser() user: UserEntity
+  ): Promise<ModuleItemResponse> {
+    const module = await this.modulesService.getModule(moduleId);
+    const moduleItem = await this.modulesService.createModuleItem(moduleId, body, user);
+
+    return {
+      item: moduleItem,
+      statusCode: HttpStatus.CREATED,
+      message: `${body.type} has been added to ${module.title}.`,
+    };
+  }
+
+  @Post(':moduleId/items/quiz')
+  @Privileges('moduleItems.create')
+  @ModuleExists()
+  async createQuiz(
+    @Param('moduleId') moduleId: string,
+    @Body() body: CreateQuizBody,
+    @CurrentUser() user: UserEntity
+  ): Promise<ModuleItemResponse> {
+    return this.createModuleItem(moduleId, body, user);
   }
 }

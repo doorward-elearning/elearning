@@ -1,6 +1,6 @@
 const compareLists = <T, R>(
-  existingList: Array<T>,
-  newList: Array<R>,
+  existingList: Array<T> = [],
+  newList: Array<R> = [],
   areEqual?: (a: T, b: R) => boolean
 ): {
   removed: Array<T>;

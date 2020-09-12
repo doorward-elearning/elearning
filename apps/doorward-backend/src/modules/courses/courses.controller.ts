@@ -17,6 +17,7 @@ import { ItemsService } from './modules/items/items.service';
 import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response';
 import CreateModuleBody from '@doorward/common/dtos/create.module.body';
 import Privileges from '../../decorators/privileges.decorator';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
@@ -85,7 +86,7 @@ export class CoursesController {
 
   @Get(':courseId/modules/items')
   @CourseExists()
-  @Privileges('modules.read')
+  @Privileges('moduleItems.read')
   async getCourseModuleItems(
     @Param('courseId') courseId: string,
     @Query('type') type: ModuleItemType

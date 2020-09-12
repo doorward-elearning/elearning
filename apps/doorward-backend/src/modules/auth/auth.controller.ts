@@ -12,6 +12,7 @@ import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -19,11 +20,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @TransformerGroups('privileges')
   async login(@Request() req, @Body() loginBody: LoginBody): Promise<LoginResponse> {
     return this.authService.login(req.user);
   }
 
   @Post('register')
+  @TransformerGroups('privileges')
   async register(@Body() registerBody: RegisterBody, @Request() req, @Origin() origin: string): Promise<LoginResponse> {
     const response = await this.authService.register(registerBody);
     const { user } = response;
@@ -44,6 +47,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
+  @TransformerGroups('privileges')
   async getCurrentUser(@CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     const user = await this.authService.getCurrentUser(currentUser.id);
     return { user };

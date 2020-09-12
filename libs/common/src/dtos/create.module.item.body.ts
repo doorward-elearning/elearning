@@ -12,17 +12,24 @@ export default class CreateModuleItemBody extends ApiBody {
 
   @ApiProperty()
   @Expose()
-  content: object;
+  content: object | string;
 
   @ApiProperty()
   @Expose()
   title: string;
 
+  @ApiProperty()
+  @Expose()
+  order: number;
+
   async validation(): Promise<ObjectSchema> {
     return Yup.object({
-      type: Yup.string().oneOf(Object.keys(ModuleItemType), 'Please choose a valid {{moduleItem}} type.').nullable(),
+      type: Yup.string()
+        .required('The {{moduleItem}} type is required.')
+        .oneOf(Object.values(ModuleItemType), 'Please choose a valid {{moduleItem}} type.')
+        .nullable(),
       title: Yup.string().required('The title is required').nullable(),
-      content: Yup.object().required('The content is required'),
+      content: Yup.mixed().required('The content is required'),
     });
   }
 }
