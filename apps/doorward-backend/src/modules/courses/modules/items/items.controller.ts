@@ -20,7 +20,7 @@ export class ItemsController {
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
-  async getModuleItem(@Param(':itemId') itemId: string): Promise<ModuleItemResponse> {
+  async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
 
     return {

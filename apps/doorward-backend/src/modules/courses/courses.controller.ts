@@ -18,6 +18,7 @@ import CourseResponse, {
   ModulesResponse,
 } from '@doorward/common/dtos/response';
 import { CreateCourseBody, CreateModuleBody, UpdateCourseBody } from '@doorward/common/dtos/body';
+import { ApiQuery } from '@nestjs/swagger';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
@@ -87,6 +88,7 @@ export class CoursesController {
   @Get(':courseId/modules/items')
   @CourseExists()
   @Privileges('moduleItems.read')
+  @ApiQuery({ name: 'type', enum: ModuleItemType, required: false })
   async getCourseModuleItems(
     @Param('courseId') courseId: string,
     @Query('type') type: ModuleItemType

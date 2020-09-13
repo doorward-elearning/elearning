@@ -38,7 +38,7 @@ async function bootstrap() {
   app.enableCors();
 
   const documentation = new DocumentationBuilder();
-  documentation.scanApplication(app);
+  documentation.scanApplication(app, 'doorward.backend.api.ts', 'Doorward Backend');
 
   const port = process.env.API_PORT || 3333;
   await app.listen(port, () => {
