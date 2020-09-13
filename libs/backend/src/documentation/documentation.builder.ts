@@ -1,11 +1,11 @@
 import { INestApplication } from '@nestjs/common';
-import { Scanner } from '@doorward/backend/documentation/scanner';
+import { SwaggerScanner } from '@nestjs/swagger/dist/swagger-scanner';
 
 export default class DocumentationBuilder {
   constructor() {}
 
   public scanApplication(app: INestApplication) {
-    const result = new Scanner().scanApplication(app, {
+    const result = new SwaggerScanner().scanApplication(app, {
       deepScanRoutes: true,
       ignoreGlobalPrefix: false,
     });

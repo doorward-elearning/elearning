@@ -3,16 +3,12 @@ import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../guards/privileges.guard';
 import { ModulesService } from './modules.service';
 import Privileges from '../../../decorators/privileges.decorator';
-import UpdateModuleBody from '@doorward/common/dtos/update.module.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import ModuleResponse from '@doorward/common/dtos/module.response';
-import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import ModuleItemResponse from '@doorward/common/dtos/module.item.response';
-import CreateQuizBody from '@doorward/common/dtos/body';
-import { DeleteModuleResponse } from '@doorward/common/dtos/response';
+import { DeleteModuleResponse, ModuleItemResponse, ModuleResponse } from '@doorward/common/dtos/response';
+import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody } from '@doorward/common/dtos/body';
 
 export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{module}} does not exist.');
 

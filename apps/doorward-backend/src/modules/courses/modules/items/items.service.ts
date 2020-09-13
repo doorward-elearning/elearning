@@ -3,7 +3,6 @@ import ModuleItemsRepository from '@repositories/module.items.repository';
 import { lowerCase } from 'lodash';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModulesRepository from '@repositories/modules.repository';
-import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
@@ -13,7 +12,7 @@ import QuestionEntity from '@doorward/common/entities/question.entity';
 import compareLists from '@doorward/common/utils/compareLists';
 import { In } from 'typeorm';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
-import CreateQuizBody, { CreateAnswerBody, CreateQuestionBody } from '@doorward/common/dtos/body';
+import { CreateAnswerBody, CreateModuleItemBody, CreateQuestionBody, CreateQuizBody } from '@doorward/common/dtos/body';
 
 @Injectable()
 export class ItemsService {

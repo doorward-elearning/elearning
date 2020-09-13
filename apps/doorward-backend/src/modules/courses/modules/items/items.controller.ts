@@ -2,14 +2,13 @@ import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
-import CreateModuleItemBody from '@doorward/common/dtos/create.module.item.body';
 import { ItemsService } from './items.service';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import ModuleItemResponse from '@doorward/common/dtos/module.item.response';
-import CreateQuizBody from '@doorward/common/dtos/body';
+import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import { ModuleItemResponse } from '@doorward/common/dtos/response';
 
 const ModuleItemExists = () => ModelExists('itemId', ModuleItemEntity, 'This {{moduleItem}} does not exist.');
 
