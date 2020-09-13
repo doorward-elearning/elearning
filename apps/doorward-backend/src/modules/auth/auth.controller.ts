@@ -1,19 +1,17 @@
 import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import LoginResponse from '@doorward/common/dtos/login.response';
-import LoginBody from '@doorward/common/dtos/login.body';
 import LocalAuthGuard from './guards/local.auth.guard';
-import RegisterBody from '@doorward/common/dtos/register.body';
 import SelfRegistrationEmail from './emails/self.registration.email';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import JwtAuthGuard from './guards/jwt.auth.guard';
-import UserResponse from '@doorward/common/dtos/user.response';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { LoginBody, RegisterBody } from '@doorward/common/dtos/body';
+import { LoginResponse, UserResponse } from '@doorward/common/dtos/response';
 
 @Controller('auth')
 export class AuthController {
@@ -22,6 +20,7 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   @TransformerGroups('privileges')
+  @ApiOperation({ operationId: 'login', summary: 'Allow users to login with their username and password.' })
   @ApiResponse({
     status: 200,
     description: 'The logged in user',

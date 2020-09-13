@@ -8,8 +8,8 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import CreateQuizBody from '@doorward/common/dtos/create.quiz.body';
 import ModuleItemResponse from '@doorward/common/dtos/module.item.response';
+import CreateQuizBody from '@doorward/common/dtos/body';
 
 const ModuleItemExists = () => ModelExists('itemId', ModuleItemEntity, 'This {{moduleItem}} does not exist.');
 

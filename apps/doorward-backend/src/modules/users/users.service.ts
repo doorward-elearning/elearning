@@ -1,23 +1,25 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { UsersRepository } from '../../repositories/users.repository';
+import { UsersRepository } from '@repositories/users.repository';
 import { FindOneOptions } from 'typeorm';
-import RegisterBody from '@doorward/common/dtos/register.body';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
-import UpdateAccountBody from '@doorward/common/dtos/update.account.body';
-import UserResponse from '@doorward/common/dtos/user.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import _ from 'lodash';
-import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
-import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
 import Tools from '@doorward/common/utils/Tools';
 import PasswordResetsRepository from '../../repositories/password.resets.repository';
-import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import ForgotPasswordEmail from './emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@repositories/privilege.repository';
+import {
+  ForgotPasswordBody,
+  RegisterBody,
+  ResetPasswordBody,
+  UpdateAccountBody,
+  UpdatePasswordBody,
+} from '@doorward/common/dtos/body';
+import { UserResponse } from '@doorward/common/dtos/response';
 
 @Injectable()
 export class UsersService {

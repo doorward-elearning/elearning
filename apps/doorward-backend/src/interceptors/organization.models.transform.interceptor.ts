@@ -1,19 +1,19 @@
-import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ORGANIZATION } from '../bootstrap/organizationSetup';
+import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 
-export default class OrganizationModelsTransformInterceptor<T extends ApiResponse>
-  implements NestInterceptor<T, ApiResponse> {
+export default class OrganizationModelsTransformInterceptor<T extends DApiResponse>
+  implements NestInterceptor<T, DApiResponse> {
   intercept(
     context: ExecutionContext,
     next: CallHandler<T>
-  ): Observable<ApiResponse> | Promise<Observable<ApiResponse>> {
+  ): Observable<DApiResponse> | Promise<Observable<DApiResponse>> {
     return next.handle().pipe(map(OrganizationModelsTransformInterceptor.execute));
   }
 
-  static execute(response: ApiResponse) {
+  static execute(response: DApiResponse) {
     if (response?.message) {
       response.message = OrganizationModelsTransformInterceptor.performReplacement(response.message);
     }

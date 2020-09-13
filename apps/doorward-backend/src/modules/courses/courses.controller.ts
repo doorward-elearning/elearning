@@ -1,23 +1,23 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
-import CreateCourseBody from '@doorward/common/dtos/create.course.body';
 import { CoursesService } from './courses.service';
 import { ModulesService } from './modules/modules.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import CourseResponse, { CoursesResponse } from '@doorward/common/dtos/course.response';
 import PrivilegesGuard from '../../guards/privileges.guard';
-import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
-import ModuleResponse, { ModulesResponse } from '@doorward/common/dtos/module.response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
-import { ModuleItemsResponse } from '@doorward/common/dtos/module.item.response';
-import CreateModuleBody from '@doorward/common/dtos/create.module.body';
 import Privileges from '../../decorators/privileges.decorator';
-import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+import CourseResponse, {
+  CoursesResponse,
+  ModuleItemsResponse,
+  ModuleResponse,
+  ModulesResponse,
+} from '@doorward/common/dtos/response';
+import { CreateCourseBody, CreateModuleBody, UpdateCourseBody } from '@doorward/common/dtos/body';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
@@ -68,7 +68,7 @@ export class CoursesController {
   @Delete(':courseId')
   @CourseExists()
   @Privileges('course.delete')
-  async deleteCourse(@Param('courseId') courseId: string): Promise<ApiResponse> {
+  async deleteCourse(@Param('courseId') courseId: string): Promise<DApiResponse> {
     await this.coursesService.deleteCourse(courseId);
 
     return {

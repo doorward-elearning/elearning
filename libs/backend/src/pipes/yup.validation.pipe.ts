@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { ClassType } from 'class-transformer/ClassTransformer';
-import DApiBody from '@doorward/common/dtos/d.api.body';
+import DApiBody from '@doorward/common/dtos/body/d.api.body';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 
 @Injectable()

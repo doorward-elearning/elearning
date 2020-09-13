@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import CoursesRepository from '../../repositories/courses.repository';
-import CreateCourseBody from '@doorward/common/dtos/create.course.body';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import { CourseStatus } from '@doorward/common/types/courses';
 import { ModulesService } from './modules/modules.service';
 import UserEntity from '@doorward/common/entities/user.entity';
-import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
+import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body';
 
 @Injectable()
 export class CoursesService {

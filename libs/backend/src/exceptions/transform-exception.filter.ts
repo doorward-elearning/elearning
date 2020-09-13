@@ -10,12 +10,12 @@ import {
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
+import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 
 @Catch(HttpException)
 @Injectable()
 export class TransformExceptionFilter implements ExceptionFilter {
-  performTransform(exception: HttpException): ApiResponse {
+  performTransform(exception: HttpException): DApiResponse {
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
     const data = ResponseBuilder.create(status);

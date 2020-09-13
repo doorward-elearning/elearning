@@ -1,7 +1,6 @@
 import { Logger } from '@nestjs/common';
 
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
-import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
 import organizationSetup from './bootstrap/organizationSetup';
@@ -13,7 +12,7 @@ import { Reflector } from '@nestjs/core';
 import rolesSetup from './bootstrap/roleSetup';
 import OrganizationModelsTransformInterceptor from './interceptors/organization.models.transform.interceptor';
 import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
-import ApiDocumentation from '@doorward/backend/bootstrap/ApiDocumentation';
+import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -38,7 +37,8 @@ async function bootstrap() {
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
 
-  const documentation = new ApiDocumentation(app);
+  const documentation = new DocumentationBuilder();
+  documentation.scanApplication(app);
 
   const port = process.env.API_PORT || 3333;
   await app.listen(port, () => {

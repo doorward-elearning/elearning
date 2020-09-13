@@ -1,8 +1,8 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import Public from '@doorward/backend/decorators/public.decorator';
-import OrganizationResponse from '@doorward/common/dtos/organization.response';
 import { OrganizationsService } from './organizations.service';
+import { OrganizationResponse } from '@doorward/common/dtos/response';
 
 @Controller('organizations')
 @UseGuards(JwtAuthGuard)
