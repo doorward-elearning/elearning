@@ -6,8 +6,12 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 
-export default class CourseResponse extends DApiResponse {
+export class CourseResponse extends DApiResponse {
   course: CourseEntity;
+}
+
+export class DeleteCourseResponse extends DApiResponse {
+  id: string;
 }
 
 export class CoursesResponse extends DApiResponse {

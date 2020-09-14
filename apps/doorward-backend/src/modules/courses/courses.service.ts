@@ -49,7 +49,9 @@ export class CoursesService {
       if (await user.hasPrivileges('courses.create')) {
         courses.push(...(await this.getCoursesForAuthor(user)));
       }
-      courses.push(...(await this.getCoursesForLearner(user)));
+      if (await user.hasPrivileges('courses.read')) {
+        courses.push(...(await this.getCoursesForLearner(user)));
+      }
     }
     return courses;
   }

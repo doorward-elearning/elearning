@@ -1,7 +1,8 @@
 const compareLists = <T, R>(
   existingList: Array<T> = [],
   newList: Array<R> = [],
-  areEqual?: (a: T, b: R) => boolean
+  areEqual?: (existingItem: T, newItem: R) => boolean,
+  updateUnchanged?: (existingItem: T, newItem: R) => any
 ): {
   removed: Array<T>;
   newItems: Array<R>;
@@ -16,7 +17,7 @@ const compareLists = <T, R>(
   existingList.forEach((item) => {
     const newItem = newList.find((x) => compare(item, x));
     if (newItem) {
-      unchanged.push(item);
+      unchanged.push(updateUnchanged ? updateUnchanged(item, newItem) : item);
     } else {
       removed.push(item);
     }

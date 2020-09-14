@@ -8,7 +8,8 @@
       },
       "update",
       "delete",
-      "view-all"
+      "view-all",
+      "read"
     ],
     "modules": ["create", "update", "delete", "read"],
     "moduleItems": ["create", "update", "delete", "read"]
@@ -23,7 +24,7 @@
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {
-      "privileges": ["modules.read", "moduleItems.read"],
+      "privileges": ["modules.read", "moduleItems.read", "courses.read"],
       "exclude": []
     }
   }

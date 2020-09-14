@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import LocalAuthGuard from './guards/local.auth.guard';
 import SelfRegistrationEmail from './emails/self.registration.email';
@@ -22,7 +22,7 @@ export class AuthController {
   @TransformerGroups('privileges')
   @ApiOperation({ operationId: 'login', summary: 'Allow users to login with their username and password.' })
   @ApiResponse({
-    status: 200,
+    status: HttpStatus.OK,
     description: 'The logged in user',
     type: LoginResponse,
   })
@@ -32,6 +32,11 @@ export class AuthController {
 
   @Post('register')
   @TransformerGroups('privileges')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The user that was created',
+    type: LoginResponse,
+  })
   async register(@Body() registerBody: RegisterBody, @Request() req, @Origin() origin: string): Promise<LoginResponse> {
     const response = await this.authService.register(registerBody);
     const { user } = response;
@@ -53,6 +58,11 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get()
   @TransformerGroups('privileges')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The currently logged in user',
+    type: UserResponse,
+  })
   async getCurrentUser(@CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     const user = await this.authService.getCurrentUser(currentUser.id);
     return { user };

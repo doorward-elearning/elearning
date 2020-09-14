@@ -10,15 +10,16 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
 import Privileges from '../../decorators/privileges.decorator';
-import DApiResponse from '@doorward/common/dtos/response/d.api.response';
-import CourseResponse, {
+import {
+  CourseResponse,
   CoursesResponse,
+  DeleteCourseResponse,
   ModuleItemsResponse,
   ModuleResponse,
   ModulesResponse,
 } from '@doorward/common/dtos/response';
 import { CreateCourseBody, CreateModuleBody, UpdateCourseBody } from '@doorward/common/dtos/body';
-import { ApiQuery } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
@@ -33,12 +34,23 @@ export class CoursesController {
 
   @Post()
   @Privileges('course.create')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The course that was created.',
+    type: CourseResponse,
+  })
   async createCourse(@Body() body: CreateCourseBody, @CurrentUser() user: UserEntity): Promise<CourseResponse> {
     const course = await this.coursesService.createCourse(body, user);
     return { course, statusCode: HttpStatus.CREATED };
   }
 
   @Get()
+  @Privileges('courses.read')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The list of courses based on the user privileges',
+    type: CoursesResponse,
+  })
   async getCourses(@CurrentUser() user: UserEntity): Promise<CoursesResponse> {
     const courses = await this.coursesService.getCourses(user);
 
@@ -47,7 +59,12 @@ export class CoursesController {
 
   @Put(':courseId')
   @CourseExists()
-  @Privileges('course.update')
+  @Privileges('courses.update')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The course that was updated',
+    type: CourseResponse,
+  })
   async updateCourse(
     @CurrentUser() user: UserEntity,
     @Param('courseId') courseId: string,
@@ -60,6 +77,12 @@ export class CoursesController {
 
   @Get(':courseId')
   @CourseExists()
+  @Privileges('courses.read')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'A single course',
+    type: CourseResponse,
+  })
   async getCourse(@Param('courseId') courseId: string): Promise<CourseResponse> {
     const course = await this.coursesService.getCourse(courseId);
 
@@ -68,17 +91,29 @@ export class CoursesController {
 
   @Delete(':courseId')
   @CourseExists()
-  @Privileges('course.delete')
-  async deleteCourse(@Param('courseId') courseId: string): Promise<DApiResponse> {
+  @Privileges('courses.delete')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The id of the course that was deleted',
+    type: DeleteCourseResponse,
+  })
+  async deleteCourse(@Param('courseId') courseId: string): Promise<DeleteCourseResponse> {
     await this.coursesService.deleteCourse(courseId);
 
     return {
       message: '{{course}} has been deleted.',
+      id: courseId,
     };
   }
 
   @Get(':courseId/modules')
   @CourseExists()
+  @Privileges('modules.read')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'A list of modules in the course',
+    type: ModulesResponse,
+  })
   async getCourseModules(@Param('courseId') courseId: string): Promise<ModulesResponse> {
     const modules = await this.modulesService.getModulesInCourse({ id: courseId });
 
@@ -89,6 +124,11 @@ export class CoursesController {
   @CourseExists()
   @Privileges('moduleItems.read')
   @ApiQuery({ name: 'type', enum: ModuleItemType, required: false })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'A list of module items in the course',
+    type: ModuleItemsResponse,
+  })
   async getCourseModuleItems(
     @Param('courseId') courseId: string,
     @Query('type') type: ModuleItemType
@@ -101,16 +141,21 @@ export class CoursesController {
   @Post(':courseId/modules')
   @CourseExists()
   @Privileges('modules.create')
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'The module that was created',
+    type: ModuleResponse,
+  })
   async createCourseModule(
     @Param('courseId') courseId: string,
     @Body() body: CreateModuleBody
   ): Promise<ModuleResponse> {
-    const course = await this.coursesService.getCourse(courseId);
     const module = await this.modulesService.createModule({ id: courseId }, body);
 
     return {
       module,
-      message: module.title + ' has been added to ' + course.title,
+      message: '{{module}} has been added to the {{course}}',
+      status: HttpStatus.CREATED,
     };
   }
 }

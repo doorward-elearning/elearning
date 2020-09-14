@@ -48,6 +48,7 @@ export default class DocumentationBuilder {
       import ApiRequest from '@doorward/ui/services/apiRequest';
       ${responses ? `import { ${responses} } from '@doorward/common/dtos/response';` : ''}
       import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+      import { AxiosRequestConfig } from 'axios';
       
       const { GET, PUT, POST, DELETE } = ApiRequest;
     
@@ -114,17 +115,21 @@ export default class DocumentationBuilder {
     switch (method) {
       case 'get':
       case 'delete':
-        return `(${params}${query?.required}${query?.optional}): Promise<${Response || 'DApiResponse'}> => {
-              return ${method.toUpperCase()}(\`${newPath}\`, ${query?.queryParams});
+        return `(${params}${query?.required}${query?.optional}config?: AxiosRequestConfig): Promise<${
+          Response || 'DApiResponse'
+        }> => {
+              return ${method.toUpperCase()}(\`${newPath}\`, ${query?.queryParams}, config);
           }
         `;
       case 'post':
       case 'put':
       case 'patch':
-        return `(${params}${query?.required}${Body && 'body: ' + Body + ','}${query?.optional}): Promise<${
-          Response || 'DApiResponse'
-        }> => {
-              return ${method.toUpperCase()}(\`${newPath}\`,${Body ? 'body' : 'undefined'}, ${query?.queryParams});
+        return `(${params}${query?.required}${(Body ? 'body: ' + Body : 'undefined') + ','}${
+          query?.optional
+        }config?: AxiosRequestConfig): Promise<${Response || 'DApiResponse'}> => {
+              return ${method.toUpperCase()}(\`${newPath}\`,${Body ? 'body' : 'undefined'}, ${
+          query?.queryParams
+        }, config);
           }
         `;
       default:
@@ -163,9 +168,14 @@ export default class DocumentationBuilder {
       });
 
     return {
-      optional: optionalParams.join(',') + (optionalParams.length ? ',' : ''),
+      optional: optionalParams.length ? 'query: {' + optionalParams.join(',') + '},' : '',
       required: requiredParams.join(',') + (requiredParams.length ? ',' : ''),
-      queryParams: '{' + allParams.join(',') + '}',
+      queryParams:
+        '{' +
+        requiredParams.join(',') +
+        (requiredParams.length ? ',' : '') +
+        (optionalParams.length ? '...query' : '') +
+        '}',
     };
   }
 

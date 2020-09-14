@@ -70,12 +70,18 @@ export class ItemsService {
     quiz: ModuleItemEntity,
     questions: Array<CreateQuestionBody>
   ): Promise<QuestionEntity[]> {
-    const allQuestions = await this.questionRepository.find({ quiz });
+    const allQuestions = await this.questionRepository.find({ where: { quiz } });
 
     const { newItems, unchanged, removed } = compareLists(
       allQuestions,
       questions,
-      (a, b) => a.id === b.id || a.question === b.question
+      (a, b) => a.id === b.id,
+      (existingQuestion, newQuestion) => {
+        return {
+          ...existingQuestion,
+          ...newQuestion,
+        };
+      }
     );
 
     if (removed.length) {
@@ -88,7 +94,7 @@ export class ItemsService {
       [...newItems, ...unchanged].map(async ({ id, question: questionBody, points, answers }) => {
         const question = await this.questionRepository.save(
           this.questionRepository.create({
-            question: JSON.stringify(questionBody),
+            question: typeof questionBody === 'string' ? questionBody : JSON.stringify(questionBody),
             points,
             id,
             quiz,
@@ -110,8 +116,10 @@ export class ItemsService {
     const { newItems, unchanged, removed } = compareLists(
       allAnswers,
       answers,
-      (a, b) => a.id === b.id || a.answer === b.answer
+      (a, b) => a.id === b.id,
+      (a, b) => ({ ...a, ...b })
     );
+
     if (removed.length) {
       await this.answerRepository.delete({
         id: In(removed.map((r) => r.id)),

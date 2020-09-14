@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import Yup, { ObjectSchema } from 'yup';
+import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/d.api.body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import * as Yup from 'yup';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()
@@ -186,17 +187,17 @@ export class CreateQuizBody extends CreateModuleItemBody {
               to: Yup.string().nullable(),
             }),
           }),
-          questions: Yup.array(
-            Yup.object({
-              question: Yup.string().required('Please enter the question').nullable(),
-              answers: Yup.array(
-                Yup.object({
-                  answer: Yup.string().required('Enter a possible answer.'),
-                })
-              ),
-            })
-          ),
         }),
+        questions: Yup.array(
+          Yup.object({
+            question: Yup.string().required('Please enter the question').nullable(),
+            answers: Yup.array(
+              Yup.object({
+                answer: Yup.string().required('Enter a possible answer.'),
+              })
+            ),
+          })
+        ),
       })
     );
 

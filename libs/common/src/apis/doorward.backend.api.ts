@@ -8,15 +8,26 @@ import {
   CreateCourseBody,
   UpdateCourseBody,
   CreateModuleBody,
-  UpdateModuleBody,
-  CreateModuleItemBody,
-  CreateQuizBody
+  UpdateModuleBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import {
-  LoginResponse
+  LoginResponse,
+  UserResponse,
+  CourseResponse,
+  CoursesResponse,
+  DeleteCourseResponse,
+  ModuleResponse,
+  ModulesResponse,
+  ModuleItemsResponse,
+  DeleteModuleResponse,
+  ModuleItemResponse,
+  OrganizationResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+import {
+  AxiosRequestConfig
+} from 'axios';
 
 const {
   GET,
@@ -26,79 +37,75 @@ const {
 } = ApiRequest;
 
 const DoorwardBackendApi = {
-  login: (body: LoginBody, ): Promise < LoginResponse > => {
-    return POST(`/auth/login`, body, {});
+  login: (body: LoginBody, config ? : AxiosRequestConfig): Promise < LoginResponse > => {
+    return POST(`/auth/login`, body, {}, config);
   },
-  register: (body: RegisterBody, ): Promise < DApiResponse > => {
-    return POST(`/auth/register`, body, {});
+  register: (body: RegisterBody, config ? : AxiosRequestConfig): Promise < LoginResponse > => {
+    return POST(`/auth/register`, body, {}, config);
   },
-  getCurrentUser: (): Promise < DApiResponse > => {
-    return GET(`/auth`, {});
+  getCurrentUser: (config ? : AxiosRequestConfig): Promise < UserResponse > => {
+    return GET(`/auth`, {}, config);
   },
-  updateAccountDetails: (body: UpdateAccountBody, ): Promise < DApiResponse > => {
-    return PUT(`/users/profile/account`, body, {});
+  updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return PUT(`/users/profile/account`, body, {}, config);
   },
-  updateAccountPassword: (body: UpdatePasswordBody, ): Promise < DApiResponse > => {
-    return PUT(`/users/profile/password`, body, {});
+  updateAccountPassword: (body: UpdatePasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return PUT(`/users/profile/password`, body, {}, config);
   },
-  resetAccountPassword: (body: ResetPasswordBody, ): Promise < DApiResponse > => {
-    return POST(`/users/profile/resetPassword`, body, {});
+  resetAccountPassword: (body: ResetPasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return POST(`/users/profile/resetPassword`, body, {}, config);
   },
-  forgotAccountPassword: (body: ForgotPasswordBody, ): Promise < DApiResponse > => {
-    return POST(`/users/profile/forgotPassword`, body, {});
+  forgotAccountPassword: (body: ForgotPasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return POST(`/users/profile/forgotPassword`, body, {}, config);
   },
-  createCourse: (body: CreateCourseBody, ): Promise < DApiResponse > => {
-    return POST(`/courses`, body, {});
+  createCourse: (body: CreateCourseBody, config ? : AxiosRequestConfig): Promise < CourseResponse > => {
+    return POST(`/courses`, body, {}, config);
   },
-  getCourses: (): Promise < DApiResponse > => {
-    return GET(`/courses`, {});
+  getCourses: (config ? : AxiosRequestConfig): Promise < CoursesResponse > => {
+    return GET(`/courses`, {}, config);
   },
-  getCourse: (courseId: string, ): Promise < DApiResponse > => {
-    return GET(`/courses/${courseId}`, {});
+  getCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < CourseResponse > => {
+    return GET(`/courses/${courseId}`, {}, config);
   },
-  deleteCourse: (courseId: string, ): Promise < DApiResponse > => {
-    return DELETE(`/courses/${courseId}`, {});
+  deleteCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < DeleteCourseResponse > => {
+    return DELETE(`/courses/${courseId}`, {}, config);
   },
-  updateCourse: (courseId: string, body: UpdateCourseBody, ): Promise < DApiResponse > => {
-    return PUT(`/courses/${courseId}`, body, {});
+  updateCourse: (courseId: string, body: UpdateCourseBody, config ? : AxiosRequestConfig): Promise < CourseResponse > => {
+    return PUT(`/courses/${courseId}`, body, {}, config);
   },
-  createCourseModule: (courseId: string, body: CreateModuleBody, ): Promise < DApiResponse > => {
-    return POST(`/courses/${courseId}/modules`, body, {});
+  createCourseModule: (courseId: string, body: CreateModuleBody, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
+    return POST(`/courses/${courseId}/modules`, body, {}, config);
   },
-  getCourseModules: (courseId: string, ): Promise < DApiResponse > => {
-    return GET(`/courses/${courseId}/modules`, {});
+  getCourseModules: (courseId: string, config ? : AxiosRequestConfig): Promise < ModulesResponse > => {
+    return GET(`/courses/${courseId}/modules`, {}, config);
   },
-  getCourseModuleItems: (courseId: string, type ? : string, ): Promise < DApiResponse > => {
+  getCourseModuleItems: (courseId: string, query: {
+    type ? : string
+  }, config ? : AxiosRequestConfig): Promise < ModuleItemsResponse > => {
     return GET(`/courses/${courseId}/modules/items`, {
-      type
-    });
+      ...query
+    }, config);
   },
-  getModule: (moduleId: string, ): Promise < DApiResponse > => {
-    return GET(`/modules/${moduleId}`, {});
+  getModule: (moduleId: string, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
+    return GET(`/modules/${moduleId}`, {}, config);
   },
-  deleteModule: (moduleId: string, ): Promise < DApiResponse > => {
-    return DELETE(`/modules/${moduleId}`, {});
+  deleteModule: (moduleId: string, config ? : AxiosRequestConfig): Promise < DeleteModuleResponse > => {
+    return DELETE(`/modules/${moduleId}`, {}, config);
   },
-  updateModule: (moduleId: string, body: UpdateModuleBody, ): Promise < DApiResponse > => {
-    return PUT(`/modules/${moduleId}`, body, {});
+  updateModule: (moduleId: string, body: UpdateModuleBody, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
+    return PUT(`/modules/${moduleId}`, body, {}, config);
   },
-  createModuleItem: (moduleId: string, body: CreateModuleItemBody, ): Promise < DApiResponse > => {
-    return POST(`/modules/${moduleId}/items`, body, {});
+  createModuleItem: (moduleId: string, undefined, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    return POST(`/modules/${moduleId}/items`, undefined, {}, config);
   },
-  createQuiz: (moduleId: string, body: CreateQuizBody, ): Promise < DApiResponse > => {
-    return POST(`/modules/${moduleId}/items/quiz`, body, {});
+  getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    return GET(`/module/items/${itemId}`, {}, config);
   },
-  getModuleItem: (itemId: string, ): Promise < DApiResponse > => {
-    return GET(`/module/items/${itemId}`, {});
+  updateModuleItem: (itemId: string, undefined, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    return PUT(`/module/items/${itemId}`, undefined, {}, config);
   },
-  updateModuleItem: (itemId: string, body: CreateModuleItemBody, ): Promise < DApiResponse > => {
-    return PUT(`/module/items/${itemId}`, body, {});
-  },
-  updateQuiz: (itemId: string, body: CreateQuizBody, ): Promise < DApiResponse > => {
-    return PUT(`/module/items/quiz/${itemId}`, body, {});
-  },
-  getOrganization: (): Promise < DApiResponse > => {
-    return GET(`/organizations/current`, {});
+  getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
+    return GET(`/organizations/current`, {}, config);
   },
 
 }
