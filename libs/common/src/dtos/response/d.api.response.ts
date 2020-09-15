@@ -1,17 +1,42 @@
-export interface PaginationMetaData {
-  pagination: {
-    pages: number;
-    total: number;
-    page: number;
-  };
+import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
+
+export class PaginationMetaData {
+  @ApiProperty()
+  @Expose()
+  pages: number;
+
+  @ApiProperty()
+  @Expose()
+  total: number;
+
+  @ApiProperty()
+  @Expose()
+  page: number;
 }
 
 export default class DApiResponse {
+  @ApiProperty()
+  @Expose()
   success?: boolean;
+
+  @ApiProperty()
+  @Expose()
   statusCode?: number;
+
+  @ApiProperty()
+  @Expose()
   timestamp?: Date;
+
+  @ApiProperty()
+  @Expose()
   message?: string;
+
+  @ApiProperty()
+  @Expose()
   errors?: Array<{ [name: string]: string }>;
-  meta?: PaginationMetaData;
-  [name: string]: any;
+
+  @ApiProperty()
+  @Expose()
+  pagination?: PaginationMetaData;
 }

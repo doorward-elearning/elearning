@@ -12,7 +12,8 @@
       "read"
     ],
     "modules": ["create", "update", "delete", "read"],
-    "moduleItems": ["create", "update", "delete", "read"]
+    "moduleItems": ["create", "update", "delete", "read"],
+    "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -20,11 +21,11 @@
       "exclude": []
     },
     "TEACHER": {
-      "privileges": ["courses.*", "modules.*", "moduleItems.*"],
+      "privileges": ["courses.*", "modules.*", "moduleItems.*", "profile.*"],
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {
-      "privileges": ["modules.read", "moduleItems.read", "courses.read"],
+      "privileges": ["modules.read", "moduleItems.read", "courses.read", "profile.*"],
       "exclude": []
     }
   }

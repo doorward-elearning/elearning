@@ -155,7 +155,7 @@ export class CoursesController {
     return {
       module,
       message: '{{module}} has been added to the {{course}}',
-      status: HttpStatus.CREATED,
+      statusCode: HttpStatus.CREATED,
     };
   }
 }

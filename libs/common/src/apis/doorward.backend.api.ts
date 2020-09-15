@@ -8,12 +8,15 @@ import {
   CreateCourseBody,
   UpdateCourseBody,
   CreateModuleBody,
-  UpdateModuleBody
+  UpdateModuleBody,
+  CreateModuleItemBody,
+  CreateQuizBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import {
   LoginResponse,
   UserResponse,
+  DApiResponse,
   CourseResponse,
   CoursesResponse,
   DeleteCourseResponse,
@@ -46,7 +49,7 @@ const DoorwardBackendApi = {
   getCurrentUser: (config ? : AxiosRequestConfig): Promise < UserResponse > => {
     return GET(`/auth`, {}, config);
   },
-  updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+  updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < UserResponse > => {
     return PUT(`/users/profile/account`, body, {}, config);
   },
   updateAccountPassword: (body: UpdatePasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
@@ -95,14 +98,14 @@ const DoorwardBackendApi = {
   updateModule: (moduleId: string, body: UpdateModuleBody, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
     return PUT(`/modules/${moduleId}`, body, {}, config);
   },
-  createModuleItem: (moduleId: string, undefined, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
-    return POST(`/modules/${moduleId}/items`, undefined, {}, config);
+  createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    return POST(`/modules/${moduleId}/items`, body, {}, config);
   },
   getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
     return GET(`/module/items/${itemId}`, {}, config);
   },
-  updateModuleItem: (itemId: string, undefined, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
-    return PUT(`/module/items/${itemId}`, undefined, {}, config);
+  updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    return PUT(`/module/items/${itemId}`, body, {}, config);
   },
   getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
     return GET(`/organizations/current`, {}, config);

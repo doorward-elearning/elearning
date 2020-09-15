@@ -72,28 +72,23 @@ export default class DocumentationBuilder {
 
         pathTitle = tokens.length === 2 ? tokens[1] : tokens[0];
 
-        const Body = this.extractSchemaFromRef(
-          (operationItem.requestBody as RequestBodyObject)?.content?.['application/json']?.schema?.['$ref']
+        const body = this.extractSchema(
+          (operationItem.requestBody as RequestBodyObject)?.content?.['application/json']?.schema as SchemaObject
         );
 
         const responseTypes = Object.keys(operationItem.responses);
-        const Response = this.extractSchemaFromRef(
-          (operationItem.responses?.[responseTypes[0]] as ResponseObject)?.content?.['application/json']?.schema?.[
-            '$ref'
-          ]
+        const response = this.extractSchema(
+          (operationItem.responses?.[responseTypes[0]] as ResponseObject)?.content?.['application/json']
+            ?.schema as SchemaObject
         );
 
         const Query = this.generateQueryParams(operationItem.parameters as ParameterObject[]);
         const Params = this.generatePathParams(path, operationItem.parameters as ParameterObject[]);
 
-        if (Body) {
-          this.requestBody.add(Body);
-        }
-        if (Response) {
-          this.responseBody.add(Response);
-        }
+        body.forEach((b) => this.requestBody.add(b));
+        response.forEach((r) => this.responseBody.add(r));
 
-        api += `${pathTitle}: ${this.generateFunction(method, path, Params, Body, Response, Query)},\n`;
+        api += `${pathTitle}: ${this.generateFunction(method, path, Params, body, response, Query)},\n`;
       });
 
     return api;
@@ -103,8 +98,8 @@ export default class DocumentationBuilder {
     method: string,
     path: string,
     Params: { params: string; path: string },
-    Body?: string,
-    Response?: string,
+    body: Array<string>,
+    response: Array<string>,
     query?: {
       optional: string;
       required: string;
@@ -112,6 +107,8 @@ export default class DocumentationBuilder {
     }
   ) {
     const { params, path: newPath } = Params;
+    const Body = body.join(' | ');
+    const Response = response.join(' | ');
     switch (method) {
       case 'get':
       case 'delete':
@@ -177,6 +174,20 @@ export default class DocumentationBuilder {
         (optionalParams.length ? '...query' : '') +
         '}',
     };
+  }
+
+  private extractSchema(schema: SchemaObject) {
+    let result = [];
+    if (schema) {
+      if (schema.anyOf) {
+        result = schema.anyOf.map((sc) => {
+          return this.extractSchemaFromRef(sc['$ref']);
+        });
+      } else if (schema['$ref']) {
+        result = [this.extractSchemaFromRef(schema['$ref'])];
+      }
+    }
+    return result;
   }
 
   private extractSchemaFromRef(ref: string | undefined) {

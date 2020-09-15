@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, HttpStatus, Post, Put, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from './users.service';
@@ -13,6 +13,8 @@ import {
   UpdatePasswordBody,
 } from '@doorward/common/dtos/body';
 import { UserResponse } from '@doorward/common/dtos/response';
+import Privileges from '../../decorators/privileges.decorator';
+import { ApiResponse } from '@nestjs/swagger';
 
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)
@@ -20,11 +22,23 @@ export default class ProfileController {
   constructor(private usersService: UsersService) {}
 
   @Put('account')
+  @Privileges('profile.update')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: UserResponse,
+    description: 'The newly updated user details',
+  })
   updateAccountDetails(@Body() body: UpdateAccountBody, @CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     return this.usersService.updateAccountDetails(body, currentUser);
   }
 
   @Put('password')
+  @Privileges('profile.update-password')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: DApiResponse,
+    description: 'A message showing that the password has changed',
+  })
   async updateAccountPassword(
     @Body() body: UpdatePasswordBody,
     @CurrentUser() currentUser: UserEntity
@@ -36,6 +50,12 @@ export default class ProfileController {
   }
 
   @Post('resetPassword')
+  @Privileges('profile.reset-password')
+  @ApiResponse({
+    type: DApiResponse,
+    description: 'A message notifying the user of the password reset.',
+    status: HttpStatus.OK,
+  })
   async resetAccountPassword(@Body() body: ResetPasswordBody): Promise<DApiResponse> {
     const hadPassword = await this.usersService.resetAccountPassword(body);
 
@@ -47,7 +67,13 @@ export default class ProfileController {
   }
 
   @Post('forgotPassword')
+  @Privileges('profile.send-forgot-password-link')
   @Public()
+  @ApiResponse({
+    type: DApiResponse,
+    description: 'A message notifying the user that the password reset link has been sent to their email',
+    status: HttpStatus.OK,
+  })
   async forgotAccountPassword(@Body() body: ForgotPasswordBody, @Origin() origin: string): Promise<DApiResponse> {
     await this.usersService.userForgotPassword(body, origin);
     return {

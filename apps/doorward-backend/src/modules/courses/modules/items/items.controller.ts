@@ -11,7 +11,7 @@ import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
 
 const ModuleItemExists = () => ModelExists('itemId', ModuleItemEntity, 'This {{moduleItem}} does not exist.');
 
@@ -43,6 +43,9 @@ export class ItemsController {
     status: HttpStatus.OK,
     type: ModuleItemResponse,
     description: 'The module item that was updated.',
+  })
+  @ApiBody({
+    schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) },
   })
   async updateModuleItem(
     @Param('itemId') itemId: string,

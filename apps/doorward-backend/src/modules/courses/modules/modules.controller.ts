@@ -8,10 +8,10 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { DeleteModuleResponse, ModuleItemResponse, ModuleResponse } from '@doorward/common/dtos/response';
-import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody } from '@doorward/common/dtos/body';
+import { CreateModuleBody, CreateModuleItemBody, CreateQuizBody, UpdateModuleBody } from '@doorward/common/dtos/body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { ApiBody, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, getSchemaPath, refs } from '@nestjs/swagger';
 
 export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{module}} does not exist.');
 
@@ -74,6 +74,9 @@ export class ModulesController {
     status: HttpStatus.CREATED,
     type: ModuleItemResponse,
     description: 'The module item that was created.',
+  })
+  @ApiBody({
+    schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) },
   })
   async createModuleItem(
     @Param('moduleId') moduleId: string,
