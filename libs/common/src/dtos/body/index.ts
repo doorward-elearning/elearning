@@ -4,6 +4,7 @@ import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/d.api.body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import * as Yup from 'yup';
+import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()
@@ -299,6 +300,33 @@ export class UpdateAccountBody extends DApiBody {
 
 export class UpdateModuleBody extends CreateModuleBody {}
 
+export class UpdateModuleOrderBody {
+  @ApiProperty()
+  @Expose()
+  id: string;
+
+  @ApiProperty()
+  @Expose()
+  order: number;
+}
+
+export class UpdateModulesBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  modules: UpdateModuleOrderBody[];
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      modules: Yup.array(
+        Yup.object({
+          order: Yup.number().required('The order of the {{module}} is required'),
+          id: Yup.string().required('The id of the {{module}} is required.'),
+        })
+      ),
+    });
+  }
+}
+
 export class UpdatePasswordBody extends DApiBody {
   @ApiProperty()
   @Expose()
@@ -315,6 +343,30 @@ export class UpdatePasswordBody extends DApiBody {
         .required('The new password is required')
         .nullable()
         .oneOf([Yup.ref('password'), null], 'Passwords should match.'),
+    });
+  }
+}
+
+export class SubmitAssignmentBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  submissionType: AssignmentSubmissionType;
+
+  @ApiProperty()
+  @Expose()
+  submission: string;
+
+  @ApiProperty()
+  @Expose()
+  status: AssignmentSubmissionStatus.DRAFT | AssignmentSubmissionStatus.SUBMITTED;
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      submissionType: Yup.string()
+        .required('Please provide the submission type')
+        .oneOf(Object.values(AssignmentSubmissionType), 'Please enter a valid submission type')
+        .nullable(),
+      submission: Yup.string().required('The submission content is required.'),
     });
   }
 }

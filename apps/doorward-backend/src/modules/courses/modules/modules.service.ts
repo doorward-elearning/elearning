@@ -5,7 +5,12 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import { ItemsService } from './items/items.service';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { CreateModuleBody, CreateModuleItemBody, UpdateModuleBody } from '@doorward/common/dtos/body';
+import {
+  CreateModuleBody,
+  CreateModuleItemBody,
+  UpdateModuleBody,
+  UpdateModulesBody,
+} from '@doorward/common/dtos/body';
 
 @Injectable()
 export class ModulesService {
@@ -84,5 +89,16 @@ export class ModulesService {
 
   async createModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity) {
     return this.itemsService.createOrUpdateModuleItem(moduleId, body, author);
+  }
+
+  async updateModuleOrders(body: UpdateModulesBody) {
+    return Promise.all(
+      body.modules.map(async (module) => {
+        await this.modulesRepository.update(module.id, {
+          order: module.order,
+        });
+        return module;
+      })
+    );
   }
 }

@@ -18,7 +18,7 @@ import {
   ModuleResponse,
   ModulesResponse,
 } from '@doorward/common/dtos/response';
-import { CreateCourseBody, CreateModuleBody, UpdateCourseBody } from '@doorward/common/dtos/body';
+import { CreateCourseBody, CreateModuleBody, UpdateCourseBody, UpdateModulesBody } from '@doorward/common/dtos/body';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
 export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');

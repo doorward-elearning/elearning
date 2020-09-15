@@ -7,6 +7,8 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
+import { UpdateModuleOrderBody } from '@doorward/common/dtos/body';
 
 export class CourseResponse extends DApiResponse {
   @ApiProperty()
@@ -126,4 +128,16 @@ export class UserResponse extends DApiResponse {
   @ApiProperty()
   @Expose()
   user: UserEntity;
+}
+
+export class AssignmentSubmissionResponse extends DApiResponse {
+  @ApiProperty()
+  @Expose()
+  assignmentSubmission: AssignmentSubmissionEntity;
+}
+
+export class UpdateModulesOrderResponse extends DApiResponse {
+  @ApiProperty()
+  @Expose()
+  modules: Array<UpdateModuleOrderBody>;
 }

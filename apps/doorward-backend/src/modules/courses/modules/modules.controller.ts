@@ -7,11 +7,18 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { DeleteModuleResponse, ModuleItemResponse, ModuleResponse } from '@doorward/common/dtos/response';
-import { CreateModuleBody, CreateModuleItemBody, CreateQuizBody, UpdateModuleBody } from '@doorward/common/dtos/body';
+import {
+  DeleteModuleResponse,
+  ModuleItemResponse,
+  ModuleResponse,
+  ModulesResponse,
+  UpdateModulesOrderResponse,
+} from '@doorward/common/dtos/response';
+import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { ApiBody, ApiResponse, getSchemaPath, refs } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
+import { CourseExists } from '../courses.controller';
 
 export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{module}} does not exist.');
 
@@ -19,37 +26,6 @@ export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{modul
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ModulesController {
   constructor(private modulesService: ModulesService) {}
-
-  @Put(':moduleId')
-  @Privileges('modules.update')
-  @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: ModuleResponse,
-    description: 'The module that was updated.',
-  })
-  async updateModule(@Body() body: UpdateModuleBody, @Param('moduleId') moduleId: string): Promise<ModuleResponse> {
-    const module = await this.modulesService.updateModule(moduleId, body);
-
-    return { module, message: '{{module}} has been updated.' };
-  }
-
-  @Delete(':moduleId')
-  @Privileges('modules.delete')
-  @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: DeleteModuleResponse,
-    description: 'The id of the module that was deleted.',
-  })
-  async deleteModule(@Param('moduleId') moduleId: string): Promise<DeleteModuleResponse> {
-    await this.modulesService.deleteModule(moduleId);
-
-    return {
-      id: moduleId,
-      message: '{{module}} has been deleted.',
-    };
-  }
 
   @Get(':moduleId')
   @Privileges('modules.read')
@@ -93,5 +69,50 @@ export class ModulesController {
       statusCode: HttpStatus.CREATED,
       message: `${body.type} has been added to {{module}}.`,
     };
+  }
+
+  @Put(':moduleId')
+  @Privileges('modules.update')
+  @ModuleExists()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: ModuleResponse,
+    description: 'The module that was updated.',
+  })
+  async updateModule(@Body() body: UpdateModuleBody, @Param('moduleId') moduleId: string): Promise<ModuleResponse> {
+    const module = await this.modulesService.updateModule(moduleId, body);
+
+    return { module, message: '{{module}} has been updated.' };
+  }
+
+  @Delete(':moduleId')
+  @Privileges('modules.delete')
+  @ModuleExists()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: DeleteModuleResponse,
+    description: 'The id of the module that was deleted.',
+  })
+  async deleteModule(@Param('moduleId') moduleId: string): Promise<DeleteModuleResponse> {
+    await this.modulesService.deleteModule(moduleId);
+
+    return {
+      id: moduleId,
+      message: '{{module}} has been deleted.',
+    };
+  }
+
+  @Put()
+  @CourseExists()
+  @Privileges('modules.update')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The modules that were updated and their orders',
+    type: UpdateModulesOrderResponse,
+  })
+  async updateCourseModules(@Body() body: UpdateModulesBody): Promise<UpdateModulesOrderResponse> {
+    const modules = await this.modulesService.updateModuleOrders(body);
+
+    return { modules };
   }
 }
