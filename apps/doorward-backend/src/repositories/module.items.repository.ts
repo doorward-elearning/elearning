@@ -14,8 +14,9 @@ export default class ModuleItemsRepository extends OrganizationBasedRepository<M
       .leftJoinAndSelect('questions.answers', 'answers');
   }
   async getModuleItems(type: ModuleItemType, modules: ModuleEntity[]) {
+    const moduleIds = modules.map((module) => module.id);
     let queryBuilder = this.moduleItemsQueryBuilder().where('"moduleId" in (:...moduleIds)', {
-      moduleIds: modules.map((module) => module.id),
+      moduleIds,
     });
 
     if (type) {

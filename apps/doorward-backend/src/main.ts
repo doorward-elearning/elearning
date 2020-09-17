@@ -21,16 +21,22 @@ async function bootstrap() {
   await organizationSetup();
 
   const app = await setUpNestApplication(AppModule);
-  swaggerDocumentation(app, {
-    title: 'Doorward Core API',
-    description: 'The doorward API documentation',
-    version: '1.0.0',
-    tag: 'doorward',
-    basePath: globalPrefix,
-  });
+  app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
+
+  swaggerDocumentation(
+    app,
+    {
+      title: 'Doorward Core API',
+      description: 'The doorward API documentation',
+      version: '1.0.0',
+      tag: 'doorward',
+      basePath: globalPrefix,
+    },
+    'apps/doorward-backend/documentation/swagger.json'
+  );
+
   const reflector = app.get(Reflector);
 
-  app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
   app.useGlobalInterceptors(new TransformInterceptor(reflector), new OrganizationModelsTransformInterceptor());
   app.useGlobalFilters(new OrganizationModelsExceptionFilter());
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());

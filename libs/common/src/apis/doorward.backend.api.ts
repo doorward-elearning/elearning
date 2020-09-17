@@ -10,7 +10,9 @@ import {
   CreateModuleBody,
   UpdateModuleBody,
   CreateModuleItemBody,
-  CreateQuizBody
+  CreateQuizBody,
+  UpdateModulesBody,
+  SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import {
@@ -25,7 +27,9 @@ import {
   ModuleItemsResponse,
   DeleteModuleResponse,
   ModuleItemResponse,
-  OrganizationResponse
+  UpdateModulesOrderResponse,
+  OrganizationResponse,
+  AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 import {
@@ -101,6 +105,9 @@ const DoorwardBackendApi = {
   createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
     return POST(`/modules/${moduleId}/items`, body, {}, config);
   },
+  updateCourseModules: (body: UpdateModulesBody, config ? : AxiosRequestConfig): Promise < UpdateModulesOrderResponse > => {
+    return PUT(`/modules`, body, {}, config);
+  },
   getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
     return GET(`/module/items/${itemId}`, {}, config);
   },
@@ -109,6 +116,9 @@ const DoorwardBackendApi = {
   },
   getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
     return GET(`/organizations/current`, {}, config);
+  },
+  submitAssignment: (assignmentId: string, body: SubmitAssignmentBody, config ? : AxiosRequestConfig): Promise < AssignmentSubmissionResponse > => {
+    return POST(`/assignments/${assignmentId}/submit`, body, {}, config);
   },
 
 }

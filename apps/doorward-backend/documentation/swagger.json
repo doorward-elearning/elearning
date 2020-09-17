@@ -1,0 +1,635 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Doorward Core API",
+    "description": "The doorward API documentation",
+    "version": "1.0.0",
+    "contact": {}
+  },
+  "tags": [{ "name": "doorward", "description": "" }],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "LoginBody": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string", "example": "administrator" },
+          "password": { "type": "string", "example": "password" }
+        },
+        "required": ["username", "password"]
+      },
+      "PaginationMetaData": {
+        "type": "object",
+        "properties": { "pages": { "type": "number" }, "total": { "type": "number" }, "page": { "type": "number" } },
+        "required": ["pages", "total", "page"]
+      },
+      "UserEntity": { "type": "object", "properties": {} },
+      "LoginResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "token": { "type": "string" },
+          "user": { "$ref": "#/components/schemas/UserEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "token", "user"]
+      },
+      "RegisterBody": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "password": { "type": "string" },
+          "email": { "type": "string" }
+        },
+        "required": ["username", "password", "email"]
+      },
+      "UserResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "user": { "$ref": "#/components/schemas/UserEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "user"]
+      },
+      "UpdateAccountBody": {
+        "type": "object",
+        "properties": {
+          "username": { "type": "string" },
+          "email": { "type": "string" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" }
+        },
+        "required": ["username", "email", "firstName", "lastName"]
+      },
+      "UpdatePasswordBody": {
+        "type": "object",
+        "properties": { "password": { "type": "string" }, "newPassword": { "type": "string" } },
+        "required": ["password", "newPassword"]
+      },
+      "DApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination"]
+      },
+      "ResetPasswordBody": {
+        "type": "object",
+        "properties": { "resetToken": { "type": "string" }, "password": { "type": "string" } },
+        "required": ["resetToken", "password"]
+      },
+      "ForgotPasswordBody": {
+        "type": "object",
+        "properties": { "username": { "type": "string" } },
+        "required": ["username"]
+      },
+      "CreateCourseBody": {
+        "type": "object",
+        "properties": { "title": { "type": "string" }, "modules": { "type": "array", "items": { "type": "string" } } },
+        "required": ["title", "modules"]
+      },
+      "CourseEntity": { "type": "object", "properties": {} },
+      "CourseResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "course": { "$ref": "#/components/schemas/CourseEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "course"]
+      },
+      "CoursesResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "courses": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "courses"]
+      },
+      "UpdateCourseBody": { "type": "object", "properties": { "title": { "type": "string" } }, "required": ["title"] },
+      "DeleteCourseResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "id": { "type": "string" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "id"]
+      },
+      "ModulesResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "modules": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "modules"]
+      },
+      "ModuleItemsResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "items": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "items"]
+      },
+      "CreateModuleBody": { "type": "object", "properties": { "title": { "type": "string" } }, "required": ["title"] },
+      "ModuleEntity": { "type": "object", "properties": {} },
+      "ModuleResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "module": { "$ref": "#/components/schemas/ModuleEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "module"]
+      },
+      "ModuleItemEntity": { "type": "object", "properties": {} },
+      "ModuleItemResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "item": { "$ref": "#/components/schemas/ModuleItemEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "item"]
+      },
+      "UpdateModuleBody": { "type": "object", "properties": { "title": { "type": "string" } }, "required": ["title"] },
+      "DeleteModuleResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "id": { "type": "string" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "id"]
+      },
+      "UpdateModulesBody": {
+        "type": "object",
+        "properties": { "modules": { "type": "array", "items": { "type": "string" } } },
+        "required": ["modules"]
+      },
+      "UpdateModulesOrderResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "modules": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "modules"]
+      },
+      "SubmitAssignmentBody": {
+        "type": "object",
+        "properties": {
+          "submissionType": { "type": "object" },
+          "submission": { "type": "string" },
+          "status": { "type": "object" }
+        },
+        "required": ["submissionType", "submission", "status"]
+      },
+      "AssignmentSubmissionEntity": { "type": "object", "properties": {} },
+      "AssignmentSubmissionResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "assignmentSubmission": { "$ref": "#/components/schemas/AssignmentSubmissionEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "assignmentSubmission"]
+      },
+      "OrganizationEntity": { "type": "object", "properties": {} },
+      "OrganizationResponse": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean" },
+          "statusCode": { "type": "number" },
+          "timestamp": { "format": "date-time", "type": "string" },
+          "message": { "type": "string" },
+          "errors": { "type": "array", "items": { "type": "string" } },
+          "pagination": { "$ref": "#/components/schemas/PaginationMetaData" },
+          "organization": { "$ref": "#/components/schemas/OrganizationEntity" }
+        },
+        "required": ["success", "statusCode", "timestamp", "message", "errors", "pagination", "organization"]
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/auth/login": {
+      "post": {
+        "operationId": "login",
+        "summary": "Allow users to login with their username and password.",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The logged in user",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/RegisterBody" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "The user that was created",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/LoginResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/auth": {
+      "get": {
+        "operationId": "AuthController_getCurrentUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The currently logged in user",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile/account": {
+      "put": {
+        "operationId": "ProfileController_updateAccountDetails",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateAccountBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The newly updated user details",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UserResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile/password": {
+      "put": {
+        "operationId": "ProfileController_updateAccountPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdatePasswordBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "A message showing that the password has changed",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DApiResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile/resetPassword": {
+      "post": {
+        "operationId": "ProfileController_resetAccountPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ResetPasswordBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "A message notifying the user of the password reset.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DApiResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/users/profile/forgotPassword": {
+      "post": {
+        "operationId": "ProfileController_forgotAccountPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ForgotPasswordBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "A message notifying the user that the password reset link has been sent to their email",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DApiResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/courses": {
+      "post": {
+        "operationId": "CoursesController_createCourse",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateCourseBody" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "The course that was created.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CourseResponse" } } }
+          }
+        }
+      },
+      "get": {
+        "operationId": "CoursesController_getCourses",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The list of courses based on the user privileges",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CoursesResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{courseId}": {
+      "put": {
+        "operationId": "CoursesController_updateCourse",
+        "parameters": [{ "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateCourseBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The course that was updated",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CourseResponse" } } }
+          }
+        }
+      },
+      "get": {
+        "operationId": "CoursesController_getCourse",
+        "parameters": [{ "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "A single course",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CourseResponse" } } }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "CoursesController_deleteCourse",
+        "parameters": [{ "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "The id of the course that was deleted",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DeleteCourseResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{courseId}/modules": {
+      "get": {
+        "operationId": "CoursesController_getCourseModules",
+        "parameters": [{ "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "A list of modules in the course",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModulesResponse" } } }
+          }
+        }
+      },
+      "post": {
+        "operationId": "CoursesController_createCourseModule",
+        "parameters": [{ "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/CreateModuleBody" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "The module that was created",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/courses/{courseId}/modules/items": {
+      "get": {
+        "operationId": "CoursesController_getCourseModuleItems",
+        "parameters": [
+          { "name": "courseId", "required": true, "in": "path", "schema": { "type": "string" } },
+          {
+            "name": "type",
+            "required": false,
+            "in": "query",
+            "schema": { "enum": ["Page", "Assignment", "Quiz", "File", "Discussion Forum"], "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of module items in the course",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleItemsResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/modules/{moduleId}": {
+      "get": {
+        "operationId": "ModulesController_getModule",
+        "parameters": [{ "name": "moduleId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "The module that was retrieved.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleResponse" } } }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ModulesController_updateModule",
+        "parameters": [{ "name": "moduleId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateModuleBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The module that was updated.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleResponse" } } }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "ModulesController_deleteModule",
+        "parameters": [{ "name": "moduleId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "The id of the module that was deleted.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/DeleteModuleResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/modules/{moduleId}/items": {
+      "post": {
+        "operationId": "ModulesController_createModuleItem",
+        "parameters": [{ "name": "moduleId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  { "$ref": "#/components/schemas/CreateModuleItemBody" },
+                  { "$ref": "#/components/schemas/CreateQuizBody" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The module item that was created.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleItemResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/modules": {
+      "put": {
+        "operationId": "ModulesController_updateCourseModules",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/UpdateModulesBody" } } }
+        },
+        "responses": {
+          "200": {
+            "description": "The modules that were updated and their orders",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/UpdateModulesOrderResponse" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/module/items/{itemId}": {
+      "get": {
+        "operationId": "ItemsController_getModuleItem",
+        "parameters": [{ "name": "itemId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "responses": {
+          "200": {
+            "description": "A single module item",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleItemResponse" } } }
+          }
+        }
+      },
+      "put": {
+        "operationId": "ItemsController_updateModuleItem",
+        "parameters": [{ "name": "itemId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "anyOf": [
+                  { "$ref": "#/components/schemas/CreateModuleItemBody" },
+                  { "$ref": "#/components/schemas/CreateQuizBody" }
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The module item that was updated.",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/ModuleItemResponse" } } }
+          }
+        }
+      }
+    },
+    "/api/v1/assignments/{assignmentId}/submit": {
+      "post": {
+        "operationId": "AssignmentsController_submitAssignment",
+        "parameters": [{ "name": "assignmentId", "required": true, "in": "path", "schema": { "type": "string" } }],
+        "requestBody": {
+          "required": true,
+          "content": { "application/json": { "schema": { "$ref": "#/components/schemas/SubmitAssignmentBody" } } }
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/AssignmentSubmissionResponse" } }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/organizations/current": {
+      "get": {
+        "operationId": "OrganizationsController_getOrganization",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The current organization running this service",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/OrganizationResponse" } } }
+          }
+        }
+      }
+    }
+  }
+}
