@@ -1,11 +1,11 @@
 {
-  "id": "ALeKk004MWQs998aCh0QzsShSeoHOeBM4A",
-  "name": "Makonis",
-  "link": "https://makonis.ai",
+  "id": "Gfz4r7sBK6u81-nUxwXODMYhWrP3UA",
+  "name": "Doorward",
+  "link": "https://doorward.tech",
   "descriptiveLogo": true,
   "icons": {
-    "light": "https://makonis.ai/images/logo.png",
-    "dark": "https://makonis.ai/images/logo-white.png"
+    "light": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png",
+    "dark": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_white.png"
   },
   "description": "",
   "models": {

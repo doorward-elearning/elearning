@@ -13,6 +13,7 @@ import ForgotPasswordEmail from './emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@repositories/privilege.repository';
 import {
+  CreateUserBody,
   ForgotPasswordBody,
   RegisterBody,
   ResetPasswordBody,
@@ -20,6 +21,7 @@ import {
   UpdatePasswordBody,
 } from '@doorward/common/dtos/body';
 import { UserResponse } from '@doorward/common/dtos/response';
+import { UserStatus } from '@doorward/common/types/users';
 
 @Injectable()
 export class UsersService {
@@ -53,18 +55,43 @@ export class UsersService {
   }
 
   async registerUser(userBody: RegisterBody): Promise<UserEntity> {
+    const { user } = await this.createUser(userBody as CreateUserBody);
+    return user;
+  }
+
+  async createUser(body: CreateUserBody): Promise<{ user: UserEntity; resetToken: string | null }> {
+    const existingUser = this.usersRepository.userExistsByUsername(body.username);
+    if (existingUser) {
+      throw new ValidationException({ username: 'A {{user}} with this username already exists.' });
+    }
+    const { role, status = UserStatus.PENDING_ACTIVATION, ...userBody } = body;
+
     const user = this.usersRepository.create({
-      firstName: '',
-      lastName: '',
+      status,
       ...userBody,
     });
-    user.role = await this.rolesService.student();
+    user.role = role ? await this.rolesService.get(role) : await this.rolesService.student();
 
+    let resetToken = null;
     if (user.password) {
       user.password = PasswordUtils.hashPassword(user.password);
     }
 
-    return this.usersRepository.save(user);
+    const createdUser = await this.usersRepository.save(user);
+
+    if (!user.password) {
+      resetToken = Tools.randomString(50);
+      await this.passwordResetsRepository.save(
+        this.passwordResetsRepository.create({
+          token: resetToken,
+          user: createdUser,
+        })
+      );
+    }
+    return {
+      user: createdUser,
+      resetToken,
+    };
   }
 
   /**
@@ -73,12 +100,8 @@ export class UsersService {
    * @param options
    */
   async findByUsername(username: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
-    return this.usersRepository.findOne(
-      {
-        username,
-      },
-      options
-    );
+    const user = await this.usersRepository.userExistsByUsername(username);
+    return user ? this.usersRepository.findOne(user.id, options) : null;
   }
 
   async findById(id: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
@@ -87,11 +110,7 @@ export class UsersService {
 
   async updateAccountDetails(body: UpdateAccountBody, user: UserEntity): Promise<UserResponse> {
     if (body.username !== user.username) {
-      if (
-        await this.usersRepository.findOne({
-          username: body.username,
-        })
-      ) {
+      if (await this.usersRepository.userExistsByUsername(body.username)) {
         throw new ValidationException({ username: 'This username is already in use.' });
       }
     }
@@ -147,7 +166,7 @@ export class UsersService {
   }
 
   async userForgotPassword(body: ForgotPasswordBody, origin: string) {
-    const user = await this.findByUsername(body.username);
+    const user = await this.usersRepository.userExistsByUsername(body.username);
     if (!user) {
       throw new ValidationException({ username: 'No {{user}} with this username exists.' });
     }
@@ -166,10 +185,9 @@ export class UsersService {
       new ForgotPasswordEmail({
         subject: 'Forgot password',
         data: {
-          username: user.username,
           link: origin + FrontendLinks.passwordReset(resetToken),
         },
-        recipient: user.email,
+        recipient: user,
       })
     );
   }

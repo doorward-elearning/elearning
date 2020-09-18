@@ -12,6 +12,7 @@ import {
   CreateModuleItemBody,
   CreateQuizBody,
   UpdateModulesBody,
+  CreateUserBody,
   SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
@@ -119,8 +120,8 @@ const DoorwardBackendApi = {
   getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
     return GET(`/organizations/current`, {}, config);
   },
-  createStudentInCourse: (courseId: string, undefined, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
-    return POST(`/students/course/${courseId}`, undefined, {}, config);
+  createStudentInCourse: (courseId: string, body: CreateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+    return POST(`/students/course/${courseId}`, body, {}, config);
   },
   getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return GET(`/students/course/${courseId}`, {}, config);

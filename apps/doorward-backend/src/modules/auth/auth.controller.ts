@@ -45,10 +45,9 @@ export class AuthController {
       new SelfRegistrationEmail({
         subject: 'Confirm registration',
         data: {
-          username: user.username,
           link: origin + FrontendLinks.login,
         },
-        recipient: user.email,
+        recipient: user,
       })
     );
 

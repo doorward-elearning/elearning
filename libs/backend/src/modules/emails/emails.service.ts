@@ -3,11 +3,11 @@ import { EmailsModuleOptions } from '@doorward/backend/modules/emails/emails.mod
 import mail from '@sendgrid/mail';
 import Email from 'email-templates';
 import path from 'path';
-import EmailModel from '@doorward/backend/modules/emails/email.model';
+import EmailModel, { EmailRecipient } from '@doorward/backend/modules/emails/email.model';
 
 export interface EmailOptions {
   template: string;
-  recipient: string;
+  recipient: EmailRecipient;
   subject: string;
   data: Record<string, any>;
 }
@@ -36,11 +36,12 @@ export default class EmailsService {
     const result = await emailConfig.render(path.join(this.options.templatesDir, options.template), {
       ...options.data,
       ...this.options.getData(),
+      recipient: options.recipient,
     });
 
     const mailData = {
       from: { email: this.options.senderEmail(), name: this.options.sender() },
-      to: options.recipient,
+      to: options.recipient.email,
       subject: options.subject,
       html: result,
     };

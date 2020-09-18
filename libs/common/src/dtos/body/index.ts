@@ -1,10 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/d.api.body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import * as Yup from 'yup';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
+import { UserStatus } from '@doorward/common/types/users';
+import { Gender } from '@doorward/common/types/genders';
+import { Roles } from '@doorward/common/types/roles';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()
@@ -367,6 +370,29 @@ export class SubmitAssignmentBody extends DApiBody {
         .oneOf(Object.values(AssignmentSubmissionType), 'Please enter a valid submission type')
         .nullable(),
       submission: Yup.string().required('The submission content is required.'),
+    });
+  }
+}
+
+export class CreateUserBody extends DApiBody {
+  username: string;
+  password?: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  zipCode?: string;
+  country?: string;
+  city?: string;
+  status?: UserStatus;
+  gender?: Gender;
+  role?: Roles;
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      username: Yup.string().required('Username is required').nullable(),
+      firstName: Yup.string().required('First name is required').nullable(),
+      lastName: Yup.string().required('Last name is required').nullable(),
+      email: Yup.string().email('Please enter a valid email').required('The email is required').nullable(),
     });
   }
 }

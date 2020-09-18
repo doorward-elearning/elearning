@@ -63,6 +63,10 @@ export default class UserEntity extends BaseOrganizationEntity {
   @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
   passwordResets: Array<PasswordsResetsEntity>;
 
+  get fullName() {
+    return (this.firstName || '') + ((this.firstName ? ' ' : '') + this.lastName || '') || this.username;
+  }
+
   isSuperAdmin() {
     return this.role?.name === Roles.SUPER_ADMINISTRATOR;
   }

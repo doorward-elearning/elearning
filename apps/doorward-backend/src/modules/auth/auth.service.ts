@@ -46,12 +46,6 @@ export class AuthService {
   }
 
   async register(body: RegisterBody): Promise<LoginResponse> {
-    const userExistsByUsername = await this.usersService.findByUsername(body.username);
-    if (userExistsByUsername) {
-      throw new ValidationException({
-        username: 'This username is already in use.',
-      });
-    }
     const user = await this.usersService.registerUser(body);
 
     return this.login(user);

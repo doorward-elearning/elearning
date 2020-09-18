@@ -14,6 +14,7 @@ import path from 'path';
 import entities from './database/entities';
 import generateEmailData from './bootstrap/generateEmailData';
 import { ORGANIZATION } from './bootstrap/organizationSetup';
+import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
 
 @Global()
 @Module({
@@ -42,6 +43,7 @@ import { ORGANIZATION } from './bootstrap/organizationSetup';
     ItemsModule,
     OrganizationsModule,
     StudentsModule,
+    MeetingRoomsModule,
   ],
   controllers: [],
   providers: [],

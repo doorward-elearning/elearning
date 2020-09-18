@@ -1,7 +1,7 @@
 extends base_template
 block greeting
     p.title
-    span Hello #{fullName || 'there'}
+    span Hello #{recipient.fullName || 'there'}
 block content
     p.
         A new #{models.teacher} account has been created for you at #{organizationName}.
@@ -9,6 +9,6 @@ block content
     p.
         You will use the following username to access your account.
     div.centered
-        h2 #{username}
+        h2 #{recipient.username}
     a(href=link)
         span Create a password
