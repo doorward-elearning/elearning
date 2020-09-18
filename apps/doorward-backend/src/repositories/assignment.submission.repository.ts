@@ -12,9 +12,9 @@ export default class AssignmentSubmissionRepository extends OrganizationBasedRep
   async getAllSubmissions(assignmentId: string, studentId: string): Promise<AssignmentSubmissionEntity[]> {
     return this.createQueryBuilder('submission')
       .leftJoinAndSelect('submission.file', 'file')
-      .where('submission.assignmentId = :assignmentId', { assignmentId })
-      .andWhere('submission.studentId = :studentId', { studentId })
-      .addOrderBy('gradedOn', 'DESC')
+      .where('submission."assignmentId" = :assignmentId', { assignmentId })
+      .andWhere('submission."studentId" = :studentId', { studentId })
+      .addOrderBy('submission."gradedOn"', 'DESC')
       .getMany();
   }
 

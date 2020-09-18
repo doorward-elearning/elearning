@@ -7,10 +7,13 @@ import { CoursesModule } from './modules/courses/courses.module';
 import { ModulesModule } from './modules/courses/modules/modules.module';
 import { ItemsModule } from './modules/courses/modules/items/items.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { StudentsModule } from './modules/students/students.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import entities from './database/entities';
+import generateEmailData from './bootstrap/generateEmailData';
+import { ORGANIZATION } from './bootstrap/organizationSetup';
 
 @Global()
 @Module({
@@ -26,10 +29,9 @@ import entities from './database/entities';
         apiKey: process.env.SENDGRID_API_KEY,
       },
       templatesDir: path.join(__dirname, 'emails'),
-      senderEmail: process.env.EMAIL_SENDER,
-      sender: 'Doorward',
-      appName: 'Doorward',
-      appLogo: 'https://res.cloudinary.com/dldhztrbs/image/upload/v1594532831/Doorward/doorward_logo_blue.png',
+      senderEmail: () => process.env.EMAIL_SENDER,
+      sender: () => `${ORGANIZATION.name + ' - Doorward'}`,
+      getData: generateEmailData,
     }),
     TypeOrmModule.forFeature(entities),
     AuthModule,
@@ -39,6 +41,7 @@ import entities from './database/entities';
     ModulesModule,
     ItemsModule,
     OrganizationsModule,
+    StudentsModule,
   ],
   controllers: [],
   providers: [],

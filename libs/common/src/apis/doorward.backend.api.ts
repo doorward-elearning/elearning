@@ -29,6 +29,8 @@ import {
   ModuleItemResponse,
   UpdateModulesOrderResponse,
   OrganizationResponse,
+  StudentResponse,
+  StudentsResponse,
   AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/d.api.response';
@@ -116,6 +118,12 @@ const DoorwardBackendApi = {
   },
   getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
     return GET(`/organizations/current`, {}, config);
+  },
+  createStudentInCourse: (courseId: string, undefined, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+    return POST(`/students/course/${courseId}`, undefined, {}, config);
+  },
+  getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
+    return GET(`/students/course/${courseId}`, {}, config);
   },
   submitAssignment: (assignmentId: string, body: SubmitAssignmentBody, config ? : AxiosRequestConfig): Promise < AssignmentSubmissionResponse > => {
     return POST(`/assignments/${assignmentId}/submit`, body, {}, config);

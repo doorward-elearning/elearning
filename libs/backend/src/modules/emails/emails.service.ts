@@ -34,13 +34,12 @@ export default class EmailsService {
     });
 
     const result = await emailConfig.render(path.join(this.options.templatesDir, options.template), {
-      appName: this.options.appName,
-      appLogo: this.options.appLogo,
       ...options.data,
+      ...this.options.getData(),
     });
 
     const mailData = {
-      from: { email: this.options.senderEmail, name: this.options.sender },
+      from: { email: this.options.senderEmail(), name: this.options.sender() },
       to: options.recipient,
       subject: options.subject,
       html: result,

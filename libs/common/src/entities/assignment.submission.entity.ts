@@ -47,10 +47,5 @@ export default class AssignmentSubmissionEntity extends BaseOrganizationEntity {
   })
   grader: UserEntity;
 
-  @OneToOne(() => FileEntity, { nullable: true })
-  @JoinColumn({
-    name: 'assignment',
-    referencedColumnName: 'id',
-  })
   file: FileEntity;
 }

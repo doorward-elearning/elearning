@@ -9,7 +9,6 @@ export default class ModuleItemsRepository extends OrganizationBasedRepository<M
   private moduleItemsQueryBuilder() {
     return this.createQueryBuilder('moduleItem')
       .leftJoinAndSelect('moduleItem.module', 'module')
-      .leftJoinAndSelect('moduleItem.assignmentSubmission', 'assignmentSubmission')
       .leftJoinAndSelect('moduleItem.questions', 'questions')
       .leftJoinAndSelect('questions.answers', 'answers');
   }

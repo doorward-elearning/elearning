@@ -14,7 +14,8 @@
     "modules": ["create", "update", "delete", "read"],
     "moduleItems": ["create", "update", "delete", "read"],
     "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
-    "assignments": ["submit"]
+    "assignments": ["submit"],
+    "course-students": ["view", "create"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -22,7 +23,7 @@
       "exclude": []
     },
     "TEACHER": {
-      "privileges": ["courses.*", "modules.*", "moduleItems.*", "profile.*"],
+      "privileges": ["courses.*", "modules.*", "moduleItems.*", "profile.*", "course-students.*"],
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {

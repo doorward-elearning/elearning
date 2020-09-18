@@ -17,6 +17,7 @@ export interface OrganizationConfig {
   id: string;
   name: string;
   link: string;
+  descriptiveLogo: boolean;
   icons: {
     dark: string;
     light: string;
@@ -57,7 +58,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     const entityManager = queryRunner.manager;
 
     const organizationConfig = parseOrganization();
-    const { id, link, name, icons, description, admins, models } = organizationConfig;
+    const { id, link, name, icons, description, admins, models, descriptiveLogo } = organizationConfig;
     if (!organizationConfig.id) {
       console.error('Organization id is required in the "organization.json" config file');
       process.exit(1);
@@ -66,6 +67,7 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
       id,
       link,
       name,
+      descriptiveLogo,
       icon: icons?.light || '',
       darkThemeIcon: icons?.dark || '',
       description,

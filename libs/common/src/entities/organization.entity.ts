@@ -29,6 +29,9 @@ export default class OrganizationEntity {
   @Column()
   link: string;
 
+  @Column({ default: false })
+  descriptiveLogo: boolean;
+
   @Column({ nullable: true })
   darkThemeIcon: string;
 

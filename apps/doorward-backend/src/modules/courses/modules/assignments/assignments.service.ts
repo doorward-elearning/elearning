@@ -31,6 +31,10 @@ export class AssignmentsService {
         status: body.status || AssignmentSubmissionStatus.DRAFT,
         numResubmissions: numSubmissions,
         resubmittedOn: numSubmissions > 0 ? new Date() : null,
+        student: author,
+        assignment: {
+          id: assignmentId,
+        },
       })
     );
   }

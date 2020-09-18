@@ -8,16 +8,19 @@ html {
   font-family: 'Open Sans', sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-weight: bold;
 }
-
 
 body {
   height: 100%;
   min-height: 700px;
-  background-image: url("https://res.cloudinary.com/dldhztrbs/image/upload/v1590752464/Doorward/page_background.png");
-  background-size: cover;
+  background-color: #616161;
   padding-top: 20px;
   font-size: 16px;
 }
@@ -35,8 +38,9 @@ body {
     margin: 0;
 
     img {
-      width: 70px;
-      height: 70px;
+      width: auto;
+      height: auto;
+      max-width: 150px;
     }
 
     h2 {
@@ -58,7 +62,6 @@ body {
     padding: 2em 1em;
   }
 }
-
 
 .footer {
   color: #333;

@@ -6,10 +6,9 @@ export interface EmailsModuleOptions {
     apiKey: string;
   };
   templatesDir: string;
-  sender: string;
-  senderEmail: string;
-  appName: string;
-  appLogo: string;
+  sender: () => string;
+  senderEmail: () => string;
+  getData: () => Record<string, any>;
 }
 
 @Global()
