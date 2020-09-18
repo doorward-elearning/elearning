@@ -375,16 +375,48 @@ export class SubmitAssignmentBody extends DApiBody {
 }
 
 export class CreateUserBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
   username: string;
+
+  @ApiProperty()
+  @Expose()
   password?: string;
+
+  @ApiProperty()
+  @Expose()
   firstName: string;
+
+  @ApiProperty()
+  @Expose()
   lastName: string;
+
+  @ApiProperty()
+  @Expose()
   email: string;
+
+  @ApiProperty()
+  @Expose()
   zipCode?: string;
+
+  @ApiProperty()
+  @Expose()
   country?: string;
+
+  @ApiProperty()
+  @Expose()
   city?: string;
+
+  @ApiProperty()
+  @Expose()
   status?: UserStatus;
+
+  @ApiProperty()
+  @Expose()
   gender?: Gender;
+
+  @ApiProperty()
+  @Expose()
   role?: Roles;
 
   async validation(): Promise<ObjectSchema> {

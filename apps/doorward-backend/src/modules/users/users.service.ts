@@ -60,7 +60,7 @@ export class UsersService {
   }
 
   async createUser(body: CreateUserBody): Promise<{ user: UserEntity; resetToken: string | null }> {
-    const existingUser = this.usersRepository.userExistsByUsername(body.username);
+    const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
       throw new ValidationException({ username: 'A {{user}} with this username already exists.' });
     }

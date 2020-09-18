@@ -38,7 +38,9 @@ export class StudentsService {
 
     await this.studentCourseRepository.addStudentToCourse(courseId, student.id);
 
-    await this.meetingRoomsService.addToMeetingRoom(course.meetingRoom.id, student.id);
+    if (course.meetingRoom) {
+      await this.meetingRoomsService.addToMeetingRoom(course.meetingRoom.id, student.id);
+    }
 
     return student;
   }
