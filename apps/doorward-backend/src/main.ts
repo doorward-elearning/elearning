@@ -1,5 +1,3 @@
-import { Logger } from '@nestjs/common';
-
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
@@ -13,6 +11,8 @@ import rolesSetup from './bootstrap/roleSetup';
 import OrganizationModelsTransformInterceptor from './interceptors/organization.models.transform.interceptor';
 import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
+import { Logger } from '@nestjs/common';
+import { Logger as PinoLogger } from 'nestjs-pino';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -21,6 +21,7 @@ async function bootstrap() {
   await organizationSetup();
 
   const app = await setUpNestApplication(AppModule);
+  app.useLogger(app.get(PinoLogger));
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
   swaggerDocumentation(

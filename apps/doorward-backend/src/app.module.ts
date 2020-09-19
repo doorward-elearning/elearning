@@ -15,6 +15,7 @@ import entities from './database/entities';
 import generateEmailData from './bootstrap/generateEmailData';
 import { ORGANIZATION } from './bootstrap/organizationSetup';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
+import { LoggerModule } from 'nestjs-pino/dist';
 
 @Global()
 @Module({
@@ -35,6 +36,14 @@ import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module
       getData: generateEmailData,
     }),
     TypeOrmModule.forFeature(entities),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
+        autoLogging: process.env.NODE_ENV === 'production',
+        prettyPrint: false,
+        useLevelLabels: true,
+      },
+    }),
     AuthModule,
     UsersModule,
     RolesModule,

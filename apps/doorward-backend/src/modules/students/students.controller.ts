@@ -9,13 +9,16 @@ import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/respons
 import { ApiResponse } from '@nestjs/swagger';
 import { CreateUserBody } from '@doorward/common/dtos/body';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
+import { PinoLogger } from 'nestjs-pino/dist';
 
 const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
 
 @Controller('students')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class StudentsController {
-  constructor(private studentsService: StudentsService) {}
+  constructor(private studentsService: StudentsService, private logger: PinoLogger) {
+    logger.setContext('StudentsController');
+  }
 
   @Get('course/:courseId')
   @Privileges('course-students.view')

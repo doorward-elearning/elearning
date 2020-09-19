@@ -4,8 +4,8 @@
  */
 import OrganizationModelsTransformInterceptor from '../interceptors/organization.models.transform.interceptor';
 
-function om(str: string) {
-  return OrganizationModelsTransformInterceptor.performReplacement(str);
+function om(str: TemplateStringsArray | string) {
+  return OrganizationModelsTransformInterceptor.performReplacement(typeof str === 'string' ? str : str.raw.join(' '));
 }
 
 export default om;

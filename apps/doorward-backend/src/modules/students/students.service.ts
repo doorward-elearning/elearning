@@ -51,7 +51,7 @@ export class StudentsService {
     let email;
     if (body.password) {
       email = new AccountWithPasswordEmail({
-        subject: om('A new {{student}} account has been created.'),
+        subject: om`A new {{student}} account has been created.'`,
         data: {
           link: origin + FrontendLinks.login,
           password: body.password,
@@ -60,9 +60,9 @@ export class StudentsService {
       });
     } else {
       email = new NewAccountEmail({
-        subject: om('A new {{student}} account has been created.'),
+        subject: om`A new {{student}} account has been created.'`,
         data: {
-          resetToken,
+          link: origin + FrontendLinks.passwordReset(resetToken),
         },
         recipient: user,
       });
