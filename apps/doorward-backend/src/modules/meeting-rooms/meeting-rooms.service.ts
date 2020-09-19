@@ -9,20 +9,21 @@ export class MeetingRoomsService {
     private meetingRoomMemberRepository: MeetingRoomMemberRepository
   ) {}
 
+  async alreadyExistsInMeetingRoom(meetingRoomId: string, userId: string) {
+    return await this.meetingRoomMemberRepository.find({
+      where: {
+        meetingRoom: { id: meetingRoomId },
+        participant: { id: userId },
+      },
+    });
+  }
+
   async addToMeetingRoom(meetingRoomId: string, userId: string) {
     const defaults = {
-      meetingRoom: {
-        id: meetingRoomId,
-      },
-      participant: {
-        id: userId,
-      },
+      meetingRoom: { id: meetingRoomId },
+      participant: { id: userId },
     };
-    const alreadyExists = await this.meetingRoomMemberRepository.find({
-      where: defaults,
-    });
-
-    if (!alreadyExists) {
+    if (!(await this.alreadyExistsInMeetingRoom(meetingRoomId, userId))) {
       await this.meetingRoomMemberRepository.save(this.meetingRoomMemberRepository.create(defaults));
     }
   }

@@ -8,6 +8,7 @@ import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/
 import { UserStatus } from '@doorward/common/types/users';
 import { Gender } from '@doorward/common/types/genders';
 import { Roles } from '@doorward/common/types/roles';
+import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()
@@ -425,6 +426,18 @@ export class CreateUserBody extends DApiBody {
       firstName: Yup.string().required('First name is required').nullable(),
       lastName: Yup.string().required('Last name is required').nullable(),
       email: Yup.string().email('Please enter a valid email').required('The email is required').nullable(),
+    });
+  }
+}
+
+export class AddStudentsToCourseBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  students: Array<string>;
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      students: Yup.array(Yup.string().nullable()).required('Please choose at least one {{student}}'),
     });
   }
 }

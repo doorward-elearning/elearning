@@ -12,7 +12,6 @@ import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import entities from './database/entities';
-import generateEmailData from './bootstrap/generateEmailData';
 import { ORGANIZATION } from './bootstrap/organizationSetup';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
 import { LoggerModule } from 'nestjs-pino/dist';
@@ -30,10 +29,10 @@ import { LoggerModule } from 'nestjs-pino/dist';
       sendGrid: {
         apiKey: process.env.SENDGRID_API_KEY,
       },
-      templatesDir: path.join(__dirname, 'emails'),
+      templatesDir: path.join(__dirname, 'emails/templates'),
       senderEmail: () => process.env.EMAIL_SENDER,
-      sender: () => `${ORGANIZATION.name + ' - Doorward'}`,
-      getData: generateEmailData,
+      sender: () => `${ORGANIZATION.name + (ORGANIZATION.name === 'Doorward' ? '' : ' - Doorward')}`,
+      getData: () => ({ ORGANIZATION }),
     }),
     TypeOrmModule.forFeature(entities),
     LoggerModule.forRoot({

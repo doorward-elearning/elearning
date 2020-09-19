@@ -7,7 +7,7 @@ import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response';
 import { ApiResponse } from '@nestjs/swagger';
-import { CreateUserBody } from '@doorward/common/dtos/body';
+import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
 
@@ -50,5 +50,31 @@ export class StudentsController {
     const student = await this.studentsService.createStudentInCourse(body, courseId, origin);
 
     return { student, message: '{{student}} has been added to the course.' };
+  }
+
+  @Get('course/:courseId/not-registered')
+  @Privileges('course-students.view')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: StudentsResponse,
+    description: 'The students that are not registered to this course',
+  })
+  async getStudentsNotRegisteredToCourse(@Param('courseId') courseId: string) {
+    const students = await this.studentsService.getStudentNotRegisteredInCourse(courseId);
+
+    return { students };
+  }
+
+  @Post('course/:courseId/register')
+  @Privileges('course-students.create')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: StudentsResponse,
+    description: 'The students that were added to a course',
+  })
+  async addStudentToCourse(@Param('courseId') courseId: string, @Body() body: AddStudentsToCourseBody) {
+    const students = await this.studentsService.addStudentsToCourse(body, courseId);
+
+    return { students };
   }
 }

@@ -9,7 +9,7 @@ import _ from 'lodash';
 import Tools from '@doorward/common/utils/Tools';
 import PasswordResetsRepository from '../../repositories/password.resets.repository';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
-import ForgotPasswordEmail from './emails/forgot.password.email';
+import ForgotPasswordEmail from '../../emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@repositories/privilege.repository';
 import {

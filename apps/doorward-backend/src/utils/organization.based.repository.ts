@@ -1,9 +1,16 @@
-import { FindConditions, FindManyOptions, FindOneOptions, ObjectID } from 'typeorm';
+import { FindConditions, FindManyOptions, FindOneOptions, ObjectID, QueryRunner, SelectQueryBuilder } from 'typeorm';
 import ModelRepository from './model.repository';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import _ from 'lodash';
 
 export default class OrganizationBasedRepository<Entity extends BaseEntity> extends ModelRepository<Entity> {
+  createQueryBuilder(alias?: string, queryRunner?: QueryRunner): SelectQueryBuilder<Entity> {
+    const queryBuilder = super.createQueryBuilder(alias, queryRunner);
+    return queryBuilder.andWhere(`${alias}."organizationId" = :organizationId`, {
+      organizationId: process.env.ORGANIZATION_ID,
+    });
+  }
+
   /**
    * Finds entities that match given options.
    */

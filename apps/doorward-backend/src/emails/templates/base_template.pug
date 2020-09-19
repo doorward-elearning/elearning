@@ -3,7 +3,7 @@ html
     head
         link(rel="stylesheet", href="./css/emails.css", data-inline)
         link(rel="stylesheet", href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300&display=swap")
-        title #{organizationName}
+        title #{ORGANIZATION.name}
         script.
           document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
             ':35729/livereload.js?snipver=1"></' + 'script>')
@@ -11,7 +11,7 @@ html
         div.container
             div.header
                 img(src="https://makonis.ai/images/logo.png")
-                h2 #{organizationName}
+                h2 #{ORGANIZATION.descriptiveLogo ? '': ORGANIZATION.name}
             div.greeting
                 block greeting
             div.content

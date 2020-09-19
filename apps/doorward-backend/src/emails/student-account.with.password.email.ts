@@ -1,6 +1,6 @@
 import EmailModel from '@doorward/backend/modules/emails/email.model';
 
-export default class AccountWithPasswordEmail extends EmailModel<{
+export default class StudentAccountWithPasswordEmail extends EmailModel<{
   password: string;
   link: string;
 }> {
