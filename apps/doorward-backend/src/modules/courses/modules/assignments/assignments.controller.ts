@@ -11,7 +11,12 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response';
 import { AssignmentsService } from './assignments.service';
 
-const AssignmentExists = () => ModelExists('assignmentId', ModuleItemEntity, 'This assignment does not exist.');
+const AssignmentExists = () =>
+  ModelExists({
+    key: 'assignmentId',
+    model: ModuleItemEntity,
+    message: 'This assignment does not exist.',
+  });
 
 @Controller('assignments')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)

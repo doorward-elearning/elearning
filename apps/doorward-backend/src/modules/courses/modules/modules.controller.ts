@@ -11,7 +11,6 @@ import {
   DeleteModuleResponse,
   ModuleItemResponse,
   ModuleResponse,
-  ModulesResponse,
   UpdateModulesOrderResponse,
 } from '@doorward/common/dtos/response';
 import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
@@ -20,13 +19,22 @@ import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
 
-export const ModuleExists = () => ModelExists('moduleId', ModuleEntity, '{{module}} does not exist.');
+export const ModuleExists = () =>
+  ModelExists({
+    key: 'moduleId',
+    model: ModuleEntity,
+    message: '{{module}} does not exist.',
+  });
 
 @Controller('modules')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ModulesController {
   constructor(private modulesService: ModulesService) {}
 
+  /**
+   *
+   * @param moduleId
+   */
   @Get(':moduleId')
   @Privileges('modules.read')
   @ModuleExists()
@@ -43,6 +51,12 @@ export class ModulesController {
     };
   }
 
+  /**
+   *
+   * @param moduleId
+   * @param body
+   * @param user
+   */
   @Post(':moduleId/items')
   @Privileges('moduleItems.create')
   @ModuleExists()
@@ -71,6 +85,11 @@ export class ModulesController {
     };
   }
 
+  /**
+   *
+   * @param body
+   * @param moduleId
+   */
   @Put(':moduleId')
   @Privileges('modules.update')
   @ModuleExists()
@@ -85,6 +104,10 @@ export class ModulesController {
     return { module, message: '{{module}} has been updated.' };
   }
 
+  /**
+   *
+   * @param moduleId
+   */
   @Delete(':moduleId')
   @Privileges('modules.delete')
   @ModuleExists()
@@ -102,6 +125,10 @@ export class ModulesController {
     };
   }
 
+  /**
+   *
+   * @param body
+   */
   @Put()
   @CourseExists()
   @Privileges('modules.update')

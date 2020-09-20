@@ -9,6 +9,11 @@ export class MeetingRoomsService {
     private meetingRoomMemberRepository: MeetingRoomMemberRepository
   ) {}
 
+  /**
+   *
+   * @param meetingRoomId
+   * @param userId
+   */
   async alreadyExistsInMeetingRoom(meetingRoomId: string, userId: string) {
     return await this.meetingRoomMemberRepository.find({
       where: {
@@ -18,6 +23,11 @@ export class MeetingRoomsService {
     });
   }
 
+  /**
+   *
+   * @param meetingRoomId
+   * @param userId
+   */
   async addToMeetingRoom(meetingRoomId: string, userId: string) {
     const defaults = {
       meetingRoom: { id: meetingRoomId },
@@ -26,5 +36,17 @@ export class MeetingRoomsService {
     if (!(await this.alreadyExistsInMeetingRoom(meetingRoomId, userId))) {
       await this.meetingRoomMemberRepository.save(this.meetingRoomMemberRepository.create(defaults));
     }
+  }
+
+  /**
+   *
+   * @param meetingRoomId
+   * @param userId
+   */
+  async removeFromMeetingRoom(meetingRoomId: string, userId: string) {
+    await this.meetingRoomMemberRepository.softDelete({
+      meetingRoom: { id: meetingRoomId },
+      participant: { id: userId },
+    });
   }
 }

@@ -17,7 +17,7 @@ export default class OrganizationModelsTransformInterceptor<T extends DApiRespon
     if (response?.message) {
       response.message = OrganizationModelsTransformInterceptor.performReplacement(response.message);
     }
-    if (response.errors) {
+    if (response?.errors) {
       Object.keys(response.errors).forEach((error) => {
         response.errors[error] = OrganizationModelsTransformInterceptor.performReplacement(response.errors[error]);
       });

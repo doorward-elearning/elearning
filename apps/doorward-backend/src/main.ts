@@ -12,7 +12,7 @@ import OrganizationModelsTransformInterceptor from './interceptors/organization.
 import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
-import { Logger as PinoLogger } from 'nestjs-pino';
+import { PinoLogger } from 'nestjs-pino';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -21,7 +21,7 @@ async function bootstrap() {
   await organizationSetup();
 
   const app = await setUpNestApplication(AppModule);
-  app.useLogger(app.get(PinoLogger));
+  app.useLogger(await app.resolve(PinoLogger));
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
   swaggerDocumentation(
@@ -39,7 +39,7 @@ async function bootstrap() {
   const reflector = app.get(Reflector);
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector), new OrganizationModelsTransformInterceptor());
-  app.useGlobalFilters(new OrganizationModelsExceptionFilter());
+  app.useGlobalFilters(new OrganizationModelsExceptionFilter(await app.resolve(PinoLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();

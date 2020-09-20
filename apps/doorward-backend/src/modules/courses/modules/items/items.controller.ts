@@ -13,13 +13,22 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
 
-const ModuleItemExists = () => ModelExists('itemId', ModuleItemEntity, 'This {{moduleItem}} does not exist.');
+const ModuleItemExists = () =>
+  ModelExists({
+    key: 'itemId',
+    model: ModuleItemEntity,
+    message: 'This {{moduleItem}} does not exist.',
+  });
 
 @Controller('module/items')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ItemsController {
   constructor(private itemsService: ItemsService) {}
 
+  /**
+   *
+   * @param itemId
+   */
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
@@ -36,6 +45,12 @@ export class ItemsController {
     };
   }
 
+  /**
+   *
+   * @param itemId
+   * @param body
+   * @param author
+   */
   @Put(':itemId')
   @Privileges('moduleItems.update')
   @ModuleItemExists()

@@ -1,5 +1,5 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
-import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Query, UseGuards } from '@nestjs/common';
+import ModelExists, { ModelsExist } from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
@@ -10,9 +10,25 @@ import { ApiResponse } from '@nestjs/swagger';
 import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
+const CourseExists = () =>
+  ModelExists({
+    key: 'courseId',
+    model: CourseEntity,
+    message: '{{course}} does not exist.',
+  });
 
+const StudentExists = () =>
+  ModelExists({
+    key: 'studentId',
+    model: UserEntity,
+    message: '{{student}} does not exist.',
+  });
+
+/**
+ *
+ */
 @Controller('students')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class StudentsController {
@@ -20,6 +36,10 @@ export class StudentsController {
     logger.setContext('StudentsController');
   }
 
+  /**
+   *
+   * @param courseId
+   */
   @Get('course/:courseId')
   @Privileges('course-students.view')
   @CourseExists()
@@ -34,6 +54,12 @@ export class StudentsController {
     return { students };
   }
 
+  /**
+   *
+   * @param courseId
+   * @param body
+   * @param origin
+   */
   @Post('course/:courseId')
   @Privileges('course-students.create')
   @CourseExists()
@@ -52,6 +78,11 @@ export class StudentsController {
     return { student, message: '{{student}} has been added to the course.' };
   }
 
+  /**
+   *
+   * @param courseId
+   * @param search
+   */
   @Get('course/:courseId/not-registered')
   @Privileges('course-students.view')
   @ApiResponse({
@@ -59,12 +90,17 @@ export class StudentsController {
     type: StudentsResponse,
     description: 'The students that are not registered to this course',
   })
-  async getStudentsNotRegisteredToCourse(@Param('courseId') courseId: string) {
-    const students = await this.studentsService.getStudentNotRegisteredInCourse(courseId);
+  async getStudentsNotRegisteredToCourse(@Param('courseId') courseId: string, @Query('search') search: string) {
+    const students = await this.studentsService.getStudentNotRegisteredInCourse(courseId, search);
 
     return { students };
   }
 
+  /**
+   *
+   * @param courseId
+   * @param body
+   */
   @Post('course/:courseId/register')
   @Privileges('course-students.create')
   @ApiResponse({
@@ -76,5 +112,27 @@ export class StudentsController {
     const students = await this.studentsService.addStudentsToCourse(body, courseId);
 
     return { students };
+  }
+
+  /**
+   *
+   * @param courseId
+   * @param studentId
+   */
+  @Delete('course/:courseId/un-enroll/:studentId')
+  @Privileges('course-students.un-enroll')
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: StudentResponse,
+    description: 'The student that was un-enrolled from the course',
+  })
+  @ModelsExist(CourseExists, StudentExists)
+  async unEnrollStudentFromCourse(
+    @Param('courseId') courseId: string,
+    @Param('studentId') studentId: string
+  ): Promise<StudentResponse> {
+    const student = await this.studentsService.unEnrollStudentFromCourse(studentId, courseId);
+
+    return { student, message: '{{student}} has been un-enrolled from the {{course}}' };
   }
 }

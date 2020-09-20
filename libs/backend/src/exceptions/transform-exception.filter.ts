@@ -11,11 +11,17 @@ import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+import { PinoLogger } from 'nestjs-pino/dist';
 
 @Catch(HttpException)
 @Injectable()
 export class TransformExceptionFilter implements ExceptionFilter {
+  constructor(private logger: PinoLogger) {
+    logger.setContext('ExceptionFilter');
+  }
   performTransform(exception: HttpException): DApiResponse {
+    console.error(exception);
+    this.logger.error(exception.message);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
     const data = ResponseBuilder.create(status);
@@ -42,6 +48,7 @@ export class TransformExceptionFilter implements ExceptionFilter {
     const context = host.switchToHttp();
     const response = context.getResponse<Response>();
     const data = this.performTransform(exception);
+
     response.status(data.statusCode).json(data);
   }
 }

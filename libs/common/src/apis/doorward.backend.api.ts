@@ -127,11 +127,16 @@ const DoorwardBackendApi = {
   getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return GET(`/students/course/${courseId}`, {}, config);
   },
-  getStudentsNotRegisteredToCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
-    return GET(`/students/course/${courseId}/not-registered`, {}, config);
+  getStudentsNotRegisteredToCourse: (courseId: string, search: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
+    return GET(`/students/course/${courseId}/not-registered`, {
+      search: string,
+    }, config);
   },
   addStudentToCourse: (courseId: string, body: AddStudentsToCourseBody, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return POST(`/students/course/${courseId}/register`, body, {}, config);
+  },
+  unEnrollStudentFromCourse: (courseId: string, studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+    return DELETE(`/students/course/${courseId}/un-enroll/{studentId}`, {}, config);
   },
   submitAssignment: (assignmentId: string, body: SubmitAssignmentBody, config ? : AxiosRequestConfig): Promise < AssignmentSubmissionResponse > => {
     return POST(`/assignments/${assignmentId}/submit`, body, {}, config);

@@ -18,10 +18,15 @@ import {
   ModuleResponse,
   ModulesResponse,
 } from '@doorward/common/dtos/response';
-import { CreateCourseBody, CreateModuleBody, UpdateCourseBody, UpdateModulesBody } from '@doorward/common/dtos/body';
+import { CreateCourseBody, CreateModuleBody, UpdateCourseBody } from '@doorward/common/dtos/body';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 
-export const CourseExists = () => ModelExists('courseId', CourseEntity, '{{course}} does not exist.');
+export const CourseExists = () =>
+  ModelExists({
+    key: 'courseId',
+    model: CourseEntity,
+    message: '{{course}} does not exist.',
+  });
 
 @Controller('courses')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
@@ -32,6 +37,11 @@ export class CoursesController {
     private moduleItemsService: ItemsService
   ) {}
 
+  /**
+   *
+   * @param body
+   * @param user
+   */
   @Post()
   @Privileges('course.create')
   @ApiResponse({
@@ -44,6 +54,10 @@ export class CoursesController {
     return { course, statusCode: HttpStatus.CREATED };
   }
 
+  /**
+   *
+   * @param user
+   */
   @Get()
   @Privileges('courses.read')
   @ApiResponse({
@@ -57,6 +71,12 @@ export class CoursesController {
     return { courses };
   }
 
+  /**
+   *
+   * @param user
+   * @param courseId
+   * @param body
+   */
   @Put(':courseId')
   @CourseExists()
   @Privileges('courses.update')
@@ -75,6 +95,10 @@ export class CoursesController {
     return { course };
   }
 
+  /**
+   *
+   * @param courseId
+   */
   @Get(':courseId')
   @CourseExists()
   @Privileges('courses.read')
@@ -89,6 +113,10 @@ export class CoursesController {
     return { course };
   }
 
+  /**
+   *
+   * @param courseId
+   */
   @Delete(':courseId')
   @CourseExists()
   @Privileges('courses.delete')
@@ -106,6 +134,10 @@ export class CoursesController {
     };
   }
 
+  /**
+   *
+   * @param courseId
+   */
   @Get(':courseId/modules')
   @CourseExists()
   @Privileges('modules.read')
@@ -120,6 +152,11 @@ export class CoursesController {
     return { modules };
   }
 
+  /**
+   *
+   * @param courseId
+   * @param type
+   */
   @Get(':courseId/modules/items')
   @CourseExists()
   @Privileges('moduleItems.read')
@@ -138,6 +175,11 @@ export class CoursesController {
     return { items };
   }
 
+  /**
+   *
+   * @param courseId
+   * @param body
+   */
   @Post(':courseId/modules')
   @CourseExists()
   @Privileges('modules.create')

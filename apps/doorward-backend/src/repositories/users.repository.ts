@@ -1,6 +1,7 @@
 import UserEntity from '@doorward/common/entities/user.entity';
 import { EntityRepository } from 'typeorm';
 import OrganizationBasedRepository from '../utils/organization.based.repository';
+import { Roles } from '@doorward/common/types/roles';
 
 @EntityRepository(UserEntity)
 export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
@@ -9,6 +10,14 @@ export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
       .where('LOWER(username) = LOWER(:username)', {
         username: username.trim(),
       })
+      .getOne();
+  }
+
+  async userExistsByRole(userId: string, role: Roles) {
+    return await this.createQueryBuilder('user')
+      .leftJoin('user.role', 'role')
+      .where('user.id = :userId', { userId })
+      .andWhere('role.name = :role', { role })
       .getOne();
   }
 }
