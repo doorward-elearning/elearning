@@ -15,6 +15,7 @@ import entities from './database/entities';
 import { ORGANIZATION } from './bootstrap/organizationSetup';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
 import { LoggerModule } from 'nestjs-pino/dist';
+import { GroupsModule } from './modules/groups/groups.module';
 
 @Global()
 @Module({
@@ -52,6 +53,7 @@ import { LoggerModule } from 'nestjs-pino/dist';
     OrganizationsModule,
     StudentsModule,
     MeetingRoomsModule,
+    GroupsModule,
   ],
   controllers: [],
   providers: [],

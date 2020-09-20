@@ -145,7 +145,7 @@ export default class DocumentationBuilder {
       params = params + ',';
     }
 
-    return { params, path: path.replace('{', '${') };
+    return { params, path: path.replace(/{/g, '${') };
   }
 
   private generateQueryParams(parameters: ParameterObject[]) {
@@ -169,7 +169,7 @@ export default class DocumentationBuilder {
       required: requiredParams.join(',') + (requiredParams.length ? ',' : ''),
       queryParams:
         '{' +
-        requiredParams.join(',') +
+        requiredParams.map((param) => param.split(':')[0].replace(/\?$/, '')).join(',') +
         (requiredParams.length ? ',' : '') +
         (optionalParams.length ? '...query' : '') +
         '}',

@@ -36,6 +36,7 @@ export class ManagersController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The course manager that was created',
+    type: CourseManagerResponse,
   })
   @Privileges('course-managers.create')
   @ModelsExist(CourseExists, UserExists)

@@ -34,6 +34,7 @@ import {
   OrganizationResponse,
   StudentResponse,
   StudentsResponse,
+  CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
@@ -129,18 +130,20 @@ const DoorwardBackendApi = {
   getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return GET(`/students/course/${courseId}`, {}, config);
   },
-  getStudentsNotRegisteredToCourse: (courseId: string, search: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
+  getStudentsNotRegisteredToCourse: (courseId: string, query: {
+    search ? : string
+  }, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return GET(`/students/course/${courseId}/not-registered`, {
-      search: string,
+      ...query
     }, config);
   },
   addStudentToCourse: (courseId: string, body: AddStudentsToCourseBody, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
     return POST(`/students/course/${courseId}/register`, body, {}, config);
   },
   unEnrollStudentFromCourse: (courseId: string, studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
-    return DELETE(`/students/course/${courseId}/un-enroll/{studentId}`, {}, config);
+    return DELETE(`/students/course/${courseId}/un-enroll/${studentId}`, {}, config);
   },
-  createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+  createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < CourseManagerResponse > => {
     return POST(`/course-managers/${courseId}`, body, {}, config);
   },
   getCourseManagers: (courseId: string, config ? : AxiosRequestConfig): Promise < CourseManagersResponse > => {

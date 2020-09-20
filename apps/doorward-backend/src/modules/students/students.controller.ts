@@ -6,7 +6,7 @@ import PrivilegesGuard from '../../guards/privileges.guard';
 import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse } from '@nestjs/swagger';
 import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
@@ -89,6 +89,10 @@ export class StudentsController {
     status: HttpStatus.OK,
     type: StudentsResponse,
     description: 'The students that are not registered to this course',
+  })
+  @ApiQuery({
+    name: 'search',
+    required: false,
   })
   async getStudentsNotRegisteredToCourse(@Param('courseId') courseId: string, @Query('search') search: string) {
     const students = await this.studentsService.getStudentNotRegisteredInCourse(courseId, search);
