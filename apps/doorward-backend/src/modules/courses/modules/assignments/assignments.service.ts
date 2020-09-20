@@ -1,5 +1,4 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import AssignmentSubmissionRepository from '@repositories/assignment.submission.repository';
 import ModuleItemsRepository from '@repositories/module.items.repository';

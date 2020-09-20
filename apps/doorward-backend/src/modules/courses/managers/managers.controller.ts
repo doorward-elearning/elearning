@@ -3,13 +3,16 @@ import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../guards/privileges.guard';
 import { ManagersService } from './managers.service';
 import { ApiResponse } from '@nestjs/swagger';
-import { CourseManagerResponse, CourseManagersResponse } from '@doorward/common/dtos/response';
 import Privileges from '../../../decorators/privileges.decorator';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ModelExists, { ModelsExist } from '@doorward/backend/decorators/model.exists.decorator';
 import { CourseExists } from '../courses.controller';
-import { AddCourseManagerBody } from '@doorward/common/dtos/body';
+import {
+  CourseManagerResponse,
+  CourseManagersResponse,
+} from '@doorward/common/dtos/response/course.managers.responses';
+import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers.body';
 
 const UserExists = () => ModelExists({ key: 'managerId', model: UserEntity, message: '{{user}} does not exist.' });
 

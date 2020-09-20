@@ -12,7 +12,6 @@ import QuestionEntity from '@doorward/common/entities/question.entity';
 import compareLists from '@doorward/common/utils/compareLists';
 import { In } from 'typeorm';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
-import { CreateAnswerBody, CreateModuleItemBody, CreateQuestionBody, CreateQuizBody } from '@doorward/common/dtos/body';
 
 @Injectable()
 export class ItemsService {

@@ -1,7 +1,7 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { ClassType } from 'class-transformer/ClassTransformer';
-import DApiBody from '@doorward/common/dtos/body/d.api.body';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
+import DApiBody from '@doorward/common/dtos/body';
 
 @Injectable()
 export default class YupValidationPipe implements PipeTransform {

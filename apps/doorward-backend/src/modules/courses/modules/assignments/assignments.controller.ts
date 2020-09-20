@@ -4,12 +4,11 @@ import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import JwtAuthGuard from '../../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
-import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { ApiResponse } from '@nestjs/swagger';
-import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response';
 import { AssignmentsService } from './assignments.service';
+import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response/module.items.responses';
 
 const AssignmentExists = () =>
   ModelExists({

@@ -7,11 +7,10 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
-import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
+import { ModuleItemResponse } from '@doorward/common/dtos/response/modules.responses';
 
 const ModuleItemExists = () =>
   ModelExists({

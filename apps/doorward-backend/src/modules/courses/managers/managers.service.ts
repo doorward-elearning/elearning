@@ -2,9 +2,9 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import CourseManagerRepository from '@repositories/course.manager.repository';
 import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { AddCourseManagerBody } from '@doorward/common/dtos/body';
 import { UsersRepository } from '@repositories/users.repository';
 import { Roles } from '@doorward/common/types/roles';
+import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers.body';
 
 @Injectable()
 export class ManagersService {

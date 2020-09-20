@@ -3,8 +3,8 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import { LoginResponse } from '@doorward/common/dtos/response';
-import { RegisterBody } from '@doorward/common/dtos/body';
+import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
+import { RegisterBody } from '@doorward/common/dtos/body/auth.body';
 
 @Injectable()
 export class AuthService {

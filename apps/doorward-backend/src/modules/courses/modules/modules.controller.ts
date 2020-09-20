@@ -7,17 +7,15 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import {
-  DeleteModuleResponse,
-  ModuleItemResponse,
-  ModuleResponse,
-  UpdateModulesOrderResponse,
-} from '@doorward/common/dtos/response';
-import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
+import {
+  DeleteModuleResponse, ModuleItemResponse,
+  ModuleResponse,
+  UpdateModulesOrderResponse,
+} from '@doorward/common/dtos/response/modules.responses';
 
 export const ModuleExists = () =>
   ModelExists({

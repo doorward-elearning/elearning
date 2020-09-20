@@ -5,7 +5,7 @@ import ValidationException from '@doorward/backend/exceptions/validation.excepti
 import { CourseStatus } from '@doorward/common/types/courses';
 import { ModulesService } from './modules/modules.service';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body';
+import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 
 @Injectable()
 export class CoursesService {

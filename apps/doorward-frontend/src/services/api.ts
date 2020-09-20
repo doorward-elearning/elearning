@@ -54,7 +54,7 @@ import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
 import axios from 'axios';
 import { ParsedUrlQuery } from 'querystring';
-import ApiResponse from '@doorward/common/dtos/response/d.api.response';
+import ApiResponse from '@doorward/common/dtos/response';
 
 /**
  * Use the return keyword in the functions to improve readability

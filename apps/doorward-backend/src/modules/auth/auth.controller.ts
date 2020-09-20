@@ -10,8 +10,8 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
-import { LoginBody, RegisterBody } from '@doorward/common/dtos/body';
-import { LoginResponse, UserResponse } from '@doorward/common/dtos/response';
+import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
+import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 
 @Controller('auth')
 export class AuthController {

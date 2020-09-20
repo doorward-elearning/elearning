@@ -5,12 +5,11 @@ import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';
-import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response';
 import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
 import UserEntity from '@doorward/common/entities/user.entity';
+import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response/students.responses';
 
 const CourseExists = () =>
   ModelExists({

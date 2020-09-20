@@ -10,8 +10,8 @@ import {
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 import { PinoLogger } from 'nestjs-pino/dist';
+import DApiResponse from '@doorward/common/dtos/response';
 
 @Catch(HttpException)
 @Injectable()

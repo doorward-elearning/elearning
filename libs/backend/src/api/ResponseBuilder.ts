@@ -1,6 +1,6 @@
 import { HttpStatus } from '@nestjs/common';
 import { classToPlain } from 'class-transformer';
-import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+import DApiResponse from '@doorward/common/dtos/response';
 
 export class ResponseBuilder {
   static create<T = any>(status = HttpStatus.OK, data?: T, groups?: Array<string>): DApiResponse {

@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 import { UsersService } from '../users/users.service';
 import StudentAccountWithPasswordEmail from '../../emails/student-account.with.password.email';
 import om from '../../utils/om';

@@ -12,16 +12,8 @@ import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import ForgotPasswordEmail from '../../emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@repositories/privilege.repository';
-import {
-  CreateUserBody,
-  ForgotPasswordBody,
-  RegisterBody,
-  ResetPasswordBody,
-  UpdateAccountBody,
-  UpdatePasswordBody,
-} from '@doorward/common/dtos/body';
-import { UserResponse } from '@doorward/common/dtos/response';
 import { UserStatus } from '@doorward/common/types/users';
+import { ForgotPasswordBody, RegisterBody, ResetPasswordBody } from '@doorward/common/dtos/body/auth.body';
 
 @Injectable()
 export class UsersService {

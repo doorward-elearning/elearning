@@ -1,7 +1,7 @@
 import { AuthGuard } from '@nestjs/passport';
 import { ExecutionContext } from '@nestjs/common';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { LoginBody } from '@doorward/common/dtos/body';
+import { LoginBody } from '@doorward/common/dtos/body/auth.body';
 
 export default class LocalAuthGuard extends AuthGuard('local') {
   async canActivate(context: ExecutionContext): Promise<any> {
