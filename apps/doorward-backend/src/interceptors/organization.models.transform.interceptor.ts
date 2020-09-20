@@ -2,7 +2,7 @@ import { CallHandler, ExecutionContext, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ORGANIZATION } from '../bootstrap/organizationSetup';
-import DApiResponse from '@doorward/common/dtos/response';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export default class OrganizationModelsTransformInterceptor<T extends DApiResponse>
   implements NestInterceptor<T, DApiResponse> {

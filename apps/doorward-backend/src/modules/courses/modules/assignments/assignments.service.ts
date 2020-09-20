@@ -4,6 +4,7 @@ import AssignmentSubmissionRepository from '@repositories/assignment.submission.
 import ModuleItemsRepository from '@repositories/module.items.repository';
 import { AssignmentSubmissionStatus } from '@doorward/common/types/courses';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
+import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 
 @Injectable()
 export class AssignmentsService {

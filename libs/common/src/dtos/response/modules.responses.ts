@@ -2,7 +2,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import DApiResponse from '@doorward/common/dtos/response/index';
+import { UpdateModuleOrderBody } from '@doorward/common/dtos/body';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class ModuleItemResponse extends DApiResponse {
   @ApiProperty()

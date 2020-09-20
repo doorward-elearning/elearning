@@ -1,6 +1,6 @@
 import { ArgumentMetadata, Injectable, PipeTransform } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
-import DApiBody from '@doorward/common/dtos/body';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 @Injectable()
 export default class BodyFieldsValidationPipe implements PipeTransform<any> {

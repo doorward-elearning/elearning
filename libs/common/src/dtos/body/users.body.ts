@@ -4,7 +4,7 @@ import { default as Yup, ObjectSchema } from 'yup';
 import { UserStatus } from '@doorward/common/types/users';
 import { Gender } from '@doorward/common/types/genders';
 import { Roles } from '@doorward/common/types/roles';
-import DApiBody from '@doorward/common/dtos/body/index';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export class UpdateAccountBody extends DApiBody {
   @ApiProperty()

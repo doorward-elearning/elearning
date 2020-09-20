@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
-import DApiResponse from '@doorward/common/dtos/response/index';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class QuizResponse {
   content: {

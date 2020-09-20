@@ -12,6 +12,7 @@ import TransformerGroups from '@doorward/backend/decorators/transformer.groups.d
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
+import { UserResponse } from '@doorward/common/dtos/response';
 
 @Controller('auth')
 export class AuthController {

@@ -10,6 +10,7 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import CoursesRepository from '@repositories/courses.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import { StudentsRepository } from '@repositories/students.repository';
+import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 
 /**
  *

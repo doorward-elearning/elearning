@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import DApiResponse from '@doorward/common/dtos/response/index';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class CourseResponse extends DApiResponse {
   @ApiProperty()

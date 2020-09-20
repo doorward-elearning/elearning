@@ -12,10 +12,12 @@ import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
 import {
-  DeleteModuleResponse, ModuleItemResponse,
+  DeleteModuleResponse,
+  ModuleItemResponse,
   ModuleResponse,
   UpdateModulesOrderResponse,
 } from '@doorward/common/dtos/response/modules.responses';
+import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
 
 export const ModuleExists = () =>
   ModelExists({

@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import { default as Yup, ObjectSchema } from 'yup';
 import { CreateModuleItemBody } from '@doorward/common/dtos/body/modules.body';
-import DApiBody from '@doorward/common/dtos/body/index';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export class CreateQuestionBody {
   @ApiProperty()

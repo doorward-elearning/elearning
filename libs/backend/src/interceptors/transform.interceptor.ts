@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import { Reflector } from '@nestjs/core';
-import DApiResponse from '@doorward/common/dtos/response';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 @Injectable()
 export class TransformInterceptor<T extends DApiResponse> implements NestInterceptor<T, DApiResponse> {

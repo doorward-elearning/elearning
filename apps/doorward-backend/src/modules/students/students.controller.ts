@@ -10,6 +10,7 @@ import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response/students.responses';
+import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
 
 const CourseExists = () =>
   ModelExists({

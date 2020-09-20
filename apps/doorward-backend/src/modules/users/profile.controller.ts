@@ -5,11 +5,13 @@ import { UsersService } from './users.service';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import Public from '@doorward/backend/decorators/public.decorator';
-import DApiResponse from '@doorward/common/dtos/response/d.api.response';
 import Privileges from '../../decorators/privileges.decorator';
 import { ApiResponse } from '@nestjs/swagger';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
-import { ForgotPasswordBody, ResetPasswordBody } from '@doorward/common/dtos/body/auth.body';
+import { ForgotPasswordBody, ResetPasswordBody, UpdatePasswordBody } from '@doorward/common/dtos/body/auth.body';
+import { UserResponse } from '@doorward/common/dtos/response';
+import { UpdateAccountBody } from '@doorward/common/dtos/body';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)

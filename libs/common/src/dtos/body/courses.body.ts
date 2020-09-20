@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { default as Yup, ObjectSchema } from 'yup';
 import { CreateModuleBody } from '@doorward/common/dtos/body/modules.body';
-import DApiBody from '@doorward/common/dtos/body/index';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()

@@ -9,6 +9,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { ApiResponse } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response/module.items.responses';
+import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 
 const AssignmentExists = () =>
   ModelExists({
