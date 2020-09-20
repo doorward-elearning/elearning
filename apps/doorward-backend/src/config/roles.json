@@ -16,7 +16,8 @@
     "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
     "assignments": ["submit"],
     "course-students": ["view", "create", "un-enroll"],
-    "course-managers": ["view", "create"]
+    "course-managers": ["view", "create"],
+    "groups": ["create", "view", "update", "delete"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -24,11 +25,26 @@
       "exclude": []
     },
     "TEACHER": {
-      "privileges": ["courses.*", "modules.*", "moduleItems.*", "profile.*", "course-students.*", "course-managers.*"],
+      "privileges": [
+        "courses.*",
+        "modules.*",
+        "moduleItems.*",
+        "profile.*",
+        "course-students.*",
+        "course-managers.*",
+        "groups.*"
+      ],
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {
-      "privileges": ["modules.read", "moduleItems.read", "courses.read", "profile.*", "course-managers.view"],
+      "privileges": [
+        "modules.read",
+        "moduleItems.read",
+        "courses.read",
+        "profile.*",
+        "course-managers.view",
+        "groups.*"
+      ],
       "exclude": []
     }
   }

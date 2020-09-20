@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { default as Yup, ObjectSchema } from 'yup';
+import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export class CreateModuleItemBody extends DApiBody {

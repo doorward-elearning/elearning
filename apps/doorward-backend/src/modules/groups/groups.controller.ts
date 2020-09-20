@@ -9,6 +9,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import Privileges from '../../decorators/privileges.decorator';
 import { ApiResponse } from '@nestjs/swagger';
 import { CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
+import { GroupResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 
 const GroupExists = () =>
   ModelExists({
@@ -27,10 +28,11 @@ export class GroupsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'The group that was created',
+    type: GroupResponse,
   })
-  async createGroup(@Body() body: CreateGroupBody, @CurrentUser() currentUser: UserEntity) {
+  async createGroup(@Body() body: CreateGroupBody, @CurrentUser() currentUser: UserEntity): Promise<GroupResponse> {
     const group = await this.groupService.createGroup(body, currentUser);
 
-    return { group };
+    return { group: new SimpleGroupResponse(group) };
   }
 }

@@ -22,7 +22,6 @@ import ApiRequest from '@doorward/ui/services/apiRequest';
 import {
   LoginResponse,
   UserResponse,
-  DApiResponse,
   CourseResponse,
   CoursesResponse,
   DeleteCourseResponse,
@@ -35,11 +34,12 @@ import {
   OrganizationResponse,
   StudentResponse,
   StudentsResponse,
+  GroupResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
-import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 import {
   AxiosRequestConfig
 } from 'axios';
@@ -144,7 +144,7 @@ const DoorwardBackendApi = {
   unEnrollStudentFromCourse: (courseId: string, studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
     return DELETE(`/students/course/${courseId}/un-enroll/${studentId}`, {}, config);
   },
-  createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+  createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
     return POST(`/groups`, body, {}, config);
   },
   createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < CourseManagerResponse > => {

@@ -44,6 +44,6 @@ export default class GroupMembersRepository extends OrganizationBasedRepository<
         })
       );
     }
-    return groupMember;
+    return this.findOne(groupMember.id, { relations: ['member'] });
   }
 }

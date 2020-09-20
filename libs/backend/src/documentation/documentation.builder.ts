@@ -41,13 +41,15 @@ export default class DocumentationBuilder {
     }, '');
 
     const bodies = Array.from(this.requestBody).join(',');
-    const responses = Array.from(this.responseBody).join(',');
+    const responses = Array.from(this.responseBody)
+      .filter((response) => response !== 'DApiResponse')
+      .join(',');
 
     return `
       ${bodies ? `import { ${bodies} } from '@doorward/common/dtos/body';` : ''}
       import ApiRequest from '@doorward/ui/services/apiRequest';
       ${responses ? `import { ${responses} } from '@doorward/common/dtos/response';` : ''}
-      import DApiResponse from '@doorward/common/dtos/response/d.api.response';
+      import DApiResponse from '@doorward/common/dtos/response/base.response';
       import { AxiosRequestConfig } from 'axios';
       
       const { GET, PUT, POST, DELETE } = ApiRequest;

@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
-import { default as Yup, ObjectSchema } from 'yup';
+import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
 import { CreateModuleItemBody } from '@doorward/common/dtos/body/modules.body';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 

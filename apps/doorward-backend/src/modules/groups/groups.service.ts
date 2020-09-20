@@ -7,13 +7,15 @@ import { GroupRoles } from '@doorward/common/types/groups';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import { CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
+import GroupsUtils from './groups.utils';
 
 @Injectable()
 export class GroupsService {
   constructor(
     private groupsRepository: GroupsRepository,
     private userRepository: UsersRepository,
-    private groupMemberRepository: GroupMembersRepository
+    private groupMemberRepository: GroupMembersRepository,
+    private groupsUtils: GroupsUtils
   ) {}
 
   /**

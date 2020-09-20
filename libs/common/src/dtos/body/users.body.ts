@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { default as Yup, ObjectSchema } from 'yup';
+import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
 import { UserStatus } from '@doorward/common/types/users';
 import { Gender } from '@doorward/common/types/genders';
 import { Roles } from '@doorward/common/types/roles';
