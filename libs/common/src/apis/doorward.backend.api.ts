@@ -15,6 +15,7 @@ import {
   CreateUserBody,
   AddStudentsToCourseBody,
   CreateGroupBody,
+  AddMemberToGroupBody,
   AddCourseManagerBody,
   SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
@@ -35,6 +36,7 @@ import {
   StudentResponse,
   StudentsResponse,
   GroupResponse,
+  GroupsResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
@@ -146,6 +148,23 @@ const DoorwardBackendApi = {
   },
   createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
     return POST(`/groups`, body, {}, config);
+  },
+  getGroups: (query: {
+    type ? : string,
+    search ? : string
+  }, config ? : AxiosRequestConfig): Promise < GroupsResponse > => {
+    return GET(`/groups`, {
+      ...query
+    }, config);
+  },
+  addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    return POST(`/groups/${groupId}`, body, {}, config);
+  },
+  getGroup: (groupId: string, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    return GET(`/groups/${groupId}`, {}, config);
+  },
+  updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    return PUT(`/groups/${groupId}`, body, {}, config);
   },
   createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < CourseManagerResponse > => {
     return POST(`/course-managers/${courseId}`, body, {}, config);

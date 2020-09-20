@@ -57,11 +57,16 @@ export class SimpleGroupResponse {
 
   @ApiProperty()
   @Expose()
+  type: string;
+
+  @ApiProperty()
+  @Expose()
   members: Array<GroupMemberResponse>;
 
   constructor(group: GroupEntity) {
     this.id = group.id;
     this.name = group.name;
+    this.type = group.type;
     this.members = group.members?.map((member) => new GroupMemberResponse(member));
   }
 }

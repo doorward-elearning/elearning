@@ -8,6 +8,9 @@ import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import { CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
 import GroupsUtils from './groups.utils';
+import ValidationException from '@doorward/backend/exceptions/validation.exception';
+import compareLists from '@doorward/common/utils/compareLists';
+import { Brackets } from 'typeorm';
 
 @Injectable()
 export class GroupsService {
@@ -20,10 +23,34 @@ export class GroupsService {
 
   /**
    *
+   * @param type
+   * @param search
+   */
+  public async getGroups(type?: string, search?: string) {
+    const queryBuilder = this.groupsRepository.createSearchQueryBuilder('group', ['name'], search);
+
+    if (type) {
+      queryBuilder.andWhere(
+        new Brackets((qb) => {
+          qb.where('group.type = :type', { type });
+        })
+      );
+    }
+
+    queryBuilder.leftJoinAndSelect('group.members', 'members').leftJoinAndSelect('members.member', 'member');
+    return queryBuilder.getMany();
+  }
+
+  /**
+   *
    * @param body
    * @param creator
    */
   public async createGroup(body: CreateGroupBody, creator: UserEntity): Promise<GroupEntity> {
+    if (await this.groupsRepository.checkGroupExists(body.name)) {
+      throw new ValidationException({ name: 'A group with this name already exists.' });
+    }
+
     const group = await this.groupsRepository.save(
       this.groupsRepository.create({
         name: body.name,
@@ -36,6 +63,10 @@ export class GroupsService {
     group.members = await this.addMembersToGroup(group.id, body.members, creator.id);
 
     return group;
+  }
+
+  public async getGroup(id: string) {
+    return this.groupsRepository.findOne(id, { relations: ['members', 'members.member'] });
   }
 
   /**
@@ -61,5 +92,58 @@ export class GroupsService {
    */
   public async addMemberToGroup(memberId: string, groupId: string, refereeId: string, role?: GroupRoles) {
     return this.groupMemberRepository.addMemberToGroup(memberId, groupId, refereeId, role);
+  }
+
+  /**
+   *
+   * @param memberId
+   * @param groupId
+   */
+  public async removeMemberFromGroup(memberId: string, groupId: string) {
+    await this.groupMemberRepository.delete({
+      member: { id: memberId },
+      group: { id: groupId },
+    });
+  }
+
+  /**
+   *
+   * @param groupId
+   * @param members
+   */
+  public async removeMembersFromGroup(groupId: string, members: Array<string>) {
+    await Promise.all(members.map(async (memberId) => this.removeMemberFromGroup(memberId, groupId)));
+  }
+
+  /**
+   *
+   * @param groupId
+   * @param body
+   * @param referee
+   */
+  public async updateGroup(groupId: string, body: CreateGroupBody, referee: UserEntity): Promise<GroupEntity> {
+    if (await this.groupsRepository.checkGroupExists(body.name, groupId)) {
+      throw new ValidationException({ name: 'A group with this name already exists.' });
+    }
+    const existingGroup = await this.getGroup(groupId);
+
+    const { name, type } = body;
+
+    await this.groupsRepository.update(groupId, { name, type });
+
+    const { newItems, removed } = compareLists(
+      existingGroup.members,
+      body.members,
+      (existingItem, newItem) => existingItem.member.id === newItem
+    );
+
+    await this.removeMembersFromGroup(
+      groupId,
+      removed.map((removed) => removed.member.id)
+    );
+
+    await this.addMembersToGroup(groupId, newItems, referee.id);
+
+    return this.getGroup(groupId);
   }
 }

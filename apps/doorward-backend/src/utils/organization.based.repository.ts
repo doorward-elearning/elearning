@@ -6,7 +6,7 @@ import _ from 'lodash';
 export default class OrganizationBasedRepository<Entity extends BaseEntity> extends ModelRepository<Entity> {
   createQueryBuilder(alias?: string, queryRunner?: QueryRunner): SelectQueryBuilder<Entity> {
     const queryBuilder = super.createQueryBuilder(alias, queryRunner);
-    return queryBuilder.andWhere(`${alias}."organizationId" = :organizationId`, {
+    return queryBuilder.andWhere(`"${alias}"."organizationId" = :organizationId`, {
       organizationId: process.env.ORGANIZATION_ID,
     });
   }

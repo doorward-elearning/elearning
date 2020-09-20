@@ -17,7 +17,7 @@
     "assignments": ["submit"],
     "course-students": ["view", "create", "un-enroll"],
     "course-managers": ["view", "create"],
-    "groups": ["create", "view", "update", "delete"]
+    "groups": ["create", "view", "update", "delete", "add-member"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
