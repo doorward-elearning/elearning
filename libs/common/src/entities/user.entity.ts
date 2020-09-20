@@ -7,7 +7,7 @@ import MeetingEntity from './meeting.entity';
 import GroupMemberEntity from './group.member.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
@@ -32,15 +32,19 @@ export default class UserEntity extends BaseOrganizationEntity {
   email: string;
 
   @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   zipCode: string;
 
   @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   country: string;
 
   @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   city: string;
 
   @Column({ type: 'enum', enum: Gender, nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   gender: Gender;
 
   @Column({ default: UserStatus.PENDING_ACTIVATION })
@@ -49,6 +53,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   @ManyToOne(() => RoleEntity, (role) => role.users, {
     eager: true,
   })
+  @Expose({ groups: ['fullUserProfile'] })
   role: RoleEntity;
 
   @OneToMany(() => MeetingRoomMemberEntity, (meetingRoomMember) => meetingRoomMember.meetingRoom)

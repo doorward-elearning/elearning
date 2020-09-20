@@ -13,6 +13,10 @@ export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
       .getOne();
   }
 
+  async userExistsById(userId: string) {
+    return this.findOne(userId);
+  }
+
   async userExistsByRole(userId: string, role: Roles) {
     return await this.createQueryBuilder('user')
       .leftJoin('user.role', 'role')

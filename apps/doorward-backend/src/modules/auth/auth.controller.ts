@@ -19,7 +19,7 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  @TransformerGroups('privileges')
+  @TransformerGroups('privileges', 'fullUserProfile')
   @ApiOperation({ operationId: 'login', summary: 'Allow users to login with their username and password.' })
   @ApiResponse({
     status: HttpStatus.OK,
@@ -31,7 +31,7 @@ export class AuthController {
   }
 
   @Post('register')
-  @TransformerGroups('privileges')
+  @TransformerGroups('privileges', 'fullUserProfile')
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'The user that was created',
@@ -56,7 +56,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  @TransformerGroups('privileges')
+  @TransformerGroups('privileges', 'fullUserProfile')
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'The currently logged in user',

@@ -17,7 +17,8 @@
     "teacher": "Teacher",
     "student": "Learner",
     "superAdministrator": "Super Administrator",
-    "moduleItem": "Module item"
+    "moduleItem": "Module item",
+    "courseManager": "Course manager"
   },
   "admins": [
     {

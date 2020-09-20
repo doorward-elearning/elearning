@@ -441,3 +441,15 @@ export class AddStudentsToCourseBody extends DApiBody {
     });
   }
 }
+
+export class AddCourseManagerBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  managerId: string;
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      managerId: Yup.string().required('The {{courseManager}} id is required.').nullable(),
+    });
+  }
+}

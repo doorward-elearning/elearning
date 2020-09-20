@@ -15,6 +15,7 @@ import {
 import { UserResponse } from '@doorward/common/dtos/response';
 import Privileges from '../../decorators/privileges.decorator';
 import { ApiResponse } from '@nestjs/swagger';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 @Controller('/users/profile')
 @UseGuards(JwtAuthGuard)
@@ -28,6 +29,7 @@ export default class ProfileController {
     type: UserResponse,
     description: 'The newly updated user details',
   })
+  @TransformerGroups('fullUserProfile')
   updateAccountDetails(@Body() body: UpdateAccountBody, @CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     return this.usersService.updateAccountDetails(body, currentUser);
   }

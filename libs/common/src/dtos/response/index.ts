@@ -10,6 +10,7 @@ import { Expose } from 'class-transformer';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import { UpdateModuleOrderBody } from '@doorward/common/dtos/body';
 import StudentEntity from '@doorward/common/entities/student.entity';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 
 export class CourseResponse extends DApiResponse {
   @ApiProperty()
@@ -153,4 +154,16 @@ export class StudentsResponse extends DApiResponse {
   @ApiProperty()
   @Expose()
   students: Array<UserEntity>;
+}
+
+export class CourseManagersResponse extends DApiResponse {
+  @ApiProperty()
+  @Expose()
+  courseManagers: CourseManagerEntity[];
+}
+
+export class CourseManagerResponse extends DApiResponse {
+  @ApiProperty()
+  @Expose()
+  courseManager: CourseManagerEntity;
 }
