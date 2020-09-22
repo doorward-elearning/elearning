@@ -8,6 +8,7 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import MeetingEntity from '@doorward/common/entities/meeting.entity';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
+import { ApiTags } from '@nestjs/swagger';
 
 const MeetingExists = () =>
   ModelExists({
@@ -17,6 +18,7 @@ const MeetingExists = () =>
   });
 
 @Controller('meetings')
+@ApiTags('meetings')
 @UseGuards(JwtAuthGuard)
 export class MeetingsController {
   constructor(private meetingsService: MeetingsService) {}

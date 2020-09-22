@@ -2,9 +2,10 @@ import { Controller, Get, HttpStatus } from '@nestjs/common';
 import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { JitsiBrandingResponse } from '@doorward/common/dtos/response';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('jitsi')
+@ApiTags('jitsi')
 export class JitsiController {
   /**
    *

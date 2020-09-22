@@ -6,7 +6,7 @@ import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response/module.items.responses';
 import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
@@ -19,6 +19,7 @@ const AssignmentExists = () =>
   });
 
 @Controller('assignments')
+@ApiTags('assignments')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class AssignmentsController {
   constructor(private assignmentService: AssignmentsService) {}

@@ -10,8 +10,12 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
 import Privileges from '../../decorators/privileges.decorator';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { CourseResponse, CoursesResponse, DeleteCourseResponse } from '@doorward/common/dtos/response/courses.responses';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import {
+  CourseResponse,
+  CoursesResponse,
+  DeleteCourseResponse,
+} from '@doorward/common/dtos/response/courses.responses';
 import { ModuleItemsResponse, ModuleResponse, ModulesResponse } from '@doorward/common/dtos/response/modules.responses';
 import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
@@ -24,6 +28,7 @@ export const CourseExists = () =>
   });
 
 @Controller('courses')
+@ApiTags('courses')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class CoursesController {
   constructor(

@@ -7,7 +7,7 @@ import { GroupsService } from './groups.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import Privileges from '../../decorators/privileges.decorator';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AddMemberToGroupBody, CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
 import { GroupResponse, GroupsResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 
@@ -19,6 +19,7 @@ const GroupExists = () =>
   });
 
 @Controller('groups')
+@ApiTags('groups')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class GroupsController {
   constructor(private groupService: GroupsService) {}

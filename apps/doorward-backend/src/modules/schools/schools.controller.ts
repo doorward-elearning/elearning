@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { SchoolResponse, SchoolsResponse } from '@doorward/common/dtos/response/school.responses';
 import { CreateClassroomBody, CreateSchoolBody } from '@doorward/common/dtos/body';
 import { SchoolsService } from './schools.service';
@@ -14,6 +14,7 @@ const SchoolExists = () =>
   });
 
 @Controller('schools')
+@ApiTags('schools')
 export class SchoolsController {
   constructor(private schoolService: SchoolsService) {}
 
@@ -33,6 +34,9 @@ export class SchoolsController {
     return { school, message: '{{school}} has been created. You can now create {{classroom}}s for the {{school}}' };
   }
 
+  /**
+   *
+   */
   @Get()
   @ApiResponse({
     status: HttpStatus.OK,
@@ -45,6 +49,10 @@ export class SchoolsController {
     return { schools };
   }
 
+  /**
+   *
+   * @param schoolId
+   */
   @Get(':schoolId')
   @SchoolExists()
   @ApiResponse({
@@ -58,6 +66,11 @@ export class SchoolsController {
     return { school };
   }
 
+  /**
+   *
+   * @param schoolId
+   * @param body
+   */
   @Post(':schoolId/classrooms')
   @SchoolExists()
   @ApiResponse({

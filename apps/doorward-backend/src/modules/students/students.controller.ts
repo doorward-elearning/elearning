@@ -5,7 +5,7 @@ import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';
-import { ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import { PinoLogger } from 'nestjs-pino/dist';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -30,6 +30,7 @@ const StudentExists = () =>
  *
  */
 @Controller('students')
+@ApiTags('students')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class StudentsController {
   constructor(private studentsService: StudentsService, private logger: PinoLogger) {

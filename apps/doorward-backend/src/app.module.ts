@@ -21,6 +21,8 @@ import { JitsiModule } from './modules/jitsi/jitsi.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
 import { ReportsModule } from './modules/reports/reports.module';
 import { SchoolsModule } from './modules/schools/schools.module';
+import { FilesModule } from './modules/files/files.module';
+import { SearchSuggestionsModule } from './modules/search-suggestions/search-suggestions.module';
 
 @Global()
 @Module({
@@ -63,6 +65,8 @@ import { SchoolsModule } from './modules/schools/schools.module';
     MeetingsModule,
     ReportsModule,
     SchoolsModule,
+    FilesModule,
+    SearchSuggestionsModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

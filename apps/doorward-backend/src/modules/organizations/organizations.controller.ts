@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, Post, Put, UseGuards } from '
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import Public from '@doorward/backend/decorators/public.decorator';
 import { OrganizationsService } from './organizations.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrganizationResponse, OrganizationsResponse } from '@doorward/common/dtos/response/organization.responses';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import Privileges from '../../decorators/privileges.decorator';
@@ -18,6 +18,7 @@ const OrganizationExists = () =>
   });
 
 @Controller('organizations')
+@ApiTags('organizations')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class OrganizationsController {
   constructor(private organizationService: OrganizationsService) {}

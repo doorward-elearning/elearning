@@ -9,7 +9,7 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
 import {
   DeleteModuleResponse,
@@ -27,6 +27,7 @@ export const ModuleExists = () =>
   });
 
 @Controller('modules')
+@ApiTags('modules')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ModulesController {
   constructor(private modulesService: ModulesService) {}

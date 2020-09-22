@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nest
 import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../guards/privileges.guard';
 import { ManagersService } from './managers.service';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import Privileges from '../../../decorators/privileges.decorator';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -17,6 +17,7 @@ import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers
 const UserExists = () => ModelExists({ key: 'managerId', model: UserEntity, message: '{{user}} does not exist.' });
 
 @Controller('course-managers')
+@ApiTags('course-managers')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ManagersController {
   constructor(private managerService: ManagersService) {}

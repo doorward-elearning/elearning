@@ -9,7 +9,7 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { ApiBody, ApiResponse, refs } from '@nestjs/swagger';
+import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
 import { ModuleItemResponse } from '@doorward/common/dtos/response/modules.responses';
 import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
 
@@ -21,6 +21,7 @@ const ModuleItemExists = () =>
   });
 
 @Controller('module/items')
+@ApiTags('moduleItems')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ItemsController {
   constructor(private itemsService: ItemsService) {}

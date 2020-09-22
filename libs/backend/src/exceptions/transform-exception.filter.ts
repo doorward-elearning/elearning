@@ -24,17 +24,19 @@ export class TransformExceptionFilter implements ExceptionFilter {
     this.logger.error(exception.message);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
+    const message = exception as any;
+
     const data = ResponseBuilder.create(status);
 
     if (exception instanceof ValidationException) {
-      data.errors = exception.message;
+      data.errors = message;
       data.message = 'Validation error';
     }
-    if ((exception.message as string).toLowerCase) {
+    if ((message as string).toLowerCase) {
       data.message = exception.message as string;
     } else {
-      if (exception.message.error) {
-        data.message = exception.message?.message || exception.message?.error;
+      if (message.error) {
+        data.message = message?.message || message?.error;
       }
     }
     if (exception instanceof ForbiddenException) {

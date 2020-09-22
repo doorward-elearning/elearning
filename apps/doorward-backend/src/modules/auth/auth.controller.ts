@@ -9,12 +9,13 @@ import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import { UserResponse } from '@doorward/common/dtos/response';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService, private emailService: EmailsService) {}
 

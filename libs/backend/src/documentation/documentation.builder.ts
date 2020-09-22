@@ -26,6 +26,8 @@ export default class DocumentationBuilder {
         ignoreGlobalPrefix: true,
       });
 
+      console.log(JSON.stringify(result.paths['/schools']));
+
       const documentation = this.scanPaths(result.paths);
       const directory = './libs/common/src/apis/' + fileName;
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -35,10 +37,49 @@ export default class DocumentationBuilder {
     }
   }
 
-  private scanPaths(paths: PathsObject): string {
-    const endpoints = Object.keys(paths).reduce((acc, cur) => {
+  private generatePathsByController(paths: PathsObject) {
+    const newPaths: Record<string, PathsObject> = {};
+
+    Object.keys(paths).forEach((path) => {
+      const pathItem = paths[path];
+
+      const methods = Object.keys(pathItem);
+
+      if (methods.length) {
+        const tags = pathItem[methods[0]]?.tags;
+
+        if (tags?.length) {
+          const controller = tags[0];
+
+          newPaths[controller] = {
+            ...(newPaths[controller] || {}),
+            [path]: pathItem,
+          };
+        } else {
+          throw new Error(path + ' does not have an ApiTag');
+        }
+      }
+    });
+
+    return newPaths;
+  }
+
+  private generateEndpoints(paths: PathsObject) {
+    return Object.keys(paths).reduce((acc, cur) => {
       return acc + this.scanPath(cur, paths[cur]);
     }, '');
+  }
+
+  private scanPaths(paths: PathsObject): string {
+    const pathsByController = this.generatePathsByController(paths);
+
+    const endpoints = Object.keys(pathsByController)
+      .map((controller) => {
+        const pathToScan = pathsByController[controller];
+        return `"${controller}":  {${this.generateEndpoints(pathToScan)}}`;
+      })
+      .sort()
+      .join(',');
 
     const bodies = Array.from(this.requestBody).join(',');
     const responses = Array.from(this.responseBody)
@@ -63,8 +104,7 @@ export default class DocumentationBuilder {
   }
 
   private scanPath(path: string, pathItem: PathItemObject): string {
-    let api = '';
-    ['post', 'get', 'delete', 'put', 'patch']
+    return ['post', 'get', 'delete', 'put', 'patch']
       .filter((method) => pathItem[method])
       .map((method) => {
         const operationItem = pathItem[method] as OperationObject;
@@ -90,10 +130,10 @@ export default class DocumentationBuilder {
         body.forEach((b) => this.requestBody.add(b));
         response.forEach((r) => this.responseBody.add(r));
 
-        api += `${pathTitle}: ${this.generateFunction(method, path, Params, body, response, Query)},\n`;
-      });
-
-    return api;
+        return `${pathTitle}: ${this.generateFunction(method, path, Params, body, response, Query)},\n`;
+      })
+      .sort()
+      .join('');
   }
 
   private generateFunction(
