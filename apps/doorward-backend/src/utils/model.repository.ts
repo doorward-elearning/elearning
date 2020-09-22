@@ -1,4 +1,4 @@
-import { Brackets, QueryRunner, Repository } from 'typeorm';
+import { Brackets, DeepPartial, QueryRunner, Repository } from 'typeorm';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
@@ -17,5 +17,20 @@ export default class ModelRepository<Entity extends BaseEntity | OrganizationEnt
     );
 
     return queryBuilder;
+  }
+
+  findOneByField<K extends keyof Entity>(field: K, fieldValue: Entity[K]) {
+    return this.findOne({
+      where: {
+        [field]: fieldValue,
+      },
+    });
+  }
+
+  createAndSave(): Promise<Entity>;
+  createAndSave(entityLikeArray: DeepPartial<Entity>[]): Promise<Entity[]>;
+  createAndSave(entityLike: DeepPartial<Entity>): Promise<Entity>;
+  createAndSave(entity?: any): Promise<Entity | Entity[]> {
+    return this.save(this.create(entity) as any);
   }
 }

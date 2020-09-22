@@ -19,6 +19,8 @@ import {
   CreateGroupBody,
   AddMemberToGroupBody,
   OpenviduWebHookBody,
+  CreateSchoolBody,
+  CreateClassroomBody,
   AddCourseManagerBody,
   SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
@@ -42,6 +44,8 @@ import {
   GroupResponse,
   GroupsResponse,
   JitsiBrandingResponse,
+  SchoolResponse,
+  SchoolsResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
@@ -194,6 +198,18 @@ const DoorwardBackendApi = {
   },
   processOpenviduWebHook: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
     return GET(`/meetings/openvidu/webhook`, {}, config);
+  },
+  createSchool: (body: CreateSchoolBody, config ? : AxiosRequestConfig): Promise < SchoolResponse > => {
+    return POST(`/schools`, body, {}, config);
+  },
+  getAllSchools: (config ? : AxiosRequestConfig): Promise < SchoolsResponse > => {
+    return GET(`/schools`, {}, config);
+  },
+  getSchool: (schoolId: string, config ? : AxiosRequestConfig): Promise < SchoolResponse > => {
+    return GET(`/schools/${schoolId}`, {}, config);
+  },
+  addClassroomToSchool: (schoolId: string, body: CreateClassroomBody, config ? : AxiosRequestConfig): Promise < SchoolResponse > => {
+    return POST(`/schools/${schoolId}/classrooms`, body, {}, config);
   },
   createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < CourseManagerResponse > => {
     return POST(`/course-managers/${courseId}`, body, {}, config);

@@ -21,7 +21,9 @@
     "superAdministrator": "Super Administrator",
     "moduleItem": "Module item",
     "courseManager": "Course manager",
-    "organization": "Organization"
+    "organization": "Organization",
+    "school": "School",
+    "classroom": "Classroom"
   },
   "admins": [
     {

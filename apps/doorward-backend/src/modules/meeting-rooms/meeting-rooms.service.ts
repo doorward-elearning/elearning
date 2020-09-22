@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import MeetingRoomRepository from '@repositories/meeting.room.repository';
 import MeetingRoomMemberRepository from '@repositories/meeting.room.member.repository';
+import { MeetingRoomTypes } from '@doorward/common/types/meeting';
+import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 
 @Injectable()
 export class MeetingRoomsService {
@@ -48,5 +50,19 @@ export class MeetingRoomsService {
       meetingRoom: { id: meetingRoomId },
       participant: { id: userId },
     });
+  }
+
+  /**
+   *
+   * @param title
+   * @param type
+   */
+  async createMeetingRoom(title: string, type = MeetingRoomTypes.PUBLIC): Promise<MeetingRoomEntity> {
+    return this.meetingRoomRepository.save(
+      this.meetingRoomRepository.create({
+        title,
+        type,
+      })
+    );
   }
 }

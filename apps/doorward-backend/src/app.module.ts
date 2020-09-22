@@ -19,6 +19,8 @@ import { GroupsModule } from './modules/groups/groups.module';
 import { HealthCheckController } from './modules/health-check/health-check.controller';
 import { JitsiModule } from './modules/jitsi/jitsi.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
+import { ReportsModule } from './modules/reports/reports.module';
+import { SchoolsModule } from './modules/schools/schools.module';
 
 @Global()
 @Module({
@@ -59,6 +61,8 @@ import { MeetingsModule } from './modules/meetings/meetings.module';
     GroupsModule,
     JitsiModule,
     MeetingsModule,
+    ReportsModule,
+    SchoolsModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

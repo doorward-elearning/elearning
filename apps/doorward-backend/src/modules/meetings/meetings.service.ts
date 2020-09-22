@@ -11,11 +11,17 @@ import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { MeetingPlatform, MeetingStatus } from '@doorward/common/types/meeting';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
+import Tools from '@doorward/common/utils/Tools';
 
 @Injectable()
 export class MeetingsService {
   constructor(private meetingsRepository: MeetingsRepository, private meetingRoomsService: MeetingRoomsService) {}
 
+  /**
+   *
+   * @param meetingId
+   * @param currentUser
+   */
   public async joinMeeting(meetingId: string, currentUser?: UserEntity): Promise<MeetingResponse> {
     const meeting = await this.meetingsRepository.findOne(meetingId, { relations: ['meetingRoom'] });
 
@@ -36,6 +42,12 @@ export class MeetingsService {
     }
   }
 
+  /**
+   *
+   * @param meeting
+   * @param role
+   * @param user
+   */
   public async joinOpenviduMeeting(meeting: MeetingEntity, role: OPENVIDU_ROLES, user?: UserEntity) {
     const capabilities = new Capabilities(MeetingCapabilities, defaultMeetingCapabilities);
 
@@ -67,6 +79,12 @@ export class MeetingsService {
     };
   }
 
+  /**
+   *
+   * @param meeting
+   * @param role
+   * @param user
+   */
   public async joinJitsiMeeting(meeting: MeetingEntity, role: OPENVIDU_ROLES, user?: UserEntity) {
     return {
       user,
@@ -74,6 +92,10 @@ export class MeetingsService {
     };
   }
 
+  /**
+   *
+   * @param body
+   */
   public async processOpenviduWebHook(body: OpenviduWebHookBody) {
     const meeting = await this.meetingsRepository.findOne({
       where: {
@@ -90,5 +112,21 @@ export class MeetingsService {
           break;
       }
     }
+  }
+
+  /**
+   *
+   * @param meetingRoomId
+   * @param status
+   */
+  public async createMeeting(meetingRoomId: string, status = MeetingStatus.PENDING): Promise<MeetingEntity> {
+    return this.meetingsRepository.save(
+      this.meetingsRepository.create({
+        meetingRoom: { id: meetingRoomId },
+        sessionId: Tools.randomString(10),
+        host: null,
+        status,
+      })
+    );
   }
 }

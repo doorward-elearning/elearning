@@ -8,3 +8,4 @@ export * from './students.body';
 export * from './users.body';
 export * from './openvidu.body';
 export * from './organization.body';
+export * from './schools.body';
