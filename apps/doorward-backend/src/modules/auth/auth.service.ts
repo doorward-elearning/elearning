@@ -57,7 +57,7 @@ export class AuthService {
       id: user.id,
       email: user.email,
       createdAt: user.createdAt,
-      role: user.role,
+      role: user.role.id,
     };
 
     await user.updatePrivileges();

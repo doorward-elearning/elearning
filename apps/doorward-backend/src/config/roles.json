@@ -17,7 +17,9 @@
     "assignments": ["submit"],
     "course-students": ["view", "create", "un-enroll"],
     "course-managers": ["view", "create"],
-    "groups": ["create", "view", "update", "delete", "add-member"]
+    "groups": ["create", "view", "update", "delete", "add-member"],
+    "meetings": ["moderate"],
+    "organizations": ["create", "view", "update"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -32,7 +34,8 @@
         "profile.*",
         "course-students.*",
         "course-managers.*",
-        "groups.*"
+        "groups.*",
+        "meetings.moderate"
       ],
       "exclude": ["courses.view-all"]
     },

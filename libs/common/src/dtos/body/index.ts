@@ -6,3 +6,5 @@ export * from './modules.body';
 export * from './module.items.body';
 export * from './students.body';
 export * from './users.body';
+export * from './openvidu.body';
+export * from './organization.body';

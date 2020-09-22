@@ -16,6 +16,9 @@ import { ORGANIZATION } from './bootstrap/organizationSetup';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
 import { LoggerModule } from 'nestjs-pino/dist';
 import { GroupsModule } from './modules/groups/groups.module';
+import { HealthCheckController } from './modules/health-check/health-check.controller';
+import { JitsiModule } from './modules/jitsi/jitsi.module';
+import { MeetingsModule } from './modules/meetings/meetings.module';
 
 @Global()
 @Module({
@@ -54,8 +57,10 @@ import { GroupsModule } from './modules/groups/groups.module';
     StudentsModule,
     MeetingRoomsModule,
     GroupsModule,
+    JitsiModule,
+    MeetingsModule,
   ],
-  controllers: [],
+  controllers: [HealthCheckController],
   providers: [],
 })
 export class AppModule {

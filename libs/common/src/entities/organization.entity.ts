@@ -11,6 +11,8 @@ import UserEntity from './user.entity';
 import Tools from '@doorward/common/utils/Tools';
 import RoleEntity from './role.entity';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
+import { CustomerTypes } from '@doorward/common/types/customerTypes';
+import { MeetingPlatform } from '@doorward/common/types/meeting';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -34,6 +36,12 @@ export default class OrganizationEntity {
 
   @Column({ nullable: true })
   darkThemeIcon: string;
+
+  @Column({ enum: MeetingPlatform, type: 'enum', default: MeetingPlatform.OPENVIDU })
+  meetingPlatform: MeetingPlatform;
+
+  @Column({ enum: CustomerTypes, type: 'enum', default: CustomerTypes.COLLEGE_INDIA })
+  customerType: CustomerTypes;
 
   @Column({ nullable: true })
   icon: string;

@@ -5,6 +5,6 @@ export enum CustomerTypes {
   COLLEGE_INTERNATIONAL = 'college-international',
   INSTITUTE_INDIA = 'institute-india',
   INSTITUTE_INTERNATIONAL = 'institute-international',
-  CORPORATE_INDIA = 'corporate_india',
+  CORPORATE_INDIA = 'corporate-india',
   CORPORATE_INTERNATIONAL = 'corporate-international',
 }

@@ -14,7 +14,7 @@ export class MeetingRoomsService {
    * @param meetingRoomId
    * @param userId
    */
-  async alreadyExistsInMeetingRoom(meetingRoomId: string, userId: string) {
+  async existsInMeetingRoom(meetingRoomId: string, userId: string) {
     return await this.meetingRoomMemberRepository.find({
       where: {
         meetingRoom: { id: meetingRoomId },
@@ -33,7 +33,7 @@ export class MeetingRoomsService {
       meetingRoom: { id: meetingRoomId },
       participant: { id: userId },
     };
-    if (!(await this.alreadyExistsInMeetingRoom(meetingRoomId, userId))) {
+    if (!(await this.existsInMeetingRoom(meetingRoomId, userId))) {
       await this.meetingRoomMemberRepository.save(this.meetingRoomMemberRepository.create(defaults));
     }
   }

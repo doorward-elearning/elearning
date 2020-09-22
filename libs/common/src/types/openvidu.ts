@@ -180,3 +180,7 @@ export interface MeetingAnswer {
   answer: string;
   author: string;
 }
+
+export enum OpenviduWebHookEvents {
+  SESSION_DESTROYED = 'sessionDestroyed',
+}

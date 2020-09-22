@@ -20,7 +20,7 @@ export class TransformExceptionFilter implements ExceptionFilter {
     logger.setContext('ExceptionFilter');
   }
   performTransform(exception: HttpException): DApiResponse {
-    console.error(exception);
+    console.error({ ...exception });
     this.logger.error(exception.message);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 

@@ -12,10 +12,13 @@ import {
   CreateModuleItemBody,
   CreateQuizBody,
   UpdateModulesBody,
+  CreateOrganizationBody,
+  UpdateOrganizationBody,
   CreateUserBody,
   AddStudentsToCourseBody,
   CreateGroupBody,
   AddMemberToGroupBody,
+  OpenviduWebHookBody,
   AddCourseManagerBody,
   SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
@@ -33,10 +36,12 @@ import {
   ModuleItemResponse,
   UpdateModulesOrderResponse,
   OrganizationResponse,
+  OrganizationsResponse,
   StudentResponse,
   StudentsResponse,
   GroupResponse,
   GroupsResponse,
+  JitsiBrandingResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
@@ -54,6 +59,9 @@ const {
 } = ApiRequest;
 
 const DoorwardBackendApi = {
+  healthCheck: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return GET(`/health-check`, {}, config);
+  },
   login: (body: LoginBody, config ? : AxiosRequestConfig): Promise < LoginResponse > => {
     return POST(`/auth/login`, body, {}, config);
   },
@@ -124,8 +132,20 @@ const DoorwardBackendApi = {
   updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
     return PUT(`/module/items/${itemId}`, body, {}, config);
   },
-  getOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
+  getCurrentOrganization: (config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
     return GET(`/organizations/current`, {}, config);
+  },
+  createOrganization: (body: CreateOrganizationBody, config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
+    return POST(`/organizations`, body, {}, config);
+  },
+  getAllOrganizations: (config ? : AxiosRequestConfig): Promise < OrganizationsResponse > => {
+    return GET(`/organizations`, {}, config);
+  },
+  getOrganization: (organizationId: string, config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
+    return GET(`/organizations/${organizationId}`, {}, config);
+  },
+  updateOrganization: (organizationId: string, body: UpdateOrganizationBody, config ? : AxiosRequestConfig): Promise < OrganizationResponse > => {
+    return PUT(`/organizations/${organizationId}`, body, {}, config);
   },
   createStudentInCourse: (courseId: string, body: CreateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
     return POST(`/students/course/${courseId}`, body, {}, config);
@@ -165,6 +185,15 @@ const DoorwardBackendApi = {
   },
   updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
     return PUT(`/groups/${groupId}`, body, {}, config);
+  },
+  getJitsiBranding: (config ? : AxiosRequestConfig): Promise < JitsiBrandingResponse > => {
+    return GET(`/jitsi/branding`, {}, config);
+  },
+  joinMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return GET(`/meetings/${meetingId}/join`, {}, config);
+  },
+  processOpenviduWebHook: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    return GET(`/meetings/openvidu/webhook`, {}, config);
   },
   createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < CourseManagerResponse > => {
     return POST(`/course-managers/${courseId}`, body, {}, config);

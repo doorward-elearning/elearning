@@ -7,3 +7,4 @@ export * from './auth.responses';
 export * from './module.items.responses';
 export * from './course.managers.responses';
 export * from './users.responses';
+export * from './jitsi.response';

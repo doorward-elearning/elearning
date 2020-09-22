@@ -8,6 +8,8 @@ import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
+import { CustomerTypes } from '@doorward/common/types/customerTypes';
+import { MeetingPlatform } from '@doorward/common/types/meeting';
 
 const chalk = require('chalk');
 
@@ -23,6 +25,8 @@ export interface OrganizationConfig {
     light: string;
   };
   description: string;
+  customerType: CustomerTypes;
+  meetingPlatform: MeetingPlatform;
   models: Record<OrganizationModels, string>;
   admins: Array<{
     id: string;
@@ -58,7 +62,18 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
     const entityManager = queryRunner.manager;
 
     const organizationConfig = parseOrganization();
-    const { id, link, name, icons, description, admins, models, descriptiveLogo } = organizationConfig;
+    const {
+      id,
+      link,
+      name,
+      icons,
+      description,
+      admins,
+      models,
+      descriptiveLogo,
+      customerType,
+      meetingPlatform,
+    } = organizationConfig;
     if (!organizationConfig.id) {
       console.error('Organization id is required in the "organization.json" config file');
       process.exit(1);
@@ -71,6 +86,8 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
       icon: icons?.light || '',
       darkThemeIcon: icons?.dark || '',
       description,
+      customerType,
+      meetingPlatform,
     });
     organization = await entityManager.save(OrganizationEntity, organization);
 

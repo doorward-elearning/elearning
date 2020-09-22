@@ -32,6 +32,9 @@ export default class UserEntity extends BaseOrganizationEntity {
   email: string;
 
   @Column({ nullable: true })
+  profilePicture: string;
+
+  @Column({ nullable: true })
   @Expose({ groups: ['fullUserProfile'] })
   zipCode: string;
 
