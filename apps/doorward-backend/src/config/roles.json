@@ -19,7 +19,8 @@
     "course-managers": ["view", "create"],
     "groups": ["create", "view", "update", "delete", "add-member"],
     "meetings": ["moderate"],
-    "organizations": ["create", "view", "update"]
+    "organizations": ["create", "view", "update"],
+    "students": ["create", "update", "view", "list"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -35,19 +36,13 @@
         "course-students.*",
         "course-managers.*",
         "groups.*",
-        "meetings.moderate"
+        "meetings.moderate",
+        "students.*"
       ],
       "exclude": ["courses.view-all"]
     },
     "STUDENT": {
-      "privileges": [
-        "modules.read",
-        "moduleItems.read",
-        "courses.read",
-        "profile.*",
-        "course-managers.view",
-        "groups.*"
-      ],
+      "privileges": ["modules.read", "moduleItems.read", "courses.read", "profile.*", "course-managers.view", "groups.*"],
       "exclude": []
     }
   }

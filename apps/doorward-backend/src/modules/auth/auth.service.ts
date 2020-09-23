@@ -4,11 +4,13 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
-import { RegisterBody } from '@doorward/common/dtos/body/auth.body';
+import { ForceChangePasswordBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
+import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import PasswordChangeEmail from '../../emails/password-change.email';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(private usersService: UsersService, private jwtService: JwtService, private emailService: EmailsService) {}
 
   /**
    * Retrieve the current user details
@@ -69,5 +71,17 @@ export class AuthService {
       user,
       message: 'Login successful',
     };
+  }
+
+  sendPasswordChangedEmail(user: UserEntity, body: ForceChangePasswordBody) {
+    this.emailService
+      .send(
+        new PasswordChangeEmail({
+          subject: 'Password changed',
+          recipient: user,
+          data: body,
+        })
+      )
+      .then();
   }
 }

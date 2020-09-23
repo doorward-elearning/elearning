@@ -91,3 +91,15 @@ export class UpdatePasswordBody extends DApiBody {
     });
   }
 }
+
+export class ForceChangePasswordBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  password: string;
+
+  async validation(): Promise<ObjectSchema> {
+    return Yup.object({
+      password: Yup.string().required('The password is required').nullable(),
+    });
+  }
+}

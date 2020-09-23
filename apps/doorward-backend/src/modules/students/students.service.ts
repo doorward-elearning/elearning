@@ -10,7 +10,10 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import CoursesRepository from '@repositories/courses.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import { StudentsRepository } from '@repositories/students.repository';
-import { AddStudentsToCourseBody, CreateUserBody } from '@doorward/common/dtos/body';
+import { AddStudentsToCourseBody, CreateUserBody, ForceChangePasswordBody, UpdateUserBody } from '@doorward/common/dtos/body';
+import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
+import PasswordChangeEmail from '../../emails/password-change.email';
+import { AuthService } from '../auth/auth.service';
 
 /**
  *
@@ -23,7 +26,8 @@ export class StudentsService {
     private emailService: EmailsService,
     private studentCourseRepository: StudentCoursesRepository,
     private meetingRoomsService: MeetingRoomsService,
-    private coursesRepository: CoursesRepository
+    private coursesRepository: CoursesRepository,
+    private authService: AuthService
   ) {}
 
   /**
@@ -57,16 +61,18 @@ export class StudentsService {
    * @param courseId
    * @param origin
    */
-  public async createStudentInCourse(body: CreateUserBody, courseId: string, origin: string) {
+  public async createStudentInCourse(body: CreateUserBody, origin: string, courseId?: string) {
     const student = await this.createStudent(body, origin);
 
-    await this.studentCourseRepository.addStudentToCourse(courseId, student.id);
+    if (courseId) {
+      await this.studentCourseRepository.addStudentToCourse(courseId, student.id);
 
-    const course = await this.coursesRepository.findOne(courseId, {
-      relations: ['meetingRoom'],
-    });
+      const course = await this.coursesRepository.findOne(courseId, {
+        relations: ['meetingRoom'],
+      });
 
-    await this.addStudentToCourseMeetingRoom(course, student.id);
+      await this.addStudentToCourseMeetingRoom(course, student.id);
+    }
 
     return student;
   }
@@ -132,6 +138,11 @@ export class StudentsService {
     return user;
   }
 
+  /**
+   *
+   * @param studentId
+   * @param courseId
+   */
   public async unEnrollStudentFromCourse(studentId: string, courseId: string) {
     const course = await this.coursesRepository.findOne(courseId, { relations: ['meetingRoom'] });
     await this.studentCourseRepository.softDelete({
@@ -144,5 +155,40 @@ export class StudentsService {
     }
 
     return await this.getStudentById(studentId);
+  }
+
+  /**
+   *
+   * @param studentId
+   * @param body
+   */
+  public async updateStudent(studentId: string, body: UpdateUserBody) {
+    await this.studentsRepository.update(studentId, {
+      ...body,
+    });
+
+    return this.getStudentById(studentId);
+  }
+
+  /**
+   *
+   */
+  public async getAllStudents() {
+    return this.studentsRepository.find();
+  }
+
+  /**
+   *
+   * @param studentId
+   * @param body
+   */
+  public async changePassword(studentId: string, body: ForceChangePasswordBody) {
+    await this.studentsRepository.update(studentId, {
+      password: PasswordUtils.hashPassword(body.password),
+    });
+
+    const student = await this.getStudentById(studentId);
+
+    this.authService.sendPasswordChangedEmail(student, body);
   }
 }

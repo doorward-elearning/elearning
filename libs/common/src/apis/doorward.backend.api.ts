@@ -16,6 +16,8 @@ import {
   UpdateOrganizationBody,
   CreateUserBody,
   AddStudentsToCourseBody,
+  UpdateUserBody,
+  ForceChangePasswordBody,
   CreateGroupBody,
   AddMemberToGroupBody,
   OpenviduWebHookBody,
@@ -255,6 +257,21 @@ const DoorwardBackendApi = {
     },
     unEnrollStudentFromCourse: (courseId: string, studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
       return DELETE(`/students/course/${courseId}/un-enroll/${studentId}`, {}, config);
+    },
+    createStudent: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+      return POST(`/students`, body, {}, config);
+    },
+    getAllStudents: (config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
+      return GET(`/students`, {}, config);
+    },
+    getStudent: (studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+      return GET(`/students/${studentId}`, {}, config);
+    },
+    updateStudent: (studentId: string, body: UpdateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
+      return PUT(`/students/${studentId}`, body, {}, config);
+    },
+    updateStudentPassword: (studentId: string, body: ForceChangePasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+      return POST(`/students/${studentId}/changePassword`, body, {}, config);
     },
   },
   "userProfile": {
