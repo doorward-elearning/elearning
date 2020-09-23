@@ -12,11 +12,7 @@ export class JitsiController {
    * @param origin
    */
   @Get('branding')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The jitsi branding information',
-    type: JitsiBrandingResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The jitsi branding information', type: JitsiBrandingResponse })
   public async getJitsiBranding(@Origin() origin: string): Promise<JitsiBrandingResponse> {
     return {
       logoClickUrl: ORGANIZATION.link,

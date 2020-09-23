@@ -26,11 +26,7 @@ export class FilesController {
 
   @Post()
   @Public()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The file that was created',
-    type: FileResponse,
-  })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'The file that was created', type: FileResponse })
   async createFile(@Body() body: CreateFileBody, @CurrentUser() user: UserEntity): Promise<FileResponse> {
     const file = await this.filesService.createFile(body, user);
 
@@ -42,11 +38,7 @@ export class FilesController {
   @Get(':fileId')
   @Public()
   @FileExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The file with the specified id',
-    type: FileResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The file with the specified id', type: FileResponse })
   async getFile(@Param('fileId') fileId: string, @CurrentUser() user: UserEntity) {
     const file = await this.filesService.getFile(fileId, user);
 
@@ -57,11 +49,7 @@ export class FilesController {
 
   @Get()
   @Public()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The list of files in the system',
-    type: FilesResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The list of files in the system', type: FilesResponse })
   async getFiles(@CurrentUser() user: UserEntity) {
     const files = await this.filesService.getAllFiles(user);
 

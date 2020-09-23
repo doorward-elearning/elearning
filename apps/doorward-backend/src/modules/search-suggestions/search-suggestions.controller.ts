@@ -13,14 +13,8 @@ export class SearchSuggestionsController {
 
   @Get(':type')
   @ApiResponse({})
-  @ApiParam({
-    name: 'type',
-    enum: SearchSuggestionTypes,
-  })
-  @ApiQuery({
-    name: 'groupType',
-    required: false,
-  })
+  @ApiParam({ name: 'type', enum: SearchSuggestionTypes })
+  @ApiQuery({ name: 'groupType', required: false })
   async getSuggestions(@Param('type') type: SearchSuggestionTypes, @Query('groupType') groupType?: string) {
     let suggestions;
     switch (type) {

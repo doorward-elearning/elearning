@@ -23,22 +23,14 @@ export class AuthController {
   @Post('login')
   @TransformerGroups('privileges', 'fullUserProfile')
   @ApiOperation({ operationId: 'login', summary: 'Allow users to login with their username and password.' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The logged in user',
-    type: LoginResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The logged in user', type: LoginResponse })
   async login(@Request() req, @Body() loginBody: LoginBody): Promise<LoginResponse> {
     return this.authService.login(req.user);
   }
 
   @Post('register')
   @TransformerGroups('privileges', 'fullUserProfile')
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The user that was created',
-    type: LoginResponse,
-  })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'The user that was created', type: LoginResponse })
   async register(@Body() registerBody: RegisterBody, @Request() req, @Origin() origin: string): Promise<LoginResponse> {
     const response = await this.authService.register(registerBody);
     const { user } = response;
@@ -46,9 +38,7 @@ export class AuthController {
     this.emailService.send(
       new SelfRegistrationEmail({
         subject: 'Confirm registration',
-        data: {
-          link: origin + FrontendLinks.login,
-        },
+        data: { link: origin + FrontendLinks.login },
         recipient: user,
       })
     );
@@ -59,11 +49,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get()
   @TransformerGroups('privileges', 'fullUserProfile')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The currently logged in user',
-    type: UserResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The currently logged in user', type: UserResponse })
   async getCurrentUser(@CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     const user = await this.authService.getCurrentUser(currentUser.id);
     return { user };

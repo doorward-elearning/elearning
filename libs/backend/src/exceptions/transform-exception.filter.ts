@@ -1,12 +1,4 @@
-import {
-  ArgumentsHost,
-  Catch,
-  ExceptionFilter,
-  ForbiddenException,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -24,19 +16,19 @@ export class TransformExceptionFilter implements ExceptionFilter {
     this.logger.error(exception.message);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
-    const message = exception as any;
+    const response = exception.getResponse() as any;
 
     const data = ResponseBuilder.create(status);
 
     if (exception instanceof ValidationException) {
-      data.errors = message;
+      data.errors = response;
       data.message = 'Validation error';
     }
-    if ((message as string).toLowerCase) {
+    if ((response as string).toLowerCase) {
       data.message = exception.message as string;
     } else {
-      if (message.error) {
-        data.message = message?.message || message?.error;
+      if (response.error) {
+        data.message = response?.message || response?.error;
       }
     }
     if (exception instanceof ForbiddenException) {

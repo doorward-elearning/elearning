@@ -26,10 +26,7 @@ export class MeetingsController {
   @Get(':meetingId/join')
   @Public()
   @MeetingExists()
-  async joinMeeting(
-    @Param('meetingId') meetingId: string,
-    @CurrentUser() currentUser: UserEntity
-  ): Promise<MeetingResponse> {
+  async joinMeeting(@Param('meetingId') meetingId: string, @CurrentUser() currentUser: UserEntity): Promise<MeetingResponse> {
     return await this.meetingsService.joinMeeting(meetingId, currentUser);
   }
 

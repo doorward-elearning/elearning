@@ -19,12 +19,7 @@ import {
 } from '@doorward/common/dtos/response/modules.responses';
 import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
 
-export const ModuleExists = () =>
-  ModelExists({
-    key: 'moduleId',
-    model: ModuleEntity,
-    message: '{{module}} does not exist.',
-  });
+export const ModuleExists = () => ModelExists({ key: 'moduleId', model: ModuleEntity, message: '{{module}} does not exist.' });
 
 @Controller('modules')
 @ApiTags('modules')
@@ -39,11 +34,7 @@ export class ModulesController {
   @Get(':moduleId')
   @Privileges('modules.read')
   @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: ModuleResponse,
-    description: 'The module that was retrieved.',
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: ModuleResponse, description: 'The module that was retrieved.' })
   async getModule(@Param('moduleId') moduleId: string): Promise<ModuleResponse> {
     const module = await this.modulesService.getModule(moduleId);
 
@@ -61,14 +52,8 @@ export class ModulesController {
   @Post(':moduleId/items')
   @Privileges('moduleItems.create')
   @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    type: ModuleItemResponse,
-    description: 'The module item that was created.',
-  })
-  @ApiBody({
-    schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) },
-  })
+  @ApiResponse({ status: HttpStatus.CREATED, type: ModuleItemResponse, description: 'The module item that was created.' })
+  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) } })
   async createModuleItem(
     @Param('moduleId') moduleId: string,
     @Body() body: CreateModuleItemBody | CreateQuizBody,
@@ -94,11 +79,7 @@ export class ModulesController {
   @Put(':moduleId')
   @Privileges('modules.update')
   @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: ModuleResponse,
-    description: 'The module that was updated.',
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: ModuleResponse, description: 'The module that was updated.' })
   async updateModule(@Body() body: UpdateModuleBody, @Param('moduleId') moduleId: string): Promise<ModuleResponse> {
     const module = await this.modulesService.updateModule(moduleId, body);
 
@@ -112,11 +93,7 @@ export class ModulesController {
   @Delete(':moduleId')
   @Privileges('modules.delete')
   @ModuleExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: DeleteModuleResponse,
-    description: 'The id of the module that was deleted.',
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: DeleteModuleResponse, description: 'The id of the module that was deleted.' })
   async deleteModule(@Param('moduleId') moduleId: string): Promise<DeleteModuleResponse> {
     await this.modulesService.deleteModule(moduleId);
 
@@ -133,11 +110,7 @@ export class ModulesController {
   @Put()
   @CourseExists()
   @Privileges('modules.update')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The modules that were updated and their orders',
-    type: UpdateModulesOrderResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The modules that were updated and their orders', type: UpdateModulesOrderResponse })
   async updateCourseModules(@Body() body: UpdateModulesBody): Promise<UpdateModulesOrderResponse> {
     const modules = await this.modulesService.updateModuleOrders(body);
 

@@ -33,11 +33,7 @@ export class ItemsController {
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'A single module item',
-    type: ModuleItemResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
   async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
 
@@ -55,14 +51,8 @@ export class ItemsController {
   @Put(':itemId')
   @Privileges('moduleItems.update')
   @ModuleItemExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: ModuleItemResponse,
-    description: 'The module item that was updated.',
-  })
-  @ApiBody({
-    schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) },
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: ModuleItemResponse, description: 'The module item that was updated.' })
+  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) } })
   async updateModuleItem(
     @Param('itemId') itemId: string,
     @Body() body: CreateModuleItemBody | CreateQuizBody,

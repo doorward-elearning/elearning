@@ -11,12 +11,7 @@ import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AddMemberToGroupBody, CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
 import { GroupResponse, GroupsResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 
-const GroupExists = () =>
-  ModelExists({
-    key: 'groupId',
-    model: GroupEntity,
-    message: 'Group does not exist.',
-  });
+const GroupExists = () => ModelExists({ key: 'groupId', model: GroupEntity, message: 'Group does not exist.' });
 
 @Controller('groups')
 @ApiTags('groups')
@@ -31,11 +26,7 @@ export class GroupsController {
    */
   @Get()
   @Privileges('groups.view')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The list of groups',
-    type: GroupsResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The list of groups', type: GroupsResponse })
   @ApiQuery({ name: 'type', required: false })
   @ApiQuery({ name: 'search', required: false })
   async getGroups(@Query('type') type: string, @Query('search') search: string): Promise<GroupsResponse> {
@@ -51,11 +42,7 @@ export class GroupsController {
    */
   @Post()
   @Privileges('groups.create')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The group that was created',
-    type: GroupResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The group that was created', type: GroupResponse })
   async createGroup(@Body() body: CreateGroupBody, @CurrentUser() currentUser: UserEntity): Promise<GroupResponse> {
     const group = await this.groupService.createGroup(body, currentUser);
 
@@ -71,11 +58,7 @@ export class GroupsController {
   @Post(':groupId')
   @Privileges('groups.add-member')
   @GroupExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The group that was modified',
-    type: GroupResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The group that was modified', type: GroupResponse })
   async addMemberToGroup(
     @Param('groupId') groupId: string,
     @Body() body: AddMemberToGroupBody,
@@ -94,11 +77,7 @@ export class GroupsController {
   @Get(':groupId')
   @Privileges('groups.view')
   @GroupExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The group that was retrieved',
-    type: GroupResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The group that was retrieved', type: GroupResponse })
   async getGroup(@Param('groupId') groupId: string): Promise<GroupResponse> {
     const group = await this.groupService.getGroup(groupId);
 
@@ -116,11 +95,7 @@ export class GroupsController {
   @Put(':groupId')
   @Privileges('groups.update')
   @GroupExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The group that was modified',
-    type: GroupResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The group that was modified', type: GroupResponse })
   async updateGroup(
     @Param('groupId') groupId: string,
     @Body() body: CreateGroupBody,

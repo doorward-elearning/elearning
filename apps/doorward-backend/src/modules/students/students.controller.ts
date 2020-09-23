@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards, UsePipes } from '@nestjs/common';
 import ModelExists, { ModelsExist } from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
@@ -11,22 +11,11 @@ import { PinoLogger } from 'nestjs-pino/dist';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response/students.responses';
 import { AddStudentsToCourseBody, CreateUserBody, ForceChangePasswordBody, UpdateUserBody } from '@doorward/common/dtos/body';
-import { CreateStudentBody } from '../../../../doorward-frontend/src/services/models/requestBody';
-import DApiResponse from '@doorward/common/dtos/response/base.response';
+import ExcludeNullValidationPipe from '@doorward/backend/pipes/exclude.null.validation.pipe';
 
-const CourseExists = () =>
-  ModelExists({
-    key: 'courseId',
-    model: CourseEntity,
-    message: '{{course}} does not exist.',
-  });
+const CourseExists = () => ModelExists({ key: 'courseId', model: CourseEntity, message: '{{course}} does not exist.' });
 
-const StudentExists = () =>
-  ModelExists({
-    key: 'studentId',
-    model: UserEntity,
-    message: '{{student}} does not exist.',
-  });
+const StudentExists = () => ModelExists({ key: 'studentId', model: UserEntity, message: '{{student}} does not exist.' });
 
 /**
  *
@@ -46,11 +35,7 @@ export class StudentsController {
   @Get('course/:courseId')
   @Privileges('course-students.view')
   @CourseExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: StudentsResponse,
-    description: 'The students in the specified course.',
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: StudentsResponse, description: 'The students in the specified course.' })
   async getStudentsInCourse(@Param('courseId') courseId: string): Promise<StudentsResponse> {
     const students = await this.studentsService.getStudentsInCourse(courseId);
 
@@ -81,10 +66,7 @@ export class StudentsController {
   @Get('course/:courseId/not-registered')
   @Privileges('course-students.view')
   @ApiResponse({ status: HttpStatus.OK, type: StudentsResponse, description: 'The students that are not registered to this course' })
-  @ApiQuery({
-    name: 'search',
-    required: false,
-  })
+  @ApiQuery({ name: 'search', required: false })
   async getStudentsNotRegisteredToCourse(@Param('courseId') courseId: string, @Query('search') search: string) {
     const students = await this.studentsService.getStudentNotRegisteredInCourse(courseId, search);
 
@@ -131,7 +113,7 @@ export class StudentsController {
   async createStudent(@Body() body: CreateUserBody, @Origin() origin: string): Promise<StudentResponse> {
     const student = await this.studentsService.createStudentInCourse(body, origin);
 
-    return { student, message: '{{student}} has been added to the course.' };
+    return { student, message: '{{student}} has been created.' };
   }
 
   /**
@@ -143,6 +125,7 @@ export class StudentsController {
   @Privileges('students.update')
   @StudentExists()
   @ApiResponse({ status: HttpStatus.OK, type: StudentResponse, description: 'The student that was updated' })
+  @UsePipes(ExcludeNullValidationPipe)
   async updateStudent(@Param('studentId') studentId: string, @Body() body: UpdateUserBody): Promise<StudentResponse> {
     const student = await this.studentsService.updateStudent(studentId, body);
 

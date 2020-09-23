@@ -11,12 +11,7 @@ import { AssignmentsService } from './assignments.service';
 import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response/module.items.responses';
 import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 
-const AssignmentExists = () =>
-  ModelExists({
-    key: 'assignmentId',
-    model: ModuleItemEntity,
-    message: 'This assignment does not exist.',
-  });
+const AssignmentExists = () => ModelExists({ key: 'assignmentId', model: ModuleItemEntity, message: 'This assignment does not exist.' });
 
 @Controller('assignments')
 @ApiTags('assignments')
@@ -27,10 +22,7 @@ export class AssignmentsController {
   @Post(':assignmentId/submit')
   @Privileges('assignments.submit')
   @AssignmentExists()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    type: AssignmentSubmissionResponse,
-  })
+  @ApiResponse({ status: HttpStatus.CREATED, type: AssignmentSubmissionResponse })
   async submitAssignment(
     @Param('assignmentId') assignmentId: string,
     @Body() body: SubmitAssignmentBody,

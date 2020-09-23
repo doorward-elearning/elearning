@@ -10,12 +10,7 @@ import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
-const OrganizationExists = () =>
-  ModelExists({
-    key: 'organizationId',
-    model: OrganizationEntity,
-    message: '{{organization}} does not exist.',
-  });
+const OrganizationExists = () => ModelExists({ key: 'organizationId', model: OrganizationEntity, message: '{{organization}} does not exist.' });
 
 @Controller('organizations')
 @ApiTags('organizations')
@@ -28,11 +23,7 @@ export class OrganizationsController {
    */
   @Get('current')
   @Public()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The current organization running this service',
-    type: OrganizationResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The current organization running this service', type: OrganizationResponse })
   async getCurrentOrganization(): Promise<OrganizationResponse> {
     return {
       organization: await this.organizationService.get(),
@@ -45,11 +36,7 @@ export class OrganizationsController {
    */
   @Post()
   @Privileges('organizations.create')
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'The organization that was created.',
-    type: OrganizationResponse,
-  })
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'The organization that was created.', type: OrganizationResponse })
   async createOrganization(@Body() body: CreateOrganizationBody): Promise<OrganizationResponse> {
     const organization = await this.organizationService.createOrganization(body);
 
@@ -61,11 +48,7 @@ export class OrganizationsController {
    */
   @Get()
   @Privileges('organizations.view')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The list of organizations',
-    type: OrganizationsResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The list of organizations', type: OrganizationsResponse })
   async getAllOrganizations(): Promise<OrganizationsResponse> {
     const organizations = await this.organizationService.getAll();
 
@@ -80,15 +63,8 @@ export class OrganizationsController {
   @Put(':organizationId')
   @Privileges('organizations.update')
   @OrganizationExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The organization that was updated',
-    type: OrganizationResponse,
-  })
-  async updateOrganization(
-    @Param('organizationId') organizationId: string,
-    @Body() body: UpdateOrganizationBody
-  ): Promise<OrganizationResponse> {
+  @ApiResponse({ status: HttpStatus.OK, description: 'The organization that was updated', type: OrganizationResponse })
+  async updateOrganization(@Param('organizationId') organizationId: string, @Body() body: UpdateOrganizationBody): Promise<OrganizationResponse> {
     const organization = await this.organizationService.updateOrganization(organizationId, body);
 
     return { organization };
@@ -101,11 +77,7 @@ export class OrganizationsController {
   @Get(':organizationId')
   @Privileges('organizations.view')
   @OrganizationExists()
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'The organization with the specified id',
-    type: OrganizationResponse,
-  })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The organization with the specified id', type: OrganizationResponse })
   async getOrganization(@Param('organizationId') organizationId: string): Promise<OrganizationResponse> {
     const organization = await this.organizationService.getOrganizationById(organizationId);
 

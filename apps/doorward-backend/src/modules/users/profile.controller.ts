@@ -21,11 +21,7 @@ export default class ProfileController {
 
   @Put('account')
   @Privileges('profile.update')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: UserResponse,
-    description: 'The newly updated user details',
-  })
+  @ApiResponse({ status: HttpStatus.OK, type: UserResponse, description: 'The newly updated user details' })
   @TransformerGroups('fullUserProfile')
   updateAccountDetails(@Body() body: UpdateAccountBody, @CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     return this.usersService.updateAccountDetails(body, currentUser);
@@ -33,15 +29,8 @@ export default class ProfileController {
 
   @Put('password')
   @Privileges('profile.update-password')
-  @ApiResponse({
-    status: HttpStatus.OK,
-    type: DApiResponse,
-    description: 'A message showing that the password has changed',
-  })
-  async updateAccountPassword(
-    @Body() body: UpdatePasswordBody,
-    @CurrentUser() currentUser: UserEntity
-  ): Promise<DApiResponse> {
+  @ApiResponse({ status: HttpStatus.OK, type: DApiResponse, description: 'A message showing that the password has changed' })
+  async updateAccountPassword(@Body() body: UpdatePasswordBody, @CurrentUser() currentUser: UserEntity): Promise<DApiResponse> {
     await this.usersService.updateAccountPassword(body, currentUser);
     return {
       message: 'Password has been updated.',
@@ -50,18 +39,12 @@ export default class ProfileController {
 
   @Post('resetPassword')
   @Privileges('profile.reset-password')
-  @ApiResponse({
-    type: DApiResponse,
-    description: 'A message notifying the user of the password reset.',
-    status: HttpStatus.OK,
-  })
+  @ApiResponse({ type: DApiResponse, description: 'A message notifying the user of the password reset.', status: HttpStatus.OK })
   async resetAccountPassword(@Body() body: ResetPasswordBody): Promise<DApiResponse> {
     const hadPassword = await this.usersService.resetAccountPassword(body);
 
     return {
-      message: hadPassword
-        ? 'Password has been created. You can now login with the new credentials'
-        : 'Your password has been reset successfully.',
+      message: hadPassword ? 'Password has been created. You can now login with the new credentials' : 'Your password has been reset successfully.',
     };
   }
 

@@ -20,7 +20,7 @@
     "groups": ["create", "view", "update", "delete", "add-member"],
     "meetings": ["moderate"],
     "organizations": ["create", "view", "update"],
-    "students": ["create", "update", "view", "list"]
+    "students": ["create", "update", "view", "list", "change-password"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
