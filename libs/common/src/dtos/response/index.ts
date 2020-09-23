@@ -9,4 +9,5 @@ export * from './modules.responses';
 export * from './organization.responses';
 export * from './school.responses';
 export * from './students.responses';
+export * from './suggestions.response';
 export * from './users.responses';

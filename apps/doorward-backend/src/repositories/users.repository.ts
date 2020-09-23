@@ -24,4 +24,11 @@ export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
       .andWhere('role.name = :role', { role })
       .getOne();
   }
+
+  async getUsersByRole(role: Roles) {
+    return await this.createQueryBuilder('user')
+      .leftJoin('user.role', 'role')
+      .andWhere('role.name = :role', { role })
+      .getMany();
+  }
 }

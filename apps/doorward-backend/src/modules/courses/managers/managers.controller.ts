@@ -17,7 +17,7 @@ import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers
 const UserExists = () => ModelExists({ key: 'managerId', model: UserEntity, message: '{{user}} does not exist.' });
 
 @Controller('course-managers')
-@ApiTags('course-managers')
+@ApiTags('courseManagers')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ManagersController {
   constructor(private managerService: ManagersService) {}

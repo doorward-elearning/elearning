@@ -26,8 +26,6 @@ export default class DocumentationBuilder {
         ignoreGlobalPrefix: true,
       });
 
-      console.log(JSON.stringify(result.paths['/schools']));
-
       const documentation = this.scanPaths(result.paths);
       const directory = './libs/common/src/apis/' + fileName;
       // eslint-disable-next-line @typescript-eslint/camelcase
