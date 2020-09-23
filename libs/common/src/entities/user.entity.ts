@@ -12,6 +12,7 @@ import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -71,6 +72,10 @@ export default class UserEntity extends BaseOrganizationEntity {
   @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
   passwordResets: Array<PasswordsResetsEntity>;
 
+  @ManyToOne(() => UserEntity, { nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
+  createdBy: UserEntity;
+
   get fullName() {
     return (this.firstName || '') + ((this.firstName ? ' ' : '') + this.lastName || '') || this.username;
   }
@@ -111,4 +116,6 @@ export default class UserEntity extends BaseOrganizationEntity {
   validatePassword(password: string): boolean {
     return PasswordUtils.verifyPassword(password, this.password);
   }
+
+  courses: CourseEntity[];
 }

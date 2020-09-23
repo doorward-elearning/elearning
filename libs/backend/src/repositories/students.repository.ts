@@ -9,7 +9,7 @@ export class StudentsRepository extends UsersRepository {
    *
    * @param courseId
    */
-  public async getStudentsInCourse(courseId: string) {
+  public async getStudentsInCourse(courseId: string): Promise<UserEntity[]> {
     return this.createQueryBuilder('student')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."studentId" = student.id')
       .where('"studentCourses"."courseId" = :courseId', { courseId })
@@ -35,5 +35,29 @@ export class StudentsRepository extends UsersRepository {
    */
   public async findStudentById(studentId: string) {
     return this.userExistsByRole(studentId, Roles.STUDENT);
+  }
+
+  /**
+   *
+   */
+  public async getAll() {
+    return this.getUsersByRole(Roles.STUDENT);
+  }
+
+  public async getStudentAndCourses(studentId: string) {
+    return this.createQueryBuilder('student')
+      .where('student.id = :studentId', { studentId })
+      .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."studentId" = student.id')
+      .leftJoinAndMapMany('student.courses', 'Courses', 'course', 'course.id = "studentCourses"."courseId"')
+      .leftJoinAndSelect('student.createdBy', 'createdBy')
+      .getOne();
+  }
+
+  public async getStudentsAndCourses() {
+    return this.createQueryBuilder('student')
+      .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."studentId" = student.id')
+      .leftJoinAndMapMany('student.courses', 'Courses', 'course', 'course.id = "studentCourses"."courseId"')
+      .leftJoinAndSelect('student.createdBy', 'createdBy')
+      .getMany();
   }
 }

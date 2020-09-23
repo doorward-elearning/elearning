@@ -47,10 +47,16 @@ import {
   GroupResponse,
   GroupsResponse,
   JitsiBrandingResponse,
+  StudentsReportResponse,
+  TeachersReportResponse,
+  StudentReportResponse,
+  TeacherReportResponse,
   SchoolResponse,
   SchoolsResponse,
   FileResponse,
   FilesResponse,
+  TeacherResponse,
+  TeachersResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   AssignmentSubmissionResponse
@@ -215,6 +221,20 @@ const DoorwardBackendApi = {
       return PUT(`/organizations/${organizationId}`, body, {}, config);
     },
   },
+  "reports": {
+    getStudentsReport: (config ? : AxiosRequestConfig): Promise < StudentsReportResponse > => {
+      return GET(`/reports/students`, {}, config);
+    },
+    getTeachersReport: (config ? : AxiosRequestConfig): Promise < TeachersReportResponse > => {
+      return GET(`/reports/teachers`, {}, config);
+    },
+    getStudentReport: (studentId: string, config ? : AxiosRequestConfig): Promise < StudentReportResponse > => {
+      return GET(`/reports/students/${studentId}`, {}, config);
+    },
+    getTeacherReport: (teacherId: string, config ? : AxiosRequestConfig): Promise < TeacherReportResponse > => {
+      return GET(`/reports/teachers/${teacherId}`, {}, config);
+    },
+  },
   "schools": {
     createSchool: (body: CreateSchoolBody, config ? : AxiosRequestConfig): Promise < SchoolResponse > => {
       return POST(`/schools`, body, {}, config);
@@ -272,6 +292,17 @@ const DoorwardBackendApi = {
     },
     updateStudentPassword: (studentId: string, body: ForceChangePasswordBody, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
       return POST(`/students/${studentId}/changePassword`, body, {}, config);
+    },
+  },
+  "teachers": {
+    createTeacherAccount: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < TeacherResponse > => {
+      return POST(`/teachers`, body, {}, config);
+    },
+    getAllTeachers: (config ? : AxiosRequestConfig): Promise < TeachersResponse > => {
+      return GET(`/teachers`, {}, config);
+    },
+    createFreeTrialTeacherAccount: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < TeacherResponse > => {
+      return POST(`/teachers/freeTrial`, body, {}, config);
     },
   },
   "userProfile": {

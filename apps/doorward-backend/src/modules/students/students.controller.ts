@@ -12,6 +12,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response/students.responses';
 import { AddStudentsToCourseBody, CreateUserBody, ForceChangePasswordBody, UpdateUserBody } from '@doorward/common/dtos/body';
 import ExcludeNullValidationPipe from '@doorward/backend/pipes/exclude.null.validation.pipe';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 
 const CourseExists = () => ModelExists({ key: 'courseId', model: CourseEntity, message: '{{course}} does not exist.' });
 
@@ -47,13 +48,19 @@ export class StudentsController {
    * @param courseId
    * @param body
    * @param origin
+   * @param user
    */
   @Post('course/:courseId')
   @Privileges('course-students.create')
   @CourseExists()
   @ApiResponse({ status: HttpStatus.OK, type: StudentResponse, description: 'The student that was created' })
-  async createStudentInCourse(@Param('courseId') courseId: string, @Body() body: CreateUserBody, @Origin() origin: string): Promise<StudentResponse> {
-    const student = await this.studentsService.createStudentInCourse(body, origin, courseId);
+  async createStudentInCourse(
+    @Param('courseId') courseId: string,
+    @Body() body: CreateUserBody,
+    @Origin() origin: string,
+    @CurrentUser() user: UserEntity
+  ): Promise<StudentResponse> {
+    const student = await this.studentsService.createStudentInCourse(body, user, origin, courseId);
 
     return { student, message: '{{student}} has been added to the course.' };
   }
@@ -110,8 +117,8 @@ export class StudentsController {
   @Post()
   @Privileges('students.create')
   @ApiResponse({ status: HttpStatus.OK, type: StudentResponse, description: 'The student that was created.' })
-  async createStudent(@Body() body: CreateUserBody, @Origin() origin: string): Promise<StudentResponse> {
-    const student = await this.studentsService.createStudentInCourse(body, origin);
+  async createStudent(@Body() body: CreateUserBody, @Origin() origin: string, @CurrentUser() user: UserEntity): Promise<StudentResponse> {
+    const student = await this.studentsService.createStudentInCourse(body, user, origin);
 
     return { student, message: '{{student}} has been created.' };
   }

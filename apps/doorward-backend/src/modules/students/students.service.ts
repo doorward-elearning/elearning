@@ -14,6 +14,7 @@ import { AddStudentsToCourseBody, CreateUserBody, ForceChangePasswordBody, Updat
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordChangeEmail from '../../emails/password-change.email';
 import { AuthService } from '../auth/auth.service';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 /**
  *
@@ -58,11 +59,12 @@ export class StudentsService {
   /**
    *
    * @param body
+   * @param currentUser
    * @param courseId
    * @param origin
    */
-  public async createStudentInCourse(body: CreateUserBody, origin: string, courseId?: string) {
-    const student = await this.createStudent(body, origin);
+  public async createStudentInCourse(body: CreateUserBody, currentUser: UserEntity, origin: string, courseId?: string) {
+    const student = await this.createStudent(body, currentUser, origin);
 
     if (courseId) {
       await this.studentCourseRepository.addStudentToCourse(courseId, student.id);
@@ -108,10 +110,11 @@ export class StudentsService {
   /**
    *
    * @param body
+   * @param currentUser
    * @param origin
    */
-  public async createStudent(body: CreateUserBody, origin: string) {
-    const { user, resetToken } = await this.usersService.createUser(body);
+  public async createStudent(body: CreateUserBody, currentUser: UserEntity, origin: string) {
+    const { user, resetToken } = await this.usersService.createUser(body, currentUser);
 
     let email;
     if (body.password) {
