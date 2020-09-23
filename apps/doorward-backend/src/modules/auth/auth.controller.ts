@@ -1,27 +1,36 @@
-import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import LoginResponse from '@doorward/common/dtos/login.response';
-import LoginBody from '@doorward/common/dtos/login.body';
 import LocalAuthGuard from './guards/local.auth.guard';
-import RegisterBody from '@doorward/common/dtos/register.body';
-import SelfRegistrationEmail from './emails/self.registration.email';
+import SelfRegistrationEmail from '../../emails/self.registration.email';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import JwtAuthGuard from './guards/jwt.auth.guard';
-import UserResponse from '@doorward/common/dtos/user.response';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import FrontendLinks from '../../utils/frontend.links';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import UserEntity from '@doorward/common/entities/user.entity';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
+import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
+import { UserResponse } from '@doorward/common/dtos/response';
 
 @Controller('auth')
+@ApiTags('auth')
 export class AuthController {
   constructor(private authService: AuthService, private emailService: EmailsService) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
+  @TransformerGroups('privileges', 'fullUserProfile')
+  @ApiOperation({ operationId: 'login', summary: 'Allow users to login with their username and password.' })
+  @ApiResponse({ status: HttpStatus.OK, description: 'The logged in user', type: LoginResponse })
   async login(@Request() req, @Body() loginBody: LoginBody): Promise<LoginResponse> {
     return this.authService.login(req.user);
   }
 
   @Post('register')
+  @TransformerGroups('privileges', 'fullUserProfile')
+  @ApiResponse({ status: HttpStatus.CREATED, description: 'The user that was created', type: LoginResponse })
   async register(@Body() registerBody: RegisterBody, @Request() req, @Origin() origin: string): Promise<LoginResponse> {
     const response = await this.authService.register(registerBody);
     const { user } = response;
@@ -29,11 +38,8 @@ export class AuthController {
     this.emailService.send(
       new SelfRegistrationEmail({
         subject: 'Confirm registration',
-        data: {
-          username: user.username,
-          link: origin + FrontendLinks.login,
-        },
-        recipient: user.email,
+        data: { link: origin + FrontendLinks.login },
+        recipient: user,
       })
     );
 
@@ -42,8 +48,10 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Get()
-  async getCurrentUser(@Request() request): Promise<UserResponse> {
-    const user = await this.authService.getCurrentUser(request);
+  @TransformerGroups('privileges', 'fullUserProfile')
+  @ApiResponse({ status: HttpStatus.OK, description: 'The currently logged in user', type: UserResponse })
+  async getCurrentUser(@CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
+    const user = await this.authService.getCurrentUser(currentUser.id);
     return { user };
   }
 }

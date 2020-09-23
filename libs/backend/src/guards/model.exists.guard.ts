@@ -7,35 +7,50 @@ import { getConnectionManager } from 'typeorm';
 export default class ModelExistsGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const modelExistsDecoratorProps = this.reflector.get<ModelExistsDecoratorProps<any>>(
-      'modelExists',
+    const models: Array<ModelExistsDecoratorProps<any>> = [];
+    const model = this.reflector.get<ModelExistsDecoratorProps<any>>('modelExists', context.getHandler());
+
+    if (model) {
+      models.push(model);
+    }
+    const modelsBuilder = this.reflector.get<Array<ModelExistsDecoratorProps<any>>>(
+      'modelsExist',
       context.getHandler()
     );
 
-    if (!modelExistsDecoratorProps) {
+    if (modelsBuilder) {
+      models.push(...modelsBuilder);
+    }
+
+    if (!models.length) {
       return true;
     }
 
-    const { key, model, message } = modelExistsDecoratorProps;
+    await Promise.all(
+      models.map(async (modelExistsDecoratorProps) => {
+        const { key, model, message } = modelExistsDecoratorProps;
 
-    const http = context.switchToHttp();
-    if (http) {
-      const body = http.getRequest().body;
-      const params = http.getRequest().params;
-      const query = http.getRequest().query;
+        const http = context.switchToHttp();
+        if (http) {
+          const body = http.getRequest().body;
+          const params = http.getRequest().params;
+          const query = http.getRequest().query;
 
-      const id = body[key] || params[key] || query[key];
+          const id = body[key] || params[key] || query[key];
 
-      if (id) {
-        if (await getConnectionManager().get().getRepository(model).findOne(id)) {
-          return true;
-        } else {
-          throw new NotFoundException(message || 'Resource not found.');
+          if (id) {
+            if (await getConnectionManager().get().getRepository(model).findOne(id)) {
+              return true;
+            } else {
+              throw new NotFoundException(message || 'Resource not found.');
+            }
+          } else {
+            return true;
+          }
         }
-      } else {
         return true;
-      }
-    }
+      })
+    );
     return true;
   }
 }

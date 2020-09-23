@@ -1,0 +1,57 @@
+{
+  "delimiter": ".",
+  "privileges": {
+    "courses": [
+      {
+        "name": "create",
+        "description": "Can create a course"
+      },
+      "update",
+      "delete",
+      "view-all",
+      "read"
+    ],
+    "modules": ["create", "update", "delete", "read"],
+    "moduleItems": ["create", "update", "delete", "read"],
+    "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
+    "assignments": ["submit"],
+    "course-students": ["view", "create", "un-enroll"],
+    "course-managers": ["view", "create"],
+    "groups": ["create", "view", "update", "delete", "add-member"],
+    "meetings": ["moderate"],
+    "organizations": ["create", "view", "update"],
+    "students": ["create", "update", "view", "list", "change-password"],
+    "reports": ["students", "teachers"]
+  },
+  "roles": {
+    "SUPER_ADMINISTRATOR": {
+      "privileges": ["*"],
+      "exclude": []
+    },
+    "TEACHER": {
+      "privileges": [
+        "courses.*",
+        "modules.*",
+        "moduleItems.*",
+        "profile.*",
+        "course-students.*",
+        "course-managers.*",
+        "groups.*",
+        "meetings.moderate",
+        "students.*"
+      ],
+      "exclude": ["courses.view-all"]
+    },
+    "STUDENT": {
+      "privileges": [
+        "modules.read",
+        "moduleItems.read",
+        "courses.read",
+        "profile.*",
+        "course-managers.view",
+        "groups.*"
+      ],
+      "exclude": []
+    }
+  }
+}

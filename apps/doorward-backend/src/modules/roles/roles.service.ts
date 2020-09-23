@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import RolesRepository from '../../repositories/roles.repository';
+import RolesRepository from '@doorward/backend/repositories/roles.repository';
 import RoleEntity from '@doorward/common/entities/role.entity';
+import { Roles } from '@doorward/common/types/roles';
 
 @Injectable()
 export class RolesService {
@@ -16,5 +17,11 @@ export class RolesService {
 
   student(): Promise<RoleEntity> {
     return this.rolesRepository.student();
+  }
+
+  get(role: Roles): Promise<RoleEntity> {
+    return this.rolesRepository.findOne({
+      name: role,
+    });
   }
 }

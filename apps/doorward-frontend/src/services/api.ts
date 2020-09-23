@@ -53,8 +53,8 @@ import {
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import { ModuleItemTypes } from '@doorward/common/models';
 import axios from 'axios';
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { ParsedUrlQuery } from 'querystring';
+import ApiResponse from '@doorward/common/dtos/response/base.response';
 
 /**
  * Use the return keyword in the functions to improve readability
@@ -67,13 +67,13 @@ const Api = {
     `${process.env.REACT_APP_BASE_URL}/storage${publicFile ? '/public' : ''}/files/${fileId}`,
   users: {
     authenticate: (body: LoginBody): Promise<LoginResponse> => {
-      return POST('users/auth', body);
+      return POST('auth/login', body);
     },
     register: (body: RegistrationBody): Promise<LoginResponse> => {
-      return POST('/users/register', body);
+      return POST('/auth/register', body);
     },
     currentUser: (): Promise<UserResponse> => {
-      return GET('/users/auth');
+      return GET('/auth');
     },
     profile: {
       updateAccount: (body: AccountDetailsBody): Promise<UserResponse> => {
@@ -283,13 +283,13 @@ const Api = {
 
       const url = publicFile ? '/storage/public/upload' : '/storage/upload';
       return POST(url, formData, null, {
-        onUploadProgress: progressEvent => {
+        onUploadProgress: (progressEvent) => {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           if (onUploadProgress) {
             onUploadProgress(percentage);
           }
         },
-        cancelToken: new axios.CancelToken(c => {
+        cancelToken: new axios.CancelToken((c) => {
           cancelHandler(c);
         }),
       });

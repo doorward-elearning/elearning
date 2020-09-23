@@ -1,9 +1,16 @@
 import { EmailOptions } from '@doorward/backend/modules/emails/emails.service';
 
+export interface EmailRecipient {
+  username: string;
+  email: string;
+  fullName: string;
+  profilePicture?: string;
+}
+
 export default abstract class EmailModel<T> {
   private readonly config: Partial<EmailOptions> = {};
 
-  constructor(options: { subject: string; data?: T; recipient: string }) {
+  constructor(options: { subject: string; data?: T; recipient: EmailRecipient }) {
     this.config.template = this.getTemplate();
     this.config.subject = options.subject;
     this.config.data = options.data;
@@ -12,7 +19,7 @@ export default abstract class EmailModel<T> {
 
   public abstract getTemplate(): string;
 
-  public setRecipient(recipient: string): EmailModel<T> {
+  public setRecipient(recipient: EmailRecipient): EmailModel<T> {
     this.config.recipient = recipient;
     return this;
   }

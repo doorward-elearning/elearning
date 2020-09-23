@@ -7,9 +7,12 @@ import MeetingEntity from './meeting.entity';
 import GroupMemberEntity from './group.member.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from './role.entity';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
+import wildcardPattern from '@doorward/common/utils/wildcardPattern';
+import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -30,15 +33,22 @@ export default class UserEntity extends BaseOrganizationEntity {
   email: string;
 
   @Column({ nullable: true })
+  profilePicture: string;
+
+  @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   zipCode: string;
 
   @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   country: string;
 
   @Column({ nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   city: string;
 
   @Column({ type: 'enum', enum: Gender, nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
   gender: Gender;
 
   @Column({ default: UserStatus.PENDING_ACTIVATION })
@@ -47,6 +57,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   @ManyToOne(() => RoleEntity, (role) => role.users, {
     eager: true,
   })
+  @Expose({ groups: ['fullUserProfile'] })
   role: RoleEntity;
 
   @OneToMany(() => MeetingRoomMemberEntity, (meetingRoomMember) => meetingRoomMember.meetingRoom)
@@ -60,6 +71,14 @@ export default class UserEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
   passwordResets: Array<PasswordsResetsEntity>;
+
+  @ManyToOne(() => UserEntity, { nullable: true })
+  @Expose({ groups: ['fullUserProfile'] })
+  createdBy: UserEntity;
+
+  get fullName() {
+    return (this.firstName || '') + ((this.firstName ? ' ' : '') + this.lastName || '') || this.username;
+  }
 
   isSuperAdmin() {
     return this.role?.name === Roles.SUPER_ADMINISTRATOR;
@@ -77,7 +96,26 @@ export default class UserEntity extends BaseOrganizationEntity {
     return this.role?.name === role;
   }
 
+  async updatePrivileges() {
+    this.role.privileges = await this.getRepository(PrivilegeEntity)
+      .createQueryBuilder('privilege')
+      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
+      .where('"rolePrivilege"."roleId" = :roleId', { roleId: this.role.id })
+      .getMany();
+  }
+
+  async hasPrivileges(...privileges: Array<string>): Promise<boolean> {
+    if (!this.role.privileges) {
+      await this.updatePrivileges();
+    }
+    return privileges.reduce((acc, privilege) => {
+      return acc && this?.role?.privileges?.some((_privilege) => wildcardPattern(_privilege.name, privilege));
+    }, true);
+  }
+
   validatePassword(password: string): boolean {
     return PasswordUtils.verifyPassword(password, this.password);
   }
+
+  courses: CourseEntity[];
 }

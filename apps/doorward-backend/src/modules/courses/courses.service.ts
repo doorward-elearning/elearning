@@ -1,12 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import CoursesRepository from '../../repositories/courses.repository';
-import CreateCourseBody from '@doorward/common/dtos/create.course.body';
+import CoursesRepository from '@doorward/backend/repositories/courses.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import { CourseStatus } from '@doorward/common/types/courses';
 import { ModulesService } from './modules/modules.service';
 import UserEntity from '@doorward/common/entities/user.entity';
-import UpdateCourseBody from '@doorward/common/dtos/update.course.body';
+import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 
 @Injectable()
 export class CoursesService {
@@ -19,7 +18,7 @@ export class CoursesService {
       .getOne();
 
     if (courseExists) {
-      throw new ValidationException({ title: 'Course with this title already exists' });
+      throw new ValidationException({ title: 'A {{course}} with this title already exists' });
     }
     const { modules, title } = body;
 
@@ -43,16 +42,21 @@ export class CoursesService {
   }
 
   async getCourses(user: UserEntity): Promise<CourseEntity[]> {
-    if (user.isSuperAdmin()) {
-      return this.getCoursesForAdmin(user);
-    } else if (user.isTeacher()) {
-      return this.getCoursesForTeacher(user);
+    let courses = [];
+    if (await user.hasPrivileges('courses.view-all')) {
+      courses = await this.getAllCourses(user);
     } else {
-      return this.getCoursesForStudent(user);
+      if (await user.hasPrivileges('courses.create')) {
+        courses.push(...(await this.getCoursesForAuthor(user)));
+      }
+      if (await user.hasPrivileges('courses.read')) {
+        courses.push(...(await this.getCoursesForLearner(user)));
+      }
     }
+    return courses;
   }
 
-  async getCoursesForStudent(student: UserEntity): Promise<CourseEntity[]> {
+  async getCoursesForLearner(student: UserEntity): Promise<CourseEntity[]> {
     const courses = await this.coursesRepository
       .createQueryBuilder('course')
       .leftJoinAndSelect('StudentCourses', 'courseStudents', '"courseStudents"."courseId" = "course".id')
@@ -70,11 +74,11 @@ export class CoursesService {
     );
   }
 
-  async getCoursesForTeacher(teacher: UserEntity): Promise<CourseEntity[]> {
+  async getCoursesForAuthor(author: UserEntity): Promise<CourseEntity[]> {
     return await this.coursesRepository.find({
       where: {
         author: {
-          id: teacher.id,
+          id: author.id,
         },
       },
       relations: ['author', 'meetingRoom'],
@@ -84,7 +88,7 @@ export class CoursesService {
     });
   }
 
-  async getCoursesForAdmin(admin: UserEntity): Promise<CourseEntity[]> {
+  async getAllCourses(admin: UserEntity): Promise<CourseEntity[]> {
     return this.coursesRepository.find({
       relations: ['author', 'meetingRoom'],
       order: {
@@ -106,7 +110,7 @@ export class CoursesService {
       .getOne();
 
     if (existingCourse) {
-      throw new ValidationException({ title: 'A course with this title already exists.' });
+      throw new ValidationException({ title: 'A {{course}} with this title already exists.' });
     }
 
     await this.coursesRepository.update(id, {

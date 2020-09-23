@@ -1,8 +1,9 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleItemEntity from './module.item.entity';
+import FileEntity from '@doorward/common/entities/file.entity';
 
 @Entity('AssignmentSubmissions')
 export default class AssignmentSubmissionEntity extends BaseOrganizationEntity {
@@ -45,4 +46,6 @@ export default class AssignmentSubmissionEntity extends BaseOrganizationEntity {
     nullable: true,
   })
   grader: UserEntity;
+
+  file: FileEntity;
 }

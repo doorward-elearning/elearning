@@ -18,7 +18,7 @@ import StudentCoursesEntity from '@doorward/common/entities/student.courses.enti
 import UserEntity from '@doorward/common/entities/user.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
-
+import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 
 const entities = [
   AnswerEntity,
@@ -41,6 +41,7 @@ const entities = [
   SchoolEntity,
   StudentCoursesEntity,
   UserEntity,
+  PrivilegeEntity,
 ];
 
 export default entities;

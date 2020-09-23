@@ -1,23 +1,14 @@
-import { ApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
 import { HttpStatus } from '@nestjs/common';
 import { classToPlain } from 'class-transformer';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class ResponseBuilder {
-  static create<T = any>(
-    status = HttpStatus.OK,
-    data?: T,
-    message?: string,
-    errors?: Array<{ [name: string]: string }>,
-    meta?: any
-  ): ApiResponse {
+  static create<T = any>(status = HttpStatus.OK, data?: T, groups?: Array<string>): DApiResponse {
     return {
       success: status < 400,
       statusCode: status,
       timestamp: new Date(),
-      message,
-      errors,
-      meta,
-      ...classToPlain(data),
+      ...classToPlain(data, { groups }),
     };
   }
 }

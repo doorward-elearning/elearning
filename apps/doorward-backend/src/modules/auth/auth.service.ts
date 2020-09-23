@@ -1,23 +1,24 @@
-import { Injectable, Request } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import LoginResponse from '@doorward/common/dtos/login.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import RegisterBody from '@doorward/common/dtos/register.body';
-import express from 'express';
+import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
+import { ForceChangePasswordBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
+import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import PasswordChangeEmail from '../../emails/password-change.email';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService) {}
+  constructor(private usersService: UsersService, private jwtService: JwtService, private emailService: EmailsService) {}
 
   /**
    * Retrieve the current user details
    *
-   * @param request
+   * @param id
    */
-  async getCurrentUser(request: express.Request): Promise<UserEntity> {
-    return this.usersService.getUserDetails((request.user as any).id);
+  async getCurrentUser(id: string): Promise<UserEntity> {
+    return this.usersService.getUserDetails(id);
   }
 
   /**
@@ -47,12 +48,6 @@ export class AuthService {
   }
 
   async register(body: RegisterBody): Promise<LoginResponse> {
-    const userExistsByUsername = await this.usersService.findByUsername(body.username);
-    if (userExistsByUsername) {
-      throw new ValidationException({
-        username: 'This username is already in use.',
-      });
-    }
     const user = await this.usersService.registerUser(body);
 
     return this.login(user);
@@ -64,8 +59,10 @@ export class AuthService {
       id: user.id,
       email: user.email,
       createdAt: user.createdAt,
-      role: user.role,
+      role: user.role.id,
     };
+
+    await user.updatePrivileges();
 
     const token = await this.jwtService.sign(payload);
 
@@ -74,5 +71,17 @@ export class AuthService {
       user,
       message: 'Login successful',
     };
+  }
+
+  sendPasswordChangedEmail(user: UserEntity, body: ForceChangePasswordBody) {
+    this.emailService
+      .send(
+        new PasswordChangeEmail({
+          subject: 'Password changed',
+          recipient: user,
+          data: body,
+        })
+      )
+      .then();
   }
 }

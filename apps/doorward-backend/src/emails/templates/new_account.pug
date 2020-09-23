@@ -1,0 +1,9 @@
+extends base_template
+block greeting
+    p.title
+    span Hello #{recipient.username || 'there'}
+block content
+    p.
+        Thank you for registering a new account. This email is confirmation that the user #{recipient.username} is registering for a new account.
+    a(href=link)
+        span Click here to complete the registration

@@ -1,22 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { UsersRepository } from '../../repositories/users.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
 import { FindOneOptions } from 'typeorm';
-import RegisterBody from '@doorward/common/dtos/register.body';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
-import UpdateAccountBody from '@doorward/common/dtos/update.account.body';
-import UserResponse from '@doorward/common/dtos/user.response';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import _ from 'lodash';
-import UpdatePasswordBody from '@doorward/common/dtos/update.password.body';
-import ResetPasswordBody from '@doorward/common/dtos/reset.password.body';
 import Tools from '@doorward/common/utils/Tools';
-import PasswordResetsRepository from '../../repositories/password.resets.repository';
-import ForgotPasswordBody from '@doorward/common/dtos/forgot.password.body';
+import PasswordResetsRepository from '@doorward/backend/repositories/password.resets.repository';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
-import ForgotPasswordEmail from './emails/forgot.password.email';
+import ForgotPasswordEmail from '../../emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
+import PrivilegeRepository from '@doorward/backend/repositories/privilege.repository';
+import { UserStatus } from '@doorward/common/types/users';
+import { ForgotPasswordBody, RegisterBody, ResetPasswordBody, UpdatePasswordBody } from '@doorward/common/dtos/body/auth.body';
+import { CreateUserBody, UpdateAccountBody } from '@doorward/common/dtos/body';
+import { UserResponse } from '@doorward/common/dtos/response';
 
 @Injectable()
 export class UsersService {
@@ -24,13 +23,23 @@ export class UsersService {
     private usersRepository: UsersRepository,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
-    private emailsService: EmailsService
+    private emailsService: EmailsService,
+    private privilegeRepository: PrivilegeRepository
   ) {}
 
   async getUserDetails(id: string): Promise<UserEntity> {
-    return this.usersRepository.findOne(id, {
-      relations: ['organization', 'role'],
+    const user = await this.usersRepository.findOne({
+      where: { id },
+      relations: ['organization', 'role', 'role.privileges'],
     });
+
+    user.role.privileges = await this.privilegeRepository
+      .createQueryBuilder('privilege')
+      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
+      .where('"rolePrivilege"."roleId" = :roleId', { roleId: user.role.id })
+      .getMany();
+
+    return user;
   }
   /**
    * Retrieve all users
@@ -40,18 +49,44 @@ export class UsersService {
   }
 
   async registerUser(userBody: RegisterBody): Promise<UserEntity> {
-    const user = this.usersRepository.create({
-      firstName: '',
-      lastName: '',
-      ...userBody,
-    });
-    user.role = await this.rolesService.student();
+    const { user } = await this.createUser(userBody as CreateUserBody);
+    return user;
+  }
 
+  async createUser(body: CreateUserBody, currentUser?: UserEntity): Promise<{ user: UserEntity; resetToken: string | null }> {
+    const existingUser = await this.usersRepository.userExistsByUsername(body.username);
+    if (existingUser) {
+      throw new ValidationException({ username: 'A {{user}} with this username already exists.' });
+    }
+    const { role, status = UserStatus.PENDING_ACTIVATION, ...userBody } = body;
+
+    const user = this.usersRepository.create({
+      status,
+      ...userBody,
+      createdBy: currentUser,
+    });
+    user.role = role ? await this.rolesService.get(role) : await this.rolesService.student();
+
+    let resetToken = null;
     if (user.password) {
       user.password = PasswordUtils.hashPassword(user.password);
     }
 
-    return this.usersRepository.save(user);
+    const createdUser = await this.usersRepository.save(user);
+
+    if (!user.password) {
+      resetToken = Tools.randomString(50);
+      await this.passwordResetsRepository.save(
+        this.passwordResetsRepository.create({
+          token: resetToken,
+          user: createdUser,
+        })
+      );
+    }
+    return {
+      user: createdUser,
+      resetToken,
+    };
   }
 
   /**
@@ -60,12 +95,8 @@ export class UsersService {
    * @param options
    */
   async findByUsername(username: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
-    return this.usersRepository.findOne(
-      {
-        username,
-      },
-      options
-    );
+    const user = await this.usersRepository.userExistsByUsername(username);
+    return user ? this.usersRepository.findOne(user.id, options) : null;
   }
 
   async findById(id: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
@@ -74,11 +105,7 @@ export class UsersService {
 
   async updateAccountDetails(body: UpdateAccountBody, user: UserEntity): Promise<UserResponse> {
     if (body.username !== user.username) {
-      if (
-        await this.usersRepository.findOne({
-          username: body.username,
-        })
-      ) {
+      if (await this.usersRepository.userExistsByUsername(body.username)) {
         throw new ValidationException({ username: 'This username is already in use.' });
       }
     }
@@ -134,9 +161,9 @@ export class UsersService {
   }
 
   async userForgotPassword(body: ForgotPasswordBody, origin: string) {
-    const user = await this.findByUsername(body.username);
+    const user = await this.usersRepository.userExistsByUsername(body.username);
     if (!user) {
-      throw new ValidationException({ username: 'No user with this username exists.' });
+      throw new ValidationException({ username: 'No {{user}} with this username exists.' });
     }
 
     const resetToken = Tools.randomString(50);
@@ -153,10 +180,9 @@ export class UsersService {
       new ForgotPasswordEmail({
         subject: 'Forgot password',
         data: {
-          username: user.username,
           link: origin + FrontendLinks.passwordReset(resetToken),
         },
-        recipient: user.email,
+        recipient: user,
       })
     );
   }

@@ -10,6 +10,7 @@ module.exports = {
   migrations: ['./src/database/migrations/*.ts'],
   seeds: ['./src/database/seeds/*.ts'],
   logging: process.env.NODE_ENV === 'development',
+  // logging: false,
   synchronize: false,
   migrationsRun: true,
   migrationsTableName: 'migrations',

@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Tools from '@doorward/common/utils/Tools';
 import { ParsedUrlQuery } from 'querystring';
 import * as queryString from 'querystring';
+import { pickBy, identity} from 'lodash';
 
 const service = axios.create();
 
@@ -20,7 +21,7 @@ export default class ApiRequest {
   }
 
   public static createQueryUrl(url: string, query?: ParsedUrlQuery) {
-    return `${url}${query ? '?' : ''}${query ? queryString.stringify(query) : ''}`;
+    return `${url}${query ? '?' : ''}${query ? queryString.stringify(pickBy(query, identity)) : ''}`;
   }
 
   public static setHeader(key: string, value: any): void {
