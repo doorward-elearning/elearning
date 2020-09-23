@@ -1,4 +1,4 @@
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import { EntityRepository } from 'typeorm';
 

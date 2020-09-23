@@ -1,4 +1,4 @@
-import ModelRepository from '../utils/model.repository';
+import ModelRepository from './model.repository';
 import { EntityRepository } from 'typeorm';
 import SchoolEntity from '@doorward/common/entities/school.entity';
 

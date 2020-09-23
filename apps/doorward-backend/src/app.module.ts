@@ -23,6 +23,7 @@ import { ReportsModule } from './modules/reports/reports.module';
 import { SchoolsModule } from './modules/schools/schools.module';
 import { FilesModule } from './modules/files/files.module';
 import { SearchSuggestionsModule } from './modules/search-suggestions/search-suggestions.module';
+import { TeachersModule } from './modules/teachers/teachers.module';
 
 @Global()
 @Module({
@@ -67,6 +68,7 @@ import { SearchSuggestionsModule } from './modules/search-suggestions/search-sug
     SchoolsModule,
     FilesModule,
     SearchSuggestionsModule,
+    TeachersModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import ModuleItemsRepository from '@repositories/module.items.repository';
+import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { lowerCase } from 'lodash';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import ModulesRepository from '@repositories/modules.repository';
+import ModulesRepository from '@doorward/backend/repositories/modules.repository';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import QuestionRepository from '@repositories/question.repository';
-import AnswerRepository from '@repositories/answer.repository';
+import QuestionRepository from '@doorward/backend/repositories/question.repository';
+import AnswerRepository from '@doorward/backend/repositories/answer.repository';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import compareLists from '@doorward/common/utils/compareLists';
 import { In } from 'typeorm';

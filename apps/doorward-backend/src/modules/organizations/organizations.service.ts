@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common/dtos/body';
-import OrganizationsRepository from '@repositories/organizations.repository';
+import OrganizationsRepository from '@doorward/backend/repositories/organizations.repository';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { Not } from 'typeorm';
 

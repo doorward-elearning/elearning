@@ -1,4 +1,4 @@
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import { EntityRepository } from 'typeorm';
 import { AssignmentSubmissionStatus } from '@doorward/common/types/courses';

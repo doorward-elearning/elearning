@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { UsersRepository } from '@repositories/users.repository';
-import GroupsRepository from '@repositories/groups.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import GroupsRepository from '@doorward/backend/repositories/groups.repository';
 import { Roles } from '@doorward/common/types/roles';
 import { SearchSuggestion } from '@doorward/common/types/api';
 import { SearchSuggestionTypes } from '@doorward/common/types/suggestions';

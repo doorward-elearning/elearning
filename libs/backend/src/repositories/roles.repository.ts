@@ -1,7 +1,7 @@
 import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
 import { EntityRepository } from 'typeorm';
-import ModelRepository from '../utils/model.repository';
+import ModelRepository from './model.repository';
 
 @EntityRepository(RoleEntity)
 export default class RolesRepository extends ModelRepository<RoleEntity> {

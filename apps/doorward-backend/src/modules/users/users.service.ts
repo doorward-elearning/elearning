@@ -1,17 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { UsersRepository } from '@repositories/users.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
 import { FindOneOptions } from 'typeorm';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import _ from 'lodash';
 import Tools from '@doorward/common/utils/Tools';
-import PasswordResetsRepository from '../../repositories/password.resets.repository';
+import PasswordResetsRepository from '@doorward/backend/repositories/password.resets.repository';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import ForgotPasswordEmail from '../../emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
-import PrivilegeRepository from '@repositories/privilege.repository';
+import PrivilegeRepository from '@doorward/backend/repositories/privilege.repository';
 import { UserStatus } from '@doorward/common/types/users';
 import {
   ForgotPasswordBody,

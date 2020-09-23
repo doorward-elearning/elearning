@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import ModulesRepository from '../../../repositories/modules.repository';
+import ModulesRepository from '@doorward/backend/repositories/modules.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';

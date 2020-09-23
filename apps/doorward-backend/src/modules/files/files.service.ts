@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FilesRepository } from '@repositories/files.repository';
+import { FilesRepository } from '@doorward/backend/repositories/files.repository';
 import { CreateFileBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 

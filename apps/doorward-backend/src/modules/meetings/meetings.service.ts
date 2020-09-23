@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import MeetingsRepository from '@repositories/meetings.repository';
+import MeetingsRepository from '@doorward/backend/repositories/meetings.repository';
 import UserEntity from '@doorward/common/entities/user.entity';
 import MeetingEntity from '@doorward/common/entities/meeting.entity';
 import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';

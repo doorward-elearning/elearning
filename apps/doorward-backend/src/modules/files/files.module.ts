@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { FilesService } from './files.service';
 import { FilesController } from './files.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { FilesRepository } from '@repositories/files.repository';
+import { FilesRepository } from '@doorward/backend/repositories/files.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([FilesRepository])],

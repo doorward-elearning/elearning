@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { OrganizationsService } from './organizations.service';
 import { OrganizationsController } from './organizations.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import OrganizationsRepository from '@repositories/organizations.repository';
+import OrganizationsRepository from '@doorward/backend/repositories/organizations.repository';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrganizationsRepository])],

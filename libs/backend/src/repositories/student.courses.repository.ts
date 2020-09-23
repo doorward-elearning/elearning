@@ -1,4 +1,4 @@
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import { EntityRepository, FindConditions } from 'typeorm';
 import { StudentCourseStatus } from '@doorward/common/types/courses';

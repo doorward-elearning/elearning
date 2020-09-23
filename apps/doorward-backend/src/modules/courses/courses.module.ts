@@ -3,9 +3,9 @@ import { CoursesController } from './courses.controller';
 import { CoursesService } from './courses.service';
 import { ModulesModule } from './modules/modules.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import CoursesRepository from '../../repositories/courses.repository';
-import { UsersRepository } from '@repositories/users.repository';
-import ModuleItemsRepository from '@repositories/module.items.repository';
+import CoursesRepository from '@doorward/backend/repositories/courses.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { ItemsModule } from './modules/items/items.module';
 import { ManagersModule } from './managers/managers.module';
 

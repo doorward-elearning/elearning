@@ -1,4 +1,4 @@
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 import { EntityRepository } from 'typeorm';
 

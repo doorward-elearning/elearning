@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import MeetingRoomRepository from '@repositories/meeting.room.repository';
-import MeetingRoomMemberRepository from '@repositories/meeting.room.member.repository';
+import MeetingRoomRepository from '@doorward/backend/repositories/meeting.room.repository';
+import MeetingRoomMemberRepository from '@doorward/backend/repositories/meeting.room.member.repository';
 import { MeetingRoomTypes } from '@doorward/common/types/meeting';
 import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 

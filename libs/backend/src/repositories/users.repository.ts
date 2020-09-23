@@ -1,6 +1,6 @@
 import UserEntity from '@doorward/common/entities/user.entity';
 import { EntityRepository } from 'typeorm';
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import { Roles } from '@doorward/common/types/roles';
 
 @EntityRepository(UserEntity)

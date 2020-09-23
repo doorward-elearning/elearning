@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import GroupsRepository from '@repositories/groups.repository';
-import { UsersRepository } from '@repositories/users.repository';
-import GroupMembersRepository from '@repositories/group.members.repository';
+import GroupsRepository from '@doorward/backend/repositories/groups.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import GroupMembersRepository from '@doorward/backend/repositories/group.members.repository';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupRoles } from '@doorward/common/types/groups';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';

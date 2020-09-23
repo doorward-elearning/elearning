@@ -2,11 +2,11 @@ import { Global, Module } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { UsersController } from './users.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersRepository } from '@repositories/users.repository';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
 import { RolesModule } from '../roles/roles.module';
 import ProfileController from './profile.controller';
-import PasswordResetsRepository from '../../repositories/password.resets.repository';
-import PrivilegeRepository from '@repositories/privilege.repository';
+import PasswordResetsRepository from '@doorward/backend/repositories/password.resets.repository';
+import PrivilegeRepository from '@doorward/backend/repositories/privilege.repository';
 
 @Global()
 @Module({

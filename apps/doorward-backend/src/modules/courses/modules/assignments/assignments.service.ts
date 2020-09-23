@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import AssignmentSubmissionRepository from '@repositories/assignment.submission.repository';
-import ModuleItemsRepository from '@repositories/module.items.repository';
+import AssignmentSubmissionRepository from '@doorward/backend/repositories/assignment.submission.repository';
+import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { AssignmentSubmissionStatus } from '@doorward/common/types/courses';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import { SubmitAssignmentBody } from '@doorward/common/dtos/body';

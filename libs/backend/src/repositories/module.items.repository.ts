@@ -1,4 +1,4 @@
-import OrganizationBasedRepository from '../utils/organization.based.repository';
+import OrganizationBasedRepository from './organization.based.repository';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { EntityRepository } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';

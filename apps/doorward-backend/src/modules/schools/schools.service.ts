@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateClassroomBody, CreateSchoolBody } from '@doorward/common/dtos/body';
-import { SchoolRepository } from '@repositories/school.repository';
+import { SchoolRepository } from '@doorward/backend/repositories/school.repository';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import SchoolCreatedEmail from '../../emails/school-created.email';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import SchoolEntity from '@doorward/common/entities/school.entity';
 import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import { MeetingsService } from '../meetings/meetings.service';
-import { ClassroomRepository } from '@repositories/classroom.repository';
+import { ClassroomRepository } from '@doorward/backend/repositories/classroom.repository';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import om from '../../utils/om';
 
