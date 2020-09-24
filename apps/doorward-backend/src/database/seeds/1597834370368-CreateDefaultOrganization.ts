@@ -4,6 +4,12 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 export class CreateDefaultOrganization1597834370368 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
+    const result = await entityManager.connection.query(
+      `SELECT * FROM "SequelizeData" WHERE name = '20191029143016-create-default-organization.js'`
+    );
+    if (result && result.length) {
+      return;
+    }
     await entityManager
       .createQueryBuilder()
       .insert()

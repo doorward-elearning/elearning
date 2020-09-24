@@ -17,12 +17,16 @@ data:
   DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
 
   # Thala Configs
-  DATABASE_URL: postgres://{{- .Values.postgres_user -}}:{{- .Values.postgres_password -}}@{{- .Values.customer -}}-thaladb-postgresql:{{- .Values.postgres_port -}}/{{- .Values.postgres_db }}
   DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
   ORGANIZATION_LOGO: {{ .Values.organization.logo }}
   ORGANIZATION_NAME: {{ .Values.organization.name }}
   ORGANIZATION_WEBSITE_LINK: https://{{ .Values.organization.website }}
   USE_LATENCY: "{{ .Values.swagat_enable_latency }}"
+  DATABASE_USERNAME: {{ .Values.postgres_user }}
+  DATABASE_PASSWORD: {{ .Values.postgres_password }}
+  DATABASE_HOST: {{ .Values.customer }}-thaladb-postgresql
+  DATABASE_PORT: "{{ .Values.postgres_port }}"
+  DATABASE_NAME: {{ .Values.postgres_db }}
 
   # Samvadam Configs
   openvidu.secret: {{ .Values.samvadamsecretkey }}

@@ -6,6 +6,12 @@ import Tools from '@doorward/common/utils/Tools';
 
 export class CreateDefaultRoles1597916654826 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
+    const result = await entityManager.connection.query(
+      `SELECT * FROM "SequelizeData" WHERE name = '20191029143652-create-default-roles.js'`
+    );
+    if (result?.length) {
+      return;
+    }
     return entityManager
       .createQueryBuilder()
       .insert()
@@ -35,8 +41,7 @@ export class CreateDefaultRoles1597916654826 extends SeederInterface {
       .createQueryBuilder(RoleEntity, 'role')
       .delete()
       .from(RoleEntity, 'role')
-      .where('"organizationId" = :organizationId AND name IN (:...names)', {
-        organizationId: process.env.DEFAULT_ORGANIZATION_ID,
+      .where('name IN (:...names)', {
         names: [Roles.STUDENT, Roles.TEACHER, Roles.SUPER_ADMINISTRATOR],
       })
       .execute();

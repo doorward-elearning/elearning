@@ -56,11 +56,6 @@ spec:
               configMapKeyRef:
                 key: OPENVIDU_API_URL
                 name: {{ .Values.customer -}}-config
-          - name: DATABASE_URL
-            valueFrom:
-              configMapKeyRef:
-                key: DATABASE_URL
-                name: {{ .Values.customer -}}-config
           - name: OPENVIDU_URL
             valueFrom:
               configMapKeyRef:
@@ -100,6 +95,31 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: USE_LATENCY
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_USERNAME
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_HOST
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_PORT
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_NAME
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_PASSWORD
                 name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

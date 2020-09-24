@@ -31,7 +31,7 @@ releases:
   - name: develop-thala
     namespace: develop-doorward
     labels:
-      stage: 2
+      stage: 3
       name: thala
     chart: ../../charts/apps/thala
     needs:
