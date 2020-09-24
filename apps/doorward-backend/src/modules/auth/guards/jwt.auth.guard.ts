@@ -13,7 +13,14 @@ export default class JwtAuthGuard extends AuthGuard('jwt') {
 
     // This is to ensure that when a user is logged in, their token is
     // processed regardless of whether the route is public or not.
-    const canActivate = await (super.canActivate(context) as Promise<boolean>);
+    let canActivate = false;
+    try {
+      canActivate = await (super.canActivate(context) as Promise<boolean>);
+    } catch (error) {
+      if (!isPublic) {
+        throw error;
+      }
+    }
 
     return canActivate || isPublic;
   }

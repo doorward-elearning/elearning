@@ -10,11 +10,11 @@ import { Organization } from '@doorward/common/models/Organization';
 import { File } from '@doorward/common/models/File';
 import { AssignmentSubmission } from '@doorward/common/models/AssignmentSubmission';
 import { School } from '@doorward/common/models/School';
-import { DApiResponse, PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
 import { SearchSuggestion } from '@doorward/common/types/api';
 import { OpenviduUser } from '@doorward/common/types/openvidu';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
+import ApiResponse, { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
 export interface LoginResponse extends UserResponse {
   token: string;
