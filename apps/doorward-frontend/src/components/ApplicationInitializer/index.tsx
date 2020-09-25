@@ -7,7 +7,6 @@ import DoorwardApi from '../../services/apis/doorward.api';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.organizations.getCurrentOrganization);
-  console.log(DoorwardApi);
   const getUserOrganization = useAction(DoorwardApi.organizations.getCurrentOrganization);
 
   useEffect(() => {
