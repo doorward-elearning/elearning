@@ -17,8 +17,7 @@ import _ from 'lodash';
 import objectHash from 'object-hash';
 import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
-import { DApiResponse } from '@doorward/backend/interceptors/transform.interceptor';
-import queryString from 'querystring';
+import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',
@@ -93,7 +92,7 @@ function createReducer<T extends WebComponentState<any>>(
   return chainReducers<T>(initialState)(...reducers);
 }
 
-function createMiddleware<T extends ApiResponse = ApiResponse>(
+function createMiddleware<T extends DApiResponse = DApiResponse>(
   actionType: string,
   endpoint: ApiCall<T>,
   middleware?: ApiSagaMiddleware<T>
@@ -124,7 +123,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
         }
 
         if (action.showSuccessToast) {
-          const d = data as ApiResponse;
+          const d = data as DApiResponse;
           if (d.message) {
             toast.show({
               message: d.message,
@@ -144,7 +143,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
         });
       }
     } catch (error) {
-      let data: ApiResponse;
+      let data: DApiResponse;
       if (error.response) {
         data = error.response.data;
       } else {
@@ -159,7 +158,7 @@ function createMiddleware<T extends ApiResponse = ApiResponse>(
       }
 
       if (action.showErrorToast) {
-        const d = data as ApiResponse;
+        const d = data as DApiResponse;
         if (d.message && !d.errors) {
           toast.show({
             message: d.message,
@@ -209,7 +208,7 @@ export function modifyReducer<T extends object>(
   return state;
 }
 
-export function reducerApiAction<T extends ApiResponse>(args: {
+export function reducerApiAction<T extends DApiResponse>(args: {
   action: string;
   api: ApiCall<T>;
   apiMiddleware?: ApiSagaMiddleware<T>;
@@ -220,7 +219,7 @@ export function reducerApiAction<T extends ApiResponse>(args: {
 
 type Unpack<T> = WebComponentState<T extends ReduxReducerApiActionProps<any, any> & { api: ApiCall<infer U> } ? U : T>;
 
-type BuiltState<T> = {
+export type BuiltState<T> = {
   [K in keyof T]: Unpack<T[K]>;
 };
 
@@ -233,7 +232,7 @@ export default function reducerBuilder<T extends WebComponentState<any>, R exten
 
   const watchers: Array<SagaFunction> = [];
 
-  (Object.keys(middleware) as Array<keyof typeof middleware>).forEach(mName => {
+  (Object.keys(middleware) as Array<keyof typeof middleware>).forEach((mName) => {
     const m = middleware[mName];
     reducers[mName] = createReducer<T>(initialState, m.action, m.reducer);
     const watcher = createMiddleware(m.action, m.api, m.apiMiddleware);

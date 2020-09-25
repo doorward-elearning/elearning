@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import { Organization } from '@doorward/common/models/Organization';
+import useDoorwardApi from '../../../../apps/doorward-frontend/src/hooks/useDoorwardApi';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
-const useOrganization = (): Organization | undefined => {
-  const organization = useSelector((state: any) => state?.organizations?.currentOrganization);
+const useOrganization = (): OrganizationEntity | undefined => {
+  const organization = useDoorwardApi((state) => state?.organizations?.getCurrentOrganization);
 
   return organization?.data?.organization;
 };

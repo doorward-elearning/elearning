@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useAction from '@doorward/ui/hooks/useActions';
-import { getCurrentOrganization } from '../../reducers/organizations/actions';
 import LoadingPage from '../../screens/LoadingPage';
 import IfElse from '@doorward/ui/components/IfElse';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.organizations.currentOrganization);
-  const getUserOrganization = useAction(getCurrentOrganization);
+  const state = useDoorwardApi((state) => state.organizations.getCurrentOrganization);
+  console.log(DoorwardApi);
+  const getUserOrganization = useAction(DoorwardApi.organizations.getCurrentOrganization);
 
   useEffect(() => {
     getUserOrganization();

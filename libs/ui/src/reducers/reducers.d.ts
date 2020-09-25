@@ -48,6 +48,7 @@ export type ReducerBuilder<T, R> = {
   initialState?: WebComponentState;
   reducers?: Array<StaticReducer<T, Action>>;
   middleware: R;
+  name?: string;
 };
 
 export interface ReduxApiActionProps<T> {

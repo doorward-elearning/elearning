@@ -11,21 +11,27 @@ import groups from '../reducers/groups';
 import organizations from '../reducers/organizations';
 import schools from '../reducers/schools';
 import suggestions from '../reducers/suggestions';
+import { DoorwardApiReducers } from '../services/apis/doorward.api';
 
-const store = createReduxStore({
-  login,
-  courses,
-  students,
-  users,
-  reports,
-  videoCall,
-  socket,
-  teachers,
-  groups,
-  organizations,
-  schools,
-  suggestions,
-});
+const store = createReduxStore(
+  {
+    login,
+    courses,
+    students,
+    users,
+    reports,
+    videoCall,
+    socket,
+    teachers,
+    groups,
+    organizations,
+    schools,
+    suggestions,
+  },
+  {
+    DoorwardApi: DoorwardApiReducers,
+  }
+);
 
 const state = store.getState();
 

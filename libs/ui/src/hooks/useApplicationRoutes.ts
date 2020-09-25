@@ -3,9 +3,7 @@ import { useHistory, useRouteMatch } from 'react-router';
 
 export interface UseApplicationRoutes<T extends RouteNames> {
   navigate: (route: RouteDefinition<T>, params?: { [name: string]: string | undefined }) => void;
-  href: (route: RouteDefinition<T>, params?: { [name: string]: string | undefined }) => void;
   currentRoute?: keyof T;
-  reload: () => void;
 }
 
 function useApplicationRoutes<T extends RouteNames>(routes: RouteDefinitions<T>): UseApplicationRoutes<T> {
@@ -29,19 +27,9 @@ function useApplicationRoutes<T extends RouteNames>(routes: RouteDefinitions<T>)
     history.push(route.withParams(params) + query);
   };
 
-  const href = (route: RouteDefinition<T>, params = {}, query: string = ''): void => {
-    window.location.href = route.withParams(params) + query;
-  };
-
-  const reload = () => {
-    history.replace(history.location.pathname);
-  };
-
   return {
     currentRoute: tree,
     navigate,
-    href,
-    reload,
   };
 }
 

@@ -42,7 +42,7 @@ const viewCourse = reducerApiAction({
   api: Api.courses.get,
   reducer: (state, action) => {
     if (action.type === `${CREATE_COURSE_MODULE}_SUCCESS`) {
-      return modifyReducer('data.course.modules', state, action, modules => {
+      return modifyReducer('data.course.modules', state, action, (modules) => {
         return [...modules, action.payload.module];
       });
     } else if (action.type === `${REORDER_COURSE_MODULES}_SUCCESS`) {
@@ -50,8 +50,8 @@ const viewCourse = reducerApiAction({
         return [...action.payload.modules];
       });
     } else if (action.type === `${DELETE_COURSE_MODULE}_SUCCESS`) {
-      return modifyReducer('data.course.modules', state, action, modules => {
-        return [...modules.filter(module => module.id !== action.payload.id)];
+      return modifyReducer('data.course.modules', state, action, (modules) => {
+        return [...modules.filter((module) => module.id !== action.payload.id)];
       });
     }
     return state;
@@ -68,7 +68,7 @@ const studentList = reducerApiAction({
   api: Api.courses.students.get,
   reducer: (state, action) => {
     if (action.type === `${REGISTER_STUDENTS}_SUCCESS`) {
-      return modifyReducer('data.students', state, action, students => {
+      return modifyReducer('data.students', state, action, (students) => {
         return _.uniqBy([...students, ...action.payload.students], 'id');
       });
     }
@@ -151,7 +151,7 @@ const moduleItem = reducerApiAction({
   api: Api.courses.modules.items.get,
   reducer: (state, action) => {
     if (action.type === `${SUBMIT_ASSIGNMENT}_SUCCESS`) {
-      return modifyReducer('data.item', state, action, item => {
+      return modifyReducer('data.item', state, action, (item) => {
         return { ...item, assignmentSubmission: action.payload.submission };
       });
     }

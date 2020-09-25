@@ -24,7 +24,7 @@ const useApp = (): UseApp => {
   const [io, setIO] = useState();
 
   useEffect(() => {
-    setIO(connectSocket());
+    // setIO(connectSocket());
   }, []);
 
   const auth = useAuth();
