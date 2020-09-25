@@ -4,23 +4,22 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import loginForm from './validation';
 import useForm from '@doorward/ui/hooks/useForm';
-import { loginUserAction } from '../../../reducers/login/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useRoutes from '../../../hooks/useRoutes';
 import AuthForm from '../AuthForm';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
-const LoginForm: FunctionComponent<LoginFormProps> = props => {
+const LoginForm: FunctionComponent<LoginFormProps> = () => {
   const initialState = { username: '', password: '' };
   const form = useForm<LoginFormState>();
-  const login = useSelector((state: State) => state.login.loginUser);
+  const login = useDoorwardApi((state) => state.auth.login);
   const routes = useRoutes();
 
   return (
     <AuthForm
       initialValues={initialState}
       buttonText="Login"
-      submitAction={loginUserAction}
+      submitAction={DoorwardApi.auth.login}
       validationSchema={loginForm}
       state={login}
       form={form}

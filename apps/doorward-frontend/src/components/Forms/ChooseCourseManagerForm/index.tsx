@@ -1,16 +1,17 @@
 import React, { useEffect } from 'react';
 import ChooseItemsForm from '../ChooseItemsForm';
-import { createCourseManagerAction, registerStudents } from '../../../reducers/courses/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
-import { fetchTeacherListAction } from '../../../reducers/teachers/actions';
-import { User } from '@doorward/common/models/User';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { TeacherListResponse } from '../../../services/models/responseBody';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { CourseManagersResponse } from '@doorward/common/dtos/response';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.createCourseManager);
+  const state = useDoorwardApi((state) => state.courseManagers.createCourseManager);
+
+  const fetchTeacherListAction = useAction(DoorwardApi.teachers.getAllTeachers);
 
   useEffect(() => {
     fetchTeacherListAction();
@@ -19,16 +20,16 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
   return (
     <ChooseItemsForm
       items={props.managers}
-      getItems={state1 => state1.data.teachers}
+      getItems={(state1) => state1.data.courseManagers}
       state={state}
       form={props.form}
       singleChoice
       onSuccess={props.onSuccess}
-      submitAction={createCourseManagerAction}
-      createData={values => [
+      submitAction={DoorwardApi.courseManagers.createCourseManager}
+      createData={(values) => [
         props.courseId,
         {
-          managerId: values.items.find(x => x.selected)?.id,
+          managerId: values.items.find((x) => x.selected)?.id,
         },
       ]}
       columns={{
@@ -42,9 +43,9 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
 };
 
 export interface ChooseCourseManagerFormProps {
-  managers: WebComponentState<TeacherListResponse>;
+  managers: WebComponentState<CourseManagersResponse>;
   onSuccess: () => void;
-  form: UseForm<{ items: Array<User> }>;
+  form: UseForm<{ items: Array<CourseManagerEntity> }>;
   courseId: string;
 }
 

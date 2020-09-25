@@ -1,5 +1,4 @@
 import createReduxStore from '@doorward/ui/store/createReduxStore';
-import login from '../reducers/login';
 import courses from '../reducers/courses';
 import students from '../reducers/students';
 import users from '../reducers/users';
@@ -15,7 +14,6 @@ import { DoorwardApiReducers } from '../services/apis/doorward.api';
 
 const store = createReduxStore(
   {
-    login,
     courses,
     students,
     users,

@@ -9,7 +9,7 @@ export class AddMemberToGroupBody extends DApiBody {
   @Expose()
   members: Array<string>;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       members: Yup.array(Yup.string()).required('Please choose at least one member.'),
     });
@@ -25,8 +25,8 @@ export class CreateGroupBody extends AddMemberToGroupBody {
   @Expose()
   type: string;
 
-  async validation(): Promise<ObjectSchema> {
-    return (await super.validation()).concat(
+  async validation?(): Promise<ObjectSchema> {
+    return (await super.validation?()).concat(
       Yup.object({
         name: Yup.string().required('The group name is required').nullable(),
         type: Yup.string().nullable(),

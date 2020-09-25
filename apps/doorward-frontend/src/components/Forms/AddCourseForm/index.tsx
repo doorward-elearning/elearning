@@ -6,45 +6,32 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import IfElse from '@doorward/ui/components/IfElse';
 import TextField from '@doorward/ui/components/Input/TextField';
 import Icon from '@doorward/ui/components/Icon';
-import { CreateCourseBody } from '../../../services/models/requestBody';
 import { OnFormSubmit } from '@doorward/ui/types';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import NumberField from '@doorward/ui/components/Input/NumberField';
 import Header from '@doorward/ui/components/Header';
 import Form from '@doorward/ui/components/Form';
-import addCourseForm from './validation';
+import { CreateCourseBody } from '@doorward/common/dtos/body';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
   maxModules,
   ...props
 }): JSX.Element => {
-  const CourseModulesList: React.FunctionComponent<
-    ArrayHelpers
-  > = arrayHelpers => {
+  const CourseModulesList: React.FunctionComponent<ArrayHelpers> = (arrayHelpers) => {
     return (
       <div className="course-modules">
         <Header size={2}>Modules</Header>
         <p>Specify the names of the modules of the course.</p>
         {props.values.modules.map((module, index) => (
           <div className="course-module" key={index}>
-            <TextField
-              name={`modules.${index}.title`}
-              icon="calendar_view_day"
-            />
+            <TextField name={`modules.${index}.title`} icon="calendar_view_day" />
             <IfElse condition={index > 0}>
-              <Icon
-                icon="close"
-                onClick={(): void => arrayHelpers.remove(index)}
-              />
+              <Icon icon="close" onClick={(): void => arrayHelpers.remove(index)} />
             </IfElse>
           </div>
         ))}
-        <Button
-          type="button"
-          className="add-module"
-          onClick={(): void => arrayHelpers.push({ title: '' })}
-        >
+        <Button type="button" className="add-module" onClick={(): void => arrayHelpers.push({ title: '' })}>
           Add Module
         </Button>
       </div>
@@ -52,7 +39,7 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   };
 
   const {
-    values: { noOfModules, modules }
+    values: { noOfModules, modules },
   } = props;
   useEffect(() => {
     const length = modules.length;
@@ -69,14 +56,14 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   return <FieldArray name="modules">{CourseModulesList}</FieldArray>;
 };
 
-const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
+const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
   const modules = { min: 1, max: 10 };
 
   const initialValues = {
     title: '',
     description: '',
     modules: [{ title: '' }],
-    noOfModules: 1
+    noOfModules: 1,
   };
 
   return (
@@ -85,7 +72,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
       initialValues={initialValues}
       onSubmit={props.onSubmit}
       formClassName="add-course-form"
-      validationSchema={addCourseForm}
+      validationSchema={CreateCourseBody}
       form={props.useForm}
     >
       {(formikProps): JSX.Element => (
@@ -101,11 +88,7 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = props => {
               min={modules.min}
             />
           </div>
-          <CourseModules
-            {...{ ...props, ...formikProps }}
-            minModules={modules.min}
-            maxModules={modules.max}
-          />
+          <CourseModules {...{ ...props, ...formikProps }} minModules={modules.min} maxModules={modules.max} />
         </React.Fragment>
       )}
     </Form>
@@ -119,9 +102,7 @@ export interface AddCourseFormProps {
   useForm: UseForm<AddCourseFormState>;
 }
 
-export interface CourseModulesProps
-  extends AddCourseFormProps,
-    FormikProps<AddCourseFormState> {
+export interface CourseModulesProps extends AddCourseFormProps, FormikProps<AddCourseFormState> {
   minModules: number;
   maxModules: number;
 }

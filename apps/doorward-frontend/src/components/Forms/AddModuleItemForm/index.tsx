@@ -1,13 +1,13 @@
 import React, { ReactChild } from 'react';
 import BasicForm from '../BasicForm';
-import { createCourseModuleItemAction } from '../../../reducers/courses/actions';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { CourseModuleItemBody } from '../../../services/models/requestBody';
 import { FormikProps } from 'formik';
-import { Module } from '@doorward/common/models/Module';
-import { ModuleItemTypes } from '@doorward/common/models';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { CreateModuleItemBody } from '@doorward/common/dtos/body';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
 
 function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
@@ -19,7 +19,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
   const state = useSelector((state: State) => state.courses.addModuleItem);
   return (
     <BasicForm
-      submitAction={createCourseModuleItemAction}
+      submitAction={DoorwardApi.modules.createModuleItem}
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       initialValues={initialValues}
@@ -28,24 +28,24 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
       form={props.form}
       showSuccessToast
       showOverlay
-      createData={props.createData || (values => [props.item.id, values])}
+      createData={props.createData || ((values) => [props.item.id, values])}
     >
       {props.children}
     </BasicForm>
   );
 }
 
-export interface AddModuleItemFormState extends CourseModuleItemBody {
+export interface AddModuleItemFormState extends CreateModuleItemBody {
   [name: string]: any;
 }
 
 export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   onSuccess: () => void;
   onCancel: () => void;
-  type: ModuleItemTypes;
+  type: ModuleItemType;
   form: UseForm<T>;
-  item: Module;
-  initialValues?: Omit<T, keyof CourseModuleItemBody>;
+  item: ModuleEntity;
+  initialValues?: Omit<T, keyof CreateModuleItemBody>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;
   children: Array<ReactChild> | ReactChild | ((formikProps: FormikProps<T>) => JSX.Element);

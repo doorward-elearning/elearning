@@ -1,25 +1,25 @@
 import React from 'react';
 import IfElse from '@doorward/ui/components/IfElse';
-import { AssignmentSubmissionType } from '@doorward/common/models';
 import { Link } from 'react-router-dom';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Api from '../../services/api';
-import { AssignmentSubmission } from '@doorward/common/models/AssignmentSubmission';
+import { AssignmentSubmissionType } from '@doorward/common/types/courses';
+import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 
 const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionViewProps> = ({
   submission,
 }): JSX.Element => {
   return (
     <div>
-      <IfElse condition={submission.submissionType === AssignmentSubmissionType.TEXT_ENTRY}>
+      <IfElse condition={submission.type === AssignmentSubmissionType.TEXT_ENTRY}>
         <div>{submission.submission}</div>
       </IfElse>
-      <IfElse condition={submission.submissionType === AssignmentSubmissionType.WEBSITE_URL}>
+      <IfElse condition={submission.type === AssignmentSubmissionType.WEBSITE_URL}>
         <Link to={submission.submission} target="_blank">
           {submission.submission}
         </Link>
       </IfElse>
-      <IfElse condition={submission.submissionType === AssignmentSubmissionType.FILE_UPLOAD}>
+      <IfElse condition={submission.type === AssignmentSubmissionType.FILE_UPLOAD}>
         <div>
           <span>{submission.file?.name}</span>
           <Button
@@ -37,7 +37,7 @@ const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionView
 };
 
 export interface AssignmentSubmissionViewProps {
-  submission: AssignmentSubmission;
+  submission: AssignmentSubmissionEntity;
 }
 
 export default AssignmentSubmissionView;

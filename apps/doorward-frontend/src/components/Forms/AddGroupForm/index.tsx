@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import TextField from '@doorward/ui/components/Input/TextField';
 import useForm from '@doorward/ui/hooks/useForm';
-import { User } from '@doorward/common/models/User';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import UserChooser from '@doorward/ui/components/UserChooser';
@@ -15,14 +14,16 @@ import useUserChooser from '@doorward/ui/hooks/useUserChooser';
 import TextLink from '@doorward/ui/components/TextLink';
 import IfElse from '@doorward/ui/components/IfElse';
 import BasicForm from '../BasicForm';
-import { createGroupAction, updateGroupAction } from '../../../reducers/groups/actions';
-import validation from './validation';
-import { Group } from '@doorward/common/models/Group';
 import VerticalScroll from '@doorward/ui/components/VerticalScroll';
+import UserEntity from '@doorward/common/entities/user.entity';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import GroupEntity from '@doorward/common/entities/group.entity';
+import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
+import { CreateGroupBody } from '@doorward/common/dtos/body';
 
 interface InitialValues {
   name: string;
-  members: Array<User>;
+  members: Array<GroupMemberEntity>;
 }
 
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
@@ -38,25 +39,25 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
     <BasicForm
       form={form}
       initialValues={initialValues}
-      validationSchema={validation}
+      validationSchema={CreateGroupBody}
       showSuccessToast
       onSuccess={props.onSuccess}
-      submitAction={props.group ? updateGroupAction : createGroupAction}
+      submitAction={props.group ? DoorwardApi.groups.updateGroup : DoorwardApi.groups.createGroup}
       state={state}
-      createData={values => {
+      createData={(values) => {
         const data = [];
         if (props.group) {
           data.push(props.group.id);
         }
         data.push({
           name: values.name,
-          members: values.members.map(member => member.id),
+          members: values.members.map((member) => member.id),
           type: props.type,
         });
         return data;
       }}
     >
-      {formikProps => (
+      {(formikProps) => (
         <div className="add-group-form">
           <div className="add-group-form__form">
             <TextField name="name" placeholder="Name" />
@@ -70,7 +71,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
               <UserChooser
                 useUserChooser={hook}
                 removeOnSelection
-                onChange={users => {
+                onChange={(users) => {
                   formikProps.setFieldValue('members', users);
                   formikProps.handleBlur({ target: { name: 'members' } });
                 }}
@@ -86,15 +87,15 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
             </div>
             <VerticalScroll maxHeight={500}>
               <WebComponent
-                data={formikProps.values.members as Array<User>}
+                data={formikProps.values.members as Array<UserEntity>}
                 loading={false}
                 size="medium"
                 emptyMessage="None selected yet."
               >
-                {items => (
+                {(items) => (
                   <div className="add-group-form__selected--list">
                     <ItemArray data={items}>
-                      {item => (
+                      {(item) => (
                         <SimpleUserView user={item}>
                           <Icon
                             icon="close"
@@ -118,11 +119,11 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
 };
 
 export interface AddGroupFormProps {
-  users: Array<User>;
+  users: Array<UserEntity>;
   title: string;
   type?: string;
   onSuccess: () => void;
-  group?: Group;
+  group?: GroupEntity;
 }
 
 export default AddGroupForm;

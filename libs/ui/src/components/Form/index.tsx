@@ -7,6 +7,7 @@ import { UseForm } from '../../hooks/useForm';
 import { WebComponentState } from '../../reducers/reducers';
 import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -47,7 +48,9 @@ function Form<T>({
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={validationSchema}
+      validationSchema={
+        validationSchema instanceof DApiBody ? new (validationSchema as any)().validation() : validationSchema
+      }
       isInitialValid={isInitialValid}
       render={(props): ReactNode | JSX.Element => {
         if (!allProps) {

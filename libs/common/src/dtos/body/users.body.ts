@@ -24,7 +24,7 @@ export class UpdateAccountBody extends DApiBody {
   @Expose()
   lastName: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       email: Yup.string().nullable().email('Please enter a valid email'),
     });
@@ -68,7 +68,7 @@ export class UpdateUserBody extends DApiBody {
   @Expose()
   gender?: Gender;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       username: Yup.string().required('Username is required').nullable(),
       firstName: Yup.string().required('First name is required').nullable(),
@@ -87,8 +87,8 @@ export class CreateUserBody extends UpdateUserBody {
   @Expose()
   role?: Roles;
 
-  async validation(): Promise<ObjectSchema> {
-    return (await super.validation()).concat(
+  async validation?(): Promise<ObjectSchema> {
+    return (await super.validation?()).concat(
       Yup.object({
         password: Yup.string().notRequired().nullable(),
       })

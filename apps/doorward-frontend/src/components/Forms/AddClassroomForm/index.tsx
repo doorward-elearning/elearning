@@ -1,24 +1,23 @@
 import React from 'react';
 import BasicForm from '../BasicForm';
-import { createClassroom } from '../../../reducers/schools/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import TextField from '@doorward/ui/components/Input/TextField';
 import useForm from '@doorward/ui/hooks/useForm';
-import validation from './validation';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { CreateClassroomBody } from '@doorward/common/dtos/body';
 
 const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
   schoolId,
   onSuccess,
   onCancel,
 }): JSX.Element => {
-  const state = useSelector((state: State) => state.schools.newClassroom);
+  const state = useDoorwardApi((state) => state.schools.addClassroomToSchool);
   const form = useForm();
   return (
     <BasicForm
-      submitAction={createClassroom}
-      createData={values => [schoolId, { ...values }]}
-      validationSchema={validation}
+      submitAction={DoorwardApi.schools.addClassroomToSchool}
+      createData={(values) => [schoolId, { ...values }]}
+      validationSchema={CreateClassroomBody}
       initialValues={{ name: '' }}
       showSuccessToast
       state={state}

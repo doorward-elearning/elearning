@@ -5,7 +5,6 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import { getNames } from 'country-list';
 import BasicForm from '../BasicForm';
-import addStudentForm from '../AddStudentForm/validation';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
@@ -13,8 +12,9 @@ import IfElse from '@doorward/ui/components/IfElse';
 import Header from '@doorward/ui/components/Header';
 import PasswordPolicy from '../../UI/PasswordPolicy';
 import Grid from '@doorward/ui/components/Grid';
+import { CreateUserBody } from '@doorward/common/dtos/body';
 
-const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props => {
+const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (props) => {
   const countries = getNames();
   const initialValues = {
     firstName: '',
@@ -29,13 +29,13 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = props
     <BasicForm
       form={props.useForm}
       initialValues={initialValues}
-      validationSchema={addStudentForm}
+      validationSchema={CreateUserBody}
       formClassName="add-student-form"
       showOverlay
       onCancel={props.onCancel}
       submitAction={props.action}
       onSuccess={props.onSuccess}
-      createData={data => (props.createData ? props.createData(data) : [data])}
+      createData={(data) => (props.createData ? props.createData(data) : [data])}
       state={props.state}
     >
       <Card flat>

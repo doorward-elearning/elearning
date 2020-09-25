@@ -17,7 +17,7 @@ export class CreateSchoolBody extends DApiBody {
   @Expose()
   phoneNumber: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       name: Yup.string().required('The {{school}} name is required.').nullable(),
       email: Yup.string().required('The {{school}} email is required').nullable(),
@@ -30,7 +30,7 @@ export class CreateClassroomBody extends DApiBody {
   @ApiProperty()
   @Expose()
   name: string;
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       name: Yup.string().required('The {{classroom}} name is required'),
     });

@@ -12,7 +12,7 @@ export class CreateModuleItemBody extends DApiBody {
 
   @ApiProperty()
   @Expose()
-  content: object | string;
+  content: any;
 
   @ApiProperty()
   @Expose()
@@ -22,7 +22,7 @@ export class CreateModuleItemBody extends DApiBody {
   @Expose()
   order: number;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       type: Yup.string()
         .required('The {{moduleItem}} type is required.')
@@ -39,7 +39,7 @@ export class CreateModuleBody extends DApiBody {
   @Expose()
   title: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       title: Yup.string().required('Please provide the {{module}} title.').nullable(),
     });
@@ -64,7 +64,7 @@ export class UpdateModulesBody extends DApiBody {
   @Expose()
   modules: UpdateModuleOrderBody[];
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       modules: Yup.array(
         Yup.object({

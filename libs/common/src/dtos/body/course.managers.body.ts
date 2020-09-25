@@ -9,7 +9,7 @@ export class AddCourseManagerBody extends DApiBody {
   @Expose()
   managerId: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       managerId: Yup.string().required('The {{courseManager}} id is required.').nullable(),
     });

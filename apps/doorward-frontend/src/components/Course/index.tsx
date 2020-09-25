@@ -3,7 +3,7 @@ import './Course.scss';
 import EImage from '@doorward/ui/components/Image';
 import Card from '@doorward/ui/components/Card';
 import Header from '@doorward/ui/components/Header';
-import { Course as CourseModel } from '@doorward/common/models/Course';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
   return (
@@ -22,7 +22,7 @@ const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
 };
 
 export interface CourseProps {
-  course: CourseModel;
+  course: CourseEntity;
   onClick: MouseEventHandler;
 }
 

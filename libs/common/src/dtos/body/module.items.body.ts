@@ -47,8 +47,8 @@ export class CreateQuizBody extends CreateModuleItemBody {
   @Expose()
   questions: Array<CreateQuestionBody>;
 
-  async validation(): Promise<ObjectSchema> {
-    let schema = await super.validation();
+  async validation?(): Promise<ObjectSchema> {
+    let schema = await super.validation?();
 
     schema = schema.concat(
       Yup.object({
@@ -144,7 +144,7 @@ export class SubmitAssignmentBody extends DApiBody {
   @Expose()
   status: AssignmentSubmissionStatus.DRAFT | AssignmentSubmissionStatus.SUBMITTED;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       submissionType: Yup.string()
         .required('Please provide the submission type')

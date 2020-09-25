@@ -9,7 +9,7 @@ export class AddStudentsToCourseBody extends DApiBody {
   @Expose()
   students: Array<string>;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       students: Yup.array(Yup.string().nullable()).required('Please choose at least one {{student}}'),
     });

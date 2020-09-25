@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import BasicForm from '../BasicForm';
-import { submitAssignmentAction } from '../../../reducers/courses/actions';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import TextField from '@doorward/ui/components/Input/TextField';
 import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
 import Api from '../../../services/api';
-import { Assignment } from '@doorward/common/models/Assignment';
 import useForm from '@doorward/ui/hooks/useForm';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { AssignmentSubmissionType } from '@doorward/common/models';
+import { AssignmentSubmissionType } from '@doorward/common/types/courses';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,
@@ -24,12 +24,12 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
   return (
     <BasicForm
       state={state}
-      submitAction={submitAssignmentAction}
+      submitAction={DoorwardApi.assignments.submitAssignment}
       form={form}
       showSuccessToast
       showErrorToast
       onSuccess={onSuccess}
-      createData={values => [
+      createData={(values) => [
         assignment.id,
         {
           submission:
@@ -42,10 +42,10 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
       ]}
       initialValues={initialValues}
     >
-      {formikProps => {
+      {(formikProps) => {
         return (
           <TabLayout
-            onTabChange={tab => {
+            onTabChange={(tab) => {
               if (currentTab !== tab) {
                 setCurrentTab(tab);
                 formikProps.setValues({
@@ -81,7 +81,7 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
 };
 
 export interface AssignmentSubmissionFormProps {
-  assignment: Assignment;
+  assignment: ModuleItemEntity;
   initialValues: {
     submission: any;
     submissionType: string;

@@ -39,7 +39,7 @@ export class CreateOrganizationBody extends DApiBody {
   @Expose()
   customerType: CustomerTypes;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       name: Yup.string().required('The organization name is required').nullable(),
       description: Yup.string().nullable().notRequired(),

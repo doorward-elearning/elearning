@@ -10,7 +10,7 @@ export class UpdateCourseBody extends DApiBody {
   @Expose()
   title: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       title: Yup.string().required('The {{course}} title is required').nullable(),
     });
@@ -22,18 +22,18 @@ export class CreateCourseBody extends UpdateCourseBody {
   @Expose()
   modules: Array<CreateModuleBody>;
 
-  async validation(): Promise<ObjectSchema> {
-    const validation = await super.validation();
+  async validation?(): Promise<ObjectSchema> {
+    const validation = await super.validation?();
     validation.concat(
       Yup.object({
         modules: Yup.array()
           .of(
             Yup.object().shape({
               title: Yup.string().required('The {{module}} name is required'),
-            }),
+            })
           )
           .required('Please provide at least one {{module}} in the course'),
-      }),
+      })
     );
     return validation;
   }

@@ -20,8 +20,9 @@ import Message from '@doorward/ui/components/Message';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
 import COVID19Banner from '@doorward/ui/components/COVID19Banner';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
-const Login: React.FunctionComponent<LoginProps> = props => {
+const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
   const { authenticated, authenticate } = useAuth();
   const clearLogin = useAction(clearLoginAction);
@@ -29,7 +30,7 @@ const Login: React.FunctionComponent<LoginProps> = props => {
   const { query } = useQueryParams();
 
   const routes = useRoutes();
-  const login = useSelector((state: State) => state.login.loginUser);
+  const login = useDoorwardApi((state) => state.auth.login);
 
   useEffect(() => {
     if (query.newAccount) {

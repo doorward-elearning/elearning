@@ -4,25 +4,25 @@ import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useAction from '@doorward/ui/hooks/useActions';
 import './ChooseStudentForm.scss';
-import { fetchStudentsNotRegisteredAction, registerStudents } from '../../../reducers/courses/actions';
 import Tools from '@doorward/common/utils/Tools';
-import { Student } from '@doorward/common/models/Student';
 import ChooseItemsForm from '../ChooseItemsForm';
-import { fetchGroupsAction } from '../../../reducers/groups/actions';
 import Groups from '@doorward/common/utils/GroupTypes';
 import Panel from '@doorward/ui/components/Panel';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import { Group } from '@doorward/common/models/Group';
 import Row from '@doorward/ui/components/Row';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import WebComponent from '@doorward/ui/components/WebComponent';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { SimpleGroupResponse } from '@doorward/common/dtos/response';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props => {
-  const studentList = useSelector((state: State) => state.courses.notRegistered);
-  const groupList = useSelector((state: State) => state.groups.groupList);
-  const fetchStudents = useAction(fetchStudentsNotRegisteredAction);
-  const fetchGroups = useAction(fetchGroupsAction);
+const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (props) => {
+  const studentList = useDoorwardApi((state) => state.students.getStudentsNotRegisteredToCourse);
+  const groupList = useDoorwardApi((state) => state.groups.getGroups);
+  const fetchStudents = useAction(DoorwardApi.students.getStudentsNotRegisteredToCourse);
+  const fetchGroups = useAction(DoorwardApi.groups.getGroups);
   const { courseId } = props;
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
   }, [props.search]);
 
   const onSuccess = () => {
-    fetchStudents(courseId);
+    fetchStudents(courseId, {});
     if (props.groupForm.formikProps) {
       props.groupForm.formikProps.resetForm();
     }
@@ -44,9 +44,9 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
   const state = useSelector((state: State) => state.courses.registerStudents);
   const createStudentsFromGroups = ({ items }) => {
     return items
-      .filter(item => item.selected)
+      .filter((item) => item.selected)
       .reduce((acc, group) => [...acc, ...group.members], [])
-      .map(student => student.id);
+      .map((student) => student.id);
   };
 
   return (
@@ -55,22 +55,22 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
         <Tab title="Students">
           <Panel plain>
             <ChooseItemsForm
-              getItems={state1 => state1.data.students}
+              getItems={(state1) => state1.data.students}
               items={studentList}
               state={state}
               onRemoveFilter={props.onClearSearch}
               hasSearch={!!props.search}
               form={props.form}
               onSuccess={onSuccess}
-              submitAction={registerStudents}
-              createData={values => [
+              submitAction={DoorwardApi.students.createStudentInCourse}
+              createData={(values) => [
                 courseId,
                 {
                   students: values.items
-                    .filter(student => {
+                    .filter((student) => {
                       return student.selected;
                     })
-                    .map(student => student.id),
+                    .map((student) => student.id),
                 },
               ]}
               columns={{
@@ -87,43 +87,43 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
             <Row style={{ alignItems: 'start' }}>
               <ChooseItemsForm
                 items={groupList}
-                getItems={state1 => state1.data.groups}
+                getItems={(state1) => state1.data.groups}
                 state={state}
                 form={props.groupForm}
                 onSuccess={onSuccess}
-                submitAction={registerStudents}
+                submitAction={DoorwardApi.students.createStudentInCourse}
                 onRemoveFilter={props.onClearSearch}
                 hasSearch={!!props.search}
-                createData={values => [courseId, { students: createStudentsFromGroups(values) }]}
+                createData={(values) => [courseId, { students: createStudentsFromGroups(values) }]}
                 columns={{
                   name: 'Group name',
                   members: 'Members',
                 }}
-                renderCell={row => {
+                renderCell={(row) => {
                   return {
                     members: <span>{Tools.str(row.members.length)}</span>,
                   };
                 }}
               >
-                {formikProps => (
+                {(formikProps) => (
                   <div className="choose-student-form__group__selected">
                     <WebComponent
-                      data={formikProps.values.items.filter(item => item.selected)}
+                      data={formikProps.values.items.filter((item) => item.selected)}
                       loading={false}
                       size="medium"
                     >
-                      {items => {
+                      {(items) => {
                         return items
                           .reduce((acc, group) => {
                             const result = [...acc];
-                            group.members.map(member => {
-                              if (!result.find(one => one.id === member.id)) {
+                            group.members.map((member) => {
+                              if (!result.find((one) => one.id === member.id)) {
                                 result.push(member);
                               }
                             });
                             return result;
                           }, [])
-                          .map(member => (
+                          .map((member) => (
                             <Panel plain key={member.id}>
                               <SimpleUserView user={member} />
                             </Panel>
@@ -142,11 +142,11 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = props
 };
 
 export interface ChooseStudentFormState {
-  items: Array<Student>;
+  items: Array<UserEntity>;
 }
 
 export interface ChooseStudentGroupFormState {
-  items: Array<Group>;
+  items: Array<SimpleGroupResponse>;
 }
 
 export interface ChooseStudentFormProps {

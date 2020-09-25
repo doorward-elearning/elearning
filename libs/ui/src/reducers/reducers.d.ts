@@ -1,6 +1,6 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
-import { DApiResponse, PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
+import { PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
 import { PaginationQuery } from '@doorward/common/types/api';
 
 export type SagaFunction = () => IterableIterator<any>;
@@ -18,8 +18,6 @@ export interface Action extends ReduxAction {
 }
 
 export type ActionCreator<T = any[]> = (...args: T) => Action;
-
-export type StoreLocationResolver<T> = (state: T, action: Action) => string;
 
 export interface WebComponentState<T> {
   action: string;
@@ -48,7 +46,6 @@ export type ReducerBuilder<T, R> = {
   initialState?: WebComponentState;
   reducers?: Array<StaticReducer<T, Action>>;
   middleware: R;
-  name?: string;
 };
 
 export interface ReduxApiActionProps<T> {
@@ -62,8 +59,6 @@ export type StaticReducer<S = any, A extends Action = AnyAction> = (state: S, ac
 export interface ReduxReducerApiActionProps<R = WebComponentState<any>, T> extends ReduxApiActionProps<T> {
   reducer?: StaticReducer<R, Action>;
 }
-
-export type ReduxReducerApiAction<T> = (args: ReduxReducerApiActionProps<T>) => ReduxReducerApiActionProps<T>;
 
 export type BuiltReducer<T> = {
   reducer: Reducer<T, Action>;

@@ -1,14 +1,9 @@
-import Api from '../../services/api';
-import { LOGIN_USER, REGISTER_USER } from './types';
-import reducerBuilder, {
-  modifyReducer,
-  reducerApiAction
-} from '@doorward/ui/reducers/builder';
+import { modifyReducer } from '@doorward/ui/reducers/builder';
 import Tools from '@doorward/common/utils/Tools';
 import { Action } from '@doorward/ui/reducers/reducers';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 
-const loginMiddleware = {
+export default  {
   apiMiddleware: {
     error: (): void => {
       Tools.isLoggedIn();
@@ -26,19 +21,3 @@ const loginMiddleware = {
     }
   }
 };
-
-export const loginUser = reducerApiAction({
-  action: LOGIN_USER,
-  api: Api.users.authenticate,
-  ...loginMiddleware
-});
-
-const registration = reducerApiAction({
-  action: REGISTER_USER,
-  api: Api.users.register,
-  ...loginMiddleware
-});
-
-export default reducerBuilder({
-  middleware: { loginUser, registration }
-});

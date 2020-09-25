@@ -1,8 +1,5 @@
 import React from 'react';
 import * as Yup from 'yup';
-import { deleteCourseAction } from '../../../reducers/courses/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useRoutes from '../../../hooks/useRoutes';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import useModal, { UseModal } from '@doorward/ui/hooks/useModal';
@@ -11,14 +8,16 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import Icon from '@doorward/ui/components/Icon';
 import useForm from '@doorward/ui/hooks/useForm';
 import Form from '@doorward/ui/components/Form';
-import { Course } from '@doorward/common/models/Course';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { Roles } from '@doorward/ui/components/RolesManager';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
   const routes = useRoutes();
-  const deleteState = useSelector((state: State) => state.courses.deleteCourse);
+  const deleteState = useDoorwardApi((state) => state.courses.deleteCourse);
   const onDeleteSuccess = () => {
     routes.navigate(routes.courseList);
   };
@@ -35,7 +34,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
             .oneOf([course.title], 'Please enter the exact name of the course'),
         })}
       >
-        {formikProps => (
+        {(formikProps) => (
           <WebConfirmModal
             state={deleteState}
             useModal={deleteCourseModal}
@@ -43,7 +42,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
             showErrorToast
             showSuccessToast
             buttonDisabled={!formikProps.isValid}
-            action={() => deleteCourseAction(course.id)}
+            action={() => DoorwardApi.courses.deleteCourse(course.id)}
             onSuccess={onDeleteSuccess}
           >
             <div>
@@ -62,7 +61,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
   );
 };
 
-const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = props => {
+const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => {
   const deleteCourseModal = useModal(false);
 
   return (
@@ -89,11 +88,11 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = props => {
 };
 
 export interface CourseViewMenuProps {
-  course: Course;
+  course: CourseEntity;
 }
 
 export interface CourseViewMenuModalsProps {
-  course: Course;
+  course: CourseEntity;
   deleteCourseModal: UseModal;
 }
 

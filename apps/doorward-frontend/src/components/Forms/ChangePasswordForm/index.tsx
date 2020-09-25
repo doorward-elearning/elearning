@@ -1,16 +1,15 @@
 import React from 'react';
-import { ChangePasswordBody } from '../../../services/models/requestBody';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
-import changePasswordForm from './validation';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { updateAccountPasswordAction } from '../../../reducers/users/actions';
 import BasicForm from '../BasicForm';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import withContext from '@doorward/ui/hoc/withContext';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { UpdatePasswordBody } from '@doorward/common/dtos/body';
 
-const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = props => {
+const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
     password: '',
     confirmPassword: '',
@@ -23,12 +22,12 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = pro
     <BasicForm
       form={props.form}
       initialValues={initialValues}
-      validationSchema={changePasswordForm(!props.dontEnterCurrentPassword)}
+      validationSchema={new UpdatePasswordBody().validation(!props.dontEnterCurrentPassword)}
       state={props.state || state}
       onCancel={props.onCancel}
       onSuccess={props.onSuccess}
-      submitAction={props.submitAction || updateAccountPasswordAction}
-      createData={props.createData || (data => [data])}
+      submitAction={props.submitAction || DoorwardApi.userProfile.updateAccountPassword}
+      createData={props.createData || ((data) => [data])}
       showOverlay
     >
       {!props.dontEnterCurrentPassword && <PasswordField name="password" label="Current password" />}
@@ -38,7 +37,7 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = pro
   );
 };
 
-export interface ChangePasswordFormState extends ChangePasswordBody {
+export interface ChangePasswordFormState extends UpdatePasswordBody {
   confirmPassword: string;
 }
 

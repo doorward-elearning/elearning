@@ -3,11 +3,11 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import './AddModulePageForm.scss';
 import TextField from '@doorward/ui/components/Input/TextField';
-import validation from './validation';
 import AddModuleItemForm from '../AddModuleItemForm';
-import { CourseModuleItemBody } from '../../../services/models/requestBody';
-import { Module } from '@doorward/common/models/Module';
-import { ModuleItem } from '@doorward/common/models/ModuleItem';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { CreateModuleItemBody } from '@doorward/common/dtos/body';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -24,10 +24,10 @@ function AddModulePageForm<T extends AddModulePageFormState>({
     <AddModuleItemForm
       onSuccess={onSuccess}
       item={module}
-      type="Page"
+      type={ModuleItemType.PAGE}
       key={page?.id}
       onCancel={onCancel}
-      validationSchema={validation}
+      validationSchema={CreateModuleItemBody}
       initialValues={initialValues}
       form={useForm}
     >
@@ -39,14 +39,14 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   );
 }
 
-export interface AddModulePageFormState extends CourseModuleItemBody {}
+export interface AddModulePageFormState extends CreateModuleItemBody {}
 
 export interface AddModulePageFormProps<T = any> {
   useForm: UseForm<T>;
-  module: Module;
+  module: ModuleEntity;
   onSuccess: () => void;
   onCancel: () => void;
-  page?: ModuleItem;
+  page?: ModuleItemEntity;
 }
 
 export default AddModulePageForm;

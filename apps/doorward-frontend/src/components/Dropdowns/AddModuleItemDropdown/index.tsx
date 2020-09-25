@@ -1,11 +1,10 @@
 import React from 'react';
 import useRoutes from '../../../hooks/useRoutes';
-import Button from '@doorward/ui/components/Buttons/Button';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import { Icons } from '@doorward/ui/types/icons';
-import { Module } from '@doorward/common/models/Module';
 import Icon from '@doorward/ui/components/Icon';
 import Row from '@doorward/ui/components/Row';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',
@@ -15,10 +14,10 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
   File: 'file_copy',
 };
 
-const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = props => {
+const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = (props) => {
   const { routes } = useRoutes();
   const { module } = props;
-  const params = { courseId: module.courseId, moduleId: module.id };
+  const params = { courseId: module?.course?.id, moduleId: module.id };
   return (
     <Dropdown positionX="right">
       <Row>
@@ -42,7 +41,7 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
 };
 
 export interface AddModuleItemDropdownProps {
-  module: Module;
+  module: ModuleEntity;
 }
 
 export default AddModuleItemDropdown;

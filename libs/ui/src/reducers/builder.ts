@@ -74,6 +74,8 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
         },
         failed: true,
       };
+    } else if (action.type === `${actionType}_CLEAR`) {
+      return initialState;
     } else {
       return state;
     }

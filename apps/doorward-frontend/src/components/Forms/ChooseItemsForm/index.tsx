@@ -7,7 +7,6 @@ import Table, { TableColumns } from '@doorward/ui/components/Table';
 import SwitchInput from '@doorward/ui/components/Input/SwitchInput';
 import { FormikProps } from 'formik';
 import Row from '@doorward/ui/components/Row';
-import objectHash from 'object-hash';
 
 function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
   const [itemsState, setItemsState] = useState<Record<string, boolean>>({});

@@ -1,8 +1,8 @@
-import React, {FunctionComponent} from 'react';
+import React, { FunctionComponent } from 'react';
 import TextField from '@doorward/ui/components/Input/TextField';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
-import {UseForm} from '@doorward/ui/hooks/useForm';
-import AddModuleItemForm, {AddModuleItemFormState} from '../AddModuleItemForm';
+import { UseForm } from '@doorward/ui/hooks/useForm';
+import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
 import './CreateAssignmentForm.scss';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
 import DateInput from '@doorward/ui/components/Input/DateInput';
@@ -11,37 +11,43 @@ import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import IfElse from '@doorward/ui/components/IfElse';
 import Row from '@doorward/ui/components/Row';
 import Header from '@doorward/ui/components/Header';
-import {Module} from '@doorward/common/models/Module';
-import {Assignment} from '@doorward/common/models/Assignment';
-import {Omit} from '@doorward/common/types';
+import { Omit } from '@doorward/common/types';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
-  const initialValues = props.assignment || {
-    title: 'Unnamed Assignment',
-    type: 'Assignment',
-    content: {
-      points: 1,
-      submissionType: ['Text Entry'],
-      dueDate: new Date(),
-      assignment: null,
-      submissionMedia: 'Offline',
-      availability: {
-        from: new Date(),
-        to: null,
-      },
-    },
-  };
+  const initialValues = props.assignment
+    ? {
+        ...props.assignment,
+        content: JSON.parse(props.assignment.content),
+      }
+    : {
+        title: 'Unnamed Assignment',
+        type: 'Assignment',
+        content: {
+          points: 1,
+          submissionType: ['Text Entry'],
+          dueDate: new Date(),
+          assignment: null,
+          submissionMedia: 'Offline',
+          availability: {
+            from: new Date(),
+            to: null,
+          },
+        },
+      };
   return (
     <AddModuleItemForm
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
-      type="Assignment"
+      type={ModuleItemType.ASSIGNMENT}
       form={props.form}
       item={props.module}
       validationSchema={validation}
       initialValues={initialValues}
     >
-      {formikProps => (
+      {(formikProps) => (
         <div className="add-course-assignment">
           <TextField name="title" placeholder="Title of the assignment" label="Title" />
           <DraftTextArea
@@ -99,14 +105,14 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
   );
 };
 
-export interface CreateAssignmentFormState extends Omit<AddModuleItemFormState, 'content'>, Assignment {}
+export interface CreateAssignmentFormState extends AddModuleItemFormState, Omit<ModuleItemEntity, 'content'> {}
 
 export interface CreateAssignmentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
   form: UseForm<CreateAssignmentFormState>;
-  module: Module;
-  assignment?: Assignment;
+  module: ModuleEntity;
+  assignment?: ModuleItemEntity;
 }
 
 export default CreateAssignmentForm;

@@ -13,7 +13,7 @@ export class OpenviduWebHookBody extends DApiBody {
   @Expose()
   sessionId: string;
 
-  async validation(): Promise<ObjectSchema> {
+  async validation?(): Promise<ObjectSchema> {
     return undefined;
   }
 }

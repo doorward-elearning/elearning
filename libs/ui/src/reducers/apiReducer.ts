@@ -27,6 +27,17 @@ type ApiReducer<A extends Api> = {
   >;
 };
 
+type MiddlewareOverride<T> = Omit<
+  ReduxReducerApiActionProps<WebComponentState<EndpointData<T>>, EndpointData<T>>,
+  'action' | 'api'
+>;
+
+type ApiReducerMiddleware<A extends Api> = {
+  [K in keyof A]?: {
+    [L in keyof A[K]]?: MiddlewareOverride<A[K][L]>;
+  };
+};
+
 function apiActionCreator<T, R extends ApiEndpoint<T>, A extends Array<any> = ArgumentTypes<R>>(
   api: R,
   actionType: string
@@ -39,11 +50,15 @@ function apiActionCreator<T, R extends ApiEndpoint<T>, A extends Array<any> = Ar
   };
 }
 
-function generateReducers<R extends Api>(api: R, name: string): ApiReducer<R> {
+function generateReducers<R extends Api>(
+  api: R,
+  name: string,
+  apiReducerMiddleware?: ApiReducerMiddleware<R>
+): ApiReducer<R> {
   const groupNames = Object.keys(api);
 
   return groupNames.reduce((acc, groupName) => {
-    const middleware = generateReducer(api[groupName], name + '_' + groupName);
+    const middleware = generateReducer(api[groupName], name + '_' + groupName, apiReducerMiddleware?.[groupName]);
     return {
       ...acc,
       [groupName]: reducerBuilder({
@@ -53,13 +68,18 @@ function generateReducers<R extends Api>(api: R, name: string): ApiReducer<R> {
   }, {}) as any;
 }
 
-function generateReducer(apiGroup: Record<string, ApiEndpoint<any>>, prefix: string) {
+function generateReducer(
+  apiGroup: Record<string, ApiEndpoint<any>>,
+  prefix: string,
+  middleware?: Record<string, MiddlewareOverride<any>>
+) {
   const endpointNames = Object.keys(apiGroup);
 
   return endpointNames.reduce((acc, endpointName) => {
     acc[endpointName] = reducerApiAction({
       action: prefix + '_' + endpointName,
       api: apiGroup[endpointName],
+      ...(middleware?.[endpointName] || {}),
     });
     return acc;
   }, {}) as any;
@@ -89,10 +109,10 @@ function generateActionsForGroup(apiGroup: Record<string, ApiEndpoint<any>>, pre
   return actions as any;
 }
 
-function buildApiReducer<T extends Api>(api: typeof DoorwardBackendApi, name) {
+function buildApiReducer<T extends Api>(api: typeof DoorwardBackendApi, name, middleware?: ApiReducerMiddleware<T>) {
   const actions = generateActions(api, name);
 
-  const reducers = generateReducers(api, name);
+  const reducers = generateReducers(api, name, middleware);
 
   return { actions, reducers };
 }
