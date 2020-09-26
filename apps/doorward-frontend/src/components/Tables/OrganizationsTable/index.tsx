@@ -1,5 +1,4 @@
 import React from 'react';
-import { Organization } from '@doorward/common/models/Organization';
 import Table from '@doorward/ui/components/Table';
 import Row from '@doorward/ui/components/Row';
 import CopyButton from '@doorward/ui/components/CopyButton';
@@ -8,6 +7,7 @@ import EImage from '@doorward/ui/components/Image';
 import IfElse from '@doorward/ui/components/IfElse';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useRoutes from '../../../hooks/useRoutes';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -16,7 +16,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
       className="organizations-table"
       data={props.organizations}
       columns={{ name: 'Name', id: 'ID', description: 'Description' }}
-      actionMenu={row => {
+      actionMenu={(row) => {
         return (
           <Dropdown.Menu>
             <Dropdown.Item
@@ -32,7 +32,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
           </Dropdown.Menu>
         );
       }}
-      getCell={row => {
+      getCell={(row) => {
         return {
           id: (
             <Row style={{ gridGap: '1em', justifyContent: 'start' }}>
@@ -55,7 +55,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
 };
 
 export interface OrganizationsTableProps {
-  organizations: Array<Organization>;
+  organizations: Array<OrganizationEntity>;
 }
 
 export default OrganizationsTable;

@@ -1,24 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { AccountDetailsBody } from '../../../services/models/requestBody';
 import TextField from '@doorward/ui/components/Input/TextField';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
-import { updateAccountInformationAction } from '../../../reducers/users/actions';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
-import profileAccountForm from './validation';
 import BasicForm, { BasicFormFeatures, CreateData } from '../BasicForm';
-import { User } from '@doorward/common/models/User';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import withContext from '@doorward/ui/hoc/withContext';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { UpdateAccountBody } from '@doorward/common/dtos/body';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = props => {
+const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (props) => {
   const initialValues: ProfileAccountFormState = {
     ...props.user,
   };
   const [features, setFeatures] = useState<Array<BasicFormFeatures>>([]);
 
-  const state = useSelector((state: State) => state.users.accountInformation);
+  const state = useDoorwardApi((state) => state.userProfile.updateAccountDetails);
 
   useEffect(() => {
     setFeatures(props.editing ? [BasicFormFeatures.SAVE_BUTTON, BasicFormFeatures.CANCEL_BUTTON] : []);
@@ -43,8 +41,8 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
       onSuccess={stopEditing}
       features={features}
       onCancel={stopEditing}
-      submitAction={props.submitAction || updateAccountInformationAction}
-      validationSchema={profileAccountForm}
+      submitAction={props.submitAction || DoorwardApi.userProfile.updateAccountDetails}
+      validationSchema={UpdateAccountBody}
       showOverlay
     >
       <TextField name="firstName" label="First name" />
@@ -55,16 +53,16 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = pro
   );
 };
 
-export interface ProfileAccountFormState extends AccountDetailsBody {}
+export interface ProfileAccountFormState extends UpdateAccountBody {}
 
 export interface ProfileAccountFormProps {
   form: UseForm<ProfileAccountFormState>;
-  user: User;
+  user: UserEntity;
   editing: boolean;
   stopEditing: () => void;
   submitAction?: ActionCreator;
   state?: WebComponentState<any>;
-  createData?: CreateData<ProfileAccountFormState>
+  createData?: CreateData<ProfileAccountFormState>;
 }
 
 const { Context, ContextConsumer } = withContext(ProfileAccountForm, {});

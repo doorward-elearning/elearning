@@ -2,14 +2,13 @@ import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { ROUTES } from '../routes/routes';
-import { fetchCurrentUserAction } from '../reducers/users/actions';
-import { connectSocket } from '@doorward/ui/utils/socket';
 import useStateRef from '@doorward/ui/hooks/useStateRef';
 import Tools from '@doorward/common/utils/Tools';
 import { DoorwardAppContextProps } from '../main';
 import useAction from '@doorward/ui/hooks/useActions';
 import useAuth from '@doorward/ui/hooks/useAuth';
 import { DoorwardRoutes } from '../routes';
+import DoorwardApi from '../services/apis/doorward.api';
 
 export const appInitialValue = {
   routes: { ...ROUTES },
@@ -28,7 +27,7 @@ const useApp = (): UseApp => {
   }, []);
 
   const auth = useAuth();
-  const getCurrentUser = useAction(fetchCurrentUserAction);
+  const getCurrentUser = useAction(DoorwardApi.auth.getCurrentUser);
   useEffect(() => {
     if (auth.authenticated) {
       getCurrentUser();
@@ -52,7 +51,7 @@ const useApp = (): UseApp => {
   const setParams = (key: keyof DoorwardRoutes, params: { [name: string]: any }): void => {
     const current = previousRoutes.current[key];
     const newRoutes: typeof routes = { ...previousRoutes.current };
-    (Object.keys(newRoutes) as Array<keyof typeof routes>).forEach(r => {
+    (Object.keys(newRoutes) as Array<keyof typeof routes>).forEach((r) => {
       if (newRoutes[r].tree.includes(current.id)) {
         newRoutes[r].link = Tools.createRoute(newRoutes[r].matchURL, params);
       }
@@ -66,7 +65,7 @@ const useApp = (): UseApp => {
 
   useEffect(() => {
     if (io) {
-      Object.values([]).forEach(type => {
+      Object.values([]).forEach((type) => {
         io.on((type: string, data: any) => {
           dispatch({
             type,

@@ -1,17 +1,16 @@
 import React, { useEffect } from 'react';
 import AddModuleForm, { AddModuleFormState } from '../../Forms/AddModuleForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import Header from '@doorward/ui/components/Header';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
-const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> = props => {
+const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> = (props) => {
   const form = useForm<AddModuleFormState>();
   const { formikProps } = form;
 
-  const state = useSelector((state: State) => state.courses.createModule);
+  const state = useDoorwardApi((state) => state.courses.createCourseModule);
 
   useEffect(() => {
     if (state.data.module) {

@@ -1,24 +1,23 @@
 import React from 'react';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
 import Table from '@doorward/ui/components/Table';
-import { fetchCourseCreatorReportList } from '../../../reducers/reports/actions';
-import { State } from '../../../store';
-import { Teacher } from '@doorward/common/models/Teacher';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { TeacherReport } from '@doorward/common/dtos/response';
 
-const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = props => (
+const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (props) => (
   <SimpleWebComponent
-    action={fetchCourseCreatorReportList}
-    selector={(state: State) => state.reports.teacherReportList}
-    dataSelector={data => data.teachers}
+    action={DoorwardApi.reports.getTeachersReport}
+    selector={(state) => state.reports.getTeachersReport}
+    dataSelector={(data) => data.teachers}
   >
-    {data => (
+    {(data) => (
       <Table
         data={data}
-        getCell={row => {
+        getCell={(row) => {
           return {
             fullName: row.fullName,
             department: 'Computer Science',
-            courses: '' + row.authoredCourses.length,
+            courses: '' + row.courses.length,
             ratings: '4.5',
           };
         }}
@@ -35,7 +34,7 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = pro
 );
 
 export interface TeacherReportTableProps {
-  onRowClick: (row: Teacher, index: number) => void;
+  onRowClick: (row: TeacherReport, index: number) => void;
 }
 
 export default TeacherReportTable;

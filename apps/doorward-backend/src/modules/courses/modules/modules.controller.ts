@@ -17,9 +17,16 @@ import {
   ModuleResponse,
   UpdateModulesOrderResponse,
 } from '@doorward/common/dtos/response/modules.responses';
-import { CreateModuleItemBody, CreateQuizBody, UpdateModuleBody, UpdateModulesBody } from '@doorward/common/dtos/body';
+import {
+  CreateAssignmentBody,
+  CreateModuleItemBody,
+  CreateQuizBody,
+  UpdateModuleBody,
+  UpdateModulesBody,
+} from '@doorward/common/dtos/body';
 
-export const ModuleExists = () => ModelExists({ key: 'moduleId', model: ModuleEntity, message: '{{module}} does not exist.' });
+export const ModuleExists = () =>
+  ModelExists({ key: 'moduleId', model: ModuleEntity, message: '{{module}} does not exist.' });
 
 @Controller('modules')
 @ApiTags('modules')
@@ -52,15 +59,21 @@ export class ModulesController {
   @Post(':moduleId/items')
   @Privileges('moduleItems.create')
   @ModuleExists()
-  @ApiResponse({ status: HttpStatus.CREATED, type: ModuleItemResponse, description: 'The module item that was created.' })
-  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) } })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    type: ModuleItemResponse,
+    description: 'The module item that was created.',
+  })
+  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody) } })
   async createModuleItem(
     @Param('moduleId') moduleId: string,
-    @Body() body: CreateModuleItemBody | CreateQuizBody,
+    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody,
     @CurrentUser() user: UserEntity
   ): Promise<ModuleItemResponse> {
     if (body.type === ModuleItemType.QUIZ) {
       await YupValidationPipe.validate(CreateQuizBody, body);
+    } else if (body.type === ModuleItemType.ASSIGNMENT) {
+      await YupValidationPipe.validate(CreateAssignmentBody, body);
     }
     const moduleItem = await this.modulesService.createModuleItem(moduleId, body, user);
 
@@ -93,7 +106,11 @@ export class ModulesController {
   @Delete(':moduleId')
   @Privileges('modules.delete')
   @ModuleExists()
-  @ApiResponse({ status: HttpStatus.OK, type: DeleteModuleResponse, description: 'The id of the module that was deleted.' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: DeleteModuleResponse,
+    description: 'The id of the module that was deleted.',
+  })
   async deleteModule(@Param('moduleId') moduleId: string): Promise<DeleteModuleResponse> {
     await this.modulesService.deleteModule(moduleId);
 
@@ -110,7 +127,11 @@ export class ModulesController {
   @Put()
   @CourseExists()
   @Privileges('modules.update')
-  @ApiResponse({ status: HttpStatus.OK, description: 'The modules that were updated and their orders', type: UpdateModulesOrderResponse })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The modules that were updated and their orders',
+    type: UpdateModulesOrderResponse,
+  })
   async updateCourseModules(@Body() body: UpdateModulesBody): Promise<UpdateModulesOrderResponse> {
     const modules = await this.modulesService.updateModuleOrders(body);
 

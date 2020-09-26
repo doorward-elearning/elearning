@@ -1,7 +1,7 @@
 import React from 'react';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
-import { Question } from '@doorward/common/models/Question';
-import { Answer } from '@doorward/common/models/Answer';
+import AnswerEntity from '@doorward/common/entities/answer.entity';
+import QuestionEntity from '@doorward/common/entities/question.entity';
 
 const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answers }) => {
   return (
@@ -9,16 +9,16 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
       <MultipleSwitchField
         name={`answers[${question.id}]`}
         singleChoice
-        choices={answers.map(answer => answer.answer)}
-        values={answers.map(answer => answer.id)}
+        choices={answers.map((answer) => answer.answer)}
+        values={answers.map((answer) => answer.id)}
       />
     </div>
   );
 };
 
 export interface AnswersViewProps {
-  answers: Array<Answer>;
-  question: Question;
+  answers: Array<AnswerEntity>;
+  question: QuestionEntity;
 }
 
 export default AnswersView;

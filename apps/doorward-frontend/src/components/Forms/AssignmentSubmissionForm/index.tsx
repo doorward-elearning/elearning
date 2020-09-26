@@ -7,18 +7,17 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
 import Api from '../../../services/api';
 import useForm from '@doorward/ui/hooks/useForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,
   initialValues,
   onSuccess,
 }): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.moduleItemList);
+  const state = useDoorwardApi((state) => state.courses.getCourseModuleItems);
   const form = useForm();
   const [currentTab, setCurrentTab] = useState();
   return (

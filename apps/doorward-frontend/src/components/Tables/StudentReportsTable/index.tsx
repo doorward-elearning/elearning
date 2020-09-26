@@ -1,21 +1,20 @@
 import React, { FunctionComponent } from 'react';
 import Table from '@doorward/ui/components/Table';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
-import { fetchStudentReportsList } from '../../../reducers/reports/actions';
-import { State } from '../../../store';
-import { Student } from '@doorward/common/models/Student';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => (
   <SimpleWebComponent
-    action={fetchStudentReportsList}
-    selector={(state: State) => state.reports.studentReportList}
-    dataSelector={data => data.students}
+    action={DoorwardApi.reports.getStudentsReport}
+    selector={(state) => state.reports.getStudentsReport}
+    dataSelector={(data) => data.students}
   >
     {(data): JSX.Element => (
       <Table
         searchText={props.filter}
         filter={(data1, text): typeof data1 =>
-          data1.filter((student: Student) => {
+          data1.filter((student: UserEntity) => {
             return new RegExp(text, 'ig').test(student.fullName);
           })
         }
@@ -27,7 +26,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
           courses: 'Courses completed',
           grade: 'Average Grade',
         }}
-        getCell={row => {
+        getCell={(row) => {
           return {
             name: row.fullName,
             department: 'Computer Science',
@@ -43,7 +42,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
 );
 
 export interface StudentReportsTableProps {
-  onRowClick: (row: Student, index: number) => void;
+  onRowClick: (row: UserEntity, index: number) => void;
   filter?: string;
 }
 export default StudentReportsTable;

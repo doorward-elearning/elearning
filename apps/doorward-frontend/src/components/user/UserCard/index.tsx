@@ -3,24 +3,22 @@ import profile from '../../../assets/images/profile.svg';
 import './UserCard.scss';
 import EImage from '@doorward/ui/components/Image';
 import useModal from '@doorward/ui/hooks/useModal';
-import Row from '@doorward/ui/components/Row';
 import useForm from '@doorward/ui/hooks/useForm';
 import Pill from '@doorward/ui/components/Pill';
-import ItemArray from '@doorward/ui/components/ItemArray';
 import Card from '@doorward/ui/components/Card';
 import Header from '@doorward/ui/components/Header';
-import { User } from '@doorward/common/models/User';
 import ChangePasswordModal from '../../Modals/ChangePasswordModal';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Button from '@doorward/ui/components/Buttons/Button';
 import withContext from '@doorward/ui/hoc/withContext';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-const UserCard: React.FunctionComponent<UserCardProps> = props => {
+const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
   const form = useForm();
   const modal = useModal(props.openModal);
   const { user } = props;
 
-  modal.onClose(passwordChanged => {
+  modal.onClose((passwordChanged) => {
     if (props.onPasswordChanged) {
       props.onPasswordChanged(passwordChanged);
     }
@@ -28,7 +26,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
 
   return (
     <WebComponent data={user} loading={!user}>
-      {data => {
+      {(data) => {
         return (
           <div className="page-profile__user-card">
             {props.changePassword && <ChangePasswordModal useModal={modal} useForm={form} />}
@@ -40,15 +38,9 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
                 <div className="profile-details">
                   <EImage src={profile} alt="User Image" circle size="large" />
                   <Header size={3}>{data.email}</Header>
-                  <Row>
-                    <ItemArray data={data.roles}>
-                      {role => (
-                        <div>
-                          <Pill>{role.name}</Pill>
-                        </div>
-                      )}
-                    </ItemArray>
-                  </Row>
+                  <div>
+                    <Pill>{data.role?.name}</Pill>
+                  </div>
                 </div>
               </Card.Body>
               <Card.Footer>
@@ -76,7 +68,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = props => {
 };
 
 export interface UserCardProps {
-  user: User;
+  user: UserEntity;
   changePassword?: boolean;
   onPasswordChanged?: (passwordChanged?: boolean) => void;
   onOpenChangePasswordModal?: () => void;

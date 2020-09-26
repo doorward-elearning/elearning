@@ -1,30 +1,29 @@
 import React from 'react';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
-import { fetchGroupsAction } from '../../../reducers/groups/actions';
-import { State } from '../../../store';
 import Table, { ActionMenu } from '@doorward/ui/components/Table';
-import { Group } from '@doorward/common/models/Group';
 import Tools from '@doorward/common/utils/Tools';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import GroupEntity from '@doorward/common/entities/group.entity';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
   return (
     <SimpleWebComponent
-      action={fetchGroupsAction}
+      action={DoorwardApi.groups.getGroups}
       params={[{ type: props.type, search: props.search }]}
-      selector={(state: State) => state.groups.groupList}
-      dataSelector={data => data.groups}
+      selector={(state) => state.groups.getGroups}
+      dataSelector={(data) => data.groups}
     >
-      {data => {
+      {(data) => {
         return (
           <Table
             columns={{ name: 'Name', members: 'Members', createdBy: 'Created By' }}
-            data={data as Array<Group>}
+            data={data as Array<GroupEntity>}
             actionMenu={props.actionMenu}
             onRowClick={props.onRowClick}
-            getCell={row => {
+            getCell={(row) => {
               return {
                 members: <span>{Tools.str(row.members?.length)}</span>,
-                createdBy: <span>{Tools.str(row.creator?.fullName)}</span>,
+                createdBy: <span>{Tools.str(row.author?.fullName)}</span>,
               };
             }}
           />
@@ -36,8 +35,8 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
 
 export interface GroupsTableProps {
   type: string;
-  onRowClick?: (row: Group, index: number) => void;
-  actionMenu?: ActionMenu<Group>;
+  onRowClick?: (row: GroupEntity, index: number) => void;
+  actionMenu?: ActionMenu<GroupEntity>;
   search?: string;
 }
 

@@ -3,21 +3,22 @@ import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
-import { fetchCourseStudentListAction, unEnrollStudentAction } from '../../reducers/courses/actions';
 import useViewCourse from '../../hooks/useViewCourse';
 import useRoutes from '../../hooks/useRoutes';
 import useAction from '@doorward/ui/hooks/useActions';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import { PageComponent } from '@doorward/ui/types';
 import Dropdown from '@doorward/ui/components/Dropdown';
-import { Student } from '@doorward/common/models/Student';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
+import UserEntity from '@doorward/common/entities/user.entity';
+import DoorwardApi from '../../services/apis/doorward.api';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
-const StudentDropdownMenu: React.FunctionComponent<{ student: Student; onUnEnroll: (student: Student) => void }> = ({
-  student,
-  onUnEnroll,
-}) => {
+const StudentDropdownMenu: React.FunctionComponent<{
+  student: UserEntity;
+  onUnEnroll: (student: UserEntity) => void;
+}> = ({ student, onUnEnroll }) => {
   return (
     <Dropdown.Menu>
       <Dropdown.Item onClick={() => onUnEnroll(student)} icon="delete">
@@ -27,15 +28,15 @@ const StudentDropdownMenu: React.FunctionComponent<{ student: Student; onUnEnrol
   );
 };
 
-const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
-  const studentList = useSelector((state: State) => state.courses.studentList);
+const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => {
+  const studentList = useDoorwardApi((state) => state.students.getStudentsInCourse);
   const routes = useRoutes();
   const unEnrollStudentModal = useModal(false);
-  const unEnrollState = useSelector((state: State) => state.courses.unEnrollStudent);
+  const unEnrollState = useDoorwardApi((state) => state.students.unEnrollStudentFromCourse);
   const [unEnrollStudent, setUnEnrollStudent] = useState(null);
   useViewCourse();
 
-  const fetch = useAction(fetchCourseStudentListAction);
+  const fetch = useAction(DoorwardApi.students.getStudentsInCourse);
 
   const [courseId, course] = useViewCourse();
 
@@ -67,9 +68,9 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
           return (
             <StudentTable
               tableProps={{
-                actionMenu: student => <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />,
+                actionMenu: (student) => <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />,
               }}
-              onClickStudent={student => {
+              onClickStudent={(student) => {
                 routes.navigate(routes.viewStudent, { studentId: student.id });
               }}
               students={students}
@@ -79,7 +80,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = props => {
       </WebComponent>
       <WebConfirmModal
         useModal={unEnrollStudentModal}
-        action={() => unEnrollStudentAction(unEnrollStudent.id, courseId)}
+        action={() => DoorwardApi.students.unEnrollStudentFromCourse(unEnrollStudent.id, courseId)}
         state={unEnrollState}
         showErrorToast
         title="Un-enroll student"

@@ -1,20 +1,19 @@
 import React from 'react';
 import BasicForm from '../BasicForm';
-import { forgotAccountPasswordAction } from '../../../reducers/users/actions';
 import * as Yup from 'yup';
 import TextField from '@doorward/ui/components/Input/TextField';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useForm from '@doorward/ui/hooks/useForm';
 import useRoutes from '../../../hooks/useRoutes';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
-const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = props => {
-  const state = useSelector((state: State) => state.users.forgotPassword);
+const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (props) => {
+  const state = useDoorwardApi((state) => state.userProfile.forgotAccountPassword);
   const form = useForm();
   const routes = useRoutes();
   return (
     <BasicForm
-      submitAction={forgotAccountPasswordAction}
+      submitAction={DoorwardApi.userProfile.forgotAccountPassword}
       state={state}
       form={form}
       onCancel={() => routes.navigate(routes.home)}

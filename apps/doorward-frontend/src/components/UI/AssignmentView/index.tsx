@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
-import { Assignment } from '@doorward/common/models/Assignment';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
@@ -13,8 +12,9 @@ import Table from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
-const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
+const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
   const initialValues = {
     submission: '',
     submissionType: '',
@@ -29,7 +29,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
     }
   }, [currentSubmission]);
 
-  const submission = props.assignment?.assignmentSubmission;
+  const submission = props.assignment?.assignmentSubmissions?.[0];
   return (
     <div className="assignment-view">
       <Header size={2} style={{ paddingBottom: 'var(--padding-lg)' }}>
@@ -64,12 +64,12 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
           size="medium"
           icon="assessment"
         >
-          {submissions => {
+          {(submissions) => {
             return (
               <div>
                 <Table
                   data={submissions}
-                  onRowClick={row => {
+                  onRowClick={(row) => {
                     setCurrentSubmission(row);
                   }}
                   columns={{
@@ -78,11 +78,11 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
                     submittedAt: 'Time',
                     submissionType: 'Type',
                   }}
-                  getCell={row => ({
+                  getCell={(row) => ({
                     student: row.student.fullName,
                     submittedOn: Tools.normalDate(row.createdAt),
                     submittedAt: Tools.normalTime(row.createdAt),
-                    type: row.submissionType,
+                    type: row.type,
                   })}
                 />
               </div>
@@ -95,7 +95,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = props => {
 };
 
 export interface AssignmentViewProps {
-  assignment: Assignment;
+  assignment: ModuleItemEntity;
 }
 
 export default AssignmentView;

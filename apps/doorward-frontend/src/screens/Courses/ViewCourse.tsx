@@ -8,14 +8,12 @@ import useViewCourse from '../../hooks/useViewCourse';
 import ChooseStudentModal from '../../components/Modals/ChooseStudentModal';
 import AddCourseModuleModal from '../../components/Modals/AddCourseModuleModal';
 import EditableLabelForm from '../../components/Forms/EditableLabelForm';
-import { startLiveClassroom, updateCourseAction } from '../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import CourseViewMenu from '../../components/Dropdowns/CourseViewMenu';
 import ProgressModal from '../../components/Modals/ProgressModal';
 import useRoutes from '../../hooks/useRoutes';
 import useEventListener from '../../hooks/useEventListener';
-import { LIVE_CLASSROOM_STARTED } from '../../reducers/socket/types';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -27,19 +25,20 @@ import { PageComponent } from '@doorward/ui/types';
 import { Link } from 'react-router-dom';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
-import { fetchTeacherListAction } from '../../reducers/teachers/actions';
 import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManagerModal';
 import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
+import DoorwardApi from '../../services/apis/doorward.api';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
-const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
+const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
   const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
   const isAdmin = useRoleManager();
-  const fetchTeachers = useAction(fetchTeacherListAction);
+  const fetchTeachers = useAction(DoorwardApi.teachers.getAllTeachers);
 
   useEffect(() => {
     if (isAdmin) {
@@ -47,16 +46,14 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
     }
   }, [isAdmin]);
 
-  const liveClassroom: any = useEventListener(LIVE_CLASSROOM_STARTED);
-
   useEffect(() => {}, []);
 
   const [courseId, course] = useViewCourse();
   const routes = useRoutes();
 
-  const updateCourse = useSelector((state: State) => state.courses.updateCourse);
-  const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
-  const teacherList = useSelector((state: State) => state.teachers.teacherList);
+  const updateCourse = useDoorwardApi((state) => state.courses.updateCourse);
+  const launchClassroom = useDoorwardApi((state) => state.meetings.joinMeeting);
+  const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   return (
     <Layout
       {...props}
@@ -67,11 +64,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
         <IfElse condition={course.data.course}>
           <React.Fragment>
             <EditableLabelForm
-              submitAction={updateCourseAction}
+              submitAction={DoorwardApi.courses.updateCourse}
               state={updateCourse}
               name="title"
               roles={[Roles.TEACHER]}
-              createData={values => [courseId, values]}
+              createData={(values) => [courseId, values]}
               value={course.data.course?.title}
             />
           </React.Fragment>
@@ -85,7 +82,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 Add Module
               </Button>
             </RoleContainer>
-            <IfElse condition={liveClassroom?.courseId || course.data.course?.meetingRoom?.currentMeeting}>
+            <IfElse condition={course.data.course?.meetingRoom?.currentMeeting}>
               <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                 Join live classroom
               </Button>
@@ -99,10 +96,10 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
               state={launchClassroom}
               cancellable={false}
               showErrorToast
-              action={() => startLiveClassroom(courseId)}
+              action={() => DoorwardApi.meetings.joinMeeting(courseId)}
               title="Starting classroom"
               useModal={liveClassroomModal}
-              onSuccess={data => {
+              onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
                   meetingId: data.id,
                 });
@@ -145,14 +142,14 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = props => {
                 />
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
-                    <LabelRow>
-                      <span className="meta">{course.modules.length} Modules</span>
-                      <Link to={routes.assignmentList.link} className="meta">
-                        {course.itemCount.assignments} Assignments
-                      </Link>
-                      <span className="meta">{course.itemCount.quizzes} Quizzes</span>
-                      <span className="meta">{course.itemCount.pages} Pages</span>
-                    </LabelRow>
+                    {/*<LabelRow>*/}
+                    {/*  <span className="meta">{course.modules.length} Modules</span>*/}
+                    {/*  <Link to={routes.assignmentList.link} className="meta">*/}
+                    {/*    {course?.itemCount?.assignments} Assignments*/}
+                    {/*  </Link>*/}
+                    {/*  <span className="meta">{course?.itemCount?.quizzes} Quizzes</span>*/}
+                    {/*  <span className="meta">{course?.itemCount?.pages} Pages</span>*/}
+                    {/*</LabelRow>*/}
                     <div style={{ justifySelf: 'end' }}>
                       <Pill>
                         Authored by - <b>{course.author.fullName}</b>

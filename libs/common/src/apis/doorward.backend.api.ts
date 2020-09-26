@@ -11,6 +11,7 @@ import {
   UpdateModuleBody,
   CreateModuleItemBody,
   CreateQuizBody,
+  CreateAssignmentBody,
   UpdateModulesBody,
   CreateOrganizationBody,
   UpdateOrganizationBody,
@@ -197,7 +198,7 @@ const DoorwardBackendApi = {
     updateModule: (moduleId: string, body: UpdateModuleBody, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
       return PUT(`/modules/${moduleId}`, body, {}, config);
     },
-    createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return POST(`/modules/${moduleId}/items`, body, {}, config);
     },
     updateCourseModules: (body: UpdateModulesBody, config ? : AxiosRequestConfig): Promise < UpdateModulesOrderResponse > => {

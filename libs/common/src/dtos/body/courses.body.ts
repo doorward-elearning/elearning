@@ -23,7 +23,7 @@ export class CreateCourseBody extends UpdateCourseBody {
   modules: Array<CreateModuleBody>;
 
   async validation?(): Promise<ObjectSchema> {
-    const validation = await super.validation?();
+    const validation = await super.validation();
     validation.concat(
       Yup.object({
         modules: Yup.array()

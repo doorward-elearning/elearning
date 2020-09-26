@@ -3,7 +3,6 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import './SchoolClassrooms.scss';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
-import { fetchSchoolAction } from '../../reducers/schools/actions';
 import usePageResource from '../../hooks/usePageResource';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
@@ -20,11 +19,13 @@ import Header from '@doorward/ui/components/Header';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Panel from '@doorward/ui/components/Panel';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.schools.school);
-  const fetchSchool = useAction(fetchSchoolAction);
-  usePageResource('schoolId', fetchSchoolAction);
+  const state = useDoorwardApi((state) => state.schools.getSchool);
+  const fetchSchool = useAction(DoorwardApi.schools.getSchool);
+  usePageResource('schoolId', DoorwardApi.schools.getSchool);
   const routes = useRoutes();
   const addClassroomModal = useModal();
 
@@ -51,17 +52,17 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       />
       <Panel plain>Click on any of the following classrooms to join the online meeting.</Panel>
       <WebComponent
-        data={state.data?.school?.classrooms}
+        data={state.data?.school?.classRooms}
         loading={state.fetching}
         emptyMessage={'No classrooms have been created for this school'}
         icon="business_center"
       >
-        {classrooms => {
+        {(classrooms) => {
           return (
             <React.Fragment>
               <div className="classroom__list">
                 <ItemArray data={classrooms}>
-                  {classroom => (
+                  {(classroom) => (
                     <div className="classroom__list__item">
                       <Card
                         onClick={() =>

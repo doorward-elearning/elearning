@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
-import { User } from '@doorward/common/models/User';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const SimpleProfileView: FunctionComponent<SimpleProfileViewProps> = (props): JSX.Element => {
   return <div className="simple-profile-view"></div>;
 };
 
 export interface SimpleProfileViewProps {
-  user: User;
+  user: UserEntity;
 }
 
 export default SimpleProfileView;

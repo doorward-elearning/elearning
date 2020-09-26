@@ -11,7 +11,6 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import IfElse from '@doorward/ui/components/IfElse';
 import EditableLabelForm from '../../Forms/EditableLabelForm';
-import { useSelector } from 'react-redux';
 import DragAndDropList from '@doorward/ui/components/DragAndDropList';
 import Panel from '@doorward/ui/components/Panel';
 import DragAndDropListItem from '@doorward/ui/components/DragAndDropList/DragAndDropListItem';
@@ -20,27 +19,20 @@ import ListItem from '@doorward/ui/components/List/ListItem';
 import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '@doorward/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
-import {
-  deleteCourseModuleAction,
-  reorderCourseModules,
-  updateCourseModuleAction,
-} from '../../../reducers/courses/actions';
 import useRoutes from '../../../hooks/useRoutes';
 import Tools from '@doorward/common/utils/Tools';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import { Roles } from '@doorward/ui/components/RolesManager';
 import useAction from '@doorward/ui/hooks/useActions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { State } from '../../../store';
-import { Module } from '@doorward/common/models/Module';
-import { ModuleItem } from '@doorward/common/models/ModuleItem';
-import { Course } from '@doorward/common/models/Course';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
-import Button from '@doorward/ui/components/Buttons/Button';
-import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
-import useRequestModal from '@doorward/ui/hooks/useRequestModal';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import CourseEntity from '@doorward/common/entities/course.entity';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -56,7 +48,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
           to={routes.routes.viewModuleItem.withParams({
             itemId: moduleItem.id,
             moduleId: module.id,
-            courseId: module.courseId,
+            courseId: module?.course?.id,
           })}
         >
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -65,7 +57,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
               {moduleItem.title}
             </Row>
             <IfElse condition={moduleItem.type === 'Assignment'}>
-              <span className="meta">Due: {Tools.shortDateTime(moduleItem.content.dueDate)}</span>
+              <span className="meta">Due: {Tools.shortDateTime((moduleItem.content as any).dueDate)}</span>
             </IfElse>
           </Row>
         </Link>
@@ -75,12 +67,12 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
 };
 
 const ModuleItemsList: React.FunctionComponent<{
-  module: Module;
+  module: ModuleEntity;
 }> = ({ module }) => {
   return (
     <List>
       <Droppable droppableId={module.id}>
-        {provided => (
+        {(provided) => (
           <div ref={provided.innerRef}>
             <IfElse condition={!module.items.length}>
               <React.Fragment>
@@ -108,9 +100,9 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
       <Accordion
         title={(): JSX.Element => (
           <EditableLabelForm
-            submitAction={updateCourseModuleAction}
+            submitAction={DoorwardApi.modules.updateModule}
             state={updateModule}
-            createData={values => [module.id, values]}
+            createData={(values) => [module.id, values]}
             name="title"
             roles={[Roles.TEACHER]}
             value={module.title}
@@ -134,11 +126,11 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 };
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
-  const updateModule = useSelector((state: State) => state.courses.updateModule);
-  const action = useAction(reorderCourseModules);
+  const updateModule = useDoorwardApi((state) => state.modules.updateModule);
+  const action = useAction(DoorwardApi.modules.updateCourseModules);
   const hasRole = useRoleManager([Roles.TEACHER]);
   const [handleDrop] = useModuleDrop(course.id, action);
-  const state = useSelector((state: State) => state.courses.deleteModule);
+  const state = useDoorwardApi((state) => state.courses.deleteCourse);
   const deleteModuleModal = useModal();
   const [moduleToDelete, setModuleToDelete] = useState();
 
@@ -148,7 +140,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
         args={[moduleToDelete]}
         title="Delete Module"
         useModal={deleteModuleModal}
-        action={deleteCourseModuleAction}
+        action={DoorwardApi.courses.deleteCourse}
         state={state}
       >
         <p>Are you sure you want to delete this module?</p>
@@ -182,20 +174,20 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
 };
 
 export interface CourseModuleListProps {
-  course: Course;
+  course: CourseEntity;
 }
 
 export interface ModuleViewProps {
   index: number;
-  module: Module;
+  module: ModuleEntity;
   updateModule: WebComponentState<any>;
   droppableState: DroppableStateSnapshot;
   onDelete: () => void;
 }
 
 export interface ModuleItemViewProps {
-  module: Module;
-  moduleItem: ModuleItem;
+  module: ModuleEntity;
+  moduleItem: ModuleItemEntity;
   index: number;
 }
 

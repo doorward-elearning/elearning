@@ -1,13 +1,12 @@
 import React, { ReactChild } from 'react';
 import BasicForm from '../BasicForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { FormikProps } from 'formik';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleItemBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
@@ -16,7 +15,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
     type: props.type,
     ...(props.initialValues || ({} as T)),
   };
-  const state = useSelector((state: State) => state.courses.addModuleItem);
+  const state = useDoorwardApi((state) => state.modules.createModuleItem);
   return (
     <BasicForm
       submitAction={DoorwardApi.modules.createModuleItem}

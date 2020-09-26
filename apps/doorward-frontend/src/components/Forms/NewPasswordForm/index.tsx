@@ -2,12 +2,10 @@ import React, { FunctionComponent } from 'react';
 import BasicForm from '../BasicForm';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { CreatePasswordBody } from '../../../services/models/requestBody';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
-import { createAccountPasswordAction } from '../../../reducers/users/actions';
 import { useRouteMatch } from 'react-router';
-import validation from './validation';
+import { ResetPasswordBody } from '@doorward/common/dtos/body';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.Element => {
   const match: any = useRouteMatch();
@@ -15,17 +13,16 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
     password: '',
     confirmPassword: '',
     resetToken: match.params.resetToken,
-    resetTokenBuffer: match.params.resetTokenBuffer,
   };
-  const state = useSelector((state: State) => state.users.createPassword);
+  const state = useDoorwardApi((state) => state.users.createPassword);
 
   return (
     <BasicForm
       state={state}
-      submitAction={createAccountPasswordAction}
+      submitAction={DoorwardApi.userProfile.resetAccountPassword}
       onSuccess={props.onSuccess}
       initialValues={initialValues}
-      validationSchema={validation}
+      validationSchema={ResetPasswordBody}
       showSuccessToast
       onCancel={props.onCancel}
       form={props.form}
@@ -36,12 +33,12 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
   );
 };
 
-export interface NewPasswordFormState extends CreatePasswordBody {
+export interface NewPasswordFormState extends ResetPasswordBody {
   confirmPassword: string;
 }
 
 export interface NewPasswordFormProps {
-  form: UseForm<CreatePasswordBody>;
+  form: UseForm<ResetPasswordBody>;
   onCancel?: () => void;
   onSuccess: () => void;
 }

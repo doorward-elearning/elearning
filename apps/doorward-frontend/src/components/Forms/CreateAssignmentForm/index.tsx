@@ -6,7 +6,6 @@ import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm'
 import './CreateAssignmentForm.scss';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
 import DateInput from '@doorward/ui/components/Input/DateInput';
-import validation from './validation';
 import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import IfElse from '@doorward/ui/components/IfElse';
 import Row from '@doorward/ui/components/Row';
@@ -15,6 +14,7 @@ import { Omit } from '@doorward/common/types';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
+import { CreateAssignmentBody } from '@doorward/common/dtos/body';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
   const initialValues = props.assignment
@@ -44,7 +44,7 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
       type={ModuleItemType.ASSIGNMENT}
       form={props.form}
       item={props.module}
-      validationSchema={validation}
+      validationSchema={CreateAssignmentBody}
       initialValues={initialValues}
     >
       {(formikProps) => (

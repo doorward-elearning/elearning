@@ -4,10 +4,10 @@ import Header from '@doorward/ui/components/Header';
 import IfElse from '@doorward/ui/components/IfElse';
 import Icon from '@doorward/ui/components/Icon';
 import ProfileAccountForm from '../../Forms/ProfileAccountForm';
-import { User } from '@doorward/common/models/User';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import './UserProfileCard.scss';
 import UserCard from '../UserCard';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, form, ...props }): JSX.Element => {
   const [editingAccount, setEditingAccount] = useState(false);
@@ -42,7 +42,7 @@ const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, 
 
 export interface UserProfileCardProps {
   editable?: boolean;
-  user?: User;
+  user?: UserEntity;
   form: UseForm<any>;
 }
 

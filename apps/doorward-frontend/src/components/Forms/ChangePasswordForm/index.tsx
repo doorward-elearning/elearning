@@ -8,6 +8,7 @@ import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers
 import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdatePasswordBody } from '@doorward/common/dtos/body';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
@@ -16,7 +17,7 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (pr
     newPassword: '',
   };
 
-  const state = useSelector((state: State) => state.users.changePassword);
+  const state = useDoorwardApi((state) => state.userProfile.updateAccountPassword);
 
   return (
     <BasicForm

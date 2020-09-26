@@ -7,10 +7,10 @@ import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import { Module } from '@doorward/common/models/Module';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 
-const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
-  const [module, setModule] = useState<Module>();
+const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
+  const [module, setModule] = useState<ModuleEntity>();
   const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const form = useForm();
@@ -18,7 +18,7 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = props => {
 
   useEffect(() => {
     if (course.data.course) {
-      setModule(course.data.course.modules.find(module => module.id === match.params.moduleId));
+      setModule(course.data.course.modules.find((module) => module.id === match.params.moduleId));
     }
   }, [course.data.course]);
 

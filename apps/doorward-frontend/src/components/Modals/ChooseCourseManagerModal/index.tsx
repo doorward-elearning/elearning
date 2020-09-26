@@ -3,15 +3,13 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { ChooseStudentFormState } from '../../Forms/ChooseStudentForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import ChooseCourseManagerForm from '../../Forms/ChooseCourseManagerForm';
-import { User } from '@doorward/common/models/User';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { TeacherListResponse } from '../../../services/models/responseBody';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { TeachersResponse } from '@doorward/common/dtos/response';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
   const form = useForm<ChooseStudentFormState>();
-  const state = useSelector((state: State) => state.courses.createCourseManager);
+  const state = useDoorwardApi((state) => state.courseManagers.createCourseManager);
   return (
     <Modal {...props}>
       <Modal.Header title="Add course manager" />
@@ -41,7 +39,7 @@ const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModal
 export interface ChooseCourseManagerModalProps extends ModalProps {
   courseId: string;
   onSuccess: () => void;
-  managers: WebComponentState<TeacherListResponse>;
+  managers: WebComponentState<TeachersResponse>;
 }
 
 export default ChooseCourseManagerModal;

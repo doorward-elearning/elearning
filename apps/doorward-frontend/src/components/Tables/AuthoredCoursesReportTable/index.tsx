@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Table from '@doorward/ui/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
-import { Course } from '@doorward/common/models/Course';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -13,13 +13,13 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
           ratings: <span>4.5</span>,
         };
       }}
-      onRowClick={row => routes.navigate(routes.viewCourse, { courseId: row.id })}
+      onRowClick={(row) => routes.navigate(routes.viewCourse, { courseId: row.id })}
       columns={{ title: 'Course Name', ratings: 'Ratings' }}
     />
   );
 };
 
 export interface AuthoredCoursesReportTableProps {
-  courses: Array<Course>;
+  courses: Array<CourseEntity>;
 }
 export default AuthoredCoursesReportTable;

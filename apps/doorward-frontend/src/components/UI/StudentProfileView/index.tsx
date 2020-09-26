@@ -1,21 +1,19 @@
 import React, { useState } from 'react';
 import './StudentProfileView.scss';
-import { Student } from '@doorward/common/models/Student';
 import UserProfileCard from '../../user/UserProfileCard';
 import useForm from '@doorward/ui/hooks/useForm';
-import { UserCardContext, UserCardProps } from '../../user/UserCard';
-import { ChangePasswordFormContext, ChangePasswordFormProps } from '../../Forms/ChangePasswordForm';
-import { OptionalKeys } from '@doorward/common/types';
-import { changeStudentsAccountInformationAction, changeStudentsPassword } from '../../../reducers/students/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
+import { UserCardContext } from '../../user/UserCard';
+import { ChangePasswordFormContext } from '../../Forms/ChangePasswordForm';
 import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
-  const state = useSelector((state: State) => state.students.changePassword);
-  const changeDetails = useSelector((state: State) => state.students.changeAccountDetails);
+  const state = useDoorwardApi((state) => state.students.updateStudentPassword);
+  const changeDetails = useDoorwardApi((state) => state.students.updateStudent);
 
   return (
     <div className="ed-student__profile_view">
@@ -26,13 +24,13 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
         openModal={passwordModalOpen}
       >
         <ProfileAccountFormContext
-          submitAction={changeStudentsAccountInformationAction}
+          submitAction={DoorwardApi.students.updateStudent}
           state={changeDetails}
-          createData={values => [props.student.id, values]}
+          createData={(values) => [props.student.id, values]}
         >
           <ChangePasswordFormContext
-            submitAction={changeStudentsPassword}
-            createData={data => [props.student.id, { password: data.newPassword }]}
+            submitAction={DoorwardApi.students.updateStudentPassword}
+            createData={(data) => [props.student.id, { password: data.newPassword }]}
             dontEnterCurrentPassword
             state={state}
           >
@@ -45,7 +43,7 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
 };
 
 export interface StudentProfileViewProps {
-  student: Student;
+  student: UserEntity;
 }
 
 export default StudentProfileView;

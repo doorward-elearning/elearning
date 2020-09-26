@@ -15,28 +15,29 @@ import Tools from '@doorward/common/utils/Tools';
 import { Roles } from '@doorward/ui/components/RolesManager';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import { Module } from '@doorward/common/models/Module';
-import { ModuleItem } from '@doorward/common/models/ModuleItem';
 import useAction from '@doorward/ui/hooks/useActions';
-import { fetchModuleItem } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
-const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
-  const [item, setItem] = useState<ModuleItem>();
-  const [module, setModule] = useState<Module>();
+const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
+  const [item, setItem] = useState<ModuleItemEntity>();
+  const [module, setModule] = useState<ModuleEntity>();
   const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const routes = useRoutes();
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
 
-  const fetchItem = useAction(fetchModuleItem);
+  const fetchItem = useAction(DoorwardApi.moduleItems.getModuleItem);
   useEffect(() => {
     fetchItem(match.params.itemId);
   }, [match.params.itemId]);
 
-  const state = useSelector((state: State) => state.courses.moduleItem);
+  const state = useDoorwardApi((state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
     setEditing(routes.currentRoute === routes.editModuleItem.id);
@@ -51,7 +52,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = props => {
 
   useEffect(() => {
     if (course.data.course) {
-      const currentModule = course.data.course.modules.find(module => module.id === match.params.moduleId);
+      const currentModule = course.data.course.modules.find((module) => module.id === match.params.moduleId);
       if (currentModule) {
         setModule(currentModule);
         routes.setTitle(routes.viewModuleItem.id, currentModule.title);

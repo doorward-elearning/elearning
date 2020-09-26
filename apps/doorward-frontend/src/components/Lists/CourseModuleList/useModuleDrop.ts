@@ -1,22 +1,22 @@
 import { DropResult } from 'react-beautiful-dnd';
 import Tools from '@doorward/common/utils/Tools';
 import { ActionCreator } from '@doorward/ui/reducers/reducers';
-import { Module } from '@doorward/common/models/Module';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 
-export type HandleDrop = (dropResult: DropResult, items: Array<Module>) => Array<Module>;
+export type HandleDrop = (dropResult: DropResult, items: Array<ModuleEntity>) => Array<ModuleEntity>;
 
 function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
-  const handleDrop = (dropResult: DropResult, items: Array<Module>) => {
+  const handleDrop = (dropResult: DropResult, items: Array<ModuleEntity>) => {
     let updatedModules: any = items;
     if (dropResult.type === 'MODULES') {
       updatedModules = Tools.handleReorder(items, 'id', dropResult);
     } else {
       const newItems = [...items];
       if (dropResult.destination) {
-        const sourceModule = newItems.findIndex(m => m.id === dropResult.source.droppableId);
-        const destinationModule = newItems.findIndex(m => m.id === '' + dropResult.destination?.droppableId);
+        const sourceModule = newItems.findIndex((m) => m.id === dropResult.source.droppableId);
+        const destinationModule = newItems.findIndex((m) => m.id === '' + dropResult.destination?.droppableId);
 
-        const moduleItem = newItems[sourceModule].items.find(item => item.id === dropResult.draggableId);
+        const moduleItem = newItems[sourceModule].items.find((item) => item.id === dropResult.draggableId);
 
         if (sourceModule === destinationModule) {
           const module = newItems[sourceModule];
@@ -24,7 +24,7 @@ function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
           newItems[sourceModule] = module;
         } else {
           newItems[sourceModule].items = newItems[sourceModule].items.filter(
-            item => item.id !== dropResult.draggableId
+            (item) => item.id !== dropResult.draggableId
           );
           if (moduleItem) {
             newItems[destinationModule].items.splice(dropResult.destination.index, 0, moduleItem);

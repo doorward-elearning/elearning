@@ -6,7 +6,7 @@ import { QuizContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import Row from '@doorward/ui/components/Row';
-import { Question } from '@doorward/common/models/Question';
+import QuestionEntity from '@doorward/common/entities/question.entity';
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index }) => {
   const [answers, setAnswers] = useState(question.answers);
@@ -34,7 +34,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
 };
 
 export interface QuestionViewProps {
-  question: Question;
+  question: QuestionEntity;
   index: number;
 }
 

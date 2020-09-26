@@ -41,7 +41,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
     props.onSuccess();
   };
 
-  const state = useSelector((state: State) => state.courses.registerStudents);
+  const state = useDoorwardApi((state) => state.students.createStudentInCourse);
   const createStudentsFromGroups = ({ items }) => {
     return items
       .filter((item) => item.selected)

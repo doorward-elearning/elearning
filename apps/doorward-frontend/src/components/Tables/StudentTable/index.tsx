@@ -1,8 +1,7 @@
 import React from 'react';
 import Table, { OnRowClick, TableProps } from '@doorward/ui/components/Table';
-import Tools from '@doorward/common/utils/Tools';
-import { Student } from '@doorward/common/models/Student';
 import { Omit } from '@doorward/common/types';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const columns = {
   username: 'Username',
@@ -12,7 +11,7 @@ const columns = {
   status: 'Status',
 };
 
-const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
+const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
   return (
     <Table
       {...(props.tableProps || {})}
@@ -25,9 +24,9 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = props => {
 };
 
 export interface StudentTableProps {
-  students: Array<Student>;
-  tableProps?: Omit<TableProps<Student, typeof columns>, 'columns' | 'data' | 'getCell'>;
-  onClickStudent?: OnRowClick<Student>;
+  students: Array<UserEntity>;
+  tableProps?: Omit<TableProps<UserEntity, typeof columns>, 'columns' | 'data' | 'getCell'>;
+  onClickStudent?: OnRowClick<UserEntity>;
 }
 
 export default StudentTable;

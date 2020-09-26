@@ -4,9 +4,9 @@ import { MemoryHistory } from 'history';
 import EImage from '@doorward/ui/components/Image';
 import './CourseTable.scss';
 import { ROUTES } from '../../../routes/routes';
-import { Course } from '@doorward/common/models/Course';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
-const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
+const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
   return (
     <Table
       className="course-table"
@@ -15,7 +15,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
       onRowClick={(course): void => {
         props.history.push(ROUTES.viewCourse.withParams({ courseId: course.id }));
       }}
-      getCell={row => {
+      getCell={(row) => {
         return {
           displayName: (
             <div className="course-title">
@@ -31,7 +31,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = props => {
 };
 
 export interface CourseTableProps {
-  courses: Array<Course>;
+  courses: Array<CourseEntity>;
   history: MemoryHistory;
 }
 

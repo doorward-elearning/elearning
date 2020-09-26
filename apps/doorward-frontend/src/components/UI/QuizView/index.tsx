@@ -3,13 +3,12 @@ import ItemArray from '@doorward/ui/components/ItemArray';
 import QuestionView from './QuestionView';
 import BasicForm from '../../Forms/BasicForm';
 import useForm from '@doorward/ui/hooks/useForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
-import { Quiz } from '@doorward/common/models/Quiz';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 export const QuizContext = React.createContext<QuizContextProps>({});
 
-const QuizView: React.FunctionComponent<QuizViewProps> = props => {
+const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
   console.log(props.quiz);
   const initialValues = {
     answers: (props.quiz.content.questions || []).reduce(
@@ -21,7 +20,7 @@ const QuizView: React.FunctionComponent<QuizViewProps> = props => {
     ),
   };
   const form = useForm();
-  const state = useSelector((state: State) => state.courses.addModuleItem);
+  const state = useDoorwardApi((state) => state.modules.createModuleItem);
   return (
     <QuizContext.Provider value={{ quiz: props.quiz }}>
       <BasicForm
@@ -42,11 +41,11 @@ const QuizView: React.FunctionComponent<QuizViewProps> = props => {
 };
 
 export interface QuizContextProps {
-  quiz?: Quiz;
+  quiz?: ModuleItemEntity;
 }
 
 export interface QuizViewProps {
-  quiz: Quiz;
+  quiz: ModuleItemEntity;
   onCancel: () => void;
 }
 

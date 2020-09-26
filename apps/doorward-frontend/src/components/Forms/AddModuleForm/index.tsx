@@ -2,17 +2,16 @@ import React from 'react';
 import Form from '@doorward/ui/components/Form';
 import TextField from '@doorward/ui/components/Input/TextField';
 import useAction from '@doorward/ui/hooks/useActions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
   const initialValues = {
     title: '',
   };
-  const state = useSelector((state: State) => state.courses.createModule);
+  const state = useDoorwardApi((state) => state.courses.createCourseModule);
 
   const createCourseModule = useAction(DoorwardApi.courses.createCourseModule);
 

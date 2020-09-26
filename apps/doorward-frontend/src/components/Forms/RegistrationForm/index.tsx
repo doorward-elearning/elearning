@@ -3,11 +3,11 @@ import AuthForm from '../AuthForm';
 import TextField from '@doorward/ui/components/Input/TextField';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
-import { registerUserAction } from '../../../reducers/login/actions';
 import useForm from '@doorward/ui/hooks/useForm';
-import { RegistrationBody } from '../../../services/models/requestBody';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
-import validation from './validation';
+import { RegisterBody } from '@doorward/common/dtos/body';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -15,24 +15,21 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
     email: '',
     password: '',
   };
-  const state = useSelector((state: State) => state.login.registration);
+  const state = useDoorwardApi((state) => state.auth.register);
   const form = useForm();
   return (
     <AuthForm
       title="Register"
       buttonText="Register"
-      submitAction={registerUserAction}
+      submitAction={DoorwardApi.auth.register}
       state={state}
       form={form}
-      validationSchema={validation}
-      createData={values => {
+      validationSchema={RegisterBody}
+      createData={(values) => {
         return [
           {
             firstName: values.fullName.split(' ')[0],
-            lastName: values.fullName
-              .split(' ')
-              .splice(1)
-              .join(' '),
+            lastName: values.fullName.split(' ').splice(1).join(' '),
             ...values,
           },
         ];
@@ -51,6 +48,6 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
 
 export interface RegistrationFormProps {}
 
-export interface RegistrationFormState extends RegistrationBody {}
+export interface RegistrationFormState extends RegisterBody {}
 
 export default RegistrationForm;

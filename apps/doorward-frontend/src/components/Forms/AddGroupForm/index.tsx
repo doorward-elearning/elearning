@@ -20,6 +20,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 interface InitialValues {
   name: string;
@@ -29,7 +30,7 @@ interface InitialValues {
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
   const form = useForm();
   const hook = useUserChooser(props.users, props.group?.members);
-  const state = useSelector((state: State) => (props.group ? state.groups.updateGroup : state.groups.createGroup));
+  const state = useDoorwardApi((state) => (props.group ? state.groups.updateGroup : state.groups.createGroup));
   const initialValues: InitialValues = props.group || {
     name: '',
     members: [],

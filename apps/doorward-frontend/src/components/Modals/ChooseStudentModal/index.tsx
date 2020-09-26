@@ -2,15 +2,14 @@ import React, { useState } from 'react';
 import ChooseStudentForm, { ChooseStudentFormState, ChooseStudentGroupFormState } from '../../Forms/ChooseStudentForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
-const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = props => {
+const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (props) => {
   const [selected, setSelected] = useState(0);
   const form = useForm<ChooseStudentFormState>();
   const groupForm = useForm<ChooseStudentGroupFormState>();
-  const state = useSelector((state: State) => state.courses.registerStudents);
+  const state = useDoorwardApi((state) => state.students.addStudentToCourse);
   const [searchText, setSearchText] = useState('');
 
   return (

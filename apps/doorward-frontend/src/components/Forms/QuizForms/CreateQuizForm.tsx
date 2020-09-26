@@ -6,9 +6,10 @@ import QuizDetails from './QuizDetails';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import QuizQuestions, { defaultQuestion } from './QuizQuestions';
-import validation from './validation';
-import { Module } from '@doorward/common/models/Module';
-import { Quiz } from '@doorward/common/models/Quiz';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { CreateQuizBody } from '@doorward/common/dtos/body';
 
 const defaultQuiz = {
   title: 'Unnamed Quiz',
@@ -65,13 +66,13 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
       <AddModuleItemForm
         onSuccess={props.onSuccess}
         onCancel={props.onCancel}
-        type="Quiz"
+        type={ModuleItemType.QUIZ}
         form={form}
-        validationSchema={validation}
+        validationSchema={CreateQuizBody}
         item={props.module}
         initialValues={initialValues}
       >
-        {formikProps => (
+        {(formikProps) => (
           <div className="quiz-details-form">
             <TabLayout stickyHeader>
               <Tab title="Details">
@@ -91,10 +92,10 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
 export interface CreateQuizFormProps {
   onSuccess: () => void;
   onCancel: () => void;
-  module: Module;
-  quiz?: Quiz;
+  module: ModuleEntity;
+  quiz?: ModuleItemEntity;
 }
 
-export type CreateQuizFormState = Omit<AddModuleItemFormState, 'content'> & Quiz;
+export type CreateQuizFormState = AddModuleItemFormState & ModuleItemEntity;
 
 export default CreateQuizForm;

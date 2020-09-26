@@ -48,7 +48,7 @@ export class CreateQuizBody extends CreateModuleItemBody {
   questions: Array<CreateQuestionBody>;
 
   async validation?(): Promise<ObjectSchema> {
-    let schema = await super.validation?();
+    let schema = await super.validation();
 
     schema = schema.concat(
       Yup.object({

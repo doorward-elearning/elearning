@@ -34,6 +34,19 @@ export class CreateModuleItemBody extends DApiBody {
   }
 }
 
+export class CreateAssignmentBody extends CreateModuleItemBody {
+  async validation?(): Promise<ObjectSchema> {
+    return Yup.object({
+      title: Yup.string().required('The title of the {{assignment}} is required'),
+      content: Yup.object({
+        assignment: Yup.object().nullable().required('The {{assignment}} content is required.'),
+        dueDate: Yup.string().required('The due date is required'),
+        submissionTypes: Yup.array().min(1, 'Please choose at least one submission type'),
+      }),
+    });
+  }
+}
+
 export class CreateModuleBody extends DApiBody {
   @ApiProperty()
   @Expose()
@@ -46,8 +59,7 @@ export class CreateModuleBody extends DApiBody {
   }
 }
 
-export class UpdateModuleBody extends CreateModuleBody {
-}
+export class UpdateModuleBody extends CreateModuleBody {}
 
 export class UpdateModuleOrderBody {
   @ApiProperty()
@@ -70,7 +82,7 @@ export class UpdateModulesBody extends DApiBody {
         Yup.object({
           order: Yup.number().required('The order of the {{module}} is required'),
           id: Yup.string().required('The id of the {{module}} is required.'),
-        }),
+        })
       ),
     });
   }

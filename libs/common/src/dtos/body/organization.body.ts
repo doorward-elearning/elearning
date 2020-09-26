@@ -41,11 +41,17 @@ export class CreateOrganizationBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required('The organization name is required').nullable(),
+      name: Yup.string().required('The {{organization}} name is required').nullable(),
       description: Yup.string().nullable().notRequired(),
-      icon: Yup.string().required('The organization logo is required').nullable(),
-      link: Yup.string().required('The organization website URL is required').nullable(),
-      darkThemeIcon: Yup.string().nullable().notRequired(),
+      icon: Yup.string()
+        .required('The {{organization}} logo is required.')
+        .nullable()
+        .url('Please enter a valid image URL'),
+      link: Yup.string()
+        .required('The {{organization}} website URL is required')
+        .nullable()
+        .url('Please enter a valid link.'),
+      darkThemeLogo: Yup.string().nullable().url('Please enter a valid image URL').notRequired(),
       descriptiveLogo: Yup.bool().notRequired(),
       meetingPlatform: Yup.string()
         .nullable()

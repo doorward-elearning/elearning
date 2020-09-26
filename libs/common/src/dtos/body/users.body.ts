@@ -88,7 +88,7 @@ export class CreateUserBody extends UpdateUserBody {
   role?: Roles;
 
   async validation?(): Promise<ObjectSchema> {
-    return (await super.validation?()).concat(
+    return (await super.validation()).concat(
       Yup.object({
         password: Yup.string().notRequired().nullable(),
       })

@@ -26,7 +26,7 @@ export class CreateGroupBody extends AddMemberToGroupBody {
   type: string;
 
   async validation?(): Promise<ObjectSchema> {
-    return (await super.validation?()).concat(
+    return (await super.validation()).concat(
       Yup.object({
         name: Yup.string().required('The group name is required').nullable(),
         type: Yup.string().nullable(),

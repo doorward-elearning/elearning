@@ -2,7 +2,6 @@ import React, { MouseEventHandler } from 'react';
 import _ from 'lodash';
 import { FieldArray } from 'formik';
 import Button from '@doorward/ui/components/Buttons/Button';
-import ItemArray from '@doorward/ui/components/ItemArray';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import Header from '@doorward/ui/components/Header';
 import Panel from '@doorward/ui/components/Panel';
@@ -12,8 +11,7 @@ import Row from '@doorward/ui/components/Row';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import { FormContext } from '@doorward/ui/components/Form';
 import NumberField from '@doorward/ui/components/Input/NumberField';
-import { Question } from '@doorward/common/models/Question';
-import { Answer } from '@doorward/common/models/Answer';
+import AnswerEntity from '@doorward/common/entities/answer.entity';
 
 export const defaultQuestion = {
   question: null,
@@ -49,11 +47,11 @@ const AnswerInput: React.FunctionComponent<AnswerInputProps> = React.memo(
 );
 
 const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo(
-  props => {
+  (props) => {
     return (
       <Panel noBackground className="answers-container">
         <FieldArray name={`content.questions[${props.index}].answers`}>
-          {arrayHelpers => {
+          {(arrayHelpers) => {
             return (
               <React.Fragment>
                 {props.answers.map((answer, index) => {
@@ -89,14 +87,14 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo(
   (prevProps, nextProps) => prevProps.answers.length === nextProps.answers.length
 );
 
-const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = props => {
+const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = (props) => {
   console.log('Rendering...');
   return (
     <FormContext.Consumer>
       {({ formikProps }) => (
         <div className="quiz-questions">
           <FieldArray name="content.questions">
-            {arrayHelpers => (
+            {(arrayHelpers) => (
               <React.Fragment>
                 {formikProps?.values?.content?.questions.map((question, index) => (
                   <Panel key={question.id}>
@@ -138,7 +136,7 @@ export interface AnswerInputProps {
 }
 
 export interface AnswersPanelProps {
-  answers: Array<Answer>;
+  answers: Array<AnswerEntity>;
   index: number;
 }
 

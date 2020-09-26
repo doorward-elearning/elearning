@@ -12,7 +12,7 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   title: string;
 
   @Column({ type: 'text' })
-  content: string;
+  content: any;
 
   @Column({ enum: ModuleItemType, type: 'enum' })
   type: ModuleItemType;
@@ -33,5 +33,5 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   questions: Array<QuestionEntity>;
 
   @OneToMany(() => AssignmentSubmissionEntity, (assignment) => assignment.assignment)
-  assignmentSubmission: AssignmentSubmissionEntity;
+  assignmentSubmissions: Array<AssignmentSubmissionEntity>;
 }

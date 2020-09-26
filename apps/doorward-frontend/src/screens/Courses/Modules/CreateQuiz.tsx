@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import { fetchCourseModuleAction } from '../../../reducers/courses/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
@@ -9,12 +8,14 @@ import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.viewModule);
+  const state = useDoorwardApi((state) => state.modules.getModule);
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', fetchCourseModuleAction);
+  usePageResource('moduleId', DoorwardApi.modules.getModule);
 
   const { module } = state.data;
   useEffect(() => {
@@ -32,7 +33,7 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="Create Quiz" noNavBar>
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>
-        {module => <CreateQuizForm onSuccess={finish} onCancel={finish} module={module} />}
+        {(module) => <CreateQuizForm onSuccess={finish} onCancel={finish} module={module} />}
       </WebComponent>
     </Layout>
   );
