@@ -6,11 +6,10 @@ import { PageComponent } from '@doorward/ui/types';
 import { ROUTES } from '../../routes/routes';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import { SearchQueryBody } from '../../services/models/requestBody';
 
 function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupListProps): JSX.Element {
   const routes = useRoutes();
-  const { query } = useQueryParams<SearchQueryBody>();
+  const { query } = useQueryParams();
   return (
     <Layout
       {...props}
@@ -30,12 +29,12 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
       <GroupsTable
         type={type}
         search={query.search}
-        onRowClick={group => {
+        onRowClick={(group) => {
           routes.navigate(routes[viewRoute], {
             groupId: group.id,
           });
         }}
-        actionMenu={group => {
+        actionMenu={(group) => {
           return (
             <Dropdown.Menu>
               {props.updateRoute && (

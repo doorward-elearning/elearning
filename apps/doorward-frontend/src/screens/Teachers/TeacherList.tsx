@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
-import { fetchTeacherListAction } from '../../reducers/teachers/actions';
 import TeachersTable from '../../components/Tables/TeachersTable';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
-const TeacherList: React.FunctionComponent<StudentListProps> = props => {
-  const teacherList = useSelector((state: State) => state.teachers.teacherList);
+const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
+  const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   const routes = useRoutes();
 
-  const fetch = useAction(fetchTeacherListAction);
+  const fetch = useAction(DoorwardApi.teachers.getAllTeachers);
 
   useEffect(() => {
     fetch();

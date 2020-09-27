@@ -1,7 +1,5 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
 import { Redirect } from 'react-router';
 import AddTeacherForm from '../../components/Forms/AddTeacherForm';
@@ -9,11 +7,12 @@ import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
-const AddTeacher: React.FunctionComponent<AddStudentProps> = props => {
+const AddTeacher: React.FunctionComponent<AddStudentProps> = (props) => {
   const teacherForm = useForm();
   const routes = useRoutes();
-  const newTeacher = useSelector((state: State) => state.teachers.createTeacher);
+  const newTeacher = useDoorwardApi((state) => state.teachers.createTeacherAccount);
   const submitted = useFormSubmit(newTeacher);
 
   return (

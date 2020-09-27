@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { fetchStudentReport } from '../../reducers/reports/actions';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import CoursesInProgressTable from '../../components/Tables/CoursesInProgressTable';
 import './StudentReport.scss';
-import { fetchCoursesAction } from '../../reducers/courses/actions';
 import useRoutes from '../../hooks/useRoutes';
 import Panel from '@doorward/ui/components/Panel';
 import WebComponent from '@doorward/ui/components/WebComponent';
@@ -19,17 +17,19 @@ import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import Badge from '@doorward/ui/components/Badge';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const data = [['Course', 'Marks']];
-const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
+const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
-  const state = useSelector((state: State) => state.reports.singleStudent);
-  const courses = useSelector((state: State) => state.courses.courseList.data?.courses);
+  const state = useDoorwardApi((state) => state.reports.getStudentReport);
+  const courses = useDoorwardApi((state) => state.courses.getCourses.data?.courses);
   const routes = useRoutes();
 
-  usePageResource('studentId', fetchStudentReport);
-  const fetchCourses = useAction(fetchCoursesAction);
-  useBreadCrumbTitle(state, state => state.data.student?.fullName, routes);
+  usePageResource('studentId', DoorwardApi.reports.getStudentReport);
+  const fetchCourses = useAction(DoorwardApi.courses.getCourses);
+  useBreadCrumbTitle(state, (state) => state.data.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {
@@ -85,13 +85,13 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
               <div>
                 Ongoing Courses{' '}
                 <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
-                  {data => <Badge>{data.coursesInProgress.length}</Badge>}
+                  {(data) => <Badge>{data.courses.length}</Badge>}
                 </WebComponent>
               </div>
             </Header>
             <WebComponent
               icon="school"
-              data={state.data.student?.coursesInProgress}
+              data={state.data.student?.courses}
               loading={state.fetching}
               message="The student does not have any ongoing courses."
               size="medium"
@@ -105,14 +105,14 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = props => {
                 <div>
                   Completed Courses{' '}
                   <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
-                    {(data): JSX.Element => <Badge>{data.coursesInProgress.length}</Badge>}
+                    {(data): JSX.Element => <Badge>{data.courses.length}</Badge>}
                   </WebComponent>
                 </div>
               </Header>
             </Row>
             <WebComponent
               icon="school"
-              data={state.data.student?.coursesInProgress}
+              data={state.data.student?.courses}
               loading={state.fetching}
               message="The student has not completed any courses."
               size="medium"

@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Header from '@doorward/ui/components/Header';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useForm from '@doorward/ui/hooks/useForm';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import meeting from '../../../assets/illustrations/meeting.svg';
@@ -10,9 +8,10 @@ import Row from '@doorward/ui/components/Row';
 import EImage from '@doorward/ui/components/Image';
 import RatingInput from '@doorward/ui/components/Input/RatingInput';
 import validation from './validation';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JSX.Element => {
-  const state = useSelector((state: State) => state.courses.createStudent);
+  const state = useDoorwardApi((state) => state.students.createStudentInCourse);
   const form = useForm();
   const initialValues = {
     rating: null,

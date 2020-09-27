@@ -3,9 +3,9 @@ import Layout, { LayoutFeatures } from '../Layout';
 import StudentReportsTable from '../../components/Tables/StudentReportsTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
-import { Student } from '@doorward/common/models/Student';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-const StudentListReport: React.FunctionComponent<StudentReportsProps> = props => {
+const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) => {
   const routes = useRoutes();
   const [search, setSearch] = useState('');
   const onSearch = (text: string) => {
@@ -20,7 +20,7 @@ const StudentListReport: React.FunctionComponent<StudentReportsProps> = props =>
     >
       <StudentReportsTable
         filter={search}
-        onRowClick={(student: Student): void => routes.navigate(routes.studentReport, { studentId: student.id })}
+        onRowClick={(student: UserEntity): void => routes.navigate(routes.studentReport, { studentId: student.id })}
       />
     </Layout>
   );

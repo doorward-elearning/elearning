@@ -1,23 +1,21 @@
 import CreateGroup from '../CreateGroup';
 import Groups from '@doorward/common/utils/GroupTypes';
-import { fetchTeacherListAction } from '../../../reducers/teachers/actions';
-
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (props): JSX.Element => {
-  const teacherList = useSelector((state: State) => state.teachers.teacherList);
+  const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   return (
     <CreateGroup
       emptyMessage={'No teachers have been created yet'}
       title="Teachers"
       type={Groups.TEACHER}
       state={teacherList}
-      getUsers={data => data.teachers}
+      getUsers={(data) => data.teachers}
       redirectOnSuccess={'teacherGroups'}
-      actionCreator={fetchTeacherListAction}
+      actionCreator={DoorwardApi.teachers.getAllTeachers}
       {...props}
     />
   );

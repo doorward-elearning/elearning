@@ -10,14 +10,15 @@ import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import { addCourseStudentAction } from '../../reducers/courses/actions';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
-const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
+const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm();
   const [courseId] = useViewCourse();
   const routes = useRoutes();
   const history = useHistory();
-  const createStudent = useSelector((state: State) => state.courses.createStudent);
+  const createStudent = useDoorwardApi((state) => state.students.createStudentInCourse);
   const submitted = useFormSubmit(createStudent);
 
   return (
@@ -32,9 +33,9 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = props => {
         <AddStudentForm
           onCancel={(): void => history.push(routes.routes.courseStudents.link)}
           useForm={studentForm}
-          action={addCourseStudentAction}
+          action={DoorwardApi.students.createStudentInCourse}
           state={createStudent}
-          createData={data => [courseId, data]}
+          createData={(data) => [courseId, data]}
         />
       </Layout>
     </IfElse>

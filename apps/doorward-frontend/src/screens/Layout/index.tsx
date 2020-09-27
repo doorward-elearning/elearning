@@ -34,9 +34,10 @@ import Badge from '@doorward/ui/components/Badge';
 import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import useAction from '@doorward/ui/hooks/useActions';
-import { clearSuggestionsAction, getSuggestionsAction } from '../../reducers/suggestions/actions';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
 import { ParsedUrlQuery } from 'querystring';
+import DoorwardApi from '../../services/apis/doorward.api';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -71,14 +72,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   noNavBar,
   withBackground,
   renderNavEnd,
-  onSearch: onSearchText = str => {},
+  onSearch: onSearchText = (str) => {},
   navFeatures = Tools.enumKeys(NavbarFeatures),
   renderTopContent,
   suggestionsType,
   ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const searchSuggestions = useSelector((state: State) => state.suggestions.suggestions);
+  const searchSuggestions = useDoorwardApi((state) => state.suggestions.getSuggestions);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
@@ -86,8 +87,8 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
-  const fetchSuggestions = useAction(getSuggestionsAction);
-  const clearSuggestions = useAction(clearSuggestionsAction);
+  const fetchSuggestions = useAction(DoorwardApi.searchSuggestions.getSuggestions);
+  const clearSuggestions = () => {};
   const sideBarRef = useRef();
 
   useEffect(() => {
@@ -156,8 +157,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             'ed-page-layout__sidebar': true,
             collapsed: sidebarCollapsed,
           })}
-          onClick={e => {
+          onClick={(e) => {
             const current = sideBarRef?.current;
+            // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+            // @ts-ignore
             if (current && !current?.contains(e.target)) {
               toggleSidebar();
             }

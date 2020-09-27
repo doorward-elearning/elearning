@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { User } from '@doorward/common/models/User';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 export interface UseUserChooser {
   selected: { string?: boolean };
@@ -7,12 +7,12 @@ export interface UseUserChooser {
   deselect: (id: string) => void;
   selectAll: () => void;
   deselectAll: () => void;
-  filteredUsers: Array<User>;
-  users: Array<User>;
+  filteredUsers: Array<UserEntity>;
+  users: Array<UserEntity>;
   count: number;
   filter: (query: string) => void;
 }
-const useUserChooser = (_users: Array<User>, initiallySelectedUsers?: Array<User>): UseUserChooser => {
+const useUserChooser = (_users: Array<UserEntity>, initiallySelectedUsers?: Array<UserEntity>): UseUserChooser => {
   const [selected, setSelected] = useState<{ [name: string]: boolean }>({});
   const [users, setUsers] = useState(_users);
   const [filteredUsers, setFilteredUsers] = useState(users);
@@ -28,7 +28,7 @@ const useUserChooser = (_users: Array<User>, initiallySelectedUsers?: Array<User
       users.reduce((acc, cur) => {
         return {
           ...acc,
-          [cur.id]: !!selected[cur.id] || (initiallySelectedUsers || []).find(x => x.id === cur.id),
+          [cur.id]: !!selected[cur.id] || (initiallySelectedUsers || []).find((x) => x.id === cur.id),
         };
       }, {})
     );
@@ -49,10 +49,10 @@ const useUserChooser = (_users: Array<User>, initiallySelectedUsers?: Array<User
   const filterFunction = useCallback(() => {
     const regex = new RegExp(filterString, 'ig');
     return users
-      .filter(user => {
+      .filter((user) => {
         return !selected[user.id];
       })
-      .filter(user => {
+      .filter((user) => {
         return regex.test(user.fullName) || regex.test(user.email) || regex.test(user.username);
       });
   }, [filterString, users, selected]);

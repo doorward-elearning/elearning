@@ -1,22 +1,21 @@
 import React from 'react';
 import Groups from '@doorward/common/utils/GroupTypes';
-import { fetchStudentListAction } from '../../../reducers/students/actions';
 import CreateGroup from '../CreateGroup';
 import { PageComponent } from '@doorward/ui/types';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (props): JSX.Element => {
-  const studentList = useSelector((state: State) => state.students.studentList);
+  const studentList = useDoorwardApi((state) => state.students.getAllStudents);
   return (
     <CreateGroup
       emptyMessage="No students have been created yet"
       title="Students"
       type={Groups.STUDENT}
       state={studentList}
-      getUsers={data => data.students}
-      actionCreator={fetchStudentListAction}
-      actionArgs={[{ limit: Number.MAX_SAFE_INTEGER }]}
+      getUsers={(data) => data.students}
+      actionCreator={DoorwardApi.students.getAllStudents}
+      actionArgs={[{}]}
       redirectOnSuccess="studentGroups"
       {...props}
     />

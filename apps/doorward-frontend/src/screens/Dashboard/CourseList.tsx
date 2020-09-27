@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import './styles/CourseList.scss';
-import { fetchCoursesAction, startLiveClassroom } from '../../reducers/courses/actions';
-import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '@doorward/ui/components/Image';
@@ -12,20 +10,21 @@ import Row from '@doorward/ui/components/Row';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import Card from '@doorward/ui/components/Card';
 import Header from '@doorward/ui/components/Header';
-import { Course } from '@doorward/common/models/Course';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { Roles } from '@doorward/ui/components/RolesManager';
 import ProgressModal from '../../components/Modals/ProgressModal';
 import useModal from '@doorward/ui/hooks/useModal';
-import { useSelector } from 'react-redux';
 import Icon from '@doorward/ui/components/Icon';
 import classNames from 'classnames';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
+import CourseEntity from '@doorward/common/entities/course.entity';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
-  const [classroomCourse, startClassroom] = useState<Course>(null);
+  const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
 
-  const launchClassroom = useSelector((state: State) => state.courses.launchClassroom);
+  const launchClassroom = useDoorwardApi((state) => state.meetings.joinMeeting);
   const routes = useRoutes();
 
   useEffect(() => {
@@ -35,28 +34,28 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   }, [classroomCourse]);
   return (
     <SimpleWebComponent
-      action={fetchCoursesAction}
-      dataSelector={data => (data.courses || []).sort((a, b) => (a?.meetingRoom?.currentMeeting ? -1 : 1))}
-      selector={(state: State) => state.courses.courseList}
+      action={DoorwardApi.courses.getCourses}
+      dataSelector={(data) => (data.courses || []).sort((a, b) => (a?.meetingRoom?.currentMeeting ? -1 : 1))}
+      selector={(state) => state.courses.getCourses}
     >
-      {data => (
+      {(data) => (
         <div>
           <div className="dashboard__course-list">
             <ProgressModal
               state={launchClassroom}
               cancellable={false}
               showErrorToast
-              action={() => startLiveClassroom(classroomCourse?.id)}
+              action={() => DoorwardApi.meetings.joinMeeting(classroomCourse?.id)}
               title={(classroomCourse?.meetingRoom?.currentMeeting ? 'Joining ' : 'Starting ') + ' classroom.'}
               useModal={liveClassroomModal}
-              onSuccess={data => {
+              onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
                   meetingId: data.id,
                 });
               }}
             />
             <ItemArray data={data}>
-              {(course: Course) => (
+              {(course: CourseEntity) => (
                 <div className="dashboard__course-list__course">
                   <Card>
                     <Card.Header image>
@@ -75,7 +74,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                           data={Tools.truncate(course.modules, 3)}
                           empty={<span>No modules have been added</span>}
                         >
-                          {module => <div>{module.title}</div>}
+                          {(module) => <div>{module?.title}</div>}
                         </ItemArray>
                       </div>
                       <Row style={{ justifyContent: 'space-between' }}>

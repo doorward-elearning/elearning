@@ -10,8 +10,8 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
-import { ModuleItemResponse } from '@doorward/common/dtos/response/modules.responses';
 import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import { ModuleItemResponse } from '@doorward/common/dtos/response';
 
 const ModuleItemExists = () =>
   ModelExists({

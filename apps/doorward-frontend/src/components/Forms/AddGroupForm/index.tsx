@@ -1,8 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import TextField from '@doorward/ui/components/Input/TextField';
 import useForm from '@doorward/ui/hooks/useForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import UserChooser from '@doorward/ui/components/UserChooser';
 import Header from '@doorward/ui/components/Header';
 import './AddGroupForm.scss';
@@ -17,14 +15,13 @@ import BasicForm from '../BasicForm';
 import VerticalScroll from '@doorward/ui/components/VerticalScroll';
 import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import GroupEntity from '@doorward/common/entities/group.entity';
-import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { GroupMemberResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 
 interface InitialValues {
   name: string;
-  members: Array<GroupMemberEntity>;
+  members: Array<GroupMemberResponse>;
 }
 
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
@@ -124,7 +121,7 @@ export interface AddGroupFormProps {
   title: string;
   type?: string;
   onSuccess: () => void;
-  group?: GroupEntity;
+  group?: SimpleGroupResponse;
 }
 
 export default AddGroupForm;

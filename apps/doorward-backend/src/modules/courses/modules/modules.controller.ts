@@ -13,7 +13,6 @@ import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
 import {
   DeleteModuleResponse,
-  ModuleItemResponse,
   ModuleResponse,
   UpdateModulesOrderResponse,
 } from '@doorward/common/dtos/response/modules.responses';
@@ -24,6 +23,7 @@ import {
   UpdateModuleBody,
   UpdateModulesBody,
 } from '@doorward/common/dtos/body';
+import { ModuleItemResponse } from '@doorward/common/dtos/response';
 
 export const ModuleExists = () =>
   ModelExists({ key: 'moduleId', model: ModuleEntity, message: '{{module}} does not exist.' });

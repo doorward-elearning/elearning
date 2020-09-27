@@ -4,11 +4,11 @@ import Layout, { LayoutFeatures } from '../Layout';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import AddGroupForm from '../../components/Forms/AddGroupForm';
 import { PageComponent } from '@doorward/ui/types';
-import { User } from '@doorward/common/models/User';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import useAction from '@doorward/ui/hooks/useActions';
 import { ROUTES } from '../../routes/routes';
-import { GroupResponse } from '../../services/models/responseBody';
+import UserEntity from '@doorward/common/entities/user.entity';
+import { GroupResponse } from '@doorward/common/dtos/response';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -45,7 +45,7 @@ function CreateGroup<T, Args extends Array<any>>({
     >
       <WebComponent
         data={{ allUsers: getUsers(state.data), group: currentGroupState?.data?.group }}
-        hasData={data => !!data.allUsers}
+        hasData={(data) => !!data.allUsers}
         loading={loading}
         emptyMessage={emptyMessage}
       >
@@ -68,7 +68,7 @@ export interface CreateGroupProps<T, Args = any[]> extends PageComponent {
   title: string;
   type: string;
   state: WebComponentState<T>;
-  getUsers: (data: T) => Array<User>;
+  getUsers: (data: T) => Array<UserEntity>;
   actionCreator: ActionCreator<Args>;
   redirectOnSuccess: keyof typeof ROUTES;
   currentGroupState?: WebComponentState<GroupResponse>;

@@ -48,6 +48,7 @@ import {
   GroupResponse,
   GroupsResponse,
   JitsiBrandingResponse,
+  MeetingResponse,
   StudentsReportResponse,
   TeachersReportResponse,
   StudentReportResponse,
@@ -173,7 +174,7 @@ const DoorwardBackendApi = {
     },
   },
   "meetings": {
-    joinMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    joinMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < MeetingResponse > => {
       return GET(`/meetings/${meetingId}/join`, {}, config);
     },
     processOpenviduWebHook: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
@@ -282,8 +283,13 @@ const DoorwardBackendApi = {
     createStudent: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
       return POST(`/students`, body, {}, config);
     },
-    getAllStudents: (config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
-      return GET(`/students`, {}, config);
+    getAllStudents: (query: {
+      search ? : string,
+      page ? : string
+    }, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
+      return GET(`/students`, {
+        ...query
+      }, config);
     },
     getStudent: (studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
       return GET(`/students/${studentId}`, {}, config);

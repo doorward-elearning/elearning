@@ -3,17 +3,16 @@ import useRoutes from '../../hooks/useRoutes';
 import Layout, { LayoutFeatures } from '../Layout';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
 import usePageResource from '../../hooks/usePageResource';
-import { getOrganization } from '../../reducers/organizations/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props): JSX.Element => {
   const routes = useRoutes();
-  usePageResource('organizationId', getOrganization);
-  const state = useSelector((state: State) => state.organizations.get);
+  usePageResource('organizationId', DoorwardApi.organizations.getOrganization);
+  const state = useDoorwardApi((state) => state.organizations.getOrganization);
   return (
     <Layout
       {...props}
@@ -21,7 +20,7 @@ const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props)
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
       <WebComponent data={state.data.organization} loading={state.fetching}>
-        {organization => (
+        {(organization) => (
           <CreateOrganizationForm
             organization={organization}
             onSuccess={() => {

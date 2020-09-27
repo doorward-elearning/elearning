@@ -3,16 +3,15 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import OrganizationsTable from '../../components/Tables/OrganizationsTable';
 import useAction from '@doorward/ui/hooks/useActions';
-import { fetchOrganizations } from '../../reducers/organizations/actions';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
   const routes = useRoutes();
-  const organizations = useSelector((state: State) => state.organizations.list);
-  const fetch = useAction(fetchOrganizations);
+  const organizations = useDoorwardApi((state) => state.organizations.getAllOrganizations);
+  const fetch = useAction(DoorwardApi.organizations.getAllOrganizations);
 
   useEffect(() => {
     fetch();
@@ -28,7 +27,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
       <WebComponent data={organizations.data.organizations} loading={organizations.fetching}>
-        {organizations => <OrganizationsTable organizations={organizations} />}
+        {(organizations) => <OrganizationsTable organizations={organizations} />}
       </WebComponent>
     </Layout>
   );

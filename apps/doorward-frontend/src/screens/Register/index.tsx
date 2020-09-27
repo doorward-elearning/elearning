@@ -1,22 +1,21 @@
-import React, {FunctionComponent, useEffect, useState} from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import '../Login/Login.scss';
 import Layout from '../Layout';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
-import {Link, Redirect} from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import useRoutes from '../../hooks/useRoutes';
-import {useSelector} from 'react-redux';
-import {State} from '../../store';
-import {clearLoginAction} from '../../reducers/login/actions';
-import {NavbarFeatures} from '@doorward/ui/components/NavBar/features';
+import { clearLoginAction } from '../../reducers/login/actions';
+import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import IfElse from '@doorward/ui/components/IfElse';
 import useAction from '@doorward/ui/hooks/useActions';
 import useAuth from '@doorward/ui/hooks/useAuth';
-import {PageComponent} from '@doorward/ui/types';
+import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
-  const registration = useSelector((state: State) => state.login.registration);
+  const registration = useDoorwardApi((state) => state.auth.register);
   const { authenticate, authenticated } = useAuth();
   const [newAccount, setNewAccount] = useState(false);
   const organization = useOrganization();

@@ -20,6 +20,11 @@ export enum AssignmentSubmissionType {
   FILE_UPLOAD = 'File Upload',
 }
 
+export enum AssignmentSubmissionMedia {
+  OFFLINE = 'Offline',
+  ONLINE = 'Online',
+}
+
 export enum AssignmentSubmissionStatus {
   DRAFT = 'Draft',
   SUBMITTED = 'Submitted',

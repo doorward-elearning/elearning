@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { State } from '../../store';
 import { PageComponent } from '@doorward/ui/types';
 import './VideoCallPage.scss';
-import { joinMeetingAction } from '../../reducers/videoCall/actions';
 import usePageResource from '../../hooks/usePageResource';
 import OpenviduWebComponent from '@doorward/ui/components/OpenviduWebComponent';
 import Layout from '../Layout';
@@ -13,12 +12,14 @@ import LoadingPage from '../LoadingPage';
 import JitsiMeeting from '@doorward/ui/components/JitsiMeeting';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
+import DoorwardApi from '../../services/apis/doorward.api';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
-  const videoCallState = useSelector((state: State) => state.videoCall.joinMeeting);
+  const videoCallState = useDoorwardApi((state) => state.meetings.joinMeeting);
   const organization = useOrganization();
 
-  usePageResource('meetingId', joinMeetingAction);
+  usePageResource('meetingId', DoorwardApi.meetings.joinMeeting);
 
   if (videoCallState.fetching) {
     return <LoadingPage />;

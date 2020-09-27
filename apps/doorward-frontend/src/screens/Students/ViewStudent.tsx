@@ -3,16 +3,15 @@ import Layout, { LayoutFeatures } from '../Layout';
 import StudentProfileView from '../../components/UI/StudentProfileView';
 import { PageComponent } from '@doorward/ui/types';
 import usePageResource from '../../hooks/usePageResource';
-import { getStudentAction } from '../../reducers/students/actions';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
+import DoorwardApi from '../../services/apis/doorward.api';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
 const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Element => {
-  usePageResource('studentId', getStudentAction);
+  usePageResource('studentId', DoorwardApi.students.getStudent);
   const routes = useRoutes();
-  const student = useSelector((state: State) => state.students.student);
+  const student = useDoorwardApi((state) => state.students.getStudent);
 
   useEffect(() => {
     if (student.data.student) {
@@ -27,9 +26,7 @@ const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Elem
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
     >
       <WebComponent data={student.data.student} loading={student.fetching}>
-        {data => {
-          return <StudentProfileView student={data} />;
-        }}
+        {(data) => <StudentProfileView student={data} />}
       </WebComponent>
     </Layout>
   );

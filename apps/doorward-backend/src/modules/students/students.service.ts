@@ -10,7 +10,12 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import CoursesRepository from '@doorward/backend/repositories/courses.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import { StudentsRepository } from '@doorward/backend/repositories/students.repository';
-import { AddStudentsToCourseBody, CreateUserBody, ForceChangePasswordBody, UpdateUserBody } from '@doorward/common/dtos/body';
+import {
+  AddStudentsToCourseBody,
+  CreateUserBody,
+  ForceChangePasswordBody,
+  UpdateUserBody,
+} from '@doorward/common/dtos/body';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordChangeEmail from '../../emails/password-change.email';
 import { AuthService } from '../auth/auth.service';
@@ -176,8 +181,10 @@ export class StudentsService {
   /**
    *
    */
-  public async getAllStudents() {
-    return this.studentsRepository.find();
+  public async getAllStudents(search?: string) {
+    return this.studentsRepository
+      .createSearchQueryBuilder('student', ['firstName', 'username', 'email', 'lastName'], search)
+      .getMany();
   }
 
   /**

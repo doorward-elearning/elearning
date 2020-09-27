@@ -4,8 +4,13 @@ import DApiResponse from '@doorward/common/dtos/response/base.response';
 import { GroupRoles } from '@doorward/common/types/groups';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import GroupEntity from '@doorward/common/entities/group.entity';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-export class GroupMemberResponse {
+export class GroupMemberResponse extends UserEntity {
+  @ApiProperty()
+  @Expose()
+  id: string;
+
   @ApiProperty()
   @Expose()
   firstName: string;
@@ -20,11 +25,7 @@ export class GroupMemberResponse {
 
   @ApiProperty()
   @Expose()
-  id: string;
-
-  @ApiProperty()
-  @Expose()
-  role: GroupRoles;
+  groupRole: GroupRoles;
 
   @ApiProperty()
   @Expose()
@@ -35,14 +36,9 @@ export class GroupMemberResponse {
   joinedOn: Date;
 
   constructor(groupMember: GroupMemberEntity) {
-    const { member, referee, role } = groupMember;
-    this.firstName = member?.firstName;
-    this.lastName = member?.lastName;
-    this.email = member?.email;
-    this.id = member?.id;
-    this.role = role;
-    this.referredBy = referee?.id;
-    this.joinedOn = groupMember.createdAt;
+    super();
+    Object.assign(this, groupMember.member);
+    this.groupRole = groupMember.role;
   }
 }
 

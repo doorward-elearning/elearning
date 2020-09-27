@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
 import './Login.scss';
 import Layout, { LayoutFeatures } from '../Layout';
 import { clearLoginAction } from '../../reducers/login/actions';
-import { State } from '../../store';
 import LoginForm from '../../components/Forms/LoginForm';
 import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';

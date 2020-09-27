@@ -9,11 +9,12 @@ import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
 
-const AddStudent: React.FunctionComponent<AddStudentProps> = props => {
+const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm<AddStudentFormState>();
   const routes = useRoutes();
-  const newStudent = useSelector((state: State) => state.students.newStudent);
+  const newStudent = useDoorwardApi((state) => state.students.createStudent);
   const submitted = useFormSubmit(newStudent);
 
   return (

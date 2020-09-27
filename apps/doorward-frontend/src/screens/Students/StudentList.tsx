@@ -7,24 +7,25 @@ import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useAction from '@doorward/ui/hooks/useActions';
-import { fetchStudentListAction } from '../../reducers/students/actions';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import { ParsedUrlQuery } from 'querystring';
+import useDoorwardApi from '../../hooks/useDoorwardApi';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 export interface StudentListQueryParams extends ParsedUrlQuery {
   search: string;
   page: string;
 }
 
-const StudentList: React.FunctionComponent<StudentListProps> = props => {
-  const studentList = useSelector((state: State) => state.students.studentList);
+const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
+  const studentList = useDoorwardApi((state) => state.students.getAllStudents);
   const routes = useRoutes();
-  const fetch = useAction(fetchStudentListAction);
+  const fetch = useAction(DoorwardApi.students.getAllStudents);
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
-  const total = studentList.data.meta?.pagination?.total;
+  const total = studentList.data.pagination?.total;
 
   useEffect(() => {
-    fetch({ page: query.page }, { search: query.search });
+    fetch({ ...query });
   }, [query.search]);
 
   return (
@@ -39,7 +40,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
-      onSearch={text => {
+      onSearch={(text) => {
         updateLocation({
           search: text,
         });
@@ -48,15 +49,15 @@ const StudentList: React.FunctionComponent<StudentListProps> = props => {
       <PaginationContainer
         data={studentList.data.students}
         state={studentList}
-        onChangePage={currentPage => {
-          fetch({ page: currentPage });
+        onChangePage={(currentPage) => {
+          fetch({ page: `${currentPage}` });
         }}
       >
         {(students): JSX.Element => {
           return (
             <StudentTable
               students={students}
-              onClickStudent={row => {
+              onClickStudent={(row) => {
                 routes.navigate(routes.viewStudent, {
                   studentId: row.id,
                 });
