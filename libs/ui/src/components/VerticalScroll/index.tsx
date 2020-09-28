@@ -1,4 +1,4 @@
-import React, { ReactNode, useCallback, useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import './VerticalScroll.scss';
 import Button from '@doorward/ui/components/Buttons/Button';
 import classNames from 'classnames';
@@ -25,6 +25,8 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
   useEffect(() => {
     const { current } = content;
     if (current) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       current.scrollTo({
         top: 1,
         behavior: 'smooth',
@@ -57,7 +59,7 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
       </span>
       <div
         className="ed-verticalScroll__content"
-        onScroll={e => setScrollEvent({ ...e })}
+        onScroll={(e) => setScrollEvent({ ...e })}
         ref={content}
         style={{
           maxHeight: props.maxHeight + 'px',

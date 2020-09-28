@@ -8,57 +8,57 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import QuizQuestions, { defaultQuestion } from './QuizQuestions';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { CreateQuizBody } from '@doorward/common/dtos/body';
+import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 
-const defaultQuiz = {
+const defaultQuiz: CreateQuizBody = {
   title: 'Unnamed Quiz',
-  content: {
-    instructions: '',
-    options: {
-      shuffleAnswers: false,
-      timeLimit: {
-        allow: false,
-        minutes: null,
-      },
-      attempts: {
-        multiple: false,
-        keepScore: 'Highest',
-        max: null,
-      },
-      questions: {
-        oneAtATime: false,
-        lockAfterAnswering: false,
-      },
-      restrictions: {
-        accessCode: {
-          require: false,
-          code: null,
-        },
-      },
-      responses: {
-        show: false,
-        frequency: {
-          onlyOnce: false,
-          range: {
-            allow: false,
-            from: null,
-            to: null,
-          },
-        },
-      },
-      dueDate: null,
-      availability: {
-        from: null,
-        to: null,
+  instructions: '',
+  type: ModuleItemType.QUIZ,
+  order: 0,
+  options: {
+    shuffleAnswers: false,
+    timeLimit: {
+      allow: false,
+      minutes: null,
+    },
+    attempts: {
+      multiple: false,
+      keepScore: 'Highest',
+      max: null,
+    },
+    questions: {
+      oneAtATime: false,
+      lockAfterAnswering: false,
+    },
+    restrictions: {
+      accessCode: {
+        require: false,
+        code: null,
       },
     },
-    questions: [defaultQuestion],
+    responses: {
+      show: false,
+      frequency: {
+        onlyOnce: false,
+        range: {
+          allow: false,
+          from: null,
+          to: null,
+        },
+      },
+    },
+    dueDate: null,
+    availability: {
+      from: null,
+      to: null,
+    },
   },
+  questions: [defaultQuestion],
 };
 
 const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
-  const initialValues = props.quiz || defaultQuiz;
+  const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
 
   const form = useForm<CreateQuizFormState>();
   return (
@@ -78,7 +78,7 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
               <Tab title="Details">
                 <QuizDetails />
               </Tab>
-              <Tab title="Questions" badge={`${(formikProps?.values.content.questions || []).length}`}>
+              <Tab title="Questions" badge={`${(formikProps?.values.questions || []).length}`}>
                 <QuizQuestions />
               </Tab>
             </TabLayout>
@@ -93,9 +93,9 @@ export interface CreateQuizFormProps {
   onSuccess: () => void;
   onCancel: () => void;
   module: ModuleEntity;
-  quiz?: ModuleItemEntity;
+  quiz?: QuizEntity;
 }
 
-export type CreateQuizFormState = AddModuleItemFormState & ModuleItemEntity;
+export type CreateQuizFormState = AddModuleItemFormState & CreateQuizBody;
 
 export default CreateQuizForm;

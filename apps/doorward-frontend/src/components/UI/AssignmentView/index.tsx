@@ -3,7 +3,7 @@ import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import { useHistory } from 'react-router';
 import AssignmentSubmissionForm from '../../Forms/AssignmentSubmissionForm';
 import AssignmentSubmissionView from '../../AssignmentSubmissionView';
@@ -13,6 +13,7 @@ import Tools from '@doorward/common/utils/Tools';
 import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
   const initialValues = {
@@ -35,7 +36,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
       <Header size={2} style={{ paddingBottom: 'var(--padding-lg)' }}>
         Description
       </Header>
-      <DraftHTMLContent content={props.assignment.content.assignment} />
+      <DraftHTMLContent content={props.assignment.assignment} />
       <RoleContainer roles={[Roles.STUDENT]} showSuperAdmin={false}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
           <Header size={3}>Submission</Header>
@@ -95,7 +96,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
 };
 
 export interface AssignmentViewProps {
-  assignment: ModuleItemEntity;
+  assignment: AssignmentEntity;
 }
 
 export default AssignmentView;

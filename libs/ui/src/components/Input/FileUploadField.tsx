@@ -11,7 +11,7 @@ import ProgressBar from '@doorward/ui/components/ProgressBar';
 import classNames from 'classnames';
 import Spinner from '@doorward/ui/components/Spinner';
 import MoreInfo from '@doorward/ui/components/MoreInfo';
-import { File as FileModel } from '@doorward/common/models/File';
+import FileEntity from '@doorward/common/entities/file.entity';
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
   const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');
@@ -32,15 +32,15 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
     if (status === 'uploading') {
       if (validate()) {
         props
-          .uploadHandler(file, setPercentage, cancelFunction => {
+          .uploadHandler(file, setPercentage, (cancelFunction) => {
             setCancelFunction(() => cancelFunction);
           })
-          .then(result => {
+          .then((result) => {
             setPercentage(100);
             setStatus('uploaded');
             props.onSuccess(result.data.file);
           })
-          .catch(err => {
+          .catch((err) => {
             setStatus('failed');
             setError('Error uploading file. Please try again.');
             props.onFailure(error);
@@ -99,7 +99,7 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
   const [value, setValue] = useState({});
 
   useEffect(() => {
-    const result = Object.values(value).filter(v => !!v);
+    const result = Object.values(value).filter((v) => !!v);
 
     props.onChange({
       target: {
@@ -109,18 +109,18 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
     });
   }, [value]);
 
-  const onChooseFile = e => {
+  const onChooseFile = (e) => {
     if (e.target.files.length) {
       const newFiles = [...e.target.files];
       let existing = files;
-      existing = existing.filter(file => !newFiles.find(aFile => Tools.compareFiles(aFile, file)));
+      existing = existing.filter((file) => !newFiles.find((aFile) => Tools.compareFiles(aFile, file)));
       setFiles([...existing, ...newFiles]);
       inputRef.current.value = null;
     }
   };
   return (
     <div className="ed-file-upload-field">
-      {Object.values(value).filter(v => !!v).length < maxFiles && (
+      {Object.values(value).filter((v) => !!v).length < maxFiles && (
         <React.Fragment>
           <input
             type="file"
@@ -151,26 +151,26 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
         </React.Fragment>
       )}
       <div className="selected-files">
-        {files.map(file => {
+        {files.map((file) => {
           const fileId = file.name + file.size + file.lastModified;
           return (
             <ChosenFile
               file={file}
               uploadHandler={props.uploadHandler}
-              onSuccess={uploaded => {
+              onSuccess={(uploaded) => {
                 setValue({
                   ...value,
                   [fileId]: uploaded,
                 });
               }}
-              onFailure={error => {
+              onFailure={(error) => {
                 setValue({
                   ...value,
                   [fileId]: undefined,
                 });
               }}
               removeFile={() => {
-                setFiles(files.filter(f => !Tools.compareFiles(file, f)));
+                setFiles(files.filter((f) => !Tools.compareFiles(file, f)));
                 setValue({ ...value, [fileId]: undefined });
               }}
               key={fileId}
@@ -188,7 +188,7 @@ export type UploadHandler = (
   cancelHandler: (cancelFunction: () => void) => void
 ) => Promise<any>;
 
-export type FileUploadFieldValue = Array<FileModel>;
+export type FileUploadFieldValue = Array<FileEntity>;
 
 export interface FileUploadFieldProps extends InputProps {
   maxFiles?: number;
@@ -201,7 +201,7 @@ export interface ChosenFileProps {
   file: File;
   removeFile: () => void;
   uploadHandler: UploadHandler;
-  onSuccess: (file: FileModel) => void;
+  onSuccess: (file: FileEntity) => void;
   onFailure: (error: string) => void;
 }
 export default withInput(FileUploadField, [InputFeatures.LABEL], { labelPosition: 'top' });

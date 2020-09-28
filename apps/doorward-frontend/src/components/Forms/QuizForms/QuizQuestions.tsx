@@ -12,8 +12,9 @@ import TextArea from '@doorward/ui/components/Input/TextArea';
 import { FormContext } from '@doorward/ui/components/Form';
 import NumberField from '@doorward/ui/components/Input/NumberField';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
+import { CreateQuestionBody } from '@doorward/common/dtos/body';
 
-export const defaultQuestion = {
+export const defaultQuestion: CreateQuestionBody = {
   question: null,
   points: 1,
   answers: _.times(
@@ -32,14 +33,14 @@ const AnswerInput: React.FunctionComponent<AnswerInputProps> = React.memo(
       <div className="answer-panel">
         <div className="answer-panel__header">
           <Checkbox
-            name={`content.questions[${questionIndex}].answers[${answerIndex}].correct`}
+            name={`questions[${questionIndex}].answers[${answerIndex}].correct`}
             label=""
             title="Is it a correct Answer?"
           />
           <span>Answer {answerIndex + 1}</span>
           <Icon icon="delete" className="delete-answer" onClick={onRemove} />
         </div>
-        <TextArea name={`content.questions[${questionIndex}].answers[${answerIndex}].answer`} />
+        <TextArea name={`questions[${questionIndex}].answers[${answerIndex}].answer`} />
       </div>
     );
   },
@@ -50,7 +51,7 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo(
   (props) => {
     return (
       <Panel noBackground className="answers-container">
-        <FieldArray name={`content.questions[${props.index}].answers`}>
+        <FieldArray name={`questions[${props.index}].answers`}>
           {(arrayHelpers) => {
             return (
               <React.Fragment>
@@ -100,15 +101,10 @@ const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = (props) => {
                   <Panel key={question.id}>
                     <Row style={{ gridTemplateColumns: 'auto 1fr auto', gridColumnGap: 'var(--padding-lg)' }}>
                       <Header size={3}>Question {index + 1}</Header>
-                      <NumberField
-                        name={`content.questions[${index}].points`}
-                        min={1}
-                        labelPosition="right"
-                        label="Points"
-                      />
+                      <NumberField name={`questions[${index}].points`} min={1} labelPosition="right" label="Points" />
                       <Icon icon="delete" onClick={() => arrayHelpers.remove(index)} />
                     </Row>
-                    <DraftTextArea fluid name={`content.questions[${index}].question`} label="Question description" />
+                    <DraftTextArea fluid name={`questions[${index}].question`} label="Question description" />
                     <Header size={3}>Answers</Header>
                     <AnswersPanel answers={question.answers} index={index} />
                   </Panel>

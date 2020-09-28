@@ -18,5 +18,5 @@ export default class AnswerEntity extends BaseOrganizationEntity {
     onDelete: 'CASCADE',
   })
   @Expose({ groups: ['answer-question'] })
-  question: QuestionEntity;
+  question?: QuestionEntity;
 }

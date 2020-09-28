@@ -66,6 +66,10 @@ declare module '*.module.sass' {
 }
 
 declare global {
+  declare class Plyr {
+    constructor(...args: any);
+  }
+
   declare namespace JitsiMeet {
     export interface JitsiMeetOptions {
       roomName?: string;

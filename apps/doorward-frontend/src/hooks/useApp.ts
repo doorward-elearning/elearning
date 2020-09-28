@@ -1,6 +1,5 @@
 import _ from 'lodash';
-import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { ROUTES } from '../routes/routes';
 import useStateRef from '@doorward/ui/hooks/useStateRef';
 import Tools from '@doorward/common/utils/Tools';
@@ -20,7 +19,6 @@ export interface UseApp extends DoorwardAppContextProps {}
 
 const useApp = (): UseApp => {
   const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);
-  const [io, setIO] = useState();
 
   useEffect(() => {
     // setIO(connectSocket());
@@ -61,27 +59,11 @@ const useApp = (): UseApp => {
       setRoutes(newRoutes);
     }
   };
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (io) {
-      Object.values([]).forEach((type) => {
-        io.on((type: string, data: any) => {
-          dispatch({
-            type,
-            payload: data,
-          });
-        });
-      });
-    }
-  }, [io]);
 
   return {
     setTitle: _.throttle(setTitle, 100),
     setParams,
     routes,
-    io,
-    setIO,
   };
 };
 

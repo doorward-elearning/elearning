@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { RoleEvaluator, Roles } from '../components/RolesManager';
+import { RoleEvaluator } from '../components/RolesManager';
 import { RouteNames, Routes } from '@doorward/ui/types';
+import { Roles } from '@doorward/common/types/roles';
 
 export default class MRoute<T extends RouteNames> {
   path: string;
@@ -14,7 +15,7 @@ export default class MRoute<T extends RouteNames> {
     this.path = path;
     this.routes = {};
     this.hideBreadCrumb = false;
-    this.allowedRoles = [Roles.ALL];
+    this.allowedRoles = Object.values(Roles);
     this.component = component;
     this.redirectLink = '' as keyof T;
   }

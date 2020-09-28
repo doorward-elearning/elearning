@@ -8,18 +8,18 @@ import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.courses.getCourseModuleItems);
 
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('courseId', DoorwardApi.courses.getCourseModuleItems, ['Assignment']);
+  usePageResource('courseId', DoorwardApi.courses.getCourseModuleItems, [{ type: 'Assignment' }]);
   return (
     <Layout {...props} features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]} header="Assignments">
       <WebComponent data={state.data.items} loading={state.fetching}>
-        {(assignments: Array<ModuleItemEntity>) => {
+        {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table
               data={assignments}

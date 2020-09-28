@@ -5,7 +5,7 @@ import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
 import useRoutes from '../../../hooks/useRoutes';
 import Pagination from '@doorward/ui/components/Pagination';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';

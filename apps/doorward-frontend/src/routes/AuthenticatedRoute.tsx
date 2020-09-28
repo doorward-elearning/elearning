@@ -3,11 +3,12 @@ import { Redirect, Route, RouteProps } from 'react-router';
 import { useSelector } from 'react-redux';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
 import Tools from '@doorward/common/utils/Tools';
-import { RoleEvaluator, Roles } from '@doorward/ui/components/RolesManager';
+import { RoleEvaluator } from '@doorward/ui/components/RolesManager';
 import useAuth from '@doorward/ui/hooks/useAuth';
 import useRoutes from '../hooks/useRoutes';
 import { DoorwardRoutes } from './index';
 import LoadingPage from '../screens/LoadingPage';
+import { Roles } from '@doorward/common/types/roles';
 
 function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();

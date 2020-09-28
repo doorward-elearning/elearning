@@ -12,16 +12,16 @@ import ViewPages from './ViewPages';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import IfElse from '@doorward/ui/components/IfElse';
 import Tools from '@doorward/common/utils/Tools';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useAction from '@doorward/ui/hooks/useActions';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -109,13 +109,18 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                   </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>
                     <EditableView
-                      viewerView={<QuizView quiz={item} onCancel={() => routes.navigate(routes.viewCourse, params)} />}
+                      viewerView={
+                        <QuizView
+                          quiz={item as QuizEntity}
+                          onCancel={() => routes.navigate(routes.viewCourse, params)}
+                        />
+                      }
                       creatorView={
                         <CreateQuizForm
                           onSuccess={() => {}}
                           onCancel={() => routes.navigate(routes.viewModuleItem, params)}
                           module={module}
-                          quiz={item}
+                          quiz={item as QuizEntity}
                         />
                       }
                       creator={[Roles.TEACHER]}
@@ -131,11 +136,11 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                           onCancel={goBack}
                           form={assignmentForm}
                           module={module}
-                          assignment={item}
+                          assignment={item as AssignmentEntity}
                         />
                       }
                       isEditing={editing}
-                      viewerView={<AssignmentView assignment={item} />}
+                      viewerView={<AssignmentView assignment={item as AssignmentEntity} />}
                       creator={[Roles.TEACHER]}
                       viewer={[Roles.STUDENT]}
                     />

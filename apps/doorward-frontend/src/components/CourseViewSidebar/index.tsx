@@ -1,5 +1,4 @@
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/ui/components/RolesManager';
 import React, { useEffect } from 'react';
 import useAction from '@doorward/ui/hooks/useActions';
 import ItemArray from '@doorward/ui/components/ItemArray';
@@ -15,6 +14,7 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import { Roles } from '@doorward/common/types/roles';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (props) => {
   const students = useDoorwardApi((state) => state.students.getStudentsInCourse);

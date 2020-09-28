@@ -1,7 +1,7 @@
 function getYoutubeId(link) {
   const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
   const match = link.match(regExp);
-  return match && match[7].length == 11 ? match[7] : false;
+  return match && match[7].length === 11 ? match[7] : false;
 }
 
 const YOUTUBE_VIDEO_REGEX = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/gi;

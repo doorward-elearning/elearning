@@ -1,10 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import {
-  AssignmentSubmissionMedia,
-  AssignmentSubmissionStatus,
-  AssignmentSubmissionType,
-} from '@doorward/common/types/courses';
+import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';

@@ -2,9 +2,10 @@ import { ReactNode } from 'react';
 import { RouteProps } from 'react-router';
 import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '@doorward/ui/types';
 import Tools from '@doorward/common/utils/Tools';
-import { RoleEvaluator, Roles } from '../components/RolesManager';
+import { RoleEvaluator } from '../components/RolesManager';
 import MRoute from './MRoute';
 import React from 'react';
+import { Roles } from '@doorward/common/types/roles';
 
 const routeDefinitions: any = {};
 

@@ -1,10 +1,8 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, TableInheritance } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, TableInheritance } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
 import UserEntity from './user.entity';
-import QuestionEntity from './question.entity';
-import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 
 @Entity('ModuleItems')
 @TableInheritance({
@@ -19,6 +17,9 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
 
   // Keep this to prevent migration types from failing
   content?: string;
+
+  @Column({ type: 'enum', enum: ModuleItemType })
+  type: ModuleItemType;
 
   @Column({ default: 0 })
   order: number;

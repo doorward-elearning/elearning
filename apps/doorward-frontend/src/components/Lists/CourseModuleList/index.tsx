@@ -22,7 +22,7 @@ import useModuleDrop from './useModuleDrop';
 import useRoutes from '../../../hooks/useRoutes';
 import Tools from '@doorward/common/utils/Tools';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useAction from '@doorward/ui/hooks/useActions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';

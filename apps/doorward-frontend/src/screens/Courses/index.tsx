@@ -6,7 +6,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import { ROUTES } from '../../routes/routes';
 import useModal from '@doorward/ui/hooks/useModal';
 import useAction from '@doorward/ui/hooks/useActions';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';

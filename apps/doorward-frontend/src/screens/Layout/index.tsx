@@ -13,7 +13,7 @@ import useBreadCrumbs from '@doorward/ui/hooks/useBreadCrumbs';
 import IfElse from '@doorward/ui/components/IfElse';
 import Tools from '@doorward/common/utils/Tools';
 import Button, { ButtonProps } from '@doorward/ui/components/Buttons/Button';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import Feature from '@doorward/ui/components/FeatureProvider/Feature';
 import BreadCrumbs from '@doorward/ui/components/BreadCrumbs';

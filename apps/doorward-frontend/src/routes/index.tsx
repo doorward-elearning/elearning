@@ -25,7 +25,7 @@ import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 import Profile from '../screens/Profile';
 import MRoute from '@doorward/ui/routes/MRoute';
 import { Routes } from '@doorward/ui/types';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import StudentGroups from '../screens/Groups/Students/StudentGroups';
 import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
 import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';

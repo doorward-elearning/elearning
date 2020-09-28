@@ -9,7 +9,7 @@ import Icon from '@doorward/ui/components/Icon';
 import useForm from '@doorward/ui/hooks/useForm';
 import Form from '@doorward/ui/components/Form';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';

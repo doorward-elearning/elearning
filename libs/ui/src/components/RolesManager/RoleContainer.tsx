@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { RoleEvaluator, Roles } from './index';
+import { RoleEvaluator } from './index';
 import useRoleManager from '../../hooks/useRoleManager';
 import IfElse from '../IfElse';
+import { Roles } from '@doorward/common/types/roles';
 
 const RoleContainer: FunctionComponent<RoleProps> = ({
   roles,

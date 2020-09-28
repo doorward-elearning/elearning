@@ -3,7 +3,7 @@ import BasicForm from '../BasicForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { FormikProps } from 'formik';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { CreateModuleItemBody } from '@doorward/common/dtos/body';
+import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
@@ -34,9 +34,7 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
   );
 }
 
-export interface AddModuleItemFormState extends CreateModuleItemBody {
-  [name: string]: any;
-}
+export interface AddModuleItemFormState extends CreateModuleItemBody {}
 
 export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   onSuccess: () => void;
@@ -44,7 +42,7 @@ export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
   type: ModuleItemType;
   form: UseForm<T>;
   item: ModuleEntity;
-  initialValues?: Omit<T, keyof CreateModuleItemBody>;
+  initialValues?: Partial<T>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;
   children: Array<ReactChild> | ReactChild | ((formikProps: FormikProps<T>) => JSX.Element);

@@ -1,28 +1,21 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import useAuth from '../../hooks/useAuth';
-import { Role } from '@doorward/common/models/Role';
-import { User } from '@doorward/common/models/User';
-import { Organization } from '@doorward/common/models/Organization';
+import UserEntity from '@doorward/common/entities/user.entity';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import RoleEntity from '@doorward/common/entities/role.entity';
 
-export enum Roles {
-  SUPER_ADMINISTRATOR = 'Super Administrator',
-  TEACHER = 'Teacher',
-  STUDENT = 'Student',
-  ALL = 'All',
-}
+export type RoleEvaluator = (user: UserEntity, organization: OrganizationEntity) => boolean;
 
-export type RoleEvaluator = (user: User, organization: Organization) => boolean;
-
-export const RolesContext = React.createContext<{ userRoles: Array<Role> }>({
+export const RolesContext = React.createContext<{ userRoles: Array<RoleEntity> }>({
   userRoles: [],
 });
 
 const RolesManager: FunctionComponent<RolesManagerProps> = (props): JSX.Element => {
-  const [userRoles, setUserRoles] = useState<Array<Role>>([]);
+  const [userRoles, setUserRoles] = useState<Array<RoleEntity>>([]);
   const { user } = useAuth();
   useEffect(() => {
-    if (user && user.roles) {
-      setUserRoles(user.roles);
+    if (user && user.role) {
+      setUserRoles([user.role]);
     }
   }, [user]);
 

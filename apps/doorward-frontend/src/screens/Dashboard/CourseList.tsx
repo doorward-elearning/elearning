@@ -11,7 +11,7 @@ import ItemArray from '@doorward/ui/components/ItemArray';
 import Card from '@doorward/ui/components/Card';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import ProgressModal from '../../components/Modals/ProgressModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import Icon from '@doorward/ui/components/Icon';

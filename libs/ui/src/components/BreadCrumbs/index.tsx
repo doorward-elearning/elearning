@@ -1,12 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './BreadCrumbs.scss';
-import { RoleEvaluator, Roles } from '../RolesManager';
+import { RoleEvaluator } from '../RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 
 const BreadCrumbs: FunctionComponent<BreadCrumbsProps> = ({ crumbs }): JSX.Element => {
   return (
     <div className="ed-breadcrumbs">
-      {crumbs.map(crumb => {
+      {crumbs.map((crumb) => {
         return (
           <div className="ed-breadcrumbs__crumb" key={crumb.link}>
             <Link to={crumb.link}>{crumb.name}</Link>

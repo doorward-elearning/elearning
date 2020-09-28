@@ -13,7 +13,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
   const { quiz } = useContext(QuizContext);
 
   useEffect(() => {
-    if (quiz?.content.options.shuffleAnswers) {
+    if (quiz?.options.shuffleAnswers) {
       setAnswers(_.shuffle(answers));
     }
   }, [quiz]);

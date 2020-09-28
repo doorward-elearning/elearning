@@ -1,11 +1,10 @@
 import React, { MouseEventHandler } from 'react';
 import EImage from '@doorward/ui/components/Image';
-import profile from '../../../assets/images/profile.svg';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import './SimpleUserView.scss';
-import { User } from '@doorward/common/models/User';
 import classNames from 'classnames';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const SimpleUserView: React.FunctionComponent<SimpleUserViewProps> = (props): JSX.Element => {
   return (
@@ -16,7 +15,7 @@ const SimpleUserView: React.FunctionComponent<SimpleUserViewProps> = (props): JS
       })}
       onClick={props.onClick}
     >
-      <EImage src={profile} size="medium" />
+      <EImage src={require('../../../assets/images/profile.svg')} size="medium" />
       <div className="profile-info">
         <Header size={3}>{props.user.fullName}</Header>
         <span>{props.user.email}</span>
@@ -27,7 +26,7 @@ const SimpleUserView: React.FunctionComponent<SimpleUserViewProps> = (props): JS
 };
 
 export interface SimpleUserViewProps {
-  user: User;
+  user: UserEntity;
   onClick?: MouseEventHandler;
 }
 

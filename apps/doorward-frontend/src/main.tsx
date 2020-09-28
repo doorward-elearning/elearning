@@ -21,15 +21,10 @@ ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
 
-export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {
-  io: SocketIOClient.Socket | null;
-  setIO: (io: SocketIOClient.Socket | null) => void;
-}
+export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
 
 export const AppContext = createAppContext({
   ...appInitialValue,
-  io: null,
-  setIO: (io: SocketIOClient.Socket) => {},
 });
 
 const App: React.FC = () => {

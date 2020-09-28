@@ -5,7 +5,7 @@ import EditableLabel from '@doorward/ui/components/Input/EditableLabel';
 import useForm from '@doorward/ui/hooks/useForm';
 import useToggle from '@doorward/ui/hooks/useToggle';
 import './EditableLabelForm.scss';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
 
 function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: EditableLabelFormProps<T, A>): JSX.Element {

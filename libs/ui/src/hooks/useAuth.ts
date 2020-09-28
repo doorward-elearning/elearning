@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import Tools from '@doorward/common/utils/Tools';
-import { User } from '@doorward/common/models/User';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const useAuth = (): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
@@ -47,7 +47,7 @@ export interface UseAuth {
   authenticated: boolean;
   logout: () => void;
   authenticate: (token: string) => void;
-  user: User;
+  user: UserEntity;
 }
 
 export default useAuth;

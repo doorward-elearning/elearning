@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { Roles } from '@doorward/ui/components/RolesManager';
+import { Roles } from '@doorward/common/types/roles';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
 
 const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = true, ...props }) => {

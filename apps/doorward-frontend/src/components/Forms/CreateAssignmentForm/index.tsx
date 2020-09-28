@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import TextField from '@doorward/ui/components/Input/TextField';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
+import AddModuleItemForm from '../AddModuleItemForm';
 import './CreateAssignmentForm.scss';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
 import DateInput from '@doorward/ui/components/Input/DateInput';
@@ -10,33 +10,29 @@ import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import IfElse from '@doorward/ui/components/IfElse';
 import Row from '@doorward/ui/components/Row';
 import Header from '@doorward/ui/components/Header';
-import { Omit } from '@doorward/common/types';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CreateAssignmentBody } from '@doorward/common/dtos/body';
+import { AssignmentSubmissionMedia, AssignmentSubmissionType } from '@doorward/common/types/courses';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
-  const initialValues = props.assignment
-    ? {
-        ...props.assignment,
-        content: JSON.parse(props.assignment.content),
-      }
-    : {
-        title: 'Unnamed Assignment',
-        type: 'Assignment',
-        content: {
-          points: 1,
-          submissionType: ['Text Entry'],
-          dueDate: new Date(),
-          assignment: null,
-          submissionMedia: 'Offline',
-          availability: {
-            from: new Date(),
-            to: null,
-          },
-        },
-      };
+  const initialValues = (props.assignment || {
+    title: 'Unnamed Assignment',
+    type: ModuleItemType.ASSIGNMENT,
+    assignment: null,
+    options: {
+      points: 1,
+      submissionType: ['Text Entry'],
+      dueDate: new Date(),
+      assignment: null,
+      submissionMedia: 'Offline',
+      availability: {
+        from: new Date(),
+        to: null,
+      },
+    },
+  }) as CreateAssignmentBody;
   return (
     <AddModuleItemForm
       onSuccess={props.onSuccess}
@@ -52,11 +48,11 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
           <TextField name="title" placeholder="Title of the assignment" label="Title" />
           <DraftTextArea
             fluid
-            name="content.assignment"
+            name="assignment"
             placeholder="Empty space is boring... Add some content for the assignment."
           />
           <TextField
-            name="content.points"
+            name="options.points"
             placeholder="Number of points"
             type="number"
             label="Points"
@@ -69,29 +65,29 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
               offline: 'Offline',
             }}
             icon="subject"
-            name="content.submissionMedia"
+            name="options.submissionMedia"
             label="Submission Type"
           />
-          <IfElse condition={formikProps?.values.content.submissionMedia === 'online'}>
+          <IfElse condition={formikProps?.values.options.submissionMedia === AssignmentSubmissionMedia.ONLINE}>
             <MultipleSwitchField
-              name="content.submissionType"
-              choices={['Text Entry', 'Website URL', 'Media Recording', 'File Upload']}
+              name="options.submissionType"
+              choices={Object.values(AssignmentSubmissionType)}
               label="Online Submission Type"
             />
           </IfElse>
           <div style={{ maxWidth: '500px' }}>
             <Header size={3}>Availability</Header>
-            <DateInput name="content.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
+            <DateInput name="options.dueDate" label="Due date" minDate={new Date()} showTimeSelect />
             <Row>
               <DateInput
-                name="content.availability.from"
+                name="options.availability.from"
                 shortDate
                 label="Available from"
                 minDate={new Date()}
                 showTimeSelect
               />
               <DateInput
-                name="content.availability.to"
+                name="options.availability.to"
                 shortDate
                 label="Available until"
                 minDate={new Date()}
@@ -105,14 +101,12 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
   );
 };
 
-export interface CreateAssignmentFormState extends AddModuleItemFormState, Omit<ModuleItemEntity, 'content'> {}
-
 export interface CreateAssignmentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
-  form: UseForm<CreateAssignmentFormState>;
+  form: UseForm<CreateAssignmentBody>;
   module: ModuleEntity;
-  assignment?: ModuleItemEntity;
+  assignment?: AssignmentEntity;
 }
 
 export default CreateAssignmentForm;

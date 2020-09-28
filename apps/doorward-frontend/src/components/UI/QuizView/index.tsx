@@ -5,13 +5,14 @@ import BasicForm from '../../Forms/BasicForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 
 export const QuizContext = React.createContext<QuizContextProps>({});
 
 const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
   console.log(props.quiz);
   const initialValues = {
-    answers: (props.quiz.content.questions || []).reduce(
+    answers: (props.quiz.questions || []).reduce(
       (acc, question) => ({
         ...acc,
         [question.id]: '',
@@ -31,7 +32,7 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
         state={state}
       >
         <div className="ed-quiz">
-          <ItemArray data={props.quiz.content.questions}>
+          <ItemArray data={props.quiz.questions}>
             {(question, index) => <QuestionView question={question} index={index + 1} />}
           </ItemArray>
         </div>
@@ -41,11 +42,11 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
 };
 
 export interface QuizContextProps {
-  quiz?: ModuleItemEntity;
+  quiz?: QuizEntity;
 }
 
 export interface QuizViewProps {
-  quiz: ModuleItemEntity;
+  quiz: QuizEntity;
   onCancel: () => void;
 }
 
