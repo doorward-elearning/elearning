@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import useAuth from '../../hooks/useAuth';
+import { UseAuth } from '../../hooks/useAuth';
 import UserEntity from '@doorward/common/entities/user.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
@@ -12,7 +12,10 @@ export const RolesContext = React.createContext<{ userRoles: Array<RoleEntity> }
 
 const RolesManager: FunctionComponent<RolesManagerProps> = (props): JSX.Element => {
   const [userRoles, setUserRoles] = useState<Array<RoleEntity>>([]);
-  const { user } = useAuth();
+  const auth = props.auth;
+
+  const user = auth?.user;
+
   useEffect(() => {
     if (user && user.role) {
       setUserRoles([user.role]);
@@ -22,6 +25,8 @@ const RolesManager: FunctionComponent<RolesManagerProps> = (props): JSX.Element 
   return <RolesContext.Provider value={{ userRoles }}>{props.children}</RolesContext.Provider>;
 };
 
-export interface RolesManagerProps {}
+export interface RolesManagerProps {
+  auth: UseAuth;
+}
 
 export default RolesManager;

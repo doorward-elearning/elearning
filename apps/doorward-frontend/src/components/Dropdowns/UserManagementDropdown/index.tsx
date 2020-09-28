@@ -2,13 +2,13 @@ import React, { FunctionComponent, useContext } from 'react';
 import EImage from '@doorward/ui/components/Image';
 import Tools from '@doorward/common/utils/Tools';
 import Dropdown from '@doorward/ui/components/Dropdown';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import { ThemeContext } from '@doorward/ui/components/ApplicationTheme';
 import themes from '@doorward/ui/themes/themes';
 import useRoutes from '../../../hooks/useRoutes';
 import Row from '@doorward/ui/components/Row';
 import Switch from '@doorward/ui/components/Switch';
 import profile from '../../../assets/images/profile.svg';
+import useAuth from '../../../hooks/useAuth';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const routes = useRoutes();

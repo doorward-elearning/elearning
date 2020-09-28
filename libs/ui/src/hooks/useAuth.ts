@@ -1,19 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 import Tools from '@doorward/common/utils/Tools';
 import UserEntity from '@doorward/common/entities/user.entity';
 
-const useAuth = (): UseAuth => {
+const useAuth = (currentUser: UserEntity): UseAuth => {
   const [authenticated, setAuthenticated] = useState(Tools.isLoggedIn());
 
-  const users = useSelector((state: any) => state.users.user);
-  const [user, setUser] = useState(users.data.user);
+  const [user, setUser] = useState(currentUser);
 
   useEffect(() => {
-    if (users.data.user) {
-      setUser(users.data.user);
+    if (currentUser) {
+      setUser(currentUser);
     }
-  }, [users.data]);
+  }, [currentUser]);
 
   const logout = useMemo(
     () => (): void => {

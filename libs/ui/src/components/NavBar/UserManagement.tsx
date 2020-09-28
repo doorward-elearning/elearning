@@ -2,13 +2,11 @@ import React from 'react';
 import './UserManagement.scss';
 import Button from '../Buttons/Button';
 import Condition from '../IfElse';
-import useAuth from '../../hooks/useAuth';
 
-const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
-  const { authenticated } = useAuth();
+const UserManagement: React.FunctionComponent<UserManagementProps> = (props) => {
   return (
     <div className="user-management">
-      <Condition condition={authenticated}>
+      <Condition condition={props.authenticated}>
         <React.Fragment>{props.children}</React.Fragment>
         <Button link={props.loginLink} theme="secondary">
           Login
@@ -20,6 +18,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = props => {
 
 export interface UserManagementProps {
   loginLink: string;
+  authenticated: boolean;
 }
 
 export default UserManagement;

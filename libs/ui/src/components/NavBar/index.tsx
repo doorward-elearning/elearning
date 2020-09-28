@@ -9,6 +9,7 @@ import NavLogo from './NavLogo';
 import { NavbarFeatures } from './features';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import { SearchSuggestion } from '@doorward/common/types/api';
+import { UseAuth } from '@doorward/ui/hooks/useAuth';
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({
   onHamburgerClick,
@@ -19,13 +20,13 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
   icon,
   loginLink,
   userManagement,
+  auth,
   ...props
 }) => {
   const { query, updateLocation } = useQueryParams<{ search: string }>();
   const isMobile = window.innerWidth < 500;
   const [collapsedSearch, setCollapsedSearch] = useState(isMobile);
 
-  
   return (
     <FeatureProvider features={features}>
       <div className="ed-navBar">
@@ -43,14 +44,16 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
             <NavBarSearch
               searchText={query.search}
               collapsed={collapsedSearch}
-              onSearch={search => updateLocation({ search })}
+              onSearch={(search) => updateLocation({ search })}
             />
           </Feature>
         </div>
         <div className="ed-navBar__end">
           {renderNavEnd && renderNavEnd()}
           <Feature feature={NavbarFeatures.USER_MANAGEMENT}>
-            <UserManagement loginLink={loginLink}>{userManagement()}</UserManagement>
+            <UserManagement authenticated={auth.authenticated} loginLink={loginLink}>
+              {userManagement()}
+            </UserManagement>
           </Feature>
         </div>
       </div>
@@ -69,6 +72,7 @@ export interface NavBarProps {
   loginLink: string;
   userManagement: () => JSX.Element;
   icon: string;
+  auth: UseAuth;
 }
 
 export default NavBar;

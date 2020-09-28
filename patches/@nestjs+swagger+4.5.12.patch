@@ -1,0 +1,45 @@
+diff --git a/node_modules/@nestjs/swagger/dist/swagger-module.js b/node_modules/@nestjs/swagger/dist/swagger-module.js
+index 2bde924..2953203 100644
+--- a/node_modules/@nestjs/swagger/dist/swagger-module.js
++++ b/node_modules/@nestjs/swagger/dist/swagger-module.js
+@@ -23,7 +23,7 @@ class SwaggerModule {
+     static setup(path, app, document, options) {
+         const httpAdapter = app.getHttpAdapter();
+         if (httpAdapter && httpAdapter.getType() === 'fastify') {
+-            return this.setupFastify(path, httpAdapter, document);
++            // return this.setupFastify(path, httpAdapter, document);
+         }
+         return this.setupExpress(path, app, document, options);
+     }
+@@ -36,18 +36,18 @@ class SwaggerModule {
+         httpAdapter.get(finalPath, (req, res) => res.send(swaggerHtml));
+         httpAdapter.get(finalPath + '-json', (req, res) => res.json(document));
+     }
+-    static setupFastify(path, httpServer, document) {
+-        httpServer.register((httpServer) => __awaiter(this, void 0, void 0, function* () {
+-            httpServer.register(load_package_util_1.loadPackage('fastify-swagger', 'SwaggerModule', () => require('fastify-swagger')), {
+-                swagger: document,
+-                exposeRoute: true,
+-                routePrefix: path,
+-                mode: 'static',
+-                specification: {
+-                    document
+-                }
+-            });
+-        }));
+-    }
++    // static setupFastify(path, httpServer, document) {
++    //     httpServer.register((httpServer) => __awaiter(this, void 0, void 0, function* () {
++    //         httpServer.register(load_package_util_1.loadPackage('fastify-swagger', 'SwaggerModule', () => require('fastify-swagger')), {
++    //             swagger: document,
++    //             exposeRoute: true,
++    //             routePrefix: path,
++    //             mode: 'static',
++    //             specification: {
++    //                 document
++    //             }
++    //         });
++    //     }));
++    // }
+ }
+ exports.SwaggerModule = SwaggerModule;

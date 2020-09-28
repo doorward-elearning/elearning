@@ -5,9 +5,9 @@ import useStateRef from '@doorward/ui/hooks/useStateRef';
 import Tools from '@doorward/common/utils/Tools';
 import { DoorwardAppContextProps } from '../main';
 import useAction from '@doorward/ui/hooks/useActions';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import { DoorwardRoutes } from '../routes';
 import DoorwardApi from '../services/apis/doorward.api';
+import useAuth from './useAuth';
 
 export const appInitialValue = {
   routes: { ...ROUTES },

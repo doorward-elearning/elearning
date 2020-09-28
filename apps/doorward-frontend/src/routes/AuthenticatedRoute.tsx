@@ -1,19 +1,19 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
-import { useSelector } from 'react-redux';
 import useRoleManager from '@doorward/ui/hooks/useRoleManager';
 import Tools from '@doorward/common/utils/Tools';
 import { RoleEvaluator } from '@doorward/ui/components/RolesManager';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import useRoutes from '../hooks/useRoutes';
 import { DoorwardRoutes } from './index';
 import LoadingPage from '../screens/LoadingPage';
 import { Roles } from '@doorward/common/types/roles';
+import useAuth from '../hooks/useAuth';
+import useDoorwardApi from '../hooks/useDoorwardApi';
 
 function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();
   const { authenticated } = useAuth();
-  const user = useSelector((state: any) => state.users.user);
+  const user = useDoorwardApi((state) => state.auth.getCurrentUser);
   const hasAccess = useRoleManager(props.roles, true, user.data.user);
 
   if (user.errors.message || user.errors.errors || !authenticated) {

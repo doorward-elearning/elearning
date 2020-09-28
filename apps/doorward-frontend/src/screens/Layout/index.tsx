@@ -38,6 +38,7 @@ import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch
 import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import useAuth from '../../hooks/useAuth';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -79,7 +80,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const searchSuggestions = useDoorwardApi((state) => state.suggestions.getSuggestions);
+  const searchSuggestions = useDoorwardApi((state) => state.searchSuggestions.getSuggestions.data);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
@@ -90,6 +91,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const fetchSuggestions = useAction(DoorwardApi.searchSuggestions.getSuggestions);
   const clearSuggestions = () => {};
   const sideBarRef = useRef();
+  const auth = useAuth();
 
   useEffect(() => {
     if (suggestionsType) {
@@ -135,6 +137,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             <NavBar
               icon={icon}
               history={history}
+              auth={auth}
               location={location}
               loginLink={routes.routes.login.link}
               features={navFeatures}
@@ -175,6 +178,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             routes={routes}
             title={organization.name}
             onHamburgerClick={toggleSidebar}
+            auth={auth}
             location={location}
             onItemSelected={() => {
               if (isMobile) {

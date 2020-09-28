@@ -8,11 +8,11 @@ import { clearLoginAction } from '../../reducers/login/actions';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import IfElse from '@doorward/ui/components/IfElse';
 import useAction from '@doorward/ui/hooks/useActions';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import useAuth from '../../hooks/useAuth';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const registration = useDoorwardApi((state) => state.auth.register);

@@ -11,7 +11,6 @@ import { ROUTES } from '../../routes/routes';
 import Button from '@doorward/ui/components/Buttons/Button';
 import IfElse from '@doorward/ui/components/IfElse';
 import useAction from '@doorward/ui/hooks/useActions';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import Message from '@doorward/ui/components/Message';
@@ -19,6 +18,7 @@ import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useOrganization from '@doorward/ui/hooks/useOrganization';
 import COVID19Banner from '@doorward/ui/components/COVID19Banner';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import useAuth from '../../hooks/useAuth';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);

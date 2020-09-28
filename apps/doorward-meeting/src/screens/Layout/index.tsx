@@ -13,6 +13,7 @@ const Layout: React.FunctionComponent<LayoutProps> = (props): JSX.Element => {
         features={[NavbarFeatures.PAGE_LOGO]}
         {...props}
         title=""
+        auth={null}
         loginLink=""
         userManagement={() => <div />}
         icon="https://res.cloudinary.com/dldhztrbs/image/upload/v1573674362/Doorward/doorward_full_logo_blue.png"

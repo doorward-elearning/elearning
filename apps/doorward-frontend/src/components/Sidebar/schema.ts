@@ -2,7 +2,7 @@ import { SideBarProps } from '@doorward/ui/components/SideBar';
 import { MenuItem } from '@doorward/ui/hooks/useSidebarSchema';
 import { Routes } from '@doorward/ui/types';
 import { DoorwardRoutes } from '../../routes';
-import useAuth from '@doorward/ui/hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
 export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRoutes>): Array<MenuItem> => {
   const { logout } = useAuth();

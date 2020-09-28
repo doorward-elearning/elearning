@@ -6,6 +6,7 @@ import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import { FormContext } from '../Form';
 import IfElse from '../IfElse';
+import DApiBody from '@doorward/common/dtos/body/base.body';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -51,14 +52,17 @@ function withInput<R extends InputProps>(
         []
       );
 
-      const onChange = useCallback((e, handler: ChangeEventHandler) => {
-        if (!changeEvent) {
-          handler(e);
-        } else {
-          onValueChange({ ...e }, handler);
-        }
-        setChangeEvent({ ...e });
-      }, [changeEvent]);
+      const onChange = useCallback(
+        (e, handler: ChangeEventHandler) => {
+          if (!changeEvent) {
+            handler(e);
+          } else {
+            onValueChange({ ...e }, handler);
+          }
+          setChangeEvent({ ...e });
+        },
+        [changeEvent]
+      );
 
       const { name } = props;
       return (
@@ -70,7 +74,10 @@ function withInput<R extends InputProps>(
             inputProps.value = _.get(formikProps.values, name);
             inputProps.id = props.id || (props.idGenerator && props.idGenerator());
 
-            const isRequired = checkRequired(name, validationSchema ? validationSchema.describe() : validationSchema);
+            const isRequired = checkRequired(
+              name,
+              validationSchema ? new validationSchema()?.validation() || validationSchema?.describe() : validationSchema
+            );
 
             let error = '';
             if (formikProps && name && formikProps.touched && _.get(formikProps.touched, name)) {
@@ -99,7 +106,7 @@ function withInput<R extends InputProps>(
                     <Input
                       {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
                       value={changeEvent ? changeEvent?.target?.value : inputProps.value}
-                      onChange={e => onChange(e, inputProps.onChange)}
+                      onChange={(e) => onChange(e, inputProps.onChange)}
                     />
                   </div>
                   <div className="eb-input__error-message">{error}</div>

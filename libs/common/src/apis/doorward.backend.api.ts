@@ -58,6 +58,7 @@ import {
   SchoolsResponse,
   FileResponse,
   FilesResponse,
+  SuggestionsResponse,
   TeacherResponse,
   TeachersResponse,
   CourseManagerResponse,
@@ -255,7 +256,7 @@ const DoorwardBackendApi = {
   "searchSuggestions": {
     getSuggestions: (type: string, query: {
       groupType ? : string
-    }, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    }, config ? : AxiosRequestConfig): Promise < SuggestionsResponse > => {
       return GET(`/search-suggestions/${type}`, {
         ...query
       }, config);

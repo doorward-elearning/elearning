@@ -1,13 +1,13 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import './styles/Profile.scss';
-import useAuth from '@doorward/ui/hooks/useAuth';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useRoutes from '../../hooks/useRoutes';
 import UserProfileCard from '../../components/user/UserProfileCard';
 import { useRouteMatch } from 'react-router';
 import { UserCardContext } from '../../components/user/UserCard';
+import useAuth from '../../hooks/useAuth';
 
 const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const form = useForm();

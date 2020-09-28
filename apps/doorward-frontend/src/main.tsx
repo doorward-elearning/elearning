@@ -14,6 +14,7 @@ import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
+import useAuth from './hooks/useAuth';
 
 console.log(process.env.REACT_APP_BASE_URL);
 
@@ -31,11 +32,13 @@ const App: React.FC = () => {
   const app = useApp();
   useOfflineToast();
 
+  const auth = useAuth();
+
   return (
     <AppContext.Provider value={{ ...app }}>
       <ApplicationTheme theme="base">
         <ApplicationInitializer>
-          <RolesManager>
+          <RolesManager auth={auth}>
             <Router />
           </RolesManager>
         </ApplicationInitializer>

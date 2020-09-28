@@ -7,14 +7,14 @@ import NavLogo from '../NavBar/NavLogo';
 import IfElse from '../IfElse';
 import useSidebarSchema, { MenuItem, SideBarSchema } from '../../hooks/useSidebarSchema';
 import { RouteNames, Routes } from '@doorward/ui/types';
-import useAuth from '../../hooks/useAuth';
+import { UseAuth } from '../../hooks/useAuth';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import UserPanel from '@doorward/ui/components/SideBar/UserPanel';
 
 function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
   const { history, location, collapsed } = props;
   const schema = useSidebarSchema(props, props.routes);
-  const { authenticated } = useAuth();
+  const { authenticated } = props.auth;
 
   const className = classNames({
     'eb-sideBar': true,
@@ -35,7 +35,7 @@ function SideBar<T extends RouteNames>(props: SideBarProps<T>) {
           </div>
         )}
         <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} profilePicture="" />
+          <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />
           <SideBarMenu
             history={history}
             location={location}
@@ -62,6 +62,7 @@ export interface SideBarProps<T extends RouteNames> {
   title: string;
   sideBarRef?: MutableRefObject<HTMLDivElement>;
   onItemSelected?: (item: MenuItem) => void;
+  auth: UseAuth;
 }
 
 export default SideBar;
