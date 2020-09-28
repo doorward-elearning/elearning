@@ -17,8 +17,8 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 
-  @Column({ type: 'text' })
-  content: string;
+  // Keep this to prevent migration types from failing
+  content?: string;
 
   @Column({ default: 0 })
   order: number;
@@ -31,10 +31,4 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'createdBy' })
   author: UserEntity;
-
-  @OneToMany(() => QuestionEntity, (question) => question.quiz)
-  questions: Array<QuestionEntity>;
-
-  @OneToMany(() => AssignmentSubmissionEntity, (assignment) => assignment.assignment)
-  assignmentSubmissions: Array<AssignmentSubmissionEntity>;
 }

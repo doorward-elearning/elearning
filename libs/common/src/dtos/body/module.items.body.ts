@@ -1,10 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
-import { ObjectSchema } from 'yup';
+import {
+  AssignmentSubmissionMedia,
+  AssignmentSubmissionStatus,
+  AssignmentSubmissionType,
+} from '@doorward/common/types/courses';
 import * as Yup from 'yup';
-import { CreateModuleItemBody } from '@doorward/common/dtos/body/modules.body';
+import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssignmentOptions } from '@doorward/common/types/assignments';
+import { QuizOptions } from '@doorward/common/types/quiz';
 
 export class CreateQuestionBody {
   @ApiProperty()
@@ -42,76 +48,144 @@ export class CreateAnswerBody {
   correct: boolean;
 }
 
+export class CreateModuleItemBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  type: ModuleItemType;
+
+  @ApiProperty()
+  @Expose()
+  title: string;
+
+  @ApiProperty()
+  @Expose()
+  order: number;
+
+  async validation?(): Promise<ObjectSchema> {
+    return Yup.object({
+      type: Yup.string()
+        .required('The {{moduleItem}} type is required.')
+        .oneOf(Object.values(ModuleItemType), 'Please choose a valid {{moduleItem}} type.')
+        .nullable(),
+      title: Yup.string().required('The title is required').nullable(),
+    });
+  }
+}
+
+export class CreatePageBody extends CreateModuleItemBody {
+  @ApiProperty()
+  @Expose()
+  page: string;
+
+  async validation?(): Promise<ObjectSchema> {
+    return (await super.validation()).concat(
+      Yup.object({
+        page: Yup.string().required('The page content is required.'),
+      })
+    );
+  }
+}
+
+export class CreateAssignmentBody extends CreateModuleItemBody {
+  @ApiProperty()
+  @Expose()
+  assignment: string;
+
+  @ApiProperty()
+  @Expose()
+  options: AssignmentOptions;
+
+  async validation?(): Promise<ObjectSchema> {
+    return Yup.object({
+      title: Yup.string().required('The title of the {{assignment}} is required'),
+      options: Yup.object({
+        dueDate: Yup.string().required('The due date is required'),
+        submissionType: Yup.array().min(1, 'Please choose at least one submission type'),
+        points: Yup.number().required('The points are required.'),
+        availability: Yup.object(),
+        submissionMedia: Yup.string().nullable(),
+      }),
+      assignment: Yup.string().nullable().required('The {{assignment}} content is required.'),
+    });
+  }
+}
+
 export class CreateQuizBody extends CreateModuleItemBody {
   @ApiProperty()
   @Expose()
   questions: Array<CreateQuestionBody>;
+
+  @ApiProperty()
+  @Expose()
+  instructions: string;
+
+  @ApiProperty()
+  @Expose()
+  options: QuizOptions;
 
   async validation?(): Promise<ObjectSchema> {
     let schema = await super.validation();
 
     schema = schema.concat(
       Yup.object({
-        content: Yup.object({
-          instructions: Yup.string().required('The instructions are required.').nullable(),
-          options: Yup.object({
-            shuffleAnswers: Yup.boolean(),
-            timeLimit: Yup.object({
-              allow: Yup.boolean(),
-              minutes: Yup.number()
-                .typeError('Please specify a number')
-                .nullable()
-                .when('allow', {
-                  is: (value) => !!value,
-                  then: Yup.number().typeError('Please specify a number').required('Enter the time limit in minutes'),
-                }),
-            }),
-            attempts: Yup.object({
-              multiple: Yup.boolean(),
-              keepScore: Yup.string().when('multiple', {
+        instructions: Yup.string().required('The instructions are required.').nullable(),
+        options: Yup.object({
+          shuffleAnswers: Yup.boolean(),
+          timeLimit: Yup.object({
+            allow: Yup.boolean(),
+            minutes: Yup.number()
+              .typeError('Please specify a number')
+              .nullable()
+              .when('allow', {
                 is: (value) => !!value,
-                then: Yup.string()
-                  .required('Please choose the score to keep')
-                  .oneOf(['Highest', 'Lowest', 'Average'], 'Please choose the score to keep.'),
+                then: Yup.number().typeError('Please specify a number').required('Enter the time limit in minutes'),
               }),
-              max: Yup.number()
+          }),
+          attempts: Yup.object({
+            multiple: Yup.boolean(),
+            keepScore: Yup.string().when('multiple', {
+              is: (value) => !!value,
+              then: Yup.string()
+                .required('Please choose the score to keep')
+                .oneOf(['Highest', 'Lowest', 'Average'], 'Please choose the score to keep.'),
+            }),
+            max: Yup.number()
+              .nullable()
+              .when('multiple', {
+                is: (value) => !!value,
+                then: Yup.number().required('Enter the maximum number of trials.'),
+              }),
+          }),
+          questions: Yup.object({
+            oneAtATime: Yup.boolean(),
+            lockAfterAnswering: Yup.boolean(),
+          }),
+          restrictions: Yup.object({
+            accessCode: Yup.object({
+              require: Yup.boolean(),
+              code: Yup.string()
                 .nullable()
-                .when('multiple', {
+                .when('require', {
                   is: (value) => !!value,
-                  then: Yup.number().required('Enter the maximum number of trials.'),
+                  then: Yup.string().required('Please enter the access code'),
                 }),
             }),
-            questions: Yup.object({
-              oneAtATime: Yup.boolean(),
-              lockAfterAnswering: Yup.boolean(),
-            }),
-            restrictions: Yup.object({
-              accessCode: Yup.object({
-                require: Yup.boolean(),
-                code: Yup.string()
-                  .nullable()
-                  .when('require', {
-                    is: (value) => !!value,
-                    then: Yup.string().required('Please enter the access code'),
-                  }),
+          }),
+          responses: Yup.object({
+            show: Yup.boolean(),
+            frequency: Yup.object({
+              onlyOnce: Yup.boolean(),
+              range: Yup.object({
+                allow: Yup.boolean(),
+                from: Yup.string().nullable(),
+                to: Yup.string().nullable(),
               }),
             }),
-            responses: Yup.object({
-              show: Yup.boolean(),
-              frequency: Yup.object({
-                onlyOnce: Yup.boolean(),
-                range: Yup.object({
-                  allow: Yup.boolean(),
-                  from: Yup.string().nullable(),
-                  to: Yup.string().nullable(),
-                }),
-              }),
-            }),
-            dueDate: Yup.string().nullable(),
-            availability: Yup.object({
-              from: Yup.string().nullable(),
-              to: Yup.string().nullable(),
-            }),
+          }),
+          dueDate: Yup.string().nullable(),
+          availability: Yup.object({
+            from: Yup.string().nullable(),
+            to: Yup.string().nullable(),
           }),
         }),
         questions: Yup.array(
@@ -120,11 +194,11 @@ export class CreateQuizBody extends CreateModuleItemBody {
             answers: Yup.array(
               Yup.object({
                 answer: Yup.string().required('Enter a possible answer.'),
-              }),
+              })
             ),
-          }),
+          })
         ),
-      }),
+      })
     );
 
     return schema;

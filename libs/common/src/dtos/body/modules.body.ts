@@ -1,51 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
+import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
-
-export class CreateModuleItemBody extends DApiBody {
-  @ApiProperty()
-  @Expose()
-  type: ModuleItemType;
-
-  @ApiProperty()
-  @Expose()
-  content: any;
-
-  @ApiProperty()
-  @Expose()
-  title: string;
-
-  @ApiProperty()
-  @Expose()
-  order: number;
-
-  async validation?(): Promise<ObjectSchema> {
-    return Yup.object({
-      type: Yup.string()
-        .required('The {{moduleItem}} type is required.')
-        .oneOf(Object.values(ModuleItemType), 'Please choose a valid {{moduleItem}} type.')
-        .nullable(),
-      title: Yup.string().required('The title is required').nullable(),
-      content: Yup.mixed().required('The content is required'),
-    });
-  }
-}
-
-export class CreateAssignmentBody extends CreateModuleItemBody {
-  async validation?(): Promise<ObjectSchema> {
-    return Yup.object({
-      title: Yup.string().required('The title of the {{assignment}} is required'),
-      content: Yup.object({
-        assignment: Yup.object().nullable().required('The {{assignment}} content is required.'),
-        dueDate: Yup.string().required('The due date is required'),
-        submissionTypes: Yup.array().min(1, 'Please choose at least one submission type'),
-      }),
-    });
-  }
-}
 
 export class CreateModuleBody extends DApiBody {
   @ApiProperty()

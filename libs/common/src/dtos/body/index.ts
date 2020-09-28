@@ -10,3 +10,7 @@ export * from './organization.body';
 export * from './schools.body';
 export * from './students.body';
 export * from './users.body';
+export { CreateAssignmentBody } from '@doorward/common/dtos/body/module.items.body';
+export { CreateQuizBody } from '@doorward/common/dtos/body/module.items.body';
+export { CreatePageBody } from '@doorward/common/dtos/body/module.items.body';
+export { CreateModuleItemBody } from '@doorward/common/dtos/body/module.items.body';

@@ -5,7 +5,9 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 
 @EntityRepository(ModuleItemEntity)
-export default class ModuleItemsRepository extends OrganizationBasedRepository<ModuleItemEntity> {
+export default class ModuleItemsRepository<
+  T extends ModuleItemEntity = ModuleItemEntity
+> extends OrganizationBasedRepository<T> {
   private moduleItemsQueryBuilder() {
     return this.createQueryBuilder('moduleItem')
       .leftJoinAndSelect('moduleItem.module', 'module')

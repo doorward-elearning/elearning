@@ -3,6 +3,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import ModuleItemEntity from './module.item.entity';
 import AnswerEntity from './answer.entity';
 import { Expose } from 'class-transformer';
+import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 
 @Entity('Questions')
 export default class QuestionEntity extends BaseOrganizationEntity {
@@ -12,7 +13,7 @@ export default class QuestionEntity extends BaseOrganizationEntity {
   @Column({ default: 0 })
   points: number;
 
-  @ManyToOne(() => ModuleItemEntity, (quiz) => quiz.questions, {
+  @ManyToOne(() => QuizEntity, (quiz) => quiz.questions, {
     onDelete: 'CASCADE',
   })
   @Expose({ groups: ['question-quiz'] })

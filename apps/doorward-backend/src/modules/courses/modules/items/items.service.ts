@@ -12,7 +12,17 @@ import QuestionEntity from '@doorward/common/entities/question.entity';
 import compareLists from '@doorward/common/utils/compareLists';
 import { In } from 'typeorm';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
-import { CreateAnswerBody, CreateModuleItemBody, CreateQuestionBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import {
+  CreateAnswerBody,
+  CreateAssignmentBody,
+  CreateModuleItemBody,
+  CreatePageBody,
+  CreateQuestionBody,
+  CreateQuizBody,
+} from '@doorward/common/dtos/body';
+import PageRepository from '@doorward/backend/repositories/page.repository';
+import AssignmentRepository from '@doorward/backend/repositories/assignment.repository';
+import QuizRepository from '@doorward/backend/repositories/quiz.repository';
 
 @Injectable()
 export class ItemsService {
@@ -20,7 +30,10 @@ export class ItemsService {
     private itemsRepository: ModuleItemsRepository,
     private modulesRepository: ModulesRepository,
     private questionRepository: QuestionRepository,
-    private answerRepository: AnswerRepository
+    private answerRepository: AnswerRepository,
+    private pageRepository: PageRepository,
+    private assignmentRepository: AssignmentRepository,
+    private quizRepository: QuizRepository
   ) {}
 
   static getModuleItemText(item: ModuleItemType) {
@@ -46,23 +59,32 @@ export class ItemsService {
         title: `${ItemsService.getModuleItemText(body.type)} with this title already exists.`,
       });
     } else {
-      const moduleItem = await this.itemsRepository.save(
-        this.itemsRepository.create({
-          type: body.type,
-          id: itemId,
-          title: body.title,
-          order: body.order,
-          content: JSON.stringify(body.content),
-          module: {
-            id: moduleId,
-          },
-          author,
-        })
-      );
-      if (body.type === ModuleItemType.QUIZ) {
-        moduleItem.questions = await this._createOrUpdateQuizQuestions(moduleItem, (body as CreateQuizBody).questions);
+      const defaultProperties = { id: itemId, module: { id: moduleId }, author: { id: author.id }, title: body.title };
+      if (body.type === ModuleItemType.PAGE) {
+        const { order, page } = body as CreatePageBody;
+        return this.pageRepository.createAndSave({
+          order,
+          page,
+          ...defaultProperties,
+        });
+      } else if (body.type === ModuleItemType.ASSIGNMENT) {
+        const { options, order, assignment } = body as CreateAssignmentBody;
+        return this.assignmentRepository.createAndSave({
+          options,
+          order,
+          assignment,
+          ...defaultProperties,
+        });
+      } else if (body.type === ModuleItemType.QUIZ) {
+        const { options, instructions } = body as CreateQuizBody;
+        const quiz = await this.quizRepository.createAndSave({
+          options,
+          instructions,
+          ...defaultProperties,
+        });
+        quiz.questions = await this._createOrUpdateQuizQuestions(quiz, (body as CreateQuizBody).questions);
+        return quiz;
       }
-      return moduleItem;
     }
   }
 

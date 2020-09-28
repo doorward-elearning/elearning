@@ -10,7 +10,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
-import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import { CreateAssignmentBody, CreateModuleItemBody, CreatePageBody, CreateQuizBody } from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 
 const ModuleItemExists = () =>
@@ -52,14 +52,18 @@ export class ItemsController {
   @Privileges('moduleItems.update')
   @ModuleItemExists()
   @ApiResponse({ status: HttpStatus.OK, type: ModuleItemResponse, description: 'The module item that was updated.' })
-  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody) } })
+  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody, CreatePageBody) } })
   async updateModuleItem(
     @Param('itemId') itemId: string,
-    @Body() body: CreateModuleItemBody | CreateQuizBody,
+    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody,
     @CurrentUser() author: UserEntity
   ): Promise<ModuleItemResponse> {
     if (body.type === ModuleItemType.QUIZ) {
-      await YupValidationPipe.validate(CreateQuizBody, body as CreateQuizBody);
+      await YupValidationPipe.validate(CreateQuizBody, body);
+    } else if (body.type === ModuleItemType.PAGE) {
+      await YupValidationPipe.validate(CreatePageBody, body);
+    } else if (body.type === ModuleItemType.ASSIGNMENT) {
+      await YupValidationPipe.validate(CreateAssignmentBody, body);
     }
     const existingItem = await this.itemsService.getModuleItem(itemId);
     const moduleItem = await this.itemsService.createOrUpdateModuleItem(existingItem.module.id, body, author, itemId);

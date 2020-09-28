@@ -19,6 +19,7 @@ import {
 import {
   CreateAssignmentBody,
   CreateModuleItemBody,
+  CreatePageBody,
   CreateQuizBody,
   UpdateModuleBody,
   UpdateModulesBody,
@@ -64,16 +65,18 @@ export class ModulesController {
     type: ModuleItemResponse,
     description: 'The module item that was created.',
   })
-  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody) } })
+  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody, CreatePageBody) } })
   async createModuleItem(
     @Param('moduleId') moduleId: string,
-    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody,
+    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody,
     @CurrentUser() user: UserEntity
   ): Promise<ModuleItemResponse> {
     if (body.type === ModuleItemType.QUIZ) {
       await YupValidationPipe.validate(CreateQuizBody, body);
     } else if (body.type === ModuleItemType.ASSIGNMENT) {
       await YupValidationPipe.validate(CreateAssignmentBody, body);
+    } else if (body.type === ModuleItemType.PAGE) {
+      await YupValidationPipe.validate(CreatePageBody, body);
     }
     const moduleItem = await this.modulesService.createModuleItem(moduleId, body, user);
 
