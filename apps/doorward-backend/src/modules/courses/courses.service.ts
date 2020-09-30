@@ -57,50 +57,19 @@ export class CoursesService {
   }
 
   async getCoursesForLearner(student: UserEntity): Promise<CourseEntity[]> {
-    const courses = await this.coursesRepository
-      .createQueryBuilder('course')
-      .leftJoinAndSelect('StudentCourses', 'courseStudents', '"courseStudents"."courseId" = "course".id')
-      .where('"courseStudents"."studentId" = :studentId', { studentId: student.id })
-      .getMany();
-
-    return this.coursesRepository.findByIds(
-      courses.map((course) => course.id),
-      {
-        relations: ['author', 'meetingRoom'],
-        order: {
-          createdAt: 'DESC',
-        },
-      }
-    );
+    return this.coursesRepository.getCoursesForStudent(student.id);
   }
 
   async getCoursesForAuthor(author: UserEntity): Promise<CourseEntity[]> {
-    return await this.coursesRepository.find({
-      where: {
-        author: {
-          id: author.id,
-        },
-      },
-      relations: ['author', 'meetingRoom'],
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+    return this.coursesRepository.getCoursesByTeacher(author.id);
   }
 
   async getAllCourses(admin: UserEntity): Promise<CourseEntity[]> {
-    return this.coursesRepository.find({
-      relations: ['author', 'meetingRoom'],
-      order: {
-        createdAt: 'DESC',
-      },
-    });
+    return this.coursesRepository.getCoursesByAdmin(admin.id);
   }
 
   async getCourse(id: string) {
-    return this.coursesRepository.findOne(id, {
-      relations: ['author', 'modules', 'students', 'students.student', 'managers', 'meetingRoom', 'managers.manager'],
-    });
+    return this.coursesRepository.getCourse(id);
   }
 
   async updateCourse(id: string, body: UpdateCourseBody, currentUser: UserEntity) {

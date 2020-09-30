@@ -11,7 +11,11 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ItemsService } from './modules/items/items.service';
 import Privileges from '../../decorators/privileges.decorator';
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { CourseResponse, CoursesResponse, DeleteCourseResponse } from '@doorward/common/dtos/response/courses.responses';
+import {
+  CourseResponse,
+  CoursesResponse,
+  DeleteCourseResponse,
+} from '@doorward/common/dtos/response/courses.responses';
 import { ModuleResponse, ModulesResponse } from '@doorward/common/dtos/response/modules.responses';
 import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
@@ -28,7 +32,11 @@ export const CourseExists = () =>
 @ApiTags('courses')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class CoursesController {
-  constructor(private coursesService: CoursesService, private modulesService: ModulesService, private moduleItemsService: ItemsService) {}
+  constructor(
+    private coursesService: CoursesService,
+    private modulesService: ModulesService,
+    private moduleItemsService: ItemsService
+  ) {}
 
   /**
    *
@@ -36,7 +44,7 @@ export class CoursesController {
    * @param user
    */
   @Post()
-  @Privileges('course.create')
+  @Privileges('courses.create')
   @ApiResponse({ status: HttpStatus.CREATED, description: 'The course that was created.', type: CourseResponse })
   async createCourse(@Body() body: CreateCourseBody, @CurrentUser() user: UserEntity): Promise<CourseResponse> {
     const course = await this.coursesService.createCourse(body, user);
@@ -49,7 +57,11 @@ export class CoursesController {
    */
   @Get()
   @Privileges('courses.read')
-  @ApiResponse({ status: HttpStatus.OK, description: 'The list of courses based on the user privileges', type: CoursesResponse })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The list of courses based on the user privileges',
+    type: CoursesResponse,
+  })
   async getCourses(@CurrentUser() user: UserEntity): Promise<CoursesResponse> {
     const courses = await this.coursesService.getCourses(user);
 
@@ -66,7 +78,11 @@ export class CoursesController {
   @CourseExists()
   @Privileges('courses.update')
   @ApiResponse({ status: HttpStatus.OK, description: 'The course that was updated', type: CourseResponse })
-  async updateCourse(@CurrentUser() user: UserEntity, @Param('courseId') courseId: string, @Body() body: UpdateCourseBody): Promise<CourseResponse> {
+  async updateCourse(
+    @CurrentUser() user: UserEntity,
+    @Param('courseId') courseId: string,
+    @Body() body: UpdateCourseBody
+  ): Promise<CourseResponse> {
     const course = await this.coursesService.updateCourse(courseId, body, user);
 
     return { course };
@@ -93,7 +109,11 @@ export class CoursesController {
   @Delete(':courseId')
   @CourseExists()
   @Privileges('courses.delete')
-  @ApiResponse({ status: HttpStatus.OK, description: 'The id of the course that was deleted', type: DeleteCourseResponse })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'The id of the course that was deleted',
+    type: DeleteCourseResponse,
+  })
   async deleteCourse(@Param('courseId') courseId: string): Promise<DeleteCourseResponse> {
     await this.coursesService.deleteCourse(courseId);
 
@@ -126,8 +146,15 @@ export class CoursesController {
   @CourseExists()
   @Privileges('moduleItems.read')
   @ApiQuery({ name: 'type', enum: ModuleItemType, required: false })
-  @ApiResponse({ status: HttpStatus.OK, description: 'A list of module items in the course', type: ModuleItemsResponse })
-  async getCourseModuleItems(@Param('courseId') courseId: string, @Query('type') type: ModuleItemType): Promise<ModuleItemsResponse> {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'A list of module items in the course',
+    type: ModuleItemsResponse,
+  })
+  async getCourseModuleItems(
+    @Param('courseId') courseId: string,
+    @Query('type') type: ModuleItemType
+  ): Promise<ModuleItemsResponse> {
     const items = await this.moduleItemsService.getModuleItemsForCourse({ id: courseId }, type);
 
     return { items };
@@ -142,7 +169,10 @@ export class CoursesController {
   @CourseExists()
   @Privileges('modules.create')
   @ApiResponse({ status: HttpStatus.CREATED, description: 'The module that was created', type: ModuleResponse })
-  async createCourseModule(@Param('courseId') courseId: string, @Body() body: CreateModuleBody): Promise<ModuleResponse> {
+  async createCourseModule(
+    @Param('courseId') courseId: string,
+    @Body() body: CreateModuleBody
+  ): Promise<ModuleResponse> {
     const module = await this.modulesService.createModule({ id: courseId }, body);
 
     return {

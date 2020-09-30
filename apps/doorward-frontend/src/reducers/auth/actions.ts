@@ -1,4 +1,4 @@
-import { CLEAR_LOGIN, REGISTER_USER } from './types';
+import { CLEAR_LOGIN } from './types';
 import { Action } from '@doorward/ui/reducers/reducers';
 
 export const clearLoginAction = (): Action => ({

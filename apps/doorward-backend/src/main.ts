@@ -1,3 +1,4 @@
+import '@doorward/backend/bootstrap/setUpEnvironment';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';

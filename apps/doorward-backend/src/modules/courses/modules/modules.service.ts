@@ -78,7 +78,7 @@ export class ModulesService {
   }
 
   async deleteModule(moduleId: string) {
-    await this.modulesRepository.softDelete(moduleId);
+    await this.modulesRepository.delete(moduleId);
   }
 
   async getModule(moduleId: string) {

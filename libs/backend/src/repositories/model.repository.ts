@@ -1,4 +1,4 @@
-import { Brackets, DeepPartial, QueryRunner, Repository } from 'typeorm';
+import { Brackets, DeepPartial, EntitySchema, ObjectType, QueryRunner, Repository } from 'typeorm';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
@@ -32,5 +32,9 @@ export default class ModelRepository<Entity extends BaseEntity | OrganizationEnt
   createAndSave(entityLike: DeepPartial<Entity>): Promise<Entity>;
   createAndSave(entity?: any): Promise<Entity | Entity[]> {
     return this.save(this.create(entity) as any);
+  }
+
+  getRepository<Entity>(target: ObjectType<Entity> | EntitySchema<Entity> | string): Repository<Entity> {
+    return this.manager.getRepository(target);
   }
 }

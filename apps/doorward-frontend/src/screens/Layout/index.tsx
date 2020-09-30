@@ -80,7 +80,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const searchSuggestions = useDoorwardApi((state) => state.searchSuggestions.getSuggestions.data);
+  const searchSuggestions = useDoorwardApi((state) => state.searchSuggestions.getSuggestions);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);

@@ -7,8 +7,8 @@ export type SagaFunction = () => IterableIterator<any>;
 
 export type ApiListener = (response: any, request: any) => void;
 
-export interface Action extends ReduxAction {
-  payload?: any;
+export interface Action<T extends any = any> extends ReduxAction {
+  payload?: T;
   onSuccess?: ApiListener;
   onError?: ApiListener;
   showSuccessToast?: boolean;

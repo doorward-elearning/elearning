@@ -17,6 +17,12 @@ type ApiActions<A extends Api> = {
   };
 };
 
+type ApiActionTypes<A extends Api> = {
+  [K in keyof A]: {
+    [L in keyof A[K]]: string;
+  };
+};
+
 type ApiReducer<A extends Api> = {
   [K in keyof A]: BuiltReducer<
     BuiltState<
@@ -27,12 +33,12 @@ type ApiReducer<A extends Api> = {
   >;
 };
 
-type MiddlewareOverride<T> = Omit<
+export type MiddlewareOverride<T> = Omit<
   ReduxReducerApiActionProps<WebComponentState<EndpointData<T>>, EndpointData<T>>,
   'action' | 'api'
 >;
 
-type ApiReducerMiddleware<A extends Api> = {
+export type ApiReducerMiddleware<A extends Api> = {
   [K in keyof A]?: {
     [L in keyof A[K]]?: MiddlewareOverride<A[K][L]>;
   };
@@ -109,12 +115,38 @@ function generateActionsForGroup(apiGroup: Record<string, ApiEndpoint<any>>, pre
   return actions as any;
 }
 
+function generateActionsTypes<A extends typeof DoorwardBackendApi>(api: A, name: string): ApiActionTypes<A> {
+  const apiActions = {};
+
+  const groupNames = Object.keys(api);
+
+  groupNames.forEach((groupName) => {
+    apiActions[groupName] = generateActionTypesForGroup(api[groupName], name + '_' + groupName);
+  });
+
+  return apiActions as ApiActionTypes<A>;
+}
+
+function generateActionTypesForGroup(apiGroup: Record<string, ApiEndpoint<any>>, prefix: string) {
+  const actions = {};
+
+  const endpointNames = Object.keys(apiGroup);
+
+  endpointNames.forEach((endpointName) => {
+    actions[endpointName] = prefix + '_' + endpointName;
+  });
+
+  return actions as any;
+}
+
 function buildApiReducer<T extends Api>(api: typeof DoorwardBackendApi, name, middleware?: ApiReducerMiddleware<T>) {
   const actions = generateActions(api, name);
 
+  const actionTypes = generateActionsTypes(api, name);
+
   const reducers = generateReducers(api, name, middleware);
 
-  return { actions, reducers };
+  return { actions, reducers, types: actionTypes };
 }
 
 export default buildApiReducer;

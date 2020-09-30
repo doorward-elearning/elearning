@@ -8,6 +8,7 @@ import { WebComponentState } from '../../reducers/reducers';
 import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -27,6 +28,11 @@ function Form<T>({
 }: FormProps<T>): JSX.Element {
   const [allProps, setAllProps] = useState<FormikProps<T>>();
   const { formikProps, setFormikProps } = form;
+  const [validation, setValidation] = useState(null);
+
+  useEffect(() => {
+    getValidationSchema(validationSchema).then(setValidation);
+  }, [validationSchema]);
 
   useEffect(() => {
     if (allProps && state && state.errors) {
@@ -48,9 +54,7 @@ function Form<T>({
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
-      validationSchema={
-        validationSchema instanceof DApiBody ? new (validationSchema as any)().validation() : validationSchema
-      }
+      validationSchema={validation}
       isInitialValid={isInitialValid}
       render={(props): ReactNode | JSX.Element => {
         if (!allProps) {

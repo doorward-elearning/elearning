@@ -8,4 +8,4 @@ yarn db:thala:migrate
 
 yarn db:thala:seed
 
-node /usr/app/dist/apps/doorward-backend/main.js
+cd /usr/app/dist/apps/doorward-backend && node main.js

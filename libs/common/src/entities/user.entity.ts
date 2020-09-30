@@ -76,6 +76,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 
+  @Expose()
   get fullName() {
     return (this.firstName || '') + ((this.firstName ? ' ' : '') + this.lastName || '') || this.username;
   }

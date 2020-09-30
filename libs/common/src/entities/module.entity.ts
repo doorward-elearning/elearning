@@ -17,8 +17,8 @@ export default class ModuleEntity extends BaseOrganizationEntity {
   @ManyToOne(() => CourseEntity, (course) => course.modules, {
     onDelete: 'CASCADE',
   })
-  course: CourseEntity;
+  course?: CourseEntity;
 
   @OneToMany(() => ModuleItemEntity, (moduleItem) => moduleItem.module)
-  items: Array<ModuleItemEntity>;
+  items?: Array<ModuleItemEntity>;
 }

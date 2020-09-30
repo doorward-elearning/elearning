@@ -10,9 +10,14 @@ export class UpdateCourseBody extends DApiBody {
   @Expose()
   title: string;
 
+  @ApiProperty()
+  @Expose()
+  description: string;
+
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       title: Yup.string().required('The {{course}} title is required').nullable(),
+      description: Yup.string().notRequired().nullable(),
     });
   }
 }

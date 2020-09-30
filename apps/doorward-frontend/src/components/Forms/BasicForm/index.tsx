@@ -29,7 +29,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
   const form = props.form;
   const state = props.state;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
-  const createData = props.createData || (data => [data]);
+  const createData = props.createData || ((data) => [data]);
 
   const history = useHistory();
 
@@ -49,7 +49,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
   return (
     <FeatureProvider features={features}>
       <Form {...props} onSubmit={onSubmit}>
-        {formikProps => {
+        {(formikProps) => {
           return (
             <React.Fragment>
               {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(formikProps) : children}
@@ -87,12 +87,13 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
 
 export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
 
-export interface BasicFormProps<T, A extends (...args: any[]) => Action, W = any> extends FormProps<T> {
-  submitAction: A;
-  createData?: CreateData<T>;
+export interface BasicFormProps<Values, ActionCreator extends (...args: any[]) => Action, WebState = any>
+  extends FormProps<Values> {
+  submitAction: ActionCreator;
+  createData?: CreateData<Values>;
   resetOnSubmit?: boolean;
-  onSuccess?: (result?: W) => void;
-  state: WebComponentState<W>;
+  onSuccess?: (result?: WebState) => void;
+  state: WebComponentState<WebState>;
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
   showSuccessToast?: boolean;
@@ -100,7 +101,7 @@ export interface BasicFormProps<T, A extends (...args: any[]) => Action, W = any
   positiveText?: string;
   negativeText?: string;
   showOverlay?: boolean;
-  children: Array<ReactChild> | ReactChild | FormRenderProps<T>;
+  children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
   enableSubmitButton?: boolean;
 }
 

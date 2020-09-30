@@ -7,6 +7,7 @@ import Feature from '../FeatureProvider/Feature';
 import { FormContext } from '../Form';
 import IfElse from '../IfElse';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -44,6 +45,7 @@ function withInput<R extends InputProps>(
       const props = { ...defaultProps, ...passedProps };
 
       const [changeEvent, setChangeEvent] = useState<ChangeEvent<HTMLInputElement>>();
+      const [isRequired, setIsRequired] = useState(false);
 
       const onValueChange = useCallback(
         _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
@@ -74,10 +76,9 @@ function withInput<R extends InputProps>(
             inputProps.value = _.get(formikProps.values, name);
             inputProps.id = props.id || (props.idGenerator && props.idGenerator());
 
-            const isRequired = checkRequired(
-              name,
-              validationSchema ? new validationSchema()?.validation() || validationSchema?.describe() : validationSchema
-            );
+            getValidationSchema(validationSchema).then((validationSchema) => {
+              setIsRequired(checkRequired(name, validationSchema && validationSchema.describe()));
+            });
 
             let error = '';
             if (formikProps && name && formikProps.touched && _.get(formikProps.touched, name)) {

@@ -2,8 +2,9 @@ import { modifyReducer } from '@doorward/ui/reducers/builder';
 import Tools from '@doorward/common/utils/Tools';
 import { Action } from '@doorward/ui/reducers/reducers';
 import ApiRequest from '@doorward/ui/services/apiRequest';
+import { DoorwardApiTypes } from '../../services/apis/doorward.api';
 
-export default  {
+const login = {
   apiMiddleware: {
     error: (): void => {
       Tools.isLoggedIn();
@@ -11,7 +12,7 @@ export default  {
     after: (request: any, response: any): void => {
       Tools.setToken(response.token);
       ApiRequest.setAuth();
-    }
+    },
   },
   reducer: (state: any, action: Action) => {
     if (action.type === 'CLEAR_LOGIN') {
@@ -19,5 +20,19 @@ export default  {
     } else {
       return state;
     }
-  }
+  },
+};
+
+const getCurrentUser = {
+  reducer: (state: any, action: Action) => {
+    if (action.type === DoorwardApiTypes.auth.login) {
+      return modifyReducer('data', state, action, () => action.payload);
+    }
+    return state;
+  },
+};
+
+export default {
+  login,
+  getCurrentUser,
 };

@@ -9,7 +9,6 @@ import Row from '@doorward/ui/components/Row';
 import Icon from '@doorward/ui/components/Icon';
 import classNames from 'classnames';
 import _ from 'lodash';
-import IfElse from '@doorward/ui/components/IfElse';
 import EditableLabelForm from '../../Forms/EditableLabelForm';
 import DragAndDropList from '@doorward/ui/components/DragAndDropList';
 import Panel from '@doorward/ui/components/Panel';
@@ -20,7 +19,6 @@ import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '@doorward/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
 import useRoutes from '../../../hooks/useRoutes';
-import Tools from '@doorward/common/utils/Tools';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import { Roles } from '@doorward/common/types/roles';
 import useAction from '@doorward/ui/hooks/useActions';
@@ -33,6 +31,9 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import Tools from '@doorward/common/utils/Tools';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
   const routes = useRoutes();
@@ -56,9 +57,11 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
               <Icon icon={ModuleItemIcons[moduleItem.type]} />
               {moduleItem.title}
             </Row>
-            <IfElse condition={moduleItem.type === 'Assignment'}>
-              <span className="meta">Due: {Tools.shortDateTime((moduleItem.content as any).dueDate)}</span>
-            </IfElse>
+            {moduleItem.type === ModuleItemType.ASSIGNMENT && (
+              <span className="meta">
+                Due: {Tools.shortDateTime((moduleItem as AssignmentEntity)?.options?.dueDate)}
+              </span>
+            )}
           </Row>
         </Link>
       </ListItem>
@@ -74,19 +77,18 @@ const ModuleItemsList: React.FunctionComponent<{
       <Droppable droppableId={module.id}>
         {(provided) => (
           <div ref={provided.innerRef}>
-            <IfElse condition={!module.items.length}>
-              <React.Fragment>
-                <Empty message="No Assignments, Pages, Quizzes etc." size="medium">
-                  {provided.placeholder}
-                </Empty>
-              </React.Fragment>
+            {module.items?.length ? (
               <React.Fragment>
                 {module.items.map((moduleItem, index) => (
                   <ModuleItemView module={module} moduleItem={moduleItem} index={index} key={moduleItem.id} />
                 ))}
                 {provided.placeholder}
               </React.Fragment>
-            </IfElse>
+            ) : (
+              <Empty message="No Assignments, Pages, Quizzes etc." size="medium">
+                {provided.placeholder}
+              </Empty>
+            )}
           </div>
         )}
       </Droppable>
@@ -130,7 +132,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
   const action = useAction(DoorwardApi.modules.updateCourseModules);
   const hasRole = useRoleManager([Roles.TEACHER]);
   const [handleDrop] = useModuleDrop(course.id, action);
-  const state = useDoorwardApi((state) => state.courses.deleteCourse);
+  const state = useDoorwardApi((state) => state.modules.deleteModule);
   const deleteModuleModal = useModal();
   const [moduleToDelete, setModuleToDelete] = useState();
 
@@ -140,7 +142,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
         args={[moduleToDelete]}
         title="Delete Module"
         useModal={deleteModuleModal}
-        action={DoorwardApi.courses.deleteCourse}
+        action={DoorwardApi.modules.deleteModule}
         state={state}
       >
         <p>Are you sure you want to delete this module?</p>

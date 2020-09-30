@@ -6,12 +6,14 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import IfElse from '@doorward/ui/components/IfElse';
 import TextField from '@doorward/ui/components/Input/TextField';
 import Icon from '@doorward/ui/components/Icon';
-import { OnFormSubmit } from '@doorward/ui/types';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import NumberField from '@doorward/ui/components/Input/NumberField';
 import Header from '@doorward/ui/components/Header';
-import Form from '@doorward/ui/components/Form';
 import { CreateCourseBody } from '@doorward/common/dtos/body';
+import BasicForm from '../BasicForm';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import { CourseResponse } from '@doorward/common/dtos/response';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -59,6 +61,8 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
 const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
   const modules = { min: 1, max: 10 };
 
+  const state = useDoorwardApi((state) => state.courses.createCourse);
+
   const initialValues = {
     title: '',
     description: '',
@@ -67,12 +71,16 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
   };
 
   return (
-    <Form
+    <BasicForm
       showOverlay
       initialValues={initialValues}
-      onSubmit={props.onSubmit}
       formClassName="add-course-form"
       validationSchema={CreateCourseBody}
+      submitAction={DoorwardApi.courses.createCourse}
+      state={state}
+      showSuccessToast
+      showErrorToast
+      onSuccess={props.onSuccess}
       form={props.useForm}
     >
       {(formikProps): JSX.Element => (
@@ -91,15 +99,15 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
           <CourseModules {...{ ...props, ...formikProps }} minModules={modules.min} maxModules={modules.max} />
         </React.Fragment>
       )}
-    </Form>
+    </BasicForm>
   );
 };
 
 export interface AddCourseFormProps {
-  onSubmit: OnFormSubmit<AddCourseFormState>;
   useModal: UseModal;
   title: string;
   useForm: UseForm<AddCourseFormState>;
+  onSuccess: (response: CourseResponse) => void;
 }
 
 export interface CourseModulesProps extends AddCourseFormProps, FormikProps<AddCourseFormState> {

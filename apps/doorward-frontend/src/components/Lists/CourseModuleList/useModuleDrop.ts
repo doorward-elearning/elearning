@@ -38,7 +38,7 @@ function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
       items: module.items.map((item, moduleItemIndex) => ({ ...item, order: moduleItemIndex })),
       order: index,
     }));
-    action(courseId, { modules: updatedModules });
+    action({ modules: updatedModules });
     return updatedModules;
   };
   return [handleDrop];

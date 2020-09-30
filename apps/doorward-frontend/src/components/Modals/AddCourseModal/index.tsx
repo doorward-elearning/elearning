@@ -4,9 +4,9 @@ import { useHistory } from 'react-router';
 import useForm from '@doorward/ui/hooks/useForm';
 import { ROUTES } from '../../../routes/routes';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
-import { OnFormSubmit } from '@doorward/ui/types';
+import { CourseResponse } from '@doorward/common/dtos/response';
 
-const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
+const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = (props) => {
   const form = useForm<AddCourseFormState>();
   const { formikProps } = form;
   const history = useHistory();
@@ -19,29 +19,14 @@ const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = props => {
     <Modal {...props}>
       <Modal.Header title={props.title} />
       <Modal.Body>
-        <AddCourseForm
-          onSubmit={props.onSubmit}
-          useModal={props.useModal}
-          title={props.title}
-          useForm={form}
-        />
+        <AddCourseForm onSuccess={props.onSuccess} useModal={props.useModal} title={props.title} useForm={form} />
       </Modal.Body>
-      <Modal.Footer
-        buttons={{ positive: 'Save' }}
-        onPositiveClick={formikProps && formikProps.submitForm}
-        props={{
-          positive: {
-            disabled: !(formikProps && formikProps.isValid),
-            type: 'submit'
-          }
-        }}
-      />
     </Modal>
   );
 };
 
 export interface AddCourseModalProps extends ModalProps {
-  onSubmit: OnFormSubmit<AddCourseFormState>;
+  onSuccess: (response: CourseResponse) => void;
   title: string;
 }
 

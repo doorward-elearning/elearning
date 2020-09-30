@@ -73,7 +73,7 @@ const Modal: ModalComponent = ({ features = [], children, useModal, cancellable 
   );
 };
 
-const ModalHeader: React.FunctionComponent<ModalHeaderProps> = props => {
+const ModalHeader: React.FunctionComponent<ModalHeaderProps> = (props) => {
   return (
     <ModalContext.Consumer>
       {({ closeModal, cancellable }): JSX.Element => (
@@ -100,7 +100,7 @@ const ModalHeader: React.FunctionComponent<ModalHeaderProps> = props => {
   );
 };
 
-const Body: React.FunctionComponent<ModalBodyProps> = props => {
+const Body: React.FunctionComponent<ModalBodyProps> = (props) => {
   return <div className="ed-modal__content__body">{props.children}</div>;
 };
 

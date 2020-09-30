@@ -7,6 +7,8 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import helmet from 'helmet';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
+import { Reflector } from '@nestjs/core';
+import { PinoLogger } from 'nestjs-pino/dist';
 
 async function bootstrap() {
   const app = await setUpNestApplication(AppModule);
@@ -19,10 +21,13 @@ async function bootstrap() {
 
   const globalPrefix = 'api';
 
+  const reflector = app.get(Reflector);
+  const logger = app.get(PinoLogger);
+
   app.use(helmet());
   app.setGlobalPrefix(globalPrefix);
-  app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalFilters(new TransformExceptionFilter());
+  app.useGlobalInterceptors(new TransformInterceptor(reflector));
+  app.useGlobalFilters(new TransformExceptionFilter(logger));
   app.enableCors();
 
   const port = process.env.OPENVIDU_API_PORT || 3333;

@@ -11,7 +11,7 @@ import { LoginBody } from '@doorward/common/dtos/body';
 
 const LoginForm: FunctionComponent<LoginFormProps> = () => {
   const initialState = { username: '', password: '' };
-  const form = useForm<LoginFormState>();
+  const form = useForm<LoginBody>();
   const login = useDoorwardApi((state) => state.auth.login);
   const routes = useRoutes();
 
@@ -34,9 +34,5 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
   );
 };
 export interface LoginFormProps {}
-export declare type LoginFormState = {
-  username: string;
-  password: string;
-};
 
 export default LoginForm;

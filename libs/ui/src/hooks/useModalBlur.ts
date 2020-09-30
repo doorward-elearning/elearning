@@ -9,7 +9,7 @@ const useModalBlur = (useModal: UseModal): RefObject<HTMLDivElement> => {
     if (!useModal.isOpen) {
       setTimeout(() => {
         setVisible(false);
-      }, 500);
+      }, 200);
     } else {
       setVisible(true);
     }

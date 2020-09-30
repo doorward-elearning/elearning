@@ -1,11 +1,11 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleEntity from './module.entity';
 import MeetingRoomEntity from './meeting.room.entity';
-import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
 
 @Entity('Courses')
 export default class CourseEntity extends BaseOrganizationEntity {
@@ -46,22 +46,17 @@ export default class CourseEntity extends BaseOrganizationEntity {
   })
   modules: Array<ModuleEntity>;
 
-  @OneToMany(() => CourseManagerEntity, (manager) => manager.course, {
-    cascade: true,
-  })
-  managers: Array<CourseManagerEntity>;
-
   @OneToMany(() => StudentCoursesEntity, (studentCourse) => studentCourse.course, {
     cascade: true,
   })
-  students: Array<StudentCoursesEntity>;
+  studentCourses: Array<StudentCoursesEntity>;
+
+
+  managers: Array<UserEntity>;
+
+  students: Array<UserEntity>;
 
   numStudents: number;
 
-  @AfterLoad()
-  async setNumberOfStudents() {
-    this.numStudents = await this.getRepository(StudentCoursesEntity).count({
-      course: this,
-    });
-  }
+  itemsCount: Partial<Record<ModuleItemType, number>>;
 }

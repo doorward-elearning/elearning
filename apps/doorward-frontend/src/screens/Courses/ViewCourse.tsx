@@ -26,6 +26,8 @@ import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import { Link } from 'react-router-dom';
+import LabelRow from '@doorward/ui/components/LabelRow';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -137,14 +139,14 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 />
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
-                    {/*<LabelRow>*/}
-                    {/*  <span className="meta">{course.modules.length} Modules</span>*/}
-                    {/*  <Link to={routes.assignmentList.link} className="meta">*/}
-                    {/*    {course?.itemCount?.assignments} Assignments*/}
-                    {/*  </Link>*/}
-                    {/*  <span className="meta">{course?.itemCount?.quizzes} Quizzes</span>*/}
-                    {/*  <span className="meta">{course?.itemCount?.pages} Pages</span>*/}
-                    {/*</LabelRow>*/}
+                    <LabelRow>
+                      <span className="meta">{course.modules.length} Modules</span>
+                      <Link to={routes.assignmentList.link} className="meta">
+                        {course?.itemsCount?.Assignment || 0} Assignments
+                      </Link>
+                      <span className="meta">{course?.itemsCount?.Quiz || 0} Quizzes</span>
+                      <span className="meta">{course?.itemsCount?.Page || 0} Pages</span>
+                    </LabelRow>
                     <div style={{ justifySelf: 'end' }}>
                       <Pill>
                         Authored by - <b>{course.author.fullName}</b>
