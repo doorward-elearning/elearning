@@ -8,20 +8,20 @@ import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import { Roles } from '@doorward/common/types/roles';
 import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
+import { PageEntity } from '@doorward/common/entities/page.entity';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params, ...props }) => {
   const [pages] = useState(
     module.items
-      .filter((item: ModuleItemEntity) => item.type === 'Page')
-      .sort((a: ModuleItemEntity, b: ModuleItemEntity) => a.order - b.order)
+      .filter((item: PageEntity) => item.type === 'Page')
+      .sort((a: PageEntity, b: PageEntity) => a.order - b.order)
   );
   const [page, setPage] = useState();
 
   useEffect(() => {
     if (item) {
-      setPage(pages.findIndex((moduleItem: ModuleItemEntity) => moduleItem.id === item.id) + 1);
+      setPage(pages.findIndex((moduleItem: PageEntity) => moduleItem.id === item.id) + 1);
     }
   }, [item]);
 
@@ -43,7 +43,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         viewerView={
           <div>
             <Panel>
-              <DraftHTMLContent content={item.content} />
+              <DraftHTMLContent content={item.page} />
             </Panel>
           </div>
         }
@@ -70,7 +70,7 @@ export interface ViewPagesProps {
   module: ModuleEntity;
   editing: boolean;
   params: { [name: string]: string | undefined };
-  item: ModuleItemEntity;
+  item: PageEntity;
   onEditSuccess: () => void;
 }
 

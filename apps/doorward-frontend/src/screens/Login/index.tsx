@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
 import './Login.scss';
 import Layout, { LayoutFeatures } from '../Layout';
-import { clearLoginAction } from '../../reducers/login/actions';
 import LoginForm from '../../components/Forms/LoginForm';
 import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
@@ -19,6 +18,7 @@ import useOrganization from '@doorward/ui/hooks/useOrganization';
 import COVID19Banner from '@doorward/ui/components/COVID19Banner';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
+import { clearLoginAction } from '../../reducers/auth/actions';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);

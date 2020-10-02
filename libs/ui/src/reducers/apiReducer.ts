@@ -115,7 +115,7 @@ function generateActionsForGroup(apiGroup: Record<string, ApiEndpoint<any>>, pre
   return actions as any;
 }
 
-function generateActionsTypes<A extends typeof DoorwardBackendApi>(api: A, name: string): ApiActionTypes<A> {
+export function generateActionsTypes<A extends typeof DoorwardBackendApi>(api: A, name: string): ApiActionTypes<A> {
   const apiActions = {};
 
   const groupNames = Object.keys(api);
@@ -142,11 +142,9 @@ function generateActionTypesForGroup(apiGroup: Record<string, ApiEndpoint<any>>,
 function buildApiReducer<T extends Api>(api: typeof DoorwardBackendApi, name, middleware?: ApiReducerMiddleware<T>) {
   const actions = generateActions(api, name);
 
-  const actionTypes = generateActionsTypes(api, name);
-
   const reducers = generateReducers(api, name, middleware);
 
-  return { actions, reducers, types: actionTypes };
+  return { actions, reducers };
 }
 
 export default buildApiReducer;

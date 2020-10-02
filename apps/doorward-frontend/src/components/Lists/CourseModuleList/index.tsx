@@ -35,7 +35,7 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
-const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index }) => {
+const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
   const hasRole = useRoleManager([Roles.TEACHER]);
   return (
@@ -49,7 +49,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
           to={routes.routes.viewModuleItem.withParams({
             itemId: moduleItem.id,
             moduleId: module.id,
-            courseId: module?.course?.id,
+            courseId,
           })}
         >
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
@@ -71,7 +71,8 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
 
 const ModuleItemsList: React.FunctionComponent<{
   module: ModuleEntity;
-}> = ({ module }) => {
+  courseId: string;
+}> = ({ module, courseId }) => {
   return (
     <List>
       <Droppable droppableId={module.id}>
@@ -80,7 +81,13 @@ const ModuleItemsList: React.FunctionComponent<{
             {module.items?.length ? (
               <React.Fragment>
                 {module.items.map((moduleItem, index) => (
-                  <ModuleItemView module={module} moduleItem={moduleItem} index={index} key={moduleItem.id} />
+                  <ModuleItemView
+                    courseId={courseId}
+                    module={module}
+                    moduleItem={moduleItem}
+                    index={index}
+                    key={moduleItem.id}
+                  />
                 ))}
                 {provided.placeholder}
               </React.Fragment>
@@ -96,7 +103,7 @@ const ModuleItemsList: React.FunctionComponent<{
   );
 };
 
-const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule, onDelete }) => {
+const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule, onDelete, courseId }) => {
   return (
     <Panel>
       <Accordion
@@ -114,14 +121,14 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
         action={(): JSX.Element => (
           <RoleContainer roles={[Roles.TEACHER]}>
             <Row>
-              <AddModuleItemDropdown module={module} />
+              <AddModuleItemDropdown module={module} courseId={courseId} />
               <Icon onClick={onDelete} icon="delete" />
             </Row>
           </RoleContainer>
         )}
         open
       >
-        <ModuleItemsList module={module} />
+        <ModuleItemsList module={module} courseId={courseId} />
       </Accordion>
     </Panel>
   );
@@ -159,6 +166,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                         setModuleToDelete(module.id);
                         deleteModuleModal.openModal();
                       }}
+                      courseId={course.id}
                       index={index}
                       module={module}
                       updateModule={updateModule}
@@ -184,6 +192,7 @@ export interface ModuleViewProps {
   module: ModuleEntity;
   updateModule: WebComponentState<any>;
   droppableState: DroppableStateSnapshot;
+  courseId: string;
   onDelete: () => void;
 }
 
@@ -191,6 +200,7 @@ export interface ModuleItemViewProps {
   module: ModuleEntity;
   moduleItem: ModuleItemEntity;
   index: number;
+  courseId: string;
 }
 
 export default CourseModuleList;

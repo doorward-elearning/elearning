@@ -28,16 +28,16 @@ const useModalBlur = (useModal: UseModal): RefObject<HTMLDivElement> => {
     }
   }, [useModal.isOpen, visible]);
 
-  useEffect(() => {
-    const root: HTMLElement | null = document.querySelector('#root');
-    if (root) {
-      if (useModal.isOpen) {
-        root.style.filter = 'blur(5px)';
-      } else {
-        root.style.filter = '';
-      }
-    }
-  }, [modal, useModal.isOpen]);
+  // useEffect(() => {
+  //   const root: HTMLElement | null = document.querySelector('#root');
+  //   if (root) {
+  //     if (useModal.isOpen) {
+  //       root.style.filter = 'blur(5px)';
+  //     } else {
+  //       root.style.filter = '';
+  //     }
+  //   }
+  // }, [modal, useModal.isOpen]);
 
   return modal;
 };

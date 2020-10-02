@@ -1,15 +1,16 @@
 import React, { FunctionComponent } from 'react';
-import AddModuleItemForm, { AddModuleItemFormState } from '../AddModuleItemForm';
+import AddModuleItemForm from '../AddModuleItemForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import './QuizDetailsForm.scss';
 import QuizDetails from './QuizDetails';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import QuizQuestions, { defaultQuestion } from './QuizQuestions';
+import { defaultQuestion } from './QuizQuestions';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CreateQuizBody } from '@doorward/common/dtos/body';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import QuizOptions from './QuizOptions';
 
 const defaultQuiz: CreateQuizBody = {
   title: 'Unnamed Quiz',
@@ -68,18 +69,19 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
         onCancel={props.onCancel}
         type={ModuleItemType.QUIZ}
         form={form}
+        item={props.quiz}
         validationSchema={CreateQuizBody}
-        item={props.module}
+        module={props.module}
         initialValues={initialValues}
       >
         {(formikProps) => (
           <div className="quiz-details-form">
             <TabLayout stickyHeader>
-              <Tab title="Details">
+              <Tab title="Quiz Details">
                 <QuizDetails />
               </Tab>
-              <Tab title="Questions" badge={`${(formikProps?.values.questions || []).length}`}>
-                <QuizQuestions />
+              <Tab title="Options">
+                <QuizOptions />
               </Tab>
             </TabLayout>
           </div>
@@ -96,6 +98,6 @@ export interface CreateQuizFormProps {
   quiz?: QuizEntity;
 }
 
-export type CreateQuizFormState = AddModuleItemFormState & CreateQuizBody;
+export type CreateQuizFormState = CreateQuizBody;
 
 export default CreateQuizForm;

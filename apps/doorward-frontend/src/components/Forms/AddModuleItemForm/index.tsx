@@ -3,22 +3,29 @@ import BasicForm from '../BasicForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import { FormikProps } from 'formik';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { CreateModuleItemBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import { CreateModuleItemBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
-function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleItemFormProps<T>): JSX.Element {
+function AddModuleItemForm<T extends CreateModuleItemBody>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
     title: '',
     content: null,
     type: props.type,
     ...(props.initialValues || ({} as T)),
   };
-  const state = useDoorwardApi((state) => state.modules.createModuleItem);
+
+  const editing = !!props.item;
+
+  const state = useDoorwardApi((state) =>
+    editing ? state.moduleItems.updateModuleItem : state.modules.createModuleItem
+  );
+
   return (
     <BasicForm
-      submitAction={DoorwardApi.modules.createModuleItem}
+      submitAction={editing ? DoorwardApi.moduleItems.updateModuleItem : DoorwardApi.modules.createModuleItem}
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       initialValues={initialValues}
@@ -27,21 +34,20 @@ function AddModuleItemForm<T extends AddModuleItemFormState>(props: AddModuleIte
       form={props.form}
       showSuccessToast
       showOverlay
-      createData={props.createData || ((values) => [props.item.id, values])}
+      createData={props.createData || ((values) => [editing ? props.item.id : props.module.id, values])}
     >
       {props.children}
     </BasicForm>
   );
 }
 
-export interface AddModuleItemFormState extends CreateModuleItemBody {}
-
-export interface AddModuleItemFormProps<T extends AddModuleItemFormState> {
+export interface AddModuleItemFormProps<T extends CreateModuleItemBody> {
   onSuccess: () => void;
   onCancel: () => void;
   type: ModuleItemType;
   form: UseForm<T>;
-  item: ModuleEntity;
+  module: ModuleEntity;
+  item?: ModuleItemEntity;
   initialValues?: Partial<T>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;

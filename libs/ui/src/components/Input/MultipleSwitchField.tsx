@@ -6,7 +6,7 @@ import Row from '../Row';
 import List from '../List';
 import ListItem from '../List/ListItem';
 
-const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = props => {
+const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = (props) => {
   const value = props.value;
   const values = props.values || props.choices;
   const handleToggle = (name: string, open: boolean): void => {
@@ -38,13 +38,13 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = p
   return (
     <div className="eb-input__switch">
       <List>
-        <ItemArray data={props.choices}>
+        <ItemArray data={props.choices} getKey={(i) => i}>
           {(item, index) => (
             <ListItem>
               <Row style={{ justifyContent: 'start', gridGap: 'var(--padding-lg)' }}>
                 <Switch
                   open={props.singleChoice ? value === values[index] : !!value.find((i: string) => i === values[index])}
-                  onToggle={open => handleToggle(values[index], open)}
+                  onToggle={(open) => handleToggle(values[index], open)}
                   id={props.id + values[index]}
                 />
                 <span>{item}</span>

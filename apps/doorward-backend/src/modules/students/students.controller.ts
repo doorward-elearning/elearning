@@ -30,6 +30,7 @@ import {
 } from '@doorward/common/dtos/body';
 import ExcludeNullValidationPipe from '@doorward/backend/pipes/exclude.null.validation.pipe';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 const CourseExists = () => ModelExists({ key: 'courseId', model: CourseEntity, message: '{{course}} does not exist.' });
 
@@ -146,6 +147,7 @@ export class StudentsController {
    *
    * @param body
    * @param origin
+   * @param user
    */
   @Post()
   @Privileges('students.create')
@@ -197,6 +199,7 @@ export class StudentsController {
   @Get(':studentId')
   @Privileges('students.view')
   @StudentExists()
+  @TransformerGroups('fullUserProfile')
   @ApiResponse({ status: HttpStatus.OK, type: StudentResponse, description: 'The student with the specified i' })
   async getStudent(@Param('studentId') studentId: string): Promise<StudentResponse> {
     const student = await this.studentsService.getStudentById(studentId);

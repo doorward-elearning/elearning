@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import { Icons } from '../../types/icons';
 
 const TextArea: React.FunctionComponent<TextAreaProps> = React.memo(
-  ({ value = '', children, formikProps, icon, ...props }): JSX.Element => {
+  ({ value = '', children, formikProps, icon, editable, labelPosition, idGenerator, ...props }): JSX.Element => {
     return (
       <div
         className={classNames({

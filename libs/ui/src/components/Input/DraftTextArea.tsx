@@ -7,6 +7,7 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';
+import draftEditorWrapper, { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapper';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -19,19 +20,24 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   formikProps,
   children,
   name,
-  exportAs = 'json',
   ...props
 }): JSX.Element => {
   const editorRef = React.useRef(null);
   const [editorState, setEditorState] = React.useState();
   useEffect(() => {
-    setEditorState(value ? EditorState.createWithContent(convertFromRaw(value)) : EditorState.createEmpty());
+    try {
+      setEditorState(
+        value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty()
+      );
+    } catch (e) {
+      setEditorState(EditorState.createWithContent(convertFromRaw(generateEditorStateFromString(value))));
+    }
   }, []);
 
   useEffect(() => {
     if (editorState) {
       const contentState = editorState.getCurrentContent();
-      const value = !contentState.hasText() ? '' : exportFunction[exportAs](contentState);
+      const value = JSON.stringify(!contentState.hasText() ? '' : exportFunction.json(contentState));
       const event = { target: { value, name: name } };
       props.onChange(event);
     }
@@ -59,8 +65,6 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     </div>
   );
 };
-export interface DraftTextAreaProps extends InputProps {
-  exportAs?: 'html';
-}
+export interface DraftTextAreaProps extends InputProps {}
 
 export default withInput(DraftTextArea, [InputFeatures.LABEL]);

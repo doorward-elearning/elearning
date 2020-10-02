@@ -16,30 +16,34 @@ import { CreateAssignmentBody } from '@doorward/common/dtos/body';
 import { AssignmentSubmissionMedia, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
-const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
-  const initialValues = (props.assignment || {
-    title: 'Unnamed Assignment',
-    type: ModuleItemType.ASSIGNMENT,
+const defaultAssignment = {
+  title: 'Unnamed Assignment',
+  type: ModuleItemType.ASSIGNMENT,
+  assignment: null,
+  options: {
+    points: 1,
+    submissionTypes: [AssignmentSubmissionType.TEXT_ENTRY],
+    dueDate: new Date(),
     assignment: null,
-    options: {
-      points: 1,
-      submissionType: ['Text Entry'],
-      dueDate: new Date(),
-      assignment: null,
-      submissionMedia: 'Offline',
-      availability: {
-        from: new Date(),
-        to: null,
-      },
+    submissionMedia: AssignmentSubmissionMedia.ONLINE,
+    availability: {
+      from: new Date(),
+      to: null,
     },
-  }) as CreateAssignmentBody;
+  },
+};
+
+const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (props): JSX.Element => {
+  const initialValues = props.assignment || defaultAssignment;
+
   return (
     <AddModuleItemForm
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       type={ModuleItemType.ASSIGNMENT}
       form={props.form}
-      item={props.module}
+      module={props.module}
+      item={props.assignment}
       validationSchema={CreateAssignmentBody}
       initialValues={initialValues}
     >
@@ -61,8 +65,8 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
           />
           <DropdownSelect
             options={{
-              online: 'Online',
-              offline: 'Offline',
+              [AssignmentSubmissionMedia.ONLINE]: 'Online',
+              [AssignmentSubmissionMedia.OFFLINE]: 'Offline',
             }}
             icon="subject"
             name="options.submissionMedia"
@@ -70,7 +74,7 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
           />
           <IfElse condition={formikProps?.values.options.submissionMedia === AssignmentSubmissionMedia.ONLINE}>
             <MultipleSwitchField
-              name="options.submissionType"
+              name="options.submissionTypes"
               choices={Object.values(AssignmentSubmissionType)}
               label="Online Submission Type"
             />

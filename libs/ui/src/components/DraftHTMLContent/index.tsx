@@ -7,7 +7,7 @@ import Pagination from '../Pagination';
 import { ContentBlock, convertFromRaw, EditorState } from 'draft-js';
 import classNames from 'classnames';
 import createPlyrForYouTubeVideos from '@doorward/ui/components/DraftHTMLContent/createPlyrForYouTubeVideos';
-import useScript from '@doorward/ui/hooks/useScript';
+import draftEditorWrapper from '@doorward/ui/hoc/draftEditorWrapper';
 
 const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
@@ -16,7 +16,7 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
   const [blocks, setBlocks] = useState<Array<Array<ContentBlock>>>([]);
   const editorRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const content = props.content;
+    const content = JSON.parse(props.content);
     if (props.paginate) {
       setBlocks(handleDraftPagination(content));
     } else {
@@ -30,7 +30,7 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
 
   useEffect(() => {
     if (blocks.length) {
-      const temp = props.content;
+      const temp = JSON.parse(props.content);
       temp.blocks = blocks[page - 1];
       setEditorState(EditorState.createWithContent(convertFromRaw(temp)));
     }
@@ -68,10 +68,10 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
 };
 
 export interface DraftHTMLContentProps {
-  content: any;
+  content: string;
   paginate?: boolean;
   stickyPagination?: 'bottom' | 'top';
   paginationPosition?: 'bottom' | 'top';
 }
 
-export default DraftHTMLContent;
+export default draftEditorWrapper(DraftHTMLContent, 'content');

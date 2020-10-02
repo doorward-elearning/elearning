@@ -16,8 +16,6 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const user = useDoorwardApi((state) => state.auth.getCurrentUser);
   const hasAccess = useRoleManager(props.roles, true, user.data.user);
 
-  console.log(authenticated, user, hasAccess);
-
   if (user.errors.message || user.errors.errors || !authenticated) {
     Tools.clearToken();
     return <Redirect to={props.redirect || routes.login.link} />;

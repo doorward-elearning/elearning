@@ -22,6 +22,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { PageEntity } from '@doorward/common/entities/page.entity';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -104,7 +105,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       module={module}
                       editing={editing}
                       params={params}
-                      item={item}
+                      item={item as PageEntity}
                     />
                   </IfElse>
                   <IfElse condition={item.type === 'Quiz'}>

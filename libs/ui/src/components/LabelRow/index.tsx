@@ -6,7 +6,7 @@ const LabelRow: FunctionComponent<LabelRowProps> = (props): JSX.Element => {
   return (
     <div className="ed-label-row">
       {props.children.map((child, index) => (
-        <React.Fragment>
+        <React.Fragment key={index}>
           {child}
           <IfElse condition={index < props.children.length - 1}>
             <span className="label-row__separator" />

@@ -14,12 +14,14 @@
       top: -25%;
       left: -25%;
       border-radius: 50%;
-      transition: 0.5s background;
+      transition: 0.5s background, 0.2s transform;
+      transform: scale(0);
     }
 
     &:hover {
       &:before {
         background: rgba(0, 0, 0, 0.1);
+        transform: scale(1);
       }
     }
   }

@@ -7,6 +7,17 @@
     position: relative;
   }
 
+  &.primary {
+    .ed-checkbox__checkbox {
+      border: 2px solid var(--text-secondary);
+    }
+
+    input[type='checkbox']:checked + .ed-checkbox__checkbox {
+      background: var(--primary);
+      border: 2px solid var(--primary);
+    }
+  }
+
   &:hover {
     .ed-checkbox__checkbox {
       &:after {
@@ -17,13 +28,14 @@
 
   &__checkbox {
     position: absolute;
-    top: -4px;
+    top: 0;
+    left: 0;
     pointer-events: none;
     width: 1em;
     height: 1em;
     border: 2px solid var(--accent);
     border-radius: 3px;
-    transition: 0.4s background;
+    transition: 0.2s background;
 
     &:before {
       position: absolute;
@@ -32,7 +44,7 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0);
-      transition: 0.5s transform;
+      transition: 0.2s transform;
     }
 
     &:after {

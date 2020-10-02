@@ -89,7 +89,6 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo(
 );
 
 const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = (props) => {
-  console.log('Rendering...');
   return (
     <FormContext.Consumer>
       {({ formikProps }) => (
@@ -97,7 +96,7 @@ const QuizQuestions: React.FunctionComponent<QuizQuestionsProps> = (props) => {
           <FieldArray name="content.questions">
             {(arrayHelpers) => (
               <React.Fragment>
-                {formikProps?.values?.content?.questions.map((question, index) => (
+                {formikProps?.values?.questions.map((question, index) => (
                   <Panel key={question.id}>
                     <Row style={{ gridTemplateColumns: 'auto 1fr auto', gridColumnGap: 'var(--padding-lg)' }}>
                       <Header size={3}>Question {index + 1}</Header>
@@ -136,4 +135,4 @@ export interface AnswersPanelProps {
   index: number;
 }
 
-export default React.memo(QuizQuestions, () => true);
+export default QuizQuestions;

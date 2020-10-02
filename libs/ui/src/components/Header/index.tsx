@@ -12,11 +12,13 @@ const Header: FunctionComponent<HeaderProps> = ({
   className = '',
   style,
   thin,
+  padded,
 }): JSX.Element => {
   const classes = classNames({
     'ed-header': true,
     [className]: true,
     clickable: !!onClick,
+    padded,
     thin,
   });
   const props = { className: classes, onClick, style };
@@ -33,6 +35,7 @@ export interface HeaderProps {
   onClick?: MouseEventHandler;
   style?: CSSProperties;
   thin?: boolean;
+  padded?: boolean;
 }
 
 export default Header;

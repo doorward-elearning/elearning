@@ -9,6 +9,7 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import Public from '@doorward/backend/decorators/public.decorator';
 import { TeacherResponse, TeachersResponse } from '@doorward/common/dtos/response';
+import { Roles } from '@doorward/common/types/roles';
 
 @Controller('teachers')
 @ApiTags('teachers')
@@ -23,6 +24,8 @@ export class TeachersController {
     @Origin() origin: string,
     @CurrentUser() currentUser: UserEntity
   ): Promise<TeacherResponse> {
+    body.role = Roles.TEACHER;
+
     const teacher = await this.teachersService.createTeacher(body, currentUser, origin);
 
     return { teacher, message: '{{teacher}} has been created successfully.' };

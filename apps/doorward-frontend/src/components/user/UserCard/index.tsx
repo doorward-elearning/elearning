@@ -39,7 +39,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
                   <EImage src={profile} alt="User Image" circle size="large" />
                   <Header size={3}>{data.email}</Header>
                   <div>
-                    <Pill>{data.role?.name}</Pill>
+                    <Pill>{data.role?.displayName}</Pill>
                   </div>
                 </div>
               </Card.Body>

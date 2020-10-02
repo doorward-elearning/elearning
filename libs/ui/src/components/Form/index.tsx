@@ -9,6 +9,7 @@ import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
+import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
 
 export const FormContext = React.createContext<FormContextProps>({});
 
@@ -30,9 +31,7 @@ function Form<T>({
   const { formikProps, setFormikProps } = form;
   const [validation, setValidation] = useState(null);
 
-  useEffect(() => {
-    getValidationSchema(validationSchema).then(setValidation);
-  }, [validationSchema]);
+  usePromiseEffect(getValidationSchema(validationSchema), setValidation, [validationSchema]);
 
   useEffect(() => {
     if (allProps && state && state.errors) {

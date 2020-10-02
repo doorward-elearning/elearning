@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
+import {
+  AssignmentSubmissionMedia,
+  AssignmentSubmissionStatus,
+  AssignmentSubmissionType,
+} from '@doorward/common/types/courses';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
@@ -96,10 +100,14 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
       title: Yup.string().required('The title of the {{assignment}} is required'),
       options: Yup.object({
         dueDate: Yup.string().required('The due date is required'),
-        submissionType: Yup.array().min(1, 'Please choose at least one submission type'),
+        submissionTypes: Yup.array(
+          Yup.string().oneOf(Object.values(AssignmentSubmissionType), 'Invalid submission' + ' type.')
+        ).min(1, 'Please choose at least' + ' one submission' + ' type'),
         points: Yup.number().required('The points are required.'),
         availability: Yup.object(),
-        submissionMedia: Yup.string().nullable(),
+        submissionMedia: Yup.string()
+          .nullable()
+          .oneOf(Object.values(AssignmentSubmissionMedia), 'Invalid submission' + ' media.'),
       }),
       assignment: Yup.string().nullable().required('The {{assignment}} content is required.'),
     });

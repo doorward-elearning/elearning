@@ -10,7 +10,7 @@ const defaultMessage = 'There are no items here.';
 
 const Empty: React.FunctionComponent<EmptyProps> = ({
   message,
-  icon = 'beach_access',
+  icon = 'work_outline',
   size = 'large',
   actionMessage,
   onAction,

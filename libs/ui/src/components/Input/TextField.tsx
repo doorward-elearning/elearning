@@ -14,6 +14,9 @@ const TextField: FunctionComponent<TextFieldProps> = ({
   children,
   editable = true,
   overrideValue,
+  labelPosition,
+  noEdit,
+  fluid,
   ...props
 }): JSX.Element => {
   useEffect(() => {

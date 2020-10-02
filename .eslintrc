@@ -26,6 +26,7 @@
     "@typescript-elint/no-var-requires": "off",
     "@typescript-eslint/no-parameter-properties": "off",
     "@typescript-eslint/no-empty-function": "off",
+    "react-hooks/exhaustive-deps": "off",
     "@nrwl/nx/enforce-module-boundaries": [
       "off",
       {

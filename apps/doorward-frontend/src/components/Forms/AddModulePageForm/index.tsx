@@ -5,9 +5,9 @@ import './AddModulePageForm.scss';
 import TextField from '@doorward/ui/components/Input/TextField';
 import AddModuleItemForm from '../AddModuleItemForm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { CreateModuleItemBody } from '@doorward/common/dtos/body';
+import { CreateModuleItemBody, CreatePageBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import { PageEntity } from '@doorward/common/entities/page.entity';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -16,37 +16,38 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   page,
   onCancel,
 }: AddModulePageFormProps<T>) {
-  const initialValues: any = page || {
+  const initialValues: Partial<CreatePageBody> = page || {
     title: 'Untitled Page',
-    content: null,
+    page: null,
   };
   return (
     <AddModuleItemForm
       onSuccess={onSuccess}
-      item={module}
+      module={module}
       type={ModuleItemType.PAGE}
       key={page?.id}
       onCancel={onCancel}
       validationSchema={CreateModuleItemBody}
+      item={page}
       initialValues={initialValues}
       form={useForm}
     >
       <div className="add-module-page">
         <TextField name="title" placeholder="Title of the page" />
-        <DraftTextArea name="content" placeholder="Empty space is boring... Add some content for the page." />
+        <DraftTextArea name="page" placeholder="Empty space is boring... Add some content for the page." />
       </div>
     </AddModuleItemForm>
   );
 }
 
-export interface AddModulePageFormState extends CreateModuleItemBody {}
+export interface AddModulePageFormState extends CreatePageBody {}
 
 export interface AddModulePageFormProps<T = any> {
   useForm: UseForm<T>;
   module: ModuleEntity;
   onSuccess: () => void;
   onCancel: () => void;
-  page?: ModuleItemEntity;
+  page?: PageEntity;
 }
 
 export default AddModulePageForm;

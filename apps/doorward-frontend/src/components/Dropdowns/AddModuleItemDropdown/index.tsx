@@ -17,7 +17,7 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = (props) => {
   const { routes } = useRoutes();
   const { module } = props;
-  const params = { courseId: module?.course?.id, moduleId: module.id };
+  const params = { courseId: props.courseId, moduleId: module.id };
   return (
     <Dropdown positionX="right">
       <Row>
@@ -42,6 +42,7 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
 
 export interface AddModuleItemDropdownProps {
   module: ModuleEntity;
+  courseId: string;
 }
 
 export default AddModuleItemDropdown;

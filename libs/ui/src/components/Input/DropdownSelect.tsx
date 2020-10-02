@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import Icon from '../Icon';
 import withInput, { InputFeatures, InputProps } from './index';
-import Select, { ISelectProps } from 'react-dropdown-select';
+import Select, { SelectProps } from 'react-dropdown-select';
 import './styles/DropdownSelect.scss';
 import './styles/TextField.scss';
 import { ThemeContext } from '../ApplicationTheme';
@@ -31,7 +31,7 @@ const generateFromString = (options: any) => {
 };
 
 const getSelectedValue = (options: Array<Option>, multi = false): string | Array<string> => {
-  const selected = options.map(option => option.value);
+  const selected = options.map((option) => option.value);
   if (multi) {
     return selected;
   }
@@ -43,6 +43,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   className,
   children,
   icon,
+  pattern,
   options,
   ...props
 }): JSX.Element => {
@@ -75,7 +76,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
               ? value
                 ? value
                 : []
-              : [optionsList.find((option: any) => option.value === value)].filter(x => x)
+              : [optionsList.find((option: any) => option.value === value)].filter((x) => x)
           }
           options={optionsList}
           {...props}
@@ -93,7 +94,7 @@ export type Option = { value: string; label: string; disabled?: boolean };
 
 export type Options = Array<Option> | { [name: string]: string } | Array<string>;
 
-export interface DropdownSelectProps extends InputProps, Omit<ISelectProps, 'options' | 'onChange' | 'values'> {
+export interface DropdownSelectProps extends InputProps, Omit<SelectProps<Option>, 'options' | 'onChange' | 'values'> {
   icon?: Icons;
   options: Options;
 }

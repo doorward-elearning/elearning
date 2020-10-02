@@ -3,14 +3,15 @@ import ItemArray from '@doorward/ui/components/ItemArray';
 import QuestionView from './QuestionView';
 import BasicForm from '../../Forms/BasicForm';
 import useForm from '@doorward/ui/hooks/useForm';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import Panel from '@doorward/ui/components/Panel';
+import Header from '@doorward/ui/components/Header';
+import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 
 export const QuizContext = React.createContext<QuizContextProps>({});
 
 const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
-  console.log(props.quiz);
   const initialValues = {
     answers: (props.quiz.questions || []).reduce(
       (acc, question) => ({
@@ -31,6 +32,19 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
         onCancel={props.onCancel}
         state={state}
       >
+        {props.quiz.instructions && (
+          <React.Fragment>
+            <Header padded size={3}>
+              Instructions
+            </Header>
+            <Panel>
+              <DraftHTMLContent content={props.quiz.instructions} />
+            </Panel>
+          </React.Fragment>
+        )}
+        <Header padded size={3}>
+          Quiz
+        </Header>
         <div className="ed-quiz">
           <ItemArray data={props.quiz.questions}>
             {(question, index) => <QuestionView question={question} index={index + 1} />}

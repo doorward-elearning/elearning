@@ -17793,10 +17793,10 @@ react-draft-wysiwyg@^1.13.2:
     linkify-it "^2.2.0"
     prop-types "^15.7.2"
 
-react-dropdown-select@^3.6.7:
-  version "3.12.0"
-  resolved "https://registry.yarnpkg.com/react-dropdown-select/-/react-dropdown-select-3.12.0.tgz#d27222239c16b210b53478a902a6dd0c88501f2f"
-  integrity sha512-YifBiR1I7bre0mKXBuzEoxZE9eJOnU15/Fy8hUibuqYsZg35V6Dd2t0yuPipanuT9dDh7X96h0dTtujxDz1kug==
+react-dropdown-select@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/react-dropdown-select/-/react-dropdown-select-4.5.2.tgz#7e27dd3d6488014f7dc0e7851ba1a8ee3aedbabd"
+  integrity sha512-Wf++iIzLzpLnRWNMcoZymlWTWNJoUAX9B465CK4eg0rbFp/Xp23x7Q+660tFh1cbamRsrdpy7sGy7qbUCTRcAQ==
   dependencies:
     "@emotion/core" "^10.0.27"
     "@emotion/styled" "^10.0.27"

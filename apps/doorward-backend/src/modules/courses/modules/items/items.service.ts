@@ -19,6 +19,7 @@ import {
   CreatePageBody,
   CreateQuestionBody,
   CreateQuizBody,
+  UpdateModuleItemOrderBody,
 } from '@doorward/common/dtos/body';
 import PageRepository from '@doorward/backend/repositories/page.repository';
 import AssignmentRepository from '@doorward/backend/repositories/assignment.repository';
@@ -51,6 +52,13 @@ export class ItemsService {
 
   async checkModuleItemExists(moduleId: string, title: string, type: ModuleItemType, excludeItem?: string) {
     return this.itemsRepository.checkModuleItemExists(moduleId, title, type, excludeItem);
+  }
+
+  async updateModuleItemOrder(moduleId: string, item: UpdateModuleItemOrderBody) {
+    return this.itemsRepository.update(item.id, {
+      ...item,
+      module: { id: moduleId },
+    });
   }
 
   async createOrUpdateModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity, itemId?: string) {

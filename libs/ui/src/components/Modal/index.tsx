@@ -1,4 +1,5 @@
-import React, { MouseEvent, MouseEventHandler, useEffect, useState } from 'react';
+import React, { Component, MouseEvent, MouseEventHandler } from 'react';
+import ReactDOM from 'react-dom';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
@@ -7,7 +8,6 @@ import Header from '../Header';
 import classNames from 'classnames';
 import Button, { ButtonProps } from '../Buttons/Button';
 import IfElse from '../IfElse';
-import useModalBlur from '../../hooks/useModalBlur';
 import { UseModal } from '../../hooks/useModal';
 import NavBarSearch from '../NavBar/NavBarSearch';
 
@@ -30,58 +30,13 @@ const ModalContext = React.createContext<ModalContext>({
   cancellable: true,
 });
 
-const Modal: ModalComponent = ({ features = [], children, useModal, cancellable = true, ...props }) => {
-  const [visible, setVisible] = useState(false);
-  const modal = useModalBlur(useModal);
-  useEffect(() => {
-    if (useModal.isOpen) {
-      setTimeout(() => {
-        setVisible(true);
-        if (modal.current) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
-          modal.current.style.zIndex = 10;
-        }
-      }, 100);
-    } else {
-      setVisible(false);
-      setTimeout(() => {
-        if (modal.current) {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-          // @ts-ignore
-          modal.current.style.zIndex = -10;
-        }
-      }, 200);
-    }
-  }, [useModal.isOpen]);
-  return (
-    <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
-      <ModalContext.Provider value={{ ...useModal, cancellable }}>
-        <div
-          ref={modal}
-          className={classNames({
-            'ed-modal': true,
-            open: visible,
-            [props.className]: true,
-          })}
-        >
-          <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
-          <div className="ed-modal__content">{children}</div>
-        </div>
-      </ModalContext.Provider>
-    </FeatureProvider>
-  );
-};
-
 const ModalHeader: React.FunctionComponent<ModalHeaderProps> = (props) => {
   return (
     <ModalContext.Consumer>
       {({ closeModal, cancellable }): JSX.Element => (
         <div className="ed-modal__content__headerContainer">
           <div className="ed-modal__content__header">
-            <Feature feature={ModalFeatures.TITLE}>
-              <Header size={2}>{props.title}</Header>
-            </Feature>
+            <Feature feature={ModalFeatures.TITLE}>{props.title && <Header size={2}>{props.title}</Header>}</Feature>
             {props.children}
             <IfElse condition={cancellable}>
               <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
@@ -179,6 +134,7 @@ export interface ModalProps {
   useModal: UseModal;
   cancellable?: boolean;
   className?: string;
+  blurBackground?: boolean;
 }
 export interface ModalHeaderProps {
   title?: string;
@@ -203,12 +159,6 @@ export interface ModalFooterButtonProps {
   onClick: ModalFooterButtonClickHandler;
 }
 
-export interface ModalComponent extends React.FunctionComponent<ModalProps> {
-  Header: React.FunctionComponent<ModalHeaderProps>;
-  Body: React.FunctionComponent<ModalBodyProps>;
-  Footer: React.FunctionComponent<ModalFooterProps>;
-}
-
 export interface ModalContext {
   isOpen: boolean;
   openModal: () => void;
@@ -216,8 +166,55 @@ export interface ModalContext {
   cancellable: boolean;
 }
 
-Modal.Body = Body;
-Modal.Footer = Footer;
-Modal.Header = ModalHeader;
+class Modal extends Component<ModalProps> {
+  state = {
+    visible: false,
+  };
+
+  modal = React.createRef<HTMLDivElement>();
+
+  container = document.getElementById('modal-box');
+
+  componentWillUnmount(): void {}
+
+  componentWillReceiveProps(nextProps: Readonly<ModalProps>): void {
+    const { useModal, blurBackground = true } = nextProps;
+    this.setState({
+      visible: useModal.isOpen,
+    });
+
+    if (blurBackground) {
+      document.getElementById('root').style.filter = useModal.isOpen ? 'blur(2px)' : '';
+    }
+  }
+
+  render() {
+    const { features = [], children, useModal, cancellable = true, ...props } = this.props;
+    const { visible } = this.state;
+
+    return ReactDOM.createPortal(
+      <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
+        <ModalContext.Provider value={{ ...useModal, cancellable }}>
+          <div
+            ref={this.modal}
+            className={classNames({
+              'ed-modal': true,
+              open: visible,
+              [props.className || '']: true,
+            })}
+          >
+            <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
+            <div className="ed-modal__content">{children}</div>
+          </div>
+        </ModalContext.Provider>
+      </FeatureProvider>,
+      this.container
+    );
+  }
+
+  static Body = Body;
+  static Footer = Footer;
+  static Header = ModalHeader;
+}
 
 export default Modal;

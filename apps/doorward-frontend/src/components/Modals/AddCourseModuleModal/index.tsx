@@ -3,7 +3,6 @@ import AddModuleForm, { AddModuleFormState } from '../../Forms/AddModuleForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
-import Header from '@doorward/ui/components/Header';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 
 const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> = (props) => {
@@ -23,9 +22,7 @@ const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> =
   });
   return (
     <Modal {...props}>
-      <Modal.Header>
-        <Header size={2}>Add Course Module</Header>
-      </Modal.Header>
+      <Modal.Header title="Add Course Module" />
       <Modal.Body>
         <AddModuleForm courseId={props.courseId} useForm={form} />
       </Modal.Body>

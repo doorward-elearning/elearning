@@ -18,6 +18,16 @@ export class CreateModuleBody extends DApiBody {
 
 export class UpdateModuleBody extends CreateModuleBody {}
 
+export class UpdateModuleItemOrderBody {
+  @ApiProperty()
+  @Expose()
+  id: string;
+
+  @ApiProperty()
+  @Expose()
+  order: number;
+}
+
 export class UpdateModuleOrderBody {
   @ApiProperty()
   @Expose()
@@ -26,6 +36,10 @@ export class UpdateModuleOrderBody {
   @ApiProperty()
   @Expose()
   order: number;
+
+  @ApiProperty()
+  @Expose()
+  items: UpdateModuleItemOrderBody[];
 }
 
 export class UpdateModulesBody extends DApiBody {

@@ -9,6 +9,7 @@ import {
   CreateModuleBody,
   CreateModuleItemBody,
   UpdateModuleBody,
+  UpdateModuleOrderBody,
   UpdateModulesBody,
 } from '@doorward/common/dtos/body';
 
@@ -91,12 +92,22 @@ export class ModulesService {
     return this.itemsService.createOrUpdateModuleItem(moduleId, body, author);
   }
 
-  async updateModuleOrders(body: UpdateModulesBody) {
+  async updateModuleItems(module: UpdateModuleOrderBody) {
+    return Promise.all(
+      module.items.map(async (item) => {
+        await this.itemsService.updateModuleItemOrder(module.id, item);
+        return item;
+      })
+    );
+  }
+
+  async updateModules(body: UpdateModulesBody) {
     return Promise.all(
       body.modules.map(async (module) => {
         await this.modulesRepository.update(module.id, {
           order: module.order,
         });
+        await this.updateModuleItems(module);
         return module;
       })
     );

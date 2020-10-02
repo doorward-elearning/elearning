@@ -50,6 +50,10 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
 
     course.modules = course.modules.sort((a, b) => a.order - b.order);
 
+    course.modules.forEach((module) => {
+      module.items = module.items.sort((a, b) => a.order - b.order);
+    });
+
     course.itemsCount = await this.countModuleItems(courseId);
 
     return course;

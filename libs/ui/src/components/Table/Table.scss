@@ -3,6 +3,32 @@
   .ed-panel {
     padding: 0;
   }
+
+  &.condensed {
+    table {
+      td,
+      tr,
+      th {
+        padding: var(--padding-sm) var(--padding);
+        font-size: 0.95em;
+      }
+
+      thead {
+      }
+    }
+  }
+
+  &.sortable {
+    thead {
+      th {
+        cursor: pointer;
+
+        &.sorting {
+        }
+      }
+    }
+  }
+
   table {
     width: 100%;
     text-align: left;
@@ -20,6 +46,19 @@
         text-transform: uppercase;
         font-weight: 500;
         padding-left: var(--padding-lg);
+        user-select: none;
+
+        .content {
+          display: grid;
+          align-items: center;
+          grid-auto-flow: column;
+          grid-gap: var(--padding);
+          justify-content: start;
+
+          .sort-icon i {
+            font-size: 0.9em;
+          }
+        }
       }
     }
 

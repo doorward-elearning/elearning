@@ -5,4 +5,9 @@
   &.thin {
     font-weight: normal;
   }
+
+  &.padded {
+    padding-top: var(--padding);
+    padding-bottom: var(--padding);
+  }
 }

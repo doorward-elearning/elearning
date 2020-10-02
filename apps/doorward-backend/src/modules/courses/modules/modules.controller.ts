@@ -136,7 +136,7 @@ export class ModulesController {
     type: UpdateModulesOrderResponse,
   })
   async updateCourseModules(@Body() body: UpdateModulesBody): Promise<UpdateModulesOrderResponse> {
-    const modules = await this.modulesService.updateModuleOrders(body);
+    const modules = await this.modulesService.updateModules(body);
 
     return { modules };
   }

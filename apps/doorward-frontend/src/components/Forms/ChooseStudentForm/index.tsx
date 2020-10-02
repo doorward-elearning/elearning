@@ -1,7 +1,5 @@
 import React, { useEffect } from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useAction from '@doorward/ui/hooks/useActions';
 import './ChooseStudentForm.scss';
 import Tools from '@doorward/common/utils/Tools';
@@ -22,6 +20,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
   const studentList = useDoorwardApi((state) => state.students.getStudentsNotRegisteredToCourse);
   const groupList = useDoorwardApi((state) => state.groups.getGroups);
   const fetchStudents = useAction(DoorwardApi.students.getStudentsNotRegisteredToCourse);
+  const fetchStudentsInCourse = useAction(DoorwardApi.students.getStudentsInCourse);
   const fetchGroups = useAction(DoorwardApi.groups.getGroups);
   const { courseId } = props;
 
@@ -32,6 +31,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
 
   const onSuccess = () => {
     fetchStudents(courseId, {});
+    fetchStudentsInCourse(courseId);
     if (props.groupForm.formikProps) {
       props.groupForm.formikProps.resetForm();
     }
@@ -41,7 +41,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
     props.onSuccess();
   };
 
-  const state = useDoorwardApi((state) => state.students.createStudentInCourse);
+  const state = useDoorwardApi((state) => state.students.addStudentToCourse);
   const createStudentsFromGroups = ({ items }) => {
     return items
       .filter((item) => item.selected)
@@ -62,7 +62,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
               hasSearch={!!props.search}
               form={props.form}
               onSuccess={onSuccess}
-              submitAction={DoorwardApi.students.createStudentInCourse}
+              submitAction={DoorwardApi.students.addStudentToCourse}
               createData={(values) => [
                 courseId,
                 {
@@ -91,7 +91,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 state={state}
                 form={props.groupForm}
                 onSuccess={onSuccess}
-                submitAction={DoorwardApi.students.createStudentInCourse}
+                submitAction={DoorwardApi.students.addStudentToCourse}
                 onRemoveFilter={props.onClearSearch}
                 hasSearch={!!props.search}
                 createData={(values) => [courseId, { students: createStudentsFromGroups(values) }]}

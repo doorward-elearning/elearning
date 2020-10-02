@@ -6,6 +6,7 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
   return (
     <Table
       className="teachers-table"
+      sortable
       columns={{
         username: 'Username',
         firstName: 'First name',
