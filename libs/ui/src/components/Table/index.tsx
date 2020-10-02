@@ -7,17 +7,6 @@ import Icon from '../Icon';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import { BasicCheckbox } from '../Input/Checkbox';
 
-const compare = (a, b, ascending = false) => {
-  let comparison = 0;
-  if (a > b) {
-    comparison = 1;
-  } else {
-    comparison = -1;
-  }
-
-  return comparison * (ascending ? 1 : -1);
-};
-
 function Table<T extends { id: string | number }, K extends TableColumns>({
   sortable = true,
   ...props
@@ -28,8 +17,15 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
   const [sortColumn, setSortColumn] = useState({ key: '', descending: true });
 
   useEffect(() => {
+    const compareFunction = props.sortColumn?.[sortColumn.key] || ((a, b) => a[sortColumn.key] > b[sortColumn.key]);
+
     if (sortColumn.key) {
-      setManipulated(data.sort((a, b) => compare(a[sortColumn.key], b[sortColumn.key], sortColumn.descending)));
+      setManipulated(
+        data.sort((a, b) => {
+          const comparison = compareFunction(a, b);
+          return (comparison ? 1 : -1) * (sortColumn.descending ? -1 : 1);
+        })
+      );
     }
   }, [sortColumn]);
 
@@ -64,6 +60,7 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
               setSelected(data.reduce((acc, cur) => ({ ...acc, [cur.id]: !allSelected }), {}));
               return !allSelected;
             }}
+            selectable={props.selectable}
             onColumnClick={(key) => {
               if (sortable) {
                 setSortColumn({
@@ -96,9 +93,7 @@ function renderRow<T extends { id: number | string }, K extends TableColumns>(
   item: T,
   index: number,
   props: TableProps<T, K>,
-  actionMenuRef: MutableRefObject<any>,
-  selected: Record<number | string, boolean>,
-  toggleSelection: (item: T) => boolean
+  actionMenuRef: MutableRefObject<any>
 ): JSX.Element {
   const onRowClick = (): void => {
     if (props.onRowClick) {
@@ -121,9 +116,11 @@ function renderRow<T extends { id: number | string }, K extends TableColumns>(
 
   return (
     <tr key={index}>
-      <td>
-        <BasicCheckbox theme="primary" value={props.selected[item.id]} onChange={() => toggleSelection(item)} />
-      </td>
+      {props.selectable && (
+        <td>
+          <BasicCheckbox theme="primary" value={props.selected[item.id]} onChange={() => props.toggleSelection(item)} />
+        </td>
+      )}
       {Object.keys(props.columns).map((columnKey) => {
         return (
           <td
@@ -160,7 +157,7 @@ function TableBody<T extends { id: string | number }, K extends TableColumns>(pr
     <tbody>
       {props.data.map(
         (item: T, index: number): JSX.Element => {
-          return renderRow(item, index, props, actionMenuRef, props.selected, props.toggleSelection);
+          return renderRow(item, index, props, actionMenuRef);
         }
       )}
     </tbody>
@@ -170,13 +167,15 @@ function TableHeader<T extends TableColumns>(props: TableHeaderProps<T>): JSX.El
   return (
     <thead>
       <tr>
-        <th>
-          <BasicCheckbox
-            theme={'primary'}
-            value={props.allSelected}
-            onChange={() => props.toggleSelection(props.allSelected)}
-          />
-        </th>
+        {props.selectable && (
+          <th>
+            <BasicCheckbox
+              theme={'primary'}
+              value={props.allSelected}
+              onChange={() => props.toggleSelection(props.allSelected)}
+            />
+          </th>
+        )}
         {(Object.keys(props.columns) as Array<keyof T>).map((columnKey, index) => {
           return (
             <th
@@ -211,6 +210,7 @@ export interface TableHeaderProps<K extends TableColumns> {
   toggleSelection: (allSelected: boolean) => boolean;
   onColumnClick: (key: keyof K) => void;
   sortColumn?: { key: keyof K; descending: boolean };
+  selectable?: boolean;
 }
 
 export type CellRenderer<T, K> = (row: T, index: number, column: keyof K) => JSX.Element | string;
@@ -242,6 +242,7 @@ export interface TableProps<T extends { id: string | number }, K extends TableCo
   selectable?: boolean;
   selected?: Record<string | number, boolean>;
   toggleSelection?: (item: T) => boolean;
+  sortColumn?: Partial<Record<keyof K, (a: T, b: T) => boolean>>;
 }
 
 export default Table;

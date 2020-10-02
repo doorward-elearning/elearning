@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
 import { MemoryHistory } from 'history';
-import EImage from '@doorward/ui/components/Image';
 import './CourseTable.scss';
 import { ROUTES } from '../../../routes/routes';
 import CourseEntity from '@doorward/common/entities/course.entity';
@@ -15,11 +14,14 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
       onRowClick={(course): void => {
         props.history.push(ROUTES.viewCourse.withParams({ courseId: course.id }));
       }}
+      sortColumn={{
+        displayName: (a, b) => a.title.toLowerCase() > b.title.toLowerCase(),
+        students: (a, b) => a.numStudents > b.numStudents,
+      }}
       getCell={(row) => {
         return {
           displayName: (
             <div className="course-title">
-              <EImage size="responsive" circle />
               <span>{row.title}</span>
             </div>
           ),
