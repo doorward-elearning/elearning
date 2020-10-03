@@ -26,7 +26,7 @@ import FeatureProvider from '@doorward/ui/components/FeatureProvider';
 import Icon from '@doorward/ui/components/Icon';
 import SideBar from '@doorward/ui/components/SideBar';
 import Header from '@doorward/ui/components/Header';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from '../../hooks/useOrganization';
 import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@doorward/ui/components/Row';
 import useLogo from '../../hooks/useLogo';

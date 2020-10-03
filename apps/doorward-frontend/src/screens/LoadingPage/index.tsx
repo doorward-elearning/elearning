@@ -1,7 +1,7 @@
 import React from 'react';
 import './LoadingPage.scss';
 import EImage from '@doorward/ui/components/Image';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from '../../hooks/useOrganization';
 import Spinner from '@doorward/ui/components/Spinner';
 import CONSTANTS from '../../assets/constants';
 

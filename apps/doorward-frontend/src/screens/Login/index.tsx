@@ -14,7 +14,7 @@ import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import Message from '@doorward/ui/components/Message';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from '../../hooks/useOrganization';
 import COVID19Banner from '@doorward/ui/components/COVID19Banner';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';

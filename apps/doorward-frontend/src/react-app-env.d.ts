@@ -3,11 +3,22 @@
 /// <reference types="react-dom" />
 
 import '@doorward/ui/react-app-env';
+import translation from '@doorward/common/utils/translation';
 
 declare namespace NodeJS {
   interface ProcessEnv {
     readonly NODE_ENV: 'development' | 'production' | 'test';
     readonly PUBLIC_URL: string;
+  }
+}
+
+declare global {
+  let t: ReturnType<typeof translation>;
+
+  namespace NodeJS {
+    interface Global {
+      t: ReturnType<typeof translation>;
+    }
   }
 }
 

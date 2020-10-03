@@ -1,6 +1,6 @@
 import useTheme from './useTheme';
 import { useEffect, useState } from 'react';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from './useOrganization';
 import themes from '@doorward/ui/themes/themes';
 
 const useLogo = (): string => {

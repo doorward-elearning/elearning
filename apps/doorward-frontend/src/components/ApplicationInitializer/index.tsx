@@ -3,6 +3,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import LoadingPage from '../../screens/LoadingPage';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import { updateTranslationOrganization } from '../../lang/t';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.organizations.getCurrentOrganization);
@@ -12,6 +13,12 @@ const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> 
   useEffect(() => {
     getUserOrganization();
   }, []);
+
+  useEffect(() => {
+    if (state.data.organization) {
+      updateTranslationOrganization(state.data.organization);
+    }
+  }, [state]);
 
   return <React.Fragment>{state.data.organization ? props.children : <LoadingPage />}</React.Fragment>;
 };

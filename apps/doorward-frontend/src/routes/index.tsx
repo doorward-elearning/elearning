@@ -42,7 +42,7 @@ import ViewStudent from '../screens/Students/ViewStudent';
 import ViewStudentGroup from '../screens/Groups/Students/ViewStudentGroup';
 import UpdateStudentGroup from '../screens/Groups/Students/UpdateStudentGroup';
 
-export type DoorwardRoutes = typeof routeNames;
+export type DoorwardRoutes = ReturnType<typeof routeNames>;
 
 const Route = MRoute;
 

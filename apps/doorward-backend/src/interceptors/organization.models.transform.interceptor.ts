@@ -3,6 +3,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ORGANIZATION } from '../bootstrap/organizationSetup';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import organizationModelsTranslate from '@doorward/common/utils/organizationModelsTranslate';
 
 export default class OrganizationModelsTransformInterceptor<T extends DApiResponse>
   implements NestInterceptor<T, DApiResponse> {
@@ -26,13 +28,6 @@ export default class OrganizationModelsTransformInterceptor<T extends DApiRespon
   }
 
   static performReplacement(str: string) {
-    const regex = /{{(\w+)}}/g;
-    let result;
-    while ((result = regex.exec(str))) {
-      const token = result[0];
-      const value = result[1];
-      str = str.replace(token, ORGANIZATION.getDisplayName(value));
-    }
-    return str;
+    return organizationModelsTranslate(str, ORGANIZATION);
   }
 }

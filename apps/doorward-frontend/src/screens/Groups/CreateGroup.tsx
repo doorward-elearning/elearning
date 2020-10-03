@@ -9,6 +9,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import { ROUTES } from '../../routes/routes';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
+import { DoorwardRoutes } from '../../routes';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -70,7 +71,7 @@ export interface CreateGroupProps<T, Args = any[]> extends PageComponent {
   state: WebComponentState<T>;
   getUsers: (data: T) => Array<UserEntity>;
   actionCreator: ActionCreator<Args>;
-  redirectOnSuccess: keyof typeof ROUTES;
+  redirectOnSuccess: keyof DoorwardRoutes;
   currentGroupState?: WebComponentState<GroupResponse>;
   actionArgs?: Args;
 }

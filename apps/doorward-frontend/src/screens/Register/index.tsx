@@ -9,7 +9,7 @@ import IfElse from '@doorward/ui/components/IfElse';
 import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from '../../hooks/useOrganization';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
 import { clearLoginAction } from '../../reducers/auth/actions';

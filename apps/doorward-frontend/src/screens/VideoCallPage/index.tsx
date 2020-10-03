@@ -10,7 +10,7 @@ import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import Empty from '@doorward/ui/components/Empty';
 import LoadingPage from '../LoadingPage';
 import JitsiMeeting from '@doorward/ui/components/JitsiMeeting';
-import useOrganization from '@doorward/ui/hooks/useOrganization';
+import useOrganization from '../../hooks/useOrganization';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
