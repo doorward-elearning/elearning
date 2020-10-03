@@ -37,7 +37,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
         Description
       </Header>
       <DraftHTMLContent content={props.assignment.assignment} />
-      <RoleContainer roles={[Roles.STUDENT]} showSuperAdmin={false}>
+      <RoleContainer privileges={['assignments.submit']}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
           <Header size={3}>Submission</Header>
         </div>
@@ -53,7 +53,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
           )}
         </Panel>
       </RoleContainer>
-      <RoleContainer roles={[Roles.TEACHER]}>
+      <RoleContainer privileges={['assignments.grade']}>
         <Header size={2} style={{ paddingBottom: 'var(--padding-lg)', paddingTop: 'var(--padding-lg)' }}>
           Submissions
         </Header>

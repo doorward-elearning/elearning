@@ -64,15 +64,15 @@ class Tools {
   }
 
   static isStudent(user) {
-    return !!user.roles.find(role => role.name === STUDENT);
+    return !!user.privileges.find(role => role.name === STUDENT);
   }
 
   static isTeacher(user) {
-    return !!user.roles.find(role => role.name === TEACHER);
+    return !!user.privileges.find(role => role.name === TEACHER);
   }
 
   static isAdmin(user) {
-    return !!user.roles.find(role => role.name === SUPER_ADMINISTRATOR);
+    return !!user.privileges.find(role => role.name === SUPER_ADMINISTRATOR);
   }
 }
 

@@ -5,12 +5,11 @@ import EditableLabel from '@doorward/ui/components/Input/EditableLabel';
 import useForm from '@doorward/ui/hooks/useForm';
 import useToggle from '@doorward/ui/hooks/useToggle';
 import './EditableLabelForm.scss';
-import { Roles } from '@doorward/common/types/roles';
-import useRoleManager from '@doorward/ui/hooks/useRoleManager';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 
 function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: EditableLabelFormProps<T, A>): JSX.Element {
   const [editing, setEditing] = useToggle(false);
-  const canEdit = useRoleManager(props.roles);
+  const hasPrivileges = usePrivileges();
   const form = useForm();
   const onSuccess = () => {
     setEditing(false);
@@ -41,7 +40,7 @@ function EditableLabelForm<T, A extends (...args: any[]) => Action>(props: Edita
       >
         <EditableLabel
           toggle={[editing, setEditing]}
-          noEdit={!canEdit}
+          noEdit={!hasPrivileges(...props.privileges)}
           name={props.name}
           component={props.component}
           fluid
@@ -59,7 +58,7 @@ export interface EditableLabelFormProps<T, A extends (...args: any[]) => Action>
   component?: JSX.Element;
   value: string;
   createData?: (values: T) => any;
-  roles?: Array<Roles>;
+  privileges?: Array<string>;
 }
 
 export default EditableLabelForm;

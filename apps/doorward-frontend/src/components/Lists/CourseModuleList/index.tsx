@@ -20,10 +20,9 @@ import Empty from '@doorward/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
 import useRoutes from '../../../hooks/useRoutes';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
-import { Roles } from '@doorward/common/types/roles';
 import useAction from '@doorward/ui/hooks/useActions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import useRoleManager from '@doorward/ui/hooks/useRoleManager';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import useModal from '@doorward/ui/hooks/useModal';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import ModuleEntity from '@doorward/common/entities/module.entity';
@@ -37,9 +36,9 @@ import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
-  const hasRole = useRoleManager([Roles.TEACHER]);
+  const hasPrivileges = usePrivileges();
   return (
-    <DragAndDropListItem isDragDisabled={!hasRole} index={index} draggableId={moduleItem.id}>
+    <DragAndDropListItem isDragDisabled={!hasPrivileges('modules.update')} index={index} draggableId={moduleItem.id}>
       <ListItem>
         <Link
           className={classNames({
@@ -113,18 +112,20 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
             state={updateModule}
             createData={(values) => [module.id, values]}
             name="title"
-            roles={[Roles.TEACHER]}
+            privileges={['modules.update']}
             value={module.title}
             component={<Header size={3} />}
           />
         )}
         action={(): JSX.Element => (
-          <RoleContainer roles={[Roles.TEACHER]}>
-            <Row>
+          <Row>
+            <RoleContainer privileges={['modules.update']}>
               <AddModuleItemDropdown module={module} courseId={courseId} />
+            </RoleContainer>
+            <RoleContainer privileges={['modules.delete']}>
               <Icon onClick={onDelete} icon="delete" />
-            </Row>
-          </RoleContainer>
+            </RoleContainer>
+          </Row>
         )}
         open
       >
@@ -137,7 +138,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
   const updateModule = useDoorwardApi((state) => state.modules.updateModule);
   const action = useAction(DoorwardApi.modules.updateCourseModules);
-  const hasRole = useRoleManager([Roles.TEACHER]);
+  const hasPrivileges = usePrivileges();
   const [handleDrop] = useModuleDrop(course.id, action);
   const state = useDoorwardApi((state) => state.modules.deleteModule);
   const deleteModuleModal = useModal();
@@ -160,7 +161,12 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
             {(modules, state) => (
               <div className="module-list">
                 {modules.map((module, index) => (
-                  <DragAndDropListItem isDragDisabled={!hasRole} draggableId={module.id} index={index} key={module.id}>
+                  <DragAndDropListItem
+                    isDragDisabled={!hasPrivileges('modules.update')}
+                    draggableId={module.id}
+                    index={index}
+                    key={module.id}
+                  >
                     <ModuleView
                       onDelete={() => {
                         setModuleToDelete(module.id);

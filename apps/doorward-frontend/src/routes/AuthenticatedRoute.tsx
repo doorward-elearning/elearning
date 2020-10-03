@@ -1,12 +1,10 @@
 import React from 'react';
 import { Redirect, Route, RouteProps } from 'react-router';
-import useRoleManager from '@doorward/ui/hooks/useRoleManager';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import Tools from '@doorward/common/utils/Tools';
-import { RoleEvaluator } from '@doorward/ui/components/RolesManager';
 import useRoutes from '../hooks/useRoutes';
 import { DoorwardRoutes } from './index';
 import LoadingPage from '../screens/LoadingPage';
-import { Roles } from '@doorward/common/types/roles';
 import useAuth from '../hooks/useAuth';
 import useDoorwardApi from '../hooks/useDoorwardApi';
 
@@ -14,16 +12,16 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();
   const { authenticated } = useAuth();
   const user = useDoorwardApi((state) => state.auth.getCurrentUser);
-  const hasAccess = useRoleManager(props.roles, true, user.data.user);
+  const hasPrivileges = usePrivileges();
 
   if (user.errors.message || user.errors.errors || !authenticated) {
     Tools.clearToken();
     return <Redirect to={props.redirect || routes.login.link} />;
   } else if (authenticated && user.data.user) {
-    if (hasAccess) {
+    if (hasPrivileges(...props.privileges)) {
       return <Route {...props} />;
     } else {
-      return <Redirect to={routes[props.authRedirect].link} />;
+      return <Redirect to={routes[props.authRedirect || 'login'].link} />;
     }
   } else {
     return <Route component={LoadingPage} />;
@@ -33,6 +31,6 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
 export interface AuthenticatedRouteProps extends RouteProps {
   redirect?: string;
   authRedirect: keyof DoorwardRoutes;
-  roles: Array<Roles | RoleEvaluator>;
+  privileges: Array<string>;
 }
 export default AuthenticatedRoute;

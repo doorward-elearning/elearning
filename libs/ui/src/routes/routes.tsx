@@ -1,17 +1,14 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { RouteProps } from 'react-router';
 import { RouteDefinition, RouteDefinitions, RouteNames, Routes } from '@doorward/ui/types';
 import Tools from '@doorward/common/utils/Tools';
-import { RoleEvaluator } from '../components/RolesManager';
 import MRoute from './MRoute';
-import React from 'react';
-import { Roles } from '@doorward/common/types/roles';
 
 const routeDefinitions: any = {};
 
 interface MRouteProps<T extends RouteNames> extends RouteProps {
   authRedirect: keyof T;
-  roles: Array<Roles | RoleEvaluator>;
+  privileges: Array<string>;
   key?: string;
 }
 
@@ -35,7 +32,7 @@ function generateRoutes<T extends RouteNames>(
         path: fullLink,
         component: detail.component,
         authRedirect: detail.redirectLink,
-        roles: detail.allowedRoles,
+        privileges: detail.allowedPrivileges,
       };
 
       const newPath = [...path];
@@ -54,7 +51,7 @@ function generateRoutes<T extends RouteNames>(
         name: routeNames[current],
         link: fullLink,
         matchURL: fullLink,
-        roles: detail.allowedRoles,
+        privileges: detail.allowedPrivileges,
         withParams: (params: { [name: string]: any }): string => {
           return Tools.createRoute(fullLink, params);
         },

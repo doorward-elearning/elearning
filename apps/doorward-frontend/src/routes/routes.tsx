@@ -6,8 +6,8 @@ import AuthenticatedRoute from './AuthenticatedRoute';
 import { generate } from '@doorward/ui/routes/routes';
 import { routeNames } from './routeNames';
 
-const generatedRoutes = generate(routeNames, routeConfigurations, props => {
-  if (props.roles.length) {
+const generatedRoutes = generate(routeNames, routeConfigurations, (props) => {
+  if (props.privileges.length) {
     return <AuthenticatedRoute {...props} />;
   } else {
     return <Route {...props} />;

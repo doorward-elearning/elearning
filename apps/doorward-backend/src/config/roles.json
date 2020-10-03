@@ -9,19 +9,23 @@
       "update",
       "delete",
       "view-all",
-      "read"
+      "read",
+      "start-meeting"
     ],
     "modules": ["create", "update", "delete", "read"],
     "moduleItems": ["create", "update", "delete", "read"],
     "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
-    "assignments": ["submit"],
+    "assignments": ["submit", "grade"],
     "course-students": ["view", "create", "un-enroll"],
     "course-managers": ["view", "create"],
     "groups": ["create", "view", "update", "delete", "add-member"],
+    "student.groups": ["create", "view", "update", "delete", "add-member"],
+    "teacher.groups": ["create", "view", "update", "delete", "add-member"],
     "meetings": ["moderate"],
     "organizations": ["create", "view", "update"],
     "students": ["create", "update", "view", "list", "change-password"],
-    "reports": ["students", "teachers"]
+    "reports": ["students", "teachers"],
+    "teachers": ["create", "update", "view", "list"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -38,7 +42,8 @@
         "course-managers.*",
         "groups.*",
         "meetings.moderate",
-        "students.*"
+        "students.*",
+        "student.groups.*"
       ],
       "exclude": ["courses.view-all"]
     },

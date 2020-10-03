@@ -7,7 +7,7 @@ import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../hooks/useSidebarSchema';
 import RoleContainer from '../RolesManager/RoleContainer';
 
-const Item: React.FunctionComponent<ItemProps> = props => {
+const Item: React.FunctionComponent<ItemProps> = (props) => {
   const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history } = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find((item: SubMenuItem): boolean => {
     return props.selected === item.link;
@@ -65,11 +65,11 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   selected,
   ...props
 }): JSX.Element => {
-  const activeMenu: MenuItem | undefined = menu.find(item => {
+  const activeMenu: MenuItem | undefined = menu.find((item) => {
     if (item.link === selected) {
       return true;
     }
-    return (item.subMenu || []).find(subMenu => subMenu.link === selected);
+    return (item.subMenu || []).find((subMenu) => subMenu.link === selected);
   });
 
   const [open, setOpen] = useState<MenuItem | undefined>(activeMenu);
@@ -80,8 +80,8 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
 
   return (
     <React.Fragment>
-      {menu.map(item => (
-        <RoleContainer roles={item.roles} key={item.name}>
+      {menu.map((item) => (
+        <RoleContainer privileges={item.privileges} key={item.name}>
           <Item
             {...item}
             history={history}

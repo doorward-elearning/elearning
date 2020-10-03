@@ -6,16 +6,16 @@ import { SubMenuItem } from '../../hooks/useSidebarSchema';
 import useHeightTransition from '../../hooks/useHeightTransition';
 import RoleContainer from '../RolesManager/RoleContainer';
 
-const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = props => {
+const SideBarSubMenu: React.FunctionComponent<SideBarSubMenuProps> = (props) => {
   const { menu, active, open, collapsed } = props;
   const list: { current: any } = useRef(null);
 
   useHeightTransition(list, open, [open, collapsed]);
   return (
     <ul className="sub-menu" ref={list}>
-      {menu.map(item => {
+      {menu.map((item) => {
         return (
-          <RoleContainer roles={item.roles} key={item.name}>
+          <RoleContainer privileges={item.privileges} key={item.name}>
             <li
               className={classNames({
                 'side-nav-item': true,

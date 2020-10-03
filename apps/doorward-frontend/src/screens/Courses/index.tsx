@@ -29,7 +29,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createCourse.link),
-        roles: [Roles.SUPER_ADMINISTRATOR, Roles.TEACHER],
+        privileges: ['courses.create'],
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />

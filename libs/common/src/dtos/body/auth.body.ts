@@ -81,12 +81,17 @@ export class UpdatePasswordBody extends DApiBody {
   @Expose()
   newPassword: string;
 
+  @ApiProperty()
+  @Expose()
+  confirmPassword: string;
+
   async validation?(currentPassword?: boolean): Promise<ObjectSchema> {
     const validation = {
       password: Yup.string().required('Enter your current password'),
       newPassword: Yup.string()
         .required('Enter a new password')
-        .oneOf([Yup.ref('confirmPassword'), null], 'Passwords must match'),
+        .oneOf([Yup.ref('confirmPassword'), null], 'Passwords must match')
+        .notOneOf([Yup.ref('password'), null], 'New password cannot be the same as the old password.'),
       confirmPassword: Yup.string()
         .required('Re-enter the new password')
         .oneOf([Yup.ref('newPassword'), null], 'Passwords must match'),

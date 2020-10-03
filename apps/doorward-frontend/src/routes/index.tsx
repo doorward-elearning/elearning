@@ -25,7 +25,6 @@ import CreateQuiz from '../screens/Courses/Modules/CreateQuiz';
 import Profile from '../screens/Profile';
 import MRoute from '@doorward/ui/routes/MRoute';
 import { Routes } from '@doorward/ui/types';
-import { Roles } from '@doorward/common/types/roles';
 import StudentGroups from '../screens/Groups/Students/StudentGroups';
 import CreateStudentGroup from '../screens/Groups/Students/CreateStudentGroup';
 import TeacherGroups from '../screens/Groups/Teachers/TeacherGroups';
@@ -67,7 +66,7 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
               modules: new Route('/modules').with({
                 moduleItems: new Route('/:moduleId/items').with({
                   viewModuleItem: new Route('/:itemId', ViewModuleItem),
-                  editModuleItem: new Route('/:itemId/edit', ViewModuleItem).roles(Roles.TEACHER),
+                  editModuleItem: new Route('/:itemId/edit', ViewModuleItem).privileges('moduleItems.update'),
                   addModulePage: new Route('/create/page', AddModulePage),
                   addAssignment: new Route('/create/assignment', CreateAssignment),
                   addQuiz: new Route('/create/quiz', CreateQuiz),
@@ -78,48 +77,44 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
           }),
           createCourse: new Route('/create', Courses),
         }),
-        students: new Route('/students').roles(Roles.TEACHER).with({
-          studentList: new Route('/', StudentList).roles(Roles.TEACHER).with({
-            viewStudent: new Route('/:studentId', ViewStudent).roles(Roles.TEACHER),
+        students: new Route('/students').privileges('students.*').with({
+          studentList: new Route('/', StudentList).privileges('students.list').with({
+            viewStudent: new Route('/:studentId', ViewStudent).privileges('students.view'),
           }),
-          newStudent: new Route('/create', AddStudent).roles(Roles.TEACHER),
+          newStudent: new Route('/create', AddStudent).privileges('students.create'),
         }),
-        teachers: new Route('/teachers').roles(Roles.SUPER_ADMINISTRATOR).with({
-          teacherList: new Route('/', TeacherList).roles(Roles.SUPER_ADMINISTRATOR),
-          addTeacher: new Route('/create', AddTeacher).roles(Roles.SUPER_ADMINISTRATOR),
+        teachers: new Route('/teachers').privileges('teachers.*').with({
+          teacherList: new Route('/', TeacherList).privileges('teachers.list'),
+          addTeacher: new Route('/create', AddTeacher).privileges('teachers.create'),
         }),
         myProfile: new Route('/profile/:username', Profile).with({
           changePassword: new Route('/changePassword', Profile),
         }),
-        reports: new Route('/reports').roles(Roles.TEACHER).with({
+        reports: new Route('/reports').privileges('reports.*').with({
           studentListReports: new Route('/students', StudentListReport).with({
             studentReport: new Route('/:studentId', StudentReport),
           }),
           courseListReports: new Route('/courses', Error404),
-          teacherListReports: new Route('/teachers', TeacherListReport).roles().with({
+          teacherListReports: new Route('/teachers', TeacherListReport).privileges().with({
             teacherReport: new Route('/:teacherId', TeacherReport),
           }),
         }),
-        groups: new Route('/groups').roles(Roles.SUPER_ADMINISTRATOR, Roles.TEACHER).with({
-          teacherGroups: new Route('/teachers', TeacherGroups).roles(Roles.SUPER_ADMINISTRATOR).with({
-            addTeacherGroup: new Route('/create', CreateTeacherGroup).roles(Roles.SUPER_ADMINISTRATOR),
-            viewTeacherGroup: new Route('/view/:groupId', ViewGroup).roles(Roles.SUPER_ADMINISTRATOR),
+        groups: new Route('/groups').with({
+          teacherGroups: new Route('/teachers', TeacherGroups).privileges('teacher.groups.*').with({
+            addTeacherGroup: new Route('/create', CreateTeacherGroup).privileges('teacher.groups.create'),
+            viewTeacherGroup: new Route('/view/:groupId', ViewGroup).privileges('teacher.groups.view'),
           }),
-          studentGroups: new Route('/students', StudentGroups).roles(Roles.TEACHER).with({
-            addStudentGroup: new Route('/create', CreateStudentGroup).roles(Roles.TEACHER),
-            viewStudentGroup: new Route('/view/:groupId', ViewStudentGroup).roles(Roles.TEACHER).with({
-              updateStudentGroup: new Route('/update', UpdateStudentGroup).roles(Roles.TEACHER),
+          studentGroups: new Route('/students', StudentGroups).privileges('student.groups.*').with({
+            addStudentGroup: new Route('/create', CreateStudentGroup).privileges('student.groups.create'),
+            viewStudentGroup: new Route('/view/:groupId', ViewStudentGroup).privileges('student.groups.view').with({
+              updateStudentGroup: new Route('/update', UpdateStudentGroup).privileges('student.groups.update'),
             }),
           }),
         }),
-        organizations: new Route('/organizations', Organizations)
-          .roles(Roles.SUPER_ADMINISTRATOR, (user, organization) => {
-            return organization.id === process.env.DEFAULT_ORGANIZATION_ID;
-          })
-          .with({
-            createOrganization: new Route('/create', CreateOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-            editOrganization: new Route('/:organizationId/edit/', EditOrganization).roles(Roles.SUPER_ADMINISTRATOR),
-          }),
+        organizations: new Route('/organizations', Organizations).privileges('organizations.*').with({
+          createOrganization: new Route('/create', CreateOrganization).privileges('organizations.create'),
+          editOrganization: new Route('/:organizationId/edit/', EditOrganization).privileges('organizations.update'),
+        }),
         chat: new Route('/chat', ChatScreen),
       }),
       password: new Route('/password')

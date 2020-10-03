@@ -16,10 +16,9 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import { ModalFeatures } from '@doorward/ui/components/Modal';
 import useModal from '@doorward/ui/hooks/useModal';
 import IfElse from '@doorward/ui/components/IfElse';
-import { Roles } from '@doorward/common/types/roles';
 import { PageComponent } from '@doorward/ui/types';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import useRoleManager from '@doorward/ui/hooks/useRoleManager';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManagerModal';
 import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
@@ -34,14 +33,14 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addStudentModal = useModal(false);
   const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
-  const isAdmin = useRoleManager();
+  const hasPrivileges = usePrivileges();
   const fetchTeachers = useAction(DoorwardApi.teachers.getAllTeachers);
 
   useEffect(() => {
-    if (isAdmin) {
+    if (hasPrivileges('teachers.list')) {
       fetchTeachers();
     }
-  }, [isAdmin]);
+  }, []);
 
   useEffect(() => {}, []);
 
@@ -64,7 +63,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               submitAction={DoorwardApi.courses.updateCourse}
               state={updateCourse}
               name="title"
-              roles={[Roles.TEACHER]}
+              privileges={['courses.update']}
               createData={(values) => [courseId, values]}
               value={course.data.course?.title}
             />
@@ -74,7 +73,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
       renderHeaderEnd={(): JSX.Element => {
         return (
           <React.Fragment>
-            <RoleContainer roles={[Roles.TEACHER]}>
+            <RoleContainer privileges={['modules.create']}>
               <Button onClick={addModuleModal.openModal} bordered>
                 Add Module
               </Button>
@@ -83,7 +82,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                 Join live classroom
               </Button>
-              <RoleContainer roles={[Roles.TEACHER]}>
+              <RoleContainer privileges={['courses.start-meeting']}>
                 <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                   Start live classroom
                 </Button>

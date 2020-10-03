@@ -229,7 +229,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                   <div className="ed-page-layout__header--end">
                     {renderHeaderEnd && renderHeaderEnd()}
                     <Feature feature={LayoutFeatures.ACTION_BUTTON}>
-                      <RoleContainer roles={actionBtnProps?.roles}>
+                      <RoleContainer privileges={actionBtnProps?.privileges}>
                         <ActionButton {...actionBtnProps} />
                       </RoleContainer>
                     </Feature>
@@ -255,7 +255,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 export interface ActionButtonProps extends ButtonProps {
   onClick?: MouseEventHandler;
   text?: string;
-  roles?: Roles | Array<Roles>;
+  privileges?: Array<string>;
 }
 
 export interface LayoutProps extends PageComponent {

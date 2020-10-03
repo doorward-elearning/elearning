@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
-import { Roles } from '@doorward/common/types/roles';
-import useRoleManager from '@doorward/ui/hooks/useRoleManager';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 
 const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = true, ...props }) => {
-  const canCreate = useRoleManager(props.creator);
-  const canView = useRoleManager(props.viewer);
+  const hasPrivileges = usePrivileges();
 
-  if (canCreate) {
+  if (hasPrivileges(...props.creatorPrivileges)) {
     if (props.isViewing || !isEditing) {
       return React.cloneElement(props.viewerView, {
         key: 'viewer',
@@ -16,7 +14,7 @@ const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = 
       key: 'creator',
     });
   }
-  if (canView || props.isViewing) {
+  if (hasPrivileges(...props.viewerPrivileges) || props.isViewing) {
     return React.cloneElement(props.viewerView, {
       key: 'viewer',
     });
@@ -27,8 +25,8 @@ const EditableView: React.FunctionComponent<EditableViewProps> = ({ isEditing = 
 export interface EditableViewProps {
   creatorView: ReactElement;
   viewerView: ReactElement;
-  creator: Array<Roles>;
-  viewer: Array<Roles>;
+  creatorPrivileges: Array<string>;
+  viewerPrivileges: Array<string>;
   isEditing?: boolean;
   isViewing?: boolean;
 }

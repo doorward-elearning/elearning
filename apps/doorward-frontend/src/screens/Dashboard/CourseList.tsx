@@ -79,7 +79,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       </div>
                       <Row style={{ justifyContent: 'space-between' }}>
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
-                        <RoleContainer roles={[Roles.TEACHER]}>
+                        <RoleContainer privileges={['courses.create']}>
                           <span className="meta text-primary">
                             <Plural singular="Member" count={+course.numStudents} />
                           </span>

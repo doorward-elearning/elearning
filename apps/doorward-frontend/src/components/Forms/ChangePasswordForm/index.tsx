@@ -1,8 +1,6 @@
 import React from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import BasicForm from '../BasicForm';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import withContext from '@doorward/ui/hoc/withContext';
@@ -13,8 +11,8 @@ import useDoorwardApi from '../../../hooks/useDoorwardApi';
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
     password: '',
-    confirmPassword: '',
     newPassword: '',
+    confirmPassword: '',
   };
 
   const state = useDoorwardApi((state) => state.userProfile.updateAccountPassword);

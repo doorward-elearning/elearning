@@ -1,27 +1,14 @@
 import React, { FunctionComponent } from 'react';
-import { RoleEvaluator } from './index';
-import useRoleManager from '../../hooks/useRoleManager';
-import IfElse from '../IfElse';
-import { Roles } from '@doorward/common/types/roles';
+import usePrivileges from '../../hooks/usePrivileges';
 
-const RoleContainer: FunctionComponent<RoleProps> = ({
-  roles,
-  showSuperAdmin = true,
-  children,
-  condition = true,
-}): JSX.Element => {
-  const allRoles = roles ? (roles instanceof Array ? roles : [roles as Roles]) : undefined;
-  const hasRole = useRoleManager(allRoles, showSuperAdmin);
-  return (
-    <IfElse condition={hasRole && condition}>
-      <React.Fragment>{children}</React.Fragment>
-    </IfElse>
-  );
+const RoleContainer: FunctionComponent<RoleProps> = ({ privileges, children, condition = true }): JSX.Element => {
+  const hasPrivileges = usePrivileges();
+
+  return hasPrivileges(...(privileges || [])) && condition ? <React.Fragment>{children}</React.Fragment> : null;
 };
 
 export interface RoleProps {
-  roles?: Array<Roles | RoleEvaluator> | Roles;
-  showSuperAdmin?: boolean;
+  privileges?: Array<string>;
   condition?: boolean;
 }
 

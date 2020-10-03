@@ -15,8 +15,33 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       .getMany();
   }
 
-  public async getCoursesByTeacher(teacherId: string) {
-    return this.createQueryBuilder('course').where('course.authorId = :teacherId', { teacherId }).getMany();
+  public async getCoursesByTeacher(teacherId: string, includeManaged = true) {
+    const courses = await this.createQueryBuilder('course')
+      .where('course."createdBy" = :teacherId', { teacherId })
+      .getMany();
+    if (includeManaged) {
+      const managedCourses = await this.getCoursesManagedByTeacher(
+        teacherId,
+        courses.map((course) => course.id)
+      );
+
+      courses.push(...managedCourses);
+    }
+
+    return this.getCoursesNumStudents(courses);
+  }
+
+  public async getCoursesManagedByTeacher(teacherId: string, exclude: Array<string> = []) {
+    const queryBuilder = this.createQueryBuilder('course').innerJoin(
+      'CourseManagers',
+      'manager',
+      'manager."courseId" = course.id'
+    );
+    if (exclude.length) {
+      queryBuilder.where('course.id NOT IN (:...exclude)', { exclude });
+    }
+
+    return queryBuilder.where('manager."managerId" = :teacherId', { teacherId }).getMany();
   }
 
   public async getCoursesByAdmin(adminId: string) {
@@ -25,6 +50,10 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .getMany();
 
+    return this.getCoursesNumStudents(courses);
+  }
+
+  public async getCoursesNumStudents(courses: Array<CourseEntity>): Promise<Array<CourseEntity>> {
     return Promise.all(
       courses.map(async (course) => {
         course.numStudents = await this.getRepository(StudentCoursesEntity).count({ course: { id: course.id } });

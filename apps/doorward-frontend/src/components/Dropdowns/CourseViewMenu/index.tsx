@@ -66,7 +66,7 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
 
   return (
     <React.Fragment>
-      <RoleContainer roles={[Roles.TEACHER]} showSuperAdmin>
+      <RoleContainer privileges={["courses.delete"]} >
         <Dropdown positionX="right">
           <Icon icon="more_vert" />
           <Dropdown.Menu>

@@ -1,8 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import './BreadCrumbs.scss';
-import { RoleEvaluator } from '../RolesManager';
-import { Roles } from '@doorward/common/types/roles';
 
 const BreadCrumbs: FunctionComponent<BreadCrumbsProps> = ({ crumbs }): JSX.Element => {
   return (
@@ -21,7 +19,7 @@ const BreadCrumbs: FunctionComponent<BreadCrumbsProps> = ({ crumbs }): JSX.Eleme
 export interface BreadCrumb {
   name: string;
   link: string;
-  roles?: Array<Roles | RoleEvaluator> | Roles;
+  privileges?: Array<string>;
 }
 
 export interface BreadCrumbsProps {

@@ -14,7 +14,6 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
-import { Roles } from '@doorward/common/types/roles';
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (props) => {
   const students = useDoorwardApi((state) => state.students.getStudentsInCourse);
@@ -34,7 +33,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
   const MAX_MANAGERS = 3;
   return (
     <div className="course-view-sidebar">
-      <RoleContainer roles={[Roles.TEACHER]}>
+      <RoleContainer privileges={['students.*']}>
         <Accordion
           open
           title={() => <Header size={5}>Student List</Header>}

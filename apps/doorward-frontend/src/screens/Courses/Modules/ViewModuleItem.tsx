@@ -12,7 +12,6 @@ import ViewPages from './ViewPages';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import IfElse from '@doorward/ui/components/IfElse';
 import Tools from '@doorward/common/utils/Tools';
-import { Roles } from '@doorward/common/types/roles';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useAction from '@doorward/ui/hooks/useActions';
@@ -87,7 +86,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         icon: 'edit',
         text: item ? `Edit ${item?.type}` : '',
         theme: 'secondary',
-        roles: [Roles.TEACHER],
+        privileges: ['modules.update'],
         onClick: () => routes.navigate(routes.editModuleItem, params),
         disabled: editing,
       }}
@@ -124,8 +123,8 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                           quiz={item as QuizEntity}
                         />
                       }
-                      creator={[Roles.TEACHER]}
-                      viewer={[Roles.STUDENT]}
+                      creatorPrivileges={['moduleItems.create']}
+                      viewerPrivileges={['moduleItems.read']}
                       isEditing={editing}
                     />
                   </IfElse>
@@ -142,8 +141,8 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       }
                       isEditing={editing}
                       viewerView={<AssignmentView assignment={item as AssignmentEntity} />}
-                      creator={[Roles.TEACHER]}
-                      viewer={[Roles.STUDENT]}
+                      creatorPrivileges={['moduleItem.create']}
+                      viewerPrivileges={['moduleItem.read']}
                     />
                   </IfElse>
                 </React.Fragment>
