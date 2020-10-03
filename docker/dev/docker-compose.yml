@@ -57,7 +57,7 @@ services:
     expose:
       - '7000'
     entrypoint:
-      - /usr/app/apps/doorward-node-backend/entrypoint.sh
+      - /usr/app/apps/doorward-backend/entrypoint.sh
     depends_on:
       doorward_node_database:
         condition: service_healthy

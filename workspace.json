@@ -158,59 +158,6 @@
         }
       }
     },
-    "doorward-node-backend": {
-      "root": "apps/doorward-node-backend",
-      "sourceRoot": "apps/doorward-node-backend",
-      "projectType": "application",
-      "prefix": "doorward-node-backend",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "options": {
-            "outputPath": "dist/apps/doorward-node-backend",
-            "main": "apps/doorward-node-backend/index.ts",
-            "tsConfig": "apps/doorward-node-backend/tsconfig.app.json",
-            "assets": ["apps/doorward-node-backend/src/assets", "apps/doorward-node-backend/emails"]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": []
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "doorward-node-backend:build",
-            "port": 0,
-            "host": "0.0.0.0"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "config": "apps/doorward-node-backend/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-node-backend/tsconfig.app.json",
-              "apps/doorward-node-backend/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/apps/doorward-node-backend/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/doorward-node-backend/jest.config.js",
-            "tsConfig": "apps/doorward-node-backend/tsconfig.spec.json"
-          }
-        }
-      }
-    },
     "doorward-website": {
       "root": "apps/doorward-website",
       "sourceRoot": "apps/doorward-website/src",
