@@ -1,6 +1,7 @@
 export * from './auth.body';
 export * from './course.managers.body';
 export * from './courses.body';
+export * from './discussion.groups.body';
 export * from './files.body';
 export * from './groups.body';
 export * from './module.items.body';
@@ -10,7 +11,3 @@ export * from './organization.body';
 export * from './schools.body';
 export * from './students.body';
 export * from './users.body';
-export { CreateAssignmentBody } from '@doorward/common/dtos/body/module.items.body';
-export { CreateQuizBody } from '@doorward/common/dtos/body/module.items.body';
-export { CreatePageBody } from '@doorward/common/dtos/body/module.items.body';
-export { CreateModuleItemBody } from '@doorward/common/dtos/body/module.items.body';

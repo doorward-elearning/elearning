@@ -27,6 +27,7 @@ import {
   CreateClassroomBody,
   CreateFileBody,
   AddCourseManagerBody,
+  CreateDiscussionGroupBody,
   SubmitAssignmentBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
@@ -63,6 +64,7 @@ import {
   TeachersResponse,
   CourseManagerResponse,
   CourseManagersResponse,
+  DiscussionGroupResponse,
   DiscussionGroupsResponse,
   AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
@@ -134,6 +136,9 @@ const DoorwardBackendApi = {
     },
   },
   "discussionGroups": {
+    createDiscussionGroup: (courseId: string, body: CreateDiscussionGroupBody, config ? : AxiosRequestConfig): Promise < DiscussionGroupResponse > => {
+      return POST(`/discussion-groups/${courseId}`, body, {}, config);
+    },
     getAll: (courseId: string, config ? : AxiosRequestConfig): Promise < DiscussionGroupsResponse > => {
       return GET(`/discussion-groups/${courseId}`, {}, config);
     },

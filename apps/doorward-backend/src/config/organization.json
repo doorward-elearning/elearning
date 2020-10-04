@@ -23,7 +23,8 @@
     "courseManager": "Course manager",
     "organization": "Organization",
     "school": "School",
-    "classroom": "Classroom"
+    "classroom": "Classroom",
+    "discussionGroup": "Discussion Group"
   },
   "admins": [
     {

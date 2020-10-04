@@ -1,12 +1,18 @@
-import { Controller, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAuthGuard from '../../auth/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../guards/privileges.guard';
 import { DiscussionGroupsService } from './discussion-groups.service';
 import Privileges from '../../../decorators/privileges.decorator';
-import { DiscussionGroupsResponse } from '@doorward/common/dtos/response/discussion.groups.responses';
+import {
+  DiscussionGroupResponse,
+  DiscussionGroupsResponse,
+} from '@doorward/common/dtos/response/discussion.groups.responses';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import { CreateDiscussionGroupBody } from '@doorward/common/dtos/body';
+import UserEntity from '@doorward/common/entities/user.entity';
+import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 
 const CourseExists = () =>
   ModelExists({
@@ -33,5 +39,23 @@ export class DiscussionGroupsController {
     const discussionGroups = await this.discussionGroupsService.getAll(courseId);
 
     return { discussionGroups };
+  }
+
+  @Post(':courseId')
+  @Privileges('discussion-groups.create')
+  @CourseExists()
+  @ApiResponse({
+    type: DiscussionGroupResponse,
+    status: HttpStatus.CREATED,
+    description: 'The discussion group that was created',
+  })
+  async createDiscussionGroup(
+    @Param('courseId') courseId: string,
+    @Body() body: CreateDiscussionGroupBody,
+    @CurrentUser() currentUser: UserEntity
+  ): Promise<DiscussionGroupResponse> {
+    const discussionGroup = await this.discussionGroupsService.createDiscussionGroup(courseId, body, currentUser);
+
+    return { discussionGroup, message: '{{discussionGroup}} has been added.' };
   }
 }

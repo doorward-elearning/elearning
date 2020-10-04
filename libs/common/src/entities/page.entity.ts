@@ -4,6 +4,6 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 
 @ChildEntity(ModuleItemType.PAGE)
 export class PageEntity extends ModuleItemEntity {
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'text' })
   page: string;
 }

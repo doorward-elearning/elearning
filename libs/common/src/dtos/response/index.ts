@@ -1,6 +1,7 @@
 export * from './auth.responses';
 export * from './course.managers.responses';
 export * from './courses.responses';
+export * from './discussion.groups.responses';
 export * from './files.responses';
 export * from './groups.responses';
 export * from './jitsi.response';
