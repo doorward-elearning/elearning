@@ -35,13 +35,15 @@ export class AuthController {
     const response = await this.authService.register(registerBody);
     const { user } = response;
 
-    this.emailService.send(
-      new SelfRegistrationEmail({
-        subject: 'Confirm registration',
-        data: { link: origin + FrontendLinks.login },
-        recipient: user,
-      })
-    );
+    this.emailService
+      .send(
+        new SelfRegistrationEmail({
+          subject: 'Confirm registration',
+          data: { link: origin + FrontendLinks.login },
+          recipient: user,
+        })
+      )
+      .then();
 
     return response;
   }

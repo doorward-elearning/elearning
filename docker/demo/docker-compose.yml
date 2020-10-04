@@ -29,7 +29,7 @@ services:
       retries: 20
   doorward_rest_api:
     image: gitaumoses4/doorward_backend
-    container_name: doorward_node_backend
+    container_name: doorward_backend
     links:
       - doorward_node_database
     environment:

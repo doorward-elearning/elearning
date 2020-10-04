@@ -6,6 +6,7 @@ import ModuleEntity from './module.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
 
 @Entity('Courses')
 export default class CourseEntity extends BaseOrganizationEntity {
@@ -51,6 +52,8 @@ export default class CourseEntity extends BaseOrganizationEntity {
   })
   studentCourses: Array<StudentCoursesEntity>;
 
+  @OneToMany(() => DiscussionGroupEntity, (discussionGroup) => discussionGroup.course)
+  discussionGroups: Array<DiscussionGroupEntity>;
 
   managers: Array<UserEntity>;
 

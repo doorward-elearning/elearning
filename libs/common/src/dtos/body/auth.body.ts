@@ -46,11 +46,21 @@ export class RegisterBody extends DApiBody {
   @Expose()
   email: string;
 
+  @ApiProperty()
+  @Expose()
+  firstName: string;
+
+  @ApiProperty()
+  @Expose()
+  lastName: string;
+
   async validation?(): Promise<ObjectSchema<object>> {
     return Yup.object({
       username: Yup.string().required('Username is required').nullable(),
       password: Yup.string().required('Password is required').nullable(),
       email: Yup.string().required('Email is required').email('Please enter a valid email').nullable(),
+      firstName: Yup.string().notRequired(),
+      lastName: Yup.string().notRequired(),
     });
   }
 }

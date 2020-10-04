@@ -13,7 +13,12 @@ import ForgotPasswordEmail from '../../emails/forgot.password.email';
 import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@doorward/backend/repositories/privilege.repository';
 import { UserStatus } from '@doorward/common/types/users';
-import { ForgotPasswordBody, RegisterBody, ResetPasswordBody, UpdatePasswordBody } from '@doorward/common/dtos/body/auth.body';
+import {
+  ForgotPasswordBody,
+  RegisterBody,
+  ResetPasswordBody,
+  UpdatePasswordBody,
+} from '@doorward/common/dtos/body/auth.body';
 import { CreateUserBody, UpdateAccountBody } from '@doorward/common/dtos/body';
 import { UserResponse } from '@doorward/common/dtos/response';
 
@@ -53,7 +58,10 @@ export class UsersService {
     return user;
   }
 
-  async createUser(body: CreateUserBody, currentUser?: UserEntity): Promise<{ user: UserEntity; resetToken: string | null }> {
+  async createUser(
+    body: CreateUserBody,
+    currentUser?: UserEntity
+  ): Promise<{ user: UserEntity; resetToken: string | null }> {
     const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
       throw new ValidationException({ username: 'A {{user}} with this username already exists.' });
@@ -63,6 +71,8 @@ export class UsersService {
     const user = this.usersRepository.create({
       status,
       ...userBody,
+      firstName: userBody.firstName || '',
+      lastName: userBody.lastName || '',
       createdBy: currentUser,
     });
     user.role = role ? await this.rolesService.get(role) : await this.rolesService.student();
@@ -176,14 +186,16 @@ export class UsersService {
       })
     );
 
-    this.emailsService.send(
-      new ForgotPasswordEmail({
-        subject: 'Forgot password',
-        data: {
-          link: origin + FrontendLinks.passwordReset(resetToken),
-        },
-        recipient: user,
-      })
-    );
+    this.emailsService
+      .send(
+        new ForgotPasswordEmail({
+          subject: 'Forgot password',
+          data: {
+            link: origin + FrontendLinks.passwordReset(resetToken),
+          },
+          recipient: user,
+        })
+      )
+      .then();
   }
 }

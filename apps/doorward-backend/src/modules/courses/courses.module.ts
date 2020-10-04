@@ -8,6 +8,7 @@ import { UsersRepository } from '@doorward/backend/repositories/users.repository
 import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { ItemsModule } from './modules/items/items.module';
 import { ManagersModule } from './managers/managers.module';
+import { DiscussionGroupsModule } from './discussion-groups/discussion-groups.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ManagersModule } from './managers/managers.module';
     ItemsModule,
     TypeOrmModule.forFeature([CoursesRepository, UsersRepository, ModuleItemsRepository]),
     ManagersModule,
+    DiscussionGroupsModule,
   ],
   controllers: [CoursesController],
   providers: [CoursesService],

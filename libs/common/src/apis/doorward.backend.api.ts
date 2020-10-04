@@ -63,6 +63,7 @@ import {
   TeachersResponse,
   CourseManagerResponse,
   CourseManagersResponse,
+  DiscussionGroupsResponse,
   AssignmentSubmissionResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
@@ -130,6 +131,11 @@ const DoorwardBackendApi = {
       return GET(`/courses/${courseId}/modules/items`, {
         ...query
       }, config);
+    },
+  },
+  "discussionGroups": {
+    getAll: (courseId: string, config ? : AxiosRequestConfig): Promise < DiscussionGroupsResponse > => {
+      return GET(`/discussion-groups/${courseId}`, {}, config);
     },
   },
   "files": {

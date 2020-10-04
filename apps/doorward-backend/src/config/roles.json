@@ -25,7 +25,8 @@
     "organizations": ["create", "view", "update"],
     "students": ["create", "update", "view", "list", "change-password"],
     "reports": ["students", "teachers"],
-    "teachers": ["create", "update", "view", "list"]
+    "teachers": ["create", "update", "view", "list"],
+    "discussion-groups": ["create", "update", "view", "list"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -43,7 +44,8 @@
         "groups.*",
         "meetings.moderate",
         "students.*",
-        "student.groups.*"
+        "student.groups.*",
+        "discussion-groups.*"
       ],
       "exclude": ["courses.view-all"]
     },
@@ -54,7 +56,9 @@
         "courses.read",
         "profile.*",
         "course-managers.view",
-        "groups.*"
+        "groups.*",
+        "discussion-groups.view",
+        "discussion-groups.list"
       ],
       "exclude": []
     }

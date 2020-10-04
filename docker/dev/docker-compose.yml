@@ -45,7 +45,7 @@ services:
       retries: 20
   doorward_rest_api:
     image: dev_doorward:latest
-    container_name: doorward_node_backend
+    container_name: doorward_backend
     volumes:
       - /usr/app/node_modules
       - ../../:/usr/app

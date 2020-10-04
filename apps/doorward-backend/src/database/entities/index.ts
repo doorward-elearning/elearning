@@ -22,6 +22,8 @@ import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
+import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
 
 const entities = [
   AnswerEntity,
@@ -48,6 +50,8 @@ const entities = [
   QuizEntity,
   PageEntity,
   AssignmentEntity,
+  DiscussionGroupEntity,
+  DiscussionCommentEntity,
 ];
 
 export default entities;
