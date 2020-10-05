@@ -44,6 +44,7 @@ const SchoolClassrooms = lazy(() => import('../screens/Classrooms/SchoolClassroo
 const ViewStudent = lazy(() => import('../screens/Students/ViewStudent'));
 const ViewStudentGroup = lazy(() => import('../screens/Groups/Students/ViewStudentGroup'));
 const UpdateStudentGroup = lazy(() => import('../screens/Groups/Students/UpdateStudentGroup'));
+const DiscussionGroup = lazy(() => import('../screens/DiscussionGroup'));
 
 export type DoorwardRoutes = ReturnType<typeof routeNames>;
 
@@ -75,6 +76,9 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
                   addQuiz: new Route('/create/quiz', CreateQuiz),
                 }),
                 assignmentList: new Route('/assignments', AssignmentsList),
+              }),
+              discussionGroups: new Route('/discussion-groups').with({
+                viewDiscussionGroup: new Route('/:discussionGroupId', DiscussionGroup),
               }),
             }),
           }),

@@ -4,7 +4,6 @@ import useAction from '@doorward/ui/hooks/useActions';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
-import Empty from '@doorward/ui/components/Empty';
 import Accordion from '@doorward/ui/components/Accordion';
 import Button from '@doorward/ui/components/Buttons/Button';
 import List from '@doorward/ui/components/List';
@@ -14,23 +13,37 @@ import { Link, useRouteMatch } from 'react-router-dom';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import usePrivileges from '@doorward/ui/hooks/usePrivileges';
+
+const MAX_STUDENTS = 3;
+const MAX_MANAGERS = 3;
+const MAX_DISCUSSION_GROUPS = 5;
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (props) => {
   const students = useDoorwardApi((state) => state.students.getStudentsInCourse);
   const managers = useDoorwardApi((state) => state.courseManagers.getCourseManagers);
+  const discussionGroups = useDoorwardApi((state) => state.discussionGroups.getAll);
   const match: any = useRouteMatch<{ courseId: string }>();
+  const hasPrivileges = usePrivileges();
+
   const routes = useRoutes();
   const fetchStudents = useAction(DoorwardApi.students.getStudentsInCourse);
   const fetchManagers = useAction(DoorwardApi.courseManagers.getCourseManagers);
+  const fetchDiscussionGroups = useAction(DoorwardApi.discussionGroups.getAll);
   const courseId = match.params.courseId;
 
   useEffect(() => {
-    fetchStudents(courseId);
-    fetchManagers(courseId);
+    if (hasPrivileges('students.list')) {
+      fetchStudents(courseId);
+    }
+    if (hasPrivileges('course-managers.view')) {
+      fetchManagers(courseId);
+    }
+    if (hasPrivileges('discussion-groups.list')) {
+      fetchDiscussionGroups(courseId);
+    }
   }, []);
 
-  const MAX_STUDENTS = 3;
-  const MAX_MANAGERS = 3;
   return (
     <div className="course-view-sidebar">
       <RoleContainer privileges={['students.*']}>
@@ -99,11 +112,48 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
         </div>
       </RoleContainer>
 
-      <div style={{ marginTop: 'var(--padding)' }}>
-        <Accordion open title={() => <Header size={5}>Announcement Calendar</Header>}>
-          <Empty icon="event" size="medium" />
-        </Accordion>
-      </div>
+      <RoleContainer privileges={['discussion-groups.list']}>
+        <div style={{ marginTop: 'var(--padding)' }}>
+          <Accordion
+            open
+            action={() => (
+              <RoleContainer privileges={['discussion-groups.create']}>
+                <Button mini bordered icon="add" onClick={props.addDiscussionGroupModal.openModal} />
+              </RoleContainer>
+            )}
+            title={() => <Header size={5}>Discussion Groups</Header>}
+          >
+            <WebComponent
+              data={discussionGroups.data.discussionGroups}
+              loading={discussionGroups.fetching}
+              emptyMessage="No discussion groups have been created"
+              size="medium"
+              icon="forum"
+              actionMessage={hasPrivileges('discussion-groups.create') ? 'Create Discussion Group' : ''}
+              onAction={hasPrivileges('discussion-groups.create') ? props.addDiscussionGroupModal.openModal : null}
+            >
+              {(discussions) => (
+                <List>
+                  <ItemArray data={discussions} max={MAX_DISCUSSION_GROUPS}>
+                    {(discussion) => (
+                      <ListItem key={discussion.id}>
+                        <Link
+                          to={routes.viewDiscussionGroup.withParams({
+                            courseId: courseId,
+                            discussionGroupId: discussion.id,
+                          })}
+                        >
+                          {discussion.title}
+                        </Link>
+                      </ListItem>
+                    )}
+                  </ItemArray>
+                </List>
+              )}
+            </WebComponent>
+          </Accordion>
+        </div>
+      </RoleContainer>
     </div>
   );
 };
@@ -111,6 +161,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
 export interface CourseViewSidebarProps {
   addStudentModal: UseModal;
   addCourseManagerModal: UseModal;
+  addDiscussionGroupModal: UseModal;
 }
 
 export default CourseViewSidebar;

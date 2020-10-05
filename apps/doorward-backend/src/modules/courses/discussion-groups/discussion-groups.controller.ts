@@ -5,14 +5,16 @@ import PrivilegesGuard from '../../../guards/privileges.guard';
 import { DiscussionGroupsService } from './discussion-groups.service';
 import Privileges from '../../../decorators/privileges.decorator';
 import {
+  DiscussionCommentResponse,
   DiscussionGroupResponse,
   DiscussionGroupsResponse,
 } from '@doorward/common/dtos/response/discussion.groups.responses';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import { CreateDiscussionGroupBody } from '@doorward/common/dtos/body';
+import { CreateDiscussionGroupBody, PostDiscussionCommentBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
+import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
 
 const CourseExists = () =>
   ModelExists({
@@ -21,13 +23,20 @@ const CourseExists = () =>
     message: '{{course}} does not exist.',
   });
 
+const DiscussionGroupExists = () =>
+  ModelExists({
+    model: DiscussionGroupEntity,
+    key: 'discussionGroupId',
+    message: '{{discussionGroup}} does not exist.',
+  });
+
 @Controller('discussion-groups')
 @ApiTags('discussionGroups')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class DiscussionGroupsController {
   constructor(private discussionGroupsService: DiscussionGroupsService) {}
 
-  @Get(':courseId')
+  @Get('course/:courseId')
   @Privileges('discussion-groups.list')
   @CourseExists()
   @ApiResponse({
@@ -41,7 +50,7 @@ export class DiscussionGroupsController {
     return { discussionGroups };
   }
 
-  @Post(':courseId')
+  @Post('course/:courseId')
   @Privileges('discussion-groups.create')
   @CourseExists()
   @ApiResponse({
@@ -57,5 +66,39 @@ export class DiscussionGroupsController {
     const discussionGroup = await this.discussionGroupsService.createDiscussionGroup(courseId, body, currentUser);
 
     return { discussionGroup, message: '{{discussionGroup}} has been added.' };
+  }
+
+  @Post('post/:discussionGroupId')
+  @Privileges('discussion-groups.post')
+  @DiscussionGroupExists()
+  @ApiResponse({
+    type: DiscussionCommentResponse,
+    status: HttpStatus.CREATED,
+    description: 'The discussion group comment',
+  })
+  async postComment(
+    @Param('discussionGroupId') discussionGroupId: string,
+    @Body() body: PostDiscussionCommentBody,
+    @CurrentUser() user: UserEntity
+  ) {
+    const discussionComment = await this.discussionGroupsService.postComment(discussionGroupId, body, user);
+
+    return {
+      discussionComment,
+    };
+  }
+
+  @Get('view/:discussionGroupId')
+  @Privileges('discussion-groups.view')
+  @DiscussionGroupExists()
+  @ApiResponse({
+    type: DiscussionGroupResponse,
+    status: HttpStatus.OK,
+    description: 'The discussion group with the specified id.',
+  })
+  async getDiscussionGroup(@Param('discussionGroupId') discussionGroupId: string) {
+    const discussionGroup = await this.discussionGroupsService.getDiscussionGroup(discussionGroupId);
+
+    return { discussionGroup };
   }
 }

@@ -90,10 +90,8 @@ export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
 export interface BasicFormProps<Values, ActionCreator extends (...args: any[]) => Action, WebState = any>
   extends FormProps<Values> {
   submitAction: ActionCreator;
-  createData?: CreateData<Values>;
-  resetOnSubmit?: boolean;
-  onSuccess?: (result?: WebState) => void;
   state: WebComponentState<WebState>;
+  children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
   showSuccessToast?: boolean;
@@ -101,7 +99,9 @@ export interface BasicFormProps<Values, ActionCreator extends (...args: any[]) =
   positiveText?: string;
   negativeText?: string;
   showOverlay?: boolean;
-  children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
+  createData?: CreateData<Values>;
+  resetOnSubmit?: boolean;
+  onSuccess?: (result?: WebState) => void;
   enableSubmitButton?: boolean;
 }
 

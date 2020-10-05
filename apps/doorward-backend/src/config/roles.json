@@ -26,7 +26,7 @@
     "students": ["create", "update", "view", "list", "change-password"],
     "reports": ["students", "teachers"],
     "teachers": ["create", "update", "view", "list"],
-    "discussion-groups": ["create", "update", "view", "list"]
+    "discussion-groups": ["create", "update", "view", "list", "post"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -58,7 +58,8 @@
         "course-managers.view",
         "groups.*",
         "discussion-groups.view",
-        "discussion-groups.list"
+        "discussion-groups.list",
+        "discussion-groups.post"
       ],
       "exclude": []
     }

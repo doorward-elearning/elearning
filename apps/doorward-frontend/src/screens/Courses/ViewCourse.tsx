@@ -27,24 +27,24 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
+import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
   const addStudentModal = useModal(false);
   const addCourseManagerModal = useModal(false);
   const liveClassroomModal = useModal(false);
+  const createDiscussionGroupModal = useModal();
   const hasPrivileges = usePrivileges();
   const fetchTeachers = useAction(DoorwardApi.teachers.getAllTeachers);
+
+  const [courseId, course] = useViewCourse();
 
   useEffect(() => {
     if (hasPrivileges('teachers.list')) {
       fetchTeachers();
     }
   }, []);
-
-  useEffect(() => {}, []);
-
-  const [courseId, course] = useViewCourse();
   const routes = useRoutes();
 
   const updateCourse = useDoorwardApi((state) => state.courses.updateCourse);
@@ -136,6 +136,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                   useModal={addCourseManagerModal}
                 />
+                <CreateDiscussionGroupModal modal={createDiscussionGroupModal} courseId={course.id} />
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
                     <LabelRow>
@@ -158,7 +159,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
             );
           }}
         </WebComponent>
-        <CourseViewSidebar addStudentModal={addStudentModal} addCourseManagerModal={addCourseManagerModal} />
+        <CourseViewSidebar
+          addStudentModal={addStudentModal}
+          addCourseManagerModal={addCourseManagerModal}
+          addDiscussionGroupModal={createDiscussionGroupModal}
+        />
       </div>
     </Layout>
   );

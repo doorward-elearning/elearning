@@ -51,7 +51,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
-    version: 1.1.3-beta
+    version: 1.2.0-beta
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
@@ -59,7 +59,7 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
-    version: 1.1.2-beta
+    version: 1.2.0-beta
     pullPolicy: Always
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu

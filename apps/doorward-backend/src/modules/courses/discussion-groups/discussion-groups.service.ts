@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import DiscussionGroupRepository from '@doorward/backend/repositories/discussion.group.repository';
 import DiscussionCommentRepository from '@doorward/backend/repositories/discussion.comment.repository';
-import { CreateDiscussionGroupBody } from '@doorward/common/dtos/body';
+import { CreateDiscussionGroupBody, PostDiscussionCommentBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 
@@ -30,5 +30,17 @@ export class DiscussionGroupsService {
       course: { id: courseId },
       creator: { id: currentUser.id },
     });
+  }
+
+  public async postComment(discussionGroupId: string, body: PostDiscussionCommentBody, currentUser: UserEntity) {
+    return this.commentRepository.createAndSave({
+      ...body,
+      author: currentUser,
+      discussionGroup: { id: discussionGroupId },
+    });
+  }
+
+  public async getDiscussionGroup(id: string) {
+    return this.discussionGroupRepository.getById(id);
   }
 }

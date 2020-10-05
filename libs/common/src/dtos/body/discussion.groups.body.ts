@@ -20,3 +20,15 @@ export class CreateDiscussionGroupBody extends DApiBody {
     });
   }
 }
+
+export class PostDiscussionCommentBody extends DApiBody {
+  @ApiProperty()
+  @Expose()
+  comment: string;
+
+  async validation?(): Promise<ObjectSchema> {
+    return Yup.object({
+      comment: Yup.string().required("The post content is required.").nullable()
+    });
+  }
+}

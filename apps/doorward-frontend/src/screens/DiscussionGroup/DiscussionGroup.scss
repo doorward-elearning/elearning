@@ -1,0 +1,7 @@
+.discussion-group-page {
+  &__content {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    grid-gap: var(--padding);
+  }
+}

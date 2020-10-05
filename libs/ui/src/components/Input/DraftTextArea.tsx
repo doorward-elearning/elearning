@@ -37,7 +37,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   useEffect(() => {
     if (editorState) {
       const contentState = editorState.getCurrentContent();
-      const value = JSON.stringify(!contentState.hasText() ? '' : exportFunction.json(contentState));
+      const value = !contentState.hasText() ? '' : JSON.stringify(exportFunction.json(contentState));
       const event = { target: { value, name: name } };
       props.onChange(event);
     }

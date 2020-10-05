@@ -42,7 +42,7 @@ releases:
   - name: develop-chuchu
     namespace: develop-doorward
     labels:
-      stage: 2
+      stage: 4
       name: chuchu
     chart: ../../charts/apps/chuchu
     needs:

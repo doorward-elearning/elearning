@@ -1,6 +1,7 @@
 import { EntityRepository } from 'typeorm';
 import OrganizationBasedRepository from '@doorward/backend/repositories/organization.based.repository';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
+import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
 
 @EntityRepository(DiscussionGroupEntity)
 export default class DiscussionGroupRepository extends OrganizationBasedRepository<DiscussionGroupEntity> {
@@ -20,6 +21,16 @@ export default class DiscussionGroupRepository extends OrganizationBasedReposito
     if (excludeIds) {
       queryBuilder.andWhere('id NOT IN (:...excludeIds)', { excludeIds });
     }
+
+    return queryBuilder.getOne();
+  }
+
+  async getById(id: string) {
+    const queryBuilder = this.createQueryBuilder('discussionGroup')
+      .where('"discussionGroup".id = :id', { id })
+      .leftJoinAndSelect('discussionGroup.comments', 'comment')
+      .leftJoinAndSelect('comment.author', 'commentAuthor')
+      .leftJoinAndSelect('discussionGroup.creator', 'creator');
 
     return queryBuilder.getOne();
   }

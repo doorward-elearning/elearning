@@ -53,5 +53,7 @@ export const routeNames = () => {
     viewStudentGroup: 'View Student Group',
     viewTeacherGroup: 'View Teacher Group',
     updateStudentGroup: 'Update',
+    discussionGroups: 'Discussion Groups',
+    viewDiscussionGroup: 'View Discussion Group'
   };
 };
