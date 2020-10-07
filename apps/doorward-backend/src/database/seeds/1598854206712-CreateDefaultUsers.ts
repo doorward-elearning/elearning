@@ -9,11 +9,16 @@ import { Roles } from '@doorward/common/types/roles';
 
 export class CreateDefaultUsers1598854206712 extends SeederInterface {
   async seed(entityManager: EntityManager): Promise<any> {
-    const result = await entityManager.connection.query(
-      `SELECT * FROM "SequelizeData" WHERE name = '20191029143535-create-default-users.js'`
+    const tableExists = await entityManager.connection.query(
+      `SELECT FROM information_schema.tables WHERE table_schema = 'public' AND table_name = 'SequelizeData'`
     );
-    if (result?.length) {
-      return;
+    if (tableExists.length) {
+      const result = await entityManager.connection.query(
+        `SELECT * FROM "SequelizeData" WHERE name = '20191029143535-create-default-users.js'`
+      );
+      if (result?.length) {
+        return;
+      }
     }
     const password = await bcrypt.hash(
       process.env.DEFAULT_ADMIN_PASSWORD,

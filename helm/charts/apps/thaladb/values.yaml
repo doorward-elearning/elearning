@@ -316,7 +316,7 @@ persistence:
   storageClass: do-block-storage
   accessModes:
     - ReadWriteOnce
-  size: 15Gi
+  size: 5Gi
   annotations: {}
 
 ## updateStrategy for PostgreSQL StatefulSet and its slaves StatefulSets
