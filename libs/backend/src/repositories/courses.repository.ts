@@ -5,12 +5,15 @@ import OrganizationBasedRepository from './organization.based.repository';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
+import { MeetingStatus } from '@doorward/common/types/meeting';
 
 @EntityRepository(CourseEntity)
 export default class CoursesRepository extends OrganizationBasedRepository<CourseEntity> {
   public async getCoursesForStudent(studentId: string): Promise<CourseEntity[]> {
     return this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
+      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .where('"studentCourses"."studentId" = :studentId', { studentId })
       .getMany();
   }
@@ -18,6 +21,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
   public async getCoursesByTeacher(teacherId: string, includeManaged = true) {
     const courses = await this.createQueryBuilder('course')
       .where('course."createdBy" = :teacherId', { teacherId })
+      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .getMany();
     if (includeManaged) {
       const managedCourses = await this.getCoursesManagedByTeacher(
@@ -32,11 +36,9 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
   }
 
   public async getCoursesManagedByTeacher(teacherId: string, exclude: Array<string> = []) {
-    const queryBuilder = this.createQueryBuilder('course').innerJoin(
-      'CourseManagers',
-      'manager',
-      'manager."courseId" = course.id'
-    );
+    const queryBuilder = this.createQueryBuilder('course')
+      .innerJoin('CourseManagers', 'manager', 'manager."courseId" = course.id')
+      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
     if (exclude.length) {
       queryBuilder.where('course.id NOT IN (:...exclude)', { exclude });
     }
@@ -86,6 +88,21 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
     course.itemsCount = await this.countModuleItems(courseId);
 
     return course;
+  }
+
+  public async getMeetingRoomForCourse(courseId: string): Promise<MeetingRoomEntity> {
+    return this.getRepository(MeetingRoomEntity)
+      .createQueryBuilder('meetingRoom')
+      .innerJoin('Courses', 'course', '"meetingRoom".id = course."meetingRoomId" AND course.id = :courseId', {
+        courseId,
+      })
+      .leftJoinAndSelect(
+        'Meetings',
+        'currentMeeting',
+        '"meetingRoom".id = "currentMeeting"."meetingRoomId" AND' + ' "currentMeeting".status = :status',
+        { status: MeetingStatus.STARTED }
+      )
+      .getOne();
   }
 
   public async countModuleItems(courseId: string): Promise<Partial<Record<ModuleItemType, number>>> {

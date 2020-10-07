@@ -6,7 +6,7 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { defaultMeetingCapabilities, MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
-import { OPENVIDU_ROLES, OpenviduUser, OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
+import { OPENVIDU_ROLES, OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
 import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { MeetingPlatform, MeetingStatus } from '@doorward/common/types/meeting';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
@@ -32,7 +32,9 @@ export class MeetingsService {
         throw new UnauthorizedException('You are not allowed to join this {{meeting}}.');
       }
 
-      const role = currentUser.hasPrivileges('meetings.moderate') ? OPENVIDU_ROLES.MODERATOR : OPENVIDU_ROLES.PUBLISHER;
+      const role = (await currentUser.hasPrivileges('meetings.moderate'))
+        ? OPENVIDU_ROLES.MODERATOR
+        : OPENVIDU_ROLES.PUBLISHER;
 
       return ORGANIZATION.meetingPlatform === MeetingPlatform.OPENVIDU
         ? this.joinOpenviduMeeting(meeting, role, currentUser)
@@ -40,6 +42,18 @@ export class MeetingsService {
     } else {
       throw new BadRequestException('This {{meeting}} does not have a {{meetingRoom}}');
     }
+  }
+
+  public async endMeeting(meetingId: string, currentUser: UserEntity) {
+    const meeting = await this.meetingsRepository.findOne(meetingId);
+
+    if (!(await currentUser.hasPrivileges('meetings.moderate'))) {
+      throw new UnauthorizedException('You are not allowed to end this {{meeting}}.');
+    }
+
+    await this.meetingsRepository.update(meeting.id, {
+      status: MeetingStatus.ENDED,
+    });
   }
 
   /**
@@ -61,19 +75,8 @@ export class MeetingsService {
       }
     }
 
-    const userDetails: OpenviduUser = {
-      name: 'Participant' + Math.round(Math.random() * 100),
-      avatar: null,
-      role,
-    };
-
-    if (user) {
-      userDetails.name = user.fullName;
-      userDetails.avatar = user.profilePicture;
-    }
-
     return {
-      user: userDetails,
+      user,
       capabilities,
       meeting,
     };

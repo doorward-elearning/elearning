@@ -19,7 +19,7 @@ import {
 import { ModuleResponse, ModulesResponse } from '@doorward/common/dtos/response/modules.responses';
 import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
-import { ModuleItemsResponse } from '@doorward/common/dtos/response';
+import { MeetingResponse, ModuleItemsResponse } from '@doorward/common/dtos/response';
 
 export const CourseExists = () =>
   ModelExists({
@@ -180,5 +180,21 @@ export class CoursesController {
       message: '{{module}} has been added to the {{course}}',
       statusCode: HttpStatus.CREATED,
     };
+  }
+
+  @Get(':courseId/liveClassroom')
+  @CourseExists()
+  @ApiResponse({
+    type: MeetingResponse,
+    description: 'The meeting that was created',
+    status: HttpStatus.OK,
+  })
+  async launchClassroom(
+    @Param('courseId') courseId: string,
+    @CurrentUser() user: UserEntity
+  ): Promise<MeetingResponse> {
+    const meeting = await this.coursesService.launchClassroom(courseId, user);
+
+    return { ...meeting };
   }
 }

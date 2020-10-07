@@ -37,7 +37,6 @@ class JitsiMeeting extends ScriptComponent<JitsiMeetingProps> {
         });
 
         this.api.addEventListener('readyToClose', () => {
-          alert('hi');
           this.props.onLeftSession();
         });
       }
@@ -57,6 +56,7 @@ export interface JitsiMeetingProps {
   onLeftSession: () => void;
   scripts: string[];
   styles: string[];
+  apiRef?: (api: JitsiMeetExternalAPI) => void;
 }
 
 export default JitsiMeeting;

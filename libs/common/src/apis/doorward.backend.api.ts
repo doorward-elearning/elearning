@@ -41,6 +41,7 @@ import {
   ModuleResponse,
   ModulesResponse,
   ModuleItemsResponse,
+  MeetingResponse,
   DeleteModuleResponse,
   ModuleItemResponse,
   UpdateModulesOrderResponse,
@@ -51,7 +52,6 @@ import {
   GroupResponse,
   GroupsResponse,
   JitsiBrandingResponse,
-  MeetingResponse,
   StudentsReportResponse,
   TeachersReportResponse,
   StudentReportResponse,
@@ -136,6 +136,9 @@ const DoorwardBackendApi = {
         ...query
       }, config);
     },
+    launchClassroom: (courseId: string, config ? : AxiosRequestConfig): Promise < MeetingResponse > => {
+      return GET(`/courses/${courseId}/liveClassroom`, {}, config);
+    },
   },
   "discussionGroups": {
     createDiscussionGroup: (courseId: string, body: CreateDiscussionGroupBody, config ? : AxiosRequestConfig): Promise < DiscussionGroupResponse > => {
@@ -197,6 +200,9 @@ const DoorwardBackendApi = {
   "meetings": {
     joinMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < MeetingResponse > => {
       return GET(`/meetings/${meetingId}/join`, {}, config);
+    },
+    endMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+      return DELETE(`/meetings/${meetingId}`, {}, config);
     },
     processOpenviduWebHook: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
       return GET(`/meetings/openvidu/webhook`, {}, config);

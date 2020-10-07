@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
 import Public from '@doorward/backend/decorators/public.decorator';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { MeetingsService } from './meetings.service';
@@ -9,6 +9,7 @@ import MeetingEntity from '@doorward/common/entities/meeting.entity';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 const MeetingExists = () =>
   ModelExists({
@@ -29,10 +30,24 @@ export class MeetingsController {
   @ApiResponse({
     type: MeetingResponse,
     status: HttpStatus.OK,
-    description: "The meeting response"
+    description: 'The meeting response',
   })
-  async joinMeeting(@Param('meetingId') meetingId: string, @CurrentUser() currentUser: UserEntity): Promise<MeetingResponse> {
+  @TransformerGroups('fullUserProfile')
+  async joinMeeting(
+    @Param('meetingId') meetingId: string,
+    @CurrentUser() currentUser: UserEntity
+  ): Promise<MeetingResponse> {
     return await this.meetingsService.joinMeeting(meetingId, currentUser);
+  }
+
+  @Delete(':meetingId')
+  @MeetingExists()
+  async endMeeting(@Param('meetingId') meetingId: string, @CurrentUser() user: UserEntity) {
+    await this.meetingsService.endMeeting(meetingId, user);
+
+    return {
+      message: '{{meeting}} has ended.',
+    };
   }
 
   @Get('openvidu/webhook')

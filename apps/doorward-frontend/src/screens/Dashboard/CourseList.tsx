@@ -24,7 +24,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
   const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
 
-  const launchClassroom = useDoorwardApi((state) => state.meetings.joinMeeting);
+  const launchClassroom = useDoorwardApi((state) => state.courses.launchClassroom);
   const routes = useRoutes();
 
   useEffect(() => {
@@ -45,12 +45,12 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               state={launchClassroom}
               cancellable={false}
               showErrorToast
-              action={() => DoorwardApi.meetings.joinMeeting(classroomCourse?.id)}
+              action={() => DoorwardApi.courses.launchClassroom(classroomCourse?.id)}
               title={(classroomCourse?.meetingRoom?.currentMeeting ? 'Joining ' : 'Starting ') + ' classroom.'}
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
-                  meetingId: data.id,
+                  meetingId: data.meeting.id,
                 });
               }}
             />
@@ -86,15 +86,20 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                         </RoleContainer>
                       </Row>
                       <div className="actions">
-                        <Icon
-                          className={classNames({
-                            joinMeeting: course?.meetingRoom?.currentMeeting,
-                            action: true,
-                          })}
-                          icon="phone"
-                          title="Live classroom"
-                          onClick={() => startClassroom(course)}
-                        />
+                        <RoleContainer
+                          privileges={['courses.start-meeting']}
+                          condition={!!course?.meetingRoom?.currentMeeting}
+                        >
+                          <Icon
+                            className={classNames({
+                              joinMeeting: course?.meetingRoom?.currentMeeting,
+                              action: true,
+                            })}
+                            icon="phone"
+                            title="Live classroom"
+                            onClick={() => startClassroom(course)}
+                          />
+                        </RoleContainer>
                       </div>
                     </Card.Body>
                   </Card>

@@ -48,7 +48,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const routes = useRoutes();
 
   const updateCourse = useDoorwardApi((state) => state.courses.updateCourse);
-  const launchClassroom = useDoorwardApi((state) => state.meetings.joinMeeting);
+  const launchClassroom = useDoorwardApi((state) => state.courses.launchClassroom);
   const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   return (
     <Layout
@@ -78,26 +78,28 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 Add Module
               </Button>
             </RoleContainer>
-            <IfElse condition={course.data.course?.meetingRoom?.currentMeeting}>
-              <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                Join live classroom
-              </Button>
-              <RoleContainer privileges={['courses.start-meeting']}>
+            {course.data.course && (
+              <IfElse condition={course.data.course?.meetingRoom?.currentMeeting}>
                 <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                  Start live classroom
+                  Join live classroom
                 </Button>
-              </RoleContainer>
-            </IfElse>
+                <RoleContainer privileges={['courses.start-meeting']}>
+                  <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+                    Start live classroom
+                  </Button>
+                </RoleContainer>
+              </IfElse>
+            )}
             <ProgressModal
               state={launchClassroom}
               cancellable={false}
               showErrorToast
-              action={() => DoorwardApi.meetings.joinMeeting(courseId)}
-              title="Starting classroom"
+              action={() => DoorwardApi.courses.launchClassroom(courseId)}
+              title={course.data.course?.meetingRoom?.currentMeeting ? 'Joining classroom' : 'Starting classroom'}
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
-                  meetingId: data.id,
+                  meetingId: data.meeting.id,
                 });
               }}
             />

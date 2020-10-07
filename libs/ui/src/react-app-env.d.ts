@@ -116,6 +116,18 @@ declare global {
       | 'subjectChange'
       | 'suspendDetected';
 
+    export type Commands = 'startRecording' | 'stopRecording';
+
+    export interface CommandArguments extends Record<Commands, any> {
+      startRecording: {
+        mode?: string;
+        dropboxToken?: string;
+        shouldShare?: boolean;
+        youtubeStreamKey?: string;
+        youtubeBroadcastID?: string;
+      };
+    }
+
     export interface EventListener extends Record<Event, Function> {
       suspendDetected: () => void;
       subjectChange: (event: { subject: string }) => void;
@@ -157,5 +169,7 @@ declare global {
     public dispose(): void;
 
     public addEventListener<K extends JitsiMeet.Events>(event: K, listener: JitsiMeet.EventListener[K]): void;
+
+    public executeCommand<C extends JitsiMeet.Commands>(command: C, arguments: JitsiMeet.CommandArguments[C]): void;
   }
 }

@@ -9,7 +9,7 @@
   },
   "description": "",
   "customerType": "college-india",
-  "meetingPlatform": "Openvidu",
+  "meetingPlatform": "Jitsi",
   "models": {
     "course": "Course",
     "module": "Module",

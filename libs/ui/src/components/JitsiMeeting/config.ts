@@ -133,15 +133,15 @@ const config = {
   // util#browser#usesNewGumFlow. The constraints are independent from
   // this config's resolution value. Defaults to requesting an ideal
   // resolution of 720p.
-  // constraints: {
-  //     video: {
-  //         height: {
-  //             ideal: 720,
-  //             max: 720,
-  //             min: 240
-  //         }
-  //     }
-  // },
+  constraints: {
+    video: {
+      height: {
+        ideal: 240,
+        max: 720,
+        min: 140,
+      },
+    },
+  },
 
   // Enable / disable simulcast support.
   // disableSimulcast: false,
@@ -156,7 +156,7 @@ const config = {
 
   // Start calls with video muted. Unlike the option above, this one is only
   // applied locally. FIXME: having these 2 options is confusing.
-  // startWithVideoMuted: false,
+  startWithVideoMuted: false,
 
   // If set to true, prefer to use the H.264 video codec (if supported).
   // Note that it's not recommended to do this because simulcast is not
@@ -183,7 +183,7 @@ const config = {
   // Recording
 
   // Whether to enable file recording or not.
-  // fileRecordingsEnabled: false,
+  fileRecordingsEnabled: true,
   // Enable the dropbox integration.
   // dropbox: {
   //     appKey: '<APP_KEY>' // Specify your app key here.
@@ -197,11 +197,11 @@ const config = {
   // by enabling fileRecordingsServiceEnabled, we show both the integrations
   // and the generic recording service (its configuration and storage type
   // depends on jibri configuration)
-  // fileRecordingsServiceEnabled: false,
+  fileRecordingsServiceEnabled: true,
   // Whether to show the possibility to share file recording with other people
   // (e.g. meeting participants), based on the actual implementation
   // on the backend.
-  // fileRecordingsServiceSharingEnabled: false,
+  fileRecordingsServiceSharingEnabled: true,
 
   // Whether to enable live streaming or not.
   // liveStreamingEnabled: false,
@@ -342,7 +342,7 @@ const config = {
 
   // Whether to use a welcome page or not. In case it's false a random room
   // will be joined when no room is specified.
-  enableWelcomePage: true,
+  enableWelcomePage: false,
 
   // Enabling the close page will ignore the welcome page redirection when
   // a call is hangup.
@@ -378,7 +378,7 @@ const config = {
   // enableCalendarIntegration: false,
 
   // When 'true', it shows an intermediate page before joining, where the user can configure their devices.
-  // prejoinPageEnabled: false,
+  prejoinPageEnabled: false,
 
   // If true, shows the unsafe room name warning label when a room name is
   // deemed unsafe (due to the simplicity in the name) and a password is not

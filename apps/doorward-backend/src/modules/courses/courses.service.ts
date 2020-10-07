@@ -6,10 +6,18 @@ import { CourseStatus } from '@doorward/common/types/courses';
 import { ModulesService } from './modules/modules.service';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
+import { MeetingsService } from '../meetings/meetings.service';
+import { MeetingRoomTypes, MeetingStatus } from '@doorward/common/types/meeting';
+import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 
 @Injectable()
 export class CoursesService {
-  constructor(private coursesRepository: CoursesRepository, private modulesService: ModulesService) {}
+  constructor(
+    private coursesRepository: CoursesRepository,
+    private modulesService: ModulesService,
+    private meetingsService: MeetingsService,
+    private meetingRoomsService: MeetingRoomsService
+  ) {}
 
   async createCourse(body: CreateCourseBody, author: UserEntity): Promise<CourseEntity> {
     const courseExists = await this.coursesRepository
@@ -91,5 +99,23 @@ export class CoursesService {
 
   async deleteCourse(id: string) {
     await this.coursesRepository.softDelete(id);
+  }
+
+  async launchClassroom(id: string, user: UserEntity) {
+    const course = await this.coursesRepository.findOne(id);
+    let meeting;
+    let meetingRoom = await this.coursesRepository.getMeetingRoomForCourse(id);
+
+    if (!meetingRoom) {
+      meetingRoom = await this.meetingRoomsService.createMeetingRoom(course.title, MeetingRoomTypes.PRIVATE);
+    }
+
+    if (meetingRoom.currentMeeting) {
+      meeting = meetingRoom.currentMeeting;
+    } else {
+      meeting = await this.meetingsService.createMeeting(meetingRoom.id, MeetingStatus.STARTED);
+    }
+
+    return this.meetingsService.joinMeeting(meeting.id, user);
   }
 }
