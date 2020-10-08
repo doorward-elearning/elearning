@@ -50,7 +50,7 @@ function withInput<R extends InputProps>(
       const onValueChange = useCallback(
         _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
           handler(e);
-        }, 200),
+        }, 50),
         []
       );
 

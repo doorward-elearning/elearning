@@ -8,6 +8,7 @@ const columns = {
   firstName: 'First name',
   lastName: 'Last name',
   email: 'Email',
+  phoneNumber: 'Phone Number',
   status: 'Status',
 };
 

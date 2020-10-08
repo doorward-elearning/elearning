@@ -48,6 +48,7 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (pr
       <TextField name="firstName" label="First name" />
       <TextField name="lastName" label="Last name" />
       <TextField name="email" label="Email" type="email" />
+      <TextField name="phoneNumber" label="Phone Number" />
       <TextField name="username" label="Username" editable={false} />
     </BasicForm>
   );

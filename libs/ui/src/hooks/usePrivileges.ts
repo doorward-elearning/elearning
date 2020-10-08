@@ -4,7 +4,7 @@ import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 
 const hasPrivilege = (privilege: string, privileges: Array<PrivilegeEntity>) => {
-  return !!privileges.find((pr) => wildcardPattern(pr.name, privilege));
+  return !privileges ? true : !!privileges.find((pr) => wildcardPattern(pr.name, privilege));
 };
 
 const usePrivileges = (): ((...privileges: Array<string>) => boolean) => {

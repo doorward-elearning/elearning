@@ -42,9 +42,17 @@ export interface OrganizationConfig {
   }>;
 }
 
+const getOrganizationFile = () => {
+  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION, 'organization.json');
+  if (fs.existsSync(filePath)) {
+    return filePath;
+  }
+  return path.join(__dirname, './config/organization.json');
+};
+
 const parseOrganization = (): OrganizationConfig => {
   try {
-    const filePath = path.join(__dirname, './config/organization.json');
+    const filePath = getOrganizationFile();
     const fileContents = fs.readFileSync(filePath).toString();
     return JSON.parse(fileContents) as OrganizationConfig;
   } catch (error) {

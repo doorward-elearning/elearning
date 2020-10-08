@@ -23,14 +23,17 @@ export default class UserEntity extends BaseOrganizationEntity {
   @Exclude()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   firstName: string;
 
-  @Column()
+  @Column({ nullable: true })
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   email: string;
+
+  @Column({ nullable: true })
+  phoneNumber: string;
 
   @Column({ nullable: true })
   profilePicture: string;

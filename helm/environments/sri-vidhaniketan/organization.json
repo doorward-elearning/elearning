@@ -1,0 +1,43 @@
+{
+  "id": "Gfz4r7sBK6u81-nUxwXODMYhWrP3UA",
+  "name": "Sri-Vidhaniketan",
+  "link": "https://doorward.tech",
+  "descriptiveLogo": true,
+  "icons": {
+    "light": "https://res.cloudinary.com/dldhztrbs/image/upload/v1602137498/Doorward/sri-vidhaniketan/logo.png",
+    "dark": "https://res.cloudinary.com/dldhztrbs/image/upload/v1602137498/Doorward/sri-vidhaniketan/logo.png"
+  },
+  "description": "",
+  "customerType": "college-india",
+  "meetingPlatform": "Jitsi",
+  "models": {
+    "course": "Course",
+    "module": "Module",
+    "meeting": "Meeting",
+    "assignment": "Assignment",
+    "user": "User",
+    "teacher": "Teacher",
+    "student": "Student",
+    "superAdministrator": "Super Administrator",
+    "moduleItem": "Module item",
+    "courseManager": "Course manager",
+    "organization": "Organization",
+    "school": "School",
+    "classroom": "Classroom",
+    "discussionGroup": "Discussion Group"
+  },
+  "admins": [
+    {
+      "id": "Gfz4r7sBK6u81",
+      "firstName": "Vishwa",
+      "lastName": "0821",
+      "email": "vishwa0812@gmail.com",
+      "username": "administrator",
+      "password": "Gfz4r7sBK6u81",
+      "zipCode": "",
+      "country": "India",
+      "city": "",
+      "status": "Active"
+    }
+  ]
+}

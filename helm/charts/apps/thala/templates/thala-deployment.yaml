@@ -76,21 +76,8 @@ spec:
               configMapKeyRef:
                 key: DOORWARD_ADMIN_EMAIL
                 name: {{ .Values.customer -}}-config
-          - name: ORGANIZATION_LOGO
-            valueFrom:
-              configMapKeyRef:
-                key: ORGANIZATION_LOGO
-                name: {{ .Values.customer -}}-config
-          - name: ORGANIZATION_NAME
-            valueFrom:
-              configMapKeyRef:
-                key: ORGANIZATION_NAME
-                name: {{ .Values.customer -}}-config
-          - name: ORGANIZATION_WEBSITE_LINK
-            valueFrom:
-              configMapKeyRef:
-                key: ORGANIZATION_WEBSITE_LINK
-                name: {{ .Values.customer -}}-config
+          - name: ORGANIZATION
+            value: {{ .Values.customer }}
           - name: USE_LATENCY
             valueFrom:
               configMapKeyRef:

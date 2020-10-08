@@ -12,6 +12,7 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
         firstName: 'First name',
         lastName: 'Last name',
         email: 'Email',
+        phoneNumber: 'Phone Number',
         status: 'Status',
       }}
       data={props.teachers}

@@ -14,7 +14,7 @@ const UserPanel: React.FunctionComponent<UserPanelProps> = ({ collapsed, profile
         <div>
           <span>{user?.fullName}</span>
           <Link to="#" className="online-status">
-            <span className="online">{user?.email}</span>
+            <span className="online">{user?.email || user?.phoneNumber}</span>
           </Link>
         </div>
       </div>

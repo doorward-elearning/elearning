@@ -51,7 +51,9 @@ export default class EmailsService {
     this.logger.info('Sending email to [%s]', options.recipient.email);
 
     try {
-      return await mail.send(mailData);
+      if (options.recipient.email) {
+        return await mail.send(mailData);
+      }
     } catch (e) {
       this.logger.error(e);
     }

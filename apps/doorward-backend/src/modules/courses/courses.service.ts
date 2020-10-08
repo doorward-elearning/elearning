@@ -108,6 +108,7 @@ export class CoursesService {
 
     if (!meetingRoom) {
       meetingRoom = await this.meetingRoomsService.createMeetingRoom(course.title, MeetingRoomTypes.PRIVATE);
+      this.coursesRepository.update(course.id, { meetingRoom }).then();
     }
 
     if (meetingRoom.currentMeeting) {

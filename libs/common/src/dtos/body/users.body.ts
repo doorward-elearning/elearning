@@ -24,9 +24,19 @@ export class UpdateAccountBody extends DApiBody {
   @Expose()
   lastName: string;
 
+  @ApiProperty()
+  @Expose()
+  phoneNumber: string;
+
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      email: Yup.string().nullable().email('Please enter a valid email'),
+      email: Yup.string().email('Please enter a valid email').nullable(),
+      phoneNumber: Yup.string()
+        .nullable()
+        .when('email', {
+          is: (value) => !value,
+          then: Yup.string().required('Provide either the email or the phone number.'),
+        }),
     });
   }
 }
@@ -68,12 +78,22 @@ export class UpdateUserBody extends DApiBody {
   @Expose()
   gender?: Gender;
 
+  @ApiProperty()
+  @Expose()
+  phoneNumber?: string;
+
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       username: Yup.string().required('Username is required').nullable(),
       firstName: Yup.string().required('First name is required').nullable(),
       lastName: Yup.string().required('Last name is required').nullable(),
-      email: Yup.string().email('Please enter a valid email').required('The email is required').nullable(),
+      email: Yup.string().email('Please enter a valid email').nullable(),
+      phoneNumber: Yup.string()
+        .nullable()
+        .when('email', {
+          is: (value) => !value,
+          then: Yup.string().required('Provide either the email or the phone number.'),
+        }),
     });
   }
 }

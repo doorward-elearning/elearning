@@ -44,6 +44,7 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (prop
             <TextField name="firstName" label="First Name" icon="account_circle" />
             <TextField name="lastName" label="Last Name" icon="account_box" />
             <TextField name="email" type="email" label="Email" icon="email" />
+            <TextField name="phoneNumber" type="phoneNumber" label="Phone Number" icon="phone" />
             <TextField name="username" label="Username" icon="account_circle" />
             <TextField name="city" label="City" icon="business" />
             <DropdownSelect options={countries} name="country" label="Country" icon="my_location" />
