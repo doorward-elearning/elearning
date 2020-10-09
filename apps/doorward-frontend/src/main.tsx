@@ -16,8 +16,6 @@ import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
 
-console.log(process.env.REACT_APP_BASE_URL);
-
 ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();

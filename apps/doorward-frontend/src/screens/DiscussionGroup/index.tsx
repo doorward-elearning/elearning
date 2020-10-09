@@ -14,6 +14,7 @@ import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
+import DiscussionCommentForm from '../../components/Forms/DiscussionCommentForm';
 
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.discussionGroups.getDiscussionGroup);
@@ -53,6 +54,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
               <div className="discussion-content">
                 <Panel>
                   <DraftHTMLContent content={discussionGroup.description} />
+                  <DiscussionCommentForm />
                 </Panel>
               </div>
               <div className="discussion-info">

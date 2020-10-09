@@ -2,10 +2,11 @@
 const babelWebpackConfig = require('@nrwl/react/plugins/webpack');
 const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
+const TerserPlugin = require('terser-webpack-plugin');
 
 console.log('=== Webpack Setup === ');
 
-module.exports = config => {
+module.exports = (config) => {
   config.node = { ...config.node, global: true, fs: 'empty' };
   config.stats.warnings = false;
   config.plugins.push(
@@ -13,11 +14,24 @@ module.exports = config => {
       systemvars: true,
     })
   );
-  if (config.devServer) {
-    // config.devServer.liveReload = true;
-    config.devServer.hot = true;
+  if (process.env.NODE_ENV === 'production') {
+  } else {
+    config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    if (config.devServer) {
+      // config.devServer.liveReload = true;
+      config.devServer.hot = true;
+    }
   }
-  config.plugins.push(new webpack.HotModuleReplacementPlugin());
 
-  return babelWebpackConfig(config);
+  const webpackConfig = babelWebpackConfig(config);
+
+  webpackConfig.mode = process.env.NODE_ENV || 'development';
+  if (process.env.NODE_ENV === 'production') {
+    webpackConfig.optimization = {
+      minimize: true,
+      minimizer: [new TerserPlugin()],
+    };
+  }
+
+  return webpackConfig;
 };

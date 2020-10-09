@@ -6,7 +6,6 @@ import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import { FormContext } from '../Form';
 import IfElse from '../IfElse';
-import DApiBody from '@doorward/common/dtos/body/base.body';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 
 export enum InputFeatures {
