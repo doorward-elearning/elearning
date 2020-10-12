@@ -141,8 +141,8 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       }
                       isEditing={editing}
                       viewerView={<AssignmentView assignment={item as AssignmentEntity} />}
-                      creatorPrivileges={['moduleItem.create']}
-                      viewerPrivileges={['moduleItem.read']}
+                      creatorPrivileges={['moduleItems.create']}
+                      viewerPrivileges={['moduleItems.read']}
                     />
                   </IfElse>
                 </React.Fragment>

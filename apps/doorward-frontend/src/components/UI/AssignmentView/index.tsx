@@ -3,7 +3,6 @@ import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/common/types/roles';
 import { useHistory } from 'react-router';
 import AssignmentSubmissionForm from '../../Forms/AssignmentSubmissionForm';
 import AssignmentSubmissionView from '../../AssignmentSubmissionView';
@@ -12,7 +11,6 @@ import Table from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
