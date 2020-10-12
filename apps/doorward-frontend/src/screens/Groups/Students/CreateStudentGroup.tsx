@@ -15,7 +15,7 @@ const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (pr
       state={studentList}
       getUsers={(data) => data.students}
       actionCreator={DoorwardApi.students.getAllStudents}
-      actionArgs={[{}]}
+      actionArgs={[{ noPagination: true }]}
       redirectOnSuccess="studentGroups"
       {...props}
     />

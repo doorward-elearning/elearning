@@ -1,8 +1,6 @@
 import CreateGroup from '../CreateGroup';
 import Groups from '@doorward/common/utils/GroupTypes';
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import { PageComponent } from '@doorward/ui/types';
 import usePageResource from '../../../hooks/usePageResource';
 import DoorwardApi from '../../../services/apis/doorward.api';
@@ -21,7 +19,7 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
       getUsers={(data) => data.students}
       currentGroupState={group}
       actionCreator={DoorwardApi.students.getAllStudents}
-      actionArgs={[{}]}
+      actionArgs={[{ noPagination: true }]}
       redirectOnSuccess="studentGroups"
       {...props}
     />
