@@ -37,7 +37,10 @@ export default class StudentCoursesRepository extends OrganizationBasedRepositor
             id: courseId,
           },
           status: StudentCourseStatus.ONGOING,
-        })
+        }),
+        {
+          transaction: false,
+        }
       )
     );
   }

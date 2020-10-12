@@ -12,13 +12,13 @@ import useOrganization from '../../hooks/useOrganization';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
-import { Roles } from '@doorward/common/types/roles';
 import useAction from '@doorward/ui/hooks/useActions';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 
 const STUDENT_TOOLBAR = [
   'microphone',
   'camera',
+  'videoquality',
   'closedcaptions',
   'fullscreen',
   'fodeviceselection',
@@ -47,7 +47,6 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
 
   useEffect(() => {
     if (jitsi) {
-      jitsi.executeCommand('startRecording', { mode: 'file' });
     }
   }, [jitsi]);
 
@@ -86,22 +85,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
         ) : (
           <div className="jitsi-meeting">
             <JitsiMeeting
-              scripts={[
-                'libs/alwaysontop.min.js',
-                'libs/analytics-ga.js',
-                'libs/app.bundle.min.js',
-                'libs/close3.min.js',
-                'libs/device_selection_popup_bundle.min.js',
-                'libs/dial_in_info_bundle.min.js',
-                'libs/do_external_connect.min.js',
-                'libs/external_api.min.js',
-                'libs/external_connect.js',
-                'libs/flacEncodeWorker.min.js',
-                'libs/lib-jitsi-meet.min.js',
-                'libs/libflac4-1.3.2.min.js',
-                'libs/rnnoise-processor.min.js',
-                'libs/video-blur-effect.min.js',
-              ]}
+              scripts={['https://meet.jit.si/external_api.js']}
               styles={['assets/css/jitsi.css']}
               domain={process.env.JITSI_MEET_DOMAIN}
               onLeftSession={() => {
@@ -110,7 +94,11 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
                 }
                 props.history.push('/dashboard');
               }}
-              apiRef={setJitsi}
+              apiRef={(api) => {
+                if (!jitsi) {
+                  setJitsi(api);
+                }
+              }}
               options={{
                 roomName: meeting.id,
                 userInfo: {
@@ -118,14 +106,30 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
                   avatarUrl: user.profilePicture,
                 },
                 configOverwrite: {
-                  // prejoinPageEnabled: false,
+                  prejoinPageEnabled: false,
                   brandingDataUrl: 'https://localhost:7000/api/v1/jitsi/branding',
                   startWithVideoMuted: !canModerate,
-                  resolution: 50,
+                  resolution: 140,
+                  maxFullResolutionParticipants: 1,
+                  videoQuality: {
+                    minHeightForQualityLvl: {
+                      100: 'low',
+                      360: 'low',
+                      720: 'low',
+                      3480: 'low',
+                    },
+                  },
+                  enableClosePage: false,
+                  enableWelcomePage: false,
+                  remoteVideoMenu: {
+                    disableKick: !canModerate,
+                  },
                 },
                 interfaceConfigOverwrite: {
                   APP_NAME: 'Doorward',
-                  TOOLBAR_BUTTONS: !canModerate ? STUDENT_TOOLBAR : undefined,
+                  TOOLBAR_BUTTONS: canModerate ? undefined : STUDENT_TOOLBAR,
+                  SHOW_PROMOTIONAL_CLOSE_PAGE: false,
+                  DEFAULT_LOGO_URL: organization.icon,
                 },
               }}
             />

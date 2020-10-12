@@ -108,6 +108,7 @@ declare global {
       | 'participantLeft'
       | 'participantRoleChanged'
       | 'passwordRequired'
+      | 'videoQualityChanged'
       | 'videoConferenceJoined'
       | 'videoConferenceLeft'
       | 'videoAvailabilityChanged'
@@ -116,7 +117,7 @@ declare global {
       | 'subjectChange'
       | 'suspendDetected';
 
-    export type Commands = 'startRecording' | 'stopRecording';
+    export type Commands = 'startRecording' | 'stopRecording' | 'setVideoQuality' | 'subject';
 
     export interface CommandArguments extends Record<Commands, any> {
       startRecording: {
@@ -126,6 +127,7 @@ declare global {
         youtubeStreamKey?: string;
         youtubeBroadcastID?: string;
       };
+      subject: string;
     }
 
     export interface EventListener extends Record<Event, Function> {
@@ -160,6 +162,7 @@ declare global {
       audioAvailabilityChanged: (event: { available: boolean }) => void;
       avatarChanged: (event: { id: string; avatarURL: string }) => void;
       cameraError: (event: { type: string; message: string }) => void;
+      videoQualityChanged: (event: { videoQuality: number }) => void;
     }
   }
 

@@ -41,7 +41,10 @@ export default class GroupMembersRepository extends OrganizationBasedRepository<
           member: { id: memberId },
           referee: { id: refereeId },
           role,
-        })
+        }),
+        {
+          transaction: false,
+        }
       );
     }
     return this.findOne(groupMember.id, { relations: ['member'] });

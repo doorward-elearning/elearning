@@ -1,6 +1,5 @@
 BUILD_DIR = build
 CLEANCSS = ./node_modules/.bin/cleancss
-DEPLOY_DIR = ../apps/doorward-frontend/src/assets/js/jitsi/
 LIBJITSIMEET_DIR = node_modules/lib-jitsi-meet/
 LIBFLAC_DIR = node_modules/libflacjs/dist/min/
 RNNOISE_WASM_DIR = node_modules/rnnoise-wasm/dist/
@@ -8,10 +7,12 @@ NODE_SASS = ./node_modules/.bin/node-sass
 NPM = npm
 OUTPUT_DIR = .
 STYLES_BUNDLE = css/all.bundle.css
-STYLES_DESTINATION = ../apps/doorward-frontend/src/assets/css/jitsi.css
 STYLES_MAIN = css/main.scss
 WEBPACK = ./node_modules/.bin/webpack
 WEBPACK_DEV_SERVER = ./node_modules/.bin/webpack-dev-server
+
+DEPLOY_DIR = ../apps/doorward-frontend/src/assets/js/jitsi/
+STYLES_DESTINATION = ../apps/doorward-frontend/src/assets/css/jitsi.css
 
 all: compile deploy clean
 

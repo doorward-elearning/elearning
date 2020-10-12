@@ -28,13 +28,14 @@ class JitsiMeeting extends ScriptComponent<JitsiMeetingProps> {
   render(): JSX.Element {
     const { ready } = this.state;
     if (ready) {
-      if (this.ref.current) {
+      if (this.ref.current && !this.api) {
         this.api = new JitsiMeetExternalAPI(this.props.domain, {
           parentNode: document.querySelector('#meet'),
           width: '100%',
           height: '100%',
           ...this.props.options,
         });
+        this.props.apiRef(this.api);
 
         this.api.addEventListener('readyToClose', () => {
           this.props.onLeftSession();
