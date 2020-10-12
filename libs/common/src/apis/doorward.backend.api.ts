@@ -111,8 +111,14 @@ const DoorwardBackendApi = {
     createCourse: (body: CreateCourseBody, config ? : AxiosRequestConfig): Promise < CourseResponse > => {
       return POST(`/courses`, body, {}, config);
     },
-    getCourses: (config ? : AxiosRequestConfig): Promise < CoursesResponse > => {
-      return GET(`/courses`, {}, config);
+    getCourses: (query: {
+      page ? : number,
+      limit ? : number,
+      noPagination ? : boolean
+    }, config ? : AxiosRequestConfig): Promise < CoursesResponse > => {
+      return GET(`/courses`, {
+        ...query
+      }, config);
     },
     deleteCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < DeleteCourseResponse > => {
       return DELETE(`/courses/${courseId}`, {}, config);
@@ -312,7 +318,9 @@ const DoorwardBackendApi = {
     },
     getAllStudents: (query: {
       search ? : string,
-      page ? : string
+      page ? : number,
+      limit ? : number,
+      noPagination ? : boolean
     }, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
       return GET(`/students`, {
         ...query

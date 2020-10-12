@@ -1,7 +1,6 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
-import { PaginationMetaData } from '@doorward/backend/interceptors/transform.interceptor';
-import { PaginationQuery } from '@doorward/common/types/api';
+import { PaginatedResponse, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
 export type SagaFunction = () => IterableIterator<any>;
 
@@ -14,7 +13,6 @@ export interface Action<T extends any = any> extends ReduxAction {
   showSuccessToast?: boolean;
   showErrorToast?: boolean;
   statusCode?: number;
-  pagination?: PaginationQuery;
 }
 
 export type ActionCreator<T = any[]> = (...args: T) => Action;
@@ -29,8 +27,6 @@ export interface WebComponentState<T> {
   errors: ApiError;
   failed: boolean;
 }
-
-export interface PaginatedWebComponentState<T = any> extends WebComponentState<T & { meta: PaginationMetaData }> {}
 
 export interface ApiSagaMiddleware<T extends ApiResponse> {
   before?: (...args: Array<any>) => Array<any>;

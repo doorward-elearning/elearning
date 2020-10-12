@@ -2,6 +2,7 @@ import { UsersRepository } from '@doorward/backend/repositories/users.repository
 import { EntityRepository } from 'typeorm';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
+import { PaginationQuery } from '@doorward/common/dtos/query';
 
 @EntityRepository(UserEntity)
 export class StudentsRepository extends UsersRepository {
@@ -42,6 +43,18 @@ export class StudentsRepository extends UsersRepository {
    */
   public async getAll() {
     return this.getUsersByRole(Roles.STUDENT);
+  }
+
+  public async getAllStudents(search?: string, page?: PaginationQuery) {
+    const queryBuilder = this.createSearchQueryBuilder(
+      'student',
+      ['firstName', 'username', 'email', 'lastName'],
+      search
+    )
+      .innerJoin('student.role', 'role')
+      .where('role.name = :role', { role: Roles.STUDENT });
+
+    return this.paginate(queryBuilder, page);
   }
 
   public async getStudentAndCourses(studentId: string) {

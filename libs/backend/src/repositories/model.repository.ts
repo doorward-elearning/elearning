@@ -1,6 +1,8 @@
-import { Brackets, DeepPartial, EntitySchema, ObjectType, QueryRunner, Repository } from 'typeorm';
+import { Brackets, DeepPartial, EntitySchema, ObjectType, QueryRunner, Repository, SelectQueryBuilder } from 'typeorm';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import { PaginationQuery } from '@doorward/common/dtos/query';
+import { PaginatedEntities, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
 export default class ModelRepository<Entity extends BaseEntity | OrganizationEntity> extends Repository<Entity> {
   createSearchQueryBuilder(alias: string, fields: Array<string>, search?: string, queryRunner?: QueryRunner) {
@@ -17,6 +19,38 @@ export default class ModelRepository<Entity extends BaseEntity | OrganizationEnt
     );
 
     return queryBuilder;
+  }
+
+  async paginate(
+    queryBuilder: SelectQueryBuilder<Entity>,
+    pagination: PaginationQuery
+  ): Promise<PaginatedEntities<Entity>> {
+    let paginationMetaData = undefined;
+    let entities = [];
+
+    if (pagination.noPagination) {
+      paginationMetaData = undefined;
+      entities = await queryBuilder.getMany();
+    } else {
+      paginationMetaData = new PaginationMetaData();
+      const page = +(pagination.page || 1);
+      const limit = +pagination.limit || +process.env.ITEMS_PER_PAGE;
+
+      const offset = (page - 1) * limit;
+
+      queryBuilder.offset(offset).limit(limit);
+
+      const [data, count] = await queryBuilder.getManyAndCount();
+
+      entities = data;
+
+      paginationMetaData.page = page;
+      paginationMetaData.totalPages = Math.round(Math.ceil(count / limit));
+      paginationMetaData.totalCount = count;
+      paginationMetaData.count = data?.length || 0;
+    }
+
+    return { entities, pagination: paginationMetaData };
   }
 
   findOneByField<K extends keyof Entity>(field: K, fieldValue: Entity[K]) {

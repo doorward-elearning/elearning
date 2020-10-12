@@ -1,18 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
+export type PaginatedEntities<Entity> = {
+  entities: Array<Entity>;
+  pagination: PaginationMetaData;
+};
+
 export class PaginationMetaData {
   @ApiProperty()
   @Expose()
-  pages: number;
+  totalPages: number;
 
   @ApiProperty()
   @Expose()
-  total: number;
+  totalCount: number;
 
   @ApiProperty()
   @Expose()
   page: number;
+
+  @ApiProperty()
+  @Expose()
+  count: number;
 }
 
 export default class DApiResponse {
@@ -35,8 +44,10 @@ export default class DApiResponse {
   @ApiProperty()
   @Expose()
   errors?: Array<{ [name: string]: string }>;
+}
 
+export class PaginatedResponse extends DApiResponse {
   @ApiProperty()
   @Expose()
-  pagination?: PaginationMetaData;
+  pagination: PaginationMetaData;
 }

@@ -3,7 +3,6 @@ import './styles/CourseList.scss';
 import useRoutes from '../../hooks/useRoutes';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '@doorward/ui/components/Image';
-import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
 import Tools from '@doorward/common/utils/Tools';
 import Plural from '@doorward/ui/components/Plural';
 import Row from '@doorward/ui/components/Row';
@@ -11,7 +10,6 @@ import ItemArray from '@doorward/ui/components/ItemArray';
 import Card from '@doorward/ui/components/Card';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { Roles } from '@doorward/common/types/roles';
 import ProgressModal from '../../components/Modals/ProgressModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import Icon from '@doorward/ui/components/Icon';
@@ -19,13 +17,23 @@ import classNames from 'classnames';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import PaginationContainer from '@doorward/ui/components/PaginationContainer';
+import useAction from '@doorward/ui/hooks/useActions';
+import { useLocation } from 'react-router';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
   const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
+  const fetchCourses = useAction(DoorwardApi.courses.getCourses);
+  const courses = useDoorwardApi((state) => state.courses.getCourses);
 
   const launchClassroom = useDoorwardApi((state) => state.courses.launchClassroom);
   const routes = useRoutes();
+  const location = useLocation();
+
+  useEffect(() => {
+    fetchCourses({ limit: 8 });
+  }, [location]);
 
   useEffect(() => {
     if (classroomCourse) {
@@ -33,11 +41,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
     }
   }, [classroomCourse]);
   return (
-    <SimpleWebComponent
-      action={DoorwardApi.courses.getCourses}
-      dataSelector={(data) => (data.courses || []).sort((a, b) => (a?.meetingRoom?.currentMeeting ? -1 : 1))}
-      selector={(state) => state.courses.getCourses}
-    >
+    <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data.courses}>
       {(data) => (
         <div>
           <div className="dashboard__course-list">
@@ -109,7 +113,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
           </div>
         </div>
       )}
-    </SimpleWebComponent>
+    </PaginationContainer>
   );
 };
 

@@ -1,15 +1,15 @@
-import {Injectable} from '@nestjs/common';
-import {UsersService} from '../users/users.service';
+import { Injectable } from '@nestjs/common';
+import { UsersService } from '../users/users.service';
 import StudentAccountWithPasswordEmail from '../../emails/student-account.with.password.email';
 import om from '../../utils/om';
 import FrontendLinks from '../../utils/frontend.links';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import StudentNewAccountEmail from '../../emails/student-new.account.email';
 import StudentCoursesRepository from '@doorward/backend/repositories/student.courses.repository';
-import {MeetingRoomsService} from '../meeting-rooms/meeting-rooms.service';
+import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import CoursesRepository from '@doorward/backend/repositories/courses.repository';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import {StudentsRepository} from '@doorward/backend/repositories/students.repository';
+import { StudentsRepository } from '@doorward/backend/repositories/students.repository';
 import {
   AddStudentsToCourseBody,
   CreateUserBody,
@@ -17,9 +17,10 @@ import {
   UpdateUserBody,
 } from '@doorward/common/dtos/body';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
-import {AuthService} from '../auth/auth.service';
+import { AuthService } from '../auth/auth.service';
 import UserEntity from '@doorward/common/entities/user.entity';
-import {Roles} from "@doorward/common/types/roles";
+import { Roles } from '@doorward/common/types/roles';
+import { PaginationQuery } from '@doorward/common/dtos/query';
 
 /**
  *
@@ -181,12 +182,8 @@ export class StudentsService {
   /**
    *
    */
-  public async getAllStudents(search?: string) {
-    return this.studentsRepository
-      .createSearchQueryBuilder('student', ['firstName', 'username', 'email', 'lastName'], search)
-      .innerJoin("student.role", 'role')
-      .where('role.name = :role', { role: Roles.STUDENT })
-      .getMany();
+  public async getAllStudents(search: string, page: PaginationQuery) {
+    return this.studentsRepository.getAllStudents(search, page);
   }
 
   /**

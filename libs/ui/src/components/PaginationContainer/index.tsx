@@ -1,20 +1,21 @@
 import React, { useEffect } from 'react';
-import { PaginatedWebComponentState } from '@doorward/ui/reducers/reducers';
+import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import Pagination from '@doorward/ui/components/Pagination';
 import WebComponent, { WebComponentProps } from '@doorward/ui/components/WebComponent';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
+import { PaginatedResponse } from '@doorward/common/dtos/response/base.response';
 
-function PaginationContainer<T>(props: PaginationContainerProps<T>): JSX.Element {
+function PaginationContainer<T extends PaginatedResponse, Data>(props: PaginationContainerProps<T, Data>): JSX.Element {
   const {
     query: { page },
     updateLocation,
   } = useQueryParams<{ page: string }>();
   const {
-    data: { meta },
+    data: { pagination },
   } = props.state;
 
   useEffect(() => {
-    if (page !== meta?.pagination.page || page === undefined) {
+    if (+page !== pagination?.page || page === undefined) {
       props.onChangePage(+page);
     }
   }, [page]);
@@ -22,18 +23,18 @@ function PaginationContainer<T>(props: PaginationContainerProps<T>): JSX.Element
   return (
     <div className="ed-pagination__container">
       <WebComponent loading={props.state.fetching} {...props} showRefreshingProgress>
-        {data => (
+        {(data) => (
           <React.Fragment>
             <div className="ed-pagination__container--content">{props.children(data)}</div>
           </React.Fragment>
         )}
       </WebComponent>
-      {meta?.pagination && (
+      {pagination && (
         <div className="ed-pagination__container--footer">
           <Pagination
-            page={+meta?.pagination.page}
-            numPages={meta?.pagination.pages}
-            onChangePage={currentPage => {
+            page={+pagination.page}
+            numPages={pagination.totalPages}
+            onChangePage={(currentPage) => {
               updateLocation({ page: `${currentPage}` });
             }}
           />
@@ -43,8 +44,9 @@ function PaginationContainer<T>(props: PaginationContainerProps<T>): JSX.Element
   );
 }
 
-export interface PaginationContainerProps<T> extends Omit<WebComponentProps<T>, 'loading'> {
-  state: PaginatedWebComponentState;
+export interface PaginationContainerProps<T extends PaginatedResponse, Data>
+  extends Omit<WebComponentProps<Data>, 'loading'> {
+  state: WebComponentState<T>;
   onChangePage: (page: number) => void;
 }
 

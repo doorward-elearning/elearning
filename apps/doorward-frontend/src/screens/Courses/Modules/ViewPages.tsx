@@ -5,7 +5,6 @@ import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
 import useRoutes from '../../../hooks/useRoutes';
 import Pagination from '@doorward/ui/components/Pagination';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
-import { Roles } from '@doorward/common/types/roles';
 import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
 import ModuleEntity from '@doorward/common/entities/module.entity';
@@ -47,8 +46,8 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
             </Panel>
           </div>
         }
-        creatorPrivileges={['moduleItem.create']}
-        viewerPrivileges={['moduleItem.read']}
+        creatorPrivileges={['moduleItems.create']}
+        viewerPrivileges={['moduleItems.read']}
       />
       {page > 0 && (
         <Pagination

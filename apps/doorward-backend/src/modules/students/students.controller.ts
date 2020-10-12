@@ -31,6 +31,7 @@ import {
 import ExcludeNullValidationPipe from '@doorward/backend/pipes/exclude.null.validation.pipe';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import { ApiPaginationQuery, PaginationQuery } from '@doorward/common/dtos/query';
 
 const CourseExists = () => ModelExists({ key: 'courseId', model: CourseEntity, message: '{{course}} does not exist.' });
 
@@ -59,7 +60,7 @@ export class StudentsController {
   async getStudentsInCourse(@Param('courseId') courseId: string): Promise<StudentsResponse> {
     const students = await this.studentsService.getStudentsInCourse(courseId);
 
-    return { students };
+    return { students, pagination: null };
   }
 
   /**
@@ -186,10 +187,11 @@ export class StudentsController {
   @ApiQuery({ name: 'search', required: false })
   @ApiQuery({ name: 'page', required: false })
   @ApiResponse({ status: HttpStatus.OK, type: StudentsResponse, description: 'The list of students' })
-  async getAllStudents(@Query('search') search: string): Promise<StudentsResponse> {
-    const students = await this.studentsService.getAllStudents(search);
+  @ApiPaginationQuery()
+  async getAllStudents(@Query('search') search: string, @Query() page: PaginationQuery): Promise<StudentsResponse> {
+    const students = await this.studentsService.getAllStudents(search, page);
 
-    return { students };
+    return { students: students.entities, pagination: students.pagination };
   }
 
   /**

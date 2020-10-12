@@ -20,6 +20,7 @@ import { ModuleResponse, ModulesResponse } from '@doorward/common/dtos/response/
 import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/courses.body';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
 import { MeetingResponse, ModuleItemsResponse } from '@doorward/common/dtos/response';
+import { ApiPaginationQuery, PaginationQuery } from '@doorward/common/dtos/query';
 
 export const CourseExists = () =>
   ModelExists({
@@ -54,6 +55,7 @@ export class CoursesController {
   /**
    *
    * @param user
+   * @param pagination
    */
   @Get()
   @Privileges('courses.read')
@@ -62,10 +64,11 @@ export class CoursesController {
     description: 'The list of courses based on the user privileges',
     type: CoursesResponse,
   })
-  async getCourses(@CurrentUser() user: UserEntity): Promise<CoursesResponse> {
-    const courses = await this.coursesService.getCourses(user);
+  @ApiPaginationQuery()
+  async getCourses(@CurrentUser() user: UserEntity, @Query() pagination: PaginationQuery): Promise<CoursesResponse> {
+    const courses = await this.coursesService.getCourses(user, pagination);
 
-    return { courses };
+    return { pagination: courses.pagination, courses: courses.entities };
   }
 
   /**
