@@ -3,11 +3,9 @@ import { PlainTextField, TextFieldProps } from './TextField';
 import withInput from './index';
 import './styles/EditableLabel.scss';
 import classNames from 'classnames';
-import Icon from '../Icon';
-import IfElse from '../IfElse';
 import useClickOutside from '../../hooks/useClickOutside';
 
-const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
+const EditableLabel: React.FunctionComponent<EditableLabelProps> = (props) => {
   const Component = props.component || <span />;
   const label = useRef<HTMLDivElement | null>(null);
   const [editing, setEditing] = props.toggle;
@@ -31,6 +29,10 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
         editing,
       })}
       ref={label}
+      onClick={(e): void => {
+        e.stopPropagation();
+        setEditing(true);
+      }}
     >
       <div>
         <PlainTextField {...props} />
@@ -39,9 +41,6 @@ const EditableLabel: React.FunctionComponent<EditableLabelProps> = props => {
         {React.cloneElement(Component, {
           children: props.value,
         })}
-        <IfElse condition={!props.noEdit}>
-          <Icon icon="edit" title="Edit" onClick={(): void => setEditing(true)} />
-        </IfElse>
       </div>
     </div>
   );
