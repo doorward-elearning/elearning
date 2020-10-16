@@ -102,6 +102,7 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
       className={classNames({
         'ed-tabLayout': true,
         stickyHeader: props.stickyHeader,
+        wrapTabs: props.wrapTabs,
       })}
       ref={tabLayout}
     >
@@ -130,6 +131,7 @@ export interface TabLayoutProps {
   stickyHeader?: boolean;
   onTabChange?: (selected: number) => void;
   openRecentTab?: boolean;
+  wrapTabs?: boolean;
 }
 
 export interface TabHeaderProps {

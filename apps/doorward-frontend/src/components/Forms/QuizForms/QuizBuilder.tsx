@@ -20,8 +20,10 @@ const NoQuestions = () => {
   );
 };
 
-const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ question }): JSX.Element => {
-  return <QuestionView question={question} index={0} view={QuestionViewTypes.ANSWER_ONLY} />;
+const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ question, onEditQuestion }): JSX.Element => {
+  return (
+    <QuestionView question={question} index={0} view={QuestionViewTypes.EDIT_MODE} onEditQuestion={onEditQuestion} />
+  );
 };
 
 const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
@@ -59,10 +61,15 @@ const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
                   </Button>
                 </HeaderGrid>
                 {formikProps.values.questions.length ? (
-                  <TabLayout openRecentTab>
+                  <TabLayout openRecentTab wrapTabs>
                     {formikProps.values.questions.map((question, index) => (
                       <Tab title={`${index + 1}`}>
-                        <QuestionDisplay question={question} />
+                        <QuestionDisplay
+                          question={question}
+                          onEditQuestion={() => {
+                            props.onEditQuestion(question, index);
+                          }}
+                        />
                       </Tab>
                     ))}
                   </TabLayout>
@@ -81,10 +88,13 @@ const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
 export interface QuizBuilderProps {
   questionModal: UseModal;
   newQuestion: CreateQuestionBody;
+  onEditQuestion: (question: CreateQuestionBody, index: number) => void;
+  editedQuestion: { question: CreateQuestionBody; index: number };
 }
 
 export interface QuestionDisplayProps {
   question: CreateQuestionBody;
+  onEditQuestion: () => void;
 }
 
 export default QuizBuilder;

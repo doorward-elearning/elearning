@@ -15,7 +15,7 @@ const TextArea: React.FunctionComponent<TextAreaProps> = React.memo(
         })}
       >
         <Icon icon={icon} className="eb-input__text-icon" />
-        <textarea data-gramm_editor="false" {...props} />
+        <textarea data-gramm_editor="false" {...props} value={value} />
         {children}
       </div>
     );
@@ -28,4 +28,4 @@ export interface TextAreaProps extends InputProps {
 
 export const BasicTextArea = TextArea;
 
-export default withInput(TextArea, [InputFeatures.LABEL], { labelPosition: 'top' });
+export default withInput(TextArea, [InputFeatures.LABEL], { labelPosition: 'top' }, true);

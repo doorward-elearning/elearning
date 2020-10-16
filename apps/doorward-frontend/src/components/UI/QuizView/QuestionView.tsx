@@ -8,12 +8,14 @@ import Header from '@doorward/ui/components/Header';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import Spacer from '@doorward/ui/components/Spacer';
+import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
+import Icon from '@doorward/ui/components/Icon';
 
 export enum QuestionViewTypes {
-  ANSWER_ONLY = 'answerOnly',
+  EDIT_MODE = 'editMode',
 }
 
-const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view }) => {
+const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view, onEditQuestion }) => {
   const [answers, setAnswers] = useState(question.answers);
   const { quiz } = useContext(QuizContext);
 
@@ -25,7 +27,10 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
   return (
     <div className="question-view">
       <Panel noBackground>
-        <Header size={4}>{question.points} Points</Header>
+        <HeaderGrid>
+          <Header size={4}>{question.points} Points</Header>
+          {view === QuestionViewTypes.EDIT_MODE && <Icon onClick={() => onEditQuestion(question)} icon="edit" />}
+        </HeaderGrid>
         <div>
           <DraftHTMLContent content={question.question} />
           <Spacer />
@@ -40,6 +45,7 @@ export interface QuestionViewProps {
   question: QuestionEntity | CreateQuestionBody;
   index: number;
   view?: QuestionViewTypes;
+  onEditQuestion?: (question: CreateQuestionBody) => void;
 }
 
 export default QuestionView;

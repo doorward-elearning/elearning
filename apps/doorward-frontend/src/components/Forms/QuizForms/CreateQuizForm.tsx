@@ -7,7 +7,7 @@ import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { CreateQuizBody } from '@doorward/common/dtos/body';
+import { CreateQuestionBody, CreateQuizBody } from '@doorward/common/dtos/body';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 import QuizOptions from './QuizOptions';
 import AddQuizQuestionModal, { defaultQuestion } from './AddQuizQuestionModal';
@@ -73,11 +73,29 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
   const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
   const questionModal = useModal();
   const [newQuestion, setNewQuestion] = useState();
+  const [editQuestion, setEditQuestion] = useState<{ question: CreateQuestionBody; index: number }>({
+    question: null,
+    index: null,
+  });
+
+  questionModal.onClose(() => {
+    setEditQuestion({ question: null, index: null });
+  });
 
   const form = useForm<CreateQuizFormState>();
   return (
     <div className="create-quiz-form">
-      <AddQuizQuestionModal useModal={questionModal} onAddQuestion={setNewQuestion} />
+      <AddQuizQuestionModal
+        question={editQuestion.question}
+        useModal={questionModal}
+        onAddQuestion={(question) => {
+          if (editQuestion) {
+            setEditQuestion({ question, index: editQuestion.index });
+          } else {
+            setNewQuestion(question);
+          }
+        }}
+      />
       <AddModuleItemForm
         onSuccess={props.onSuccess}
         onCancel={props.onCancel}
@@ -92,7 +110,14 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
           <div className="quiz-details-form">
             <TabLayout stickyHeader>
               <Tab title="Quiz Details">
-                <QuizDetails questionModal={questionModal} newQuestion={newQuestion} />
+                <QuizDetails
+                  questionModal={questionModal}
+                  newQuestion={newQuestion}
+                  onEditQuestion={(question, index) => {
+                    setEditQuestion({ question, index });
+                  }}
+                  editedQuestion={editQuestion}
+                />
               </Tab>
               <Tab title="Options">
                 <QuizOptions />

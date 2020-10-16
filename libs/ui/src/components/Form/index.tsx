@@ -34,6 +34,12 @@ function Form<T>({
   usePromiseEffect(getValidationSchema(validationSchema), setValidation, [validationSchema]);
 
   useEffect(() => {
+    if (formikProps) {
+      formikProps.setValues(initialValues);
+    }
+  }, [initialValues]);
+
+  useEffect(() => {
     if (allProps && state && state.errors) {
       if (state.errors.errors) {
         allProps.setErrors(state.errors.errors as FormikErrors<any>);
@@ -53,10 +59,10 @@ function Form<T>({
     <Formik
       initialValues={initialValues}
       onSubmit={(values, formikActions) => {
-        onSubmit(values, formikActions);
         if (resetOnSubmit) {
-          allProps.resetForm();
+          formikActions.resetForm();
         }
+        onSubmit(values, formikActions);
       }}
       validationSchema={validation || validationSchema}
       isInitialValid={isInitialValid}

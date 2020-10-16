@@ -34,7 +34,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     } catch (e) {
       setEditorState(EditorState.createWithContent(convertFromRaw(generateEditorStateFromString(value))));
     }
-  }, []);
+  }, [value]);
 
   useEffect(() => {
     if (editorState) {
@@ -94,4 +94,4 @@ export interface DraftTextAreaProps extends InputProps {
   shy?: boolean;
 }
 
-export default withInput(DraftTextArea, [InputFeatures.LABEL]);
+export default withInput(DraftTextArea, [InputFeatures.LABEL], {}, true);

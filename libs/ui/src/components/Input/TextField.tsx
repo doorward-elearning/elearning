@@ -53,6 +53,6 @@ export interface TextFieldProps extends InputProps {
   overrideValue?: string;
 }
 
-export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL], { labelPosition: 'top' });
+export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL], { labelPosition: 'top' }, true);
 
 export const PlainTextField = TextField;

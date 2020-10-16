@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
 import _ from 'lodash';
 import { FieldArray } from 'formik';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -47,35 +47,38 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo((pro
   return (
     <Panel noBackground className="answers-container">
       <FieldArray name={`answers`}>
-        {(arrayHelpers) => {
-          return (
-            <React.Fragment>
-              {props.answers.map((answer, index) => {
-                return <AnswerInput key={index} onRemove={() => arrayHelpers.remove(index)} answerIndex={index} />;
-              })}
-              <Button
-                type="button"
-                theme="accent"
-                onClick={() =>
-                  arrayHelpers.push({
-                    answer: '',
-                    description: null,
-                    correct: false,
-                  })
-                }
-              >
-                Add Answer
-              </Button>
-            </React.Fragment>
-          );
-        }}
+        {(arrayHelpers) => (
+          <React.Fragment>
+            {props.answers.map((answer, index) => (
+              <AnswerInput key={index} onRemove={() => arrayHelpers.remove(index)} answerIndex={index} />
+            ))}
+            <Button
+              type="button"
+              theme="accent"
+              onClick={() =>
+                arrayHelpers.push({
+                  answer: '',
+                  description: null,
+                  correct: false,
+                })
+              }
+            >
+              Add Answer
+            </Button>
+          </React.Fragment>
+        )}
       </FieldArray>
     </Panel>
   );
 });
 
-const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ useModal, onAddQuestion }) => {
+const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ useModal, onAddQuestion, question }) => {
   const form = useForm();
+  useEffect(() => {
+    if (question) {
+      useModal.openModal();
+    }
+  }, [question]);
   return (
     <Form
       initialValues={defaultQuestion}
@@ -110,6 +113,7 @@ const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ use
             </Modal.Body>
             <Modal.Footer
               onPositiveClick={submitForm}
+              onNegativeClick={useModal.closeModal}
               props={{
                 positive: { disabled: !isValid },
               }}
@@ -125,6 +129,7 @@ const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ use
 export interface QuizQuestionsProps {
   useModal: UseModal;
   onAddQuestion: (question: CreateQuestionBody) => void;
+  question?: CreateQuestionBody;
 }
 
 export interface AnswerInputProps {
