@@ -1,20 +1,17 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useAction from '@doorward/ui/hooks/useActions';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import { ParsedUrlQuery } from 'querystring';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 
-export interface StudentListQueryParams extends ParsedUrlQuery {
+export interface StudentListQueryParams {
   search: string;
-  page: string;
+  page: number;
 }
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
@@ -22,10 +19,10 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
   const fetch = useAction(DoorwardApi.students.getAllStudents);
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
-  const total = studentList.data.pagination?.total;
+  const total = studentList.data.pagination?.totalCount;
 
   useEffect(() => {
-    fetch({ ...query });
+    fetch();
   }, [query.search]);
 
   return (
@@ -50,7 +47,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
         data={studentList.data.students}
         state={studentList}
         onChangePage={(currentPage) => {
-          fetch({ page: `${currentPage}` });
+          fetch({ page: currentPage });
         }}
       >
         {(students): JSX.Element => {

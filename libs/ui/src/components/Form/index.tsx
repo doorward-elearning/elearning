@@ -7,7 +7,6 @@ import { UseForm } from '../../hooks/useForm';
 import { WebComponentState } from '../../reducers/reducers';
 import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
-import DApiBody from '@doorward/common/dtos/body/base.body';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
 
@@ -25,6 +24,7 @@ function Form<T>({
   hideFormMessage,
   formClassName,
   isInitialValid,
+  resetOnSubmit,
   spinnerProps = {},
 }: FormProps<T>): JSX.Element {
   const [allProps, setAllProps] = useState<FormikProps<T>>();
@@ -52,8 +52,13 @@ function Form<T>({
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={validation}
+      onSubmit={(values, formikActions) => {
+        onSubmit(values, formikActions);
+        if (resetOnSubmit) {
+          allProps.resetForm();
+        }
+      }}
+      validationSchema={validation || validationSchema}
       isInitialValid={isInitialValid}
       render={(props): ReactNode | JSX.Element => {
         if (!allProps) {
@@ -96,6 +101,7 @@ export interface FormProps<Values> extends FormikConfig<Values> {
   editable?: boolean;
   hideFormMessage?: boolean;
   spinnerProps?: SpinnerProps;
+  resetOnSubmit?: boolean;
 }
 
 export interface FormContextProps {

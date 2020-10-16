@@ -1,16 +1,17 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useState } from 'react';
 import AddModuleItemForm from '../AddModuleItemForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import './QuizDetailsForm.scss';
 import QuizDetails from './QuizDetails';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import { defaultQuestion } from './QuizQuestions';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CreateQuizBody } from '@doorward/common/dtos/body';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 import QuizOptions from './QuizOptions';
+import AddQuizQuestionModal, { defaultQuestion } from './AddQuizQuestionModal';
+import useModal from '@doorward/ui/hooks/useModal';
 
 const defaultQuiz: CreateQuizBody = {
   title: 'Unnamed Quiz',
@@ -55,15 +56,28 @@ const defaultQuiz: CreateQuizBody = {
       to: null,
     },
   },
-  questions: [defaultQuestion],
+  questions: [
+    {
+      question: 'This is a question',
+      points: 2,
+      answers: [
+        { answer: 'One', correct: true, description: '' },
+        { answer: 'Two', correct: false, description: '' },
+        { answer: 'Three', correct: false, description: '' },
+      ],
+    },
+  ],
 };
 
 const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
   const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
+  const questionModal = useModal();
+  const [newQuestion, setNewQuestion] = useState();
 
   const form = useForm<CreateQuizFormState>();
   return (
     <div className="create-quiz-form">
+      <AddQuizQuestionModal useModal={questionModal} onAddQuestion={setNewQuestion} />
       <AddModuleItemForm
         onSuccess={props.onSuccess}
         onCancel={props.onCancel}
@@ -74,11 +88,11 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
         module={props.module}
         initialValues={initialValues}
       >
-        {(formikProps) => (
+        {() => (
           <div className="quiz-details-form">
             <TabLayout stickyHeader>
               <Tab title="Quiz Details">
-                <QuizDetails />
+                <QuizDetails questionModal={questionModal} newQuestion={newQuestion} />
               </Tab>
               <Tab title="Options">
                 <QuizOptions />

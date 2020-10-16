@@ -33,7 +33,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
 
   useEffect(() => {
     fetchCourses({ limit: 8 });
-  }, [location]);
+  }, [location.search]);
 
   useEffect(() => {
     if (classroomCourse) {

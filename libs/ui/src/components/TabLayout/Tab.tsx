@@ -11,6 +11,7 @@ const Tab: FunctionComponent<TabProps> = (props): JSX.Element => {
 export interface TabProps {
   title: string;
   badge?: string;
+  id?: string;
 }
 
 export default Tab;

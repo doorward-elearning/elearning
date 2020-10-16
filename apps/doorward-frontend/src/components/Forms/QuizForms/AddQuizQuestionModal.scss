@@ -1,0 +1,31 @@
+.quiz-questions {
+  display: grid;
+  grid-gap: var(--padding-lg);
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+
+  &__answers {
+    .answers-container {
+      display: grid;
+      grid-gap: var(--padding-lg);
+      align-items: start;
+    }
+
+    .answer-panel {
+      display: grid;
+      grid-template-rows: auto 1fr;
+
+      &__header {
+        display: grid;
+        grid-template-columns: auto auto auto;
+        justify-content: start;
+        align-items: center;
+        grid-gap: var(--padding);
+
+        span {
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

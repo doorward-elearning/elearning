@@ -5,10 +5,15 @@ import AnswersView from './AnswersView';
 import { QuizContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
-import Row from '@doorward/ui/components/Row';
 import QuestionEntity from '@doorward/common/entities/question.entity';
+import { CreateQuestionBody } from '@doorward/common/dtos/body';
+import Spacer from '@doorward/ui/components/Spacer';
 
-const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index }) => {
+export enum QuestionViewTypes {
+  ANSWER_ONLY = 'answerOnly',
+}
+
+const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view }) => {
   const [answers, setAnswers] = useState(question.answers);
   const { quiz } = useContext(QuizContext);
 
@@ -20,13 +25,11 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
   return (
     <div className="question-view">
       <Panel noBackground>
-        <Row style={{ justifyContent: 'space-between', marginBottom: 'var(--padding-lg)' }}>
-          <Header size={3}>Question {index}</Header>
-          <b>{question.points} Points</b>
-        </Row>
+        <Header size={4}>{question.points} Points</Header>
         <div>
           <DraftHTMLContent content={question.question} />
-          <AnswersView answers={answers} question={question} />
+          <Spacer />
+          <AnswersView answers={answers} question={question} view={view} />
         </div>
       </Panel>
     </div>
@@ -34,8 +37,9 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
 };
 
 export interface QuestionViewProps {
-  question: QuestionEntity;
+  question: QuestionEntity | CreateQuestionBody;
   index: number;
+  view?: QuestionViewTypes;
 }
 
 export default QuestionView;

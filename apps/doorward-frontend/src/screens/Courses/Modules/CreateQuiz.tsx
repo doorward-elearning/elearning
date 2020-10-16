@@ -1,7 +1,5 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import { useSelector } from 'react-redux';
-import { State } from '../../../store';
 import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
 import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';

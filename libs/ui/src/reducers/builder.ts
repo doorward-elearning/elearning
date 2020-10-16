@@ -35,7 +35,6 @@ function simpleReducer<T extends WebComponentState<any>>(initialState: T, action
     if (action.type === actionType) {
       // avoid hashing pagination
       const hashValue = { ...action };
-      delete hashValue.pagination;
 
       const hash = objectHash(hashValue);
 
@@ -110,9 +109,6 @@ function createMiddleware<T extends DApiResponse = DApiResponse>(
     try {
       if (middleware && middleware.before) {
         args = middleware.before(args);
-      }
-      if (action.pagination) {
-        args = [{ ...action.pagination }, ...args];
       }
       const response: AxiosResponse<T> | undefined = yield call(endpoint, ...args);
       if (response) {

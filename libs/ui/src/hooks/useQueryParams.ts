@@ -7,7 +7,7 @@ export interface UseQueryParams<T> {
   updateLocation: (params: ParsedUrlQuery) => void;
 }
 
-const useQueryParams = <T extends ParsedUrlQuery = any>(): UseQueryParams<T> => {
+const useQueryParams = <T extends {} = any>(): UseQueryParams<T> => {
   const location = useLocation();
   const history = useHistory();
 
@@ -15,7 +15,7 @@ const useQueryParams = <T extends ParsedUrlQuery = any>(): UseQueryParams<T> => 
 
   return {
     query: query as T,
-    updateLocation: params => {
+    updateLocation: (params) => {
       history.push(
         location.pathname +
           '?' +

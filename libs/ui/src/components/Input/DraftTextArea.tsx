@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
@@ -7,7 +7,8 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';
-import draftEditorWrapper, { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapper';
+import { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapper';
+import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -24,6 +25,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
 }): JSX.Element => {
   const editorRef = React.useRef(null);
   const [editorState, setEditorState] = React.useState();
+  const [focused, setFocused] = useState(true);
   useEffect(() => {
     try {
       setEditorState(
@@ -43,6 +45,12 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     }
   }, [editorState]);
 
+  let editing = props.editable;
+
+  if (props.shy) {
+    editing = focused;
+  }
+
   return (
     <div
       className={classNames({
@@ -50,21 +58,40 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         fluid: props.fluid,
       })}
     >
-      <Editor
-        toolbar={fullEditor}
-        placeholder={props.placeholder}
-        wrapperClassName="eb-input--draft-text-area__wrapper"
-        editorClassName="eb-input--draft-text-area__editor"
-        toolbarClassName="eb-input--draft-text-area__toolbar"
-        editorState={editorState}
-        onEditorStateChange={setEditorState}
-        onBlur={() => formikProps.handleBlur({ target: { value, name } })}
-        ref={editorRef}
-      />
+      {!editing ? (
+        <div
+          className="eb-input--draft-text-area__display"
+          onClick={() => {
+            setFocused(true);
+          }}
+        >
+          <DraftHTMLContent content={value} />
+        </div>
+      ) : (
+        <Editor
+          toolbar={fullEditor}
+          placeholder={props.placeholder}
+          wrapperClassName="eb-input--draft-text-area__wrapper"
+          editorClassName="eb-input--draft-text-area__editor"
+          toolbarClassName="eb-input--draft-text-area__toolbar"
+          editorState={editorState}
+          onEditorStateChange={setEditorState}
+          onBlur={() => {
+            formikProps.handleBlur({ target: { value, name } });
+            setFocused(false);
+          }}
+          onFocus={() => {
+            setFocused(true);
+          }}
+          ref={editorRef}
+        />
+      )}
       {children}
     </div>
   );
 };
-export interface DraftTextAreaProps extends InputProps {}
+export interface DraftTextAreaProps extends InputProps {
+  shy?: boolean;
+}
 
 export default withInput(DraftTextArea, [InputFeatures.LABEL]);

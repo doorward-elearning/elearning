@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import './Switch.scss';
 
-const Switch: React.FunctionComponent<SwitchProps> = props => {
+const Switch: React.FunctionComponent<SwitchProps> = (props) => {
   const [open, setOpen] = useState();
 
   useEffect(() => {
@@ -20,8 +20,13 @@ const Switch: React.FunctionComponent<SwitchProps> = props => {
       className={classNames({
         'ed-switch': true,
         open,
+        disabled: props.disabled,
       })}
-      onClick={handleClick}
+      onClick={() => {
+        if (!props.disabled) {
+          handleClick();
+        }
+      }}
     />
   );
 };
@@ -30,6 +35,7 @@ export interface SwitchProps {
   open: boolean;
   onToggle: (open: boolean) => void;
   id?: string;
+  disabled?: boolean;
 }
 
 export default Switch;

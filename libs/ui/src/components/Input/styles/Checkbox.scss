@@ -21,6 +21,7 @@
   &:hover {
     .ed-checkbox__checkbox {
       &:after {
+        transform: scale(1);
         opacity: 1;
       }
     }
@@ -58,13 +59,16 @@
       border-radius: 50%;
       opacity: 0;
       pointer-events: none;
-      transition: 0.2s opacity;
+      transition: 0.2s opacity, 0.2s transform;
+      transform: scale(0);
     }
   }
 
   input[type='checkbox'] {
     cursor: pointer;
     opacity: 0;
+    width: 1.2em;
+    height: 1.2em;
 
     &:disabled {
       cursor: default;

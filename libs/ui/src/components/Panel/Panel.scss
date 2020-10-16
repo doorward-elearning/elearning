@@ -2,6 +2,7 @@
   border: 1px solid var(--line-color);
   background: var(--bg-primary);
   padding: var(--padding);
+  border-radius: 5px;
 
   &.plain {
     background: none;

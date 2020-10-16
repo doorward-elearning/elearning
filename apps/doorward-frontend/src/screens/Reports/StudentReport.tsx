@@ -21,6 +21,7 @@ import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 
 const data = [['Course', 'Marks']];
+
 const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
   const state = useDoorwardApi((state) => state.reports.getStudentReport);

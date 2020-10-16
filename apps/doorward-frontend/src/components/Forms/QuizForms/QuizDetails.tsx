@@ -1,23 +1,23 @@
 import React from 'react';
 import TextField from '@doorward/ui/components/Input/TextField';
+import QuizBuilder from './QuizBuilder';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
-import { FormContext } from '@doorward/ui/components/Form';
-import QuizQuestions from './QuizQuestions';
+import { UseModal } from '@doorward/ui/hooks/useModal';
+import { CreateQuestionBody } from '@doorward/common/dtos/body';
 
 const QuizDetails: React.FunctionComponent<QuizDetailsProps> = (props) => {
   return (
-    <FormContext.Consumer>
-      {({ formikProps }) => (
-        <div className="quiz-details-form">
-          <TextField name="title" label="Title" placeholder="Title of the Quiz" />
-          <DraftTextArea name="instructions" label="Instructions" labelPosition="top" fluid />
-          <QuizQuestions />
-        </div>
-      )}
-    </FormContext.Consumer>
+    <div className="quiz-details-form">
+      <TextField name="title" label="Title" placeholder="Title of the Quiz" />
+      <DraftTextArea name="instructions" label="Instructions" labelPosition="top" fluid shy />
+      <QuizBuilder {...props} />
+    </div>
   );
 };
 
-export interface QuizDetailsProps {}
+export interface QuizDetailsProps {
+  questionModal: UseModal;
+  newQuestion: CreateQuestionBody;
+}
 
 export default QuizDetails;

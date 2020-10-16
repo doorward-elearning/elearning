@@ -5,6 +5,7 @@ import { TabProps } from './Tab';
 import IfElse from '../IfElse';
 import Badge from '../Badge';
 import Row from '../Row';
+import compareLists from '@doorward/common/utils/compareLists';
 
 const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected }): JSX.Element => {
   return (
@@ -53,14 +54,28 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
   const slider = useRef(null);
   const tabLayout = useRef(null);
   const [selected, setSelected] = useState(props.selected || 0);
-  const children = (props.children instanceof Array ? props.children : [props.children]) as Array<ReactElement>;
+  const children = (props.children instanceof Array ? props.children : [props.children]) as Array<
+    ReactElement<TabProps>
+  >;
 
   useEffect(() => {
     const newTabs: Array<TabProps> = [];
-    children.map((child, index) => {
+    children.forEach((child, index) => {
       newTabs[index] = child.props;
     });
     setTabs(newTabs);
+    if (props.openRecentTab) {
+      const { newItems } = compareLists(tabs, newTabs, (existingTab, newTab) => {
+        return (existingTab.id || existingTab.title) === (newTab.id || newTab.title);
+      });
+
+      if (newItems.length) {
+        const itemIndex = newTabs.findIndex((tab) => (tab.id || tab.title) === (newItems[0].id || newItems[0].title));
+        if (itemIndex >= 0) {
+          setSelected(itemIndex);
+        }
+      }
+    }
   }, [props.children]);
 
   useEffect(() => {
@@ -93,7 +108,7 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
       <div className="ed-tabLayout__header">
         <TabHeader
           tabs={tabs}
-          setSelected={tab => {
+          setSelected={(tab) => {
             if (tab !== selected) {
               setSelected(tab);
             }
@@ -114,6 +129,7 @@ export interface TabLayoutProps {
   selected?: number;
   stickyHeader?: boolean;
   onTabChange?: (selected: number) => void;
+  openRecentTab?: boolean;
 }
 
 export interface TabHeaderProps {

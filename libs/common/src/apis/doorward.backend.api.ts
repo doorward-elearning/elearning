@@ -111,13 +111,13 @@ const DoorwardBackendApi = {
     createCourse: (body: CreateCourseBody, config ? : AxiosRequestConfig): Promise < CourseResponse > => {
       return POST(`/courses`, body, {}, config);
     },
-    getCourses: (query: {
+    getCourses: (query ? : {
       page ? : number,
       limit ? : number,
       noPagination ? : boolean
     }, config ? : AxiosRequestConfig): Promise < CoursesResponse > => {
       return GET(`/courses`, {
-        ...query
+        ...(query || {})
       }, config);
     },
     deleteCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < DeleteCourseResponse > => {
@@ -135,11 +135,11 @@ const DoorwardBackendApi = {
     getCourseModules: (courseId: string, config ? : AxiosRequestConfig): Promise < ModulesResponse > => {
       return GET(`/courses/${courseId}/modules`, {}, config);
     },
-    getCourseModuleItems: (courseId: string, query: {
+    getCourseModuleItems: (courseId: string, query ? : {
       type ? : string
     }, config ? : AxiosRequestConfig): Promise < ModuleItemsResponse > => {
       return GET(`/courses/${courseId}/modules/items`, {
-        ...query
+        ...(query || {})
       }, config);
     },
     launchClassroom: (courseId: string, config ? : AxiosRequestConfig): Promise < MeetingResponse > => {
@@ -175,12 +175,12 @@ const DoorwardBackendApi = {
     createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
       return POST(`/groups`, body, {}, config);
     },
-    getGroups: (query: {
+    getGroups: (query ? : {
       type ? : string,
       search ? : string
     }, config ? : AxiosRequestConfig): Promise < GroupsResponse > => {
       return GET(`/groups`, {
-        ...query
+        ...(query || {})
       }, config);
     },
     addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
@@ -285,11 +285,11 @@ const DoorwardBackendApi = {
     },
   },
   "searchSuggestions": {
-    getSuggestions: (type: string, query: {
+    getSuggestions: (type: string, query ? : {
       groupType ? : string
     }, config ? : AxiosRequestConfig): Promise < SuggestionsResponse > => {
       return GET(`/search-suggestions/${type}`, {
-        ...query
+        ...(query || {})
       }, config);
     },
   },
@@ -300,11 +300,11 @@ const DoorwardBackendApi = {
     getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
       return GET(`/students/course/${courseId}`, {}, config);
     },
-    getStudentsNotRegisteredToCourse: (courseId: string, query: {
+    getStudentsNotRegisteredToCourse: (courseId: string, query ? : {
       search ? : string
     }, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
       return GET(`/students/course/${courseId}/not-registered`, {
-        ...query
+        ...(query || {})
       }, config);
     },
     addStudentToCourse: (courseId: string, body: AddStudentsToCourseBody, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
@@ -316,14 +316,14 @@ const DoorwardBackendApi = {
     createStudent: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < StudentResponse > => {
       return POST(`/students`, body, {}, config);
     },
-    getAllStudents: (query: {
+    getAllStudents: (query ? : {
       search ? : string,
       page ? : number,
       limit ? : number,
       noPagination ? : boolean
     }, config ? : AxiosRequestConfig): Promise < StudentsResponse > => {
       return GET(`/students`, {
-        ...query
+        ...(query || {})
       }, config);
     },
     getStudent: (studentId: string, config ? : AxiosRequestConfig): Promise < StudentResponse > => {

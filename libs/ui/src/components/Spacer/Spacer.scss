@@ -1,0 +1,25 @@
+.ed-spacer {
+  &.default {
+    height: var(--padding);
+
+    &.vertical {
+      width: var(--padding);
+    }
+  }
+
+  &.small {
+    height: var(--padding-sm);
+
+    &.vertical {
+      width: var(--padding-sm);
+    }
+  }
+
+  &.large {
+    height: var(--padding-lg);
+
+    &.vertical {
+      width: var(--padding-lg);
+    }
+  }
+}

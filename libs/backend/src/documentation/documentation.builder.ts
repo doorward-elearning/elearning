@@ -205,13 +205,13 @@ export default class DocumentationBuilder {
       });
 
     return {
-      optional: optionalParams.length ? 'query: {' + optionalParams.join(',') + '},' : '',
+      optional: optionalParams.length ? 'query?: {' + optionalParams.join(',') + '},' : '',
       required: requiredParams.join(',') + (requiredParams.length ? ',' : ''),
       queryParams:
         '{' +
         requiredParams.map((param) => param.split(':')[0].replace(/\?$/, '')).join(',') +
         (requiredParams.length ? ',' : '') +
-        (optionalParams.length ? '...query' : '') +
+        (optionalParams.length ? '...(query || {})' : '') +
         '}',
     };
   }

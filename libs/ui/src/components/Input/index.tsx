@@ -1,4 +1,4 @@
-import React, { ChangeEvent, ChangeEventHandler, FunctionComponent, useCallback, useState } from 'react';
+import React, { ChangeEvent, ChangeEventHandler, FunctionComponent, useCallback, useContext, useState } from 'react';
 import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';
@@ -7,6 +7,7 @@ import Feature from '../FeatureProvider/Feature';
 import { FormContext } from '../Form';
 import IfElse from '../IfElse';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
+import ErrorMessage, { getError } from '@doorward/ui/components/Input/ErrorMessage';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -45,6 +46,10 @@ function withInput<R extends InputProps>(
 
       const [changeEvent, setChangeEvent] = useState<ChangeEvent<HTMLInputElement>>();
       const [isRequired, setIsRequired] = useState(false);
+      const { formikProps, editable, validationSchema } = useContext(FormContext);
+      const { name } = props;
+
+      const inputProps: any = { ...props, formikProps };
 
       const onValueChange = useCallback(
         _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
@@ -65,56 +70,48 @@ function withInput<R extends InputProps>(
         [changeEvent]
       );
 
-      const { name } = props;
+      inputProps.onChange = formikProps.handleChange || props.onChange;
+      inputProps.onBlur = formikProps.handleBlur;
+      inputProps.value = _.get(formikProps.values, name);
+      inputProps.id = props.id || (props.idGenerator && props.idGenerator());
+
+      getValidationSchema(validationSchema).then((validationSchema) => {
+        setIsRequired(checkRequired(name, validationSchema && validationSchema.describe()));
+      });
+
+      const error = getError(formikProps, name);
+
+      const className = classNames({
+        'eb-input': true,
+        error: !!error,
+        [`label-${props.labelPosition || 'none'}`]: true,
+        fluid: props.fluid,
+        [props.className || '']: true,
+        required: isRequired,
+      });
       return (
-        <FormContext.Consumer>
-          {({ formikProps, editable, validationSchema }): JSX.Element => {
-            const inputProps: any = { ...props, formikProps };
-            inputProps.onChange = formikProps.handleChange || props.onChange;
-            inputProps.onBlur = formikProps.handleBlur;
-            inputProps.value = _.get(formikProps.values, name);
-            inputProps.id = props.id || (props.idGenerator && props.idGenerator());
-
-            getValidationSchema(validationSchema).then((validationSchema) => {
-              setIsRequired(checkRequired(name, validationSchema && validationSchema.describe()));
-            });
-
-            let error = '';
-            if (formikProps && name && formikProps.touched && _.get(formikProps.touched, name)) {
-              error = '' + (_.get(formikProps.errors, name) || '');
-            }
-            const className = classNames({
-              'eb-input': true,
-              error: !!error,
-              [`label-${props.labelPosition || 'none'}`]: true,
-              fluid: props.fluid,
-              [props.className || '']: true,
-              required: isRequired,
-            });
-            return (
-              <FeatureProvider features={features}>
-                <div className={className}>
-                  <Feature feature={InputFeatures.LABEL}>
-                    <label htmlFor={inputProps.id}>
-                      {props.label || props.placeholder}
-                      <IfElse condition={isRequired && props.label}>
-                        <span title="This field is required.">*</span>
-                      </IfElse>
-                    </label>
-                  </Feature>
-                  <div className="eb-input__input">
-                    <Input
-                      {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
-                      value={changeEvent ? changeEvent?.target?.value : inputProps.value}
-                      onChange={(e) => onChange(e, inputProps.onChange)}
-                    />
-                  </div>
-                  <div className="eb-input__error-message">{error}</div>
-                </div>
-              </FeatureProvider>
-            );
-          }}
-        </FormContext.Consumer>
+        <FeatureProvider features={features}>
+          <div className={className}>
+            <Feature feature={InputFeatures.LABEL}>
+              <label htmlFor={inputProps.id}>
+                {props.label || props.placeholder}
+                <IfElse condition={isRequired && props.label}>
+                  <span title="This field is required.">*</span>
+                </IfElse>
+              </label>
+            </Feature>
+            <div className="eb-input__input">
+              <Input
+                {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
+                value={changeEvent ? changeEvent?.target?.value : inputProps.value}
+                onChange={(e) => onChange(e, inputProps.onChange)}
+              />
+            </div>
+            <div className="eb-input__error-message">
+              <ErrorMessage name={name} />
+            </div>
+          </div>
+        </FeatureProvider>
       );
     }
   );

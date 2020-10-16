@@ -1,6 +1,6 @@
 import withInput, { InputFeatures, InputProps } from './index';
 import * as React from 'react';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import './styles/Checkbox.scss';
 import Tools from '@doorward/common/utils/Tools';
 import classNames from 'classnames';
@@ -12,6 +12,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
   editable,
   ...props
 }) => {
+  const checkbox = useRef();
   return (
     <div
       className={classNames({
@@ -21,6 +22,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
     >
       <div className="checkbox__container">
         <input
+          ref={checkbox}
           type="checkbox"
           {...props}
           checked={!!props.value}
@@ -28,7 +30,17 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
             props.onChange({ ...e, target: { ...e.target, value: !props.value, name: props.name } });
           }}
         />
-        <span className="ed-checkbox__checkbox" />
+        <span
+          className="ed-checkbox__checkbox"
+          onClick={(e) => {
+            e.stopPropagation();
+            if (checkbox.current) {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+              // @ts-ignore
+              checkbox.current.doClick();
+            }
+          }}
+        />
       </div>
     </div>
   );

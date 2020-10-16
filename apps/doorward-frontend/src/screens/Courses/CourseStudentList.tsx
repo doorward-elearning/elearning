@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useViewCourse from '../../hooks/useViewCourse';
 import useRoutes from '../../hooks/useRoutes';
 import useAction from '@doorward/ui/hooks/useActions';

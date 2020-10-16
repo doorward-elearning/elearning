@@ -135,7 +135,9 @@ export interface ModalProps {
   cancellable?: boolean;
   className?: string;
   blurBackground?: boolean;
+  bottomSheet?: boolean;
 }
+
 export interface ModalHeaderProps {
   title?: string;
   onSearch?: (search: string) => void;
@@ -200,6 +202,7 @@ class Modal extends Component<ModalProps> {
             className={classNames({
               'ed-modal': true,
               open: visible,
+              bottomSheet: props.bottomSheet,
               [props.className || '']: true,
             })}
           >

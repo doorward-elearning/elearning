@@ -1,10 +1,14 @@
 .ed-draft-reader {
+  max-width: 1000px;
+
+
   &__editorWrapper {
     * {
     }
   }
   &__wrapper {
     border: 1px solid var(--line-color);
+    border-radius: 5px;
     padding: var(--padding) var(--padding-lg);
   }
   &__editor {

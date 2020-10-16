@@ -35,13 +35,10 @@
   }
 
   &__error-message {
-    font-size: 14px;
     grid-column: 1 / 3;
     grid-row: 3 / 4;
     opacity: 0;
     max-height: 0;
-    pointer-events: none;
-    color: var(--text-error);
     transform: translateY(-100%);
     transition: 0.5s transform, opacity 0.5s, max-height 0.1s;
   }

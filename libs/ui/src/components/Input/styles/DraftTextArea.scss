@@ -1,4 +1,13 @@
 .eb-input--draft-text-area {
+  &__display {
+    transition: 0.2s background;
+    cursor: text;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.08);
+    }
+  }
+
   &.error {
     .eb-input--draft-text-area__toolbar {
       border-top: 1px solid var(--text-error);

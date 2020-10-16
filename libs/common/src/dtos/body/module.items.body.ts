@@ -127,6 +127,20 @@ export class CreateQuizBody extends CreateModuleItemBody {
   @Expose()
   options: QuizOptions;
 
+  static QuestionValidationSchema = Yup.object({
+    question: Yup.string().required('Please enter the question').nullable(),
+    answers: Yup.array()
+      .of(
+        Yup.object({
+          answer: Yup.string().required('Enter a possible answer.'),
+          correct: Yup.bool(),
+        })
+      )
+      .test('Correct Answer', 'Choose at least one correct answer', (value) => {
+        return value.find((x) => x.correct);
+      }),
+  });
+
   async validation?(): Promise<ObjectSchema> {
     let schema = await super.validation();
 
@@ -192,16 +206,7 @@ export class CreateQuizBody extends CreateModuleItemBody {
             to: Yup.string().nullable(),
           }),
         }),
-        questions: Yup.array(
-          Yup.object({
-            question: Yup.string().required('Please enter the question').nullable(),
-            answers: Yup.array(
-              Yup.object({
-                answer: Yup.string().required('Enter a possible answer.'),
-              })
-            ),
-          })
-        ),
+        questions: Yup.array().of(CreateQuizBody.QuestionValidationSchema),
       })
     );
 

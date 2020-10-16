@@ -9,6 +9,11 @@
   border: 1px solid var(--text-primary);
   transition: 0.5s background;
 
+  &.disabled {
+    opacity: 0.8;
+    cursor: default;
+  }
+
   &:before,
   &:after {
     content: '';

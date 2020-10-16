@@ -40,7 +40,7 @@ const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> =
   );
 };
 
-const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props => {
+const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = (props) => {
   const [searchText, setSearchText] = useState('');
   const [focused, setFocused] = useState(false);
   const [submit, setSubmit] = useState(false);
@@ -60,9 +60,8 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
     }
   }, [props.state]);
 
-  useClickOutside(e => {
+  useClickOutside((e) => {
     setFocused(false);
-    setSubmit(true);
   }, searchElement);
 
   useEffect(() => {
@@ -95,7 +94,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
       setPredictedText('');
     }
     setSuggestions(
-      mainSuggestions.filter(suggestion => {
+      mainSuggestions.filter((suggestion) => {
         return suggestion.text.toLowerCase().includes((searchText || '').toLowerCase());
       })
     );
@@ -103,7 +102,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
 
   useCaptureKeyDown(
     inputElement,
-    e => {
+    (e) => {
       if (e.keyCode === 9) {
         e.preventDefault();
         if (predictedText) {
@@ -129,7 +128,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
 
   useEffect(() => {
     if (suggestions && searchText) {
-      const prediction = suggestions.find(suggestion => {
+      const prediction = suggestions.find((suggestion) => {
         return suggestion.text.toLowerCase().startsWith(searchText.toLowerCase());
       });
       let predictionText = prediction?.text || '';
@@ -193,7 +192,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = props 
           {() => {
             return (
               <React.Fragment>
-                {suggestions.map(suggestion => (
+                {suggestions.map((suggestion) => (
                   <SearchSuggestionView
                     suggestion={suggestion}
                     searchText={searchText}
