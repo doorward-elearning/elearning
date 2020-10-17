@@ -1,17 +1,6 @@
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import { ChildEntity, Column, OneToMany } from 'typeorm';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { QuizOptions } from '@doorward/common/types/quiz';
-import QuestionEntity from '@doorward/common/entities/question.entity';
+import { ChildEntity } from 'typeorm';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
-@ChildEntity(ModuleItemType.QUIZ)
-export class QuizEntity extends ModuleItemEntity {
-  @Column({ type: 'json', nullable: true })
-  options: QuizOptions;
-
-  @Column({ type: 'text' })
-  instructions: string;
-
-  @OneToMany(() => QuestionEntity, (question) => question.quiz)
-  questions: Array<QuestionEntity>;
-}
+@ChildEntity(AssessmentTypes.QUIZ)
+export class QuizEntity extends AssessmentEntity {}

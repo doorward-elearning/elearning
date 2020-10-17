@@ -1,6 +1,11 @@
 export enum ModuleItemType {
   PAGE = 'Page',
   ASSIGNMENT = 'Assignment',
-  QUIZ = 'Quiz',
+  ASSESSMENT = 'Assessment',
   FILE = 'File',
+}
+
+export enum AssessmentTypes {
+  EXAM = 'Exam',
+  QUIZ = 'Quiz',
 }

@@ -13,6 +13,8 @@ import {
   CreateQuizBody,
   CreateAssignmentBody,
   CreatePageBody,
+  CreateAssessmentBody,
+  CreateExamBody,
   UpdateModulesBody,
   CreateOrganizationBody,
   UpdateOrganizationBody,
@@ -218,7 +220,7 @@ const DoorwardBackendApi = {
     getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return GET(`/module/items/${itemId}`, {}, config);
     },
-    updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateQuizBody | CreateAssessmentBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return PUT(`/module/items/${itemId}`, body, {}, config);
     },
   },
@@ -232,7 +234,7 @@ const DoorwardBackendApi = {
     updateModule: (moduleId: string, body: UpdateModuleBody, config ? : AxiosRequestConfig): Promise < ModuleResponse > => {
       return PUT(`/modules/${moduleId}`, body, {}, config);
     },
-    createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateAssessmentBody | CreateExamBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return POST(`/modules/${moduleId}/items`, body, {}, config);
     },
     updateCourseModules: (body: UpdateModulesBody, config ? : AxiosRequestConfig): Promise < UpdateModulesOrderResponse > => {

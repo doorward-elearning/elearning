@@ -1,6 +1,6 @@
-import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { EntityRepository } from 'typeorm';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
 
 @EntityRepository(QuizEntity)
-export default class QuizRepository extends ModuleItemsRepository<QuizEntity> {}
+export default class QuizRepository extends AssessmentRepository<QuizEntity> {}

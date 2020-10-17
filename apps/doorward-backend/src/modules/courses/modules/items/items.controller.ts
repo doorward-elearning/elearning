@@ -7,10 +7,17 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
-import { CreateAssignmentBody, CreateModuleItemBody, CreatePageBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import {
+  CreateAssessmentBody,
+  CreateAssignmentBody,
+  CreateExamBody,
+  CreateModuleItemBody,
+  CreatePageBody,
+  CreateQuizBody,
+} from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 
 const ModuleItemExists = () =>
@@ -52,14 +59,37 @@ export class ItemsController {
   @Privileges('moduleItems.update')
   @ModuleItemExists()
   @ApiResponse({ status: HttpStatus.OK, type: ModuleItemResponse, description: 'The module item that was updated.' })
-  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody, CreatePageBody) } })
+  @ApiBody({
+    schema: {
+      anyOf: refs(
+        CreateModuleItemBody,
+        CreateQuizBody,
+        CreateAssignmentBody,
+        CreatePageBody,
+        CreateQuizBody,
+        CreateAssessmentBody
+      ),
+    },
+  })
   async updateModuleItem(
     @Param('itemId') itemId: string,
-    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody,
+    @Body()
+    body:
+      | CreateModuleItemBody
+      | CreateAssessmentBody
+      | CreateAssignmentBody
+      | CreatePageBody
+      | CreateExamBody
+      | CreateQuizBody,
     @CurrentUser() author: UserEntity
   ): Promise<ModuleItemResponse> {
-    if (body.type === ModuleItemType.QUIZ) {
-      await YupValidationPipe.validate(CreateQuizBody, body);
+    if (body.type === ModuleItemType.ASSESSMENT) {
+      await YupValidationPipe.validate(CreateAssessmentBody, body);
+      if ((body as CreateAssessmentBody).assessmentType === AssessmentTypes.EXAM) {
+        await YupValidationPipe.validate(CreateExamBody, body);
+      } else if ((body as CreateAssessmentBody).assessmentType === AssessmentTypes.QUIZ) {
+        await YupValidationPipe.validate(CreateQuizBody, body);
+      }
     } else if (body.type === ModuleItemType.PAGE) {
       await YupValidationPipe.validate(CreatePageBody, body);
     } else if (body.type === ModuleItemType.ASSIGNMENT) {

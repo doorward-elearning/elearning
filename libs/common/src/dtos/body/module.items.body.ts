@@ -8,9 +8,10 @@ import {
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { AssignmentOptions } from '@doorward/common/types/assignments';
 import { QuizOptions } from '@doorward/common/types/quiz';
+import { AssessmentOptions } from '@doorward/common/types/assessments';
 
 export class CreateQuestionBody {
   @ApiProperty()
@@ -114,7 +115,7 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
   }
 }
 
-export class CreateQuizBody extends CreateModuleItemBody {
+export class CreateAssessmentBody extends CreateModuleItemBody {
   @ApiProperty()
   @Expose()
   questions: Array<CreateQuestionBody>;
@@ -125,7 +126,11 @@ export class CreateQuizBody extends CreateModuleItemBody {
 
   @ApiProperty()
   @Expose()
-  options: QuizOptions;
+  options: AssessmentOptions;
+
+  @ApiProperty()
+  @Expose()
+  assessmentType: AssessmentTypes;
 
   static QuestionValidationSchema = Yup.object({
     question: Yup.string().required('Please enter the question').nullable(),
@@ -206,13 +211,17 @@ export class CreateQuizBody extends CreateModuleItemBody {
             to: Yup.string().nullable(),
           }),
         }),
-        questions: Yup.array().of(CreateQuizBody.QuestionValidationSchema),
+        questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema),
       })
     );
 
     return schema;
   }
 }
+
+export class CreateQuizBody extends CreateAssessmentBody {}
+
+export class CreateExamBody extends CreateQuizBody {}
 
 export class SubmitAssignmentBody extends DApiBody {
   @ApiProperty()

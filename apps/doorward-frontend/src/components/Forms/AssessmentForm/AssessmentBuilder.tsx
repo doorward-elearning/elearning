@@ -11,7 +11,7 @@ import TabLayout from '@doorward/ui/components/TabLayout';
 import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import QuestionView, { QuestionViewTypes } from '../../UI/QuizView/QuestionView';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import AddQuizQuestionModal from './AddQuizQuestionModal';
+import AddQuestionModal from './AddQuizQuestionModal';
 
 const NoQuestions = () => {
   return (
@@ -27,7 +27,7 @@ const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ questi
   );
 };
 
-const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
+const AssessmentBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
   (props): JSX.Element => {
     const { formikProps } = useContext(FormContext);
     const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
@@ -42,9 +42,9 @@ const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
 
     return (
       <React.Fragment>
-        <AddQuizQuestionModal useModal={questionModal} onAddQuestion={arrayHelpers?.push} />
+        <AddQuestionModal useModal={questionModal} onAddQuestion={arrayHelpers?.push} />
         {editQuestion && (
-          <AddQuizQuestionModal
+          <AddQuestionModal
             question={editQuestion}
             useModal={editQuestionModal}
             onAddQuestion={(question) => {
@@ -106,4 +106,4 @@ export interface QuestionDisplayProps {
   onEditQuestion: () => void;
 }
 
-export default QuizBuilder;
+export default AssessmentBuilder;

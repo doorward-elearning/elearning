@@ -13,6 +13,7 @@ import Icon from '@doorward/ui/components/Icon';
 
 export enum QuestionViewTypes {
   EDIT_MODE = 'editMode',
+  ANSWER_PREVIEW_MODE = 'answerPreviewMode',
 }
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view, onEditQuestion }) => {
@@ -20,10 +21,19 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
   const { quiz } = useContext(QuizContext);
 
   useEffect(() => {
-    if (quiz?.options.shuffleAnswers) {
-      setAnswers(_.shuffle(answers));
+    if (view === QuestionViewTypes.EDIT_MODE) {
+      setAnswers(question.answers);
+    }
+  }, [question.answers]);
+
+  useEffect(() => {
+    if (view !== QuestionViewTypes.EDIT_MODE) {
+      if (quiz?.options.shuffleAnswers) {
+        setAnswers(_.shuffle(answers));
+      }
     }
   }, [quiz]);
+
   return (
     <div className="question-view">
       <Panel noBackground>
@@ -37,6 +47,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
           <AnswersView answers={answers} question={question} view={view} />
         </div>
       </Panel>
+      <Spacer />
     </div>
   );
 };

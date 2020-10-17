@@ -16,6 +16,7 @@
     "moduleItems": ["create", "update", "delete", "read"],
     "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
     "assignments": ["submit", "grade"],
+    "quizzes": ["submit", "grade"],
     "course-students": ["view", "create", "un-enroll"],
     "course-managers": ["view", "create"],
     "groups": ["create", "view", "update", "delete", "add-member"],

@@ -2,17 +2,17 @@ import React, { FunctionComponent } from 'react';
 import AddModuleItemForm from '../AddModuleItemForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import './QuizDetailsForm.scss';
-import QuizDetails from './QuizDetails';
+import AssessmentDetails from './AssessmentDetails';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { CreateQuizBody } from '@doorward/common/dtos/body';
+import { CreateAssessmentBody, CreateQuizBody } from '@doorward/common/dtos/body';
 import { QuizEntity } from '@doorward/common/entities/quiz.entity';
-import QuizOptions from './QuizOptions';
+import AssessmentOptions from './AssessmentOptions';
 
-const defaultQuiz: CreateQuizBody = {
-  title: 'Unnamed Quiz',
+const defaultAssessment: CreateAssessmentBody = (type: ModuleItemType, title?: string) => ({
+  title: title || 'Unnamed',
   instructions: '',
-  type: ModuleItemType.QUIZ,
+  type,
   order: 0,
   options: {
     shuffleAnswers: false,
@@ -53,9 +53,9 @@ const defaultQuiz: CreateQuizBody = {
     },
   },
   questions: [],
-};
+});
 
-const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
+const CreateAssessmentForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
   const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
 
   const form = useForm<CreateQuizFormState>();
@@ -73,8 +73,8 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
       >
         {() => (
           <div className="quiz-details-form">
-            <QuizDetails />
-            <QuizOptions />
+            <AssessmentDetails />
+            <AssessmentOptions />
           </div>
         )}
       </AddModuleItemForm>
@@ -82,7 +82,7 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
   );
 };
 
-export interface CreateQuizFormProps {
+export interface CreateAssessmentFormProps{
   onSuccess: () => void;
   onCancel: () => void;
   module: ModuleEntity;
@@ -92,4 +92,4 @@ export interface CreateQuizFormProps {
 
 export type CreateQuizFormState = CreateQuizBody;
 
-export default CreateQuizForm;
+export default CreateAssessmentForm;

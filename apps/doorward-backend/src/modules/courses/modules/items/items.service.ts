@@ -1,11 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { lowerCase } from 'lodash';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModulesRepository from '@doorward/backend/repositories/modules.repository';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import UserEntity from '@doorward/common/entities/user.entity';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import QuestionRepository from '@doorward/backend/repositories/question.repository';
 import AnswerRepository from '@doorward/backend/repositories/answer.repository';
 import QuestionEntity from '@doorward/common/entities/question.entity';
@@ -14,6 +13,7 @@ import { In } from 'typeorm';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
 import {
   CreateAnswerBody,
+  CreateAssessmentBody,
   CreateAssignmentBody,
   CreateModuleItemBody,
   CreatePageBody,
@@ -24,6 +24,8 @@ import {
 import PageRepository from '@doorward/backend/repositories/page.repository';
 import AssignmentRepository from '@doorward/backend/repositories/assignment.repository';
 import QuizRepository from '@doorward/backend/repositories/quiz.repository';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import ExamRepository from '@doorward/backend/repositories/exam.repository';
 
 @Injectable()
 export class ItemsService {
@@ -34,7 +36,8 @@ export class ItemsService {
     private answerRepository: AnswerRepository,
     private pageRepository: PageRepository,
     private assignmentRepository: AssignmentRepository,
-    private quizRepository: QuizRepository
+    private quizRepository: QuizRepository,
+    private examRepository: ExamRepository
   ) {}
 
   static getModuleItemText(item: ModuleItemType) {
@@ -83,24 +86,33 @@ export class ItemsService {
           assignment,
           ...defaultProperties,
         });
-      } else if (body.type === ModuleItemType.QUIZ) {
-        const { options, instructions } = body as CreateQuizBody;
-        const quiz = await this.quizRepository.createAndSave({
+      } else if (body.type === ModuleItemType.ASSESSMENT) {
+        const { options, instructions, assessmentType } = body as CreateAssessmentBody;
+        const properties = {
           options,
           instructions,
           ...defaultProperties,
-        });
-        quiz.questions = await this._createOrUpdateQuizQuestions(quiz, (body as CreateQuizBody).questions);
-        return quiz;
+        };
+        let assessment;
+        if (assessmentType === AssessmentTypes.QUIZ) {
+          assessment = await this.quizRepository.createAndSave(properties);
+        } else if (assessmentType === AssessmentTypes.EXAM) {
+          assessment = await this.examRepository.createAndSave(properties);
+        }
+        assessment.questions = await this._createOrUpdateAssessmentQuestions(
+          assessment,
+          (body as CreateAssessmentBody).questions
+        );
+        return assessment;
       }
     }
   }
 
-  private async _createOrUpdateQuizQuestions(
-    quiz: ModuleItemEntity,
+  private async _createOrUpdateAssessmentQuestions(
+    assessment: AssessmentEntity,
     questions: Array<CreateQuestionBody>
   ): Promise<QuestionEntity[]> {
-    const allQuestions = await this.questionRepository.find({ where: { quiz } });
+    const allQuestions = await this.questionRepository.find({ where: { assessment } });
 
     const { newItems, unchanged, removed } = compareLists(
       allQuestions,
@@ -127,7 +139,7 @@ export class ItemsService {
             question: typeof questionBody === 'string' ? questionBody : JSON.stringify(questionBody),
             points,
             id,
-            quiz,
+            assessment,
           })
         );
 

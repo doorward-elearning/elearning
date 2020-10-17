@@ -12,6 +12,7 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
   Quiz: 'view_list',
   'Discussion Forum': 'more',
   File: 'file_copy',
+  Exam: 'assessment',
 };
 
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = (props) => {
@@ -33,7 +34,9 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Dropdown.Item icon={ModuleItemIcons.Quiz} link={routes.addQuiz.withParams(params)}>
           Quiz
         </Dropdown.Item>
-        {/*<Dropdown.Item icon={ModuleItemIcons['Discussion Forum']}>Discussion Forum</Dropdown.Item>*/}
+        <Dropdown.Item icon={ModuleItemIcons.Exam} link={routes.addExam.withParams(params)}>
+          Exam
+        </Dropdown.Item>
         {/*<Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>*/}
       </Dropdown.Menu>
     </Dropdown>

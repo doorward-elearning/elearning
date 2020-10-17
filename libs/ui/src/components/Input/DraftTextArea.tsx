@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from 'react-draft-wysiwyg';
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
@@ -9,6 +9,7 @@ import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';
 import { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapper';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import _ from 'lodash';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -24,24 +25,35 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   ...props
 }): JSX.Element => {
   const editorRef = React.useRef(null);
-  const [editorState, setEditorState] = React.useState();
+  const [editorState, setEditorState] = React.useState<any>();
   const [focused, setFocused] = useState(true);
   useEffect(() => {
+    let newState = null;
     try {
-      setEditorState(
-        value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty()
-      );
+      newState = value ? EditorState.createWithContent(convertFromRaw(JSON.parse(value))) : EditorState.createEmpty();
     } catch (e) {
-      setEditorState(EditorState.createWithContent(convertFromRaw(generateEditorStateFromString(value))));
+      newState = EditorState.createWithContent(convertFromRaw(generateEditorStateFromString(value)));
+    }
+    setEditorState(newState);
+  }, []);
+
+  useEffect(() => {
+    if (!value) {
+      setEditorState(EditorState.createEmpty());
     }
   }, [value]);
+
+  const debounceChange = useCallback(
+    _.debounce((e: ChangeEvent<HTMLInputElement>) => props.onChange(e), 50),
+    []
+  );
 
   useEffect(() => {
     if (editorState) {
       const contentState = editorState.getCurrentContent();
-      const value = !contentState.hasText() ? '' : JSON.stringify(exportFunction.json(contentState));
-      const event = { target: { value, name: name } };
-      props.onChange(event);
+      const newValue = !contentState.hasText() ? '' : JSON.stringify(exportFunction.json(contentState));
+      const event = { target: { value: newValue, name: name } };
+      debounceChange(event as ChangeEvent<HTMLInputElement>);
     }
   }, [editorState]);
 
@@ -94,4 +106,4 @@ export interface DraftTextAreaProps extends InputProps {
   shy?: boolean;
 }
 
-export default withInput(DraftTextArea, [InputFeatures.LABEL], {}, true);
+export default withInput(DraftTextArea, [InputFeatures.LABEL], {});

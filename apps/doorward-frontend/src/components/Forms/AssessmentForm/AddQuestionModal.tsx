@@ -56,7 +56,7 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo((pro
   );
 });
 
-const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
+const AddQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
   useModal,
   onAddQuestion,
   question: editQuestion,
@@ -152,4 +152,4 @@ export interface AnswersPanelProps {
   arrayHelpers: ArrayHelpers;
 }
 
-export default AddQuizQuestionModal;
+export default AddQuestionModal;

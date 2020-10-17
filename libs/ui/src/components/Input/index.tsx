@@ -1,4 +1,13 @@
-import React, { ChangeEvent, ChangeEventHandler, FunctionComponent, useCallback, useContext, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ChangeEventHandler,
+  FunctionComponent,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import _ from 'lodash';
 import './styles/Input.scss';
 import classNames from 'classnames';
@@ -49,18 +58,31 @@ function withInput<R extends InputProps>(
     const [isRequired, setIsRequired] = useState(false);
     const { formikProps, editable, validationSchema } = useContext(FormContext);
     const { name } = props;
+    const mountedRef = useRef<boolean>(false);
 
     const inputProps: any = { ...props, formikProps };
+    useEffect(() => {
+      mountedRef.current = true;
+
+      return () => {
+        mountedRef.current = false;
+      };
+    }, []);
 
     const onValueChange = useCallback(
       _.debounce((e: ChangeEvent<HTMLInputElement>, handler: ChangeEventHandler) => {
-        handler(e);
+        if (mountedRef.current) {
+          handler(e);
+        }
       }, 80),
       []
     );
+
     const clearChangeEvent = useCallback(
       _.debounce(() => {
-        setChangeEvent(null);
+        if (mountedRef.current) {
+          setChangeEvent(null);
+        }
       }, 160),
       []
     );
@@ -71,8 +93,8 @@ function withInput<R extends InputProps>(
           handler(e);
           setChangeEvent({ ...e });
         } else {
-          setChangeEvent({ ...e });
           onValueChange({ ...e }, handler);
+          setChangeEvent({ ...e });
           clearChangeEvent();
         }
       },
@@ -116,7 +138,7 @@ function withInput<R extends InputProps>(
           <div className="eb-input__input">
             <Input
               {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
-              value={changeEvent ? changeEvent?.target?.value : _.get(formikProps.values, name)}
+              value={changeEvent ? changeEvent?.target?.value : inputProps.value}
               onChange={(e) => (debounceInput ? onChange(e, inputProps.onChange) : inputProps.onChange(e))}
             />
           </div>

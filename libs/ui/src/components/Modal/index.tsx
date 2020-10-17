@@ -10,6 +10,7 @@ import Button, { ButtonProps } from '../Buttons/Button';
 import IfElse from '../IfElse';
 import { UseModal } from '../../hooks/useModal';
 import NavBarSearch from '../NavBar/NavBarSearch';
+import Container from '@doorward/ui/components/Container';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -207,7 +208,9 @@ class Modal extends Component<ModalProps> {
             })}
           >
             <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
-            <div className="ed-modal__content">{children}</div>
+            <div className="ed-modal__content">
+              <Container>{children}</Container>
+            </div>
           </div>
         </ModalContext.Provider>
       </FeatureProvider>,

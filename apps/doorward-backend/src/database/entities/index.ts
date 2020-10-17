@@ -24,6 +24,8 @@ import { PageEntity } from '@doorward/common/entities/page.entity';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
+import { ExamEntity } from '@doorward/common/entities/exam.entity';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
 const entities = [
   AnswerEntity,
@@ -52,6 +54,8 @@ const entities = [
   AssignmentEntity,
   DiscussionGroupEntity,
   DiscussionCommentEntity,
+  ExamEntity,
+  AssessmentEntity,
 ];
 
 export default entities;

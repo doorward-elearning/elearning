@@ -4,6 +4,7 @@ export const routeNames = () => {
     addCourseStudent: t.addCourseStudent,
     addModulePage: 'Add Page',
     addQuiz: 'Create Quiz',
+    addExam: 'Create Exam',
     addStudentGroup: 'Add Student Group',
     addTeacher: 'Add Teacher',
     addTeacherGroup: 'Add Teacher Group',

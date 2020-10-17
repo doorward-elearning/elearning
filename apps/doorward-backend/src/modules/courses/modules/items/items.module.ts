@@ -9,6 +9,8 @@ import QuestionRepository from '@doorward/backend/repositories/question.reposito
 import PageRepository from '@doorward/backend/repositories/page.repository';
 import QuizRepository from '@doorward/backend/repositories/quiz.repository';
 import AssignmentRepository from '@doorward/backend/repositories/assignment.repository';
+import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
+import ExamRepository from '@doorward/backend/repositories/exam.repository';
 
 @Module({
   imports: [
@@ -20,6 +22,8 @@ import AssignmentRepository from '@doorward/backend/repositories/assignment.repo
       PageRepository,
       QuizRepository,
       AssignmentRepository,
+      AssessmentRepository,
+      ExamRepository,
     ]),
   ],
   providers: [ItemsService],

@@ -127,6 +127,7 @@
           grid-auto-flow: column;
           justify-items: end;
           grid-gap: var(--padding-xlg);
+          justify-content: end;
         }
 
         .no-action-buttons {

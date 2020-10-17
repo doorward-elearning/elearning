@@ -1,5 +1,6 @@
 .eb-input--draft-text-area {
   &__display {
+    max-width: 1000px;
     transition: 0.2s background;
     cursor: text;
 
@@ -18,6 +19,10 @@
     .eb-input--draft-text-area__editor {
       border: 1px solid var(--text-error);
       border-top: none;
+    }
+    .eb-input--draft-text-area__display {
+      border: 1px solid var(--text-error);
+      border-radius: 5px;
     }
   }
   &__wrapper:not(.fluid) {

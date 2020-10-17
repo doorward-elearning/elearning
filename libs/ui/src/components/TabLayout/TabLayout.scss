@@ -26,17 +26,17 @@
     grid-auto-flow: column;
     justify-content: start;
     position: relative;
-    padding: var(--padding-sm);
+    padding: var(--padding-sm) var(--padding-lg);
     overflow-x: scroll;
 
     .ed-tabLayout__tabTitle {
       padding: var(--padding) var(--padding-lg);
       cursor: pointer;
       background: rgba(0, 0, 0, 0.03);
-      margin: 1px 1px;
-      border-radius: 5px;
+      margin: 1px 0;
       border: 1px solid var(--line-color);
       transition: 0.2s background, 0.2s color, 0.3s border;
+      border-radius: 2px;
 
       .ed-badge {
         background: var(--text-primary);
@@ -44,16 +44,18 @@
       }
 
       &:hover:not(.selected) {
-        color: var(--accent);
+        color: var(--primary);
         background: rgba(0, 0, 0, 0.08);
+        font-weight: bold;
       }
 
       &.selected {
         font-weight: 500;
         cursor: default;
-        border: 1px solid var(--accent);
-        background: unset;
-        color: var(--accent);
+        border: 1px solid var(--primary);
+        background: var(--bg-primary);
+        color: var(--primary);
+        transform: scale(1.1);
 
         .ed-badge {
           background: var(--accent);

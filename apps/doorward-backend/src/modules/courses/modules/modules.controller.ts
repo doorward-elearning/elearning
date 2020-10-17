@@ -7,7 +7,7 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import { ApiBody, ApiResponse, ApiTags, refs } from '@nestjs/swagger';
 import { CourseExists } from '../courses.controller';
@@ -17,7 +17,9 @@ import {
   UpdateModulesOrderResponse,
 } from '@doorward/common/dtos/response/modules.responses';
 import {
+  CreateAssessmentBody,
   CreateAssignmentBody,
+  CreateExamBody,
   CreateModuleItemBody,
   CreatePageBody,
   CreateQuizBody,
@@ -65,14 +67,36 @@ export class ModulesController {
     type: ModuleItemResponse,
     description: 'The module item that was created.',
   })
-  @ApiBody({ schema: { anyOf: refs(CreateModuleItemBody, CreateQuizBody, CreateAssignmentBody, CreatePageBody) } })
+  @ApiBody({
+    schema: {
+      anyOf: refs(
+        CreateModuleItemBody,
+        CreateQuizBody,
+        CreateAssignmentBody,
+        CreatePageBody,
+        CreateAssessmentBody,
+        CreateExamBody
+      ),
+    },
+  })
   async createModuleItem(
     @Param('moduleId') moduleId: string,
-    @Body() body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody,
+    @Body()
+    body:
+      | CreateModuleItemBody
+      | CreateQuizBody
+      | CreateAssignmentBody
+      | CreatePageBody
+      | CreateAssessmentBody
+      | CreateExamBody,
     @CurrentUser() user: UserEntity
   ): Promise<ModuleItemResponse> {
-    if (body.type === ModuleItemType.QUIZ) {
-      await YupValidationPipe.validate(CreateQuizBody, body);
+    if (body.type === ModuleItemType.ASSESSMENT) {
+      if ((body as CreateAssessmentBody).assessmentType === AssessmentTypes.EXAM) {
+        await YupValidationPipe.validate(CreateExamBody, body);
+      } else if ((body as CreateAssessmentBody).assessmentType === AssessmentTypes.QUIZ) {
+        await YupValidationPipe.validate(CreateQuizBody, body);
+      }
     } else if (body.type === ModuleItemType.ASSIGNMENT) {
       await YupValidationPipe.validate(CreateAssignmentBody, body);
     } else if (body.type === ModuleItemType.PAGE) {

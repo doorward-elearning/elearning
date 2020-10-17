@@ -10,7 +10,7 @@ import DateInput from '@doorward/ui/components/Input/DateInput';
 import Row from '@doorward/ui/components/Row';
 import { FormContext } from '@doorward/ui/components/Form';
 
-const QuizOptions: React.FunctionComponent<QuizOptionsProps> = (props): JSX.Element => {
+const AssessmentOptions: React.FunctionComponent<QuizOptionsProps> = (props): JSX.Element => {
   return (
     <FormContext.Consumer>
       {({ formikProps }) => (
@@ -109,4 +109,4 @@ const QuizOptions: React.FunctionComponent<QuizOptionsProps> = (props): JSX.Elem
 
 export interface QuizOptionsProps {}
 
-export default QuizOptions;
+export default AssessmentOptions;

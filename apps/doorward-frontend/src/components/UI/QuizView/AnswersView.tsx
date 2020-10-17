@@ -12,7 +12,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
   const [editable, setEditable] = useState(true);
 
   useEffect(() => {
-    if (view === QuestionViewTypes.EDIT_MODE) {
+    if (view === QuestionViewTypes.EDIT_MODE || view === QuestionViewTypes.ANSWER_PREVIEW_MODE) {
       setEditable(false);
     }
   }, [view]);

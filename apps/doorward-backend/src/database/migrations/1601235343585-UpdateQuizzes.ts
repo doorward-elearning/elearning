@@ -10,10 +10,7 @@ export class UpdateQuizzes1601235343585 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "ModuleItems" ADD "instructions" text`);
 
     const repository = queryRunner.manager.getRepository(QuizEntity);
-    const quizzes = await repository
-      .createQueryBuilder('quiz')
-      .where('type = :type', { type: ModuleItemType.QUIZ })
-      .getMany();
+    const quizzes = await repository.createQueryBuilder('quiz').where('type = :type', { type: 'Quiz' }).getMany();
 
     await Promise.all(
       quizzes.map(async (quiz) => {
@@ -32,10 +29,7 @@ export class UpdateQuizzes1601235343585 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const repository = queryRunner.manager.getRepository(QuizEntity);
-    const quizzes = await repository
-      .createQueryBuilder('quiz')
-      .where('type = :type', { type: ModuleItemType.QUIZ })
-      .getMany();
+    const quizzes = await repository.createQueryBuilder('quiz').where('type = :type', { type: 'Quiz' }).getMany();
 
     await Promise.all(
       quizzes.map(async (quiz) => {
