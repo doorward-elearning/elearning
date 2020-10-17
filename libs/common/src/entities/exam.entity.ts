@@ -1,6 +1,8 @@
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
-import { AssessmentTypes } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { ChildEntity } from 'typeorm';
 
-@ChildEntity(AssessmentTypes.EXAM)
-export class ExamEntity extends AssessmentEntity {}
+@ChildEntity(ModuleItemType.ASSESSMENT)
+export class ExamEntity extends AssessmentEntity {
+  assessmentType = AssessmentTypes.EXAM;
+}

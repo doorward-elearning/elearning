@@ -1,4 +1,10 @@
 .ed-datePicker {
+  &__display {
+    background: rgba(0, 0, 0, 0.1);
+    padding: var(--padding) var(--padding);
+    border-radius: 5px;
+  }
+
   .react-datepicker {
     * {
       font-family: var(--font-family);

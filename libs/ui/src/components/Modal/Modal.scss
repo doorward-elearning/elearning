@@ -28,6 +28,7 @@
 
       &__content {
         opacity: 1;
+        display: grid;
       }
     }
 
@@ -70,7 +71,7 @@
   }
 
   &__content {
-    display: grid;
+    display: none;
     grid-template-rows: auto 1fr auto;
     background: var(--bg-primary);
     min-width: 500px;

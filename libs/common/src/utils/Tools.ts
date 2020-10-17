@@ -116,30 +116,30 @@ class Tools {
   }
 
   static shortDate(str: string | Date): string {
-    return moment(str).format('DD/MM/YYYY');
+    return str ? moment(str).format('DD/MM/YYYY') : '--';
   }
 
   static normalDate(str: string | Date): string {
-    return moment(str).format('Do MMMM YYYY');
+    return str ? moment(str).format('Do MMMM YYYY') : '--';
   }
 
   static longDate(str: string | Date): string {
-    return moment(str).format('dddd, MMMM Do YYYY');
+    return str ? moment(str).format('dddd, MMMM Do YYYY') : '--';
   }
   static shortDateTime(str: string | Date): string {
-    return moment(str).format('DD/MM/YYYY hh:mm a');
+    return str ? moment(str).format('DD/MM/YYYY hh:mm a') : '--';
   }
 
   static normalDateTime(str: string | Date): string {
-    return moment(str).format('Do MMMM YYYY hh:mm a');
+    return str ? moment(str).format('Do MMMM YYYY hh:mm a') : '--';
   }
 
   static longDateTime(str: string | Date): string {
-    return moment(str).format('dddd, MMMM Do YYYY at hh:mm a');
+    return str ? moment(str).format('dddd, MMMM Do YYYY at hh:mm a') : '--';
   }
 
   static normalTime(str: string | Date): string {
-    return moment(str).format('hh:mm a');
+    return str ? moment(str).format('hh:mm a') : '--';
   }
 
   static handleReorder<T>(items: Array<T>, key: keyof T, dropResult: DropResult): Array<T> {

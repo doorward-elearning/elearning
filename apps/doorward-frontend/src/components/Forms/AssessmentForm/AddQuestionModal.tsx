@@ -9,18 +9,22 @@ import Icon from '@doorward/ui/components/Icon';
 import Checkbox from '@doorward/ui/components/Input/Checkbox';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import NumberField from '@doorward/ui/components/Input/NumberField';
-import { CreateAnswerBody, CreateQuestionBody, CreateAssessmentBody } from '@doorward/common/dtos/body';
+import { CreateAnswerBody, CreateAssessmentBody, CreateQuestionBody } from '@doorward/common/dtos/body';
 import ErrorMessage from '@doorward/ui/components/Input/ErrorMessage';
 import Modal, { ModalFeatures } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
-import './AddAssessmentQuestionModal.scss';
+import './AddQuestionModal.scss';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
+import { AnswerTypes } from '@doorward/common/types/exam';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
+import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 
 export const defaultQuestion: CreateQuestionBody = {
   question: null,
   points: 1,
+  type: AnswerTypes.MULTIPLE_CHOICE,
   answers: _.times(
     4,
     _.constant({
@@ -60,6 +64,8 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
   useModal,
   onAddQuestion,
   question: editQuestion,
+  type,
+  ...props
 }) => {
   const form = useForm();
   useEffect(() => {
@@ -91,34 +97,53 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
               <div className="assessment-questions">
                 <div className="assessment-questions__question">
                   <NumberField name={`points`} min={1} label="Points" />
+                  {type === AssessmentTypes.EXAM && (
+                    <DropdownSelect
+                      name="type"
+                      icon="question_answer"
+                      options={[
+                        {
+                          value: AnswerTypes.MULTIPLE_CHOICE,
+                          label: 'Multiple Choice',
+                        },
+                        {
+                          value: AnswerTypes.TEXT_INPUT,
+                          label: 'Text input',
+                        },
+                      ]}
+                      label="Answer type"
+                    />
+                  )}
                   <DraftTextArea fluid name={`question`} label="Question description" />
                 </div>
-                <div className="assessment-questions__answers">
-                  <FieldArray name={`answers`}>
-                    {(arrayHelpers) => (
-                      <React.Fragment>
-                        <HeaderGrid>
-                          <Header size={2}>Answers</Header>
-                          <Button
-                            type="button"
-                            theme="accent"
-                            onClick={() =>
-                              arrayHelpers.push({
-                                answer: '',
-                                description: null,
-                                correct: false,
-                              })
-                            }
-                          >
-                            Add Answer
-                          </Button>
-                        </HeaderGrid>
-                        <ErrorMessage name={`answers`} />
-                        <AnswersPanel answers={question.answers} arrayHelpers={arrayHelpers} />
-                      </React.Fragment>
-                    )}
-                  </FieldArray>
-                </div>
+                {question.type === AnswerTypes.MULTIPLE_CHOICE && (
+                  <div className="assessment-questions__answers">
+                    <FieldArray name={`answers`}>
+                      {(arrayHelpers) => (
+                        <React.Fragment>
+                          <HeaderGrid>
+                            <Header size={2}>Answers</Header>
+                            <Button
+                              type="button"
+                              theme="accent"
+                              onClick={() =>
+                                arrayHelpers.push({
+                                  answer: '',
+                                  description: null,
+                                  correct: false,
+                                })
+                              }
+                            >
+                              Add Answer
+                            </Button>
+                          </HeaderGrid>
+                          <ErrorMessage name={`answers`} />
+                          <AnswersPanel answers={question.answers} arrayHelpers={arrayHelpers} />
+                        </React.Fragment>
+                      )}
+                    </FieldArray>
+                  </div>
+                )}
               </div>
             </Modal.Body>
             <Modal.Footer
@@ -140,6 +165,7 @@ export interface AssessmentQuestionsProps {
   useModal: UseModal;
   onAddQuestion: (question: CreateQuestionBody) => void;
   question?: CreateQuestionBody;
+  type: AssessmentTypes;
 }
 
 export interface AnswerInputProps {

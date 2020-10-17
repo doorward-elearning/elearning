@@ -12,6 +12,7 @@ import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import QuestionView, { QuestionViewTypes } from '../../UI/AssessmentView/QuestionView';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import AddQuestionModal from './AddQuestionModal';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 
 const NoQuestions = () => {
   return (
@@ -42,9 +43,10 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
 
     return (
       <React.Fragment>
-        <AddQuestionModal useModal={questionModal} onAddQuestion={arrayHelpers?.push} />
+        <AddQuestionModal useModal={questionModal} onAddQuestion={arrayHelpers?.push} type={props.type} />
         {editQuestion && (
           <AddQuestionModal
+            type={props.type}
             question={editQuestion}
             useModal={editQuestionModal}
             onAddQuestion={(question) => {
@@ -99,7 +101,9 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
   }
 );
 
-export interface AssessmentBuilderProps {}
+export interface AssessmentBuilderProps {
+  type: AssessmentTypes;
+}
 
 export interface QuestionDisplayProps {
   question: CreateQuestionBody;

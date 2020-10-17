@@ -10,8 +10,8 @@ import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { AssignmentOptions } from '@doorward/common/types/assignments';
-import { QuizOptions } from '@doorward/common/types/quiz';
 import { AssessmentOptions } from '@doorward/common/types/assessments';
+import { AnswerTypes } from '@doorward/common/types/exam';
 
 export class CreateQuestionBody {
   @ApiProperty()
@@ -25,6 +25,10 @@ export class CreateQuestionBody {
   @ApiProperty()
   @Expose()
   points: number;
+
+  @ApiProperty()
+  @Expose()
+  type: AnswerTypes;
 
   @ApiProperty()
   @Expose()
@@ -134,6 +138,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
 
   static QuestionValidationSchema = Yup.object({
     question: Yup.string().required('Please enter the question').nullable(),
+    type: Yup.string().oneOf(Object.values(AnswerTypes), "Please enter a valid answer type."),
     answers: Yup.array()
       .of(
         Yup.object({

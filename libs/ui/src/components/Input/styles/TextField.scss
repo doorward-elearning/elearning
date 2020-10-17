@@ -46,8 +46,12 @@ $inputMaxWidth: 500px;
       }
     }
 
+    &__display {
+    }
+
     input,
-    textarea, .eb-input__dropdownSelect {
+    textarea,
+    .eb-input__dropdownSelect {
       grid-row: 1 / 1;
       grid-column: 1 / 1;
       height: 2em;
@@ -60,7 +64,8 @@ $inputMaxWidth: 500px;
       border-radius: 5px;
       font-family: var(--font-family);
 
-      &:focus, &:focus-within {
+      &:focus,
+      &:focus-within {
         border: 1px solid var(--primary);
         box-shadow: 0 0 2px 2px var(--shadow-color) inset;
       }

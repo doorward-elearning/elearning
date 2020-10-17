@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Icon from '../Icon';
 import withInput, { InputFeatures, InputProps } from './index';
 import Select, { SelectProps } from 'react-dropdown-select';
@@ -48,6 +48,7 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
   ...props
 }): JSX.Element => {
   const theme = useContext(ThemeContext);
+  const [optionsList, setOptionsList] = useState([]);
   const onChange = (value: Array<Option>) => {
     props.onChange({
       target: {
@@ -65,7 +66,10 @@ const DropdownSelect: React.FunctionComponent<DropdownSelectProps> = ({
     });
   };
 
-  const optionsList = options instanceof Array ? generateFromString(options) : generateOptionsList(options);
+  useEffect(() => {
+    setOptionsList(options instanceof Array ? generateFromString(options) : generateOptionsList(options));
+  }, [options]);
+
   return (
     <div className={`${className} eb-input__text--select`}>
       <Icon icon={icon} className="eb-input__text-icon" />

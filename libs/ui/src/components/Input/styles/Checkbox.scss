@@ -18,15 +18,6 @@
     }
   }
 
-  &:hover {
-    .ed-checkbox__checkbox {
-      &:after {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-  }
-
   &__checkbox {
     position: absolute;
     top: 0;
@@ -75,8 +66,23 @@
     }
   }
   input[type='checkbox']:disabled + .ed-checkbox__checkbox {
-    opacity: 0.3;
+    opacity: 0.8;
     cursor: default;
+    pointer-events: none;
+
+    &:after,
+    &:before {
+      pointer-events: none;
+    }
+  }
+
+  &:hover {
+    input[type='checkbox']:not(:disabled) + .ed-checkbox__checkbox {
+      &:after {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
   }
 
   input[type='checkbox']:checked + .ed-checkbox__checkbox {

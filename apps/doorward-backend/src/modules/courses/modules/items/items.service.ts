@@ -18,7 +18,6 @@ import {
   CreateModuleItemBody,
   CreatePageBody,
   CreateQuestionBody,
-  CreateQuizBody,
   UpdateModuleItemOrderBody,
 } from '@doorward/common/dtos/body';
 import PageRepository from '@doorward/backend/repositories/page.repository';
@@ -140,7 +139,10 @@ export class ItemsService {
             points,
             id,
             assessment,
-          })
+          }),
+          {
+            transaction: false,
+          }
         );
 
         question.answers = await this._createOrUpdateQuestionAnswers(question, answers);
@@ -176,7 +178,10 @@ export class ItemsService {
             question,
             correct,
             description: description || '',
-          })
+          }),
+          {
+            transaction: false,
+          }
         );
       })
     );

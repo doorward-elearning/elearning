@@ -26,6 +26,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
           type="checkbox"
           {...props}
           checked={!!props.value}
+          disabled={!editable}
           onChange={(e) => {
             props.onChange({ ...e, target: { ...e.target, value: !props.value, name: props.name } });
           }}

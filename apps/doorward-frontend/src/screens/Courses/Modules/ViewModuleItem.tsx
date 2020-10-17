@@ -3,9 +3,7 @@ import useViewCourse from '../../../hooks/useViewCourse';
 import { useRouteMatch } from 'react-router';
 import Layout, { LayoutFeatures } from '../../Layout';
 import useRoutes from '../../../hooks/useRoutes';
-import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 import CreateAssignmentForm from '../../../components/Forms/CreateAssignmentForm';
-import QuizView from '../../../components/UI/AssessmentView';
 import EditableView from '../../../components/EditableView';
 import AssignmentView from '../../../components/UI/AssignmentView';
 import ViewPages from './ViewPages';
@@ -19,9 +17,12 @@ import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
+import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import AssessmentView from '../../../components/UI/AssessmentView';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -35,7 +36,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   const fetchItem = useAction(DoorwardApi.moduleItems.getModuleItem);
   useEffect(() => {
     fetchItem(match.params.itemId);
-  }, [match.params.itemId]);
+  }, []);
 
   const state = useDoorwardApi((state) => state.moduleItems.getModuleItem);
 
@@ -84,7 +85,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
       noNavBar
       actionBtnProps={{
         icon: 'edit',
-        text: item ? `Edit ${item?.type}` : '',
+        text: item ? `Edit ${(item as AssessmentEntity)?.assessmentType || item?.type}` : '',
         theme: 'secondary',
         privileges: ['modules.update'],
         onClick: () => routes.navigate(routes.editModuleItem, params),
@@ -107,20 +108,21 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       item={item as PageEntity}
                     />
                   </IfElse>
-                  <IfElse condition={item.type === 'Quiz'}>
+                  <IfElse condition={item.type === ModuleItemType.ASSESSMENT}>
                     <EditableView
                       viewerView={
-                        <QuizView
-                          quiz={item as QuizEntity}
+                        <AssessmentView
+                          assessment={item as AssessmentEntity}
                           onCancel={() => routes.navigate(routes.viewCourse, params)}
                         />
                       }
                       creatorView={
-                        <CreateQuizForm
-                          onSuccess={() => {}}
+                        <CreateAssessmentForm
+                          onSuccess={() => routes.navigate(routes.viewModuleItem, params)}
                           onCancel={() => routes.navigate(routes.viewModuleItem, params)}
                           module={module}
-                          quiz={item as QuizEntity}
+                          assessment={item as AssessmentEntity}
+                          type={(item as AssessmentEntity).assessmentType}
                         />
                       }
                       creatorPrivileges={['moduleItems.create']}
@@ -128,7 +130,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       isEditing={editing}
                     />
                   </IfElse>
-                  <IfElse condition={item.type === 'Assignment'}>
+                  <IfElse condition={item.type === ModuleItemType.ASSIGNMENT}>
                     <EditableView
                       creatorView={
                         <CreateAssignmentForm

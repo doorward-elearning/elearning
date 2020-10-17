@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import IfElse from '../IfElse';
 import Tools from '@doorward/common/utils/Tools';
 import { Icons } from '../../types/icons';
+import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 
 const TextField: FunctionComponent<TextFieldProps> = ({
   value = '',
@@ -34,7 +35,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
       >
         <IfElse condition={editable}>
           <input type="text" {...props} value={value == null ? '' : value} autoComplete="off" />
-          <span>{Tools.str(value)}</span>
+          <DisplayLabel>{Tools.str(value)}</DisplayLabel>
         </IfElse>
         <Icon
           icon={props.icon}

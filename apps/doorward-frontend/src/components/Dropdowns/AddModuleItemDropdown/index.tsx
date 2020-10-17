@@ -34,7 +34,7 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Dropdown.Item icon={ModuleItemIcons.Quiz} link={routes.addQuiz.withParams(params)}>
           Quiz
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.Exam} link={routes.addExam.withParams(params)}>
+        <Dropdown.Item icon={ModuleItemIcons.Assessment} link={routes.addExam.withParams(params)}>
           Exam
         </Dropdown.Item>
         {/*<Dropdown.Item icon={ModuleItemIcons.File}>File</Dropdown.Item>*/}

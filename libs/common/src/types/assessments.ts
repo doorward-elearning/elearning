@@ -30,7 +30,6 @@ export interface AssessmentOptions {
       };
     };
   };
-  dueDate: string;
   availability: {
     from: string | Date | null;
     to: string | Date | null;

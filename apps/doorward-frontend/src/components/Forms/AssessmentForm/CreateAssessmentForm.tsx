@@ -10,7 +10,7 @@ import AssessmentOptions from './AssessmentOptions';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
 const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
-  title: title || 'Unnamed',
+  title: title || `Unnamed ${type}`,
   instructions: '',
   type: ModuleItemType.ASSESSMENT,
   assessmentType: type,
@@ -47,9 +47,8 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
         },
       },
     },
-    dueDate: null,
     availability: {
-      from: null,
+      from: new Date(),
       to: null,
     },
   },

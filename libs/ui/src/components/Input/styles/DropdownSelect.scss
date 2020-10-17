@@ -27,6 +27,7 @@
       margin-left: -3em;
       padding-right: 3em;
       top: calc(100% + var(--padding-lg));
+      width: 100%;
       background: var(--bg-primary);
     }
 
@@ -41,6 +42,7 @@
     .react-dropdown-select-item {
       padding: var(--padding) 0 var(--padding) 3em;
       width: calc(100% - 0.3em);
+      max-width: 500px;
       border-bottom: 1px solid var(--line-color);
 
       &-selected {
