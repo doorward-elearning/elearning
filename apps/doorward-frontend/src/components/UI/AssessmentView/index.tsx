@@ -1,22 +1,22 @@
 import React from 'react';
-import ItemArray from '@doorward/ui/components/ItemArray';
 import QuestionView, { QuestionViewTypes } from './QuestionView';
 import BasicForm from '../../Forms/BasicForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 
-export const QuizContext = React.createContext<QuizContextProps>({});
+export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
-const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
+const AssessmentView: React.FunctionComponent<AssessmentViewProps> = (props) => {
   const initialValues = {
-    answers: (props.quiz.questions || []).reduce(
+    answers: (props.assessment.questions || []).reduce(
       (acc, question) => ({
         ...acc,
         [question.id]: '',
@@ -28,7 +28,7 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
   const state = useDoorwardApi((state) => state.modules.createModuleItem);
   const hasPrivileges = usePrivileges();
   return (
-    <QuizContext.Provider value={{ quiz: props.quiz }}>
+    <AssessmentContext.Provider value={{ assessment: props.assessment }}>
       <BasicForm
         form={form}
         initialValues={initialValues}
@@ -36,22 +36,22 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
         onCancel={props.onCancel}
         state={state}
       >
-        {props.quiz.instructions && (
+        {props.assessment.instructions && (
           <React.Fragment>
             <Header padded size={3}>
               Instructions
             </Header>
             <Panel>
-              <DraftHTMLContent content={props.quiz.instructions} />
+              <DraftHTMLContent content={props.assessment.instructions} />
             </Panel>
           </React.Fragment>
         )}
         <Header padded size={3}>
-          Quiz
+          {props.type}
         </Header>
-        <div className="ed-quiz">
+        <div className="ed-assessment">
           <TabLayout wrapTabs>
-            {props.quiz.questions.map((question, index) => {
+            {props.assessment.questions.map((question, index) => {
               return (
                 <Tab title={`${index + 1}`}>
                   <QuestionView
@@ -65,17 +65,18 @@ const QuizView: React.FunctionComponent<QuizViewProps> = (props) => {
           </TabLayout>
         </div>
       </BasicForm>
-    </QuizContext.Provider>
+    </AssessmentContext.Provider>
   );
 };
 
-export interface QuizContextProps {
-  quiz?: QuizEntity;
+export interface AssessmentContextProps {
+  assessment?: AssessmentEntity;
 }
 
-export interface QuizViewProps {
-  quiz: QuizEntity;
+export interface AssessmentViewProps {
+  assessment: AssessmentEntity;
+  type: AssessmentTypes;
   onCancel: () => void;
 }
 
-export default QuizView;
+export default AssessmentView;

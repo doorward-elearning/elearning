@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './QuizBuilder.scss';
+import './AssessmentBuilder.scss';
 import Header from '@doorward/ui/components/Header';
 import { FormContext } from '@doorward/ui/components/Form';
 import Panel from '@doorward/ui/components/Panel';
@@ -9,9 +9,9 @@ import useModal from '@doorward/ui/hooks/useModal';
 import { ArrayHelpers, FieldArray } from 'formik';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { CreateQuestionBody } from '@doorward/common/dtos/body';
-import QuestionView, { QuestionViewTypes } from '../../UI/QuizView/QuestionView';
+import QuestionView, { QuestionViewTypes } from '../../UI/AssessmentView/QuestionView';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import AddQuestionModal from './AddQuizQuestionModal';
+import AddQuestionModal from './AddQuestionModal';
 
 const NoQuestions = () => {
   return (
@@ -27,7 +27,7 @@ const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ questi
   );
 };
 
-const AssessmentBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
+const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React.memo(
   (props): JSX.Element => {
     const { formikProps } = useContext(FormContext);
     const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
@@ -58,7 +58,7 @@ const AssessmentBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
               setArrayHelpers(_arrayHelpers);
             }
             return (
-              <div className="ed-quiz-builder">
+              <div className="ed-assessment-builder">
                 <HeaderGrid>
                   <Header size={2} padded>
                     Questions
@@ -99,7 +99,7 @@ const AssessmentBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
   }
 );
 
-export interface QuizBuilderProps {}
+export interface AssessmentBuilderProps {}
 
 export interface QuestionDisplayProps {
   question: CreateQuestionBody;

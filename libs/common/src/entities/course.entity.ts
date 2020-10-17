@@ -5,7 +5,7 @@ import UserEntity from './user.entity';
 import ModuleEntity from './module.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
 
 @Entity('Courses')
@@ -61,5 +61,11 @@ export default class CourseEntity extends BaseOrganizationEntity {
 
   numStudents: number;
 
-  itemsCount: Partial<Record<ModuleItemType, number>>;
+  itemsCount: Partial<{
+    [ModuleItemType.PAGE]: number;
+    [ModuleItemType.FILE]: number;
+    [ModuleItemType.ASSIGNMENT]: number;
+    [AssessmentTypes.QUIZ]: number;
+    [AssessmentTypes.EXAM]: number;
+  }>;
 }

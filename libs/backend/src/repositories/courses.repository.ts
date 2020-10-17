@@ -3,7 +3,7 @@ import _ from 'lodash';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import OrganizationBasedRepository from './organization.based.repository';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
@@ -12,14 +12,16 @@ import { PaginatedEntities } from '@doorward/common/dtos/response/base.response'
 
 @EntityRepository(CourseEntity)
 export default class CoursesRepository extends OrganizationBasedRepository<CourseEntity> {
-  public async getCoursesForStudent(studentId: string, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
+  public async getCoursesForStudent(
+    studentId: string,
+    page: PaginationQuery
+  ): Promise<PaginatedEntities<CourseEntity>> {
     const queryBuilder = this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .where('"studentCourses"."studentId" = :studentId', { studentId });
 
     return this.paginate(queryBuilder, page);
-
   }
 
   public async getCoursesByTeacher(teacherId: string, includeManaged = true, page: PaginationQuery) {
@@ -74,7 +76,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       courses.map(async (course) => {
         course.numStudents = await this.getRepository(StudentCoursesEntity).count({ course: { id: course.id } });
         return course;
-      }),
+      })
     );
   }
 
@@ -114,24 +116,42 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
         'Meetings',
         'currentMeeting',
         '"meetingRoom".id = "currentMeeting"."meetingRoomId" AND' + ' "currentMeeting".status = :status',
-        { status: MeetingStatus.STARTED },
+        { status: MeetingStatus.STARTED }
       )
       .getOne();
   }
 
-  public async countModuleItems(courseId: string): Promise<Partial<Record<ModuleItemType, number>>> {
+  public async countModuleItems(courseId: string) {
     const queryResult = await this.getRepository(ModuleItemEntity)
       .createQueryBuilder('moduleItem')
       .leftJoin('moduleItem.module', 'module')
       .where('module."courseId" = :courseId', { courseId })
+      .andWhere('moduleItem.type != :assessment', { assessment: ModuleItemType.ASSESSMENT })
       .select('COUNT("moduleItem".id)')
       .addSelect('"moduleItem".type')
       .addGroupBy('"moduleItem".type')
       .getRawMany<{ count: number; type: ModuleItemType }>();
 
-    return _.chain(queryResult.map((row) => ({ ...row, count: +row.count })))
+    const assessmentQuery = await this.getRepository(ModuleItemEntity)
+      .createQueryBuilder('moduleItem')
+      .leftJoin('moduleItem.module', 'module')
+      .where('module."courseId" = :courseId', { courseId })
+      .andWhere('moduleItem.type = :assessment', { assessment: ModuleItemType.ASSESSMENT })
+      .select('COUNT("moduleItem".id)')
+      .addSelect('"moduleItem"."assessmentType"')
+      .addGroupBy('"moduleItem"."assessmentType"')
+      .getRawMany<{ count: number; assessmentType: AssessmentTypes }>();
+
+    const count = _.chain(queryResult.map((row) => ({ ...row, count: +row.count })))
       .keyBy('type')
       .mapValues('count')
       .value();
+
+    const assessments = _.chain(assessmentQuery.map((row) => ({ ...row, count: +row.count })))
+      .keyBy('assessmentType')
+      .mapValues('count')
+      .value();
+
+    return { ...count, ...assessments };
   }
 }

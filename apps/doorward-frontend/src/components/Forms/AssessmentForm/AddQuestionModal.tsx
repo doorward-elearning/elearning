@@ -9,13 +9,13 @@ import Icon from '@doorward/ui/components/Icon';
 import Checkbox from '@doorward/ui/components/Input/Checkbox';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import NumberField from '@doorward/ui/components/Input/NumberField';
-import { CreateAnswerBody, CreateQuestionBody, CreateQuizBody } from '@doorward/common/dtos/body';
+import { CreateAnswerBody, CreateQuestionBody, CreateAssessmentBody } from '@doorward/common/dtos/body';
 import ErrorMessage from '@doorward/ui/components/Input/ErrorMessage';
 import Modal, { ModalFeatures } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
-import './AddQuizQuestionModal.scss';
+import './AddAssessmentQuestionModal.scss';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 
 export const defaultQuestion: CreateQuestionBody = {
@@ -56,7 +56,7 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo((pro
   );
 });
 
-const AddQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
+const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
   useModal,
   onAddQuestion,
   question: editQuestion,
@@ -77,7 +77,7 @@ const AddQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
         useModal.closeModal();
         onAddQuestion(values);
       }}
-      validationSchema={CreateQuizBody.QuestionValidationSchema}
+      validationSchema={CreateAssessmentBody.QuestionValidationSchema}
     >
       {({ values: question, isValid, submitForm }) => {
         return (
@@ -88,12 +88,12 @@ const AddQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
           >
             <Modal.Header title={editQuestion ? 'Edit question' : 'Add question'} />
             <Modal.Body>
-              <div className="quiz-questions">
-                <div className="quiz-questions__question">
+              <div className="assessment-questions">
+                <div className="assessment-questions__question">
                   <NumberField name={`points`} min={1} label="Points" />
                   <DraftTextArea fluid name={`question`} label="Question description" />
                 </div>
-                <div className="quiz-questions__answers">
+                <div className="assessment-questions__answers">
                   <FieldArray name={`answers`}>
                     {(arrayHelpers) => (
                       <React.Fragment>
@@ -136,7 +136,7 @@ const AddQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
   );
 };
 
-export interface QuizQuestionsProps {
+export interface AssessmentQuestionsProps {
   useModal: UseModal;
   onAddQuestion: (question: CreateQuestionBody) => void;
   question?: CreateQuestionBody;

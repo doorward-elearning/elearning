@@ -1,18 +1,19 @@
 import React, { FunctionComponent } from 'react';
 import AddModuleItemForm from '../AddModuleItemForm';
 import useForm from '@doorward/ui/hooks/useForm';
-import './QuizDetailsForm.scss';
+import './AssessmentDetailsForm.scss';
 import AssessmentDetails from './AssessmentDetails';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { CreateAssessmentBody, CreateQuizBody } from '@doorward/common/dtos/body';
-import { QuizEntity } from '@doorward/common/entities/quiz.entity';
+import { CreateAssessmentBody } from '@doorward/common/dtos/body';
 import AssessmentOptions from './AssessmentOptions';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
-const defaultAssessment: CreateAssessmentBody = (type: ModuleItemType, title?: string) => ({
+const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
   title: title || 'Unnamed',
   instructions: '',
-  type,
+  type: ModuleItemType.ASSESSMENT,
+  assessmentType: type,
   order: 0,
   options: {
     shuffleAnswers: false,
@@ -55,26 +56,26 @@ const defaultAssessment: CreateAssessmentBody = (type: ModuleItemType, title?: s
   questions: [],
 });
 
-const CreateAssessmentForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
-  const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
+const CreateAssessmentForm: FunctionComponent<CreateAssessmentFormProps> = (props): JSX.Element => {
+  const initialValues = (props.assessment || defaultAssessment(props.type)) as CreateAssessmentBody;
 
-  const form = useForm<CreateQuizFormState>();
+  const form = useForm<CreateAssessmentFormState>();
   return (
-    <div className="create-quiz-form">
+    <div className="create-assessment-form">
       <AddModuleItemForm
         onSuccess={props.onSuccess}
         onCancel={props.onCancel}
-        type={props.exam ? ModuleItemType.EXAM : ModuleItemType.QUIZ}
+        type={ModuleItemType.ASSESSMENT}
         form={form}
-        item={props.quiz}
-        validationSchema={CreateQuizBody}
+        item={props.assessment}
+        validationSchema={CreateAssessmentBody}
         module={props.module}
         initialValues={initialValues}
       >
         {() => (
-          <div className="quiz-details-form">
-            <AssessmentDetails />
-            <AssessmentOptions />
+          <div className="assessment-details-form">
+            <AssessmentDetails type={props.type} />
+            <AssessmentOptions type={props.type} />
           </div>
         )}
       </AddModuleItemForm>
@@ -82,14 +83,14 @@ const CreateAssessmentForm: FunctionComponent<CreateQuizFormProps> = (props): JS
   );
 };
 
-export interface CreateAssessmentFormProps{
+export interface CreateAssessmentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
   module: ModuleEntity;
-  quiz?: QuizEntity;
-  exam?: boolean;
+  type: AssessmentTypes;
+  assessment?: AssessmentEntity;
 }
 
-export type CreateQuizFormState = CreateQuizBody;
+export type CreateAssessmentFormState = CreateAssessmentBody;
 
 export default CreateAssessmentForm;

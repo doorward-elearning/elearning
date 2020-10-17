@@ -28,6 +28,7 @@ import useDoorwardApi from '../../hooks/useDoorwardApi';
 import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
+import Plural from '@doorward/ui/components/Plural';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -142,12 +143,21 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
                     <LabelRow>
-                      <span className="meta">{course.modules.length} Modules</span>
+                      <span className="meta">
+                        <Plural singular="Module" count={course?.modules?.length} />
+                      </span>
                       <Link to={routes.assignmentList.link} className="meta">
-                        {course?.itemsCount?.Assignment || 0} Assignments
+                        <Plural singular="Assignment" count={course?.itemsCount?.Assignment} />
                       </Link>
-                      <span className="meta">{course?.itemsCount?.Quiz || 0} Quizzes</span>
-                      <span className="meta">{course?.itemsCount?.Page || 0} Pages</span>
+                      <span className="meta">
+                        <Plural singular="Quiz" count={course?.itemsCount?.Quiz} />
+                      </span>
+                      <span className="meta">
+                        <Plural singular="Exam" count={course?.itemsCount?.Exam} />
+                      </span>
+                      <span className="meta">
+                        <Plural singular="Page" count={course?.itemsCount?.Page} />
+                      </span>
                     </LabelRow>
                     <div style={{ justifySelf: 'end' }}>
                       <Pill>

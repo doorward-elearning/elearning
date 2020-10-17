@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import _ from 'lodash';
 import AnswersView from './AnswersView';
-import { QuizContext } from './index';
+import { AssessmentContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import QuestionEntity from '@doorward/common/entities/question.entity';
@@ -18,7 +18,7 @@ export enum QuestionViewTypes {
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view, onEditQuestion }) => {
   const [answers, setAnswers] = useState(question.answers);
-  const { quiz } = useContext(QuizContext);
+  const { assessment } = useContext(AssessmentContext);
 
   useEffect(() => {
     if (view === QuestionViewTypes.EDIT_MODE) {
@@ -28,11 +28,11 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
 
   useEffect(() => {
     if (view !== QuestionViewTypes.EDIT_MODE) {
-      if (quiz?.options.shuffleAnswers) {
+      if (assessment?.options.shuffleAnswers) {
         setAnswers(_.shuffle(answers));
       }
     }
-  }, [quiz]);
+  }, [assessment]);
 
   return (
     <div className="question-view">

@@ -5,7 +5,7 @@ import Layout, { LayoutFeatures } from '../../Layout';
 import useRoutes from '../../../hooks/useRoutes';
 import CreateQuizForm from '../../../components/Forms/QuizForms/CreateQuizForm';
 import CreateAssignmentForm from '../../../components/Forms/CreateAssignmentForm';
-import QuizView from '../../../components/UI/QuizView';
+import QuizView from '../../../components/UI/AssessmentView';
 import EditableView from '../../../components/EditableView';
 import AssignmentView from '../../../components/UI/AssignmentView';
 import ViewPages from './ViewPages';

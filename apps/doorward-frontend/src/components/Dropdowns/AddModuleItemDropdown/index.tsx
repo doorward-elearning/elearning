@@ -12,7 +12,7 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
   Quiz: 'view_list',
   'Discussion Forum': 'more',
   File: 'file_copy',
-  Exam: 'assessment',
+  Assessment: 'assessment',
 };
 
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = (props) => {

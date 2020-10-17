@@ -9,12 +9,13 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import DateInput from '@doorward/ui/components/Input/DateInput';
 import Row from '@doorward/ui/components/Row';
 import { FormContext } from '@doorward/ui/components/Form';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 
-const AssessmentOptions: React.FunctionComponent<QuizOptionsProps> = (props): JSX.Element => {
+const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (props): JSX.Element => {
   return (
     <FormContext.Consumer>
       {({ formikProps }) => (
-        <div className="quiz-details">
+        <div className="assessment-details">
           <Header size={2}>Options </Header>
           <div>
             <Panel noBackground>
@@ -38,7 +39,7 @@ const AssessmentOptions: React.FunctionComponent<QuizOptionsProps> = (props): JS
                 <React.Fragment>
                   <DropdownSelect
                     options={['Highest', 'Average', 'Latest']}
-                    label="Quiz score to keep"
+                    label="Assessment score to keep"
                     name="options.attempts.keepScore"
                     icon="timelapse"
                   />
@@ -55,7 +56,7 @@ const AssessmentOptions: React.FunctionComponent<QuizOptionsProps> = (props): JS
             </Panel>
             <Panel noBackground>
               <Header size={3}>Responses</Header>
-              <Checkbox name="options.responses.show" label="Let students see their quiz responses." />
+              <Checkbox name="options.responses.show" label="Let students see their responses." />
               <IfElse condition={formikProps?.values.options.responses.show}>
                 <React.Fragment>
                   <Checkbox name="options.responses.frequency.onlyOnce" label="Only once after each attempt" />
@@ -107,6 +108,8 @@ const AssessmentOptions: React.FunctionComponent<QuizOptionsProps> = (props): JS
   );
 };
 
-export interface QuizOptionsProps {}
+export interface AssessmentOptionsProps {
+  type: AssessmentTypes;
+}
 
 export default AssessmentOptions;
