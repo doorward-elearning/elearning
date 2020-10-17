@@ -22,9 +22,19 @@ const NoQuestions = () => {
   );
 };
 
-const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ question, onEditQuestion }): JSX.Element => {
+const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({
+  question,
+  onEditQuestion,
+  onDeleteQuestion,
+}): JSX.Element => {
   return (
-    <QuestionView question={question} index={0} view={QuestionViewTypes.EDIT_MODE} onEditQuestion={onEditQuestion} />
+    <QuestionView
+      question={question}
+      index={0}
+      view={QuestionViewTypes.EDIT_MODE}
+      onEditQuestion={onEditQuestion}
+      onDeleteQuestion={onDeleteQuestion}
+    />
   );
 };
 
@@ -85,6 +95,9 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
                             setEditQuestionIndex(index);
                             setEditQuestion(question);
                           }}
+                          onDeleteQuestion={() => {
+                            _arrayHelpers.remove(index);
+                          }}
                         />
                       </Tab>
                     ))}
@@ -108,6 +121,7 @@ export interface AssessmentBuilderProps {
 export interface QuestionDisplayProps {
   question: CreateQuestionBody;
   onEditQuestion: () => void;
+  onDeleteQuestion: () => void;
 }
 
 export default AssessmentBuilder;

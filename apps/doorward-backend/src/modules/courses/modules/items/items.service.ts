@@ -25,6 +25,7 @@ import AssignmentRepository from '@doorward/backend/repositories/assignment.repo
 import QuizRepository from '@doorward/backend/repositories/quiz.repository';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import ExamRepository from '@doorward/backend/repositories/exam.repository';
+import { AnswerTypes } from '@doorward/common/types/exam';
 
 @Injectable()
 export class ItemsService {
@@ -132,12 +133,13 @@ export class ItemsService {
     }
 
     return Promise.all(
-      [...newItems, ...unchanged].map(async ({ id, question: questionBody, points, answers }) => {
+      [...newItems, ...unchanged].map(async ({ id, question: questionBody, points, answers, type }) => {
         const question = await this.questionRepository.save(
           this.questionRepository.create({
             question: typeof questionBody === 'string' ? questionBody : JSON.stringify(questionBody),
             points,
             id,
+            type,
             assessment,
           }),
           {
@@ -145,7 +147,10 @@ export class ItemsService {
           }
         );
 
-        question.answers = await this._createOrUpdateQuestionAnswers(question, answers);
+        question.answers = await this._createOrUpdateQuestionAnswers(
+          question,
+          type === AnswerTypes.TEXT_INPUT ? [] : answers
+        );
 
         return question;
       })

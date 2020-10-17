@@ -138,17 +138,21 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
 
   static QuestionValidationSchema = Yup.object({
     question: Yup.string().required('Please enter the question').nullable(),
-    type: Yup.string().oneOf(Object.values(AnswerTypes), "Please enter a valid answer type."),
+    type: Yup.string().oneOf(Object.values(AnswerTypes), 'Please enter a valid answer type.'),
     answers: Yup.array()
-      .of(
-        Yup.object({
-          answer: Yup.string().required('Enter a possible answer.'),
-          correct: Yup.bool(),
-        })
-      )
-      .test('Correct Answer', 'Choose at least one correct answer', (value) => {
-        return value.find((x) => x.correct);
-      }),
+    .when('type', {
+      is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
+      then: Yup.array()
+        .of(
+          Yup.object({
+            answer: Yup.string().required('Enter a possible answer.'),
+            correct: Yup.bool(),
+          })
+        )
+        .test('Correct Answer', 'Choose at least one correct answer', (value) => {
+          return value.find((x) => x.correct);
+        }),
+    }),
   });
 
   async validation?(): Promise<ObjectSchema> {

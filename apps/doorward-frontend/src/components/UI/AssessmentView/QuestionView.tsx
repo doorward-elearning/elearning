@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import _ from 'lodash';
-import AnswersView from './AnswersView';
 import { AssessmentContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
@@ -10,13 +9,23 @@ import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import Spacer from '@doorward/ui/components/Spacer';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import Icon from '@doorward/ui/components/Icon';
+import { AnswerTypes } from '@doorward/common/types/exam';
+import AnswersView from './AnswersView';
+import DisplayLabel from '@doorward/ui/components/DisplayLabel';
+import Row from '@doorward/ui/components/Row';
 
 export enum QuestionViewTypes {
   EDIT_MODE = 'editMode',
   ANSWER_PREVIEW_MODE = 'answerPreviewMode',
 }
 
-const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, index, view, onEditQuestion }) => {
+const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
+  question,
+  index,
+  view,
+  onEditQuestion,
+  onDeleteQuestion,
+}) => {
   const [answers, setAnswers] = useState(question.answers);
   const { assessment } = useContext(AssessmentContext);
 
@@ -39,12 +48,23 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({ question, in
       <Panel noBackground>
         <HeaderGrid>
           <Header size={4}>{question.points} Points</Header>
-          {view === QuestionViewTypes.EDIT_MODE && <Icon onClick={() => onEditQuestion(question)} icon="edit" />}
+          {view === QuestionViewTypes.EDIT_MODE && (
+            <Row>
+              <Icon onClick={() => onDeleteQuestion(question)} icon="delete" />
+              <Icon onClick={() => onEditQuestion(question)} icon="edit" />
+            </Row>
+          )}
         </HeaderGrid>
         <div>
           <DraftHTMLContent content={question.question} />
           <Spacer />
-          <AnswersView answers={answers} question={question} view={view} />
+          {question.type === AnswerTypes.MULTIPLE_CHOICE ? (
+            <AnswersView answers={answers} question={question} view={view} />
+          ) : (
+            <DisplayLabel>
+              <i>No choices for this question...</i>
+            </DisplayLabel>
+          )}
         </div>
       </Panel>
       <Spacer />
@@ -57,6 +77,7 @@ export interface QuestionViewProps {
   index: number;
   view?: QuestionViewTypes;
   onEditQuestion?: (question: CreateQuestionBody) => void;
+  onDeleteQuestion?: (question: CreateQuestionBody) => void;
 }
 
 export default QuestionView;
