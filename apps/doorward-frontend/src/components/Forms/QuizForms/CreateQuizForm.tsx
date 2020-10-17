@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 import AddModuleItemForm from '../AddModuleItemForm';
 import useForm from '@doorward/ui/hooks/useForm';
 import './QuizDetailsForm.scss';
@@ -72,30 +72,31 @@ const defaultQuiz: CreateQuizBody = {
 const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Element => {
   const initialValues = (props.quiz || defaultQuiz) as CreateQuizBody;
   const questionModal = useModal();
-  const [newQuestion, setNewQuestion] = useState();
-  const [editQuestion, setEditQuestion] = useState<{ question: CreateQuestionBody; index: number }>({
-    question: null,
-    index: null,
+  const editQuestionModal = useModal();
+  const [currentQuestion, setCurrentQuestion] = useState();
+  const [editQuestion, setEditQuestion] = useState();
+
+  editQuestionModal.onClose(() => {
+    setEditQuestion(null);
   });
 
   questionModal.onClose(() => {
-    setEditQuestion({ question: null, index: null });
+    setCurrentQuestion(null);
   });
+
+  useEffect(() => {
+    if (editQuestion) {
+      editQuestionModal.openModal();
+    }
+  }, [editQuestion]);
 
   const form = useForm<CreateQuizFormState>();
   return (
     <div className="create-quiz-form">
-      <AddQuizQuestionModal
-        question={editQuestion.question}
-        useModal={questionModal}
-        onAddQuestion={(question) => {
-          if (editQuestion) {
-            setEditQuestion({ question, index: editQuestion.index });
-          } else {
-            setNewQuestion(question);
-          }
-        }}
-      />
+      <AddQuizQuestionModal useModal={questionModal} onAddQuestion={setCurrentQuestion} />
+      {editQuestion && (
+        <AddQuizQuestionModal useModal={editQuestionModal} onAddQuestion={setCurrentQuestion} question={editQuestion} />
+      )}
       <AddModuleItemForm
         onSuccess={props.onSuccess}
         onCancel={props.onCancel}
@@ -112,11 +113,8 @@ const CreateQuizForm: FunctionComponent<CreateQuizFormProps> = (props): JSX.Elem
               <Tab title="Quiz Details">
                 <QuizDetails
                   questionModal={questionModal}
-                  newQuestion={newQuestion}
-                  onEditQuestion={(question, index) => {
-                    setEditQuestion({ question, index });
-                  }}
-                  editedQuestion={editQuestion}
+                  question={currentQuestion}
+                  onEditQuestion={setEditQuestion}
                 />
               </Tab>
               <Tab title="Options">

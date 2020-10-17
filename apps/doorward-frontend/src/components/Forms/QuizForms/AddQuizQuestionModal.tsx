@@ -72,16 +72,21 @@ const AnswersPanel: React.FunctionComponent<AnswersPanelProps> = React.memo((pro
   );
 });
 
-const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ useModal, onAddQuestion, question }) => {
+const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({
+  useModal,
+  onAddQuestion,
+  question: editQuestion,
+}) => {
   const form = useForm();
   useEffect(() => {
-    if (question) {
+    if (editQuestion) {
       useModal.openModal();
     }
-  }, [question]);
+  }, [editQuestion]);
+
   return (
     <Form
-      initialValues={defaultQuestion}
+      initialValues={editQuestion || defaultQuestion}
       form={form}
       resetOnSubmit
       onSubmit={(values) => {
@@ -97,7 +102,7 @@ const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ use
             features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}
             bottomSheet
           >
-            <Modal.Header title="Add Question" />
+            <Modal.Header title={editQuestion ? 'Edit question' : 'Add question'} />
             <Modal.Body>
               <div className="quiz-questions">
                 <div className="quiz-questions__question">
@@ -117,7 +122,7 @@ const AddQuizQuestionModal: React.FunctionComponent<QuizQuestionsProps> = ({ use
               props={{
                 positive: { disabled: !isValid },
               }}
-              buttons={{ positive: 'Add', negative: 'Cancel' }}
+              buttons={{ positive: editQuestion ? 'Edit' : 'Add', negative: 'Cancel' }}
             />
           </Modal>
         );

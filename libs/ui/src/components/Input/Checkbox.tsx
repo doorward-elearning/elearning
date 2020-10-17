@@ -13,9 +13,6 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
   ...props
 }) => {
   const checkbox = useRef();
-  if (props.name === 'answers[0].correct') {
-    console.log(props.value);
-  }
   return (
     <div
       className={classNames({

@@ -6,7 +6,7 @@ import Panel from '@doorward/ui/components/Panel';
 import Button from '@doorward/ui/components/Buttons/Button';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import { UseModal } from '@doorward/ui/hooks/useModal';
-import { FieldArray } from 'formik';
+import { ArrayHelpers, FieldArray } from 'formik';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import QuestionView, { QuestionViewTypes } from '../../UI/QuizView/QuestionView';
@@ -29,13 +29,19 @@ const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({ questi
 const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
   (props): JSX.Element => {
     const { formikProps } = useContext(FormContext);
-    const [arrayHelpers, setArrayHelpers] = useState();
+    const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
+    const [editQuestionIndex, setEditQuestionIndex] = useState();
 
     useEffect(() => {
-      if (arrayHelpers && props.newQuestion) {
-        arrayHelpers.push(props.newQuestion);
+      if (arrayHelpers && props.question) {
+        if (editQuestionIndex >= 0) {
+          arrayHelpers.handleReplace(editQuestionIndex, props.question);
+          setEditQuestionIndex(null);
+        } else {
+          arrayHelpers.push(props.question);
+        }
       }
-    }, [props.newQuestion]);
+    }, [props.question]);
 
     return (
       <React.Fragment>
@@ -63,11 +69,12 @@ const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
                 {formikProps.values.questions.length ? (
                   <TabLayout openRecentTab wrapTabs>
                     {formikProps.values.questions.map((question, index) => (
-                      <Tab title={`${index + 1}`}>
+                      <Tab title={`${index + 1}`} key={index}>
                         <QuestionDisplay
                           question={question}
                           onEditQuestion={() => {
-                            props.onEditQuestion(question, index);
+                            setEditQuestionIndex(index);
+                            props.onEditQuestion(question);
                           }}
                         />
                       </Tab>
@@ -87,9 +94,8 @@ const QuizBuilder: React.FunctionComponent<QuizBuilderProps> = React.memo(
 
 export interface QuizBuilderProps {
   questionModal: UseModal;
-  newQuestion: CreateQuestionBody;
-  onEditQuestion: (question: CreateQuestionBody, index: number) => void;
-  editedQuestion: { question: CreateQuestionBody; index: number };
+  question: CreateQuestionBody;
+  onEditQuestion: (question: CreateQuestionBody) => void;
 }
 
 export interface QuestionDisplayProps {

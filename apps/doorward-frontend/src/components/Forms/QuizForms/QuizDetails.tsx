@@ -17,9 +17,8 @@ const QuizDetails: React.FunctionComponent<QuizDetailsProps> = (props) => {
 
 export interface QuizDetailsProps {
   questionModal: UseModal;
-  newQuestion: CreateQuestionBody;
-  onEditQuestion: (question: CreateQuestionBody, index: number) => void;
-  editedQuestion: { question: CreateQuestionBody; index: number };
+  question: CreateQuestionBody;
+  onEditQuestion: (question: CreateQuestionBody) => void;
 }
 
 export default QuizDetails;

@@ -8,6 +8,7 @@ import { FormContext } from '../Form';
 import IfElse from '../IfElse';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import ErrorMessage, { getError } from '@doorward/ui/components/Input/ErrorMessage';
+import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -83,9 +84,13 @@ function withInput<R extends InputProps>(
     inputProps.value = _.get(formikProps.values, name);
     inputProps.id = props.id || (props.idGenerator && props.idGenerator());
 
-    getValidationSchema(validationSchema).then((validationSchema) => {
-      setIsRequired(checkRequired(name, validationSchema && validationSchema.describe()));
-    });
+    usePromiseEffect(
+      getValidationSchema(validationSchema),
+      (validationSchema) => {
+        setIsRequired(checkRequired(name, validationSchema && validationSchema.describe()));
+      },
+      [validationSchema]
+    );
 
     const error = getError(formikProps, name);
 
