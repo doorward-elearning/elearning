@@ -62,7 +62,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           {question.type === AnswerTypes.MULTIPLE_CHOICE ? (
             <AnswersView answers={answers} question={question} view={view} />
           ) : view === QuestionViewTypes.EXAM_MODE ? (
-            <DraftTextArea fluid name={`results[${question.id}]`} />
+            <DraftTextArea fluid name={`submission[${question.id}]`} />
           ) : (
             <DisplayLabel>
               <i>No choices for this question...</i>

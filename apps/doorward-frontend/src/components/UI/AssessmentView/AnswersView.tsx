@@ -49,7 +49,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
         <MultipleSwitchField
           choices={answers.map((answer) => answer.answer)}
           values={answers.map((answer) => answer.id)}
-          name={`results[${question.id}]`}
+          name={`submission[${question.id}]`}
           singleChoice={numCorrectAnswers === 1}
         />
       ) : (

@@ -6,6 +6,7 @@ import ModulesRepository from '@doorward/backend/repositories/modules.repository
 import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
 import { ItemsModule } from './items/items.module';
 import { AssignmentsModule } from './assignments/assignments.module';
+import { AssessmentsModule } from './assessments/assessments.module';
 import QuizRepository from '@doorward/backend/repositories/quiz.repository';
 import PageRepository from '@doorward/backend/repositories/page.repository';
 import AssignmentRepository from '@doorward/backend/repositories/assignment.repository';
@@ -21,6 +22,7 @@ import AssignmentRepository from '@doorward/backend/repositories/assignment.repo
     ]),
     ItemsModule,
     AssignmentsModule,
+    AssessmentsModule,
   ],
   controllers: [ModulesController],
   providers: [ModulesService],

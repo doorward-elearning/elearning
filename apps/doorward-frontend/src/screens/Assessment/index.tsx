@@ -10,18 +10,24 @@ import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
 import AssessmentPage from './AssessmentPage';
 import WebComponent from '@doorward/ui/components/WebComponent';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+import Empty from '@doorward/ui/components/Empty';
 
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
   const [assessment, setAssessment] = useState<AssessmentEntity>();
   const match: any = useRouteMatch();
   const routes = useRoutes();
 
+  const fetchSubmission = useAction(DoorwardApi.assessments.getSubmission);
   const fetchItem = useAction(DoorwardApi.moduleItems.getModuleItem);
+
   useEffect(() => {
     fetchItem(match.params.assessmentId);
+    fetchSubmission(match.params.assessmentId);
   }, []);
 
   const state = useDoorwardApi((state) => state.moduleItems.getModuleItem);
+  const submissionState = useDoorwardApi((state) => state.assessments.getSubmission);
 
   useEffect(() => {
     const moduleItem = state.data.item;
@@ -36,8 +42,18 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
       features={[LayoutFeatures.HEADER, LayoutFeatures.BACK_BUTTON]}
       header={Tools.str(state.fetching ? '' : assessment?.title)}
     >
-      <WebComponent data={assessment} loading={state.fetching}>
-        {(assessment) => <AssessmentPage assessment={assessment} />}
+      <WebComponent data={assessment} loading={state.fetching || submissionState.fetching}>
+        {(assessment) => {
+          return submissionState.data?.submission?.status === AssessmentSubmissionStatus.SUBMITTED ? (
+            <Empty
+              message={`You have already submitted this ${assessment.assessmentType}.`}
+              actionMessage="Go back"
+              onAction={() => routes.navigate(routes.dashboard)}
+            />
+          ) : (
+            <AssessmentPage assessment={assessment} submission={submissionState?.data?.submission} />
+          );
+        }}
       </WebComponent>
     </Layout>
   );

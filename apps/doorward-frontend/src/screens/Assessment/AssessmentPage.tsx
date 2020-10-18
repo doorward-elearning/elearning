@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
@@ -9,15 +9,46 @@ import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import _ from 'lodash';
 import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardApi from '../../services/apis/doorward.api';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import useRoutes from '../../hooks/useRoutes';
 
-const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment }): JSX.Element => {
+const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
   const form = useForm();
+  const [submission, setSubmission] = useState(props.submission);
+  const [currentTime, setCurrentTime] = useState();
+  const [startQuestion, setStartQuestion] = useState(0);
+  const routes = useRoutes();
+
+  const saveSubmission = useAction(DoorwardApi.assessments.saveAssessment, {
+    onSuccess: (data) => {
+      setSubmission(data.submission);
+    },
+  });
+  const submitAssessment = useAction(DoorwardApi.assessments.submitAssignment, {
+    onSuccess: () => {
+      routes.navigate(routes.dashboard);
+    },
+    showSuccessToast: true,
+    showErrorToast: true,
+  });
 
   useEffect(() => {
     if (assessment.questions) {
       if (assessment.options?.shuffleAnswers) {
-        setQuestions(_.shuffle(assessment.questions));
+        let shuffled = _.shuffle(assessment.questions);
+        let startQuestion = 0;
+
+        if (submission) {
+          const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.identity));
+          shuffled = shuffled.sort((a, b) => (submittedQuestions.includes(a.id) ? -1 : 1));
+          startQuestion = Math.min(shuffled.length - 1, submittedQuestions.length);
+        }
+
+        setQuestions(shuffled);
+        setStartQuestion(startQuestion);
       } else {
         setQuestions(assessment.questions);
       }
@@ -29,17 +60,36 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>Points: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}</DisplayLabel>
-          <AssessmentTimer totalTimeMinutes={assessment.options.timeLimit.minutes} />
+          <AssessmentTimer
+            onTimeUpdate={setCurrentTime}
+            totalTimeMinutes={props.submission?.assessmentTime || assessment.options.timeLimit.minutes * 60}
+          />
         </HeaderGrid>
       )}
       <Form
         form={form}
         initialValues={{
-          results: {},
+          submission: submission ? JSON.parse(submission.submission) : {},
         }}
         onSubmit={() => {}}
       >
-        <SingleQuestionAssessment questions={questions} />
+        <SingleQuestionAssessment
+          questions={questions}
+          startQuestion={startQuestion}
+          type={assessment.assessmentType}
+          onFinishAssessment={(submission) => {
+            submitAssessment(assessment.id, {
+              submission,
+              assessmentTime: currentTime,
+            });
+          }}
+          onReadyToSave={(submission) => {
+            saveSubmission(assessment.id, {
+              submission,
+              assessmentTime: currentTime,
+            });
+          }}
+        />
       </Form>
     </div>
   );
@@ -47,6 +97,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
 
 export interface StartAssessmentProps {
   assessment: AssessmentEntity;
+  submission?: AssessmentSubmissionEntity;
 }
 
 const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JSX.Element => {
@@ -67,7 +118,7 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
   return (
     <div>
       {isAvailable ? (
-        <StartAssessment assessment={props.assessment} />
+        <StartAssessment assessment={props.assessment} submission={props.submission} />
       ) : (
         <Empty message={`This ${props.assessment.assessmentType} is not available`} icon="assessment" />
       )}
@@ -77,6 +128,7 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
 
 export interface AssessmentPageProps {
   assessment: AssessmentEntity;
+  submission?: AssessmentSubmissionEntity;
 }
 
 export default AssessmentPage;

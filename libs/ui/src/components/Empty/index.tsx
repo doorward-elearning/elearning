@@ -5,6 +5,8 @@ import classNames from 'classnames';
 import IfElse from '../IfElse';
 import Panel from '../Panel';
 import { Icons } from '../../types/icons';
+import Button from '@doorward/ui/components/Buttons/Button';
+import Spacer from '../Spacer';
 
 const defaultMessage = 'There are no items here.';
 
@@ -29,10 +31,11 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
         {message || defaultMessage.replace('items', (modelName || 'items').toLowerCase())}
       </span>
       {children}
+      <Spacer />
       <IfElse condition={!!actionMessage}>
-        <a className="clickable" onClick={onAction}>
+        <Button theme="secondary" onClick={onAction}>
           {actionMessage}
-        </a>
+        </Button>
       </IfElse>
     </Panel>
   );

@@ -1,10 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Timer from 'react-compound-timer';
 import './styles/AssessmentTimer.scss';
 import classNames from 'classnames';
+import useInterval from '@doorward/ui/hooks/useInterval';
 
 const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): JSX.Element => {
   const [stage, setStage] = useState('good');
+  const [currentTime, setCurrentTime] = useState(props.totalTimeMinutes);
+
+  useInterval(
+    () => {
+      setCurrentTime(currentTime - 1);
+    },
+    1000,
+    [currentTime]
+  );
+
+  useEffect(() => {
+    if (props.onTimeUpdate) {
+      props.onTimeUpdate(currentTime);
+    }
+  }, [currentTime]);
   return (
     <div
       className={classNames({
@@ -13,7 +29,7 @@ const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): 
       })}
     >
       <Timer
-        initialTime={props.totalTimeMinutes * 60 * 1000}
+        initialTime={props.totalTimeMinutes * 1000}
         startImmediately
         lastUnit="h"
         direction="backward"
@@ -58,6 +74,7 @@ const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): 
 export interface AssessmentTimerProps {
   totalTimeMinutes: number;
   onTimeEnded?: () => void;
+  onTimeUpdate?: (seconds: number) => void;
 }
 
 export default AssessmentTimer;

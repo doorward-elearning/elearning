@@ -24,7 +24,8 @@
     "organization": "Organization",
     "school": "School",
     "classroom": "Classroom",
-    "discussionGroup": "Discussion Group"
+    "discussionGroup": "Discussion Group",
+    "assessment": "Assessment"
   },
   "admins": [
     {

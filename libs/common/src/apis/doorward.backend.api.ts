@@ -31,7 +31,8 @@ import {
   AddCourseManagerBody,
   CreateDiscussionGroupBody,
   PostDiscussionCommentBody,
-  SubmitAssignmentBody
+  SubmitAssignmentBody,
+  SaveAssessmentBody
 } from '@doorward/common/dtos/body';
 import ApiRequest from '@doorward/ui/services/apiRequest';
 import {
@@ -70,7 +71,8 @@ import {
   DiscussionGroupResponse,
   DiscussionGroupsResponse,
   DiscussionCommentResponse,
-  AssignmentSubmissionResponse
+  AssignmentSubmissionResponse,
+  AssessmentSubmissionResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 import {
@@ -85,6 +87,17 @@ const {
 } = ApiRequest;
 
 const DoorwardBackendApi = {
+  "assessments": {
+    saveAssessment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AssessmentSubmissionResponse > => {
+      return POST(`/assessments/submissions/save/${assessmentId}`, body, {}, config);
+    },
+    getSubmission: (assessmentId: string, config ? : AxiosRequestConfig): Promise < AssessmentSubmissionResponse > => {
+      return GET(`/assessments/submissions/${assessmentId}`, {}, config);
+    },
+    submitAssignment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AssessmentSubmissionResponse > => {
+      return POST(`/assessments/submissions/submit/${assessmentId}`, body, {}, config);
+    },
+  },
   "assignments": {
     submitAssignment: (assignmentId: string, body: SubmitAssignmentBody, config ? : AxiosRequestConfig): Promise < AssignmentSubmissionResponse > => {
       return POST(`/assignments/${assignmentId}/submit`, body, {}, config);

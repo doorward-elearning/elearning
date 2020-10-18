@@ -31,3 +31,9 @@ export enum AssignmentSubmissionStatus {
   GRADED = 'Graded',
   RESUBMIT = 'Resubmit',
 }
+
+export enum AssessmentSubmissionStatus {
+  DRAFT = 'Draft',
+  SUBMITTED = 'Submitted',
+  GRADED = 'Graded',
+}

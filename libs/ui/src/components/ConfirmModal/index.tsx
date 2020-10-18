@@ -45,7 +45,7 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = props => {
 };
 
 export interface ConfirmModalProps {
-  children: JSX.Element | [(onClick: VoidFunction) => JSX.Element, JSX.Element];
+  children?: JSX.Element | [(onClick: VoidFunction) => JSX.Element, JSX.Element];
   header?: JSX.Element;
   title?: string;
   onConfirm: VoidFunction;

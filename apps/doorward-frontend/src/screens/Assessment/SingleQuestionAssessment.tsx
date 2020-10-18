@@ -7,29 +7,53 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Row from '@doorward/ui/components/Row';
 import Spacer from '@doorward/ui/components/Spacer';
 import { FormContext } from '@doorward/ui/components/Form';
+import { start } from 'repl';
+import ConfirmModal from '@doorward/ui/components/ConfirmModal';
+import useModal from '@doorward/ui/hooks/useModal';
+import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 
 const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessmentProps> = ({
   questions,
+  onReadyToSave,
+  startQuestion,
+  onFinishAssessment,
+  ...props
 }): JSX.Element => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [displayedQuestion, setDisplayedQuestion] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(startQuestion || 0);
+  const [displayedQuestion, setDisplayedQuestion] = useState(startQuestion || 0);
   const [currentAnswered, setCurrentAnswered] = useState(false);
   const { formikProps } = useContext(FormContext);
+  const confirmModal = useModal();
+
+  useEffect(() => {
+    setCurrentQuestion(startQuestion);
+  }, [startQuestion]);
 
   useEffect(() => {
     if (formikProps) {
       const question = questions[currentQuestion];
 
-      setCurrentAnswered(!!formikProps.values.results?.[question?.id]);
+      setCurrentAnswered(!!formikProps.values.submission?.[question?.id]);
     }
   }, [formikProps, currentQuestion]);
 
   useEffect(() => {
     setDisplayedQuestion(currentQuestion);
+
+    onReadyToSave(JSON.stringify(formikProps.values.submission));
   }, [currentQuestion]);
 
   return (
     <div>
+      <ConfirmModal
+        onConfirm={() => {
+          onFinishAssessment(JSON.stringify(formikProps.values.submission));
+        }}
+        useModal={confirmModal}
+        title={`Submit ${props.type}`}
+      >
+        <p>Are you sure you want to submit this {props.type}</p>
+      </ConfirmModal>
       <TabLayout
         stickyHeader
         selected={displayedQuestion}
@@ -59,16 +83,21 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
         </Button>
         <Button
           onClick={() => {
-            if (currentQuestion === displayedQuestion) {
-              setCurrentQuestion(currentQuestion + 1);
+            if (currentQuestion === questions.length - 1) {
+              confirmModal.openModal();
             } else {
-              setDisplayedQuestion(displayedQuestion + 1);
+              if (currentQuestion === displayedQuestion) {
+                setCurrentQuestion(currentQuestion + 1);
+              } else {
+                setDisplayedQuestion(displayedQuestion + 1);
+              }
             }
           }}
           type="button"
+          theme={currentQuestion === questions.length - 1 ? 'success' : 'primary'}
           disabled={!currentAnswered && currentQuestion === displayedQuestion}
         >
-          Next
+          {currentQuestion === questions.length - 1 ? 'Submit' : 'Next'}
         </Button>
       </Row>
     </div>
@@ -77,6 +106,10 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
 
 export interface SingleQuestionAssessmentProps {
   questions: Array<QuestionEntity>;
+  onReadyToSave: (submission: string) => void;
+  startQuestion?: number;
+  type: AssessmentTypes;
+  onFinishAssessment: (submission: string) => void;
 }
 
 export default SingleQuestionAssessment;

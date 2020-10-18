@@ -1,3 +1,4 @@
+export * from './assessments.body';
 export * from './auth.body';
 export * from './course.managers.body';
 export * from './courses.body';
