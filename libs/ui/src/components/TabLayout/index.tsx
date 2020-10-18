@@ -7,7 +7,7 @@ import Badge from '../Badge';
 import Row from '../Row';
 import compareLists from '@doorward/common/utils/compareLists';
 
-const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected }): JSX.Element => {
+const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected, controlled }): JSX.Element => {
   return (
     <React.Fragment>
       {tabs.map((tab, index) => (
@@ -15,9 +15,13 @@ const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelec
           key={tab.title}
           className={classNames({
             'ed-tabLayout__tabTitle': true,
-            selected: index == selected,
+            selected: index === selected,
           })}
-          onClick={() => setSelected(index)}
+          onClick={() => {
+            if (!controlled) {
+              setSelected(index);
+            }
+          }}
         >
           <Row>
             {tab.title}
@@ -103,11 +107,13 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
         'ed-tabLayout': true,
         stickyHeader: props.stickyHeader,
         wrapTabs: props.wrapTabs,
+        controlled: props.controlled,
       })}
       ref={tabLayout}
     >
       <div className="ed-tabLayout__header">
         <TabHeader
+          controlled
           tabs={tabs}
           setSelected={(tab) => {
             if (tab !== selected) {
@@ -132,12 +138,14 @@ export interface TabLayoutProps {
   onTabChange?: (selected: number) => void;
   openRecentTab?: boolean;
   wrapTabs?: boolean;
+  controlled?: boolean;
 }
 
 export interface TabHeaderProps {
   tabs: Array<TabProps>;
   setSelected: (tab: number) => void;
   selected: number;
+  controlled?: boolean;
 }
 
 export interface TabContentProps {

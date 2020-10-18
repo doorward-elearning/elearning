@@ -5,6 +5,8 @@ export const routeNames = () => {
     addModulePage: 'Add Page',
     addQuiz: 'Create Quiz',
     addExam: 'Create Exam',
+    exam: 'Exam',
+    quiz: 'Quiz',
     addStudentGroup: 'Add Student Group',
     addTeacher: 'Add Teacher',
     addTeacherGroup: 'Add Teacher Group',
@@ -55,6 +57,6 @@ export const routeNames = () => {
     viewTeacherGroup: 'View Teacher Group',
     updateStudentGroup: 'Update',
     discussionGroups: 'Discussion Groups',
-    viewDiscussionGroup: 'View Discussion Group'
+    viewDiscussionGroup: 'View Discussion Group',
   };
 };

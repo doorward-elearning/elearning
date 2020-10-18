@@ -46,6 +46,7 @@ const ViewStudent = lazy(() => import('../screens/Students/ViewStudent'));
 const ViewStudentGroup = lazy(() => import('../screens/Groups/Students/ViewStudentGroup'));
 const UpdateStudentGroup = lazy(() => import('../screens/Groups/Students/UpdateStudentGroup'));
 const DiscussionGroup = lazy(() => import('../screens/DiscussionGroup'));
+const Assessment = lazy(() => import('../screens/Assessment'));
 
 export type DoorwardRoutes = ReturnType<typeof routeNames>;
 
@@ -62,6 +63,8 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         schoolClassrooms: new Route('/:schoolId', SchoolClassrooms).public(),
       }),
       dashboard: new Route('/dashboard', Dashboard).with({
+        exam: new Route('/exam/:assessmentId', Assessment),
+        quiz: new Route('/quiz/:assessmentId', Assessment),
         courses: new Route('/courses').with({
           courseList: new Route('/', Courses).with({
             viewCourse: new Route('/:courseId', ViewCourse).with({

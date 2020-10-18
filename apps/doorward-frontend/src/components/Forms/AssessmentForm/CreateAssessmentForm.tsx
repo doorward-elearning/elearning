@@ -27,8 +27,8 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
       max: null,
     },
     questions: {
-      oneAtATime: false,
-      lockAfterAnswering: false,
+      oneAtATime: true,
+      lockAfterAnswering: true,
     },
     restrictions: {
       accessCode: {

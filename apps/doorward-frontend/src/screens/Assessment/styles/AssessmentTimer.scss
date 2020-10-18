@@ -1,0 +1,26 @@
+.ed-assessment-timer {
+  padding: var(--padding);
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  display: inline-grid;
+  align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
+
+  > div {
+    display: grid;
+    grid-template-columns: 3em auto;
+    align-items: center;
+    grid-gap: 2px;
+    margin-bottom: var(--padding);
+  }
+
+  .time-value, .time-unit {
+    margin: var(--padding-sm);
+    max-width: 3em;
+    font-size: 3em;
+    font-family: 'Digital-7', sans-serif;
+  }
+
+  .time-unit {
+  }
+}

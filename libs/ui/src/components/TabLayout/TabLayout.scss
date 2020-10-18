@@ -20,6 +20,12 @@
     }
   }
 
+  &.controlled {
+    .ed-tabLayout__header {
+      pointer-events: none;
+    }
+  }
+
   &__header {
     height: calc(var(--tabLayout-header-height));
     display: grid;
@@ -36,7 +42,6 @@
       border: 1px solid var(--line-color);
       transition: 0.2s background, 0.2s color, 0.3s border;
       border-radius: 2px;
-
 
       .ed-badge {
         background: var(--text-primary);
