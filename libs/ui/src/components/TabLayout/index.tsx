@@ -7,30 +7,40 @@ import Badge from '../Badge';
 import Row from '../Row';
 import compareLists from '@doorward/common/utils/compareLists';
 
-const TabHeader: FunctionComponent<TabHeaderProps> = ({ tabs, selected, setSelected, controlled }): JSX.Element => {
+const TabHeader: FunctionComponent<TabHeaderProps> = ({
+  tabs,
+  selected,
+  setSelected,
+  controlled,
+  disabled,
+}): JSX.Element => {
   return (
     <React.Fragment>
-      {tabs.map((tab, index) => (
-        <div
-          key={tab.title}
-          className={classNames({
-            'ed-tabLayout__tabTitle': true,
-            selected: index === selected,
-          })}
-          onClick={() => {
-            if (!controlled) {
-              setSelected(index);
-            }
-          }}
-        >
-          <Row>
-            {tab.title}
-            <IfElse condition={tab.badge}>
-              <Badge>{tab.badge}</Badge>
-            </IfElse>
-          </Row>
-        </div>
-      ))}
+      {tabs.map((tab, index) => {
+        const isDisabled = disabled ? disabled(index) : false;
+        return (
+          <div
+            key={tab.title}
+            className={classNames({
+              'ed-tabLayout__tabTitle': true,
+              selected: index === selected,
+              disabled: isDisabled,
+            })}
+            onClick={() => {
+              if (!isDisabled) {
+                setSelected(index);
+              }
+            }}
+          >
+            <Row>
+              {tab.title}
+              <IfElse condition={tab.badge}>
+                <Badge>{tab.badge}</Badge>
+              </IfElse>
+            </Row>
+          </div>
+        );
+      })}
     </React.Fragment>
   );
 };
@@ -61,6 +71,14 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
   const children = (props.children instanceof Array ? props.children : [props.children]) as Array<
     ReactElement<TabProps>
   >;
+
+  useEffect(() => {
+    if (props.controlled) {
+      if (selected !== props.selected) {
+        setSelected(props.selected);
+      }
+    }
+  }, [props.selected, selected]);
 
   useEffect(() => {
     const newTabs: Array<TabProps> = [];
@@ -96,10 +114,10 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
         sliderElem.style.width = `${position.width}px`;
       }
     }
-    if (props.onTabChange) {
+    if (props.onTabChange && selected !== props.selected && !props.controlled) {
       props.onTabChange(selected);
     }
-  }, [selected, props.children]);
+  }, [selected, props.children, props.selected]);
 
   return (
     <div
@@ -113,11 +131,16 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
     >
       <div className="ed-tabLayout__header">
         <TabHeader
-          controlled
+          controlled={props.controlled}
           tabs={tabs}
+          disabled={props.disabled}
           setSelected={(tab) => {
             if (tab !== selected) {
-              setSelected(tab);
+              if (props.controlled) {
+                props.onTabChange(tab);
+              } else {
+                setSelected(tab);
+              }
             }
           }}
           selected={selected}
@@ -139,6 +162,7 @@ export interface TabLayoutProps {
   openRecentTab?: boolean;
   wrapTabs?: boolean;
   controlled?: boolean;
+  disabled?: (tabIndex: number) => void;
 }
 
 export interface TabHeaderProps {
@@ -146,6 +170,7 @@ export interface TabHeaderProps {
   setSelected: (tab: number) => void;
   selected: number;
   controlled?: boolean;
+  disabled?: (tabIndex: number) => void;
 }
 
 export interface TabContentProps {

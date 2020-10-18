@@ -1,10 +1,22 @@
 .ed-assessment-timer {
   padding: var(--padding);
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
   display: inline-grid;
   align-items: center;
   grid-template-columns: 1fr 1fr 1fr;
+
+  &.good {
+    color: var(--text-success);
+  }
+
+  &.warning {
+    color: var(--text-warning);
+  }
+
+  &.danger {
+    color: var(--text-error);
+  }
 
   > div {
     display: grid;
@@ -14,7 +26,8 @@
     margin-bottom: var(--padding);
   }
 
-  .time-value, .time-unit {
+  .time-value,
+  .time-unit {
     margin: var(--padding-sm);
     max-width: 3em;
     font-size: 3em;

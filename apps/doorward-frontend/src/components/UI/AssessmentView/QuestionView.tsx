@@ -13,15 +13,16 @@ import { AnswerTypes } from '@doorward/common/types/exam';
 import AnswersView from './AnswersView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Row from '@doorward/ui/components/Row';
+import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 
 export enum QuestionViewTypes {
   EDIT_MODE = 'editMode',
   ANSWER_PREVIEW_MODE = 'answerPreviewMode',
+  EXAM_MODE = 'examMode',
 }
 
 const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   question,
-  index,
   view,
   onEditQuestion,
   onDeleteQuestion,
@@ -60,6 +61,8 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ? (
             <AnswersView answers={answers} question={question} view={view} />
+          ) : view === QuestionViewTypes.EXAM_MODE ? (
+            <DraftTextArea fluid name={`results[${question.id}]`} />
           ) : (
             <DisplayLabel>
               <i>No choices for this question...</i>
@@ -74,7 +77,6 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
 
 export interface QuestionViewProps {
   question: QuestionEntity | CreateQuestionBody;
-  index: number;
   view?: QuestionViewTypes;
   onEditQuestion?: (question: CreateQuestionBody) => void;
   onDeleteQuestion?: (question: CreateQuestionBody) => void;

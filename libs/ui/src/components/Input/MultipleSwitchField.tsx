@@ -43,7 +43,7 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = (
             <ListItem>
               <Row style={{ justifyContent: 'start', gridGap: 'var(--padding-lg)' }}>
                 <Switch
-                  open={props.singleChoice ? value === values[index] : !!value.find((i: string) => i === values[index])}
+                  open={props.singleChoice ? value === values[index] : !!value?.find((i: string) => i === values[index])}
                   onToggle={(open) => handleToggle(values[index], open)}
                   id={props.id + values[index]}
                 />

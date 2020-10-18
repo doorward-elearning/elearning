@@ -22,7 +22,6 @@
 
   &.controlled {
     .ed-tabLayout__header {
-      pointer-events: none;
     }
   }
 
@@ -42,6 +41,11 @@
       border: 1px solid var(--line-color);
       transition: 0.2s background, 0.2s color, 0.3s border;
       border-radius: 2px;
+
+      &.disabled {
+        opacity: 0.8;
+        pointer-events: none;
+      }
 
       .ed-badge {
         background: var(--text-primary);

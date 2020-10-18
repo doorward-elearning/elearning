@@ -7,9 +7,12 @@ import AssessmentTimer from './AssessmentTimer';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import _ from 'lodash';
+import Form from '@doorward/ui/components/Form';
+import useForm from '@doorward/ui/hooks/useForm';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
+  const form = useForm();
 
   useEffect(() => {
     if (assessment.questions) {
@@ -29,7 +32,15 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           <AssessmentTimer totalTimeMinutes={assessment.options.timeLimit.minutes} />
         </HeaderGrid>
       )}
-      <SingleQuestionAssessment questions={questions} />
+      <Form
+        form={form}
+        initialValues={{
+          results: {},
+        }}
+        onSubmit={() => {}}
+      >
+        <SingleQuestionAssessment questions={questions} />
+      </Form>
     </div>
   );
 };
