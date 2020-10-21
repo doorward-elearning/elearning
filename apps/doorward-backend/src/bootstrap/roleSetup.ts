@@ -22,11 +22,11 @@ export interface RolesConfig {
 }
 
 const getOrganizationRolesFile = () => {
-  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION, 'roles.json');
+  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', 'roles.json');
   if (fs.existsSync(filePath)) {
     return filePath;
   }
-  return path.join(__dirname, './config/roles.json');
+  throw new Error('Roles config does not exist in path: ' + filePath);
 };
 
 const parseRoles = (): RolesConfig => {

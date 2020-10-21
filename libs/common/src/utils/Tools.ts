@@ -84,7 +84,7 @@ class Tools {
   }
 
   static str(value: any): string {
-    return value ? value + '' : '--';
+    return value || value === 0 ? value + '' : '--';
   }
 
   static pick<T, K extends keyof T>(source: T, keys: K[]): Pick<T, K> {

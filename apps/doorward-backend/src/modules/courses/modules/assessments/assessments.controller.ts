@@ -10,6 +10,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { AssessmentsService } from './assessments.service';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 
 const AssessmentExists = () =>
   ModelExists({
@@ -32,6 +33,7 @@ export class AssessmentsController {
     type: AssessmentSubmissionResponse,
     description: 'The assessment submission model',
   })
+  @TransformerGroups('timestamps')
   async saveAssessment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,
@@ -50,6 +52,7 @@ export class AssessmentsController {
     type: AssessmentSubmissionResponse,
     description: 'The assessment submission for this assessment',
   })
+  @TransformerGroups('timestamps')
   async getSubmission(@Param('assessmentId') assessmentId: string, @CurrentUser() currentUser: UserEntity) {
     const submission = await this.assessmentsService.getSubmission(assessmentId, currentUser);
 
@@ -64,6 +67,7 @@ export class AssessmentsController {
     type: AssessmentSubmissionResponse,
     description: 'The assessment submission model',
   })
+  @TransformerGroups('timestamps')
   async submitAssignment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,

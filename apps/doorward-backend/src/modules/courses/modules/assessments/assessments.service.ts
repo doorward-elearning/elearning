@@ -1,5 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import AssessmentSubmissionRepository from '@doorward/backend/repositories/assessment.submission.repository';
+import moment from 'moment';
 import { SaveAssessmentBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
@@ -27,10 +28,13 @@ export class AssessmentsService {
     let submission = await this.getSubmission(assessmentId, user);
 
     if (submission) {
-      submission.submission = body.submission;
-      submission.assessmentTime = body.assessmentTime;
+      if (submission.status === AssessmentSubmissionStatus.DRAFT) {
+        submission.submission = body.submission;
 
-      await this.submissionRepository.save(submission);
+        await this.submissionRepository.save(submission);
+      } else {
+        throw new BadRequestException('Cannot update a submitted assessment.');
+      }
     } else {
       submission = await this.submissionRepository.createAndSave({
         ...body,
@@ -47,8 +51,10 @@ export class AssessmentsService {
     const submission = await this.getSubmission(assessmentId, user);
 
     if (submission) {
+      const startTime = moment(submission.createdAt);
+      const currentTime = moment();
       submission.submission = body.submission;
-      submission.assessmentTime = body.assessmentTime;
+      submission.assessmentTime = Math.abs(currentTime.diff(startTime, 'seconds'));
       submission.status = AssessmentSubmissionStatus.SUBMITTED;
       submission.submittedOn = new Date();
 

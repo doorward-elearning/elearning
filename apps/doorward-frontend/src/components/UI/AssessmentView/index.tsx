@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import QuestionView, { QuestionViewTypes } from './QuestionView';
 import useForm from '@doorward/ui/hooks/useForm';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
@@ -20,6 +20,11 @@ import Form from '@doorward/ui/components/Form';
 import useMergeState from '@doorward/ui/hooks/useMergeState';
 import useRoutes from '../../../hooks/useRoutes';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import Table from '@doorward/ui/components/Table';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -52,6 +57,18 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
     startDate: null,
     endDate: null,
   });
+  const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
+
+  const getSubmission = useAction(DoorwardApi.assessments.getSubmission, {
+    onSuccess: (data) => {
+      setSubmission(data.submission);
+    },
+  });
+  const getSubmissionState = useDoorwardApi((state) => state.assessments.getSubmission);
+
+  useEffect(() => {
+    getSubmission(assessment.id);
+  }, []);
 
   const form = useForm();
   const hasPrivileges = usePrivileges();
@@ -59,43 +76,54 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
 
   useEffect(() => {
     let showQuestions = false;
-    let startAssessment = false;
-    let startDate, endDate;
     if (hasPrivileges('moduleItems.create')) {
       showQuestions = true;
     }
 
-    if (hasPrivileges('assessments.submit')) {
-      // check if the assessment can start
-      startAssessment = false;
-      const from = assessment?.options?.availability?.from;
-      if (from) {
-        startDate = moment(from);
-        if (startDate.isSameOrBefore(moment())) {
-          startAssessment = true;
-        }
-      } else {
-        startAssessment = true;
-      }
-
-      const to = assessment?.options?.availability?.to;
-      if (to) {
-        endDate = moment(to);
-        if (endDate.isSameOrBefore(moment())) {
-          startAssessment = false;
-        }
-      } else {
-        startAssessment = true;
-      }
-    }
-
     setState({
       showQuestions,
-      startAssessment,
-      endDate,
-      startDate,
     });
   }, [assessment]);
+
+  useEffect(() => {
+    if (getSubmissionState.fetched) {
+      let startAssessment = false;
+      let startDate, endDate;
+
+      if (hasPrivileges('assessments.submit')) {
+        // check if the assessment can start
+        startAssessment = false;
+        const from = assessment?.options?.availability?.from;
+        if (from) {
+          startDate = moment(from);
+          if (startDate.isSameOrBefore(moment())) {
+            startAssessment = true;
+          }
+        } else {
+          startAssessment = true;
+        }
+
+        const to = assessment?.options?.availability?.to;
+        if (to) {
+          endDate = moment(to);
+          if (endDate.isSameOrBefore(moment())) {
+            startAssessment = false;
+          }
+        } else {
+          startAssessment = true;
+        }
+
+        if (submission) {
+          startAssessment = false;
+        }
+        setState({
+          startAssessment,
+          startDate,
+          endDate,
+        });
+      }
+    }
+  }, [getSubmissionState]);
 
   return (
     <AssessmentContext.Provider value={{ assessment: assessment }}>
@@ -127,7 +155,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                       <QuestionView
                         view={hasPrivileges('moduleItems.create') ? QuestionViewTypes.ANSWER_PREVIEW_MODE : undefined}
                         question={question}
-                        index={index + 1}
                       />
                     </Tab>
                   );
@@ -156,6 +183,25 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
         </RoleContainer>
+        {submission && (
+          <RoleContainer privileges={['assessments.submit']}>
+            <Header padded size={2}>
+              Submissions
+            </Header>
+            <Table
+              data={[submission]}
+              getCell={(row, index) => ({
+                submittedOn: Tools.normalDateTime(row.submittedOn),
+              })}
+              columns={{
+                status: 'Status',
+                submittedOn: 'Date Submitted',
+                grade: 'Grade',
+                gradedBy: 'Graded by',
+              }}
+            />
+          </RoleContainer>
+        )}
       </Form>
     </AssessmentContext.Provider>
   );

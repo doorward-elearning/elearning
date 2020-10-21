@@ -43,11 +43,11 @@ export interface OrganizationConfig {
 }
 
 const getOrganizationFile = () => {
-  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION, 'organization.json');
+  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', 'organization.json');
   if (fs.existsSync(filePath)) {
     return filePath;
   }
-  return path.join(__dirname, './config/organization.json');
+  throw new Error('Organization config does not exist in path: ' + filePath);
 };
 
 const parseOrganization = (): OrganizationConfig => {

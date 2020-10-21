@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
@@ -18,9 +18,21 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
   const [questions, setQuestions] = useState([]);
   const form = useForm();
   const [submission, setSubmission] = useState(props.submission);
-  const [currentTime, setCurrentTime] = useState();
   const [startQuestion, setStartQuestion] = useState(0);
+  const [timeEnded, setTimeEnded] = useState(false);
   const routes = useRoutes();
+
+  const calculateElapsedTime = () => {
+    if (props.submission) {
+      const currentTime = moment();
+      const startTime = moment(props.submission.createdAt);
+      const totalTime = assessment.options.timeLimit.minutes * 60;
+
+      return totalTime - currentTime.diff(startTime, 'seconds');
+    } else {
+      return assessment.options.timeLimit.minutes * 60;
+    }
+  };
 
   const saveSubmission = useAction(DoorwardApi.assessments.saveAssessment, {
     onSuccess: (data) => {
@@ -37,21 +49,17 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
 
   useEffect(() => {
     if (assessment.questions) {
-      if (assessment.options?.shuffleAnswers) {
-        let shuffled = _.shuffle(assessment.questions);
-        let startQuestion = 0;
+      let shuffled = _.shuffle(assessment.questions);
+      let startQuestion = 0;
 
-        if (submission) {
-          const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.identity));
-          shuffled = shuffled.sort((a, b) => (submittedQuestions.includes(a.id) ? -1 : 1));
-          startQuestion = Math.min(shuffled.length - 1, submittedQuestions.length);
-        }
-
-        setQuestions(shuffled);
-        setStartQuestion(startQuestion);
-      } else {
-        setQuestions(assessment.questions);
+      if (submission) {
+        const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.identity));
+        shuffled = shuffled.sort((a, b) => (submittedQuestions.includes(a.id) ? -1 : 1));
+        startQuestion = Math.min(shuffled.length - 1, submittedQuestions.length);
       }
+
+      setQuestions(shuffled);
+      setStartQuestion(startQuestion);
     }
   }, [assessment]);
 
@@ -60,10 +68,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>Points: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}</DisplayLabel>
-          <AssessmentTimer
-            onTimeUpdate={setCurrentTime}
-            totalTimeMinutes={props.submission?.assessmentTime || assessment.options.timeLimit.minutes * 60}
-          />
+          <AssessmentTimer totalTimeMinutes={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
         </HeaderGrid>
       )}
       <Form
@@ -80,13 +85,11 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           onFinishAssessment={(submission) => {
             submitAssessment(assessment.id, {
               submission,
-              assessmentTime: currentTime,
             });
           }}
           onReadyToSave={(submission) => {
             saveSubmission(assessment.id, {
               submission,
-              assessmentTime: currentTime,
             });
           }}
         />

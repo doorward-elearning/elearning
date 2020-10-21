@@ -1,0 +1,45 @@
+{
+  "id": "Gfz4r7sBK6u81-nUxwXODMYhWrP3UA",
+  "name": "Doorward",
+  "link": "https://doorward.tech",
+  "lang": "en",
+  "descriptiveLogo": true,
+  "icons": {
+    "light": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png",
+    "dark": "https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_white.png"
+  },
+  "description": "",
+  "customerType": "college-india",
+  "meetingPlatform": "Jitsi",
+  "models": {
+    "course": "Course",
+    "module": "Module",
+    "meeting": "Meeting",
+    "assignment": "Assignment",
+    "user": "User",
+    "teacher": "Teacher",
+    "student": "Learner",
+    "superAdministrator": "Super Administrator",
+    "moduleItem": "Module item",
+    "courseManager": "Course manager",
+    "organization": "Organization",
+    "school": "School",
+    "classroom": "Classroom",
+    "discussionGroup": "Discussion Group",
+    "assessment": "Assessment"
+  },
+  "admins": [
+    {
+      "id": "Gfz4r7sBK6u81",
+      "firstName": "Admin",
+      "lastName": "User",
+      "email": "gitaumoses4@gmail.com",
+      "username": "administrator",
+      "password": "password",
+      "zipCode": "",
+      "country": "Kenya",
+      "city": "Nairobi",
+      "status": "Active"
+    }
+  ]
+}

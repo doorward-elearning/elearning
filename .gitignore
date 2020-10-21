@@ -39,3 +39,6 @@ testem.log
 Thumbs.db
 
 docker/dev/openvidu/certificates/
+
+/organization-config/*
+!/organization-config/default/

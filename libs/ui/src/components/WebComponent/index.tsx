@@ -8,14 +8,19 @@ import { PageProgressContext } from '../PageProgress';
 
 function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Element {
   const pageProgress = useContext(PageProgressContext);
-  let hasItems = !!props.data;
-  if (props.data instanceof Array) {
-    const list = props.data as Array<any>;
-    hasItems = !!list.length;
-  }
-  if (props.hasData) {
-    hasItems = props.hasData(props.data);
-  }
+  const [hasItems, setHasItems] = useState();
+  useEffect(() => {
+    let hasData = false;
+    if (props.data instanceof Array) {
+      const list = props.data as Array<any>;
+      hasData = !!list?.length;
+    } else {
+      hasData = !!props.data;
+    }
+    hasData = props.hasData ? props.hasData(props.data) : hasData;
+
+    setHasItems(hasData);
+  }, [props.data, props.hasData]);
 
   useEffect(() => {
     return (): void => {
@@ -41,7 +46,7 @@ function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Elem
       props.empty
     );
 
-  if (hasItems && props.data) {
+  if (hasItems) {
     return (
       <div
         className={classNames({

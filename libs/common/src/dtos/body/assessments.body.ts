@@ -9,10 +9,6 @@ export class SaveAssessmentBody extends DApiBody {
   @Expose()
   submission: string;
 
-  @ApiProperty()
-  @Expose()
-  assessmentTime: number;
-
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       submission: Yup.string().required('The submission is required.'),
