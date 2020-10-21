@@ -12,7 +12,7 @@ const mkDir = (pathLike) => {
   }
 };
 
-const destinations = [path.join(__dirname, '../organization-config/')];
+const destinations = [path.join(__dirname, '../dist/apps/doorward-backend/config')];
 
 destinations.forEach((destination) => {
   mkDir(destination);
@@ -39,4 +39,3 @@ directories.forEach((dirName) => {
 });
 
 console.log(colors.green('Config files written to: ' + destinations.join(', ')));
-console.log(colors.cyan('Done.'));

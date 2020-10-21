@@ -14,7 +14,7 @@ RUN yarn build doorward-backend --prod
 
 RUN cp .env dist/apps/doorward-backend/.env
 
-RUN cp organization-config/ dist/apps/doorward-backend/config
+RUN node scripts/buildOrganizationConfig.js
 
 RUN chmod +x docker/production/doorward-backend/entrypoint.sh
 

@@ -2,5 +2,6 @@
   "downloadAssignment": "Download {{assignment}}",
   "students": "{{student}}s",
   "addAssignment": "Create {{assignment}}",
-  "addCourseStudent": "Add {{student}}"
+  "addCourseStudent": "Add {{student}}",
+  "userWithUsernameDoesNotExist": "{{user}} with this username does not exist."
 }

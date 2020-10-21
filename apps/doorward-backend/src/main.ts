@@ -2,7 +2,7 @@ import '@doorward/backend/bootstrap/setUpEnvironment';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
-import organizationSetup from './bootstrap/organizationSetup';
+import organizationSetup, { ORGANIZATION } from './bootstrap/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
@@ -14,12 +14,14 @@ import OrganizationModelsExceptionFilter from './interceptors/organization.model
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
+import configureLang from '@doorward/common/lang/backend.config';
 
 const globalPrefix = process.env.API_PREFIX;
 
 async function bootstrap() {
   await rolesSetup();
   await organizationSetup();
+  await configureLang(ORGANIZATION);
 
   const app = await setUpNestApplication(AppModule);
   app.useLogger(await app.resolve(PinoLogger));
