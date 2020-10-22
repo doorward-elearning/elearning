@@ -7,10 +7,15 @@ import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { ForceChangePasswordBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import PasswordChangeEmail from '../../emails/password-change.email';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService, private jwtService: JwtService, private emailService: EmailsService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+    private emailService: EmailsService
+  ) {}
 
   /**
    * Retrieve the current user details
@@ -33,11 +38,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new ValidationException({ username: 'User with this username does not exist.' });
+      throw new ValidationException({ username: translate.userWithUsernameDoesNotExist() });
     }
 
     if (!user.password) {
-      throw new ValidationException({ password: 'Your password has not been set.' });
+      throw new ValidationException({ password: translate.yourPasswordHasNotBeenSet() });
     }
 
     if (user.validatePassword(password)) {

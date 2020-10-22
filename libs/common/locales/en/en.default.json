@@ -3,5 +3,6 @@
   "students": "{{student}}s",
   "addAssignment": "Create {{assignment}}",
   "addCourseStudent": "Add {{student}}",
-  "userWithUsernameDoesNotExist": "{{user}} with this username does not exist."
+  "userWithUsernameDoesNotExist": "{{user}} with this username does not exist.",
+  "yourPasswordHasNotBeenSet": "Your password has not been set"
 }

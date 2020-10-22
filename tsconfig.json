@@ -17,6 +17,7 @@
     "types": ["node"],
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
+    "resolveJsonModule": true,
     "paths": {
       "@doorward/ui/*": ["libs/ui/src/*"],
       "@doorward/common/*": ["libs/common/src/*"],

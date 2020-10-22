@@ -9,12 +9,11 @@ import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import rolesSetup from './bootstrap/roleSetup';
-import OrganizationModelsTransformInterceptor from './interceptors/organization.models.transform.interceptor';
-import OrganizationModelsExceptionFilter from './interceptors/organization.models.exception.filter';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import configureLang from '@doorward/common/lang/backend.config';
+import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -41,8 +40,8 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
-  app.useGlobalInterceptors(new TransformInterceptor(reflector), new OrganizationModelsTransformInterceptor());
-  app.useGlobalFilters(new OrganizationModelsExceptionFilter(await app.resolve(PinoLogger)));
+  app.useGlobalInterceptors(new TransformInterceptor(reflector));
+  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
