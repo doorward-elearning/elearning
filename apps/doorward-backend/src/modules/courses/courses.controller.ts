@@ -21,12 +21,13 @@ import { CreateCourseBody, UpdateCourseBody } from '@doorward/common/dtos/body/c
 import { CreateModuleBody } from '@doorward/common/dtos/body';
 import { MeetingResponse, ModuleItemsResponse } from '@doorward/common/dtos/response';
 import { ApiPaginationQuery, PaginationQuery } from '@doorward/common/dtos/query';
+import translate from '@doorward/common/lang/translate';
 
 export const CourseExists = () =>
   ModelExists({
     key: 'courseId',
     model: CourseEntity,
-    message: '{{course}} does not exist.',
+    message: translate.courseDoesNotExist(),
   });
 
 @Controller('courses')
@@ -121,7 +122,7 @@ export class CoursesController {
     await this.coursesService.deleteCourse(courseId);
 
     return {
-      message: '{{course}} has been deleted.',
+      message: translate.courseHasBeenDeleted(),
       id: courseId,
     };
   }
@@ -180,7 +181,7 @@ export class CoursesController {
 
     return {
       module,
-      message: '{{module}} has been added to the {{course}}',
+      message: translate.moduleHasBeenAddedToCourse(),
       statusCode: HttpStatus.CREATED,
     };
   }

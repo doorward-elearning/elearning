@@ -12,6 +12,7 @@ import {
   UpdateModuleOrderBody,
   UpdateModulesBody,
 } from '@doorward/common/dtos/body';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class ModulesService {
@@ -45,7 +46,7 @@ export class ModulesService {
 
   async createModule(course: { id: string }, body: CreateModuleBody): Promise<ModuleEntity> {
     if (await this.checkModuleExists(course.id, body.title)) {
-      throw new ValidationException({ title: 'A {{module}} with this title already exists.' });
+      throw new ValidationException({ title: translate.moduleWithThisTitleAlreadyExists() });
     }
 
     return await this.modulesRepository.save(
@@ -69,7 +70,7 @@ export class ModulesService {
     const module = await this.modulesRepository.findOne(moduleId, { relations: ['course'] });
 
     if (await this.checkModuleExists(module.course.id, body.title, module.id)) {
-      throw new ValidationException({ title: 'A {{module}} with this title already exists' });
+      throw new ValidationException({ title: translate.moduleWithThisTitleAlreadyExists() });
     }
 
     module.title = body.title;

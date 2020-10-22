@@ -5,6 +5,7 @@ import { CreateClassroomBody, CreateSchoolBody } from '@doorward/common/dtos/bod
 import { SchoolsService } from './schools.service';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import SchoolEntity from '@doorward/common/entities/school.entity';
+import translate from '@doorward/common/lang/translate';
 
 const SchoolExists = () => ModelExists({ key: 'schoolId', model: SchoolEntity, message: '{{school}} does not exist.' });
 
@@ -22,7 +23,7 @@ export class SchoolsController {
   async createSchool(@Body() body: CreateSchoolBody): Promise<SchoolResponse> {
     const school = await this.schoolService.createSchool(body);
 
-    return { school, message: '{{school}} has been created. You can now create {{classroom}}s for the {{school}}' };
+    return { school, message: translate.schoolHasBeenCreated() };
   }
 
   /**
@@ -57,7 +58,10 @@ export class SchoolsController {
   @Post(':schoolId/classrooms')
   @SchoolExists()
   @ApiResponse({ status: HttpStatus.OK, description: 'The school that was updated', type: SchoolResponse })
-  async addClassroomToSchool(@Param('schoolId') schoolId: string, @Body() body: CreateClassroomBody): Promise<SchoolResponse> {
+  async addClassroomToSchool(
+    @Param('schoolId') schoolId: string,
+    @Body() body: CreateClassroomBody
+  ): Promise<SchoolResponse> {
     const school = await this.schoolService.addClassroomToSchool(schoolId, body);
 
     return { school };

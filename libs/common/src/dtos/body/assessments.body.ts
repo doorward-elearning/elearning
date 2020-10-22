@@ -3,6 +3,7 @@ import { ObjectSchema } from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import * as Yup from 'yup';
+import translate from '@doorward/common/lang/translate';
 
 export class SaveAssessmentBody extends DApiBody {
   @ApiProperty()
@@ -11,7 +12,7 @@ export class SaveAssessmentBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      submission: Yup.string().required('The submission is required.'),
+      submission: Yup.string().required(translate.submissionIsRequired()),
     });
   }
 }

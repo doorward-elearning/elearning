@@ -11,12 +11,13 @@ import { AssessmentsService } from './assessments.service';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import translate from '@doorward/common/lang/translate';
 
 const AssessmentExists = () =>
   ModelExists({
     model: AssessmentEntity,
     key: 'assessmentId',
-    message: '{{assessment}} does not exist.',
+    message: translate.assessmentDoesNotExist(),
   });
 
 @Controller('assessments')
@@ -75,6 +76,6 @@ export class AssessmentsController {
   ) {
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, currentUser);
 
-    return { submission, message: 'The {{assessment}} has been submitted for review/grading.' };
+    return { submission, message: translate.assessmentSubmittedForReview() };
   }
 }

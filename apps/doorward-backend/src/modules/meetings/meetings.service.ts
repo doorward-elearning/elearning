@@ -12,6 +12,7 @@ import { MeetingPlatform, MeetingStatus } from '@doorward/common/types/meeting';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
 import Tools from '@doorward/common/utils/Tools';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class MeetingsService {
@@ -29,7 +30,7 @@ export class MeetingsService {
 
     if (meetingRoom) {
       if (!currentUser || !(await this.meetingRoomsService.existsInMeetingRoom(meetingRoom.id, currentUser.id))) {
-        throw new UnauthorizedException('You are not allowed to join this {{meeting}}.');
+        throw new UnauthorizedException(translate.youAreNotAllowedToJoinMeeting());
       }
 
       const role = (await currentUser.hasPrivileges('meetings.moderate'))
@@ -40,7 +41,7 @@ export class MeetingsService {
         ? this.joinOpenviduMeeting(meeting, role, currentUser)
         : this.joinJitsiMeeting(meeting, role, currentUser);
     } else {
-      throw new BadRequestException('This {{meeting}} does not have a {{meetingRoom}}');
+      throw new BadRequestException(translate.meetingDoesNotHaveARoom());
     }
   }
 
@@ -48,7 +49,7 @@ export class MeetingsService {
     const meeting = await this.meetingsRepository.findOne(meetingId);
 
     if (!(await currentUser.hasPrivileges('meetings.moderate'))) {
-      throw new UnauthorizedException('You are not allowed to end this {{meeting}}.');
+      throw new UnauthorizedException(translate.youAreNotAllowedToEndMeeting());
     }
 
     await this.meetingsRepository.update(meeting.id, {

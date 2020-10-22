@@ -3,6 +3,7 @@ import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import translate from '@doorward/common/lang/translate';
 
 export class CreateDiscussionGroupBody extends DApiBody {
   @ApiProperty()
@@ -15,8 +16,8 @@ export class CreateDiscussionGroupBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required('The title for the {{discussionGroup}} is required.').nullable(),
-      description: Yup.string().required('The description for the {{discussionGroup}} is required.').nullable(),
+      title: Yup.string().required(translate.titleForDiscussionGroupRequired()).nullable(),
+      description: Yup.string().required(translate.descriptionRequired()).nullable(),
     });
   }
 }
@@ -28,7 +29,7 @@ export class PostDiscussionCommentBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      comment: Yup.string().required("The post content is required.").nullable()
+      comment: Yup.string().required(translate.contentRequired()).nullable(),
     });
   }
 }

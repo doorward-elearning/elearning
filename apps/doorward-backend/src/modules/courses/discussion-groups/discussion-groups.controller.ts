@@ -15,19 +15,20 @@ import { CreateDiscussionGroupBody, PostDiscussionCommentBody } from '@doorward/
 import UserEntity from '@doorward/common/entities/user.entity';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
+import translate from '@doorward/common/lang/translate';
 
 const CourseExists = () =>
   ModelExists({
     model: CourseEntity,
     key: 'courseId',
-    message: '{{course}} does not exist.',
+    message: translate.courseDoesNotExist(),
   });
 
 const DiscussionGroupExists = () =>
   ModelExists({
     model: DiscussionGroupEntity,
     key: 'discussionGroupId',
-    message: '{{discussionGroup}} does not exist.',
+    message: translate.discussionGroupDoesNotExist(),
   });
 
 @Controller('discussion-groups')
@@ -65,7 +66,7 @@ export class DiscussionGroupsController {
   ): Promise<DiscussionGroupResponse> {
     const discussionGroup = await this.discussionGroupsService.createDiscussionGroup(courseId, body, currentUser);
 
-    return { discussionGroup, message: '{{discussionGroup}} has been added.' };
+    return { discussionGroup, message: translate.discussionGroupHasBeenAdded() };
   }
 
   @Post('post/:discussionGroupId')

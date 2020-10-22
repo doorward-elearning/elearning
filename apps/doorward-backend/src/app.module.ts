@@ -24,6 +24,7 @@ import { SchoolsModule } from './modules/schools/schools.module';
 import { FilesModule } from './modules/files/files.module';
 import { SearchSuggestionsModule } from './modules/search-suggestions/search-suggestions.module';
 import { TeachersModule } from './modules/teachers/teachers.module';
+import { ResourcesModule } from './modules/resources/resources.module';
 
 @Global()
 @Module({
@@ -69,6 +70,7 @@ import { TeachersModule } from './modules/teachers/teachers.module';
     FilesModule,
     SearchSuggestionsModule,
     TeachersModule,
+    ResourcesModule,
   ],
   controllers: [HealthCheckController],
   providers: [],

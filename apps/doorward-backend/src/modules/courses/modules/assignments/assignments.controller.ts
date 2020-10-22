@@ -10,8 +10,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AssignmentsService } from './assignments.service';
 import { AssignmentSubmissionResponse } from '@doorward/common/dtos/response/module.items.responses';
 import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
+import translate from '@doorward/common/lang/translate';
 
-const AssignmentExists = () => ModelExists({ key: 'assignmentId', model: ModuleItemEntity, message: 'This assignment does not exist.' });
+const AssignmentExists = () =>
+  ModelExists({ key: 'assignmentId', model: ModuleItemEntity, message: translate.assignmentDoesNotExist() });
 
 @Controller('assignments')
 @ApiTags('assignments')

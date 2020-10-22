@@ -11,6 +11,7 @@ import GroupsUtils from './groups.utils';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import compareLists from '@doorward/common/utils/compareLists';
 import { Brackets } from 'typeorm';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class GroupsService {
@@ -48,7 +49,7 @@ export class GroupsService {
    */
   public async createGroup(body: CreateGroupBody, creator: UserEntity): Promise<GroupEntity> {
     if (await this.groupsRepository.checkGroupExists(body.name)) {
-      throw new ValidationException({ name: 'A group with this name already exists.' });
+      throw new ValidationException({ name: translate.groupWithThisNameAlreadyExists() });
     }
 
     const group = await this.groupsRepository.save(
@@ -123,7 +124,7 @@ export class GroupsService {
    */
   public async updateGroup(groupId: string, body: CreateGroupBody, referee: UserEntity): Promise<GroupEntity> {
     if (await this.groupsRepository.checkGroupExists(body.name, groupId)) {
-      throw new ValidationException({ name: 'A group with this name already exists.' });
+      throw new ValidationException({ name: translate.groupWithThisNameAlreadyExists() });
     }
     const existingGroup = await this.getGroup(groupId);
 

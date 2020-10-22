@@ -4,7 +4,7 @@ import { join } from 'path';
 import Backend from 'i18next-fs-backend';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
-const LOCALES_PATH = '../../locales';
+const LOCALES_PATH = '../../../locales';
 
 const configureLang = (organization: OrganizationEntity) => {
   return i18next.use(Backend).init({

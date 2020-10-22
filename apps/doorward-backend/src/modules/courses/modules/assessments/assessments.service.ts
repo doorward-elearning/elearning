@@ -5,6 +5,7 @@ import { SaveAssessmentBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class AssessmentsService {
@@ -60,7 +61,7 @@ export class AssessmentsService {
 
       await this.submissionRepository.save(submission);
     } else {
-      throw new NotFoundException('{{assessment}} submission does not exist.');
+      throw new NotFoundException(translate.assessmentSubmissionDoesNotExist());
     }
     return submission;
   }

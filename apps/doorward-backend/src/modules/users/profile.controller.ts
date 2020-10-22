@@ -12,6 +12,7 @@ import { ForgotPasswordBody, ResetPasswordBody, UpdatePasswordBody } from '@door
 import { UserResponse } from '@doorward/common/dtos/response';
 import { UpdateAccountBody } from '@doorward/common/dtos/body';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
+import translate from '@doorward/common/lang/translate';
 
 @Controller('/users/profile')
 @ApiTags('userProfile')
@@ -29,22 +30,33 @@ export default class ProfileController {
 
   @Put('password')
   @Privileges('profile.update-password')
-  @ApiResponse({ status: HttpStatus.OK, type: DApiResponse, description: 'A message showing that the password has changed' })
-  async updateAccountPassword(@Body() body: UpdatePasswordBody, @CurrentUser() currentUser: UserEntity): Promise<DApiResponse> {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: DApiResponse,
+    description: 'A message showing that the password has changed',
+  })
+  async updateAccountPassword(
+    @Body() body: UpdatePasswordBody,
+    @CurrentUser() currentUser: UserEntity
+  ): Promise<DApiResponse> {
     await this.usersService.updateAccountPassword(body, currentUser);
     return {
-      message: 'Password has been updated.',
+      message: translate.passwordHasBeenUpdated(),
     };
   }
 
   @Post('resetPassword')
   @Privileges('profile.reset-password')
-  @ApiResponse({ type: DApiResponse, description: 'A message notifying the user of the password reset.', status: HttpStatus.OK })
+  @ApiResponse({
+    type: DApiResponse,
+    description: 'A message notifying the user of the password reset.',
+    status: HttpStatus.OK,
+  })
   async resetAccountPassword(@Body() body: ResetPasswordBody): Promise<DApiResponse> {
     const hadPassword = await this.usersService.resetAccountPassword(body);
 
     return {
-      message: hadPassword ? 'Password has been created. You can now login with the new credentials' : 'Your password has been reset successfully.',
+      message: hadPassword ? translate.passwordCreated() : translate.passwordHasBeenReset(),
     };
   }
 
@@ -59,7 +71,7 @@ export default class ProfileController {
   async forgotAccountPassword(@Body() body: ForgotPasswordBody, @Origin() origin: string): Promise<DApiResponse> {
     await this.usersService.userForgotPassword(body, origin);
     return {
-      message: 'A password reset link has been sent to your email.',
+      message: translate.passwordResetLinkHasBeenSentToYourEmail(),
     };
   }
 }

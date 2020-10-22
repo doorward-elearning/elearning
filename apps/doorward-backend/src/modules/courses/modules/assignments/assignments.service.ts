@@ -5,6 +5,7 @@ import ModuleItemsRepository from '@doorward/backend/repositories/module.items.r
 import { AssignmentSubmissionStatus } from '@doorward/common/types/courses';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class AssignmentsService {
@@ -21,7 +22,7 @@ export class AssignmentsService {
     const numSubmissions = await this.submissionRepository.getNumberOfSubmissions(assignmentId, author.id);
 
     if (numSubmissions > 0 && !(await this.submissionRepository.canResubmit(assignmentId, author.id))) {
-      throw new UnauthorizedException('You are not allowed to submit this {{assignment}}.');
+      throw new UnauthorizedException(translate.youAreNotAllowedToSubmitThisAssignment());
     }
 
     return await this.submissionRepository.save(

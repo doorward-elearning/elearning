@@ -8,10 +8,15 @@ import TeacherAccountWithPasswordEmail from '../../emails/teacher-account.with.p
 import om from '../../utils/om';
 import FrontendLinks from '../../utils/frontend.links';
 import TeacherNewAccountEmail from '../../emails/teacher-new.account.email';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class TeachersService {
-  constructor(private teachersRepository: TeacherRepository, private usersService: UsersService, private emailsService: EmailsService) {}
+  constructor(
+    private teachersRepository: TeacherRepository,
+    private usersService: UsersService,
+    private emailsService: EmailsService
+  ) {}
 
   /**
    *
@@ -33,7 +38,7 @@ export class TeachersService {
       this.emailsService
         .send(
           new TeacherAccountWithPasswordEmail({
-            subject: om('New {{teacher}} account created.'),
+            subject: translate.newTeacherAccountCreated(),
             recipient: user,
             data: { password: body.password, link: origin + FrontendLinks.login },
           })
@@ -43,7 +48,7 @@ export class TeachersService {
       this.emailsService
         .send(
           new TeacherNewAccountEmail({
-            subject: om('New {{teacher}} account created.'),
+            subject: translate.newTeacherAccountCreated(),
             recipient: user,
             data: { link: origin + FrontendLinks.passwordReset(resetToken) },
           })

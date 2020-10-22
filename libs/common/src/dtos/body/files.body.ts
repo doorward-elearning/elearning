@@ -3,6 +3,7 @@ import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import translate from '@doorward/common/lang/translate';
 
 export class CreateFileBody extends DApiBody {
   @ApiProperty()
@@ -19,9 +20,9 @@ export class CreateFileBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required('The file name is required').nullable(),
+      name: Yup.string().required(translate.nameRequired()).nullable(),
       public: Yup.boolean().notRequired(),
-      publicUrl: Yup.string().required('The file url is required.').nullable(),
+      publicUrl: Yup.string().required(translate.urlRequired()).nullable(),
     });
   }
 }

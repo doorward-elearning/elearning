@@ -10,6 +10,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import Public from '@doorward/backend/decorators/public.decorator';
 import { TeacherResponse, TeachersResponse } from '@doorward/common/dtos/response';
 import { Roles } from '@doorward/common/types/roles';
+import translate from '@doorward/common/lang/translate';
 
 @Controller('teachers')
 @ApiTags('teachers')
@@ -28,7 +29,7 @@ export class TeachersController {
 
     const teacher = await this.teachersService.createTeacher(body, currentUser, origin);
 
-    return { teacher, message: '{{teacher}} has been created successfully.' };
+    return { teacher, message: translate.studentCreated() };
   }
 
   @Post('freeTrial')
@@ -37,7 +38,7 @@ export class TeachersController {
   async createFreeTrialTeacherAccount(@Body() body: CreateUserBody, @Origin() origin: string) {
     const teacher = await this.teachersService.createTeacher(body, null, origin);
 
-    return { teacher, message: '{{teacher}} account has been created.' };
+    return { teacher, message: translate.teacherCreated() };
   }
 
   @Get()

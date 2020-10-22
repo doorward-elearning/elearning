@@ -13,6 +13,7 @@ import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import { UserResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -38,7 +39,7 @@ export class AuthController {
     this.emailService
       .send(
         new SelfRegistrationEmail({
-          subject: 'Confirm registration',
+          subject: translate.confirmRegistration(),
           data: { link: origin + FrontendLinks.login },
           recipient: user,
         })

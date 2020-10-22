@@ -10,12 +10,13 @@ import { FileResponse, FilesResponse, SimpleFileResponse } from '@doorward/commo
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import FileEntity from '@doorward/common/entities/file.entity';
+import translate from '@doorward/common/lang/translate';
 
 const FileExists = () =>
   ModelExists({
     key: 'fileId',
     model: FileEntity,
-    message: 'File does not exist.',
+    message: translate.fileDoesNotExist(),
   });
 
 @Controller('files')

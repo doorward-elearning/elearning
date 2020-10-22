@@ -10,8 +10,9 @@ import Privileges from '../../decorators/privileges.decorator';
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AddMemberToGroupBody, CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
 import { GroupResponse, GroupsResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
-const GroupExists = () => ModelExists({ key: 'groupId', model: GroupEntity, message: 'Group does not exist.' });
+const GroupExists = () => ModelExists({ key: 'groupId', model: GroupEntity, message: translate.groupDoesNotExist() });
 
 @Controller('groups')
 @ApiTags('groups')

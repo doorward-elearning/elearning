@@ -10,6 +10,7 @@ import { MeetingsService } from '../meetings/meetings.service';
 import { ClassroomRepository } from '@doorward/backend/repositories/classroom.repository';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import om from '../../utils/om';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class SchoolsService {
@@ -36,13 +37,13 @@ export class SchoolsService {
    */
   public async createSchool(body: CreateSchoolBody) {
     if (await this.schoolRepository.findByEmail(body.email)) {
-      throw new ValidationException({ email: 'A {{school}} with this email already exists.' });
+      throw new ValidationException({ email: translate.schoolWithThisEmailAlreadyExists() });
     }
     if (await this.schoolRepository.findByName(body.name)) {
-      throw new ValidationException({ name: 'A {{school}} with this name already exists.' });
+      throw new ValidationException({ name: translate.schoolWithThisNameAlreadyExists() });
     }
     if (await this.schoolRepository.findByPhoneNumber(body.phoneNumber)) {
-      throw new ValidationException({ phoneNumber: 'A {{school}} with this phone number already exists.' });
+      throw new ValidationException({ phoneNumber: translate.schoolWithThisPhoneAlreadyExists() });
     }
 
     const school = await this.schoolRepository.save(

@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { FilesRepository } from '@doorward/backend/repositories/files.repository';
 import { CreateFileBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class FilesService {
@@ -39,7 +40,7 @@ export class FilesService {
     const file = await this.getFileById(fileId);
 
     if (!file.public && !user) {
-      throw new NotFoundException('This file does not exist.');
+      throw new NotFoundException(translate.fileDoesNotExist());
     }
     return file;
   }

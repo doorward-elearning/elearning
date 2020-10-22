@@ -15,10 +15,13 @@ import ApiRequest from '@doorward/ui/services/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
+import configureLang from '@doorward/common/lang/frontend.config';
 
 ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
+
+configureLang().then();
 
 export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
 

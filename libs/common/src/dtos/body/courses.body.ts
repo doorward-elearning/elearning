@@ -4,6 +4,7 @@ import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
 import { CreateModuleBody } from '@doorward/common/dtos/body/modules.body';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import translate from '@doorward/common/lang/translate';
 
 export class UpdateCourseBody extends DApiBody {
   @ApiProperty()
@@ -16,7 +17,7 @@ export class UpdateCourseBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required('The {{course}} title is required').nullable(),
+      title: Yup.string().required(translate.courseTitleIsRequired()).nullable(),
       description: Yup.string().notRequired().nullable(),
     });
   }
@@ -34,10 +35,10 @@ export class CreateCourseBody extends UpdateCourseBody {
         modules: Yup.array()
           .of(
             Yup.object().shape({
-              title: Yup.string().required('The {{module}} name is required'),
+              title: Yup.string().required(translate.moduleNameIsRequired()),
             })
           )
-          .required('Please provide at least one {{module}} in the course'),
+          .required(translate.provideAtLeastOneModule()),
       })
     );
     return validation;

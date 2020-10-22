@@ -3,6 +3,7 @@ import { Expose } from 'class-transformer';
 import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import translate from '@doorward/common/lang/translate';
 
 export class AddCourseManagerBody extends DApiBody {
   @ApiProperty()
@@ -11,7 +12,7 @@ export class AddCourseManagerBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      managerId: Yup.string().required('The {{courseManager}} id is required.').nullable(),
+      managerId: Yup.string().required(translate.courseManagerIdIsRequired()).nullable(),
     });
   }
 }

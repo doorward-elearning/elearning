@@ -12,12 +12,13 @@ import {
   TeacherReportResponse,
   TeachersReportResponse,
 } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const StudentExists = () =>
-  ModelExists({ key: 'studentId', model: UserEntity, message: 'The {{student}} does not' + ' exist.' });
+  ModelExists({ key: 'studentId', model: UserEntity, message: translate.studentDoesNotExist() });
 
 const TeacherExists = () =>
-  ModelExists({ key: 'teacherId', model: UserEntity, message: 'The {{teacher}} does not' + ' exist.' });
+  ModelExists({ key: 'teacherId', model: UserEntity, message: translate.teacherDoesNotExist() });
 
 @Controller('reports')
 @ApiTags('reports')

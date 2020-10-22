@@ -21,6 +21,7 @@ import {
 } from '@doorward/common/dtos/body/auth.body';
 import { CreateUserBody, UpdateAccountBody } from '@doorward/common/dtos/body';
 import { UserResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class UsersService {
@@ -64,7 +65,7 @@ export class UsersService {
   ): Promise<{ user: UserEntity; resetToken: string | null }> {
     const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
-      throw new ValidationException({ username: 'A {{user}} with this username already exists.' });
+      throw new ValidationException({ username: translate.userWithUsernameAlreadyExists() });
     }
     const { role, status = UserStatus.PENDING_ACTIVATION, ...userBody } = body;
 

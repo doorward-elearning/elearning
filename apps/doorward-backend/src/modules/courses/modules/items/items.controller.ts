@@ -19,12 +19,13 @@ import {
   CreateQuizBody,
 } from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const ModuleItemExists = () =>
   ModelExists({
     key: 'itemId',
     model: ModuleItemEntity,
-    message: 'This {{moduleItem}} does not exist.',
+    message: translate.moduleItemDoesNotExist(),
   });
 
 @Controller('module/items')
@@ -100,7 +101,9 @@ export class ItemsController {
 
     return {
       item: moduleItem,
-      message: `${body.type} has been updated.`,
+      message: translate.moduleItemWasUpdated({
+        moduleItem: body.type,
+      }),
     };
   }
 }

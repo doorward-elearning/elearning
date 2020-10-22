@@ -10,12 +10,13 @@ import { MeetingResponse } from '@doorward/common/dtos/response/meetings.respons
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
+import translate from '@doorward/common/lang/translate';
 
 const MeetingExists = () =>
   ModelExists({
     key: 'meetingId',
     model: MeetingEntity,
-    message: '{{meeting}} does not exist.',
+    message: translate.meetingDoesNotExist(),
   });
 
 @Controller('meetings')
@@ -46,7 +47,7 @@ export class MeetingsController {
     await this.meetingsService.endMeeting(meetingId, user);
 
     return {
-      message: '{{meeting}} has ended.',
+      message: translate.meetingHasEnded(),
     };
   }
 

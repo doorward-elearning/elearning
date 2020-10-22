@@ -26,6 +26,7 @@ import QuizRepository from '@doorward/backend/repositories/quiz.repository';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import ExamRepository from '@doorward/backend/repositories/exam.repository';
 import { AnswerTypes } from '@doorward/common/types/exam';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class ItemsService {
@@ -67,7 +68,9 @@ export class ItemsService {
   async createOrUpdateModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity, itemId?: string) {
     if (await this.checkModuleItemExists(moduleId, body.title, body.type, itemId)) {
       throw new ValidationException({
-        title: `${ItemsService.getModuleItemText(body.type)} with this title already exists.`,
+        title: translate.moduleItemWithThisTitleAlreadyExists({
+          moduleItem: ItemsService.getModuleItemText(body.type),
+        }),
       });
     } else {
       const defaultProperties = { id: itemId, module: { id: moduleId }, author: { id: author.id }, title: body.title };

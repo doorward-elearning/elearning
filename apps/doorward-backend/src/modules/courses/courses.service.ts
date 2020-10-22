@@ -11,6 +11,7 @@ import { MeetingRoomTypes, MeetingStatus } from '@doorward/common/types/meeting'
 import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class CoursesService {
@@ -28,7 +29,7 @@ export class CoursesService {
       .getOne();
 
     if (courseExists) {
-      throw new ValidationException({ title: 'A {{course}} with this title already exists' });
+      throw new ValidationException({ title: translate.courseWithThisTitleAlreadyExists() });
     }
     const { modules, title } = body;
 
@@ -84,7 +85,7 @@ export class CoursesService {
       .getOne();
 
     if (existingCourse) {
-      throw new ValidationException({ title: 'A {{course}} with this title already exists.' });
+      throw new ValidationException({ title: translate.courseWithThisTitleAlreadyExists() });
     }
 
     await this.coursesRepository.update(id, {
