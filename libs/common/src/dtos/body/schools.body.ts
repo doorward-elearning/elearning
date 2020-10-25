@@ -3,6 +3,7 @@ import { ObjectSchema } from 'yup';
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import * as Yup from 'yup';
+import translate from '@doorward/common/lang/translate';
 
 export class CreateSchoolBody extends DApiBody {
   @ApiProperty()
@@ -19,9 +20,9 @@ export class CreateSchoolBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required('The {{school}} name is required.').nullable(),
-      email: Yup.string().required('The {{school}} email is required').nullable(),
-      phoneNumber: Yup.string().required('The {{school}} phone number is required').nullable(),
+      name: Yup.string().required(translate.nameRequired()).nullable(),
+      email: Yup.string().required(translate.emailIsRequired()).nullable(),
+      phoneNumber: Yup.string().required(translate.phoneNumberRequired()).nullable(),
     });
   }
 }
@@ -32,7 +33,7 @@ export class CreateClassroomBody extends DApiBody {
   name: string;
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required('The {{classroom}} name is required'),
+      name: Yup.string().required(translate.nameRequired()),
     });
   }
 }

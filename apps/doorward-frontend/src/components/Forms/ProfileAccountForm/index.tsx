@@ -9,6 +9,7 @@ import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdateAccountBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (props) => {
   const initialValues: ProfileAccountFormState = {
@@ -45,11 +46,11 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (pr
       validationSchema={UpdateAccountBody}
       showOverlay
     >
-      <TextField name="firstName" label="First name" />
-      <TextField name="lastName" label="Last name" />
-      <TextField name="email" label="Email" type="email" />
-      <TextField name="phoneNumber" label="Phone Number" />
-      <TextField name="username" label="Username" editable={false} />
+      <TextField name="firstName" label={translate.firstName()} />
+      <TextField name="lastName" label={translate.lastName()} />
+      <TextField name="email" type="email" label={translate.email()} />
+      <TextField name="phoneNumber" label={translate.phoneNumber()} />
+      <TextField name="username" label={translate.username()} editable={false} />
     </BasicForm>
   );
 };

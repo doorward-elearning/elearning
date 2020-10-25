@@ -1,4 +1,5 @@
 export * from './auth.responses';
+export * from './assessment.responses';
 export * from './course.managers.responses';
 export * from './courses.responses';
 export * from './discussion.groups.responses';

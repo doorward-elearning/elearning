@@ -7,6 +7,7 @@ import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdatePasswordBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
@@ -29,9 +30,9 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (pr
       createData={props.createData || ((data) => [data])}
       showOverlay
     >
-      {!props.dontEnterCurrentPassword && <PasswordField name="password" label="Current password" />}
-      <PasswordField name="newPassword" label="New password" />
-      <PasswordField name="confirmPassword" label="Re-enter password" />
+      {!props.dontEnterCurrentPassword && <PasswordField name="password" label={translate.currentPassword()} />}
+      <PasswordField name="newPassword" label={translate.newPassword()} />
+      <PasswordField name="confirmPassword" label={translate.reEnterPassword()} />
     </BasicForm>
   );
 };

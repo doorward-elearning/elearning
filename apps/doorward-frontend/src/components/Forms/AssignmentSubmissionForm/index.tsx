@@ -11,6 +11,7 @@ import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,
@@ -58,13 +59,13 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
               }
             }}
           >
-            <Tab title={AssignmentSubmissionType.TEXT_ENTRY}>
+            <Tab title={translate.textEntry()}>
               <TextArea name="submission" />
             </Tab>
-            <Tab title={AssignmentSubmissionType.WEBSITE_URL}>
+            <Tab title={translate.websiteURL()}>
               <TextField name="submission" />
             </Tab>
-            <Tab title={AssignmentSubmissionType.FILE_UPLOAD}>
+            <Tab title={translate.fileUpload()}>
               <FileUploadField
                 name="submission"
                 uploadHandler={(file, onUploadProgress, cancelHandler) => {

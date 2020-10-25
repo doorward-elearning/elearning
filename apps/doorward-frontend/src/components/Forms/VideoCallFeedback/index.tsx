@@ -9,6 +9,7 @@ import EImage from '@doorward/ui/components/Image';
 import RatingInput from '@doorward/ui/components/Input/RatingInput';
 import validation from './validation';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.students.createStudentInCourse);
@@ -20,7 +21,7 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
   return (
     <Row style={{ gridTemplateColumns: '2fr 1fr', alignItems: 'start' }}>
       <div>
-        <Header size={3}>Please rate the quality of the meeting.</Header>
+        <Header size={3}>{translate.pleaseRateTheQualityOfTheMeeting()}</Header>
         <BasicForm
           submitAction={() => ({ type: '' })}
           state={state}
@@ -28,10 +29,10 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
           form={form}
           initialValues={initialValues}
           features={[BasicFormFeatures.SAVE_BUTTON]}
-          positiveText="Submit"
+          positiveText={translate.submit()}
         >
-          <RatingInput name="rating" label="Rating" size="large" />
-          <TextArea label="Feedback" name="feedback" />
+          <RatingInput name="rating" label={translate.rating()} size="large" />
+          <TextArea label={translate.feedback()} name="feedback" />
         </BasicForm>
       </div>
       <div>

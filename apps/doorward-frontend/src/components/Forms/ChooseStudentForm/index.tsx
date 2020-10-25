@@ -15,6 +15,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (props) => {
   const studentList = useDoorwardApi((state) => state.students.getStudentsNotRegisteredToCourse);
@@ -52,7 +53,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
   return (
     <div>
       <TabLayout onTabChange={props.onTabChange}>
-        <Tab title="Students">
+        <Tab title={translate.students()}>
           <Panel plain>
             <ChooseItemsForm
               getItems={(state1) => state1.data.students}
@@ -74,15 +75,15 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 },
               ]}
               columns={{
-                username: 'Username',
-                firstName: 'First Name',
-                lastName: 'Last Name',
-                email: 'Email',
+                username: translate.username(),
+                firstName: translate.firstName(),
+                lastName: translate.lastName(),
+                email: translate.email(),
               }}
             />
           </Panel>
         </Tab>
-        <Tab title="Groups">
+        <Tab title={translate.groups()}>
           <Panel plain>
             <Row style={{ alignItems: 'start' }}>
               <ChooseItemsForm
@@ -96,8 +97,8 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 hasSearch={!!props.search}
                 createData={(values) => [courseId, { students: createStudentsFromGroups(values) }]}
                 columns={{
-                  name: 'Group name',
-                  members: 'Members',
+                  name: translate.groupName(),
+                  members: translate.members(),
                 }}
                 renderCell={(row) => {
                   return {

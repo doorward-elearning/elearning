@@ -248,7 +248,7 @@ export class SubmitAssignmentBody extends DApiBody {
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       submissionType: Yup.string()
-        .required(translate.typeRequired())
+        .required(translate.typeIsRequired())
         .oneOf(Object.values(AssignmentSubmissionType), translate.invalidType())
         .nullable(),
       submission: Yup.string().required(translate.contentRequired()),

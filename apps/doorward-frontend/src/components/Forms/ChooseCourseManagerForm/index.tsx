@@ -7,6 +7,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeachersResponse } from '@doorward/common/dtos/response';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.courseManagers.createCourseManager);
@@ -33,10 +34,10 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
         },
       ]}
       columns={{
-        username: 'Username',
-        firstName: 'First Name',
-        lastName: 'Last Name',
-        email: 'Email',
+        username: translate.username(),
+        firstName: translate.firstName(),
+        lastName: translate.lastName(),
+        email: translate.email(),
       }}
     />
   );

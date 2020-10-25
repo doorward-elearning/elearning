@@ -6,6 +6,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import useRoutes from '../../../hooks/useRoutes';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (props) => {
   const state = useDoorwardApi((state) => state.userProfile.forgotAccountPassword);
@@ -18,14 +19,14 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (pr
       form={form}
       onCancel={() => routes.navigate(routes.home)}
       validationSchema={Yup.object({
-        username: Yup.string().required('Please enter your username'),
+        username: Yup.string().required(translate.usernameIsRequired()),
       })}
-      positiveText="Reset"
+      positiveText={translate.reset()}
       initialValues={{
         username: '',
       }}
     >
-      <TextField name="username" label="Username" />
+      <TextField name="username" label={translate.username()} />
     </BasicForm>
   );
 };

@@ -6,7 +6,7 @@ export interface AssessmentOptions {
   };
   attempts: {
     multiple: boolean;
-    keepScore: 'Highest' | 'Latest' | 'Average';
+    keepScore: ScoreToKeep;
     max: number;
   };
   questions: {
@@ -34,4 +34,10 @@ export interface AssessmentOptions {
     from: string | Date | null;
     to: string | Date | null;
   };
+}
+
+export enum ScoreToKeep {
+  HIGHEST = 'highest',
+  LATEST = 'latest',
+  AVERAGE = 'average',
 }

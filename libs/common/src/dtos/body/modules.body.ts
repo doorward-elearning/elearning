@@ -3,6 +3,7 @@ import { Expose } from 'class-transformer';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import translate from '@doorward/common/lang/translate';
 
 export class CreateModuleBody extends DApiBody {
   @ApiProperty()
@@ -11,7 +12,7 @@ export class CreateModuleBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required('Please provide the {{module}} title.').nullable(),
+      title: Yup.string().required(translate.titleRequired()).nullable(),
     });
   }
 }
@@ -51,8 +52,8 @@ export class UpdateModulesBody extends DApiBody {
     return Yup.object({
       modules: Yup.array(
         Yup.object({
-          order: Yup.number().required('The order of the {{module}} is required'),
-          id: Yup.string().required('The id of the {{module}} is required.'),
+          order: Yup.number().required(translate.orderRequired()),
+          id: Yup.string().required(translate.moduleRequired()),
         })
       ),
     });

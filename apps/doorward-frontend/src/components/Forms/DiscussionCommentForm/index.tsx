@@ -21,7 +21,7 @@ const DiscussionCommentForm: React.FunctionComponent<DicussionCommentFormProps> 
       submitAction={DoorwardApi.discussionGroups.postComment}
       features={[BasicFormFeatures.SAVE_BUTTON]}
     >
-      <DraftTextArea name="comment" label="" fluid/>
+      <DraftTextArea name="comment" label="" fluid />
     </BasicForm>
   );
 };

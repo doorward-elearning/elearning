@@ -8,6 +8,7 @@ import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import { RegisterBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -19,8 +20,8 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
   const form = useForm();
   return (
     <AuthForm
-      title="Register"
-      buttonText="Register"
+      title={translate.register()}
+      buttonText={translate.register()}
       submitAction={DoorwardApi.auth.register}
       state={state}
       form={form}
@@ -37,10 +38,10 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
       initialValues={initialValues}
     >
       <React.Fragment>
-        <TextField name="fullName" label="Full Name" placeholder="Enter your full name" />
-        <TextField name="username" label="Username" placeholder="Enter your preferred username" />
-        <TextField name="email" label="Email" type="email" placeholder="john.doe@email.com" />
-        <PasswordField name="password" label="Password" placeholder="Password" />
+        <TextField name="fullName" label={translate.fullName()} />
+        <TextField name="username" label={translate.username()} />
+        <TextField name="email" label={translate.email()} type="email" />
+        <PasswordField name="password" label={translate.password()} />
       </React.Fragment>
     </AuthForm>
   );

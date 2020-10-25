@@ -7,13 +7,14 @@ import Table, { TableColumns } from '@doorward/ui/components/Table';
 import SwitchInput from '@doorward/ui/components/Input/SwitchInput';
 import { FormikProps } from 'formik';
 import Row from '@doorward/ui/components/Row';
+import translate from '@doorward/common/lang/translate';
 
 function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
   const [itemsState, setItemsState] = useState<Record<string, boolean>>({});
 
   const createList = useCallback(
     (items: Array<T>): Array<T & { selected: boolean }> => {
-      return items.map(item => ({ ...item, selected: !!itemsState[item.id] }));
+      return items.map((item) => ({ ...item, selected: !!itemsState[item.id] }));
     },
     [itemsState]
   );
@@ -24,7 +25,7 @@ function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItem
         data={props.getItems(props.items)}
         loading={props.items.fetching}
         showRefreshingProgress
-        actionMessage={props.hasSearch && 'Remove filter'}
+        actionMessage={props.hasSearch && translate.removeFilter()}
         onAction={props.onRemoveFilter}
       >
         {(items): JSX.Element => (
@@ -43,7 +44,7 @@ function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItem
                 <Table
                   columns={{
                     ...props.columns,
-                    _uniqueColumnAdd_: props.chooseHeader || 'Choose',
+                    _uniqueColumnAdd_: props.chooseHeader || translate.choose(),
                   }}
                   data={formikProps.values.items}
                   onRowClick={(row, index): void => {

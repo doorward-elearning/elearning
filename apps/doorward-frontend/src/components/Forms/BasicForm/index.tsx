@@ -10,6 +10,7 @@ import Feature from '@doorward/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
 import { Omit } from '@doorward/common/types';
 import { useHistory } from 'react-router';
+import translate from '@doorward/common/lang/translate';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
@@ -62,7 +63,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
                       disabled={!props.enableSubmitButton && (formikProps.isSubmitting || !formikProps?.isValid)}
                       loading={state.submitting}
                     >
-                      {props.positiveText || 'Save'}
+                      {props.positiveText || translate.save()}
                     </Button>
                   </Feature>
                   <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
@@ -72,7 +73,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
                       disabled={state.submitting}
                       onClick={props.onCancel || history.goBack}
                     >
-                      {props.negativeText || 'Back'}
+                      {props.negativeText || translate.back()}
                     </Button>
                   </Feature>
                 </Row>

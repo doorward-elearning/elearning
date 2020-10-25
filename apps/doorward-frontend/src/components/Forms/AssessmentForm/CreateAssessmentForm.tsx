@@ -8,9 +8,11 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import { CreateAssessmentBody } from '@doorward/common/dtos/body';
 import AssessmentOptions from './AssessmentOptions';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import translate from '@doorward/common/lang/translate';
+import { ScoreToKeep } from '@doorward/common/types/assessments';
 
 const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
-  title: title || `Unnamed ${type}`,
+  title: title || translate.unnamedItem({ item: type }),
   instructions: '',
   type: ModuleItemType.ASSESSMENT,
   assessmentType: type,
@@ -23,7 +25,7 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
     },
     attempts: {
       multiple: false,
-      keepScore: 'Highest',
+      keepScore: ScoreToKeep.HIGHEST,
       max: null,
     },
     questions: {

@@ -20,6 +20,7 @@ import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
+import translate from '@doorward/common/lang/translate';
 
 export const defaultQuestion: CreateQuestionBody = {
   question: null,
@@ -39,8 +40,10 @@ const AnswerInput: React.FunctionComponent<AnswerInputProps> = ({ answerIndex, o
   return (
     <div className="answer-panel">
       <div className="answer-panel__header">
-        <Checkbox name={`answers[${answerIndex}].correct`} label="" title="Is it a correct Answer?" />
-        <span>Answer {answerIndex + 1}</span>
+        <Checkbox name={`answers[${answerIndex}].correct`} label="" title={translate.isCorrectAnswer()} />
+        <span>
+          {translate.answer()} {answerIndex + 1}
+        </span>
         <Icon icon="delete" className="delete-answer" onClick={onRemove} />
       </div>
       <TextArea name={`answers[${answerIndex}].answer`} />
@@ -92,7 +95,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
             features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}
             bottomSheet
           >
-            <Modal.Header title={editQuestion ? 'Edit question' : 'Add question'} />
+            <Modal.Header title={editQuestion ? translate.editQuestion() : translate.addQuestion()} />
             <Modal.Body>
               <div className="assessment-questions">
                 <div className="assessment-questions__question">
@@ -104,17 +107,17 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
                       options={[
                         {
                           value: AnswerTypes.MULTIPLE_CHOICE,
-                          label: 'Multiple Choice',
+                          label: translate.multipleChoice(),
                         },
                         {
                           value: AnswerTypes.TEXT_INPUT,
-                          label: 'Text input',
+                          label: translate.textInput(),
                         },
                       ]}
-                      label="Answer type"
+                      label={translate.type()}
                     />
                   )}
-                  <DraftTextArea fluid name={`question`} label="Question description" />
+                  <DraftTextArea fluid name={`question`} label={translate.description()} />
                 </div>
                 {question.type === AnswerTypes.MULTIPLE_CHOICE && (
                   <div className="assessment-questions__answers">
@@ -134,7 +137,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
                                 })
                               }
                             >
-                              Add Answer
+                              {translate.addAnswer()}
                             </Button>
                           </HeaderGrid>
                           <ErrorMessage name={`answers`} />
@@ -152,7 +155,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
               props={{
                 positive: { disabled: !isValid },
               }}
-              buttons={{ positive: editQuestion ? 'Edit' : 'Add', negative: 'Cancel' }}
+              buttons={{ positive: editQuestion ? translate.save() : translate.add(), negative: translate.cancel() }}
             />
           </Modal>
         );

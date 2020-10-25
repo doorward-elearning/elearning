@@ -5,6 +5,7 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Api from '../../services/api';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
+import translate from '@doorward/common/lang/translate';
 
 const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionViewProps> = ({
   submission,
@@ -28,7 +29,7 @@ const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionView
             }}
             icon="cloud_download"
           >
-            Download Assignment
+            {translate.downloadAssignment()}
           </Button>
         </div>
       </IfElse>

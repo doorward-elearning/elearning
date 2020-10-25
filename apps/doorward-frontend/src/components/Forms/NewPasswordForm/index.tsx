@@ -6,6 +6,7 @@ import { useRouteMatch } from 'react-router';
 import { ResetPasswordBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.Element => {
   const match: any = useRouteMatch();
@@ -27,8 +28,8 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
       onCancel={props.onCancel}
       form={props.form}
     >
-      <PasswordField name="password" label="Password" />
-      <PasswordField name="confirmPassword" label="Re-enter password" />
+      <PasswordField name="password" label={translate.password()} />
+      <PasswordField name="confirmPassword" label={translate.reEnterPassword()} />
     </BasicForm>
   );
 };

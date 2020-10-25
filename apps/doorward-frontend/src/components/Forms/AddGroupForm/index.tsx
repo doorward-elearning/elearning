@@ -18,6 +18,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { GroupMemberResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 interface InitialValues {
   name: string;
@@ -63,7 +64,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
               <div className="member-list__header">
                 <Header size={3}>{props.title}</Header>
                 <IfElse condition={hook.count !== props.users.length}>
-                  <TextLink onClick={hook.selectAll}>Select All</TextLink>
+                  <TextLink onClick={hook.selectAll}>{translate.selectAll()}</TextLink>
                 </IfElse>
               </div>
               <UserChooser
@@ -78,9 +79,11 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
           </div>
           <div className="add-group-form__selected">
             <div className="member-list__header">
-              <Header size={2}>Selected {props.title}</Header>
+              <Header size={2}>
+                {translate.selected()} {props.title}
+              </Header>
               <IfElse condition={formikProps.values.members.length}>
-                <TextLink onClick={hook.deselectAll}>Deselect All</TextLink>
+                <TextLink onClick={hook.deselectAll}>{translate.deselectAll()}</TextLink>
               </IfElse>
             </div>
             <VerticalScroll maxHeight={500}>
@@ -88,7 +91,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
                 data={formikProps.values.members as Array<UserEntity>}
                 loading={false}
                 size="medium"
-                emptyMessage="None selected yet."
+                emptyMessage={translate.noneSelectedYet()}
               >
                 {(items) => (
                   <div className="add-group-form__selected--list">

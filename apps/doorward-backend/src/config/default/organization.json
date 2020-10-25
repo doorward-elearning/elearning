@@ -26,7 +26,10 @@
     "school": "School",
     "classroom": "Classroom",
     "discussionGroup": "Discussion Group",
-    "assessment": "Assessment"
+    "assessment": "Assessment",
+    "quiz": "Quiz",
+    "exam": "Exam",
+    "page": "Page"
   },
   "admins": [
     {

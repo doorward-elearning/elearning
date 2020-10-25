@@ -6,6 +6,7 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
   const initialValues = {
@@ -28,7 +29,7 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
       state={state}
       form={props.useForm}
     >
-      <TextField name="title" label="Module Name" icon="calendar_view_day" />
+      <TextField name="title" label={translate.moduleName()} icon="calendar_view_day" />
     </Form>
   );
 };

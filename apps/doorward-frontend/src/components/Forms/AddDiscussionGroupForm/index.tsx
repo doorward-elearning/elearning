@@ -6,6 +6,7 @@ import BasicForm, { BasicFormFeatures } from '../BasicForm';
 import TextField from '@doorward/ui/components/Input/TextField';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
+import translate from '@doorward/common/lang/translate';
 
 const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -28,8 +29,8 @@ const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProp
       features={[BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON]}
       createData={(values) => [props.courseId, values]}
     >
-      <TextField name="title" label="Title" icon="forum" />
-      <DraftTextArea fluid name="description" label="Description" labelPosition="top" />
+      <TextField name="title" label={translate.title()} icon="forum" />
+      <DraftTextArea fluid name="description" label={translate.description()} labelPosition="top" />
     </BasicForm>
   );
 };

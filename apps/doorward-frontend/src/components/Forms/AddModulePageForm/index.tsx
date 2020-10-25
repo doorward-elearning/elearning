@@ -8,6 +8,7 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { CreateModuleItemBody, CreatePageBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
+import translate from '@doorward/common/lang/translate';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -17,7 +18,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   onCancel,
 }: AddModulePageFormProps<T>) {
   const initialValues: Partial<CreatePageBody> = page || {
-    title: 'Untitled Page',
+    title: translate.untitledPage(),
     page: null,
   };
   return (
@@ -33,8 +34,8 @@ function AddModulePageForm<T extends AddModulePageFormState>({
       form={useForm}
     >
       <div className="add-module-page">
-        <TextField name="title" placeholder="Title of the page" />
-        <DraftTextArea name="page" placeholder="Empty space is boring... Add some content for the page." />
+        <TextField name="title" placeholder={translate.title()} />
+        <DraftTextArea name="page" placeholder={translate.emptySpaceIsBoringAddSomeContent()} />
       </div>
     </AddModuleItemForm>
   );

@@ -13,6 +13,7 @@ import { Roles } from '@doorward/common/types/roles';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import translate from '@doorward/common/lang/translate';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
@@ -30,8 +31,8 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
         validationSchema={Yup.object({
           courseName: Yup.string()
             .nullable()
-            .required('Please enter the name of the course')
-            .oneOf([course.title], 'Please enter the exact name of the course'),
+            .required(translate.nameRequired())
+            .oneOf([course.title], translate.enterExactCourseName()),
         })}
       >
         {(formikProps) => (
@@ -52,7 +53,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
                 <li>Course resources will be deleted</li>
                 <li>Course report will no longer be accessible.</li>
               </ul>
-              <TextField placeholder="Enter the course name to confirm" name="courseName" />
+              <TextField placeholder={translate.courseName()} name="courseName" />
             </div>
           </WebConfirmModal>
         )}
@@ -66,7 +67,7 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
 
   return (
     <React.Fragment>
-      <RoleContainer privileges={["courses.delete"]} >
+      <RoleContainer privileges={['courses.delete']}>
         <Dropdown positionX="right">
           <Icon icon="more_vert" />
           <Dropdown.Menu>
@@ -77,7 +78,7 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
             {/*  Backup course*/}
             {/*</Dropdown.Item>*/}
             <Dropdown.Item icon="delete" onClick={deleteCourseModal.openModal}>
-              Delete Course
+              {translate.deleteCourse()}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

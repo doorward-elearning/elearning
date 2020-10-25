@@ -5,6 +5,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
+import translate from '@doorward/common/lang/translate';
 
 export class CreateOrganizationBody extends DApiBody {
   @ApiProperty()
@@ -41,25 +42,19 @@ export class CreateOrganizationBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required('The {{organization}} name is required').nullable(),
+      name: Yup.string().required(translate.nameRequired()).nullable(),
       description: Yup.string().nullable().notRequired(),
-      icon: Yup.string()
-        .required('The {{organization}} logo is required.')
-        .nullable()
-        .url('Please enter a valid image URL'),
-      link: Yup.string()
-        .required('The {{organization}} website URL is required')
-        .nullable()
-        .url('Please enter a valid link.'),
-      darkThemeLogo: Yup.string().nullable().url('Please enter a valid image URL').notRequired(),
+      icon: Yup.string().required(translate.logoRequired()).nullable().url(translate.urlInvalid()),
+      link: Yup.string().required(translate.urlRequired()).nullable().url(translate.urlInvalid()),
+      darkThemeLogo: Yup.string().nullable().url(translate.urlInvalid()).notRequired(),
       descriptiveLogo: Yup.bool().notRequired(),
       meetingPlatform: Yup.string()
         .nullable()
         .notRequired()
-        .oneOf(Object.values(MeetingPlatform), 'Choose a valid meetings platform.'),
+        .oneOf(Object.values(MeetingPlatform), translate.invalidMeetingPlatform()),
       customerType: Yup.string()
-        .required('The customer type is required')
-        .oneOf(Object.values(CustomerTypes), 'Please choose a correct customer type value.')
+        .required(translate.typeIsRequired())
+        .oneOf(Object.values(CustomerTypes), translate.invalidType())
         .nullable(),
     });
   }

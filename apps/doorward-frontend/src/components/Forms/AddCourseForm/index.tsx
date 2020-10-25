@@ -14,6 +14,7 @@ import BasicForm from '../BasicForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { CourseResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -23,8 +24,8 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   const CourseModulesList: React.FunctionComponent<ArrayHelpers> = (arrayHelpers) => {
     return (
       <div className="course-modules">
-        <Header size={2}>Modules</Header>
-        <p>Specify the names of the modules of the course.</p>
+        <Header size={2}>{translate.modules()}</Header>
+        <p>{translate.specifyNamesOfModulesOfTheCourse()}</p>
         {props.values.modules.map((module, index) => (
           <div className="course-module" key={index}>
             <TextField name={`modules.${index}.title`} icon="calendar_view_day" />
@@ -34,7 +35,7 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
           </div>
         ))}
         <Button type="button" className="add-module" onClick={(): void => arrayHelpers.push({ title: '' })}>
-          Add Module
+          {translate.addModule()}
         </Button>
       </div>
     );
@@ -86,12 +87,12 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
       {(formikProps): JSX.Element => (
         <React.Fragment>
           <div className="course-information">
-            <Header size={2}>Course Information</Header>
-            <TextField name="title" icon="school" label="Course name" />
+            <Header size={2}>{translate.courseInformation()}</Header>
+            <TextField name="title" icon="school" label={translate.courseName()} />
             <NumberField
               name="noOfModules"
               icon="calendar_view_day"
-              label="Number of modules"
+              label={translate.numberOfModules()}
               max={modules.max}
               min={modules.min}
             />

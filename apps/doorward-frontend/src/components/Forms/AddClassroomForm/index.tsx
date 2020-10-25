@@ -5,6 +5,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateClassroomBody } from '@doorward/common/dtos/body';
+import translate from '@doorward/common/lang/translate';
 
 const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
   schoolId,
@@ -25,11 +26,11 @@ const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
         form.formikProps.resetForm();
         onSuccess();
       }}
-      negativeText="Close"
+      negativeText={translate.close()}
       onCancel={onCancel}
       form={form}
     >
-      <TextField name="name" placeholder="Classroom Name" labelPosition="top" />
+      <TextField name="name" placeholder={translate.classroomName()} labelPosition="top" />
     </BasicForm>
   );
 };

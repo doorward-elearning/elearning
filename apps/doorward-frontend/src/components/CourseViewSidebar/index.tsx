@@ -14,6 +14,7 @@ import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
+import translate from '@doorward/common/lang/translate';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
@@ -55,9 +56,9 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
           <WebComponent
             data={students.data.students}
             loading={students.fetching}
-            message="No students have been added to the course yet."
+            message={translate.noStudentHaveBeenAddedToTheCourseYet()}
             size="medium"
-            actionMessage="Create a new student"
+            actionMessage={translate.createStudent()}
             onAction={(): void =>
               routes.navigate(routes.routes.addCourseStudent, {
                 courseId,
@@ -75,7 +76,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
                       courseId: courseId,
                     })}
                   >
-                    View all
+                    {translate.viewAll()}
                   </Link>
                 </ListItem>
               </List>
@@ -85,15 +86,15 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
         <div style={{ marginTop: 'var(--padding)' }}>
           <Accordion
             action={() => <Button mini bordered icon="add" onClick={props.addCourseManagerModal.openModal} />}
-            title={() => <Header size={5}>Course Managers</Header>}
+            title={() => <Header size={5}>{translate.courseManagers()}</Header>}
             open
           >
             <WebComponent
               data={managers.data.courseManagers}
               loading={students.fetching}
-              message="No managers have been added to the course yet."
+              message={translate.noManagersHaveBeenAdded()}
               size="medium"
-              actionMessage="Create a new teacher"
+              actionMessage={translate.createTeacher()}
               onAction={(): void =>
                 routes.navigate(routes.routes.addTeacher, {
                   courseId,
@@ -121,15 +122,15 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
                 <Button mini bordered icon="add" onClick={props.addDiscussionGroupModal.openModal} />
               </RoleContainer>
             )}
-            title={() => <Header size={5}>Discussion Groups</Header>}
+            title={() => <Header size={5}>{translate.discussionGroups()}</Header>}
           >
             <WebComponent
               data={discussionGroups.data.discussionGroups}
               loading={discussionGroups.fetching}
-              emptyMessage="No discussion groups have been created"
+              emptyMessage={translate.noDiscussionGroupsHaveBeenAdded()}
               size="medium"
               icon="forum"
-              actionMessage={hasPrivileges('discussion-groups.create') ? 'Create Discussion Group' : ''}
+              actionMessage={hasPrivileges('discussion-groups.create') ? translate.createDiscussionGroup() : ''}
               onAction={hasPrivileges('discussion-groups.create') ? props.addDiscussionGroupModal.openModal : null}
             >
               {(discussions) => (

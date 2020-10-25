@@ -13,11 +13,12 @@ import QuestionView, { QuestionViewTypes } from '../../UI/AssessmentView/Questio
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import AddQuestionModal from './AddQuestionModal';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
+import translate from '@doorward/common/lang/translate';
 
 const NoQuestions = () => {
   return (
     <Panel>
-      <p>No questions have been added.</p>
+      <p>{translate.noQuestionsHaveBeenAdded()}</p>
     </Panel>
   );
 };
@@ -30,7 +31,6 @@ const QuestionDisplay: React.FunctionComponent<QuestionDisplayProps> = ({
   return (
     <QuestionView
       question={question}
-      index={0}
       view={QuestionViewTypes.EDIT_MODE}
       onEditQuestion={onEditQuestion}
       onDeleteQuestion={onDeleteQuestion}
@@ -73,7 +73,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
               <div className="ed-assessment-builder">
                 <HeaderGrid>
                   <Header size={2} padded>
-                    Questions
+                    {translate.questions()}
                   </Header>
                   <Button
                     type="button"
@@ -82,7 +82,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
                     }}
                     icon="add"
                   >
-                    Add Question
+                    {translate.addQuestion()}
                   </Button>
                 </HeaderGrid>
                 {formikProps.values.questions.length ? (
