@@ -1,5 +1,4 @@
 {
     "max-concurrent-uploads": 1,
-    "storage-driver": "overlay",
-    "features": {"buildkit": true}
+    "storage-driver": "overlay"
 }
