@@ -100,7 +100,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
             <React.Fragment>
               {module && (
                 <React.Fragment>
-                  <IfElse condition={item.type === ModuleItemType.PAGE}>
+                  <IfElse condition={item?.type === ModuleItemType.PAGE}>
                     <ViewPages
                       onEditSuccess={() => setEditing(false)}
                       module={module}
