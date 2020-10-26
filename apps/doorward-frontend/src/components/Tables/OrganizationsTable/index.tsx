@@ -8,6 +8,7 @@ import IfElse from '@doorward/ui/components/IfElse';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useRoutes from '../../../hooks/useRoutes';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import translate from '@doorward/common/lang/translate';
 
 const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -15,7 +16,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
     <Table
       className="organizations-table"
       data={props.organizations}
-      columns={{ name: 'Name', id: 'ID', description: 'Description' }}
+      columns={{ name: translate.name(), id: translate.id(), description: translate.description() }}
       actionMenu={(row) => {
         return (
           <Dropdown.Menu>

@@ -6,13 +6,14 @@ import ChooseCourseManagerForm from '../../Forms/ChooseCourseManagerForm';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { TeachersResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
   const form = useForm<ChooseStudentFormState>();
   const state = useDoorwardApi((state) => state.courseManagers.createCourseManager);
   return (
     <Modal {...props}>
-      <Modal.Header title="Add course manager" />
+      <Modal.Header title={translate.addCourseManager()} />
       <Modal.Body>
         <ChooseCourseManagerForm
           form={form}
@@ -22,7 +23,7 @@ const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModal
         />
       </Modal.Body>
       <Modal.Footer
-        buttons={{ positive: 'Save' }}
+        buttons={{ positive: translate.save() }}
         props={{
           positive: {
             loading: state.submitting,

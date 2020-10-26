@@ -13,6 +13,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import useRoutes from '../../hooks/useRoutes';
+import translate from '@doorward/common/lang/translate';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
@@ -67,7 +68,9 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     <div>
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
-          <DisplayLabel>Points: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}</DisplayLabel>
+          <DisplayLabel>
+            {translate.points()}: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}
+          </DisplayLabel>
           <AssessmentTimer totalTimeMinutes={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
         </HeaderGrid>
       )}

@@ -18,6 +18,7 @@ import objectHash from 'object-hash';
 import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
+import translate from '@doorward/common/lang/translate';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',
@@ -147,7 +148,7 @@ function createMiddleware<T extends DApiResponse = DApiResponse>(
       } else {
         data = {
           success: false,
-          message: 'Server facing technical issue. Please try again!',
+          message: translate.serverFacingTechnicalIssue(),
           timestamp: new Date(),
           statusCode: 500,
         };

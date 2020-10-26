@@ -4,13 +4,14 @@ import React from 'react';
 import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (props): JSX.Element => {
   const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   return (
     <CreateGroup
-      emptyMessage={'No teachers have been created yet'}
-      title="Teachers"
+      emptyMessage={translate.noTeachersHaveBeenCreatedYet()}
+      title={translate.teachers()}
       type={Groups.TEACHER}
       state={teacherList}
       getUsers={(data) => data.teachers}

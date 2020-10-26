@@ -15,6 +15,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import DiscussionCommentForm from '../../components/Forms/DiscussionCommentForm';
+import translate from '@doorward/common/lang/translate';
 
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.discussionGroups.getDiscussionGroup);
@@ -46,7 +47,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
         data={state.data.discussionGroup}
         loading={state.fetching}
         icon="forum"
-        emptyMessage="Discussion group does not exist."
+        emptyMessage={translate.discussionGroupDoesNotExist()}
       >
         {(discussionGroup) => {
           return (
@@ -59,11 +60,11 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
               </div>
               <div className="discussion-info">
                 <Header size={3} padded>
-                  Moderators
+                  {translate.moderators()}
                 </Header>
                 <SimpleUserView user={discussionGroup.creator} />
                 <Header size={3} padded>
-                  Participants
+                  {translate.participants()}
                 </Header>
                 <WebComponent data={null} loading={false} size="medium">
                   {() => <div />}

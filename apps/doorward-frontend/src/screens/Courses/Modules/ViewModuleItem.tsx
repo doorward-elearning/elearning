@@ -23,6 +23,7 @@ import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/Creat
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import AssessmentView from '../../../components/UI/AssessmentView';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -85,7 +86,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
       noNavBar
       actionBtnProps={{
         icon: 'edit',
-        text: item ? `Edit ${(item as AssessmentEntity)?.assessmentType || item?.type}` : '',
+        text: item ? translate.editAssessment() : '',
         theme: 'secondary',
         privileges: ['modules.update'],
         onClick: () => routes.navigate(routes.editModuleItem, params),
@@ -99,7 +100,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
             <React.Fragment>
               {module && (
                 <React.Fragment>
-                  <IfElse condition={item.type === 'Page'}>
+                  <IfElse condition={item.type === ModuleItemType.PAGE}>
                     <ViewPages
                       onEditSuccess={() => setEditing(false)}
                       module={module}

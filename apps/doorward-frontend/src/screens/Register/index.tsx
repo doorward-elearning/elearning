@@ -13,6 +13,7 @@ import useOrganization from '../../hooks/useOrganization';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
 import { clearLoginAction } from '../../reducers/auth/actions';
+import translate from '@doorward/common/lang/translate';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const registration = useDoorwardApi((state) => state.auth.register);
@@ -38,8 +39,8 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
           <Header size={1}>{organization.name}</Header>
           <RegistrationForm />
           <div className="page__login--footer">
-            <p>Already have an account?</p>
-            <Link to={routes.login.link}>Login</Link>
+            <p>{translate.alreadyHaveAnAccount()}</p>
+            <Link to={routes.login.link}>{translate.login()}</Link>
           </div>
         </div>
       </Layout>

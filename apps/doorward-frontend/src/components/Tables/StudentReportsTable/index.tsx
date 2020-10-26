@@ -3,6 +3,7 @@ import Table from '@doorward/ui/components/Table';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => (
   <SimpleWebComponent
@@ -20,11 +21,11 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
         }
         data={data}
         columns={{
-          name: 'Name',
-          department: 'Department',
-          enrollments: 'No of enrollments',
-          courses: 'Courses completed',
-          grade: 'Average Grade',
+          name: translate.name(),
+          department: translate.department(),
+          enrollments: translate.numberOfEnrollments(),
+          courses: translate.coursesCompleted(),
+          grade: translate.averageGrade(),
         }}
         getCell={(row) => {
           return {

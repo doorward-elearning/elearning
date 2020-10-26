@@ -4,6 +4,7 @@ import StudentReportsTable from '../../components/Tables/StudentReportsTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) => {
   const routes = useRoutes();
@@ -15,7 +16,7 @@ const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) 
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.SEARCH_BAR]}
-      header="Student Reports"
+      header={translate.studentReports()}
       onSearch={onSearch}
     >
       <StudentReportsTable

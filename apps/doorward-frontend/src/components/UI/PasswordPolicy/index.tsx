@@ -1,14 +1,15 @@
 import React from 'react';
+import translate from '@doorward/common/lang/translate';
 
-const PasswordPolicy: React.FunctionComponent<PasswordPolicyProps> = props => {
+const PasswordPolicy: React.FunctionComponent<PasswordPolicyProps> = (props) => {
   return (
     <div>
-      <p>A strong password will have: </p>
+      <p>{translate.passwordPolicyTitle()}</p>
       <ul>
-        <li>At least 8 characters - the more characters, the better</li>
-        <li>A mixture of both uppercase and lowercase letters.</li>
-        <li>A mixture of letters and numbers</li>
-        <li>Inclusion of at least one special character, e.g. !@#?]</li>
+        <li>{translate.passwordPolicyRule1()}</li>
+        <li>{translate.passwordPolicyRule2()}</li>
+        <li>{translate.passwordPolicyRule3()}</li>
+        <li>{translate.passwordPolicyRule4()}</li>
       </ul>
     </div>
   );

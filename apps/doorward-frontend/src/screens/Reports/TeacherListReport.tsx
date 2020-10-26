@@ -3,6 +3,7 @@ import Layout, { LayoutFeatures } from '../Layout';
 import TeacherReportTable from '../../components/Tables/TeacherReportTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
+import translate from '@doorward/common/lang/translate';
 
 const TeacherListReport: FunctionComponent<TeacherListReportProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -10,9 +11,9 @@ const TeacherListReport: FunctionComponent<TeacherListReportProps> = (props): JS
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.SEARCH_BAR, LayoutFeatures.BREAD_CRUMBS]}
-      header="Teacher Report"
+      header={translate.teacherReport()}
     >
-      <TeacherReportTable onRowClick={row => routes.navigate(routes.teacherReport, { teacherId: row.id })} />
+      <TeacherReportTable onRowClick={(row) => routes.navigate(routes.teacherReport, { teacherId: row.id })} />
     </Layout>
   );
 };

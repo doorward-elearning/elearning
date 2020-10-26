@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import Spinner from '@doorward/ui/components/Spinner';
 import MoreInfo from '@doorward/ui/components/MoreInfo';
 import FileEntity from '@doorward/common/entities/file.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
   const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');
@@ -22,7 +23,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
 
   const validate = () => {
     if (file.size > +process.env.MAX_UPLOAD_SIZE * 1024 * 1024) {
-      setError('Max file size is: ' + Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024));
+      setError(translate.maxFileSize({ size: Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024) }));
       return false;
     }
     return true;
@@ -42,7 +43,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
           })
           .catch((err) => {
             setStatus('failed');
-            setError('Error uploading file. Please try again.');
+            setError(translate.errorUploadingFile());
             props.onFailure(error);
           });
       } else {
@@ -137,16 +138,15 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
             }}
           >
             <span>
-              Drag and drop files here or <span className="upload-field__browse">Browse</span>
+              {translate.dragAndDropFilesHere()} {translate.or()}{' '}
+              <span className="upload-field__browse">{translate.browse()}</span>
             </span>
           </div>
           <div className="meta instructions">
             <IfElse condition={maxFiles > 0}>
-              <span>
-                Upload upto <Plural singular="file" count={maxFiles} />.
-              </span>
+              <span>{translate.uploadUpToWithCount({ count: maxFiles })}</span>
             </IfElse>
-            <span> Max file size: {process.env.MAX_UPLOAD_SIZE}MB</span>
+            <span>{translate.maxFileSize({ size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
           </div>
         </React.Fragment>
       )}

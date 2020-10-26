@@ -3,6 +3,7 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import Table from '@doorward/ui/components/Table';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeacherReport } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (props) => (
   <SimpleWebComponent
@@ -22,10 +23,10 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (pr
           };
         }}
         columns={{
-          fullName: 'Name',
-          department: 'Department',
-          courses: 'No of courses',
-          ratings: 'Ratings',
+          fullName: translate.name(),
+          department: translate.department(),
+          courses: translate.numberOfCourses(),
+          ratings: translate.rating(),
         }}
         onRowClick={props.onRowClick}
       />

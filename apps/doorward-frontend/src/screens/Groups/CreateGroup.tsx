@@ -10,6 +10,7 @@ import { ROUTES } from '../../routes/routes';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
 import { DoorwardRoutes } from '../../routes';
+import translate from '@doorward/common/lang/translate';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -42,7 +43,7 @@ function CreateGroup<T, Args extends Array<any>>({
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={`${currentGroupState ? 'Update' : 'Create'} group`}
+      header={`${currentGroupState ? translate.updateGroup() : translate.createGroup()}`}
     >
       <WebComponent
         data={{ allUsers: getUsers(state.data), group: currentGroupState?.data?.group }}

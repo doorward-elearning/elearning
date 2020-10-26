@@ -1,5 +1,4 @@
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import _ from 'lodash';
 
 const organizationModelsTranslate = (str: string, organization?: OrganizationEntity) => {
   const regex = /{{(\w+)}}/g;
@@ -8,9 +7,7 @@ const organizationModelsTranslate = (str: string, organization?: OrganizationEnt
     const token = result[0];
     const value = result[1];
     if (organization) {
-      str = str.replace(token, organization.models[value]);
-    } else {
-      str = str.replace(token, _.capitalize(value));
+      str = organization.models[value] ? str.replace(token, organization.models[value]) : str;
     }
   }
   return str;

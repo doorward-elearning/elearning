@@ -5,6 +5,7 @@ import { PageComponent } from '@doorward/ui/types';
 import usePageResource from '../../../hooks/usePageResource';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (props): JSX.Element => {
   usePageResource('groupId', DoorwardApi.groups.getGroup);
@@ -12,8 +13,8 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
   const group = useDoorwardApi((state) => state.groups.getGroup);
   return (
     <CreateGroup
-      emptyMessage="No students have been created yet"
-      title="Students"
+      emptyMessage={translate.noStudentsHaveBeenCreatedYet()}
+      title={translate.students()}
       type={Groups.STUDENT}
       state={studentList}
       getUsers={(data) => data.students}

@@ -2,14 +2,15 @@ import React from 'react';
 import Table, { OnRowClick, TableProps } from '@doorward/ui/components/Table';
 import { Omit } from '@doorward/common/types';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const columns = {
-  username: 'Username',
-  firstName: 'First name',
-  lastName: 'Last name',
-  email: 'Email',
-  phoneNumber: 'Phone Number',
-  status: 'Status',
+  username: translate.username(),
+  firstName: translate.firstName(),
+  lastName: translate.lastName(),
+  email: translate.email(),
+  phoneNumber: translate.phoneNumber(),
+  status: translate.status(),
 };
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {

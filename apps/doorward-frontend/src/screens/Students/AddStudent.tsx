@@ -10,6 +10,7 @@ import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm<AddStudentFormState>();
@@ -22,7 +23,7 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
       <Redirect to={routes.routes.studentList.link} />
       <Layout
         {...props}
-        header="Add Student"
+        header={translate.addStudent()}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
         <AddStudentForm

@@ -11,6 +11,7 @@ import withContext from '@doorward/ui/hoc/withContext';
 import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Spinner from '@doorward/ui/components/Spinner';
+import translate from '@doorward/common/lang/translate';
 
 const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> = ({
   suggestion,
@@ -169,7 +170,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = (props
             onFocus={() => {
               setFocused(true);
             }}
-            placeholder={props.placeholder || 'Search...'}
+            placeholder={props.placeholder || translate.searchPlaceholder()}
             name="search"
             ref={inputElement}
             value={searchText || ''}
@@ -188,7 +189,11 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = (props
         />
       </div>
       <div className="ed-search__bar--suggestions">
-        <WebComponent data={suggestions} loading={loading} empty={<div className="no-suggestions">No suggestions</div>}>
+        <WebComponent
+          data={suggestions}
+          loading={loading}
+          empty={<div className="no-suggestions">{translate.noSuggestions()}</div>}
+        >
           {() => {
             return (
               <React.Fragment>

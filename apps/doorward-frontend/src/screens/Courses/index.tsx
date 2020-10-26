@@ -9,6 +9,7 @@ import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
+import translate from '@doorward/common/lang/translate';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
@@ -19,12 +20,12 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
     fetchCourses({});
   }, [props.location.search]);
 
-  const TITLE = 'CREATE A NEW COURSE';
+  const TITLE = translate.createANewCourse().toUpperCase();
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
-      header="COURSES"
+      header={translate.courses()}
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createCourse.link),

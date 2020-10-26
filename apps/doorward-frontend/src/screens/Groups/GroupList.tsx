@@ -6,6 +6,7 @@ import { PageComponent } from '@doorward/ui/types';
 import { ROUTES } from '../../routes/routes';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
+import translate from '@doorward/common/lang/translate';
 
 function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupListProps): JSX.Element {
   const routes = useRoutes();
@@ -20,7 +21,7 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
         type,
       }}
       actionBtnProps={{
-        text: 'Add Group',
+        text: translate.addGroup(),
         onClick: () => {
           routes.navigate(routes.routes[createRoute]);
         },
@@ -45,7 +46,7 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
                     });
                   }}
                 >
-                  Edit
+                  {translate.edit()}
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>

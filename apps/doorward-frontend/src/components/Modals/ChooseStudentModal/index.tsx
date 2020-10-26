@@ -4,6 +4,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (props) => {
   const [selected, setSelected] = useState(0);
@@ -15,7 +16,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (pr
   return (
     <NavBarSearchContext searchText={searchText}>
       <Modal {...props}>
-        <Modal.Header title="Add Student to course" onSearch={setSearchText} />
+        <Modal.Header title={translate.addStudentToCourse()} onSearch={setSearchText} />
         <Modal.Body>
           <ChooseStudentForm
             onTabChange={setSelected}
@@ -28,7 +29,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (pr
           />
         </Modal.Body>
         <Modal.Footer
-          buttons={{ positive: 'Save' }}
+          buttons={{ positive: translate.save() }}
           props={{
             positive: {
               loading: state.submitting,

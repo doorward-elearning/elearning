@@ -7,8 +7,9 @@ import Panel from '../Panel';
 import { Icons } from '../../types/icons';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Spacer from '../Spacer';
+import translate from '@doorward/common/lang/translate';
 
-const defaultMessage = 'There are no items here.';
+const defaultMessage = translate.thereAreNoItemsHere();
 
 const Empty: React.FunctionComponent<EmptyProps> = ({
   message,

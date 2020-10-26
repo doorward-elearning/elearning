@@ -25,6 +25,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import Table from '@doorward/ui/components/Table';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import translate from '@doorward/common/lang/translate';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -34,13 +35,13 @@ const AssessmentTimes = ({ startDate, endDate }) => {
       <HeaderGrid>
         <div>
           <Header padded size={2}>
-            Available From
+            {translate.availableFrom()}
           </Header>
           <DisplayLabel>{Tools.normalDateTime(startDate)}</DisplayLabel>
         </div>
         <div>
           <Header padded size={2}>
-            Available Till
+            {translate.availableTo()}
           </Header>
           <DisplayLabel>{Tools.normalDateTime(endDate)}</DisplayLabel>
         </div>
@@ -131,7 +132,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         {assessment.instructions && (
           <React.Fragment>
             <Header padded size={2}>
-              Instructions
+              {translate.instructions()}
             </Header>
             <DraftHTMLContent content={assessment.instructions} />
           </React.Fragment>
@@ -140,10 +141,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           <React.Fragment>
             <HeaderGrid>
               <Header padded size={2}>
-                Questions
+                {translate.questions()}
               </Header>
               <DisplayLabel>
-                Total Points:
+                {translate.totalPoints()}
                 <b>{assessment.questions.reduce((acc, question) => acc + question.points, 0)}</b>
               </DisplayLabel>
             </HeaderGrid>
@@ -175,7 +176,9 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 })
               }
             >
-              Start {assessment.assessmentType}
+              {translate.startAssessment({
+                assessment: assessment.assessmentType,
+              })}
             </Button>
           )}
         </RoleContainer>
@@ -186,7 +189,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         {submission && (
           <RoleContainer privileges={['assessments.submit']}>
             <Header padded size={2}>
-              Submissions
+              {translate.submission({ count: 1 })}
             </Header>
             <Table
               data={[submission]}
@@ -194,10 +197,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 submittedOn: Tools.normalDateTime(row.submittedOn),
               })}
               columns={{
-                status: 'Status',
-                submittedOn: 'Date Submitted',
-                grade: 'Grade',
-                gradedBy: 'Graded by',
+                status: translate.status(),
+                submittedOn: translate.dateSubmitted(),
+                grade: translate.grade(),
+                gradedBy: translate.gradedBy(),
               }}
             />
           </RoleContainer>

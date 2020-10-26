@@ -3,11 +3,16 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
 import useRoutes from '../../hooks/useRoutes';
+import translate from '@doorward/common/lang/translate';
 
 const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (props): JSX.Element => {
   const routes = useRoutes();
   return (
-    <Layout {...props} header="Create Organization" features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}>
+    <Layout
+      {...props}
+      header={translate.createOrganization()}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+    >
       <CreateOrganizationForm
         onSuccess={() => {
           routes.navigate(routes.organizations);

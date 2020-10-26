@@ -2,9 +2,6 @@ import React, { FunctionComponent, useCallback, useEffect, useState } from 'reac
 import useKeyPress from '../../hooks/useKeyPress';
 import themes, { Theme, ThemePack } from '../../themes/themes';
 import updateTheme from '@doorward/ui/themes/updateTheme';
-import baseLogo from '../../assets/images/doorward.png';
-import darkLogo from '../../assets/images/doorward_white.png';
-
 
 export interface ThemeContextProps {
   theme: Theme;

@@ -10,6 +10,7 @@ import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import Row from '@doorward/ui/components/Row';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
+import translate from '@doorward/common/lang/translate';
 
 const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
   const form = useForm();
@@ -22,7 +23,7 @@ const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
   return (
     <Layout
       {...props}
-      header="Create a new password"
+      header={translate.createANewPassword()}
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
     >

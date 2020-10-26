@@ -8,6 +8,7 @@ import UserProfileCard from '../../components/user/UserProfileCard';
 import { useRouteMatch } from 'react-router';
 import { UserCardContext } from '../../components/user/UserCard';
 import useAuth from '../../hooks/useAuth';
+import translate from '@doorward/common/lang/translate';
 
 const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const form = useForm();
@@ -16,7 +17,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const match = useRouteMatch();
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header="My Profile">
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate.myProfile()}>
       <UserCardContext
         openModal={match.path === routes.changePassword.link}
         onOpenChangePasswordModal={() => {

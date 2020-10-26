@@ -8,6 +8,7 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import './UserProfileCard.scss';
 import UserCard from '../UserCard';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, form, ...props }): JSX.Element => {
   const [editingAccount, setEditingAccount] = useState(false);
@@ -19,9 +20,9 @@ const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, 
       <div className="ed-userProfileCard__account">
         <Card>
           <Card.Header>
-            <Header size={2}>Account Information</Header>
+            <Header size={2}>{translate.accountInformation()}</Header>
             <IfElse condition={!editingAccount && props.editable}>
-              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} title="Edit" />
+              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} title={translate.edit()} />
             </IfElse>
           </Card.Header>
           <Card.Body>

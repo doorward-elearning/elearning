@@ -12,6 +12,7 @@ import useModal from '@doorward/ui/hooks/useModal';
 import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
@@ -20,7 +21,7 @@ const StudentDropdownMenu: React.FunctionComponent<{
   return (
     <Dropdown.Menu>
       <Dropdown.Item onClick={() => onUnEnroll(student)} icon="delete">
-        Un-enroll
+        {translate.unEnroll()}
       </Dropdown.Item>
     </Dropdown.Menu>
   );
@@ -54,9 +55,9 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
     <Layout
       noNavBar
       {...props}
-      header={`${course.data?.course?.title ? course.data.course.title + ' - ' : ''} Student List`}
+      header={`${course.data?.course?.title ? course.data.course.title + ' - ' : ''} ${translate.studentList()}`}
       actionBtnProps={{
-        text: 'Enroll Student',
+        text: translate.enrollStudent(),
         onClick: (): void => props.history.push(routes.routes.addCourseStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
@@ -81,14 +82,14 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
         action={() => DoorwardApi.students.unEnrollStudentFromCourse(unEnrollStudent.id, courseId)}
         state={unEnrollState}
         showErrorToast
-        title="Un-enroll student"
+        title={translate.unEnrollStudent()}
         showSuccessToast
         onSuccess={() => {
           fetch(courseId);
           setUnEnrollStudent(null);
         }}
       >
-        <p>Are you sure you want to un-enroll this student from the course?</p>
+        <p>{translate.areYouSureYouWantToUnEnrollStudent()}</p>
       </WebConfirmModal>
     </Layout>
   );

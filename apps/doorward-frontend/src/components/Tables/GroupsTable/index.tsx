@@ -4,6 +4,7 @@ import Table, { ActionMenu } from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import GroupEntity from '@doorward/common/entities/group.entity';
+import translate from '@doorward/common/lang/translate';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
   return (
@@ -16,7 +17,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
       {(data) => {
         return (
           <Table
-            columns={{ name: 'Name', members: 'Members', createdBy: 'Created By' }}
+            columns={{ name: translate.name(), members: translate.members(), createdBy: translate.createdBy() }}
             data={data as Array<GroupEntity>}
             actionMenu={props.actionMenu}
             onRowClick={props.onRowClick}

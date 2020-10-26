@@ -6,8 +6,9 @@ import IfElse from '@doorward/ui/components/IfElse';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Row from '@doorward/ui/components/Row';
 import Tools from '@doorward/common/utils/Tools';
+import translate from '@doorward/common/lang/translate';
 
-const PasswordField: FunctionComponent<PasswordFieldProps> = props => {
+const PasswordField: FunctionComponent<PasswordFieldProps> = (props) => {
   const [visibility, setVisibility] = useState(props.showPassword);
   const [icon, setIcon] = useState();
   const [generatedPassword, setGeneratedPassword] = useState('');
@@ -33,14 +34,14 @@ const PasswordField: FunctionComponent<PasswordFieldProps> = props => {
       <IfElse condition={props.showGenerator}>
         <Button
           mini
-          tooltip="Generate a strong password"
+          tooltip={translate.generateAStrongPassword()}
           type="button"
           style={{ display: 'block' }}
           onClick={() => {
             setGeneratedPassword(Tools.generatePassword());
           }}
         >
-          Generate Password
+          {translate.generatePassword()}
         </Button>
       </IfElse>
     </div>

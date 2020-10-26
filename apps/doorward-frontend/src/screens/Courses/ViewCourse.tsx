@@ -29,6 +29,8 @@ import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 import Plural from '@doorward/ui/components/Plural';
+import translate from '@doorward/common/lang/translate';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -76,17 +78,17 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
           <React.Fragment>
             <RoleContainer privileges={['modules.create']}>
               <Button onClick={addModuleModal.openModal} bordered>
-                Add Module
+                {translate.addModule()}
               </Button>
             </RoleContainer>
             {course.data.course && (
               <IfElse condition={course.data.course?.meetingRoom?.currentMeeting}>
                 <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                  Join live classroom
+                  {translate.joinMeeting()}
                 </Button>
                 <RoleContainer privileges={['courses.start-meeting']}>
                   <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                    Start live classroom
+                    {translate.startMeeting()}
                   </Button>
                 </RoleContainer>
               </IfElse>
@@ -96,7 +98,11 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               cancellable={false}
               showErrorToast
               action={() => DoorwardApi.courses.launchClassroom(courseId)}
-              title={course.data.course?.meetingRoom?.currentMeeting ? 'Joining classroom' : 'Starting classroom'}
+              title={
+                course.data.course?.meetingRoom?.currentMeeting
+                  ? translate.joiningMeeting()
+                  : translate.startingMeeting()
+              }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
@@ -143,25 +149,24 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
                     <LabelRow>
-                      <span className="meta">
-                        <Plural singular="Module" count={course?.modules?.length} />
-                      </span>
+                      <span className="meta">{translate.moduleWithCount({ count: course?.modules?.length || 0 })}</span>
                       <Link to={routes.assignmentList.link} className="meta">
-                        <Plural singular="Assignment" count={course?.itemsCount?.Assignment} />
+                        {translate.assignmentWithCount({ count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0 })}
                       </Link>
                       <span className="meta">
-                        <Plural singular="Quiz" count={course?.itemsCount?.Quiz} />
+                        {translate.quizWithCount({ count: course?.itemsCount?.[AssessmentTypes.QUIZ] || 0 })}
                       </span>
                       <span className="meta">
-                        <Plural singular="Exam" count={course?.itemsCount?.Exam} />
+                        {translate.examWithCount({ count: course?.itemsCount?.[AssessmentTypes.EXAM] || 0 })}
                       </span>
                       <span className="meta">
-                        <Plural singular="Page" count={course?.itemsCount?.Page} />
+                        {translate.examWithCount({ count: course?.itemsCount?.[ModuleItemType.PAGE] || 0 })}
                       </span>
                     </LabelRow>
                     <div style={{ justifySelf: 'end' }}>
                       <Pill>
-                        Authored by - <b>{course.author.fullName}</b>
+                        {translate.authoredBy()}
+                        <b>{course.author.fullName}</b>
                       </Pill>
                     </div>
                   </Grid>

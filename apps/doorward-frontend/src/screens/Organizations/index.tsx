@@ -7,6 +7,7 @@ import OrganizationsTable from '../../components/Tables/OrganizationsTable';
 import useAction from '@doorward/ui/hooks/useActions';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -19,9 +20,9 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
   return (
     <Layout
       {...props}
-      header="Organizations"
+      header={translate.organizations()}
       actionBtnProps={{
-        text: 'Create Organization',
+        text: translate.createOrganization(),
         onClick: () => routes.navigate(routes.createOrganization),
       }}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}

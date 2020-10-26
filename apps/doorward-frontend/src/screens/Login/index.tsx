@@ -15,6 +15,7 @@ import useOrganization from '../../hooks/useOrganization';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
 import { clearLoginAction } from '../../reducers/auth/actions';
+import translate from '@doorward/common/lang/translate';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
@@ -45,13 +46,13 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
         <Header size={1}>{organization.name}</Header>
         <IfElse condition={showMessage}>
           <Message>
-            <Header size={4}>Thank you for trying Doorward. Please login to proceed.</Header>
+            <Header size={4}>{translate.thankYouForTryingDoorwardLoginToProceed()}</Header>
           </Message>
         </IfElse>
         <LoginForm />
         <div className="page__login--footer">
-          <p>Don&apos;t have an account?</p>
-          <Link to={routes.register.link}>Create a new account</Link>
+          <p>{translate.dontHaveAnAccount()}</p>
+          <Link to={routes.register.link}>{translate.createANewAccount()}</Link>
         </div>
       </div>
     </IfElse>

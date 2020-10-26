@@ -3,6 +3,7 @@ import ItemArray from '../ItemArray';
 import './Pagination.scss';
 import Button from '../Buttons/Button';
 import IfElse from '../IfElse';
+import translate from '@doorward/common/lang/translate';
 
 interface Page {
   page: number;
@@ -65,15 +66,15 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
           mini
           bordered
           onClick={() => setCurrentPage(currentPage - 1)}
-          tooltip={currentPage === 1 ? 'This is the first page' : 'Previous'}
+          tooltip={currentPage === 1 ? translate.thisIsTheFirstPage() : translate.previous()}
           disabled={currentPage === 1}
           icon="skip_previous"
         >
-          Previous
+          {translate.previous()}
         </Button>
         <div className="ed-pagination__pages">
           <ItemArray data={pages}>
-            {page => {
+            {(page) => {
               const button = (
                 <React.Fragment>
                   <IfElse condition={page.page - previousPage.page > 1}>
@@ -92,12 +93,12 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
         <Button
           mini
           bordered
-          tooltip={currentPage === props.numPages ? 'This is the last page' : 'Next'}
+          tooltip={currentPage === props.numPages ? translate.thisIsTheLastPage() : translate.next()}
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === props.numPages}
           icon="skip_next"
         >
-          Next
+          {translate.next()}
         </Button>
       </div>
     </IfElse>

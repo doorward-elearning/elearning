@@ -11,6 +11,7 @@ import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
+import translate from '@doorward/common/lang/translate';
 
 const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.Element => {
   const form = useForm();
@@ -34,7 +35,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       noNavBar
-      header="Create Assignment"
+      header={translate.createAssignment()}
     >
       <WebComponent data={module} loading={state.fetching}>
         {(data) => <CreateAssignmentForm onSuccess={finish} onCancel={finish} form={form} module={data} />}

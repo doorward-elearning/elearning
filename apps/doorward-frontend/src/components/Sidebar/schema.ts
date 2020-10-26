@@ -3,6 +3,7 @@ import { MenuItem } from '@doorward/ui/hooks/useSidebarSchema';
 import { Routes } from '@doorward/ui/types';
 import { DoorwardRoutes } from '../../routes';
 import useAuth from '../../hooks/useAuth';
+import translate from '@doorward/common/lang/translate';
 
 export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRoutes>): Array<MenuItem> => {
   const { logout } = useAuth();
@@ -41,7 +42,7 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       icon: 'meeting_room',
     },
     {
-      name: 'Logout',
+      name: translate.logout(),
       onClick: (): void => {
         logout();
         window.location.href = routes.login.link;

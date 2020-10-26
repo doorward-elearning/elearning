@@ -5,6 +5,7 @@ import './WebComponent.scss';
 import classNames from 'classnames';
 import NotFound from '../NotFound';
 import { PageProgressContext } from '../PageProgress';
+import translate from '@doorward/common/lang/translate';
 
 function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Element {
   const pageProgress = useContext(PageProgressContext);
@@ -64,7 +65,11 @@ function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Elem
   } else if (props.errors?.statusCode === 404) {
     return (
       <div className="web-component">
-        <NotFound title="Not Found" buttonText="Dashboard" message="The resource does not exist." />
+        <NotFound
+          title={translate.notFound()}
+          buttonText={translate.dashboard()}
+          message={translate.thisResourceDoesNotExist()}
+        />
       </div>
     );
   } else {

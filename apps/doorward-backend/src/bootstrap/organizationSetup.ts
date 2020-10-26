@@ -27,7 +27,7 @@ export interface OrganizationConfig {
   description: string;
   customerType: CustomerTypes;
   meetingPlatform: MeetingPlatform;
-  models: Record<OrganizationModels, string>;
+  models: Record<OrganizationModels, string[2]>;
   admins: Array<{
     id: string;
     firstName: string;
@@ -135,7 +135,14 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
 
     await queryRunner.commitTransaction();
 
-    organization.models = models;
+    organization.models = Object.keys(models).reduce((acc, cur) => {
+      return {
+        ...acc,
+        [cur]: models[cur][0],
+        [cur + '_plural']: models[cur][1],
+      };
+    }, {} as any);
+
     console.log(chalk.cyan('Organization set up complete.'));
 
     ORGANIZATION = organization;

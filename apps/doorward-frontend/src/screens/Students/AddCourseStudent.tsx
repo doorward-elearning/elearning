@@ -12,6 +12,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm();
@@ -27,7 +28,7 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
       <Layout
         noNavBar
         {...props}
-        header="Add Student"
+        header={translate.addStudent()}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
         <AddStudentForm

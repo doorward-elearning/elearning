@@ -9,6 +9,7 @@ import useRoutes from '../../../hooks/useRoutes';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import translate from '@doorward/common/lang/translate';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.courses.getCourseModuleItems);
@@ -17,17 +18,21 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
   const [courseId] = useViewCourse();
   usePageResource('courseId', DoorwardApi.courses.getCourseModuleItems, [{ type: 'Assignment' }]);
   return (
-    <Layout {...props} features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]} header="Assignments">
+    <Layout
+      {...props}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+      header={translate.assignment({ count: 100 })}
+    >
       <WebComponent data={state.data.items} loading={state.fetching}>
         {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table
               data={assignments}
-              columns={{ title: 'Name', module: 'Module', status: 'Status' }}
+              columns={{ title: translate.name(), module: translate.module(), status: translate.status() }}
               getCell={(row) => {
                 return {
                   module: row.module.title,
-                  status: row.assignmentSubmissions?.[0] ? 'Submitted' : 'Not Submitted',
+                  status: row.assignmentSubmissions?.[0] ? translate.submitted() : translate.notSubmitted(),
                 };
               }}
               onRowClick={(row) => {

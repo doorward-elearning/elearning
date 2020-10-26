@@ -7,6 +7,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
   const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
@@ -21,10 +22,10 @@ const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
   return (
     <Layout
       {...props}
-      header="All Teachers"
+      header={translate.allTeachers()}
       suggestionsType="teachers"
       actionBtnProps={{
-        text: 'Add Teacher',
+        text: translate.addTeacher(),
         onClick: (): void => props.history.push(routes.routes.addTeacher.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}

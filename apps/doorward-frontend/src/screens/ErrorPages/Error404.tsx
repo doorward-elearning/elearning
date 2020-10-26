@@ -5,6 +5,7 @@ import NotFound from '../../../../../libs/ui/src/components/NotFound';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import { PageComponent } from '@doorward/ui/types';
 import useRoutes from '../../hooks/useRoutes';
+import translate from '@doorward/common/lang/translate';
 
 const Error404: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -17,10 +18,10 @@ const Error404: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
     >
       <div className="page-not-found">
         <NotFound
-          title="Error 404"
-          buttonText="Go back Home"
+          title={translate.error404()}
+          buttonText={translate.goBackHome()}
           buttonLink={routes.dashboard.link}
-          message="The page you are looking for was either deleted or does not exist."
+          message={translate.thePageYouAreLookingForDoesNotExist()}
         />
       </div>
     </Layout>

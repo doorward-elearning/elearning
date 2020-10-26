@@ -6,21 +6,20 @@ import EImage from '@doorward/ui/components/Image';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import Row from '@doorward/ui/components/Row';
 import { PageComponent } from '@doorward/ui/types';
+import translate from '@doorward/common/lang/translate';
 
-const ForgotPassword: React.FunctionComponent<ResetPasswordProps> = props => {
+const ForgotPassword: React.FunctionComponent<ResetPasswordProps> = (props) => {
   return (
     <Layout
       {...props}
       withBackground
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
-      header="Forgot password"
+      header={translate.forgotPassword()}
     >
       <Row style={{ alignItems: 'start' }}>
         <div>
-          <p>
-            Kindly provide the email address you used during the registration. You will receive a password reset link
-          </p>
+          <p>{translate.forgotPasswordMessage()}</p>
           <ForgotPasswordForm />
         </div>
         <div>

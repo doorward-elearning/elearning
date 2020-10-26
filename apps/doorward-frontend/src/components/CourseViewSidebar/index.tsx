@@ -50,7 +50,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
       <RoleContainer privileges={['students.*']}>
         <Accordion
           open
-          title={() => <Header size={5}>Student List</Header>}
+          title={() => <Header size={5}>{translate.studentList()}</Header>}
           action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
         >
           <WebComponent

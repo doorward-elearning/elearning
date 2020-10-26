@@ -11,6 +11,7 @@ import IfElse from '../IfElse';
 import { UseModal } from '../../hooks/useModal';
 import NavBarSearch from '../NavBar/NavBarSearch';
 import Container from '@doorward/ui/components/Container';
+import translate from '@doorward/common/lang/translate';
 
 export enum ModalFeatures {
   CLOSE_BUTTON_HEADER = 1,
@@ -71,7 +72,7 @@ const ModalFooterButton: React.FunctionComponent<ModalFooterButtonProps> = ({ fe
 };
 
 const Footer: React.FunctionComponent<ModalFooterProps> = ({
-  buttons = { positive: 'Yes', negative: 'No', neutral: 'Cancel' },
+  buttons = { positive: translate.yes(), negative: translate.no(), neutral: translate.cancel() },
   props = { positive: {}, negative: {}, neutral: {} },
   children,
   onNegativeClick,
@@ -102,7 +103,7 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
               </ModalFooterButton>
               <Feature feature={ModalFeatures.CLOSE_BUTTON_FOOTER}>
                 <Button theme="default" className="neutral_button" onClick={closeModal}>
-                  Close
+                  {translate.close()}
                 </Button>
               </Feature>
             </div>

@@ -12,6 +12,7 @@ import AssessmentPage from './AssessmentPage';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import Empty from '@doorward/ui/components/Empty';
+import translate from '@doorward/common/lang/translate';
 
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
   const [assessment, setAssessment] = useState<AssessmentEntity>();
@@ -50,8 +51,8 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
         {({ assessment, submission }) => {
           return submission?.status === AssessmentSubmissionStatus.SUBMITTED ? (
             <Empty
-              message={`You have already submitted this ${assessment.assessmentType}.`}
-              actionMessage="Go back"
+              message={translate.youHaveAlreadySubmittedThisAssessment()}
+              actionMessage={translate.goBack()}
               onAction={() => routes.navigate(routes.dashboard)}
             />
           ) : (

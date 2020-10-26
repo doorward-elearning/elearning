@@ -4,8 +4,6 @@ import { PageComponent } from '@doorward/ui/types';
 import './SchoolClassrooms.scss';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import usePageResource from '../../hooks/usePageResource';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
 import useModal from '@doorward/ui/hooks/useModal';
@@ -21,6 +19,7 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Panel from '@doorward/ui/components/Panel';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.schools.getSchool);
@@ -40,7 +39,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       header={state.data?.school?.name}
       navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.PAGE_LOGO]}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      actionBtnProps={{ text: 'Add Classroom', onClick: addClassroomModal.openModal }}
+      actionBtnProps={{ text: translate.addClassroom(), onClick: addClassroomModal.openModal }}
     >
       <AddClassroomModal
         onSuccess={() => {
@@ -50,11 +49,11 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
         modal={addClassroomModal}
         schoolId={state.data?.school?.id}
       />
-      <Panel plain>Click on any of the following classrooms to join the online meeting.</Panel>
+      <Panel plain>{translate.clickOnAnyOfTheFollowingClassroomsToJoinAMeeting()}</Panel>
       <WebComponent
         data={state.data?.school?.classRooms}
         loading={state.fetching}
-        emptyMessage={'No classrooms have been created for this school'}
+        emptyMessage={translate.noClassroomsHaveBeenCreatedForThisSchool()}
         icon="business_center"
       >
         {(classrooms) => {
@@ -81,7 +80,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
                         </Card.Body>
                         <Card.Footer>
                           <Panel plain>
-                            <Button>Join</Button>
+                            <Button>{translate.join()}</Button>
                           </Panel>
                         </Card.Footer>
                       </Card>

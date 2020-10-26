@@ -10,6 +10,7 @@ import Search from '../Search';
 import VerticalScroll from '@doorward/ui/components/VerticalScroll';
 import NavBarSearch from '../NavBar/NavBarSearch';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.Element => {
   const { users, filteredUsers, selected, select, filter } = props.useUserChooser;
@@ -24,7 +25,13 @@ const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.El
     <div className="ed-user-chooser__root">
       <NavBarSearch onSearch={filter} instantSearch />
       <VerticalScroll maxHeight={500}>
-        <WebComponent data={filteredUsers} loading={false} size="small" emptyMessage="No users" icon="account_circle">
+        <WebComponent
+          data={filteredUsers}
+          loading={false}
+          size="small"
+          emptyMessage={translate.noUsers()}
+          icon="account_circle"
+        >
           {() => (
             <div className="ed-user-chooser">
               <ItemArray data={filteredUsers} filter={props.removeOnSelection && filterFunction}>

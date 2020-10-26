@@ -12,6 +12,7 @@ import Tools from '@doorward/common/utils/Tools';
 import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import translate from '@doorward/common/lang/translate';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
   const initialValues = {
@@ -32,12 +33,12 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
   return (
     <div className="assignment-view">
       <Header size={2} style={{ paddingBottom: 'var(--padding-lg)' }}>
-        Description
+        {translate.description()}
       </Header>
       <DraftHTMLContent content={props.assignment.assignment} />
       <RoleContainer privileges={['assignments.submit']}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
-          <Header size={3}>Submission</Header>
+          <Header size={3}>{translate.submission()}</Header>
         </div>
         <Panel style={{ marginTop: 'var(--padding-lg)' }} noBackground>
           {submission ? (
@@ -53,13 +54,15 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
       </RoleContainer>
       <RoleContainer privileges={['assignments.grade']}>
         <Header size={2} style={{ paddingBottom: 'var(--padding-lg)', paddingTop: 'var(--padding-lg)' }}>
-          Submissions
+          {translate.submission({
+            count: props.assignment?.assignmentSubmissions?.length,
+          })}
         </Header>
         <AssignmentSubmissionModal submission={currentSubmission} useModal={viewAssignmentSubmissionModal} />
         <WebComponent
           data={props.assignment?.assignmentSubmissions}
           loading={false}
-          emptyMessage="No student has submitted their assignment."
+          emptyMessage={translate.noStudentHasSubmittedTheirAssignment()}
           size="medium"
           icon="assessment"
         >
@@ -72,10 +75,10 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
                     setCurrentSubmission(row);
                   }}
                   columns={{
-                    student: 'Student',
-                    submittedOn: 'Date',
-                    submittedAt: 'Time',
-                    submissionType: 'Type',
+                    student: translate.student(),
+                    submittedOn: translate.date(),
+                    submittedAt: translate.time(),
+                    submissionType: translate.type(),
                   }}
                   getCell={(row) => ({
                     student: row.student.fullName,

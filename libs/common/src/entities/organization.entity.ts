@@ -13,7 +13,6 @@ import RoleEntity from './role.entity';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
-import { Languages } from '@doorward/common/utils/translation';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -60,13 +59,11 @@ export default class OrganizationEntity {
 
   roles: Array<RoleEntity>;
 
-  models: Record<OrganizationModels, string>;
+  models: Record<OrganizationModels, Array<string>>;
 
   getDisplayName(model: OrganizationModels) {
     return this.models[model];
   }
-
-  language: Languages = Languages.ENGLISH;
 
   @BeforeInsert()
   generateUUID() {

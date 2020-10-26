@@ -126,7 +126,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   return (
     <FeatureProvider features={features}>
       <Helmet>
-        <title>{CONSTANTS.APP_NAME + (title && ' - ' + title)}</title>
+        <title>{organization.name + (title && ' - ' + title)}</title>
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">

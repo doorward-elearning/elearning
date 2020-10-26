@@ -20,6 +20,7 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useAction from '@doorward/ui/hooks/useActions';
 import { useLocation } from 'react-router';
+import translate from '@doorward/common/lang/translate';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
@@ -50,7 +51,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               cancellable={false}
               showErrorToast
               action={() => DoorwardApi.courses.launchClassroom(classroomCourse?.id)}
-              title={(classroomCourse?.meetingRoom?.currentMeeting ? 'Joining ' : 'Starting ') + ' classroom.'}
+              title={(classroomCourse?.meetingRoom?.currentMeeting ? translate.joiningMeeting() : translate.startingMeeting()) }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
@@ -76,7 +77,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       <div>
                         <ItemArray
                           data={Tools.truncate(course.modules, 3)}
-                          empty={<span>No modules have been added</span>}
+                          empty={<span>{translate.noModulesHaveBeenAdded()}</span>}
                         >
                           {(module) => <div>{module?.title}</div>}
                         </ItemArray>
@@ -85,7 +86,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
                         <RoleContainer privileges={['courses.create']}>
                           <span className="meta text-primary">
-                            <Plural singular="Member" count={+course.numStudents} />
+                            {translate.studentWithCount({ count: +course.numStudents })}
                           </span>
                         </RoleContainer>
                       </Row>
@@ -100,7 +101,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                               action: true,
                             })}
                             icon="phone"
-                            title="Live classroom"
+                            title={translate.meeting()}
                             onClick={() => startClassroom(course)}
                           />
                         </RoleContainer>

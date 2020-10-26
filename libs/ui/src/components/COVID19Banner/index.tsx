@@ -7,6 +7,7 @@ import EImage from '@doorward/ui/components/Image';
 import man from '../../../assets/images/man_with_mask.svg';
 import woman from '../../../assets/images/woman_with_mask.svg';
 import Panel from '@doorward/ui/components/Panel';
+import translate from '@doorward/common/lang/translate';
 
 const COVID19Banner: React.FunctionComponent<COVID19BannerProps> = (props): JSX.Element => {
   return (
@@ -18,13 +19,13 @@ const COVID19Banner: React.FunctionComponent<COVID19BannerProps> = (props): JSX.
               <EImage src={man} size="small" />
               <EImage src={woman} size="small" />
               <div>
-                <Header size={4}>COVID 19</Header>
-                <div>Get the latest information from the World Health Organization</div>
+                <Header size={4}>{translate.covid19()}</Header>
+                <div>{translate.getTheLatestInformationFromWHO()}</div>
               </div>
             </div>
           </div>
           <Anchor href="https://who.int" target="_blank" rel="noreferrer noopener">
-            Learn more
+            {translate.learnMore()}
           </Anchor>
         </div>
       </Panel>

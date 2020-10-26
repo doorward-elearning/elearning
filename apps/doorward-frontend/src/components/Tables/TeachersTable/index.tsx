@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
 import UserEntity from '@doorward/common/entities/user.entity';
+import translate from '@doorward/common/lang/translate';
 
 const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
   return (
@@ -8,12 +9,12 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
       className="teachers-table"
       sortable
       columns={{
-        username: 'Username',
-        firstName: 'First name',
-        lastName: 'Last name',
-        email: 'Email',
-        phoneNumber: 'Phone Number',
-        status: 'Status',
+        username: translate.username(),
+        firstName: translate.firstName(),
+        lastName: translate.lastName(),
+        email: translate.email(),
+        phoneNumber: translate.phoneNumber(),
+        status: translate.status(),
       }}
       data={props.teachers}
     />

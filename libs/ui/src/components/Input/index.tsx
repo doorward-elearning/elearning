@@ -18,6 +18,7 @@ import IfElse from '../IfElse';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import ErrorMessage, { getError } from '@doorward/ui/components/Input/ErrorMessage';
 import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
+import translate from '@doorward/common/lang/translate';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -131,7 +132,7 @@ function withInput<R extends InputProps>(
             <label htmlFor={inputProps.id}>
               {props.label || props.placeholder}
               <IfElse condition={isRequired && props.label}>
-                <span title="This field is required.">*</span>
+                <span title={translate.thisFieldIsRequired()}>*</span>
               </IfElse>
             </label>
           </Feature>

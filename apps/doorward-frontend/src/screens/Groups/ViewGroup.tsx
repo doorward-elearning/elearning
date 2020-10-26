@@ -11,6 +11,7 @@ import useRoutes from '../../hooks/useRoutes';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
+import translate from '@doorward/common/lang/translate';
 
 const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element => {
   usePageResource('groupId', DoorwardApi.groups.getGroup);
@@ -27,7 +28,7 @@ const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element 
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      actionBtnProps={{ text: 'Edit', icon: 'edit', onClick: () => props.onEditGroup(state.data.group) }}
+      actionBtnProps={{ text: translate.edit(), icon: 'edit', onClick: () => props.onEditGroup(state.data.group) }}
       header={Tools.str(state.data.group?.name)}
     >
       <WebComponent data={state.data.group} loading={state.fetching}>

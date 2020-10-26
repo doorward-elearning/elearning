@@ -14,6 +14,7 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAction from '@doorward/ui/hooks/useActions';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
+import translate from '@doorward/common/lang/translate';
 
 const STUDENT_TOOLBAR = [
   'microphone',
@@ -140,7 +141,7 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
   }
   return (
     <Layout {...props} navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.PAGE_LOGO]}>
-      <Empty message="Meeting ID is invalid" icon="no_meeting_room" />
+      <Empty message={translate.meetingNotFound()} icon="no_meeting_room" />
     </Layout>
   );
 };

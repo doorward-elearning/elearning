@@ -33,6 +33,7 @@ import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import translate from '@doorward/common/lang/translate';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
@@ -58,7 +59,9 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
             </Row>
             {moduleItem.type === ModuleItemType.ASSIGNMENT && (
               <span className="meta">
-                Due: {Tools.shortDateTime((moduleItem as AssignmentEntity)?.options?.dueDate)}
+                {translate.dueOn({
+                  date: Tools.shortDateTime((moduleItem as AssignmentEntity)?.options?.dueDate),
+                })}
               </span>
             )}
           </Row>
@@ -148,12 +151,12 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
     <div className="course-module-list">
       <WebConfirmModal
         args={[moduleToDelete]}
-        title="Delete Module"
+        title={translate.deleteModule()}
         useModal={deleteModuleModal}
         action={DoorwardApi.modules.deleteModule}
         state={state}
       >
-        <p>Are you sure you want to delete this module?</p>
+        <p>{translate.areYouSureYouWantToDeleteModule()}</p>
       </WebConfirmModal>
       <WebComponent data={course.modules} loading={false}>
         {(rawModules): JSX.Element => (

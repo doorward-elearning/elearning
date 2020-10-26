@@ -2,6 +2,7 @@ import React from 'react';
 import './UserManagement.scss';
 import Button from '../Buttons/Button';
 import Condition from '../IfElse';
+import translate from '@doorward/common/lang/translate';
 
 const UserManagement: React.FunctionComponent<UserManagementProps> = (props) => {
   return (
@@ -9,7 +10,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = (props) => 
       <Condition condition={props.authenticated}>
         <React.Fragment>{props.children}</React.Fragment>
         <Button link={props.loginLink} theme="secondary">
-          Login
+          {translate.login()}
         </Button>
       </Condition>
     </div>

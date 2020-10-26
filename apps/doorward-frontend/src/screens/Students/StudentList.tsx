@@ -8,6 +8,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 export interface StudentListQueryParams {
   search: string;
@@ -28,12 +29,12 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   return (
     <Layout
       {...props}
-      header="All Students"
+      header={translate.allStudents()}
       suggestionsType="students"
-      searchPlaceholder="Search students..."
+      searchPlaceholder={translate.searchStudents()}
       headerBadge={total === undefined ? null : `${total}`}
       actionBtnProps={{
-        text: 'Add Student',
+        text: translate.addStudent(),
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}

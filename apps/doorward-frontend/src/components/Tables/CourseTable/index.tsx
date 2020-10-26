@@ -4,13 +4,18 @@ import { MemoryHistory } from 'history';
 import './CourseTable.scss';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import useRoutes from '../../../hooks/useRoutes';
+import translate from '@doorward/common/lang/translate';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
   const routes = useRoutes();
   return (
     <Table
       className="course-table"
-      columns={{ displayName: 'Course Name', students: 'No of students', status: 'Status' }}
+      columns={{
+        displayName: translate.courseName(),
+        students: translate.numberOfStudents(),
+        status: translate.status(),
+      }}
       data={props.courses}
       onRowClick={(course): void => {
         props.history.push(routes.viewCourse.withParams({ courseId: course.id }));

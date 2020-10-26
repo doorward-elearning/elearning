@@ -14,6 +14,7 @@ import AnswersView from './AnswersView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Row from '@doorward/ui/components/Row';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
+import translate from '@doorward/common/lang/translate';
 
 export enum QuestionViewTypes {
   EDIT_MODE = 'editMode',
@@ -48,7 +49,11 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
     <div className="question-view">
       <Panel noBackground>
         <HeaderGrid>
-          <Header size={4}>{question.points} Points</Header>
+          <Header size={4}>
+            {translate.pointsWithCount({
+              count: question.points,
+            })}
+          </Header>
           {view === QuestionViewTypes.EDIT_MODE && (
             <Row>
               <Icon onClick={() => onDeleteQuestion(question)} icon="delete" />
@@ -65,7 +70,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
             <DraftTextArea fluid name={`submission[${question.id}]`} />
           ) : (
             <DisplayLabel>
-              <i>No choices for this question...</i>
+              <i>{translate.noChoicesForThisQuestion()}...</i>
             </DisplayLabel>
           )}
         </div>

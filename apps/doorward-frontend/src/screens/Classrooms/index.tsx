@@ -8,6 +8,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import useRoutes from '../../hooks/useRoutes';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import translate from '@doorward/common/lang/translate';
 
 const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.schools.getAllSchools);
@@ -21,17 +22,17 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
   return (
     <Layout
       {...props}
-      header="Classrooms"
+      header={translate.classrooms()}
       features={[LayoutFeatures.BREAD_CRUMBS]}
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
     >
-      <p>Join a classroom from any school below.</p>
+      <p>{translate.joinAClassroomFromAnySchoolBelow()}</p>
       <WebComponent data={state.data.schools} loading={state.fetching}>
         {(schools) => {
           return (
             <Table
               data={schools}
-              columns={{ name: 'School Name' }}
+              columns={{ name: translate.schoolName() }}
               onRowClick={(row) => {
                 routes.navigate(routes.schoolClassrooms, { schoolId: row.id });
               }}
