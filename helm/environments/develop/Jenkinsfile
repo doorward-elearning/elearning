@@ -13,9 +13,9 @@ pipeline {
           }
           sh 'sleep 10'
           dir('helm/environments/develop'){
-            sh 'helmfile -l stage=2 delete'
+            sh 'helmfile -l stage=3 delete'
             sh 'helmfile -l stage=0 sync'
-            sh 'helmfile -l stage=2 sync --set image.chuchu.version=${APP_VERSION} --set image.thala.version=${APP_VERSION}'
+            sh 'helmfile -l stage=3 sync --set image.chuchu.version=${APP_VERSION} --set image.thala.version=${APP_VERSION} '
           }
         }
     }
