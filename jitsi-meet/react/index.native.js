@@ -17,11 +17,10 @@ declare var __DEV__;
  * The type of the React {@code Component} props of {@link Root}.
  */
 type Props = {
-
-    /**
-     * The URL, if any, with which the app was launched.
-     */
-    url: Object | string
+  /**
+   * The URL, if any, with which the app was launched.
+   */
+  url: Object | string,
 };
 
 /**
@@ -32,18 +31,15 @@ type Props = {
  * @extends Component
  */
 class Root extends PureComponent<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <App
-                { ...this.props } />
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return <App {...this.props} />;
+  }
 }
 
 // Initialize logging.
@@ -52,22 +48,21 @@ _initLogging();
 // HORRIBLE HACK ALERT! React Native logs the initial props with `console.log`. Here we are quickly patching it
 // to avoid logging potentially sensitive information.
 if (!__DEV__) {
-    /* eslint-disable */
+  /* eslint-disable */
 
-    const __orig_console_log = console.log;
-    const __orig_appregistry_runapplication = AppRegistry.runApplication;
+  const __orig_console_log = console.log;
+  const __orig_appregistry_runapplication = AppRegistry.runApplication;
 
-    AppRegistry.runApplication = (...args) => {
-        // $FlowExpectedError
-        console.log = () => {};
-        __orig_appregistry_runapplication(...args);
-        // $FlowExpectedError
-        console.log = __orig_console_log;
-    };
+  AppRegistry.runApplication = (...args) => {
+    // $FlowExpectedError
+    console.log = () => {};
+    __orig_appregistry_runapplication(...args);
+    // $FlowExpectedError
+    console.log = __orig_console_log;
+  };
 
-    /* eslint-enable */
+  /* eslint-enable */
 }
-
 
 // Register the main/root Component of JitsiMeetView.
 AppRegistry.registerComponent('App', () => Root);

@@ -14,8 +14,8 @@ import { SET_CURRENT_NOTIFICATION_UID } from './actionTypes';
  * }}
  */
 export function setCurrentNotificationUid(uid: ?number) {
-    return {
-        type: SET_CURRENT_NOTIFICATION_UID,
-        uid
-    };
+  return {
+    type: SET_CURRENT_NOTIFICATION_UID,
+    uid,
+  };
 }

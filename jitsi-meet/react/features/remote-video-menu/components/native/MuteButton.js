@@ -13,10 +13,10 @@ import AbstractMuteButton, { _mapStateToProps as _abstractMapStateToProps } from
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    return {
-        ..._abstractMapStateToProps(state, ownProps),
-        visible: isLocalParticipantModerator(state)
-    };
+  return {
+    ..._abstractMapStateToProps(state, ownProps),
+    visible: isLocalParticipantModerator(state),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(AbstractMuteButton));

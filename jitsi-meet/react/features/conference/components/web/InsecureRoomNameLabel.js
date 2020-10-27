@@ -13,22 +13,18 @@ import AbstractInsecureRoomNameLabel, { _mapStateToProps } from '../AbstractInse
  * Renders a label indicating that we are in a room with an insecure name.
  */
 class InsecureRoomNameLabel extends AbstractInsecureRoomNameLabel {
-    /**
-     * Renders the platform dependant content.
-     *
-     * @inheritdoc
-     */
-    _render() {
-        return (
-            <Tooltip
-                content = { this.props.t('security.insecureRoomNameWarning') }
-                position = 'left'>
-                <CircularLabel
-                    className = 'insecure'
-                    icon = { IconWarning } />
-            </Tooltip>
-        );
-    }
+  /**
+   * Renders the platform dependant content.
+   *
+   * @inheritdoc
+   */
+  _render() {
+    return (
+      <Tooltip content={this.props.t('security.insecureRoomNameWarning')} position="left">
+        <CircularLabel className="insecure" icon={IconWarning} />
+      </Tooltip>
+    );
+  }
 }
 
 export default translate(connect(_mapStateToProps)(InsecureRoomNameLabel));

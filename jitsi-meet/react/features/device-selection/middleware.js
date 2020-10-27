@@ -12,25 +12,25 @@ declare var APP: Object;
  * @returns {Function}
  */
 // eslint-disable-next-line no-unused-vars
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    if (action.type === UPDATE_DEVICE_LIST) {
-        const state = store.getState();
-        const { popupDialogData } = state['features/device-selection'];
-        const { availableDevices } = state['features/base/devices'] || {};
+  if (action.type === UPDATE_DEVICE_LIST) {
+    const state = store.getState();
+    const { popupDialogData } = state['features/device-selection'];
+    const { availableDevices } = state['features/base/devices'] || {};
 
-        if (popupDialogData) {
-            popupDialogData.transport.sendEvent({
-                name: 'deviceListChanged',
-                devices: availableDevices
-            });
-        }
-
-        if (typeof APP !== 'undefined') {
-            APP.API.notifyDeviceListChanged(availableDevices);
-        }
+    if (popupDialogData) {
+      popupDialogData.transport.sendEvent({
+        name: 'deviceListChanged',
+        devices: availableDevices,
+      });
     }
 
-    return result;
+    if (typeof APP !== 'undefined') {
+      APP.API.notifyDeviceListChanged(availableDevices);
+    }
+  }
+
+  return result;
 });

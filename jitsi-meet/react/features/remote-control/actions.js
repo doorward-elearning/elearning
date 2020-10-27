@@ -17,5 +17,5 @@ import { RemoteControlAuthorizationDialog } from './components';
  * @public
  */
 export function openRemoteControlAuthorizationDialog(participantId) {
-    return openDialog(RemoteControlAuthorizationDialog, { participantId });
+  return openDialog(RemoteControlAuthorizationDialog, { participantId });
 }

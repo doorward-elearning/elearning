@@ -12,14 +12,13 @@ import { statsEmitter } from './index';
  * @returns {Function}
  */
 // eslint-disable-next-line no-unused-vars
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CONFERENCE_JOINED: {
-        statsEmitter.startListeningForStats(action.conference);
-        break;
+      statsEmitter.startListeningForStats(action.conference);
+      break;
     }
-    }
+  }
 
-    return next(action);
+  return next(action);
 });
-

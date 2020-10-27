@@ -15,19 +15,15 @@ import styles from './styles';
  * @extends AbstractVideoTrack
  */
 class VideoTrack extends AbstractVideoTrack<Props> {
-    /**
-     * Renders the video element for the associated video track.
-     *
-     * @override
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <View style = { styles.video } >
-                { super.render() }
-            </View>
-        );
-    }
+  /**
+   * Renders the video element for the associated video track.
+   *
+   * @override
+   * @returns {ReactElement}
+   */
+  render() {
+    return <View style={styles.video}>{super.render()}</View>;
+  }
 }
 
 export default connect()(VideoTrack);

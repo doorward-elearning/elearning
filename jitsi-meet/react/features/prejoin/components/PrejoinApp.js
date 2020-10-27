@@ -11,21 +11,20 @@ import { initPrejoin } from '../actions';
 import Prejoin from './Prejoin';
 
 type Props = {
+  /**
+   * Indicates whether the avatar should be shown when video is off
+   */
+  showAvatar: boolean,
 
-    /**
-     * Indicates whether the avatar should be shown when video is off
-     */
-    showAvatar: boolean,
+  /**
+   * Flag signaling the visibility of join label, input and buttons
+   */
+  showJoinActions: boolean,
 
-    /**
-     * Flag signaling the visibility of join label, input and buttons
-     */
-    showJoinActions: boolean,
-
-    /**
-     * Flag signaling the visibility of the skip prejoin toggle
-     */
-    showSkipPrejoin: boolean,
+  /**
+   * Flag signaling the visibility of the skip prejoin toggle
+   */
+  showSkipPrejoin: boolean,
 };
 
 /**
@@ -34,66 +33,64 @@ type Props = {
  * @extends BaseApp
  */
 export default class PrejoinApp extends BaseApp<Props> {
-    _init: Promise<*>;
+  _init: Promise<*>;
 
-    /**
-     * Navigates to {@link Prejoin} upon mount.
-     *
-     * @returns {void}
-     */
-    componentDidMount() {
-        super.componentDidMount();
+  /**
+   * Navigates to {@link Prejoin} upon mount.
+   *
+   * @returns {void}
+   */
+  componentDidMount() {
+    super.componentDidMount();
 
-        this._init.then(async () => {
-            const { store } = this.state;
-            const { dispatch } = store;
-            const { showAvatar, showJoinActions, showSkipPrejoin } = this.props;
+    this._init.then(async () => {
+      const { store } = this.state;
+      const { dispatch } = store;
+      const { showAvatar, showJoinActions, showSkipPrejoin } = this.props;
 
-            super._navigate({
-                component: Prejoin,
-                props: {
-                    showAvatar,
-                    showJoinActions,
-                    showSkipPrejoin
-                }
-            });
+      super._navigate({
+        component: Prejoin,
+        props: {
+          showAvatar,
+          showJoinActions,
+          showSkipPrejoin,
+        },
+      });
 
-            const { startWithAudioMuted, startWithVideoMuted } = store.getState()['features/base/settings'];
+      const { startWithAudioMuted, startWithVideoMuted } = store.getState()['features/base/settings'];
 
-            dispatch(setConfig({
-                prejoinPageEnabled: true,
-                startWithAudioMuted,
-                startWithVideoMuted
-            }));
+      dispatch(
+        setConfig({
+          prejoinPageEnabled: true,
+          startWithAudioMuted,
+          startWithVideoMuted,
+        })
+      );
 
-            const { tryCreateLocalTracks, errors } = createPrejoinTracks();
+      const { tryCreateLocalTracks, errors } = createPrejoinTracks();
 
-            const tracks = await tryCreateLocalTracks;
+      const tracks = await tryCreateLocalTracks;
 
-            dispatch(initPrejoin(tracks, errors));
-        });
-    }
+      dispatch(initPrejoin(tracks, errors));
+    });
+  }
 
-    /**
-     * Overrides the parent method to inject {@link AtlasKitThemeProvider} as
-     * the top most component.
-     *
-     * @override
-     */
-    _createMainElement(component, props) {
-        return (
-            <AtlasKitThemeProvider mode = 'dark'>
-                { super._createMainElement(component, props) }
-            </AtlasKitThemeProvider>
-        );
-    }
+  /**
+   * Overrides the parent method to inject {@link AtlasKitThemeProvider} as
+   * the top most component.
+   *
+   * @override
+   */
+  _createMainElement(component, props) {
+    return <AtlasKitThemeProvider mode="dark">{super._createMainElement(component, props)}</AtlasKitThemeProvider>;
+  }
 
-    /**
-     * Renders the platform specific dialog container.
-     *
-     * @returns {React$Element}
-     */
-    _renderDialogContainer() {
-        return null;
-    }
+  /**
+   * Renders the platform specific dialog container.
+   *
+   * @returns {React$Element}
+   */
+  _renderDialogContainer() {
+    return null;
+  }
 }

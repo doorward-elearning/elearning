@@ -1,17 +1,12 @@
 // @flow
 
-import {
-    NOTIFICATION_TIMEOUT,
-    hideNotification,
-    showErrorNotification,
-    showNotification
-} from '../notifications';
+import { NOTIFICATION_TIMEOUT, hideNotification, showErrorNotification, showNotification } from '../notifications';
 
 import {
-    _POTENTIAL_TRANSCRIBER_JOINED,
-    _TRANSCRIBER_JOINED,
-    _TRANSCRIBER_LEFT,
-    SET_PENDING_TRANSCRIBING_NOTIFICATION_UID
+  _POTENTIAL_TRANSCRIBER_JOINED,
+  _TRANSCRIBER_JOINED,
+  _TRANSCRIBER_LEFT,
+  SET_PENDING_TRANSCRIBING_NOTIFICATION_UID,
 } from './actionTypes';
 
 /**
@@ -24,10 +19,10 @@ import {
  * }}
  */
 export function transcriberJoined(participantId: string) {
-    return {
-        type: _TRANSCRIBER_JOINED,
-        transcriberJID: participantId
-    };
+  return {
+    type: _TRANSCRIBER_JOINED,
+    transcriberJID: participantId,
+  };
 }
 
 /**
@@ -40,10 +35,10 @@ export function transcriberJoined(participantId: string) {
  * }}
  */
 export function transcriberLeft(participantId: string) {
-    return {
-        type: _TRANSCRIBER_LEFT,
-        transcriberJID: participantId
-    };
+  return {
+    type: _TRANSCRIBER_LEFT,
+    transcriberJID: participantId,
+  };
 }
 
 /**
@@ -56,10 +51,10 @@ export function transcriberLeft(participantId: string) {
  * }}
  */
 export function potentialTranscriberJoined(participantId: string) {
-    return {
-        type: _POTENTIAL_TRANSCRIBER_JOINED,
-        transcriberJID: participantId
-    };
+  return {
+    type: _POTENTIAL_TRANSCRIBER_JOINED,
+    transcriberJID: participantId,
+  };
 }
 
 /**
@@ -69,18 +64,17 @@ export function potentialTranscriberJoined(participantId: string) {
  * @returns {Function}
  */
 export function showPendingTranscribingNotification() {
-    return (dispatch: Function) => {
-        const showNotificationAction = showNotification({
-            descriptionKey: 'transcribing.pending',
-            isDismissAllowed: false,
-            titleKey: 'dialog.transcribing'
-        });
+  return (dispatch: Function) => {
+    const showNotificationAction = showNotification({
+      descriptionKey: 'transcribing.pending',
+      isDismissAllowed: false,
+      titleKey: 'dialog.transcribing',
+    });
 
-        dispatch(showNotificationAction);
+    dispatch(showNotificationAction);
 
-        dispatch(setPendingTranscribingNotificationUid(
-            showNotificationAction.uid));
-    };
+    dispatch(setPendingTranscribingNotificationUid(showNotificationAction.uid));
+  };
 }
 
 /**
@@ -95,10 +89,10 @@ export function showPendingTranscribingNotification() {
  * }}
  */
 export function setPendingTranscribingNotificationUid(uid: ?number) {
-    return {
-        type: SET_PENDING_TRANSCRIBING_NOTIFICATION_UID,
-        uid
-    };
+  return {
+    type: SET_PENDING_TRANSCRIBING_NOTIFICATION_UID,
+    uid,
+  };
 }
 
 /**
@@ -108,14 +102,14 @@ export function setPendingTranscribingNotificationUid(uid: ?number) {
  * @returns {Function}
  */
 export function hidePendingTranscribingNotification() {
-    return (dispatch: Function, getState: Function) => {
-        const { pendingNotificationUid } = getState()['features/transcribing'];
+  return (dispatch: Function, getState: Function) => {
+    const { pendingNotificationUid } = getState()['features/transcribing'];
 
-        if (pendingNotificationUid) {
-            dispatch(hideNotification(pendingNotificationUid));
-            dispatch(setPendingTranscribingNotificationUid());
-        }
-    };
+    if (pendingNotificationUid) {
+      dispatch(hideNotification(pendingNotificationUid));
+      dispatch(setPendingTranscribingNotificationUid());
+    }
+  };
 }
 
 /**
@@ -125,12 +119,14 @@ export function hidePendingTranscribingNotification() {
  * @returns {showNotification}
  */
 export function showStoppedTranscribingNotification() {
-    return showNotification({
-        descriptionKey: 'transcribing.off',
-        titleKey: 'dialog.transcribing'
-    }, NOTIFICATION_TIMEOUT);
+  return showNotification(
+    {
+      descriptionKey: 'transcribing.off',
+      titleKey: 'dialog.transcribing',
+    },
+    NOTIFICATION_TIMEOUT
+  );
 }
-
 
 /**
  * Signals that the transcribing error notification should be shown.
@@ -138,8 +134,8 @@ export function showStoppedTranscribingNotification() {
  * @returns {showErrorNotification}
  */
 export function showTranscribingError() {
-    return showErrorNotification({
-        descriptionKey: 'transcribing.error',
-        titleKey: 'transcribing.failedToStart'
-    });
+  return showErrorNotification({
+    descriptionKey: 'transcribing.error',
+    titleKey: 'transcribing.failedToStart',
+  });
 }

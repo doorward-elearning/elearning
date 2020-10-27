@@ -1,4 +1,4 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import PlainResponse from '../../decorators/plain.response.decorator';
 import { ResourcesService } from './resources.service';
@@ -9,8 +9,8 @@ export class ResourcesController {
   constructor(private resourcesService: ResourcesService) {}
 
   @PlainResponse()
-  @Get('locales/:lang/:file')
-  async getLocaleFile(@Param('lang') lang: string, @Param('file') file: string) {
-    return this.resourcesService.getLocaleTranslation(lang, file);
+  @Get('translations')
+  async getLocaleFile() {
+    return this.resourcesService.getTranslations();
   }
 }

@@ -1,17 +1,15 @@
 // @flow
 
-
 export type Props = {
+  /**
+   * True if the label needs to be rendered, false otherwise.
+   */
+  _showLabel: boolean,
 
-    /**
-     * True if the label needs to be rendered, false otherwise.
-     */
-    _showLabel: boolean,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -22,9 +20,9 @@ export type Props = {
  * @returns {Props}
  */
 export function _mapStateToProps(state: Object) {
-    const participants = state['features/base/participants'];
+  const participants = state['features/base/participants'];
 
-    return {
-        _showLabel: participants.every(p => p.e2eeEnabled)
-    };
+  return {
+    _showLabel: participants.every((p) => p.e2eeEnabled),
+  };
 }

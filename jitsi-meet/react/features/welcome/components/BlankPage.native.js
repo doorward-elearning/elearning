@@ -16,13 +16,12 @@ import styles from './styles';
  * The type of React {@code Component} props of {@link BlankPage}.
  */
 type Props = {
+  /**
+   * The color schemed style of the component.
+   */
+  _styles: StyleType,
 
-    /**
-     * The color schemed style of the component.
-     */
-    _styles: StyleType,
-
-    dispatch: Dispatch<any>
+  dispatch: Dispatch<any>,
 };
 
 /**
@@ -31,38 +30,32 @@ type Props = {
  * network requests.
  */
 class BlankPage extends Component<Props> {
-    /**
-     * Destroys the local tracks (if any) since no media is desired when this
-     * component is rendered.
-     *
-     * @inheritdoc
-     * @returns {void}
-     */
-    componentDidMount() {
-        this.props.dispatch(destroyLocalTracks());
-    }
+  /**
+   * Destroys the local tracks (if any) since no media is desired when this
+   * component is rendered.
+   *
+   * @inheritdoc
+   * @returns {void}
+   */
+  componentDidMount() {
+    this.props.dispatch(destroyLocalTracks());
+  }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { _styles } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { _styles } = this.props;
 
-        return (
-            <View
-                style = { [
-                    styles.blankPageWrapper,
-                    _styles.loadingOverlayWrapper
-                ] }>
-                <LoadingIndicator
-                    color = { _styles.indicatorColor }
-                    size = 'large' />
-            </View>
-        );
-    }
+    return (
+      <View style={[styles.blankPageWrapper, _styles.loadingOverlayWrapper]}>
+        <LoadingIndicator color={_styles.indicatorColor} size="large" />
+      </View>
+    );
+  }
 }
 
 /**
@@ -72,9 +65,9 @@ class BlankPage extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state) {
-    return {
-        _styles: ColorSchemeRegistry.get(state, 'LoadConfigOverlay')
-    };
+  return {
+    _styles: ColorSchemeRegistry.get(state, 'LoadConfigOverlay'),
+  };
 }
 
 export default connect(_mapStateToProps)(BlankPage);

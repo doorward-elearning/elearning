@@ -1,19 +1,11 @@
 // @flow
 
 import UIEvents from '../../../service/UI/UIEvents';
-import {
-    CONFERENCE_FAILED,
-    CONFERENCE_JOINED,
-    LOCK_STATE_CHANGED,
-    SET_PASSWORD_FAILED
-} from '../base/conference';
+import { CONFERENCE_FAILED, CONFERENCE_JOINED, LOCK_STATE_CHANGED, SET_PASSWORD_FAILED } from '../base/conference';
 import { hideDialog } from '../base/dialog';
 import { JitsiConferenceErrors } from '../base/lib-jitsi-meet';
 import { MiddlewareRegistry } from '../base/redux';
-import {
-    NOTIFICATION_TIMEOUT,
-    showNotification
-} from '../notifications';
+import { NOTIFICATION_TIMEOUT, showNotification } from '../notifications';
 
 import { _openPasswordRequiredPrompt } from './actions';
 import { PasswordRequiredPrompt, RoomLockPrompt } from './components';
@@ -29,46 +21,54 @@ declare var APP: Object;
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CONFERENCE_FAILED:
-        return _conferenceFailed(store, next, action);
+      return _conferenceFailed(store, next, action);
 
     case CONFERENCE_JOINED:
-        return _conferenceJoined(store, next, action);
+      return _conferenceJoined(store, next, action);
 
     case LOCK_STATE_CHANGED: {
-        // TODO Remove this logic when all components interested in the lock
-        // state change event are moved into react/redux.
-        if (typeof APP !== 'undefined') {
-            APP.UI.emitEvent(UIEvents.TOGGLE_ROOM_LOCK, action.locked);
-        }
+      // TODO Remove this logic when all components interested in the lock
+      // state change event are moved into react/redux.
+      if (typeof APP !== 'undefined') {
+        APP.UI.emitEvent(UIEvents.TOGGLE_ROOM_LOCK, action.locked);
+      }
 
-        const previousLockedState = store.getState()['features/base/conference'].locked;
+      const previousLockedState = store.getState()['features/base/conference'].locked;
 
-        const result = next(action);
+      const result = next(action);
 
-        const currentLockedState = store.getState()['features/base/conference'].locked;
+      const currentLockedState = store.getState()['features/base/conference'].locked;
 
-        if (currentLockedState === LOCKED_REMOTELY) {
-            store.dispatch(
-                showNotification({
-                    titleKey: 'notify.passwordSetRemotely'
-                }, NOTIFICATION_TIMEOUT));
-        } else if (previousLockedState === LOCKED_REMOTELY && !currentLockedState) {
-            store.dispatch(
-                showNotification({
-                    titleKey: 'notify.passwordRemovedRemotely'
-                }, NOTIFICATION_TIMEOUT));
-        }
+      if (currentLockedState === LOCKED_REMOTELY) {
+        store.dispatch(
+          showNotification(
+            {
+              titleKey: 'notify.passwordSetRemotely',
+            },
+            NOTIFICATION_TIMEOUT
+          )
+        );
+      } else if (previousLockedState === LOCKED_REMOTELY && !currentLockedState) {
+        store.dispatch(
+          showNotification(
+            {
+              titleKey: 'notify.passwordRemovedRemotely',
+            },
+            NOTIFICATION_TIMEOUT
+          )
+        );
+      }
 
-        return result;
+      return result;
     }
     case SET_PASSWORD_FAILED:
-        return _setPasswordFailed(store, next, action);
-    }
+      return _setPasswordFailed(store, next, action);
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -84,10 +84,10 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {*}
  */
 function _conferenceJoined({ dispatch }, next, action) {
-    dispatch(hideDialog(PasswordRequiredPrompt));
-    dispatch(hideDialog(RoomLockPrompt));
+  dispatch(hideDialog(PasswordRequiredPrompt));
+  dispatch(hideDialog(RoomLockPrompt));
 
-    return next(action);
+  return next(action);
 }
 
 /**
@@ -103,23 +103,23 @@ function _conferenceJoined({ dispatch }, next, action) {
  * @returns {*}
  */
 function _conferenceFailed({ dispatch }, next, action) {
-    const { conference, error } = action;
+  const { conference, error } = action;
 
-    if (conference && error.name === JitsiConferenceErrors.PASSWORD_REQUIRED) {
-        // XXX The feature room-lock affords recovery after CONFERENCE_FAILED
-        // caused by JitsiConferenceErrors.PASSWORD_REQUIRED.
-        if (typeof error.recoverable === 'undefined') {
-            error.recoverable = true;
-        }
-        if (error.recoverable) {
-            dispatch(_openPasswordRequiredPrompt(conference));
-        }
-    } else {
-        dispatch(hideDialog(PasswordRequiredPrompt));
-        dispatch(hideDialog(RoomLockPrompt));
+  if (conference && error.name === JitsiConferenceErrors.PASSWORD_REQUIRED) {
+    // XXX The feature room-lock affords recovery after CONFERENCE_FAILED
+    // caused by JitsiConferenceErrors.PASSWORD_REQUIRED.
+    if (typeof error.recoverable === 'undefined') {
+      error.recoverable = true;
     }
+    if (error.recoverable) {
+      dispatch(_openPasswordRequiredPrompt(conference));
+    }
+  } else {
+    dispatch(hideDialog(PasswordRequiredPrompt));
+    dispatch(hideDialog(RoomLockPrompt));
+  }
 
-    return next(action);
+  return next(action);
 }
 
 /**
@@ -135,27 +135,27 @@ function _conferenceFailed({ dispatch }, next, action) {
  * @returns {*}
  */
 function _setPasswordFailed(store, next, action) {
-    if (typeof APP !== 'undefined') {
-        // TODO Remove this logic when displaying of error messages on web is
-        // handled through react/redux.
-        const { error } = action;
-        let descriptionKey;
-        let titleKey;
+  if (typeof APP !== 'undefined') {
+    // TODO Remove this logic when displaying of error messages on web is
+    // handled through react/redux.
+    const { error } = action;
+    let descriptionKey;
+    let titleKey;
 
-        if (error === JitsiConferenceErrors.PASSWORD_NOT_SUPPORTED) {
-            logger.warn('room passwords not supported');
-            descriptionKey = 'dialog.passwordNotSupported';
-            titleKey = 'dialog.passwordNotSupportedTitle';
-        } else {
-            logger.warn('setting password failed', error);
-            descriptionKey = 'dialog.lockMessage';
-            titleKey = 'dialog.lockTitle';
-        }
-        APP.UI.messageHandler.showError({
-            descriptionKey,
-            titleKey
-        });
+    if (error === JitsiConferenceErrors.PASSWORD_NOT_SUPPORTED) {
+      logger.warn('room passwords not supported');
+      descriptionKey = 'dialog.passwordNotSupported';
+      titleKey = 'dialog.passwordNotSupportedTitle';
+    } else {
+      logger.warn('setting password failed', error);
+      descriptionKey = 'dialog.lockMessage';
+      titleKey = 'dialog.lockTitle';
     }
+    APP.UI.messageHandler.showError({
+      descriptionKey,
+      titleKey,
+    });
+  }
 
-    return next(action);
+  return next(action);
 }

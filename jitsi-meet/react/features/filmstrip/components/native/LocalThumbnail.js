@@ -10,11 +10,10 @@ import Thumbnail from './Thumbnail';
 import styles from './styles';
 
 type Props = {
-
-    /**
-     * The local participant.
-     */
-    _localParticipant: Object
+  /**
+   * The local participant.
+   */
+  _localParticipant: Object,
 };
 
 /**
@@ -22,20 +21,20 @@ type Props = {
  * remote thumbnails later.
  */
 class LocalThumbnail extends Component<Props> {
-    /**
-     * Implements React Component's render.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { _localParticipant } = this.props;
+  /**
+   * Implements React Component's render.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { _localParticipant } = this.props;
 
-        return (
-            <View style = { styles.localThumbnail }>
-                <Thumbnail participant = { _localParticipant } />
-            </View>
-        );
-    }
+    return (
+      <View style={styles.localThumbnail}>
+        <Thumbnail participant={_localParticipant} />
+      </View>
+    );
+  }
 }
 
 /**
@@ -49,15 +48,15 @@ class LocalThumbnail extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        /**
-         * The local participant.
-         *
-         * @private
-         * @type {Participant}
-         */
-        _localParticipant: getLocalParticipant(state)
-    };
+  return {
+    /**
+     * The local participant.
+     *
+     * @private
+     * @type {Participant}
+     */
+    _localParticipant: getLocalParticipant(state),
+  };
 }
 
 export default connect(_mapStateToProps)(LocalThumbnail);

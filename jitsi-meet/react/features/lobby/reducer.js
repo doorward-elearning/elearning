@@ -4,18 +4,18 @@ import { CONFERENCE_JOINED, CONFERENCE_LEFT, SET_PASSWORD } from '../base/confer
 import { ReducerRegistry } from '../base/redux';
 
 import {
-    KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED,
-    KNOCKING_PARTICIPANT_LEFT,
-    SET_KNOCKING_STATE,
-    SET_LOBBY_MODE_ENABLED,
-    SET_PASSWORD_JOIN_FAILED
+  KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED,
+  KNOCKING_PARTICIPANT_LEFT,
+  SET_KNOCKING_STATE,
+  SET_LOBBY_MODE_ENABLED,
+  SET_PASSWORD_JOIN_FAILED,
 } from './actionTypes';
 
 const DEFAULT_STATE = {
-    knocking: false,
-    knockingParticipants: [],
-    lobbyEnabled: false,
-    passwordJoinFailed: false
+  knocking: false,
+  knockingParticipants: [],
+  lobbyEnabled: false,
+  passwordJoinFailed: false,
 };
 
 /**
@@ -27,45 +27,45 @@ const DEFAULT_STATE = {
  * specified {@code action}.
  */
 ReducerRegistry.register('features/lobby', (state = DEFAULT_STATE, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case CONFERENCE_JOINED:
     case CONFERENCE_LEFT:
-        return {
-            ...state,
-            knocking: false,
-            passwordJoinFailed: false
-        };
+      return {
+        ...state,
+        knocking: false,
+        passwordJoinFailed: false,
+      };
     case KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED:
-        return _knockingParticipantArrivedOrUpdated(action.participant, state);
+      return _knockingParticipantArrivedOrUpdated(action.participant, state);
     case KNOCKING_PARTICIPANT_LEFT:
-        return {
-            ...state,
-            knockingParticipants: state.knockingParticipants.filter(p => p.id !== action.id)
-        };
+      return {
+        ...state,
+        knockingParticipants: state.knockingParticipants.filter((p) => p.id !== action.id),
+      };
     case SET_KNOCKING_STATE:
-        return {
-            ...state,
-            knocking: action.knocking,
-            passwordJoinFailed: false
-        };
+      return {
+        ...state,
+        knocking: action.knocking,
+        passwordJoinFailed: false,
+      };
     case SET_LOBBY_MODE_ENABLED:
-        return {
-            ...state,
-            lobbyEnabled: action.enabled
-        };
+      return {
+        ...state,
+        lobbyEnabled: action.enabled,
+      };
     case SET_PASSWORD:
-        return {
-            ...state,
-            passwordJoinFailed: false
-        };
+      return {
+        ...state,
+        passwordJoinFailed: false,
+      };
     case SET_PASSWORD_JOIN_FAILED:
-        return {
-            ...state,
-            passwordJoinFailed: action.failed
-        };
-    }
+      return {
+        ...state,
+        passwordJoinFailed: action.failed,
+      };
+  }
 
-    return state;
+  return state;
 });
 
 /**
@@ -76,18 +76,15 @@ ReducerRegistry.register('features/lobby', (state = DEFAULT_STATE, action) => {
  * @returns {Object}
  */
 function _knockingParticipantArrivedOrUpdated(participant, state) {
-    let existingParticipant = state.knockingParticipants.find(p => p.id === participant.id);
+  let existingParticipant = state.knockingParticipants.find((p) => p.id === participant.id);
 
-    existingParticipant = {
-        ...existingParticipant,
-        ...participant
-    };
+  existingParticipant = {
+    ...existingParticipant,
+    ...participant,
+  };
 
-    return {
-        ...state,
-        knockingParticipants: [
-            ...state.knockingParticipants.filter(p => p.id !== participant.id),
-            existingParticipant
-        ]
-    };
+  return {
+    ...state,
+    knockingParticipants: [...state.knockingParticipants.filter((p) => p.id !== participant.id), existingParticipant],
+  };
 }

@@ -8,7 +8,6 @@ import { createAudioOnlyChangedEvent, sendAnalytics } from '../../analytics';
 import { SET_AUDIO_ONLY } from './actionTypes';
 import logger from './logger';
 
-
 declare var APP: Object;
 
 /**
@@ -25,26 +24,26 @@ declare var APP: Object;
  * }}
  */
 export function setAudioOnly(audioOnly: boolean, ensureVideoTrack: boolean = false) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const { enabled: oldValue } = getState()['features/base/audio-only'];
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const { enabled: oldValue } = getState()['features/base/audio-only'];
 
-        if (oldValue !== audioOnly) {
-            sendAnalytics(createAudioOnlyChangedEvent(audioOnly));
-            logger.log(`Audio-only ${audioOnly ? 'enabled' : 'disabled'}`);
+    if (oldValue !== audioOnly) {
+      sendAnalytics(createAudioOnlyChangedEvent(audioOnly));
+      logger.log(`Audio-only ${audioOnly ? 'enabled' : 'disabled'}`);
 
-            dispatch({
-                type: SET_AUDIO_ONLY,
-                audioOnly,
-                ensureVideoTrack
-            });
+      dispatch({
+        type: SET_AUDIO_ONLY,
+        audioOnly,
+        ensureVideoTrack,
+      });
 
-            if (typeof APP !== 'undefined') {
-                // TODO This should be a temporary solution that lasts only until video
-                // tracks and all ui is moved into react/redux on the web.
-                APP.UI.emitEvent(UIEvents.TOGGLE_AUDIO_ONLY, audioOnly);
-            }
-        }
-    };
+      if (typeof APP !== 'undefined') {
+        // TODO This should be a temporary solution that lasts only until video
+        // tracks and all ui is moved into react/redux on the web.
+        APP.UI.emitEvent(UIEvents.TOGGLE_AUDIO_ONLY, audioOnly);
+      }
+    }
+  };
 }
 
 /**
@@ -53,9 +52,9 @@ export function setAudioOnly(audioOnly: boolean, ensureVideoTrack: boolean = fal
  * @returns {Function}
  */
 export function toggleAudioOnly() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const { enabled } = getState()['features/base/audio-only'];
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const { enabled } = getState()['features/base/audio-only'];
 
-        return dispatch(setAudioOnly(!enabled, true));
-    };
+    return dispatch(setAudioOnly(!enabled, true));
+  };
 }

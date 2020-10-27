@@ -1,32 +1,25 @@
 // @flow
 
-import {
-    createConnectionEvent,
-    sendAnalytics
-} from '../analytics';
+import { createConnectionEvent, sendAnalytics } from '../analytics';
 import { SET_ROOM } from '../base/conference';
-import {
-    CONNECTION_ESTABLISHED,
-    CONNECTION_FAILED,
-    getURLWithoutParams
-} from '../base/connection';
+import { CONNECTION_ESTABLISHED, CONNECTION_FAILED, getURLWithoutParams } from '../base/connection';
 import { MiddlewareRegistry } from '../base/redux';
 
 import { reloadNow } from './actions';
 import { _getRouteToRender } from './getRouteToRender';
 
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CONNECTION_ESTABLISHED:
-        return _connectionEstablished(store, next, action);
+      return _connectionEstablished(store, next, action);
     case CONNECTION_FAILED:
-        return _connectionFailed(store, next, action);
+      return _connectionFailed(store, next, action);
 
     case SET_ROOM:
-        return _setRoom(store, next, action);
-    }
+      return _setRoom(store, next, action);
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -44,30 +37,24 @@ MiddlewareRegistry.register(store => next => action => {
  * specified {@code action}.
  */
 function _connectionEstablished(store, next, action) {
-    const result = next(action);
+  const result = next(action);
 
-    // In the Web app we explicitly do not want to display the hash and
-    // query/search URL params. Unfortunately, window.location and, more
-    // importantly, its params are used not only in jitsi-meet but also in
-    // lib-jitsi-meet. Consequenlty, the time to remove the params is
-    // determined by when no one needs them anymore.
-    const { history, location } = window;
+  // In the Web app we explicitly do not want to display the hash and
+  // query/search URL params. Unfortunately, window.location and, more
+  // importantly, its params are used not only in jitsi-meet but also in
+  // lib-jitsi-meet. Consequenlty, the time to remove the params is
+  // determined by when no one needs them anymore.
+  const { history, location } = window;
 
-    if (history
-            && location
-            && history.length
-            && typeof history.replaceState === 'function') {
-        const replacement = getURLWithoutParams(location);
+  if (history && location && history.length && typeof history.replaceState === 'function') {
+    const replacement = getURLWithoutParams(location);
 
-        if (location !== replacement) {
-            history.replaceState(
-                history.state,
-                (document && document.title) || '',
-                replacement);
-        }
+    if (location !== replacement) {
+      history.replaceState(history.state, (document && document.title) || '', replacement);
     }
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -82,15 +69,15 @@ function _connectionEstablished(store, next, action) {
  * @private
  */
 function _connectionFailed({ dispatch, getState }, next, action) {
-    // In the case of a split-brain error, reload early and prevent further
-    // handling of the action.
-    if (_isMaybeSplitBrainError(getState, action)) {
-        dispatch(reloadNow());
+  // In the case of a split-brain error, reload early and prevent further
+  // handling of the action.
+  if (_isMaybeSplitBrainError(getState, action)) {
+    dispatch(reloadNow());
 
-        return;
-    }
+    return;
+  }
 
-    return next(action);
+  return next(action);
 }
 
 /**
@@ -105,33 +92,33 @@ function _connectionFailed({ dispatch, getState }, next, action) {
  * @returns {boolean}
  */
 function _isMaybeSplitBrainError(getState, action) {
-    const { error } = action;
-    const isShardChangedError = error
-        && error.message === 'item-not-found'
-        && error.details
-        && error.details.shard_changed;
+  const { error } = action;
+  const isShardChangedError =
+    error && error.message === 'item-not-found' && error.details && error.details.shard_changed;
 
-    if (isShardChangedError) {
-        const state = getState();
-        const { timeEstablished } = state['features/base/connection'];
-        const { _immediateReloadThreshold } = state['features/base/config'];
+  if (isShardChangedError) {
+    const state = getState();
+    const { timeEstablished } = state['features/base/connection'];
+    const { _immediateReloadThreshold } = state['features/base/config'];
 
-        const timeSinceConnectionEstablished = timeEstablished && Date.now() - timeEstablished;
-        const reloadThreshold = typeof _immediateReloadThreshold === 'number' ? _immediateReloadThreshold : 1500;
+    const timeSinceConnectionEstablished = timeEstablished && Date.now() - timeEstablished;
+    const reloadThreshold = typeof _immediateReloadThreshold === 'number' ? _immediateReloadThreshold : 1500;
 
-        const isWithinSplitBrainThreshold = !timeEstablished || timeSinceConnectionEstablished <= reloadThreshold;
+    const isWithinSplitBrainThreshold = !timeEstablished || timeSinceConnectionEstablished <= reloadThreshold;
 
-        sendAnalytics(createConnectionEvent('failed', {
-            ...error,
-            connectionEstablished: timeEstablished,
-            splitBrain: isWithinSplitBrainThreshold,
-            timeSinceConnectionEstablished
-        }));
+    sendAnalytics(
+      createConnectionEvent('failed', {
+        ...error,
+        connectionEstablished: timeEstablished,
+        splitBrain: isWithinSplitBrainThreshold,
+        timeSinceConnectionEstablished,
+      })
+    );
 
-        return isWithinSplitBrainThreshold;
-    }
+    return isWithinSplitBrainThreshold;
+  }
 
-    return false;
+  return false;
 }
 
 /**
@@ -143,10 +130,10 @@ function _isMaybeSplitBrainError(getState, action) {
  * @returns {void}
  */
 function _navigate({ getState }) {
-    const state = getState();
-    const { app } = state['features/base/app'];
+  const state = getState();
+  const { app } = state['features/base/app'];
 
-    _getRouteToRender(state).then(route => app._navigate(route));
+  _getRouteToRender(state).then((route) => app._navigate(route));
 }
 
 /**
@@ -164,9 +151,9 @@ function _navigate({ getState }) {
  * specified {@code action}.
  */
 function _setRoom(store, next, action) {
-    const result = next(action);
+  const result = next(action);
 
-    _navigate(store);
+  _navigate(store);
 
-    return result;
+  return result;
 }

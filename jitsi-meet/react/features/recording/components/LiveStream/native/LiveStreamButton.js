@@ -15,13 +15,13 @@ import AbstractLiveStreamButton, { _mapStateToProps as _abstractMapStateToProps 
  * @returns {Props}
  */
 export function mapStateToProps(state: Object, ownProps: Object) {
-    const enabled = getFeatureFlag(state, LIVE_STREAMING_ENABLED, true);
-    const abstractProps = _abstractMapStateToProps(state, ownProps);
+  const enabled = getFeatureFlag(state, LIVE_STREAMING_ENABLED, true);
+  const abstractProps = _abstractMapStateToProps(state, ownProps);
 
-    return {
-        ...abstractProps,
-        visible: enabled && abstractProps.visible
-    };
+  return {
+    ...abstractProps,
+    visible: enabled && abstractProps.visible,
+  };
 }
 
 export default translate(connect(mapStateToProps)(AbstractLiveStreamButton));

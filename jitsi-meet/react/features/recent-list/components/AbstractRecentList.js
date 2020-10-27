@@ -3,17 +3,9 @@
 import React from 'react';
 import type { Dispatch } from 'redux';
 
-import {
-    createRecentClickedEvent,
-    createRecentSelectedEvent,
-    sendAnalytics
-} from '../../analytics';
+import { createRecentClickedEvent, createRecentSelectedEvent, sendAnalytics } from '../../analytics';
 import { appNavigate } from '../../app/actions';
-import {
-    AbstractPage,
-    Container,
-    Text
-} from '../../base/react';
+import { AbstractPage, Container, Text } from '../../base/react';
 
 import styles from './styles';
 
@@ -21,16 +13,15 @@ import styles from './styles';
  * The type of the React {@code Component} props of {@link AbstractRecentList}
  */
 type Props = {
+  /**
+   * The redux store's {@code dispatch} function.
+   */
+  dispatch: Dispatch<any>,
 
-    /**
-     * The redux store's {@code dispatch} function.
-     */
-    dispatch: Dispatch<any>,
-
-    /**
-     * The translate function.
-     */
-    t: Function
+  /**
+   * The translate function.
+   */
+  t: Function,
 };
 
 /**
@@ -38,67 +29,63 @@ type Props = {
  *
  */
 export default class AbstractRecentList<P: Props> extends AbstractPage<P> {
-    /**
-     * Initializes a new {@code RecentList} instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props: P) {
-        super(props);
+  /**
+   * Initializes a new {@code RecentList} instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props: P) {
+    super(props);
 
-        this._onPress = this._onPress.bind(this);
-    }
+    this._onPress = this._onPress.bind(this);
+  }
 
-    /**
-     * Implements React's {@link Component#componentDidMount()}. Invoked
-     * immediately after this component is mounted.
-     *
-     * @inheritdoc
-     * @returns {void}
-     */
-    componentDidMount() {
-        sendAnalytics(createRecentSelectedEvent());
-    }
+  /**
+   * Implements React's {@link Component#componentDidMount()}. Invoked
+   * immediately after this component is mounted.
+   *
+   * @inheritdoc
+   * @returns {void}
+   */
+  componentDidMount() {
+    sendAnalytics(createRecentSelectedEvent());
+  }
 
-    _getRenderListEmptyComponent: () => React$Node;
+  _getRenderListEmptyComponent: () => React$Node;
 
-    /**
-     * Returns a list empty component if a custom one has to be rendered instead
-     * of the default one in the {@link NavigateSectionList}.
-     *
-     * @private
-     * @returns {React$Component}
-     */
-    _getRenderListEmptyComponent() {
-        const { t } = this.props;
+  /**
+   * Returns a list empty component if a custom one has to be rendered instead
+   * of the default one in the {@link NavigateSectionList}.
+   *
+   * @private
+   * @returns {React$Component}
+   */
+  _getRenderListEmptyComponent() {
+    const { t } = this.props;
 
-        return (
-            <Container
-                className = 'meetings-list-empty'
-                style = { styles.emptyListContainer }>
-                <Text
-                    className = 'description'
-                    style = { styles.emptyListText }>
-                    { t('welcomepage.recentListEmpty') }
-                </Text>
-            </Container>
-        );
-    }
+    return (
+      <Container className="meetings-list-empty" style={styles.emptyListContainer}>
+        <Text className="description" style={styles.emptyListText}>
+          {t('welcomepage.recentListEmpty')}
+        </Text>
+      </Container>
+    );
+  }
 
-    _onPress: string => void;
+  _onPress: (string) => void;
 
-    /**
-     * Handles the list's navigate action.
-     *
-     * @private
-     * @param {string} url - The url string to navigate to.
-     * @returns {void}
-     */
-    _onPress(url) {
-        const { dispatch } = this.props;
+  /**
+   * Handles the list's navigate action.
+   *
+   * @private
+   * @param {string} url - The url string to navigate to.
+   * @returns {void}
+   */
+  _onPress(url) {
+    const { dispatch } = this.props;
 
-        sendAnalytics(createRecentClickedEvent('recent.meeting.tile'));
+    sendAnalytics(createRecentClickedEvent('recent.meeting.tile'));
 
-        dispatch(appNavigate(url));
-    }
+    dispatch(appNavigate(url));
+  }
 }

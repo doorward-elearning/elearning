@@ -1,7 +1,7 @@
 /* @flow */
 
 import { combineReducers } from 'redux';
-import type { Reducer } from 'redux';
+import { Reducer } from 'redux';
 
 /**
  * The type of the dictionary/map which associates a reducer (function) with the
@@ -14,50 +14,50 @@ declare type NameReducerMap<S, A> = { [name: string]: Reducer<S, A> };
  * without needing to create additional inter-feature dependencies.
  */
 class ReducerRegistry {
-    _elements: NameReducerMap<*, *>;
+  _elements: NameReducerMap<*, *>;
 
+  /**
+   * Creates a ReducerRegistry instance.
+   */
+  constructor() {
     /**
-     * Creates a ReducerRegistry instance.
+     * The set of registered reducers, keyed based on the field each reducer
+     * will manage.
+     *
+     * @private
+     * @type {NameReducerMap}
      */
-    constructor() {
-        /**
-         * The set of registered reducers, keyed based on the field each reducer
-         * will manage.
-         *
-         * @private
-         * @type {NameReducerMap}
-         */
-        this._elements = {};
-    }
+    this._elements = {};
+  }
 
-    /**
-     * Combines all registered reducers into a single reducing function.
-     *
-     * @param {Object} [additional={}] - Any additional reducers that need to be
-     * included (such as reducers from third-party modules).
-     * @returns {Function}
-     */
-    combineReducers(additional: NameReducerMap<*, *> = {}) {
-        // $FlowExpectedError
-        return combineReducers({
-            ...this._elements,
-            ...additional
-        });
-    }
+  /**
+   * Combines all registered reducers into a single reducing function.
+   *
+   * @param {Object} [additional={}] - Any additional reducers that need to be
+   * included (such as reducers from third-party modules).
+   * @returns {Function}
+   */
+  combineReducers(additional: NameReducerMap<*, *> = {}) {
+    // $FlowExpectedError
+    return combineReducers({
+      ...this._elements,
+      ...additional,
+    });
+  }
 
-    /**
-     * Adds a reducer to the registry.
-     *
-     * The method is to be invoked only before {@link #combineReducers()}.
-     *
-     * @param {string} name - The field in the state object that will be managed
-     * by the provided reducer.
-     * @param {Reducer} reducer - A Redux reducer.
-     * @returns {void}
-     */
-    register(name: string, reducer: Reducer<*, *>) {
-        this._elements[name] = reducer;
-    }
+  /**
+   * Adds a reducer to the registry.
+   *
+   * The method is to be invoked only before {@link #combineReducers()}.
+   *
+   * @param {string} name - The field in the state object that will be managed
+   * by the provided reducer.
+   * @param {Reducer} reducer - A Redux reducer.
+   * @returns {void}
+   */
+  register(name: string, reducer: Reducer<*, *>) {
+    this._elements[name] = reducer;
+  }
 }
 
 /**

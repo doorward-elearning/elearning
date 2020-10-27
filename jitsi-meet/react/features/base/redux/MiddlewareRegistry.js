@@ -8,45 +8,45 @@ import type { Middleware } from 'redux';
  * middleware without needing to create additional inter-feature dependencies.
  */
 class MiddlewareRegistry {
-    _elements: Array<Middleware<*, *>>;
+  _elements: Array<Middleware<*, *>>;
 
+  /**
+   * Creates a MiddlewareRegistry instance.
+   */
+  constructor() {
     /**
-     * Creates a MiddlewareRegistry instance.
+     * The set of registered middleware.
+     *
+     * @private
+     * @type {Middleware[]}
      */
-    constructor() {
-        /**
-         * The set of registered middleware.
-         *
-         * @private
-         * @type {Middleware[]}
-         */
-        this._elements = [];
-    }
+    this._elements = [];
+  }
 
-    /**
-     * Applies all registered middleware into a store enhancer.
-     * (@link http://redux.js.org/docs/api/applyMiddleware.html).
-     *
-     * @param {Middleware[]} additional - Any additional middleware that need to
-     * be included (such as middleware from third-party modules).
-     * @returns {Middleware}
-     */
-    applyMiddleware(...additional: Array<Middleware<*, *>>) {
-        // $FlowExpectedError
-        return applyMiddleware(...this._elements, ...additional);
-    }
+  /**
+   * Applies all registered middleware into a store enhancer.
+   * (@link http://redux.js.org/docs/api/applyMiddleware.html).
+   *
+   * @param {Middleware[]} additional - Any additional middleware that need to
+   * be included (such as middleware from third-party modules).
+   * @returns {Middleware}
+   */
+  applyMiddleware(...additional: Array<Middleware<*, *>>) {
+    // $FlowExpectedError
+    return applyMiddleware(...this._elements, ...additional);
+  }
 
-    /**
-     * Adds a middleware to the registry.
-     *
-     * The method is to be invoked only before {@link #applyMiddleware()}.
-     *
-     * @param {Middleware} middleware - A Redux middleware.
-     * @returns {void}
-     */
-    register(middleware: Middleware<*, *>) {
-        this._elements.push(middleware);
-    }
+  /**
+   * Adds a middleware to the registry.
+   *
+   * The method is to be invoked only before {@link #applyMiddleware()}.
+   *
+   * @param {Middleware} middleware - A Redux middleware.
+   * @returns {void}
+   */
+  register(middleware: Middleware<*, *>) {
+    this._elements.push(middleware);
+  }
 }
 
 /**

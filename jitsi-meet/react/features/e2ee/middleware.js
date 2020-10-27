@@ -14,30 +14,32 @@ import logger from './logger';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register(({ dispatch, getState }) => (next) => (action) => {
+  switch (action.type) {
     case SET_E2EE_KEY: {
-        const conference = getCurrentConference(getState);
+      const conference = getCurrentConference(getState);
 
-        if (conference) {
-            logger.debug(`New E2EE key: ${action.key}`);
-            conference.setE2EEKey(action.key);
+      if (conference) {
+        logger.debug(`New E2EE key: ${action.key}`);
+        conference.setE2EEKey(action.key);
 
-            // Broadccast that we enabled / disabled E2EE.
-            const participant = getLocalParticipant(getState);
+        // Broadccast that we enabled / disabled E2EE.
+        const participant = getLocalParticipant(getState);
 
-            dispatch(participantUpdated({
-                e2eeEnabled: Boolean(action.key),
-                id: participant.id,
-                local: true
-            }));
-        }
+        dispatch(
+          participantUpdated({
+            e2eeEnabled: Boolean(action.key),
+            id: participant.id,
+            local: true,
+          })
+        );
+      }
 
-        break;
+      break;
     }
-    }
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -45,9 +47,10 @@ MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
  * is left or failed.
  */
 StateListenerRegistry.register(
-    state => getCurrentConference(state),
-    (conference, { dispatch }, previousConference) => {
-        if (previousConference) {
-            dispatch(setE2EEKey(undefined));
-        }
-    });
+  (state) => getCurrentConference(state),
+  (conference, { dispatch }, previousConference) => {
+    if (previousConference) {
+      dispatch(setE2EEKey(undefined));
+    }
+  }
+);

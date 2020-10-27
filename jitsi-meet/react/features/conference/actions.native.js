@@ -2,10 +2,7 @@
 
 import type { Dispatch } from 'redux';
 
-import {
-    AlertDialog,
-    openDialog
-} from '../base/dialog';
+import { AlertDialog, openDialog } from '../base/dialog';
 import { getParticipantDisplayName } from '../base/participants';
 
 /**
@@ -17,15 +14,17 @@ import { getParticipantDisplayName } from '../base/participants';
  * @returns {Function}
  */
 export function notifyKickedOut(participant: Object, submit: ?Function) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        dispatch(openDialog(AlertDialog, {
-            contentKey: {
-                key: 'dialog.kickTitle',
-                params: {
-                    participantDisplayName: getParticipantDisplayName(getState, participant.getId())
-                }
-            },
-            onSubmit: submit
-        }));
-    };
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    dispatch(
+      openDialog(AlertDialog, {
+        contentKey: {
+          key: 'dialog.kickTitle',
+          params: {
+            participantDisplayName: getParticipantDisplayName(getState, participant.getId()),
+          },
+        },
+        onSubmit: submit,
+      })
+    );
+  };
 }

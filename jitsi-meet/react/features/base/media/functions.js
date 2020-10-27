@@ -12,7 +12,7 @@ import { VIDEO_MUTISM_AUTHORITY } from './constants';
  * @returns {boolean}
  */
 export function isAudioMuted(stateful: Function | Object) {
-    return Boolean(toState(stateful)['features/base/media'].audio.muted);
+  return Boolean(toState(stateful)['features/base/media'].audio.muted);
 }
 
 /**
@@ -23,8 +23,7 @@ export function isAudioMuted(stateful: Function | Object) {
  * @returns {boolean}
  */
 export function isVideoMutedByAudioOnly(stateful: Function | Object) {
-    return (
-        _isVideoMutedByAuthority(stateful, VIDEO_MUTISM_AUTHORITY.AUDIO_ONLY));
+  return _isVideoMutedByAuthority(stateful, VIDEO_MUTISM_AUTHORITY.AUDIO_ONLY);
 }
 
 /**
@@ -38,13 +37,11 @@ export function isVideoMutedByAudioOnly(stateful: Function | Object) {
  * @returns {boolean} If video is currently muted by the specified
  * {@code videoMutismAuthority}, then {@code true}; otherwise, {@code false}.
  */
-function _isVideoMutedByAuthority(
-        stateful: Function | Object,
-        videoMutismAuthority: number) {
-    const { muted } = toState(stateful)['features/base/media'].video;
+function _isVideoMutedByAuthority(stateful: Function | Object, videoMutismAuthority: number) {
+  const { muted } = toState(stateful)['features/base/media'].video;
 
-    // eslint-disable-next-line no-bitwise
-    return Boolean(muted & videoMutismAuthority);
+  // eslint-disable-next-line no-bitwise
+  return Boolean(muted & videoMutismAuthority);
 }
 
 /**
@@ -55,7 +52,7 @@ function _isVideoMutedByAuthority(
  * @returns {boolean}
  */
 export function isVideoMutedByUser(stateful: Function | Object) {
-    return _isVideoMutedByAuthority(stateful, VIDEO_MUTISM_AUTHORITY.USER);
+  return _isVideoMutedByAuthority(stateful, VIDEO_MUTISM_AUTHORITY.USER);
 }
 
 /**
@@ -69,10 +66,8 @@ export function isVideoMutedByUser(stateful: Function | Object) {
  * otherwise, false.
  */
 export function shouldRenderVideoTrack(
-        videoTrack: ?{ muted: boolean, videoStarted: boolean },
-        waitForVideoStarted: boolean) {
-    return (
-        videoTrack
-            && !videoTrack.muted
-            && (!waitForVideoStarted || videoTrack.videoStarted));
+  videoTrack: ?{ muted: boolean, videoStarted: boolean },
+  waitForVideoStarted: boolean
+) {
+  return videoTrack && !videoTrack.muted && (!waitForVideoStarted || videoTrack.videoStarted);
 }

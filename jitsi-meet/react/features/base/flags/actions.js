@@ -12,8 +12,8 @@ import { UPDATE_FLAGS } from './actionTypes';
  * }}
  */
 export function updateFlags(flags: Object) {
-    return {
-        type: UPDATE_FLAGS,
-        flags
-    };
+  return {
+    type: UPDATE_FLAGS,
+    flags,
+  };
 }

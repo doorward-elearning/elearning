@@ -21,13 +21,13 @@ import { EnterVideoLinkPrompt } from './components';
  * }}
  */
 export function setSharedVideoStatus(videoId: string, status: string, time: number, ownerId: string) {
-    return {
-        type: SET_SHARED_VIDEO_STATUS,
-        ownerId,
-        status,
-        time,
-        videoId
-    };
+  return {
+    type: SET_SHARED_VIDEO_STATUS,
+    ownerId,
+    status,
+    time,
+    videoId,
+  };
 }
 
 /**
@@ -38,9 +38,9 @@ export function setSharedVideoStatus(videoId: string, status: string, time: numb
  * }}
  */
 export function toggleSharedVideo() {
-    return {
-        type: 'TOGGLE_SHARED_VIDEO'
-    };
+  return {
+    type: 'TOGGLE_SHARED_VIDEO',
+  };
 }
 
 /**
@@ -50,5 +50,5 @@ export function toggleSharedVideo() {
  * @returns {Function}
  */
 export function showEnterVideoLinkPrompt(onPostSubmit: ?Function) {
-    return openDialog(EnterVideoLinkPrompt, { onPostSubmit });
+  return openDialog(EnterVideoLinkPrompt, { onPostSubmit });
 }

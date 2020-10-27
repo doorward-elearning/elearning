@@ -7,24 +7,18 @@ import { isMobileBrowser } from './utils';
 
 const { browser } = JitsiMeetJS.util;
 
-const DEFAULT_OPTIMAL_BROWSERS = [
-    'chrome',
-    'electron',
-    'firefox',
-    'nwjs',
-    'safari'
-];
+const DEFAULT_OPTIMAL_BROWSERS = ['chrome', 'electron', 'firefox', 'nwjs', 'safari'];
 
 const DEFAULT_UNSUPPORTED_BROWSERS = [];
 
 const browserNameToCheck = {
-    chrome: browser.isChrome.bind(browser),
-    chromium: browser.isChromiumBased.bind(browser),
-    electron: browser.isElectron.bind(browser),
-    firefox: browser.isFirefox.bind(browser),
-    nwjs: browser.isNWJS.bind(browser),
-    opera: browser.isOpera.bind(browser),
-    safari: browser.isSafari.bind(browser)
+  chrome: browser.isChrome.bind(browser),
+  chromium: browser.isChromiumBased.bind(browser),
+  electron: browser.isElectron.bind(browser),
+  firefox: browser.isFirefox.bind(browser),
+  nwjs: browser.isNWJS.bind(browser),
+  opera: browser.isOpera.bind(browser),
+  safari: browser.isSafari.bind(browser),
 };
 
 declare var interfaceConfig: Object;
@@ -37,8 +31,7 @@ declare var interfaceConfig: Object;
  * @returns {boolean}
  */
 export function isBrowsersOptimal(browserName: string) {
-    return (interfaceConfig.OPTIMAL_BROWSERS || DEFAULT_OPTIMAL_BROWSERS)
-        .includes(browserName);
+  return (interfaceConfig.OPTIMAL_BROWSERS || DEFAULT_OPTIMAL_BROWSERS).includes(browserName);
 }
 
 /**
@@ -52,10 +45,9 @@ export function isBrowsersOptimal(browserName: string) {
  * @returns {boolean}
  */
 export function isSuboptimalBrowser() {
-    const optimalBrowsers
-        = interfaceConfig.OPTIMAL_BROWSERS || DEFAULT_OPTIMAL_BROWSERS;
+  const optimalBrowsers = interfaceConfig.OPTIMAL_BROWSERS || DEFAULT_OPTIMAL_BROWSERS;
 
-    return !_isCurrentBrowserInList(optimalBrowsers) && isSupportedBrowser();
+  return !_isCurrentBrowserInList(optimalBrowsers) && isSupportedBrowser();
 }
 
 /**
@@ -65,22 +57,23 @@ export function isSuboptimalBrowser() {
  * @returns {boolean}
  */
 export function isSupportedBrowser() {
-    if (navigator.product === 'ReactNative') {
-        return false;
-    }
+  if (navigator.product === 'ReactNative') {
+    return false;
+  }
 
-    // Blacklists apply to desktop browsers only right now.
-    if (!isMobileBrowser() && _isCurrentBrowserInList(
-        interfaceConfig.UNSUPPORTED_BROWSERS || DEFAULT_UNSUPPORTED_BROWSERS
-    )) {
-        return false;
-    }
+  // Blacklists apply to desktop browsers only right now.
+  if (
+    !isMobileBrowser() &&
+    _isCurrentBrowserInList(interfaceConfig.UNSUPPORTED_BROWSERS || DEFAULT_UNSUPPORTED_BROWSERS)
+  ) {
+    return false;
+  }
 
-    // We are intentionally allow mobile browsers because:
-    // - the WelcomePage is mobile ready;
-    // - if the URL points to a conference then deep-linking will take
-    //   care of it.
-    return isMobileBrowser() || JitsiMeetJS.isWebRtcSupported();
+  // We are intentionally allow mobile browsers because:
+  // - the WelcomePage is mobile ready;
+  // - if the URL points to a conference then deep-linking will take
+  //   care of it.
+  return isMobileBrowser() || JitsiMeetJS.isWebRtcSupported();
 }
 
 /**
@@ -90,9 +83,11 @@ export function isSupportedBrowser() {
  * @returns {boolean}
  */
 export function isSupportedMobileBrowser() {
-    return (Platform.OS === 'android' && browser.isChromiumBased())
-        || (Platform.OS === 'android' && browser.isFirefox())
-        || (Platform.OS === 'ios' && browser.isSafari());
+  return (
+    (Platform.OS === 'android' && browser.isChromiumBased()) ||
+    (Platform.OS === 'android' && browser.isFirefox()) ||
+    (Platform.OS === 'ios' && browser.isSafari())
+  );
 }
 
 /**
@@ -105,9 +100,11 @@ export function isSupportedMobileBrowser() {
  * @returns {boolean}
  */
 function _isCurrentBrowserInList(list) {
-    return Boolean(list.find(browserName => {
-        const checkFunction = browserNameToCheck[browserName];
+  return Boolean(
+    list.find((browserName) => {
+      const checkFunction = browserNameToCheck[browserName];
 
-        return checkFunction ? checkFunction.call(browser) : false;
-    }));
+      return checkFunction ? checkFunction.call(browser) : false;
+    })
+  );
 }

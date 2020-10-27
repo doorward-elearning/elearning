@@ -18,31 +18,31 @@ import '../reducers';
  * @extends AbstractApp
  */
 export class App extends AbstractApp {
-    /**
-     * Overrides the parent method to inject {@link AtlasKitThemeProvider} as
-     * the top most component.
-     *
-     * @override
-     */
-    _createMainElement(component, props) {
-        return (
-            <AtlasKitThemeProvider mode = 'dark'>
-                <ChromeExtensionBanner />
-                { super._createMainElement(component, props) }
-            </AtlasKitThemeProvider>
-        );
-    }
+  /**
+   * Overrides the parent method to inject {@link AtlasKitThemeProvider} as
+   * the top most component.
+   *
+   * @override
+   */
+  _createMainElement(component, props) {
+    return (
+      <AtlasKitThemeProvider mode="dark">
+        <ChromeExtensionBanner />
+        {super._createMainElement(component, props)}
+      </AtlasKitThemeProvider>
+    );
+  }
 
-    /**
-     * Renders the platform specific dialog container.
-     *
-     * @returns {React$Element}
-     */
-    _renderDialogContainer() {
-        return (
-            <AtlasKitThemeProvider mode = 'dark'>
-                <DialogContainer />
-            </AtlasKitThemeProvider>
-        );
-    }
+  /**
+   * Renders the platform specific dialog container.
+   *
+   * @returns {React$Element}
+   */
+  _renderDialogContainer() {
+    return (
+      <AtlasKitThemeProvider mode="dark">
+        <DialogContainer />
+      </AtlasKitThemeProvider>
+    );
+  }
 }

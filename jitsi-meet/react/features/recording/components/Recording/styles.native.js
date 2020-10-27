@@ -15,55 +15,54 @@ const _PADDING = BoxModel.padding * 1.5;
  * Color schemed styles for the @{code StartRecordingDialogContent} component.
  */
 ColorSchemeRegistry.register('StartRecordingDialogContent', {
+  container: {
+    flex: 0,
+    flexDirection: 'column',
+  },
 
-    container: {
-        flex: 0,
-        flexDirection: 'column'
-    },
+  controlDisabled: {
+    opacity: 0.5,
+  },
 
-    controlDisabled: {
-        opacity: 0.5
-    },
+  header: {
+    alignItems: 'center',
+    flex: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingBottom: _PADDING,
+    paddingTop: _PADDING,
+  },
 
-    header: {
-        alignItems: 'center',
-        flex: 0,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        paddingBottom: _PADDING,
-        paddingTop: _PADDING
-    },
+  loggedIn: {
+    paddingBottom: _PADDING,
+  },
 
-    loggedIn: {
-        paddingBottom: _PADDING
-    },
+  recordingIcon: {
+    width: 24,
+    height: 24,
+  },
 
-    recordingIcon: {
-        width: 24,
-        height: 24
-    },
+  signButton: {
+    backgroundColor: ColorPalette.blue,
+    color: ColorPalette.white,
+    fontSize: 16,
+    borderRadius: 5,
+    padding: BoxModel.padding * 0.5,
+  },
 
-    signButton: {
-        backgroundColor: ColorPalette.blue,
-        color: ColorPalette.white,
-        fontSize: 16,
-        borderRadius: 5,
-        padding: BoxModel.padding * 0.5
-    },
+  switch: {
+    color: ColorPalette.white,
+  },
 
-    switch: {
-        color: ColorPalette.white
-    },
+  title: {
+    flex: 1,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    paddingLeft: BoxModel.padding,
+  },
 
-    title: {
-        flex: 1,
-        fontSize: 16,
-        fontWeight: 'bold',
-        textAlign: 'left',
-        paddingLeft: BoxModel.padding
-    },
-
-    text: {
-        color: schemeColor('text')
-    }
+  text: {
+    color: schemeColor('text'),
+  },
 });

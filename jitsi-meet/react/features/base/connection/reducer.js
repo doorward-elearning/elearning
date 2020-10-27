@@ -5,42 +5,40 @@ import { JitsiConnectionErrors } from '../lib-jitsi-meet';
 import { assign, set, ReducerRegistry } from '../redux';
 
 import {
-    CONNECTION_DISCONNECTED,
-    CONNECTION_ESTABLISHED,
-    CONNECTION_FAILED,
-    CONNECTION_WILL_CONNECT,
-    SET_LOCATION_URL
+  CONNECTION_DISCONNECTED,
+  CONNECTION_ESTABLISHED,
+  CONNECTION_FAILED,
+  CONNECTION_WILL_CONNECT,
+  SET_LOCATION_URL,
 } from './actionTypes';
 import type { ConnectionFailedError } from './actions.native';
 
 /**
  * Reduces the Redux actions of the feature base/connection.
  */
-ReducerRegistry.register(
-    'features/base/connection',
-    (state: Object = {}, action: Object) => {
-        switch (action.type) {
-        case CONNECTION_DISCONNECTED:
-            return _connectionDisconnected(state, action);
+ReducerRegistry.register('features/base/connection', (state: Object = {}, action: Object) => {
+  switch (action.type) {
+    case CONNECTION_DISCONNECTED:
+      return _connectionDisconnected(state, action);
 
-        case CONNECTION_ESTABLISHED:
-            return _connectionEstablished(state, action);
+    case CONNECTION_ESTABLISHED:
+      return _connectionEstablished(state, action);
 
-        case CONNECTION_FAILED:
-            return _connectionFailed(state, action);
+    case CONNECTION_FAILED:
+      return _connectionFailed(state, action);
 
-        case CONNECTION_WILL_CONNECT:
-            return _connectionWillConnect(state, action);
+    case CONNECTION_WILL_CONNECT:
+      return _connectionWillConnect(state, action);
 
-        case SET_LOCATION_URL:
-            return _setLocationURL(state, action);
+    case SET_LOCATION_URL:
+      return _setLocationURL(state, action);
 
-        case SET_ROOM:
-            return _setRoom(state);
-        }
+    case SET_ROOM:
+      return _setRoom(state);
+  }
 
-        return state;
-    });
+  return state;
+});
 
 /**
  * Reduces a specific Redux action CONNECTION_DISCONNECTED of the feature
@@ -52,20 +50,18 @@ ReducerRegistry.register(
  * @returns {Object} The new state of the feature base/connection after the
  * reduction of the specified action.
  */
-function _connectionDisconnected(
-        state: Object,
-        { connection }: { connection: Object }) {
-    const connection_ = _getCurrentConnection(state);
+function _connectionDisconnected(state: Object, { connection }: { connection: Object }) {
+  const connection_ = _getCurrentConnection(state);
 
-    if (connection_ !== connection) {
-        return state;
-    }
+  if (connection_ !== connection) {
+    return state;
+  }
 
-    return assign(state, {
-        connecting: undefined,
-        connection: undefined,
-        timeEstablished: undefined
-    });
+  return assign(state, {
+    connecting: undefined,
+    connection: undefined,
+    timeEstablished: undefined,
+  });
 }
 
 /**
@@ -79,18 +75,22 @@ function _connectionDisconnected(
  * reduction of the specified action.
  */
 function _connectionEstablished(
-        state: Object,
-        { connection, timeEstablished }: {
-            connection: Object,
-            timeEstablished: number
-        }) {
-    return assign(state, {
-        connecting: undefined,
-        connection,
-        error: undefined,
-        passwordRequired: undefined,
-        timeEstablished
-    });
+  state: Object,
+  {
+    connection,
+    timeEstablished,
+  }: {
+    connection: Object,
+    timeEstablished: number,
+  }
+) {
+  return assign(state, {
+    connecting: undefined,
+    connection,
+    error: undefined,
+    passwordRequired: undefined,
+    timeEstablished,
+  });
 }
 
 /**
@@ -104,25 +104,27 @@ function _connectionEstablished(
  * reduction of the specified action.
  */
 function _connectionFailed(
-        state: Object,
-        { connection, error }: {
-            connection: Object,
-            error: ConnectionFailedError
-        }) {
-    const connection_ = _getCurrentConnection(state);
+  state: Object,
+  {
+    connection,
+    error,
+  }: {
+    connection: Object,
+    error: ConnectionFailedError,
+  }
+) {
+  const connection_ = _getCurrentConnection(state);
 
-    if (connection_ && connection_ !== connection) {
-        return state;
-    }
+  if (connection_ && connection_ !== connection) {
+    return state;
+  }
 
-    return assign(state, {
-        connecting: undefined,
-        connection: undefined,
-        error,
-        passwordRequired:
-            error.name === JitsiConnectionErrors.PASSWORD_REQUIRED
-                ? connection : undefined
-    });
+  return assign(state, {
+    connecting: undefined,
+    connection: undefined,
+    error,
+    passwordRequired: error.name === JitsiConnectionErrors.PASSWORD_REQUIRED ? connection : undefined,
+  });
 }
 
 /**
@@ -135,20 +137,18 @@ function _connectionFailed(
  * @returns {Object} The new state of the feature base/connection after the
  * reduction of the specified action.
  */
-function _connectionWillConnect(
-        state: Object,
-        { connection }: { connection: Object }) {
-    return assign(state, {
-        connecting: connection,
+function _connectionWillConnect(state: Object, { connection }: { connection: Object }) {
+  return assign(state, {
+    connecting: connection,
 
-        // We don't care if the previous connection has been closed already,
-        // because it's an async process and there's no guarantee if it'll be
-        // done before the new one is established.
-        connection: undefined,
-        error: undefined,
-        passwordRequired: undefined,
-        timeEstablished: undefined
-    });
+    // We don't care if the previous connection has been closed already,
+    // because it's an async process and there's no guarantee if it'll be
+    // done before the new one is established.
+    connection: undefined,
+    error: undefined,
+    passwordRequired: undefined,
+    timeEstablished: undefined,
+  });
 }
 
 /**
@@ -161,7 +161,7 @@ function _connectionWillConnect(
  * @private
  */
 function _getCurrentConnection(baseConnectionState: Object): ?Object {
-    return baseConnectionState.connection || baseConnectionState.connecting;
+  return baseConnectionState.connection || baseConnectionState.connecting;
 }
 
 /**
@@ -174,10 +174,8 @@ function _getCurrentConnection(baseConnectionState: Object): ?Object {
  * @returns {Object} The new state of the feature base/connection after the
  * reduction of the specified action.
  */
-function _setLocationURL(
-        state: Object,
-        { locationURL }: { locationURL: ?URL }) {
-    return set(state, 'locationURL', locationURL);
+function _setLocationURL(state: Object, { locationURL }: { locationURL: ?URL }) {
+  return set(state, 'locationURL', locationURL);
 }
 
 /**
@@ -190,8 +188,8 @@ function _setLocationURL(
  * reduction of the specified action.
  */
 function _setRoom(state: Object) {
-    return assign(state, {
-        error: undefined,
-        passwordRequired: undefined
-    });
+  return assign(state, {
+    error: undefined,
+    passwordRequired: undefined,
+  });
 }

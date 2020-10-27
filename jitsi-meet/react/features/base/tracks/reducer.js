@@ -2,14 +2,14 @@ import { PARTICIPANT_ID_CHANGED } from '../participants';
 import { ReducerRegistry, set } from '../redux';
 
 import {
-    SET_NO_SRC_DATA_NOTIFICATION_UID,
-    TRACK_ADDED,
-    TRACK_CREATE_CANCELED,
-    TRACK_CREATE_ERROR,
-    TRACK_NO_DATA_FROM_SOURCE,
-    TRACK_REMOVED,
-    TRACK_UPDATED,
-    TRACK_WILL_CREATE
+  SET_NO_SRC_DATA_NOTIFICATION_UID,
+  TRACK_ADDED,
+  TRACK_CREATE_CANCELED,
+  TRACK_CREATE_ERROR,
+  TRACK_NO_DATA_FROM_SOURCE,
+  TRACK_REMOVED,
+  TRACK_UPDATED,
+  TRACK_WILL_CREATE,
 } from './actionTypes';
 
 /**
@@ -49,102 +49,99 @@ import {
  * @returns {Track|undefined}
  */
 function track(state, action) {
-    switch (action.type) {
+  switch (action.type) {
     case PARTICIPANT_ID_CHANGED:
-        if (state.participantId === action.oldValue) {
-            return {
-                ...state,
-                participantId: action.newValue
-            };
-        }
-        break;
+      if (state.participantId === action.oldValue) {
+        return {
+          ...state,
+          participantId: action.newValue,
+        };
+      }
+      break;
 
     case TRACK_UPDATED: {
-        const t = action.track;
+      const t = action.track;
 
-        if (state.jitsiTrack === t.jitsiTrack) {
-            // Make sure that there's an actual update in order to reduce the
-            // risk of unnecessary React Component renders.
-            for (const p in t) {
-                if (state[p] !== t[p]) {
-                    // There's an actual update.
-                    return {
-                        ...state,
-                        ...t
-                    };
-                }
-            }
+      if (state.jitsiTrack === t.jitsiTrack) {
+        // Make sure that there's an actual update in order to reduce the
+        // risk of unnecessary React Component renders.
+        for (const p in t) {
+          if (state[p] !== t[p]) {
+            // There's an actual update.
+            return {
+              ...state,
+              ...t,
+            };
+          }
         }
-        break;
+      }
+      break;
     }
     case TRACK_NO_DATA_FROM_SOURCE: {
-        const t = action.track;
+      const t = action.track;
 
-        if (state.jitsiTrack === t.jitsiTrack) {
-            const isReceivingData = t.jitsiTrack.isReceivingData();
+      if (state.jitsiTrack === t.jitsiTrack) {
+        const isReceivingData = t.jitsiTrack.isReceivingData();
 
-            if (state.isReceivingData !== isReceivingData) {
-                return {
-                    ...state,
-                    isReceivingData
-                };
-            }
+        if (state.isReceivingData !== isReceivingData) {
+          return {
+            ...state,
+            isReceivingData,
+          };
         }
-        break;
+      }
+      break;
     }
-    }
+  }
 
-    return state;
+  return state;
 }
 
 /**
  * Listen for actions that mutate (e.g. add, remove) local and remote tracks.
  */
 ReducerRegistry.register('features/base/tracks', (state = [], action) => {
-    switch (action.type) {
+  switch (action.type) {
     case PARTICIPANT_ID_CHANGED:
     case TRACK_NO_DATA_FROM_SOURCE:
     case TRACK_UPDATED:
-        return state.map(t => track(t, action));
+      return state.map((t) => track(t, action));
 
     case TRACK_ADDED: {
-        let withoutTrackStub = state;
+      let withoutTrackStub = state;
 
-        if (action.track.local) {
-            withoutTrackStub
-                = state.filter(
-                    t => !t.local || t.mediaType !== action.track.mediaType);
-        }
+      if (action.track.local) {
+        withoutTrackStub = state.filter((t) => !t.local || t.mediaType !== action.track.mediaType);
+      }
 
-        return [ ...withoutTrackStub, action.track ];
+      return [...withoutTrackStub, action.track];
     }
 
     case TRACK_CREATE_CANCELED:
     case TRACK_CREATE_ERROR: {
-        return state.filter(t => !t.local || t.mediaType !== action.trackType);
+      return state.filter((t) => !t.local || t.mediaType !== action.trackType);
     }
 
     case TRACK_REMOVED:
-        return state.filter(t => t.jitsiTrack !== action.track.jitsiTrack);
+      return state.filter((t) => t.jitsiTrack !== action.track.jitsiTrack);
 
     case TRACK_WILL_CREATE:
-        return [ ...state, action.track ];
+      return [...state, action.track];
 
     default:
-        return state;
-    }
+      return state;
+  }
 });
 
 /**
  * Listen for actions that mutate the no-src-data state, like the current notification id
  */
 ReducerRegistry.register('features/base/no-src-data', (state = {}, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case SET_NO_SRC_DATA_NOTIFICATION_UID:
-        return set(state, 'noSrcDataNotificationUid', action.uid);
+      return set(state, 'noSrcDataNotificationUid', action.uid);
 
     default:
-        return state;
-    }
+      return state;
+  }
 });
-

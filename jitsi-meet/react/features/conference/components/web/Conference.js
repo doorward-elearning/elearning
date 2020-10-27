@@ -18,10 +18,7 @@ import { fullScreenChanged, setToolboxAlwaysVisible, showToolbox } from '../../.
 import { Toolbox } from '../../../toolbox/components/web';
 import { LAYOUTS, getCurrentLayout } from '../../../video-layout';
 import { maybeShowSuboptimalExperienceNotification } from '../../functions';
-import {
-    AbstractConference,
-    abstractMapStateToProps
-} from '../AbstractConference';
+import { AbstractConference, abstractMapStateToProps } from '../AbstractConference';
 import type { AbstractProps } from '../AbstractConference';
 
 import Labels from './Labels';
@@ -38,11 +35,7 @@ declare var interfaceConfig: Object;
  * @private
  * @type {Array<string>}
  */
-const FULL_SCREEN_EVENTS = [
-    'webkitfullscreenchange',
-    'mozfullscreenchange',
-    'fullscreenchange'
-];
+const FULL_SCREEN_EVENTS = ['webkitfullscreenchange', 'mozfullscreenchange', 'fullscreenchange'];
 
 /**
  * The CSS class to apply to the root element of the conference so CSS can
@@ -52,214 +45,197 @@ const FULL_SCREEN_EVENTS = [
  * @type {Object}
  */
 const LAYOUT_CLASSNAMES = {
-    [LAYOUTS.HORIZONTAL_FILMSTRIP_VIEW]: 'horizontal-filmstrip',
-    [LAYOUTS.TILE_VIEW]: 'tile-view',
-    [LAYOUTS.VERTICAL_FILMSTRIP_VIEW]: 'vertical-filmstrip'
+  [LAYOUTS.HORIZONTAL_FILMSTRIP_VIEW]: 'horizontal-filmstrip',
+  [LAYOUTS.TILE_VIEW]: 'tile-view',
+  [LAYOUTS.VERTICAL_FILMSTRIP_VIEW]: 'vertical-filmstrip',
 };
 
 /**
  * The type of the React {@code Component} props of {@link Conference}.
  */
 type Props = AbstractProps & {
+  /**
+   * Whether the local participant is recording the conference.
+   */
+  _iAmRecorder: boolean,
 
-    /**
-     * Whether the local participant is recording the conference.
-     */
-    _iAmRecorder: boolean,
+  /**
+   * Returns true if the 'lobby screen' is visible.
+   */
+  _isLobbyScreenVisible: boolean,
 
-    /**
-     * Returns true if the 'lobby screen' is visible.
-     */
-    _isLobbyScreenVisible: boolean,
+  /**
+   * The CSS class to apply to the root of {@link Conference} to modify the
+   * application layout.
+   */
+  _layoutClassName: string,
 
-    /**
-     * The CSS class to apply to the root of {@link Conference} to modify the
-     * application layout.
-     */
-    _layoutClassName: string,
+  /**
+   * Name for this conference room.
+   */
+  _roomName: string,
 
-    /**
-     * Name for this conference room.
-     */
-    _roomName: string,
+  /**
+   * If prejoin page is visible or not.
+   */
+  _showPrejoin: boolean,
 
-    /**
-     * If prejoin page is visible or not.
-     */
-    _showPrejoin: boolean,
-
-    dispatch: Function,
-    t: Function
-}
+  dispatch: Function,
+  t: Function,
+};
 
 /**
  * The conference page of the Web application.
  */
 class Conference extends AbstractConference<Props, *> {
-    _onFullScreenChange: Function;
-    _onShowToolbar: Function;
-    _originalOnShowToolbar: Function;
+  _onFullScreenChange: Function;
+  _onShowToolbar: Function;
+  _originalOnShowToolbar: Function;
 
-    /**
-     * Initializes a new Conference instance.
-     *
-     * @param {Object} props - The read-only properties with which the new
-     * instance is to be initialized.
-     */
-    constructor(props) {
-        super(props);
+  /**
+   * Initializes a new Conference instance.
+   *
+   * @param {Object} props - The read-only properties with which the new
+   * instance is to be initialized.
+   */
+  constructor(props) {
+    super(props);
 
-        // Throttle and bind this component's mousemove handler to prevent it
-        // from firing too often.
-        this._originalOnShowToolbar = this._onShowToolbar;
-        this._onShowToolbar = _.throttle(
-            () => this._originalOnShowToolbar(),
-            100,
-            {
-                leading: true,
-                trailing: false
-            });
+    // Throttle and bind this component's mousemove handler to prevent it
+    // from firing too often.
+    this._originalOnShowToolbar = this._onShowToolbar;
+    this._onShowToolbar = _.throttle(() => this._originalOnShowToolbar(), 100, {
+      leading: true,
+      trailing: false,
+    });
 
-        // Bind event handler so it is only bound once for every instance.
-        this._onFullScreenChange = this._onFullScreenChange.bind(this);
+    // Bind event handler so it is only bound once for every instance.
+    this._onFullScreenChange = this._onFullScreenChange.bind(this);
+  }
+
+  /**
+   * Start the connection and get the UI ready for the conference.
+   *
+   * @inheritdoc
+   */
+  componentDidMount() {
+    document.title = `${this.props._roomName} | ${interfaceConfig.APP_NAME}`;
+    this._start();
+  }
+
+  /**
+   * Calls into legacy UI to update the application layout, if necessary.
+   *
+   * @inheritdoc
+   * returns {void}
+   */
+  componentDidUpdate(prevProps) {
+    if (this.props._shouldDisplayTileView === prevProps._shouldDisplayTileView) {
+      return;
     }
 
-    /**
-     * Start the connection and get the UI ready for the conference.
-     *
-     * @inheritdoc
-     */
-    componentDidMount() {
-        document.title = `${this.props._roomName} | ${interfaceConfig.APP_NAME}`;
-        this._start();
-    }
+    // TODO: For now VideoLayout is being called as LargeVideo and Filmstrip
+    // sizing logic is still handled outside of React. Once all components
+    // are in react they should calculate size on their own as much as
+    // possible and pass down sizings.
+    VideoLayout.refreshLayout();
+  }
 
-    /**
-     * Calls into legacy UI to update the application layout, if necessary.
-     *
-     * @inheritdoc
-     * returns {void}
-     */
-    componentDidUpdate(prevProps) {
-        if (this.props._shouldDisplayTileView
-            === prevProps._shouldDisplayTileView) {
-            return;
-        }
+  /**
+   * Disconnect from the conference when component will be
+   * unmounted.
+   *
+   * @inheritdoc
+   */
+  componentWillUnmount() {
+    APP.UI.unbindEvents();
 
-        // TODO: For now VideoLayout is being called as LargeVideo and Filmstrip
-        // sizing logic is still handled outside of React. Once all components
-        // are in react they should calculate size on their own as much as
-        // possible and pass down sizings.
-        VideoLayout.refreshLayout();
-    }
+    FULL_SCREEN_EVENTS.forEach((name) => document.removeEventListener(name, this._onFullScreenChange));
 
-    /**
-     * Disconnect from the conference when component will be
-     * unmounted.
-     *
-     * @inheritdoc
-     */
-    componentWillUnmount() {
-        APP.UI.unbindEvents();
+    APP.conference.isJoined() && this.props.dispatch(disconnect());
+  }
 
-        FULL_SCREEN_EVENTS.forEach(name =>
-            document.removeEventListener(name, this._onFullScreenChange));
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const {
+      // XXX The character casing of the name filmStripOnly utilized by
+      // interfaceConfig is obsolete but legacy support is required.
+      filmStripOnly: filmstripOnly,
+    } = interfaceConfig;
+    const { _iAmRecorder, _isLobbyScreenVisible, _layoutClassName, _showPrejoin } = this.props;
+    const hideLabels = filmstripOnly || _iAmRecorder;
 
-        APP.conference.isJoined() && this.props.dispatch(disconnect());
-    }
+    return (
+      <div className={_layoutClassName} id="videoconference_page" onMouseMove={this._onShowToolbar}>
+        <Notice />
+        <div id="videospace">
+          <LargeVideo />
+          <KnockingParticipantList />
+          <Filmstrip filmstripOnly={filmstripOnly} />
+          {hideLabels || <Labels />}
+        </div>
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const {
-            // XXX The character casing of the name filmStripOnly utilized by
-            // interfaceConfig is obsolete but legacy support is required.
-            filmStripOnly: filmstripOnly
-        } = interfaceConfig;
-        const {
-            _iAmRecorder,
-            _isLobbyScreenVisible,
-            _layoutClassName,
-            _showPrejoin
-        } = this.props;
-        const hideLabels = filmstripOnly || _iAmRecorder;
+        {filmstripOnly || _showPrejoin || _isLobbyScreenVisible || <Toolbox />}
+        {filmstripOnly || <Chat />}
 
-        return (
-            <div
-                className = { _layoutClassName }
-                id = 'videoconference_page'
-                onMouseMove = { this._onShowToolbar }>
+        {this.renderNotificationsContainer()}
 
-                <Notice />
-                <div id = 'videospace'>
-                    <LargeVideo />
-                    <KnockingParticipantList />
-                    <Filmstrip filmstripOnly = { filmstripOnly } />
-                    { hideLabels || <Labels /> }
-                </div>
+        <CalleeInfoContainer />
 
-                { filmstripOnly || _showPrejoin || _isLobbyScreenVisible || <Toolbox /> }
-                { filmstripOnly || <Chat /> }
+        {!filmstripOnly && _showPrejoin && <Prejoin />}
+      </div>
+    );
+  }
 
-                { this.renderNotificationsContainer() }
+  /**
+   * Updates the Redux state when full screen mode has been enabled or
+   * disabled.
+   *
+   * @private
+   * @returns {void}
+   */
+  _onFullScreenChange() {
+    this.props.dispatch(fullScreenChanged(APP.UI.isFullScreen()));
+  }
 
-                <CalleeInfoContainer />
+  /**
+   * Displays the toolbar.
+   *
+   * @private
+   * @returns {void}
+   */
+  _onShowToolbar() {
+    this.props.dispatch(showToolbox());
+  }
 
-                { !filmstripOnly && _showPrejoin && <Prejoin />}
-            </div>
-        );
-    }
+  /**
+   * Until we don't rewrite UI using react components
+   * we use UI.start from old app. Also method translates
+   * component right after it has been mounted.
+   *
+   * @inheritdoc
+   */
+  _start() {
+    APP.UI.start();
 
-    /**
-     * Updates the Redux state when full screen mode has been enabled or
-     * disabled.
-     *
-     * @private
-     * @returns {void}
-     */
-    _onFullScreenChange() {
-        this.props.dispatch(fullScreenChanged(APP.UI.isFullScreen()));
-    }
+    APP.UI.registerListeners();
+    APP.UI.bindEvents();
 
-    /**
-     * Displays the toolbar.
-     *
-     * @private
-     * @returns {void}
-     */
-    _onShowToolbar() {
-        this.props.dispatch(showToolbox());
-    }
+    FULL_SCREEN_EVENTS.forEach((name) => document.addEventListener(name, this._onFullScreenChange));
 
-    /**
-     * Until we don't rewrite UI using react components
-     * we use UI.start from old app. Also method translates
-     * component right after it has been mounted.
-     *
-     * @inheritdoc
-     */
-    _start() {
-        APP.UI.start();
+    const { dispatch, t } = this.props;
 
-        APP.UI.registerListeners();
-        APP.UI.bindEvents();
+    dispatch(connect());
 
-        FULL_SCREEN_EVENTS.forEach(name =>
-            document.addEventListener(name, this._onFullScreenChange));
+    maybeShowSuboptimalExperienceNotification(dispatch, t);
 
-        const { dispatch, t } = this.props;
-
-        dispatch(connect());
-
-        maybeShowSuboptimalExperienceNotification(dispatch, t);
-
-        interfaceConfig.filmStripOnly
-            && dispatch(setToolboxAlwaysVisible(true));
-    }
+    interfaceConfig.filmStripOnly && dispatch(setToolboxAlwaysVisible(true));
+  }
 }
 
 /**
@@ -271,14 +247,14 @@ class Conference extends AbstractConference<Props, *> {
  * @returns {Props}
  */
 function _mapStateToProps(state) {
-    return {
-        ...abstractMapStateToProps(state),
-        _iAmRecorder: state['features/base/config'].iAmRecorder,
-        _isLobbyScreenVisible: state['features/base/dialog']?.component === LobbyScreen,
-        _layoutClassName: LAYOUT_CLASSNAMES[getCurrentLayout(state)],
-        _roomName: getConferenceNameForTitle(state),
-        _showPrejoin: isPrejoinPageVisible(state)
-    };
+  return {
+    ...abstractMapStateToProps(state),
+    _iAmRecorder: state['features/base/config'].iAmRecorder,
+    _isLobbyScreenVisible: state['features/base/dialog']?.component === LobbyScreen,
+    _layoutClassName: LAYOUT_CLASSNAMES[getCurrentLayout(state)],
+    _roomName: getConferenceNameForTitle(state),
+    _showPrejoin: isPrejoinPageVisible(state),
+  };
 }
 
 export default reactReduxConnect(_mapStateToProps)(translate(Conference));

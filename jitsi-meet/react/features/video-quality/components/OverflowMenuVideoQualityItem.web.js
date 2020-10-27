@@ -5,11 +5,11 @@ import React, { Component } from 'react';
 import { VIDEO_QUALITY_LEVELS } from '../../base/conference/constants';
 import { translate } from '../../base/i18n';
 import {
-    Icon,
-    IconVideoQualityAudioOnly,
-    IconVideoQualityHD,
-    IconVideoQualityLD,
-    IconVideoQualitySD
+  Icon,
+  IconVideoQualityAudioOnly,
+  IconVideoQualityHD,
+  IconVideoQualityLD,
+  IconVideoQualitySD,
 } from '../../base/icons';
 import { connect } from '../../base/redux';
 
@@ -20,9 +20,9 @@ import { connect } from '../../base/redux';
  * @type {Object}
  */
 const VIDEO_QUALITY_TO_ICON = {
-    [VIDEO_QUALITY_LEVELS.HIGH]: IconVideoQualityHD,
-    [VIDEO_QUALITY_LEVELS.STANDARD]: IconVideoQualitySD,
-    [VIDEO_QUALITY_LEVELS.LOW]: IconVideoQualityLD
+  [VIDEO_QUALITY_LEVELS.HIGH]: IconVideoQualityHD,
+  [VIDEO_QUALITY_LEVELS.STANDARD]: IconVideoQualitySD,
+  [VIDEO_QUALITY_LEVELS.LOW]: IconVideoQualityLD,
 };
 
 /**
@@ -30,27 +30,26 @@ const VIDEO_QUALITY_TO_ICON = {
  * {@link OverflowMenuVideoQualityItem}.
  */
 type Props = {
+  /**
+   * Whether or not audio only mode is currently enabled.
+   */
+  _audioOnly: boolean,
 
-    /**
-     * Whether or not audio only mode is currently enabled.
-     */
-    _audioOnly: boolean,
+  /**
+   * The currently configured maximum quality resolution to be received from
+   * and sent to remote participants.
+   */
+  _videoQuality: number,
 
-    /**
-     * The currently configured maximum quality resolution to be received from
-     * and sent to remote participants.
-     */
-    _videoQuality: number,
+  /**
+   * Callback to invoke when {@link OverflowMenuVideoQualityItem} is clicked.
+   */
+  onClick: Function,
 
-    /**
-     * Callback to invoke when {@link OverflowMenuVideoQualityItem} is clicked.
-     */
-    onClick: Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -61,33 +60,29 @@ type Props = {
  * @extends Component
  */
 class OverflowMenuVideoQualityItem extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { _audioOnly, _videoQuality } = this.props;
-        const icon = _audioOnly || !_videoQuality
-            ? IconVideoQualityAudioOnly
-            : VIDEO_QUALITY_TO_ICON[_videoQuality];
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { _audioOnly, _videoQuality } = this.props;
+    const icon = _audioOnly || !_videoQuality ? IconVideoQualityAudioOnly : VIDEO_QUALITY_TO_ICON[_videoQuality];
 
-        return (
-            <li
-                aria-label =
-                    { this.props.t('toolbar.accessibilityLabel.callQuality') }
-                className = 'overflow-menu-item'
-                onClick = { this.props.onClick }>
-                <span className = 'overflow-menu-item-icon'>
-                    <Icon src = { icon } />
-                </span>
-                <span className = 'profile-text'>
-                    { this.props.t('toolbar.callQuality') }
-                </span>
-            </li>
-        );
-    }
+    return (
+      <li
+        aria-label={this.props.t('toolbar.accessibilityLabel.callQuality')}
+        className="overflow-menu-item"
+        onClick={this.props.onClick}
+      >
+        <span className="overflow-menu-item-icon">
+          <Icon src={icon} />
+        </span>
+        <span className="profile-text">{this.props.t('toolbar.callQuality')}</span>
+      </li>
+    );
+  }
 }
 
 /**
@@ -102,11 +97,10 @@ class OverflowMenuVideoQualityItem extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        _audioOnly: state['features/base/audio-only'].enabled,
-        _videoQuality: state['features/base/conference'].preferredVideoQuality
-    };
+  return {
+    _audioOnly: state['features/base/audio-only'].enabled,
+    _videoQuality: state['features/base/conference'].preferredVideoQuality,
+  };
 }
 
-export default translate(
-    connect(_mapStateToProps)(OverflowMenuVideoQualityItem));
+export default translate(connect(_mapStateToProps)(OverflowMenuVideoQualityItem));

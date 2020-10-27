@@ -11,21 +11,20 @@ import { setBillingId } from './functions';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => async action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => async (action) => {
+  switch (action.type) {
     case SET_BILLING_ID: {
-        setBillingId(action.value);
+      setBillingId(action.value);
 
-        break;
+      break;
     }
 
     case CONFERENCE_JOINED: {
-        store.dispatch(countEndpoint());
+      store.dispatch(countEndpoint());
 
-        break;
+      break;
     }
+  }
 
-    }
-
-    return next(action);
+  return next(action);
 });

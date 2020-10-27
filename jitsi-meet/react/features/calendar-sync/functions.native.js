@@ -22,32 +22,27 @@ export * from './functions.any';
  * @param {string} link - The link to add info with.
  * @returns {Promise<*>}
  */
-export function addLinkToCalendarEntry(
-        state: Object, id: string, link: string): Promise<any> {
-    return new Promise((resolve, reject) => {
-        getShareInfoText(state, link, true).then(shareInfoText => {
-            RNCalendarEvents.findEventById(id).then(event => {
-                const updateText
-                    = event.description
-                        ? `${event.description}\n\n${shareInfoText}`
-                        : shareInfoText;
-                const updateObject = {
-                    id: event.id,
-                    ...Platform.select({
-                        ios: {
-                            notes: updateText
-                        },
-                        android: {
-                            description: updateText
-                        }
-                    })
-                };
+export function addLinkToCalendarEntry(state: Object, id: string, link: string): Promise<any> {
+  return new Promise((resolve, reject) => {
+    getShareInfoText(state, link, true).then((shareInfoText) => {
+      RNCalendarEvents.findEventById(id).then((event) => {
+        const updateText = event.description ? `${event.description}\n\n${shareInfoText}` : shareInfoText;
+        const updateObject = {
+          id: event.id,
+          ...Platform.select({
+            ios: {
+              notes: updateText,
+            },
+            android: {
+              description: updateText,
+            },
+          }),
+        };
 
-                RNCalendarEvents.saveEvent(event.title, updateObject)
-                .then(resolve, reject);
-            }, reject);
-        }, reject);
-    });
+        RNCalendarEvents.saveEvent(event.title, updateObject).then(resolve, reject);
+      }, reject);
+    }, reject);
+  });
 }
 
 /**
@@ -62,15 +57,15 @@ export function addLinkToCalendarEntry(
  * otherwise, {@code false}.
  */
 export function isCalendarEnabled(stateful: Function | Object) {
-    const flag = getFeatureFlag(stateful, CALENDAR_ENABLED);
+  const flag = getFeatureFlag(stateful, CALENDAR_ENABLED);
 
-    if (typeof flag !== 'undefined') {
-        return flag;
-    }
+  if (typeof flag !== 'undefined') {
+    return flag;
+  }
 
-    const { calendarEnabled = true } = NativeModules.AppInfo;
+  const { calendarEnabled = true } = NativeModules.AppInfo;
 
-    return calendarEnabled;
+  return calendarEnabled;
 }
 
 /**
@@ -85,36 +80,31 @@ export function isCalendarEnabled(stateful: Function | Object) {
  * @returns {void}
  */
 export function _fetchCalendarEntries(
-        store: Store<*, *>,
-        maybePromptForPermission: boolean,
-        forcePermission: ?boolean) {
-    const { dispatch, getState } = store;
-    const promptForPermission
-        = (maybePromptForPermission
-        && !getState()['features/calendar-sync'].authorization)
-        || forcePermission;
+  store: Store<*, *>,
+  maybePromptForPermission: boolean,
+  forcePermission: ?boolean
+) {
+  const { dispatch, getState } = store;
+  const promptForPermission =
+    (maybePromptForPermission && !getState()['features/calendar-sync'].authorization) || forcePermission;
 
-    _ensureCalendarAccess(promptForPermission, dispatch)
-        .then(accessGranted => {
-            if (accessGranted) {
-                const startDate = new Date();
-                const endDate = new Date();
+  _ensureCalendarAccess(promptForPermission, dispatch)
+    .then((accessGranted) => {
+      if (accessGranted) {
+        const startDate = new Date();
+        const endDate = new Date();
 
-                startDate.setDate(startDate.getDate() + FETCH_START_DAYS);
-                endDate.setDate(endDate.getDate() + FETCH_END_DAYS);
+        startDate.setDate(startDate.getDate() + FETCH_START_DAYS);
+        endDate.setDate(endDate.getDate() + FETCH_END_DAYS);
 
-                RNCalendarEvents.fetchAllEvents(
-                    startDate.getTime(),
-                    endDate.getTime(),
-                    [])
-                    .then(_updateCalendarEntries.bind(store))
-                    .catch(error =>
-                        logger.error('Error fetching calendar.', error));
-            } else {
-                logger.warn('Calendar access not granted.');
-            }
-        })
-        .catch(reason => logger.error('Error accessing calendar.', reason));
+        RNCalendarEvents.fetchAllEvents(startDate.getTime(), endDate.getTime(), [])
+          .then(_updateCalendarEntries.bind(store))
+          .catch((error) => logger.error('Error fetching calendar.', error));
+      } else {
+        logger.warn('Calendar access not granted.');
+      }
+    })
+    .catch((reason) => logger.error('Error accessing calendar.', reason));
 }
 
 /**
@@ -127,22 +117,22 @@ export function _fetchCalendarEntries(
  * @returns {Promise}
  */
 function _ensureCalendarAccess(promptForPermission, dispatch) {
-    return new Promise((resolve, reject) => {
-        RNCalendarEvents.authorizationStatus()
-            .then(status => {
-                if (status === 'authorized') {
-                    resolve(true);
-                } else if (promptForPermission) {
-                    RNCalendarEvents.authorizeEventStore()
-                        .then(result => {
-                            dispatch(setCalendarAuthorization(result));
-                            resolve(result === 'authorized');
-                        })
-                        .catch(reject);
-                } else {
-                    resolve(false);
-                }
+  return new Promise((resolve, reject) => {
+    RNCalendarEvents.authorizationStatus()
+      .then((status) => {
+        if (status === 'authorized') {
+          resolve(true);
+        } else if (promptForPermission) {
+          RNCalendarEvents.authorizeEventStore()
+            .then((result) => {
+              dispatch(setCalendarAuthorization(result));
+              resolve(result === 'authorized');
             })
             .catch(reject);
-    });
+        } else {
+          resolve(false);
+        }
+      })
+      .catch(reject);
+  });
 }

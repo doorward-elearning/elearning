@@ -9,21 +9,20 @@ import IncomingCallPage from './IncomingCallPage';
  * The type of the React {@code Component} props of {@link IncomingCallApp}.
  */
 type Props = {
+  /**
+   * URL of the avatar for the caller.
+   */
+  callerAvatarURL: string,
 
-    /**
-     * URL of the avatar for the caller.
-     */
-    callerAvatarURL: string,
+  /**
+   * Name of the caller.
+   */
+  callerName: string,
 
-    /**
-     * Name of the caller.
-     */
-    callerName: string,
-
-    /**
-     * Whether this is a video call or not.
-     */
-    hasVideo: boolean
+  /**
+   * Whether this is a video call or not.
+   */
+  hasVideo: boolean,
 };
 
 /**
@@ -32,35 +31,33 @@ type Props = {
  * @extends BaseApp
  */
 export default class IncomingCallApp extends BaseApp<Props> {
-    _init: Promise<*>;
+  _init: Promise<*>;
 
-    /**
-     * Navigates to {@link IncomingCallPage} upon mount.
-     *
-     * NOTE: This was implmented here instead of in a middleware for the
-     * {@link APP_WILL_MOUNT} action because that would run also for
-     * {@link App}.
-     *
-     * @returns {void}
-     */
-    componentDidMount() {
-        super.componentDidMount();
+  /**
+   * Navigates to {@link IncomingCallPage} upon mount.
+   *
+   * NOTE: This was implmented here instead of in a middleware for the
+   * {@link APP_WILL_MOUNT} action because that would run also for
+   * {@link App}.
+   *
+   * @returns {void}
+   */
+  componentDidMount() {
+    super.componentDidMount();
 
-        this._init.then(() => {
-            const { dispatch } = this.state.store;
-            const {
-                callerAvatarURL: avatarUrl,
-                callerName: name,
-                hasVideo
-            } = this.props;
+    this._init.then(() => {
+      const { dispatch } = this.state.store;
+      const { callerAvatarURL: avatarUrl, callerName: name, hasVideo } = this.props;
 
-            dispatch(incomingCallReceived({
-                avatarUrl,
-                hasVideo,
-                name
-            }));
+      dispatch(
+        incomingCallReceived({
+          avatarUrl,
+          hasVideo,
+          name,
+        })
+      );
 
-            super._navigate({ component: IncomingCallPage });
-        });
-    }
+      super._navigate({ component: IncomingCallPage });
+    });
+  }
 }

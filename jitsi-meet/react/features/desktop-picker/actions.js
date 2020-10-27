@@ -11,10 +11,10 @@ import { DesktopPicker } from './components';
  * @returns {Object}
  */
 export function showDesktopPicker(options = {}, onSourceChoose) {
-    const { desktopSharingSources } = options;
+  const { desktopSharingSources } = options;
 
-    return openDialog(DesktopPicker, {
-        desktopSharingSources,
-        onSourceChoose
-    });
+  return openDialog(DesktopPicker, {
+    desktopSharingSources,
+    onSourceChoose,
+  });
 }

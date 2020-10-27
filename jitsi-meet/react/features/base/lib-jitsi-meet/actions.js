@@ -5,13 +5,7 @@ import type { Dispatch } from 'redux';
 import { isOnline } from '../net-info/selectors';
 
 import JitsiMeetJS from './_';
-import {
-    LIB_DID_DISPOSE,
-    LIB_DID_INIT,
-    LIB_INIT_ERROR,
-    LIB_WILL_DISPOSE,
-    LIB_WILL_INIT
-} from './actionTypes';
+import { LIB_DID_DISPOSE, LIB_DID_INIT, LIB_INIT_ERROR, LIB_WILL_DISPOSE, LIB_WILL_INIT } from './actionTypes';
 import { isAnalyticsEnabled } from './functions';
 
 declare var APP: Object;
@@ -22,13 +16,13 @@ declare var APP: Object;
  * @returns {Function}
  */
 export function disposeLib() {
-    return (dispatch: Dispatch<any>) => {
-        dispatch({ type: LIB_WILL_DISPOSE });
+  return (dispatch: Dispatch<any>) => {
+    dispatch({ type: LIB_WILL_DISPOSE });
 
-        // TODO Currently, lib-jitsi-meet doesn't have the functionality to
-        // dispose itself.
-        dispatch({ type: LIB_DID_DISPOSE });
-    };
+    // TODO Currently, lib-jitsi-meet doesn't have the functionality to
+    // dispose itself.
+    dispatch({ type: LIB_DID_DISPOSE });
+  };
 }
 
 /**
@@ -38,29 +32,29 @@ export function disposeLib() {
  * @returns {Function}
  */
 export function initLib() {
-    return (dispatch: Dispatch<any>, getState: Function): void => {
-        const state = getState();
-        const config = state['features/base/config'];
+  return (dispatch: Dispatch<any>, getState: Function): void => {
+    const state = getState();
+    const config = state['features/base/config'];
 
-        if (!config) {
-            throw new Error('Cannot init lib-jitsi-meet without config');
-        }
+    if (!config) {
+      throw new Error('Cannot init lib-jitsi-meet without config');
+    }
 
-        dispatch({ type: LIB_WILL_INIT });
+    dispatch({ type: LIB_WILL_INIT });
 
-        try {
-            JitsiMeetJS.init({
-                enableAnalyticsLogging: isAnalyticsEnabled(getState),
-                ...config
-            });
-            JitsiMeetJS.setNetworkInfo({
-                isOnline: isOnline(state)
-            });
-            dispatch({ type: LIB_DID_INIT });
-        } catch (error) {
-            dispatch(libInitError(error));
-        }
-    };
+    try {
+      JitsiMeetJS.init({
+        enableAnalyticsLogging: isAnalyticsEnabled(getState),
+        ...config,
+      });
+      JitsiMeetJS.setNetworkInfo({
+        isOnline: isOnline(state),
+      });
+      dispatch({ type: LIB_DID_INIT });
+    } catch (error) {
+      dispatch(libInitError(error));
+    }
+  };
 }
 
 /**
@@ -73,8 +67,8 @@ export function initLib() {
  * }}
  */
 export function libInitError(error: Error) {
-    return {
-        type: LIB_INIT_ERROR,
-        error
-    };
+  return {
+    type: LIB_INIT_ERROR,
+    error,
+  };
 }

@@ -35,7 +35,9 @@ class JitsiMeeting extends ScriptComponent<JitsiMeetingProps> {
           height: '100%',
           ...this.props.options,
         });
-        this.props.apiRef(this.api);
+        if (this.props.apiRef) {
+          this.props.apiRef(this.api);
+        }
 
         this.api.addEventListener('readyToClose', () => {
           this.props.onLeftSession();

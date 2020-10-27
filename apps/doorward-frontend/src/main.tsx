@@ -21,7 +21,7 @@ ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
 
-configureLang().then();
+configureLang(process.env.REACT_APP_BASE_URL).then();
 
 export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
 

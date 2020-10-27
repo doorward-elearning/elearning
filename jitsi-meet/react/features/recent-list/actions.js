@@ -1,10 +1,6 @@
 // @flow
 
-import {
-    _STORE_CURRENT_CONFERENCE,
-    _UPDATE_CONFERENCE_DURATION,
-    DELETE_RECENT_LIST_ENTRY
-} from './actionTypes';
+import { _STORE_CURRENT_CONFERENCE, _UPDATE_CONFERENCE_DURATION, DELETE_RECENT_LIST_ENTRY } from './actionTypes';
 
 /**
  * Deletes a recent list entry based on url and date.
@@ -17,10 +13,10 @@ import {
  * }}
  */
 export function deleteRecentListEntry(entryId: Object) {
-    return {
-        type: DELETE_RECENT_LIST_ENTRY,
-        entryId
-    };
+  return {
+    type: DELETE_RECENT_LIST_ENTRY,
+    entryId,
+  };
 }
 
 /**
@@ -34,10 +30,10 @@ export function deleteRecentListEntry(entryId: Object) {
  * }}
  */
 export function _storeCurrentConference(locationURL: Object) {
-    return {
-        type: _STORE_CURRENT_CONFERENCE,
-        locationURL
-    };
+  return {
+    type: _STORE_CURRENT_CONFERENCE,
+    locationURL,
+  };
 }
 
 /**
@@ -51,8 +47,8 @@ export function _storeCurrentConference(locationURL: Object) {
  * }}
  */
 export function _updateConferenceDuration(locationURL: Object) {
-    return {
-        type: _UPDATE_CONFERENCE_DURATION,
-        locationURL
-    };
+  return {
+    type: _UPDATE_CONFERENCE_DURATION,
+    locationURL,
+  };
 }

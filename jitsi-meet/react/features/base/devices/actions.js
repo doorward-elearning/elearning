@@ -1,25 +1,22 @@
 import JitsiMeetJS from '../lib-jitsi-meet';
-import {
-    getUserSelectedOutputDeviceId,
-    updateSettings
-} from '../settings';
+import { getUserSelectedOutputDeviceId, updateSettings } from '../settings';
 
 import {
-    ADD_PENDING_DEVICE_REQUEST,
-    CHECK_AND_NOTIFY_FOR_NEW_DEVICE,
-    NOTIFY_CAMERA_ERROR,
-    NOTIFY_MIC_ERROR,
-    REMOVE_PENDING_DEVICE_REQUESTS,
-    SET_AUDIO_INPUT_DEVICE,
-    SET_VIDEO_INPUT_DEVICE,
-    UPDATE_DEVICE_LIST
+  ADD_PENDING_DEVICE_REQUEST,
+  CHECK_AND_NOTIFY_FOR_NEW_DEVICE,
+  NOTIFY_CAMERA_ERROR,
+  NOTIFY_MIC_ERROR,
+  REMOVE_PENDING_DEVICE_REQUESTS,
+  SET_AUDIO_INPUT_DEVICE,
+  SET_VIDEO_INPUT_DEVICE,
+  UPDATE_DEVICE_LIST,
 } from './actionTypes';
 import {
-    areDeviceLabelsInitialized,
-    getDeviceIdByLabel,
-    getDeviceLabelById,
-    getDevicesFromURL,
-    setAudioOutputDeviceId
+  areDeviceLabelsInitialized,
+  getDeviceIdByLabel,
+  getDeviceLabelById,
+  getDevicesFromURL,
+  setAudioOutputDeviceId,
 } from './functions';
 import logger from './logger';
 
@@ -28,21 +25,21 @@ import logger from './logger';
  * within redux, which devices should be used by default.
  */
 const DEVICE_TYPE_TO_SETTINGS_KEYS = {
-    audioInput: {
-        currentDeviceId: 'micDeviceId',
-        userSelectedDeviceId: 'userSelectedMicDeviceId',
-        userSelectedDeviceLabel: 'userSelectedMicDeviceLabel'
-    },
-    audioOutput: {
-        currentDeviceId: 'audioOutputDeviceId',
-        userSelectedDeviceId: 'userSelectedAudioOutputDeviceId',
-        userSelectedDeviceLabel: 'userSelectedAudioOutputDeviceLabel'
-    },
-    videoInput: {
-        currentDeviceId: 'audioOutputDeviceId',
-        userSelectedDeviceId: 'userSelectedCameraDeviceId',
-        userSelectedDeviceLabel: 'userSelectedCameraDeviceLabel'
-    }
+  audioInput: {
+    currentDeviceId: 'micDeviceId',
+    userSelectedDeviceId: 'userSelectedMicDeviceId',
+    userSelectedDeviceLabel: 'userSelectedMicDeviceLabel',
+  },
+  audioOutput: {
+    currentDeviceId: 'audioOutputDeviceId',
+    userSelectedDeviceId: 'userSelectedAudioOutputDeviceId',
+    userSelectedDeviceLabel: 'userSelectedAudioOutputDeviceLabel',
+  },
+  videoInput: {
+    currentDeviceId: 'audioOutputDeviceId',
+    userSelectedDeviceId: 'userSelectedCameraDeviceId',
+    userSelectedDeviceLabel: 'userSelectedCameraDeviceLabel',
+  },
 };
 
 /**
@@ -55,10 +52,10 @@ const DEVICE_TYPE_TO_SETTINGS_KEYS = {
  * }}
  */
 export function addPendingDeviceRequest(request) {
-    return {
-        type: ADD_PENDING_DEVICE_REQUEST,
-        request
-    };
+  return {
+    type: ADD_PENDING_DEVICE_REQUEST,
+    request,
+  };
 }
 
 /**
@@ -67,64 +64,66 @@ export function addPendingDeviceRequest(request) {
  * @returns {Function}
  */
 export function configureInitialDevices() {
-    return (dispatch, getState) => {
-        const deviceLabels = getDevicesFromURL(getState());
-        let updateSettingsPromise;
+  return (dispatch, getState) => {
+    const deviceLabels = getDevicesFromURL(getState());
+    let updateSettingsPromise;
 
-        if (deviceLabels) {
-            updateSettingsPromise = dispatch(getAvailableDevices()).then(() => {
-                const state = getState();
+    if (deviceLabels) {
+      updateSettingsPromise = dispatch(getAvailableDevices()).then(() => {
+        const state = getState();
 
-                if (!areDeviceLabelsInitialized(state)) {
-                    // The labels are not available if the A/V permissions are
-                    // not yet granted.
+        if (!areDeviceLabelsInitialized(state)) {
+          // The labels are not available if the A/V permissions are
+          // not yet granted.
 
-                    Object.keys(deviceLabels).forEach(key => {
-                        dispatch(addPendingDeviceRequest({
-                            type: 'devices',
-                            name: 'setDevice',
-                            device: {
-                                kind: key.toLowerCase(),
-                                label: deviceLabels[key]
-                            },
-                            // eslint-disable-next-line no-empty-function
-                            responseCallback() {}
-                        }));
-                    });
+          Object.keys(deviceLabels).forEach((key) => {
+            dispatch(
+              addPendingDeviceRequest({
+                type: 'devices',
+                name: 'setDevice',
+                device: {
+                  kind: key.toLowerCase(),
+                  label: deviceLabels[key],
+                },
+                // eslint-disable-next-line no-empty-function
+                responseCallback() {},
+              })
+            );
+          });
 
-                    return;
-                }
-
-                const newSettings = {};
-
-                Object.keys(deviceLabels).forEach(key => {
-                    const label = deviceLabels[key];
-                    const deviceId = getDeviceIdByLabel(state, label, key);
-
-                    if (deviceId) {
-                        const settingsTranslationMap = DEVICE_TYPE_TO_SETTINGS_KEYS[key];
-
-                        newSettings[settingsTranslationMap.currentDeviceId] = deviceId;
-                        newSettings[settingsTranslationMap.userSelectedDeviceId] = deviceId;
-                        newSettings[settingsTranslationMap.userSelectedDeviceLabel] = label;
-                    }
-                });
-
-                dispatch(updateSettings(newSettings));
-            });
-        } else {
-            updateSettingsPromise = Promise.resolve();
+          return;
         }
 
-        return updateSettingsPromise
-            .then(() => {
-                const userSelectedAudioOutputDeviceId = getUserSelectedOutputDeviceId(getState());
+        const newSettings = {};
 
-                return setAudioOutputDeviceId(userSelectedAudioOutputDeviceId, dispatch)
-                    .catch(ex => logger.warn(`Failed to set audio output device.
-                        Default audio output device will be used instead ${ex}`));
-            });
-    };
+        Object.keys(deviceLabels).forEach((key) => {
+          const label = deviceLabels[key];
+          const deviceId = getDeviceIdByLabel(state, label, key);
+
+          if (deviceId) {
+            const settingsTranslationMap = DEVICE_TYPE_TO_SETTINGS_KEYS[key];
+
+            newSettings[settingsTranslationMap.currentDeviceId] = deviceId;
+            newSettings[settingsTranslationMap.userSelectedDeviceId] = deviceId;
+            newSettings[settingsTranslationMap.userSelectedDeviceLabel] = label;
+          }
+        });
+
+        dispatch(updateSettings(newSettings));
+      });
+    } else {
+      updateSettingsPromise = Promise.resolve();
+    }
+
+    return updateSettingsPromise.then(() => {
+      const userSelectedAudioOutputDeviceId = getUserSelectedOutputDeviceId(getState());
+
+      return setAudioOutputDeviceId(userSelectedAudioOutputDeviceId, dispatch).catch((ex) =>
+        logger.warn(`Failed to set audio output device.
+                        Default audio output device will be used instead ${ex}`)
+      );
+    });
+  };
 }
 
 /**
@@ -134,19 +133,19 @@ export function configureInitialDevices() {
  * @returns {Function}
  */
 export function getAvailableDevices() {
-    return dispatch => new Promise(resolve => {
-        const { mediaDevices } = JitsiMeetJS;
+  return (dispatch) =>
+    new Promise((resolve) => {
+      const { mediaDevices } = JitsiMeetJS;
 
-        if (mediaDevices.isDeviceListAvailable()
-                && mediaDevices.isDeviceChangeAvailable()) {
-            mediaDevices.enumerateDevices(devices => {
-                dispatch(updateDeviceList(devices));
+      if (mediaDevices.isDeviceListAvailable() && mediaDevices.isDeviceChangeAvailable()) {
+        mediaDevices.enumerateDevices((devices) => {
+          dispatch(updateDeviceList(devices));
 
-                resolve(devices);
-            });
-        } else {
-            resolve([]);
-        }
+          resolve(devices);
+        });
+      } else {
+        resolve([]);
+      }
     });
 }
 
@@ -163,10 +162,10 @@ export function getAvailableDevices() {
  * }}
  */
 export function notifyCameraError(error) {
-    return {
-        type: NOTIFY_CAMERA_ERROR,
-        error
-    };
+  return {
+    type: NOTIFY_CAMERA_ERROR,
+    error,
+  };
 }
 
 /**
@@ -182,10 +181,10 @@ export function notifyCameraError(error) {
  * }}
  */
 export function notifyMicError(error) {
-    return {
-        type: NOTIFY_MIC_ERROR,
-        error
-    };
+  return {
+    type: NOTIFY_MIC_ERROR,
+    error,
+  };
 }
 
 /**
@@ -196,9 +195,9 @@ export function notifyMicError(error) {
  * }}
  */
 export function removePendingDeviceRequests() {
-    return {
-        type: REMOVE_PENDING_DEVICE_REQUESTS
-    };
+  return {
+    type: REMOVE_PENDING_DEVICE_REQUESTS,
+  };
 }
 
 /**
@@ -211,10 +210,10 @@ export function removePendingDeviceRequests() {
  * }}
  */
 export function setAudioInputDevice(deviceId) {
-    return {
-        type: SET_AUDIO_INPUT_DEVICE,
-        deviceId
-    };
+  return {
+    type: SET_AUDIO_INPUT_DEVICE,
+    deviceId,
+  };
 }
 
 /**
@@ -225,15 +224,17 @@ export function setAudioInputDevice(deviceId) {
  * @returns {Function}
  */
 export function setAudioInputDeviceAndUpdateSettings(deviceId) {
-    return function(dispatch, getState) {
-        const deviceLabel = getDeviceLabelById(getState(), deviceId, 'audioInput');
+  return function (dispatch, getState) {
+    const deviceLabel = getDeviceLabelById(getState(), deviceId, 'audioInput');
 
-        dispatch(setAudioInputDevice(deviceId));
-        dispatch(updateSettings({
-            userSelectedMicDeviceId: deviceId,
-            userSelectedMicDeviceLabel: deviceLabel
-        }));
-    };
+    dispatch(setAudioInputDevice(deviceId));
+    dispatch(
+      updateSettings({
+        userSelectedMicDeviceId: deviceId,
+        userSelectedMicDeviceLabel: deviceLabel,
+      })
+    );
+  };
 }
 
 /**
@@ -243,11 +244,11 @@ export function setAudioInputDeviceAndUpdateSettings(deviceId) {
  * @returns {Function}
  */
 export function setAudioOutputDevice(deviceId) {
-    return function(dispatch, getState) {
-        const deviceLabel = getDeviceLabelById(getState(), deviceId, 'audioOutput');
+  return function (dispatch, getState) {
+    const deviceLabel = getDeviceLabelById(getState(), deviceId, 'audioOutput');
 
-        return setAudioOutputDeviceId(deviceId, dispatch, true, deviceLabel);
-    };
+    return setAudioOutputDeviceId(deviceId, dispatch, true, deviceLabel);
+  };
 }
 
 /**
@@ -260,10 +261,10 @@ export function setAudioOutputDevice(deviceId) {
  * }}
  */
 export function setVideoInputDevice(deviceId) {
-    return {
-        type: SET_VIDEO_INPUT_DEVICE,
-        deviceId
-    };
+  return {
+    type: SET_VIDEO_INPUT_DEVICE,
+    deviceId,
+  };
 }
 
 /**
@@ -274,15 +275,17 @@ export function setVideoInputDevice(deviceId) {
  * @returns {Function}
  */
 export function setVideoInputDeviceAndUpdateSettings(deviceId) {
-    return function(dispatch, getState) {
-        const deviceLabel = getDeviceLabelById(getState(), deviceId, 'videoInput');
+  return function (dispatch, getState) {
+    const deviceLabel = getDeviceLabelById(getState(), deviceId, 'videoInput');
 
-        dispatch(setVideoInputDevice(deviceId));
-        dispatch(updateSettings({
-            userSelectedCameraDeviceId: deviceId,
-            userSelectedCameraDeviceLabel: deviceLabel
-        }));
-    };
+    dispatch(setVideoInputDevice(deviceId));
+    dispatch(
+      updateSettings({
+        userSelectedCameraDeviceId: deviceId,
+        userSelectedCameraDeviceLabel: deviceLabel,
+      })
+    );
+  };
 }
 
 /**
@@ -296,10 +299,10 @@ export function setVideoInputDeviceAndUpdateSettings(deviceId) {
  * }}
  */
 export function updateDeviceList(devices) {
-    return {
-        type: UPDATE_DEVICE_LIST,
-        devices
-    };
+  return {
+    type: UPDATE_DEVICE_LIST,
+    devices,
+  };
 }
 
 /**
@@ -314,9 +317,9 @@ export function updateDeviceList(devices) {
  * }}
  */
 export function checkAndNotifyForNewDevice(newDevices, oldDevices) {
-    return {
-        type: CHECK_AND_NOTIFY_FOR_NEW_DEVICE,
-        newDevices,
-        oldDevices
-    };
+  return {
+    type: CHECK_AND_NOTIFY_FOR_NEW_DEVICE,
+    newDevices,
+    oldDevices,
+  };
 }

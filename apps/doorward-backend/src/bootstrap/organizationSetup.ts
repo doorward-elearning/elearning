@@ -42,22 +42,49 @@ export interface OrganizationConfig {
   }>;
 }
 
-const getOrganizationFile = () => {
-  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', 'organization.json');
+const getConfigFile = (fileName: string) => {
+  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', fileName);
   if (fs.existsSync(filePath)) {
     return filePath;
   }
-  throw new Error('Organization config does not exist in path: ' + filePath);
+  throw new Error('Config does not exist in path: ' + filePath);
 };
 
-const parseOrganization = (): OrganizationConfig => {
+const parseConfigFile = <T = object>(fileName: string): T => {
   try {
-    const filePath = getOrganizationFile();
+    const filePath = getConfigFile(fileName);
     const fileContents = fs.readFileSync(filePath).toString();
-    return JSON.parse(fileContents) as OrganizationConfig;
+
+    return JSON.parse(fileContents) as T;
   } catch (error) {
     console.error(error);
   }
+};
+
+const parseOrganization = (): OrganizationConfig => {
+  return parseConfigFile('organization.json');
+};
+
+const parseMeetingConfig = () => {
+  const base = parseConfigFile('meetings.config.json');
+  const moderator = parseConfigFile('meetings.config.moderator.json');
+  const publisher = parseConfigFile('meetings.config.publisher.json');
+
+  return {
+    base,
+    moderator,
+    publisher,
+  };
+};
+
+const parseMeetingInterfaceConfig = () => {
+  const moderator = parseConfigFile('meetings.interface.moderator.json');
+  const publisher = parseConfigFile('meetings.interface.publisher.json');
+
+  return {
+    moderator,
+    publisher,
+  };
 };
 
 const organizationSetup = async (): Promise<OrganizationEntity> => {
@@ -142,6 +169,11 @@ const organizationSetup = async (): Promise<OrganizationEntity> => {
         [cur + '_plural']: models[cur][1],
       };
     }, {} as any);
+
+    organization.meetings = {
+      config: parseMeetingConfig(),
+      interface: parseMeetingInterfaceConfig(),
+    };
 
     console.log(chalk.cyan('Organization set up complete.'));
 

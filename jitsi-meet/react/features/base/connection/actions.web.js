@@ -8,12 +8,7 @@ declare var config: Object;
 import { configureInitialDevices } from '../devices';
 import { getBackendSafeRoomName } from '../util';
 
-export {
-    connectionDisconnected,
-    connectionEstablished,
-    connectionFailed,
-    setLocationURL
-} from './actions.native';
+export { connectionDisconnected, connectionEstablished, connectionFailed, setLocationURL } from './actions.native';
 import logger from './logger';
 
 /**
@@ -22,19 +17,22 @@ import logger from './logger';
  * @returns {Promise<JitsiConnection>}
  */
 export function connect() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const room = getBackendSafeRoomName(getState()['features/base/conference'].room);
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const room = getBackendSafeRoomName(getState()['features/base/conference'].room);
 
-        // XXX For web based version we use conference initialization logic
-        // from the old app (at the moment of writing).
-        return dispatch(configureInitialDevices()).then(
-            () => APP.conference.init({
-                roomName: room
-            }).catch(error => {
-                APP.API.notifyConferenceLeft(APP.conference.roomName);
-                logger.error(error);
-            }));
-    };
+    // XXX For web based version we use conference initialization logic
+    // from the old app (at the moment of writing).
+    return dispatch(configureInitialDevices()).then(() =>
+      APP.conference
+        .init({
+          roomName: room,
+        })
+        .catch((error) => {
+          APP.API.notifyConferenceLeft(APP.conference.roomName);
+          logger.error(error);
+        })
+    );
+  };
 }
 
 /**
@@ -45,7 +43,7 @@ export function connect() {
  * @returns {Function}
  */
 export function disconnect(requestFeedback: boolean = false) {
-    // XXX For web based version we use conference hanging up logic from the old
-    // app.
-    return () => APP.conference.hangup(requestFeedback);
+  // XXX For web based version we use conference hanging up logic from the old
+  // app.
+  return () => APP.conference.hangup(requestFeedback);
 }

@@ -9,19 +9,19 @@
  * @returns {Object}
  */
 export function assignIfDefined(target: Object, source: Object) {
-    const to = Object(target);
+  const to = Object(target);
 
-    for (const nextKey in source) {
-        if (source.hasOwnProperty(nextKey)) {
-            const value = source[nextKey];
+  for (const nextKey in source) {
+    if (source.hasOwnProperty(nextKey)) {
+      const value = source[nextKey];
 
-            if (typeof value !== 'undefined') {
-                to[nextKey] = value;
-            }
-        }
+      if (typeof value !== 'undefined') {
+        to[nextKey] = value;
+      }
     }
+  }
 
-    return to;
+  return to;
 }
 
 /**
@@ -32,24 +32,24 @@ export function assignIfDefined(target: Object, source: Object) {
  * @returns {boolean}
  */
 export function copyText(textToCopy: string) {
-    const fakeTextArea = document.createElement('textarea');
-    let result;
+  const fakeTextArea = document.createElement('textarea');
+  let result;
 
-    // $FlowFixMe
-    document.body.appendChild(fakeTextArea);
-    fakeTextArea.value = textToCopy;
-    fakeTextArea.select();
+  // $FlowFixMe
+  document.body.appendChild(fakeTextArea);
+  fakeTextArea.value = textToCopy;
+  fakeTextArea.select();
 
-    try {
-        result = document.execCommand('copy');
-    } catch (err) {
-        result = false;
-    }
+  try {
+    result = document.execCommand('copy');
+  } catch (err) {
+    result = false;
+  }
 
-    // $FlowFixMe
-    document.body.removeChild(fakeTextArea);
+  // $FlowFixMe
+  document.body.removeChild(fakeTextArea);
 
-    return result;
+  return result;
 }
 
 /**
@@ -58,14 +58,14 @@ export function copyText(textToCopy: string) {
  * @returns {{promise, resolve, reject}}
  */
 export function createDeferred(): Object {
-    const deferred = {};
+  const deferred = {};
 
-    deferred.promise = new Promise((resolve, reject) => {
-        deferred.resolve = resolve;
-        deferred.reject = reject;
-    });
+  deferred.promise = new Promise((resolve, reject) => {
+    deferred.resolve = resolve;
+    deferred.reject = reject;
+  });
 
-    return deferred;
+  return deferred;
 }
 
 const MATCH_OPERATOR_REGEXP = /[|\\{}()[\]^$+*?.-]/g;
@@ -79,11 +79,11 @@ const MATCH_OPERATOR_REGEXP = /[|\\{}()[\]^$+*?.-]/g;
  * @returns {string}
  */
 export function escapeRegexp(s: string) {
-    if (typeof s !== 'string') {
-        throw new TypeError('Expected a string');
-    }
+  if (typeof s !== 'string') {
+    throw new TypeError('Expected a string');
+  }
 
-    return s.replace(MATCH_OPERATOR_REGEXP, '\\$&');
+  return s.replace(MATCH_OPERATOR_REGEXP, '\\$&');
 }
 
 /**
@@ -93,16 +93,16 @@ export function escapeRegexp(s: string) {
  * @returns {string}
  */
 export function getBaseUrl(w: Object = window) {
-    const doc = w.document;
-    const base = doc.querySelector('base');
+  const doc = w.document;
+  const base = doc.querySelector('base');
 
-    if (base && base.href) {
-        return base.href;
-    }
+  if (base && base.href) {
+    return base.href;
+  }
 
-    const { protocol, host } = w.location;
+  const { protocol, host } = w.location;
 
-    return `${protocol}//${host}`;
+  return `${protocol}//${host}`;
 }
 
 /**
@@ -113,15 +113,15 @@ export function getBaseUrl(w: Object = window) {
  * NOTE: After React-ifying everything this should be the only global.
  */
 export function getJitsiMeetGlobalNS() {
-    if (!window.JitsiMeetJS) {
-        window.JitsiMeetJS = {};
-    }
+  if (!window.JitsiMeetJS) {
+    window.JitsiMeetJS = {};
+  }
 
-    if (!window.JitsiMeetJS.app) {
-        window.JitsiMeetJS.app = {};
-    }
+  if (!window.JitsiMeetJS.app) {
+    window.JitsiMeetJS.app = {};
+  }
 
-    return window.JitsiMeetJS.app;
+  return window.JitsiMeetJS.app;
 }
 
 /**
@@ -132,6 +132,6 @@ export function getJitsiMeetGlobalNS() {
  * @returns {void}
  */
 export function reportError(e: Object, msg: string = '') {
-    console.error(msg, e);
-    window.onerror && window.onerror(msg, null, null, null, e);
+  console.error(msg, e);
+  window.onerror && window.onerror(msg, null, null, null, e);
 }

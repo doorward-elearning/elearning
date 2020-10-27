@@ -1,10 +1,6 @@
 // @flow
 
-import {
-    INCOMING_CALL_ANSWERED,
-    INCOMING_CALL_DECLINED,
-    INCOMING_CALL_RECEIVED
-} from './actionTypes';
+import { INCOMING_CALL_ANSWERED, INCOMING_CALL_DECLINED, INCOMING_CALL_RECEIVED } from './actionTypes';
 
 /**
  * Answers a received incoming call.
@@ -14,9 +10,9 @@ import {
  * }}
  */
 export function incomingCallAnswered() {
-    return {
-        type: INCOMING_CALL_ANSWERED
-    };
+  return {
+    type: INCOMING_CALL_ANSWERED,
+  };
 }
 
 /**
@@ -27,9 +23,9 @@ export function incomingCallAnswered() {
  * }}
  */
 export function incomingCallDeclined() {
-    return {
-        type: INCOMING_CALL_DECLINED
-    };
+  return {
+    type: INCOMING_CALL_DECLINED,
+  };
 }
 
 /**
@@ -42,8 +38,8 @@ export function incomingCallDeclined() {
  * }}
  */
 export function incomingCallReceived(caller: Object) {
-    return {
-        type: INCOMING_CALL_RECEIVED,
-        caller
-    };
+  return {
+    type: INCOMING_CALL_RECEIVED,
+    caller,
+  };
 }

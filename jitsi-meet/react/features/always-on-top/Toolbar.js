@@ -10,21 +10,20 @@ import VideoMuteButton from './VideoMuteButton';
  * The type of the React {@code Component} props of {@link Toolbar}.
  */
 type Props = {
+  /**
+   * Additional CSS class names to add to the root of the toolbar.
+   */
+  className: string,
 
-    /**
-     * Additional CSS class names to add to the root of the toolbar.
-     */
-    className: string,
+  /**
+   * Callback invoked when no longer moused over the toolbar.
+   */
+  onMouseOut: Function,
 
-    /**
-     * Callback invoked when no longer moused over the toolbar.
-     */
-    onMouseOut: Function,
-
-    /**
-     * Callback invoked when the mouse has moved over the toolbar.
-     */
-    onMouseOver: Function
+  /**
+   * Callback invoked when the mouse has moved over the toolbar.
+   */
+  onMouseOver: Function,
 };
 
 /**
@@ -33,28 +32,21 @@ type Props = {
  * @extends Component
  */
 export default class Toolbar extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const {
-            className = '',
-            onMouseOut,
-            onMouseOver
-        } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { className = '', onMouseOut, onMouseOver } = this.props;
 
-        return (
-            <div
-                className = { `always-on-top-toolbox ${className}` }
-                onMouseOut = { onMouseOut }
-                onMouseOver = { onMouseOver }>
-                <AudioMuteButton />
-                <HangupButton />
-                <VideoMuteButton />
-            </div>
-        );
-    }
+    return (
+      <div className={`always-on-top-toolbox ${className}`} onMouseOut={onMouseOut} onMouseOver={onMouseOver}>
+        <AudioMuteButton />
+        <HangupButton />
+        <VideoMuteButton />
+      </div>
+    );
+  }
 }

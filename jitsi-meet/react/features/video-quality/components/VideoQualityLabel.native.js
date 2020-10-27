@@ -8,17 +8,16 @@ import { connect } from '../../base/redux';
 import { combineStyles, type StyleType } from '../../base/styles';
 
 import AbstractVideoQualityLabel, {
-    _abstractMapStateToProps,
-    type Props as AbstractProps
+  _abstractMapStateToProps,
+  type Props as AbstractProps,
 } from './AbstractVideoQualityLabel';
 import styles from './styles';
 
 type Props = AbstractProps & {
-
-    /**
-     * Style of the component passed as props.
-     */
-    style: ?StyleType
+  /**
+   * Style of the component passed as props.
+   */
+  style: ?StyleType,
 };
 
 /**
@@ -31,28 +30,21 @@ type Props = AbstractProps & {
  * api and extend this component with actual quality indication.
  */
 class VideoQualityLabel extends AbstractVideoQualityLabel<Props> {
+  /**
+   * Implements React {@link Component}'s render.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { _audioOnly, style, t } = this.props;
 
-    /**
-     * Implements React {@link Component}'s render.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { _audioOnly, style, t } = this.props;
-
-        if (!_audioOnly) {
-            // We don't have info about the quality so no need for the indicator
-            return null;
-        }
-
-        return (
-            <CircularLabel
-                label = { t('videoStatus.audioOnly') }
-                style = {
-                    combineStyles(styles.indicatorAudioOnly, style)
-                } />
-        );
+    if (!_audioOnly) {
+      // We don't have info about the quality so no need for the indicator
+      return null;
     }
+
+    return <CircularLabel label={t('videoStatus.audioOnly')} style={combineStyles(styles.indicatorAudioOnly, style)} />;
+  }
 }
 
 /**
@@ -68,9 +60,9 @@ class VideoQualityLabel extends AbstractVideoQualityLabel<Props> {
  * }}
  */
 function _mapStateToProps(state: Object) {
-    return {
-        ..._abstractMapStateToProps(state)
-    };
+  return {
+    ..._abstractMapStateToProps(state),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(VideoQualityLabel));

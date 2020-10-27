@@ -6,8 +6,8 @@
  * @enum {string}
  */
 export const CALENDAR_TYPE = {
-    GOOGLE: 'google',
-    MICROSOFT: 'microsoft'
+  GOOGLE: 'google',
+  MICROSOFT: 'microsoft',
 };
 
 /**
@@ -17,8 +17,8 @@ export const CALENDAR_TYPE = {
  * @enum {string}
  */
 export const ERRORS = {
-    AUTH_FAILED: 'sign_in_failed',
-    GOOGLE_APP_MISCONFIGURED: 'idpiframe_initialization_failed'
+  AUTH_FAILED: 'sign_in_failed',
+  GOOGLE_APP_MISCONFIGURED: 'idpiframe_initialization_failed',
 };
 
 /**

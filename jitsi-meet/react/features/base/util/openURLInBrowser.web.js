@@ -8,7 +8,7 @@
  * @returns {void}
  */
 export function openURLInBrowser(url: string, openInNewTab?: boolean) {
-    const target = openInNewTab ? '_blank' : '';
+  const target = openInNewTab ? '_blank' : '';
 
-    window.open(url, target, 'noopener');
+  window.open(url, target, 'noopener');
 }

@@ -5,45 +5,41 @@ import { Component } from 'react';
 import { getParticipantById } from '../../base/participants';
 
 export type Props = {
+  /**
+   * The participant id who we want to render the raised hand indicator
+   * for.
+   */
+  participantId: string,
 
-    /**
-     * The participant id who we want to render the raised hand indicator
-     * for.
-     */
-    participantId: string,
-
-    /**
-     * True if the hand is raised for this participant.
-     */
-    _raisedHand?: boolean
-}
+  /**
+   * True if the hand is raised for this participant.
+   */
+  _raisedHand?: boolean,
+};
 
 /**
  * Implements an abstract class for the RaisedHandIndicator component.
  */
-export default class AbstractRaisedHandIndicator<P: Props>
-    extends Component<P> {
-
-    /**
-     * Implements {@code Component#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        if (!this.props._raisedHand) {
-            return null;
-        }
-
-        return this._renderIndicator();
+export default class AbstractRaisedHandIndicator<P: Props> extends Component<P> {
+  /**
+   * Implements {@code Component#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    if (!this.props._raisedHand) {
+      return null;
     }
 
-    /**
-     * Renders the platform specific indicator element.
-     *
-     * @returns {React$Element<*>}
-     */
-    _renderIndicator: () => React$Element<*>
+    return this._renderIndicator();
+  }
 
+  /**
+   * Renders the platform specific indicator element.
+   *
+   * @returns {React$Element<*>}
+   */
+  _renderIndicator: () => React$Element<*>;
 }
 
 /**
@@ -54,9 +50,9 @@ export default class AbstractRaisedHandIndicator<P: Props>
  * @returns {Object}
  */
 export function _mapStateToProps(state: Object, ownProps: Props): Object {
-    const participant = getParticipantById(state, ownProps.participantId);
+  const participant = getParticipantById(state, ownProps.participantId);
 
-    return {
-        _raisedHand: participant && participant.raisedHand
-    };
+  return {
+    _raisedHand: participant && participant.raisedHand,
+  };
 }

@@ -18,10 +18,10 @@ import { isDialogOpen } from './functions';
  * }}
  */
 export function hideDialog(component: ?Object) {
-    return {
-        type: HIDE_DIALOG,
-        component
-    };
+  return {
+    type: HIDE_DIALOG,
+    component,
+  };
 }
 
 /**
@@ -39,12 +39,12 @@ export function hideDialog(component: ?Object) {
  * }}
  */
 export function openDialog(component: Object, componentProps: ?Object, rawDialog?: boolean) {
-    return {
-        rawDialog,
-        type: OPEN_DIALOG,
-        component,
-        componentProps
-    };
+  return {
+    rawDialog,
+    type: OPEN_DIALOG,
+    component,
+    componentProps,
+  };
 }
 
 /**
@@ -58,11 +58,11 @@ export function openDialog(component: Object, componentProps: ?Object, rawDialog
  * @returns {Function}
  */
 export function toggleDialog(component: Object, componentProps: ?Object) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        if (isDialogOpen(getState, component)) {
-            dispatch(hideDialog(component));
-        } else {
-            dispatch(openDialog(component, componentProps));
-        }
-    };
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    if (isDialogOpen(getState, component)) {
+      dispatch(hideDialog(component));
+    } else {
+      dispatch(openDialog(component, componentProps));
+    }
+  };
 }

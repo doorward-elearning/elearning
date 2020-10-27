@@ -41,7 +41,7 @@ require('moment/locale/zh-cn');
  * @returns {Object}
  */
 export function getLocalizedDateFormatter(dateOrTimeStamp: Date | number) {
-    return moment(dateOrTimeStamp).locale(_getSupportedLocale());
+  return moment(dateOrTimeStamp).locale(_getSupportedLocale());
 }
 
 /**
@@ -54,20 +54,20 @@ export function getLocalizedDateFormatter(dateOrTimeStamp: Date | number) {
  * @returns {Object}
  */
 export function getLocalizedDurationFormatter(duration: number) {
-    // FIXME The flow-type definition of moment is v2.3 while our package.json
-    // states v2.19 so maybe locale on moment's duration was introduced in
-    // between?
-    //
+  // FIXME The flow-type definition of moment is v2.3 while our package.json
+  // states v2.19 so maybe locale on moment's duration was introduced in
+  // between?
+  //
 
-    // If the conference is under an hour long we want to display it without
-    // showing the hour and we want to include the hour if the conference is
-    // more than an hour long
+  // If the conference is under an hour long we want to display it without
+  // showing the hour and we want to include the hour if the conference is
+  // more than an hour long
 
-    if (moment.duration(duration).format('h') !== '0') {
-        return moment.duration(duration).format('h:mm:ss');
-    }
+  if (moment.duration(duration).format('h') !== '0') {
+    return moment.duration(duration).format('h:mm:ss');
+  }
 
-    return moment.duration(duration).format('mm:ss', { trim: false });
+  return moment.duration(duration).format('mm:ss', { trim: false });
 }
 
 /**
@@ -77,26 +77,23 @@ export function getLocalizedDurationFormatter(duration: number) {
  * @returns {string}
  */
 function _getSupportedLocale() {
-    const i18nLocale = i18next.language;
-    let supportedLocale;
+  const i18nLocale = i18next.language;
+  let supportedLocale;
 
-    if (i18nLocale) {
-        const localeRegexp = new RegExp('^([a-z]{2,2})(-)*([a-z]{2,2})*$');
-        const localeResult = localeRegexp.exec(i18nLocale.toLowerCase());
+  if (i18nLocale) {
+    const localeRegexp = new RegExp('^([a-z]{2,2})(-)*([a-z]{2,2})*$');
+    const localeResult = localeRegexp.exec(i18nLocale.toLowerCase());
 
-        if (localeResult) {
-            const currentLocaleRegexp
-                = new RegExp(
-                    `^${localeResult[1]}(-)*${`(${localeResult[3]})*` || ''}`);
+    if (localeResult) {
+      const currentLocaleRegexp = new RegExp(`^${localeResult[1]}(-)*${`(${localeResult[3]})*` || ''}`);
 
-            supportedLocale
-
-                // FIXME The flow-type definition of moment is v2.3 while our
-                // package.json states v2.19 so maybe locales on moment was
-                // introduced in between?
-                = moment.locales().find(lang => currentLocaleRegexp.exec(lang));
-        }
+      supportedLocale =
+        // FIXME The flow-type definition of moment is v2.3 while our
+        // package.json states v2.19 so maybe locales on moment was
+        // introduced in between?
+        moment.locales().find((lang) => currentLocaleRegexp.exec(lang));
     }
+  }
 
-    return supportedLocale || 'en';
+  return supportedLocale || 'en';
 }

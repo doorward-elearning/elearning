@@ -12,8 +12,8 @@ import { SET_COLOR_SCHEME } from './actionTypes';
  * }}
  */
 export function setColorScheme(colorScheme: Object): Object {
-    return {
-        type: SET_COLOR_SCHEME,
-        colorScheme
-    };
+  return {
+    type: SET_COLOR_SCHEME,
+    colorScheme,
+  };
 }

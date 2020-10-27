@@ -1,4 +1,3 @@
-
 // @flow
 
 import { isIconUrl } from './functions';
@@ -10,15 +9,15 @@ import { isIconUrl } from './functions';
  * @returns {Promise}
  */
 export function preloadImage(src: string | Object): Promise<string> {
-    if (isIconUrl(src)) {
-        return Promise.resolve(src);
-    }
+  if (isIconUrl(src)) {
+    return Promise.resolve(src);
+  }
 
-    return new Promise((resolve, reject) => {
-        const image = document.createElement('img');
+  return new Promise((resolve, reject) => {
+    const image = document.createElement('img');
 
-        image.onload = () => resolve(src);
-        image.onerror = reject;
-        image.src = src;
-    });
+    image.onload = () => resolve(src);
+    image.onerror = reject;
+    image.src = src;
+  });
 }

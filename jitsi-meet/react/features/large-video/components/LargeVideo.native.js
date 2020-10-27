@@ -13,56 +13,54 @@ import { AVATAR_SIZE } from './styles';
  * The type of the React {@link Component} props of {@link LargeVideo}.
  */
 type Props = {
+  /**
+   * Application's viewport height.
+   */
+  _height: number,
 
-    /**
-     * Application's viewport height.
-     */
-    _height: number,
+  /**
+   * The ID of the participant (to be) depicted by LargeVideo.
+   *
+   * @private
+   */
+  _participantId: string,
 
-    /**
-     * The ID of the participant (to be) depicted by LargeVideo.
-     *
-     * @private
-     */
-    _participantId: string,
+  /**
+   * The color-schemed stylesheet of the feature.
+   */
+  _styles: StyleType,
 
-    /**
-     * The color-schemed stylesheet of the feature.
-     */
-    _styles: StyleType,
+  /**
+   * Application's viewport height.
+   */
+  _width: number,
 
-    /**
-     * Application's viewport height.
-     */
-    _width: number,
-
-    /**
-     * Callback to invoke when the {@code LargeVideo} is clicked/pressed.
-     */
-    onClick: Function,
+  /**
+   * Callback to invoke when the {@code LargeVideo} is clicked/pressed.
+   */
+  onClick: Function,
 };
 
 /**
  * The type of the React {@link Component} state of {@link LargeVideo}.
  */
 type State = {
+  /**
+   * Size for the Avatar. It will be dynamically adjusted based on the
+   * available size.
+   */
+  avatarSize: number,
 
-    /**
-     * Size for the Avatar. It will be dynamically adjusted based on the
-     * available size.
-     */
-    avatarSize: number,
-
-    /**
-     * Whether the connectivity indicator will be shown or not. It will be true
-     * by default, but it may be turned off if there is not enough space.
-     */
-    useConnectivityInfoLabel: boolean
+  /**
+   * Whether the connectivity indicator will be shown or not. It will be true
+   * by default, but it may be turned off if there is not enough space.
+   */
+  useConnectivityInfoLabel: boolean,
 };
 
 const DEFAULT_STATE = {
-    avatarSize: AVATAR_SIZE,
-    useConnectivityInfoLabel: true
+  avatarSize: AVATAR_SIZE,
+  useConnectivityInfoLabel: true,
 };
 
 /**
@@ -72,63 +70,56 @@ const DEFAULT_STATE = {
  * @extends Component
  */
 class LargeVideo extends PureComponent<Props, State> {
-    state = {
-        ...DEFAULT_STATE
-    };
+  state = {
+    ...DEFAULT_STATE,
+  };
 
-    /**
-     * Handles dimension changes. In case we deem it's too
-     * small, the connectivity indicator won't be rendered and the avatar
-     * will occupy the entirety of the available screen state.
-     *
-     * @inheritdoc
-     */
-    static getDerivedStateFromProps(props: Props) {
-        const { _height, _width } = props;
+  /**
+   * Handles dimension changes. In case we deem it's too
+   * small, the connectivity indicator won't be rendered and the avatar
+   * will occupy the entirety of the available screen state.
+   *
+   * @inheritdoc
+   */
+  static getDerivedStateFromProps(props: Props) {
+    const { _height, _width } = props;
 
-        // Get the size, rounded to the nearest even number.
-        const size = 2 * Math.round(Math.min(_height, _width) / 2);
+    // Get the size, rounded to the nearest even number.
+    const size = 2 * Math.round(Math.min(_height, _width) / 2);
 
-        if (size < AVATAR_SIZE * 1.5) {
-            return {
-                avatarSize: size - 15, // Leave some margin.
-                useConnectivityInfoLabel: false
-            };
-        }
-
-        return DEFAULT_STATE;
-
+    if (size < AVATAR_SIZE * 1.5) {
+      return {
+        avatarSize: size - 15, // Leave some margin.
+        useConnectivityInfoLabel: false,
+      };
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const {
-            avatarSize,
-            useConnectivityInfoLabel
-        } = this.state;
-        const {
-            _participantId,
-            _styles,
-            onClick
-        } = this.props;
+    return DEFAULT_STATE;
+  }
 
-        return (
-            <ParticipantView
-                avatarSize = { avatarSize }
-                onPress = { onClick }
-                participantId = { _participantId }
-                style = { _styles.largeVideo }
-                testHintId = 'org.jitsi.meet.LargeVideo'
-                useConnectivityInfoLabel = { useConnectivityInfoLabel }
-                zOrder = { 0 }
-                zoomEnabled = { true } />
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { avatarSize, useConnectivityInfoLabel } = this.state;
+    const { _participantId, _styles, onClick } = this.props;
+
+    return (
+      <ParticipantView
+        avatarSize={avatarSize}
+        onPress={onClick}
+        participantId={_participantId}
+        style={_styles.largeVideo}
+        testHintId="org.jitsi.meet.LargeVideo"
+        useConnectivityInfoLabel={useConnectivityInfoLabel}
+        zOrder={0}
+        zoomEnabled={true}
+      />
+    );
+  }
 }
 
 /**
@@ -139,14 +130,14 @@ class LargeVideo extends PureComponent<Props, State> {
  * @returns {Props}
  */
 function _mapStateToProps(state) {
-    const { clientHeight: height, clientWidth: width } = state['features/base/responsive-ui'];
+  const { clientHeight: height, clientWidth: width } = state['features/base/responsive-ui'];
 
-    return {
-        _height: height,
-        _participantId: state['features/large-video'].participantId,
-        _styles: ColorSchemeRegistry.get(state, 'LargeVideo'),
-        _width: width
-    };
+  return {
+    _height: height,
+    _participantId: state['features/large-video'].participantId,
+    _styles: ColorSchemeRegistry.get(state, 'LargeVideo'),
+    _width: width,
+  };
 }
 
 export default connect(_mapStateToProps)(LargeVideo);

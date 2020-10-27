@@ -53,13 +53,13 @@ export const CONFERENCE_LEFT = 'CONFERENCE_LEFT';
 export const CONFERENCE_SUBJECT_CHANGED = 'CONFERENCE_SUBJECT_CHANGED';
 
 /**
-* The type of (redux) action, which indicates conference UTC timestamp changes.
-*
-* {
-*      type: CONFERENCE_TIMESTAMP_CHANGED
-*      timestamp: number
-* }
-*/
+ * The type of (redux) action, which indicates conference UTC timestamp changes.
+ *
+ * {
+ *      type: CONFERENCE_TIMESTAMP_CHANGED
+ *      timestamp: number
+ * }
+ */
 export const CONFERENCE_TIMESTAMP_CHANGED = 'CONFERENCE_TIMESTAMP_CHANGED';
 
 /**
@@ -149,8 +149,7 @@ export const SEND_TONES = 'SEND_TONES';
  *     desktopSharingEnabled: boolean
  * }
  */
-export const SET_DESKTOP_SHARING_ENABLED
-    = 'SET_DESKTOP_SHARING_ENABLED';
+export const SET_DESKTOP_SHARING_ENABLED = 'SET_DESKTOP_SHARING_ENABLED';
 
 /**
  * The type of (redux) action which updates the current known status of the
@@ -173,8 +172,7 @@ export const SET_FOLLOW_ME = 'SET_FOLLOW_ME';
  *     maxReceiverVideoQuality: number
  * }
  */
-export const SET_MAX_RECEIVER_VIDEO_QUALITY
-    = 'SET_MAX_RECEIVER_VIDEO_QUALITY';
+export const SET_MAX_RECEIVER_VIDEO_QUALITY = 'SET_MAX_RECEIVER_VIDEO_QUALITY';
 
 /**
  * The type of (redux) action which sets the password to join or lock a specific

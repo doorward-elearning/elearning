@@ -7,11 +7,10 @@ import { countries } from '../../utils';
 import CountryRow from './CountryRow';
 
 type Props = {
-
-    /**
-     * Click handler for a single entry.
-     */
-    onEntryClick: Function,
+  /**
+   * Click handler for a single entry.
+   */
+  onEntryClick: Function,
 };
 
 /**
@@ -20,16 +19,13 @@ type Props = {
  * @returns {ReactElement}
  */
 function CountryDropdown({ onEntryClick }: Props) {
-    return (
-        <div className = 'cpick-dropdown'>
-            {countries.map(country => (
-                <CountryRow
-                    country = { country }
-                    key = { `${country.code}` }
-                    onEntryClick = { onEntryClick } />
-            ))}
-        </div>
-    );
+  return (
+    <div className="cpick-dropdown">
+      {countries.map((country) => (
+        <CountryRow country={country} key={`${country.code}`} onEntryClick={onEntryClick} />
+      ))}
+    </div>
+  );
 }
 
 export default CountryDropdown;

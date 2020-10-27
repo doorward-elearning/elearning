@@ -14,15 +14,15 @@ import { toState } from '../redux';
  * currently mounted {@code App}.
  */
 export function getAppProp(stateful: Function | Object, propName: string) {
-    const state = toState(stateful)['features/base/app'];
+  const state = toState(stateful)['features/base/app'];
 
-    if (state) {
-        const { app } = state;
+  if (state) {
+    const { app } = state;
 
-        if (app) {
-            return app.props[propName];
-        }
+    if (app) {
+      return app.props[propName];
     }
+  }
 
-    return undefined;
+  return undefined;
 }

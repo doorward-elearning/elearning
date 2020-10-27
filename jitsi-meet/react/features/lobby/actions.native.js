@@ -12,7 +12,7 @@ export * from './actions.web';
  * @returns {showNotification}
  */
 export function showDisableLobbyModeDialog() {
-    return openDialog(DisableLobbyModeDialog);
+  return openDialog(DisableLobbyModeDialog);
 }
 
 /**
@@ -21,5 +21,5 @@ export function showDisableLobbyModeDialog() {
  * @returns {showNotification}
  */
 export function showEnableLobbyModeDialog() {
-    return openDialog(EnableLobbyModeDialog);
+  return openDialog(EnableLobbyModeDialog);
 }

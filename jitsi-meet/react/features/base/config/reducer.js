@@ -17,8 +17,7 @@ import { _cleanupConfig } from './functions';
  *
  * @type {Object}
  */
-const INITIAL_NON_RN_STATE = {
-};
+const INITIAL_NON_RN_STATE = {};
 
 /**
  * The initial state of the feature base/config when executing in a React Native
@@ -30,67 +29,67 @@ const INITIAL_NON_RN_STATE = {
  * @type {Object}
  */
 const INITIAL_RN_STATE = {
-    analytics: {},
+  analytics: {},
 
-    // FIXME The support for audio levels in lib-jitsi-meet polls the statistics
-    // of WebRTC at a short interval multiple times a second. Unfortunately,
-    // React Native is slow to fetch these statistics from the native WebRTC
-    // API, through the React Native bridge and eventually to JavaScript.
-    // Because the audio levels are of no interest to the mobile app, it is
-    // fastest to merely disable them.
-    disableAudioLevels: true,
+  // FIXME The support for audio levels in lib-jitsi-meet polls the statistics
+  // of WebRTC at a short interval multiple times a second. Unfortunately,
+  // React Native is slow to fetch these statistics from the native WebRTC
+  // API, through the React Native bridge and eventually to JavaScript.
+  // Because the audio levels are of no interest to the mobile app, it is
+  // fastest to merely disable them.
+  disableAudioLevels: true,
 
-    p2p: {
-        disableH264: false,
-        preferH264: true
-    },
+  p2p: {
+    disableH264: false,
+    preferH264: true,
+  },
 
-    remoteVideoMenu: {}
+  remoteVideoMenu: {},
 };
 
 ReducerRegistry.register('features/base/config', (state = _getInitialState(), action) => {
-    switch (action.type) {
+  switch (action.type) {
     case UPDATE_CONFIG:
-        return _updateConfig(state, action);
+      return _updateConfig(state, action);
 
     case CONFIG_WILL_LOAD:
-        return {
-            error: undefined,
+      return {
+        error: undefined,
 
-            /**
-                * The URL of the location associated with/configured by this
-                * configuration.
-                *
-                * @type URL
-                */
-            locationURL: action.locationURL
-        };
+        /**
+         * The URL of the location associated with/configured by this
+         * configuration.
+         *
+         * @type URL
+         */
+        locationURL: action.locationURL,
+      };
 
     case LOAD_CONFIG_ERROR:
-        // XXX LOAD_CONFIG_ERROR is one of the settlement execution paths of
-        // the asynchronous "loadConfig procedure/process" started with
-        // CONFIG_WILL_LOAD. Due to the asynchronous nature of it, whoever
-        // is settling the process needs to provide proof that they have
-        // started it and that the iteration of the process being completed
-        // now is still of interest to the app.
-        if (state.locationURL === action.locationURL) {
-            return {
-                /**
-                    * The {@link Error} which prevented the loading of the
-                    * configuration of the associated {@code locationURL}.
-                    *
-                    * @type Error
-                    */
-                error: action.error
-            };
-        }
-        break;
+      // XXX LOAD_CONFIG_ERROR is one of the settlement execution paths of
+      // the asynchronous "loadConfig procedure/process" started with
+      // CONFIG_WILL_LOAD. Due to the asynchronous nature of it, whoever
+      // is settling the process needs to provide proof that they have
+      // started it and that the iteration of the process being completed
+      // now is still of interest to the app.
+      if (state.locationURL === action.locationURL) {
+        return {
+          /**
+           * The {@link Error} which prevented the loading of the
+           * configuration of the associated {@code locationURL}.
+           *
+           * @type Error
+           */
+          error: action.error,
+        };
+      }
+      break;
 
     case SET_CONFIG:
-        return _setConfig(state, action);
-    }
+      return _setConfig(state, action);
+  }
 
-    return state;
+  return state;
 });
 
 /**
@@ -103,10 +102,7 @@ ReducerRegistry.register('features/base/config', (state = _getInitialState(), ac
  * @returns {Object}
  */
 function _getInitialState() {
-    return (
-        navigator.product === 'ReactNative'
-            ? INITIAL_RN_STATE
-            : INITIAL_NON_RN_STATE);
+  return navigator.product === 'ReactNative' ? INITIAL_RN_STATE : INITIAL_NON_RN_STATE;
 }
 
 /**
@@ -119,30 +115,30 @@ function _getInitialState() {
  * @returns {Object} The new state after the reduction of the specified action.
  */
 function _setConfig(state, { config }) {
-    // The mobile app bundles jitsi-meet and lib-jitsi-meet at build time and
-    // does not download them at runtime from the deployment on which it will
-    // join a conference. The downloading is planned for implementation in the
-    // future (later rather than sooner) but is not implemented yet at the time
-    // of this writing and, consequently, we must provide legacy support in the
-    // meantime.
+  // The mobile app bundles jitsi-meet and lib-jitsi-meet at build time and
+  // does not download them at runtime from the deployment on which it will
+  // join a conference. The downloading is planned for implementation in the
+  // future (later rather than sooner) but is not implemented yet at the time
+  // of this writing and, consequently, we must provide legacy support in the
+  // meantime.
 
-    // eslint-disable-next-line no-param-reassign
-    config = _translateLegacyConfig(config);
+  // eslint-disable-next-line no-param-reassign
+  config = _translateLegacyConfig(config);
 
-    const newState = _.merge(
-        {},
-        config,
-        { error: undefined },
+  const newState = _.merge(
+    {},
+    config,
+    { error: undefined },
 
-        // The config of _getInitialState() is meant to override the config
-        // downloaded from the Jitsi Meet deployment because the former contains
-        // values that are mandatory.
-        _getInitialState()
-    );
+    // The config of _getInitialState() is meant to override the config
+    // downloaded from the Jitsi Meet deployment because the former contains
+    // values that are mandatory.
+    _getInitialState()
+  );
 
-    _cleanupConfig(newState);
+  _cleanupConfig(newState);
 
-    return equals(state, newState) ? state : newState;
+  return equals(state, newState) ? state : newState;
 }
 
 /**
@@ -160,44 +156,44 @@ function _setConfig(state, { config }) {
  * supported by jitsi-meet.
  */
 function _translateLegacyConfig(oldValue: Object) {
-    let newValue = oldValue;
+  let newValue = oldValue;
 
-    const oldConfigToNewConfig = {
-        analytics: [
-            [ 'analyticsScriptUrls', 'scriptURLs' ],
-            [ 'googleAnalyticsTrackingId', 'googleAnalyticsTrackingId' ]
-        ]
-    };
+  const oldConfigToNewConfig = {
+    analytics: [
+      ['analyticsScriptUrls', 'scriptURLs'],
+      ['googleAnalyticsTrackingId', 'googleAnalyticsTrackingId'],
+    ],
+  };
 
-    // Translate the old config properties into the new config properties.
-    Object.keys(oldConfigToNewConfig).forEach(section => {
-        if (typeof oldValue[section] !== 'object') {
-            newValue = set(newValue, section, {});
+  // Translate the old config properties into the new config properties.
+  Object.keys(oldConfigToNewConfig).forEach((section) => {
+    if (typeof oldValue[section] !== 'object') {
+      newValue = set(newValue, section, {});
+    }
+
+    for (const [oldKey, newKey] of oldConfigToNewConfig[section]) {
+      if (oldKey in newValue && !(newKey in newValue[section])) {
+        const v = newValue[oldKey];
+
+        // Do not modify oldValue.
+        if (newValue === oldValue) {
+          newValue = {
+            ...newValue,
+          };
         }
+        delete newValue[oldKey];
 
-        for (const [ oldKey, newKey ] of oldConfigToNewConfig[section]) {
-            if (oldKey in newValue && !(newKey in newValue[section])) {
-                const v = newValue[oldKey];
+        // Do not modify the section because it may be from oldValue
+        // i.e. do not modify oldValue.
+        newValue[section] = {
+          ...newValue[section],
+          [newKey]: v,
+        };
+      }
+    }
+  });
 
-                // Do not modify oldValue.
-                if (newValue === oldValue) {
-                    newValue = {
-                        ...newValue
-                    };
-                }
-                delete newValue[oldKey];
-
-                // Do not modify the section because it may be from oldValue
-                // i.e. do not modify oldValue.
-                newValue[section] = {
-                    ...newValue[section],
-                    [newKey]: v
-                };
-            }
-        }
-    });
-
-    return newValue;
+  return newValue;
 }
 
 /**
@@ -209,9 +205,9 @@ function _translateLegacyConfig(oldValue: Object) {
  * @returns {Object} The new state after the reduction of the specified action.
  */
 function _updateConfig(state, { config }) {
-    const newState = _.merge({}, state, config);
+  const newState = _.merge({}, state, config);
 
-    _cleanupConfig(newState);
+  _cleanupConfig(newState);
 
-    return equals(state, newState) ? state : newState;
+  return equals(state, newState) ? state : newState;
 }

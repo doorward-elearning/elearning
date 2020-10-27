@@ -286,8 +286,8 @@ const DoorwardBackendApi = {
     },
   },
   "resources": {
-    getLocaleFile: (lang: string, file: string, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
-      return GET(`/resources/locales/${lang}/${file}`, {}, config);
+    getLocaleFile: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+      return GET(`/resources/translations`, {}, config);
     },
   },
   "schools": {

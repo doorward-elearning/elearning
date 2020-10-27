@@ -13,6 +13,7 @@ import RoleEntity from './role.entity';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
+import { Expose } from 'class-transformer';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -59,7 +60,21 @@ export default class OrganizationEntity {
 
   roles: Array<RoleEntity>;
 
+  @Expose({ groups: ['organization-models'] })
   models: Record<OrganizationModels, Array<string>>;
+
+  @Expose({ groups: ['meeting-config'] })
+  meetings: {
+    config: {
+      base: object;
+      moderator: object;
+      publisher: object;
+    };
+    interface: {
+      moderator: object;
+      publisher: object;
+    };
+  };
 
   getDisplayName(model: OrganizationModels) {
     return this.models[model];

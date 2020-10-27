@@ -30,37 +30,28 @@ let CallKit = NativeModules.RNCallKit;
 // methods of the latter to the former, add the one additional method that we
 // need to RNCallKit.
 if (CallKit) {
-    const eventEmitter = new NativeEventEmitter(CallKit);
+  const eventEmitter = new NativeEventEmitter(CallKit);
 
-    CallKit = {
-        ...CallKit,
-        addListener: eventEmitter.addListener.bind(eventEmitter),
-        registerSubscriptions(context, delegate) {
-            CallKit.setProviderConfiguration({
-                iconTemplateImageName: 'CallKitIcon',
-                localizedName: getName()
-            });
+  CallKit = {
+    ...CallKit,
+    addListener: eventEmitter.addListener.bind(eventEmitter),
+    registerSubscriptions(context, delegate) {
+      CallKit.setProviderConfiguration({
+        iconTemplateImageName: 'CallKitIcon',
+        localizedName: getName(),
+      });
 
-            return [
-                CallKit.addListener(
-                    'performEndCallAction',
-                    delegate._onPerformEndCallAction,
-                    context),
-                CallKit.addListener(
-                    'performSetMutedCallAction',
-                    delegate._onPerformSetMutedCallAction,
-                    context),
+      return [
+        CallKit.addListener('performEndCallAction', delegate._onPerformEndCallAction, context),
+        CallKit.addListener('performSetMutedCallAction', delegate._onPerformSetMutedCallAction, context),
 
-                // According to CallKit's documentation, when the system resets
-                // we should terminate all calls. Hence, providerDidReset is
-                // the same to us as performEndCallAction.
-                CallKit.addListener(
-                    'providerDidReset',
-                    delegate._onPerformEndCallAction,
-                    context)
-            ];
-        }
-    };
+        // According to CallKit's documentation, when the system resets
+        // we should terminate all calls. Hence, providerDidReset is
+        // the same to us as performEndCallAction.
+        CallKit.addListener('providerDidReset', delegate._onPerformEndCallAction, context),
+      ];
+    },
+  };
 }
 
 export default CallKit;

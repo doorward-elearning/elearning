@@ -7,17 +7,16 @@ import { connect } from '../../../redux';
 import { calculateAvatarDimensions } from '../../functions';
 
 type Props = {
+  /**
+   * The height of the window.
+   */
+  height: number,
 
-   /**
-    * The height of the window.
-    */
-    height: number,
-
-   /**
-    * The name of the participant (if any).
-    */
-    name: string
-}
+  /**
+   * The name of the participant (if any).
+   */
+  name: string,
+};
 
 /**
  * Component displaying the avatar for the premeeting screen.
@@ -26,22 +25,17 @@ type Props = {
  * @returns {ReactElement}
  */
 function PremeetingAvatar({ height, name }: Props) {
-    const { marginTop, size } = calculateAvatarDimensions(height);
+  const { marginTop, size } = calculateAvatarDimensions(height);
 
-    if (size <= 5) {
-        return null;
-    }
+  if (size <= 5) {
+    return null;
+  }
 
-
-    return (
-        <div style = {{ marginTop }}>
-            <Avatar
-                className = 'preview-avatar'
-                displayName = { name }
-                participantId = 'local'
-                size = { size } />
-        </div>
-    );
+  return (
+    <div style={{ marginTop }}>
+      <Avatar className="preview-avatar" displayName={name} participantId="local" size={size} />
+    </div>
+  );
 }
 
 /**
@@ -53,9 +47,9 @@ function PremeetingAvatar({ height, name }: Props) {
  * }}
  */
 function mapStateToProps(state) {
-    return {
-        height: state['features/base/responsive-ui'].clientHeight
-    };
+  return {
+    height: state['features/base/responsive-ui'].clientHeight,
+  };
 }
 
 export default connect(mapStateToProps)(PremeetingAvatar);

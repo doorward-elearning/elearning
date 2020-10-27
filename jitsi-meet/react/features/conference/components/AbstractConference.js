@@ -10,30 +10,29 @@ import { shouldDisplayNotifications } from '../functions';
  * The type of the React {@code Component} props of {@link AbstractLabels}.
  */
 export type AbstractProps = {
+  /**
+   * Set to {@code true} when the notifications are to be displayed.
+   *
+   * @protected
+   * @type {boolean}
+   */
+  _notificationsVisible: boolean,
 
-    /**
-     * Set to {@code true} when the notifications are to be displayed.
-     *
-     * @protected
-     * @type {boolean}
-     */
-    _notificationsVisible: boolean,
+  /**
+   * Conference room name.
+   *
+   * @protected
+   * @type {string}
+   */
+  _room: string,
 
-    /**
-     * Conference room name.
-     *
-     * @protected
-     * @type {string}
-     */
-    _room: string,
-
-    /**
-     * Whether or not the layout should change to support tile view mode.
-     *
-     * @protected
-     * @type {boolean}
-     */
-    _shouldDisplayTileView: boolean
+  /**
+   * Whether or not the layout should change to support tile view mode.
+   *
+   * @protected
+   * @type {boolean}
+   */
+  _shouldDisplayTileView: boolean,
 };
 
 /**
@@ -42,26 +41,22 @@ export type AbstractProps = {
  *
  * @extends Component
  */
-export class AbstractConference<P: AbstractProps, S>
-    extends Component<P, S> {
-
-    /**
-     * Renders the {@code LocalRecordingLabel}.
-     *
-     * @param {Object} props - The properties to be passed to
-     * the {@code NotificationsContainer}.
-     * @protected
-     * @returns {React$Element}
-     */
-    renderNotificationsContainer(props: ?Object) {
-        if (this.props._notificationsVisible) {
-            return (
-                React.createElement(NotificationsContainer, props)
-            );
-        }
-
-        return null;
+export class AbstractConference<P: AbstractProps, S> extends Component<P, S> {
+  /**
+   * Renders the {@code LocalRecordingLabel}.
+   *
+   * @param {Object} props - The properties to be passed to
+   * the {@code NotificationsContainer}.
+   * @protected
+   * @returns {React$Element}
+   */
+  renderNotificationsContainer(props: ?Object) {
+    if (this.props._notificationsVisible) {
+      return React.createElement(NotificationsContainer, props);
     }
+
+    return null;
+  }
 }
 
 /**
@@ -73,9 +68,9 @@ export class AbstractConference<P: AbstractProps, S>
  * @returns {AbstractProps}
  */
 export function abstractMapStateToProps(state: Object) {
-    return {
-        _notificationsVisible: shouldDisplayNotifications(state),
-        _room: state['features/base/conference'].room,
-        _shouldDisplayTileView: shouldDisplayTileView(state)
-    };
+  return {
+    _notificationsVisible: shouldDisplayNotifications(state),
+    _room: state['features/base/conference'].room,
+    _shouldDisplayTileView: shouldDisplayTileView(state),
+  };
 }

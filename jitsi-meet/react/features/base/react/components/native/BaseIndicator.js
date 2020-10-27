@@ -9,21 +9,20 @@ import { type StyleType } from '../../../styles';
 import styles from './indicatorstyles';
 
 type Props = {
+  /**
+   * True if a highlighted background has to be applied.
+   */
+  highlight: boolean,
 
-    /**
-     * True if a highlighted background has to be applied.
-     */
-    highlight: boolean,
+  /**
+   * The name of the icon to be used as the indicator.
+   */
+  icon: string,
 
-    /**
-     * The name of the icon to be used as the indicator.
-     */
-    icon: string,
-
-    /**
-     * Additional style to be applied to the icon element.
-     */
-    iconStyle: StyleType
+  /**
+   * Additional style to be applied to the icon element.
+   */
+  iconStyle: StyleType,
 };
 
 /**
@@ -31,23 +30,18 @@ type Props = {
  * the filmstrip.
  */
 export default class BaseIndicator extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { highlight, icon, iconStyle } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { highlight, icon, iconStyle } = this.props;
 
-        return (
-            <View style = { highlight ? styles.highlightedIndicator : null }>
-                <Icon
-                    src = { icon }
-                    style = { [
-                        styles.indicator,
-                        iconStyle
-                    ] } />
-            </View>
-        );
-    }
+    return (
+      <View style={highlight ? styles.highlightedIndicator : null}>
+        <Icon src={icon} style={[styles.indicator, iconStyle]} />
+      </View>
+    );
+  }
 }

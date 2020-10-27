@@ -1,4 +1,3 @@
-
 // @flow
 
 import { Image } from 'react-native';
@@ -12,11 +11,11 @@ import { isIconUrl } from './functions';
  * @returns {Promise}
  */
 export function preloadImage(src: string | Object): Promise<string> {
-    if (isIconUrl(src)) {
-        return Promise.resolve(src);
-    }
+  if (isIconUrl(src)) {
+    return Promise.resolve(src);
+  }
 
-    return new Promise((resolve, reject) => {
-        Image.prefetch(src).then(() => resolve(src), reject);
-    });
+  return new Promise((resolve, reject) => {
+    Image.prefetch(src).then(() => resolve(src), reject);
+  });
 }

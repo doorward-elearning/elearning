@@ -14,8 +14,8 @@ import { _SET_IMMERSIVE_LISTENER } from './actionTypes';
  * }}
  */
 export function _setImmersiveListener(listener: ?Function) {
-    return {
-        type: _SET_IMMERSIVE_LISTENER,
-        listener
-    };
+  return {
+    type: _SET_IMMERSIVE_LISTENER,
+    listener,
+  };
 }

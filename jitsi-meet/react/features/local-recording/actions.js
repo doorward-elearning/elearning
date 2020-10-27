@@ -1,10 +1,6 @@
 /* @flow */
 
-import {
-    LOCAL_RECORDING_ENGAGED,
-    LOCAL_RECORDING_UNENGAGED,
-    LOCAL_RECORDING_STATS_UPDATE
-} from './actionTypes';
+import { LOCAL_RECORDING_ENGAGED, LOCAL_RECORDING_UNENGAGED, LOCAL_RECORDING_STATS_UPDATE } from './actionTypes';
 
 // The following two actions signal state changes in local recording engagement.
 // In other words, the events of the local WebWorker / MediaRecorder starting to
@@ -22,10 +18,10 @@ import {
  * }}
  */
 export function localRecordingEngaged(startTime: Date) {
-    return {
-        type: LOCAL_RECORDING_ENGAGED,
-        recordingEngagedAt: startTime
-    };
+  return {
+    type: LOCAL_RECORDING_ENGAGED,
+    recordingEngagedAt: startTime,
+  };
 }
 
 /**
@@ -36,9 +32,9 @@ export function localRecordingEngaged(startTime: Date) {
  * }}
  */
 export function localRecordingUnengaged() {
-    return {
-        type: LOCAL_RECORDING_UNENGAGED
-    };
+  return {
+    type: LOCAL_RECORDING_UNENGAGED,
+  };
 }
 
 /**
@@ -52,8 +48,8 @@ export function localRecordingUnengaged() {
  * }}
  */
 export function statsUpdate(stats: Object) {
-    return {
-        type: LOCAL_RECORDING_STATS_UPDATE,
-        stats
-    };
+  return {
+    type: LOCAL_RECORDING_STATS_UPDATE,
+    stats,
+  };
 }

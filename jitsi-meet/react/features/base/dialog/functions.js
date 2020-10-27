@@ -11,7 +11,7 @@ import { toState } from '../redux';
  * @returns {boolean}
  */
 export function isAnyDialogOpen(stateful: Function) {
-    return Boolean(toState(stateful)['features/base/dialog'].component);
+  return Boolean(toState(stateful)['features/base/dialog'].component);
 }
 
 /**
@@ -25,7 +25,7 @@ export function isAnyDialogOpen(stateful: Function) {
  * @returns {boolean}
  */
 export function isDialogOpen(stateful: Function | Object, component: Object) {
-    return toState(stateful)['features/base/dialog'].component === component;
+  return toState(stateful)['features/base/dialog'].component === component;
 }
 
 /**
@@ -37,7 +37,7 @@ export function isDialogOpen(stateful: Function | Object, component: Object) {
  * }}
  */
 export function _abstractMapStateToProps(state: Object): Object {
-    return {
-        _dialogStyles: ColorSchemeRegistry.get(state, 'Dialog')
-    };
+  return {
+    _dialogStyles: ColorSchemeRegistry.get(state, 'Dialog'),
+  };
 }

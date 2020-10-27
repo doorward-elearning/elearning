@@ -11,13 +11,13 @@ import { isOldJitsiMeetElectronApp } from './functions';
 
 declare var interfaceConfig: Object;
 
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case APP_WILL_MOUNT:
-        return _appWillMount(store, next, action);
-    }
+      return _appWillMount(store, next, action);
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -30,14 +30,16 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {Object} The new state that is the result of the reduction of the specified {@code action}.
  */
 function _appWillMount(store, next, action) {
-    if (isOldJitsiMeetElectronApp()) {
-        const { dispatch } = store;
+  if (isOldJitsiMeetElectronApp()) {
+    const { dispatch } = store;
 
-        dispatch(showErrorNotification({
-            titleKey: 'notify.OldElectronAPPTitle',
-            description: <OldElectronAPPNotificationDescription />
-        }));
-    }
+    dispatch(
+      showErrorNotification({
+        titleKey: 'notify.OldElectronAPPTitle',
+        description: <OldElectronAPPNotificationDescription />,
+      })
+    );
+  }
 
-    return next(action);
+  return next(action);
 }

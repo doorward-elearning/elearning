@@ -10,5 +10,5 @@ import * as unorm from 'unorm';
  * @returns {string} - The normalized text.
  */
 export function normalizeNFKC(text: string) {
-    return unorm.nfkc(text);
+  return unorm.nfkc(text);
 }

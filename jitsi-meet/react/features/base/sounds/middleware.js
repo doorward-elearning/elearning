@@ -11,17 +11,17 @@ import logger from './logger';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case PLAY_SOUND:
-        _playSound(store, action.soundId);
-        break;
+      _playSound(store, action.soundId);
+      break;
     case STOP_SOUND:
-        _stopSound(store, action.soundId);
-        break;
-    }
+      _stopSound(store, action.soundId);
+      break;
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -33,18 +33,18 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _playSound({ getState }, soundId) {
-    const sounds = getState()['features/base/sounds'];
-    const sound = sounds.get(soundId);
+  const sounds = getState()['features/base/sounds'];
+  const sound = sounds.get(soundId);
 
-    if (sound) {
-        if (sound.audioElement) {
-            sound.audioElement.play();
-        } else {
-            logger.warn(`PLAY_SOUND: sound not loaded yet for id: ${soundId}`);
-        }
+  if (sound) {
+    if (sound.audioElement) {
+      sound.audioElement.play();
     } else {
-        logger.warn(`PLAY_SOUND: no sound found for id: ${soundId}`);
+      logger.warn(`PLAY_SOUND: sound not loaded yet for id: ${soundId}`);
     }
+  } else {
+    logger.warn(`PLAY_SOUND: no sound found for id: ${soundId}`);
+  }
 }
 
 /**
@@ -56,18 +56,18 @@ function _playSound({ getState }, soundId) {
  * @returns {void}
  */
 function _stopSound({ getState }, soundId) {
-    const sounds = getState()['features/base/sounds'];
-    const sound = sounds.get(soundId);
+  const sounds = getState()['features/base/sounds'];
+  const sound = sounds.get(soundId);
 
-    if (sound) {
-        const { audioElement } = sound;
+  if (sound) {
+    const { audioElement } = sound;
 
-        if (audioElement) {
-            audioElement.stop();
-        } else {
-            logger.warn(`STOP_SOUND: sound not loaded yet for id: ${soundId}`);
-        }
+    if (audioElement) {
+      audioElement.stop();
     } else {
-        logger.warn(`STOP_SOUND: no sound found for id: ${soundId}`);
+      logger.warn(`STOP_SOUND: sound not loaded yet for id: ${soundId}`);
     }
+  } else {
+    logger.warn(`STOP_SOUND: no sound found for id: ${soundId}`);
+  }
 }

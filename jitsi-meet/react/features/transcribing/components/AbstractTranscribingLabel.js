@@ -4,16 +4,15 @@
  * The type of the React {@code Component} props of {@link TranscribingLabel}.
  */
 export type Props = {
+  /**
+   * True if the label needs to be rendered, false otherwise.
+   */
+  _showLabel: boolean,
 
-    /**
-     * True if the label needs to be rendered, false otherwise.
-     */
-    _showLabel: boolean,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -27,7 +26,7 @@ export type Props = {
  * }}
  */
 export function _mapStateToProps(state: Object) {
-    return {
-        _showLabel: state['features/transcribing'].isTranscribing
-    };
+  return {
+    _showLabel: state['features/transcribing'].isTranscribing,
+  };
 }

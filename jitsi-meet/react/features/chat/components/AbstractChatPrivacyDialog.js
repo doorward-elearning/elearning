@@ -6,82 +6,81 @@ import { getParticipantById } from '../../base/participants';
 import { sendMessage, setPrivateMessageRecipient } from '../actions';
 
 type Props = {
+  /**
+   * The message that is about to be sent.
+   */
+  message: Object,
 
-    /**
-     * The message that is about to be sent.
-     */
-    message: Object,
+  /**
+   * The ID of the participant that we think the message may be intended to.
+   */
+  participantID: string,
 
-    /**
-     * The ID of the participant that we think the message may be intended to.
-     */
-    participantID: string,
+  /**
+   * Function to be used to translate i18n keys.
+   */
+  t: Function,
 
-    /**
-     * Function to be used to translate i18n keys.
-     */
-    t: Function,
+  /**
+   * Prop to be invoked on sending the message.
+   */
+  _onSendMessage: Function,
 
-    /**
-     * Prop to be invoked on sending the message.
-     */
-    _onSendMessage: Function,
+  /**
+   * Prop to be invoked when the user wants to set a private recipient.
+   */
+  _onSetMessageRecipient: Function,
 
-    /**
-     * Prop to be invoked when the user wants to set a private recipient.
-     */
-    _onSetMessageRecipient: Function,
-
-    /**
-     * The participant retreived from Redux by the participanrID prop.
-     */
-    _participant: Object
+  /**
+   * The participant retreived from Redux by the participanrID prop.
+   */
+  _participant: Object,
 };
 
 /**
  * Abstract class for the dialog displayed to avoid mis-sending private messages.
  */
 export class AbstractChatPrivacyDialog extends PureComponent<Props> {
-    /**
-     * Instantiates a new instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Instantiates a new instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onSendGroupMessage = this._onSendGroupMessage.bind(this);
-        this._onSendPrivateMessage = this._onSendPrivateMessage.bind(this);
-    }
+    this._onSendGroupMessage = this._onSendGroupMessage.bind(this);
+    this._onSendPrivateMessage = this._onSendPrivateMessage.bind(this);
+  }
 
-    _onSendGroupMessage: () => boolean;
+  _onSendGroupMessage: () => boolean;
 
-    /**
-     * Callback to be invoked for cancel action (user wants to send a group message).
-     *
-     * @returns {boolean}
-     */
-    _onSendGroupMessage() {
-        this.props._onSendMessage(this.props.message);
+  /**
+   * Callback to be invoked for cancel action (user wants to send a group message).
+   *
+   * @returns {boolean}
+   */
+  _onSendGroupMessage() {
+    this.props._onSendMessage(this.props.message);
 
-        return true;
-    }
+    return true;
+  }
 
-    _onSendPrivateMessage: () => boolean;
+  _onSendPrivateMessage: () => boolean;
 
-    /**
-     * Callback to be invoked for submit action (user wants to send a private message).
-     *
-     * @returns {void}
-     */
-    _onSendPrivateMessage() {
-        const { message, _onSendMessage, _onSetMessageRecipient, _participant } = this.props;
+  /**
+   * Callback to be invoked for submit action (user wants to send a private message).
+   *
+   * @returns {void}
+   */
+  _onSendPrivateMessage() {
+    const { message, _onSendMessage, _onSetMessageRecipient, _participant } = this.props;
 
-        _onSetMessageRecipient(_participant);
-        _onSendMessage(message);
+    _onSetMessageRecipient(_participant);
+    _onSendMessage(message);
 
-        return true;
-    }
+    return true;
+  }
 }
 
 /**
@@ -91,15 +90,15 @@ export class AbstractChatPrivacyDialog extends PureComponent<Props> {
  * @returns {Props}
  */
 export function _mapDispatchToProps(dispatch: Function): $Shape<Props> {
-    return {
-        _onSendMessage: (message: Object) => {
-            dispatch(sendMessage(message, true));
-        },
+  return {
+    _onSendMessage: (message: Object) => {
+      dispatch(sendMessage(message, true));
+    },
 
-        _onSetMessageRecipient: participant => {
-            dispatch(setPrivateMessageRecipient(participant));
-        }
-    };
+    _onSetMessageRecipient: (participant) => {
+      dispatch(setPrivateMessageRecipient(participant));
+    },
+  };
 }
 
 /**
@@ -110,7 +109,7 @@ export function _mapDispatchToProps(dispatch: Function): $Shape<Props> {
  * @returns {Props}
  */
 export function _mapStateToProps(state: Object, ownProps: Props): $Shape<Props> {
-    return {
-        _participant: getParticipantById(state, ownProps.participantID)
-    };
+  return {
+    _participant: getParticipantById(state, ownProps.participantID),
+  };
 }

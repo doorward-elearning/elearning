@@ -11,9 +11,9 @@ declare var APP: Object;
  * List of errors that are not fatal (or handled differently) so then the overlays won't kick in.
  */
 const NON_OVERLAY_ERRORS = [
-    JitsiConferenceErrors.CONFERENCE_ACCESS_DENIED,
-    JitsiConferenceErrors.CONFERENCE_DESTROYED,
-    JitsiConferenceErrors.CONNECTION_ERROR
+  JitsiConferenceErrors.CONFERENCE_ACCESS_DENIED,
+  JitsiConferenceErrors.CONFERENCE_DESTROYED,
+  JitsiConferenceErrors.CONNECTION_ERROR,
 ];
 
 /**
@@ -22,17 +22,17 @@ const NON_OVERLAY_ERRORS = [
  * feature for error recovery (the recoverable flag is not set).
  */
 StateListenerRegistry.register(
-    /* selector */ state => {
-        const { error: conferenceError } = state['features/base/conference'];
-        const { error: configError } = state['features/base/config'];
-        const { error: connectionError } = state['features/base/connection'];
+  /* selector */ (state) => {
+    const { error: conferenceError } = state['features/base/conference'];
+    const { error: configError } = state['features/base/config'];
+    const { error: connectionError } = state['features/base/connection'];
 
-        return configError || connectionError || conferenceError;
-    },
-    /* listener */ (error, { dispatch }) => {
-        error
-            && NON_OVERLAY_ERRORS.indexOf(error.name) === -1
-            && typeof error.recoverable === 'undefined'
-            && dispatch(setFatalError(error));
-    }
+    return configError || connectionError || conferenceError;
+  },
+  /* listener */ (error, { dispatch }) => {
+    error &&
+      NON_OVERLAY_ERRORS.indexOf(error.name) === -1 &&
+      typeof error.recoverable === 'undefined' &&
+      dispatch(setFatalError(error));
+  }
 );

@@ -2,7 +2,6 @@
 
 import { parseURIString, safeDecodeURIComponent } from '../base/util';
 
-
 /**
  * Transforms the history list to a displayable list.
  *
@@ -11,17 +10,18 @@ import { parseURIString, safeDecodeURIComponent } from '../base/util';
  * @returns {Array<Object>}
  */
 export function toDisplayableList(recentList) {
-    return (
-        recentList.slice(-3).reverse()
-            .map(item => {
-                return {
-                    date: item.date,
-                    duration: item.duration,
-                    time: [ item.date ],
-                    title: safeDecodeURIComponent(parseURIString(item.conference).room),
-                    url: item.conference
-                };
-            }));
+  return recentList
+    .slice(-3)
+    .reverse()
+    .map((item) => {
+      return {
+        date: item.date,
+        duration: item.duration,
+        time: [item.date],
+        title: safeDecodeURIComponent(parseURIString(item.conference).room),
+        url: item.conference,
+      };
+    });
 }
 
 /**
@@ -31,5 +31,5 @@ export function toDisplayableList(recentList) {
  * otherwise.
  */
 export function isRecentListEnabled() {
-    return interfaceConfig.RECENT_LIST_ENABLED;
+  return interfaceConfig.RECENT_LIST_ENABLED;
 }

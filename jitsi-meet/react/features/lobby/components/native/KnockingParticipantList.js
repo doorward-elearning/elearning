@@ -7,8 +7,8 @@ import { Avatar } from '../../../base/avatar';
 import { translate } from '../../../base/i18n';
 import { connect } from '../../../base/redux';
 import AbstractKnockingParticipantList, {
-    mapStateToProps as abstractMapStateToProps,
-    type Props
+  mapStateToProps as abstractMapStateToProps,
+  type Props,
 } from '../AbstractKnockingParticipantList';
 
 import styles from './styles';
@@ -17,66 +17,46 @@ import styles from './styles';
  * Component to render a list for the actively knocking participants.
  */
 class KnockingParticipantList extends AbstractKnockingParticipantList {
-    /**
-     * Implements {@code PureComponent#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { _participants, _visible, t } = this.props;
+  /**
+   * Implements {@code PureComponent#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { _participants, _visible, t } = this.props;
 
-        if (!_visible) {
-            return null;
-        }
-
-        return (
-            <ScrollView
-                style = { styles.knockingParticipantList }>
-                { _participants.map(p => (
-                    <View
-                        key = { p.id }
-                        style = { styles.knockingParticipantListEntry }>
-                        <Avatar
-                            displayName = { p.name }
-                            size = { 48 }
-                            url = { p.loadableAvatarUrl } />
-                        <View style = { styles.knockingParticipantListDetails }>
-                            <Text style = { styles.knockingParticipantListText }>
-                                { p.name }
-                            </Text>
-                            { p.email && (
-                                <Text style = { styles.knockingParticipantListText }>
-                                    { p.email }
-                                </Text>
-                            ) }
-                        </View>
-                        <TouchableOpacity
-                            onPress = { this._onRespondToParticipant(p.id, true) }
-                            style = { [
-                                styles.knockingParticipantListButton,
-                                styles.knockingParticipantListPrimaryButton
-                            ] }>
-                            <Text style = { styles.knockingParticipantListText }>
-                                { t('lobby.allow') }
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                            onPress = { this._onRespondToParticipant(p.id, false) }
-                            style = { [
-                                styles.knockingParticipantListButton,
-                                styles.knockingParticipantListSecondaryButton
-                            ] }>
-                            <Text style = { styles.knockingParticipantListText }>
-                                { t('lobby.reject') }
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                )) }
-            </ScrollView>
-        );
+    if (!_visible) {
+      return null;
     }
 
-    _onRespondToParticipant: (string, boolean) => Function;
+    return (
+      <ScrollView style={styles.knockingParticipantList}>
+        {_participants.map((p) => (
+          <View key={p.id} style={styles.knockingParticipantListEntry}>
+            <Avatar displayName={p.name} size={48} url={p.loadableAvatarUrl} />
+            <View style={styles.knockingParticipantListDetails}>
+              <Text style={styles.knockingParticipantListText}>{p.name}</Text>
+              {p.email && <Text style={styles.knockingParticipantListText}>{p.email}</Text>}
+            </View>
+            <TouchableOpacity
+              onPress={this._onRespondToParticipant(p.id, true)}
+              style={[styles.knockingParticipantListButton, styles.knockingParticipantListPrimaryButton]}
+            >
+              <Text style={styles.knockingParticipantListText}>{t('lobby.allow')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={this._onRespondToParticipant(p.id, false)}
+              style={[styles.knockingParticipantListButton, styles.knockingParticipantListSecondaryButton]}
+            >
+              <Text style={styles.knockingParticipantListText}>{t('lobby.reject')}</Text>
+            </TouchableOpacity>
+          </View>
+        ))}
+      </ScrollView>
+    );
+  }
+
+  _onRespondToParticipant: (string, boolean) => Function;
 }
 
 /**
@@ -86,14 +66,14 @@ class KnockingParticipantList extends AbstractKnockingParticipantList {
  * @returns {Props}
  */
 function _mapStateToProps(state: Object): $Shape<Props> {
-    const abstractProps = abstractMapStateToProps(state);
+  const abstractProps = abstractMapStateToProps(state);
 
-    return {
-        ...abstractProps,
+  return {
+    ...abstractProps,
 
-        // On mobile we only show a portion of the list for screen real estate reasons
-        _participants: abstractProps._participants.slice(0, 2)
-    };
+    // On mobile we only show a portion of the list for screen real estate reasons
+    _participants: abstractProps._participants.slice(0, 2),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(KnockingParticipantList));

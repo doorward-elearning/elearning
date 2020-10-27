@@ -3,25 +3,21 @@
 import { Transport } from '../../../modules/transport';
 import { ReducerRegistry, set } from '../base/redux';
 
-import {
-    SET_TRANSPORT,
-    SUSPEND_DETECTED
-} from './actionTypes';
+import { SET_TRANSPORT, SUSPEND_DETECTED } from './actionTypes';
 
 /**
  * Reduces the redux actions of the feature power monitor.
  */
-ReducerRegistry.register('features/power-monitor', (state = { }, action) => {
-    switch (action.type) {
+ReducerRegistry.register('features/power-monitor', (state = {}, action) => {
+  switch (action.type) {
     case SET_TRANSPORT:
-        return _setTransport(state, action.transport);
+      return _setTransport(state, action.transport);
 
     case SUSPEND_DETECTED:
-        return _suspendDetected(state);
+      return _suspendDetected(state);
+  }
 
-    }
-
-    return state;
+  return state;
 });
 
 /**
@@ -34,7 +30,7 @@ ReducerRegistry.register('features/power-monitor', (state = { }, action) => {
  * the specified action.
  */
 function _setTransport(state, transport: ?Transport) {
-    return set(state, 'transport', transport);
+  return set(state, 'transport', transport);
 }
 
 /**
@@ -46,6 +42,5 @@ function _setTransport(state, transport: ?Transport) {
  * the specified action.
  */
 function _suspendDetected(state) {
-    return set(state, 'suspendDetected', true);
+  return set(state, 'suspendDetected', true);
 }
-

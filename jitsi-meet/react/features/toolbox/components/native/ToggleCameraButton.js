@@ -11,52 +11,51 @@ import { isLocalTrackMuted } from '../../../base/tracks';
  * The type of the React {@code Component} props of {@link ToggleCameraButton}.
  */
 type Props = AbstractButtonProps & {
+  /**
+   * Whether the current conference is in audio only mode or not.
+   */
+  _audioOnly: boolean,
 
-    /**
-     * Whether the current conference is in audio only mode or not.
-     */
-    _audioOnly: boolean,
+  /**
+   * Whether video is currently muted or not.
+   */
+  _videoMuted: boolean,
 
-    /**
-     * Whether video is currently muted or not.
-     */
-    _videoMuted: boolean,
-
-    /**
-     * The redux {@code dispatch} function.
-     */
-    dispatch: Function
+  /**
+   * The redux {@code dispatch} function.
+   */
+  dispatch: Function,
 };
 
 /**
  * An implementation of a button for toggling the camera facing mode.
  */
 class ToggleCameraButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.toggleCamera';
-    icon = IconSwitchCamera;
-    label = 'toolbar.toggleCamera';
+  accessibilityLabel = 'toolbar.accessibilityLabel.toggleCamera';
+  icon = IconSwitchCamera;
+  label = 'toolbar.toggleCamera';
 
-    /**
-     * Handles clicking / pressing the button.
-     *
-     * @override
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        this.props.dispatch(toggleCameraFacingMode());
-    }
+  /**
+   * Handles clicking / pressing the button.
+   *
+   * @override
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    this.props.dispatch(toggleCameraFacingMode());
+  }
 
-    /**
-     * Indicates whether this button is disabled or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isDisabled() {
-        return this.props._audioOnly || this.props._videoMuted;
-    }
+  /**
+   * Indicates whether this button is disabled or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isDisabled() {
+    return this.props._audioOnly || this.props._videoMuted;
+  }
 }
 
 /**
@@ -71,13 +70,13 @@ class ToggleCameraButton extends AbstractButton<Props, *> {
  * }}
  */
 function _mapStateToProps(state): Object {
-    const { enabled: audioOnly } = state['features/base/audio-only'];
-    const tracks = state['features/base/tracks'];
+  const { enabled: audioOnly } = state['features/base/audio-only'];
+  const tracks = state['features/base/tracks'];
 
-    return {
-        _audioOnly: Boolean(audioOnly),
-        _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO)
-    };
+  return {
+    _audioOnly: Boolean(audioOnly),
+    _videoMuted: isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(ToggleCameraButton));

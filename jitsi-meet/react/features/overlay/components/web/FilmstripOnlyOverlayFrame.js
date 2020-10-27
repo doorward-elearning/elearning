@@ -13,28 +13,27 @@ import OverlayFrame from './OverlayFrame';
  * {@link FilmstripOnlyOverlayFrame}.
  */
 type Props = {
+  /**
+   * The ID of the local participant.
+   */
+  _localParticipantId: string,
 
-    /**
-     * The ID of the local participant.
-     */
-    _localParticipantId: string,
+  /**
+   * The children components to be displayed into the overlay frame for
+   * filmstrip only mode.
+   */
+  children: React$Node,
 
-    /**
-     * The children components to be displayed into the overlay frame for
-     * filmstrip only mode.
-     */
-    children: React$Node,
+  /**
+   * The css class name for the icon that will be displayed over the avatar.
+   */
+  icon: string,
 
-    /**
-     * The css class name for the icon that will be displayed over the avatar.
-     */
-    icon: string,
-
-    /**
-     * Indicates the css style of the overlay. If true, then lighter; darker,
-     * otherwise.
-     */
-    isLightOverlay: boolean
+  /**
+   * Indicates the css style of the overlay. If true, then lighter; darker,
+   * otherwise.
+   */
+  isLightOverlay: boolean,
 };
 
 /**
@@ -42,55 +41,49 @@ type Props = {
  * mode.
  */
 class FilmstripOnlyOverlayFrame extends Component<Props> {
-    /**
-     * Renders content related to the icon.
-     *
-     * @returns {ReactElement|null}
-     * @private
-     */
-    _renderIcon() {
-        if (!this.props.icon) {
-            return null;
-        }
-
-        const iconClass = `inlay-filmstrip-only__icon ${this.props.icon}`;
-        const iconBGClass = 'inlay-filmstrip-only__icon-background';
-
-        return (
-            <div>
-                <div className = { iconBGClass } />
-                <div className = 'inlay-filmstrip-only__icon-container'>
-                    <span className = { iconClass } />
-                </div>
-            </div>
-        );
+  /**
+   * Renders content related to the icon.
+   *
+   * @returns {ReactElement|null}
+   * @private
+   */
+  _renderIcon() {
+    if (!this.props.icon) {
+      return null;
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <OverlayFrame isLightOverlay = { this.props.isLightOverlay }>
-                <div className = 'inlay-filmstrip-only'>
-                    <div className = 'inlay-filmstrip-only__content'>
-                        {
-                            this.props.children
-                        }
-                    </div>
-                    <div className = 'inlay-filmstrip-only__avatar-container'>
-                        <Avatar participantId = { this.props._localParticipantId } />
-                        {
-                            this._renderIcon()
-                        }
-                    </div>
-                </div>
-            </OverlayFrame>
-        );
-    }
+    const iconClass = `inlay-filmstrip-only__icon ${this.props.icon}`;
+    const iconBGClass = 'inlay-filmstrip-only__icon-background';
+
+    return (
+      <div>
+        <div className={iconBGClass} />
+        <div className="inlay-filmstrip-only__icon-container">
+          <span className={iconClass} />
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <OverlayFrame isLightOverlay={this.props.isLightOverlay}>
+        <div className="inlay-filmstrip-only">
+          <div className="inlay-filmstrip-only__content">{this.props.children}</div>
+          <div className="inlay-filmstrip-only__avatar-container">
+            <Avatar participantId={this.props._localParticipantId} />
+            {this._renderIcon()}
+          </div>
+        </div>
+      </OverlayFrame>
+    );
+  }
 }
 
 /**
@@ -104,9 +97,9 @@ class FilmstripOnlyOverlayFrame extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        _localParticipantId: (getLocalParticipant(state) || {}).id
-    };
+  return {
+    _localParticipantId: (getLocalParticipant(state) || {}).id,
+  };
 }
 
 export default connect(_mapStateToProps)(FilmstripOnlyOverlayFrame);

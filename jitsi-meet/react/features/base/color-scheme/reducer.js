@@ -12,10 +12,10 @@ import { SET_COLOR_SCHEME } from './actionTypes';
  * @returns {Function}
  */
 ReducerRegistry.register('features/base/color-scheme', (state = {}, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case SET_COLOR_SCHEME:
-        return _.cloneDeep(action.colorScheme) || state;
-    }
+      return _.cloneDeep(action.colorScheme) || state;
+  }
 
-    return state;
+  return state;
 });

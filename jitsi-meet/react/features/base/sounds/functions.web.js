@@ -5,5 +5,5 @@
  * @returns {string}
  */
 export function getSoundsPath() {
-    return 'sounds';
+  return 'sounds';
 }

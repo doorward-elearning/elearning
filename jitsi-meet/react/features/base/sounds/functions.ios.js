@@ -8,5 +8,5 @@ import { getSdkBundlePath } from '../../app/functions';
  * @returns {string}
  */
 export function getSoundsPath() {
-    return getSdkBundlePath();
+  return getSdkBundlePath();
 }

@@ -25,51 +25,50 @@ import LiveStreamSection from './LiveStreamSection';
 declare var interfaceConfig: Object;
 
 type Props = {
+  /**
+   * The name of the current conference. Used as part of inviting users.
+   */
+  _conferenceName: string,
 
-    /**
-     * The name of the current conference. Used as part of inviting users.
-     */
-    _conferenceName: string,
+  /**
+   * The object representing the dialIn feature.
+   */
+  _dialIn: Object,
 
-    /**
-     * The object representing the dialIn feature.
-     */
-    _dialIn: Object,
+  /**
+   * Whether or not invite contacts should be visible.
+   */
+  _inviteContactsVisible: boolean,
 
-    /**
-     * Whether or not invite contacts should be visible.
-     */
-    _inviteContactsVisible: boolean,
+  /**
+   * The current url of the conference to be copied onto the clipboard.
+   */
+  _inviteUrl: string,
 
-    /**
-     * The current url of the conference to be copied onto the clipboard.
-     */
-    _inviteUrl: string,
+  /**
+   * The current known URL for a live stream in progress.
+   */
+  _liveStreamViewURL: string,
 
-    /**
-     * The current known URL for a live stream in progress.
-     */
-    _liveStreamViewURL: string,
+  /**
+   * The redux representation of the local participant.
+   */
+  _localParticipantName: ?string,
 
-    /**
-     * The redux representation of the local participant.
-     */
-    _localParticipantName: ?string,
+  /**
+   * The current location url of the conference.
+   */
+  _locationUrl: Object,
 
-    /**
-     * The current location url of the conference.
-     */
-    _locationUrl: Object,
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function,
-
-    /**
-     * Method to update the dial in numbers.
-     */
-    updateNumbers: Function
+  /**
+   * Method to update the dial in numbers.
+   */
+  updateNumbers: Function,
 };
 
 /**
@@ -78,97 +77,92 @@ type Props = {
  * @returns {React$Element<any>}
  */
 function AddPeopleDialog({
+  _conferenceName,
+  _dialIn,
+  _inviteContactsVisible,
+  _inviteUrl,
+  _liveStreamViewURL,
+  _localParticipantName,
+  _locationUrl,
+  t,
+  updateNumbers,
+}: Props) {
+  const [phoneNumber, setPhoneNumber] = useState(undefined);
+
+  /**
+   * Updates the dial-in numbers.
+   */
+  useEffect(() => {
+    if (!_dialIn.numbers) {
+      updateNumbers();
+    }
+  }, []);
+
+  /**
+   * Sends analytics events when the dialog opens/closes.
+   *
+   * @returns {void}
+   */
+  useEffect(() => {
+    sendAnalytics(createInviteDialogEvent('invite.dialog.opened', 'dialog'));
+
+    return () => {
+      sendAnalytics(createInviteDialogEvent('invite.dialog.closed', 'dialog'));
+    };
+  }, []);
+
+  /**
+   * Updates the phone number in the state once the dial-in numbers are fetched.
+   *
+   * @returns {void}
+   */
+  useEffect(() => {
+    if (!phoneNumber && _dialIn && _dialIn.numbers) {
+      setPhoneNumber(_getDefaultPhoneNumber(_dialIn.numbers));
+    }
+  }, [_dialIn]);
+
+  const invite = getInviteText({
     _conferenceName,
-    _dialIn,
-    _inviteContactsVisible,
-    _inviteUrl,
-    _liveStreamViewURL,
     _localParticipantName,
+    _inviteUrl,
     _locationUrl,
+    _dialIn,
+    _liveStreamViewURL,
+    phoneNumber,
     t,
-    updateNumbers }: Props) {
-    const [ phoneNumber, setPhoneNumber ] = useState(undefined);
+  });
+  const inviteSubject = t('addPeople.inviteMoreMailSubject', {
+    appName: interfaceConfig.APP_NAME,
+  });
 
-    /**
-     * Updates the dial-in numbers.
-     */
-    useEffect(() => {
-        if (!_dialIn.numbers) {
-            updateNumbers();
-        }
-    }, []);
-
-    /**
-     * Sends analytics events when the dialog opens/closes.
-     *
-     * @returns {void}
-     */
-    useEffect(() => {
-        sendAnalytics(createInviteDialogEvent(
-            'invite.dialog.opened', 'dialog'));
-
-        return () => {
-            sendAnalytics(createInviteDialogEvent(
-                'invite.dialog.closed', 'dialog'));
-        };
-    }, []);
-
-    /**
-     * Updates the phone number in the state once the dial-in numbers are fetched.
-     *
-     * @returns {void}
-     */
-    useEffect(() => {
-        if (!phoneNumber && _dialIn && _dialIn.numbers) {
-            setPhoneNumber(_getDefaultPhoneNumber(_dialIn.numbers));
-        }
-    }, [ _dialIn ]);
-
-    const invite = getInviteText({
-        _conferenceName,
-        _localParticipantName,
-        _inviteUrl,
-        _locationUrl,
-        _dialIn,
-        _liveStreamViewURL,
-        phoneNumber,
-        t
-    });
-    const inviteSubject = t('addPeople.inviteMoreMailSubject', {
-        appName: interfaceConfig.APP_NAME
-    });
-
-    return (
-        <Dialog
-            cancelKey = { 'dialog.close' }
-            customHeader = { Header }
-            hideCancelButton = { true }
-            submitDisabled = { true }
-            titleKey = 'addPeople.inviteMorePrompt'
-            width = { 'small' }>
-            <div className = 'invite-more-dialog'>
-                { _inviteContactsVisible && <InviteContactsSection /> }
-                <CopyMeetingLinkSection url = { _inviteUrl } />
-                <InviteByEmailSection
-                    inviteSubject = { inviteSubject }
-                    inviteText = { invite } />
-                <EmbedMeetingTrigger />
-                <div className = 'invite-more-dialog separator' />
-                {
-                    _liveStreamViewURL
-                        && <LiveStreamSection liveStreamViewURL = { _liveStreamViewURL } />
-                }
-                {
-                    _dialIn.numbers
-                        && <DialInSection
-                            conferenceName = { _conferenceName }
-                            dialIn = { _dialIn }
-                            locationUrl = { _locationUrl }
-                            phoneNumber = { phoneNumber } />
-                }
-            </div>
-        </Dialog>
-    );
+  return (
+    <Dialog
+      cancelKey={'dialog.close'}
+      customHeader={Header}
+      hideCancelButton={true}
+      submitDisabled={true}
+      titleKey="addPeople.inviteMorePrompt"
+      width={'small'}
+    >
+      <div className="invite-more-dialog">
+        {_inviteContactsVisible && <InviteContactsSection />}
+        <CopyMeetingLinkSection url={_inviteUrl} />
+        <InviteByEmailSection inviteSubject={inviteSubject} inviteText={invite} />
+        <EmbedMeetingTrigger />
+        <div className="invite-more-dialog separator" />
+        {_liveStreamViewURL && <LiveStreamSection liveStreamViewURL={_liveStreamViewURL} />}
+        {_dialIn.numbers && (
+          <DialInSection
+            conferenceName={_conferenceName}
+            dialIn={_dialIn}
+            locationUrl={_locationUrl}
+            phoneNumber={phoneNumber}
+          />
+        )}
+      </div>
+    </Dialog>
+  );
 }
 
 /**
@@ -180,25 +174,22 @@ function AddPeopleDialog({
  * @returns {Props}
  */
 function mapStateToProps(state) {
-    const localParticipant = getLocalParticipant(state);
-    const currentLiveStreamingSession
-        = getActiveSession(state, JitsiRecordingConstants.mode.STREAM);
-    const { iAmRecorder } = state['features/base/config'];
-    const addPeopleEnabled = isAddPeopleEnabled(state);
-    const dialOutEnabled = isDialOutEnabled(state);
-    const hideInviteContacts = iAmRecorder || (!addPeopleEnabled && !dialOutEnabled);
+  const localParticipant = getLocalParticipant(state);
+  const currentLiveStreamingSession = getActiveSession(state, JitsiRecordingConstants.mode.STREAM);
+  const { iAmRecorder } = state['features/base/config'];
+  const addPeopleEnabled = isAddPeopleEnabled(state);
+  const dialOutEnabled = isDialOutEnabled(state);
+  const hideInviteContacts = iAmRecorder || (!addPeopleEnabled && !dialOutEnabled);
 
-    return {
-        _conferenceName: getRoomName(state),
-        _dialIn: state['features/invite'],
-        _inviteContactsVisible: interfaceConfig.ENABLE_DIAL_OUT && !hideInviteContacts,
-        _inviteUrl: getInviteURL(state),
-        _liveStreamViewURL:
-            currentLiveStreamingSession
-                && currentLiveStreamingSession.liveStreamViewURL,
-        _localParticipantName: localParticipant?.name,
-        _locationUrl: state['features/base/connection'].locationURL
-    };
+  return {
+    _conferenceName: getRoomName(state),
+    _dialIn: state['features/invite'],
+    _inviteContactsVisible: interfaceConfig.ENABLE_DIAL_OUT && !hideInviteContacts,
+    _inviteUrl: getInviteURL(state),
+    _liveStreamViewURL: currentLiveStreamingSession && currentLiveStreamingSession.liveStreamViewURL,
+    _localParticipantName: localParticipant?.name,
+    _locationUrl: state['features/base/connection'].locationURL,
+  };
 }
 
 /**
@@ -208,9 +199,7 @@ function mapStateToProps(state) {
  * @returns {Props}
  */
 const mapDispatchToProps = {
-    updateNumbers: () => updateDialInNumbers()
+  updateNumbers: () => updateDialInNumbers(),
 };
 
-export default translate(
-    connect(mapStateToProps, mapDispatchToProps)(AddPeopleDialog)
-);
+export default translate(connect(mapStateToProps, mapDispatchToProps)(AddPeopleDialog));

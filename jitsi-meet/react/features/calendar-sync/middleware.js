@@ -9,54 +9,52 @@ import { REFRESH_CALENDAR } from './actionTypes';
 import { setCalendarAuthorization } from './actions';
 import { _fetchCalendarEntries, isCalendarEnabled } from './functions';
 
-MiddlewareRegistry.register(store => next => action => {
-    const { getState } = store;
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const { getState } = store;
 
-    if (!isCalendarEnabled(getState)) {
-        return next(action);
-    }
+  if (!isCalendarEnabled(getState)) {
+    return next(action);
+  }
 
-    switch (action.type) {
+  switch (action.type) {
     case ADD_KNOWN_DOMAINS: {
-        // XXX Fetch new calendar entries only when an actual domain has
-        // become known.
-        const oldValue = getState()['features/base/known-domains'];
-        const result = next(action);
-        const newValue = getState()['features/base/known-domains'];
+      // XXX Fetch new calendar entries only when an actual domain has
+      // become known.
+      const oldValue = getState()['features/base/known-domains'];
+      const result = next(action);
+      const newValue = getState()['features/base/known-domains'];
 
-        equals(oldValue, newValue)
-            || _fetchCalendarEntries(store, false, false);
+      equals(oldValue, newValue) || _fetchCalendarEntries(store, false, false);
 
-        return result;
+      return result;
     }
 
     case APP_STATE_CHANGED: {
-        const result = next(action);
+      const result = next(action);
 
-        _maybeClearAccessStatus(store, action);
+      _maybeClearAccessStatus(store, action);
 
-        return result;
+      return result;
     }
 
     case SET_CONFIG: {
-        const result = next(action);
+      const result = next(action);
 
-        _fetchCalendarEntries(store, false, false);
+      _fetchCalendarEntries(store, false, false);
 
-        return result;
+      return result;
     }
 
     case REFRESH_CALENDAR: {
-        const result = next(action);
+      const result = next(action);
 
-        _fetchCalendarEntries(
-            store, action.isInteractive, action.forcePermission);
+      _fetchCalendarEntries(store, action.isInteractive, action.forcePermission);
 
-        return result;
+      return result;
     }
-    }
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -71,6 +69,5 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _maybeClearAccessStatus(store, { appState }) {
-    appState === 'background'
-        && store.dispatch(setCalendarAuthorization(undefined));
+  appState === 'background' && store.dispatch(setCalendarAuthorization(undefined));
 }

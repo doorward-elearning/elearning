@@ -6,22 +6,21 @@ import { Component } from 'react';
  * {@code AbstractGoogleSignInButton} component's property types.
  */
 type Props = {
+  /**
+   * The callback to invoke when the button is clicked.
+   */
+  onClick: Function,
 
-    /**
-     * The callback to invoke when the button is clicked.
-     */
-    onClick: Function,
+  /**
+   * True if the user is signed in, so it needs to render a different label
+   * and maybe different style (for the future).
+   */
+  signedIn?: boolean,
 
-    /**
-     * True if the user is signed in, so it needs to render a different label
-     * and maybe different style (for the future).
-     */
-    signedIn?: boolean,
-
-    /**
-     * Function to be used to translate i18n labels.
-     */
-    t: Function
+  /**
+   * Function to be used to translate i18n labels.
+   */
+  t: Function,
 };
 
 /**
@@ -30,5 +29,4 @@ type Props = {
  *
  * @inheritdoc
  */
-export default class AbstractGoogleSignInButton extends Component<Props> {
-}
+export default class AbstractGoogleSignInButton extends Component<Props> {}

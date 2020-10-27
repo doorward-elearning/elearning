@@ -16,17 +16,14 @@ const JitsiConnectionErrors = JitsiMeetJS.errors.connection;
  * @returns {Promise<JitsiLocalTrack>}
  */
 export function createLocalTrack(type: string, deviceId: string) {
-    return (
-        JitsiMeetJS.createLocalTracks({
-            cameraDeviceId: deviceId,
-            devices: [ type ],
+  return JitsiMeetJS.createLocalTracks({
+    cameraDeviceId: deviceId,
+    devices: [type],
 
-            // eslint-disable-next-line camelcase
-            firefox_fake_device:
-                window.config && window.config.firefox_fake_device,
-            micDeviceId: deviceId
-        })
-            .then(([ jitsiLocalTrack ]) => jitsiLocalTrack));
+    // eslint-disable-next-line camelcase
+    firefox_fake_device: window.config && window.config.firefox_fake_device,
+    micDeviceId: deviceId,
+  }).then(([jitsiLocalTrack]) => jitsiLocalTrack);
 }
 
 /**
@@ -38,9 +35,9 @@ export function createLocalTrack(type: string, deviceId: string) {
  * otherwise.
  */
 export function isAnalyticsEnabled(stateful: Function | Object) {
-    const { disableThirdPartyRequests, analytics = {} } = toState(stateful)['features/base/config'];
+  const { disableThirdPartyRequests, analytics = {} } = toState(stateful)['features/base/config'];
 
-    return !(disableThirdPartyRequests || analytics.disabled);
+  return !(disableThirdPartyRequests || analytics.disabled);
 }
 
 /**
@@ -58,16 +55,17 @@ export function isAnalyticsEnabled(stateful: Function | Object) {
  * {@code false}.
  */
 export function isFatalJitsiConferenceError(error: Object | string) {
-    if (typeof error !== 'string') {
-        error = error.name; // eslint-disable-line no-param-reassign
-    }
+  if (typeof error !== 'string') {
+    error = error.name; // eslint-disable-line no-param-reassign
+  }
 
-    return (
-        error === JitsiConferenceErrors.FOCUS_DISCONNECTED
-            || error === JitsiConferenceErrors.FOCUS_LEFT
-            || error === JitsiConferenceErrors.ICE_FAILED
-            || error === JitsiConferenceErrors.OFFER_ANSWER_FAILED
-            || error === JitsiConferenceErrors.VIDEOBRIDGE_NOT_AVAILABLE);
+  return (
+    error === JitsiConferenceErrors.FOCUS_DISCONNECTED ||
+    error === JitsiConferenceErrors.FOCUS_LEFT ||
+    error === JitsiConferenceErrors.ICE_FAILED ||
+    error === JitsiConferenceErrors.OFFER_ANSWER_FAILED ||
+    error === JitsiConferenceErrors.VIDEOBRIDGE_NOT_AVAILABLE
+  );
 }
 
 /**
@@ -85,12 +83,13 @@ export function isFatalJitsiConferenceError(error: Object | string) {
  * {@code false}.
  */
 export function isFatalJitsiConnectionError(error: Object | string) {
-    if (typeof error !== 'string') {
-        error = error.name; // eslint-disable-line no-param-reassign
-    }
+  if (typeof error !== 'string') {
+    error = error.name; // eslint-disable-line no-param-reassign
+  }
 
-    return (
-        error === JitsiConnectionErrors.CONNECTION_DROPPED_ERROR
-            || error === JitsiConnectionErrors.OTHER_ERROR
-            || error === JitsiConnectionErrors.SERVER_ERROR);
+  return (
+    error === JitsiConnectionErrors.CONNECTION_DROPPED_ERROR ||
+    error === JitsiConnectionErrors.OTHER_ERROR ||
+    error === JitsiConnectionErrors.SERVER_ERROR
+  );
 }

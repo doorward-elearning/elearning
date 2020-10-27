@@ -11,7 +11,7 @@ import { isAudioMuted, isVideoMutedByUser } from '../base/media';
  * @returns {boolean}
  */
 export function isJoinByPhoneButtonVisible(state: Object): boolean {
-    return Boolean(getDialOutUrl(state) && getDialOutStatusUrl(state));
+  return Boolean(getDialOutUrl(state) && getDialOutStatusUrl(state));
 }
 
 /**
@@ -21,8 +21,7 @@ export function isJoinByPhoneButtonVisible(state: Object): boolean {
  * @returns {boolean}
  */
 export function isDeviceStatusVisible(state: Object): boolean {
-    return !(isAudioMuted(state) && isVideoMutedByUser(state))
-    && !state['features/base/config'].startSilent;
+  return !(isAudioMuted(state) && isVideoMutedByUser(state)) && !state['features/base/config'].startSilent;
 }
 
 /**
@@ -32,8 +31,7 @@ export function isDeviceStatusVisible(state: Object): boolean {
  * @returns {boolean}
  */
 export function isDisplayNameRequired(state: Object): boolean {
-    return state['features/prejoin'].isDisplayNameRequired
-        || state['features/base/config'].requireDisplayName;
+  return state['features/prejoin'].isDisplayNameRequired || state['features/base/config'].requireDisplayName;
 }
 
 /**
@@ -43,7 +41,7 @@ export function isDisplayNameRequired(state: Object): boolean {
  * @returns {boolean}
  */
 export function isPrejoinSkipped(state: Object) {
-    return state['features/prejoin'].userSelectedSkipPrejoin;
+  return state['features/prejoin'].userSelectedSkipPrejoin;
 }
 
 /**
@@ -53,7 +51,7 @@ export function isPrejoinSkipped(state: Object) {
  * @returns {string}
  */
 export function getDeviceStatusText(state: Object): string {
-    return state['features/prejoin']?.deviceStatusText;
+  return state['features/prejoin']?.deviceStatusText;
 }
 
 /**
@@ -63,7 +61,7 @@ export function getDeviceStatusText(state: Object): string {
  * @returns {string}
  */
 export function getDeviceStatusType(state: Object): string {
-    return state['features/prejoin']?.deviceStatusType;
+  return state['features/prejoin']?.deviceStatusType;
 }
 
 /**
@@ -73,7 +71,7 @@ export function getDeviceStatusType(state: Object): string {
  * @returns {string}
  */
 export function getDialOutConferenceUrl(state: Object): string {
-    return `${getRoomName(state)}@${state['features/base/config'].hosts.muc}`;
+  return `${getRoomName(state)}@${state['features/base/config'].hosts.muc}`;
 }
 
 /**
@@ -83,7 +81,7 @@ export function getDialOutConferenceUrl(state: Object): string {
  * @returns {Object}
  */
 export function getDialOutCountry(state: Object): Object {
-    return state['features/prejoin'].dialOutCountry;
+  return state['features/prejoin'].dialOutCountry;
 }
 
 /**
@@ -93,7 +91,7 @@ export function getDialOutCountry(state: Object): Object {
  * @returns {string}
  */
 export function getDialOutNumber(state: Object): string {
-    return state['features/prejoin'].dialOutNumber;
+  return state['features/prejoin'].dialOutNumber;
 }
 
 /**
@@ -103,7 +101,7 @@ export function getDialOutNumber(state: Object): string {
  * @returns {string}
  */
 export function getDialOutStatus(state: Object): string {
-    return state['features/prejoin'].dialOutStatus;
+  return state['features/prejoin'].dialOutStatus;
 }
 
 /**
@@ -113,10 +111,10 @@ export function getDialOutStatus(state: Object): string {
  * @returns {string}
  */
 export function getFullDialOutNumber(state: Object): string {
-    const dialOutNumber = getDialOutNumber(state);
-    const country = getDialOutCountry(state);
+  const dialOutNumber = getDialOutNumber(state);
+  const country = getDialOutCountry(state);
 
-    return `+${country.dialCode}${dialOutNumber}`;
+  return `+${country.dialCode}${dialOutNumber}`;
 }
 
 /**
@@ -126,7 +124,7 @@ export function getFullDialOutNumber(state: Object): string {
  * @returns {string}
  */
 export function getRawError(state: Object): string {
-    return state['features/prejoin']?.rawError;
+  return state['features/prejoin']?.rawError;
 }
 
 /**
@@ -136,7 +134,7 @@ export function getRawError(state: Object): string {
  * @returns {boolean}
  */
 export function isJoinByPhoneDialogVisible(state: Object): boolean {
-    return state['features/prejoin']?.showJoinByPhoneDialog;
+  return state['features/prejoin']?.showJoinByPhoneDialog;
 }
 
 /**
@@ -147,9 +145,11 @@ export function isJoinByPhoneDialogVisible(state: Object): boolean {
  * @returns {boolean}
  */
 export function isPrejoinPageEnabled(state: Object): boolean {
-    return navigator.product !== 'ReactNative'
-        && state['features/base/config'].prejoinPageEnabled
-        && !state['features/base/settings'].userSelectedSkipPrejoin;
+  return (
+    navigator.product !== 'ReactNative' &&
+    state['features/base/config'].prejoinPageEnabled &&
+    !state['features/base/settings'].userSelectedSkipPrejoin
+  );
 }
 
 /**
@@ -159,5 +159,5 @@ export function isPrejoinPageEnabled(state: Object): boolean {
  * @returns {boolean}
  */
 export function isPrejoinPageVisible(state: Object): boolean {
-    return isPrejoinPageEnabled(state) && state['features/prejoin']?.showPrejoin;
+  return isPrejoinPageEnabled(state) && state['features/prejoin']?.showPrejoin;
 }

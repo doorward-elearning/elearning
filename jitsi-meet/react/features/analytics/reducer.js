@@ -8,26 +8,26 @@ import { UPDATE_LOCAL_TRACKS_DURATION } from './actionTypes';
  * Initial state.
  */
 const DEFAULT_STATE = {
-    localTracksDuration: {
-        audio: {
-            startedTime: -1,
-            value: 0
-        },
-        video: {
-            camera: {
-                startedTime: -1,
-                value: 0
-            },
-            desktop: {
-                startedTime: -1,
-                value: 0
-            }
-        },
-        conference: {
-            startedTime: -1,
-            value: 0
-        }
-    }
+  localTracksDuration: {
+    audio: {
+      startedTime: -1,
+      value: 0,
+    },
+    video: {
+      camera: {
+        startedTime: -1,
+        value: 0,
+      },
+      desktop: {
+        startedTime: -1,
+        value: 0,
+      },
+    },
+    conference: {
+      startedTime: -1,
+      value: 0,
+    },
+  },
 };
 
 /**
@@ -39,13 +39,13 @@ const DEFAULT_STATE = {
  * @returns {Object}
  */
 ReducerRegistry.register('features/analytics', (state = DEFAULT_STATE, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case UPDATE_LOCAL_TRACKS_DURATION:
-        return {
-            ...state,
-            localTracksDuration: action.localTracksDuration
-        };
+      return {
+        ...state,
+        localTracksDuration: action.localTracksDuration,
+      };
     default:
-        return state;
-    }
+      return state;
+  }
 });

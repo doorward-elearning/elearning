@@ -22,7 +22,7 @@
     "groups": ["create", "view", "update", "delete", "add-member"],
     "student.groups": ["create", "view", "update", "delete", "add-member"],
     "teacher.groups": ["create", "view", "update", "delete", "add-member"],
-    "meetings": ["moderate"],
+    "meetings": ["moderate", "subscribe", "publish"],
     "organizations": ["create", "view", "update"],
     "students": ["create", "update", "view", "list", "change-password"],
     "reports": ["students", "teachers"],
@@ -62,7 +62,8 @@
         "discussion-groups.list",
         "discussion-groups.post",
         "assessments.submit",
-        "assignments.submit"
+        "assignments.submit",
+        "meetings.publish"
       ],
       "exclude": []
     }

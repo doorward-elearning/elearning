@@ -24,11 +24,11 @@ const REDUCED_UI_THRESHOLD = 300;
  * @returns {Object}
  */
 export function clientResized(clientWidth: number, clientHeight: number) {
-    return {
-        type: CLIENT_RESIZED,
-        clientHeight,
-        clientWidth
-    };
+  return {
+    type: CLIENT_RESIZED,
+    clientHeight,
+    clientWidth,
+  };
 }
 
 /**
@@ -43,22 +43,20 @@ export function clientResized(clientWidth: number, clientHeight: number) {
  * }}
  */
 export function setAspectRatio(width: number, height: number): Function {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        // Don't change the aspect ratio if width and height are the same, that
-        // is, if we transition to a 1:1 aspect ratio.
-        if (width !== height) {
-            const aspectRatio
-                = width < height ? ASPECT_RATIO_NARROW : ASPECT_RATIO_WIDE;
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    // Don't change the aspect ratio if width and height are the same, that
+    // is, if we transition to a 1:1 aspect ratio.
+    if (width !== height) {
+      const aspectRatio = width < height ? ASPECT_RATIO_NARROW : ASPECT_RATIO_WIDE;
 
-            if (aspectRatio
-                    !== getState()['features/base/responsive-ui'].aspectRatio) {
-                return dispatch({
-                    type: SET_ASPECT_RATIO,
-                    aspectRatio
-                });
-            }
-        }
-    };
+      if (aspectRatio !== getState()['features/base/responsive-ui'].aspectRatio) {
+        return dispatch({
+          type: SET_ASPECT_RATIO,
+          aspectRatio,
+        });
+      }
+    }
+  };
 }
 
 /**
@@ -73,14 +71,14 @@ export function setAspectRatio(width: number, height: number): Function {
  * }}
  */
 export function setReducedUI(width: number, height: number): Function {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const reducedUI = Math.min(width, height) < REDUCED_UI_THRESHOLD;
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const reducedUI = Math.min(width, height) < REDUCED_UI_THRESHOLD;
 
-        if (reducedUI !== getState()['features/base/responsive-ui'].reducedUI) {
-            return dispatch({
-                type: SET_REDUCED_UI,
-                reducedUI
-            });
-        }
-    };
+    if (reducedUI !== getState()['features/base/responsive-ui'].reducedUI) {
+      return dispatch({
+        type: SET_REDUCED_UI,
+        reducedUI,
+      });
+    }
+  };
 }

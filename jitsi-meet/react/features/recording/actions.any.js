@@ -1,18 +1,13 @@
 // @flow
 
 import JitsiMeetJS, { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
-import {
-    NOTIFICATION_TIMEOUT,
-    hideNotification,
-    showErrorNotification,
-    showNotification
-} from '../notifications';
+import { NOTIFICATION_TIMEOUT, hideNotification, showErrorNotification, showNotification } from '../notifications';
 
 import {
-    CLEAR_RECORDING_SESSIONS,
-    RECORDING_SESSION_UPDATED,
-    SET_PENDING_RECORDING_NOTIFICATION_UID,
-    SET_STREAM_KEY
+  CLEAR_RECORDING_SESSIONS,
+  RECORDING_SESSION_UPDATED,
+  SET_PENDING_RECORDING_NOTIFICATION_UID,
+  SET_STREAM_KEY,
 } from './actionTypes';
 
 /**
@@ -23,9 +18,9 @@ import {
  * }}
  */
 export function clearRecordingSessions() {
-    return {
-        type: CLEAR_RECORDING_SESSIONS
-    };
+  return {
+    type: CLEAR_RECORDING_SESSIONS,
+  };
 }
 
 /**
@@ -37,17 +32,15 @@ export function clearRecordingSessions() {
  * @returns {Function}
  */
 export function hidePendingRecordingNotification(streamType: string) {
-    return (dispatch: Function, getState: Function) => {
-        const { pendingNotificationUids } = getState()['features/recording'];
-        const pendingNotificationUid = pendingNotificationUids[streamType];
+  return (dispatch: Function, getState: Function) => {
+    const { pendingNotificationUids } = getState()['features/recording'];
+    const pendingNotificationUid = pendingNotificationUids[streamType];
 
-        if (pendingNotificationUid) {
-            dispatch(hideNotification(pendingNotificationUid));
-            dispatch(
-                _setPendingRecordingNotificationUid(
-                    undefined, streamType));
-        }
-    };
+    if (pendingNotificationUid) {
+      dispatch(hideNotification(pendingNotificationUid));
+      dispatch(_setPendingRecordingNotificationUid(undefined, streamType));
+    }
+  };
 }
 
 /**
@@ -60,10 +53,10 @@ export function hidePendingRecordingNotification(streamType: string) {
  * }}
  */
 export function setLiveStreamKey(streamKey: string) {
-    return {
-        type: SET_STREAM_KEY,
-        streamKey
-    };
+  return {
+    type: SET_STREAM_KEY,
+    streamKey,
+  };
 }
 
 /**
@@ -75,26 +68,26 @@ export function setLiveStreamKey(streamKey: string) {
  * @returns {Function}
  */
 export function showPendingRecordingNotification(streamType: string) {
-    return (dispatch: Function) => {
-        const isLiveStreaming
-            = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
-        const dialogProps = isLiveStreaming ? {
-            descriptionKey: 'liveStreaming.pending',
-            titleKey: 'dialog.liveStreaming'
-        } : {
-            descriptionKey: 'recording.pending',
-            titleKey: 'dialog.recording'
+  return (dispatch: Function) => {
+    const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
+    const dialogProps = isLiveStreaming
+      ? {
+          descriptionKey: 'liveStreaming.pending',
+          titleKey: 'dialog.liveStreaming',
+        }
+      : {
+          descriptionKey: 'recording.pending',
+          titleKey: 'dialog.recording',
         };
-        const showNotificationAction = showNotification({
-            isDismissAllowed: false,
-            ...dialogProps
-        });
+    const showNotificationAction = showNotification({
+      isDismissAllowed: false,
+      ...dialogProps,
+    });
 
-        dispatch(showNotificationAction);
+    dispatch(showNotificationAction);
 
-        dispatch(_setPendingRecordingNotificationUid(
-            showNotificationAction.uid, streamType));
-    };
+    dispatch(_setPendingRecordingNotificationUid(showNotificationAction.uid, streamType));
+  };
 }
 
 /**
@@ -104,7 +97,7 @@ export function showPendingRecordingNotification(streamType: string) {
  * @returns {showErrorNotification}
  */
 export function showRecordingError(props: Object) {
-    return showErrorNotification(props);
+  return showErrorNotification(props);
 }
 
 /**
@@ -117,20 +110,21 @@ export function showRecordingError(props: Object) {
  * @returns {showNotification}
  */
 export function showStoppedRecordingNotification(streamType: string, participantName?: string) {
-    const isLiveStreaming
-        = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
-    const descriptionArguments = { name: participantName };
-    const dialogProps = isLiveStreaming ? {
+  const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
+  const descriptionArguments = { name: participantName };
+  const dialogProps = isLiveStreaming
+    ? {
         descriptionKey: participantName ? 'liveStreaming.offBy' : 'liveStreaming.off',
         descriptionArguments,
-        titleKey: 'dialog.liveStreaming'
-    } : {
+        titleKey: 'dialog.liveStreaming',
+      }
+    : {
         descriptionKey: participantName ? 'recording.offBy' : 'recording.off',
         descriptionArguments,
-        titleKey: 'dialog.recording'
-    };
+        titleKey: 'dialog.recording',
+      };
 
-    return showNotification(dialogProps, NOTIFICATION_TIMEOUT);
+  return showNotification(dialogProps, NOTIFICATION_TIMEOUT);
 }
 
 /**
@@ -143,20 +137,21 @@ export function showStoppedRecordingNotification(streamType: string, participant
  * @returns {showNotification}
  */
 export function showStartedRecordingNotification(streamType: string, participantName: string) {
-    const isLiveStreaming
-        = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
-    const descriptionArguments = { name: participantName };
-    const dialogProps = isLiveStreaming ? {
+  const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
+  const descriptionArguments = { name: participantName };
+  const dialogProps = isLiveStreaming
+    ? {
         descriptionKey: 'liveStreaming.onBy',
         descriptionArguments,
-        titleKey: 'dialog.liveStreaming'
-    } : {
+        titleKey: 'dialog.liveStreaming',
+      }
+    : {
         descriptionKey: 'recording.onBy',
         descriptionArguments,
-        titleKey: 'dialog.recording'
-    };
+        titleKey: 'dialog.recording',
+      };
 
-    return showNotification(dialogProps, NOTIFICATION_TIMEOUT);
+  return showNotification(dialogProps, NOTIFICATION_TIMEOUT);
 }
 
 /**
@@ -170,25 +165,22 @@ export function showStartedRecordingNotification(streamType: string, participant
  * }}
  */
 export function updateRecordingSessionData(session: Object) {
-    const status = session.getStatus();
-    const timestamp
-        = status === JitsiRecordingConstants.status.ON
-            ? Date.now() / 1000
-            : undefined;
+  const status = session.getStatus();
+  const timestamp = status === JitsiRecordingConstants.status.ON ? Date.now() / 1000 : undefined;
 
-    return {
-        type: RECORDING_SESSION_UPDATED,
-        sessionData: {
-            error: session.getError(),
-            id: session.getID(),
-            initiator: session.getInitiator(),
-            liveStreamViewURL: session.getLiveStreamViewURL(),
-            mode: session.getMode(),
-            status,
-            terminator: session.getTerminator(),
-            timestamp
-        }
-    };
+  return {
+    type: RECORDING_SESSION_UPDATED,
+    sessionData: {
+      error: session.getError(),
+      id: session.getID(),
+      initiator: session.getInitiator(),
+      liveStreamViewURL: session.getLiveStreamViewURL(),
+      mode: session.getMode(),
+      status,
+      terminator: session.getTerminator(),
+      timestamp,
+    },
+  };
 }
 
 /**
@@ -206,9 +198,9 @@ export function updateRecordingSessionData(session: Object) {
  * }}
  */
 function _setPendingRecordingNotificationUid(uid: ?number, streamType: string) {
-    return {
-        type: SET_PENDING_RECORDING_NOTIFICATION_UID,
-        streamType,
-        uid
-    };
+  return {
+    type: SET_PENDING_RECORDING_NOTIFICATION_UID,
+    streamType,
+    uid,
+  };
 }

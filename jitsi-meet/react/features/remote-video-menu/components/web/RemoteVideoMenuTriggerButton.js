@@ -8,14 +8,14 @@ import { Popover } from '../../../base/popover';
 import { connect } from '../../../base/redux';
 
 import {
-    GrantModeratorButton,
-    MuteButton,
-    MuteEveryoneElseButton,
-    KickButton,
-    PrivateMessageMenuButton,
-    RemoteControlButton,
-    RemoteVideoMenu,
-    VolumeSlider
+  GrantModeratorButton,
+  MuteButton,
+  MuteEveryoneElseButton,
+  KickButton,
+  PrivateMessageMenuButton,
+  RemoteControlButton,
+  RemoteVideoMenu,
+  VolumeSlider,
 } from './';
 
 declare var $: Object;
@@ -26,66 +26,65 @@ declare var interfaceConfig: Object;
  * {@link RemoteVideoMenuTriggerButton}.
  */
 type Props = {
+  /**
+   * Whether or not to display the kick button.
+   */
+  _disableKick: boolean,
 
-    /**
-     * Whether or not to display the kick button.
-     */
-    _disableKick: boolean,
+  /**
+   * Whether or not to display the remote mute buttons.
+   */
+  _disableRemoteMute: Boolean,
 
-    /**
-     * Whether or not to display the remote mute buttons.
-     */
-    _disableRemoteMute: Boolean,
+  /**
+   * Whether or not the participant is a conference moderator.
+   */
+  _isModerator: boolean,
 
-    /**
-     * Whether or not the participant is a conference moderator.
-     */
-    _isModerator: boolean,
+  /**
+   * A value between 0 and 1 indicating the volume of the participant's
+   * audio element.
+   */
+  initialVolumeValue: number,
 
-    /**
-     * A value between 0 and 1 indicating the volume of the participant's
-     * audio element.
-     */
-    initialVolumeValue: number,
+  /**
+   * Whether or not the participant is currently muted.
+   */
+  isAudioMuted: boolean,
 
-    /**
-     * Whether or not the participant is currently muted.
-     */
-    isAudioMuted: boolean,
+  /**
+   * Callback to invoke when the popover has been displayed.
+   */
+  onMenuDisplay: Function,
 
-    /**
-     * Callback to invoke when the popover has been displayed.
-     */
-    onMenuDisplay: Function,
+  /**
+   * Callback to invoke choosing to start a remote control session with
+   * the participant.
+   */
+  onRemoteControlToggle: Function,
 
-    /**
-     * Callback to invoke choosing to start a remote control session with
-     * the participant.
-     */
-    onRemoteControlToggle: Function,
+  /**
+   * Callback to invoke when changing the level of the participant's
+   * audio element.
+   */
+  onVolumeChange: Function,
 
-    /**
-     * Callback to invoke when changing the level of the participant's
-     * audio element.
-     */
-    onVolumeChange: Function,
+  /**
+   * The position relative to the trigger the remote menu should display
+   * from. Valid values are those supported by AtlasKit
+   * {@code InlineDialog}.
+   */
+  menuPosition: string,
 
-    /**
-     * The position relative to the trigger the remote menu should display
-     * from. Valid values are those supported by AtlasKit
-     * {@code InlineDialog}.
-     */
-    menuPosition: string,
+  /**
+   * The ID for the participant on which the remote video menu will act.
+   */
+  participantID: string,
 
-    /**
-     * The ID for the participant on which the remote video menu will act.
-     */
-    participantID: string,
-
-    /**
-     * The current state of the participant's remote control session.
-     */
-    remoteControlState: number
+  /**
+   * The current state of the participant's remote control session.
+   */
+  remoteControlState: number,
 };
 
 /**
@@ -95,157 +94,121 @@ type Props = {
  * @extends {Component}
  */
 class RemoteVideoMenuTriggerButton extends Component<Props> {
-    /**
-     * The internal reference to topmost DOM/HTML element backing the React
-     * {@code Component}. Accessed directly for associating an element as
-     * the trigger for a popover.
-     *
-     * @private
-     * @type {HTMLDivElement}
-     */
-    _rootElement = null;
+  /**
+   * The internal reference to topmost DOM/HTML element backing the React
+   * {@code Component}. Accessed directly for associating an element as
+   * the trigger for a popover.
+   *
+   * @private
+   * @type {HTMLDivElement}
+   */
+  _rootElement = null;
 
-    /**
-     * Initializes a new {#@code RemoteVideoMenuTriggerButton} instance.
-     *
-     * @param {Object} props - The read-only properties with which the new
-     * instance is to be initialized.
-     */
-    constructor(props: Object) {
-        super(props);
+  /**
+   * Initializes a new {#@code RemoteVideoMenuTriggerButton} instance.
+   *
+   * @param {Object} props - The read-only properties with which the new
+   * instance is to be initialized.
+   */
+  constructor(props: Object) {
+    super(props);
 
-        // Bind event handler so it is only bound once for every instance.
-        this._onShowRemoteMenu = this._onShowRemoteMenu.bind(this);
+    // Bind event handler so it is only bound once for every instance.
+    this._onShowRemoteMenu = this._onShowRemoteMenu.bind(this);
+  }
+
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const content = this._renderRemoteVideoMenu();
+
+    if (!content) {
+      return null;
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const content = this._renderRemoteVideoMenu();
+    return (
+      <Popover content={content} onPopoverOpen={this._onShowRemoteMenu} position={this.props.menuPosition}>
+        <span className="popover-trigger remote-video-menu-trigger">
+          <Icon size="1em" src={IconMenuThumb} title="Remote user controls" />
+        </span>
+      </Popover>
+    );
+  }
 
-        if (!content) {
-            return null;
-        }
+  _onShowRemoteMenu: () => void;
 
-        return (
-            <Popover
-                content = { content }
-                onPopoverOpen = { this._onShowRemoteMenu }
-                position = { this.props.menuPosition }>
-                <span
-                    className = 'popover-trigger remote-video-menu-trigger'>
-                    <Icon
-                        size = '1em'
-                        src = { IconMenuThumb }
-                        title = 'Remote user controls' />
-                </span>
-            </Popover>
-        );
+  /**
+   * Opens the {@code RemoteVideoMenu}.
+   *
+   * @private
+   * @returns {void}
+   */
+  _onShowRemoteMenu() {
+    this.props.onMenuDisplay();
+  }
+
+  /**
+   * Creates a new {@code RemoteVideoMenu} with buttons for interacting with
+   * the remote participant.
+   *
+   * @private
+   * @returns {ReactElement}
+   */
+  _renderRemoteVideoMenu() {
+    const {
+      _disableKick,
+      _disableRemoteMute,
+      _isModerator,
+      initialVolumeValue,
+      isAudioMuted,
+      onRemoteControlToggle,
+      onVolumeChange,
+      remoteControlState,
+      participantID,
+    } = this.props;
+
+    const buttons = [];
+
+    if (_isModerator) {
+      if (!_disableRemoteMute) {
+        buttons.push(<MuteButton isAudioMuted={isAudioMuted} key="mute" participantID={participantID} />);
+        buttons.push(<MuteEveryoneElseButton key="mute-others" participantID={participantID} />);
+      }
+
+      buttons.push(<GrantModeratorButton key="grant-moderator" participantID={participantID} />);
+
+      if (!_disableKick) {
+        buttons.push(<KickButton key="kick" participantID={participantID} />);
+      }
     }
 
-    _onShowRemoteMenu: () => void;
-
-    /**
-     * Opens the {@code RemoteVideoMenu}.
-     *
-     * @private
-     * @returns {void}
-     */
-    _onShowRemoteMenu() {
-        this.props.onMenuDisplay();
+    if (remoteControlState) {
+      buttons.push(
+        <RemoteControlButton
+          key="remote-control"
+          onClick={onRemoteControlToggle}
+          participantID={participantID}
+          remoteControlState={remoteControlState}
+        />
+      );
     }
 
-    /**
-     * Creates a new {@code RemoteVideoMenu} with buttons for interacting with
-     * the remote participant.
-     *
-     * @private
-     * @returns {ReactElement}
-     */
-    _renderRemoteVideoMenu() {
-        const {
-            _disableKick,
-            _disableRemoteMute,
-            _isModerator,
-            initialVolumeValue,
-            isAudioMuted,
-            onRemoteControlToggle,
-            onVolumeChange,
-            remoteControlState,
-            participantID
-        } = this.props;
+    buttons.push(<PrivateMessageMenuButton key="privateMessage" participantID={participantID} />);
 
-        const buttons = [];
-
-        if (_isModerator) {
-            if (!_disableRemoteMute) {
-                buttons.push(
-                    <MuteButton
-                        isAudioMuted = { isAudioMuted }
-                        key = 'mute'
-                        participantID = { participantID } />
-                );
-                buttons.push(
-                    <MuteEveryoneElseButton
-                        key = 'mute-others'
-                        participantID = { participantID } />
-                );
-            }
-
-            buttons.push(
-                <GrantModeratorButton
-                    key = 'grant-moderator'
-                    participantID = { participantID } />
-            );
-
-            if (!_disableKick) {
-                buttons.push(
-                    <KickButton
-                        key = 'kick'
-                        participantID = { participantID } />
-                );
-            }
-        }
-
-        if (remoteControlState) {
-            buttons.push(
-                <RemoteControlButton
-                    key = 'remote-control'
-                    onClick = { onRemoteControlToggle }
-                    participantID = { participantID }
-                    remoteControlState = { remoteControlState } />
-            );
-        }
-
-        buttons.push(
-            <PrivateMessageMenuButton
-                key = 'privateMessage'
-                participantID = { participantID } />
-        );
-
-        if (onVolumeChange) {
-            buttons.push(
-                <VolumeSlider
-                    initialValue = { initialVolumeValue }
-                    key = 'volume-slider'
-                    onChange = { onVolumeChange } />
-            );
-        }
-
-        if (buttons.length > 0) {
-            return (
-                <RemoteVideoMenu id = { participantID }>
-                    { buttons }
-                </RemoteVideoMenu>
-            );
-        }
-
-        return null;
+    if (onVolumeChange) {
+      buttons.push(<VolumeSlider initialValue={initialVolumeValue} key="volume-slider" onChange={onVolumeChange} />);
     }
+
+    if (buttons.length > 0) {
+      return <RemoteVideoMenu id={participantID}>{buttons}</RemoteVideoMenu>;
+    }
+
+    return null;
+  }
 }
 
 /**
@@ -259,15 +222,15 @@ class RemoteVideoMenuTriggerButton extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    const participant = getLocalParticipant(state);
-    const { remoteVideoMenu = {}, disableRemoteMute } = state['features/base/config'];
-    const { disableKick } = remoteVideoMenu;
+  const participant = getLocalParticipant(state);
+  const { remoteVideoMenu = {}, disableRemoteMute } = state['features/base/config'];
+  const { disableKick } = remoteVideoMenu;
 
-    return {
-        _isModerator: Boolean(participant?.role === PARTICIPANT_ROLE.MODERATOR),
-        _disableKick: Boolean(disableKick),
-        _disableRemoteMute: Boolean(disableRemoteMute)
-    };
+  return {
+    _isModerator: Boolean(participant?.role === PARTICIPANT_ROLE.MODERATOR),
+    _disableKick: Boolean(disableKick),
+    _disableRemoteMute: Boolean(disableRemoteMute),
+  };
 }
 
 export default connect(_mapStateToProps)(RemoteVideoMenuTriggerButton);

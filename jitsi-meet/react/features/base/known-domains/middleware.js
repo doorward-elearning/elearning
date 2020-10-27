@@ -8,20 +8,20 @@ import { parseURIString } from '../util';
 
 import { addKnownDomains } from './actions';
 
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
+  switch (action.type) {
     case APP_WILL_MOUNT:
-        _appWillMount(store);
-        break;
+      _appWillMount(store);
+      break;
 
     case SET_ROOM:
-        _setRoom(store);
-        break;
-    }
+      _setRoom(store);
+      break;
+  }
 
-    return result;
+  return result;
 });
 
 /**
@@ -33,9 +33,9 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {Promise}
  */
 function _appWillMount({ dispatch, getState }) {
-    const defaultURL = parseURIString(getDefaultURL(getState));
+  const defaultURL = parseURIString(getDefaultURL(getState));
 
-    dispatch(addKnownDomains(defaultURL.host));
+  dispatch(addKnownDomains(defaultURL.host));
 }
 
 /**
@@ -47,10 +47,8 @@ function _appWillMount({ dispatch, getState }) {
  * @returns {Promise}
  */
 function _setRoom({ dispatch, getState }) {
-    const { locationURL } = getState()['features/base/connection'];
-    let host;
+  const { locationURL } = getState()['features/base/connection'];
+  let host;
 
-    locationURL
-        && (host = locationURL.host)
-        && dispatch(addKnownDomains(host));
+  locationURL && (host = locationURL.host) && dispatch(addKnownDomains(host));
 }

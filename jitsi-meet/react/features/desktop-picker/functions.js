@@ -1,4 +1,3 @@
-
 import logger from './logger';
 
 /**
@@ -12,38 +11,35 @@ import logger from './logger';
  * @returns {Function}
  */
 export function obtainDesktopSources(types, options = {}) {
-    const capturerOptions = {
-        types
-    };
+  const capturerOptions = {
+    types,
+  };
 
-    if (options.thumbnailSize) {
-        capturerOptions.thumbnailSize = options.thumbnailSize;
+  if (options.thumbnailSize) {
+    capturerOptions.thumbnailSize = options.thumbnailSize;
+  }
+
+  return new Promise((resolve, reject) => {
+    const { JitsiMeetElectron } = window;
+
+    if (JitsiMeetElectron && JitsiMeetElectron.obtainDesktopStreams) {
+      JitsiMeetElectron.obtainDesktopStreams(
+        (sources) => resolve(_seperateSourcesByType(sources)),
+        (error) => {
+          logger.error(`Error while obtaining desktop sources: ${error}`);
+          reject(error);
+        },
+        capturerOptions
+      );
+    } else {
+      const reason = 'Called JitsiMeetElectron.obtainDesktopStreams' + ' but it is not defined';
+
+      logger.error(reason);
+
+      return Promise.reject(new Error(reason));
     }
-
-    return new Promise((resolve, reject) => {
-        const { JitsiMeetElectron } = window;
-
-        if (JitsiMeetElectron && JitsiMeetElectron.obtainDesktopStreams) {
-            JitsiMeetElectron.obtainDesktopStreams(
-                sources => resolve(_seperateSourcesByType(sources)),
-                error => {
-                    logger.error(
-                        `Error while obtaining desktop sources: ${error}`);
-                    reject(error);
-                },
-                capturerOptions
-            );
-        } else {
-            const reason = 'Called JitsiMeetElectron.obtainDesktopStreams'
-                + ' but it is not defined';
-
-            logger.error(reason);
-
-            return Promise.reject(new Error(reason));
-        }
-    });
+  });
 }
-
 
 /**
  * Converts an array of DesktopCapturerSources to an object with types for keys
@@ -55,19 +51,19 @@ export function obtainDesktopSources(types, options = {}) {
  * on source type.
  */
 function _seperateSourcesByType(sources = []) {
-    const sourcesByType = {
-        screen: [],
-        window: []
-    };
+  const sourcesByType = {
+    screen: [],
+    window: [],
+  };
 
-    sources.forEach(source => {
-        const idParts = source.id.split(':');
-        const type = idParts[0];
+  sources.forEach((source) => {
+    const idParts = source.id.split(':');
+    const type = idParts[0];
 
-        if (sourcesByType[type]) {
-            sourcesByType[type].push(source);
-        }
-    });
+    if (sourcesByType[type]) {
+      sourcesByType[type].push(source);
+    }
+  });
 
-    return sourcesByType;
+  return sourcesByType;
 }

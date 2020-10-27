@@ -9,5 +9,5 @@ import zxcvbn from 'zxcvbn';
  * @returns {boolean}
  */
 export default function isInsecureRoomName(roomName: string = ''): boolean {
-    return zxcvbn(roomName).score < 3;
+  return zxcvbn(roomName).score < 3;
 }

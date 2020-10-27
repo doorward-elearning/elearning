@@ -1,10 +1,10 @@
 // @flow
 
 import {
-    SET_FILMSTRIP_ENABLED,
-    SET_FILMSTRIP_HOVERED,
-    SET_FILMSTRIP_VISIBLE,
-    SET_TILE_VIEW_DIMENSIONS
+  SET_FILMSTRIP_ENABLED,
+  SET_FILMSTRIP_HOVERED,
+  SET_FILMSTRIP_VISIBLE,
+  SET_TILE_VIEW_DIMENSIONS,
 } from './actionTypes';
 
 /**
@@ -17,10 +17,10 @@ import {
  * }}
  */
 export function setFilmstripEnabled(enabled: boolean) {
-    return {
-        type: SET_FILMSTRIP_ENABLED,
-        enabled
-    };
+  return {
+    type: SET_FILMSTRIP_ENABLED,
+    enabled,
+  };
 }
 
 /**
@@ -33,10 +33,10 @@ export function setFilmstripEnabled(enabled: boolean) {
  * }}
  */
 export function setFilmstripHovered(hovered: boolean) {
-    return {
-        type: SET_FILMSTRIP_HOVERED,
-        hovered
-    };
+  return {
+    type: SET_FILMSTRIP_HOVERED,
+    hovered,
+  };
 }
 
 /**
@@ -49,10 +49,10 @@ export function setFilmstripHovered(hovered: boolean) {
  * }}
  */
 export function setFilmstripVisible(visible: boolean) {
-    return {
-        type: SET_FILMSTRIP_VISIBLE,
-        visible
-    };
+  return {
+    type: SET_FILMSTRIP_VISIBLE,
+    visible,
+  };
 }
 
 /**
@@ -70,10 +70,10 @@ export function setFilmstripVisible(visible: boolean) {
  * }}
  */
 export function setTileViewDimensions({ thumbnailSize }: Object) {
-    return {
-        type: SET_TILE_VIEW_DIMENSIONS,
-        dimensions: {
-            thumbnailSize
-        }
-    };
+  return {
+    type: SET_TILE_VIEW_DIMENSIONS,
+    dimensions: {
+      thumbnailSize,
+    },
+  };
 }

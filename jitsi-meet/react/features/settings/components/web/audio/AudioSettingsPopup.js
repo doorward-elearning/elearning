@@ -4,39 +4,34 @@ import InlineDialog from '@atlaskit/inline-dialog';
 import React from 'react';
 
 import {
-    getAudioInputDeviceData,
-    getAudioOutputDeviceData,
-    setAudioInputDeviceAndUpdateSettings,
-    setAudioOutputDevice as setAudioOutputDeviceAction
+  getAudioInputDeviceData,
+  getAudioOutputDeviceData,
+  setAudioInputDeviceAndUpdateSettings,
+  setAudioOutputDevice as setAudioOutputDeviceAction,
 } from '../../../../base/devices';
 import { connect } from '../../../../base/redux';
-import {
-    getCurrentMicDeviceId,
-    getCurrentOutputDeviceId
-} from '../../../../base/settings';
+import { getCurrentMicDeviceId, getCurrentOutputDeviceId } from '../../../../base/settings';
 import { toggleAudioSettings } from '../../../actions';
 import { getAudioSettingsVisibility } from '../../../functions';
 
 import AudioSettingsContent, { type Props as AudioSettingsContentProps } from './AudioSettingsContent';
 
-
 type Props = AudioSettingsContentProps & {
+  /**
+   * Component's children (the audio button).
+   */
+  children: React$Node,
 
-   /**
-    * Component's children (the audio button).
-    */
-    children: React$Node,
+  /**
+   * Flag controlling the visibility of the popup.
+   */
+  isOpen: boolean,
 
-   /**
-    * Flag controlling the visibility of the popup.
-    */
-    isOpen: boolean,
-
-   /**
-    * Callback executed when the popup closes.
-    */
-    onClose: Function,
-}
+  /**
+   * Callback executed when the popup closes.
+   */
+  onClose: Function,
+};
 
 /**
  * Popup with audio settings.
@@ -44,33 +39,37 @@ type Props = AudioSettingsContentProps & {
  * @returns {ReactElement}
  */
 function AudioSettingsPopup({
-    children,
-    currentMicDeviceId,
-    currentOutputDeviceId,
-    isOpen,
-    microphoneDevices,
-    setAudioInputDevice,
-    setAudioOutputDevice,
-    onClose,
-    outputDevices
+  children,
+  currentMicDeviceId,
+  currentOutputDeviceId,
+  isOpen,
+  microphoneDevices,
+  setAudioInputDevice,
+  setAudioOutputDevice,
+  onClose,
+  outputDevices,
 }: Props) {
-    return (
-        <div className = 'audio-preview'>
-            <InlineDialog
-                content = { <AudioSettingsContent
-                    currentMicDeviceId = { currentMicDeviceId }
-                    currentOutputDeviceId = { currentOutputDeviceId }
-                    microphoneDevices = { microphoneDevices }
-                    outputDevices = { outputDevices }
-                    setAudioInputDevice = { setAudioInputDevice }
-                    setAudioOutputDevice = { setAudioOutputDevice } /> }
-                isOpen = { isOpen }
-                onClose = { onClose }
-                position = 'top left'>
-                {children}
-            </InlineDialog>
-        </div>
-    );
+  return (
+    <div className="audio-preview">
+      <InlineDialog
+        content={
+          <AudioSettingsContent
+            currentMicDeviceId={currentMicDeviceId}
+            currentOutputDeviceId={currentOutputDeviceId}
+            microphoneDevices={microphoneDevices}
+            outputDevices={outputDevices}
+            setAudioInputDevice={setAudioInputDevice}
+            setAudioOutputDevice={setAudioOutputDevice}
+          />
+        }
+        isOpen={isOpen}
+        onClose={onClose}
+        position="top left"
+      >
+        {children}
+      </InlineDialog>
+    </div>
+  );
 }
 
 /**
@@ -80,19 +79,19 @@ function AudioSettingsPopup({
  * @returns {Object}
  */
 function mapStateToProps(state) {
-    return {
-        currentMicDeviceId: getCurrentMicDeviceId(state),
-        currentOutputDeviceId: getCurrentOutputDeviceId(state),
-        isOpen: getAudioSettingsVisibility(state),
-        microphoneDevices: getAudioInputDeviceData(state),
-        outputDevices: getAudioOutputDeviceData(state)
-    };
+  return {
+    currentMicDeviceId: getCurrentMicDeviceId(state),
+    currentOutputDeviceId: getCurrentOutputDeviceId(state),
+    isOpen: getAudioSettingsVisibility(state),
+    microphoneDevices: getAudioInputDeviceData(state),
+    outputDevices: getAudioOutputDeviceData(state),
+  };
 }
 
 const mapDispatchToProps = {
-    onClose: toggleAudioSettings,
-    setAudioInputDevice: setAudioInputDeviceAndUpdateSettings,
-    setAudioOutputDevice: setAudioOutputDeviceAction
+  onClose: toggleAudioSettings,
+  setAudioInputDevice: setAudioInputDeviceAndUpdateSettings,
+  setAudioOutputDevice: setAudioOutputDeviceAction,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AudioSettingsPopup);

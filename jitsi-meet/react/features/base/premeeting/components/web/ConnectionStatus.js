@@ -9,39 +9,38 @@ import { CONNECTION_TYPE } from '../../constants';
 import { getConnectionData } from '../../functions';
 
 type Props = {
+  /**
+   * List of strings with details about the connection.
+   */
+  connectionDetails: string[],
 
-    /**
-     * List of strings with details about the connection.
-     */
-    connectionDetails: string[],
+  /**
+   * The type of the connection. Can be: 'none', 'poor', 'nonOptimal' or 'good'.
+   */
+  connectionType: string,
 
-    /**
-     * The type of the connection. Can be: 'none', 'poor', 'nonOptimal' or 'good'.
-     */
-    connectionType: string,
-
-    /**
-     * Used for translation.
-     */
-    t: Function
-}
+  /**
+   * Used for translation.
+   */
+  t: Function,
+};
 
 const CONNECTION_TYPE_MAP = {
-    [CONNECTION_TYPE.POOR]: {
-        connectionClass: 'con-status--poor',
-        icon: IconWifi1Bar,
-        connectionText: 'prejoin.connection.poor'
-    },
-    [CONNECTION_TYPE.NON_OPTIMAL]: {
-        connectionClass: 'con-status--non-optimal',
-        icon: IconWifi2Bars,
-        connectionText: 'prejoin.connection.nonOptimal'
-    },
-    [CONNECTION_TYPE.GOOD]: {
-        connectionClass: 'con-status--good',
-        icon: IconWifi3Bars,
-        connectionText: 'prejoin.connection.good'
-    }
+  [CONNECTION_TYPE.POOR]: {
+    connectionClass: 'con-status--poor',
+    icon: IconWifi1Bar,
+    connectionText: 'prejoin.connection.poor',
+  },
+  [CONNECTION_TYPE.NON_OPTIMAL]: {
+    connectionClass: 'con-status--non-optimal',
+    icon: IconWifi2Bars,
+    connectionText: 'prejoin.connection.nonOptimal',
+  },
+  [CONNECTION_TYPE.GOOD]: {
+    connectionClass: 'con-status--good',
+    icon: IconWifi3Bars,
+    connectionText: 'prejoin.connection.good',
+  },
 };
 
 /**
@@ -51,39 +50,35 @@ const CONNECTION_TYPE_MAP = {
  * @returns {ReactElement}
  */
 function ConnectionStatus({ connectionDetails, t, connectionType }: Props) {
-    if (connectionType === CONNECTION_TYPE.NONE) {
-        return null;
-    }
+  if (connectionType === CONNECTION_TYPE.NONE) {
+    return null;
+  }
 
-    const { connectionClass, icon, connectionText } = CONNECTION_TYPE_MAP[connectionType];
-    const [ showDetails, toggleDetails ] = useState(false);
-    const arrowClassName = showDetails
-        ? 'con-status-arrow con-status-arrow--up'
-        : 'con-status-arrow';
-    const detailsText = connectionDetails.map(t).join(' ');
+  const { connectionClass, icon, connectionText } = CONNECTION_TYPE_MAP[connectionType];
+  const [showDetails, toggleDetails] = useState(false);
+  const arrowClassName = showDetails ? 'con-status-arrow con-status-arrow--up' : 'con-status-arrow';
+  const detailsText = connectionDetails.map(t).join(' ');
 
-    return (
-        <div className = 'con-status'>
-            <div className = 'con-status-container'>
-                <div className = 'con-status-header'>
-                    <div className = { `con-status-circle ${connectionClass}` }>
-                        <Icon
-                            size = { 16 }
-                            src = { icon } />
-                    </div>
-                    <span className = 'con-status-text'>{t(connectionText)}</span>
-                    <Icon
-                        className = { arrowClassName }
-                        // eslint-disable-next-line react/jsx-no-bind
-                        onClick = { () => toggleDetails(!showDetails) }
-                        size = { 24 }
-                        src = { IconArrowDownSmall } />
-                </div>
-                { showDetails
-                  && <div className = 'con-status-details'>{detailsText}</div> }
-            </div>
+  return (
+    <div className="con-status">
+      <div className="con-status-container">
+        <div className="con-status-header">
+          <div className={`con-status-circle ${connectionClass}`}>
+            <Icon size={16} src={icon} />
+          </div>
+          <span className="con-status-text">{t(connectionText)}</span>
+          <Icon
+            className={arrowClassName}
+            // eslint-disable-next-line react/jsx-no-bind
+            onClick={() => toggleDetails(!showDetails)}
+            size={24}
+            src={IconArrowDownSmall}
+          />
         </div>
-    );
+        {showDetails && <div className="con-status-details">{detailsText}</div>}
+      </div>
+    </div>
+  );
 }
 
 /**
@@ -93,12 +88,12 @@ function ConnectionStatus({ connectionDetails, t, connectionType }: Props) {
  * @returns {Object}
  */
 function mapStateToProps(state): Object {
-    const { connectionDetails, connectionType } = getConnectionData(state);
+  const { connectionDetails, connectionType } = getConnectionData(state);
 
-    return {
-        connectionDetails,
-        connectionType
-    };
+  return {
+    connectionDetails,
+    connectionType,
+  };
 }
 
 export default translate(connect(mapStateToProps)(ConnectionStatus));

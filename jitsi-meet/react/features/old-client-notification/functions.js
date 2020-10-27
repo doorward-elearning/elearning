@@ -8,21 +8,21 @@ import { browser } from '../../../react/features/base/lib-jitsi-meet';
  * @returns {boolean} - True if Jitsi Meet is running in too old jitsi-meet-electron app and false otherwise.
  */
 export function isOldJitsiMeetElectronApp() {
-    if (!browser.isElectron()) {
-        return false;
-    }
+  if (!browser.isElectron()) {
+    return false;
+  }
 
-    const match = navigator.userAgent.match(/(JitsiMeet)\s*\/\s*((\d+)\.[^\s]*)/);
+  const match = navigator.userAgent.match(/(JitsiMeet)\s*\/\s*((\d+)\.[^\s]*)/);
 
-    if (!Array.isArray(match) || match.length < 3) {
-        return false;
-    }
+  if (!Array.isArray(match) || match.length < 3) {
+    return false;
+  }
 
-    const majorVersion = Number(match[3]);
+  const majorVersion = Number(match[3]);
 
-    if (isNaN(majorVersion) || majorVersion >= 2) {
-        return false;
-    }
+  if (isNaN(majorVersion) || majorVersion >= 2) {
+    return false;
+  }
 
-    return true;
+  return true;
 }

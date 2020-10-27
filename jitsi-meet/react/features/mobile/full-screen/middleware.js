@@ -22,38 +22,36 @@ import { _setImmersiveListener as _setImmersiveListenerA } from './actions';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case _SET_IMMERSIVE_LISTENER:
-        return _setImmersiveListenerF(store, next, action);
+      return _setImmersiveListenerF(store, next, action);
 
     case APP_WILL_MOUNT: {
-        const result = next(action);
+      const result = next(action);
 
-        store.dispatch(
-            _setImmersiveListenerA(_onImmersiveChange.bind(undefined, store)));
+      store.dispatch(_setImmersiveListenerA(_onImmersiveChange.bind(undefined, store)));
 
-        return result;
+      return result;
     }
 
     case APP_WILL_UNMOUNT:
-        store.dispatch(_setImmersiveListenerA(undefined));
-        break;
+      store.dispatch(_setImmersiveListenerA(undefined));
+      break;
+  }
 
-    }
-
-    return next(action);
+  return next(action);
 });
 
 StateListenerRegistry.register(
-    /* selector */ state => {
-        const { enabled: audioOnly } = state['features/base/audio-only'];
-        const conference = getCurrentConference(state);
-        const dialogOpen = isAnyDialogOpen(state);
+  /* selector */ (state) => {
+    const { enabled: audioOnly } = state['features/base/audio-only'];
+    const conference = getCurrentConference(state);
+    const dialogOpen = isAnyDialogOpen(state);
 
-        return conference ? !audioOnly && !dialogOpen : false;
-    },
-    /* listener */ fullScreen => _setFullScreen(fullScreen)
+    return conference ? !audioOnly && !dialogOpen : false;
+  },
+  /* listener */ (fullScreen) => _setFullScreen(fullScreen)
 );
 
 /**
@@ -66,17 +64,17 @@ StateListenerRegistry.register(
  * @returns {void}
  */
 function _onImmersiveChange({ getState }) {
-    const state = getState();
-    const { appState } = state['features/background'];
+  const state = getState();
+  const { appState } = state['features/background'];
 
-    if (appState === 'active') {
-        const { enabled: audioOnly } = state['features/base/audio-only'];
-        const conference = getCurrentConference(state);
-        const dialogOpen = isAnyDialogOpen(state);
-        const fullScreen = conference ? !audioOnly && !dialogOpen : false;
+  if (appState === 'active') {
+    const { enabled: audioOnly } = state['features/base/audio-only'];
+    const conference = getCurrentConference(state);
+    const dialogOpen = isAnyDialogOpen(state);
+    const fullScreen = conference ? !audioOnly && !dialogOpen : false;
 
-        _setFullScreen(fullScreen);
-    }
+    _setFullScreen(fullScreen);
+  }
 }
 
 /**
@@ -89,11 +87,11 @@ function _onImmersiveChange({ getState }) {
  * @returns {void}
  */
 function _setFullScreen(fullScreen: boolean) {
-    // XXX The React Native module Immersive is only implemented on Android and
-    // throws on other platforms.
-    if (Platform.OS === 'android') {
-        fullScreen ? Immersive.on() : Immersive.off();
-    }
+  // XXX The React Native module Immersive is only implemented on Android and
+  // throws on other platforms.
+  if (Platform.OS === 'android') {
+    fullScreen ? Immersive.on() : Immersive.off();
+  }
 }
 
 /**
@@ -111,21 +109,21 @@ function _setFullScreen(fullScreen: boolean) {
  * @returns {Object} The value returned by {@code next(action)}.
  */
 function _setImmersiveListenerF({ getState }, next, action) {
-    // XXX The React Native module Immersive is only implemented on Android and
-    // throws on other platforms.
-    if (Platform.OS === 'android') {
-        // Remove the old Immersive listener and add the new one.
-        const { listener: oldListener } = getState()['features/full-screen'];
-        const result = next(action);
-        const { listener: newListener } = getState()['features/full-screen'];
+  // XXX The React Native module Immersive is only implemented on Android and
+  // throws on other platforms.
+  if (Platform.OS === 'android') {
+    // Remove the old Immersive listener and add the new one.
+    const { listener: oldListener } = getState()['features/full-screen'];
+    const result = next(action);
+    const { listener: newListener } = getState()['features/full-screen'];
 
-        if (oldListener !== newListener) {
-            oldListener && Immersive.removeImmersiveListener(oldListener);
-            newListener && Immersive.addImmersiveListener(newListener);
-        }
-
-        return result;
+    if (oldListener !== newListener) {
+      oldListener && Immersive.removeImmersiveListener(oldListener);
+      newListener && Immersive.addImmersiveListener(newListener);
     }
 
-    return next(action);
+    return result;
+  }
+
+  return next(action);
 }

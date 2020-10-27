@@ -1,9 +1,6 @@
 // @flow
 
-import {
-    MEDIA_PERMISSION_PROMPT_VISIBILITY_CHANGED,
-    SET_FATAL_ERROR
-} from './actionTypes';
+import { MEDIA_PERMISSION_PROMPT_VISIBILITY_CHANGED, SET_FATAL_ERROR } from './actionTypes';
 
 /**
  * Signals that the prompt for media permission is visible or not.
@@ -19,11 +16,11 @@ import {
  * }}
  */
 export function mediaPermissionPromptVisibilityChanged(isVisible: boolean, browser: string) {
-    return {
-        type: MEDIA_PERMISSION_PROMPT_VISIBILITY_CHANGED,
-        browser,
-        isVisible
-    };
+  return {
+    type: MEDIA_PERMISSION_PROMPT_VISIBILITY_CHANGED,
+    browser,
+    isVisible,
+  };
 }
 
 /**
@@ -39,8 +36,8 @@ export function mediaPermissionPromptVisibilityChanged(isVisible: boolean, brows
  * }}
  */
 export function setFatalError(fatalError: Object) {
-    return {
-        type: SET_FATAL_ERROR,
-        fatalError
-    };
+  return {
+    type: SET_FATAL_ERROR,
+    fatalError,
+  };
 }

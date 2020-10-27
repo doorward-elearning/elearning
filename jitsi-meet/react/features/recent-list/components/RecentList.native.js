@@ -19,31 +19,30 @@ import AbstractRecentList from './AbstractRecentList';
  * The type of the React {@code Component} props of {@link RecentList}
  */
 type Props = {
+  /**
+   * Renders the list disabled.
+   */
+  disabled: boolean,
 
-    /**
-     * Renders the list disabled.
-     */
-    disabled: boolean,
+  /**
+   * The redux store's {@code dispatch} function.
+   */
+  dispatch: Dispatch<any>,
 
-    /**
-     * The redux store's {@code dispatch} function.
-     */
-    dispatch: Dispatch<any>,
+  /**
+   * The translate function.
+   */
+  t: Function,
 
-    /**
-     * The translate function.
-     */
-    t: Function,
+  /**
+   * The default server URL.
+   */
+  _defaultServerURL: string,
 
-    /**
-     * The default server URL.
-     */
-    _defaultServerURL: string,
-
-    /**
-     * The recent list from the Redux store.
-     */
-    _recentList: Array<Section>
+  /**
+   * The recent list from the Redux store.
+   */
+  _recentList: Array<Section>,
 };
 
 /**
@@ -51,82 +50,80 @@ type Props = {
  *
  */
 class RecentList extends AbstractRecentList<Props> {
-    _getRenderListEmptyComponent: () => React$Node;
-    _onPress: string => {};
+  _getRenderListEmptyComponent: () => React$Node;
+  _onPress: (string) => {};
 
-    /**
-     * Initializes a new {@code RecentList} instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Initializes a new {@code RecentList} instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onDelete = this._onDelete.bind(this);
-        this._onShowDialInInfo = this._onShowDialInInfo.bind(this);
+    this._onDelete = this._onDelete.bind(this);
+    this._onShowDialInInfo = this._onShowDialInInfo.bind(this);
+  }
+
+  /**
+   * Implements the React Components's render method.
+   *
+   * @inheritdoc
+   */
+  render() {
+    if (!isRecentListEnabled()) {
+      return null;
     }
+    const { disabled, t, _defaultServerURL, _recentList } = this.props;
+    const recentList = toDisplayableList(_recentList, t, _defaultServerURL);
+    const slideActions = [
+      {
+        backgroundColor: ColorPalette.blue,
+        onPress: this._onShowDialInInfo,
+        text: t('welcomepage.info'),
+      },
+      {
+        backgroundColor: 'red',
+        onPress: this._onDelete,
+        text: t('welcomepage.recentListDelete'),
+      },
+    ];
 
-    /**
-     * Implements the React Components's render method.
-     *
-     * @inheritdoc
-     */
-    render() {
-        if (!isRecentListEnabled()) {
-            return null;
-        }
-        const {
-            disabled,
-            t,
-            _defaultServerURL,
-            _recentList
-        } = this.props;
-        const recentList = toDisplayableList(_recentList, t, _defaultServerURL);
-        const slideActions = [ {
-            backgroundColor: ColorPalette.blue,
-            onPress: this._onShowDialInInfo,
-            text: t('welcomepage.info')
-        }, {
-            backgroundColor: 'red',
-            onPress: this._onDelete,
-            text: t('welcomepage.recentListDelete')
-        } ];
+    return (
+      <NavigateSectionList
+        disabled={disabled}
+        onPress={this._onPress}
+        renderListEmptyComponent={this._getRenderListEmptyComponent()}
+        sections={recentList}
+        slideActions={slideActions}
+      />
+    );
+  }
 
-        return (
-            <NavigateSectionList
-                disabled = { disabled }
-                onPress = { this._onPress }
-                renderListEmptyComponent
-                    = { this._getRenderListEmptyComponent() }
-                sections = { recentList }
-                slideActions = { slideActions } />
-        );
-    }
+  _onDelete: (Object) => void;
 
-    _onDelete: Object => void
+  /**
+   * Callback for the delete action of the list.
+   *
+   * @param {Object} itemId - The ID of the entry thats deletion is
+   * requested.
+   * @returns {void}
+   */
+  _onDelete(itemId) {
+    this.props.dispatch(deleteRecentListEntry(itemId));
+  }
 
-    /**
-     * Callback for the delete action of the list.
-     *
-     * @param {Object} itemId - The ID of the entry thats deletion is
-     * requested.
-     * @returns {void}
-     */
-    _onDelete(itemId) {
-        this.props.dispatch(deleteRecentListEntry(itemId));
-    }
+  _onShowDialInInfo: (Object) => void;
 
-    _onShowDialInInfo: Object => void
-
-    /**
-     * Callback for the dial-in info action of the list.
-     *
-     * @param {Object} itemId - The ID of the entry for which we'd like to show the dial in numbers.
-     * @returns {void}
-     */
-    _onShowDialInInfo(itemId) {
-        this.props.dispatch(setActiveModalId(DIAL_IN_SUMMARY_VIEW_ID, { summaryUrl: itemId.url }));
-    }
+  /**
+   * Callback for the dial-in info action of the list.
+   *
+   * @param {Object} itemId - The ID of the entry for which we'd like to show the dial in numbers.
+   * @returns {void}
+   */
+  _onShowDialInInfo(itemId) {
+    this.props.dispatch(setActiveModalId(DIAL_IN_SUMMARY_VIEW_ID, { summaryUrl: itemId.url }));
+  }
 }
 
 /**
@@ -139,10 +136,10 @@ class RecentList extends AbstractRecentList<Props> {
  * }}
  */
 export function _mapStateToProps(state: Object) {
-    return {
-        _defaultServerURL: getDefaultURL(state),
-        _recentList: state['features/recent-list']
-    };
+  return {
+    _defaultServerURL: getDefaultURL(state),
+    _recentList: state['features/recent-list'],
+  };
 }
 
 export default translate(connect(_mapStateToProps)(RecentList));

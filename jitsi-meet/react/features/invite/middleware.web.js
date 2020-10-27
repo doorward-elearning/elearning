@@ -13,15 +13,15 @@ import './middleware.any';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case BEGIN_ADD_PEOPLE:
-        return _beginAddPeople(store, next, action);
+      return _beginAddPeople(store, next, action);
     case HIDE_ADD_PEOPLE_DIALOG:
-        return _hideAddPeopleDialog(store, next, action);
-    }
+      return _hideAddPeopleDialog(store, next, action);
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -38,11 +38,11 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {*} The value returned by {@code next(action)}.
  */
 function _beginAddPeople({ dispatch }, next, action) {
-    const result = next(action);
+  const result = next(action);
 
-    dispatch(openDialog(AddPeopleDialog));
+  dispatch(openDialog(AddPeopleDialog));
 
-    return result;
+  return result;
 }
 
 /**
@@ -59,7 +59,7 @@ function _beginAddPeople({ dispatch }, next, action) {
  * @returns {*} The value returned by {@code next(action)}.
  */
 function _hideAddPeopleDialog({ dispatch }, next, action) {
-    dispatch(hideDialog(AddPeopleDialog));
+  dispatch(hideDialog(AddPeopleDialog));
 
-    return next(action);
+  return next(action);
 }

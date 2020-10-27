@@ -2,7 +2,6 @@
 
 import { JitsiRecordingConstants } from '../base/lib-jitsi-meet';
 
-
 /**
  * The identifier of the sound to be played when a live streaming session is stopped.
  *
@@ -37,8 +36,8 @@ export const RECORDING_ON_SOUND_ID = 'RECORDING_ON_SOUND';
  * @enum {string}
  */
 export const RECORDING_TYPES = {
-    JITSI_REC_SERVICE: 'recording-service',
-    DROPBOX: 'dropbox'
+  JITSI_REC_SERVICE: 'recording-service',
+  DROPBOX: 'dropbox',
 };
 
 /**
@@ -48,7 +47,7 @@ export const RECORDING_TYPES = {
  * @type {Array<string>}
  */
 export const RECORDING_STATUS_PRIORITIES = [
-    JitsiRecordingConstants.status.OFF,
-    JitsiRecordingConstants.status.PENDING,
-    JitsiRecordingConstants.status.ON
+  JitsiRecordingConstants.status.OFF,
+  JitsiRecordingConstants.status.PENDING,
+  JitsiRecordingConstants.status.ON,
 ];

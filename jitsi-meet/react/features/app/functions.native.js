@@ -14,9 +14,9 @@ import { getServerURL } from '../base/settings';
  * @returns {string} - Default URL for the app.
  */
 export function getDefaultURL(stateful: Function | Object) {
-    const state = toState(stateful);
+  const state = toState(stateful);
 
-    return getServerURL(state);
+  return getServerURL(state);
 }
 
 /**
@@ -25,7 +25,7 @@ export function getDefaultURL(stateful: Function | Object) {
  * @returns {string} The application name.
  */
 export function getName() {
-    return NativeModules.AppInfo.name;
+  return NativeModules.AppInfo.name;
 }
 
 /**
@@ -35,5 +35,5 @@ export function getName() {
  * @returns {string|undefined}
  */
 export function getSdkBundlePath() {
-    return NativeModules.AppInfo.sdkBundlePath;
+  return NativeModules.AppInfo.sdkBundlePath;
 }

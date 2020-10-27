@@ -6,41 +6,40 @@ import { Container } from '../../react/base';
 import { styleTypeToObject } from '../../styles';
 
 type Props = {
+  /**
+   * Class name for the web platform, if any.
+   */
+  className: string,
 
-    /**
-     * Class name for the web platform, if any.
-     */
-    className: string,
+  /**
+   * Color of the icon (if not provided by the style object).
+   */
+  color?: string,
 
-    /**
-     * Color of the icon (if not provided by the style object).
-     */
-    color?: string,
+  /**
+   * Id prop (mainly for autotests).
+   */
+  id?: string,
 
-    /**
-     * Id prop (mainly for autotests).
-     */
-    id?: string,
+  /**
+   * Function to invoke on click.
+   */
+  onClick?: Function,
 
-    /**
-     * Function to invoke on click.
-     */
-    onClick?: Function,
+  /**
+   * The size of the icon (if not provided by the style object).
+   */
+  size?: number | string,
 
-    /**
-     * The size of the icon (if not provided by the style object).
-     */
-    size?: number | string,
+  /**
+   * The preloaded icon component to render.
+   */
+  src: Function,
 
-    /**
-     * The preloaded icon component to render.
-     */
-    src: Function,
-
-    /**
-     * Style object to be applied.
-     */
-    style?: Object
+  /**
+   * Style object to be applied.
+   */
+  style?: Object,
 };
 
 export const DEFAULT_COLOR = navigator.product === 'ReactNative' ? 'white' : undefined;
@@ -53,38 +52,19 @@ export const DEFAULT_SIZE = navigator.product === 'ReactNative' ? 36 : 24;
  * @returns {Reactelement}
  */
 export default function Icon(props: Props) {
-    const {
-        className,
-        color,
-        id,
-        onClick,
-        size,
-        src: IconComponent,
-        style
-    } = props;
+  const { className, color, id, onClick, size, src: IconComponent, style } = props;
 
-    const {
-        color: styleColor,
-        fontSize: styleSize,
-        ...restStyle
-    } = styleTypeToObject(style ?? {});
-    const calculatedColor = color ?? styleColor ?? DEFAULT_COLOR;
-    const calculatedSize = size ?? styleSize ?? DEFAULT_SIZE;
+  const { color: styleColor, fontSize: styleSize, ...restStyle } = styleTypeToObject(style ?? {});
+  const calculatedColor = color ?? styleColor ?? DEFAULT_COLOR;
+  const calculatedSize = size ?? styleSize ?? DEFAULT_SIZE;
 
-    return (
-        <Container
-            className = { `jitsi-icon ${className}` }
-            onClick = { onClick }
-            style = { restStyle }>
-            <IconComponent
-                fill = { calculatedColor }
-                height = { calculatedSize }
-                id = { id }
-                width = { calculatedSize } />
-        </Container>
-    );
+  return (
+    <Container className={`jitsi-icon ${className}`} onClick={onClick} style={restStyle}>
+      <IconComponent fill={calculatedColor} height={calculatedSize} id={id} width={calculatedSize} />
+    </Container>
+  );
 }
 
 Icon.defaultProps = {
-    className: ''
+  className: '',
 };

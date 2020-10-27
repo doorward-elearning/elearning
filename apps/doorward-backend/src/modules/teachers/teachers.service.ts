@@ -5,7 +5,6 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import TeacherAccountWithPasswordEmail from '../../emails/teacher-account.with.password.email';
-import om from '../../utils/om';
 import FrontendLinks from '../../utils/frontend.links';
 import TeacherNewAccountEmail from '../../emails/teacher-new.account.email';
 import translate from '@doorward/common/lang/translate';

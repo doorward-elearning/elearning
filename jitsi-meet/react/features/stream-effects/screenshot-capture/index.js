@@ -12,9 +12,9 @@ import ScreenshotCaptureEffect from './ScreenshotCaptureEffect';
  * @returns {Promise<ScreenshotCaptureEffect>}
  */
 export function createScreenshotCaptureEffect(stateful: Object | Function) {
-    if (!MediaStreamTrack.prototype.getSettings && !MediaStreamTrack.prototype.getConstraints) {
-        return Promise.reject(new Error('ScreenshotCaptureEffect not supported!'));
-    }
+  if (!MediaStreamTrack.prototype.getSettings && !MediaStreamTrack.prototype.getConstraints) {
+    return Promise.reject(new Error('ScreenshotCaptureEffect not supported!'));
+  }
 
-    return Promise.resolve(new ScreenshotCaptureEffect(toState(stateful)));
+  return Promise.resolve(new ScreenshotCaptureEffect(toState(stateful)));
 }

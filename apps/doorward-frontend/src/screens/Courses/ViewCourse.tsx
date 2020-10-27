@@ -28,7 +28,6 @@ import useDoorwardApi from '../../hooks/useDoorwardApi';
 import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
-import Plural from '@doorward/ui/components/Plural';
 import translate from '@doorward/common/lang/translate';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 
@@ -74,6 +73,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
         </IfElse>
       }
       renderHeaderEnd={(): JSX.Element => {
+        const ongoingMeeting = !!course.data?.course?.meetingRoom?.currentMeeting;
         return (
           <React.Fragment>
             <RoleContainer privileges={['modules.create']}>
@@ -82,16 +82,18 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               </Button>
             </RoleContainer>
             {course.data.course && (
-              <IfElse condition={course.data.course?.meetingRoom?.currentMeeting}>
-                <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                  {translate.joinMeeting()}
-                </Button>
-                <RoleContainer privileges={['courses.start-meeting']}>
+              <React.Fragment>
+                {!hasPrivileges('meetings.read-only') && ongoingMeeting && (
+                  <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
+                    {translate.joinMeeting()}
+                  </Button>
+                )}
+                {hasPrivileges('courses.start-meeting') && !ongoingMeeting && (
                   <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
                     {translate.startMeeting()}
                   </Button>
-                </RoleContainer>
-              </IfElse>
+                )}
+              </React.Fragment>
             )}
             <ProgressModal
               state={launchClassroom}

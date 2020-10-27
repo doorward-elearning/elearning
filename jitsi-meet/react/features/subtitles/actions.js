@@ -1,10 +1,10 @@
 // @flow
 
 import {
-    ENDPOINT_MESSAGE_RECEIVED,
-    REMOVE_TRANSCRIPT_MESSAGE,
-    TOGGLE_REQUESTING_SUBTITLES,
-    UPDATE_TRANSCRIPT_MESSAGE
+  ENDPOINT_MESSAGE_RECEIVED,
+  REMOVE_TRANSCRIPT_MESSAGE,
+  TOGGLE_REQUESTING_SUBTITLES,
+  UPDATE_TRANSCRIPT_MESSAGE,
 } from './actionTypes';
 
 /**
@@ -19,11 +19,11 @@ import {
  * }}
  */
 export function endpointMessageReceived(participant: Object, json: Object) {
-    return {
-        type: ENDPOINT_MESSAGE_RECEIVED,
-        participant,
-        json
-    };
+  return {
+    type: ENDPOINT_MESSAGE_RECEIVED,
+    participant,
+    json,
+  };
 }
 
 /**
@@ -36,10 +36,10 @@ export function endpointMessageReceived(participant: Object, json: Object) {
  * }}
  */
 export function removeTranscriptMessage(transcriptMessageID: string) {
-    return {
-        type: REMOVE_TRANSCRIPT_MESSAGE,
-        transcriptMessageID
-    };
+  return {
+    type: REMOVE_TRANSCRIPT_MESSAGE,
+    transcriptMessageID,
+  };
 }
 
 /**
@@ -54,13 +54,12 @@ export function removeTranscriptMessage(transcriptMessageID: string) {
  *      newTranscriptMessage: Object
  * }}
  */
-export function updateTranscriptMessage(transcriptMessageID: string,
-        newTranscriptMessage: Object) {
-    return {
-        type: UPDATE_TRANSCRIPT_MESSAGE,
-        transcriptMessageID,
-        newTranscriptMessage
-    };
+export function updateTranscriptMessage(transcriptMessageID: string, newTranscriptMessage: Object) {
+  return {
+    type: UPDATE_TRANSCRIPT_MESSAGE,
+    transcriptMessageID,
+    newTranscriptMessage,
+  };
 }
 
 /**
@@ -71,7 +70,7 @@ export function updateTranscriptMessage(transcriptMessageID: string,
  * }}
  */
 export function toggleRequestingSubtitles() {
-    return {
-        type: TOGGLE_REQUESTING_SUBTITLES
-    };
+  return {
+    type: TOGGLE_REQUESTING_SUBTITLES,
+  };
 }

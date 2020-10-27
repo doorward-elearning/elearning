@@ -13,38 +13,37 @@ import { presenceStatusDisabled } from '../functions';
  * The type of the React {@code Component} props of {@link PresenceLabel}.
  */
 type Props = {
+  /**
+   * The current present status associated with the passed in participantID
+   * prop.
+   */
+  _presence: string,
 
-    /**
-     * The current present status associated with the passed in participantID
-     * prop.
-     */
-    _presence: string,
+  /**
+   * Class name for the presence label.
+   */
+  className: string,
 
-    /**
-     * Class name for the presence label.
-     */
-    className: string,
+  /**
+   * Default presence status that will be displayed if user's presence status
+   * is not available.
+   */
+  defaultPresence: string,
 
-    /**
-     * Default presence status that will be displayed if user's presence status
-     * is not available.
-     */
-    defaultPresence: string,
+  /**
+   * The ID of the participant whose presence status should display.
+   */
+  participantID: string,
 
-    /**
-     * The ID of the participant whose presence status should display.
-     */
-    participantID: string,
+  /**
+   * Styles for the presence label.
+   */
+  style: Object,
 
-    /**
-     * Styles for the presence label.
-     */
-    style: Object,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -54,58 +53,58 @@ type Props = {
  * @extends Component
  */
 class PresenceLabel extends Component<Props> {
-    /**
-     * The default values for {@code PresenceLabel} component's property types.
-     *
-     * @static
-     */
-    static defaultProps = {
-        _presence: ''
-    };
+  /**
+   * The default values for {@code PresenceLabel} component's property types.
+   *
+   * @static
+   */
+  static defaultProps = {
+    _presence: '',
+  };
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const text = this._getPresenceText();
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const text = this._getPresenceText();
 
-        if (text === null) {
-            return null;
-        }
-
-        const { style, className } = this.props;
-
-        return (
-            <Text
-                className = { className }
-                { ...style }>
-                { text }
-            </Text>);
+    if (text === null) {
+      return null;
     }
 
-    /**
-     * Returns the text associated with the current presence status.
-     *
-     * @returns {string}
-     */
-    _getPresenceText() {
-        const { _presence, t } = this.props;
+    const { style, className } = this.props;
 
-        if (!_presence) {
-            return null;
-        }
+    return (
+      <Text className={className} {...style}>
+        {text}
+      </Text>
+    );
+  }
 
-        const i18nKey = STATUS_TO_I18N_KEY[_presence];
+  /**
+   * Returns the text associated with the current presence status.
+   *
+   * @returns {string}
+   */
+  _getPresenceText() {
+    const { _presence, t } = this.props;
 
-        if (!i18nKey) { // fallback to status value
-            return _presence;
-        }
-
-        return t(i18nKey);
+    if (!_presence) {
+      return null;
     }
+
+    const i18nKey = STATUS_TO_I18N_KEY[_presence];
+
+    if (!i18nKey) {
+      // fallback to status value
+      return _presence;
+    }
+
+    return t(i18nKey);
+  }
 }
 
 /**
@@ -121,13 +120,11 @@ class PresenceLabel extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state, ownProps) {
-    const participant = getParticipantById(state, ownProps.participantID);
+  const participant = getParticipantById(state, ownProps.participantID);
 
-    return {
-        _presence: presenceStatusDisabled() ? ''
-            : participant?.presence || ownProps.defaultPresence
-
-    };
+  return {
+    _presence: presenceStatusDisabled() ? '' : participant?.presence || ownProps.defaultPresence,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(PresenceLabel));

@@ -6,67 +6,66 @@ import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/com
 import { toggleRequestingSubtitles } from '../actions';
 
 export type AbstractProps = AbstractButtonProps & {
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function,
+  /**
+   * Invoked to Dispatch an Action to the redux store.
+   */
+  dispatch: Function,
 
-    /**
-     * Invoked to Dispatch an Action to the redux store.
-     */
-    dispatch: Function,
-
-    /**
-     * Whether the local participant is currently requesting subtitles.
-     */
-    _requestingSubtitles: Boolean
+  /**
+   * Whether the local participant is currently requesting subtitles.
+   */
+  _requestingSubtitles: Boolean,
 };
 
 /**
  * The button component which starts/stops the transcription.
  */
-export class AbstractClosedCaptionButton
-    extends AbstractButton<AbstractProps, *> {
-    /**
-     * Handles clicking / pressing the button.
-     *
-     * @override
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        const { _requestingSubtitles, dispatch } = this.props;
+export class AbstractClosedCaptionButton extends AbstractButton<AbstractProps, *> {
+  /**
+   * Handles clicking / pressing the button.
+   *
+   * @override
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    const { _requestingSubtitles, dispatch } = this.props;
 
-        sendAnalytics(createToolbarEvent('transcribing.ccButton',
-            {
-                'requesting_subtitles': Boolean(_requestingSubtitles)
-            }));
+    sendAnalytics(
+      createToolbarEvent('transcribing.ccButton', {
+        requesting_subtitles: Boolean(_requestingSubtitles),
+      })
+    );
 
-        dispatch(toggleRequestingSubtitles());
-    }
+    dispatch(toggleRequestingSubtitles());
+  }
 
-    /**
-     * Indicates whether this button is disabled or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isDisabled() {
-        return false;
-    }
+  /**
+   * Indicates whether this button is disabled or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isDisabled() {
+    return false;
+  }
 
-    /**
-     * Indicates whether this button is in toggled state or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._requestingSubtitles;
-    }
+  /**
+   * Indicates whether this button is in toggled state or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._requestingSubtitles;
+  }
 }
 
 /**
@@ -83,12 +82,12 @@ export class AbstractClosedCaptionButton
  * }}
  */
 export function _abstractMapStateToProps(state: Object, ownProps: Object) {
-    const { _requestingSubtitles } = state['features/subtitles'];
-    const { transcribingEnabled } = state['features/base/config'];
-    const { visible = Boolean(transcribingEnabled && isLocalParticipantModerator(state)) } = ownProps;
+  const { _requestingSubtitles } = state['features/subtitles'];
+  const { transcribingEnabled } = state['features/base/config'];
+  const { visible = Boolean(transcribingEnabled && isLocalParticipantModerator(state)) } = ownProps;
 
-    return {
-        _requestingSubtitles,
-        visible
-    };
+  return {
+    _requestingSubtitles,
+    visible,
+  };
 }

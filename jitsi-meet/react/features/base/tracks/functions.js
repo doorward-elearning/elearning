@@ -2,10 +2,7 @@
 
 import JitsiMeetJS, { JitsiTrackErrors, browser } from '../lib-jitsi-meet';
 import { MEDIA_TYPE, setAudioMuted } from '../media';
-import {
-    getUserSelectedCameraDeviceId,
-    getUserSelectedMicDeviceId
-} from '../settings';
+import { getUserSelectedCameraDeviceId, getUserSelectedMicDeviceId } from '../settings';
 
 import loadEffects from './loadEffects';
 import logger from './logger';
@@ -23,32 +20,30 @@ import logger from './logger';
  * @returns {Promise<JitsiLocalTrack>}
  */
 export async function createLocalPresenterTrack(options, desktopHeight) {
-    const { cameraDeviceId } = options;
+  const { cameraDeviceId } = options;
 
-    // compute the constraints of the camera track based on the resolution
-    // of the desktop screen that is being shared.
-    const cameraHeights = [ 180, 270, 360, 540, 720 ];
-    const proportion = 5;
-    const result = cameraHeights.find(
-            height => (desktopHeight / proportion) < height);
-    const constraints = {
-        video: {
-            aspectRatio: 4 / 3,
-            height: {
-                ideal: result
-            }
-        }
-    };
-    const [ videoTrack ] = await JitsiMeetJS.createLocalTracks(
-        {
-            cameraDeviceId,
-            constraints,
-            devices: [ 'video' ]
-        });
+  // compute the constraints of the camera track based on the resolution
+  // of the desktop screen that is being shared.
+  const cameraHeights = [180, 270, 360, 540, 720];
+  const proportion = 5;
+  const result = cameraHeights.find((height) => desktopHeight / proportion < height);
+  const constraints = {
+    video: {
+      aspectRatio: 4 / 3,
+      height: {
+        ideal: result,
+      },
+    },
+  };
+  const [videoTrack] = await JitsiMeetJS.createLocalTracks({
+    cameraDeviceId,
+    constraints,
+    devices: ['video'],
+  });
 
-    videoTrack.type = MEDIA_TYPE.PRESENTER;
+  videoTrack.type = MEDIA_TYPE.PRESENTER;
 
-    return videoTrack;
+  return videoTrack;
 }
 
 /**
@@ -70,59 +65,57 @@ export async function createLocalPresenterTrack(options, desktopHeight) {
  * @returns {Promise<JitsiLocalTrack[]>}
  */
 export function createLocalTracksF(options = {}, firePermissionPromptIsShownEvent, store) {
-    let { cameraDeviceId, micDeviceId } = options;
+  let { cameraDeviceId, micDeviceId } = options;
 
-    if (typeof APP !== 'undefined') {
-        // TODO The app's settings should go in the redux store and then the
-        // reliance on the global variable APP will go away.
-        store || (store = APP.store); // eslint-disable-line no-param-reassign
-
-        const state = store.getState();
-
-        if (typeof cameraDeviceId === 'undefined' || cameraDeviceId === null) {
-            cameraDeviceId = getUserSelectedCameraDeviceId(state);
-        }
-        if (typeof micDeviceId === 'undefined' || micDeviceId === null) {
-            micDeviceId = getUserSelectedMicDeviceId(state);
-        }
-    }
+  if (typeof APP !== 'undefined') {
+    // TODO The app's settings should go in the redux store and then the
+    // reliance on the global variable APP will go away.
+    store || (store = APP.store); // eslint-disable-line no-param-reassign
 
     const state = store.getState();
-    const {
+
+    if (typeof cameraDeviceId === 'undefined' || cameraDeviceId === null) {
+      cameraDeviceId = getUserSelectedCameraDeviceId(state);
+    }
+    if (typeof micDeviceId === 'undefined' || micDeviceId === null) {
+      micDeviceId = getUserSelectedMicDeviceId(state);
+    }
+  }
+
+  const state = store.getState();
+  const {
+    desktopSharingFrameRate,
+    firefox_fake_device, // eslint-disable-line camelcase
+    resolution,
+  } = state['features/base/config'];
+  const constraints = options.constraints ?? state['features/base/config'].constraints;
+
+  return loadEffects(store).then((effectsArray) => {
+    // Filter any undefined values returned by Promise.resolve().
+    const effects = effectsArray.filter((effect) => Boolean(effect));
+
+    return JitsiMeetJS.createLocalTracks(
+      {
+        cameraDeviceId,
+        constraints,
         desktopSharingFrameRate,
+        desktopSharingSourceDevice: options.desktopSharingSourceDevice,
+        desktopSharingSources: options.desktopSharingSources,
+
+        // Copy array to avoid mutations inside library.
+        devices: options.devices.slice(0),
+        effects,
         firefox_fake_device, // eslint-disable-line camelcase
-        resolution
-    } = state['features/base/config'];
-    const constraints = options.constraints ?? state['features/base/config'].constraints;
+        micDeviceId,
+        resolution,
+      },
+      firePermissionPromptIsShownEvent
+    ).catch((err) => {
+      logger.error('Failed to create local tracks', options.devices, err);
 
-    return (
-        loadEffects(store).then(effectsArray => {
-            // Filter any undefined values returned by Promise.resolve().
-            const effects = effectsArray.filter(effect => Boolean(effect));
-
-            return JitsiMeetJS.createLocalTracks(
-                {
-                    cameraDeviceId,
-                    constraints,
-                    desktopSharingFrameRate,
-                    desktopSharingSourceDevice:
-                        options.desktopSharingSourceDevice,
-                    desktopSharingSources: options.desktopSharingSources,
-
-                    // Copy array to avoid mutations inside library.
-                    devices: options.devices.slice(0),
-                    effects,
-                    firefox_fake_device, // eslint-disable-line camelcase
-                    micDeviceId,
-                    resolution
-                },
-                firePermissionPromptIsShownEvent)
-            .catch(err => {
-                logger.error('Failed to create local tracks', options.devices, err);
-
-                return Promise.reject(err);
-            });
-        }));
+      return Promise.reject(err);
+    });
+  });
 }
 
 /**
@@ -134,78 +127,74 @@ export function createLocalTracksF(options = {}, firePermissionPromptIsShownEven
  * @todo Refactor to not use APP
  */
 export function createPrejoinTracks() {
-    const errors = {};
-    const initialDevices = [ 'audio' ];
-    const requestedAudio = true;
-    let requestedVideo = false;
-    const { startAudioOnly, startWithAudioMuted, startWithVideoMuted } = APP.store.getState()['features/base/settings'];
+  const errors = {};
+  const initialDevices = ['audio'];
+  const requestedAudio = true;
+  let requestedVideo = false;
+  const { startAudioOnly, startWithAudioMuted, startWithVideoMuted } = APP.store.getState()['features/base/settings'];
 
-    // Always get a handle on the audio input device so that we have statistics even if the user joins the
-    // conference muted. Previous implementation would only acquire the handle when the user first unmuted,
-    // which would results in statistics ( such as "No audio input" or "Are you trying to speak?") being available
-    // only after that point.
-    if (startWithAudioMuted) {
-        APP.store.dispatch(setAudioMuted(true));
-    }
+  // Always get a handle on the audio input device so that we have statistics even if the user joins the
+  // conference muted. Previous implementation would only acquire the handle when the user first unmuted,
+  // which would results in statistics ( such as "No audio input" or "Are you trying to speak?") being available
+  // only after that point.
+  if (startWithAudioMuted) {
+    APP.store.dispatch(setAudioMuted(true));
+  }
 
-    if (!startWithVideoMuted && !startAudioOnly) {
-        initialDevices.push('video');
-        requestedVideo = true;
-    }
+  if (!startWithVideoMuted && !startAudioOnly) {
+    initialDevices.push('video');
+    requestedVideo = true;
+  }
 
-    let tryCreateLocalTracks;
+  let tryCreateLocalTracks;
 
-    if (!requestedAudio && !requestedVideo) {
-        // Resolve with no tracks
-        tryCreateLocalTracks = Promise.resolve([]);
-    } else {
-        tryCreateLocalTracks = createLocalTracksF({ devices: initialDevices }, true)
-                .catch(err => {
-                    if (requestedAudio && requestedVideo) {
+  if (!requestedAudio && !requestedVideo) {
+    // Resolve with no tracks
+    tryCreateLocalTracks = Promise.resolve([]);
+  } else {
+    tryCreateLocalTracks = createLocalTracksF({ devices: initialDevices }, true)
+      .catch((err) => {
+        if (requestedAudio && requestedVideo) {
+          // Try audio only...
+          errors.audioAndVideoError = err;
 
-                        // Try audio only...
-                        errors.audioAndVideoError = err;
+          return createLocalTracksF({ devices: ['audio'] }, true);
+        } else if (requestedAudio && !requestedVideo) {
+          errors.audioOnlyError = err;
 
-                        return (
-                            createLocalTracksF({ devices: [ 'audio' ] }, true));
-                    } else if (requestedAudio && !requestedVideo) {
-                        errors.audioOnlyError = err;
+          return [];
+        } else if (requestedVideo && !requestedAudio) {
+          errors.videoOnlyError = err;
 
-                        return [];
-                    } else if (requestedVideo && !requestedAudio) {
-                        errors.videoOnlyError = err;
+          return [];
+        }
+        logger.error('Should never happen');
+      })
+      .catch((err) => {
+        // Log this just in case...
+        if (!requestedAudio) {
+          logger.error('The impossible just happened', err);
+        }
+        errors.audioOnlyError = err;
 
-                        return [];
-                    }
-                    logger.error('Should never happen');
-                })
-                .catch(err => {
-                    // Log this just in case...
-                    if (!requestedAudio) {
-                        logger.error('The impossible just happened', err);
-                    }
-                    errors.audioOnlyError = err;
+        // Try video only...
+        return requestedVideo ? createLocalTracksF({ devices: ['video'] }, true) : [];
+      })
+      .catch((err) => {
+        // Log this just in case...
+        if (!requestedVideo) {
+          logger.error('The impossible just happened', err);
+        }
+        errors.videoOnlyError = err;
 
-                    // Try video only...
-                    return requestedVideo
-                        ? createLocalTracksF({ devices: [ 'video' ] }, true)
-                        : [];
-                })
-                .catch(err => {
-                    // Log this just in case...
-                    if (!requestedVideo) {
-                        logger.error('The impossible just happened', err);
-                    }
-                    errors.videoOnlyError = err;
+        return [];
+      });
+  }
 
-                    return [];
-                });
-    }
-
-    return {
-        tryCreateLocalTracks,
-        errors
-    };
+  return {
+    tryCreateLocalTracks,
+    errors,
+  };
 }
 
 /**
@@ -215,7 +204,7 @@ export function createPrejoinTracks() {
  * @returns {(Track|undefined)}
  */
 export function getLocalAudioTrack(tracks) {
-    return getLocalTrack(tracks, MEDIA_TYPE.AUDIO);
+  return getLocalTrack(tracks, MEDIA_TYPE.AUDIO);
 }
 
 /**
@@ -231,9 +220,7 @@ export function getLocalAudioTrack(tracks) {
  * @returns {(Track|undefined)}
  */
 export function getLocalTrack(tracks, mediaType, includePending = false) {
-    return (
-        getLocalTracks(tracks, includePending)
-            .find(t => t.mediaType === mediaType));
+  return getLocalTracks(tracks, includePending).find((t) => t.mediaType === mediaType);
 }
 
 /**
@@ -249,14 +236,14 @@ export function getLocalTrack(tracks, mediaType, includePending = false) {
  * @returns {Track[]}
  */
 export function getLocalTracks(tracks, includePending = false) {
-    // XXX A local track is considered ready only once it has its `jitsiTrack`
-    // property set by the `TRACK_ADDED` action. Until then there is a stub
-    // added just before the `getUserMedia` call with a cancellable
-    // `gumInProgress` property which then can be used to destroy the track that
-    // has not yet been added to the redux store. Once GUM is cancelled, it will
-    // never make it to the store nor there will be any
-    // `TRACK_ADDED`/`TRACK_REMOVED` actions dispatched for it.
-    return tracks.filter(t => t.local && (t.jitsiTrack || includePending));
+  // XXX A local track is considered ready only once it has its `jitsiTrack`
+  // property set by the `TRACK_ADDED` action. Until then there is a stub
+  // added just before the `getUserMedia` call with a cancellable
+  // `gumInProgress` property which then can be used to destroy the track that
+  // has not yet been added to the redux store. Once GUM is cancelled, it will
+  // never make it to the store nor there will be any
+  // `TRACK_ADDED`/`TRACK_REMOVED` actions dispatched for it.
+  return tracks.filter((t) => t.local && (t.jitsiTrack || includePending));
 }
 
 /**
@@ -266,7 +253,7 @@ export function getLocalTracks(tracks, includePending = false) {
  * @returns {(Track|undefined)}
  */
 export function getLocalVideoTrack(tracks) {
-    return getLocalTrack(tracks, MEDIA_TYPE.VIDEO);
+  return getLocalTrack(tracks, MEDIA_TYPE.VIDEO);
 }
 
 /**
@@ -276,9 +263,9 @@ export function getLocalVideoTrack(tracks) {
  * @returns {MEDIA_TYPE}
  */
 export function getLocalVideoType(tracks) {
-    const presenterTrack = getLocalTrack(tracks, MEDIA_TYPE.PRESENTER);
+  const presenterTrack = getLocalTrack(tracks, MEDIA_TYPE.PRESENTER);
 
-    return presenterTrack ? MEDIA_TYPE.PRESENTER : MEDIA_TYPE.VIDEO;
+  return presenterTrack ? MEDIA_TYPE.PRESENTER : MEDIA_TYPE.VIDEO;
 }
 
 /**
@@ -288,9 +275,9 @@ export function getLocalVideoType(tracks) {
  * @returns {Object}
  */
 export function getLocalJitsiVideoTrack(state) {
-    const track = getLocalVideoTrack(state['features/base/tracks']);
+  const track = getLocalVideoTrack(state['features/base/tracks']);
 
-    return track?.jitsiTrack;
+  return track?.jitsiTrack;
 }
 
 /**
@@ -300,9 +287,9 @@ export function getLocalJitsiVideoTrack(state) {
  * @returns {Object}
  */
 export function getLocalJitsiAudioTrack(state) {
-    const track = getLocalAudioTrack(state['features/base/tracks']);
+  const track = getLocalAudioTrack(state['features/base/tracks']);
 
-    return track?.jitsiTrack;
+  return track?.jitsiTrack;
 }
 
 /**
@@ -313,13 +300,8 @@ export function getLocalJitsiAudioTrack(state) {
  * @param {string} participantId - Participant ID.
  * @returns {(Track|undefined)}
  */
-export function getTrackByMediaTypeAndParticipant(
-        tracks,
-        mediaType,
-        participantId) {
-    return tracks.find(
-        t => t.participantId === participantId && t.mediaType === mediaType
-    );
+export function getTrackByMediaTypeAndParticipant(tracks, mediaType, participantId) {
+  return tracks.find((t) => t.participantId === participantId && t.mediaType === mediaType);
 }
 
 /**
@@ -331,7 +313,7 @@ export function getTrackByMediaTypeAndParticipant(
  * @returns {(Track|undefined)}
  */
 export function getTrackByJitsiTrack(tracks, jitsiTrack) {
-    return tracks.find(t => t.jitsiTrack === jitsiTrack);
+  return tracks.find((t) => t.jitsiTrack === jitsiTrack);
 }
 
 /**
@@ -342,7 +324,7 @@ export function getTrackByJitsiTrack(tracks, jitsiTrack) {
  * @returns {Track[]}
  */
 export function getTracksByMediaType(tracks, mediaType) {
-    return tracks.filter(t => t.mediaType === mediaType);
+  return tracks.filter((t) => t.mediaType === mediaType);
 }
 
 /**
@@ -352,20 +334,19 @@ export function getTracksByMediaType(tracks, mediaType) {
  * @returns {Track[]}
  */
 export function isLocalVideoTrackMuted(tracks) {
-    const presenterTrack = getLocalTrack(tracks, MEDIA_TYPE.PRESENTER);
-    const videoTrack = getLocalTrack(tracks, MEDIA_TYPE.VIDEO);
+  const presenterTrack = getLocalTrack(tracks, MEDIA_TYPE.PRESENTER);
+  const videoTrack = getLocalTrack(tracks, MEDIA_TYPE.VIDEO);
 
-    // Make sure we check the mute status of only camera tracks, i.e.,
-    // presenter track when it exists, camera track when the presenter
-    // track doesn't exist.
-    if (presenterTrack) {
-        return isLocalTrackMuted(tracks, MEDIA_TYPE.PRESENTER);
-    } else if (videoTrack) {
-        return videoTrack.videoType === 'camera'
-            ? isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO) : true;
-    }
+  // Make sure we check the mute status of only camera tracks, i.e.,
+  // presenter track when it exists, camera track when the presenter
+  // track doesn't exist.
+  if (presenterTrack) {
+    return isLocalTrackMuted(tracks, MEDIA_TYPE.PRESENTER);
+  } else if (videoTrack) {
+    return videoTrack.videoType === 'camera' ? isLocalTrackMuted(tracks, MEDIA_TYPE.VIDEO) : true;
+  }
 
-    return true;
+  return true;
 }
 
 /**
@@ -378,9 +359,9 @@ export function isLocalVideoTrackMuted(tracks) {
  * set of tracks.
  */
 export function isLocalTrackMuted(tracks, mediaType) {
-    const track = getLocalTrack(tracks, mediaType);
+  const track = getLocalTrack(tracks, mediaType);
 
-    return !track || track.muted;
+  return !track || track.muted;
 }
 
 /**
@@ -393,10 +374,9 @@ export function isLocalTrackMuted(tracks, mediaType) {
  * @returns {boolean}
  */
 export function isRemoteTrackMuted(tracks, mediaType, participantId) {
-    const track = getTrackByMediaTypeAndParticipant(
-        tracks, mediaType, participantId);
+  const track = getTrackByMediaTypeAndParticipant(tracks, mediaType, participantId);
 
-    return !track || track.muted;
+  return !track || track.muted;
 }
 
 /**
@@ -407,10 +387,12 @@ export function isRemoteTrackMuted(tracks, mediaType, participantId) {
  * @returns {boolean}
  */
 export function isUserInteractionRequiredForUnmute(state) {
-    return browser.isUserInteractionRequiredForUnmute()
-        && window
-        && window.self !== window.top
-        && !state['features/base/user-interaction'].interacted;
+  return (
+    browser.isUserInteractionRequiredForUnmute() &&
+    window &&
+    window.self !== window.top &&
+    !state['features/base/user-interaction'].interacted
+  );
 }
 
 /**
@@ -425,19 +407,19 @@ export function isUserInteractionRequiredForUnmute(state) {
  * @returns {Promise}
  */
 export function setTrackMuted(track, muted) {
-    muted = Boolean(muted); // eslint-disable-line no-param-reassign
+  muted = Boolean(muted); // eslint-disable-line no-param-reassign
 
-    if (track.isMuted() === muted) {
-        return Promise.resolve();
+  if (track.isMuted() === muted) {
+    return Promise.resolve();
+  }
+
+  const f = muted ? 'mute' : 'unmute';
+
+  return track[f]().catch((error) => {
+    // Track might be already disposed so ignore such an error.
+    if (error.name !== JitsiTrackErrors.TRACK_IS_DISPOSED) {
+      // FIXME Emit mute failed, so that the app can show error dialog.
+      logger.error(`set track ${f} failed`, error);
     }
-
-    const f = muted ? 'mute' : 'unmute';
-
-    return track[f]().catch(error => {
-        // Track might be already disposed so ignore such an error.
-        if (error.name !== JitsiTrackErrors.TRACK_IS_DISPOSED) {
-            // FIXME Emit mute failed, so that the app can show error dialog.
-            logger.error(`set track ${f} failed`, error);
-        }
-    });
+  });
 }

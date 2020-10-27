@@ -53,9 +53,7 @@ export const URI_PROTOCOL_PATTERN = '^([a-z][a-z0-9\\.\\+-]*:)';
  * @returns {?string}
  */
 function _fixRoom(room: ?string) {
-    return room
-        ? room.replace(new RegExp(_ROOM_EXCLUDE_PATTERN, 'g'), '')
-        : room;
+  return room ? room.replace(new RegExp(_ROOM_EXCLUDE_PATTERN, 'g'), '') : room;
 }
 
 /**
@@ -72,31 +70,31 @@ function _fixRoom(room: ?string) {
  * @returns {string}
  */
 function _fixURIStringScheme(uri: string) {
-    const regex = new RegExp(`${URI_PROTOCOL_PATTERN}+`, 'gi');
-    const match: Array<string> | null = regex.exec(uri);
+  const regex = new RegExp(`${URI_PROTOCOL_PATTERN}+`, 'gi');
+  const match: Array<string> | null = regex.exec(uri);
 
-    if (match) {
-        // As an implementation convenience, pick up the last scheme and make
-        // sure that it is a well-known one.
-        let protocol = match[match.length - 1].toLowerCase();
+  if (match) {
+    // As an implementation convenience, pick up the last scheme and make
+    // sure that it is a well-known one.
+    let protocol = match[match.length - 1].toLowerCase();
 
-        if (protocol !== 'http:' && protocol !== 'https:') {
-            protocol = 'https:';
-        }
-
-        /* eslint-disable no-param-reassign */
-
-        uri = uri.substring(regex.lastIndex);
-        if (uri.startsWith('//')) {
-            // The specified URL was not a room name only, it contained an
-            // authority.
-            uri = protocol + uri;
-        }
-
-        /* eslint-enable no-param-reassign */
+    if (protocol !== 'http:' && protocol !== 'https:') {
+      protocol = 'https:';
     }
 
-    return uri;
+    /* eslint-disable no-param-reassign */
+
+    uri = uri.substring(regex.lastIndex);
+    if (uri.startsWith('//')) {
+      // The specified URL was not a room name only, it contained an
+      // authority.
+      uri = protocol + uri;
+    }
+
+    /* eslint-enable no-param-reassign */
+  }
+
+  return uri;
 }
 
 /**
@@ -107,14 +105,11 @@ function _fixURIStringScheme(uri: string) {
  * @returns {string?}
  */
 export function getBackendSafePath(path: ?string): ?string {
-    if (!path) {
-        return path;
-    }
+  if (!path) {
+    return path;
+  }
 
-    return path
-        .split('/')
-        .map(getBackendSafeRoomName)
-        .join('/');
+  return path.split('/').map(getBackendSafeRoomName).join('/');
 }
 
 /**
@@ -124,38 +119,38 @@ export function getBackendSafePath(path: ?string): ?string {
  * @returns {string?}
  */
 export function getBackendSafeRoomName(room: ?string): ?string {
-    if (!room) {
-        return room;
-    }
+  if (!room) {
+    return room;
+  }
 
-    /* eslint-disable no-param-reassign */
-    try {
-        // We do not know if we get an already encoded string at this point
-        // as different platforms do it differently, but we need a decoded one
-        // for sure. However since decoding a non-encoded string is a noop, we're safe
-        // doing it here.
-        room = decodeURIComponent(room);
-    } catch (e) {
-        // This can happen though if we get an unencoded string and it contains
-        // some characters that look like an encoded entity, but it's not.
-        // But in this case we're fine goin on...
-    }
+  /* eslint-disable no-param-reassign */
+  try {
+    // We do not know if we get an already encoded string at this point
+    // as different platforms do it differently, but we need a decoded one
+    // for sure. However since decoding a non-encoded string is a noop, we're safe
+    // doing it here.
+    room = decodeURIComponent(room);
+  } catch (e) {
+    // This can happen though if we get an unencoded string and it contains
+    // some characters that look like an encoded entity, but it's not.
+    // But in this case we're fine goin on...
+  }
 
-    // Normalize the character set.
-    room = normalizeNFKC(room);
+  // Normalize the character set.
+  room = normalizeNFKC(room);
 
-    // Only decoded and normalized strings can be lowercased properly.
-    room = room.toLowerCase();
+  // Only decoded and normalized strings can be lowercased properly.
+  room = room.toLowerCase();
 
-    // But we still need to (re)encode it.
-    room = encodeURIComponent(room);
-    /* eslint-enable no-param-reassign */
+  // But we still need to (re)encode it.
+  room = encodeURIComponent(room);
+  /* eslint-enable no-param-reassign */
 
-    // Unfortunately we still need to lowercase it, because encoding a string will
-    // add some uppercase characters, but some backend services
-    // expect it to be full lowercase. However lowercasing an encoded string
-    // doesn't change the string value.
-    return room.toLowerCase();
+  // Unfortunately we still need to lowercase it, because encoding a string will
+  // add some uppercase characters, but some backend services
+  // expect it to be full lowercase. However lowercasing an encoded string
+  // doesn't change the string value.
+  return room.toLowerCase();
 }
 
 /**
@@ -168,12 +163,9 @@ export function getBackendSafeRoomName(room: ?string): ?string {
  * specified {@code location} (URI).
  */
 export function getLocationContextRoot({ pathname }: { pathname: string }) {
-    const contextRootEndIndex = pathname.lastIndexOf('/');
+  const contextRootEndIndex = pathname.lastIndexOf('/');
 
-    return (
-        contextRootEndIndex === -1
-            ? '/'
-            : pathname.substring(0, contextRootEndIndex + 1));
+  return contextRootEndIndex === -1 ? '/' : pathname.substring(0, contextRootEndIndex + 1);
 }
 
 /**
@@ -186,18 +178,18 @@ export function getLocationContextRoot({ pathname }: { pathname: string }) {
  * constructed out of the specified {@code obj}.
  */
 function _objectToURLParamsArray(obj = {}) {
-    const params = [];
+  const params = [];
 
-    for (const key in obj) { // eslint-disable-line guard-for-in
-        try {
-            params.push(
-                `${key}=${encodeURIComponent(JSON.stringify(obj[key]))}`);
-        } catch (e) {
-            console.warn(`Error encoding ${key}: ${e}`);
-        }
+  for (const key in obj) {
+    // eslint-disable-line guard-for-in
+    try {
+      params.push(`${key}=${encodeURIComponent(JSON.stringify(obj[key]))}`);
+    } catch (e) {
+      console.warn(`Error encoding ${key}: ${e}`);
     }
+  }
 
-    return params;
+  return params;
 }
 
 /**
@@ -218,95 +210,95 @@ function _objectToURLParamsArray(obj = {}) {
  * }}
  */
 export function parseStandardURIString(str: string) {
-    /* eslint-disable no-param-reassign */
+  /* eslint-disable no-param-reassign */
 
-    const obj: Object = {
-        toString: _standardURIToString
-    };
+  const obj: Object = {
+    toString: _standardURIToString,
+  };
 
-    let regex;
-    let match: Array<string> | null;
+  let regex;
+  let match: Array<string> | null;
 
-    // XXX A URI string as defined by RFC 3986 does not contain any whitespace.
-    // Usually, a browser will have already encoded any whitespace. In order to
-    // avoid potential later problems related to whitespace in URI, strip any
-    // whitespace. Anyway, the Jitsi Meet app is not known to utilize unencoded
-    // whitespace so the stripping is deemed safe.
-    str = str.replace(/\s/g, '');
+  // XXX A URI string as defined by RFC 3986 does not contain any whitespace.
+  // Usually, a browser will have already encoded any whitespace. In order to
+  // avoid potential later problems related to whitespace in URI, strip any
+  // whitespace. Anyway, the Jitsi Meet app is not known to utilize unencoded
+  // whitespace so the stripping is deemed safe.
+  str = str.replace(/\s/g, '');
 
-    // protocol
-    regex = new RegExp(URI_PROTOCOL_PATTERN, 'gi');
-    match = regex.exec(str);
-    if (match) {
-        obj.protocol = match[1].toLowerCase();
-        str = str.substring(regex.lastIndex);
+  // protocol
+  regex = new RegExp(URI_PROTOCOL_PATTERN, 'gi');
+  match = regex.exec(str);
+  if (match) {
+    obj.protocol = match[1].toLowerCase();
+    str = str.substring(regex.lastIndex);
+  }
+
+  // authority
+  regex = new RegExp(`^${_URI_AUTHORITY_PATTERN}`, 'gi');
+  match = regex.exec(str);
+  if (match) {
+    let authority: string = match[1].substring(/* // */ 2);
+
+    str = str.substring(regex.lastIndex);
+
+    // userinfo
+    const userinfoEndIndex = authority.indexOf('@');
+
+    if (userinfoEndIndex !== -1) {
+      authority = authority.substring(userinfoEndIndex + 1);
     }
 
-    // authority
-    regex = new RegExp(`^${_URI_AUTHORITY_PATTERN}`, 'gi');
-    match = regex.exec(str);
-    if (match) {
-        let authority: string = match[1].substring(/* // */ 2);
+    obj.host = authority;
 
-        str = str.substring(regex.lastIndex);
+    // port
+    const portBeginIndex = authority.lastIndexOf(':');
 
-        // userinfo
-        const userinfoEndIndex = authority.indexOf('@');
-
-        if (userinfoEndIndex !== -1) {
-            authority = authority.substring(userinfoEndIndex + 1);
-        }
-
-        obj.host = authority;
-
-        // port
-        const portBeginIndex = authority.lastIndexOf(':');
-
-        if (portBeginIndex !== -1) {
-            obj.port = authority.substring(portBeginIndex + 1);
-            authority = authority.substring(0, portBeginIndex);
-        }
-
-        // hostname
-        obj.hostname = authority;
+    if (portBeginIndex !== -1) {
+      obj.port = authority.substring(portBeginIndex + 1);
+      authority = authority.substring(0, portBeginIndex);
     }
 
-    // pathname
-    regex = new RegExp(`^${_URI_PATH_PATTERN}`, 'gi');
-    match = regex.exec(str);
+    // hostname
+    obj.hostname = authority;
+  }
 
-    let pathname: ?string;
+  // pathname
+  regex = new RegExp(`^${_URI_PATH_PATTERN}`, 'gi');
+  match = regex.exec(str);
 
-    if (match) {
-        pathname = match[1];
-        str = str.substring(regex.lastIndex);
+  let pathname: ?string;
+
+  if (match) {
+    pathname = match[1];
+    str = str.substring(regex.lastIndex);
+  }
+  if (pathname) {
+    pathname.startsWith('/') || (pathname = `/${pathname}`);
+  } else {
+    pathname = '/';
+  }
+  obj.pathname = pathname;
+
+  // query
+  if (str.startsWith('?')) {
+    let hashBeginIndex = str.indexOf('#', 1);
+
+    if (hashBeginIndex === -1) {
+      hashBeginIndex = str.length;
     }
-    if (pathname) {
-        pathname.startsWith('/') || (pathname = `/${pathname}`);
-    } else {
-        pathname = '/';
-    }
-    obj.pathname = pathname;
+    obj.search = str.substring(0, hashBeginIndex);
+    str = str.substring(hashBeginIndex);
+  } else {
+    obj.search = ''; // Google Chrome
+  }
 
-    // query
-    if (str.startsWith('?')) {
-        let hashBeginIndex = str.indexOf('#', 1);
+  // fragment
+  obj.hash = str.startsWith('#') ? str : '';
 
-        if (hashBeginIndex === -1) {
-            hashBeginIndex = str.length;
-        }
-        obj.search = str.substring(0, hashBeginIndex);
-        str = str.substring(hashBeginIndex);
-    } else {
-        obj.search = ''; // Google Chrome
-    }
+  /* eslint-enable no-param-reassign */
 
-    // fragment
-    obj.hash = str.startsWith('#') ? str : '';
-
-    /* eslint-enable no-param-reassign */
-
-    return obj;
+  return obj;
 }
 
 /**
@@ -329,41 +321,40 @@ export function parseStandardURIString(str: string) {
  * }}
  */
 export function parseURIString(uri: ?string) {
-    if (typeof uri !== 'string') {
-        return undefined;
+  if (typeof uri !== 'string') {
+    return undefined;
+  }
+
+  const obj = parseStandardURIString(_fixURIStringScheme(uri));
+
+  // Add the properties that are specific to a Jitsi Meet resource (location)
+  // such as contextRoot, room:
+
+  // contextRoot
+  obj.contextRoot = getLocationContextRoot(obj);
+
+  // The room (name) is the last component/segment of pathname.
+  const { pathname } = obj;
+
+  // XXX While the components/segments of pathname are URI encoded, Jitsi Meet
+  // on the client and/or server sides still don't support certain characters.
+  const contextRootEndIndex = pathname.lastIndexOf('/');
+  let room = pathname.substring(contextRootEndIndex + 1) || undefined;
+
+  if (room) {
+    const fixedRoom = _fixRoom(room);
+
+    if (fixedRoom !== room) {
+      room = fixedRoom;
+
+      // XXX Drive fixedRoom into pathname (because room is derived from
+      // pathname).
+      obj.pathname = pathname.substring(0, contextRootEndIndex + 1) + (room || '');
     }
+  }
+  obj.room = room;
 
-    const obj = parseStandardURIString(_fixURIStringScheme(uri));
-
-    // Add the properties that are specific to a Jitsi Meet resource (location)
-    // such as contextRoot, room:
-
-    // contextRoot
-    obj.contextRoot = getLocationContextRoot(obj);
-
-    // The room (name) is the last component/segment of pathname.
-    const { pathname } = obj;
-
-    // XXX While the components/segments of pathname are URI encoded, Jitsi Meet
-    // on the client and/or server sides still don't support certain characters.
-    const contextRootEndIndex = pathname.lastIndexOf('/');
-    let room = pathname.substring(contextRootEndIndex + 1) || undefined;
-
-    if (room) {
-        const fixedRoom = _fixRoom(room);
-
-        if (fixedRoom !== room) {
-            room = fixedRoom;
-
-            // XXX Drive fixedRoom into pathname (because room is derived from
-            // pathname).
-            obj.pathname
-                = pathname.substring(0, contextRootEndIndex + 1) + (room || '');
-        }
-    }
-    obj.room = room;
-
-    return obj;
+  return obj;
 }
 
 /**
@@ -376,20 +367,20 @@ export function parseURIString(uri: ?string) {
  * @returns {string}
  */
 function _standardURIToString(thiz: ?Object) {
-    // eslint-disable-next-line no-invalid-this
-    const { hash, host, pathname, protocol, search } = thiz || this;
-    let str = '';
+  // eslint-disable-next-line no-invalid-this
+  const { hash, host, pathname, protocol, search } = thiz || this;
+  let str = '';
 
-    protocol && (str += protocol);
+  protocol && (str += protocol);
 
-    // TODO userinfo
+  // TODO userinfo
 
-    host && (str += `//${host}`);
-    str += pathname || '/';
-    search && (str += search);
-    hash && (str += hash);
+  host && (str += `//${host}`);
+  str += pathname || '/';
+  search && (str += search);
+  hash && (str += hash);
 
-    return str;
+  return str;
 }
 
 /**
@@ -400,13 +391,13 @@ function _standardURIToString(thiz: ?Object) {
  * @returns {string}
  */
 export function safeDecodeURIComponent(text: string) {
-    try {
-        return decodeURIComponent(text);
-    } catch (e) {
-        // The text wasn't encoded.
-    }
+  try {
+    return decodeURIComponent(text);
+  } catch (e) {
+    // The text wasn't encoded.
+  }
 
-    return text;
+  return text;
 }
 
 /**
@@ -423,25 +414,25 @@ export function safeDecodeURIComponent(text: string) {
  * {@code obj} which is supposed to represent a URL.
  */
 export function toURLString(obj: ?(Object | string)): ?string {
-    let str;
+  let str;
 
-    switch (typeof obj) {
+  switch (typeof obj) {
     case 'object':
-        if (obj) {
-            if (obj instanceof URL) {
-                str = obj.href;
-            } else {
-                str = urlObjectToString(obj);
-            }
+      if (obj) {
+        if (obj instanceof URL) {
+          str = obj.href;
+        } else {
+          str = urlObjectToString(obj);
         }
-        break;
+      }
+      break;
 
     case 'string':
-        str = String(obj);
-        break;
-    }
+      str = String(obj);
+      break;
+  }
 
-    return str;
+  return str;
 }
 
 /**
@@ -454,121 +445,115 @@ export function toURLString(obj: ?(Object | string)): ?string {
  * {@code Object}.
  */
 export function urlObjectToString(o: Object): ?string {
-    // First normalize the given url. It come as o.url or split into o.serverURL
-    // and o.room.
-    let tmp;
+  // First normalize the given url. It come as o.url or split into o.serverURL
+  // and o.room.
+  let tmp;
 
-    if (o.serverURL && o.room) {
-        tmp = new URL(o.room, o.serverURL).toString();
-    } else if (o.room) {
-        tmp = o.room;
-    } else {
-        tmp = o.url || '';
+  if (o.serverURL && o.room) {
+    tmp = new URL(o.room, o.serverURL).toString();
+  } else if (o.room) {
+    tmp = o.room;
+  } else {
+    tmp = o.url || '';
+  }
+
+  const url = parseStandardURIString(_fixURIStringScheme(tmp));
+
+  // protocol
+  if (!url.protocol) {
+    let protocol: ?string = o.protocol || o.scheme;
+
+    if (protocol) {
+      // Protocol is supposed to be the scheme and the final ':'. Anyway,
+      // do not make a fuss if the final ':' is not there.
+      protocol.endsWith(':') || (protocol += ':');
+      url.protocol = protocol;
     }
+  }
 
-    const url = parseStandardURIString(_fixURIStringScheme(tmp));
+  // authority & pathname
+  let { pathname } = url;
 
-    // protocol
-    if (!url.protocol) {
-        let protocol: ?string = o.protocol || o.scheme;
+  if (!url.host) {
+    // Web's ExternalAPI domain
+    //
+    // It may be host/hostname and pathname with the latter denoting the
+    // tenant.
+    const domain: ?string = o.domain || o.host || o.hostname;
 
-        if (protocol) {
-            // Protocol is supposed to be the scheme and the final ':'. Anyway,
-            // do not make a fuss if the final ':' is not there.
-            protocol.endsWith(':') || (protocol += ':');
-            url.protocol = protocol;
-        }
+    if (domain) {
+      const { host, hostname, pathname: contextRoot, port } = parseStandardURIString(
+        // XXX The value of domain in supposed to be host/hostname
+        // and, optionally, pathname. Make sure it is not taken for
+        // a pathname only.
+        _fixURIStringScheme(`${APP_LINK_SCHEME}//${domain}`)
+      );
+
+      // authority
+      if (host) {
+        url.host = host;
+        url.hostname = hostname;
+        url.port = port;
+      }
+
+      // pathname
+      pathname === '/' && contextRoot !== '/' && (pathname = contextRoot);
     }
+  }
 
-    // authority & pathname
-    let { pathname } = url;
+  // pathname
 
-    if (!url.host) {
-        // Web's ExternalAPI domain
-        //
-        // It may be host/hostname and pathname with the latter denoting the
-        // tenant.
-        const domain: ?string = o.domain || o.host || o.hostname;
+  // Web's ExternalAPI roomName
+  const room = o.roomName || o.room;
 
-        if (domain) {
-            const { host, hostname, pathname: contextRoot, port }
-                = parseStandardURIString(
+  if (room && (url.pathname.endsWith('/') || !url.pathname.endsWith(`/${room}`))) {
+    pathname.endsWith('/') || (pathname += '/');
+    pathname += room;
+  }
 
-                    // XXX The value of domain in supposed to be host/hostname
-                    // and, optionally, pathname. Make sure it is not taken for
-                    // a pathname only.
-                    _fixURIStringScheme(`${APP_LINK_SCHEME}//${domain}`));
+  url.pathname = pathname;
 
-            // authority
-            if (host) {
-                url.host = host;
-                url.hostname = hostname;
-                url.port = port;
-            }
+  // query/search
 
-            // pathname
-            pathname === '/' && contextRoot !== '/' && (pathname = contextRoot);
-        }
+  // Web's ExternalAPI jwt
+  const { jwt } = o;
+
+  if (jwt) {
+    let { search } = url;
+
+    if (search.indexOf('?jwt=') === -1 && search.indexOf('&jwt=') === -1) {
+      search.startsWith('?') || (search = `?${search}`);
+      search.length === 1 || (search += '&');
+      search += `jwt=${jwt}`;
+
+      url.search = search;
     }
+  }
 
-    // pathname
+  // fragment/hash
 
-    // Web's ExternalAPI roomName
-    const room = o.roomName || o.room;
+  let { hash } = url;
 
-    if (room
-            && (url.pathname.endsWith('/')
-                || !url.pathname.endsWith(`/${room}`))) {
-        pathname.endsWith('/') || (pathname += '/');
-        pathname += room;
+  for (const urlPrefix of ['config', 'interfaceConfig', 'devices', 'userInfo']) {
+    const urlParamsArray = _objectToURLParamsArray(
+      o[`${urlPrefix}Overwrite`] || o[urlPrefix] || o[`${urlPrefix}Override`]
+    );
+
+    if (urlParamsArray.length) {
+      let urlParamsString = `${urlPrefix}.${urlParamsArray.join(`&${urlPrefix}.`)}`;
+
+      if (hash.length) {
+        urlParamsString = `&${urlParamsString}`;
+      } else {
+        hash = '#';
+      }
+      hash += urlParamsString;
     }
+  }
 
-    url.pathname = pathname;
+  url.hash = hash;
 
-    // query/search
-
-    // Web's ExternalAPI jwt
-    const { jwt } = o;
-
-    if (jwt) {
-        let { search } = url;
-
-        if (search.indexOf('?jwt=') === -1 && search.indexOf('&jwt=') === -1) {
-            search.startsWith('?') || (search = `?${search}`);
-            search.length === 1 || (search += '&');
-            search += `jwt=${jwt}`;
-
-            url.search = search;
-        }
-    }
-
-    // fragment/hash
-
-    let { hash } = url;
-
-    for (const urlPrefix of [ 'config', 'interfaceConfig', 'devices', 'userInfo' ]) {
-        const urlParamsArray
-            = _objectToURLParamsArray(
-                o[`${urlPrefix}Overwrite`]
-                    || o[urlPrefix]
-                    || o[`${urlPrefix}Override`]);
-
-        if (urlParamsArray.length) {
-            let urlParamsString
-                = `${urlPrefix}.${urlParamsArray.join(`&${urlPrefix}.`)}`;
-
-            if (hash.length) {
-                urlParamsString = `&${urlParamsString}`;
-            } else {
-                hash = '#';
-            }
-            hash += urlParamsString;
-        }
-    }
-
-    url.hash = hash;
-
-    return url.toString() || undefined;
+  return url.toString() || undefined;
 }
 
 /**
@@ -579,17 +564,17 @@ export function urlObjectToString(o: Object): ?string {
  * @returns {URL} - The new URL.
  */
 export function addHashParamsToURL(url: URL, hashParamsToAdd: Object = {}) {
-    const params = parseURLParams(url);
-    const urlParamsArray = _objectToURLParamsArray({
-        ...params,
-        ...hashParamsToAdd
-    });
+  const params = parseURLParams(url);
+  const urlParamsArray = _objectToURLParamsArray({
+    ...params,
+    ...hashParamsToAdd,
+  });
 
-    if (urlParamsArray.length) {
-        url.hash = `#${urlParamsArray.join('&')}`;
-    }
+  if (urlParamsArray.length) {
+    url.hash = `#${urlParamsArray.join('&')}`;
+  }
 
-    return url;
+  return url;
 }
 
 /**
@@ -599,5 +584,5 @@ export function addHashParamsToURL(url: URL, hashParamsToAdd: Object = {}) {
  * @returns {string}
  */
 export function getDecodedURI(uri: string) {
-    return decodeURI(uri.replace(/^https?:\/\//i, ''));
+  return decodeURI(uri.replace(/^https?:\/\//i, ''));
 }

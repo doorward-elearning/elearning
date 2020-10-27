@@ -6,5 +6,4 @@
  *     popupDialogData: Object
  * }}
  */
-export const SET_DEVICE_SELECTION_POPUP_DATA
-    = 'SET_DEVICE_SELECTION_POPUP_DATA';
+export const SET_DEVICE_SELECTION_POPUP_DATA = 'SET_DEVICE_SELECTION_POPUP_DATA';

@@ -23,8 +23,8 @@ import { SET_CONNECTION_STATE } from './actionTypes';
  * }}
  */
 export function setConnectionState(connectionState: string) {
-    return {
-        type: SET_CONNECTION_STATE,
-        connectionState
-    };
+  return {
+    type: SET_CONNECTION_STATE,
+    connectionState,
+  };
 }

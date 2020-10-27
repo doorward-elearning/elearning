@@ -18,40 +18,38 @@ let previousTileViewEnabled;
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
-
+  switch (action.type) {
     // Actions that temporarily clear the user preferred state of tile view,
     // then re-set it when needed.
     case PIN_PARTICIPANT: {
-        const pinnedParticipant = getPinnedParticipant(store.getState());
+      const pinnedParticipant = getPinnedParticipant(store.getState());
 
-        if (pinnedParticipant) {
-            _storeTileViewStateAndClear(store);
-        } else {
-            _restoreTileViewState(store);
-        }
-        break;
+      if (pinnedParticipant) {
+        _storeTileViewStateAndClear(store);
+      } else {
+        _restoreTileViewState(store);
+      }
+      break;
     }
     case SET_DOCUMENT_EDITING_STATUS:
-        if (action.editing) {
-            _storeTileViewStateAndClear(store);
-        } else {
-            _restoreTileViewState(store);
-        }
-        break;
+      if (action.editing) {
+        _storeTileViewStateAndClear(store);
+      } else {
+        _restoreTileViewState(store);
+      }
+      break;
 
     // Things to update when tile view state changes
     case SET_TILE_VIEW:
-        if (action.enabled && getPinnedParticipant(store)) {
-            store.dispatch(pinParticipant(null));
-        }
-    }
+      if (action.enabled && getPinnedParticipant(store)) {
+        store.dispatch(pinParticipant(null));
+      }
+  }
 
-
-    return result;
+  return result;
 });
 
 /**
@@ -59,14 +57,15 @@ MiddlewareRegistry.register(store => next => action => {
  * is left or failed.
  */
 StateListenerRegistry.register(
-    state => getCurrentConference(state),
-    (conference, { dispatch }, previousConference) => {
-        if (conference !== previousConference) {
-            // conference changed, left or failed...
-            // Clear tile view state.
-            dispatch(setTileView());
-        }
-    });
+  (state) => getCurrentConference(state),
+  (conference, { dispatch }, previousConference) => {
+    if (conference !== previousConference) {
+      // conference changed, left or failed...
+      // Clear tile view state.
+      dispatch(setTileView());
+    }
+  }
+);
 
 /**
  * Respores tile view state, if it wasn't updated since then.
@@ -75,13 +74,13 @@ StateListenerRegistry.register(
  * @returns {void}
  */
 function _restoreTileViewState({ dispatch, getState }) {
-    const { tileViewEnabled } = getState()['features/video-layout'];
+  const { tileViewEnabled } = getState()['features/video-layout'];
 
-    if (tileViewEnabled === undefined && previousTileViewEnabled !== undefined) {
-        dispatch(setTileView(previousTileViewEnabled));
-    }
+  if (tileViewEnabled === undefined && previousTileViewEnabled !== undefined) {
+    dispatch(setTileView(previousTileViewEnabled));
+  }
 
-    previousTileViewEnabled = undefined;
+  previousTileViewEnabled = undefined;
 }
 
 /**
@@ -91,10 +90,10 @@ function _restoreTileViewState({ dispatch, getState }) {
  * @returns {void}
  */
 function _storeTileViewStateAndClear({ dispatch, getState }) {
-    const { tileViewEnabled } = getState()['features/video-layout'];
+  const { tileViewEnabled } = getState()['features/video-layout'];
 
-    if (tileViewEnabled !== undefined) {
-        previousTileViewEnabled = tileViewEnabled;
-        dispatch(setTileView(undefined));
-    }
+  if (tileViewEnabled !== undefined) {
+    previousTileViewEnabled = tileViewEnabled;
+    dispatch(setTileView(undefined));
+  }
 }

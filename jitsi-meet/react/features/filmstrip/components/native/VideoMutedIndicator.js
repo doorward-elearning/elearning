@@ -9,16 +9,12 @@ import { BaseIndicator } from '../../../base/react';
  * Thumbnail badge for displaying the video mute status of a participant.
  */
 export default class VideoMutedIndicator extends Component<{}> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <BaseIndicator
-                highlight = { false }
-                icon = { IconCameraDisabled } />
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return <BaseIndicator highlight={false} icon={IconCameraDisabled} />;
+  }
 }

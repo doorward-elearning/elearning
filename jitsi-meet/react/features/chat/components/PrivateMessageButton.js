@@ -8,65 +8,63 @@ import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/com
 import { setPrivateMessageRecipient } from '../actions';
 
 export type Props = AbstractButtonProps & {
+  /**
+   * The ID of the participant that the message is to be sent.
+   */
+  participantID: string,
 
-    /**
-     * The ID of the participant that the message is to be sent.
-     */
-    participantID: string,
+  /**
+   * True if the button is rendered as a reply button.
+   */
+  reply: boolean,
 
-    /**
-     * True if the button is rendered as a reply button.
-     */
-    reply: boolean,
+  /**
+   * Function to be used to translate i18n labels.
+   */
+  t: Function,
 
-    /**
-     * Function to be used to translate i18n labels.
-     */
-    t: Function,
+  /**
+   * The participant object retreived from Redux.
+   */
+  _participant: Object,
 
-    /**
-     * The participant object retreived from Redux.
-     */
-    _participant: Object,
-
-    /**
-     * Function to dispatch the result of the participant selection to send a private message.
-     */
-    _setPrivateMessageRecipient: Function
+  /**
+   * Function to dispatch the result of the participant selection to send a private message.
+   */
+  _setPrivateMessageRecipient: Function,
 };
 
 /**
  * Class to render a button that initiates the sending of a private message through chet.
  */
 class PrivateMessageButton extends AbstractButton<Props, any> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.privateMessage';
-    icon = IconMessage;
-    label = 'toolbar.privateMessage';
-    toggledIcon = IconReply;
+  accessibilityLabel = 'toolbar.accessibilityLabel.privateMessage';
+  icon = IconMessage;
+  label = 'toolbar.privateMessage';
+  toggledIcon = IconReply;
 
-    /**
-     * Handles clicking / pressing the button, and kicks the participant.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        const { _participant, _setPrivateMessageRecipient } = this.props;
+  /**
+   * Handles clicking / pressing the button, and kicks the participant.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    const { _participant, _setPrivateMessageRecipient } = this.props;
 
-        _setPrivateMessageRecipient(_participant);
-    }
+    _setPrivateMessageRecipient(_participant);
+  }
 
-    /**
-     * Helper function to be implemented by subclasses, which must return a
-     * {@code boolean} value indicating if this button is toggled or not.
-     *
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props.reply;
-    }
-
+  /**
+   * Helper function to be implemented by subclasses, which must return a
+   * {@code boolean} value indicating if this button is toggled or not.
+   *
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props.reply;
+  }
 }
 
 /**
@@ -76,11 +74,11 @@ class PrivateMessageButton extends AbstractButton<Props, any> {
  * @returns {Props}
  */
 export function _mapDispatchToProps(dispatch: Function): $Shape<Props> {
-    return {
-        _setPrivateMessageRecipient: participant => {
-            dispatch(setPrivateMessageRecipient(participant));
-        }
-    };
+  return {
+    _setPrivateMessageRecipient: (participant) => {
+      dispatch(setPrivateMessageRecipient(participant));
+    },
+  };
 }
 
 /**
@@ -91,9 +89,9 @@ export function _mapDispatchToProps(dispatch: Function): $Shape<Props> {
  * @returns {Props}
  */
 export function _mapStateToProps(state: Object, ownProps: Props): $Shape<Props> {
-    return {
-        _participant: getParticipantById(state, ownProps.participantID)
-    };
+  return {
+    _participant: getParticipantById(state, ownProps.participantID),
+  };
 }
 
 export default translate(connect(_mapStateToProps, _mapDispatchToProps)(PrivateMessageButton));

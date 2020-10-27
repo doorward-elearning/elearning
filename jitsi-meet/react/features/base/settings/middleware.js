@@ -20,25 +20,25 @@ import { handleCallIntegrationChange, handleCrashReportingChange } from './funct
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
+  switch (action.type) {
     case APP_WILL_MOUNT:
-        _initializeCallIntegration(store);
-        break;
+      _initializeCallIntegration(store);
+      break;
     case SETTINGS_UPDATED:
-        _maybeHandleCallIntegrationChange(action);
-        _maybeSetAudioOnly(store, action);
-        _updateLocalParticipant(store, action);
-        _maybeCrashReportingChange(action);
-        break;
+      _maybeHandleCallIntegrationChange(action);
+      _maybeSetAudioOnly(store, action);
+      _updateLocalParticipant(store, action);
+      _maybeCrashReportingChange(action);
+      break;
     case SET_LOCATION_URL:
-        _updateLocalParticipantFromUrl(store);
-        break;
-    }
+      _updateLocalParticipantFromUrl(store);
+      break;
+  }
 
-    return result;
+  return result;
 });
 
 /**
@@ -49,11 +49,11 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _initializeCallIntegration({ getState }) {
-    const { disableCallIntegration } = getState()['features/base/settings'];
+  const { disableCallIntegration } = getState()['features/base/settings'];
 
-    if (typeof disableCallIntegration === 'boolean') {
-        handleCallIntegrationChange(disableCallIntegration);
-    }
+  if (typeof disableCallIntegration === 'boolean') {
+    handleCallIntegrationChange(disableCallIntegration);
+  }
 }
 
 /**
@@ -65,12 +65,12 @@ function _initializeCallIntegration({ getState }) {
  * @returns {string}
  */
 function _mapSettingsFieldToParticipant(settingsField) {
-    switch (settingsField) {
+  switch (settingsField) {
     case 'displayName':
-        return 'name';
-    }
+      return 'name';
+  }
 
-    return settingsField;
+  return settingsField;
 }
 
 /**
@@ -81,9 +81,9 @@ function _mapSettingsFieldToParticipant(settingsField) {
  * @returns {void}
  */
 function _maybeHandleCallIntegrationChange({ settings: { disableCallIntegration } }) {
-    if (typeof disableCallIntegration === 'boolean') {
-        handleCallIntegrationChange(disableCallIntegration);
-    }
+  if (typeof disableCallIntegration === 'boolean') {
+    handleCallIntegrationChange(disableCallIntegration);
+  }
 }
 
 /**
@@ -94,9 +94,9 @@ function _maybeHandleCallIntegrationChange({ settings: { disableCallIntegration 
  * @returns {void}
  */
 function _maybeCrashReportingChange({ settings: { disableCrashReporting } }) {
-    if (typeof disableCrashReporting === 'boolean') {
-        handleCrashReportingChange(disableCrashReporting);
-    }
+  if (typeof disableCrashReporting === 'boolean') {
+    handleCrashReportingChange(disableCrashReporting);
+  }
 }
 
 /**
@@ -107,12 +107,10 @@ function _maybeCrashReportingChange({ settings: { disableCrashReporting } }) {
  * @private
  * @returns {void}
  */
-function _maybeSetAudioOnly(
-        { dispatch },
-        { settings: { startAudioOnly } }) {
-    if (typeof startAudioOnly === 'boolean') {
-        dispatch(setAudioOnly(startAudioOnly, true));
-    }
+function _maybeSetAudioOnly({ dispatch }, { settings: { startAudioOnly } }) {
+  if (typeof startAudioOnly === 'boolean') {
+    dispatch(setAudioOnly(startAudioOnly, true));
+  }
 }
 
 /**
@@ -124,22 +122,20 @@ function _maybeSetAudioOnly(
  * @returns {void}
  */
 function _updateLocalParticipant({ dispatch, getState }, action) {
-    const { settings } = action;
-    const localParticipant = getLocalParticipant(getState());
-    const newLocalParticipant = {
-        ...localParticipant
-    };
+  const { settings } = action;
+  const localParticipant = getLocalParticipant(getState());
+  const newLocalParticipant = {
+    ...localParticipant,
+  };
 
-    for (const key in settings) {
-        if (settings.hasOwnProperty(key)) {
-            newLocalParticipant[_mapSettingsFieldToParticipant(key)]
-                = settings[key];
-        }
+  for (const key in settings) {
+    if (settings.hasOwnProperty(key)) {
+      newLocalParticipant[_mapSettingsFieldToParticipant(key)] = settings[key];
     }
+  }
 
-    dispatch(participantUpdated(newLocalParticipant));
+  dispatch(participantUpdated(newLocalParticipant));
 }
-
 
 /**
  * Returns the userInfo set in the URL.
@@ -149,30 +145,33 @@ function _updateLocalParticipant({ dispatch, getState }, action) {
  * @returns {void}
  */
 function _updateLocalParticipantFromUrl({ dispatch, getState }) {
-    const urlParams
-        = parseURLParams(getState()['features/base/connection'].locationURL);
-    const urlEmail = urlParams['userInfo.email'];
-    const urlDisplayName = urlParams['userInfo.displayName'];
+  const urlParams = parseURLParams(getState()['features/base/connection'].locationURL);
+  const urlEmail = urlParams['userInfo.email'];
+  const urlDisplayName = urlParams['userInfo.displayName'];
 
-    if (!urlEmail && !urlDisplayName) {
-        return;
-    }
+  if (!urlEmail && !urlDisplayName) {
+    return;
+  }
 
-    const localParticipant = getLocalParticipant(getState());
+  const localParticipant = getLocalParticipant(getState());
 
-    if (localParticipant) {
-        const displayName = _.escape(urlDisplayName);
-        const email = _.escape(urlEmail);
+  if (localParticipant) {
+    const displayName = _.escape(urlDisplayName);
+    const email = _.escape(urlEmail);
 
-        dispatch(participantUpdated({
-            ...localParticipant,
-            email,
-            name: displayName
-        }));
+    dispatch(
+      participantUpdated({
+        ...localParticipant,
+        email,
+        name: displayName,
+      })
+    );
 
-        dispatch(updateSettings({
-            displayName,
-            email
-        }));
-    }
+    dispatch(
+      updateSettings({
+        displayName,
+        email,
+      })
+    );
+  }
 }

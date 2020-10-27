@@ -5,5 +5,5 @@
  * @returns {HTMLElement}
  */
 export function renderPromotionalFooter() {
-    return null;
+  return null;
 }

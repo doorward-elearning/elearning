@@ -5,16 +5,15 @@ import React, { Component } from 'react';
 import ChatMessage from './ChatMessage';
 
 type Props = {
+  /**
+   * Additional CSS classes to apply to the root element.
+   */
+  className: string,
 
-    /**
-     * Additional CSS classes to apply to the root element.
-     */
-    className: string,
-
-    /**
-     * The messages to display as a group.
-     */
-    messages: Array<Object>,
+  /**
+   * The messages to display as a group.
+   */
+  messages: Array<Object>,
 };
 
 /**
@@ -24,38 +23,32 @@ type Props = {
  * @extends React.Component
  */
 class ChatMessageGroup extends Component<Props> {
-    static defaultProps = {
-        className: ''
-    };
+  static defaultProps = {
+    className: '',
+  };
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { className, messages } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { className, messages } = this.props;
 
-        const messagesLength = messages.length;
+    const messagesLength = messages.length;
 
-        if (!messagesLength) {
-            return null;
-        }
-
-        return (
-            <div className = { `chat-message-group ${className}` }>
-                {
-                    messages.map((message, i) => (
-                        <ChatMessage
-                            key = { i }
-                            message = { message }
-                            showDisplayName = { i === 0 }
-                            showTimestamp = { i === messages.length - 1 } />
-                    ))
-                }
-            </div>
-        );
+    if (!messagesLength) {
+      return null;
     }
+
+    return (
+      <div className={`chat-message-group ${className}`}>
+        {messages.map((message, i) => (
+          <ChatMessage key={i} message={message} showDisplayName={i === 0} showTimestamp={i === messages.length - 1} />
+        ))}
+      </div>
+    );
+  }
 }
 
 export default ChatMessageGroup;

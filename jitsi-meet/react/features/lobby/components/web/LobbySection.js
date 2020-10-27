@@ -9,119 +9,110 @@ import { connect } from '../../../base/redux';
 import { toggleLobbyMode } from '../../actions';
 
 type Props = {
+  /**
+   * True if lobby is currently enabled in the conference.
+   */
+  _lobbyEnabled: boolean,
 
-    /**
-     * True if lobby is currently enabled in the conference.
-     */
-    _lobbyEnabled: boolean,
+  /**
+   * True if the section should be visible.
+   */
+  _visible: boolean,
 
-    /**
-     * True if the section should be visible.
-     */
-    _visible: boolean,
+  /**
+   * The Redux Dispatch function.
+   */
+  dispatch: Function,
 
-    /**
-     * The Redux Dispatch function.
-     */
-    dispatch: Function,
-
-    /**
-     * Function to be used to translate i18n labels.
-     */
-    t: Function
+  /**
+   * Function to be used to translate i18n labels.
+   */
+  t: Function,
 };
 
 type State = {
-
-    /**
-     * True if the lobby switch is toggled on.
-     */
-    lobbyEnabled: boolean
-}
+  /**
+   * True if the lobby switch is toggled on.
+   */
+  lobbyEnabled: boolean,
+};
 
 /**
  * Implements a security feature section to control lobby mode.
  */
 class LobbySection extends PureComponent<Props, State> {
-    /**
-     * Instantiates a new component.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Instantiates a new component.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this.state = {
-            lobbyEnabled: props._lobbyEnabled
-        };
+    this.state = {
+      lobbyEnabled: props._lobbyEnabled,
+    };
 
-        this._onToggleLobby = this._onToggleLobby.bind(this);
+    this._onToggleLobby = this._onToggleLobby.bind(this);
+  }
+
+  /**
+   * Implements React's {@link Component#getDerivedStateFromProps()}.
+   *
+   * @inheritdoc
+   */
+  static getDerivedStateFromProps(props: Props, state: Object) {
+    if (props._lobbyEnabled !== state.lobbyEnabled) {
+      return {
+        lobbyEnabled: props._lobbyEnabled,
+      };
     }
 
-    /**
-     * Implements React's {@link Component#getDerivedStateFromProps()}.
-     *
-     * @inheritdoc
-     */
-    static getDerivedStateFromProps(props: Props, state: Object) {
-        if (props._lobbyEnabled !== state.lobbyEnabled) {
+    return null;
+  }
 
-            return {
-                lobbyEnabled: props._lobbyEnabled
-            };
-        }
+  /**
+   * Implements {@code PureComponent#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { _visible, t } = this.props;
 
-        return null;
+    if (!_visible) {
+      return null;
     }
 
-    /**
-     * Implements {@code PureComponent#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { _visible, t } = this.props;
+    return (
+      <>
+        <div id="lobby-section">
+          <p className="description">{t('lobby.enableDialogText')}</p>
+          <div className="control-row">
+            <label>{t('lobby.toggleLabel')}</label>
+            <Switch onValueChange={this._onToggleLobby} value={this.state.lobbyEnabled} />
+          </div>
+        </div>
+        <div className="separator-line" />
+      </>
+    );
+  }
 
-        if (!_visible) {
-            return null;
-        }
+  _onToggleLobby: () => void;
 
-        return (
-            <>
-                <div id = 'lobby-section'>
-                    <p className = 'description'>
-                        { t('lobby.enableDialogText') }
-                    </p>
-                    <div className = 'control-row'>
-                        <label>
-                            { t('lobby.toggleLabel') }
-                        </label>
-                        <Switch
-                            onValueChange = { this._onToggleLobby }
-                            value = { this.state.lobbyEnabled } />
-                    </div>
-                </div>
-                <div className = 'separator-line' />
-            </>
-        );
-    }
+  /**
+   * Callback to be invoked when the user toggles the lobby feature on or off.
+   *
+   * @returns {void}
+   */
+  _onToggleLobby() {
+    const newValue = !this.state.lobbyEnabled;
 
-    _onToggleLobby: () => void;
+    this.setState({
+      lobbyEnabled: newValue,
+    });
 
-    /**
-     * Callback to be invoked when the user toggles the lobby feature on or off.
-     *
-     * @returns {void}
-     */
-    _onToggleLobby() {
-        const newValue = !this.state.lobbyEnabled;
-
-        this.setState({
-            lobbyEnabled: newValue
-        });
-
-        this.props.dispatch(toggleLobbyMode(newValue));
-    }
+    this.props.dispatch(toggleLobbyMode(newValue));
+  }
 }
 
 /**
@@ -131,12 +122,12 @@ class LobbySection extends PureComponent<Props, State> {
  * @returns {Props}
  */
 function mapStateToProps(state: Object): $Shape<Props> {
-    const { conference } = state['features/base/conference'];
+  const { conference } = state['features/base/conference'];
 
-    return {
-        _lobbyEnabled: state['features/lobby'].lobbyEnabled,
-        _visible: conference && conference.isLobbySupported() && isLocalParticipantModerator(state)
-    };
+  return {
+    _lobbyEnabled: state['features/lobby'].lobbyEnabled,
+    _visible: conference && conference.isLobbySupported() && isLocalParticipantModerator(state),
+  };
 }
 
 export default translate(connect(mapStateToProps)(LobbySection));

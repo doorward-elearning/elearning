@@ -6,9 +6,9 @@ import { translate } from '../../../base/i18n';
 import { IconMessage } from '../../../base/icons';
 import { connect } from '../../../base/redux';
 import {
-    _mapDispatchToProps,
-    _mapStateToProps as _abstractMapStateToProps,
-    type Props as AbstractProps
+  _mapDispatchToProps,
+  _mapStateToProps as _abstractMapStateToProps,
+  type Props as AbstractProps,
 } from '../../../chat/components/PrivateMessageButton';
 import { isButtonEnabled } from '../../../toolbox/functions.web';
 
@@ -17,11 +17,10 @@ import RemoteVideoMenuButton from './RemoteVideoMenuButton';
 declare var interfaceConfig: Object;
 
 type Props = AbstractProps & {
-
-    /**
-     * True if the private chat functionality is disabled, hence the button is not visible.
-     */
-    _hidden: boolean
+  /**
+   * True if the private chat functionality is disabled, hence the button is not visible.
+   */
+  _hidden: boolean,
 };
 
 /**
@@ -31,51 +30,52 @@ type Props = AbstractProps & {
  * of this component and use the generic button in the chat feature.
  */
 class PrivateMessageMenuButton extends Component<Props> {
-    /**
-     * Instantiates a new Component instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Instantiates a new Component instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onClick = this._onClick.bind(this);
+    this._onClick = this._onClick.bind(this);
+  }
+
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { participantID, t, _hidden } = this.props;
+
+    if (_hidden) {
+      return null;
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { participantID, t, _hidden } = this.props;
+    return (
+      <RemoteVideoMenuButton
+        buttonText={t('toolbar.privateMessage')}
+        icon={IconMessage}
+        id={`privmsglink_${participantID}`}
+        onClick={this._onClick}
+      />
+    );
+  }
 
-        if (_hidden) {
-            return null;
-        }
+  _onClick: () => void;
 
-        return (
-            <RemoteVideoMenuButton
-                buttonText = { t('toolbar.privateMessage') }
-                icon = { IconMessage }
-                id = { `privmsglink_${participantID}` }
-                onClick = { this._onClick } />
-        );
-    }
+  /**
+   * Callback to be invoked on pressing the button.
+   *
+   * @returns {void}
+   */
+  _onClick() {
+    const { _participant, _setPrivateMessageRecipient } = this.props;
 
-    _onClick: () => void;
-
-    /**
-     * Callback to be invoked on pressing the button.
-     *
-     * @returns {void}
-     */
-    _onClick() {
-        const { _participant, _setPrivateMessageRecipient } = this.props;
-
-        _setPrivateMessageRecipient(_participant);
-    }
+    _setPrivateMessageRecipient(_participant);
+  }
 }
 
 /**
@@ -86,11 +86,11 @@ class PrivateMessageMenuButton extends Component<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state: Object, ownProps: Props): $Shape<Props> {
-    return {
-        ..._abstractMapStateToProps(state, ownProps),
-        _hidden: typeof interfaceConfig !== 'undefined'
-            && (interfaceConfig.DISABLE_PRIVATE_MESSAGES || !isButtonEnabled('chat'))
-    };
+  return {
+    ..._abstractMapStateToProps(state, ownProps),
+    _hidden:
+      typeof interfaceConfig !== 'undefined' && (interfaceConfig.DISABLE_PRIVATE_MESSAGES || !isButtonEnabled('chat')),
+  };
 }
 
 export default translate(connect(_mapStateToProps, _mapDispatchToProps)(PrivateMessageMenuButton));

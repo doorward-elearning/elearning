@@ -3,10 +3,7 @@
 import { SERVER_URL_CHANGE_ENABLED, getFeatureFlag } from '../base/flags';
 import { i18next, DEFAULT_LANGUAGE, LANGUAGES } from '../base/i18n';
 import { createLocalTrack } from '../base/lib-jitsi-meet/functions';
-import {
-    getLocalParticipant,
-    isLocalParticipantModerator
-} from '../base/participants';
+import { getLocalParticipant, isLocalParticipantModerator } from '../base/participants';
 import { toState } from '../base/redux';
 import { parseStandardURIString } from '../base/util';
 import { isFollowMeActive } from '../follow-me';
@@ -22,7 +19,7 @@ declare var interfaceConfig: Object;
  * is enabled, false otherwise.
  */
 export function isSettingEnabled(settingName: string) {
-    return interfaceConfig.SETTINGS_SECTIONS.includes(settingName);
+  return interfaceConfig.SETTINGS_SECTIONS.includes(settingName);
 }
 
 /**
@@ -33,10 +30,10 @@ export function isSettingEnabled(settingName: string) {
  * @returns {boolean} True to indicate that user can change Server URL, false otherwise.
  */
 export function isServerURLChangeEnabled(stateful: Object | Function) {
-    const state = toState(stateful);
-    const flag = getFeatureFlag(state, SERVER_URL_CHANGE_ENABLED, true);
+  const state = toState(stateful);
+  const flag = getFeatureFlag(state, SERVER_URL_CHANGE_ENABLED, true);
 
-    return flag;
+  return flag;
 }
 
 /**
@@ -47,31 +44,30 @@ export function isServerURLChangeEnabled(stateful: Object | Function) {
  * @returns {string|null} - The normalized URL, or null if the URL is invalid.
  */
 export function normalizeUserInputURL(url: string) {
-    /* eslint-disable no-param-reassign */
+  /* eslint-disable no-param-reassign */
 
-    if (url) {
-        url = url.replace(/\s/g, '').toLowerCase();
+  if (url) {
+    url = url.replace(/\s/g, '').toLowerCase();
 
-        const urlRegExp = new RegExp('^(\\w+://)?(.+)$');
-        const urlComponents = urlRegExp.exec(url);
+    const urlRegExp = new RegExp('^(\\w+://)?(.+)$');
+    const urlComponents = urlRegExp.exec(url);
 
-        if (urlComponents && (!urlComponents[1]
-                || !urlComponents[1].startsWith('http'))) {
-            url = `https://${urlComponents[2]}`;
-        }
-
-        const parsedURI = parseStandardURIString(url);
-
-        if (!parsedURI.host) {
-            return null;
-        }
-
-        return parsedURI.toString();
+    if (urlComponents && (!urlComponents[1] || !urlComponents[1].startsWith('http'))) {
+      url = `https://${urlComponents[2]}`;
     }
 
-    return url;
+    const parsedURI = parseStandardURIString(url);
 
-    /* eslint-enable no-param-reassign */
+    if (!parsedURI.host) {
+      return null;
+    }
+
+    return parsedURI.toString();
+  }
+
+  return url;
+
+  /* eslint-enable no-param-reassign */
 }
 
 /**
@@ -81,8 +77,7 @@ export function normalizeUserInputURL(url: string) {
  * @returns {boolean}
  */
 export function shouldShowOnlyDeviceSelection() {
-    return interfaceConfig.SETTINGS_SECTIONS.length === 1
-        && isSettingEnabled('devices');
+  return interfaceConfig.SETTINGS_SECTIONS.length === 1 && isSettingEnabled('devices');
 }
 
 /**
@@ -94,35 +89,31 @@ export function shouldShowOnlyDeviceSelection() {
  * @returns {Object} - The properties for the "More" tab from settings dialog.
  */
 export function getMoreTabProps(stateful: Object | Function) {
-    const state = toState(stateful);
-    const language = i18next.language || DEFAULT_LANGUAGE;
-    const {
-        conference,
-        followMeEnabled,
-        startAudioMutedPolicy,
-        startVideoMutedPolicy
-    } = state['features/base/conference'];
-    const followMeActive = isFollowMeActive(state);
-    const configuredTabs = interfaceConfig.SETTINGS_SECTIONS || [];
+  const state = toState(stateful);
+  const language = i18next.language || DEFAULT_LANGUAGE;
+  const { conference, followMeEnabled, startAudioMutedPolicy, startVideoMutedPolicy } = state[
+    'features/base/conference'
+  ];
+  const followMeActive = isFollowMeActive(state);
+  const configuredTabs = interfaceConfig.SETTINGS_SECTIONS || [];
 
-    // The settings sections to display.
-    const showModeratorSettings = Boolean(
-        conference
-            && configuredTabs.includes('moderator')
-            && isLocalParticipantModerator(state));
+  // The settings sections to display.
+  const showModeratorSettings = Boolean(
+    conference && configuredTabs.includes('moderator') && isLocalParticipantModerator(state)
+  );
 
-    return {
-        currentLanguage: language,
-        followMeActive: Boolean(conference && followMeActive),
-        followMeEnabled: Boolean(conference && followMeEnabled),
-        languages: LANGUAGES,
-        showLanguageSettings: configuredTabs.includes('language'),
-        showModeratorSettings,
-        showPrejoinSettings: state['features/base/config'].prejoinPageEnabled,
-        showPrejoinPage: !state['features/base/settings'].userSelectedSkipPrejoin,
-        startAudioMuted: Boolean(conference && startAudioMutedPolicy),
-        startVideoMuted: Boolean(conference && startVideoMutedPolicy)
-    };
+  return {
+    currentLanguage: language,
+    followMeActive: Boolean(conference && followMeActive),
+    followMeEnabled: Boolean(conference && followMeEnabled),
+    languages: LANGUAGES,
+    showLanguageSettings: configuredTabs.includes('language'),
+    showModeratorSettings,
+    showPrejoinSettings: state['features/base/config'].prejoinPageEnabled,
+    showPrejoinPage: !state['features/base/settings'].userSelectedSkipPrejoin,
+    startAudioMuted: Boolean(conference && startAudioMutedPolicy),
+    startVideoMuted: Boolean(conference && startVideoMutedPolicy),
+  };
 }
 
 /**
@@ -135,20 +126,16 @@ export function getMoreTabProps(stateful: Object | Function) {
  * dialog.
  */
 export function getProfileTabProps(stateful: Object | Function) {
-    const state = toState(stateful);
-    const {
-        authEnabled,
-        authLogin,
-        conference
-    } = state['features/base/conference'];
-    const localParticipant = getLocalParticipant(state);
+  const state = toState(stateful);
+  const { authEnabled, authLogin, conference } = state['features/base/conference'];
+  const localParticipant = getLocalParticipant(state);
 
-    return {
-        authEnabled: Boolean(conference && authEnabled),
-        authLogin,
-        displayName: localParticipant.name,
-        email: localParticipant.email
-    };
+  return {
+    authEnabled: Boolean(conference && authEnabled),
+    authLogin,
+    displayName: localParticipant.name,
+    email: localParticipant.email,
+  };
 }
 
 /**
@@ -160,22 +147,25 @@ export function getProfileTabProps(stateful: Object | Function) {
  * @returns {Promise<Object[]>}
  */
 export function createLocalVideoTracks(ids: string[]) {
-    return Promise.all(ids.map(deviceId => createLocalTrack('video', deviceId)
-                   .then(jitsiTrack => {
-                       return {
-                           jitsiTrack,
-                           deviceId
-                       };
-                   })
-                   .catch(() => {
-                       return {
-                           jitsiTrack: null,
-                           deviceId,
-                           error: 'deviceSelection.previewUnavailable'
-                       };
-                   })));
+  return Promise.all(
+    ids.map((deviceId) =>
+      createLocalTrack('video', deviceId)
+        .then((jitsiTrack) => {
+          return {
+            jitsiTrack,
+            deviceId,
+          };
+        })
+        .catch(() => {
+          return {
+            jitsiTrack: null,
+            deviceId,
+            error: 'deviceSelection.previewUnavailable',
+          };
+        })
+    )
+  );
 }
-
 
 /**
  * Returns a promise which resolves with a list of objects containing
@@ -190,24 +180,25 @@ export function createLocalVideoTracks(ids: string[]) {
  * }[]>}
  */
 export function createLocalAudioTracks(devices: Object[]) {
-    return Promise.all(
-        devices.map(async ({ deviceId, label }) => {
-            let jitsiTrack = null;
-            let hasError = false;
+  return Promise.all(
+    devices.map(async ({ deviceId, label }) => {
+      let jitsiTrack = null;
+      let hasError = false;
 
-            try {
-                jitsiTrack = await createLocalTrack('audio', deviceId);
-            } catch (err) {
-                hasError = true;
-            }
+      try {
+        jitsiTrack = await createLocalTrack('audio', deviceId);
+      } catch (err) {
+        hasError = true;
+      }
 
-            return {
-                deviceId,
-                hasError,
-                jitsiTrack,
-                label
-            };
-        }));
+      return {
+        deviceId,
+        hasError,
+        jitsiTrack,
+        label,
+      };
+    })
+  );
 }
 
 /**
@@ -217,7 +208,7 @@ export function createLocalAudioTracks(devices: Object[]) {
  * @returns {boolean}
  */
 export function getAudioSettingsVisibility(state: Object) {
-    return state['features/settings'].audioSettingsVisible;
+  return state['features/settings'].audioSettingsVisible;
 }
 
 /**
@@ -227,5 +218,5 @@ export function getAudioSettingsVisibility(state: Object) {
  * @returns {boolean}
  */
 export function getVideoSettingsVisibility(state: Object) {
-    return state['features/settings'].videoSettingsVisible;
+  return state['features/settings'].videoSettingsVisible;
 }

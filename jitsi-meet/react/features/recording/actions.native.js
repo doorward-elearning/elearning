@@ -14,29 +14,34 @@ export * from './actions.any';
  * @returns {showNotification}
  */
 export function showRecordingLimitNotification(streamType: string) {
-    return (dispatch: Function, getState: Function) => {
-        const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
-        let descriptionKey, titleKey;
+  return (dispatch: Function, getState: Function) => {
+    const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
+    let descriptionKey, titleKey;
 
-        if (isLiveStreaming) {
-            descriptionKey = 'liveStreaming.limitNotificationDescriptionNative';
-            titleKey = 'dialog.liveStreaming';
-        } else {
-            descriptionKey = 'recording.limitNotificationDescriptionNative';
-            titleKey = 'dialog.recording';
-        }
+    if (isLiveStreaming) {
+      descriptionKey = 'liveStreaming.limitNotificationDescriptionNative';
+      titleKey = 'dialog.liveStreaming';
+    } else {
+      descriptionKey = 'recording.limitNotificationDescriptionNative';
+      titleKey = 'dialog.recording';
+    }
 
-        const { recordingLimit = {} } = getState()['features/base/config'];
-        const { limit, appName } = recordingLimit;
+    const { recordingLimit = {} } = getState()['features/base/config'];
+    const { limit, appName } = recordingLimit;
 
-        return dispatch(showNotification({
-            descriptionArguments: {
-                limit,
-                app: appName
-            },
-            descriptionKey,
-            titleKey,
-            maxLines: 2
-        }, 10000));
-    };
+    return dispatch(
+      showNotification(
+        {
+          descriptionArguments: {
+            limit,
+            app: appName,
+          },
+          descriptionKey,
+          titleKey,
+          maxLines: 2,
+        },
+        10000
+      )
+    );
+  };
 }

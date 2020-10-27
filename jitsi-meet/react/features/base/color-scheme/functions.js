@@ -9,5 +9,5 @@
  * @returns {Function}
  */
 export function schemeColor(colorDefinition: string): Function {
-    return () => colorDefinition;
+  return () => colorDefinition;
 }

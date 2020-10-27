@@ -7,10 +7,7 @@ import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../../base/app';
 import { MiddlewareRegistry } from '../../base/redux';
 
 import { _SET_APP_STATE_LISTENER } from './actionTypes';
-import {
-    _setAppStateListener as _setAppStateListenerA,
-    appStateChanged
-} from './actions';
+import { _setAppStateListener as _setAppStateListenerA, appStateChanged } from './actions';
 
 /**
  * Middleware that captures App lifetime actions and subscribes to application
@@ -22,24 +19,24 @@ import {
  * @returns {Function}
  * @see {@link https://facebook.github.io/react-native/docs/appstate.html}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case _SET_APP_STATE_LISTENER:
-        return _setAppStateListenerF(store, next, action);
+      return _setAppStateListenerF(store, next, action);
 
     case APP_WILL_MOUNT: {
-        const { dispatch } = store;
+      const { dispatch } = store;
 
-        dispatch(_setAppStateListenerA(_onAppStateChange.bind(undefined, dispatch)));
-        break;
+      dispatch(_setAppStateListenerA(_onAppStateChange.bind(undefined, dispatch)));
+      break;
     }
 
     case APP_WILL_UNMOUNT:
-        store.dispatch(_setAppStateListenerA(undefined));
-        break;
-    }
+      store.dispatch(_setAppStateListenerA(undefined));
+      break;
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -52,7 +49,7 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _onAppStateChange(dispatch: Dispatch<any>, appState: string) {
-    dispatch(appStateChanged(appState));
+  dispatch(appStateChanged(appState));
 }
 
 /**
@@ -70,15 +67,15 @@ function _onAppStateChange(dispatch: Dispatch<any>, appState: string) {
  * @returns {Object} The value returned by {@code next(action)}.
  */
 function _setAppStateListenerF({ getState }, next, action) {
-    // Remove the old AppState listener and add the new one.
-    const { appStateListener: oldListener } = getState()['features/background'];
-    const result = next(action);
-    const { appStateListener: newListener } = getState()['features/background'];
+  // Remove the old AppState listener and add the new one.
+  const { appStateListener: oldListener } = getState()['features/background'];
+  const result = next(action);
+  const { appStateListener: newListener } = getState()['features/background'];
 
-    if (oldListener !== newListener) {
-        oldListener && AppState.removeEventListener('change', oldListener);
-        newListener && AppState.addEventListener('change', newListener);
-    }
+  if (oldListener !== newListener) {
+    oldListener && AppState.removeEventListener('change', oldListener);
+    newListener && AppState.addEventListener('change', newListener);
+  }
 
-    return result;
+  return result;
 }

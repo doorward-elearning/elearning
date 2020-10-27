@@ -20,45 +20,48 @@ const DEFAULT_TIMEOUT = 5000;
  * @returns {void}
  */
 export async function loadScript(
-        url: string, timeout: number = DEFAULT_TIMEOUT, skipEval: boolean = false): Promise<any> {
-    // XXX The implementation of fetch on Android will throw an Exception on
-    // the Java side which will break the app if the URL is invalid (which
-    // the implementation of fetch on Android calls 'unexpected url'). In
-    // order to try to prevent the breakage of the app, try to fail on an
-    // invalid URL as soon as possible.
-    const { hostname, pathname, protocol } = new URL(url);
+  url: string,
+  timeout: number = DEFAULT_TIMEOUT,
+  skipEval: boolean = false
+): Promise<any> {
+  // XXX The implementation of fetch on Android will throw an Exception on
+  // the Java side which will break the app if the URL is invalid (which
+  // the implementation of fetch on Android calls 'unexpected url'). In
+  // order to try to prevent the breakage of the app, try to fail on an
+  // invalid URL as soon as possible.
+  const { hostname, pathname, protocol } = new URL(url);
 
-    // XXX The standard URL implementation should throw an Error if the
-    // specified URL is relative. Unfortunately, the polyfill used on
-    // react-native does not.
-    if (!hostname || !pathname || !protocol) {
-        throw new Error(`unexpected url: ${url}`);
-    }
+  // XXX The standard URL implementation should throw an Error if the
+  // specified URL is relative. Unfortunately, the polyfill used on
+  // react-native does not.
+  if (!hostname || !pathname || !protocol) {
+    throw new Error(`unexpected url: ${url}`);
+  }
 
-    const controller = new AbortController();
-    const signal = controller.signal;
+  const controller = new AbortController();
+  const signal = controller.signal;
 
-    const timer = setTimeout(() => {
-        controller.abort();
-    }, timeout);
+  const timer = setTimeout(() => {
+    controller.abort();
+  }, timeout);
 
-    const response = await fetch(url, { signal });
+  const response = await fetch(url, { signal });
 
-    // If the timeout hits the above will raise AbortError.
+  // If the timeout hits the above will raise AbortError.
 
-    clearTimeout(timer);
+  clearTimeout(timer);
 
-    switch (response.status) {
+  switch (response.status) {
     case 200: {
-        const txt = await response.text();
+      const txt = await response.text();
 
-        if (skipEval) {
-            return txt;
-        }
+      if (skipEval) {
+        return txt;
+      }
 
-        return eval.call(window, txt); // eslint-disable-line no-eval
+      return eval.call(window, txt); // eslint-disable-line no-eval
     }
     default:
-        throw new Error(`loadScript error: ${response.statusText}`);
-    }
+      throw new Error(`loadScript error: ${response.statusText}`);
+  }
 }

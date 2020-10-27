@@ -14,21 +14,20 @@ import { toggleSharedVideo } from '../actions';
  * The type of the React {@code Component} props of {@link TileViewButton}.
  */
 type Props = AbstractButtonProps & {
+  /**
+   * Whether or not the button is disabled.
+   */
+  _isDisabled: boolean,
 
-    /**
-     * Whether or not the button is disabled.
-     */
-    _isDisabled: boolean,
+  /**
+   * Whether or not the local participant is sharing a YouTube video.
+   */
+  _sharingVideo: boolean,
 
-    /**
-     * Whether or not the local participant is sharing a YouTube video.
-     */
-    _sharingVideo: boolean,
-
-    /**
-     * The redux {@code dispatch} function.
-     */
-    dispatch: Dispatch<any>
+  /**
+   * The redux {@code dispatch} function.
+   */
+  dispatch: Dispatch<any>,
 };
 
 /**
@@ -37,53 +36,53 @@ type Props = AbstractButtonProps & {
  * @extends AbstractButton
  */
 class VideoShareButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.sharedvideo';
-    icon = IconShareVideo;
-    label = 'toolbar.sharedvideo';
-    toggledLabel = 'toolbar.stopSharedVideo';
+  accessibilityLabel = 'toolbar.accessibilityLabel.sharedvideo';
+  icon = IconShareVideo;
+  label = 'toolbar.sharedvideo';
+  toggledLabel = 'toolbar.stopSharedVideo';
 
-    /**
-     * Handles clicking / pressing the button.
-     *
-     * @override
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        this._doToggleSharedVideo();
-    }
+  /**
+   * Handles clicking / pressing the button.
+   *
+   * @override
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    this._doToggleSharedVideo();
+  }
 
-    /**
-     * Indicates whether this button is in toggled state or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._sharingVideo;
-    }
+  /**
+   * Indicates whether this button is in toggled state or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._sharingVideo;
+  }
 
-    /**
-     * Indicates whether this button is disabled or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isDisabled() {
-        return this.props._isDisabled;
-    }
+  /**
+   * Indicates whether this button is disabled or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isDisabled() {
+    return this.props._isDisabled;
+  }
 
-    /**
-     * Dispatches an action to toggle YouTube video sharing.
-     *
-     * @private
-     * @returns {void}
-     */
-    _doToggleSharedVideo() {
-        this.props.dispatch(toggleSharedVideo());
-    }
+  /**
+   * Dispatches an action to toggle YouTube video sharing.
+   *
+   * @private
+   * @returns {void}
+   */
+  _doToggleSharedVideo() {
+    this.props.dispatch(toggleSharedVideo());
+  }
 }
 
 /**
@@ -95,22 +94,23 @@ class VideoShareButton extends AbstractButton<Props, *> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps): Object {
-    const { ownerId, status: sharedVideoStatus } = state['features/youtube-player'];
-    const localParticipantId = getLocalParticipant(state).id;
-    const enabled = getFeatureFlag(state, VIDEO_SHARE_BUTTON_ENABLED, true);
-    const { visible = enabled } = ownProps;
+  const { ownerId, status: sharedVideoStatus } = state['features/youtube-player'];
+  const localParticipantId = getLocalParticipant(state).id;
+  const enabled = getFeatureFlag(state, VIDEO_SHARE_BUTTON_ENABLED, true);
+  const { visible = enabled } = ownProps;
 
-    if (ownerId !== localParticipantId) {
-        return {
-            _isDisabled: isSharingStatus(sharedVideoStatus),
-            _sharingVideo: false,
-            visible };
-    }
-
+  if (ownerId !== localParticipantId) {
     return {
-        _sharingVideo: isSharingStatus(sharedVideoStatus),
-        visible
+      _isDisabled: isSharingStatus(sharedVideoStatus),
+      _sharingVideo: false,
+      visible,
     };
+  }
+
+  return {
+    _sharingVideo: isSharingStatus(sharedVideoStatus),
+    visible,
+  };
 }
 
 /**
@@ -121,7 +121,7 @@ function _mapStateToProps(state, ownProps): Object {
  * @returns {boolean}
  */
 function isSharingStatus(status) {
-    return [ 'playing', 'pause', 'start' ].includes(status);
+  return ['playing', 'pause', 'start'].includes(status);
 }
 
 export default translate(connect(_mapStateToProps)(VideoShareButton));

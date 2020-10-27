@@ -19,18 +19,18 @@ let userInteractionListener = null;
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case APP_WILL_MOUNT:
-        _startListeningForUserInteraction(store);
-        break;
+      _startListeningForUserInteraction(store);
+      break;
 
     case APP_WILL_UNMOUNT:
-        _stopListeningForUserInteraction();
-        break;
-    }
+      _stopListeningForUserInteraction();
+      break;
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -42,13 +42,13 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _onUserInteractionReceived(dispatch, event) {
-    if (event.isTrusted) {
-        dispatch({
-            type: USER_INTERACTION_RECEIVED
-        });
+  if (event.isTrusted) {
+    dispatch({
+      type: USER_INTERACTION_RECEIVED,
+    });
 
-        _stopListeningForUserInteraction();
-    }
+    _stopListeningForUserInteraction();
+  }
 }
 
 /**
@@ -59,12 +59,12 @@ function _onUserInteractionReceived(dispatch, event) {
  * @returns {void}
  */
 function _startListeningForUserInteraction({ dispatch }) {
-    _stopListeningForUserInteraction();
+  _stopListeningForUserInteraction();
 
-    userInteractionListener = _onUserInteractionReceived.bind(null, dispatch);
+  userInteractionListener = _onUserInteractionReceived.bind(null, dispatch);
 
-    window.addEventListener('mousedown', userInteractionListener);
-    window.addEventListener('keydown', userInteractionListener);
+  window.addEventListener('mousedown', userInteractionListener);
+  window.addEventListener('keydown', userInteractionListener);
 }
 
 /**
@@ -74,8 +74,8 @@ function _startListeningForUserInteraction({ dispatch }) {
  * @returns {void}
  */
 function _stopListeningForUserInteraction() {
-    window.removeEventListener('mousedown', userInteractionListener);
-    window.removeEventListener('keydown', userInteractionListener);
+  window.removeEventListener('mousedown', userInteractionListener);
+  window.removeEventListener('keydown', userInteractionListener);
 
-    userInteractionListener = null;
+  userInteractionListener = null;
 }

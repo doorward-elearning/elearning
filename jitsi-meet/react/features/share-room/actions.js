@@ -12,16 +12,17 @@ import { BEGIN_SHARE_ROOM, END_SHARE_ROOM } from './actionTypes';
  * @returns {Function}
  */
 export function beginShareRoom(roomURL: ?string): Function {
-    return (dispatch, getState) => {
-        if (!roomURL) {
-            // eslint-disable-next-line no-param-reassign
-            roomURL = getInviteURL(getState);
-        }
-        roomURL && dispatch({
-            type: BEGIN_SHARE_ROOM,
-            roomURL
-        });
-    };
+  return (dispatch, getState) => {
+    if (!roomURL) {
+      // eslint-disable-next-line no-param-reassign
+      roomURL = getInviteURL(getState);
+    }
+    roomURL &&
+      dispatch({
+        type: BEGIN_SHARE_ROOM,
+        roomURL,
+      });
+  };
 }
 
 /**
@@ -38,9 +39,9 @@ export function beginShareRoom(roomURL: ?string): Function {
  * }}
  */
 export function endShareRoom(roomURL: string, shared: boolean): Object {
-    return {
-        type: END_SHARE_ROOM,
-        roomURL,
-        shared
-    };
+  return {
+    type: END_SHARE_ROOM,
+    roomURL,
+    shared,
+  };
 }

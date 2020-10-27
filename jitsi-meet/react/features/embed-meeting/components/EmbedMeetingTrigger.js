@@ -9,16 +9,15 @@ import { translate } from '../../base/i18n';
 import EmbedMeetingDialog from './EmbedMeetingDialog';
 
 type Props = {
+  /**
+   * Open the embed meeting dialog
+   */
+  openEmbedDialog: Function,
 
-    /**
-     * Open the embed meeting dialog
-     */
-    openEmbedDialog: Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function,
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -27,22 +26,20 @@ type Props = {
  * @returns {React$Element<any>}
  */
 function EmbedMeetingTrigger({ t, openEmbedDialog }: Props) {
-    /**
-     * Handles opeming the embed dialog.
-     *
-     * @returns {void}
-     */
-    function onClick() {
-        openEmbedDialog(EmbedMeetingDialog);
-    }
+  /**
+   * Handles opeming the embed dialog.
+   *
+   * @returns {void}
+   */
+  function onClick() {
+    openEmbedDialog(EmbedMeetingDialog);
+  }
 
-    return (
-        <div
-            className = 'embed-meeting-trigger'
-            onClick = { onClick }>
-            {t('embedMeeting.title')}
-        </div>
-    );
+  return (
+    <div className="embed-meeting-trigger" onClick={onClick}>
+      {t('embedMeeting.title')}
+    </div>
+  );
 }
 
 const mapDispatchToProps = { openEmbedDialog: openDialog };

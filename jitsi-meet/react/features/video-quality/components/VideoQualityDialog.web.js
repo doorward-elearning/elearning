@@ -11,21 +11,17 @@ import VideoQualitySlider from './VideoQualitySlider';
  * @extends Component
  */
 export default class VideoQualityDialog extends Component {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <Dialog
-                hideCancelButton = { true }
-                okKey = 'dialog.done'
-                titleKey = 'videoStatus.callQuality'
-                width = 'small'>
-                <VideoQualitySlider />
-            </Dialog>
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <Dialog hideCancelButton={true} okKey="dialog.done" titleKey="videoStatus.callQuality" width="small">
+        <VideoQualitySlider />
+      </Dialog>
+    );
+  }
 }

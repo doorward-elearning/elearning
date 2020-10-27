@@ -16,9 +16,9 @@ const { AudioMode } = NativeModules;
  * @returns {void}
  */
 export function handleCallIntegrationChange(disabled: boolean) {
-    if (AudioMode.setUseConnectionService) {
-        AudioMode.setUseConnectionService(!disabled);
-    }
+  if (AudioMode.setUseConnectionService) {
+    AudioMode.setUseConnectionService(!disabled);
+  }
 }
 
 /**
@@ -31,6 +31,7 @@ export function handleCallIntegrationChange(disabled: boolean) {
  * @returns {void}
  */
 export function handleCrashReportingChange(disabled: boolean) {
-    DefaultPreference.setName('jitsi-default-preferences').then(
-        DefaultPreference.set('isCrashReportingDisabled', disabled.toString()));
+  DefaultPreference.setName('jitsi-default-preferences').then(
+    DefaultPreference.set('isCrashReportingDisabled', disabled.toString())
+  );
 }

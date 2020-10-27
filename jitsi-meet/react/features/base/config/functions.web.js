@@ -8,7 +8,8 @@ export * from './functions.any';
  * @param {*} config - The configuration which needs to be cleaned up.
  * @returns {void}
  */
-export function _cleanupConfig(config: Object) { // eslint-disable-line no-unused-vars
+export function _cleanupConfig(config: Object) {
+  // eslint-disable-line no-unused-vars
 }
 
 /**
@@ -18,7 +19,7 @@ export function _cleanupConfig(config: Object) { // eslint-disable-line no-unuse
  * @returns {string}
  */
 export function getDialOutStatusUrl(state: Object): string {
-    return state['features/base/config'].guestDialOutStatusUrl;
+  return state['features/base/config'].guestDialOutStatusUrl;
 }
 
 /**
@@ -28,5 +29,5 @@ export function getDialOutStatusUrl(state: Object): string {
  * @returns {string}
  */
 export function getDialOutUrl(state: Object): string {
-    return state['features/base/config'].guestDialOutUrl;
+  return state['features/base/config'].guestDialOutUrl;
 }

@@ -2,10 +2,7 @@
 
 import type { Dispatch } from 'redux';
 
-import {
-    createToolbarEvent,
-    sendAnalytics
-} from '../../analytics';
+import { createToolbarEvent, sendAnalytics } from '../../analytics';
 import { TILE_VIEW_ENABLED, getFeatureFlag } from '../../base/flags';
 import { translate } from '../../base/i18n';
 import { IconTileView } from '../../base/icons';
@@ -20,16 +17,15 @@ import logger from '../logger';
  * The type of the React {@code Component} props of {@link TileViewButton}.
  */
 type Props = AbstractButtonProps & {
+  /**
+   * Whether or not tile view layout has been enabled as the user preference.
+   */
+  _tileViewEnabled: boolean,
 
-    /**
-     * Whether or not tile view layout has been enabled as the user preference.
-     */
-    _tileViewEnabled: boolean,
-
-    /**
-     * Used to dispatch actions from the buttons.
-     */
-    dispatch: Dispatch<any>
+  /**
+   * Used to dispatch actions from the buttons.
+   */
+  dispatch: Dispatch<any>,
 };
 
 /**
@@ -38,43 +34,43 @@ type Props = AbstractButtonProps & {
  * @extends AbstractButton
  */
 class TileViewButton<P: Props> extends AbstractButton<P, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.tileView';
-    icon = IconTileView;
-    label = 'toolbar.enterTileView';
-    toggledLabel = 'toolbar.exitTileView';
-    tooltip = 'toolbar.tileViewToggle';
+  accessibilityLabel = 'toolbar.accessibilityLabel.tileView';
+  icon = IconTileView;
+  label = 'toolbar.enterTileView';
+  toggledLabel = 'toolbar.exitTileView';
+  tooltip = 'toolbar.tileViewToggle';
 
-    /**
-     * Handles clicking / pressing the button.
-     *
-     * @override
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        const { _tileViewEnabled, dispatch } = this.props;
+  /**
+   * Handles clicking / pressing the button.
+   *
+   * @override
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    const { _tileViewEnabled, dispatch } = this.props;
 
-        sendAnalytics(createToolbarEvent(
-            'tileview.button',
-            {
-                'is_enabled': _tileViewEnabled
-            }));
-        const value = !_tileViewEnabled;
+    sendAnalytics(
+      createToolbarEvent('tileview.button', {
+        is_enabled: _tileViewEnabled,
+      })
+    );
+    const value = !_tileViewEnabled;
 
-        logger.debug(`Tile view ${value ? 'enable' : 'disable'}`);
-        dispatch(setTileView(value));
-    }
+    logger.debug(`Tile view ${value ? 'enable' : 'disable'}`);
+    dispatch(setTileView(value));
+  }
 
-    /**
-     * Indicates whether this button is in toggled state or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._tileViewEnabled;
-    }
+  /**
+   * Indicates whether this button is in toggled state or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._tileViewEnabled;
+  }
 }
 
 /**
@@ -86,14 +82,14 @@ class TileViewButton<P: Props> extends AbstractButton<P, *> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    const enabled = getFeatureFlag(state, TILE_VIEW_ENABLED, true);
-    const lonelyMeeting = getParticipantCount(state) < 2;
-    const { visible = enabled && !lonelyMeeting } = ownProps;
+  const enabled = getFeatureFlag(state, TILE_VIEW_ENABLED, true);
+  const lonelyMeeting = getParticipantCount(state) < 2;
+  const { visible = enabled && !lonelyMeeting } = ownProps;
 
-    return {
-        _tileViewEnabled: shouldDisplayTileView(state),
-        visible
-    };
+  return {
+    _tileViewEnabled: shouldDisplayTileView(state),
+    visible,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(TileViewButton));

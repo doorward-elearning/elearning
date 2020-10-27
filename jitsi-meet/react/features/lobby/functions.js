@@ -11,13 +11,13 @@ import { getCurrentConference } from '../base/conference';
  * @returns {Function}
  */
 export function setKnockingParticipantApproval(getState: Function, id: string, approved: boolean) {
-    const conference = getCurrentConference(getState());
+  const conference = getCurrentConference(getState());
 
-    if (conference) {
-        if (approved) {
-            conference.lobbyApproveAccess(id);
-        } else {
-            conference.lobbyDenyAccess(id);
-        }
+  if (conference) {
+    if (approved) {
+      conference.lobbyApproveAccess(id);
+    } else {
+      conference.lobbyDenyAccess(id);
     }
+  }
 }

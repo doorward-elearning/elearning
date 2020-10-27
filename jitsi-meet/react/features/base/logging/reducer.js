@@ -12,29 +12,27 @@ import { SET_LOG_COLLECTOR, SET_LOGGING_CONFIG } from './actionTypes';
  * }}
  */
 const DEFAULT_STATE = {
-    // eslint-disable-next-line
-    config: require('../../../../logging_config.js'),
+  // eslint-disable-next-line
+  config: require('../../../../logging_config.js'),
 
-    /**
-     * The log collector.
-     */
-    logCollector: undefined
+  /**
+   * The log collector.
+   */
+  logCollector: undefined,
 };
 
-ReducerRegistry.register(
-    'features/base/logging',
-    (state = DEFAULT_STATE, action) => {
-        switch (action.type) {
-        case SET_LOGGING_CONFIG:
-            return _setLoggingConfig(state, action);
-        case SET_LOG_COLLECTOR: {
-            return _setLogCollector(state, action);
-        }
+ReducerRegistry.register('features/base/logging', (state = DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case SET_LOGGING_CONFIG:
+      return _setLoggingConfig(state, action);
+    case SET_LOG_COLLECTOR: {
+      return _setLogCollector(state, action);
+    }
 
-        default:
-            return state;
-        }
-    });
+    default:
+      return state;
+  }
+});
 
 /**
  * Reduces a specific Redux action SET_LOGGING_CONFIG of the feature
@@ -47,21 +45,21 @@ ReducerRegistry.register(
  * reduction of the specified action.
  */
 function _setLoggingConfig(state, action) {
-    const config = {
-        // The config of DEFAULT_STATE is the default configuration of the
-        // feature base/logging.
-        ...DEFAULT_STATE.config,
-        ...action.config
-    };
+  const config = {
+    // The config of DEFAULT_STATE is the default configuration of the
+    // feature base/logging.
+    ...DEFAULT_STATE.config,
+    ...action.config,
+  };
 
-    if (equals(state.config, config)) {
-        return state;
-    }
+  if (equals(state.config, config)) {
+    return state;
+  }
 
-    return {
-        ...state,
-        config
-    };
+  return {
+    ...state,
+    config,
+  };
 }
 
 /**
@@ -75,5 +73,5 @@ function _setLoggingConfig(state, action) {
  * reduction of the specified action.
  */
 function _setLogCollector(state, action) {
-    return set(state, 'logCollector', action.logCollector);
+  return set(state, 'logCollector', action.logCollector);
 }

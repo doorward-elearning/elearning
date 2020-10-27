@@ -12,8 +12,8 @@ import { SET_JWT } from './actionTypes';
  * }}
  */
 export function setJWT(jwt: ?string) {
-    return {
-        type: SET_JWT,
-        jwt
-    };
+  return {
+    type: SET_JWT,
+    jwt,
+  };
 }

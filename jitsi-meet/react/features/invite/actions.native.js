@@ -18,15 +18,15 @@ export * from './actions.any';
  * @returns {Function}
  */
 export function doInvitePeople() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const state = getState();
-        const addPeopleEnabled = getFeatureFlag(state, ADD_PEOPLE_ENABLED, true)
-            && (isAddPeopleEnabled(state) || isDialOutEnabled(state));
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const state = getState();
+    const addPeopleEnabled =
+      getFeatureFlag(state, ADD_PEOPLE_ENABLED, true) && (isAddPeopleEnabled(state) || isDialOutEnabled(state));
 
-        if (addPeopleEnabled) {
-            return dispatch(setActiveModalId(ADD_PEOPLE_DIALOG_VIEW_ID));
-        }
+    if (addPeopleEnabled) {
+      return dispatch(setActiveModalId(ADD_PEOPLE_DIALOG_VIEW_ID));
+    }
 
-        return dispatch(beginShareRoom());
-    };
+    return dispatch(beginShareRoom());
+  };
 }

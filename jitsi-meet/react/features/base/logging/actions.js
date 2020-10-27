@@ -14,10 +14,10 @@ import { SET_LOG_COLLECTOR, SET_LOGGING_CONFIG } from './actionTypes';
  * }}
  */
 export function setLogCollector(logCollector: ?Object) {
-    return {
-        type: SET_LOG_COLLECTOR,
-        logCollector
-    };
+  return {
+    type: SET_LOG_COLLECTOR,
+    logCollector,
+  };
 }
 
 /**
@@ -31,8 +31,8 @@ export function setLogCollector(logCollector: ?Object) {
  * }}
  */
 export function setLoggingConfig(config: Object) {
-    return {
-        type: SET_LOGGING_CONFIG,
-        config
-    };
+  return {
+    type: SET_LOGGING_CONFIG,
+    config,
+  };
 }

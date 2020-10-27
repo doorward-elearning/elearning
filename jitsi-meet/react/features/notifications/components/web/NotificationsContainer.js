@@ -5,18 +5,17 @@ import React from 'react';
 
 import { connect } from '../../../base/redux';
 import AbstractNotificationsContainer, {
-    _abstractMapStateToProps,
-    type Props as AbstractProps
+  _abstractMapStateToProps,
+  type Props as AbstractProps,
 } from '../AbstractNotificationsContainer';
 
 import Notification from './Notification';
 
 type Props = AbstractProps & {
-
-    /**
-     * Whther we are a SIP gateway or not.
-     */
-     _iAmSipGateway: boolean
+  /**
+   * Whther we are a SIP gateway or not.
+   */
+  _iAmSipGateway: boolean,
 };
 
 /**
@@ -27,53 +26,41 @@ type Props = AbstractProps & {
  * @extends {Component}
  */
 class NotificationsContainer extends AbstractNotificationsContainer<Props> {
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        if (this.props._iAmSipGateway) {
-            return null;
-        }
-
-        return (
-            <FlagGroup onDismissed = { this._onDismissed }>
-                { this._renderFlags() }
-            </FlagGroup>
-        );
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    if (this.props._iAmSipGateway) {
+      return null;
     }
 
-    _onDismissed: number => void;
+    return <FlagGroup onDismissed={this._onDismissed}>{this._renderFlags()}</FlagGroup>;
+  }
 
-    /**
-     * Renders notifications to display as ReactElements. An empty array will
-     * be returned if notifications are disabled.
-     *
-     * @private
-     * @returns {ReactElement[]}
-     */
-    _renderFlags() {
-        const { _notifications } = this.props;
+  _onDismissed: (number) => void;
 
-        return _notifications.map(notification => {
-            const { props, uid } = notification;
+  /**
+   * Renders notifications to display as ReactElements. An empty array will
+   * be returned if notifications are disabled.
+   *
+   * @private
+   * @returns {ReactElement[]}
+   */
+  _renderFlags() {
+    const { _notifications } = this.props;
 
-            // The id attribute is necessary as {@code FlagGroup} looks for
-            // either id or key to set a key on notifications, but accessing
-            // props.key will cause React to print an error.
-            return (
-                <Notification
-                    { ...props }
-                    id = { uid }
-                    key = { uid }
-                    uid = { uid } />
+    return _notifications.map((notification) => {
+      const { props, uid } = notification;
 
-            );
-        });
-    }
+      // The id attribute is necessary as {@code FlagGroup} looks for
+      // either id or key to set a key on notifications, but accessing
+      // props.key will cause React to print an error.
+      return <Notification {...props} id={uid} key={uid} uid={uid} />;
+    });
+  }
 }
 
 /**
@@ -84,13 +71,12 @@ class NotificationsContainer extends AbstractNotificationsContainer<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state) {
-    const { iAmSipGateway } = state['features/base/config'];
+  const { iAmSipGateway } = state['features/base/config'];
 
-    return {
-        ..._abstractMapStateToProps(state),
-        _iAmSipGateway: Boolean(iAmSipGateway)
-    };
+  return {
+    ..._abstractMapStateToProps(state),
+    _iAmSipGateway: Boolean(iAmSipGateway),
+  };
 }
-
 
 export default connect(_mapStateToProps)(NotificationsContainer);

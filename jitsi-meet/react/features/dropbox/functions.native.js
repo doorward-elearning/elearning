@@ -13,7 +13,7 @@ const { Dropbox } = NativeModules;
  * access token or rejected with an error.
  */
 export function _authorizeDropbox(): Promise<string> {
-    return Dropbox.authorize();
+  return Dropbox.authorize();
 }
 
 /**
@@ -24,7 +24,7 @@ export function _authorizeDropbox(): Promise<string> {
  * name or rejected with an error.
  */
 export function getDisplayName(token: string) {
-    return Dropbox.getDisplayName(token);
+  return Dropbox.getDisplayName(token);
 }
 
 /**
@@ -37,7 +37,7 @@ export function getDisplayName(token: string) {
  * with an error.
  */
 export function getSpaceUsage(token: string) {
-    return Dropbox.getSpaceUsage(token);
+  return Dropbox.getSpaceUsage(token);
 }
 
 /**
@@ -48,7 +48,7 @@ export function getSpaceUsage(token: string) {
  * @returns {boolean}
  */
 export function isEnabled(state: Object) {
-    const { dropbox = {} } = state['features/base/config'];
+  const { dropbox = {} } = state['features/base/config'];
 
-    return Dropbox.ENABLED && typeof dropbox.appKey === 'string';
+  return Dropbox.ENABLED && typeof dropbox.appKey === 'string';
 }

@@ -6,16 +6,15 @@ import { translate } from '../../../base/i18n';
 import { Icon, IconClose } from '../../../base/icons';
 
 type Props = {
+  /**
+   * The {@link ModalDialog} closing function.
+   */
+  onClose: Function,
 
-    /**
-     * The {@link ModalDialog} closing function.
-     */
-    onClose: Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -24,15 +23,12 @@ type Props = {
  * @returns {React$Element<any>}
  */
 function Header({ onClose, t }: Props) {
-    return (
-        <div
-            className = 'invite-more-dialog header'>
-            { t('security.securityOptions') }
-            <Icon
-                onClick = { onClose }
-                src = { IconClose } />
-        </div>
-    );
+  return (
+    <div className="invite-more-dialog header">
+      {t('security.securityOptions')}
+      <Icon onClick={onClose} src={IconClose} />
+    </div>
+  );
 }
 
 export default translate(Header);

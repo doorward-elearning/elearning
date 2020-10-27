@@ -12,29 +12,29 @@ import { extractVpaasTenantFromPath, getBillingId, sendCountRequest } from './fu
  * @returns {Function}
  */
 export function countEndpoint() {
-    return function(dispatch: Function, getState: Function) {
-        const state = getState();
-        const baseUrl = state['features/base/config'].billingCounterUrl;
-        const jwt = state['features/base/jwt'].jwt;
-        const tenant = extractVpaasTenantFromPath(state['features/base/connection'].locationURL.pathname);
-        const shouldSendRequest = Boolean(baseUrl && jwt && tenant);
+  return function (dispatch: Function, getState: Function) {
+    const state = getState();
+    const baseUrl = state['features/base/config'].billingCounterUrl;
+    const jwt = state['features/base/jwt'].jwt;
+    const tenant = extractVpaasTenantFromPath(state['features/base/connection'].locationURL.pathname);
+    const shouldSendRequest = Boolean(baseUrl && jwt && tenant);
 
-        if (shouldSendRequest) {
-            let billingId = getBillingId();
+    if (shouldSendRequest) {
+      let billingId = getBillingId();
 
-            if (!billingId) {
-                billingId = uuid.v4();
-                dispatch(setBillingId(billingId));
-            }
+      if (!billingId) {
+        billingId = uuid.v4();
+        dispatch(setBillingId(billingId));
+      }
 
-            sendCountRequest({
-                baseUrl,
-                billingId,
-                jwt,
-                tenant
-            });
-        }
-    };
+      sendCountRequest({
+        baseUrl,
+        billingId,
+        jwt,
+        tenant,
+      });
+    }
+  };
 }
 
 /**
@@ -44,8 +44,8 @@ export function countEndpoint() {
  * @returns {Object}
  */
 function setBillingId(value) {
-    return {
-        type: SET_BILLING_ID,
-        value
-    };
+  return {
+    type: SET_BILLING_ID,
+    value,
+  };
 }

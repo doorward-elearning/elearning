@@ -6,15 +6,15 @@
  * @returns {void}
  */
 export function downloadBlob(blob, fileName = 'recording.ogg') {
-    const base64Url = window.URL.createObjectURL(blob);
+  const base64Url = window.URL.createObjectURL(blob);
 
-    // fake a anchor tag
-    const a = document.createElement('a');
+  // fake a anchor tag
+  const a = document.createElement('a');
 
-    a.style = 'display: none';
-    a.href = base64Url;
-    a.download = fileName;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+  a.style = 'display: none';
+  a.href = base64Url;
+  a.download = fileName;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }

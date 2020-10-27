@@ -2,10 +2,7 @@
 
 import { Component } from 'react';
 
-import {
-    createLiveStreamingDialogEvent,
-    sendAnalytics
-} from '../../../analytics';
+import { createLiveStreamingDialogEvent, sendAnalytics } from '../../../analytics';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { getActiveSession } from '../../functions';
 
@@ -14,21 +11,20 @@ import { getActiveSession } from '../../functions';
  * {@link StopLiveStreamDialog}.
  */
 type Props = {
+  /**
+   * The {@code JitsiConference} for the current conference.
+   */
+  _conference: Object,
 
-    /**
-     * The {@code JitsiConference} for the current conference.
-     */
-    _conference: Object,
+  /**
+   * The redux representation of the live stremaing to be stopped.
+   */
+  _session: Object,
 
-    /**
-     * The redux representation of the live stremaing to be stopped.
-     */
-    _session: Object,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -38,38 +34,38 @@ type Props = {
  * @extends Component
  */
 export default class AbstractStopLiveStreamDialog extends Component<Props> {
-    /**
-     * Initializes a new {@code StopLiveStreamDialog} instance.
-     *
-     * @param {Object} props - The read-only properties with which the new
-     * instance is to be initialized.
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Initializes a new {@code StopLiveStreamDialog} instance.
+   *
+   * @param {Object} props - The read-only properties with which the new
+   * instance is to be initialized.
+   */
+  constructor(props: Props) {
+    super(props);
 
-        // Bind event handler so it is only bound once for every instance.
-        this._onSubmit = this._onSubmit.bind(this);
+    // Bind event handler so it is only bound once for every instance.
+    this._onSubmit = this._onSubmit.bind(this);
+  }
+
+  _onSubmit: () => boolean;
+
+  /**
+   * Callback invoked when stopping of live streaming is confirmed.
+   *
+   * @private
+   * @returns {boolean} True to close the modal.
+   */
+  _onSubmit() {
+    sendAnalytics(createLiveStreamingDialogEvent('stop', 'confirm.button'));
+
+    const { _session } = this.props;
+
+    if (_session) {
+      this.props._conference.stopRecording(_session.id);
     }
 
-    _onSubmit: () => boolean;
-
-    /**
-     * Callback invoked when stopping of live streaming is confirmed.
-     *
-     * @private
-     * @returns {boolean} True to close the modal.
-     */
-    _onSubmit() {
-        sendAnalytics(createLiveStreamingDialogEvent('stop', 'confirm.button'));
-
-        const { _session } = this.props;
-
-        if (_session) {
-            this.props._conference.stopRecording(_session.id);
-        }
-
-        return true;
-    }
+    return true;
+  }
 }
 
 /**
@@ -84,8 +80,8 @@ export default class AbstractStopLiveStreamDialog extends Component<Props> {
  * }}
  */
 export function _mapStateToProps(state: Object) {
-    return {
-        _conference: state['features/base/conference'].conference,
-        _session: getActiveSession(state, JitsiRecordingConstants.mode.STREAM)
-    };
+  return {
+    _conference: state['features/base/conference'].conference,
+    _session: getActiveSession(state, JitsiRecordingConstants.mode.STREAM),
+  };
 }

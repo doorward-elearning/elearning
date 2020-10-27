@@ -12,9 +12,9 @@ import AbstractKickButton from '../AbstractKickButton';
  * @returns {Props}
  */
 function _mapStateToProps(state) {
-    return {
-        visible: isLocalParticipantModerator(state)
-    };
+  return {
+    visible: isLocalParticipantModerator(state),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(AbstractKickButton));

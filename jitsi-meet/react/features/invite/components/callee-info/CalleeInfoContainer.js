@@ -10,14 +10,13 @@ import CalleeInfo from './CalleeInfo';
  * The type of the React {@code Component} props of {@code CalleeInfoContainer}.
  */
 type Props = {
-
-    /**
-     * The indicator which determines whether {@code CalleeInfo} is to be
-     * rendered.
-     *
-     * @private
-     */
-    _calleeInfoVisible: boolean
+  /**
+   * The indicator which determines whether {@code CalleeInfo} is to be
+   * rendered.
+   *
+   * @private
+   */
+  _calleeInfoVisible: boolean,
 };
 
 /**
@@ -27,15 +26,15 @@ type Props = {
  * @extends Component
  */
 class CalleeInfoContainer extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return this.props._calleeInfoVisible ? <CalleeInfo /> : null;
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return this.props._calleeInfoVisible ? <CalleeInfo /> : null;
+  }
 }
 
 /**
@@ -50,16 +49,16 @@ class CalleeInfoContainer extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state: Object): Object {
-    return {
-        /**
-         * The indicator which determines whether {@code CalleeInfo} is to be
-         * rendered.
-         *
-         * @private
-         * @type {boolean}
-         */
-        _calleeInfoVisible: state['features/invite'].calleeInfoVisible
-    };
+  return {
+    /**
+     * The indicator which determines whether {@code CalleeInfo} is to be
+     * rendered.
+     *
+     * @private
+     * @type {boolean}
+     */
+    _calleeInfoVisible: state['features/invite'].calleeInfoVisible,
+  };
 }
 
 export default connect(_mapStateToProps)(CalleeInfoContainer);

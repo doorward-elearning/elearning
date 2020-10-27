@@ -17,17 +17,12 @@ declare var interfaceConfig: Object;
  * @param {string} dialOutAuthUrl - The endpoint to use for checking validity.
  * @returns {Promise} - The promise created by the request.
  */
-export function checkDialNumber(
-        dialNumber: string,
-        dialOutAuthUrl: string
-): Promise<Object> {
-    const fullUrl = `${dialOutAuthUrl}?phone=${dialNumber}`;
+export function checkDialNumber(dialNumber: string, dialOutAuthUrl: string): Promise<Object> {
+  const fullUrl = `${dialOutAuthUrl}?phone=${dialNumber}`;
 
-    return new Promise((resolve, reject) => {
-        $.getJSON(fullUrl)
-            .then(resolve)
-            .catch(reject);
-    });
+  return new Promise((resolve, reject) => {
+    $.getJSON(fullUrl).then(resolve).catch(reject);
+  });
 }
 
 /**
@@ -41,15 +36,10 @@ export function checkDialNumber(
  * @param {string} mucURL - In which MUC the conference exists.
  * @returns {Promise} - The promise created by the request.
  */
-export function getDialInConferenceID(
-        baseUrl: string,
-        roomName: string,
-        mucURL: string
-): Promise<Object> {
+export function getDialInConferenceID(baseUrl: string, roomName: string, mucURL: string): Promise<Object> {
+  const conferenceIDURL = `${baseUrl}?conference=${roomName}@${mucURL}`;
 
-    const conferenceIDURL = `${baseUrl}?conference=${roomName}@${mucURL}`;
-
-    return doGetJSON(conferenceIDURL, true);
+  return doGetJSON(conferenceIDURL, true);
 }
 
 /**
@@ -64,15 +54,10 @@ export function getDialInConferenceID(
  * tollFree, formattedNumber or an object with countries as keys and arrays of
  * phone number strings, as the second one should not be used and is deprecated.
  */
-export function getDialInNumbers(
-        url: string,
-        roomName: string,
-        mucURL: string
-): Promise<*> {
+export function getDialInNumbers(url: string, roomName: string, mucURL: string): Promise<*> {
+  const fullUrl = `${url}?conference=${roomName}@${mucURL}`;
 
-    const fullUrl = `${url}?conference=${roomName}@${mucURL}`;
-
-    return doGetJSON(fullUrl, true);
+  return doGetJSON(fullUrl, true);
 }
 
 /**
@@ -83,44 +68,43 @@ export function getDialInNumbers(
  * @returns {string} A string with only numbers.
  */
 export function getDigitsOnly(text: string = ''): string {
-    return text.replace(/\D/g, '');
+  return text.replace(/\D/g, '');
 }
 
 /**
  * Type of the options to use when sending a search query.
  */
 export type GetInviteResultsOptions = {
+  /**
+   * The endpoint to use for checking phone number validity.
+   */
+  dialOutAuthUrl: string,
 
-    /**
-     * The endpoint to use for checking phone number validity.
-     */
-    dialOutAuthUrl: string,
+  /**
+   * Whether or not to search for people.
+   */
+  addPeopleEnabled: boolean,
 
-    /**
-     * Whether or not to search for people.
-     */
-    addPeopleEnabled: boolean,
+  /**
+   * Whether or not to check phone numbers.
+   */
+  dialOutEnabled: boolean,
 
-    /**
-     * Whether or not to check phone numbers.
-     */
-    dialOutEnabled: boolean,
+  /**
+   * Array with the query types that will be executed -
+   * "conferenceRooms" | "user" | "room".
+   */
+  peopleSearchQueryTypes: Array<string>,
 
-    /**
-     * Array with the query types that will be executed -
-     * "conferenceRooms" | "user" | "room".
-     */
-    peopleSearchQueryTypes: Array<string>,
+  /**
+   * The url to query for people.
+   */
+  peopleSearchUrl: string,
 
-    /**
-     * The url to query for people.
-     */
-    peopleSearchUrl: string,
-
-    /**
-     * The jwt token to pass to the search service.
-     */
-    jwt: string
+  /**
+   * The jwt token to pass to the search service.
+   */
+  jwt: string,
 };
 
 /**
@@ -131,105 +115,85 @@ export type GetInviteResultsOptions = {
  * @param {GetInviteResultsOptions} options - Options to use when searching.
  * @returns {Promise<*>}
  */
-export function getInviteResultsForQuery(
-        query: string,
-        options: GetInviteResultsOptions
-): Promise<*> {
+export function getInviteResultsForQuery(query: string, options: GetInviteResultsOptions): Promise<*> {
+  const text = query.trim();
 
-    const text = query.trim();
+  const { dialOutAuthUrl, addPeopleEnabled, dialOutEnabled, peopleSearchQueryTypes, peopleSearchUrl, jwt } = options;
 
-    const {
-        dialOutAuthUrl,
-        addPeopleEnabled,
-        dialOutEnabled,
-        peopleSearchQueryTypes,
-        peopleSearchUrl,
-        jwt
-    } = options;
+  let peopleSearchPromise;
 
-    let peopleSearchPromise;
+  if (addPeopleEnabled && text) {
+    peopleSearchPromise = searchDirectory(peopleSearchUrl, jwt, text, peopleSearchQueryTypes);
+  } else {
+    peopleSearchPromise = Promise.resolve([]);
+  }
 
-    if (addPeopleEnabled && text) {
-        peopleSearchPromise = searchDirectory(
-            peopleSearchUrl,
-            jwt,
-            text,
-            peopleSearchQueryTypes);
-    } else {
-        peopleSearchPromise = Promise.resolve([]);
+  let hasCountryCode = text.startsWith('+');
+  let phoneNumberPromise;
+
+  // Phone numbers are handled a specially to enable both cases of restricting
+  // numbers to telephone number-y numbers and accepting any arbitrary string,
+  // which may be valid for SIP (jigasi) calls. If the dialOutAuthUrl is
+  // defined, then it is assumed the call is to a telephone number and
+  // some validation of the number is completed, with the + sign used as a way
+  // for the UI to detect and enforce the usage of a country code. If the
+  // dialOutAuthUrl is not defined, accept anything because this is assumed
+  // to be the SIP (jigasi) case.
+  if (dialOutEnabled && dialOutAuthUrl && isMaybeAPhoneNumber(text)) {
+    let numberToVerify = text;
+
+    // When the number to verify does not start with a +, we assume no
+    // proper country code has been entered. In such a case, prepend 1 for
+    // the country code. The service currently takes care of prepending the
+    // +.
+    if (!hasCountryCode && !text.startsWith('1')) {
+      numberToVerify = `1${numberToVerify}`;
     }
 
+    // The validation service works properly when the query is digits only
+    // so ensure only digits get sent.
+    numberToVerify = getDigitsOnly(numberToVerify);
 
-    let hasCountryCode = text.startsWith('+');
-    let phoneNumberPromise;
+    phoneNumberPromise = checkDialNumber(numberToVerify, dialOutAuthUrl);
+  } else if (dialOutEnabled && !dialOutAuthUrl) {
+    // fake having a country code to hide the country code reminder
+    hasCountryCode = true;
 
-    // Phone numbers are handled a specially to enable both cases of restricting
-    // numbers to telephone number-y numbers and accepting any arbitrary string,
-    // which may be valid for SIP (jigasi) calls. If the dialOutAuthUrl is
-    // defined, then it is assumed the call is to a telephone number and
-    // some validation of the number is completed, with the + sign used as a way
-    // for the UI to detect and enforce the usage of a country code. If the
-    // dialOutAuthUrl is not defined, accept anything because this is assumed
-    // to be the SIP (jigasi) case.
-    if (dialOutEnabled && dialOutAuthUrl && isMaybeAPhoneNumber(text)) {
-        let numberToVerify = text;
+    // With no auth url, let's say the text is a valid number
+    phoneNumberPromise = Promise.resolve({
+      allow: true,
+      country: '',
+      phone: text,
+    });
+  } else {
+    phoneNumberPromise = Promise.resolve({});
+  }
 
-        // When the number to verify does not start with a +, we assume no
-        // proper country code has been entered. In such a case, prepend 1 for
-        // the country code. The service currently takes care of prepending the
-        // +.
-        if (!hasCountryCode && !text.startsWith('1')) {
-            numberToVerify = `1${numberToVerify}`;
-        }
+  return Promise.all([peopleSearchPromise, phoneNumberPromise]).then(([peopleResults, phoneResults]) => {
+    const results = [...peopleResults];
 
-        // The validation service works properly when the query is digits only
-        // so ensure only digits get sent.
-        numberToVerify = getDigitsOnly(numberToVerify);
+    /**
+     * This check for phone results is for the day the call to searching
+     * people might return phone results as well. When that day comes
+     * this check will make it so the server checks are honored and the
+     * local appending of the number is not done. The local appending of
+     * the phone number can then be cleaned up when convenient.
+     */
+    const hasPhoneResult = peopleResults.find((result) => result.type === 'phone');
 
-        phoneNumberPromise = checkDialNumber(numberToVerify, dialOutAuthUrl);
-    } else if (dialOutEnabled && !dialOutAuthUrl) {
-        // fake having a country code to hide the country code reminder
-        hasCountryCode = true;
-
-        // With no auth url, let's say the text is a valid number
-        phoneNumberPromise = Promise.resolve({
-            allow: true,
-            country: '',
-            phone: text
-        });
-    } else {
-        phoneNumberPromise = Promise.resolve({});
+    if (!hasPhoneResult && typeof phoneResults.allow === 'boolean') {
+      results.push({
+        allowed: phoneResults.allow,
+        country: phoneResults.country,
+        type: 'phone',
+        number: phoneResults.phone,
+        originalEntry: text,
+        showCountryCodeReminder: !hasCountryCode,
+      });
     }
 
-    return Promise.all([ peopleSearchPromise, phoneNumberPromise ])
-        .then(([ peopleResults, phoneResults ]) => {
-            const results = [
-                ...peopleResults
-            ];
-
-            /**
-             * This check for phone results is for the day the call to searching
-             * people might return phone results as well. When that day comes
-             * this check will make it so the server checks are honored and the
-             * local appending of the number is not done. The local appending of
-             * the phone number can then be cleaned up when convenient.
-             */
-            const hasPhoneResult
-                = peopleResults.find(result => result.type === 'phone');
-
-            if (!hasPhoneResult && typeof phoneResults.allow === 'boolean') {
-                results.push({
-                    allowed: phoneResults.allow,
-                    country: phoneResults.country,
-                    type: 'phone',
-                    number: phoneResults.phone,
-                    originalEntry: text,
-                    showCountryCodeReminder: !hasCountryCode
-                });
-            }
-
-            return results;
-        });
+    return results;
+  });
 }
 
 /**
@@ -238,50 +202,47 @@ export function getInviteResultsForQuery(
  * @returns {string}
  */
 export function getInviteText({
-    _conferenceName,
-    _localParticipantName,
-    _inviteUrl,
-    _locationUrl,
-    _dialIn,
-    _liveStreamViewURL,
-    phoneNumber,
-    t
+  _conferenceName,
+  _localParticipantName,
+  _inviteUrl,
+  _locationUrl,
+  _dialIn,
+  _liveStreamViewURL,
+  phoneNumber,
+  t,
 }: Object) {
-    const inviteURL = _decodeRoomURI(_inviteUrl);
+  const inviteURL = _decodeRoomURI(_inviteUrl);
 
-    let invite = _localParticipantName
-        ? t('info.inviteURLFirstPartPersonal', { name: _localParticipantName })
-        : t('info.inviteURLFirstPartGeneral');
+  let invite = _localParticipantName
+    ? t('info.inviteURLFirstPartPersonal', { name: _localParticipantName })
+    : t('info.inviteURLFirstPartGeneral');
 
-    invite += t('info.inviteURLSecondPart', {
-        url: inviteURL
+  invite += t('info.inviteURLSecondPart', {
+    url: inviteURL,
+  });
+
+  if (_liveStreamViewURL) {
+    const liveStream = t('info.inviteLiveStream', {
+      url: _liveStreamViewURL,
     });
 
-    if (_liveStreamViewURL) {
-        const liveStream = t('info.inviteLiveStream', {
-            url: _liveStreamViewURL
-        });
+    invite = `${invite}\n${liveStream}`;
+  }
 
-        invite = `${invite}\n${liveStream}`;
-    }
+  if (shouldDisplayDialIn(_dialIn)) {
+    const dial = t('info.invitePhone', {
+      number: phoneNumber,
+      conferenceID: _dialIn.conferenceID,
+    });
+    const moreNumbers = t('info.invitePhoneAlternatives', {
+      url: getDialInfoPageURL(_conferenceName, _locationUrl),
+      silentUrl: `${inviteURL}#config.startSilent=true`,
+    });
 
-    if (shouldDisplayDialIn(_dialIn)) {
-        const dial = t('info.invitePhone', {
-            number: phoneNumber,
-            conferenceID: _dialIn.conferenceID
-        });
-        const moreNumbers = t('info.invitePhoneAlternatives', {
-            url: getDialInfoPageURL(
-                _conferenceName,
-                _locationUrl
-            ),
-            silentUrl: `${inviteURL}#config.startSilent=true`
-        });
+    invite = `${invite}\n${dial}\n${moreNumbers}`;
+  }
 
-        invite = `${invite}\n${dial}\n${moreNumbers}`;
-    }
-
-    return invite;
+  return invite;
 }
 
 /**
@@ -294,16 +255,16 @@ export function getInviteText({
  * of invites for that type.
  */
 export function getInviteTypeCounts(inviteItems: Array<Object> = []) {
-    const inviteTypeCounts = {};
+  const inviteTypeCounts = {};
 
-    inviteItems.forEach(({ type }) => {
-        if (!inviteTypeCounts[type]) {
-            inviteTypeCounts[type] = 0;
-        }
-        inviteTypeCounts[type]++;
-    });
+  inviteItems.forEach(({ type }) => {
+    if (!inviteTypeCounts[type]) {
+      inviteTypeCounts[type] = 0;
+    }
+    inviteTypeCounts[type]++;
+  });
 
-    return inviteTypeCounts;
+  return inviteTypeCounts;
 }
 
 /**
@@ -318,29 +279,25 @@ export function getInviteTypeCounts(inviteItems: Array<Object> = []) {
  * @returns {Promise} - The promise created by the request.
  */
 export function invitePeopleAndChatRooms( // eslint-disable-line max-params
-        inviteServiceUrl: string,
-        inviteUrl: string,
-        jwt: string,
-        inviteItems: Array<Object>
+  inviteServiceUrl: string,
+  inviteUrl: string,
+  jwt: string,
+  inviteItems: Array<Object>
 ): Promise<void> {
+  if (!inviteItems || inviteItems.length === 0) {
+    return Promise.resolve();
+  }
 
-    if (!inviteItems || inviteItems.length === 0) {
-        return Promise.resolve();
-    }
-
-    return fetch(
-           `${inviteServiceUrl}?token=${jwt}`,
-           {
-               body: JSON.stringify({
-                   'invited': inviteItems,
-                   'url': inviteUrl
-               }),
-               method: 'POST',
-               headers: {
-                   'Content-Type': 'application/json'
-               }
-           }
-    );
+  return fetch(`${inviteServiceUrl}?token=${jwt}`, {
+    body: JSON.stringify({
+      invited: inviteItems,
+      url: inviteUrl,
+    }),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
 }
 
 /**
@@ -350,9 +307,9 @@ export function invitePeopleAndChatRooms( // eslint-disable-line max-params
  * @returns {boolean} Indication of whether adding people is currently enabled.
  */
 export function isAddPeopleEnabled(state: Object): boolean {
-    const { peopleSearchUrl } = state['features/base/config'];
+  const { peopleSearchUrl } = state['features/base/config'];
 
-    return !isGuest(state) && Boolean(peopleSearchUrl);
+  return !isGuest(state) && Boolean(peopleSearchUrl);
 }
 
 /**
@@ -362,10 +319,9 @@ export function isAddPeopleEnabled(state: Object): boolean {
  * @returns {boolean} Indication of whether dial out is currently enabled.
  */
 export function isDialOutEnabled(state: Object): boolean {
-    const { conference } = state['features/base/conference'];
+  const { conference } = state['features/base/conference'];
 
-    return isLocalParticipantModerator(state)
-        && conference && conference.isSIPCallingSupported();
+  return isLocalParticipantModerator(state) && conference && conference.isSIPCallingSupported();
 }
 
 /**
@@ -375,7 +331,7 @@ export function isDialOutEnabled(state: Object): boolean {
  * @returns {boolean}
  */
 export function isGuest(state: Object): boolean {
-    return state['features/base/jwt'].isGuest;
+  return state['features/base/jwt'].isGuest;
 }
 
 /**
@@ -387,13 +343,13 @@ export function isGuest(state: Object): boolean {
  * @returns {boolean} True if the string looks like it could be a phone number.
  */
 function isMaybeAPhoneNumber(text: string): boolean {
-    if (!isPhoneNumberRegex().test(text)) {
-        return false;
-    }
+  if (!isPhoneNumberRegex().test(text)) {
+    return false;
+  }
 
-    const digits = getDigitsOnly(text);
+  const digits = getDigitsOnly(text);
 
-    return Boolean(digits.length);
+  return Boolean(digits.length);
 }
 
 /**
@@ -402,13 +358,13 @@ function isMaybeAPhoneNumber(text: string): boolean {
  * @returns {RegExp}
  */
 function isPhoneNumberRegex(): RegExp {
-    let regexString = '^[0-9+()-\\s]*$';
+  let regexString = '^[0-9+()-\\s]*$';
 
-    if (typeof interfaceConfig !== 'undefined') {
-        regexString = interfaceConfig.PHONE_NUMBER_REGEX || regexString;
-    }
+  if (typeof interfaceConfig !== 'undefined') {
+    regexString = interfaceConfig.PHONE_NUMBER_REGEX || regexString;
+  }
 
-    return new RegExp(regexString);
+  return new RegExp(regexString);
 }
 
 /**
@@ -422,33 +378,29 @@ function isPhoneNumberRegex(): RegExp {
  * @returns {Promise} - The promise created by the request.
  */
 export function searchDirectory( // eslint-disable-line max-params
-        serviceUrl: string,
-        jwt: string,
-        text: string,
-        queryTypes: Array<string> = [ 'conferenceRooms', 'user', 'room' ]
+  serviceUrl: string,
+  jwt: string,
+  text: string,
+  queryTypes: Array<string> = ['conferenceRooms', 'user', 'room']
 ): Promise<Array<Object>> {
+  const query = encodeURIComponent(text);
+  const queryTypesString = encodeURIComponent(JSON.stringify(queryTypes));
 
-    const query = encodeURIComponent(text);
-    const queryTypesString = encodeURIComponent(JSON.stringify(queryTypes));
+  return fetch(`${serviceUrl}?query=${query}&queryTypes=${queryTypesString}&jwt=${jwt}`)
+    .then((response) => {
+      const jsonify = response.json();
 
-    return fetch(`${serviceUrl}?query=${query}&queryTypes=${
-        queryTypesString}&jwt=${jwt}`)
-            .then(response => {
-                const jsonify = response.json();
+      if (response.ok) {
+        return jsonify;
+      }
 
-                if (response.ok) {
-                    return jsonify;
-                }
+      return jsonify.then((result) => Promise.reject(result));
+    })
+    .catch((error) => {
+      logger.error('Error searching directory:', error);
 
-                return jsonify
-                    .then(result => Promise.reject(result));
-            })
-            .catch(error => {
-                logger.error(
-                    'Error searching directory:', error);
-
-                return Promise.reject(error);
-            });
+      return Promise.reject(error);
+    });
 }
 
 /**
@@ -461,86 +413,76 @@ export function searchDirectory( // eslint-disable-line max-params
  * @returns {Promise<string>} A {@code Promise} resolving with a
  * descriptive text that can be used to invite participants to a meeting.
  */
-export function getShareInfoText(
-        state: Object, inviteUrl: string, useHtml: ?boolean): Promise<string> {
-    let roomUrl = _decodeRoomURI(inviteUrl);
-    const includeDialInfo = state['features/base/config'] !== undefined;
+export function getShareInfoText(state: Object, inviteUrl: string, useHtml: ?boolean): Promise<string> {
+  let roomUrl = _decodeRoomURI(inviteUrl);
+  const includeDialInfo = state['features/base/config'] !== undefined;
 
-    if (useHtml) {
-        roomUrl = `<a href="${roomUrl}">${roomUrl}</a>`;
-    }
+  if (useHtml) {
+    roomUrl = `<a href="${roomUrl}">${roomUrl}</a>`;
+  }
 
-    let infoText = i18next.t('share.mainText', { roomUrl });
+  let infoText = i18next.t('share.mainText', { roomUrl });
 
-    if (includeDialInfo) {
-        const { room } = parseURIString(inviteUrl);
-        let numbersPromise;
+  if (includeDialInfo) {
+    const { room } = parseURIString(inviteUrl);
+    let numbersPromise;
 
-        if (state['features/invite'].numbers
-            && state['features/invite'].conferenceID) {
-            numbersPromise = Promise.resolve(state['features/invite']);
-        } else {
-            // we are requesting numbers and conferenceId directly
-            // not using updateDialInNumbers, because custom room
-            // is specified and we do not want to store the data
-            // in the state
-            const { dialInConfCodeUrl, dialInNumbersUrl, hosts }
-                = state['features/base/config'];
-            const mucURL = hosts && hosts.muc;
+    if (state['features/invite'].numbers && state['features/invite'].conferenceID) {
+      numbersPromise = Promise.resolve(state['features/invite']);
+    } else {
+      // we are requesting numbers and conferenceId directly
+      // not using updateDialInNumbers, because custom room
+      // is specified and we do not want to store the data
+      // in the state
+      const { dialInConfCodeUrl, dialInNumbersUrl, hosts } = state['features/base/config'];
+      const mucURL = hosts && hosts.muc;
 
-            if (!dialInConfCodeUrl || !dialInNumbersUrl || !mucURL) {
-                // URLs for fetching dial in numbers not defined
-                return Promise.resolve(infoText);
-            }
+      if (!dialInConfCodeUrl || !dialInNumbersUrl || !mucURL) {
+        // URLs for fetching dial in numbers not defined
+        return Promise.resolve(infoText);
+      }
 
-            numbersPromise = Promise.all([
-                getDialInNumbers(dialInNumbersUrl, room, mucURL),
-                getDialInConferenceID(dialInConfCodeUrl, room, mucURL)
-            ]).then(([ numbers, {
-                conference, id, message } ]) => {
-
-                if (!conference || !id) {
-                    return Promise.reject(message);
-                }
-
-                return {
-                    numbers,
-                    conferenceID: id
-                };
-            });
+      numbersPromise = Promise.all([
+        getDialInNumbers(dialInNumbersUrl, room, mucURL),
+        getDialInConferenceID(dialInConfCodeUrl, room, mucURL),
+      ]).then(([numbers, { conference, id, message }]) => {
+        if (!conference || !id) {
+          return Promise.reject(message);
         }
 
-        return numbersPromise.then(
-            ({ conferenceID, numbers }) => {
-                const phoneNumber = _getDefaultPhoneNumber(numbers) || '';
-
-                return `${
-                    i18next.t('info.dialInNumber')} ${
-                    phoneNumber} ${
-                    i18next.t('info.dialInConferenceID')} ${
-                    conferenceID}#\n\n`;
-            })
-            .catch(error =>
-                logger.error('Error fetching numbers or conferenceID', error))
-            .then(defaultDialInNumber => {
-                let dialInfoPageUrl = getDialInfoPageURL(
-                    room,
-                    state['features/base/connection'].locationURL);
-
-                if (useHtml) {
-                    dialInfoPageUrl
-                        = `<a href="${dialInfoPageUrl}">${dialInfoPageUrl}</a>`;
-                }
-
-                infoText += i18next.t('share.dialInfoText', {
-                    defaultDialInNumber,
-                    dialInfoPageUrl });
-
-                return infoText;
-            });
+        return {
+          numbers,
+          conferenceID: id,
+        };
+      });
     }
 
-    return Promise.resolve(infoText);
+    return numbersPromise
+      .then(({ conferenceID, numbers }) => {
+        const phoneNumber = _getDefaultPhoneNumber(numbers) || '';
+
+        return `${i18next.t('info.dialInNumber')} ${phoneNumber} ${i18next.t(
+          'info.dialInConferenceID'
+        )} ${conferenceID}#\n\n`;
+      })
+      .catch((error) => logger.error('Error fetching numbers or conferenceID', error))
+      .then((defaultDialInNumber) => {
+        let dialInfoPageUrl = getDialInfoPageURL(room, state['features/base/connection'].locationURL);
+
+        if (useHtml) {
+          dialInfoPageUrl = `<a href="${dialInfoPageUrl}">${dialInfoPageUrl}</a>`;
+        }
+
+        infoText += i18next.t('share.dialInfoText', {
+          defaultDialInNumber,
+          dialInfoPageUrl,
+        });
+
+        return infoText;
+      });
+  }
+
+  return Promise.resolve(infoText);
 }
 
 /**
@@ -551,23 +493,21 @@ export function getShareInfoText(
  * from state ['features/base/connection'].locationURL.
  * @returns {string}
  */
-export function getDialInfoPageURL(
-        conferenceName: string,
-        locationURL: Object) {
-    const origin = locationURL.origin;
-    const pathParts = locationURL.pathname.split('/');
+export function getDialInfoPageURL(conferenceName: string, locationURL: Object) {
+  const origin = locationURL.origin;
+  const pathParts = locationURL.pathname.split('/');
 
-    pathParts.length = pathParts.length - 1;
+  pathParts.length = pathParts.length - 1;
 
-    const newPath = pathParts.reduce((accumulator, currentValue) => {
-        if (currentValue) {
-            return `${accumulator}/${currentValue}`;
-        }
+  const newPath = pathParts.reduce((accumulator, currentValue) => {
+    if (currentValue) {
+      return `${accumulator}/${currentValue}`;
+    }
 
-        return accumulator;
-    }, '');
+    return accumulator;
+  }, '');
 
-    return `${origin}${newPath}/static/dialInInfo.html?room=${_decodeRoomURI(conferenceName)}`;
+  return `${origin}${newPath}/static/dialInInfo.html?room=${_decodeRoomURI(conferenceName)}`;
 }
 
 /**
@@ -576,14 +516,13 @@ export function getDialInfoPageURL(
  * @param {string} uri - The conference URI string.
  * @returns {string}
  */
-export function getDialInfoPageURLForURIString(
-        uri: ?string) {
-    if (!uri) {
-        return undefined;
-    }
-    const { protocol, host, contextRoot, room } = parseURIString(uri);
+export function getDialInfoPageURLForURIString(uri: ?string) {
+  if (!uri) {
+    return undefined;
+  }
+  const { protocol, host, contextRoot, room } = parseURIString(uri);
 
-    return `${protocol}//${host}${contextRoot}static/dialInInfo.html?room=${room}`;
+  return `${protocol}//${host}${contextRoot}static/dialInInfo.html?room=${room}`;
 }
 
 /**
@@ -593,14 +532,10 @@ export function getDialInfoPageURLForURIString(
  * @returns {boolean}
  */
 export function shouldDisplayDialIn(dialIn: Object) {
-    const { conferenceID, numbers, numbersEnabled } = dialIn;
-    const phoneNumber = _getDefaultPhoneNumber(numbers);
+  const { conferenceID, numbers, numbersEnabled } = dialIn;
+  const phoneNumber = _getDefaultPhoneNumber(numbers);
 
-    return Boolean(
-            conferenceID
-            && numbers
-            && numbersEnabled
-            && phoneNumber);
+  return Boolean(conferenceID && numbers && numbersEnabled && phoneNumber);
 }
 
 /**
@@ -611,37 +546,34 @@ export function shouldDisplayDialIn(dialIn: Object) {
  * @private
  * @returns {string|null}
  */
-export function _getDefaultPhoneNumber(
-        dialInNumbers: ?Object): ?string {
-
-    if (!dialInNumbers) {
-        return null;
-    }
-
-    if (Array.isArray(dialInNumbers)) {
-        // new syntax follows
-        // find the default country inside dialInNumbers, US one
-        // or return the first one
-        const defaultNumber = dialInNumbers.find(number => number.default);
-
-        if (defaultNumber) {
-            return defaultNumber.formattedNumber;
-        }
-
-        return dialInNumbers.length > 0
-            ? dialInNumbers[0].formattedNumber : null;
-    }
-
-    const { numbers } = dialInNumbers;
-
-    if (numbers && Object.keys(numbers).length > 0) {
-        // deprecated and will be removed
-        const firstRegion = Object.keys(numbers)[0];
-
-        return firstRegion && numbers[firstRegion][0];
-    }
-
+export function _getDefaultPhoneNumber(dialInNumbers: ?Object): ?string {
+  if (!dialInNumbers) {
     return null;
+  }
+
+  if (Array.isArray(dialInNumbers)) {
+    // new syntax follows
+    // find the default country inside dialInNumbers, US one
+    // or return the first one
+    const defaultNumber = dialInNumbers.find((number) => number.default);
+
+    if (defaultNumber) {
+      return defaultNumber.formattedNumber;
+    }
+
+    return dialInNumbers.length > 0 ? dialInNumbers[0].formattedNumber : null;
+  }
+
+  const { numbers } = dialInNumbers;
+
+  if (numbers && Object.keys(numbers).length > 0) {
+    // deprecated and will be removed
+    const firstRegion = Object.keys(numbers)[0];
+
+    return firstRegion && numbers[firstRegion][0];
+  }
+
+  return null;
 }
 
 /**
@@ -653,21 +585,21 @@ export function _getDefaultPhoneNumber(
  * @private
  */
 export function _decodeRoomURI(url: string) {
-    let roomUrl = url;
+  let roomUrl = url;
 
-    // we want to decode urls when the do not contain space, ' ', which url encoded is %20
-    if (roomUrl && !roomUrl.includes('%20')) {
-        roomUrl = decodeURI(roomUrl);
-    }
+  // we want to decode urls when the do not contain space, ' ', which url encoded is %20
+  if (roomUrl && !roomUrl.includes('%20')) {
+    roomUrl = decodeURI(roomUrl);
+  }
 
-    // Handles a special case where the room name has % encoded, the decoded will have
-    // % followed by a char (non-digit) which is not a valid URL and room name ... so we do not
-    // want to show this decoded
-    if (roomUrl.match(/.*%[^\d].*/)) {
-        return url;
-    }
+  // Handles a special case where the room name has % encoded, the decoded will have
+  // % followed by a char (non-digit) which is not a valid URL and room name ... so we do not
+  // want to show this decoded
+  if (roomUrl.match(/.*%[^\d].*/)) {
+    return url;
+  }
 
-    return roomUrl;
+  return roomUrl;
 }
 
 /**
@@ -678,7 +610,7 @@ export function _decodeRoomURI(url: string) {
  * @returns {string}
  */
 export function getConferenceId(stateful: Object | Function) {
-    return toState(stateful)['features/invite'].conferenceID;
+  return toState(stateful)['features/invite'].conferenceID;
 }
 
 /**
@@ -689,7 +621,7 @@ export function getConferenceId(stateful: Object | Function) {
  * @returns {string | null}
  */
 export function getDefaultDialInNumber(stateful: Object | Function) {
-    return _getDefaultPhoneNumber(toState(stateful)['features/invite'].numbers);
+  return _getDefaultPhoneNumber(toState(stateful)['features/invite'].numbers);
 }
 
 /**
@@ -701,18 +633,18 @@ export function getDefaultDialInNumber(stateful: Object | Function) {
  * @returns {Object}
  */
 export async function executeDialOutRequest(url: string, body: Object, reqId: string) {
-    const res = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'request-id': reqId
-        },
-        body: JSON.stringify(body)
-    });
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'request-id': reqId,
+    },
+    body: JSON.stringify(body),
+  });
 
-    const json = await res.json();
+  const json = await res.json();
 
-    return res.ok ? json : Promise.reject(json);
+  return res.ok ? json : Promise.reject(json);
 }
 
 /**
@@ -723,15 +655,15 @@ export async function executeDialOutRequest(url: string, body: Object, reqId: st
  * @returns {Object}
  */
 export async function executeDialOutStatusRequest(url: string, reqId: string) {
-    const res = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-            'request-id': reqId
-        }
-    });
+  const res = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'request-id': reqId,
+    },
+  });
 
-    const json = await res.json();
+  const json = await res.json();
 
-    return res.ok ? json : Promise.reject(json);
+  return res.ok ? json : Promise.reject(json);
 }

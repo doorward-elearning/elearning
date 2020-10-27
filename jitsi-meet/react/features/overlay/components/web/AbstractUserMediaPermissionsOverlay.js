@@ -7,36 +7,34 @@ import { Component } from 'react';
  * {@link AbstractUserMediaPermissionsOverlay}.
  */
 type Props = {
+  /**
+   * The browser which is used currently. The text is different for every
+   * browser.
+   */
+  browser: string,
 
-    /**
-     * The browser which is used currently. The text is different for every
-     * browser.
-     */
-    browser: string,
-
-    /**
-     * The function to translate human-readable text.
-     */
-    t: Function
+  /**
+   * The function to translate human-readable text.
+   */
+  t: Function,
 };
 
 /**
  * Implements a React {@link Component} for overlay with guidance how to proceed
  * with gUM prompt.
  */
-export default class AbstractUserMediaPermissionsOverlay
-    extends Component<Props> {
-    /**
-     * Determines whether this overlay needs to be rendered (according to a
-     * specific redux state). Called by {@link OverlayContainer}.
-     *
-     * @param {Object} state - The redux state.
-     * @returns {boolean} - If this overlay needs to be rendered, {@code true};
-     * {@code false}, otherwise.
-     */
-    static needsRender(state: Object) {
-        return state['features/overlay'].isMediaPermissionPromptVisible;
-    }
+export default class AbstractUserMediaPermissionsOverlay extends Component<Props> {
+  /**
+   * Determines whether this overlay needs to be rendered (according to a
+   * specific redux state). Called by {@link OverlayContainer}.
+   *
+   * @param {Object} state - The redux state.
+   * @returns {boolean} - If this overlay needs to be rendered, {@code true};
+   * {@code false}, otherwise.
+   */
+  static needsRender(state: Object) {
+    return state['features/overlay'].isMediaPermissionPromptVisible;
+  }
 }
 
 /**
@@ -49,9 +47,9 @@ export default class AbstractUserMediaPermissionsOverlay
  * }}
  */
 export function abstractMapStateToProps(state: Object) {
-    const { browser } = state['features/overlay'];
+  const { browser } = state['features/overlay'];
 
-    return {
-        browser
-    };
+  return {
+    browser,
+  };
 }

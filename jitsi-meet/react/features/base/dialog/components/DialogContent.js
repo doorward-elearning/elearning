@@ -8,13 +8,12 @@ import { type StyleType } from '../../styles';
 import styles from './styles';
 
 type Props = {
+  /**
+   * Children of the component.
+   */
+  children: string | React$Node,
 
-    /**
-     * Children of the component.
-     */
-    children: string | React$Node,
-
-    style: ?StyleType
+  style: ?StyleType,
 };
 
 /**
@@ -22,22 +21,16 @@ type Props = {
  * dialogs.
  */
 export default class DialogContent extends Component<Props> {
-    /**
-     * Implements {@code Component#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { children, style } = this.props;
+  /**
+   * Implements {@code Component#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { children, style } = this.props;
 
-        const childrenComponent = typeof children === 'string'
-            ? <Text style = { style }>{ children }</Text>
-            : children;
+    const childrenComponent = typeof children === 'string' ? <Text style={style}>{children}</Text> : children;
 
-        return (
-            <Container style = { styles.dialogContainer }>
-                { childrenComponent }
-            </Container>
-        );
-    }
+    return <Container style={styles.dialogContainer}>{childrenComponent}</Container>;
+  }
 }

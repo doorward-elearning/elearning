@@ -15,18 +15,18 @@ import { toState } from '../redux';
  * currently mounted {@code App}.
  */
 export function getFeatureFlag(stateful: Function | Object, flag: string, defaultValue: any) {
-    const state = toState(stateful)['features/base/flags'];
+  const state = toState(stateful)['features/base/flags'];
 
-    if (state) {
-        const value = state[flag];
+  if (state) {
+    const value = state[flag];
 
-        if (typeof value !== 'undefined') {
-            return value;
-        }
+    if (typeof value !== 'undefined') {
+      return value;
     }
+  }
 
-    // Maybe the value hasn't made it to the redux store yet, check the app props.
-    const flags = getAppProp(stateful, 'flags') || {};
+  // Maybe the value hasn't made it to the redux store yet, check the app props.
+  const flags = getAppProp(stateful, 'flags') || {};
 
-    return flags[flag] || defaultValue;
+  return flags[flag] || defaultValue;
 }

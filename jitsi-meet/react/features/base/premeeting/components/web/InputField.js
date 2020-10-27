@@ -5,185 +5,184 @@ import React, { PureComponent } from 'react';
 import { getFieldValue } from '../../../react';
 
 type Props = {
+  /**
+   * If the input should be focused on display.
+   */
+  autoFocus?: boolean,
 
-    /**
-     * If the input should be focused on display.
-     */
-    autoFocus?: boolean,
+  /**
+   * Class name to be appended to the default class list.
+   */
+  className?: string,
 
-    /**
-     * Class name to be appended to the default class list.
-     */
-    className?: string,
+  /**
+   * TestId of the button. Can be used to locate element when testing UI.
+   */
+  testId?: string,
 
-    /**
-     * TestId of the button. Can be used to locate element when testing UI.
-     */
-    testId?: string,
+  /**
+   * Callback for the onChange event of the field.
+   */
+  onChange: Function,
 
-    /**
-     * Callback for the onChange event of the field.
-     */
-    onChange: Function,
+  /**
+   * Callback to be used when the user hits Enter in the field.
+   */
+  onSubmit?: Function,
 
-    /**
-     * Callback to be used when the user hits Enter in the field.
-     */
-    onSubmit?: Function,
+  /**
+   * Placeholder text for the field.
+   */
+  placeHolder: string,
 
-    /**
-     * Placeholder text for the field.
-     */
-    placeHolder: string,
+  /**
+   * The field type (e.g. text, password...etc).
+   */
+  type: string,
 
-    /**
-     * The field type (e.g. text, password...etc).
-     */
-    type: string,
-
-    /**
-     * Externally provided value.
-     */
-    value?: string
+  /**
+   * Externally provided value.
+   */
+  value?: string,
 };
 
 type State = {
+  /**
+   * True if the field is focused, false otherwise.
+   */
+  focused: boolean,
 
-    /**
-     * True if the field is focused, false otherwise.
-     */
-    focused: boolean,
-
-    /**
-     * The current value of the field.
-     */
-    value: string
-}
+  /**
+   * The current value of the field.
+   */
+  value: string,
+};
 
 /**
  * Implements a pre-styled input field to be used on pre-meeting screens.
  */
 export default class InputField extends PureComponent<Props, State> {
-    static defaultProps: {
-        className: '',
-        type: 'text'
+  static defaultProps: {
+    className: '',
+    type: 'text',
+  };
+
+  /**
+   * Instantiates a new component.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
+
+    this.state = {
+      focused: false,
+      value: props.value || '',
     };
 
-    /**
-     * Instantiates a new component.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+    this._onBlur = this._onBlur.bind(this);
+    this._onChange = this._onChange.bind(this);
+    this._onFocus = this._onFocus.bind(this);
+    this._onKeyDown = this._onKeyDown.bind(this);
+  }
 
-        this.state = {
-            focused: false,
-            value: props.value || ''
-        };
+  /**
+   * Implements {@code PureComponent.getDerivedStateFromProps}.
+   *
+   * @inheritdoc
+   */
+  static getDerivedStateFromProps(props: Props, state: State) {
+    const { value } = props;
 
-        this._onBlur = this._onBlur.bind(this);
-        this._onChange = this._onChange.bind(this);
-        this._onFocus = this._onFocus.bind(this);
-        this._onKeyDown = this._onKeyDown.bind(this);
+    if (state.value !== value) {
+      return {
+        ...state,
+        value,
+      };
     }
 
-    /**
-     * Implements {@code PureComponent.getDerivedStateFromProps}.
-     *
-     * @inheritdoc
-     */
-    static getDerivedStateFromProps(props: Props, state: State) {
-        const { value } = props;
+    return null;
+  }
 
-        if (state.value !== value) {
-            return {
-                ...state,
-                value
-            };
-        }
+  /**
+   * Implements {@code PureComponent#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return (
+      <input
+        autoFocus={this.props.autoFocus}
+        className={`field ${this.state.focused ? 'focused' : ''} ${this.props.className || ''}`}
+        data-testid={this.props.testId ? this.props.testId : undefined}
+        onBlur={this._onBlur}
+        onChange={this._onChange}
+        onFocus={this._onFocus}
+        onKeyDown={this._onKeyDown}
+        placeholder={this.props.placeHolder}
+        type={this.props.type}
+        value={this.state.value}
+      />
+    );
+  }
 
-        return null;
-    }
+  _onBlur: () => void;
 
-    /**
-     * Implements {@code PureComponent#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <input
-                autoFocus = { this.props.autoFocus }
-                className = { `field ${this.state.focused ? 'focused' : ''} ${this.props.className || ''}` }
-                data-testid = { this.props.testId ? this.props.testId : undefined }
-                onBlur = { this._onBlur }
-                onChange = { this._onChange }
-                onFocus = { this._onFocus }
-                onKeyDown = { this._onKeyDown }
-                placeholder = { this.props.placeHolder }
-                type = { this.props.type }
-                value = { this.state.value } />
-        );
-    }
+  /**
+   * Callback for the onBlur event of the field.
+   *
+   * @returns {void}
+   */
+  _onBlur() {
+    this.setState({
+      focused: false,
+    });
+  }
 
-    _onBlur: () => void;
+  _onChange: (Object) => void;
 
-    /**
-     * Callback for the onBlur event of the field.
-     *
-     * @returns {void}
-     */
-    _onBlur() {
-        this.setState({
-            focused: false
-        });
-    }
+  /**
+   * Callback for the onChange event of the field.
+   *
+   * @param {Object} evt - The static event.
+   * @returns {void}
+   */
+  _onChange(evt) {
+    const value = getFieldValue(evt);
 
-    _onChange: Object => void;
+    this.setState({
+      value,
+    });
 
-    /**
-     * Callback for the onChange event of the field.
-     *
-     * @param {Object} evt - The static event.
-     * @returns {void}
-     */
-    _onChange(evt) {
-        const value = getFieldValue(evt);
+    const { onChange } = this.props;
 
-        this.setState({
-            value
-        });
+    onChange && onChange(value);
+  }
 
-        const { onChange } = this.props;
+  _onFocus: () => void;
 
-        onChange && onChange(value);
-    }
+  /**
+   * Callback for the onFocus event of the field.
+   *
+   * @returns {void}
+   */
+  _onFocus() {
+    this.setState({
+      focused: true,
+    });
+  }
 
-    _onFocus: () => void;
+  _onKeyDown: (Object) => void;
 
-    /**
-     * Callback for the onFocus event of the field.
-     *
-     * @returns {void}
-     */
-    _onFocus() {
-        this.setState({
-            focused: true
-        });
-    }
+  /**
+   * Joins the conference on 'Enter'.
+   *
+   * @param {Event} event - Key down event object.
+   * @returns {void}
+   */
+  _onKeyDown(event) {
+    const { onSubmit } = this.props;
 
-    _onKeyDown: Object => void;
-
-    /**
-     * Joins the conference on 'Enter'.
-     *
-     * @param {Event} event - Key down event object.
-     * @returns {void}
-     */
-    _onKeyDown(event) {
-        const { onSubmit } = this.props;
-
-        onSubmit && event.key === 'Enter' && onSubmit();
-    }
+    onSubmit && event.key === 'Enter' && onSubmit();
+  }
 }

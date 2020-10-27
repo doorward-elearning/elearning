@@ -3,19 +3,15 @@
 import type { Dispatch } from 'redux';
 
 import {
-    SET_AUDIO_MUTED,
-    SET_AUDIO_AVAILABLE,
-    SET_CAMERA_FACING_MODE,
-    SET_VIDEO_AVAILABLE,
-    SET_VIDEO_MUTED,
-    STORE_VIDEO_TRANSFORM,
-    TOGGLE_CAMERA_FACING_MODE
+  SET_AUDIO_MUTED,
+  SET_AUDIO_AVAILABLE,
+  SET_CAMERA_FACING_MODE,
+  SET_VIDEO_AVAILABLE,
+  SET_VIDEO_MUTED,
+  STORE_VIDEO_TRANSFORM,
+  TOGGLE_CAMERA_FACING_MODE,
 } from './actionTypes';
-import {
-    CAMERA_FACING_MODE,
-    MEDIA_TYPE,
-    VIDEO_MUTISM_AUTHORITY
-} from './constants';
+import { CAMERA_FACING_MODE, MEDIA_TYPE, VIDEO_MUTISM_AUTHORITY } from './constants';
 
 /**
  * Action to adjust the availability of the local audio.
@@ -28,10 +24,10 @@ import {
  * }}
  */
 export function setAudioAvailable(available: boolean) {
-    return {
-        type: SET_AUDIO_AVAILABLE,
-        available
-    };
+  return {
+    type: SET_AUDIO_AVAILABLE,
+    available,
+  };
 }
 
 /**
@@ -48,11 +44,11 @@ export function setAudioAvailable(available: boolean) {
  * }}
  */
 export function setAudioMuted(muted: boolean, ensureTrack: boolean = false) {
-    return {
-        type: SET_AUDIO_MUTED,
-        ensureTrack,
-        muted
-    };
+  return {
+    type: SET_AUDIO_MUTED,
+    ensureTrack,
+    muted,
+  };
 }
 
 /**
@@ -65,10 +61,10 @@ export function setAudioMuted(muted: boolean, ensureTrack: boolean = false) {
  * }}
  */
 export function setCameraFacingMode(cameraFacingMode: CAMERA_FACING_MODE) {
-    return {
-        type: SET_CAMERA_FACING_MODE,
-        cameraFacingMode
-    };
+  return {
+    type: SET_CAMERA_FACING_MODE,
+    cameraFacingMode,
+  };
 }
 
 /**
@@ -82,10 +78,10 @@ export function setCameraFacingMode(cameraFacingMode: CAMERA_FACING_MODE) {
  * }}
  */
 export function setVideoAvailable(available: boolean) {
-    return {
-        type: SET_VIDEO_AVAILABLE,
-        available
-    };
+  return {
+    type: SET_VIDEO_AVAILABLE,
+    available,
+  };
 }
 
 /**
@@ -101,24 +97,25 @@ export function setVideoAvailable(available: boolean) {
  * @returns {Function}
  */
 export function setVideoMuted(
-        muted: boolean,
-        mediaType: MEDIA_TYPE = MEDIA_TYPE.VIDEO,
-        authority: number = VIDEO_MUTISM_AUTHORITY.USER,
-        ensureTrack: boolean = false) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const oldValue = getState()['features/base/media'].video.muted;
+  muted: boolean,
+  mediaType: MEDIA_TYPE = MEDIA_TYPE.VIDEO,
+  authority: number = VIDEO_MUTISM_AUTHORITY.USER,
+  ensureTrack: boolean = false
+) {
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const oldValue = getState()['features/base/media'].video.muted;
 
-        // eslint-disable-next-line no-bitwise
-        const newValue = muted ? oldValue | authority : oldValue & ~authority;
+    // eslint-disable-next-line no-bitwise
+    const newValue = muted ? oldValue | authority : oldValue & ~authority;
 
-        return dispatch({
-            type: SET_VIDEO_MUTED,
-            authority,
-            mediaType,
-            ensureTrack,
-            muted: newValue
-        });
-    };
+    return dispatch({
+      type: SET_VIDEO_MUTED,
+      authority,
+      mediaType,
+      ensureTrack,
+      muted: newValue,
+    });
+  };
 }
 
 /**
@@ -134,11 +131,11 @@ export function setVideoMuted(
  * }}
  */
 export function storeVideoTransform(streamId: string, transform: Object) {
-    return {
-        type: STORE_VIDEO_TRANSFORM,
-        streamId,
-        transform
-    };
+  return {
+    type: STORE_VIDEO_TRANSFORM,
+    streamId,
+    transform,
+  };
 }
 
 /**
@@ -153,7 +150,7 @@ export function storeVideoTransform(streamId: string, transform: Object) {
  * }}
  */
 export function toggleCameraFacingMode() {
-    return {
-        type: TOGGLE_CAMERA_FACING_MODE
-    };
+  return {
+    type: TOGGLE_CAMERA_FACING_MODE,
+  };
 }

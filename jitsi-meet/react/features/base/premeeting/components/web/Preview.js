@@ -9,26 +9,25 @@ import { getLocalVideoTrack } from '../../../tracks';
 import PreviewAvatar from './Avatar';
 
 export type Props = {
+  /**
+   * The name of the user that is about to join.
+   */
+  name: string,
 
-    /**
-     * The name of the user that is about to join.
-     */
-    name: string,
+  /**
+   * Indicates whether the avatar should be shown when video is off
+   */
+  showAvatar: boolean,
 
-    /**
-     * Indicates whether the avatar should be shown when video is off
-     */
-    showAvatar: boolean,
+  /**
+   * Flag signaling the visibility of camera preview.
+   */
+  videoMuted: boolean,
 
-    /**
-     * Flag signaling the visibility of camera preview.
-     */
-    videoMuted: boolean,
-
-    /**
-     * The JitsiLocalTrack to display.
-     */
-    videoTrack: ?Object,
+  /**
+   * The JitsiLocalTrack to display.
+   */
+  videoTrack: ?Object,
 };
 
 /**
@@ -38,33 +37,29 @@ export type Props = {
  * @returns {ReactElement}
  */
 function Preview(props: Props) {
-    const { name, showAvatar, videoMuted, videoTrack } = props;
+  const { name, showAvatar, videoMuted, videoTrack } = props;
 
-    if (!videoMuted && videoTrack) {
-        return (
-            <div id = 'preview'>
-                <Video
-                    className = 'flipVideoX'
-                    videoTrack = {{ jitsiTrack: videoTrack }} />
-            </div>
-        );
-    }
+  if (!videoMuted && videoTrack) {
+    return (
+      <div id="preview">
+        <Video className="flipVideoX" videoTrack={{ jitsiTrack: videoTrack }} />
+      </div>
+    );
+  }
 
-    if (showAvatar) {
-        return (
-            <div
-                className = 'no-video'
-                id = 'preview'>
-                <PreviewAvatar name = { name } />
-            </div>
-        );
-    }
+  if (showAvatar) {
+    return (
+      <div className="no-video" id="preview">
+        <PreviewAvatar name={name} />
+      </div>
+    );
+  }
 
-    return null;
+  return null;
 }
 
 Preview.defaultProps = {
-    showAvatar: true
+  showAvatar: true,
 };
 
 /**
@@ -75,10 +70,10 @@ Preview.defaultProps = {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps) {
-    return {
-        videoMuted: ownProps.videoTrack ? ownProps.videoMuted : state['features/base/media'].video.muted,
-        videoTrack: ownProps.videoTrack || (getLocalVideoTrack(state['features/base/tracks']) || {}).jitsiTrack
-    };
+  return {
+    videoMuted: ownProps.videoTrack ? ownProps.videoMuted : state['features/base/media'].video.muted,
+    videoTrack: ownProps.videoTrack || (getLocalVideoTrack(state['features/base/tracks']) || {}).jitsiTrack,
+  };
 }
 
 export default connect(_mapStateToProps)(Preview);

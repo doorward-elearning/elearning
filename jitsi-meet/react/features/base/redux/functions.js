@@ -17,13 +17,14 @@ import { connect as reduxConnect } from 'react-redux';
  * specified values.
  */
 export function assign(target: Object, source: Object) {
-    let t = target;
+  let t = target;
 
-    for (const property in source) { // eslint-disable-line guard-for-in
-        t = _set(t, property, source[property], t === target);
-    }
+  for (const property in source) {
+    // eslint-disable-line guard-for-in
+    t = _set(t, property, source[property], t === target);
+  }
 
-    return t;
+  return t;
 }
 
 /**
@@ -34,9 +35,8 @@ export function assign(target: Object, source: Object) {
  * @param {Function?} mapDispatchToProps - Redux mapDispatchToProps function.
  * @returns {Connector}
  */
-export function connect(
-        mapStateToProps?: Function, mapDispatchToProps?: Function) {
-    return reduxConnect<*, *, *, *, *, *>(mapStateToProps, mapDispatchToProps);
+export function connect(mapStateToProps?: Function, mapDispatchToProps?: Function) {
+  return reduxConnect<*, *, *, *, *, *>(mapStateToProps, mapDispatchToProps);
 }
 
 /**
@@ -49,7 +49,7 @@ export function connect(
  * comparison); false, otherwise.
  */
 export function equals(a: any, b: any) {
-    return _.isEqual(a, b);
+  return _.isEqual(a, b);
 }
 
 /**
@@ -69,7 +69,7 @@ export function equals(a: any, b: any) {
  * {@code property} to the specified {@code value}.
  */
 export function set(state: Object, property: string, value: any) {
-    return _set(state, property, value, /* copyOnWrite */ true);
+  return _set(state, property, value, /* copyOnWrite */ true);
 }
 
 /* eslint-disable max-params */
@@ -93,34 +93,29 @@ export function set(state: Object, property: string, value: any) {
  * {@code state} by setting the specified {@code property} to the specified
  * {@code value}.
  */
-function _set(
-        state: Object,
-        property: string,
-        value: any,
-        copyOnWrite: boolean) {
-    // Delete state properties that are to be set to undefined. (It is a matter
-    // of personal preference, mostly.)
-    if (typeof value === 'undefined'
-            && Object.prototype.hasOwnProperty.call(state, property)) {
-        const newState = copyOnWrite ? { ...state } : state;
+function _set(state: Object, property: string, value: any, copyOnWrite: boolean) {
+  // Delete state properties that are to be set to undefined. (It is a matter
+  // of personal preference, mostly.)
+  if (typeof value === 'undefined' && Object.prototype.hasOwnProperty.call(state, property)) {
+    const newState = copyOnWrite ? { ...state } : state;
 
-        if (delete newState[property]) {
-            return newState;
-        }
+    if (delete newState[property]) {
+      return newState;
+    }
+  }
+
+  if (state[property] !== value) {
+    if (copyOnWrite) {
+      return {
+        ...state,
+        [property]: value,
+      };
     }
 
-    if (state[property] !== value) {
-        if (copyOnWrite) {
-            return {
-                ...state,
-                [property]: value
-            };
-        }
+    state[property] = value;
+  }
 
-        state[property] = value;
-    }
-
-    return state;
+  return state;
 }
 
 /* eslint-enable max-params */
@@ -136,17 +131,17 @@ function _set(
  * @returns {Object} The redux state.
  */
 export function toState(stateful: Function | Object) {
-    if (stateful) {
-        if (typeof stateful === 'function') {
-            return stateful();
-        }
-
-        const { getState } = stateful;
-
-        if (typeof getState === 'function') {
-            return getState();
-        }
+  if (stateful) {
+    if (typeof stateful === 'function') {
+      return stateful();
     }
 
-    return stateful;
+    const { getState } = stateful;
+
+    if (typeof getState === 'function') {
+      return getState();
+    }
+  }
+
+  return stateful;
 }

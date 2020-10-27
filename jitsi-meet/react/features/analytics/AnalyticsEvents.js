@@ -77,11 +77,11 @@ export const VIDEO_MUTE = 'video.mute';
  * sendAnalytics.
  */
 export function createApiEvent(action, attributes = {}) {
-    return {
-        action,
-        attributes,
-        source: 'jitsi-meet-api'
-    };
+  return {
+    action,
+    attributes,
+    source: 'jitsi-meet-api',
+  };
 }
 
 /**
@@ -92,9 +92,9 @@ export function createApiEvent(action, attributes = {}) {
  * sendAnalytics.
  */
 export function createAudioOnlyChangedEvent(enabled) {
-    return {
-        action: `audio.only.${enabled ? 'enabled' : 'disabled'}`
-    };
+  return {
+    action: `audio.only.${enabled ? 'enabled' : 'disabled'}`,
+  };
 }
 
 /**
@@ -106,11 +106,11 @@ export function createAudioOnlyChangedEvent(enabled) {
  * sendAnalytics.
  */
 export function createConnectionEvent(action, attributes = {}) {
-    return {
-        action,
-        actionSubject: 'connection',
-        attributes
-    };
+  return {
+    action,
+    actionSubject: 'connection',
+    attributes,
+  };
 }
 
 /**
@@ -123,13 +123,13 @@ export function createConnectionEvent(action, attributes = {}) {
  * sendAnalytics.
  */
 export function createCalendarClickedEvent(eventName, attributes = {}) {
-    return {
-        action: 'clicked',
-        actionSubject: eventName,
-        attributes,
-        source: 'calendar',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: eventName,
+    attributes,
+    source: 'calendar',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -141,13 +141,13 @@ export function createCalendarClickedEvent(eventName, attributes = {}) {
  * sendAnalytics.
  */
 export function createCalendarSelectedEvent(attributes = {}) {
-    return {
-        action: 'selected',
-        actionSubject: 'calendar.selected',
-        attributes,
-        source: 'calendar',
-        type: TYPE_UI
-    };
+  return {
+    action: 'selected',
+    actionSubject: 'calendar.selected',
+    attributes,
+    source: 'calendar',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -158,11 +158,11 @@ export function createCalendarSelectedEvent(attributes = {}) {
  * sendAnalytics.
  */
 export function createCalendarConnectedEvent(attributes = {}) {
-    return {
-        action: 'calendar.connected',
-        actionSubject: 'calendar.connected',
-        attributes
-    };
+  return {
+    action: 'calendar.connected',
+    actionSubject: 'calendar.connected',
+    attributes,
+  };
 }
 
 /**
@@ -175,13 +175,13 @@ export function createCalendarConnectedEvent(attributes = {}) {
  * sendAnalytics.
  */
 export function createRecentClickedEvent(eventName, attributes = {}) {
-    return {
-        action: 'clicked',
-        actionSubject: eventName,
-        attributes,
-        source: 'recent.list',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: eventName,
+    attributes,
+    source: 'recent.list',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -193,12 +193,12 @@ export function createRecentClickedEvent(eventName, attributes = {}) {
  * sendAnalytics.
  */
 export function createChromeExtensionBannerEvent(installPressed, attributes = {}) {
-    return {
-        action: installPressed ? 'install' : 'cancel',
-        attributes,
-        source: 'chrome.extension.banner',
-        type: TYPE_UI
-    };
+  return {
+    action: installPressed ? 'install' : 'cancel',
+    attributes,
+    source: 'chrome.extension.banner',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -210,13 +210,13 @@ export function createChromeExtensionBannerEvent(installPressed, attributes = {}
  * sendAnalytics.
  */
 export function createRecentSelectedEvent(attributes = {}) {
-    return {
-        action: 'selected',
-        actionSubject: 'recent.list.selected',
-        attributes,
-        source: 'recent.list',
-        type: TYPE_UI
-    };
+  return {
+    action: 'selected',
+    actionSubject: 'recent.list.selected',
+    attributes,
+    source: 'recent.list',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -228,14 +228,13 @@ export function createRecentSelectedEvent(attributes = {}) {
  * @returns {Object} The event in a format suitable for sending via
  * sendAnalytics.
  */
-export function createDeepLinkingPageEvent(
-        action, actionSubject, attributes = {}) {
-    return {
-        action,
-        actionSubject,
-        source: 'deepLinkingPage',
-        attributes
-    };
+export function createDeepLinkingPageEvent(action, actionSubject, attributes = {}) {
+  return {
+    action,
+    actionSubject,
+    source: 'deepLinkingPage',
+    attributes,
+  };
 }
 
 /**
@@ -248,13 +247,13 @@ export function createDeepLinkingPageEvent(
  * sendAnalytics.
  */
 export function createDeviceChangedEvent(mediaType, deviceType) {
-    return {
-        action: 'device.changed',
-        attributes: {
-            'device_type': deviceType,
-            'media_type': mediaType
-        }
-    };
+  return {
+    action: 'device.changed',
+    attributes: {
+      device_type: deviceType,
+      media_type: mediaType,
+    },
+  };
 }
 
 /**
@@ -265,10 +264,10 @@ export function createDeviceChangedEvent(mediaType, deviceType) {
  * sendAnalytics.
  */
 export function createE2EEEvent(action) {
-    return {
-        action,
-        actionSubject: 'e2ee'
-    };
+  return {
+    action,
+    actionSubject: 'e2ee',
+  };
 }
 
 /**
@@ -278,9 +277,9 @@ export function createE2EEEvent(action) {
  * sendAnalytics.
  */
 export function createFeedbackOpenEvent() {
-    return {
-        action: 'feedback.opened'
-    };
+  return {
+    action: 'feedback.opened',
+  };
 }
 
 /**
@@ -292,14 +291,13 @@ export function createFeedbackOpenEvent() {
  * @returns {Object} The event in a format suitable for sending via
  * sendAnalytics.
  */
-export function createInviteDialogEvent(
-        action, actionSubject, attributes = {}) {
-    return {
-        action,
-        actionSubject,
-        attributes,
-        source: 'inviteDialog'
-    };
+export function createInviteDialogEvent(action, actionSubject, attributes = {}) {
+  return {
+    action,
+    actionSubject,
+    attributes,
+    source: 'inviteDialog',
+  };
 }
 
 /**
@@ -311,16 +309,16 @@ export function createInviteDialogEvent(
  * @returns {Object}
  */
 export function createNetworkInfoEvent({ isOnline, networkType, details }) {
-    const attributes = { isOnline };
+  const attributes = { isOnline };
 
-    // Do no include optional stuff or Amplitude handler will log warnings.
-    networkType && (attributes.networkType = networkType);
-    details && (attributes.details = details);
+  // Do no include optional stuff or Amplitude handler will log warnings.
+  networkType && (attributes.networkType = networkType);
+  details && (attributes.details = details);
 
-    return {
-        action: 'network.info',
-        attributes
-    };
+  return {
+    action: 'network.info',
+    attributes,
+  };
 }
 
 /**
@@ -330,9 +328,9 @@ export function createNetworkInfoEvent({ isOnline, networkType, details }) {
  * sendAnalytics.
  */
 export function createOfferAnswerFailedEvent() {
-    return {
-        action: 'offer.answer.failure'
-    };
+  return {
+    action: 'offer.answer.failure',
+  };
 }
 
 /**
@@ -346,14 +344,14 @@ export function createOfferAnswerFailedEvent() {
  * sendAnalytics.
  */
 export function createPageReloadScheduledEvent(reason, timeout, details) {
-    return {
-        action: 'page.reload.scheduled',
-        attributes: {
-            reason,
-            timeout,
-            ...details
-        }
-    };
+  return {
+    action: 'page.reload.scheduled',
+    attributes: {
+      reason,
+      timeout,
+      ...details,
+    },
+  };
 }
 
 /**
@@ -366,14 +364,14 @@ export function createPageReloadScheduledEvent(reason, timeout, details) {
  * sendAnalytics.
  */
 export function createPinnedEvent(action, participantId, attributes) {
-    return {
-        type: TYPE_TRACK,
-        action,
-        actionSubject: 'participant',
-        objectType: 'participant',
-        objectId: participantId,
-        attributes
-    };
+  return {
+    type: TYPE_TRACK,
+    action,
+    actionSubject: 'participant',
+    objectType: 'participant',
+    objectId: participantId,
+    attributes,
+  };
 }
 
 /**
@@ -386,13 +384,13 @@ export function createPinnedEvent(action, participantId, attributes) {
  * sendAnalytics.
  */
 export function createProfilePanelButtonEvent(buttonName, attributes = {}) {
-    return {
-        action: 'clicked',
-        actionSubject: buttonName,
-        attributes,
-        source: 'profile.panel',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: buttonName,
+    attributes,
+    source: 'profile.panel',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -406,15 +404,14 @@ export function createProfilePanelButtonEvent(buttonName, attributes = {}) {
  * @returns {Object} The event in a format suitable for sending via
  * sendAnalytics.
  */
-export function createRecordingDialogEvent(
-        dialogName, buttonName, attributes = {}) {
-    return {
-        action: 'clicked',
-        actionSubject: buttonName,
-        attributes,
-        source: `${dialogName}.recording.dialog`,
-        type: TYPE_UI
-    };
+export function createRecordingDialogEvent(dialogName, buttonName, attributes = {}) {
+  return {
+    action: 'clicked',
+    actionSubject: buttonName,
+    attributes,
+    source: `${dialogName}.recording.dialog`,
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -428,12 +425,12 @@ export function createRecordingDialogEvent(
  * sendAnalytics.
  */
 export function createLiveStreamingDialogEvent(dialogName, buttonName) {
-    return {
-        action: 'clicked',
-        actionSubject: buttonName,
-        source: `${dialogName}.liveStreaming.dialog`,
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: buttonName,
+    source: `${dialogName}.liveStreaming.dialog`,
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -444,18 +441,18 @@ export function createLiveStreamingDialogEvent(dialogName, buttonName) {
  * sendAnalytics.
  */
 export function createLocalTracksDurationEvent(duration) {
-    const { audio, video, conference } = duration;
-    const { camera, desktop } = video;
+  const { audio, video, conference } = duration;
+  const { camera, desktop } = video;
 
-    return {
-        action: 'local.tracks.durations',
-        attributes: {
-            audio: audio.value,
-            camera: camera.value,
-            conference: conference.value,
-            desktop: desktop.value
-        }
-    };
+  return {
+    action: 'local.tracks.durations',
+    attributes: {
+      audio: audio.value,
+      camera: camera.value,
+      conference: conference.value,
+      desktop: desktop.value,
+    },
+  };
 }
 
 /**
@@ -470,13 +467,13 @@ export function createLocalTracksDurationEvent(duration) {
  * sendAnalytics.
  */
 export function createRecordingEvent(action, type, value) {
-    return {
-        action,
-        actionSubject: `recording.${type}`,
-        attributes: {
-            value
-        }
-    };
+  return {
+    action,
+    actionSubject: `recording.${type}`,
+    attributes: {
+      value,
+    },
+  };
 }
 
 /**
@@ -488,14 +485,14 @@ export function createRecordingEvent(action, type, value) {
  * @returns {Object} The event in a format suitable for sending via sendAnalytics.
  */
 export function createRejoinedEvent({ url, lastConferenceDuration, timeSinceLeft }) {
-    return {
-        action: 'rejoined',
-        attributes: {
-            lastConferenceDuration,
-            timeSinceLeft,
-            url
-        }
-    };
+  return {
+    action: 'rejoined',
+    attributes: {
+      lastConferenceDuration,
+      timeSinceLeft,
+      url,
+    },
+  };
 }
 
 /**
@@ -508,15 +505,15 @@ export function createRejoinedEvent({ url, lastConferenceDuration, timeSinceLeft
  * sendAnalytics.
  */
 export function createRemoteMuteConfirmedEvent(participantId) {
-    return {
-        action: 'clicked',
-        actionSubject: 'remote.mute.dialog.confirm.button',
-        attributes: {
-            'participant_id': participantId
-        },
-        source: 'remote.mute.dialog',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: 'remote.mute.dialog.confirm.button',
+    attributes: {
+      participant_id: participantId,
+    },
+    source: 'remote.mute.dialog',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -529,13 +526,13 @@ export function createRemoteMuteConfirmedEvent(participantId) {
  * sendAnalytics.
  */
 export function createRemoteVideoMenuButtonEvent(buttonName, attributes) {
-    return {
-        action: 'clicked',
-        actionSubject: buttonName,
-        attributes,
-        source: 'remote.video.menu',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: buttonName,
+    attributes,
+    source: 'remote.video.menu',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -547,15 +544,15 @@ export function createRemoteVideoMenuButtonEvent(buttonName, attributes) {
  * sendAnalytics.
  */
 export function createRTCStatsTraceCloseEvent(closeEvent) {
-    const event = {
-        action: 'trace.onclose',
-        source: 'rtcstats'
-    };
+  const event = {
+    action: 'trace.onclose',
+    source: 'rtcstats',
+  };
 
-    event.code = closeEvent.code;
-    event.reason = closeEvent.reason;
+  event.code = closeEvent.code;
+  event.reason = closeEvent.reason;
 
-    return event;
+  return event;
 }
 
 /**
@@ -567,10 +564,10 @@ export function createRTCStatsTraceCloseEvent(closeEvent) {
  * sendAnalytics.
  */
 export function createVideoBlurEvent(action) {
-    return {
-        action,
-        actionSubject: 'video.blur'
-    };
+  return {
+    action,
+    actionSubject: 'video.blur',
+  };
 }
 
 /**
@@ -582,10 +579,10 @@ export function createVideoBlurEvent(action) {
  * sendAnalytics.
  */
 export function createScreenSharingEvent(action) {
-    return {
-        action,
-        actionSubject: 'screen.sharing'
-    };
+  return {
+    action,
+    actionSubject: 'screen.sharing',
+  };
 }
 
 /**
@@ -597,15 +594,15 @@ export function createScreenSharingEvent(action) {
  * sendAnalytics.
  */
 export function createSelectParticipantFailedEvent(error) {
-    const event = {
-        action: 'select.participant.failed'
-    };
+  const event = {
+    action: 'select.participant.failed',
+  };
 
-    if (error) {
-        event.error = error.toString();
-    }
+  if (error) {
+    event.error = error.toString();
+  }
 
-    return event;
+  return event;
 }
 
 /**
@@ -617,11 +614,11 @@ export function createSelectParticipantFailedEvent(error) {
  * sendAnalytics.
  */
 export function createSharedVideoEvent(action, attributes = {}) {
-    return {
-        action,
-        attributes,
-        actionSubject: 'shared.video'
-    };
+  return {
+    action,
+    attributes,
+    actionSubject: 'shared.video',
+  };
 }
 
 /**
@@ -639,18 +636,15 @@ export function createSharedVideoEvent(action, attributes = {}) {
  * @returns {Object} The event in a format suitable for sending via
  * sendAnalytics.
  */
-export function createShortcutEvent(
-        shortcut,
-        action = ACTION_SHORTCUT_TRIGGERED,
-        attributes = {}) {
-    return {
-        action,
-        actionSubject: 'keyboard.shortcut',
-        actionSubjectId: shortcut,
-        attributes,
-        source: 'keyboard.shortcut',
-        type: TYPE_UI
-    };
+export function createShortcutEvent(shortcut, action = ACTION_SHORTCUT_TRIGGERED, attributes = {}) {
+  return {
+    action,
+    actionSubject: 'keyboard.shortcut',
+    actionSubjectId: shortcut,
+    attributes,
+    source: 'keyboard.shortcut',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -661,12 +655,12 @@ export function createShortcutEvent(
  * sendAnalytics.
  */
 export function createStartAudioOnlyEvent(audioOnly) {
-    return {
-        action: 'start.audio.only',
-        attributes: {
-            enabled: audioOnly
-        }
-    };
+  return {
+    action: 'start.audio.only',
+    attributes: {
+      enabled: audioOnly,
+    },
+  };
 }
 
 /**
@@ -676,9 +670,9 @@ export function createStartAudioOnlyEvent(audioOnly) {
  * sendAnalytics.
  */
 export function createStartSilentEvent() {
-    return {
-        action: 'start.silent'
-    };
+  return {
+    action: 'start.silent',
+  };
 }
 
 /**
@@ -694,18 +688,15 @@ export function createStartSilentEvent() {
  * @returns {Object} The event in a format suitable for sending via
  * sendAnalytics.
  */
-export function createStartMutedConfigurationEvent(
-        source,
-        audioMute,
-        videoMute) {
-    return {
-        action: 'start.muted.configuration',
-        attributes: {
-            source,
-            'audio_mute': audioMute,
-            'video_mute': videoMute
-        }
-    };
+export function createStartMutedConfigurationEvent(source, audioMute, videoMute) {
+  return {
+    action: 'start.muted.configuration',
+    attributes: {
+      source,
+      audio_mute: audioMute,
+      video_mute: videoMute,
+    },
+  };
 }
 
 /**
@@ -719,13 +710,13 @@ export function createStartMutedConfigurationEvent(
  * sendAnalytics.
  */
 export function createSyncTrackStateEvent(mediaType, muted) {
-    return {
-        action: 'sync.track.state',
-        attributes: {
-            'media_type': mediaType,
-            muted
-        }
-    };
+  return {
+    action: 'sync.track.state',
+    attributes: {
+      media_type: mediaType,
+      muted,
+    },
+  };
 }
 
 /**
@@ -741,13 +732,13 @@ export function createSyncTrackStateEvent(mediaType, muted) {
  * sendAnalytics.
  */
 export function createToolbarEvent(buttonName, attributes = {}) {
-    return {
-        action: 'clicked',
-        actionSubject: buttonName,
-        attributes,
-        source: 'toolbar.button',
-        type: TYPE_UI
-    };
+  return {
+    action: 'clicked',
+    actionSubject: buttonName,
+    attributes,
+    source: 'toolbar.button',
+    type: TYPE_UI,
+  };
 }
 
 /**
@@ -762,14 +753,14 @@ export function createToolbarEvent(buttonName, attributes = {}) {
  * sendAnalytics.
  */
 export function createTrackMutedEvent(mediaType, reason, muted = true) {
-    return {
-        action: 'track.muted',
-        attributes: {
-            'media_type': mediaType,
-            muted,
-            reason
-        }
-    };
+  return {
+    action: 'track.muted',
+    attributes: {
+      media_type: mediaType,
+      muted,
+      reason,
+    },
+  };
 }
 
 /**
@@ -782,10 +773,10 @@ export function createTrackMutedEvent(mediaType, reason, muted = true) {
  * sendAnalytics.
  */
 export function createWelcomePageEvent(action, actionSubject, attributes = {}) {
-    return {
-        action,
-        actionSubject,
-        attributes,
-        source: 'welcomePage'
-    };
+  return {
+    action,
+    actionSubject,
+    attributes,
+    source: 'welcomePage',
+  };
 }

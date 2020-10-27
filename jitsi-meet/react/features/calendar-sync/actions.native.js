@@ -6,9 +6,7 @@ import { getDefaultURL } from '../app/functions';
 import { openDialog } from '../base/dialog';
 
 import { refreshCalendar } from './actions';
-import {
-    UpdateCalendarEventDialog
-} from './components';
+import { UpdateCalendarEventDialog } from './components';
 import { addLinkToCalendarEntry } from './functions.native';
 
 export * from './actions.any';
@@ -24,7 +22,7 @@ export * from './actions.any';
  * }}
  */
 export function openUpdateCalendarEventDialog(eventId: string) {
-    return openDialog(UpdateCalendarEventDialog, { eventId });
+  return openDialog(UpdateCalendarEventDialog, { eventId });
 }
 
 /**
@@ -35,13 +33,12 @@ export function openUpdateCalendarEventDialog(eventId: string) {
  * @returns {Function}
  */
 export function updateCalendarEvent(eventId: string) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const defaultUrl = getDefaultURL(getState);
-        const roomName = generateRoomWithoutSeparator();
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const defaultUrl = getDefaultURL(getState);
+    const roomName = generateRoomWithoutSeparator();
 
-        addLinkToCalendarEntry(getState(), eventId, `${defaultUrl}/${roomName}`)
-        .finally(() => {
-            dispatch(refreshCalendar(false, false));
-        });
-    };
+    addLinkToCalendarEntry(getState(), eventId, `${defaultUrl}/${roomName}`).finally(() => {
+      dispatch(refreshCalendar(false, false));
+    });
+  };
 }

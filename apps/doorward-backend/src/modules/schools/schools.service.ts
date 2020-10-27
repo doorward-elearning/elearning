@@ -9,7 +9,6 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import { MeetingsService } from '../meetings/meetings.service';
 import { ClassroomRepository } from '@doorward/backend/repositories/classroom.repository';
 import { MeetingStatus } from '@doorward/common/types/meeting';
-import om from '../../utils/om';
 import translate from '@doorward/common/lang/translate';
 
 @Injectable()
@@ -65,7 +64,7 @@ export class SchoolsService {
     this.emailService
       .send(
         new SchoolCreatedEmail({
-          subject: om`New {{school}} created`,
+          subject: translate.newSchoolCreated(),
           data: school,
           recipient: {
             fullName: 'Admin',

@@ -13,10 +13,10 @@ import { _SET_APP_STATE_LISTENER, APP_STATE_CHANGED } from './actionTypes';
  * }}
  */
 export function _setAppStateListener(listener: ?Function) {
-    return {
-        type: _SET_APP_STATE_LISTENER,
-        listener
-    };
+  return {
+    type: _SET_APP_STATE_LISTENER,
+    listener,
+  };
 }
 
 /**
@@ -32,8 +32,8 @@ export function _setAppStateListener(listener: ?Function) {
  * @see {@link https://facebook.github.io/react-native/docs/appstate.html}
  */
 export function appStateChanged(appState: string) {
-    return {
-        type: APP_STATE_CHANGED,
-        appState
-    };
+  return {
+    type: APP_STATE_CHANGED,
+    appState,
+  };
 }

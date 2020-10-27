@@ -14,66 +14,64 @@ import { toggleBlurEffect } from '../actions';
  * The type of the React {@code Component} props of {@link VideoBlurButton}.
  */
 type Props = AbstractButtonProps & {
+  /**
+   * True if the video background is blurred or false if it is not.
+   */
+  _isVideoBlurred: boolean,
 
-    /**
-     * True if the video background is blurred or false if it is not.
-     */
-    _isVideoBlurred: boolean,
-
-    /**
-     * The redux {@code dispatch} function.
-     */
-    dispatch: Function
-
+  /**
+   * The redux {@code dispatch} function.
+   */
+  dispatch: Function,
 };
 
 /**
  * An abstract implementation of a button that toggles the video blur effect.
  */
 class VideoBlurButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.videoblur';
-    icon = IconBlurBackground;
-    label = 'toolbar.startvideoblur';
-    tooltip = 'toolbar.startvideoblur';
-    toggledLabel = 'toolbar.stopvideoblur';
+  accessibilityLabel = 'toolbar.accessibilityLabel.videoblur';
+  icon = IconBlurBackground;
+  label = 'toolbar.startvideoblur';
+  tooltip = 'toolbar.startvideoblur';
+  toggledLabel = 'toolbar.stopvideoblur';
 
-    /**
-     * Helper function to be implemented by subclasses, which returns
-     * a React Element to display (a beta tag) at the end of the button.
-     *
-     * @override
-     * @protected
-     * @returns {ReactElement}
-     */
-    _getElementAfter() {
-        return <BetaTag />;
-    }
+  /**
+   * Helper function to be implemented by subclasses, which returns
+   * a React Element to display (a beta tag) at the end of the button.
+   *
+   * @override
+   * @protected
+   * @returns {ReactElement}
+   */
+  _getElementAfter() {
+    return <BetaTag />;
+  }
 
-    /**
-     * Handles clicking / pressing the button, and toggles the blur effect
-     * state accordingly.
-     *
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        const { _isVideoBlurred, dispatch } = this.props;
-        const value = !_isVideoBlurred;
+  /**
+   * Handles clicking / pressing the button, and toggles the blur effect
+   * state accordingly.
+   *
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    const { _isVideoBlurred, dispatch } = this.props;
+    const value = !_isVideoBlurred;
 
-        sendAnalytics(createVideoBlurEvent(value ? 'started' : 'stopped'));
-        dispatch(toggleBlurEffect(value));
-    }
+    sendAnalytics(createVideoBlurEvent(value ? 'started' : 'stopped'));
+    dispatch(toggleBlurEffect(value));
+  }
 
-    /**
-     * Returns {@code boolean} value indicating if the blur effect is
-     * enabled or not.
-     *
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._isVideoBlurred;
-    }
+  /**
+   * Returns {@code boolean} value indicating if the blur effect is
+   * enabled or not.
+   *
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._isVideoBlurred;
+  }
 }
 
 /**
@@ -87,9 +85,9 @@ class VideoBlurButton extends AbstractButton<Props, *> {
  * }}
  */
 function _mapStateToProps(state): Object {
-    return {
-        _isVideoBlurred: Boolean(state['features/blur'].blurEnabled)
-    };
+  return {
+    _isVideoBlurred: Boolean(state['features/blur'].blurEnabled),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(VideoBlurButton));

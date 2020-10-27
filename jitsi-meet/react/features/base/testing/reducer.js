@@ -10,20 +10,18 @@ import { SET_CONNECTION_STATE } from './actionTypes';
  * }}
  */
 const INITIAL_STATE = {
-    connectionState: ''
+  connectionState: '',
 };
 
-ReducerRegistry.register(
-    'features/testing',
-    (state = INITIAL_STATE, action) => {
-        switch (action.type) {
-        case SET_CONNECTION_STATE:
-            return _setConnectionState(state, action);
+ReducerRegistry.register('features/testing', (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case SET_CONNECTION_STATE:
+      return _setConnectionState(state, action);
 
-        default:
-            return state;
-        }
-    });
+    default:
+      return state;
+  }
+});
 
 /**
  * Reduces a specific Redux action SET_CONNECTION_STATE of the feature
@@ -36,5 +34,5 @@ ReducerRegistry.register(
  * reduction of the specified action.
  */
 function _setConnectionState(state, action) {
-    return assign(state, { connectionState: action.connectionState });
+  return assign(state, { connectionState: action.connectionState });
 }

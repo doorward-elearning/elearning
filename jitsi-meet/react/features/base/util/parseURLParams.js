@@ -13,49 +13,45 @@ import { reportError } from './helpers';
  * of {@code url.search}; otherwise, out of {@code url.hash}.
  * @returns {Object}
  */
-export function parseURLParams(
-        url: URL,
-        dontParse: boolean = false,
-        source: string = 'hash'): Object {
-    const paramStr = source === 'search' ? url.search : url.hash;
-    const params = {};
-    const paramParts = (paramStr && paramStr.substr(1).split('&')) || [];
+export function parseURLParams(url: URL, dontParse: boolean = false, source: string = 'hash'): Object {
+  const paramStr = source === 'search' ? url.search : url.hash;
+  const params = {};
+  const paramParts = (paramStr && paramStr.substr(1).split('&')) || [];
 
-    // Detect and ignore hash params for hash routers.
-    if (source === 'hash' && paramParts.length === 1) {
-        const firstParam = paramParts[0];
+  // Detect and ignore hash params for hash routers.
+  if (source === 'hash' && paramParts.length === 1) {
+    const firstParam = paramParts[0];
 
-        if (firstParam.startsWith('/') && firstParam.split('&').length === 1) {
-            return params;
-        }
+    if (firstParam.startsWith('/') && firstParam.split('&').length === 1) {
+      return params;
+    }
+  }
+
+  paramParts.forEach((part) => {
+    const param = part.split('=');
+    const key = param[0];
+
+    if (!key) {
+      return;
     }
 
-    paramParts.forEach(part => {
-        const param = part.split('=');
-        const key = param[0];
+    let value;
 
-        if (!key) {
-            return;
-        }
+    try {
+      value = param[1];
 
-        let value;
+      if (!dontParse) {
+        const decoded = decodeURIComponent(value).replace(/\\&/, '&');
 
-        try {
-            value = param[1];
+        value = decoded === 'undefined' ? undefined : JSON.parse(decoded);
+      }
+    } catch (e) {
+      reportError(e, `Failed to parse URL parameter value: ${String(value)}`);
 
-            if (!dontParse) {
-                const decoded = decodeURIComponent(value).replace(/\\&/, '&');
+      return;
+    }
+    params[key] = value;
+  });
 
-                value = decoded === 'undefined' ? undefined : JSON.parse(decoded);
-            }
-        } catch (e) {
-            reportError(
-                e, `Failed to parse URL parameter value: ${String(value)}`);
-
-            return;
-        }
-        params[key] = value;
-    });
-
-    return params;
+  return params;
 }

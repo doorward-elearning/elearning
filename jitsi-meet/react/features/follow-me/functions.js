@@ -10,7 +10,7 @@ import { toState } from '../base/redux';
  * @returns {boolean} - True if follow me is active and false otherwise.
  */
 export function isFollowMeActive(stateful: Object | Function) {
-    const state = toState(stateful);
+  const state = toState(stateful);
 
-    return Boolean(state['features/follow-me'].moderator);
+  return Boolean(state['features/follow-me'].moderator);
 }

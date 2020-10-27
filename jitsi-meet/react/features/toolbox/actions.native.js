@@ -1,17 +1,16 @@
 /* @flow */
 
 import {
-    CLEAR_TOOLBOX_TIMEOUT,
-    SET_OVERFLOW_MENU_VISIBLE,
-    SET_TOOLBAR_HOVERED,
-    SET_TOOLBOX_ALWAYS_VISIBLE,
-    SET_TOOLBOX_ENABLED,
-    SET_TOOLBOX_TIMEOUT,
-    SET_TOOLBOX_TIMEOUT_MS,
-    SET_TOOLBOX_VISIBLE,
-    TOGGLE_TOOLBOX_VISIBLE
+  CLEAR_TOOLBOX_TIMEOUT,
+  SET_OVERFLOW_MENU_VISIBLE,
+  SET_TOOLBAR_HOVERED,
+  SET_TOOLBOX_ALWAYS_VISIBLE,
+  SET_TOOLBOX_ENABLED,
+  SET_TOOLBOX_TIMEOUT,
+  SET_TOOLBOX_TIMEOUT_MS,
+  SET_TOOLBOX_VISIBLE,
+  TOGGLE_TOOLBOX_VISIBLE,
 } from './actionTypes';
-
 
 /**
  * Signals that toolbox timeout should be cleared.
@@ -21,9 +20,9 @@ import {
  * }}
  */
 export function clearToolboxTimeout(): Object {
-    return {
-        type: CLEAR_TOOLBOX_TIMEOUT
-    };
+  return {
+    type: CLEAR_TOOLBOX_TIMEOUT,
+  };
 }
 
 /**
@@ -36,10 +35,10 @@ export function clearToolboxTimeout(): Object {
  * }}
  */
 export function setOverflowMenuVisible(visible: boolean): Object {
-    return {
-        type: SET_OVERFLOW_MENU_VISIBLE,
-        visible
-    };
+  return {
+    type: SET_OVERFLOW_MENU_VISIBLE,
+    visible,
+  };
 }
 
 /**
@@ -52,10 +51,10 @@ export function setOverflowMenuVisible(visible: boolean): Object {
  * }}
  */
 export function setToolbarHovered(hovered: boolean): Object {
-    return {
-        type: SET_TOOLBAR_HOVERED,
-        hovered
-    };
+  return {
+    type: SET_TOOLBAR_HOVERED,
+    hovered,
+  };
 }
 
 /**
@@ -68,10 +67,10 @@ export function setToolbarHovered(hovered: boolean): Object {
  * }}
  */
 export function setToolboxAlwaysVisible(alwaysVisible: boolean): Object {
-    return {
-        type: SET_TOOLBOX_ALWAYS_VISIBLE,
-        alwaysVisible
-    };
+  return {
+    type: SET_TOOLBOX_ALWAYS_VISIBLE,
+    alwaysVisible,
+  };
 }
 
 /* eslint-disable flowtype/space-before-type-colon */
@@ -86,10 +85,10 @@ export function setToolboxAlwaysVisible(alwaysVisible: boolean): Object {
  * }}
  */
 export function setToolboxEnabled(enabled: boolean): Object {
-    return {
-        type: SET_TOOLBOX_ENABLED,
-        enabled
-    };
+  return {
+    type: SET_TOOLBOX_ENABLED,
+    enabled,
+  };
 }
 
 /**
@@ -103,13 +102,12 @@ export function setToolboxEnabled(enabled: boolean): Object {
  *     timeoutMS: number
  * }}
  */
-export function setToolboxTimeout(handler: Function, timeoutMS: number)
-      : Object {
-    return {
-        type: SET_TOOLBOX_TIMEOUT,
-        handler,
-        timeoutMS
-    };
+export function setToolboxTimeout(handler: Function, timeoutMS: number): Object {
+  return {
+    type: SET_TOOLBOX_TIMEOUT,
+    handler,
+    timeoutMS,
+  };
 }
 
 /* eslint-enable flowtype/space-before-type-colon */
@@ -124,10 +122,10 @@ export function setToolboxTimeout(handler: Function, timeoutMS: number)
  * }}
  */
 export function setToolboxTimeoutMS(timeoutMS: number): Object {
-    return {
-        type: SET_TOOLBOX_TIMEOUT_MS,
-        timeoutMS
-    };
+  return {
+    type: SET_TOOLBOX_TIMEOUT_MS,
+    timeoutMS,
+  };
 }
 
 /**
@@ -140,10 +138,10 @@ export function setToolboxTimeoutMS(timeoutMS: number): Object {
  * }}
  */
 export function setToolboxVisible(visible: boolean): Object {
-    return {
-        type: SET_TOOLBOX_VISIBLE,
-        visible
-    };
+  return {
+    type: SET_TOOLBOX_VISIBLE,
+    visible,
+  };
 }
 
 /**
@@ -154,7 +152,7 @@ export function setToolboxVisible(visible: boolean): Object {
  * }}
  */
 export function toggleToolboxVisible() {
-    return {
-        type: TOGGLE_TOOLBOX_VISIBLE
-    };
+  return {
+    type: TOGGLE_TOOLBOX_VISIBLE,
+  };
 }

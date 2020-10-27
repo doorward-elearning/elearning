@@ -1,9 +1,6 @@
 // @flow
 
-import {
-    SET_FOLLOW_ME_MODERATOR,
-    SET_FOLLOW_ME_STATE
-} from './actionTypes';
+import { SET_FOLLOW_ME_MODERATOR, SET_FOLLOW_ME_STATE } from './actionTypes';
 
 /**
  * Sets the current moderator id or clears it.
@@ -15,10 +12,10 @@ import {
  * }}
  */
 export function setFollowMeModerator(id: ?string) {
-    return {
-        type: SET_FOLLOW_ME_MODERATOR,
-        id
-    };
+  return {
+    type: SET_FOLLOW_ME_MODERATOR,
+    id,
+  };
 }
 
 /**
@@ -31,8 +28,8 @@ export function setFollowMeModerator(id: ?string) {
  * }}
  */
 export function setFollowMeState(state: ?Object) {
-    return {
-        type: SET_FOLLOW_ME_STATE,
-        state
-    };
+  return {
+    type: SET_FOLLOW_ME_STATE,
+    state,
+  };
 }

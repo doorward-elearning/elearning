@@ -1,12 +1,12 @@
 // @flow
 
 import {
-    PageReloadFilmstripOnlyOverlay,
-    PageReloadOverlay,
-    SuspendedFilmstripOnlyOverlay,
-    SuspendedOverlay,
-    UserMediaPermissionsFilmstripOnlyOverlay,
-    UserMediaPermissionsOverlay
+  PageReloadFilmstripOnlyOverlay,
+  PageReloadOverlay,
+  SuspendedFilmstripOnlyOverlay,
+  SuspendedOverlay,
+  UserMediaPermissionsFilmstripOnlyOverlay,
+  UserMediaPermissionsOverlay,
 } from './components/web';
 
 declare var interfaceConfig: Object;
@@ -17,22 +17,19 @@ declare var interfaceConfig: Object;
  * @returns {Array<Object>}
  */
 export function getOverlays(): Array<Object> {
-    const overlays = [
-        SuspendedOverlay,
-        UserMediaPermissionsOverlay
-    ];
+  const overlays = [SuspendedOverlay, UserMediaPermissionsOverlay];
 
-    const filmstripOnly
-            = typeof interfaceConfig === 'object' && interfaceConfig.filmStripOnly;
+  const filmstripOnly = typeof interfaceConfig === 'object' && interfaceConfig.filmStripOnly;
 
-    if (filmstripOnly) {
-        overlays.push(
-            PageReloadFilmstripOnlyOverlay,
-            SuspendedFilmstripOnlyOverlay,
-            UserMediaPermissionsFilmstripOnlyOverlay);
-    } else {
-        overlays.push(PageReloadOverlay);
-    }
+  if (filmstripOnly) {
+    overlays.push(
+      PageReloadFilmstripOnlyOverlay,
+      SuspendedFilmstripOnlyOverlay,
+      UserMediaPermissionsFilmstripOnlyOverlay
+    );
+  } else {
+    overlays.push(PageReloadOverlay);
+  }
 
-    return overlays;
+  return overlays;
 }

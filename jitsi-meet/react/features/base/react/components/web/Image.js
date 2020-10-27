@@ -7,13 +7,13 @@ import React, { Component } from 'react';
  * @extends Component
  */
 export default class Image extends Component {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return React.createElement('img', this.props);
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return React.createElement('img', this.props);
+  }
 }

@@ -19,26 +19,26 @@ const DEFAULT_RN_OPTS = { disableCallerInfo: true };
  * @returns {Object} - The logger object.
  */
 export function getLogger(id: string) {
-    const opts = navigator.product === 'ReactNative' ? DEFAULT_RN_OPTS : DEFAULT_OPTS;
+  const opts = navigator.product === 'ReactNative' ? DEFAULT_RN_OPTS : DEFAULT_OPTS;
 
-    return _getLogger(id, undefined, opts);
+  return _getLogger(id, undefined, opts);
 }
 
 /**
  * Initializes native logging. This operations must be done as early as possible.
  */
 export const _initLogging = _.once(() => {
-    if (navigator.product !== 'ReactNative') {
-        return;
-    }
+  if (navigator.product !== 'ReactNative') {
+    return;
+  }
 
-    // Lazy load it to avoid cycles in early web bootstrap code.
-    const { default: JitsiMeetJS } = require('../lib-jitsi-meet/_');
+  // Lazy load it to avoid cycles in early web bootstrap code.
+  const { default: JitsiMeetJS } = require('../lib-jitsi-meet/_');
 
-    Logger.setGlobalOptions(DEFAULT_RN_OPTS);
-    JitsiMeetJS.setGlobalLogOptions(DEFAULT_RN_OPTS);
-    Logger.removeGlobalTransport(console);
-    JitsiMeetJS.removeGlobalLogTransport(console);
-    Logger.addGlobalTransport(LogTransport);
-    JitsiMeetJS.addGlobalLogTransport(LogTransport);
+  Logger.setGlobalOptions(DEFAULT_RN_OPTS);
+  JitsiMeetJS.setGlobalLogOptions(DEFAULT_RN_OPTS);
+  Logger.removeGlobalTransport(console);
+  JitsiMeetJS.removeGlobalLogTransport(console);
+  Logger.addGlobalTransport(LogTransport);
+  JitsiMeetJS.addGlobalLogTransport(LogTransport);
 });

@@ -8,11 +8,11 @@ import { hideDialog, openDialog } from '../base/dialog';
 import { getLocalParticipant } from '../base/participants';
 
 import {
-    KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED,
-    KNOCKING_PARTICIPANT_LEFT,
-    SET_KNOCKING_STATE,
-    SET_LOBBY_MODE_ENABLED,
-    SET_PASSWORD_JOIN_FAILED
+  KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED,
+  KNOCKING_PARTICIPANT_LEFT,
+  SET_KNOCKING_STATE,
+  SET_LOBBY_MODE_ENABLED,
+  SET_PASSWORD_JOIN_FAILED,
 } from './actionTypes';
 import { LobbyScreen } from './components';
 
@@ -24,18 +24,18 @@ declare var APP: Object;
  * @returns {Function}
  */
 export function cancelKnocking() {
-    return async (dispatch: Dispatch<any>) => {
-        if (typeof APP !== 'undefined') {
-            // when we are redirecting the library should handle any
-            // unload and clean of the connection.
-            APP.API.notifyReadyToClose();
-            dispatch(maybeRedirectToWelcomePage());
+  return async (dispatch: Dispatch<any>) => {
+    if (typeof APP !== 'undefined') {
+      // when we are redirecting the library should handle any
+      // unload and clean of the connection.
+      APP.API.notifyReadyToClose();
+      dispatch(maybeRedirectToWelcomePage());
 
-            return;
-        }
+      return;
+    }
 
-        dispatch(appNavigate(undefined));
-    };
+    dispatch(appNavigate(undefined));
+  };
 }
 
 /**
@@ -44,7 +44,7 @@ export function cancelKnocking() {
  * @returns {hideDialog}
  */
 export function hideLobbyScreen() {
-    return hideDialog(LobbyScreen);
+  return hideDialog(LobbyScreen);
 }
 
 /**
@@ -54,11 +54,11 @@ export function hideLobbyScreen() {
  * @returns {Function}
  */
 export function joinWithPassword(password: string) {
-    return async (dispatch: Dispatch<any>, getState: Function) => {
-        const conference = getCurrentConference(getState);
+  return async (dispatch: Dispatch<any>, getState: Function) => {
+    const conference = getCurrentConference(getState);
 
-        dispatch(setPassword(conference, conference.join, password));
-    };
+    dispatch(setPassword(conference, conference.join, password));
+  };
 }
 
 /**
@@ -71,10 +71,10 @@ export function joinWithPassword(password: string) {
  * }}
  */
 export function knockingParticipantLeft(id: string) {
-    return {
-        id,
-        type: KNOCKING_PARTICIPANT_LEFT
-    };
+  return {
+    id,
+    type: KNOCKING_PARTICIPANT_LEFT,
+  };
 }
 
 /**
@@ -83,7 +83,7 @@ export function knockingParticipantLeft(id: string) {
  * @returns {openDialog}
  */
 export function openLobbyScreen() {
-    return openDialog(LobbyScreen, {}, true);
+  return openDialog(LobbyScreen, {}, true);
 }
 
 /**
@@ -96,10 +96,10 @@ export function openLobbyScreen() {
  * }}
  */
 export function participantIsKnockingOrUpdated(participant: Object) {
-    return {
-        participant,
-        type: KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED
-    };
+  return {
+    participant,
+    type: KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED,
+  };
 }
 
 /**
@@ -110,17 +110,17 @@ export function participantIsKnockingOrUpdated(participant: Object) {
  * @returns {Function}
  */
 export function setKnockingParticipantApproval(id: string, approved: boolean) {
-    return async (dispatch: Dispatch<any>, getState: Function) => {
-        const conference = getCurrentConference(getState);
+  return async (dispatch: Dispatch<any>, getState: Function) => {
+    const conference = getCurrentConference(getState);
 
-        if (conference) {
-            if (approved) {
-                conference.lobbyApproveAccess(id);
-            } else {
-                conference.lobbyDenyAccess(id);
-            }
-        }
-    };
+    if (conference) {
+      if (approved) {
+        conference.lobbyApproveAccess(id);
+      } else {
+        conference.lobbyDenyAccess(id);
+      }
+    }
+  };
 }
 
 /**
@@ -133,10 +133,10 @@ export function setKnockingParticipantApproval(id: string, approved: boolean) {
  * }}
  */
 export function setKnockingState(knocking: boolean) {
-    return {
-        knocking,
-        type: SET_KNOCKING_STATE
-    };
+  return {
+    knocking,
+    type: SET_KNOCKING_STATE,
+  };
 }
 
 /**
@@ -149,10 +149,10 @@ export function setKnockingState(knocking: boolean) {
  * }}
  */
 export function setLobbyModeEnabled(enabled: boolean) {
-    return {
-        enabled,
-        type: SET_LOBBY_MODE_ENABLED
-    };
+  return {
+    enabled,
+    type: SET_LOBBY_MODE_ENABLED,
+  };
 }
 
 /**
@@ -165,10 +165,10 @@ export function setLobbyModeEnabled(enabled: boolean) {
  * }}
  */
 export function setPasswordJoinFailed(failed: boolean) {
-    return {
-        failed,
-        type: SET_PASSWORD_JOIN_FAILED
-    };
+  return {
+    failed,
+    type: SET_PASSWORD_JOIN_FAILED,
+  };
 }
 
 /**
@@ -177,15 +177,15 @@ export function setPasswordJoinFailed(failed: boolean) {
  * @returns {Function}
  */
 export function startKnocking() {
-    return async (dispatch: Dispatch<any>, getState: Function) => {
-        const state = getState();
-        const { membersOnly } = state['features/base/conference'];
-        const localParticipant = getLocalParticipant(state);
+  return async (dispatch: Dispatch<any>, getState: Function) => {
+    const state = getState();
+    const { membersOnly } = state['features/base/conference'];
+    const localParticipant = getLocalParticipant(state);
 
-        dispatch(conferenceWillJoin(membersOnly));
-        membersOnly.joinLobby(localParticipant.name, localParticipant.email);
-        dispatch(setKnockingState(true));
-    };
+    dispatch(conferenceWillJoin(membersOnly));
+    membersOnly.joinLobby(localParticipant.name, localParticipant.email);
+    dispatch(setKnockingState(true));
+  };
 }
 
 /**
@@ -195,13 +195,13 @@ export function startKnocking() {
  * @returns {Function}
  */
 export function toggleLobbyMode(enabled: boolean) {
-    return async (dispatch: Dispatch<any>, getState: Function) => {
-        const conference = getCurrentConference(getState);
+  return async (dispatch: Dispatch<any>, getState: Function) => {
+    const conference = getCurrentConference(getState);
 
-        if (enabled) {
-            conference.enableLobby();
-        } else {
-            conference.disableLobby();
-        }
-    };
+    if (enabled) {
+      conference.enableLobby();
+    } else {
+      conference.disableLobby();
+    }
+  };
 }

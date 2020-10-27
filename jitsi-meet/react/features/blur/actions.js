@@ -7,37 +7,38 @@ import { getBlurEffect } from './functions';
 import logger from './logger';
 
 /**
-* Signals the local participant is switching between blurred or non blurred video.
-*
-* @param {boolean} enabled - If true enables video blur, false otherwise.
-* @returns {Promise}
-*/
+ * Signals the local participant is switching between blurred or non blurred video.
+ *
+ * @param {boolean} enabled - If true enables video blur, false otherwise.
+ * @returns {Promise}
+ */
 export function toggleBlurEffect(enabled: boolean) {
-    return function(dispatch: (Object) => Object, getState: () => any) {
-        const state = getState();
+  return function (dispatch: (Object) => Object, getState: () => any) {
+    const state = getState();
 
-        if (state['features/blur'].blurEnabled !== enabled) {
-            const { jitsiTrack } = getLocalVideoTrack(state['features/base/tracks']);
+    if (state['features/blur'].blurEnabled !== enabled) {
+      const { jitsiTrack } = getLocalVideoTrack(state['features/base/tracks']);
 
-            return getBlurEffect()
-                .then(blurEffectInstance =>
-                    jitsiTrack.setEffect(enabled ? blurEffectInstance : undefined)
-                        .then(() => {
-                            enabled ? dispatch(blurEnabled()) : dispatch(blurDisabled());
-                        })
-                        .catch(error => {
-                            enabled ? dispatch(blurDisabled()) : dispatch(blurEnabled());
-                            logger.error('setEffect failed with error:', error);
-                        })
-                )
-                .catch(error => {
-                    dispatch(blurDisabled());
-                    logger.error('getBlurEffect failed with error:', error);
-                });
-        }
+      return getBlurEffect()
+        .then((blurEffectInstance) =>
+          jitsiTrack
+            .setEffect(enabled ? blurEffectInstance : undefined)
+            .then(() => {
+              enabled ? dispatch(blurEnabled()) : dispatch(blurDisabled());
+            })
+            .catch((error) => {
+              enabled ? dispatch(blurDisabled()) : dispatch(blurEnabled());
+              logger.error('setEffect failed with error:', error);
+            })
+        )
+        .catch((error) => {
+          dispatch(blurDisabled());
+          logger.error('getBlurEffect failed with error:', error);
+        });
+    }
 
-        return Promise.resolve();
-    };
+    return Promise.resolve();
+  };
 }
 
 /**
@@ -48,9 +49,9 @@ export function toggleBlurEffect(enabled: boolean) {
  * }}
  */
 export function blurEnabled() {
-    return {
-        type: BLUR_ENABLED
-    };
+  return {
+    type: BLUR_ENABLED,
+  };
 }
 
 /**
@@ -61,7 +62,7 @@ export function blurEnabled() {
  * }}
  */
 export function blurDisabled() {
-    return {
-        type: BLUR_DISABLED
-    };
+  return {
+    type: BLUR_DISABLED,
+  };
 }

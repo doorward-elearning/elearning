@@ -35,51 +35,36 @@ export const DEFAULT_LANGUAGE = LANGUAGES[0];
  * @type {Object}
  */
 const options = {
-    backend: {
-        loadPath: 'lang/{{ns}}-{{lng}}.json'
-    },
-    defaultNS: 'main',
-    fallbackLng: DEFAULT_LANGUAGE,
-    interpolation: {
-        escapeValue: false // not needed for react as it escapes by default
-    },
-    load: 'languageOnly',
-    ns: [ 'main', 'languages', 'countries' ],
-    react: {
-        useSuspense: false
-    },
-    returnEmptyString: false,
-    returnNull: false,
+  backend: {
+    loadPath: 'lang/{{ns}}-{{lng}}.json',
+  },
+  defaultNS: 'main',
+  fallbackLng: DEFAULT_LANGUAGE,
+  interpolation: {
+    escapeValue: false, // not needed for react as it escapes by default
+  },
+  load: 'languageOnly',
+  ns: ['main', 'languages', 'countries'],
+  react: {
+    useSuspense: false,
+  },
+  returnEmptyString: false,
+  returnNull: false,
 
-    // XXX i18next modifies the array lngWhitelist so make sure to clone
-    // LANGUAGES.
-    whitelist: LANGUAGES.slice()
+  // XXX i18next modifies the array lngWhitelist so make sure to clone
+  // LANGUAGES.
+  whitelist: LANGUAGES.slice(),
 };
 
 i18next
-    .use(navigator.product === 'ReactNative' ? {} : I18nextXHRBackend)
-    .use(languageDetector)
-    .init(options);
+  .use(navigator.product === 'ReactNative' ? {} : I18nextXHRBackend)
+  .use(languageDetector)
+  .init(options);
 
 // Add default language which is preloaded from the source code.
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'countries',
-    COUNTRIES_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'languages',
-    LANGUAGES_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
-i18next.addResourceBundle(
-    DEFAULT_LANGUAGE,
-    'main',
-    MAIN_RESOURCES,
-    /* deep */ true,
-    /* overwrite */ true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'countries', COUNTRIES_RESOURCES, /* deep */ true, /* overwrite */ true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'languages', LANGUAGES_RESOURCES, /* deep */ true, /* overwrite */ true);
+i18next.addResourceBundle(DEFAULT_LANGUAGE, 'main', MAIN_RESOURCES, /* deep */ true, /* overwrite */ true);
 
 // Add builtin languages.
 // XXX: Note we are using require here, because we want the side-effects of the

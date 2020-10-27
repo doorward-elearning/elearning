@@ -24,19 +24,19 @@ export { default as getRoomName } from './getRoomName';
  * @returns {Object}
  */
 export function createFakeConfig(baseURL: string) {
-    const url = new URL(baseURL);
+  const url = new URL(baseURL);
 
-    return {
-        hosts: {
-            domain: url.hostname,
-            muc: `conference.${url.hostname}`
-        },
-        bosh: `${baseURL}http-bind`,
-        clientNode: 'https://jitsi.org/jitsi-meet',
-        p2p: {
-            enabled: true
-        }
-    };
+  return {
+    hosts: {
+      domain: url.hostname,
+      muc: `conference.${url.hostname}`,
+    },
+    bosh: `${baseURL}http-bind`,
+    clientNode: 'https://jitsi.org/jitsi-meet',
+    p2p: {
+      enabled: true,
+    },
+  };
 }
 
 /* eslint-disable max-params, no-shadow */
@@ -67,38 +67,32 @@ export function createFakeConfig(baseURL: string) {
  * }.
  * @returns {void}
  */
-export function overrideConfigJSON(
-        config: ?Object, interfaceConfig: ?Object, loggingConfig: ?Object,
-        json: Object) {
-    for (const configName of Object.keys(json)) {
-        let configObj;
+export function overrideConfigJSON(config: ?Object, interfaceConfig: ?Object, loggingConfig: ?Object, json: Object) {
+  for (const configName of Object.keys(json)) {
+    let configObj;
 
-        if (configName === 'config') {
-            configObj = config;
-        } else if (configName === 'interfaceConfig') {
-            configObj = interfaceConfig;
-        } else if (configName === 'loggingConfig') {
-            configObj = loggingConfig;
-        }
-        if (configObj) {
-            const configJSON
-                = _getWhitelistedJSON(configName, json[configName]);
-
-            if (!_.isEmpty(configJSON)) {
-                logger.info(
-                    `Extending ${configName} with: ${
-                        JSON.stringify(configJSON)}`);
-
-                // eslint-disable-next-line arrow-body-style
-                _.mergeWith(configObj, configJSON, (oldValue, newValue) => {
-
-                    // XXX We don't want to merge the arrays, we want to
-                    // overwrite them.
-                    return Array.isArray(oldValue) ? newValue : undefined;
-                });
-            }
-        }
+    if (configName === 'config') {
+      configObj = config;
+    } else if (configName === 'interfaceConfig') {
+      configObj = interfaceConfig;
+    } else if (configName === 'loggingConfig') {
+      configObj = loggingConfig;
     }
+    if (configObj) {
+      const configJSON = _getWhitelistedJSON(configName, json[configName]);
+
+      if (!_.isEmpty(configJSON)) {
+        logger.info(`Extending ${configName} with: ${JSON.stringify(configJSON)}`);
+
+        // eslint-disable-next-line arrow-body-style
+        _.mergeWith(configObj, configJSON, (oldValue, newValue) => {
+          // XXX We don't want to merge the arrays, we want to
+          // overwrite them.
+          return Array.isArray(oldValue) ? newValue : undefined;
+        });
+      }
+    }
+  }
 }
 
 /* eslint-enable max-params, no-shadow */
@@ -116,13 +110,13 @@ export function overrideConfigJSON(
  * that are whitelisted.
  */
 function _getWhitelistedJSON(configName, configJSON) {
-    if (configName === 'interfaceConfig') {
-        return _.pick(configJSON, INTERFACE_CONFIG_WHITELIST);
-    } else if (configName === 'config') {
-        return _.pick(configJSON, CONFIG_WHITELIST);
-    }
+  if (configName === 'interfaceConfig') {
+    return _.pick(configJSON, INTERFACE_CONFIG_WHITELIST);
+  } else if (configName === 'config') {
+    return _.pick(configJSON, CONFIG_WHITELIST);
+  }
 
-    return configJSON;
+  return configJSON;
 }
 
 /**
@@ -137,19 +131,19 @@ function _getWhitelistedJSON(configName, configJSON) {
  * otherwise, {@code undefined}.
  */
 export function restoreConfig(baseURL: string): ?Object {
-    const key = `${_CONFIG_STORE_PREFIX}/${baseURL}`;
-    const config = jitsiLocalStorage.getItem(key);
+  const key = `${_CONFIG_STORE_PREFIX}/${baseURL}`;
+  const config = jitsiLocalStorage.getItem(key);
 
-    if (config) {
-        try {
-            return JSON.parse(config) || undefined;
-        } catch (e) {
-            // Somehow incorrect data ended up in the storage. Clean it up.
-            jitsiLocalStorage.removeItem(key);
-        }
+  if (config) {
+    try {
+      return JSON.parse(config) || undefined;
+    } catch (e) {
+      // Somehow incorrect data ended up in the storage. Clean it up.
+      jitsiLocalStorage.removeItem(key);
     }
+  }
 
-    return undefined;
+  return undefined;
 }
 
 /* eslint-disable max-params */
@@ -171,46 +165,47 @@ export function restoreConfig(baseURL: string): ?Object {
  * @returns {void}
  */
 export function setConfigFromURLParams(
-        config: ?Object,
-        interfaceConfig: ?Object,
-        loggingConfig: ?Object,
-        location: Object) {
-    const params = parseURLParams(location);
-    const json = {};
+  config: ?Object,
+  interfaceConfig: ?Object,
+  loggingConfig: ?Object,
+  location: Object
+) {
+  const params = parseURLParams(location);
+  const json = {};
 
-    // At this point we have:
-    // params = {
-    //     "config.disableAudioLevels": false,
-    //     "config.channelLastN": -1,
-    //     "interfaceConfig.APP_NAME": "Jitsi Meet"
-    // }
-    // We want to have:
-    // json = {
-    //     config: {
-    //         "disableAudioLevels": false,
-    //         "channelLastN": -1
-    //     },
-    //     interfaceConfig: {
-    //         "APP_NAME": "Jitsi Meet"
-    //     }
-    // }
-    config && (json.config = {});
-    interfaceConfig && (json.interfaceConfig = {});
-    loggingConfig && (json.loggingConfig = {});
+  // At this point we have:
+  // params = {
+  //     "config.disableAudioLevels": false,
+  //     "config.channelLastN": -1,
+  //     "interfaceConfig.APP_NAME": "Jitsi Meet"
+  // }
+  // We want to have:
+  // json = {
+  //     config: {
+  //         "disableAudioLevels": false,
+  //         "channelLastN": -1
+  //     },
+  //     interfaceConfig: {
+  //         "APP_NAME": "Jitsi Meet"
+  //     }
+  // }
+  config && (json.config = {});
+  interfaceConfig && (json.interfaceConfig = {});
+  loggingConfig && (json.loggingConfig = {});
 
-    for (const param of Object.keys(params)) {
-        let base = json;
-        const names = param.split('.');
-        const last = names.pop();
+  for (const param of Object.keys(params)) {
+    let base = json;
+    const names = param.split('.');
+    const last = names.pop();
 
-        for (const name of names) {
-            base = base[name] = base[name] || {};
-        }
-
-        base[last] = params[param];
+    for (const name of names) {
+      base = base[name] = base[name] || {};
     }
 
-    overrideConfigJSON(config, interfaceConfig, loggingConfig, json);
+    base[last] = params[param];
+  }
+
+  overrideConfigJSON(config, interfaceConfig, loggingConfig, json);
 }
 
 /* eslint-enable max-params */

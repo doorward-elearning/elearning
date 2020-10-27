@@ -15,6 +15,8 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import translate from '@doorward/common/lang/translate';
+import Meeting from '../Meeting';
+import useAuth from '../../hooks/useAuth';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
@@ -24,14 +26,18 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
   const students = useDoorwardApi((state) => state.students.getStudentsInCourse);
   const managers = useDoorwardApi((state) => state.courseManagers.getCourseManagers);
   const discussionGroups = useDoorwardApi((state) => state.discussionGroups.getAll);
+  const course = useDoorwardApi((state) => state.courses.getCourse);
   const match: any = useRouteMatch<{ courseId: string }>();
   const hasPrivileges = usePrivileges();
+  const auth = useAuth();
 
   const routes = useRoutes();
   const fetchStudents = useAction(DoorwardApi.students.getStudentsInCourse);
   const fetchManagers = useAction(DoorwardApi.courseManagers.getCourseManagers);
   const fetchDiscussionGroups = useAction(DoorwardApi.discussionGroups.getAll);
   const courseId = match.params.courseId;
+
+  const existingMeeting = course?.data?.course?.meetingRoom?.currentMeeting;
 
   useEffect(() => {
     if (hasPrivileges('students.list')) {

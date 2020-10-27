@@ -9,11 +9,10 @@ import { getUnreadCount } from '../../functions';
  * The type of the React {@code Component} props of {@link ChatCounter}.
  */
 type Props = {
-
-    /**
-     * The value of to display as a count.
-     */
-    _count: number
+  /**
+   * The value of to display as a count.
+   */
+  _count: number,
 };
 
 /**
@@ -23,22 +22,19 @@ type Props = {
  * @extends Component
  */
 class ChatCounter extends Component<Props> {
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <span className = 'badge-round'>
-                <span>
-                    { this.props._count || null }
-                </span>
-            </span>
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <span className="badge-round">
+        <span>{this.props._count || null}</span>
+      </span>
+    );
+  }
 }
 
 /**
@@ -52,9 +48,9 @@ class ChatCounter extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        _count: getUnreadCount(state)
-    };
+  return {
+    _count: getUnreadCount(state),
+  };
 }
 
 export default connect(_mapStateToProps)(ChatCounter);

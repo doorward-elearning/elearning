@@ -12,7 +12,7 @@ export * from './functions.any';
  * @returns {StyleType}
  */
 export function getFixedPlatformStyle(style: StyleType): StyleType {
-    // There is nothing to do on mobile - yet.
+  // There is nothing to do on mobile - yet.
 
-    return style;
+  return style;
 }

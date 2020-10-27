@@ -8,11 +8,7 @@ import { APP_WILL_MOUNT } from '../../base/app';
 import { CONFERENCE_JOINED } from '../../base/conference';
 import { getCurrentConferenceUrl } from '../../base/connection';
 import { setAudioMuted } from '../../base/media';
-import {
-    MiddlewareRegistry,
-    StateListenerRegistry,
-    toState
-} from '../../base/redux';
+import { MiddlewareRegistry, StateListenerRegistry, toState } from '../../base/redux';
 
 import { setConferenceTimestamp, setSessionId, setWatchReachable } from './actions';
 import { CMD_HANG_UP, CMD_JOIN_CONFERENCE, CMD_SET_MUTED, MAX_RECENT_URLS } from './constants';
@@ -21,26 +17,32 @@ import logger from './logger';
 const watchOSEnabled = Platform.OS === 'ios';
 
 // Handles the recent URLs state sent to the watch
-watchOSEnabled && StateListenerRegistry.register(
-    /* selector */ state => state['features/recent-list'],
+watchOSEnabled &&
+  StateListenerRegistry.register(
+    /* selector */ (state) => state['features/recent-list'],
     /* listener */ (recentListState, { getState }) => {
-        _updateApplicationContext(getState);
-    });
+      _updateApplicationContext(getState);
+    }
+  );
 
 // Handles the mic muted state sent to the watch
-watchOSEnabled && StateListenerRegistry.register(
-    /* selector */ state => _isAudioMuted(state),
+watchOSEnabled &&
+  StateListenerRegistry.register(
+    /* selector */ (state) => _isAudioMuted(state),
     /* listener */ (isAudioMuted, { getState }) => {
-        _updateApplicationContext(getState);
-    });
+      _updateApplicationContext(getState);
+    }
+  );
 
 // Handles the conference URL state sent to the watch
-watchOSEnabled && StateListenerRegistry.register(
-    /* selector */ state => getCurrentConferenceUrl(state),
+watchOSEnabled &&
+  StateListenerRegistry.register(
+    /* selector */ (state) => getCurrentConferenceUrl(state),
     /* listener */ (currentUrl, { dispatch, getState }) => {
-        dispatch(setSessionId());
-        _updateApplicationContext(getState);
-    });
+      dispatch(setSessionId());
+      _updateApplicationContext(getState);
+    }
+  );
 
 /**
  * Middleware that captures conference actions.
@@ -48,19 +50,20 @@ watchOSEnabled && StateListenerRegistry.register(
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-watchOSEnabled && MiddlewareRegistry.register(store => next => action => {
+watchOSEnabled &&
+  MiddlewareRegistry.register((store) => (next) => (action) => {
     switch (action.type) {
-    case APP_WILL_MOUNT:
+      case APP_WILL_MOUNT:
         _appWillMount(store);
         break;
-    case CONFERENCE_JOINED:
+      case CONFERENCE_JOINED:
         store.dispatch(setConferenceTimestamp(new Date().getTime()));
         _updateApplicationContext(store.getState());
         break;
     }
 
     return next(action);
-});
+  });
 
 /**
  * Registers listeners to the react-native-watch-connectivity lib.
@@ -70,55 +73,50 @@ watchOSEnabled && MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _appWillMount({ dispatch, getState }) {
-    watch.subscribeToWatchReachability((error, reachable) => {
-        dispatch(setWatchReachable(reachable));
-        _updateApplicationContext(getState);
-    });
+  watch.subscribeToWatchReachability((error, reachable) => {
+    dispatch(setWatchReachable(reachable));
+    _updateApplicationContext(getState);
+  });
 
-    watch.subscribeToMessages((error, message) => {
-        if (error) {
-            logger.error('watch.subscribeToMessages error:', error);
+  watch.subscribeToMessages((error, message) => {
+    if (error) {
+      logger.error('watch.subscribeToMessages error:', error);
 
-            return;
+      return;
+    }
+
+    const { command, sessionID } = message;
+    const currentSessionID = _getSessionId(getState());
+
+    if (!sessionID || sessionID !== currentSessionID) {
+      logger.warn(
+        `Ignoring outdated watch command: ${message.command}` +
+          ` sessionID: ${sessionID} current session ID: ${currentSessionID}`
+      );
+
+      return;
+    }
+
+    switch (command) {
+      case CMD_HANG_UP:
+        if (typeof getCurrentConferenceUrl(getState()) !== undefined) {
+          dispatch(appNavigate(undefined));
         }
+        break;
+      case CMD_JOIN_CONFERENCE: {
+        const newConferenceURL = message.data;
+        const oldConferenceURL = getCurrentConferenceUrl(getState());
 
-        const {
-            command,
-            sessionID
-        } = message;
-        const currentSessionID = _getSessionId(getState());
-
-        if (!sessionID || sessionID !== currentSessionID) {
-            logger.warn(
-                `Ignoring outdated watch command: ${message.command}`
-                    + ` sessionID: ${sessionID} current session ID: ${currentSessionID}`);
-
-            return;
+        if (oldConferenceURL !== newConferenceURL) {
+          dispatch(appNavigate(newConferenceURL));
         }
-
-        switch (command) {
-        case CMD_HANG_UP:
-            if (typeof getCurrentConferenceUrl(getState()) !== undefined) {
-                dispatch(appNavigate(undefined));
-            }
-            break;
-        case CMD_JOIN_CONFERENCE: {
-            const newConferenceURL = message.data;
-            const oldConferenceURL = getCurrentConferenceUrl(getState());
-
-            if (oldConferenceURL !== newConferenceURL) {
-                dispatch(appNavigate(newConferenceURL));
-            }
-            break;
-        }
-        case CMD_SET_MUTED:
-            dispatch(
-                setAudioMuted(
-                    message.muted === 'true',
-                    /* ensureTrack */ true));
-            break;
-        }
-    });
+        break;
+      }
+      case CMD_SET_MUTED:
+        dispatch(setAudioMuted(message.muted === 'true', /* ensureTrack */ true));
+        break;
+    }
+  });
 }
 
 /**
@@ -130,9 +128,9 @@ function _appWillMount({ dispatch, getState }) {
  * @private
  */
 function _getSessionId(stateful) {
-    const state = toState(stateful);
+  const state = toState(stateful);
 
-    return state['features/mobile/watchos'].sessionID;
+  return state['features/mobile/watchos'].sessionID;
 }
 
 /**
@@ -143,15 +141,15 @@ function _getSessionId(stateful) {
  * @private
  */
 function _getRecentUrls(stateful) {
-    const state = toState(stateful);
-    const recentURLs = state['features/recent-list'];
+  const state = toState(stateful);
+  const recentURLs = state['features/recent-list'];
 
-    // Trim to MAX_RECENT_URLS and reverse the list
-    const reversedList = recentURLs.slice(-MAX_RECENT_URLS);
+  // Trim to MAX_RECENT_URLS and reverse the list
+  const reversedList = recentURLs.slice(-MAX_RECENT_URLS);
 
-    reversedList.reverse();
+  reversedList.reverse();
 
-    return reversedList;
+  return reversedList;
 }
 
 /**
@@ -162,10 +160,10 @@ function _getRecentUrls(stateful) {
  * @private
  */
 function _isAudioMuted(stateful) {
-    const state = toState(stateful);
-    const { audio } = state['features/base/media'];
+  const state = toState(stateful);
+  const { audio } = state['features/base/media'];
 
-    return audio.muted;
+  return audio.muted;
 }
 
 /**
@@ -177,22 +175,22 @@ function _isAudioMuted(stateful) {
  * @returns {void}
  */
 function _updateApplicationContext(stateful) {
-    const state = toState(stateful);
-    const { conferenceTimestamp, sessionID, watchReachable } = state['features/mobile/watchos'];
+  const state = toState(stateful);
+  const { conferenceTimestamp, sessionID, watchReachable } = state['features/mobile/watchos'];
 
-    if (!watchReachable) {
-        return;
-    }
+  if (!watchReachable) {
+    return;
+  }
 
-    try {
-        watch.updateApplicationContext({
-            conferenceTimestamp,
-            conferenceURL: getCurrentConferenceUrl(state),
-            micMuted: _isAudioMuted(state),
-            recentURLs: _getRecentUrls(state),
-            sessionID
-        });
-    } catch (error) {
-        logger.error('Failed to stringify or send the context', error);
-    }
+  try {
+    watch.updateApplicationContext({
+      conferenceTimestamp,
+      conferenceURL: getCurrentConferenceUrl(state),
+      micMuted: _isAudioMuted(state),
+      recentURLs: _getRecentUrls(state),
+      sessionID,
+    });
+  } catch (error) {
+    logger.error('Failed to stringify or send the context', error);
+  }
 }

@@ -15,22 +15,18 @@ import { _mapStateToProps, type Props } from './AbstractTranscribingLabel';
  * @extends Component
  */
 class TranscribingLabel extends Component<Props> {
-
-    /**
-     * Renders the platform-specific label component.
-     *
-     * @inheritdoc
-     */
-    render() {
-        if (!this.props._showLabel) {
-            return null;
-        }
-
-        return (
-            <CircularLabel
-                label = { this.props.t('transcribing.tr') } />
-        );
+  /**
+   * Renders the platform-specific label component.
+   *
+   * @inheritdoc
+   */
+  render() {
+    if (!this.props._showLabel) {
+      return null;
     }
+
+    return <CircularLabel label={this.props.t('transcribing.tr')} />;
+  }
 }
 
 export default translate(connect(_mapStateToProps)(TranscribingLabel));

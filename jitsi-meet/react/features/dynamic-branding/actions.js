@@ -17,27 +17,27 @@ const logger = getLogger(__filename);
  * @returns {Function}
  */
 export function fetchCustomBrandingData() {
-    return async function(dispatch: Function, getState: Function) {
-        const state = getState();
-        const baseUrl = state['features/base/config'].brandingDataUrl;
-        const { customizationReady } = state['features/dynamic-branding'];
+  return async function (dispatch: Function, getState: Function) {
+    const state = getState();
+    const baseUrl = state['features/base/config'].brandingDataUrl;
+    const { customizationReady } = state['features/dynamic-branding'];
 
-        if (!customizationReady) {
-            const fqn = extractFqnFromPath(state['features/base/connection'].locationURL.pathname);
+    if (!customizationReady) {
+      const fqn = extractFqnFromPath(state['features/base/connection'].locationURL.pathname);
 
-            if (baseUrl) {
-                try {
-                    const res = await doGetJSON(`${baseUrl}?conferenceFqn=${encodeURIComponent(fqn)}`);
+      if (baseUrl) {
+        try {
+          const res = await doGetJSON(`${baseUrl}?conferenceFqn=${encodeURIComponent(fqn)}`);
 
-                    return dispatch(setDynamicBrandingData(res));
-                } catch (err) {
-                    logger.error('Error fetching branding data', err);
-                }
-            }
-
-            dispatch(setDynamicBrandingReady());
+          return dispatch(setDynamicBrandingData(res));
+        } catch (err) {
+          logger.error('Error fetching branding data', err);
         }
-    };
+      }
+
+      dispatch(setDynamicBrandingReady());
+    }
+  };
 }
 
 /**
@@ -47,10 +47,10 @@ export function fetchCustomBrandingData() {
  * @returns {Object}
  */
 function setDynamicBrandingData(value) {
-    return {
-        type: SET_DYNAMIC_BRANDING_DATA,
-        value
-    };
+  return {
+    type: SET_DYNAMIC_BRANDING_DATA,
+    value,
+  };
 }
 
 /**
@@ -59,7 +59,7 @@ function setDynamicBrandingData(value) {
  * @returns {Object}
  */
 function setDynamicBrandingReady() {
-    return {
-        type: SET_DYNAMIC_BRANDING_READY
-    };
+  return {
+    type: SET_DYNAMIC_BRANDING_READY,
+  };
 }

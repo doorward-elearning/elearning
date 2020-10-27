@@ -15,12 +15,12 @@ import type { NetworkInfo } from './types';
  * }}
  */
 export function setNetworkInfo({ isOnline, networkType, details }: NetworkInfo): Object {
-    return {
-        type: SET_NETWORK_INFO,
-        isOnline,
-        networkType,
-        details
-    };
+  return {
+    type: SET_NETWORK_INFO,
+    isOnline,
+    networkType,
+    details,
+  };
 }
 
 /**
@@ -34,8 +34,8 @@ export function setNetworkInfo({ isOnline, networkType, details }: NetworkInfo):
  * @private
  */
 export function _storeNetworkInfoCleanup(cleanup: Function): Object {
-    return {
-        type: _STORE_NETWORK_INFO_CLEANUP,
-        cleanup
-    };
+  return {
+    type: _STORE_NETWORK_INFO_CLEANUP,
+    cleanup,
+  };
 }

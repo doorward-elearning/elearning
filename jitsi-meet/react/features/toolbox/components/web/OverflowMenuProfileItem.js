@@ -14,27 +14,26 @@ declare var interfaceConfig: Object;
  * {@link OverflowMenuProfileItem}.
  */
 type Props = {
+  /**
+   * The redux representation of the local participant.
+   */
+  _localParticipant: Object,
 
-    /**
-     * The redux representation of the local participant.
-     */
-    _localParticipant: Object,
+  /**
+   * Whether the button support clicking or not.
+   */
+  _unclickable: boolean,
 
-    /**
-     * Whether the button support clicking or not.
-     */
-    _unclickable: boolean,
+  /**
+   * The callback to invoke when {@code OverflowMenuProfileItem} is
+   * clicked.
+   */
+  onClick: Function,
 
-    /**
-     * The callback to invoke when {@code OverflowMenuProfileItem} is
-     * clicked.
-     */
-    onClick: Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -44,66 +43,58 @@ type Props = {
  * @extends Component
  */
 class OverflowMenuProfileItem extends Component<Props> {
-    /**
-     * Initializes a new {@code OverflowMenuProfileItem} instance.
-     *
-     * @param {Object} props - The read-only properties with which the new
-     * instance is to be initialized.
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Initializes a new {@code OverflowMenuProfileItem} instance.
+   *
+   * @param {Object} props - The read-only properties with which the new
+   * instance is to be initialized.
+   */
+  constructor(props: Props) {
+    super(props);
 
-        // Bind event handler so it is only bound once for every instance.
-        this._onClick = this._onClick.bind(this);
+    // Bind event handler so it is only bound once for every instance.
+    this._onClick = this._onClick.bind(this);
+  }
+
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { _localParticipant, _unclickable, t } = this.props;
+    const classNames = `overflow-menu-item ${_unclickable ? 'unclickable' : ''}`;
+    let displayName;
+
+    if (_localParticipant && _localParticipant.name) {
+      displayName = _localParticipant.name;
+    } else {
+      displayName = interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME;
     }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { _localParticipant, _unclickable, t } = this.props;
-        const classNames = `overflow-menu-item ${
-            _unclickable ? 'unclickable' : ''}`;
-        let displayName;
+    return (
+      <li aria-label={t('toolbar.accessibilityLabel.profile')} className={classNames} onClick={this._onClick}>
+        <span className="overflow-menu-item-icon">
+          <Avatar participantId={_localParticipant.id} size={24} />
+        </span>
+        <span className="profile-text">{displayName}</span>
+      </li>
+    );
+  }
 
-        if (_localParticipant && _localParticipant.name) {
-            displayName = _localParticipant.name;
-        } else {
-            displayName = interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME;
-        }
+  _onClick: () => void;
 
-        return (
-            <li
-                aria-label = { t('toolbar.accessibilityLabel.profile') }
-                className = { classNames }
-                onClick = { this._onClick }>
-                <span className = 'overflow-menu-item-icon'>
-                    <Avatar
-                        participantId = { _localParticipant.id }
-                        size = { 24 } />
-                </span>
-                <span className = 'profile-text'>
-                    { displayName }
-                </span>
-            </li>
-        );
+  /**
+   * Invokes an on click callback if clicking is allowed.
+   *
+   * @returns {void}
+   */
+  _onClick() {
+    if (!this.props._unclickable) {
+      this.props.onClick();
     }
-
-    _onClick: () => void;
-
-    /**
-     * Invokes an on click callback if clicking is allowed.
-     *
-     * @returns {void}
-     */
-    _onClick() {
-        if (!this.props._unclickable) {
-            this.props.onClick();
-        }
-    }
+  }
 }
 
 /**
@@ -118,11 +109,10 @@ class OverflowMenuProfileItem extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        _localParticipant: getLocalParticipant(state),
-        _unclickable: !state['features/base/jwt'].isGuest
-            || !interfaceConfig.SETTINGS_SECTIONS.includes('profile')
-    };
+  return {
+    _localParticipant: getLocalParticipant(state),
+    _unclickable: !state['features/base/jwt'].isGuest || !interfaceConfig.SETTINGS_SECTIONS.includes('profile'),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(OverflowMenuProfileItem));

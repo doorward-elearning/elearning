@@ -9,31 +9,30 @@ import { connect } from '../../../base/redux';
  * The type of the React {@code Component} props of {@link RecordingLimitNotificationDescription}.
  */
 type Props = {
+  /**
+   * The limit of time in minutes for the recording.
+   */
+  _limit: number,
 
-    /**
-     * The limit of time in minutes for the recording.
-     */
-    _limit: number,
+  /**
+   * The name of the app with unlimited recordings.
+   */
+  _appName: string,
 
-    /**
-     * The name of the app with unlimited recordings.
-     */
-    _appName: string,
+  /**
+   * The URL to the app with unlimited recordings.
+   */
+  _appURL: string,
 
-    /**
-     * The URL to the app with unlimited recordings.
-     */
-    _appURL: string,
+  /**
+   * True if the notification is related to the livestreaming and false if not.
+   */
+  isLiveStreaming: Boolean,
 
-    /**
-     * True if the notification is related to the livestreaming and false if not.
-     */
-    isLiveStreaming: Boolean,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -43,23 +42,18 @@ type Props = {
  * @returns {Component}
  */
 function RecordingLimitNotificationDescription(props: Props) {
-    const { _limit, _appName, _appURL, isLiveStreaming, t } = props;
+  const { _limit, _appName, _appURL, isLiveStreaming, t } = props;
 
-    return (
-        <span>
-            {
-                translateToHTML(
-                    t,
-                    `${isLiveStreaming ? 'liveStreaming' : 'recording'}.limitNotificationDescriptionWeb`, {
-                        limit: _limit,
-                        app: _appName,
-                        url: _appURL
-                    })
-            }
-        </span>
-    );
+  return (
+    <span>
+      {translateToHTML(t, `${isLiveStreaming ? 'liveStreaming' : 'recording'}.limitNotificationDescriptionWeb`, {
+        limit: _limit,
+        app: _appName,
+        url: _appURL,
+      })}
+    </span>
+  );
 }
-
 
 /**
  * Maps part of the Redix state to the props of this component.
@@ -68,14 +62,14 @@ function RecordingLimitNotificationDescription(props: Props) {
  * @returns {Props}
  */
 function _mapStateToProps(state): $Shape<Props> {
-    const { recordingLimit = {} } = state['features/base/config'];
-    const { limit: _limit, appName: _appName, appURL: _appURL } = recordingLimit;
+  const { recordingLimit = {} } = state['features/base/config'];
+  const { limit: _limit, appName: _appName, appURL: _appURL } = recordingLimit;
 
-    return {
-        _limit,
-        _appName,
-        _appURL
-    };
+  return {
+    _limit,
+    _appName,
+    _appURL,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(RecordingLimitNotificationDescription));

@@ -1,11 +1,6 @@
 // @flow
 
-import {
-    ADD_MESSAGE,
-    CLEAR_MESSAGES,
-    SEND_MESSAGE,
-    SET_PRIVATE_MESSAGE_RECIPIENT
-} from './actionTypes';
+import { ADD_MESSAGE, CLEAR_MESSAGES, SEND_MESSAGE, SET_PRIVATE_MESSAGE_RECIPIENT } from './actionTypes';
 
 /**
  * Adds a chat message to the collection of messages.
@@ -30,10 +25,10 @@ import {
  * }}
  */
 export function addMessage(messageDetails: Object) {
-    return {
-        type: ADD_MESSAGE,
-        ...messageDetails
-    };
+  return {
+    type: ADD_MESSAGE,
+    ...messageDetails,
+  };
 }
 
 /**
@@ -44,9 +39,9 @@ export function addMessage(messageDetails: Object) {
  * }}
  */
 export function clearMessages() {
-    return {
-        type: CLEAR_MESSAGES
-    };
+  return {
+    type: CLEAR_MESSAGES,
+  };
 }
 
 /**
@@ -61,11 +56,11 @@ export function clearMessages() {
  * }}
  */
 export function sendMessage(message: string, ignorePrivacy: boolean = false) {
-    return {
-        type: SEND_MESSAGE,
-        ignorePrivacy,
-        message
-    };
+  return {
+    type: SEND_MESSAGE,
+    ignorePrivacy,
+    message,
+  };
 }
 
 /**
@@ -78,8 +73,8 @@ export function sendMessage(message: string, ignorePrivacy: boolean = false) {
  * }}
  */
 export function setPrivateMessageRecipient(participant: Object) {
-    return {
-        participant,
-        type: SET_PRIVATE_MESSAGE_RECIPIENT
-    };
+  return {
+    participant,
+    type: SET_PRIVATE_MESSAGE_RECIPIENT,
+  };
 }

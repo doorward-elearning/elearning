@@ -2,15 +2,8 @@
 
 import type { Dispatch } from 'redux';
 
-import {
-    appNavigate,
-    maybeRedirectToWelcomePage
-} from '../app/actions';
-import {
-    conferenceLeft,
-    JITSI_CONFERENCE_URL_KEY,
-    setPassword
-} from '../base/conference';
+import { appNavigate, maybeRedirectToWelcomePage } from '../app/actions';
+import { conferenceLeft, JITSI_CONFERENCE_URL_KEY, setPassword } from '../base/conference';
 import { hideDialog, openDialog } from '../base/dialog';
 
 import { PasswordRequiredPrompt, RoomLockPrompt } from './components';
@@ -25,19 +18,22 @@ declare var APP: Object;
  * @returns {Function}
  */
 export function beginRoomLockRequest(conference: ?Object) {
-    return (dispatch: Function, getState: Function) => {
-        if (typeof conference === 'undefined') {
-            // eslint-disable-next-line no-param-reassign
-            conference = getState()['features/base/conference'].conference;
-        }
-        if (conference) {
-            const passwordNumberOfDigits = getState()['features/base/config'].roomPasswordNumberOfDigits;
+  return (dispatch: Function, getState: Function) => {
+    if (typeof conference === 'undefined') {
+      // eslint-disable-next-line no-param-reassign
+      conference = getState()['features/base/conference'].conference;
+    }
+    if (conference) {
+      const passwordNumberOfDigits = getState()['features/base/config'].roomPasswordNumberOfDigits;
 
-            dispatch(openDialog(RoomLockPrompt, {
-                conference,
-                passwordNumberOfDigits }));
-        }
-    };
+      dispatch(
+        openDialog(RoomLockPrompt, {
+          conference,
+          passwordNumberOfDigits,
+        })
+      );
+    }
+  };
 }
 
 /**
@@ -49,37 +45,37 @@ export function beginRoomLockRequest(conference: ?Object) {
  * @returns {Function}
  */
 export function _cancelPasswordRequiredPrompt(conference: Object) {
-    return (dispatch: Dispatch<any>, getState: Function) => {
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    if (typeof APP !== 'undefined') {
+      // when we are redirecting the library should handle any
+      // unload and clean of the connection.
+      APP.API.notifyReadyToClose();
+      dispatch(maybeRedirectToWelcomePage());
 
-        if (typeof APP !== 'undefined') {
-            // when we are redirecting the library should handle any
-            // unload and clean of the connection.
-            APP.API.notifyReadyToClose();
-            dispatch(maybeRedirectToWelcomePage());
+      return;
+    }
 
-            return;
-        }
+    // Canceling PasswordRequiredPrompt is to navigate the app/user to
+    // WelcomePage. In other words, the canceling invalidates the
+    // locationURL. Make sure that the canceling indeed has the intent to
+    // invalidate the locationURL.
+    const state = getState();
 
-        // Canceling PasswordRequiredPrompt is to navigate the app/user to
-        // WelcomePage. In other words, the canceling invalidates the
-        // locationURL. Make sure that the canceling indeed has the intent to
-        // invalidate the locationURL.
-        const state = getState();
+    if (
+      conference === state['features/base/conference'].passwordRequired &&
+      conference[JITSI_CONFERENCE_URL_KEY] === state['features/base/connection'].locationURL
+    ) {
+      // XXX The error associated with CONFERENCE_FAILED was marked as
+      // recoverable by the feature room-lock and, consequently,
+      // recoverable-aware features such as mobile's external-api did not
+      // deliver the CONFERENCE_FAILED to the SDK clients/consumers. Since
+      // the app/user is going to nativate to WelcomePage, the SDK
+      // clients/consumers need an event.
+      dispatch(conferenceLeft(conference));
 
-        if (conference === state['features/base/conference'].passwordRequired
-                && conference[JITSI_CONFERENCE_URL_KEY]
-                    === state['features/base/connection'].locationURL) {
-            // XXX The error associated with CONFERENCE_FAILED was marked as
-            // recoverable by the feature room-lock and, consequently,
-            // recoverable-aware features such as mobile's external-api did not
-            // deliver the CONFERENCE_FAILED to the SDK clients/consumers. Since
-            // the app/user is going to nativate to WelcomePage, the SDK
-            // clients/consumers need an event.
-            dispatch(conferenceLeft(conference));
-
-            dispatch(appNavigate(undefined));
-        }
-    };
+      dispatch(appNavigate(undefined));
+    }
+  };
 }
 
 /**
@@ -91,18 +87,13 @@ export function _cancelPasswordRequiredPrompt(conference: Object) {
  * the specified conference.
  * @returns {Function}
  */
-export function endRoomLockRequest(
-        conference: { lock: Function },
-        password: ?string) {
-    return (dispatch: Function) => {
-        const setPassword_
-            = password
-                ? dispatch(setPassword(conference, conference.lock, password))
-                : Promise.resolve();
-        const endRoomLockRequest_ = () => dispatch(hideDialog(RoomLockPrompt));
+export function endRoomLockRequest(conference: { lock: Function }, password: ?string) {
+  return (dispatch: Function) => {
+    const setPassword_ = password ? dispatch(setPassword(conference, conference.lock, password)) : Promise.resolve();
+    const endRoomLockRequest_ = () => dispatch(hideDialog(RoomLockPrompt));
 
-        setPassword_.then(endRoomLockRequest_, endRoomLockRequest_);
-    };
+    setPassword_.then(endRoomLockRequest_, endRoomLockRequest_);
+  };
 }
 
 /**
@@ -118,7 +109,7 @@ export function endRoomLockRequest(
  * }}
  */
 export function _openPasswordRequiredPrompt(conference: Object) {
-    return openDialog(PasswordRequiredPrompt, { conference });
+  return openDialog(PasswordRequiredPrompt, { conference });
 }
 
 /**
@@ -127,13 +118,9 @@ export function _openPasswordRequiredPrompt(conference: Object) {
  * @returns {Function}
  */
 export function unlockRoom() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const { conference } = getState()['features/base/conference'];
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const { conference } = getState()['features/base/conference'];
 
-        return dispatch(setPassword(
-            conference,
-            conference.lock,
-            ''
-        ));
-    };
+    return dispatch(setPassword(conference, conference.lock, ''));
+  };
 }

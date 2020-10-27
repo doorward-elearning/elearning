@@ -1,10 +1,6 @@
 // @flow
 
-import {
-    SET_DOCUMENT_EDITING_STATUS,
-    SET_DOCUMENT_URL,
-    TOGGLE_DOCUMENT_EDITING
-} from './actionTypes';
+import { SET_DOCUMENT_EDITING_STATUS, SET_DOCUMENT_URL, TOGGLE_DOCUMENT_EDITING } from './actionTypes';
 
 /**
  * Dispatches an action to set whether document editing has started or stopped.
@@ -17,10 +13,10 @@ import {
  * }}
  */
 export function setDocumentEditingState(editing: boolean) {
-    return {
-        type: SET_DOCUMENT_EDITING_STATUS,
-        editing
-    };
+  return {
+    type: SET_DOCUMENT_EDITING_STATUS,
+    editing,
+  };
 }
 
 /**
@@ -33,10 +29,10 @@ export function setDocumentEditingState(editing: boolean) {
  * }}
  */
 export function setDocumentUrl(documentUrl: ?string) {
-    return {
-        type: SET_DOCUMENT_URL,
-        documentUrl
-    };
+  return {
+    type: SET_DOCUMENT_URL,
+    documentUrl,
+  };
 }
 
 /**
@@ -47,7 +43,7 @@ export function setDocumentUrl(documentUrl: ?string) {
  * }}
  */
 export function toggleDocument() {
-    return {
-        type: TOGGLE_DOCUMENT_EDITING
-    };
+  return {
+    type: TOGGLE_DOCUMENT_EDITING,
+  };
 }

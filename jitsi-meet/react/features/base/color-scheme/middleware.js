@@ -10,11 +10,11 @@ import { SET_COLOR_SCHEME } from './actionTypes';
  *
  * @returns {Function}
  */
-MiddlewareRegistry.register((/* store */) => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((/* store */) => (next) => (action) => {
+  switch (action.type) {
     case SET_COLOR_SCHEME:
-        return ColorSchemeRegistry.clear();
-    }
+      return ColorSchemeRegistry.clear();
+  }
 
-    return next(action);
+  return next(action);
 });

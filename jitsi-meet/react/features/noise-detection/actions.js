@@ -14,8 +14,8 @@ import { SET_NOISY_AUDIO_INPUT_NOTIFICATION_UID } from './actionTypes';
  * }}
  */
 export function setNoisyAudioInputNotificationUid(uid: ?number) {
-    return {
-        type: SET_NOISY_AUDIO_INPUT_NOTIFICATION_UID,
-        uid
-    };
+  return {
+    type: SET_NOISY_AUDIO_INPUT_NOTIFICATION_UID,
+    uid,
+  };
 }

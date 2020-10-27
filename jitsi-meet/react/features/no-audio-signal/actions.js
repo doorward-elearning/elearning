@@ -14,8 +14,8 @@ import { SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID } from './actionTypes';
  * }}
  */
 export function setNoAudioSignalNotificationUid(uid: ?number) {
-    return {
-        type: SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID,
-        uid
-    };
+  return {
+    type: SET_NO_AUDIO_SIGNAL_NOTIFICATION_UID,
+    uid,
+  };
 }

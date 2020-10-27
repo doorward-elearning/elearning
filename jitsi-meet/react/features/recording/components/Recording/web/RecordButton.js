@@ -3,8 +3,8 @@
 import { translate } from '../../../../base/i18n';
 import { connect } from '../../../../base/redux';
 import AbstractRecordButton, {
-    _mapStateToProps as _abstractMapStateToProps,
-    type Props
+  _mapStateToProps as _abstractMapStateToProps,
+  type Props,
 } from '../AbstractRecordButton';
 
 declare var interfaceConfig: Object;
@@ -24,17 +24,17 @@ declare var interfaceConfig: Object;
  * }}
  */
 export function _mapStateToProps(state: Object, ownProps: Props): Object {
-    const abstractProps = _abstractMapStateToProps(state, ownProps);
-    let { visible } = ownProps;
+  const abstractProps = _abstractMapStateToProps(state, ownProps);
+  let { visible } = ownProps;
 
-    if (typeof visible === 'undefined') {
-        visible = interfaceConfig.TOOLBAR_BUTTONS.includes('recording') && abstractProps.visible;
-    }
+  if (typeof visible === 'undefined') {
+    visible = interfaceConfig.TOOLBAR_BUTTONS.includes('recording') && abstractProps.visible;
+  }
 
-    return {
-        ...abstractProps,
-        visible
-    };
+  return {
+    ...abstractProps,
+    visible,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(AbstractRecordButton));

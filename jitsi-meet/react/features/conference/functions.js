@@ -1,10 +1,7 @@
 import { isSuboptimalBrowser } from '../base/environment';
 import { translateToHTML } from '../base/i18n';
 import { toState } from '../base/redux';
-import {
-    areThereNotifications,
-    showWarningNotification
-} from '../notifications';
+import { areThereNotifications, showWarningNotification } from '../notifications';
 import { getOverlayToRender } from '../overlay';
 
 /**
@@ -15,22 +12,16 @@ import { getOverlayToRender } from '../overlay';
  * @returns {void}
  */
 export function maybeShowSuboptimalExperienceNotification(dispatch, t) {
-    if (isSuboptimalBrowser()) {
-        dispatch(
-            showWarningNotification(
-                {
-                    titleKey: 'notify.suboptimalExperienceTitle',
-                    description: translateToHTML(
-                        t,
-                        'notify.suboptimalBrowserWarning',
-                        {
-                            recommendedBrowserPageLink: `${window.location.origin}/static/recommendedBrowsers.html`
-                        }
-                    )
-                }
-            )
-        );
-    }
+  if (isSuboptimalBrowser()) {
+    dispatch(
+      showWarningNotification({
+        titleKey: 'notify.suboptimalExperienceTitle',
+        description: translateToHTML(t, 'notify.suboptimalBrowserWarning', {
+          recommendedBrowserPageLink: `${window.location.origin}/static/recommendedBrowsers.html`,
+        }),
+      })
+    );
+  }
 }
 
 /**
@@ -41,11 +32,9 @@ export function maybeShowSuboptimalExperienceNotification(dispatch, t) {
  * @returns {boolean}
  */
 export function shouldDisplayNotifications(stateful) {
-    const state = toState(stateful);
-    const isAnyOverlayVisible = Boolean(getOverlayToRender(state));
-    const { calleeInfoVisible } = state['features/invite'];
+  const state = toState(stateful);
+  const isAnyOverlayVisible = Boolean(getOverlayToRender(state));
+  const { calleeInfoVisible } = state['features/invite'];
 
-    return areThereNotifications(state)
-            && !isAnyOverlayVisible
-            && !calleeInfoVisible;
+  return areThereNotifications(state) && !isAnyOverlayVisible && !calleeInfoVisible;
 }

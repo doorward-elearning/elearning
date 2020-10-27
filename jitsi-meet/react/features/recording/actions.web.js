@@ -18,10 +18,13 @@ export * from './actions.any';
  * @returns {showNotification}
  */
 export function showRecordingLimitNotification(streamType: string) {
-    const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
+  const isLiveStreaming = streamType === JitsiMeetJS.constants.recording.mode.STREAM;
 
-    return showNotification({
-        description: <RecordingLimitNotificationDescription isLiveStreaming = { isLiveStreaming } />,
-        titleKey: isLiveStreaming ? 'dialog.liveStreaming' : 'dialog.recording'
-    }, 10000);
+  return showNotification(
+    {
+      description: <RecordingLimitNotificationDescription isLiveStreaming={isLiveStreaming} />,
+      titleKey: isLiveStreaming ? 'dialog.liveStreaming' : 'dialog.recording',
+    },
+    10000
+  );
 }

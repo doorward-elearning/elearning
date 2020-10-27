@@ -16,17 +16,16 @@ import { InsecureRoomNameLabel } from '.';
  * The type of the React {@code Component} props of {@link AbstractLabels}.
  */
 export type Props = {
+  /**
+   * Whether the filmstrip is displayed with remote videos. Used to determine
+   * display classes to set.
+   */
+  _filmstripVisible: boolean,
 
-    /**
-     * Whether the filmstrip is displayed with remote videos. Used to determine
-     * display classes to set.
-     */
-    _filmstripVisible: boolean,
-
-    /**
-     * Whether the video quality label should be displayed.
-     */
-    _showVideoQualityLabel: boolean
+  /**
+   * Whether the video quality label should be displayed.
+   */
+  _showVideoQualityLabel: boolean,
 };
 
 /**
@@ -36,79 +35,67 @@ export type Props = {
  * @extends Component
  */
 export default class AbstractLabels<P: Props, S> extends Component<P, S> {
-    /**
-     * Renders the {@code E2EELabel}.
-     *
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderE2EELabel() {
-        return (
-            <E2EELabel />
-        );
-    }
+  /**
+   * Renders the {@code E2EELabel}.
+   *
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderE2EELabel() {
+    return <E2EELabel />;
+  }
 
-    /**
-     * Renders the {@code LocalRecordingLabel}.
-     *
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderLocalRecordingLabel() {
-        return (
-            <LocalRecordingLabel />
-        );
-    }
+  /**
+   * Renders the {@code LocalRecordingLabel}.
+   *
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderLocalRecordingLabel() {
+    return <LocalRecordingLabel />;
+  }
 
-    /**
-     * Renders the {@code RecordingLabel} that is platform independent.
-     *
-     * @param {string} mode - The recording mode that this label is rendered
-     * for.
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderRecordingLabel(mode: string) {
-        return (
-            <RecordingLabel mode = { mode } />
-        );
-    }
+  /**
+   * Renders the {@code RecordingLabel} that is platform independent.
+   *
+   * @param {string} mode - The recording mode that this label is rendered
+   * for.
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderRecordingLabel(mode: string) {
+    return <RecordingLabel mode={mode} />;
+  }
 
-    /**
-     * Renders the {@code TranscribingLabel}.
-     *
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderTranscribingLabel() {
-        return (
-            <TranscribingLabel />
-        );
-    }
+  /**
+   * Renders the {@code TranscribingLabel}.
+   *
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderTranscribingLabel() {
+    return <TranscribingLabel />;
+  }
 
-    /**
-     * Renders the {@code InsecureRoomNameLabel}.
-     *
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderInsecureRoomNameLabel() {
-        return (
-            <InsecureRoomNameLabel />
-        );
-    }
+  /**
+   * Renders the {@code InsecureRoomNameLabel}.
+   *
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderInsecureRoomNameLabel() {
+    return <InsecureRoomNameLabel />;
+  }
 
-    /**
-     * Renders the {@code VideoQualityLabel} that is platform independent.
-     *
-     * @protected
-     * @returns {React$Element}
-     */
-    _renderVideoQualityLabel() {
-        return (
-            <VideoQualityLabel />
-        );
-    }
+  /**
+   * Renders the {@code VideoQualityLabel} that is platform independent.
+   *
+   * @protected
+   * @returns {React$Element}
+   */
+  _renderVideoQualityLabel() {
+    return <VideoQualityLabel />;
+  }
 }
 
 /**
@@ -123,8 +110,8 @@ export default class AbstractLabels<P: Props, S> extends Component<P, S> {
  * }}
  */
 export function _abstractMapStateToProps(state: Object) {
-    return {
-        _filmstripVisible: isFilmstripVisible(state),
-        _showVideoQualityLabel: !shouldDisplayTileView(state)
-    };
+  return {
+    _filmstripVisible: isFilmstripVisible(state),
+    _showVideoQualityLabel: !shouldDisplayTileView(state),
+  };
 }

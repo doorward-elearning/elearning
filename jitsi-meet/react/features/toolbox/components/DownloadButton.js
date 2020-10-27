@@ -7,35 +7,32 @@ import { connect } from '../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
 import { openURLInBrowser } from '../../base/util';
 
-
 type Props = AbstractButtonProps & {
-
-    /**
-     * The URL to the applications page.
-     */
-    _downloadAppsUrl: string
+  /**
+   * The URL to the applications page.
+   */
+  _downloadAppsUrl: string,
 };
 
 /**
  * Implements an {@link AbstractButton} to open the applications page in a new window.
  */
 class DownloadButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.download';
-    icon = IconDownload;
-    label = 'toolbar.download';
+  accessibilityLabel = 'toolbar.accessibilityLabel.download';
+  icon = IconDownload;
+  label = 'toolbar.download';
 
-    /**
-     * Handles clicking / pressing the button, and opens a new window with the user documentation.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        sendAnalytics(createToolbarEvent('download.pressed'));
-        openURLInBrowser(this.props._downloadAppsUrl);
-    }
+  /**
+   * Handles clicking / pressing the button, and opens a new window with the user documentation.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    sendAnalytics(createToolbarEvent('download.pressed'));
+    openURLInBrowser(this.props._downloadAppsUrl);
+  }
 }
-
 
 /**
  * Maps part of the redux state to the component's props.
@@ -44,13 +41,13 @@ class DownloadButton extends AbstractButton<Props, *> {
  * @returns {Object}
  */
 function _mapStateToProps(state: Object) {
-    const { downloadAppsUrl } = state['features/base/config'].deploymentUrls || {};
-    const visible = typeof downloadAppsUrl === 'string';
+  const { downloadAppsUrl } = state['features/base/config'].deploymentUrls || {};
+  const visible = typeof downloadAppsUrl === 'string';
 
-    return {
-        _downloadAppsUrl: downloadAppsUrl,
-        visible
-    };
+  return {
+    _downloadAppsUrl: downloadAppsUrl,
+    visible,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(DownloadButton));

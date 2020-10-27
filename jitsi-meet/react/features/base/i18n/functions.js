@@ -9,8 +9,8 @@ import { withTranslation } from 'react-i18next';
  * enables translations in it.
  */
 export function translate(component) {
-    // Use the default list of namespaces.
-    return withTranslation([ 'main', 'languages', 'countries' ])(component);
+  // Use the default list of namespaces.
+  return withTranslation(['main', 'languages', 'countries'])(component);
 }
 
 /**
@@ -24,6 +24,6 @@ export function translate(component) {
  * text.
  */
 export function translateToHTML(t, key, options = {}) {
-    // eslint-disable-next-line react/no-danger
-    return <span dangerouslySetInnerHTML = {{ __html: t(key, options) }} />;
+  // eslint-disable-next-line react/no-danger
+  return <span dangerouslySetInnerHTML={{ __html: t(key, options) }} />;
 }

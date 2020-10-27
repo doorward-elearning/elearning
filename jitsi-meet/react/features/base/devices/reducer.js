@@ -1,22 +1,22 @@
 import { ReducerRegistry } from '../redux';
 
 import {
-    ADD_PENDING_DEVICE_REQUEST,
-    REMOVE_PENDING_DEVICE_REQUESTS,
-    SET_AUDIO_INPUT_DEVICE,
-    SET_VIDEO_INPUT_DEVICE,
-    UPDATE_DEVICE_LIST
+  ADD_PENDING_DEVICE_REQUEST,
+  REMOVE_PENDING_DEVICE_REQUESTS,
+  SET_AUDIO_INPUT_DEVICE,
+  SET_VIDEO_INPUT_DEVICE,
+  UPDATE_DEVICE_LIST,
 } from './actionTypes';
 import { groupDevicesByKind } from './functions';
 import logger from './logger';
 
 const DEFAULT_STATE = {
-    availableDevices: {
-        audioInput: [],
-        audioOutput: [],
-        videoInput: []
-    },
-    pendingRequests: []
+  availableDevices: {
+    audioInput: [],
+    audioOutput: [],
+    videoInput: [],
+  },
+  pendingRequests: [],
 };
 
 /**
@@ -29,47 +29,41 @@ const DEFAULT_STATE = {
  * video devices.
  * @returns {Object}
  */
-ReducerRegistry.register(
-    'features/base/devices',
-    (state = DEFAULT_STATE, action) => {
-        switch (action.type) {
-        case UPDATE_DEVICE_LIST: {
-            const deviceList = groupDevicesByKind(action.devices);
+ReducerRegistry.register('features/base/devices', (state = DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case UPDATE_DEVICE_LIST: {
+      const deviceList = groupDevicesByKind(action.devices);
 
-            return {
-                ...state,
-                availableDevices: deviceList
-            };
-        }
+      return {
+        ...state,
+        availableDevices: deviceList,
+      };
+    }
 
-        case ADD_PENDING_DEVICE_REQUEST:
-            return {
-                ...state,
-                pendingRequests: [
-                    ...state.pendingRequests,
-                    action.request
-                ]
-            };
+    case ADD_PENDING_DEVICE_REQUEST:
+      return {
+        ...state,
+        pendingRequests: [...state.pendingRequests, action.request],
+      };
 
-        case REMOVE_PENDING_DEVICE_REQUESTS:
-            return {
-                ...state,
-                pendingRequests: [ ]
-            };
+    case REMOVE_PENDING_DEVICE_REQUESTS:
+      return {
+        ...state,
+        pendingRequests: [],
+      };
 
-        // TODO: Changing of current audio and video device id is currently handled outside of react/redux.
-        case SET_AUDIO_INPUT_DEVICE: {
-            logger.debug(`set audio input device: ${action.deviceId}`);
+    // TODO: Changing of current audio and video device id is currently handled outside of react/redux.
+    case SET_AUDIO_INPUT_DEVICE: {
+      logger.debug(`set audio input device: ${action.deviceId}`);
 
-            return state;
-        }
-        case SET_VIDEO_INPUT_DEVICE: {
-            logger.debug(`set video input device: ${action.deviceId}`);
+      return state;
+    }
+    case SET_VIDEO_INPUT_DEVICE: {
+      logger.debug(`set video input device: ${action.deviceId}`);
 
-            return state;
-        }
-        default:
-            return state;
-        }
-    });
-
+      return state;
+    }
+    default:
+      return state;
+  }
+});

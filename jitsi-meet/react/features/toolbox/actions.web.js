@@ -2,16 +2,8 @@
 
 import type { Dispatch } from 'redux';
 
-import {
-    FULL_SCREEN_CHANGED,
-    SET_FULL_SCREEN
-} from './actionTypes';
-import {
-    clearToolboxTimeout,
-    setToolboxTimeout,
-    setToolboxTimeoutMS,
-    setToolboxVisible
-} from './actions.native';
+import { FULL_SCREEN_CHANGED, SET_FULL_SCREEN } from './actionTypes';
+import { clearToolboxTimeout, setToolboxTimeout, setToolboxTimeoutMS, setToolboxVisible } from './actions.native';
 
 declare var interfaceConfig: Object;
 
@@ -24,27 +16,24 @@ export * from './actions.native';
  * @returns {Function}
  */
 export function dockToolbox(dock: boolean): Function {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        if (interfaceConfig.filmStripOnly) {
-            return;
-        }
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    if (interfaceConfig.filmStripOnly) {
+      return;
+    }
 
-        const { timeoutMS, visible } = getState()['features/toolbox'];
+    const { timeoutMS, visible } = getState()['features/toolbox'];
 
-        if (dock) {
-            // First make sure the toolbox is shown.
-            visible || dispatch(showToolbox());
+    if (dock) {
+      // First make sure the toolbox is shown.
+      visible || dispatch(showToolbox());
 
-            dispatch(clearToolboxTimeout());
-        } else if (visible) {
-            dispatch(
-                setToolboxTimeout(
-                    () => dispatch(hideToolbox()),
-                    timeoutMS));
-        } else {
-            dispatch(showToolbox());
-        }
-    };
+      dispatch(clearToolboxTimeout());
+    } else if (visible) {
+      dispatch(setToolboxTimeout(() => dispatch(hideToolbox()), timeoutMS));
+    } else {
+      dispatch(showToolbox());
+    }
+  };
 }
 
 /**
@@ -58,10 +47,10 @@ export function dockToolbox(dock: boolean): Function {
  * }}
  */
 export function fullScreenChanged(fullScreen: boolean) {
-    return {
-        type: FULL_SCREEN_CHANGED,
-        fullScreen
-    };
+  return {
+    type: FULL_SCREEN_CHANGED,
+    fullScreen,
+  };
 }
 
 /**
@@ -72,32 +61,22 @@ export function fullScreenChanged(fullScreen: boolean) {
  * @returns {Function}
  */
 export function hideToolbox(force: boolean = false): Function {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const state = getState();
-        const {
-            alwaysVisible,
-            hovered,
-            timeoutMS
-        } = state['features/toolbox'];
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const state = getState();
+    const { alwaysVisible, hovered, timeoutMS } = state['features/toolbox'];
 
-        if (alwaysVisible) {
-            return;
-        }
+    if (alwaysVisible) {
+      return;
+    }
 
-        dispatch(clearToolboxTimeout());
+    dispatch(clearToolboxTimeout());
 
-        if (!force
-                && (hovered
-                    || state['features/invite'].calleeInfoVisible
-                    || state['features/chat'].isOpen)) {
-            dispatch(
-                setToolboxTimeout(
-                    () => dispatch(hideToolbox()),
-                    timeoutMS));
-        } else {
-            dispatch(setToolboxVisible(false));
-        }
-    };
+    if (!force && (hovered || state['features/invite'].calleeInfoVisible || state['features/chat'].isOpen)) {
+      dispatch(setToolboxTimeout(() => dispatch(hideToolbox()), timeoutMS));
+    } else {
+      dispatch(setToolboxVisible(false));
+    }
+  };
 }
 
 /**
@@ -110,10 +89,10 @@ export function hideToolbox(force: boolean = false): Function {
  * }}
  */
 export function setFullScreen(fullScreen: boolean) {
-    return {
-        type: SET_FULL_SCREEN,
-        fullScreen
-    };
+  return {
+    type: SET_FULL_SCREEN,
+    fullScreen,
+  };
 }
 
 /**
@@ -123,27 +102,19 @@ export function setFullScreen(fullScreen: boolean) {
  * @returns {Function}
  */
 export function showToolbox(timeout: number = 0): Object {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        const state = getState();
-        const {
-            alwaysVisible,
-            enabled,
-            timeoutMS,
-            visible
-        } = state['features/toolbox'];
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    const state = getState();
+    const { alwaysVisible, enabled, timeoutMS, visible } = state['features/toolbox'];
 
-        if (enabled && !visible) {
-            dispatch(setToolboxVisible(true));
+    if (enabled && !visible) {
+      dispatch(setToolboxVisible(true));
 
-            // If the Toolbox is always visible, there's no need for a timeout
-            // to toggle its visibility.
-            if (!alwaysVisible) {
-                dispatch(
-                    setToolboxTimeout(
-                        () => dispatch(hideToolbox()),
-                        timeout || timeoutMS));
-                dispatch(setToolboxTimeoutMS(interfaceConfig.TOOLBAR_TIMEOUT));
-            }
-        }
-    };
+      // If the Toolbox is always visible, there's no need for a timeout
+      // to toggle its visibility.
+      if (!alwaysVisible) {
+        dispatch(setToolboxTimeout(() => dispatch(hideToolbox()), timeout || timeoutMS));
+        dispatch(setToolboxTimeoutMS(interfaceConfig.TOOLBAR_TIMEOUT));
+      }
+    }
+  };
 }

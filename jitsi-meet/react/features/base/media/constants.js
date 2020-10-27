@@ -4,8 +4,8 @@
  * @enum {string}
  */
 export const CAMERA_FACING_MODE = {
-    ENVIRONMENT: 'environment',
-    USER: 'user'
+  ENVIRONMENT: 'environment',
+  USER: 'user',
 };
 
 /**
@@ -14,9 +14,9 @@ export const CAMERA_FACING_MODE = {
  * @enum {string}
  */
 export const MEDIA_TYPE = {
-    AUDIO: 'audio',
-    PRESENTER: 'presenter',
-    VIDEO: 'video'
+  AUDIO: 'audio',
+  PRESENTER: 'presenter',
+  VIDEO: 'video',
 };
 
 /* eslint-disable no-bitwise */
@@ -27,9 +27,9 @@ export const MEDIA_TYPE = {
  * @enum {number}
  */
 export const VIDEO_MUTISM_AUTHORITY = {
-    AUDIO_ONLY: 1 << 0,
-    BACKGROUND: 1 << 1,
-    USER: 1 << 2
+  AUDIO_ONLY: 1 << 0,
+  BACKGROUND: 1 << 1,
+  USER: 1 << 2,
 };
 
 /* eslint-enable no-bitwise */
@@ -40,6 +40,6 @@ export const VIDEO_MUTISM_AUTHORITY = {
  * @enum {string}
  */
 export const VIDEO_TYPE = {
-    CAMERA: 'camera',
-    DESKTOP: 'desktop'
+  CAMERA: 'camera',
+  DESKTOP: 'desktop',
 };

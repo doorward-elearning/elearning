@@ -3,31 +3,30 @@
 import { openDialog } from '../../base/dialog';
 import { IconCrown } from '../../base/icons';
 import {
-    getLocalParticipant,
-    getParticipantById,
-    isParticipantModerator,
-    PARTICIPANT_ROLE
+  getLocalParticipant,
+  getParticipantById,
+  isParticipantModerator,
+  PARTICIPANT_ROLE,
 } from '../../base/participants';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
 
 import { GrantModeratorDialog } from '.';
 
 export type Props = AbstractButtonProps & {
+  /**
+   * The redux {@code dispatch} function.
+   */
+  dispatch: Function,
 
-    /**
-     * The redux {@code dispatch} function.
-     */
-    dispatch: Function,
+  /**
+   * The ID of the participant for whom to grant moderator status.
+   */
+  participantID: string,
 
-    /**
-     * The ID of the participant for whom to grant moderator status.
-     */
-    participantID: string,
-
-    /**
-     * The function to be used to translate i18n labels.
-     */
-    t: Function
+  /**
+   * The function to be used to translate i18n labels.
+   */
+  t: Function,
 };
 
 /**
@@ -45,9 +44,9 @@ export default class AbstractGrantModeratorButton extends AbstractButton<Props, 
    * @returns {void}
    */
   _handleClick() {
-      const { dispatch, participantID } = this.props;
+    const { dispatch, participantID } = this.props;
 
-      dispatch(openDialog(GrantModeratorDialog, { participantID }));
+    dispatch(openDialog(GrantModeratorDialog, { participantID }));
   }
 }
 
@@ -62,13 +61,13 @@ export default class AbstractGrantModeratorButton extends AbstractButton<Props, 
  * }}
  */
 export function _mapStateToProps(state: Object, ownProps: Props) {
-    const { participantID } = ownProps;
+  const { participantID } = ownProps;
 
-    const localParticipant = getLocalParticipant(state);
-    const targetParticipant = getParticipantById(state, participantID);
+  const localParticipant = getLocalParticipant(state);
+  const targetParticipant = getParticipantById(state, participantID);
 
-    return {
-        visible: Boolean(localParticipant?.role === PARTICIPANT_ROLE.MODERATOR)
-          && !isParticipantModerator(targetParticipant)
-    };
+  return {
+    visible:
+      Boolean(localParticipant?.role === PARTICIPANT_ROLE.MODERATOR) && !isParticipantModerator(targetParticipant),
+  };
 }

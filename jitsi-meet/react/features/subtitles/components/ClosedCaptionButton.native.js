@@ -5,20 +5,16 @@ import { translate } from '../../base/i18n';
 import { IconClosedCaption } from '../../base/icons';
 import { connect } from '../../base/redux';
 
-import {
-    AbstractClosedCaptionButton,
-    _abstractMapStateToProps
-} from './AbstractClosedCaptionButton';
+import { AbstractClosedCaptionButton, _abstractMapStateToProps } from './AbstractClosedCaptionButton';
 
 /**
  * A button which starts/stops the transcriptions.
  */
-class ClosedCaptionButton
-    extends AbstractClosedCaptionButton {
-    accessibilityLabel = 'toolbar.accessibilityLabel.cc';
-    icon = IconClosedCaption;
-    label = 'transcribing.start';
-    toggledLabel = 'transcribing.stop';
+class ClosedCaptionButton extends AbstractClosedCaptionButton {
+  accessibilityLabel = 'toolbar.accessibilityLabel.cc';
+  icon = IconClosedCaption;
+  label = 'transcribing.start';
+  toggledLabel = 'transcribing.stop';
 }
 
 /**
@@ -31,15 +27,15 @@ class ClosedCaptionButton
  * @returns {Props}
  */
 export function mapStateToProps(state: Object, ownProps: Object) {
-    const { transcribingEnabled } = state['features/base/config'];
-    const { isGuest = true } = state['features/base/jwt'];
-    const enabled = getFeatureFlag(state, CLOSE_CAPTIONS_ENABLED, true) && transcribingEnabled && !isGuest;
-    const { visible = enabled } = ownProps;
+  const { transcribingEnabled } = state['features/base/config'];
+  const { isGuest = true } = state['features/base/jwt'];
+  const enabled = getFeatureFlag(state, CLOSE_CAPTIONS_ENABLED, true) && transcribingEnabled && !isGuest;
+  const { visible = enabled } = ownProps;
 
-    return {
-        ..._abstractMapStateToProps(state, ownProps),
-        visible
-    };
+  return {
+    ..._abstractMapStateToProps(state, ownProps),
+    visible,
+  };
 }
 
 export default translate(connect(mapStateToProps)(ClosedCaptionButton));

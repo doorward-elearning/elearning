@@ -26,25 +26,22 @@ import { _mapStateToProps } from './AbstractTestHint';
  * exposing id and value properties.
  */
 class TestHint extends Component<TestHintProps> {
-
-    /**
-     * Renders the test hint on Android.
-     *
-     * @returns {ReactElement}
-     */
-    render() {
-        if (!this.props._testModeEnabled) {
-            return null;
-        }
-
-        return (
-            <Text
-                accessibilityLabel = { this.props.id }
-                onPress = { this.props.onPress } >
-                { this.props.value }
-            </Text>
-        );
+  /**
+   * Renders the test hint on Android.
+   *
+   * @returns {ReactElement}
+   */
+  render() {
+    if (!this.props._testModeEnabled) {
+      return null;
     }
+
+    return (
+      <Text accessibilityLabel={this.props.id} onPress={this.props.onPress}>
+        {this.props.value}
+      </Text>
+    );
+  }
 }
 
 export default connect(_mapStateToProps)(TestHint);

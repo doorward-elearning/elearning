@@ -12,65 +12,63 @@ import { toggleLobbyMode } from '../../actions';
 import styles from './styles';
 
 type Props = {
+  /**
+   * The Redux Dispatch function.
+   */
+  dispatch: Function,
 
-    /**
-     * The Redux Dispatch function.
-     */
-    dispatch: Function,
-
-    /**
-     * Function to be used to translate i18n labels.
-     */
-    t: Function
+  /**
+   * Function to be used to translate i18n labels.
+   */
+  t: Function,
 };
 
 /**
  * Implements a dialog that lets the user enable the lobby mode.
  */
 class EnableLobbyModeDialog extends PureComponent<Props> {
-    /**
-     * Instantiates a new component.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Instantiates a new component.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onEnableLobbyMode = this._onEnableLobbyMode.bind(this);
-    }
+    this._onEnableLobbyMode = this._onEnableLobbyMode.bind(this);
+  }
 
-    /**
-     * Implements {@code PureComponent#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <CustomSubmitDialog
-                okKey = 'lobby.enableDialogSubmit'
-                onSubmit = { this._onEnableLobbyMode }
-                titleKey = 'lobby.dialogTitle'>
-                <View style = { styles.formWrapper }>
-                    <Text>
-                        { this.props.t('lobby.enableDialogText') }
-                    </Text>
-                </View>
-            </CustomSubmitDialog>
-        );
-    }
+  /**
+   * Implements {@code PureComponent#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return (
+      <CustomSubmitDialog
+        okKey="lobby.enableDialogSubmit"
+        onSubmit={this._onEnableLobbyMode}
+        titleKey="lobby.dialogTitle"
+      >
+        <View style={styles.formWrapper}>
+          <Text>{this.props.t('lobby.enableDialogText')}</Text>
+        </View>
+      </CustomSubmitDialog>
+    );
+  }
 
-    _onEnableLobbyMode: () => void;
+  _onEnableLobbyMode: () => void;
 
-    /**
-     * Callback to be invoked when the user initiates the lobby mode enable flow.
-     *
-     * @returns {void}
-     */
-    _onEnableLobbyMode() {
-        this.props.dispatch(toggleLobbyMode(true));
+  /**
+   * Callback to be invoked when the user initiates the lobby mode enable flow.
+   *
+   * @returns {void}
+   */
+  _onEnableLobbyMode() {
+    this.props.dispatch(toggleLobbyMode(true));
 
-        return true;
-    }
+    return true;
+  }
 }
 
 /**
@@ -80,9 +78,9 @@ class EnableLobbyModeDialog extends PureComponent<Props> {
  * @returns {Props}
  */
 function _mapStateToProps(state: Object): Object {
-    return {
-        _dialogStyles: ColorSchemeRegistry.get(state, 'Dialog')
-    };
+  return {
+    _dialogStyles: ColorSchemeRegistry.get(state, 'Dialog'),
+  };
 }
 
 export default translate(connect(_mapStateToProps)(EnableLobbyModeDialog));

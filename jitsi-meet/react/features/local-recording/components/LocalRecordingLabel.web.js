@@ -7,21 +7,19 @@ import { translate } from '../../base/i18n/index';
 import { CircularLabel } from '../../base/label/index';
 import { connect } from '../../base/redux';
 
-
 /**
  * The type of the React {@code Component} props of {@link LocalRecordingLabel}.
  */
 type Props = {
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function,
-
-    /**
-     * Whether local recording is engaged or not.
-     */
-    isEngaged: boolean
+  /**
+   * Whether local recording is engaged or not.
+   */
+  isEngaged: boolean,
 };
 
 /**
@@ -30,29 +28,23 @@ type Props = {
  * @extends Component
  */
 class LocalRecordingLabel extends Component<Props> {
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        if (!this.props.isEngaged) {
-            return null;
-        }
-
-        return (
-            <Tooltip
-                content = { this.props.t('localRecording.labelToolTip') }
-                position = { 'left' }>
-                <CircularLabel
-                    className = 'local-rec'
-                    label = { this.props.t('localRecording.label') } />
-            </Tooltip>
-        );
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    if (!this.props.isEngaged) {
+      return null;
     }
 
+    return (
+      <Tooltip content={this.props.t('localRecording.labelToolTip')} position={'left'}>
+        <CircularLabel className="local-rec" label={this.props.t('localRecording.label')} />
+      </Tooltip>
+    );
+  }
 }
 
 /**
@@ -65,11 +57,11 @@ class LocalRecordingLabel extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    const { isEngaged } = state['features/local-recording'];
+  const { isEngaged } = state['features/local-recording'];
 
-    return {
-        isEngaged
-    };
+  return {
+    isEngaged,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(LocalRecordingLabel));

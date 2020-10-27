@@ -10,14 +10,14 @@ import BaseDialog, { type Props } from './BaseDialog';
  * rendered.
  */
 class CustomDialog extends BaseDialog<Props, *> {
-    /**
-     * Implements {@code BaseDialog._renderContent}.
-     *
-     * @inheritdoc
-     */
-    _renderContent() {
-        return this.props.children;
-    }
+  /**
+   * Implements {@code BaseDialog._renderContent}.
+   *
+   * @inheritdoc
+   */
+  _renderContent() {
+    return this.props.children;
+  }
 }
 
 export default connect(_abstractMapStateToProps)(CustomDialog);

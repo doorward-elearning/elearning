@@ -3,16 +3,14 @@ import MeetingsRepository from '@doorward/backend/repositories/meetings.reposito
 import UserEntity from '@doorward/common/entities/user.entity';
 import MeetingEntity from '@doorward/common/entities/meeting.entity';
 import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
-import Capabilities from '@doorward/common/utils/Capabilities';
-import { defaultMeetingCapabilities, MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
-import { CustomerTypes } from '@doorward/common/types/customerTypes';
-import { OPENVIDU_ROLES, OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
+import { OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
 import { ORGANIZATION } from '../../bootstrap/organizationSetup';
-import { MeetingPlatform, MeetingStatus } from '@doorward/common/types/meeting';
+import { MeetingStatus } from '@doorward/common/types/meeting';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
 import Tools from '@doorward/common/utils/Tools';
 import translate from '@doorward/common/lang/translate';
+import { merge } from 'lodash';
 
 @Injectable()
 export class MeetingsService {
@@ -33,13 +31,7 @@ export class MeetingsService {
         throw new UnauthorizedException(translate.youAreNotAllowedToJoinMeeting());
       }
 
-      const role = (await currentUser.hasPrivileges('meetings.moderate'))
-        ? OPENVIDU_ROLES.MODERATOR
-        : OPENVIDU_ROLES.PUBLISHER;
-
-      return ORGANIZATION.meetingPlatform === MeetingPlatform.OPENVIDU
-        ? this.joinOpenviduMeeting(meeting, role, currentUser)
-        : this.joinJitsiMeeting(meeting, role, currentUser);
+      return this.joinJitsiMeeting(meeting, currentUser);
     } else {
       throw new BadRequestException(translate.meetingDoesNotHaveARoom());
     }
@@ -60,40 +52,38 @@ export class MeetingsService {
   /**
    *
    * @param meeting
-   * @param role
    * @param user
    */
-  public async joinOpenviduMeeting(meeting: MeetingEntity, role: OPENVIDU_ROLES, user?: UserEntity) {
-    const capabilities = new Capabilities(MeetingCapabilities, defaultMeetingCapabilities);
-
-    if (ORGANIZATION.customerType === CustomerTypes.COLLEGE_INDIA) {
-      if (role === OPENVIDU_ROLES.MODERATOR) {
-        capabilities.add(MeetingCapabilities.TURN_OFF_PARTICIPANTS_VIDEO);
-        capabilities.add(MeetingCapabilities.TURN_ON_PARTICIPANTS_VIDEO);
-        capabilities.add(MeetingCapabilities.MUTE_PARTICIPANTS);
-        capabilities.add(MeetingCapabilities.UNMUTE_PARTICIPANTS);
-        capabilities.add(MeetingCapabilities.JOIN_WITH_ACTIVE_VIDEO);
-      }
-    }
+  public async joinJitsiMeeting(meeting: MeetingEntity, user?: UserEntity) {
+    const isModerator = await user.hasPrivileges('meetings.moderate');
+    const isPublisher = await user.hasPrivileges('meetings.publish');
 
     return {
       user,
-      capabilities,
       meeting,
+      config: await this.buildJitsiConfig(isModerator, isPublisher),
+      interfaceConfig: await this.buildJitsiInterfaceConfig(isModerator, isPublisher),
     };
   }
 
-  /**
-   *
-   * @param meeting
-   * @param role
-   * @param user
-   */
-  public async joinJitsiMeeting(meeting: MeetingEntity, role: OPENVIDU_ROLES, user?: UserEntity) {
-    return {
-      user,
-      meeting,
-    };
+  public async buildJitsiInterfaceConfig(isModerator: boolean, isPublisher: boolean) {
+    const { moderator, publisher } = ORGANIZATION.meetings.interface;
+
+    if (isModerator) {
+      return moderator;
+    } else if (isPublisher) {
+      return publisher;
+    }
+  }
+
+  public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean) {
+    const { base, moderator, publisher } = ORGANIZATION.meetings.config;
+
+    if (isModerator) {
+      return merge({}, base, moderator);
+    } else if (isPublisher) {
+      return merge({}, base, publisher);
+    }
   }
 
   /**

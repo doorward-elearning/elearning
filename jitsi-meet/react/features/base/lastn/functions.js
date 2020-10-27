@@ -6,26 +6,29 @@
  * @returns {undefined|Map<number, number>}
  */
 export function validateLastNLimits(lastNLimits) {
-    // Checks if only numbers are used
-    if (typeof lastNLimits !== 'object'
-        || !Object.keys(lastNLimits).length
-        || Object.keys(lastNLimits)
-            .find(limit => limit === null || isNaN(Number(limit))
-                || lastNLimits[limit] === null || isNaN(Number(lastNLimits[limit])))) {
-        return undefined;
-    }
+  // Checks if only numbers are used
+  if (
+    typeof lastNLimits !== 'object' ||
+    !Object.keys(lastNLimits).length ||
+    Object.keys(lastNLimits).find(
+      (limit) =>
+        limit === null || isNaN(Number(limit)) || lastNLimits[limit] === null || isNaN(Number(lastNLimits[limit]))
+    )
+  ) {
+    return undefined;
+  }
 
-    // Converts to numbers and sorts the keys
-    const sortedMapping = new Map();
-    const orderedLimits = Object.keys(lastNLimits)
-        .map(n => Number(n))
-        .sort((n1, n2) => n1 - n2);
+  // Converts to numbers and sorts the keys
+  const sortedMapping = new Map();
+  const orderedLimits = Object.keys(lastNLimits)
+    .map((n) => Number(n))
+    .sort((n1, n2) => n1 - n2);
 
-    for (const limit of orderedLimits) {
-        sortedMapping.set(limit, Number(lastNLimits[limit]));
-    }
+  for (const limit of orderedLimits) {
+    sortedMapping.set(limit, Number(lastNLimits[limit]));
+  }
 
-    return sortedMapping;
+  return sortedMapping;
 }
 
 /**
@@ -40,17 +43,17 @@ export function validateLastNLimits(lastNLimits) {
  * of participants or {@code undefined} otherwise.
  */
 export function limitLastN(participantsCount, lastNLimits) {
-    if (!lastNLimits || !lastNLimits.keys) {
-        return undefined;
+  if (!lastNLimits || !lastNLimits.keys) {
+    return undefined;
+  }
+
+  let selectedLimit;
+
+  for (const participantsN of lastNLimits.keys()) {
+    if (participantsCount >= participantsN) {
+      selectedLimit = participantsN;
     }
+  }
 
-    let selectedLimit;
-
-    for (const participantsN of lastNLimits.keys()) {
-        if (participantsCount >= participantsN) {
-            selectedLimit = participantsN;
-        }
-    }
-
-    return selectedLimit ? lastNLimits.get(selectedLimit) : undefined;
+  return selectedLimit ? lastNLimits.get(selectedLimit) : undefined;
 }

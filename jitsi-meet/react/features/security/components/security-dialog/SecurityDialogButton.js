@@ -7,52 +7,48 @@ import { connect } from '../../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/components';
 import { toggleSecurityDialog } from '../../actions';
 
-
 type Props = AbstractButtonProps & {
+  /**
+   * Whether the shared document is being edited or not.
+   */
+  _locked: boolean,
 
-    /**
-     * Whether the shared document is being edited or not.
-     */
-    _locked: boolean,
-
-    /**
-     * On click handler that opens the security dialog.
-     */
-    onClick: Function
-
+  /**
+   * On click handler that opens the security dialog.
+   */
+  onClick: Function,
 };
-
 
 /**
  * Implements an {@link AbstractButton} to open the security dialog.
  */
 class SecurityDialogButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.security';
-    icon = IconSecurityOff;
-    label = 'toolbar.security';
-    toggledIcon = IconSecurityOn;
-    tooltip = 'toolbar.security';
+  accessibilityLabel = 'toolbar.accessibilityLabel.security';
+  icon = IconSecurityOff;
+  label = 'toolbar.security';
+  toggledIcon = IconSecurityOn;
+  tooltip = 'toolbar.security';
 
-    /**
-     * Handles clicking / pressing the button, and opens / closes the appropriate dialog.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        sendAnalytics(createToolbarEvent('toggle.security', { enable: !this.props._locked }));
-        this.props.onClick();
-    }
+  /**
+   * Handles clicking / pressing the button, and opens / closes the appropriate dialog.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    sendAnalytics(createToolbarEvent('toggle.security', { enable: !this.props._locked }));
+    this.props.onClick();
+  }
 
-    /**
-     * Indicates whether this button is in toggled state or not.
-     *
-     * @override
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._locked;
-    }
+  /**
+   * Indicates whether this button is in toggled state or not.
+   *
+   * @override
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._locked;
+  }
 }
 
 /**
@@ -62,12 +58,12 @@ class SecurityDialogButton extends AbstractButton<Props, *> {
  * @returns {Props}
  */
 function mapStateToProps(state: Object) {
-    const { locked } = state['features/base/conference'];
-    const { lobbyEnabled } = state['features/lobby'];
+  const { locked } = state['features/base/conference'];
+  const { lobbyEnabled } = state['features/lobby'];
 
-    return {
-        _locked: locked || lobbyEnabled
-    };
+  return {
+    _locked: locked || lobbyEnabled,
+  };
 }
 
 /**
@@ -77,7 +73,7 @@ function mapStateToProps(state: Object) {
  * @returns {Props}
  */
 const mapDispatchToProps = {
-    onClick: () => toggleSecurityDialog()
+  onClick: () => toggleSecurityDialog(),
 };
 
 export default translate(connect(mapStateToProps, mapDispatchToProps)(SecurityDialogButton));

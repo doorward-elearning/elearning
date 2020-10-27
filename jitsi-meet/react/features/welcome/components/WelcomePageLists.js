@@ -14,100 +14,98 @@ import { setWelcomePageListsDefaultPage } from '../actions';
  * The type of the React {@code Component} props of {@link WelcomePageLists}.
  */
 type Props = {
+  /**
+   * Whether the calendar functionality is enabled or not.
+   */
+  _calendarEnabled: boolean,
 
-    /**
-     * Whether the calendar functionality is enabled or not.
-     */
-    _calendarEnabled: boolean,
+  /**
+   * The stored default page index.
+   */
+  _defaultPage: number,
 
-    /**
-     * The stored default page index.
-     */
-    _defaultPage: number,
+  /**
+   * Renders the lists disabled.
+   */
+  disabled: boolean,
 
-    /**
-     * Renders the lists disabled.
-     */
-    disabled: boolean,
+  /**
+   * The Redux dispatch function.
+   */
+  dispatch: Function,
 
-    /**
-     * The Redux dispatch function.
-     */
-    dispatch: Function,
-
-    /**
-     * The i18n translate function.
-     */
-    t: Function
+  /**
+   * The i18n translate function.
+   */
+  t: Function,
 };
 
 /**
  * Implements the lists displayed on the mobile welcome screen.
  */
 class WelcomePageLists extends Component<Props> {
-    /**
-     * Initializes a new {@code WelcomePageLists} instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props) {
-        super(props);
+  /**
+   * Initializes a new {@code WelcomePageLists} instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props) {
+    super(props);
 
-        // Bind event handlers so they are only bound once per instance.
-        this._onSelectPage = this._onSelectPage.bind(this);
+    // Bind event handlers so they are only bound once per instance.
+    this._onSelectPage = this._onSelectPage.bind(this);
+  }
+
+  /**
+   * Implements React's {@link Component#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    const { _calendarEnabled, _defaultPage, t } = this.props;
+
+    if (typeof _defaultPage === 'undefined') {
+      return null;
     }
 
-    /**
-     * Implements React's {@link Component#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        const { _calendarEnabled, _defaultPage, t } = this.props;
+    const pages = [
+      {
+        component: RecentList,
+        icon: IconRestore,
+        title: t('welcomepage.recentList'),
+      },
+    ];
 
-        if (typeof _defaultPage === 'undefined') {
-            return null;
-        }
-
-        const pages = [
-            {
-                component: RecentList,
-                icon: IconRestore,
-                title: t('welcomepage.recentList')
-            }
-        ];
-
-        if (_calendarEnabled) {
-            pages.push(
-                {
-                    component: CalendarList,
-                    icon: IconEventNote,
-                    title: t('welcomepage.calendar')
-                }
-            );
-        }
-
-        return (
-            <PagedList
-                defaultPage = { _defaultPage }
-                disabled = { this.props.disabled }
-                onSelectPage = { this._onSelectPage }
-                pages = { pages } />
-        );
+    if (_calendarEnabled) {
+      pages.push({
+        component: CalendarList,
+        icon: IconEventNote,
+        title: t('welcomepage.calendar'),
+      });
     }
 
-    _onSelectPage: number => void;
+    return (
+      <PagedList
+        defaultPage={_defaultPage}
+        disabled={this.props.disabled}
+        onSelectPage={this._onSelectPage}
+        pages={pages}
+      />
+    );
+  }
 
-    /**
-     * Callback for the {@code PagedList} page select action.
-     *
-     * @private
-     * @param {number} pageIndex - The index of the selected page.
-     * @returns {void}
-     */
-    _onSelectPage(pageIndex) {
-        this.props.dispatch(setWelcomePageListsDefaultPage(pageIndex));
-    }
+  _onSelectPage: (number) => void;
+
+  /**
+   * Callback for the {@code PagedList} page select action.
+   *
+   * @private
+   * @param {number} pageIndex - The index of the selected page.
+   * @returns {void}
+   */
+  _onSelectPage(pageIndex) {
+    this.props.dispatch(setWelcomePageListsDefaultPage(pageIndex));
+  }
 }
 
 /**
@@ -122,18 +120,18 @@ class WelcomePageLists extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state: Object) {
-    let { defaultPage } = state['features/welcome'];
+  let { defaultPage } = state['features/welcome'];
 
-    if (typeof defaultPage === 'undefined') {
-        const recentList = state['features/recent-list'];
+  if (typeof defaultPage === 'undefined') {
+    const recentList = state['features/recent-list'];
 
-        defaultPage = recentList && recentList.length ? 0 : 1;
-    }
+    defaultPage = recentList && recentList.length ? 0 : 1;
+  }
 
-    return {
-        _calendarEnabled: isCalendarEnabled(state),
-        _defaultPage: defaultPage
-    };
+  return {
+    _calendarEnabled: isCalendarEnabled(state),
+    _defaultPage: defaultPage,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(WelcomePageLists));

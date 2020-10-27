@@ -15,22 +15,21 @@ import styles from './styles';
  * {@link LocalVideoTrackUnderlay}.
  */
 type Props = {
+  /**
+   * The redux representation of the local participant's video track.
+   */
+  _localVideoTrack: Object,
 
-    /**
-     * The redux representation of the local participant's video track.
-     */
-    _localVideoTrack: Object,
+  /**
+   * React Elements to display within the component.
+   */
+  children: React$Node,
 
-    /**
-     * React Elements to display within the component.
-     */
-    children: React$Node,
-
-    /**
-     * The style, if any, to apply to {@link LocalVideoTrackUnderlay} in
-     * addition to its default style.
-     */
-    style: Object
+  /**
+   * The style, if any, to apply to {@link LocalVideoTrackUnderlay} in
+   * addition to its default style.
+   */
+  style: Object,
 };
 
 /**
@@ -38,27 +37,21 @@ type Props = {
  * if any, underneath its children.
  */
 class LocalVideoTrackUnderlay extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @override
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <View
-                style = { [
-                    styles.localVideoTrackUnderlay,
-                    this.props.style
-                ] }>
-                <VideoTrack videoTrack = { this.props._localVideoTrack } />
-                <TintedView>
-                    { this.props.children }
-                </TintedView>
-            </View>
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @override
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <View style={[styles.localVideoTrackUnderlay, this.props.style]}>
+        <VideoTrack videoTrack={this.props._localVideoTrack} />
+        <TintedView>{this.props.children}</TintedView>
+      </View>
+    );
+  }
 }
 
 /**
@@ -72,9 +65,9 @@ class LocalVideoTrackUnderlay extends Component<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    return {
-        _localVideoTrack: getLocalVideoTrack(state['features/base/tracks'])
-    };
+  return {
+    _localVideoTrack: getLocalVideoTrack(state['features/base/tracks']),
+  };
 }
 
 export default connect(_mapStateToProps)(LocalVideoTrackUnderlay);

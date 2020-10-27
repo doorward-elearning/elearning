@@ -12,5 +12,5 @@ import { parseURLParams } from '../util';
  * {@code url}; otherwise, {@code undefined}.
  */
 export function parseJWTFromURLParams(url: URL = window.location) {
-    return parseURLParams(url, true, 'search').jwt;
+  return parseURLParams(url, true, 'search').jwt;
 }

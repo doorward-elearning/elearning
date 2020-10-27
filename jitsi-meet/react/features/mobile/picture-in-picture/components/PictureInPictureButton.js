@@ -10,45 +10,44 @@ import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/
 import { enterPictureInPicture } from '../actions';
 
 type Props = AbstractButtonProps & {
+  /**
+   * Whether Picture-in-Picture is enabled or not.
+   */
+  _enabled: boolean,
 
-    /**
-     * Whether Picture-in-Picture is enabled or not.
-     */
-    _enabled: boolean,
-
-    /**
-     * The redux {@code dispatch} function.
-     */
-    dispatch: Function
+  /**
+   * The redux {@code dispatch} function.
+   */
+  dispatch: Function,
 };
 
 /**
  * An implementation of a button for entering Picture-in-Picture mode.
  */
 class PictureInPictureButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.pip';
-    icon = IconMenuDown;
-    label = 'toolbar.pip';
+  accessibilityLabel = 'toolbar.accessibilityLabel.pip';
+  icon = IconMenuDown;
+  label = 'toolbar.pip';
 
-    /**
-     * Handles clicking / pressing the button.
-     *
-     * @protected
-     * @returns {void}
-     */
-    _handleClick() {
-        this.props.dispatch(enterPictureInPicture());
-    }
+  /**
+   * Handles clicking / pressing the button.
+   *
+   * @protected
+   * @returns {void}
+   */
+  _handleClick() {
+    this.props.dispatch(enterPictureInPicture());
+  }
 
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {React$Node}
-     */
-    render() {
-        return this.props._enabled ? super.render() : null;
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {React$Node}
+   */
+  render() {
+    return this.props._enabled ? super.render() : null;
+  }
 }
 
 /**
@@ -62,17 +61,17 @@ class PictureInPictureButton extends AbstractButton<Props, *> {
  * }}
  */
 function _mapStateToProps(state): Object {
-    const flag = Boolean(getFeatureFlag(state, PIP_ENABLED));
-    let enabled = flag;
+  const flag = Boolean(getFeatureFlag(state, PIP_ENABLED));
+  let enabled = flag;
 
-    // Override flag for Android, since it might be unsupported.
-    if (Platform.OS === 'android' && !NativeModules.PictureInPicture.SUPPORTED) {
-        enabled = false;
-    }
+  // Override flag for Android, since it might be unsupported.
+  if (Platform.OS === 'android' && !NativeModules.PictureInPicture.SUPPORTED) {
+    enabled = false;
+  }
 
-    return {
-        _enabled: enabled
-    };
+  return {
+    _enabled: enabled,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(PictureInPictureButton));

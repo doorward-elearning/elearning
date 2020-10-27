@@ -12,15 +12,15 @@ import { INCOMING_CALL_ANSWERED, INCOMING_CALL_DECLINED } from './actionTypes';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
+  switch (action.type) {
     case INCOMING_CALL_ANSWERED:
     case INCOMING_CALL_DECLINED:
-        sendEvent(store, action.type, /* data */ {});
-        break;
-    }
+      sendEvent(store, action.type, /* data */ {});
+      break;
+  }
 
-    return result;
+  return result;
 });

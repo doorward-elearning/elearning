@@ -23,68 +23,64 @@ import { DEFAULT_SERVER_URL } from './constants';
  * configuration/preference/setting sources to consider/retrieve values from.
  * @returns {any}
  */
-export function getPropertyValue(
-        stateful: Object | Function,
-        propertyName: string,
-        sources?: Object
-) {
-    // Default values don't play nicely with partial objects and we want to make
-    // the function easy to use without exhaustively defining all flags:
-    sources = { // eslint-disable-line no-param-reassign
-        // Defaults:
-        config: true,
-        jwt: true,
-        settings: true,
-        urlParams: true,
+export function getPropertyValue(stateful: Object | Function, propertyName: string, sources?: Object) {
+  // Default values don't play nicely with partial objects and we want to make
+  // the function easy to use without exhaustively defining all flags:
+  sources = {
+    // eslint-disable-line no-param-reassign
+    // Defaults:
+    config: true,
+    jwt: true,
+    settings: true,
+    urlParams: true,
 
-        ...sources
-    };
+    ...sources,
+  };
 
-    // Precedence: jwt -> urlParams -> settings -> config.
+  // Precedence: jwt -> urlParams -> settings -> config.
 
-    const state = toState(stateful);
+  const state = toState(stateful);
 
-    // jwt
-    if (sources.jwt) {
-        const value = state['features/base/jwt'][propertyName];
+  // jwt
+  if (sources.jwt) {
+    const value = state['features/base/jwt'][propertyName];
 
-        if (typeof value !== 'undefined') {
-            return value[propertyName];
-        }
+    if (typeof value !== 'undefined') {
+      return value[propertyName];
     }
+  }
 
-    // urlParams
-    if (sources.urlParams) {
-        if (CONFIG_WHITELIST.indexOf(propertyName) !== -1) {
-            const urlParams
-                = parseURLParams(state['features/base/connection'].locationURL);
-            const value = urlParams[`config.${propertyName}`];
+  // urlParams
+  if (sources.urlParams) {
+    if (CONFIG_WHITELIST.indexOf(propertyName) !== -1) {
+      const urlParams = parseURLParams(state['features/base/connection'].locationURL);
+      const value = urlParams[`config.${propertyName}`];
 
-            if (typeof value !== 'undefined') {
-                return value;
-            }
-        }
+      if (typeof value !== 'undefined') {
+        return value;
+      }
     }
+  }
 
-    // settings
-    if (sources.settings) {
-        const value = state['features/base/settings'][propertyName];
+  // settings
+  if (sources.settings) {
+    const value = state['features/base/settings'][propertyName];
 
-        if (typeof value !== 'undefined') {
-            return value;
-        }
+    if (typeof value !== 'undefined') {
+      return value;
     }
+  }
 
-    // config
-    if (sources.config) {
-        const value = state['features/base/config'][propertyName];
+  // config
+  if (sources.config) {
+    const value = state['features/base/config'][propertyName];
 
-        if (typeof value !== 'undefined') {
-            return value;
-        }
+    if (typeof value !== 'undefined') {
+      return value;
     }
+  }
 
-    return undefined;
+  return undefined;
 }
 
 /**
@@ -95,9 +91,9 @@ export function getPropertyValue(
  * @returns {string} - The currently configured server URL.
  */
 export function getServerURL(stateful: Object | Function) {
-    const state = toState(stateful);
+  const state = toState(stateful);
 
-    return state['features/base/settings'].serverURL || DEFAULT_SERVER_URL;
+  return state['features/base/settings'].serverURL || DEFAULT_SERVER_URL;
 }
 
 /**
@@ -109,23 +105,20 @@ export function getServerURL(stateful: Object | Function) {
  * @returns {string}
  */
 export function getUserSelectedCameraDeviceId(stateful: Object | Function) {
-    const state = toState(stateful);
-    const {
-        userSelectedCameraDeviceId,
-        userSelectedCameraDeviceLabel
-    } = state['features/base/settings'];
-    const { videoInput } = state['features/base/devices'].availableDevices;
+  const state = toState(stateful);
+  const { userSelectedCameraDeviceId, userSelectedCameraDeviceLabel } = state['features/base/settings'];
+  const { videoInput } = state['features/base/devices'].availableDevices;
 
-    return _getUserSelectedDeviceId({
-        availableDevices: videoInput,
+  return _getUserSelectedDeviceId({
+    availableDevices: videoInput,
 
-        // Operating systems may append " #{number}" somewhere in the label so
-        // find and strip that bit.
-        matchRegex: /\s#\d*(?!.*\s#\d*)/,
-        userSelectedDeviceId: userSelectedCameraDeviceId,
-        userSelectedDeviceLabel: userSelectedCameraDeviceLabel,
-        replacement: ''
-    });
+    // Operating systems may append " #{number}" somewhere in the label so
+    // find and strip that bit.
+    matchRegex: /\s#\d*(?!.*\s#\d*)/,
+    userSelectedDeviceId: userSelectedCameraDeviceId,
+    userSelectedDeviceLabel: userSelectedCameraDeviceLabel,
+    replacement: '',
+  });
 }
 
 /**
@@ -137,23 +130,20 @@ export function getUserSelectedCameraDeviceId(stateful: Object | Function) {
  * @returns {string}
  */
 export function getUserSelectedMicDeviceId(stateful: Object | Function) {
-    const state = toState(stateful);
-    const {
-        userSelectedMicDeviceId,
-        userSelectedMicDeviceLabel
-    } = state['features/base/settings'];
-    const { audioInput } = state['features/base/devices'].availableDevices;
+  const state = toState(stateful);
+  const { userSelectedMicDeviceId, userSelectedMicDeviceLabel } = state['features/base/settings'];
+  const { audioInput } = state['features/base/devices'].availableDevices;
 
-    return _getUserSelectedDeviceId({
-        availableDevices: audioInput,
+  return _getUserSelectedDeviceId({
+    availableDevices: audioInput,
 
-        // Operating systems may append " ({number}-" somewhere in the label so
-        // find and strip that bit.
-        matchRegex: /\s\(\d*-\s(?!.*\s\(\d*-\s)/,
-        userSelectedDeviceId: userSelectedMicDeviceId,
-        userSelectedDeviceLabel: userSelectedMicDeviceLabel,
-        replacement: ' ('
-    });
+    // Operating systems may append " ({number}-" somewhere in the label so
+    // find and strip that bit.
+    matchRegex: /\s\(\d*-\s(?!.*\s\(\d*-\s)/,
+    userSelectedDeviceId: userSelectedMicDeviceId,
+    userSelectedDeviceLabel: userSelectedMicDeviceLabel,
+    replacement: ' (',
+  });
 }
 
 /**
@@ -165,20 +155,17 @@ export function getUserSelectedMicDeviceId(stateful: Object | Function) {
  * @returns {string}
  */
 export function getUserSelectedOutputDeviceId(stateful: Object | Function) {
-    const state = toState(stateful);
-    const {
-        userSelectedAudioOutputDeviceId,
-        userSelectedAudioOutputDeviceLabel
-    } = state['features/base/settings'];
-    const { audioOutput } = state['features/base/devices'].availableDevices;
+  const state = toState(stateful);
+  const { userSelectedAudioOutputDeviceId, userSelectedAudioOutputDeviceLabel } = state['features/base/settings'];
+  const { audioOutput } = state['features/base/devices'].availableDevices;
 
-    return _getUserSelectedDeviceId({
-        availableDevices: audioOutput,
-        matchRegex: undefined,
-        userSelectedDeviceId: userSelectedAudioOutputDeviceId,
-        userSelectedDeviceLabel: userSelectedAudioOutputDeviceLabel,
-        replacement: undefined
-    });
+  return _getUserSelectedDeviceId({
+    availableDevices: audioOutput,
+    matchRegex: undefined,
+    userSelectedDeviceId: userSelectedAudioOutputDeviceId,
+    userSelectedDeviceLabel: userSelectedAudioOutputDeviceLabel,
+    replacement: undefined,
+  });
 }
 
 /**
@@ -204,47 +191,39 @@ export function getUserSelectedOutputDeviceId(stateful: Object | Function) {
  * @returns {string} The preferred device ID to use for media.
  */
 function _getUserSelectedDeviceId(options) {
-    const {
-        availableDevices,
-        matchRegex,
-        userSelectedDeviceId,
-        userSelectedDeviceLabel,
-        replacement
-    } = options;
+  const { availableDevices, matchRegex, userSelectedDeviceId, userSelectedDeviceLabel, replacement } = options;
 
-    // If there is no label at all, there is no need to fall back to checking
-    // the label for a fuzzy match.
-    if (!userSelectedDeviceLabel || !userSelectedDeviceId) {
-        return userSelectedDeviceId;
+  // If there is no label at all, there is no need to fall back to checking
+  // the label for a fuzzy match.
+  if (!userSelectedDeviceLabel || !userSelectedDeviceId) {
+    return userSelectedDeviceId;
+  }
+
+  const foundMatchingBasedonDeviceId = availableDevices.find(
+    (candidate) => candidate.deviceId === userSelectedDeviceId
+  );
+
+  // Prioritize matching the deviceId
+  if (foundMatchingBasedonDeviceId) {
+    return userSelectedDeviceId;
+  }
+
+  const strippedDeviceLabel = matchRegex
+    ? userSelectedDeviceLabel.replace(matchRegex, replacement)
+    : userSelectedDeviceLabel;
+  const foundMatchBasedOnLabel = availableDevices.find((candidate) => {
+    const { label } = candidate;
+
+    if (!label) {
+      return false;
+    } else if (strippedDeviceLabel === label) {
+      return true;
     }
 
-    const foundMatchingBasedonDeviceId = availableDevices.find(
-        candidate => candidate.deviceId === userSelectedDeviceId);
+    const strippedCandidateLabel = label.replace(matchRegex, replacement);
 
-    // Prioritize matching the deviceId
-    if (foundMatchingBasedonDeviceId) {
-        return userSelectedDeviceId;
-    }
+    return strippedDeviceLabel === strippedCandidateLabel;
+  });
 
-    const strippedDeviceLabel
-        = matchRegex ? userSelectedDeviceLabel.replace(matchRegex, replacement)
-            : userSelectedDeviceLabel;
-    const foundMatchBasedOnLabel = availableDevices.find(candidate => {
-        const { label } = candidate;
-
-        if (!label) {
-            return false;
-        } else if (strippedDeviceLabel === label) {
-            return true;
-        }
-
-        const strippedCandidateLabel
-            = label.replace(matchRegex, replacement);
-
-        return strippedDeviceLabel === strippedCandidateLabel;
-    });
-
-    return foundMatchBasedOnLabel
-        ? foundMatchBasedOnLabel.deviceId : userSelectedDeviceId;
+  return foundMatchBasedOnLabel ? foundMatchBasedOnLabel.deviceId : userSelectedDeviceId;
 }
-

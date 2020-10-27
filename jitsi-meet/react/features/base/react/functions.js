@@ -7,5 +7,5 @@
  * @returns {string}
  */
 export function getFieldValue(fieldParameter: Object | string) {
-    return typeof fieldParameter === 'string' ? fieldParameter : fieldParameter?.target?.value;
+  return typeof fieldParameter === 'string' ? fieldParameter : fieldParameter?.target?.value;
 }

@@ -11,11 +11,11 @@ export const NOTIFICATION_TIMEOUT = 2500;
  * @enum {string}
  */
 export const NOTIFICATION_TYPE = {
-    ERROR: 'error',
-    INFO: 'info',
-    NORMAL: 'normal',
-    SUCCESS: 'success',
-    WARNING: 'warning'
+  ERROR: 'error',
+  INFO: 'info',
+  NORMAL: 'normal',
+  SUCCESS: 'success',
+  WARNING: 'warning',
 };
 
 /**
@@ -24,9 +24,9 @@ export const NOTIFICATION_TYPE = {
  * @enum {number}
  */
 export const NOTIFICATION_TYPE_PRIORITIES = {
-    [NOTIFICATION_TYPE.ERROR]: 5,
-    [NOTIFICATION_TYPE.INFO]: 3,
-    [NOTIFICATION_TYPE.NORMAL]: 3,
-    [NOTIFICATION_TYPE.SUCCESS]: 3,
-    [NOTIFICATION_TYPE.WARNING]: 4
+  [NOTIFICATION_TYPE.ERROR]: 5,
+  [NOTIFICATION_TYPE.INFO]: 3,
+  [NOTIFICATION_TYPE.NORMAL]: 3,
+  [NOTIFICATION_TYPE.SUCCESS]: 3,
+  [NOTIFICATION_TYPE.WARNING]: 4,
 };

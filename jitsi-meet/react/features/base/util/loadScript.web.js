@@ -10,12 +10,14 @@ declare var JitsiMeetJS: Object;
  * rejected with the error from JitsiMeetJS.ScriptUtil.loadScript method.
  */
 export function loadScript(url: string): Promise<void> {
-    return new Promise((resolve, reject) =>
-        JitsiMeetJS.util.ScriptUtil.loadScript(
-            url,
-            /* async */ true,
-            /* prepend */ false,
-            /* relativeURL */ false,
-            /* loadCallback */ resolve,
-            /* errorCallback */ reject));
+  return new Promise((resolve, reject) =>
+    JitsiMeetJS.util.ScriptUtil.loadScript(
+      url,
+      /* async */ true,
+      /* prepend */ false,
+      /* relativeURL */ false,
+      /* loadCallback */ resolve,
+      /* errorCallback */ reject
+    )
+  );
 }

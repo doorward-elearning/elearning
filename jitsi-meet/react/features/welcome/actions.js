@@ -1,9 +1,6 @@
 // @flow
 
-import {
-    SET_SIDEBAR_VISIBLE,
-    SET_WELCOME_PAGE_LISTS_DEFAULT_PAGE
-} from './actionTypes';
+import { SET_SIDEBAR_VISIBLE, SET_WELCOME_PAGE_LISTS_DEFAULT_PAGE } from './actionTypes';
 
 /**
  * Sets the visibility of {@link WelcomePageSideBar}.
@@ -16,10 +13,10 @@ import {
  * }}
  */
 export function setSideBarVisible(visible: boolean) {
-    return {
-        type: SET_SIDEBAR_VISIBLE,
-        visible
-    };
+  return {
+    type: SET_SIDEBAR_VISIBLE,
+    visible,
+  };
 }
 
 /**
@@ -32,8 +29,8 @@ export function setSideBarVisible(visible: boolean) {
  * }}
  */
 export function setWelcomePageListsDefaultPage(pageIndex: number) {
-    return {
-        type: SET_WELCOME_PAGE_LISTS_DEFAULT_PAGE,
-        pageIndex
-    };
+  return {
+    type: SET_WELCOME_PAGE_LISTS_DEFAULT_PAGE,
+    pageIndex,
+  };
 }

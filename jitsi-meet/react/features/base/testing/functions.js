@@ -9,7 +9,7 @@
  * @returns {boolean}
  */
 export function isTestModeEnabled(state: Object): boolean {
-    const testingConfig = state['features/base/config'].testing;
+  const testingConfig = state['features/base/config'].testing;
 
-    return Boolean(testingConfig && testingConfig.testMode);
+  return Boolean(testingConfig && testingConfig.testMode);
 }

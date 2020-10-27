@@ -9,32 +9,32 @@ import { isPrejoinPageEnabled } from '../prejoin/functions';
 
 import { KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED } from './actionTypes';
 import {
-    hideLobbyScreen,
-    knockingParticipantLeft,
-    openLobbyScreen,
-    participantIsKnockingOrUpdated,
-    setLobbyModeEnabled,
-    startKnocking,
-    setPasswordJoinFailed
+  hideLobbyScreen,
+  knockingParticipantLeft,
+  openLobbyScreen,
+  participantIsKnockingOrUpdated,
+  setLobbyModeEnabled,
+  startKnocking,
+  setPasswordJoinFailed,
 } from './actions';
 
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CONFERENCE_FAILED:
-        return _conferenceFailed(store, next, action);
+      return _conferenceFailed(store, next, action);
     case CONFERENCE_JOINED:
-        return _conferenceJoined(store, next, action);
+      return _conferenceJoined(store, next, action);
     case KNOCKING_PARTICIPANT_ARRIVED_OR_UPDATED: {
-        // We need the full update result to be in the store already
-        const result = next(action);
+      // We need the full update result to be in the store already
+      const result = next(action);
 
-        _findLoadableAvatarForKnockingParticipant(store, action.participant);
+      _findLoadableAvatarForKnockingParticipant(store, action.participant);
 
-        return result;
+      return result;
     }
-    }
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -42,39 +42,44 @@ MiddlewareRegistry.register(store => next => action => {
  * set the event listeners needed for the lobby feature to operate.
  */
 StateListenerRegistry.register(
-    state => state['features/base/conference'].conference,
-    (conference, { dispatch, getState }, previousConference) => {
-        if (conference && !previousConference) {
-            conference.on(JitsiConferenceEvents.MEMBERS_ONLY_CHANGED, enabled => {
-                dispatch(setLobbyModeEnabled(enabled));
-            });
+  (state) => state['features/base/conference'].conference,
+  (conference, { dispatch, getState }, previousConference) => {
+    if (conference && !previousConference) {
+      conference.on(JitsiConferenceEvents.MEMBERS_ONLY_CHANGED, (enabled) => {
+        dispatch(setLobbyModeEnabled(enabled));
+      });
 
-            conference.on(JitsiConferenceEvents.LOBBY_USER_JOINED, (id, name) => {
-                dispatch(participantIsKnockingOrUpdated({
-                    id,
-                    name
-                }));
-            });
+      conference.on(JitsiConferenceEvents.LOBBY_USER_JOINED, (id, name) => {
+        dispatch(
+          participantIsKnockingOrUpdated({
+            id,
+            name,
+          })
+        );
+      });
 
-            conference.on(JitsiConferenceEvents.LOBBY_USER_UPDATED, (id, participant) => {
-                dispatch(participantIsKnockingOrUpdated({
-                    ...participant,
-                    id
-                }));
-            });
+      conference.on(JitsiConferenceEvents.LOBBY_USER_UPDATED, (id, participant) => {
+        dispatch(
+          participantIsKnockingOrUpdated({
+            ...participant,
+            id,
+          })
+        );
+      });
 
-            conference.on(JitsiConferenceEvents.LOBBY_USER_LEFT, id => {
-                dispatch(knockingParticipantLeft(id));
-            });
+      conference.on(JitsiConferenceEvents.LOBBY_USER_LEFT, (id) => {
+        dispatch(knockingParticipantLeft(id));
+      });
 
-            conference.on(JitsiConferenceEvents.ENDPOINT_MESSAGE_RECEIVED, (origin, sender) =>
-                _maybeSendLobbyNotification(origin, sender, {
-                    dispatch,
-                    getState
-                })
-            );
-        }
-    });
+      conference.on(JitsiConferenceEvents.ENDPOINT_MESSAGE_RECEIVED, (origin, sender) =>
+        _maybeSendLobbyNotification(origin, sender, {
+          dispatch,
+          getState,
+        })
+      );
+    }
+  }
+);
 
 /**
  * Function to handle the conference failed event and navigate the user to the lobby screen
@@ -86,40 +91,42 @@ StateListenerRegistry.register(
  * @returns {Object}
  */
 function _conferenceFailed({ dispatch, getState }, next, action) {
-    const { error } = action;
-    const state = getState();
-    const nonFirstFailure = Boolean(state['features/base/conference'].membersOnly);
+  const { error } = action;
+  const state = getState();
+  const nonFirstFailure = Boolean(state['features/base/conference'].membersOnly);
 
-    if (error.name === JitsiConferenceErrors.MEMBERS_ONLY_ERROR) {
-        if (typeof error.recoverable === 'undefined') {
-            error.recoverable = true;
-        }
-
-        const result = next(action);
-
-        dispatch(openLobbyScreen());
-
-        if (isPrejoinPageEnabled(state) && !state['features/lobby'].knocking) {
-            // prejoin is enabled, so we knock automatically
-            dispatch(startKnocking());
-        }
-
-        dispatch(setPasswordJoinFailed(nonFirstFailure));
-
-        return result;
+  if (error.name === JitsiConferenceErrors.MEMBERS_ONLY_ERROR) {
+    if (typeof error.recoverable === 'undefined') {
+      error.recoverable = true;
     }
 
-    dispatch(hideLobbyScreen());
+    const result = next(action);
 
-    if (error.name === JitsiConferenceErrors.CONFERENCE_ACCESS_DENIED) {
-        dispatch(showNotification({
-            appearance: NOTIFICATION_TYPE.ERROR,
-            hideErrorSupportLink: true,
-            titleKey: 'lobby.joinRejectedMessage'
-        }));
+    dispatch(openLobbyScreen());
+
+    if (isPrejoinPageEnabled(state) && !state['features/lobby'].knocking) {
+      // prejoin is enabled, so we knock automatically
+      dispatch(startKnocking());
     }
 
-    return next(action);
+    dispatch(setPasswordJoinFailed(nonFirstFailure));
+
+    return result;
+  }
+
+  dispatch(hideLobbyScreen());
+
+  if (error.name === JitsiConferenceErrors.CONFERENCE_ACCESS_DENIED) {
+    dispatch(
+      showNotification({
+        appearance: NOTIFICATION_TYPE.ERROR,
+        hideErrorSupportLink: true,
+        titleKey: 'lobby.joinRejectedMessage',
+      })
+    );
+  }
+
+  return next(action);
 }
 
 /**
@@ -131,9 +138,9 @@ function _conferenceFailed({ dispatch, getState }, next, action) {
  * @returns {Object}
  */
 function _conferenceJoined({ dispatch }, next, action) {
-    dispatch(hideLobbyScreen());
+  dispatch(hideLobbyScreen());
 
-    return next(action);
+  return next(action);
 }
 
 /**
@@ -144,19 +151,21 @@ function _conferenceJoined({ dispatch }, next, action) {
  * @returns {void}
  */
 function _findLoadableAvatarForKnockingParticipant({ dispatch, getState }, { id }) {
-    const updatedParticipant = getState()['features/lobby'].knockingParticipants.find(p => p.id === id);
-    const { disableThirdPartyRequests } = getState()['features/base/config'];
+  const updatedParticipant = getState()['features/lobby'].knockingParticipants.find((p) => p.id === id);
+  const { disableThirdPartyRequests } = getState()['features/base/config'];
 
-    if (!disableThirdPartyRequests && updatedParticipant && !updatedParticipant.loadableAvatarUrl) {
-        getFirstLoadableAvatarUrl(updatedParticipant).then(loadableAvatarUrl => {
-            if (loadableAvatarUrl) {
-                dispatch(participantIsKnockingOrUpdated({
-                    loadableAvatarUrl,
-                    id
-                }));
-            }
-        });
-    }
+  if (!disableThirdPartyRequests && updatedParticipant && !updatedParticipant.loadableAvatarUrl) {
+    getFirstLoadableAvatarUrl(updatedParticipant).then((loadableAvatarUrl) => {
+      if (loadableAvatarUrl) {
+        dispatch(
+          participantIsKnockingOrUpdated({
+            loadableAvatarUrl,
+            id,
+          })
+        );
+      }
+    });
+  }
 }
 
 /**
@@ -169,29 +178,29 @@ function _findLoadableAvatarForKnockingParticipant({ dispatch, getState }, { id 
  * @returns {void}
  */
 function _maybeSendLobbyNotification(origin, message, { dispatch, getState }) {
-    if (!origin?._id || message?.type !== 'lobby-notify') {
-        return;
-    }
+  if (!origin?._id || message?.type !== 'lobby-notify') {
+    return;
+  }
 
-    const notificationProps: any = {
-        descriptionArguments: {
-            originParticipantName: getParticipantDisplayName(getState, origin._id),
-            targetParticipantName: message.name
-        },
-        titleKey: 'lobby.notificationTitle'
-    };
+  const notificationProps: any = {
+    descriptionArguments: {
+      originParticipantName: getParticipantDisplayName(getState, origin._id),
+      targetParticipantName: message.name,
+    },
+    titleKey: 'lobby.notificationTitle',
+  };
 
-    switch (message.event) {
+  switch (message.event) {
     case 'LOBBY-ENABLED':
-        notificationProps.descriptionKey = `lobby.notificationLobby${message.value ? 'En' : 'Dis'}abled`;
-        break;
+      notificationProps.descriptionKey = `lobby.notificationLobby${message.value ? 'En' : 'Dis'}abled`;
+      break;
     case 'LOBBY-ACCESS-GRANTED':
-        notificationProps.descriptionKey = 'lobby.notificationLobbyAccessGranted';
-        break;
+      notificationProps.descriptionKey = 'lobby.notificationLobbyAccessGranted';
+      break;
     case 'LOBBY-ACCESS-DENIED':
-        notificationProps.descriptionKey = 'lobby.notificationLobbyAccessDenied';
-        break;
-    }
+      notificationProps.descriptionKey = 'lobby.notificationLobbyAccessDenied';
+      break;
+  }
 
-    dispatch(showNotification(notificationProps, 5000));
+  dispatch(showNotification(notificationProps, 5000));
 }

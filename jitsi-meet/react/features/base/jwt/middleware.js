@@ -4,10 +4,7 @@ import jwtDecode from 'jwt-decode';
 
 import { SET_CONFIG } from '../config';
 import { SET_LOCATION_URL } from '../connection';
-import {
-    getLocalParticipant,
-    participantUpdated
-} from '../participants';
+import { getLocalParticipant, participantUpdated } from '../participants';
 import { MiddlewareRegistry } from '../redux';
 
 import { SET_JWT } from './actionTypes';
@@ -24,22 +21,22 @@ declare var APP: Object;
  * @private
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case SET_CONFIG:
     case SET_LOCATION_URL:
-        // XXX The JSON Web Token (JWT) is not the only piece of state that we
-        // have decided to store in the feature jwt, there is isGuest as well
-        // which depends on the states of the features base/config and jwt. So
-        // the JSON Web Token comes from the conference/room's URL and isGuest
-        // needs a recalculation upon SET_CONFIG as well.
-        return _setConfigOrLocationURL(store, next, action);
+      // XXX The JSON Web Token (JWT) is not the only piece of state that we
+      // have decided to store in the feature jwt, there is isGuest as well
+      // which depends on the states of the features base/config and jwt. So
+      // the JSON Web Token comes from the conference/room's URL and isGuest
+      // needs a recalculation upon SET_CONFIG as well.
+      return _setConfigOrLocationURL(store, next, action);
 
     case SET_JWT:
-        return _setJWT(store, next, action);
-    }
+      return _setJWT(store, next, action);
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -53,32 +50,29 @@ MiddlewareRegistry.register(store => next => action => {
  * @private
  * @returns {void}
  */
-function _overwriteLocalParticipant(
-        { dispatch, getState },
-        { avatarURL, email, name, features }) {
-    let localParticipant;
+function _overwriteLocalParticipant({ dispatch, getState }, { avatarURL, email, name, features }) {
+  let localParticipant;
 
-    if ((avatarURL || email || name)
-            && (localParticipant = getLocalParticipant(getState))) {
-        const newProperties: Object = {
-            id: localParticipant.id,
-            local: true
-        };
+  if ((avatarURL || email || name) && (localParticipant = getLocalParticipant(getState))) {
+    const newProperties: Object = {
+      id: localParticipant.id,
+      local: true,
+    };
 
-        if (avatarURL) {
-            newProperties.avatarURL = avatarURL;
-        }
-        if (email) {
-            newProperties.email = email;
-        }
-        if (name) {
-            newProperties.name = name;
-        }
-        if (features) {
-            newProperties.features = features;
-        }
-        dispatch(participantUpdated(newProperties));
+    if (avatarURL) {
+      newProperties.avatarURL = avatarURL;
     }
+    if (email) {
+      newProperties.email = email;
+    }
+    if (name) {
+      newProperties.name = name;
+    }
+    if (features) {
+      newProperties.features = features;
+    }
+    dispatch(participantUpdated(newProperties));
+  }
 }
 
 /**
@@ -98,14 +92,13 @@ function _overwriteLocalParticipant(
  * specified {@code action}.
  */
 function _setConfigOrLocationURL({ dispatch, getState }, next, action) {
-    const result = next(action);
+  const result = next(action);
 
-    const { locationURL } = getState()['features/base/connection'];
+  const { locationURL } = getState()['features/base/connection'];
 
-    dispatch(
-        setJWT(locationURL ? parseJWTFromURLParams(locationURL) : undefined));
+  dispatch(setJWT(locationURL ? parseJWTFromURLParams(locationURL) : undefined));
 
-    return result;
+  return result;
 }
 
 /**
@@ -123,56 +116,52 @@ function _setConfigOrLocationURL({ dispatch, getState }, next, action) {
  * specified {@code action}.
  */
 function _setJWT(store, next, action) {
-    // eslint-disable-next-line no-unused-vars
-    const { jwt, type, ...actionPayload } = action;
+  // eslint-disable-next-line no-unused-vars
+  const { jwt, type, ...actionPayload } = action;
 
-    if (!Object.keys(actionPayload).length) {
-        if (jwt) {
-            const {
-                enableUserRolesBasedOnToken
-            } = store.getState()['features/base/config'];
+  if (!Object.keys(actionPayload).length) {
+    if (jwt) {
+      const { enableUserRolesBasedOnToken } = store.getState()['features/base/config'];
 
-            action.isGuest = !enableUserRolesBasedOnToken;
+      action.isGuest = !enableUserRolesBasedOnToken;
 
-            let jwtPayload;
+      let jwtPayload;
 
-            try {
-                jwtPayload = jwtDecode(jwt);
-            } catch (e) {
-                logger.error(e);
-            }
+      try {
+        jwtPayload = jwtDecode(jwt);
+      } catch (e) {
+        logger.error(e);
+      }
 
-            if (jwtPayload) {
-                const { context, iss } = jwtPayload;
+      if (jwtPayload) {
+        const { context, iss } = jwtPayload;
 
-                action.jwt = jwt;
-                action.issuer = iss;
-                if (context) {
-                    const user = _user2participant(context.user || {});
+        action.jwt = jwt;
+        action.issuer = iss;
+        if (context) {
+          const user = _user2participant(context.user || {});
 
-                    action.callee = context.callee;
-                    action.group = context.group;
-                    action.server = context.server;
-                    action.tenant = context.tenant;
-                    action.user = user;
+          action.callee = context.callee;
+          action.group = context.group;
+          action.server = context.server;
+          action.tenant = context.tenant;
+          action.user = user;
 
-                    user && _overwriteLocalParticipant(
-                        store, { ...user,
-                            features: context.features });
-                }
-            }
-        } else if (typeof APP === 'undefined') {
-            // The logic of restoring JWT overrides make sense only on mobile.
-            // On Web it should eventually be restored from storage, but there's
-            // no such use case yet.
-
-            const { user } = store.getState()['features/base/jwt'];
-
-            user && _undoOverwriteLocalParticipant(store, user);
+          user && _overwriteLocalParticipant(store, { ...user, features: context.features });
         }
-    }
+      }
+    } else if (typeof APP === 'undefined') {
+      // The logic of restoring JWT overrides make sense only on mobile.
+      // On Web it should eventually be restored from storage, but there's
+      // no such use case yet.
 
-    return next(action);
+      const { user } = store.getState()['features/base/jwt'];
+
+      user && _undoOverwriteLocalParticipant(store, user);
+    }
+  }
+
+  return next(action);
 }
 
 /**
@@ -189,31 +178,28 @@ function _setJWT(store, next, action) {
  * @private
  * @returns {void}
  */
-function _undoOverwriteLocalParticipant(
-        { dispatch, getState },
-        { avatarURL, name, email }) {
-    let localParticipant;
+function _undoOverwriteLocalParticipant({ dispatch, getState }, { avatarURL, name, email }) {
+  let localParticipant;
 
-    if ((avatarURL || name || email)
-            && (localParticipant = getLocalParticipant(getState))) {
-        const newProperties: Object = {
-            id: localParticipant.id,
-            local: true
-        };
+  if ((avatarURL || name || email) && (localParticipant = getLocalParticipant(getState))) {
+    const newProperties: Object = {
+      id: localParticipant.id,
+      local: true,
+    };
 
-        if (avatarURL === localParticipant.avatarURL) {
-            newProperties.avatarURL = undefined;
-        }
-        if (email === localParticipant.email) {
-            newProperties.email = undefined;
-        }
-        if (name === localParticipant.name) {
-            newProperties.name = undefined;
-        }
-        newProperties.features = undefined;
-
-        dispatch(participantUpdated(newProperties));
+    if (avatarURL === localParticipant.avatarURL) {
+      newProperties.avatarURL = undefined;
     }
+    if (email === localParticipant.email) {
+      newProperties.email = undefined;
+    }
+    if (name === localParticipant.name) {
+      newProperties.name = undefined;
+    }
+    newProperties.features = undefined;
+
+    dispatch(participantUpdated(newProperties));
+  }
 }
 
 /**
@@ -230,22 +216,22 @@ function _undoOverwriteLocalParticipant(
  * }}
  */
 function _user2participant({ avatar, avatarUrl, email, id, name }) {
-    const participant = {};
+  const participant = {};
 
-    if (typeof avatarUrl === 'string') {
-        participant.avatarURL = avatarUrl.trim();
-    } else if (typeof avatar === 'string') {
-        participant.avatarURL = avatar.trim();
-    }
-    if (typeof email === 'string') {
-        participant.email = email.trim();
-    }
-    if (typeof id === 'string') {
-        participant.id = id.trim();
-    }
-    if (typeof name === 'string') {
-        participant.name = name.trim();
-    }
+  if (typeof avatarUrl === 'string') {
+    participant.avatarURL = avatarUrl.trim();
+  } else if (typeof avatar === 'string') {
+    participant.avatarURL = avatar.trim();
+  }
+  if (typeof email === 'string') {
+    participant.email = email.trim();
+  }
+  if (typeof id === 'string') {
+    participant.id = id.trim();
+  }
+  if (typeof name === 'string') {
+    participant.name = name.trim();
+  }
 
-    return Object.keys(participant).length ? participant : undefined;
+  return Object.keys(participant).length ? participant : undefined;
 }

@@ -9,11 +9,10 @@ import { BaseIndicator } from '../../../base/react';
  * The type of the React {@code Component} props of {@link VideoMutedIndicator}.
  */
 type Props = {
-
-    /**
-     * From which side of the indicator the tooltip should appear from.
-     */
-    tooltipPosition: string
+  /**
+   * From which side of the indicator the tooltip should appear from.
+   */
+  tooltipPosition: string,
 };
 
 /**
@@ -22,22 +21,23 @@ type Props = {
  * @extends Component
  */
 class VideoMutedIndicator extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <BaseIndicator
-                className = 'videoMuted toolbar-icon'
-                icon = { IconCameraDisabled }
-                iconId = 'camera-disabled'
-                iconSize = { 13 }
-                tooltipKey = 'videothumbnail.videomute'
-                tooltipPosition = { this.props.tooltipPosition } />
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return (
+      <BaseIndicator
+        className="videoMuted toolbar-icon"
+        icon={IconCameraDisabled}
+        iconId="camera-disabled"
+        iconSize={13}
+        tooltipKey="videothumbnail.videomute"
+        tooltipPosition={this.props.tooltipPosition}
+      />
+    );
+  }
 }
 
 export default VideoMutedIndicator;

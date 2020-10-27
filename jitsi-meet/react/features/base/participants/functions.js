@@ -8,11 +8,7 @@ import { toState } from '../redux';
 import { getTrackByMediaTypeAndParticipant } from '../tracks';
 import { createDeferred } from '../util';
 
-import {
-    JIGASI_PARTICIPANT_ICON,
-    MAX_DISPLAY_NAME_LENGTH,
-    PARTICIPANT_ROLE
-} from './constants';
+import { JIGASI_PARTICIPANT_ICON, MAX_DISPLAY_NAME_LENGTH, PARTICIPANT_ROLE } from './constants';
 import { preloadImage } from './preloadImage';
 
 declare var config: Object;
@@ -25,15 +21,15 @@ const AVATAR_QUEUE = [];
 const AVATAR_CHECKED_URLS = new Map();
 /* eslint-disable arrow-body-style */
 const AVATAR_CHECKER_FUNCTIONS = [
-    participant => {
-        return participant && participant.isJigasi ? JIGASI_PARTICIPANT_ICON : null;
-    },
-    participant => {
-        return participant && participant.avatarURL ? participant.avatarURL : null;
-    },
-    participant => {
-        return participant && participant.email ? getGravatarURL(participant.email) : null;
-    }
+  (participant) => {
+    return participant && participant.isJigasi ? JIGASI_PARTICIPANT_ICON : null;
+  },
+  (participant) => {
+    return participant && participant.avatarURL ? participant.avatarURL : null;
+  },
+  (participant) => {
+    return participant && participant.email ? getGravatarURL(participant.email) : null;
+  },
 ];
 /* eslint-enable arrow-body-style */
 
@@ -44,27 +40,26 @@ const AVATAR_CHECKER_FUNCTIONS = [
  * @returns {Promise}
  */
 export function getFirstLoadableAvatarUrl(participant: Object) {
-    const deferred = createDeferred();
-    const fullPromise = deferred.promise
-        .then(() => _getFirstLoadableAvatarUrl(participant))
-        .then(src => {
+  const deferred = createDeferred();
+  const fullPromise = deferred.promise
+    .then(() => _getFirstLoadableAvatarUrl(participant))
+    .then((src) => {
+      if (AVATAR_QUEUE.length) {
+        const next = AVATAR_QUEUE.shift();
 
-            if (AVATAR_QUEUE.length) {
-                const next = AVATAR_QUEUE.shift();
+        next.resolve();
+      }
 
-                next.resolve();
-            }
+      return src;
+    });
 
-            return src;
-        });
+  if (AVATAR_QUEUE.length) {
+    AVATAR_QUEUE.push(deferred);
+  } else {
+    deferred.resolve();
+  }
 
-    if (AVATAR_QUEUE.length) {
-        AVATAR_QUEUE.push(deferred);
-    } else {
-        deferred.resolve();
-    }
-
-    return fullPromise;
+  return fullPromise;
 }
 
 /**
@@ -77,9 +72,9 @@ export function getFirstLoadableAvatarUrl(participant: Object) {
  * @returns {(Participant|undefined)}
  */
 export function getLocalParticipant(stateful: Object | Function) {
-    const participants = _getAllParticipants(stateful);
+  const participants = _getAllParticipants(stateful);
 
-    return participants.find(p => p.local);
+  return participants.find((p) => p.local);
 }
 
 /**
@@ -90,11 +85,11 @@ export function getLocalParticipant(stateful: Object | Function) {
  * @returns {string}
  */
 export function getNormalizedDisplayName(name: string) {
-    if (!name || !name.trim()) {
-        return undefined;
-    }
+  if (!name || !name.trim()) {
+    return undefined;
+  }
 
-    return name.trim().substring(0, MAX_DISPLAY_NAME_LENGTH);
+  return name.trim().substring(0, MAX_DISPLAY_NAME_LENGTH);
 }
 
 /**
@@ -108,11 +103,10 @@ export function getNormalizedDisplayName(name: string) {
  * @private
  * @returns {(Participant|undefined)}
  */
-export function getParticipantById(
-        stateful: Object | Function, id: string): ?Object {
-    const participants = _getAllParticipants(stateful);
+export function getParticipantById(stateful: Object | Function, id: string): ?Object {
+  const participants = _getAllParticipants(stateful);
 
-    return participants.find(p => p.id === id);
+  return participants.find((p) => p.id === id);
 }
 
 /**
@@ -126,7 +120,7 @@ export function getParticipantById(
  * @returns {number}
  */
 export function getParticipantCount(stateful: Object | Function) {
-    return getParticipants(stateful).length;
+  return getParticipants(stateful).length;
 }
 
 /**
@@ -140,7 +134,7 @@ export function getParticipantCount(stateful: Object | Function) {
  * @returns {number}
  */
 export function getParticipantCountWithFake(stateful: Object | Function) {
-    return _getAllParticipants(stateful).length;
+  return _getAllParticipants(stateful).length;
 }
 
 /**
@@ -154,26 +148,20 @@ export function getParticipantCountWithFake(stateful: Object | Function) {
  * @param {string} id - The ID of the participant's display name to retrieve.
  * @returns {string}
  */
-export function getParticipantDisplayName(
-        stateful: Object | Function,
-        id: string) {
-    const participant = getParticipantById(stateful, id);
+export function getParticipantDisplayName(stateful: Object | Function, id: string) {
+  const participant = getParticipantById(stateful, id);
 
-    if (participant) {
-        if (participant.name) {
-            return participant.name;
-        }
-
-        if (participant.local) {
-            return typeof interfaceConfig === 'object'
-                ? interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME
-                : 'me';
-        }
+  if (participant) {
+    if (participant.name) {
+      return participant.name;
     }
 
-    return typeof interfaceConfig === 'object'
-        ? interfaceConfig.DEFAULT_REMOTE_DISPLAY_NAME
-        : 'Fellow Jitster';
+    if (participant.local) {
+      return typeof interfaceConfig === 'object' ? interfaceConfig.DEFAULT_LOCAL_DISPLAY_NAME : 'me';
+    }
+  }
+
+  return typeof interfaceConfig === 'object' ? interfaceConfig.DEFAULT_REMOTE_DISPLAY_NAME : 'Fellow Jitster';
 }
 
 /**
@@ -184,18 +172,17 @@ export function getParticipantDisplayName(
  * @param {string} id - The id of the participant.
  * @returns {string} - The presence status.
  */
-export function getParticipantPresenceStatus(
-        stateful: Object | Function, id: string) {
-    if (!id) {
-        return undefined;
-    }
-    const participantById = getParticipantById(stateful, id);
+export function getParticipantPresenceStatus(stateful: Object | Function, id: string) {
+  if (!id) {
+    return undefined;
+  }
+  const participantById = getParticipantById(stateful, id);
 
-    if (!participantById) {
-        return undefined;
-    }
+  if (!participantById) {
+    return undefined;
+  }
 
-    return participantById.presence;
+  return participantById.presence;
 }
 
 /**
@@ -209,7 +196,7 @@ export function getParticipantPresenceStatus(
  * @returns {Participant[]}
  */
 export function getParticipants(stateful: Object | Function) {
-    return _getAllParticipants(stateful).filter(p => !p.isFakeParticipant);
+  return _getAllParticipants(stateful).filter((p) => !p.isFakeParticipant);
 }
 
 /**
@@ -222,7 +209,7 @@ export function getParticipants(stateful: Object | Function) {
  * @returns {(Participant|undefined)}
  */
 export function getPinnedParticipant(stateful: Object | Function) {
-    return _getAllParticipants(stateful).find(p => p.pinned);
+  return _getAllParticipants(stateful).find((p) => p.pinned);
 }
 
 /**
@@ -236,10 +223,7 @@ export function getPinnedParticipant(stateful: Object | Function) {
  * @returns {Participant[]}
  */
 function _getAllParticipants(stateful) {
-    return (
-        Array.isArray(stateful)
-            ? stateful
-            : toState(stateful)['features/base/participants'] || []);
+  return Array.isArray(stateful) ? stateful : toState(stateful)['features/base/participants'] || [];
 }
 
 /**
@@ -254,9 +238,9 @@ function _getAllParticipants(stateful) {
  * @returns {Participant}
  */
 export function getYoutubeParticipant(stateful: Object | Function) {
-    const participants = _getAllParticipants(stateful);
+  const participants = _getAllParticipants(stateful);
 
-    return participants.filter(p => p.isFakeParticipant)[0];
+  return participants.filter((p) => p.isFakeParticipant)[0];
 }
 
 /**
@@ -266,7 +250,7 @@ export function getYoutubeParticipant(stateful: Object | Function) {
  * @returns {boolean}
  */
 export function isParticipantModerator(participant: Object) {
-    return participant?.role === PARTICIPANT_ROLE.MODERATOR;
+  return participant?.role === PARTICIPANT_ROLE.MODERATOR;
 }
 
 /**
@@ -277,9 +261,9 @@ export function isParticipantModerator(participant: Object) {
  * @returns {boolean}
  */
 export function isEveryoneModerator(stateful: Object | Function) {
-    const participants = _getAllParticipants(stateful);
+  const participants = _getAllParticipants(stateful);
 
-    return participants.every(isParticipantModerator);
+  return participants.every(isParticipantModerator);
 }
 
 /**
@@ -289,7 +273,7 @@ export function isEveryoneModerator(stateful: Object | Function) {
  * @returns {boolean}
  */
 export function isIconUrl(icon: ?string | ?Object) {
-    return Boolean(icon) && typeof icon === 'object';
+  return Boolean(icon) && typeof icon === 'object';
 }
 
 /**
@@ -301,21 +285,18 @@ export function isIconUrl(icon: ?string | ?Object) {
  * @param {?boolean} ignoreToken - When true we ignore the token check.
  * @returns {boolean}
  */
-export function isLocalParticipantModerator(
-        stateful: Object | Function,
-        ignoreToken: ?boolean = false) {
-    const state = toState(stateful);
-    const localParticipant = getLocalParticipant(state);
+export function isLocalParticipantModerator(stateful: Object | Function, ignoreToken: ?boolean = false) {
+  const state = toState(stateful);
+  const localParticipant = getLocalParticipant(state);
 
-    if (!localParticipant) {
-        return false;
-    }
+  if (!localParticipant) {
+    return false;
+  }
 
-    return (
-        localParticipant.role === PARTICIPANT_ROLE.MODERATOR
-        && (ignoreToken
-                || !state['features/base/config'].enableUserRolesBasedOnToken
-                || !state['features/base/jwt'].isGuest));
+  return (
+    localParticipant.role === PARTICIPANT_ROLE.MODERATOR &&
+    (ignoreToken || !state['features/base/config'].enableUserRolesBasedOnToken || !state['features/base/jwt'].isGuest)
+  );
 }
 
 /**
@@ -328,42 +309,41 @@ export function isLocalParticipantModerator(
  * @returns {boolean}
  */
 export function shouldRenderParticipantVideo(stateful: Object | Function, id: string) {
-    const state = toState(stateful);
-    const participant = getParticipantById(state, id);
+  const state = toState(stateful);
+  const participant = getParticipantById(state, id);
 
-    if (!participant) {
-        return false;
-    }
+  if (!participant) {
+    return false;
+  }
 
-    /* First check if we have an unmuted video track. */
-    const videoTrack
-        = getTrackByMediaTypeAndParticipant(state['features/base/tracks'], MEDIA_TYPE.VIDEO, id);
+  /* First check if we have an unmuted video track. */
+  const videoTrack = getTrackByMediaTypeAndParticipant(state['features/base/tracks'], MEDIA_TYPE.VIDEO, id);
 
-    if (!shouldRenderVideoTrack(videoTrack, /* waitForVideoStarted */ false)) {
-        return false;
-    }
+  if (!shouldRenderVideoTrack(videoTrack, /* waitForVideoStarted */ false)) {
+    return false;
+  }
 
-    /* Then check if the participant connection is active. */
-    const connectionStatus = participant.connectionStatus || JitsiParticipantConnectionStatus.ACTIVE;
+  /* Then check if the participant connection is active. */
+  const connectionStatus = participant.connectionStatus || JitsiParticipantConnectionStatus.ACTIVE;
 
-    if (connectionStatus !== JitsiParticipantConnectionStatus.ACTIVE) {
-        return false;
-    }
+  if (connectionStatus !== JitsiParticipantConnectionStatus.ACTIVE) {
+    return false;
+  }
 
-    /* Then check if audio-only mode is not active. */
-    const audioOnly = state['features/base/audio-only'].enabled;
+  /* Then check if audio-only mode is not active. */
+  const audioOnly = state['features/base/audio-only'].enabled;
 
-    if (!audioOnly) {
-        return true;
-    }
+  if (!audioOnly) {
+    return true;
+  }
 
-    /* Last, check if the participant is sharing their screen and they are on stage. */
-    const screenShares = state['features/video-layout'].screenShares || [];
-    const largeVideoParticipantId = state['features/large-video'].participantId;
-    const participantIsInLargeVideoWithScreen
-        = participant.id === largeVideoParticipantId && screenShares.includes(participant.id);
+  /* Last, check if the participant is sharing their screen and they are on stage. */
+  const screenShares = state['features/video-layout'].screenShares || [];
+  const largeVideoParticipantId = state['features/large-video'].participantId;
+  const participantIsInLargeVideoWithScreen =
+    participant.id === largeVideoParticipantId && screenShares.includes(participant.id);
 
-    return participantIsInLargeVideoWithScreen;
+  return participantIsInLargeVideoWithScreen;
 }
 
 /**
@@ -373,27 +353,27 @@ export function shouldRenderParticipantVideo(stateful: Object | Function, id: st
  * @returns {?string}
  */
 async function _getFirstLoadableAvatarUrl(participant) {
-    for (let i = 0; i < AVATAR_CHECKER_FUNCTIONS.length; i++) {
-        const url = AVATAR_CHECKER_FUNCTIONS[i](participant);
+  for (let i = 0; i < AVATAR_CHECKER_FUNCTIONS.length; i++) {
+    const url = AVATAR_CHECKER_FUNCTIONS[i](participant);
 
-        if (url) {
-            if (AVATAR_CHECKED_URLS.has(url)) {
-                if (AVATAR_CHECKED_URLS.get(url)) {
-                    return url;
-                }
-            } else {
-                try {
-                    const finalUrl = await preloadImage(url);
-
-                    AVATAR_CHECKED_URLS.set(finalUrl, true);
-
-                    return finalUrl;
-                } catch (e) {
-                    AVATAR_CHECKED_URLS.set(url, false);
-                }
-            }
+    if (url) {
+      if (AVATAR_CHECKED_URLS.has(url)) {
+        if (AVATAR_CHECKED_URLS.get(url)) {
+          return url;
         }
-    }
+      } else {
+        try {
+          const finalUrl = await preloadImage(url);
 
-    return undefined;
+          AVATAR_CHECKED_URLS.set(finalUrl, true);
+
+          return finalUrl;
+        } catch (e) {
+          AVATAR_CHECKED_URLS.set(url, false);
+        }
+      }
+    }
+  }
+
+  return undefined;
 }

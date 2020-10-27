@@ -15,14 +15,13 @@ import { SET_DEVICE_SELECTION_POPUP_DATA } from './actionTypes';
  * the value will be undefined.
  * @returns {Object}
  */
-ReducerRegistry.register('features/device-selection',
-    (state = {}, action) => {
-        if (action.type === SET_DEVICE_SELECTION_POPUP_DATA) {
-            return {
-                ...state,
-                popupDialogData: action.popupDialogData
-            };
-        }
+ReducerRegistry.register('features/device-selection', (state = {}, action) => {
+  if (action.type === SET_DEVICE_SELECTION_POPUP_DATA) {
+    return {
+      ...state,
+      popupDialogData: action.popupDialogData,
+    };
+  }
 
-        return state;
-    });
+  return state;
+});

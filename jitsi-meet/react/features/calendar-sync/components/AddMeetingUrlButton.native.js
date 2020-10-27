@@ -8,16 +8,16 @@ import { Component } from 'react';
  * @extends Component
  */
 class AddMeetingUrlButton extends Component<*> {
-    /**
-     * Implements React's {@link Component#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        // Not yet implemented.
+  /**
+   * Implements React's {@link Component#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    // Not yet implemented.
 
-        return null;
-    }
+    return null;
+  }
 }
 
 export default AddMeetingUrlButton;

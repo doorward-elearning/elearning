@@ -13,28 +13,27 @@ import { shouldDisplayTileView } from '../../../video-layout/functions';
 declare var interfaceConfig: Object;
 
 type Props = {
+  /**
+   * Whether tile view is enabled.
+   */
+  _tileViewEnabled: Boolean,
 
-    /**
-     * Whether tile view is enabled.
-     */
-    _tileViewEnabled: Boolean,
+  /**
+   * Whether to show the option to invite more people
+   * instead of the subject.
+   */
+  _visible: boolean,
 
-    /**
-     * Whether to show the option to invite more people
-     * instead of the subject.
-     */
-    _visible: boolean,
+  /**
+   * Handler to open the invite dialog.
+   */
+  onClick: Function,
 
-    /**
-     * Handler to open the invite dialog.
-     */
-    onClick: Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
-}
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
+};
 
 /**
  * Represents a replacement for the subject, prompting the
@@ -43,28 +42,16 @@ type Props = {
  * @param {Object} props - The props of the component.
  * @returns {React$Element<any>}
  */
-function InviteMore({
-    _tileViewEnabled,
-    _visible,
-    onClick,
-    t
-}: Props) {
-    return (
-        _visible
-            ? <div className = { `invite-more-container${_tileViewEnabled ? ' elevated' : ''}` }>
-                <div className = 'invite-more-header'>
-                    {t('addPeople.inviteMoreHeader')}
-                </div>
-                <div
-                    className = 'invite-more-button'
-                    onClick = { onClick }>
-                    <Icon src = { IconInviteMore } />
-                    <div className = 'invite-more-button-text'>
-                        {t('addPeople.inviteMorePrompt')}
-                    </div>
-                </div>
-            </div> : null
-    );
+function InviteMore({ _tileViewEnabled, _visible, onClick, t }: Props) {
+  return _visible ? (
+    <div className={`invite-more-container${_tileViewEnabled ? ' elevated' : ''}`}>
+      <div className="invite-more-header">{t('addPeople.inviteMoreHeader')}</div>
+      <div className="invite-more-button" onClick={onClick}>
+        <Icon src={IconInviteMore} />
+        <div className="invite-more-button-text">{t('addPeople.inviteMorePrompt')}</div>
+      </div>
+    </div>
+  ) : null;
 }
 
 /**
@@ -76,14 +63,14 @@ function InviteMore({
  * @returns {Props}
  */
 function mapStateToProps(state) {
-    const participantCount = getParticipantCount(state);
-    const isAlone = participantCount === 1;
-    const hide = interfaceConfig.HIDE_INVITE_MORE_HEADER;
+  const participantCount = getParticipantCount(state);
+  const isAlone = participantCount === 1;
+  const hide = interfaceConfig.HIDE_INVITE_MORE_HEADER;
 
-    return {
-        _tileViewEnabled: shouldDisplayTileView(state),
-        _visible: isToolboxVisible(state) && isButtonEnabled('invite') && isAlone && !hide
-    };
+  return {
+    _tileViewEnabled: shouldDisplayTileView(state),
+    _visible: isToolboxVisible(state) && isButtonEnabled('invite') && isAlone && !hide,
+  };
 }
 
 /**
@@ -93,7 +80,7 @@ function mapStateToProps(state) {
  * @returns {Props}
  */
 const mapDispatchToProps = {
-    onClick: () => beginAddPeople()
+  onClick: () => beginAddPeople(),
 };
 
 export default translate(connect(mapStateToProps, mapDispatchToProps)(InviteMore));

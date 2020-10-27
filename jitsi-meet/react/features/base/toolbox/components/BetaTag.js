@@ -6,7 +6,7 @@ import { translate } from '../../i18n';
 import { Container, Text } from '../../react';
 
 type Props = {
-    t: Function
+  t: Function,
 };
 
 /**
@@ -15,22 +15,19 @@ type Props = {
  * @extends {Component}
  */
 class BetaTag extends Component<Props> {
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <Container className = 'beta-tag'>
-                <Text>
-                    { this.props.t('recording.beta') }
-                </Text>
-            </Container>
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <Container className="beta-tag">
+        <Text>{this.props.t('recording.beta')}</Text>
+      </Container>
+    );
+  }
 }
 
 export default translate(BetaTag);

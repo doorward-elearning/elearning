@@ -13,8 +13,8 @@ export * from './actions.any';
  * @returns {Function}
  */
 export function toggleChat() {
-    return function(dispatch: (Object) => Object) {
-        dispatch({ type: TOGGLE_CHAT });
-        VideoLayout.onResize();
-    };
+  return function (dispatch: (Object) => Object) {
+    dispatch({ type: TOGGLE_CHAT });
+    VideoLayout.onResize();
+  };
 }

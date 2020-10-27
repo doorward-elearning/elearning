@@ -16,21 +16,21 @@ declare var APP;
  * }}
  */
 export function appWillMount(app: Object) {
-    return (dispatch: Dispatch<any>) => {
-        // TODO There was a redux action creator appInit which I did not like
-        // because we already had the redux action creator appWillMount and,
-        // respectively, the redux action APP_WILL_MOUNT. So I set out to remove
-        // appInit and managed to move everything it was doing but the
-        // following. Which is not extremely bad because we haven't moved the
-        // API module into its own feature yet so we're bound to work on that in
-        // the future.
-        typeof APP === 'object' && APP.API.init();
+  return (dispatch: Dispatch<any>) => {
+    // TODO There was a redux action creator appInit which I did not like
+    // because we already had the redux action creator appWillMount and,
+    // respectively, the redux action APP_WILL_MOUNT. So I set out to remove
+    // appInit and managed to move everything it was doing but the
+    // following. Which is not extremely bad because we haven't moved the
+    // API module into its own feature yet so we're bound to work on that in
+    // the future.
+    typeof APP === 'object' && APP.API.init();
 
-        dispatch({
-            type: APP_WILL_MOUNT,
-            app
-        });
-    };
+    dispatch({
+      type: APP_WILL_MOUNT,
+      app,
+    });
+  };
 }
 
 /**
@@ -43,8 +43,8 @@ export function appWillMount(app: Object) {
  * }}
  */
 export function appWillUnmount(app: Object) {
-    return {
-        type: APP_WILL_UNMOUNT,
-        app
-    };
+  return {
+    type: APP_WILL_UNMOUNT,
+    app,
+  };
 }

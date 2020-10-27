@@ -17,25 +17,25 @@ import { escapeRegexp } from '../base/util';
  */
 const EMOTICON_REGEXP_ARRAY: Array<Array<Object>> = [];
 
-(function() {
-    for (const [ key, value ] of Object.entries(aliases)) {
-        let escapedValues;
-        const asciiEmojies = emojiAsciiAliases[key];
+(function () {
+  for (const [key, value] of Object.entries(aliases)) {
+    let escapedValues;
+    const asciiEmojies = emojiAsciiAliases[key];
 
-        // Adding ascii emoticons
-        if (asciiEmojies) {
-            escapedValues = asciiEmojies.map(v => escapeRegexp(v));
-        } else {
-            escapedValues = [];
-        }
-
-        // Adding slack-type emoji format
-        escapedValues.push(escapeRegexp(`:${key}:`));
-
-        const regexp = `\\B(${escapedValues.join('|')})\\B`;
-
-        EMOTICON_REGEXP_ARRAY.push([ new RegExp(regexp, 'g'), value ]);
+    // Adding ascii emoticons
+    if (asciiEmojies) {
+      escapedValues = asciiEmojies.map((v) => escapeRegexp(v));
+    } else {
+      escapedValues = [];
     }
+
+    // Adding slack-type emoji format
+    escapedValues.push(escapeRegexp(`:${key}:`));
+
+    const regexp = `\\B(${escapedValues.join('|')})\\B`;
+
+    EMOTICON_REGEXP_ARRAY.push([new RegExp(regexp, 'g'), value]);
+  }
 })();
 
 /**
@@ -46,13 +46,13 @@ const EMOTICON_REGEXP_ARRAY: Array<Array<Object>> = [];
  * @returns {string}
  */
 export function replaceNonUnicodeEmojis(message: string) {
-    let replacedMessage = message;
+  let replacedMessage = message;
 
-    for (const [ regexp, replaceValue ] of EMOTICON_REGEXP_ARRAY) {
-        replacedMessage = replacedMessage.replace(regexp, replaceValue);
-    }
+  for (const [regexp, replaceValue] of EMOTICON_REGEXP_ARRAY) {
+    replacedMessage = replacedMessage.replace(regexp, replaceValue);
+  }
 
-    return replacedMessage;
+  return replacedMessage;
 }
 
 /**
@@ -62,19 +62,19 @@ export function replaceNonUnicodeEmojis(message: string) {
  * @returns {number} The number of unread messages.
  */
 export function getUnreadCount(state: Object) {
-    const { lastReadMessage, messages } = state['features/chat'];
-    const messagesCount = messages.length;
+  const { lastReadMessage, messages } = state['features/chat'];
+  const messagesCount = messages.length;
 
-    if (!messagesCount) {
-        return 0;
-    }
+  if (!messagesCount) {
+    return 0;
+  }
 
-    if (navigator.product === 'ReactNative') {
-        // React native stores the messages in a reversed order.
-        return messages.indexOf(lastReadMessage);
-    }
+  if (navigator.product === 'ReactNative') {
+    // React native stores the messages in a reversed order.
+    return messages.indexOf(lastReadMessage);
+  }
 
-    const lastReadIndex = messages.lastIndexOf(lastReadMessage);
+  const lastReadIndex = messages.lastIndexOf(lastReadMessage);
 
-    return messagesCount - (lastReadIndex + 1);
+  return messagesCount - (lastReadIndex + 1);
 }

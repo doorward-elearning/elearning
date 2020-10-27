@@ -13,11 +13,9 @@ import styles from './styles';
  * @returns {ReactElement}
  */
 export default function renderConferenceTimer(timerValue: string) {
-    return (
-        <Text
-            numberOfLines = { 4 }
-            style = { styles.roomTimer }>
-            { timerValue }
-        </Text>
-    );
+  return (
+    <Text numberOfLines={4} style={styles.roomTimer}>
+      {timerValue}
+    </Text>
+  );
 }

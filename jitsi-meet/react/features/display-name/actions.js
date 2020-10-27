@@ -12,7 +12,7 @@ import { DisplayNamePrompt } from './components';
  * @returns {Object}
  */
 export function openDisplayNamePrompt(onPostSubmit: ?Function) {
-    return openDialog(DisplayNamePrompt, {
-        onPostSubmit
-    });
+  return openDialog(DisplayNamePrompt, {
+    onPostSubmit,
+  });
 }

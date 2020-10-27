@@ -10,11 +10,10 @@ import { AbstractButton, type AbstractButtonProps } from '../../../../base/toolb
 import { doInvitePeople } from '../../../actions.native';
 
 type Props = AbstractButtonProps & {
-
-    /**
-     * The Redux dispatch function.
-     */
-    dispatch: Dispatch<any>
+  /**
+   * The Redux dispatch function.
+   */
+  dispatch: Dispatch<any>,
 };
 
 /**
@@ -22,19 +21,19 @@ type Props = AbstractButtonProps & {
  * current call/conference/meeting.
  */
 class InviteButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.shareRoom';
-    icon = IconAddPeople;
-    label = 'toolbar.shareRoom';
+  accessibilityLabel = 'toolbar.accessibilityLabel.shareRoom';
+  icon = IconAddPeople;
+  label = 'toolbar.shareRoom';
 
-    /**
-     * Handles clicking / pressing the button, and opens the appropriate dialog.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        this.props.dispatch(doInvitePeople());
-    }
+  /**
+   * Handles clicking / pressing the button, and opens the appropriate dialog.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    this.props.dispatch(doInvitePeople());
+  }
 }
 
 /**
@@ -45,13 +44,12 @@ class InviteButton extends AbstractButton<Props, *> {
  * @returns {Props}
  */
 function _mapStateToProps(state, ownProps: Props) {
-    const { disableInviteFunctions } = state['features/base/config'];
-    const flag = getFeatureFlag(state, INVITE_ENABLED, true);
+  const { disableInviteFunctions } = state['features/base/config'];
+  const flag = getFeatureFlag(state, INVITE_ENABLED, true);
 
-    return {
-        visible: flag && !disableInviteFunctions && ownProps.visible
-    };
+  return {
+    visible: flag && !disableInviteFunctions && ownProps.visible,
+  };
 }
-
 
 export default translate(connect(_mapStateToProps)(InviteButton));

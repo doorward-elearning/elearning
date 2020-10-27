@@ -20,23 +20,23 @@ import logger from './logger';
  * @returns {Function}
  */
 export function enterPictureInPicture() {
-    return (dispatch: Dispatch<any>, getState: Function) => {
-        // XXX At the time of this writing this action can only be dispatched by
-        // the button which is on the conference view, which means that it's
-        // fine to enter PiP mode.
-        if (getFeatureFlag(getState, PIP_ENABLED)) {
-            const { PictureInPicture } = NativeModules;
-            const p
-                = Platform.OS === 'android'
-                    ? PictureInPicture
-                        ? PictureInPicture.enterPictureInPicture()
-                        : Promise.reject(
-                            new Error('Picture-in-Picture not supported'))
-                    : Promise.resolve();
+  return (dispatch: Dispatch<any>, getState: Function) => {
+    // XXX At the time of this writing this action can only be dispatched by
+    // the button which is on the conference view, which means that it's
+    // fine to enter PiP mode.
+    if (getFeatureFlag(getState, PIP_ENABLED)) {
+      const { PictureInPicture } = NativeModules;
+      const p =
+        Platform.OS === 'android'
+          ? PictureInPicture
+            ? PictureInPicture.enterPictureInPicture()
+            : Promise.reject(new Error('Picture-in-Picture not supported'))
+          : Promise.resolve();
 
-            p.then(
-                () => dispatch({ type: ENTER_PICTURE_IN_PICTURE }),
-                e => logger.warn(`Error entering PiP mode: ${e}`));
-        }
-    };
+      p.then(
+        () => dispatch({ type: ENTER_PICTURE_IN_PICTURE }),
+        (e) => logger.warn(`Error entering PiP mode: ${e}`)
+      );
+    }
+  };
 }

@@ -2,11 +2,7 @@
 
 import { MiddlewareRegistry } from '../base/redux';
 
-import {
-    CLEAR_TOOLBOX_TIMEOUT,
-    SET_TOOLBOX_TIMEOUT,
-    SET_FULL_SCREEN
-} from './actionTypes';
+import { CLEAR_TOOLBOX_TIMEOUT, SET_TOOLBOX_TIMEOUT, SET_FULL_SCREEN } from './actionTypes';
 
 declare var APP: Object;
 
@@ -17,37 +13,37 @@ declare var APP: Object;
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CLEAR_TOOLBOX_TIMEOUT: {
-        const { timeoutID } = store.getState()['features/toolbox'];
+      const { timeoutID } = store.getState()['features/toolbox'];
 
-        clearTimeout(timeoutID);
-        break;
+      clearTimeout(timeoutID);
+      break;
     }
 
     case SET_FULL_SCREEN:
-        return _setFullScreen(next, action);
+      return _setFullScreen(next, action);
 
     case SET_TOOLBOX_TIMEOUT: {
-        const { timeoutID } = store.getState()['features/toolbox'];
-        const { handler, timeoutMS } = action;
+      const { timeoutID } = store.getState()['features/toolbox'];
+      const { handler, timeoutMS } = action;
 
-        clearTimeout(timeoutID);
-        action.timeoutID = setTimeout(handler, timeoutMS);
+      clearTimeout(timeoutID);
+      action.timeoutID = setTimeout(handler, timeoutMS);
 
-        break;
+      break;
     }
-    }
+  }
 
-    return next(action);
+  return next(action);
 });
 
 type DocumentElement = {
-    +requestFullscreen?: Function,
-    +mozRequestFullScreen?: Function,
-    +webkitRequestFullscreen?: Function
-}
+  +requestFullscreen?: Function,
+  +mozRequestFullScreen?: Function,
+  +webkitRequestFullscreen?: Function,
+};
 
 /**
  * Makes an external request to enter or exit full screen mode.
@@ -60,41 +56,38 @@ type DocumentElement = {
  * @returns {Object} The value returned by {@code next(action)}.
  */
 function _setFullScreen(next, action) {
-    if (typeof APP === 'object') {
-        const { fullScreen } = action;
+  if (typeof APP === 'object') {
+    const { fullScreen } = action;
 
-        if (fullScreen) {
-            const documentElement: DocumentElement
-                = document.documentElement || {};
+    if (fullScreen) {
+      const documentElement: DocumentElement = document.documentElement || {};
 
-            if (typeof documentElement.requestFullscreen === 'function') {
-                documentElement.requestFullscreen();
-            } else if (
-                typeof documentElement.mozRequestFullScreen === 'function') {
-                documentElement.mozRequestFullScreen();
-            } else if (
-                typeof documentElement.webkitRequestFullscreen === 'function') {
-                documentElement.webkitRequestFullscreen();
-            }
-        } else {
-            /* eslint-disable no-lonely-if */
+      if (typeof documentElement.requestFullscreen === 'function') {
+        documentElement.requestFullscreen();
+      } else if (typeof documentElement.mozRequestFullScreen === 'function') {
+        documentElement.mozRequestFullScreen();
+      } else if (typeof documentElement.webkitRequestFullscreen === 'function') {
+        documentElement.webkitRequestFullscreen();
+      }
+    } else {
+      /* eslint-disable no-lonely-if */
 
-            // $FlowFixMe
-            if (typeof document.exitFullscreen === 'function') {
-                document.exitFullscreen();
+      // $FlowFixMe
+      if (typeof document.exitFullscreen === 'function') {
+        document.exitFullscreen();
 
-            // $FlowFixMe
-            } else if (typeof document.mozCancelFullScreen === 'function') {
-                document.mozCancelFullScreen();
+        // $FlowFixMe
+      } else if (typeof document.mozCancelFullScreen === 'function') {
+        document.mozCancelFullScreen();
 
-            // $FlowFixMe
-            } else if (typeof document.webkitExitFullscreen === 'function') {
-                document.webkitExitFullscreen();
-            }
+        // $FlowFixMe
+      } else if (typeof document.webkitExitFullscreen === 'function') {
+        document.webkitExitFullscreen();
+      }
 
-            /* eslint-enable no-loney-if */
-        }
+      /* eslint-enable no-loney-if */
     }
+  }
 
-    return next(action);
+  return next(action);
 }

@@ -3,12 +3,12 @@
 import type { AudioElement } from '../media';
 
 import {
-    _ADD_AUDIO_ELEMENT,
-    _REMOVE_AUDIO_ELEMENT,
-    PLAY_SOUND,
-    REGISTER_SOUND,
-    STOP_SOUND,
-    UNREGISTER_SOUND
+  _ADD_AUDIO_ELEMENT,
+  _REMOVE_AUDIO_ELEMENT,
+  PLAY_SOUND,
+  REGISTER_SOUND,
+  STOP_SOUND,
+  UNREGISTER_SOUND,
 } from './actionTypes';
 import { getSoundsPath } from './functions';
 
@@ -30,11 +30,11 @@ import { getSoundsPath } from './functions';
  * }}
  */
 export function _addAudioElement(soundId: string, audioElement: AudioElement) {
-    return {
-        type: _ADD_AUDIO_ELEMENT,
-        audioElement,
-        soundId
-    };
+  return {
+    type: _ADD_AUDIO_ELEMENT,
+    audioElement,
+    soundId,
+  };
 }
 
 /**
@@ -51,10 +51,10 @@ export function _addAudioElement(soundId: string, audioElement: AudioElement) {
  * }}
  */
 export function _removeAudioElement(soundId: string) {
-    return {
-        type: _REMOVE_AUDIO_ELEMENT,
-        soundId
-    };
+  return {
+    type: _REMOVE_AUDIO_ELEMENT,
+    soundId,
+  };
 }
 
 /**
@@ -69,10 +69,10 @@ export function _removeAudioElement(soundId: string) {
  * }}
  */
 export function playSound(soundId: string): Object {
-    return {
-        type: PLAY_SOUND,
-        soundId
-    };
+  return {
+    type: PLAY_SOUND,
+    soundId,
+  };
 }
 
 /**
@@ -96,14 +96,13 @@ export function playSound(soundId: string): Object {
  *     }
  * }}
  */
-export function registerSound(
-        soundId: string, soundName: string, options: Object = {}): Object {
-    return {
-        type: REGISTER_SOUND,
-        soundId,
-        src: `${getSoundsPath()}/${soundName}`,
-        options
-    };
+export function registerSound(soundId: string, soundName: string, options: Object = {}): Object {
+  return {
+    type: REGISTER_SOUND,
+    soundId,
+    src: `${getSoundsPath()}/${soundName}`,
+    options,
+  };
 }
 
 /**
@@ -117,10 +116,10 @@ export function registerSound(
  * }}
  */
 export function stopSound(soundId: string): Object {
-    return {
-        type: STOP_SOUND,
-        soundId
-    };
+  return {
+    type: STOP_SOUND,
+    soundId,
+  };
 }
 
 /**
@@ -136,8 +135,8 @@ export function stopSound(soundId: string): Object {
  * }}
  */
 export function unregisterSound(soundId: string): Object {
-    return {
-        type: UNREGISTER_SOUND,
-        soundId
-    };
+  return {
+    type: UNREGISTER_SOUND,
+    soundId,
+  };
 }

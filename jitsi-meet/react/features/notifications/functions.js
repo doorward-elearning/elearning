@@ -12,10 +12,10 @@ declare var interfaceConfig: Object;
  * @returns {boolean}
  */
 export function areThereNotifications(stateful: Object | Function) {
-    const state = toState(stateful);
-    const { enabled, notifications } = state['features/notifications'];
+  const state = toState(stateful);
+  const { enabled, notifications } = state['features/notifications'];
 
-    return enabled && notifications.length > 0;
+  return enabled && notifications.length > 0;
 }
 
 /**
@@ -24,5 +24,5 @@ export function areThereNotifications(stateful: Object | Function) {
  * @returns {boolean}
  */
 export function joinLeaveNotificationsDisabled() {
-    return Boolean(typeof interfaceConfig !== 'undefined' && interfaceConfig?.DISABLE_JOIN_LEAVE_NOTIFICATIONS);
+  return Boolean(typeof interfaceConfig !== 'undefined' && interfaceConfig?.DISABLE_JOIN_LEAVE_NOTIFICATIONS);
 }

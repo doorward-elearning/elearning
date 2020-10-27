@@ -2,11 +2,7 @@
 
 import { Dropbox } from 'dropbox';
 
-import {
-    getJitsiMeetGlobalNS,
-    parseStandardURIString,
-    parseURLParams
-} from '../base/util';
+import { getJitsiMeetGlobalNS, parseStandardURIString, parseURLParams } from '../base/util';
 
 /**
  * Executes the oauth flow.
@@ -15,20 +11,20 @@ import {
  * @returns {Promise<string>} - The URL with the authorization details.
  */
 function authorize(authUrl: string): Promise<string> {
-    const windowName = `oauth${Date.now()}`;
-    const gloabalNS = getJitsiMeetGlobalNS();
+  const windowName = `oauth${Date.now()}`;
+  const gloabalNS = getJitsiMeetGlobalNS();
 
-    gloabalNS.oauthCallbacks = gloabalNS.oauthCallbacks || {};
+  gloabalNS.oauthCallbacks = gloabalNS.oauthCallbacks || {};
 
-    return new Promise(resolve => {
-        const popup = window.open(authUrl, windowName);
+  return new Promise((resolve) => {
+    const popup = window.open(authUrl, windowName);
 
-        gloabalNS.oauthCallbacks[windowName] = url => {
-            popup.close();
-            delete gloabalNS.oauthCallbacks.windowName;
-            resolve(url);
-        };
-    });
+    gloabalNS.oauthCallbacks[windowName] = (url) => {
+      popup.close();
+      delete gloabalNS.oauthCallbacks.windowName;
+      resolve(url);
+    };
+  });
 }
 
 /**
@@ -38,19 +34,15 @@ function authorize(authUrl: string): Promise<string> {
  * @param {string} redirectURI - The return URL.
  * @returns {Promise<string>}
  */
-export function _authorizeDropbox(
-        appKey: string,
-        redirectURI: string
-): Promise<string> {
-    const dropboxAPI = new Dropbox({ clientId: appKey });
-    const url = dropboxAPI.getAuthenticationUrl(redirectURI);
+export function _authorizeDropbox(appKey: string, redirectURI: string): Promise<string> {
+  const dropboxAPI = new Dropbox({ clientId: appKey });
+  const url = dropboxAPI.getAuthenticationUrl(redirectURI);
 
-    return authorize(url).then(returnUrl => {
-        const params
-            = parseURLParams(parseStandardURIString(returnUrl), true) || {};
+  return authorize(url).then((returnUrl) => {
+    const params = parseURLParams(parseStandardURIString(returnUrl), true) || {};
 
-        return params.access_token;
-    });
+    return params.access_token;
+  });
 }
 
 /**
@@ -61,14 +53,12 @@ export function _authorizeDropbox(
  * @returns {Promise<string>}
  */
 export function getDisplayName(token: string, appKey: string) {
-    const dropboxAPI = new Dropbox({
-        accessToken: token,
-        clientId: appKey
-    });
+  const dropboxAPI = new Dropbox({
+    accessToken: token,
+    clientId: appKey,
+  });
 
-    return (
-        dropboxAPI.usersGetCurrentAccount()
-            .then(account => account.name.display_name));
+  return dropboxAPI.usersGetCurrentAccount().then((account) => account.name.display_name);
 }
 
 /**
@@ -79,20 +69,20 @@ export function getDisplayName(token: string, appKey: string) {
  * @returns {Promise<Object>}
  */
 export function getSpaceUsage(token: string, appKey: string) {
-    const dropboxAPI = new Dropbox({
-        accessToken: token,
-        clientId: appKey
-    });
+  const dropboxAPI = new Dropbox({
+    accessToken: token,
+    clientId: appKey,
+  });
 
-    return dropboxAPI.usersGetSpaceUsage().then(space => {
-        const { allocation, used } = space;
-        const { allocated } = allocation;
+  return dropboxAPI.usersGetSpaceUsage().then((space) => {
+    const { allocation, used } = space;
+    const { allocated } = allocation;
 
-        return {
-            allocated,
-            used
-        };
-    });
+    return {
+      allocated,
+      used,
+    };
+  });
 }
 
 /**
@@ -103,7 +93,7 @@ export function getSpaceUsage(token: string, appKey: string) {
  * @returns {boolean}
  */
 export function isEnabled(state: Object) {
-    const { dropbox = {} } = state['features/base/config'];
+  const { dropbox = {} } = state['features/base/config'];
 
-    return typeof dropbox.appKey === 'string';
+  return typeof dropbox.appKey === 'string';
 }

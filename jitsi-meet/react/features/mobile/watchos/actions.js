@@ -13,10 +13,10 @@ import { SET_CONFERENCE_TIMESTAMP, SET_SESSION_ID, SET_WATCH_REACHABLE } from '.
  * }}
  */
 export function setConferenceTimestamp(conferenceTimestamp: number) {
-    return {
-        type: SET_CONFERENCE_TIMESTAMP,
-        conferenceTimestamp
-    };
+  return {
+    type: SET_CONFERENCE_TIMESTAMP,
+    conferenceTimestamp,
+  };
 }
 
 /**
@@ -30,10 +30,10 @@ export function setConferenceTimestamp(conferenceTimestamp: number) {
  * }}
  */
 export function setSessionId() {
-    return {
-        type: SET_SESSION_ID,
-        sessionID: new Date().getTime()
-    };
+  return {
+    type: SET_SESSION_ID,
+    sessionID: new Date().getTime(),
+  };
 }
 
 /**
@@ -48,8 +48,8 @@ export function setSessionId() {
  * }}
  */
 export function setWatchReachable(isReachable: boolean) {
-    return {
-        type: SET_WATCH_REACHABLE,
-        watchReachable: isReachable
-    };
+  return {
+    type: SET_WATCH_REACHABLE,
+    watchReachable: isReachable,
+  };
 }

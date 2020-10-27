@@ -4,12 +4,7 @@ import { NativeEventEmitter, NativeModules } from 'react-native';
 
 import { APP_WILL_MOUNT, APP_WILL_UNMOUNT } from '../../base/app';
 import { SET_AUDIO_ONLY } from '../../base/audio-only';
-import {
-    CONFERENCE_FAILED,
-    CONFERENCE_LEFT,
-    CONFERENCE_JOINED,
-    getCurrentConference
-} from '../../base/conference';
+import { CONFERENCE_FAILED, CONFERENCE_LEFT, CONFERENCE_JOINED, getCurrentConference } from '../../base/conference';
 import { MiddlewareRegistry } from '../../base/redux';
 
 import { _SET_AUDIOMODE_DEVICES, _SET_AUDIOMODE_SUBSCRIPTIONS } from './actionTypes';
@@ -26,43 +21,42 @@ const AudioModeEmitter = new NativeEventEmitter(AudioMode);
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    /* eslint-disable no-fallthrough */
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  /* eslint-disable no-fallthrough */
 
-    switch (action.type) {
+  switch (action.type) {
     case _SET_AUDIOMODE_SUBSCRIPTIONS:
-        _setSubscriptions(store);
-        break;
+      _setSubscriptions(store);
+      break;
     case APP_WILL_UNMOUNT: {
-        store.dispatch({
-            type: _SET_AUDIOMODE_SUBSCRIPTIONS,
-            subscriptions: undefined
-        });
-        break;
+      store.dispatch({
+        type: _SET_AUDIOMODE_SUBSCRIPTIONS,
+        subscriptions: undefined,
+      });
+      break;
     }
     case APP_WILL_MOUNT:
-        _appWillMount(store);
+      _appWillMount(store);
     case CONFERENCE_FAILED: // eslint-disable-line no-fallthrough
     case CONFERENCE_LEFT:
 
     /*
-    * NOTE: We moved the audio mode setting from CONFERENCE_WILL_JOIN to
-    * CONFERENCE_JOINED because in case of a locked room, the app goes
-    * through CONFERENCE_FAILED state and gets to CONFERENCE_JOINED only
-    * after a correct password, so we want to make sure we have the correct
-    * audio mode set up when we finally get to the conf, but also make sure
-    * that the app is in the right audio mode if the user leaves the
-    * conference after the password prompt appears.
-    */
+     * NOTE: We moved the audio mode setting from CONFERENCE_WILL_JOIN to
+     * CONFERENCE_JOINED because in case of a locked room, the app goes
+     * through CONFERENCE_FAILED state and gets to CONFERENCE_JOINED only
+     * after a correct password, so we want to make sure we have the correct
+     * audio mode set up when we finally get to the conf, but also make sure
+     * that the app is in the right audio mode if the user leaves the
+     * conference after the password prompt appears.
+     */
     case CONFERENCE_JOINED:
     case SET_AUDIO_ONLY:
-        return _updateAudioMode(store, next, action);
+      return _updateAudioMode(store, next, action);
+  }
 
-    }
+  /* eslint-enable no-fallthrough */
 
-    /* eslint-enable no-fallthrough */
-
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -75,14 +69,12 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _appWillMount(store) {
-    const subscriptions = [
-        AudioModeEmitter.addListener(AudioMode.DEVICE_CHANGE_EVENT, _onDevicesUpdate, store)
-    ];
+  const subscriptions = [AudioModeEmitter.addListener(AudioMode.DEVICE_CHANGE_EVENT, _onDevicesUpdate, store)];
 
-    store.dispatch({
-        type: _SET_AUDIOMODE_SUBSCRIPTIONS,
-        subscriptions
-    });
+  store.dispatch({
+    type: _SET_AUDIOMODE_SUBSCRIPTIONS,
+    subscriptions,
+  });
 }
 
 /**
@@ -93,12 +85,12 @@ function _appWillMount(store) {
  * @returns {void}
  */
 function _onDevicesUpdate(devices) {
-    const { dispatch } = this; // eslint-disable-line no-invalid-this
+  const { dispatch } = this; // eslint-disable-line no-invalid-this
 
-    dispatch({
-        type: _SET_AUDIOMODE_DEVICES,
-        devices
-    });
+  dispatch({
+    type: _SET_AUDIOMODE_DEVICES,
+    devices,
+  });
 }
 
 /**
@@ -112,13 +104,13 @@ function _onDevicesUpdate(devices) {
  * @returns {void}
  */
 function _setSubscriptions({ getState }) {
-    const { subscriptions } = getState()['features/mobile/audio-mode'];
+  const { subscriptions } = getState()['features/mobile/audio-mode'];
 
-    if (subscriptions) {
-        for (const subscription of subscriptions) {
-            subscription.remove();
-        }
+  if (subscriptions) {
+    for (const subscription of subscriptions) {
+      subscription.remove();
     }
+  }
 }
 
 /**
@@ -134,19 +126,19 @@ function _setSubscriptions({ getState }) {
  * @returns {*} The value returned by {@code next(action)}.
  */
 function _updateAudioMode({ getState }, next, action) {
-    const result = next(action);
-    const state = getState();
-    const conference = getCurrentConference(state);
-    const { enabled: audioOnly } = state['features/base/audio-only'];
-    let mode;
+  const result = next(action);
+  const state = getState();
+  const conference = getCurrentConference(state);
+  const { enabled: audioOnly } = state['features/base/audio-only'];
+  let mode;
 
-    if (conference) {
-        mode = audioOnly ? AudioMode.AUDIO_CALL : AudioMode.VIDEO_CALL;
-    } else {
-        mode = AudioMode.DEFAULT;
-    }
+  if (conference) {
+    mode = audioOnly ? AudioMode.AUDIO_CALL : AudioMode.VIDEO_CALL;
+  } else {
+    mode = AudioMode.DEFAULT;
+  }
 
-    AudioMode.setMode(mode).catch(err => logger.error(`Failed to set audio mode ${String(mode)}: ${err}`));
+  AudioMode.setMode(mode).catch((err) => logger.error(`Failed to set audio mode ${String(mode)}: ${err}`));
 
-    return result;
+  return result;
 }

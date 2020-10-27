@@ -8,23 +8,27 @@ import FocusLock, { MoveFocusInside } from 'react-focus-lock';
  * will steal the focus from any element that is not part of the dialog).
  */
 export default class FocusLockWrapper extends FocusLock<*> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { children, ...otherProps } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { children, ...otherProps } = this.props;
 
-        const props = {
-            ...otherProps,
-            disabled: true
-        };
+    const props = {
+      ...otherProps,
+      disabled: true,
+    };
 
-        // MoveFocusInside is added in order to initially bring the focus on the dialog.
-        return <FocusLock { ...props } ><MoveFocusInside>{children}</MoveFocusInside></FocusLock>;
-    }
+    // MoveFocusInside is added in order to initially bring the focus on the dialog.
+    return (
+      <FocusLock {...props}>
+        <MoveFocusInside>{children}</MoveFocusInside>
+      </FocusLock>
+    );
+  }
 }
 
 export * from 'react-focus-lock';

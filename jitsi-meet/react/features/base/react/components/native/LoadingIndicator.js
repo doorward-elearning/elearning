@@ -6,17 +6,16 @@ import { ActivityIndicator } from 'react-native';
 import { ColorPalette } from '../../../styles';
 
 type Props = {
+  /**
+   * The color of the spinner.
+   */
+  color: ?string,
 
-    /**
-     * The color of the spinner.
-     */
-    color: ?string,
-
-    /**
-     * Prop to set the size of the indicator. This is the same as the
-     * prop of the native component.
-     */
-    size: 'large' | 'small'
+  /**
+   * Prop to set the size of the indicator. This is the same as the
+   * prop of the native component.
+   */
+  size: 'large' | 'small',
 };
 
 /**
@@ -25,32 +24,27 @@ type Props = {
  * of work to be done.
  */
 export default class LoadingIndicator extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        const { color = ColorPalette.white } = this.props;
-        let { size = 'large' } = this.props;
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    const { color = ColorPalette.white } = this.props;
+    let { size = 'large' } = this.props;
 
-        if (size === 'medium') {
-            size = 'large';
-        }
-
-        const props = {
-            animating: true,
-            color,
-            ...this.props,
-            size
-        };
-
-        return (
-            <ActivityIndicator
-                animating = { true }
-                { ...props }
-                size = { size } />
-        );
+    if (size === 'medium') {
+      size = 'large';
     }
+
+    const props = {
+      animating: true,
+      color,
+      ...this.props,
+      size,
+    };
+
+    return <ActivityIndicator animating={true} {...props} size={size} />;
+  }
 }

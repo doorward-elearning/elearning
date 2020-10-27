@@ -9,8 +9,8 @@ import { SET_E2EE_KEY } from './actionTypes';
  * @returns {Object}
  */
 export function setE2EEKey(key: ?string) {
-    return {
-        type: SET_E2EE_KEY,
-        key
-    };
+  return {
+    type: SET_E2EE_KEY,
+    key,
+  };
 }

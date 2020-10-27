@@ -9,54 +9,52 @@ import { connect } from '../../base/redux';
 import { AbstractButton, type AbstractButtonProps } from '../../base/toolbox/components';
 import { toggleDocument } from '../actions';
 
-
 type Props = AbstractButtonProps & {
+  /**
+   * Whether the shared document is being edited or not.
+   */
+  _editing: boolean,
 
-    /**
-     * Whether the shared document is being edited or not.
-     */
-    _editing: boolean,
-
-    /**
-     * Redux dispatch function.
-     */
-    dispatch: Dispatch<any>,
+  /**
+   * Redux dispatch function.
+   */
+  dispatch: Dispatch<any>,
 };
 
 /**
  * Implements an {@link AbstractButton} to open the chat screen on mobile.
  */
 class SharedDocumentButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.document';
-    icon = IconShareDoc;
-    label = 'toolbar.documentOpen';
-    toggledLabel = 'toolbar.documentClose';
+  accessibilityLabel = 'toolbar.accessibilityLabel.document';
+  icon = IconShareDoc;
+  label = 'toolbar.documentOpen';
+  toggledLabel = 'toolbar.documentClose';
 
-    /**
-     * Handles clicking / pressing the button, and opens / closes the appropriate dialog.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        sendAnalytics(createToolbarEvent(
-            'toggle.etherpad',
-            {
-                enable: !this.props._editing
-            }));
-        this.props.dispatch(toggleDocument());
-    }
+  /**
+   * Handles clicking / pressing the button, and opens / closes the appropriate dialog.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    sendAnalytics(
+      createToolbarEvent('toggle.etherpad', {
+        enable: !this.props._editing,
+      })
+    );
+    this.props.dispatch(toggleDocument());
+  }
 
-    /**
-     * Indicates whether this button is in toggled state or not.
-     *
-     * @override
-     * @protected
-     * @returns {boolean}
-     */
-    _isToggled() {
-        return this.props._editing;
-    }
+  /**
+   * Indicates whether this button is in toggled state or not.
+   *
+   * @override
+   * @protected
+   * @returns {boolean}
+   */
+  _isToggled() {
+    return this.props._editing;
+  }
 }
 
 /**
@@ -68,13 +66,13 @@ class SharedDocumentButton extends AbstractButton<Props, *> {
  * @returns {Object}
  */
 function _mapStateToProps(state: Object, ownProps: Object) {
-    const { documentUrl, editing } = state['features/etherpad'];
-    const { visible = Boolean(documentUrl) } = ownProps;
+  const { documentUrl, editing } = state['features/etherpad'];
+  const { visible = Boolean(documentUrl) } = ownProps;
 
-    return {
-        _editing: editing,
-        visible
-    };
+  return {
+    _editing: editing,
+    visible,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(SharedDocumentButton));

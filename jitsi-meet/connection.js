@@ -4,14 +4,11 @@ import { jitsiLocalStorage } from '@jitsi/js-utils';
 import Logger from 'jitsi-meet-logger';
 
 import AuthHandler from './modules/UI/authentication/AuthHandler';
+import { connectionEstablished, connectionFailed } from './react/features/base/connection/actions';
 import {
-    connectionEstablished,
-    connectionFailed
-} from './react/features/base/connection/actions';
-import {
-    isFatalJitsiConnectionError,
-    JitsiConnectionErrors,
-    JitsiConnectionEvents
+  isFatalJitsiConnectionError,
+  JitsiConnectionErrors,
+  JitsiConnectionEvents,
 } from './react/features/base/lib-jitsi-meet';
 import { setPrejoinDisplayNameRequired } from './react/features/prejoin/actions';
 
@@ -36,40 +33,37 @@ export const DISCO_JIBRI_FEATURE = 'http://jitsi.org/protocol/jibri';
  * @param {string} [roomName] the name of the conference.
  */
 function checkForAttachParametersAndConnect(id, password, connection) {
-    if (window.XMPPAttachInfo) {
-        APP.connect.status = 'connecting';
+  if (window.XMPPAttachInfo) {
+    APP.connect.status = 'connecting';
 
-        // When connection optimization is not deployed or enabled the default
-        // value will be window.XMPPAttachInfo.status = "error"
-        // If the connection optimization is deployed and enabled and there is
-        // a failure the value will be window.XMPPAttachInfo.status = "error"
-        if (window.XMPPAttachInfo.status === 'error') {
-            connection.connect({
-                id,
-                password
-            });
+    // When connection optimization is not deployed or enabled the default
+    // value will be window.XMPPAttachInfo.status = "error"
+    // If the connection optimization is deployed and enabled and there is
+    // a failure the value will be window.XMPPAttachInfo.status = "error"
+    if (window.XMPPAttachInfo.status === 'error') {
+      connection.connect({
+        id,
+        password,
+      });
 
-            return;
-        }
-
-        const attachOptions = window.XMPPAttachInfo.data;
-
-        if (attachOptions) {
-            connection.attach(attachOptions);
-            delete window.XMPPAttachInfo.data;
-        } else {
-            connection.connect({
-                id,
-                password
-            });
-        }
-    } else {
-        APP.connect.status = 'ready';
-        APP.connect.handler
-            = checkForAttachParametersAndConnect.bind(
-                null,
-                id, password, connection);
+      return;
     }
+
+    const attachOptions = window.XMPPAttachInfo.data;
+
+    if (attachOptions) {
+      connection.attach(attachOptions);
+      delete window.XMPPAttachInfo.data;
+    } else {
+      connection.connect({
+        id,
+        password,
+      });
+    }
+  } else {
+    APP.connect.status = 'ready';
+    APP.connect.handler = checkForAttachParametersAndConnect.bind(null, id, password, connection);
+  }
 }
 
 /**
@@ -81,102 +75,87 @@ function checkForAttachParametersAndConnect(id, password, connection) {
  * everything is ok, else error.
  */
 function connect(id, password, roomName) {
-    const connectionConfig = Object.assign({}, config);
-    const { jwt } = APP.store.getState()['features/base/jwt'];
+  const connectionConfig = Object.assign({}, config);
+  const { jwt } = APP.store.getState()['features/base/jwt'];
 
-    // Use Websocket URL for the web app if configured. Note that there is no 'isWeb' check, because there's assumption
-    // that this code executes only on web browsers/electron. This needs to be changed when mobile and web are unified.
-    let serviceUrl = connectionConfig.websocket || connectionConfig.bosh;
+  // Use Websocket URL for the web app if configured. Note that there is no 'isWeb' check, because there's assumption
+  // that this code executes only on web browsers/electron. This needs to be changed when mobile and web are unified.
+  let serviceUrl = connectionConfig.websocket || connectionConfig.bosh;
 
-    serviceUrl += `?room=${roomName}`;
+  serviceUrl += `?room=${roomName}`;
 
-    // FIXME Remove deprecated 'bosh' option assignment at some point(LJM will be accepting only 'serviceUrl' option
-    //  in future). It's included for the time being for Jitsi Meet and lib-jitsi-meet versions interoperability.
-    connectionConfig.serviceUrl = connectionConfig.bosh = serviceUrl;
+  // FIXME Remove deprecated 'bosh' option assignment at some point(LJM will be accepting only 'serviceUrl' option
+  //  in future). It's included for the time being for Jitsi Meet and lib-jitsi-meet versions interoperability.
+  connectionConfig.serviceUrl = connectionConfig.bosh = serviceUrl;
 
-    const connection = new JitsiMeetJS.JitsiConnection(null, jwt, connectionConfig);
+  const connection = new JitsiMeetJS.JitsiConnection(null, jwt, connectionConfig);
 
-    if (config.iAmRecorder) {
-        connection.addFeature(DISCO_JIBRI_FEATURE);
+  if (config.iAmRecorder) {
+    connection.addFeature(DISCO_JIBRI_FEATURE);
+  }
+
+  return new Promise((resolve, reject) => {
+    connection.addEventListener(JitsiConnectionEvents.CONNECTION_ESTABLISHED, handleConnectionEstablished);
+    connection.addEventListener(JitsiConnectionEvents.CONNECTION_FAILED, handleConnectionFailed);
+    connection.addEventListener(JitsiConnectionEvents.CONNECTION_FAILED, connectionFailedHandler);
+    connection.addEventListener(JitsiConnectionEvents.DISPLAY_NAME_REQUIRED, displayNameRequiredHandler);
+
+    /* eslint-disable max-params */
+    /**
+     *
+     */
+    function connectionFailedHandler(error, message, credentials, details) {
+      /* eslint-enable max-params */
+      APP.store.dispatch(
+        connectionFailed(connection, {
+          credentials,
+          details,
+          message,
+          name: error,
+        })
+      );
+
+      if (isFatalJitsiConnectionError(error)) {
+        connection.removeEventListener(JitsiConnectionEvents.CONNECTION_FAILED, connectionFailedHandler);
+      }
     }
 
-    return new Promise((resolve, reject) => {
-        connection.addEventListener(
-            JitsiConnectionEvents.CONNECTION_ESTABLISHED,
-            handleConnectionEstablished);
-        connection.addEventListener(
-            JitsiConnectionEvents.CONNECTION_FAILED,
-            handleConnectionFailed);
-        connection.addEventListener(
-            JitsiConnectionEvents.CONNECTION_FAILED,
-            connectionFailedHandler);
-        connection.addEventListener(
-            JitsiConnectionEvents.DISPLAY_NAME_REQUIRED,
-            displayNameRequiredHandler
-        );
+    /**
+     *
+     */
+    function unsubscribe() {
+      connection.removeEventListener(JitsiConnectionEvents.CONNECTION_ESTABLISHED, handleConnectionEstablished);
+      connection.removeEventListener(JitsiConnectionEvents.CONNECTION_FAILED, handleConnectionFailed);
+    }
 
-        /* eslint-disable max-params */
-        /**
-         *
-         */
-        function connectionFailedHandler(error, message, credentials, details) {
-        /* eslint-enable max-params */
-            APP.store.dispatch(
-                connectionFailed(
-                    connection, {
-                        credentials,
-                        details,
-                        message,
-                        name: error
-                    }));
+    /**
+     *
+     */
+    function handleConnectionEstablished() {
+      APP.store.dispatch(connectionEstablished(connection, Date.now()));
+      unsubscribe();
+      resolve(connection);
+    }
 
-            if (isFatalJitsiConnectionError(error)) {
-                connection.removeEventListener(
-                    JitsiConnectionEvents.CONNECTION_FAILED,
-                    connectionFailedHandler);
-            }
-        }
+    /**
+     *
+     */
+    function handleConnectionFailed(err) {
+      unsubscribe();
+      logger.error('CONNECTION FAILED:', err);
+      reject(err);
+    }
 
-        /**
-         *
-         */
-        function unsubscribe() {
-            connection.removeEventListener(
-                JitsiConnectionEvents.CONNECTION_ESTABLISHED,
-                handleConnectionEstablished);
-            connection.removeEventListener(
-                JitsiConnectionEvents.CONNECTION_FAILED,
-                handleConnectionFailed);
-        }
+    /**
+     * Marks the display name for the prejoin screen as required.
+     * This can happen if a user tries to join a room with lobby enabled.
+     */
+    function displayNameRequiredHandler() {
+      APP.store.dispatch(setPrejoinDisplayNameRequired());
+    }
 
-        /**
-         *
-         */
-        function handleConnectionEstablished() {
-            APP.store.dispatch(connectionEstablished(connection, Date.now()));
-            unsubscribe();
-            resolve(connection);
-        }
-
-        /**
-         *
-         */
-        function handleConnectionFailed(err) {
-            unsubscribe();
-            logger.error('CONNECTION FAILED:', err);
-            reject(err);
-        }
-
-        /**
-         * Marks the display name for the prejoin screen as required.
-         * This can happen if a user tries to join a room with lobby enabled.
-         */
-        function displayNameRequiredHandler() {
-            APP.store.dispatch(setPrejoinDisplayNameRequired());
-        }
-
-        checkForAttachParametersAndConnect(id, password, connection);
-    });
+    checkForAttachParametersAndConnect(id, password, connection);
+  });
 }
 
 /**
@@ -193,27 +172,25 @@ function connect(id, password, roomName) {
  * @returns {Promise<JitsiConnection>}
  */
 export function openConnection({ id, password, retry, roomName }) {
-    const usernameOverride
-        = jitsiLocalStorage.getItem('xmpp_username_override');
-    const passwordOverride
-        = jitsiLocalStorage.getItem('xmpp_password_override');
+  const usernameOverride = jitsiLocalStorage.getItem('xmpp_username_override');
+  const passwordOverride = jitsiLocalStorage.getItem('xmpp_password_override');
 
-    if (usernameOverride && usernameOverride.length > 0) {
-        id = usernameOverride; // eslint-disable-line no-param-reassign
+  if (usernameOverride && usernameOverride.length > 0) {
+    id = usernameOverride; // eslint-disable-line no-param-reassign
+  }
+  if (passwordOverride && passwordOverride.length > 0) {
+    password = passwordOverride; // eslint-disable-line no-param-reassign
+  }
+
+  return connect(id, password, roomName).catch((err) => {
+    if (retry) {
+      const { jwt } = APP.store.getState()['features/base/jwt'];
+
+      if (err === JitsiConnectionErrors.PASSWORD_REQUIRED && !jwt) {
+        return AuthHandler.requestAuth(roomName, connect);
+      }
     }
-    if (passwordOverride && passwordOverride.length > 0) {
-        password = passwordOverride; // eslint-disable-line no-param-reassign
-    }
 
-    return connect(id, password, roomName).catch(err => {
-        if (retry) {
-            const { jwt } = APP.store.getState()['features/base/jwt'];
-
-            if (err === JitsiConnectionErrors.PASSWORD_REQUIRED && !jwt) {
-                return AuthHandler.requestAuth(roomName, connect);
-            }
-        }
-
-        throw err;
-    });
+    throw err;
+  });
 }

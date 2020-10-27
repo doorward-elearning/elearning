@@ -10,43 +10,42 @@ import { sendMessage, toggleChat } from '../actions';
  * The type of the React {@code Component} props of {@code AbstractChat}.
  */
 export type Props = {
+  /**
+   * True if the chat window should be rendered.
+   */
+  _isOpen: boolean,
 
-    /**
-     * True if the chat window should be rendered.
-     */
-    _isOpen: boolean,
+  /**
+   * All the chat messages in the conference.
+   */
+  _messages: Array<Object>,
 
-    /**
-     * All the chat messages in the conference.
-     */
-    _messages: Array<Object>,
+  /**
+   * Function to send a text message.
+   *
+   * @protected
+   */
+  _onSendMessage: Function,
 
-    /**
-     * Function to send a text message.
-     *
-     * @protected
-     */
-    _onSendMessage: Function,
+  /**
+   * Function to toggle the chat window.
+   */
+  _onToggleChat: Function,
 
-    /**
-     * Function to toggle the chat window.
-     */
-    _onToggleChat: Function,
+  /**
+   * Whether or not to block chat access with a nickname input form.
+   */
+  _showNamePrompt: boolean,
 
-    /**
-     * Whether or not to block chat access with a nickname input form.
-     */
-    _showNamePrompt: boolean,
+  /**
+   * The Redux dispatch function.
+   */
+  dispatch: Dispatch<any>,
 
-    /**
-     * The Redux dispatch function.
-     */
-    dispatch: Dispatch<any>,
-
-    /**
-     * Function to be used to translate i18n labels.
-     */
-    t: Function
+  /**
+   * Function to be used to translate i18n labels.
+   */
+  t: Function,
 };
 
 /**
@@ -65,28 +64,28 @@ export default class AbstractChat<P: Props> extends Component<P> {}
  * @private
  */
 export function _mapDispatchToProps(dispatch: Dispatch<any>) {
-    return {
-        /**
-         * Toggles the chat window.
-         *
-         * @returns {Function}
-         */
-        _onToggleChat() {
-            dispatch(toggleChat());
-        },
+  return {
+    /**
+     * Toggles the chat window.
+     *
+     * @returns {Function}
+     */
+    _onToggleChat() {
+      dispatch(toggleChat());
+    },
 
-        /**
-         * Sends a text message.
-         *
-         * @private
-         * @param {string} text - The text message to be sent.
-         * @returns {void}
-         * @type {Function}
-         */
-        _onSendMessage(text: string) {
-            dispatch(sendMessage(text));
-        }
-    };
+    /**
+     * Sends a text message.
+     *
+     * @private
+     * @param {string} text - The text message to be sent.
+     * @returns {void}
+     * @type {Function}
+     */
+    _onSendMessage(text: string) {
+      dispatch(sendMessage(text));
+    },
+  };
 }
 
 /**
@@ -102,12 +101,12 @@ export function _mapDispatchToProps(dispatch: Dispatch<any>) {
  * }}
  */
 export function _mapStateToProps(state: Object) {
-    const { isOpen, messages } = state['features/chat'];
-    const _localParticipant = getLocalParticipant(state);
+  const { isOpen, messages } = state['features/chat'];
+  const _localParticipant = getLocalParticipant(state);
 
-    return {
-        _isOpen: isOpen,
-        _messages: messages,
-        _showNamePrompt: !_localParticipant.name
-    };
+  return {
+    _isOpen: isOpen,
+    _messages: messages,
+    _showNamePrompt: !_localParticipant.name,
+  };
 }

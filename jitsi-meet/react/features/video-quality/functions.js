@@ -4,7 +4,6 @@ import { VIDEO_QUALITY_LEVELS } from '../base/conference';
 
 import { CFG_LVL_TO_APP_QUALITY_LVL } from './constants';
 
-
 /**
  * Selects {@code VIDEO_QUALITY_LEVELS} for the given {@link availableHeight} and threshold to quality mapping.
  *
@@ -14,15 +13,15 @@ import { CFG_LVL_TO_APP_QUALITY_LVL } from './constants';
  * @returns {number} The matching value from {@code VIDEO_QUALITY_LEVELS}.
  */
 export function getReceiverVideoQualityLevel(availableHeight: number, heightToLevel: Map<number, number>): number {
-    let selectedLevel = VIDEO_QUALITY_LEVELS.LOW;
+  let selectedLevel = VIDEO_QUALITY_LEVELS.LOW;
 
-    for (const [ levelThreshold, level ] of heightToLevel.entries()) {
-        if (availableHeight >= levelThreshold) {
-            selectedLevel = level;
-        }
+  for (const [levelThreshold, level] of heightToLevel.entries()) {
+    if (availableHeight >= levelThreshold) {
+      selectedLevel = level;
     }
+  }
 
-    return selectedLevel;
+  return selectedLevel;
 }
 
 /**
@@ -35,28 +34,30 @@ export function getReceiverVideoQualityLevel(availableHeight: number, heightToLe
  * {@code undefined} if the map contains invalid values.
  */
 export function validateMinHeightForQualityLvl(minHeightForQualityLvl: Object): ?Map<number, number> {
-    if (typeof minHeightForQualityLvl !== 'object'
-        || Object.keys(minHeightForQualityLvl).map(lvl => Number(lvl))
-            .find(lvl => lvl === null || isNaN(lvl) || lvl < 0)) {
-        return undefined;
+  if (
+    typeof minHeightForQualityLvl !== 'object' ||
+    Object.keys(minHeightForQualityLvl)
+      .map((lvl) => Number(lvl))
+      .find((lvl) => lvl === null || isNaN(lvl) || lvl < 0)
+  ) {
+    return undefined;
+  }
+
+  const levelsSorted = Object.keys(minHeightForQualityLvl)
+    .map((k) => Number(k))
+    .sort((a, b) => a - b);
+  const map = new Map();
+
+  for (const level of levelsSorted) {
+    const configQuality = minHeightForQualityLvl[level];
+    const appQuality = CFG_LVL_TO_APP_QUALITY_LVL[configQuality];
+
+    if (!appQuality) {
+      return undefined;
     }
 
-    const levelsSorted
-        = Object.keys(minHeightForQualityLvl)
-            .map(k => Number(k))
-            .sort((a, b) => a - b);
-    const map = new Map();
+    map.set(level, appQuality);
+  }
 
-    for (const level of levelsSorted) {
-        const configQuality = minHeightForQualityLvl[level];
-        const appQuality = CFG_LVL_TO_APP_QUALITY_LVL[configQuality];
-
-        if (!appQuality) {
-            return undefined;
-        }
-
-        map.set(level, appQuality);
-    }
-
-    return map;
+  return map;
 }

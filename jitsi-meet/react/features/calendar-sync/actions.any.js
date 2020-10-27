@@ -1,10 +1,6 @@
 // @flow
 
-import {
-    REFRESH_CALENDAR,
-    SET_CALENDAR_AUTHORIZATION,
-    SET_CALENDAR_EVENTS
-} from './actionTypes';
+import { REFRESH_CALENDAR, SET_CALENDAR_AUTHORIZATION, SET_CALENDAR_EVENTS } from './actionTypes';
 
 /**
  * Sends an action to refresh the entry list (fetches new data).
@@ -19,13 +15,12 @@ import {
  *     isInteractive: boolean
  * }}
  */
-export function refreshCalendar(
-        forcePermission: boolean = false, isInteractive: boolean = true) {
-    return {
-        type: REFRESH_CALENDAR,
-        forcePermission,
-        isInteractive
-    };
+export function refreshCalendar(forcePermission: boolean = false, isInteractive: boolean = true) {
+  return {
+    type: REFRESH_CALENDAR,
+    forcePermission,
+    isInteractive,
+  };
 }
 
 /**
@@ -40,10 +35,10 @@ export function refreshCalendar(
  * }}
  */
 export function setCalendarAuthorization(authorization: ?string) {
-    return {
-        type: SET_CALENDAR_AUTHORIZATION,
-        authorization
-    };
+  return {
+    type: SET_CALENDAR_AUTHORIZATION,
+    authorization,
+  };
 }
 
 /**
@@ -56,8 +51,8 @@ export function setCalendarAuthorization(authorization: ?string) {
  * }}
  */
 export function setCalendarEvents(events: Array<Object>) {
-    return {
-        type: SET_CALENDAR_EVENTS,
-        events
-    };
+  return {
+    type: SET_CALENDAR_EVENTS,
+    events,
+  };
 }

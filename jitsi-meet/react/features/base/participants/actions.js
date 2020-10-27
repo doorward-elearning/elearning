@@ -2,25 +2,21 @@ import { NOTIFICATION_TIMEOUT, showNotification } from '../../notifications';
 import { set } from '../redux';
 
 import {
-    DOMINANT_SPEAKER_CHANGED,
-    HIDDEN_PARTICIPANT_JOINED,
-    HIDDEN_PARTICIPANT_LEFT,
-    GRANT_MODERATOR,
-    KICK_PARTICIPANT,
-    MUTE_REMOTE_PARTICIPANT,
-    PARTICIPANT_ID_CHANGED,
-    PARTICIPANT_JOINED,
-    PARTICIPANT_KICKED,
-    PARTICIPANT_LEFT,
-    PARTICIPANT_UPDATED,
-    PIN_PARTICIPANT,
-    SET_LOADABLE_AVATAR_URL
+  DOMINANT_SPEAKER_CHANGED,
+  HIDDEN_PARTICIPANT_JOINED,
+  HIDDEN_PARTICIPANT_LEFT,
+  GRANT_MODERATOR,
+  KICK_PARTICIPANT,
+  MUTE_REMOTE_PARTICIPANT,
+  PARTICIPANT_ID_CHANGED,
+  PARTICIPANT_JOINED,
+  PARTICIPANT_KICKED,
+  PARTICIPANT_LEFT,
+  PARTICIPANT_UPDATED,
+  PIN_PARTICIPANT,
+  SET_LOADABLE_AVATAR_URL,
 } from './actionTypes';
-import {
-    getLocalParticipant,
-    getNormalizedDisplayName,
-    getParticipantDisplayName
-} from './functions';
+import { getLocalParticipant, getNormalizedDisplayName, getParticipantDisplayName } from './functions';
 
 /**
  * Create an action for when dominant speaker changes.
@@ -39,13 +35,13 @@ import {
  * }}
  */
 export function dominantSpeakerChanged(id, conference) {
-    return {
-        type: DOMINANT_SPEAKER_CHANGED,
-        participant: {
-            conference,
-            id
-        }
-    };
+  return {
+    type: DOMINANT_SPEAKER_CHANGED,
+    participant: {
+      conference,
+      id,
+    },
+  };
 }
 
 /**
@@ -58,10 +54,10 @@ export function dominantSpeakerChanged(id, conference) {
  * }}
  */
 export function grantModerator(id) {
-    return {
-        type: GRANT_MODERATOR,
-        id
-    };
+  return {
+    type: GRANT_MODERATOR,
+    id,
+  };
 }
 
 /**
@@ -74,10 +70,10 @@ export function grantModerator(id) {
  * }}
  */
 export function kickParticipant(id) {
-    return {
-        type: KICK_PARTICIPANT,
-        id
-    };
+  return {
+    type: KICK_PARTICIPANT,
+    id,
+  };
 }
 
 /**
@@ -90,15 +86,13 @@ export function kickParticipant(id) {
  * @returns {Function}
  */
 export function localParticipantConnectionStatusChanged(connectionStatus) {
-    return (dispatch, getState) => {
-        const participant = getLocalParticipant(getState);
+  return (dispatch, getState) => {
+    const participant = getLocalParticipant(getState);
 
-        if (participant) {
-            return dispatch(participantConnectionStatusChanged(
-                participant.id,
-                connectionStatus));
-        }
-    };
+    if (participant) {
+      return dispatch(participantConnectionStatusChanged(participant.id, connectionStatus));
+    }
+  };
 }
 
 /**
@@ -110,21 +104,21 @@ export function localParticipantConnectionStatusChanged(connectionStatus) {
  * @returns {Function}
  */
 export function localParticipantIdChanged(id) {
-    return (dispatch, getState) => {
-        const participant = getLocalParticipant(getState);
+  return (dispatch, getState) => {
+    const participant = getLocalParticipant(getState);
 
-        if (participant) {
-            return dispatch({
-                type: PARTICIPANT_ID_CHANGED,
+    if (participant) {
+      return dispatch({
+        type: PARTICIPANT_ID_CHANGED,
 
-                // XXX A participant is identified by an id-conference pair.
-                // Only the local participant is with an undefined conference.
-                conference: undefined,
-                newValue: id,
-                oldValue: participant.id
-            });
-        }
-    };
+        // XXX A participant is identified by an id-conference pair.
+        // Only the local participant is with an undefined conference.
+        conference: undefined,
+        newValue: id,
+        oldValue: participant.id,
+      });
+    }
+  };
 }
 
 /**
@@ -137,7 +131,7 @@ export function localParticipantIdChanged(id) {
  * }}
  */
 export function localParticipantJoined(participant = {}) {
-    return participantJoined(set(participant, 'local', true));
+  return participantJoined(set(participant, 'local', true));
 }
 
 /**
@@ -146,25 +140,26 @@ export function localParticipantJoined(participant = {}) {
  * @returns {Function}
  */
 export function localParticipantLeft() {
-    return (dispatch, getState) => {
-        const participant = getLocalParticipant(getState);
+  return (dispatch, getState) => {
+    const participant = getLocalParticipant(getState);
 
-        if (participant) {
-            return (
-                dispatch(
-                    participantLeft(
-                        participant.id,
+    if (participant) {
+      return dispatch(
+        participantLeft(
+          participant.id,
 
-                        // XXX Only the local participant is allowed to leave
-                        // without stating the JitsiConference instance because
-                        // the local participant is uniquely identified by the
-                        // very fact that there is only one local participant
-                        // (and the fact that the local participant "joins" at
-                        // the beginning of the app and "leaves" at the end of
-                        // the app).
-                        undefined)));
-        }
-    };
+          // XXX Only the local participant is allowed to leave
+          // without stating the JitsiConference instance because
+          // the local participant is uniquely identified by the
+          // very fact that there is only one local participant
+          // (and the fact that the local participant "joins" at
+          // the beginning of the app and "leaves" at the end of
+          // the app).
+          undefined
+        )
+      );
+    }
+  };
 }
 
 /**
@@ -176,13 +171,13 @@ export function localParticipantLeft() {
  * @returns {Function}
  */
 export function localParticipantRoleChanged(role) {
-    return (dispatch, getState) => {
-        const participant = getLocalParticipant(getState);
+  return (dispatch, getState) => {
+    const participant = getLocalParticipant(getState);
 
-        if (participant) {
-            return dispatch(participantRoleChanged(participant.id, role));
-        }
-    };
+    if (participant) {
+      return dispatch(participantRoleChanged(participant.id, role));
+    }
+  };
 }
 
 /**
@@ -195,10 +190,10 @@ export function localParticipantRoleChanged(role) {
  * }}
  */
 export function muteRemoteParticipant(id) {
-    return {
-        type: MUTE_REMOTE_PARTICIPANT,
-        id
-    };
+  return {
+    type: MUTE_REMOTE_PARTICIPANT,
+    id,
+  };
 }
 
 /**
@@ -216,13 +211,13 @@ export function muteRemoteParticipant(id) {
  * }}
  */
 export function participantConnectionStatusChanged(id, connectionStatus) {
-    return {
-        type: PARTICIPANT_UPDATED,
-        participant: {
-            connectionStatus,
-            id
-        }
-    };
+  return {
+    type: PARTICIPANT_UPDATED,
+    participant: {
+      connectionStatus,
+      id,
+    },
+  };
 }
 
 /**
@@ -235,41 +230,38 @@ export function participantConnectionStatusChanged(id, connectionStatus) {
  * }}
  */
 export function participantJoined(participant) {
-    // Only the local participant is not identified with an id-conference pair.
-    if (participant.local) {
-        return {
-            type: PARTICIPANT_JOINED,
-            participant
-        };
-    }
-
-    // In other words, a remote participant is identified with an id-conference
-    // pair.
-    const { conference } = participant;
-
-    if (!conference) {
-        throw Error(
-            'A remote participant must be associated with a JitsiConference!');
-    }
-
-    return (dispatch, getState) => {
-        // A remote participant is only expected to join in a joined or joining
-        // conference. The following check is really necessary because a
-        // JitsiConference may have moved into leaving but may still manage to
-        // sneak a PARTICIPANT_JOINED in if its leave is delayed for any purpose
-        // (which is not outragous given that leaving involves network
-        // requests.)
-        const stateFeaturesBaseConference
-            = getState()['features/base/conference'];
-
-        if (conference === stateFeaturesBaseConference.conference
-                || conference === stateFeaturesBaseConference.joining) {
-            return dispatch({
-                type: PARTICIPANT_JOINED,
-                participant
-            });
-        }
+  // Only the local participant is not identified with an id-conference pair.
+  if (participant.local) {
+    return {
+      type: PARTICIPANT_JOINED,
+      participant,
     };
+  }
+
+  // In other words, a remote participant is identified with an id-conference
+  // pair.
+  const { conference } = participant;
+
+  if (!conference) {
+    throw Error('A remote participant must be associated with a JitsiConference!');
+  }
+
+  return (dispatch, getState) => {
+    // A remote participant is only expected to join in a joined or joining
+    // conference. The following check is really necessary because a
+    // JitsiConference may have moved into leaving but may still manage to
+    // sneak a PARTICIPANT_JOINED in if its leave is delayed for any purpose
+    // (which is not outragous given that leaving involves network
+    // requests.)
+    const stateFeaturesBaseConference = getState()['features/base/conference'];
+
+    if (conference === stateFeaturesBaseConference.conference || conference === stateFeaturesBaseConference.joining) {
+      return dispatch({
+        type: PARTICIPANT_JOINED,
+        participant,
+      });
+    }
+  };
 }
 
 /**
@@ -285,11 +277,11 @@ export function participantJoined(participant) {
  * }}
  */
 export function hiddenParticipantJoined(id, displayName) {
-    return {
-        type: HIDDEN_PARTICIPANT_JOINED,
-        id,
-        displayName
-    };
+  return {
+    type: HIDDEN_PARTICIPANT_JOINED,
+    id,
+    displayName,
+  };
 }
 
 /**
@@ -302,10 +294,10 @@ export function hiddenParticipantJoined(id, displayName) {
  * }}
  */
 export function hiddenParticipantLeft(id) {
-    return {
-        type: HIDDEN_PARTICIPANT_LEFT,
-        id
-    };
+  return {
+    type: HIDDEN_PARTICIPANT_LEFT,
+    id,
+  };
 }
 
 /**
@@ -325,13 +317,13 @@ export function hiddenParticipantLeft(id) {
  * }}
  */
 export function participantLeft(id, conference) {
-    return {
-        type: PARTICIPANT_LEFT,
-        participant: {
-            conference,
-            id
-        }
-    };
+  return {
+    type: PARTICIPANT_LEFT,
+    participant: {
+      conference,
+      id,
+    },
+  };
 }
 
 /**
@@ -348,10 +340,10 @@ export function participantLeft(id, conference) {
  * }}
  */
 export function participantPresenceChanged(id, presence) {
-    return participantUpdated({
-        id,
-        presence
-    });
+  return participantUpdated({
+    id,
+    presence,
+  });
 }
 
 /**
@@ -368,10 +360,10 @@ export function participantPresenceChanged(id, presence) {
  * }}
  */
 export function participantRoleChanged(id, role) {
-    return participantUpdated({
-        id,
-        role
-    });
+  return participantUpdated({
+    id,
+    role,
+  });
 }
 
 /**
@@ -387,18 +379,18 @@ export function participantRoleChanged(id, role) {
  * }}
  */
 export function participantUpdated(participant = {}) {
-    const participantToUpdate = {
-        ...participant
-    };
+  const participantToUpdate = {
+    ...participant,
+  };
 
-    if (participant.name) {
-        participantToUpdate.name = getNormalizedDisplayName(participant.name);
-    }
+  if (participant.name) {
+    participantToUpdate.name = getNormalizedDisplayName(participant.name);
+  }
 
-    return {
-        type: PARTICIPANT_UPDATED,
-        participant: participantToUpdate
-    };
+  return {
+    type: PARTICIPANT_UPDATED,
+    participant: participantToUpdate,
+  };
 }
 
 /**
@@ -408,20 +400,21 @@ export function participantUpdated(participant = {}) {
  * @returns {Promise}
  */
 export function participantMutedUs(participant) {
-    return (dispatch, getState) => {
-        if (!participant) {
-            return;
-        }
+  return (dispatch, getState) => {
+    if (!participant) {
+      return;
+    }
 
-        dispatch(showNotification({
-            descriptionKey: 'notify.mutedRemotelyDescription',
-            titleKey: 'notify.mutedRemotelyTitle',
-            titleArguments: {
-                participantDisplayName:
-                    getParticipantDisplayName(getState, participant.getId())
-            }
-        }));
-    };
+    dispatch(
+      showNotification({
+        descriptionKey: 'notify.mutedRemotelyDescription',
+        titleKey: 'notify.mutedRemotelyTitle',
+        titleArguments: {
+          participantDisplayName: getParticipantDisplayName(getState, participant.getId()),
+        },
+      })
+    );
+  };
 }
 
 /**
@@ -432,24 +425,26 @@ export function participantMutedUs(participant) {
  * @returns {Promise}
  */
 export function participantKicked(kicker, kicked) {
-    return (dispatch, getState) => {
+  return (dispatch, getState) => {
+    dispatch({
+      type: PARTICIPANT_KICKED,
+      kicked: kicked.getId(),
+      kicker: kicker.getId(),
+    });
 
-        dispatch({
-            type: PARTICIPANT_KICKED,
-            kicked: kicked.getId(),
-            kicker: kicker.getId()
-        });
-
-        dispatch(showNotification({
-            titleArguments: {
-                kicked:
-                    getParticipantDisplayName(getState, kicked.getId()),
-                kicker:
-                    getParticipantDisplayName(getState, kicker.getId())
-            },
-            titleKey: 'notify.kickParticipant'
-        }, NOTIFICATION_TIMEOUT * 2)); // leave more time for this
-    };
+    dispatch(
+      showNotification(
+        {
+          titleArguments: {
+            kicked: getParticipantDisplayName(getState, kicked.getId()),
+            kicker: getParticipantDisplayName(getState, kicker.getId()),
+          },
+          titleKey: 'notify.kickParticipant',
+        },
+        NOTIFICATION_TIMEOUT * 2
+      )
+    ); // leave more time for this
+  };
 }
 
 /**
@@ -465,12 +460,12 @@ export function participantKicked(kicker, kicked) {
  * }}
  */
 export function pinParticipant(id) {
-    return {
-        type: PIN_PARTICIPANT,
-        participant: {
-            id
-        }
-    };
+  return {
+    type: PIN_PARTICIPANT,
+    participant: {
+      id,
+    },
+  };
 }
 
 /**
@@ -485,13 +480,13 @@ export function pinParticipant(id) {
  *         loadableAvatarUrl: string
  *     }
  * }}
-*/
+ */
 export function setLoadableAvatarUrl(participantId, url) {
-    return {
-        type: SET_LOADABLE_AVATAR_URL,
-        participant: {
-            id: participantId,
-            loadableAvatarUrl: url
-        }
-    };
+  return {
+    type: SET_LOADABLE_AVATAR_URL,
+    participant: {
+      id: participantId,
+      loadableAvatarUrl: url,
+    },
+  };
 }

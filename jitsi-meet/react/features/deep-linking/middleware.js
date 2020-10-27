@@ -11,12 +11,12 @@ import { openDesktopApp } from './functions';
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case OPEN_DESKTOP_APP:
-        openDesktopApp(store.getState());
-        break;
-    }
+      openDesktopApp(store.getState());
+      break;
+  }
 
-    return next(action);
+  return next(action);
 });

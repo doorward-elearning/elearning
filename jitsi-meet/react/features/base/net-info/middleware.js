@@ -17,48 +17,55 @@ import type { NetworkInfo } from './types';
  * @returns {Function}
  */
 // eslint-disable-next-line no-unused-vars
-MiddlewareRegistry.register(({ dispatch, getState }) => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register(({ dispatch, getState }) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
+  switch (action.type) {
     case APP_WILL_MOUNT:
-        if (NetworkInfoService.isSupported()) {
-            const networkInfoService = new NetworkInfoService();
-            const stop = () => {
-                networkInfoService.stop();
-                networkInfoService.removeAllListeners();
-            };
+      if (NetworkInfoService.isSupported()) {
+        const networkInfoService = new NetworkInfoService();
+        const stop = () => {
+          networkInfoService.stop();
+          networkInfoService.removeAllListeners();
+        };
 
-            networkInfoService.addListener(
-                ONLINE_STATE_CHANGED_EVENT,
-                ({ isOnline, networkType, details }: NetworkInfo) => {
-                    logger.info('Network changed', JSON.stringify({
-                        isOnline,
-                        details,
-                        networkType
-                    }));
-                    dispatch(setNetworkInfo({
-                        isOnline,
-                        networkType,
-                        details
-                    }));
-                });
+        networkInfoService.addListener(
+          ONLINE_STATE_CHANGED_EVENT,
+          ({ isOnline, networkType, details }: NetworkInfo) => {
+            logger.info(
+              'Network changed',
+              JSON.stringify({
+                isOnline,
+                details,
+                networkType,
+              })
+            );
+            dispatch(
+              setNetworkInfo({
+                isOnline,
+                networkType,
+                details,
+              })
+            );
+          }
+        );
 
-            dispatch(_storeNetworkInfoCleanup(stop));
+        dispatch(_storeNetworkInfoCleanup(stop));
 
-            networkInfoService.start();
-        }
-        break;
-    case APP_WILL_UNMOUNT: {
+        networkInfoService.start();
+      }
+      break;
+    case APP_WILL_UNMOUNT:
+      {
         const { _cleanup } = getState()[STORE_NAME];
 
         if (_cleanup) {
-            _cleanup();
-            dispatch(_storeNetworkInfoCleanup(undefined));
+          _cleanup();
+          dispatch(_storeNetworkInfoCleanup(undefined));
         }
-    }
-        break;
-    }
+      }
+      break;
+  }
 
-    return result;
+  return result;
 });

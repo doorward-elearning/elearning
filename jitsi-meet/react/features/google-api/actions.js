@@ -4,10 +4,7 @@ import type { Dispatch } from 'redux';
 
 import { getShareInfoText } from '../invite';
 
-import {
-    SET_GOOGLE_API_PROFILE,
-    SET_GOOGLE_API_STATE
-} from './actionTypes';
+import { SET_GOOGLE_API_PROFILE, SET_GOOGLE_API_STATE } from './actionTypes';
 import { GOOGLE_API_STATES } from './constants';
 import googleApi from './googleApi';
 
@@ -18,12 +15,8 @@ import googleApi from './googleApi';
  * @param {number} fetchEndDays - The number of days to fetch.
  * @returns {function(Dispatch<any>): Promise<CalendarEntries>}
  */
-export function getCalendarEntries(
-        fetchStartDays: ?number, fetchEndDays: ?number) {
-    return () =>
-        googleApi.get()
-        .then(() =>
-            googleApi._getCalendarEntries(fetchStartDays, fetchEndDays));
+export function getCalendarEntries(fetchStartDays: ?number, fetchEndDays: ?number) {
+  return () => googleApi.get().then(() => googleApi._getCalendarEntries(fetchStartDays, fetchEndDays));
 }
 
 /**
@@ -32,30 +25,31 @@ export function getCalendarEntries(
  * @returns {Function}
  */
 export function loadGoogleAPI() {
-    return (dispatch: Dispatch<any>, getState: Function) =>
-        googleApi.get()
-        .then(() => {
-            const {
-                liveStreamingEnabled,
-                enableCalendarIntegration,
-                googleApiApplicationClientID
-            } = getState()['features/base/config'];
+  return (dispatch: Dispatch<any>, getState: Function) =>
+    googleApi
+      .get()
+      .then(() => {
+        const { liveStreamingEnabled, enableCalendarIntegration, googleApiApplicationClientID } = getState()[
+          'features/base/config'
+        ];
 
-            if (getState()['features/google-api'].googleAPIState
-                    === GOOGLE_API_STATES.NEEDS_LOADING) {
-                return googleApi.initializeClient(
-                    googleApiApplicationClientID, liveStreamingEnabled, enableCalendarIntegration);
-            }
+        if (getState()['features/google-api'].googleAPIState === GOOGLE_API_STATES.NEEDS_LOADING) {
+          return googleApi.initializeClient(
+            googleApiApplicationClientID,
+            liveStreamingEnabled,
+            enableCalendarIntegration
+          );
+        }
 
-            return Promise.resolve();
-        })
-        .then(() => dispatch(setGoogleAPIState(GOOGLE_API_STATES.LOADED)))
-        .then(() => googleApi.isSignedIn())
-        .then(isSignedIn => {
-            if (isSignedIn) {
-                dispatch(setGoogleAPIState(GOOGLE_API_STATES.SIGNED_IN));
-            }
-        });
+        return Promise.resolve();
+      })
+      .then(() => dispatch(setGoogleAPIState(GOOGLE_API_STATES.LOADED)))
+      .then(() => googleApi.isSignedIn())
+      .then((isSignedIn) => {
+        if (isSignedIn) {
+          dispatch(setGoogleAPIState(GOOGLE_API_STATES.SIGNED_IN));
+        }
+      });
 }
 
 /**
@@ -65,32 +59,31 @@ export function loadGoogleAPI() {
  * @returns {function(): (Promise<*>|Promise<any[] | never>)}
  */
 export function requestAvailableYouTubeBroadcasts() {
-    return () =>
-        googleApi.requestAvailableYouTubeBroadcasts()
-        .then(response => {
-            // Takes in a list of broadcasts from the YouTube API,
-            // removes dupes, removes broadcasts that cannot get a stream key,
-            // and parses the broadcasts into flat objects.
-            const broadcasts = response.result.items;
+  return () =>
+    googleApi.requestAvailableYouTubeBroadcasts().then((response) => {
+      // Takes in a list of broadcasts from the YouTube API,
+      // removes dupes, removes broadcasts that cannot get a stream key,
+      // and parses the broadcasts into flat objects.
+      const broadcasts = response.result.items;
 
-            const parsedBroadcasts = {};
+      const parsedBroadcasts = {};
 
-            for (let i = 0; i < broadcasts.length; i++) {
-                const broadcast = broadcasts[i];
-                const boundStreamID = broadcast.contentDetails.boundStreamId;
+      for (let i = 0; i < broadcasts.length; i++) {
+        const broadcast = broadcasts[i];
+        const boundStreamID = broadcast.contentDetails.boundStreamId;
 
-                if (boundStreamID && !parsedBroadcasts[boundStreamID]) {
-                    parsedBroadcasts[boundStreamID] = {
-                        boundStreamID,
-                        id: broadcast.id,
-                        status: broadcast.status.lifeCycleStatus,
-                        title: broadcast.snippet.title
-                    };
-                }
-            }
+        if (boundStreamID && !parsedBroadcasts[boundStreamID]) {
+          parsedBroadcasts[boundStreamID] = {
+            boundStreamID,
+            id: broadcast.id,
+            status: broadcast.status.lifeCycleStatus,
+            title: broadcast.snippet.title,
+          };
+        }
+      }
 
-            return Object.values(parsedBroadcasts);
-        });
+      return Object.values(parsedBroadcasts);
+    });
 }
 
 /**
@@ -104,20 +97,17 @@ export function requestAvailableYouTubeBroadcasts() {
  *  selectedBoundStreamID: *} | never>)}
  */
 export function requestLiveStreamsForYouTubeBroadcast(boundStreamID: string) {
-    return () =>
-        googleApi.requestLiveStreamsForYouTubeBroadcast(boundStreamID)
-            .then(response => {
-                const broadcasts = response.result.items;
-                const streamName = broadcasts
-                    && broadcasts[0]
-                    && broadcasts[0].cdn.ingestionInfo.streamName;
-                const streamKey = streamName || '';
+  return () =>
+    googleApi.requestLiveStreamsForYouTubeBroadcast(boundStreamID).then((response) => {
+      const broadcasts = response.result.items;
+      const streamName = broadcasts && broadcasts[0] && broadcasts[0].cdn.ingestionInfo.streamName;
+      const streamKey = streamName || '';
 
-                return {
-                    streamKey,
-                    selectedBoundStreamID: boundStreamID
-                };
-            });
+      return {
+        streamKey,
+        selectedBoundStreamID: boundStreamID,
+      };
+    });
 }
 
 /**
@@ -130,13 +120,12 @@ export function requestLiveStreamsForYouTubeBroadcast(boundStreamID: string) {
  *     googleAPIState: number
  * }}
  */
-export function setGoogleAPIState(
-        googleAPIState: number, googleResponse: ?Object) {
-    return {
-        type: SET_GOOGLE_API_STATE,
-        googleAPIState,
-        googleResponse
-    };
+export function setGoogleAPIState(googleAPIState: number, googleResponse: ?Object) {
+  return {
+    type: SET_GOOGLE_API_STATE,
+    googleAPIState,
+    googleResponse,
+  };
 }
 
 /**
@@ -148,8 +137,7 @@ export function setGoogleAPIState(
  *  selectedBoundStreamID: *} | never>)}
  */
 export function showAccountSelection() {
-    return () =>
-        googleApi.showAccountSelection();
+  return () => googleApi.showAccountSelection();
 }
 
 /**
@@ -158,12 +146,16 @@ export function showAccountSelection() {
  * @returns {function(Dispatch<any>): Promise<string | never>}
  */
 export function signIn() {
-    return (dispatch: Dispatch<any>) => googleApi.get()
-            .then(() => googleApi.signInIfNotSignedIn())
-            .then(() => dispatch({
-                type: SET_GOOGLE_API_STATE,
-                googleAPIState: GOOGLE_API_STATES.SIGNED_IN
-            }));
+  return (dispatch: Dispatch<any>) =>
+    googleApi
+      .get()
+      .then(() => googleApi.signInIfNotSignedIn())
+      .then(() =>
+        dispatch({
+          type: SET_GOOGLE_API_STATE,
+          googleAPIState: GOOGLE_API_STATES.SIGNED_IN,
+        })
+      );
 }
 
 /**
@@ -172,19 +164,20 @@ export function signIn() {
  * @returns {function(Dispatch<any>): Promise<string | never>}
  */
 export function signOut() {
-    return (dispatch: Dispatch<any>) =>
-        googleApi.get()
-            .then(() => googleApi.signOut())
-            .then(() => {
-                dispatch({
-                    type: SET_GOOGLE_API_STATE,
-                    googleAPIState: GOOGLE_API_STATES.LOADED
-                });
-                dispatch({
-                    type: SET_GOOGLE_API_PROFILE,
-                    profileEmail: ''
-                });
-            });
+  return (dispatch: Dispatch<any>) =>
+    googleApi
+      .get()
+      .then(() => googleApi.signOut())
+      .then(() => {
+        dispatch({
+          type: SET_GOOGLE_API_STATE,
+          googleAPIState: GOOGLE_API_STATES.LOADED,
+        });
+        dispatch({
+          type: SET_GOOGLE_API_PROFILE,
+          profileEmail: '',
+        });
+      });
 }
 
 /**
@@ -193,21 +186,25 @@ export function signOut() {
  * @returns {function(Dispatch<any>): Promise<string | never>}
  */
 export function updateProfile() {
-    return (dispatch: Dispatch<any>) => googleApi.get()
-        .then(() => googleApi.signInIfNotSignedIn())
-        .then(() => dispatch({
-            type: SET_GOOGLE_API_STATE,
-            googleAPIState: GOOGLE_API_STATES.SIGNED_IN
-        }))
-        .then(() => googleApi.getCurrentUserProfile())
-        .then(profile => {
-            dispatch({
-                type: SET_GOOGLE_API_PROFILE,
-                profileEmail: profile.getEmail()
-            });
-
-            return profile.getEmail();
+  return (dispatch: Dispatch<any>) =>
+    googleApi
+      .get()
+      .then(() => googleApi.signInIfNotSignedIn())
+      .then(() =>
+        dispatch({
+          type: SET_GOOGLE_API_STATE,
+          googleAPIState: GOOGLE_API_STATES.SIGNED_IN,
+        })
+      )
+      .then(() => googleApi.getCurrentUserProfile())
+      .then((profile) => {
+        dispatch({
+          type: SET_GOOGLE_API_PROFILE,
+          profileEmail: profile.getEmail(),
         });
+
+        return profile.getEmail();
+      });
 }
 
 /**
@@ -218,10 +215,9 @@ export function updateProfile() {
  * @param {string} location - The location to add to the event.
  * @returns {function(Dispatch<any>): Promise<string | never>}
  */
-export function updateCalendarEvent(
-        id: string, calendarId: string, location: string) {
-    return (dispatch: Dispatch<any>, getState: Function) =>
-        getShareInfoText(getState(), location)
-            .then(text =>
-                googleApi._updateCalendarEntry(id, calendarId, location, text));
+export function updateCalendarEvent(id: string, calendarId: string, location: string) {
+  return (dispatch: Dispatch<any>, getState: Function) =>
+    getShareInfoText(getState(), location).then((text) =>
+      googleApi._updateCalendarEntry(id, calendarId, location, text)
+    );
 }

@@ -16,29 +16,23 @@ import { _mapStateToProps, type Props } from './AbstractTranscribingLabel';
  * @extends Component
  */
 class TranscribingLabel extends Component<Props> {
-
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        if (!this.props._showLabel) {
-            return null;
-        }
-
-        return (
-            <Tooltip
-                content = { this.props.t('transcribing.labelToolTip') }
-                position = { 'left' }>
-                <CircularLabel
-                    className = 'recording-label'
-                    label = { this.props.t('transcribing.tr') } />
-            </Tooltip>
-        );
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    if (!this.props._showLabel) {
+      return null;
     }
 
+    return (
+      <Tooltip content={this.props.t('transcribing.labelToolTip')} position={'left'}>
+        <CircularLabel className="recording-label" label={this.props.t('transcribing.tr')} />
+      </Tooltip>
+    );
+  }
 }
 
 export default translate(connect(_mapStateToProps)(TranscribingLabel));

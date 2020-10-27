@@ -59,7 +59,7 @@ export const PARTICIPANT_LEFT_SOUND_ID = 'PARTICIPANT_LEFT_SOUND';
  * @enum {string}
  */
 export const PARTICIPANT_ROLE = {
-    MODERATOR: 'moderator',
-    NONE: 'none',
-    PARTICIPANT: 'participant'
+  MODERATOR: 'moderator',
+  NONE: 'none',
+  PARTICIPANT: 'participant',
 };

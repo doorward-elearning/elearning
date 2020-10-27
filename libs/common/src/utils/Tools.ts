@@ -178,6 +178,10 @@ class Tools {
   static generatePassword() {
     return shortId.generate();
   }
+
+  static joinURL(...paths: Array<string>) {
+    return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
+  }
 }
 
 export default Tools;

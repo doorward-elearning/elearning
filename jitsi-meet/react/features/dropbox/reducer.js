@@ -15,13 +15,13 @@ const STORE_NAME = 'features/dropbox';
 PersistenceRegistry.register(STORE_NAME);
 
 ReducerRegistry.register(STORE_NAME, (state = {}, action) => {
-    switch (action.type) {
+  switch (action.type) {
     case UPDATE_DROPBOX_TOKEN:
-        return {
-            ...state,
-            token: action.token
-        };
+      return {
+        ...state,
+        token: action.token,
+      };
     default:
-        return state;
-    }
+      return state;
+  }
 });

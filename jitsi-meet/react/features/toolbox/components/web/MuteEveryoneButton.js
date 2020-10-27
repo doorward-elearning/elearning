@@ -10,21 +10,20 @@ import { AbstractButton, type AbstractButtonProps } from '../../../base/toolbox/
 import { MuteEveryoneDialog } from '../../../remote-video-menu';
 
 type Props = AbstractButtonProps & {
+  /**
+   * The Redux dispatch function.
+   */
+  dispatch: Function,
 
-    /**
-     * The Redux dispatch function.
-     */
-    dispatch: Function,
+  /*
+   ** Whether the local participant is a moderator or not.
+   */
+  isModerator: Boolean,
 
-    /*
-     ** Whether the local participant is a moderator or not.
-     */
-    isModerator: Boolean,
-
-    /**
-     * The ID of the local participant.
-     */
-    localParticipantId: string
+  /**
+   * The ID of the local participant.
+   */
+  localParticipantId: string,
 };
 
 /**
@@ -32,25 +31,27 @@ type Props = AbstractButtonProps & {
  * every participant (except the local one)
  */
 class MuteEveryoneButton extends AbstractButton<Props, *> {
-    accessibilityLabel = 'toolbar.accessibilityLabel.muteEveryone';
-    icon = IconMuteEveryone;
-    label = 'toolbar.muteEveryone';
-    tooltip = 'toolbar.muteEveryone';
+  accessibilityLabel = 'toolbar.accessibilityLabel.muteEveryone';
+  icon = IconMuteEveryone;
+  label = 'toolbar.muteEveryone';
+  tooltip = 'toolbar.muteEveryone';
 
-    /**
-     * Handles clicking / pressing the button, and opens a confirmation dialog.
-     *
-     * @private
-     * @returns {void}
-     */
-    _handleClick() {
-        const { dispatch, localParticipantId } = this.props;
+  /**
+   * Handles clicking / pressing the button, and opens a confirmation dialog.
+   *
+   * @private
+   * @returns {void}
+   */
+  _handleClick() {
+    const { dispatch, localParticipantId } = this.props;
 
-        sendAnalytics(createToolbarEvent('mute.everyone.pressed'));
-        dispatch(openDialog(MuteEveryoneDialog, {
-            exclude: [ localParticipantId ]
-        }));
-    }
+    sendAnalytics(createToolbarEvent('mute.everyone.pressed'));
+    dispatch(
+      openDialog(MuteEveryoneDialog, {
+        exclude: [localParticipantId],
+      })
+    );
+  }
 }
 
 /**
@@ -61,16 +62,16 @@ class MuteEveryoneButton extends AbstractButton<Props, *> {
  * @returns {Object}
  */
 function _mapStateToProps(state: Object, ownProps: Props) {
-    const localParticipant = getLocalParticipant(state);
-    const isModerator = localParticipant.role === PARTICIPANT_ROLE.MODERATOR;
-    const { visible } = ownProps;
-    const { disableRemoteMute } = state['features/base/config'];
+  const localParticipant = getLocalParticipant(state);
+  const isModerator = localParticipant.role === PARTICIPANT_ROLE.MODERATOR;
+  const { visible } = ownProps;
+  const { disableRemoteMute } = state['features/base/config'];
 
-    return {
-        isModerator,
-        localParticipantId: localParticipant.id,
-        visible: visible && isModerator && !disableRemoteMute
-    };
+  return {
+    isModerator,
+    localParticipantId: localParticipant.id,
+    visible: visible && isModerator && !disableRemoteMute,
+  };
 }
 
 export default translate(connect(_mapStateToProps)(MuteEveryoneButton));

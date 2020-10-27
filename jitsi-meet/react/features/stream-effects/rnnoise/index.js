@@ -17,9 +17,9 @@ let rnnoiseModule;
  * @returns {Promise<RnnoiseProcessor>}
  */
 export function createRnnoiseProcessor() {
-    if (!rnnoiseModule) {
-        rnnoiseModule = rnnoiseWasmInit();
-    }
+  if (!rnnoiseModule) {
+    rnnoiseModule = rnnoiseWasmInit();
+  }
 
-    return rnnoiseModule.then(mod => new RnnoiseProcessor(mod));
+  return rnnoiseModule.then((mod) => new RnnoiseProcessor(mod));
 }

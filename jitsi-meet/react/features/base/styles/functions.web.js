@@ -12,15 +12,15 @@ export * from './functions.any';
  * @returns {StyleType}
  */
 export function getFixedPlatformStyle(style: StyleType): StyleType {
-    if (Array.isArray(style)) {
-        const _style = {};
+  if (Array.isArray(style)) {
+    const _style = {};
 
-        for (const component of style) {
-            Object.assign(_style, component);
-        }
-
-        return _style;
+    for (const component of style) {
+      Object.assign(_style, component);
     }
 
-    return style;
+    return _style;
+  }
+
+  return style;
 }

@@ -11,10 +11,10 @@ import { SET_SHARED_VIDEO_STATUS, TOGGLE_SHARED_VIDEO } from './actionTypes';
  * }}
  */
 export function setSharedVideoStatus(status) {
-    return {
-        type: SET_SHARED_VIDEO_STATUS,
-        status
-    };
+  return {
+    type: SET_SHARED_VIDEO_STATUS,
+    status,
+  };
 }
 
 /**
@@ -25,7 +25,7 @@ export function setSharedVideoStatus(status) {
  * }}
  */
 export function toggleSharedVideo() {
-    return {
-        type: TOGGLE_SHARED_VIDEO
-    };
+  return {
+    type: TOGGLE_SHARED_VIDEO,
+  };
 }

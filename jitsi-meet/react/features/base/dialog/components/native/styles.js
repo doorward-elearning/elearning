@@ -27,106 +27,105 @@ export const PLACEHOLDER_COLOR = ColorPalette.lightGrey;
  * {@link https://material.io/guidelines/components/bottom-sheets.html}.
  */
 export const bottomSheetStyles = {
-    sheetAreaCover: {
-        backgroundColor: ColorPalette.transparent,
-        flex: 1
-    },
+  sheetAreaCover: {
+    backgroundColor: ColorPalette.transparent,
+    flex: 1,
+  },
 
-    scrollView: {
-        paddingHorizontal: MD_ITEM_MARGIN_PADDING
-    },
+  scrollView: {
+    paddingHorizontal: MD_ITEM_MARGIN_PADDING,
+  },
 
-    /**
-     * Style for the container of the sheet.
-     */
-    sheetContainer: {
-        alignItems: 'stretch',
-        flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'flex-end'
-    },
+  /**
+   * Style for the container of the sheet.
+   */
+  sheetContainer: {
+    alignItems: 'stretch',
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'flex-end',
+  },
 
-    sheetItemContainer: {
-        flex: -1
-    }
+  sheetItemContainer: {
+    flex: -1,
+  },
 };
 
 export const brandedDialog = {
+  /**
+   * The style of bold {@code Text} rendered by the {@code Dialog}s of the
+   * feature authentication.
+   */
+  boldDialogText: {
+    fontWeight: 'bold',
+  },
 
-    /**
-     * The style of bold {@code Text} rendered by the {@code Dialog}s of the
-     * feature authentication.
-     */
-    boldDialogText: {
-        fontWeight: 'bold'
-    },
+  buttonFarLeft: {
+    borderBottomLeftRadius: BORDER_RADIUS,
+  },
 
-    buttonFarLeft: {
-        borderBottomLeftRadius: BORDER_RADIUS
-    },
+  buttonFarRight: {
+    borderBottomRightRadius: BORDER_RADIUS,
+  },
 
-    buttonFarRight: {
-        borderBottomRightRadius: BORDER_RADIUS
-    },
+  buttonWrapper: {
+    alignItems: 'stretch',
+    borderRadius: BORDER_RADIUS,
+    flexDirection: 'row',
+  },
 
-    buttonWrapper: {
-        alignItems: 'stretch',
-        borderRadius: BORDER_RADIUS,
-        flexDirection: 'row'
-    },
+  closeWrapper: {
+    alignSelf: 'flex-end',
+    padding: BoxModel.padding,
+  },
 
-    closeWrapper: {
-        alignSelf: 'flex-end',
-        padding: BoxModel.padding
-    },
+  mainWrapper: {
+    alignSelf: 'stretch',
+    padding: BoxModel.padding * 2,
 
-    mainWrapper: {
-        alignSelf: 'stretch',
-        padding: BoxModel.padding * 2,
+    // The added bottom padding is to compensate the empty space around the
+    // close icon.
+    paddingBottom: BoxModel.padding * 3,
+  },
 
-        // The added bottom padding is to compensate the empty space around the
-        // close icon.
-        paddingBottom: BoxModel.padding * 3
-    },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    backgroundColor: 'rgba(127, 127, 127, 0.6)',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 30,
+  },
 
-    overlay: {
-        ...StyleSheet.absoluteFillObject,
-        alignItems: 'center',
-        backgroundColor: 'rgba(127, 127, 127, 0.6)',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        padding: 30
-    },
-
-    overlayTouchable: {
-        ...StyleSheet.absoluteFillObject
-    }
+  overlayTouchable: {
+    ...StyleSheet.absoluteFillObject,
+  },
 };
 
 /**
  * Reusable (colored) style for text in any branded dialogs.
  */
 const brandedDialogText = {
-    color: schemeColor('text'),
-    fontSize: MD_FONT_SIZE,
-    textAlign: 'center'
+  color: schemeColor('text'),
+  fontSize: MD_FONT_SIZE,
+  textAlign: 'center',
 };
 
 export const inputDialog = {
-    bottomField: {
-        marginBottom: 0
-    },
+  bottomField: {
+    marginBottom: 0,
+  },
 
-    fieldWrapper: {
-        ...brandedDialog.mainWrapper,
-        paddingBottom: BoxModel.padding * 2
-    },
+  fieldWrapper: {
+    ...brandedDialog.mainWrapper,
+    paddingBottom: BoxModel.padding * 2,
+  },
 
-    formMessage: {
-        alignSelf: 'flex-start',
-        fontStyle: 'italic',
-        margin: BoxModel.margin
-    }
+  formMessage: {
+    alignSelf: 'flex-start',
+    fontStyle: 'italic',
+    margin: BoxModel.margin,
+  },
 };
 
 /**
@@ -136,127 +135,127 @@ export const inputDialog = {
  * {@link https://material.io/guidelines/components/bottom-sheets.html}.
  */
 ColorSchemeRegistry.register('BottomSheet', {
-    buttons: {
-        /**
-         * Style for the {@code Icon} element in a generic item of the menu.
-         */
-        iconStyle: {
-            color: schemeColor('icon'),
-            fontSize: 24
-        },
-
-        /**
-         * Style for the label in a generic item rendered in the menu.
-         */
-        labelStyle: {
-            color: schemeColor('text'),
-            flexShrink: 1,
-            fontSize: MD_FONT_SIZE,
-            marginLeft: 32,
-            opacity: 0.90
-        },
-
-        /**
-         * Container style for a generic item rendered in the menu.
-         */
-        style: {
-            alignItems: 'center',
-            flexDirection: 'row',
-            height: MD_ITEM_HEIGHT
-        },
-
-        /**
-         * Additional style that is not directly used as a style object.
-         */
-        underlayColor: ColorPalette.overflowMenuItemUnderlay
-    },
-
-    expandIcon: {
-        color: schemeColor('icon'),
-        fontSize: 48,
-        opacity: 0.8
+  buttons: {
+    /**
+     * Style for the {@code Icon} element in a generic item of the menu.
+     */
+    iconStyle: {
+      color: schemeColor('icon'),
+      fontSize: 24,
     },
 
     /**
-     * Bottom sheet's base style.
+     * Style for the label in a generic item rendered in the menu.
      */
-    sheet: {
-        backgroundColor: schemeColor('background')
-    }
+    labelStyle: {
+      color: schemeColor('text'),
+      flexShrink: 1,
+      fontSize: MD_FONT_SIZE,
+      marginLeft: 32,
+      opacity: 0.9,
+    },
+
+    /**
+     * Container style for a generic item rendered in the menu.
+     */
+    style: {
+      alignItems: 'center',
+      flexDirection: 'row',
+      height: MD_ITEM_HEIGHT,
+    },
+
+    /**
+     * Additional style that is not directly used as a style object.
+     */
+    underlayColor: ColorPalette.overflowMenuItemUnderlay,
+  },
+
+  expandIcon: {
+    color: schemeColor('icon'),
+    fontSize: 48,
+    opacity: 0.8,
+  },
+
+  /**
+   * Bottom sheet's base style.
+   */
+  sheet: {
+    backgroundColor: schemeColor('background'),
+  },
 });
 
 /**
  * Color schemed styles for all the component based on the abstract dialog.
  */
 ColorSchemeRegistry.register('Dialog', {
-    button: {
-        backgroundColor: schemeColor('buttonBackground'),
-        flex: 1,
-        padding: BoxModel.padding * 1.5
-    },
+  button: {
+    backgroundColor: schemeColor('buttonBackground'),
+    flex: 1,
+    padding: BoxModel.padding * 1.5,
+  },
 
-    /**
-     * Separator line for the buttons in a dialog.
-     */
-    buttonSeparator: {
-        borderRightColor: schemeColor('border'),
-        borderRightWidth: 1
-    },
+  /**
+   * Separator line for the buttons in a dialog.
+   */
+  buttonSeparator: {
+    borderRightColor: schemeColor('border'),
+    borderRightWidth: 1,
+  },
 
-    buttonLabel: {
-        color: schemeColor('buttonLabel'),
-        fontSize: MD_FONT_SIZE,
-        textAlign: 'center'
-    },
+  buttonLabel: {
+    color: schemeColor('buttonLabel'),
+    fontSize: MD_FONT_SIZE,
+    textAlign: 'center',
+  },
 
-    /**
-     * Style of the close icon on a dialog.
-     */
-    closeStyle: {
-        color: schemeColor('icon'),
-        fontSize: MD_FONT_SIZE
-    },
+  /**
+   * Style of the close icon on a dialog.
+   */
+  closeStyle: {
+    color: schemeColor('icon'),
+    fontSize: MD_FONT_SIZE,
+  },
 
-    /**
-     * Base style of the dialogs.
-     */
-    dialog: {
-        alignItems: 'stretch',
-        backgroundColor: schemeColor('background'),
-        borderColor: schemeColor('border'),
-        borderRadius: BORDER_RADIUS,
-        borderWidth: 1,
-        flex: 1,
-        flexDirection: 'column',
-        maxWidth: PREFERRED_DIALOG_SIZE
-    },
+  /**
+   * Base style of the dialogs.
+   */
+  dialog: {
+    alignItems: 'stretch',
+    backgroundColor: schemeColor('background'),
+    borderColor: schemeColor('border'),
+    borderRadius: BORDER_RADIUS,
+    borderWidth: 1,
+    flex: 1,
+    flexDirection: 'column',
+    maxWidth: PREFERRED_DIALOG_SIZE,
+  },
 
-    /**
-     * Field on an input dialog.
-     */
-    field: {
-        ...brandedDialogText,
-        borderBottomWidth: 1,
-        borderColor: schemeColor('border'),
-        margin: BoxModel.margin,
-        textAlign: 'left'
-    },
+  /**
+   * Field on an input dialog.
+   */
+  field: {
+    ...brandedDialogText,
+    borderBottomWidth: 1,
+    borderColor: schemeColor('border'),
+    margin: BoxModel.margin,
+    textAlign: 'left',
+  },
 
-    /**
-     * Style for the field label on an input dialog.
-     */
-    fieldLabel: {
-        ...brandedDialogText,
-        margin: BoxModel.margin,
-        textAlign: 'left'
-    },
+  /**
+   * Style for the field label on an input dialog.
+   */
+  fieldLabel: {
+    ...brandedDialogText,
+    margin: BoxModel.margin,
+    textAlign: 'left',
+  },
 
-    text: {
-        ...brandedDialogText
-    },
+  text: {
+    ...brandedDialogText,
+  },
 
-    topBorderContainer: {
-        borderTopColor: schemeColor('border'),
-        borderTopWidth: 1
-    }
+  topBorderContainer: {
+    borderTopColor: schemeColor('border'),
+    borderTopWidth: 1,
+  },
 });

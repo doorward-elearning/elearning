@@ -1,7 +1,8 @@
 import i18next from 'i18next';
 import Backend from 'i18next-http-backend';
+import Tools from '@doorward/common/utils/Tools';
 
-const configureLang = () => {
+const configureLang = (baseUrl: string) => {
   return i18next.use(Backend).init({
     fallbackLng: 'en',
     lng: 'en',
@@ -10,7 +11,7 @@ const configureLang = () => {
     ns: 'default',
     defaultNS: 'default',
     backend: {
-      loadPath: 'https://localhost:7000/api/v1/resources/locales/{{lng}}/{{lng}}.{{ns}}.json',
+      loadPath: Tools.joinURL(baseUrl, 'resources/translations'),
     },
     interpolation: {
       defaultVariables: {},

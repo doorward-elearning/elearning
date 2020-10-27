@@ -13,8 +13,8 @@ import { toState } from '../base/redux';
  * @returns {boolean}
  */
 export function isFilmstripVisible(stateful: Object | Function) {
-    const state = toState(stateful);
-    const { length: participantCount } = state['features/base/participants'];
+  const state = toState(stateful);
+  const { length: participantCount } = state['features/base/participants'];
 
-    return participantCount > 1;
+  return participantCount > 1;
 }

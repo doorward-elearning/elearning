@@ -14,14 +14,14 @@ declare var interfaceConfig: Object;
  * @returns {string} - Default URL for the app.
  */
 export function getDefaultURL(stateful: Function | Object) {
-    const state = toState(stateful);
-    const { href } = window.location;
+  const state = toState(stateful);
+  const { href } = window.location;
 
-    if (href) {
-        return href;
-    }
+  if (href) {
+    return href;
+  }
 
-    return getServerURL(state);
+  return getServerURL(state);
 }
 
 /**
@@ -30,5 +30,5 @@ export function getDefaultURL(stateful: Function | Object) {
  * @returns {string} The application name.
  */
 export function getName() {
-    return interfaceConfig.APP_NAME;
+  return interfaceConfig.APP_NAME;
 }

@@ -7,5 +7,5 @@ import { STORE_NAME } from './constants';
  * @returns {boolean}
  */
 export function isOnline(state) {
-    return state[STORE_NAME].isOnline;
+  return state[STORE_NAME].isOnline;
 }

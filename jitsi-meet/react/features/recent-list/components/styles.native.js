@@ -5,22 +5,21 @@ import { createStyleSheet } from '../../base/styles';
  * {@code CalendarList}.
  */
 export default createStyleSheet({
+  /**
+   * Text style of the empty recent list message.
+   */
+  emptyListText: {
+    backgroundColor: 'transparent',
+    color: 'rgba(255, 255, 255, 0.6)',
+    textAlign: 'center',
+  },
 
-    /**
-     * Text style of the empty recent list message.
-     */
-    emptyListText: {
-        backgroundColor: 'transparent',
-        color: 'rgba(255, 255, 255, 0.6)',
-        textAlign: 'center'
-    },
-
-    /**
-     * The style of the empty recent list container.
-     */
-    emptyListContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 20
-    }
+  /**
+   * The style of the empty recent list container.
+   */
+  emptyListContainer: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 20,
+  },
 });

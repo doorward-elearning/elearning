@@ -9,14 +9,12 @@ export type StyleType = StyleSheet | Array<StyleSheet>;
 /**
  * RegExp pattern for long HEX color format.
  */
-const HEX_LONG_COLOR_FORMAT
-    = /^#([0-9A-F]{2,2})([0-9A-F]{2,2})([0-9A-F]{2,2})$/i;
+const HEX_LONG_COLOR_FORMAT = /^#([0-9A-F]{2,2})([0-9A-F]{2,2})([0-9A-F]{2,2})$/i;
 
 /**
  * RegExp pattern for short HEX color format.
  */
-const HEX_SHORT_COLOR_FORMAT
-    = /^#([0-9A-F]{1,1})([0-9A-F]{1,1})([0-9A-F]{1,1})$/i;
+const HEX_SHORT_COLOR_FORMAT = /^#([0-9A-F]{1,1})([0-9A-F]{1,1})([0-9A-F]{1,1})$/i;
 
 /**
  * RegExp pattern for RGB color format.
@@ -26,8 +24,7 @@ const RGB_COLOR_FORMAT = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/i;
 /**
  * RegExp pattern for RGBA color format.
  */
-const RGBA_COLOR_FORMAT
-    = /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*([0-9.]+)\)$/i;
+const RGBA_COLOR_FORMAT = /^rgba\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3}),\s*([0-9.]+)\)$/i;
 
 /**
  * The list of the well-known style properties which may not be numbers on Web
@@ -35,7 +32,7 @@ const RGBA_COLOR_FORMAT
  *
  * @private
  */
-const _WELL_KNOWN_NUMBER_PROPERTIES = [ 'height', 'width' ];
+const _WELL_KNOWN_NUMBER_PROPERTIES = ['height', 'width'];
 
 /**
  * Function to convert complex StyleType styles into a single flat object,
@@ -45,21 +42,21 @@ const _WELL_KNOWN_NUMBER_PROPERTIES = [ 'height', 'width' ];
  * @returns {Object}
  */
 export function styleTypeToObject(st: StyleType): Object {
-    if (!st) {
-        return {};
+  if (!st) {
+    return {};
+  }
+
+  if (Array.isArray(st)) {
+    const flatStyle = {};
+
+    for (const styleElement of st) {
+      Object.assign(flatStyle, styleTypeToObject(styleElement));
     }
 
-    if (Array.isArray(st)) {
-        const flatStyle = {};
+    return flatStyle;
+  }
 
-        for (const styleElement of st) {
-            Object.assign(flatStyle, styleTypeToObject(styleElement));
-        }
-
-        return flatStyle;
-    }
-
-    return st;
+  return st;
 }
 
 /**
@@ -71,25 +68,25 @@ export function styleTypeToObject(st: StyleType): Object {
  * @returns {StyleType} - The merged styles.
  */
 export function combineStyles(a: StyleType, b: StyleType): StyleType {
-    const result: Array<StyleSheet> = [];
+  const result: Array<StyleSheet> = [];
 
-    if (a) {
-        if (Array.isArray(a)) {
-            result.push(...a);
-        } else {
-            result.push(a);
-        }
+  if (a) {
+    if (Array.isArray(a)) {
+      result.push(...a);
+    } else {
+      result.push(a);
     }
+  }
 
-    if (b) {
-        if (Array.isArray(b)) {
-            result.push(...b);
-        } else {
-            result.push(b);
-        }
+  if (b) {
+    if (Array.isArray(b)) {
+      result.push(...b);
+    } else {
+      result.push(b);
     }
+  }
 
-    return result;
+  return result;
 }
 
 /**
@@ -101,19 +98,17 @@ export function combineStyles(a: StyleType, b: StyleType): StyleType {
  * (often platform-independent) styles.
  * @returns {StyleSheet}
  */
-export function createStyleSheet(
-        styles: StyleSheet, overrides: StyleSheet = {}): StyleSheet {
-    const combinedStyles = {};
+export function createStyleSheet(styles: StyleSheet, overrides: StyleSheet = {}): StyleSheet {
+  const combinedStyles = {};
 
-    for (const k of Object.keys(styles)) {
-        combinedStyles[k]
-            = _shimStyles({
-                ...styles[k],
-                ...overrides[k]
-            });
-    }
+  for (const k of Object.keys(styles)) {
+    combinedStyles[k] = _shimStyles({
+      ...styles[k],
+      ...overrides[k],
+    });
+  }
 
-    return combinedStyles;
+  return combinedStyles;
 }
 
 /**
@@ -127,12 +122,12 @@ export function createStyleSheet(
  * @returns {StyleSheet}
  */
 export function fixAndroidViewClipping<T: StyleSheet>(styles: T): T {
-    if (Platform.OS === 'android') {
-        styles.borderColor = ColorPalette.appBackground;
-        styles.borderWidth = 1;
-    }
+  if (Platform.OS === 'android') {
+    styles.borderColor = ColorPalette.appBackground;
+    styles.borderWidth = 1;
+  }
 
-    return styles;
+  return styles;
 }
 
 /**
@@ -147,24 +142,23 @@ export function fixAndroidViewClipping<T: StyleSheet>(styles: T): T {
  * @returns {string}
  */
 export function getRGBAFormat(color: string, alpha: number): string {
-    let match = color.match(HEX_LONG_COLOR_FORMAT);
+  let match = color.match(HEX_LONG_COLOR_FORMAT);
 
-    if (match) {
-        return `#${match[1]}${match[2]}${match[3]}${_getAlphaInHex(alpha)}`;
-    }
+  if (match) {
+    return `#${match[1]}${match[2]}${match[3]}${_getAlphaInHex(alpha)}`;
+  }
 
-    match = color.match(HEX_SHORT_COLOR_FORMAT);
-    if (match) {
-        return `#${match[1]}${match[1]}${match[2]}${match[2]}${match[3]}${
-            match[3]}${_getAlphaInHex(alpha)}`;
-    }
+  match = color.match(HEX_SHORT_COLOR_FORMAT);
+  if (match) {
+    return `#${match[1]}${match[1]}${match[2]}${match[2]}${match[3]}${match[3]}${_getAlphaInHex(alpha)}`;
+  }
 
-    match = color.match(RGB_COLOR_FORMAT);
-    if (match) {
-        return `rgba(${match[1]}, ${match[2]}, ${match[3]}, ${alpha})`;
-    }
+  match = color.match(RGB_COLOR_FORMAT);
+  if (match) {
+    return `rgba(${match[1]}, ${match[2]}, ${match[3]}, ${alpha})`;
+  }
 
-    return color;
+  return color;
 }
 
 /**
@@ -177,11 +171,12 @@ export function getRGBAFormat(color: string, alpha: number): string {
  * @returns {boolean}
  */
 export function isDarkColor(color: string): boolean {
-    const rgb = _getRGBObjectFormat(color);
+  const rgb = _getRGBObjectFormat(color);
 
-    return ((_getColorLuminance(rgb.r) * 0.2126)
-    + (_getColorLuminance(rgb.g) * 0.7152)
-    + (_getColorLuminance(rgb.b) * 0.0722)) <= 0.179;
+  return (
+    _getColorLuminance(rgb.r) * 0.2126 + _getColorLuminance(rgb.g) * 0.7152 + _getColorLuminance(rgb.b) * 0.0722 <=
+    0.179
+  );
 }
 
 /**
@@ -191,8 +186,9 @@ export function isDarkColor(color: string): boolean {
  * @returns {string}
  */
 function _getAlphaInHex(alpha: number): string {
-    return Number(Math.round(255 * alpha)).toString(16)
-        .padStart(2, '0');
+  return Number(Math.round(255 * alpha))
+    .toString(16)
+    .padStart(2, '0');
 }
 
 /**
@@ -205,7 +201,7 @@ function _getAlphaInHex(alpha: number): string {
  * @returns {number}
  */
 function _getColorLuminance(c: number): number {
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
+  return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
 }
 
 /**
@@ -220,40 +216,40 @@ function _getColorLuminance(c: number): number {
  *     b: number
  * }}
  */
-function _getRGBObjectFormat(color: string): {r: number, g: number, b: number} {
-    let match = color.match(HEX_LONG_COLOR_FORMAT);
+function _getRGBObjectFormat(color: string): { r: number, g: number, b: number } {
+  let match = color.match(HEX_LONG_COLOR_FORMAT);
 
-    if (match) {
-        return {
-            r: parseInt(match[1], 16) / 255.0,
-            g: parseInt(match[2], 16) / 255.0,
-            b: parseInt(match[3], 16) / 255.0
-        };
-    }
-
-    match = color.match(HEX_SHORT_COLOR_FORMAT);
-    if (match) {
-        return {
-            r: parseInt(`${match[1]}${match[1]}`, 16) / 255.0,
-            g: parseInt(`${match[2]}${match[2]}`, 16) / 255.0,
-            b: parseInt(`${match[3]}${match[3]}`, 16) / 255.0
-        };
-    }
-
-    match = color.match(RGB_COLOR_FORMAT) || color.match(RGBA_COLOR_FORMAT);
-    if (match) {
-        return {
-            r: parseInt(match[1], 10) / 255.0,
-            g: parseInt(match[2], 10) / 255.0,
-            b: parseInt(match[3], 10) / 255.0
-        };
-    }
-
+  if (match) {
     return {
-        r: 0,
-        g: 0,
-        b: 0
+      r: parseInt(match[1], 16) / 255.0,
+      g: parseInt(match[2], 16) / 255.0,
+      b: parseInt(match[3], 16) / 255.0,
     };
+  }
+
+  match = color.match(HEX_SHORT_COLOR_FORMAT);
+  if (match) {
+    return {
+      r: parseInt(`${match[1]}${match[1]}`, 16) / 255.0,
+      g: parseInt(`${match[2]}${match[2]}`, 16) / 255.0,
+      b: parseInt(`${match[3]}${match[3]}`, 16) / 255.0,
+    };
+  }
+
+  match = color.match(RGB_COLOR_FORMAT) || color.match(RGBA_COLOR_FORMAT);
+  if (match) {
+    return {
+      r: parseInt(match[1], 10) / 255.0,
+      g: parseInt(match[2], 10) / 255.0,
+      b: parseInt(match[3], 10) / 255.0,
+    };
+  }
+
+  return {
+    r: 0,
+    g: 0,
+    b: 0,
+  };
 }
 
 /**
@@ -266,25 +262,25 @@ function _getRGBObjectFormat(color: string): {r: number, g: number, b: number} {
  * @returns {StyleSheet}
  */
 function _shimStyles<T: StyleSheet>(styles: T): T {
-    // Certain style properties may not be numbers on Web but must be numbers on
-    // React Native. For example, height and width may be expressed in percent
-    // on Web but React Native will not understand them and we will get errors
-    // (at least during development). Convert such well-known properties to
-    // numbers if possible; otherwise, remove them to avoid runtime errors.
-    for (const k of _WELL_KNOWN_NUMBER_PROPERTIES) {
-        const v = styles[k];
-        const typeofV = typeof v;
+  // Certain style properties may not be numbers on Web but must be numbers on
+  // React Native. For example, height and width may be expressed in percent
+  // on Web but React Native will not understand them and we will get errors
+  // (at least during development). Convert such well-known properties to
+  // numbers if possible; otherwise, remove them to avoid runtime errors.
+  for (const k of _WELL_KNOWN_NUMBER_PROPERTIES) {
+    const v = styles[k];
+    const typeofV = typeof v;
 
-        if (typeofV !== 'undefined' && typeofV !== 'number') {
-            const numberV = Number(v);
+    if (typeofV !== 'undefined' && typeofV !== 'number') {
+      const numberV = Number(v);
 
-            if (Number.isNaN(numberV)) {
-                delete styles[k];
-            } else {
-                styles[k] = numberV;
-            }
-        }
+      if (Number.isNaN(numberV)) {
+        delete styles[k];
+      } else {
+        styles[k] = numberV;
+      }
     }
+  }
 
-    return styles;
+  return styles;
 }

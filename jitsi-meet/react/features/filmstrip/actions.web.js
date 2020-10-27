@@ -23,28 +23,28 @@ const TILE_VIEW_SIDE_MARGINS = 10 * 2;
  * }}
  */
 export function setTileViewDimensions(dimensions: Object, windowSize: Object, isChatOpen: boolean) {
-    const { clientWidth, clientHeight } = windowSize;
-    let widthToUse = clientWidth;
+  const { clientWidth, clientHeight } = windowSize;
+  let widthToUse = clientWidth;
 
-    if (isChatOpen) {
-        widthToUse -= CHAT_SIZE;
-    }
+  if (isChatOpen) {
+    widthToUse -= CHAT_SIZE;
+  }
 
-    const thumbnailSize = calculateThumbnailSizeForTileView({
-        ...dimensions,
-        clientWidth: widthToUse,
-        clientHeight
-    });
-    const filmstripWidth = dimensions.columns * (TILE_VIEW_SIDE_MARGINS + thumbnailSize.width);
+  const thumbnailSize = calculateThumbnailSizeForTileView({
+    ...dimensions,
+    clientWidth: widthToUse,
+    clientHeight,
+  });
+  const filmstripWidth = dimensions.columns * (TILE_VIEW_SIDE_MARGINS + thumbnailSize.width);
 
-    return {
-        type: SET_TILE_VIEW_DIMENSIONS,
-        dimensions: {
-            gridDimensions: dimensions,
-            thumbnailSize,
-            filmstripWidth
-        }
-    };
+  return {
+    type: SET_TILE_VIEW_DIMENSIONS,
+    dimensions: {
+      gridDimensions: dimensions,
+      thumbnailSize,
+      filmstripWidth,
+    },
+  };
 }
 
 /**
@@ -57,10 +57,10 @@ export function setTileViewDimensions(dimensions: Object, windowSize: Object, is
  * }}
  */
 export function setHorizontalViewDimensions(clientHeight: number = 0) {
-    return {
-        type: SET_HORIZONTAL_VIEW_DIMENSIONS,
-        dimensions: calculateThumbnailSizeForHorizontalView(clientHeight)
-    };
+  return {
+    type: SET_HORIZONTAL_VIEW_DIMENSIONS,
+    dimensions: calculateThumbnailSizeForHorizontalView(clientHeight),
+  };
 }
 
 export * from './actions.native';

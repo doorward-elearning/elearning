@@ -14,14 +14,14 @@ import logger from './logger';
  * @returns {Function}
  * @private
  */
-MiddlewareRegistry.register(store => next => action => {
-    switch (action.type) {
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  switch (action.type) {
     case CONFERENCE_WILL_JOIN:
-        _bindConferenceConnectionListener(action.conference, store);
-        break;
-    }
+      _bindConferenceConnectionListener(action.conference, store);
+      break;
+  }
 
-    return next(action);
+  return next(action);
 });
 
 /**
@@ -37,19 +37,18 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _bindConferenceConnectionListener(conference, { dispatch }) {
-
-    conference.on(
-        JitsiConferenceEvents.CONNECTION_ESTABLISHED,
-        _onConnectionEvent.bind(
-            null, JitsiConferenceEvents.CONNECTION_ESTABLISHED, dispatch));
-    conference.on(
-        JitsiConferenceEvents.CONNECTION_RESTORED,
-        _onConnectionEvent.bind(
-            null, JitsiConferenceEvents.CONNECTION_RESTORED, dispatch));
-    conference.on(
-        JitsiConferenceEvents.CONNECTION_INTERRUPTED,
-        _onConnectionEvent.bind(
-            null, JitsiConferenceEvents.CONNECTION_INTERRUPTED, dispatch));
+  conference.on(
+    JitsiConferenceEvents.CONNECTION_ESTABLISHED,
+    _onConnectionEvent.bind(null, JitsiConferenceEvents.CONNECTION_ESTABLISHED, dispatch)
+  );
+  conference.on(
+    JitsiConferenceEvents.CONNECTION_RESTORED,
+    _onConnectionEvent.bind(null, JitsiConferenceEvents.CONNECTION_RESTORED, dispatch)
+  );
+  conference.on(
+    JitsiConferenceEvents.CONNECTION_INTERRUPTED,
+    _onConnectionEvent.bind(null, JitsiConferenceEvents.CONNECTION_INTERRUPTED, dispatch)
+  );
 }
 
 /**
@@ -63,15 +62,14 @@ function _bindConferenceConnectionListener(conference, { dispatch }) {
  * @private
  */
 function _onConnectionEvent(event, dispatch) {
-    switch (event) {
+  switch (event) {
     case JitsiConferenceEvents.CONNECTION_ESTABLISHED:
     case JitsiConferenceEvents.CONNECTION_INTERRUPTED:
     case JitsiConferenceEvents.CONNECTION_RESTORED:
-        dispatch(setConnectionState(event));
-        break;
+      dispatch(setConnectionState(event));
+      break;
     default:
-        logger.error(`onConnectionEvent - unsupported event type: ${event}`);
-        break;
-    }
+      logger.error(`onConnectionEvent - unsupported event type: ${event}`);
+      break;
+  }
 }
-

@@ -11,9 +11,9 @@ declare var interfaceConfig: Object;
  * @returns {number} The height of the toolbox.
  */
 export function getToolboxHeight() {
-    const toolbox = document.getElementById('new-toolbox');
+  const toolbox = document.getElementById('new-toolbox');
 
-    return (toolbox && toolbox.clientHeight) || 0;
+  return (toolbox && toolbox.clientHeight) || 0;
 }
 
 /**
@@ -26,13 +26,12 @@ export function getToolboxHeight() {
  * undefined is returned.
  */
 export function isButtonEnabled(name: string) {
-    if (typeof interfaceConfig === 'object' && Array.isArray(interfaceConfig.TOOLBAR_BUTTONS)) {
-        return interfaceConfig.TOOLBAR_BUTTONS.indexOf(name) !== -1;
-    }
+  if (typeof interfaceConfig === 'object' && Array.isArray(interfaceConfig.TOOLBAR_BUTTONS)) {
+    return interfaceConfig.TOOLBAR_BUTTONS.indexOf(name) !== -1;
+  }
 
-    return undefined;
+  return undefined;
 }
-
 
 /**
  * Indicates if the toolbox is visible or not.
@@ -42,18 +41,17 @@ export function isButtonEnabled(name: string) {
  * otherwise.
  */
 export function isToolboxVisible(state: Object) {
-    const { iAmSipGateway } = state['features/base/config'];
-    const {
-        alwaysVisible,
-        timeoutID,
-        visible
-    } = state['features/toolbox'];
-    const { audioSettingsVisible, videoSettingsVisible } = state['features/settings'];
-    const { isOpen } = state['features/chat'];
-    const isMobileChatOpen = isMobileBrowser() && isOpen;
+  const { iAmSipGateway } = state['features/base/config'];
+  const { alwaysVisible, timeoutID, visible } = state['features/toolbox'];
+  const { audioSettingsVisible, videoSettingsVisible } = state['features/settings'];
+  const { isOpen } = state['features/chat'];
+  const isMobileChatOpen = isMobileBrowser() && isOpen;
 
-    return Boolean(!isMobileChatOpen && !iAmSipGateway && (timeoutID || visible || alwaysVisible
-                                      || audioSettingsVisible || videoSettingsVisible));
+  return Boolean(
+    !isMobileChatOpen &&
+      !iAmSipGateway &&
+      (timeoutID || visible || alwaysVisible || audioSettingsVisible || videoSettingsVisible)
+  );
 }
 
 /**
@@ -63,9 +61,10 @@ export function isToolboxVisible(state: Object) {
  * @returns {boolean}
  */
 export function isAudioSettingsButtonDisabled(state: Object) {
-    return (!hasAvailableDevices(state, 'audioInput')
-          && !hasAvailableDevices(state, 'audioOutput'))
-          || state['features/base/config'].startSilent;
+  return (
+    (!hasAvailableDevices(state, 'audioInput') && !hasAvailableDevices(state, 'audioOutput')) ||
+    state['features/base/config'].startSilent
+  );
 }
 
 /**
@@ -75,5 +74,5 @@ export function isAudioSettingsButtonDisabled(state: Object) {
  * @returns {boolean}
  */
 export function isVideoSettingsButtonDisabled(state: Object) {
-    return !hasAvailableDevices(state, 'videoInput');
+  return !hasAvailableDevices(state, 'videoInput');
 }

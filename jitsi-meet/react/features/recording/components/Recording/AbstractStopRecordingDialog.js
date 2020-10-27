@@ -2,10 +2,7 @@
 
 import { Component } from 'react';
 
-import {
-    createRecordingDialogEvent,
-    sendAnalytics
-} from '../../../analytics';
+import { createRecordingDialogEvent, sendAnalytics } from '../../../analytics';
 import { JitsiRecordingConstants } from '../../../base/lib-jitsi-meet';
 import { getActiveSession } from '../../functions';
 
@@ -14,21 +11,20 @@ import { getActiveSession } from '../../functions';
  * {@link AbstractStopRecordingDialog}.
  */
 export type Props = {
+  /**
+   * The {@code JitsiConference} for the current conference.
+   */
+  _conference: Object,
 
-    /**
-     * The {@code JitsiConference} for the current conference.
-     */
-    _conference: Object,
+  /**
+   * The redux representation of the recording session to be stopped.
+   */
+  _fileRecordingSession: Object,
 
-    /**
-     * The redux representation of the recording session to be stopped.
-     */
-    _fileRecordingSession: Object,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
@@ -37,39 +33,38 @@ export type Props = {
  *
  * @extends Component
  */
-export default class AbstractStopRecordingDialog<P: Props>
-    extends Component<P> {
-    /**
-     * Initializes a new {@code AbstrStopRecordingDialog} instance.
-     *
-     * @inheritdoc
-     */
-    constructor(props: P) {
-        super(props);
+export default class AbstractStopRecordingDialog<P: Props> extends Component<P> {
+  /**
+   * Initializes a new {@code AbstrStopRecordingDialog} instance.
+   *
+   * @inheritdoc
+   */
+  constructor(props: P) {
+    super(props);
 
-        // Bind event handler so it is only bound once for every instance.
-        this._onSubmit = this._onSubmit.bind(this);
+    // Bind event handler so it is only bound once for every instance.
+    this._onSubmit = this._onSubmit.bind(this);
+  }
+
+  _onSubmit: () => boolean;
+
+  /**
+   * Stops the recording session.
+   *
+   * @private
+   * @returns {boolean} - True (to note that the modal should be closed).
+   */
+  _onSubmit() {
+    sendAnalytics(createRecordingDialogEvent('stop', 'confirm.button'));
+
+    const { _fileRecordingSession } = this.props;
+
+    if (_fileRecordingSession) {
+      this.props._conference.stopRecording(_fileRecordingSession.id);
     }
 
-    _onSubmit: () => boolean;
-
-    /**
-     * Stops the recording session.
-     *
-     * @private
-     * @returns {boolean} - True (to note that the modal should be closed).
-     */
-    _onSubmit() {
-        sendAnalytics(createRecordingDialogEvent('stop', 'confirm.button'));
-
-        const { _fileRecordingSession } = this.props;
-
-        if (_fileRecordingSession) {
-            this.props._conference.stopRecording(_fileRecordingSession.id);
-        }
-
-        return true;
-    }
+    return true;
+  }
 }
 
 /**
@@ -84,9 +79,8 @@ export default class AbstractStopRecordingDialog<P: Props>
  * }}
  */
 export function _mapStateToProps(state: Object) {
-    return {
-        _conference: state['features/base/conference'].conference,
-        _fileRecordingSession:
-            getActiveSession(state, JitsiRecordingConstants.mode.FILE)
-    };
+  return {
+    _conference: state['features/base/conference'].conference,
+    _fileRecordingSession: getActiveSession(state, JitsiRecordingConstants.mode.FILE),
+  };
 }

@@ -10,14 +10,14 @@ import { StateListenerRegistry } from '../../base/redux';
  * functionality is  enabled when the current audio device is the earpiece.
  */
 StateListenerRegistry.register(
-    /* selector */ state => {
-        const { devices } = state['features/mobile/audio-mode'];
-        const selectedDevice = devices.filter(d => d.selected)[0];
-        const conference = getCurrentConference(state);
+  /* selector */ (state) => {
+    const { devices } = state['features/mobile/audio-mode'];
+    const selectedDevice = devices.filter((d) => d.selected)[0];
+    const conference = getCurrentConference(state);
 
-        return Boolean(conference && selectedDevice?.type === 'EARPIECE');
-    },
-    /* listener */ proximityEnabled => _setProximityEnabled(proximityEnabled)
+    return Boolean(conference && selectedDevice?.type === 'EARPIECE');
+  },
+  /* listener */ (proximityEnabled) => _setProximityEnabled(proximityEnabled)
 );
 
 /**
@@ -30,5 +30,5 @@ StateListenerRegistry.register(
  * @returns {void}
  */
 function _setProximityEnabled(enabled) {
-    NativeModules.Proximity.setEnabled(Boolean(enabled));
+  NativeModules.Proximity.setEnabled(Boolean(enabled));
 }

@@ -16,21 +16,20 @@ let handler;
  * @param {Store} store - The redux store.
  * @returns {Function}
  */
-MiddlewareRegistry.register(store => next => action => {
-    const result = next(action);
+MiddlewareRegistry.register((store) => (next) => (action) => {
+  const result = next(action);
 
-    switch (action.type) {
+  switch (action.type) {
     case APP_WILL_UNMOUNT: {
-        _appWillUnmount();
-        break;
+      _appWillUnmount();
+      break;
     }
     case APP_WILL_MOUNT:
-        _appWillMount(store);
-        break;
+      _appWillMount(store);
+      break;
+  }
 
-    }
-
-    return result;
+  return result;
 });
 
 /**
@@ -43,16 +42,13 @@ MiddlewareRegistry.register(store => next => action => {
  * @returns {void}
  */
 function _appWillMount(store) {
-    handler = () => {
-        const {
-            innerHeight,
-            innerWidth
-        } = window;
+  handler = () => {
+    const { innerHeight, innerWidth } = window;
 
-        store.dispatch(clientResized(innerWidth, innerHeight));
-    };
+    store.dispatch(clientResized(innerWidth, innerHeight));
+  };
 
-    window.addEventListener('resize', handler);
+  window.addEventListener('resize', handler);
 }
 
 /**
@@ -63,7 +59,7 @@ function _appWillMount(store) {
  * @returns {void}
  */
 function _appWillUnmount() {
-    window.removeEventListener('resize', handler);
+  window.removeEventListener('resize', handler);
 
-    handler = undefined;
+  handler = undefined;
 }

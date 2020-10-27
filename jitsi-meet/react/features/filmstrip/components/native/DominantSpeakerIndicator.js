@@ -10,16 +10,12 @@ import { BaseIndicator } from '../../../base/react';
  * the conference.
  */
 export default class DominantSpeakerIndicator extends Component<{}> {
-    /**
-     * Implements {@code Component#render}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <BaseIndicator
-                highlight = { true }
-                icon = { IconDominantSpeaker } />
-        );
-    }
+  /**
+   * Implements {@code Component#render}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return <BaseIndicator highlight={true} icon={IconDominantSpeaker} />;
+  }
 }

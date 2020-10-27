@@ -16,23 +16,18 @@ import { _mapStateToProps } from './AbstractTestHint';
  * components are necessary.
  */
 class TestHint extends Component<TestHintProps> {
-    /**
-     *  Renders the test hint on Android.
-     *
-     * @returns {ReactElement}
-     */
-    render() {
-        if (!this.props._testModeEnabled) {
-            return null;
-        }
-
-        return (
-            <Text
-                accessibilityLabel = { this.props.value }
-                onPress = { this.props.onPress }
-                testID = { this.props.id } />
-        );
+  /**
+   *  Renders the test hint on Android.
+   *
+   * @returns {ReactElement}
+   */
+  render() {
+    if (!this.props._testModeEnabled) {
+      return null;
     }
+
+    return <Text accessibilityLabel={this.props.value} onPress={this.props.onPress} testID={this.props.id} />;
+  }
 }
 
 export default connect(_mapStateToProps)(TestHint);

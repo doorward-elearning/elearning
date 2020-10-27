@@ -10,16 +10,15 @@ import { BaseIndicator } from '../../../base/react';
  * {@link DominantSpeakerIndicator}.
  */
 type Props = {
+  /**
+   * The font-size for the icon.
+   */
+  iconSize: number,
 
-    /**
-     * The font-size for the icon.
-     */
-    iconSize: number,
-
-    /**
-     * From which side of the indicator the tooltip should appear from.
-     */
-    tooltipPosition: string
+  /**
+   * From which side of the indicator the tooltip should appear from.
+   */
+  tooltipPosition: string,
 };
 
 /**
@@ -29,23 +28,24 @@ type Props = {
  * @extends Component
  */
 class DominantSpeakerIndicator extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     */
-    render() {
-        return (
-            <BaseIndicator
-                className = 'indicator show-inline'
-                icon = { IconDominantSpeaker }
-                iconClassName = 'indicatoricon'
-                iconSize = { `${this.props.iconSize}px` }
-                id = 'dominantspeakerindicator'
-                tooltipKey = 'speaker'
-                tooltipPosition = { this.props.tooltipPosition } />
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   */
+  render() {
+    return (
+      <BaseIndicator
+        className="indicator show-inline"
+        icon={IconDominantSpeaker}
+        iconClassName="indicatoricon"
+        iconSize={`${this.props.iconSize}px`}
+        id="dominantspeakerindicator"
+        tooltipKey="speaker"
+        tooltipPosition={this.props.tooltipPosition}
+      />
+    );
+  }
 }
 
 export default DominantSpeakerIndicator;

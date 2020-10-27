@@ -12,24 +12,23 @@ import Video from './Video';
  * The type of the React {@code Component} props of {@link VideoTrack}.
  */
 type Props = AbstractVideoTrackProps & {
+  /**
+   * CSS classes to add to the video element.
+   */
+  className: string,
 
-    /**
-     * CSS classes to add to the video element.
-     */
-    className: string,
+  /**
+   * The value of the id attribute of the video. Used by the torture tests
+   * to locate video elements.
+   */
+  id: string,
 
-    /**
-     * The value of the id attribute of the video. Used by the torture tests
-     * to locate video elements.
-     */
-    id: string,
-
-    /**
-     *
-     * Used to determine the value of the autoplay attribute of the underlying
-     * video element.
-     */
-    _noAutoPlayVideo: boolean
+  /**
+   *
+   * Used to determine the value of the autoplay attribute of the underlying
+   * video element.
+   */
+  _noAutoPlayVideo: boolean,
 };
 
 /**
@@ -39,37 +38,37 @@ type Props = AbstractVideoTrackProps & {
  * @extends AbstractVideoTrack
  */
 class VideoTrack extends AbstractVideoTrack<Props> {
-    /**
-     * Default values for {@code VideoTrack} component's properties.
-     *
-     * @static
-     */
-    static defaultProps = {
-        className: '',
+  /**
+   * Default values for {@code VideoTrack} component's properties.
+   *
+   * @static
+   */
+  static defaultProps = {
+    className: '',
 
-        id: ''
-    };
+    id: '',
+  };
 
-    /**
-     * Renders the video element.
-     *
-     * @override
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <Video
-                autoPlay = { !this.props._noAutoPlayVideo }
-                className = { this.props.className }
-                id = { this.props.id }
-                onVideoPlaying = { this._onVideoPlaying }
-                videoTrack = { this.props.videoTrack } />
-        );
-    }
+  /**
+   * Renders the video element.
+   *
+   * @override
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <Video
+        autoPlay={!this.props._noAutoPlayVideo}
+        className={this.props.className}
+        id={this.props.id}
+        onVideoPlaying={this._onVideoPlaying}
+        videoTrack={this.props.videoTrack}
+      />
+    );
+  }
 
-    _onVideoPlaying: () => void;
+  _onVideoPlaying: () => void;
 }
-
 
 /**
  * Maps (parts of) the Redux state to the associated VideoTracks props.
@@ -81,11 +80,11 @@ class VideoTrack extends AbstractVideoTrack<Props> {
  * }}
  */
 function _mapStateToProps(state) {
-    const testingConfig = state['features/base/config'].testing;
+  const testingConfig = state['features/base/config'].testing;
 
-    return {
-        _noAutoPlayVideo: testingConfig?.noAutoPlayVideo
-    };
+  return {
+    _noAutoPlayVideo: testingConfig?.noAutoPlayVideo,
+  };
 }
 
 export default connect(_mapStateToProps)(VideoTrack);

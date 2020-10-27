@@ -12,21 +12,20 @@ import { SpeakerStats } from '../../../speaker-stats';
  * The type of the React {@code Component} props of {@link ParticipantsCount}.
  */
 type Props = {
+  /**
+   * Number of the conference participants.
+   */
+  count: string,
 
-    /**
-     * Number of the conference participants.
-     */
-    count: string,
+  /**
+   * Conference data.
+   */
+  conference: Object,
 
-    /**
-     * Conference data.
-     */
-    conference: Object,
-
-    /**
-     * Invoked to open Speaker stats.
-     */
-    dispatch: Dispatch<any>,
+  /**
+   * Invoked to open Speaker stats.
+   */
+  dispatch: Dispatch<any>,
 };
 
 /**
@@ -36,52 +35,47 @@ type Props = {
  * @class ParticipantsCount
  */
 class ParticipantsCount extends PureComponent<Props> {
-    /**
-     * Initializes a new ParticipantsCount instance.
-     *
-     * @param {Object} props - The read-only properties with which the new
-     * instance is to be initialized.
-     */
-    constructor(props: Props) {
-        super(props);
+  /**
+   * Initializes a new ParticipantsCount instance.
+   *
+   * @param {Object} props - The read-only properties with which the new
+   * instance is to be initialized.
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onClick = this._onClick.bind(this);
-    }
+    this._onClick = this._onClick.bind(this);
+  }
 
-    _onClick: () => void;
+  _onClick: () => void;
 
-    /**
-     * Callback invoked to display {@code SpeakerStats}.
-     *
-     * @private
-     * @returns {void}
-     */
-    _onClick() {
-        const { dispatch, conference } = this.props;
+  /**
+   * Callback invoked to display {@code SpeakerStats}.
+   *
+   * @private
+   * @returns {void}
+   */
+  _onClick() {
+    const { dispatch, conference } = this.props;
 
-        dispatch(openDialog(SpeakerStats, { conference }));
-    }
+    dispatch(openDialog(SpeakerStats, { conference }));
+  }
 
-    /**
-     * Implements React's {@link PureComponent#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <div
-                className = 'participants-count'
-                onClick = { this._onClick }>
-                <span className = 'participants-count-number'>
-                    {this.props.count}
-                </span>
-                <span className = 'participants-count-icon' />
-            </div>
-        );
-    }
+  /**
+   * Implements React's {@link PureComponent#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <div className="participants-count" onClick={this._onClick}>
+        <span className="participants-count-number">{this.props.count}</span>
+        <span className="participants-count-icon" />
+      </div>
+    );
+  }
 }
-
 
 /**
  * Maps (parts of) the Redux state to the associated props for the
@@ -92,10 +86,10 @@ class ParticipantsCount extends PureComponent<Props> {
  * @returns {Props}
  */
 function mapStateToProps(state) {
-    return {
-        conference: state['features/base/conference'].conference,
-        count: getParticipantCount(state)
-    };
+  return {
+    conference: state['features/base/conference'].conference,
+    count: getParticipantCount(state),
+  };
 }
 
 export default connect(mapStateToProps)(ParticipantsCount);

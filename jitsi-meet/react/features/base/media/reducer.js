@@ -5,13 +5,13 @@ import { ReducerRegistry } from '../redux';
 import { TRACK_REMOVED } from '../tracks/actionTypes';
 
 import {
-    SET_AUDIO_AVAILABLE,
-    SET_AUDIO_MUTED,
-    SET_CAMERA_FACING_MODE,
-    SET_VIDEO_AVAILABLE,
-    SET_VIDEO_MUTED,
-    STORE_VIDEO_TRANSFORM,
-    TOGGLE_CAMERA_FACING_MODE
+  SET_AUDIO_AVAILABLE,
+  SET_AUDIO_MUTED,
+  SET_CAMERA_FACING_MODE,
+  SET_VIDEO_AVAILABLE,
+  SET_VIDEO_MUTED,
+  STORE_VIDEO_TRANSFORM,
+  TOGGLE_CAMERA_FACING_MODE,
 } from './actionTypes';
 import { CAMERA_FACING_MODE } from './constants';
 
@@ -32,8 +32,8 @@ import { CAMERA_FACING_MODE } from './constants';
  * @type {AudioMediaState}
  */
 export const _AUDIO_INITIAL_MEDIA_STATE = {
-    available: true,
-    muted: false
+  available: true,
+  muted: false,
 };
 
 /**
@@ -46,22 +46,22 @@ export const _AUDIO_INITIAL_MEDIA_STATE = {
  * @returns {AudioMediaState}
  */
 function _audio(state = _AUDIO_INITIAL_MEDIA_STATE, action) {
-    switch (action.type) {
+  switch (action.type) {
     case SET_AUDIO_AVAILABLE:
-        return {
-            ...state,
-            available: action.available
-        };
+      return {
+        ...state,
+        available: action.available,
+      };
 
     case SET_AUDIO_MUTED:
-        return {
-            ...state,
-            muted: action.muted
-        };
+      return {
+        ...state,
+        muted: action.muted,
+      };
 
     default:
-        return state;
-    }
+      return state;
+  }
 }
 
 /**
@@ -82,15 +82,15 @@ function _audio(state = _AUDIO_INITIAL_MEDIA_STATE, action) {
  * @type {VideoMediaState}
  */
 export const _VIDEO_INITIAL_MEDIA_STATE = {
-    available: true,
-    facingMode: CAMERA_FACING_MODE.USER,
-    muted: 0,
+  available: true,
+  facingMode: CAMERA_FACING_MODE.USER,
+  muted: 0,
 
-    /**
-     * The video {@link Transform}s applied to {@code MediaStream}s by
-     * {@code id} i.e. "pinch to zoom".
-     */
-    transforms: {}
+  /**
+   * The video {@link Transform}s applied to {@code MediaStream}s by
+   * {@code id} i.e. "pinch to zoom".
+   */
+  transforms: {},
 };
 
 /**
@@ -103,52 +103,50 @@ export const _VIDEO_INITIAL_MEDIA_STATE = {
  * @returns {VideoMediaState}
  */
 function _video(state = _VIDEO_INITIAL_MEDIA_STATE, action) {
-    switch (action.type) {
+  switch (action.type) {
     case CONFERENCE_FAILED:
     case CONFERENCE_LEFT:
-        return _clearAllVideoTransforms(state);
+      return _clearAllVideoTransforms(state);
 
     case SET_CAMERA_FACING_MODE:
-        return {
-            ...state,
-            facingMode: action.cameraFacingMode
-        };
+      return {
+        ...state,
+        facingMode: action.cameraFacingMode,
+      };
 
     case SET_VIDEO_AVAILABLE:
-        return {
-            ...state,
-            available: action.available
-        };
+      return {
+        ...state,
+        available: action.available,
+      };
 
     case SET_VIDEO_MUTED:
-        return {
-            ...state,
-            muted: action.muted
-        };
+      return {
+        ...state,
+        muted: action.muted,
+      };
 
     case STORE_VIDEO_TRANSFORM:
-        return _storeVideoTransform(state, action);
+      return _storeVideoTransform(state, action);
 
     case TOGGLE_CAMERA_FACING_MODE: {
-        let cameraFacingMode = state.facingMode;
+      let cameraFacingMode = state.facingMode;
 
-        cameraFacingMode
-            = cameraFacingMode === CAMERA_FACING_MODE.USER
-                ? CAMERA_FACING_MODE.ENVIRONMENT
-                : CAMERA_FACING_MODE.USER;
+      cameraFacingMode =
+        cameraFacingMode === CAMERA_FACING_MODE.USER ? CAMERA_FACING_MODE.ENVIRONMENT : CAMERA_FACING_MODE.USER;
 
-        return {
-            ...state,
-            facingMode: cameraFacingMode
-        };
+      return {
+        ...state,
+        facingMode: cameraFacingMode,
+      };
     }
 
     case TRACK_REMOVED:
-        return _trackRemoved(state, action);
+      return _trackRemoved(state, action);
 
     default:
-        return state;
-    }
+      return state;
+  }
 }
 
 /**
@@ -161,10 +159,13 @@ function _video(state = _VIDEO_INITIAL_MEDIA_STATE, action) {
  * modified.
  * @returns {Object}
  */
-ReducerRegistry.register('features/base/media', combineReducers({
+ReducerRegistry.register(
+  'features/base/media',
+  combineReducers({
     audio: _audio,
-    video: _video
-}));
+    video: _video,
+  })
+);
 
 /**
  * Removes all stored video {@link Transform}s.
@@ -174,10 +175,10 @@ ReducerRegistry.register('features/base/media', combineReducers({
  * @returns {Object}
  */
 function _clearAllVideoTransforms(state) {
-    return {
-        ...state,
-        transforms: _VIDEO_INITIAL_MEDIA_STATE.transforms
-    };
+  return {
+    ...state,
+    transforms: _VIDEO_INITIAL_MEDIA_STATE.transforms,
+  };
 }
 
 /**
@@ -189,13 +190,13 @@ function _clearAllVideoTransforms(state) {
  * @returns {Object}
  */
 function _storeVideoTransform(state, { streamId, transform }) {
-    return {
-        ...state,
-        transforms: {
-            ...state.transforms,
-            [streamId]: transform
-        }
-    };
+  return {
+    ...state,
+    transforms: {
+      ...state.transforms,
+      [streamId]: transform,
+    },
+  };
 }
 
 /**
@@ -208,22 +209,22 @@ function _storeVideoTransform(state, { streamId, transform }) {
  * @returns {Object}
  */
 function _trackRemoved(state, { track: { jitsiTrack } }) {
-    if (jitsiTrack) {
-        const streamId = jitsiTrack.getStreamId();
+  if (jitsiTrack) {
+    const streamId = jitsiTrack.getStreamId();
 
-        if (streamId && streamId in state.transforms) {
-            const nextTransforms = {
-                ...state.transforms
-            };
+    if (streamId && streamId in state.transforms) {
+      const nextTransforms = {
+        ...state.transforms,
+      };
 
-            delete nextTransforms[streamId];
+      delete nextTransforms[streamId];
 
-            return {
-                ...state,
-                transforms: nextTransforms
-            };
-        }
+      return {
+        ...state,
+        transforms: nextTransforms,
+      };
     }
+  }
 
-    return state;
+  return state;
 }

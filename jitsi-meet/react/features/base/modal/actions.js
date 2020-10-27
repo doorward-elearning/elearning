@@ -13,9 +13,9 @@ import { SET_ACTIVE_MODAL_ID } from './actionTypes';
  * }}
  */
 export function setActiveModalId(activeModalId: ?string, modalProps: Object = {}) {
-    return {
-        activeModalId,
-        modalProps,
-        type: SET_ACTIVE_MODAL_ID
-    };
+  return {
+    activeModalId,
+    modalProps,
+    type: SET_ACTIVE_MODAL_ID,
+  };
 }

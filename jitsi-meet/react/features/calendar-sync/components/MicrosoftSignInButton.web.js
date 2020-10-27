@@ -7,12 +7,11 @@ import React, { Component } from 'react';
  * {@link MicrosoftSignInButton}.
  */
 type Props = {
+  // The callback to invoke when {@code MicrosoftSignInButton} is clicked.
+  onClick: Function,
 
-    // The callback to invoke when {@code MicrosoftSignInButton} is clicked.
-    onClick: Function,
-
-    // The text to display within {@code MicrosoftSignInButton}.
-    text: string
+  // The text to display within {@code MicrosoftSignInButton}.
+  text: string,
 };
 
 /**
@@ -21,24 +20,18 @@ type Props = {
  * @extends Component
  */
 export default class MicrosoftSignInButton extends Component<Props> {
-    /**
-     * Implements React's {@link Component#render()}.
-     *
-     * @inheritdoc
-     * @returns {ReactElement}
-     */
-    render() {
-        return (
-            <div
-                className = 'microsoft-sign-in'
-                onClick = { this.props.onClick }>
-                <img
-                    className = 'microsoft-logo'
-                    src = 'images/microsoftLogo.svg' />
-                <div className = 'microsoft-cta'>
-                    { this.props.text }
-                </div>
-            </div>
-        );
-    }
+  /**
+   * Implements React's {@link Component#render()}.
+   *
+   * @inheritdoc
+   * @returns {ReactElement}
+   */
+  render() {
+    return (
+      <div className="microsoft-sign-in" onClick={this.props.onClick}>
+        <img className="microsoft-logo" src="images/microsoftLogo.svg" />
+        <div className="microsoft-cta">{this.props.text}</div>
+      </div>
+    );
+  }
 }

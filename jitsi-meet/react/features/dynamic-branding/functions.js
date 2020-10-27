@@ -8,8 +8,8 @@
  * @returns {string}
  */
 export function extractFqnFromPath(path: string) {
-    const parts = path.split('/');
-    const len = parts.length;
+  const parts = path.split('/');
+  const len = parts.length;
 
-    return parts.length > 2 ? `${parts[len - 2]}/${parts[len - 1]}` : '';
+  return parts.length > 2 ? `${parts[len - 2]}/${parts[len - 1]}` : '';
 }

@@ -10,66 +10,66 @@ import { updateSettings } from '../../base/settings';
  * {@link AbstractDisplayNamePrompt}.
  */
 export type Props = {
+  /**
+   * Invoked to update the local participant's display name.
+   */
+  dispatch: Dispatch<any>,
 
-    /**
-     * Invoked to update the local participant's display name.
-     */
-    dispatch: Dispatch<any>,
+  /**
+   * Function to be invoked after a successful display name change.
+   */
+  onPostSubmit: ?Function,
 
-    /**
-     * Function to be invoked after a successful display name change.
-     */
-    onPostSubmit: ?Function,
-
-    /**
-     * Invoked to obtain translated strings.
-     */
-    t: Function
+  /**
+   * Invoked to obtain translated strings.
+   */
+  t: Function,
 };
 
 /**
  * Implements an abstract class for {@code DisplayNamePrompt}.
  */
-export default class AbstractDisplayNamePrompt<S: *>
-    extends Component<Props, S> {
-    /**
-     * Instantiates a new component.
-     *
-     * @inheritdoc
-     */
-    constructor(props: Props) {
-        super(props);
+export default class AbstractDisplayNamePrompt<S: *> extends Component<Props, S> {
+  /**
+   * Instantiates a new component.
+   *
+   * @inheritdoc
+   */
+  constructor(props: Props) {
+    super(props);
 
-        this._onSetDisplayName = this._onSetDisplayName.bind(this);
+    this._onSetDisplayName = this._onSetDisplayName.bind(this);
+  }
+
+  _onSetDisplayName: (string) => boolean;
+
+  /**
+   * Dispatches an action to update the local participant's display name. A
+   * name must be entered for the action to dispatch.
+   *
+   * It returns a boolean to comply the Dialog behaviour:
+   *     {@code true} - the dialog should be closed.
+   *     {@code false} - the dialog should be left open.
+   *
+   * @param {string} displayName - The display name to save.
+   * @returns {boolean}
+   */
+  _onSetDisplayName(displayName) {
+    if (!displayName || !displayName.trim()) {
+      return false;
     }
 
-    _onSetDisplayName: string => boolean;
+    const { dispatch, onPostSubmit } = this.props;
 
-    /**
-     * Dispatches an action to update the local participant's display name. A
-     * name must be entered for the action to dispatch.
-     *
-     * It returns a boolean to comply the Dialog behaviour:
-     *     {@code true} - the dialog should be closed.
-     *     {@code false} - the dialog should be left open.
-     *
-     * @param {string} displayName - The display name to save.
-     * @returns {boolean}
-     */
-    _onSetDisplayName(displayName) {
-        if (!displayName || !displayName.trim()) {
-            return false;
-        }
+    // Store display name in settings
+    dispatch(
+      updateSettings({
+        displayName,
+      })
+    );
 
-        const { dispatch, onPostSubmit } = this.props;
+    onPostSubmit && onPostSubmit();
 
-        // Store display name in settings
-        dispatch(updateSettings({
-            displayName
-        }));
-
-        onPostSubmit && onPostSubmit();
-
-        return true;
-    }
+    return true;
+  }
 }

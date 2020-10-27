@@ -11,26 +11,26 @@ const LANGUAGES = Object.keys(LANGUAGES_RESOURCES);
  * locale.
  */
 export default {
-    /**
-     * Does not support caching.
-     *
-     * @returns {void}
-     */
-    cacheUserLanguage: Function.prototype,
+  /**
+   * Does not support caching.
+   *
+   * @returns {void}
+   */
+  cacheUserLanguage: Function.prototype,
 
-    detect() {
-        const { LocaleDetector } = NativeModules;
-        const [ lang, region ] = LocaleDetector.locale.replace(/_/, '-').split('-');
-        const locale = `${lang}${region}`;
+  detect() {
+    const { LocaleDetector } = NativeModules;
+    const [lang, region] = LocaleDetector.locale.replace(/_/, '-').split('-');
+    const locale = `${lang}${region}`;
 
-        if (LANGUAGES.includes(locale)) {
-            return locale;
-        }
+    if (LANGUAGES.includes(locale)) {
+      return locale;
+    }
 
-        return lang;
-    },
+    return lang;
+  },
 
-    init: Function.prototype,
+  init: Function.prototype,
 
-    type: 'languageDetector'
+  type: 'languageDetector',
 };

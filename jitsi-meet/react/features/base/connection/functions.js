@@ -12,19 +12,19 @@ import { toURLString } from '../util';
  * @private
  */
 export function getCurrentConferenceUrl(stateful: Function | Object) {
-    const state = toState(stateful);
-    let currentUrl;
+  const state = toState(stateful);
+  let currentUrl;
 
-    if (isInviteURLReady(state)) {
-        currentUrl = toURLString(getInviteURL(state));
-    }
+  if (isInviteURLReady(state)) {
+    currentUrl = toURLString(getInviteURL(state));
+  }
 
-    // Check if the URL doesn't end with a slash
-    if (currentUrl && currentUrl.substr(-1) === '/') {
-        currentUrl = undefined;
-    }
+  // Check if the URL doesn't end with a slash
+  if (currentUrl && currentUrl.substr(-1) === '/') {
+    currentUrl = undefined;
+  }
 
-    return currentUrl ? currentUrl : undefined;
+  return currentUrl ? currentUrl : undefined;
 }
 
 /**
@@ -39,32 +39,28 @@ export function getCurrentConferenceUrl(stateful: Function | Object) {
  * @returns {string}
  */
 export function getInviteURL(stateOrGetState: Function | Object): string {
-    const state = toState(stateOrGetState);
-    let locationURL
-        = state instanceof URL
-            ? state
-            : state['features/base/connection'].locationURL;
+  const state = toState(stateOrGetState);
+  let locationURL = state instanceof URL ? state : state['features/base/connection'].locationURL;
 
-    // If there's no locationURL on the base/connection feature try the base/config where it's set earlier.
-    if (!locationURL) {
-        locationURL = state['features/base/config'].locationURL;
-    }
+  // If there's no locationURL on the base/connection feature try the base/config where it's set earlier.
+  if (!locationURL) {
+    locationURL = state['features/base/config'].locationURL;
+  }
 
-    if (!locationURL) {
-        throw new Error('Can not get invite URL - the app is not ready');
-    }
+  if (!locationURL) {
+    throw new Error('Can not get invite URL - the app is not ready');
+  }
 
-    const { inviteDomain } = state['features/dynamic-branding'];
-    const urlWithoutParams = getURLWithoutParams(locationURL);
+  const { inviteDomain } = state['features/dynamic-branding'];
+  const urlWithoutParams = getURLWithoutParams(locationURL);
 
-    if (inviteDomain) {
-        const meetingId
-            = state['features/base/config'].brandingRoomAlias || urlWithoutParams.pathname;
+  if (inviteDomain) {
+    const meetingId = state['features/base/config'].brandingRoomAlias || urlWithoutParams.pathname;
 
-        return `${inviteDomain}/${meetingId}`;
-    }
+    return `${inviteDomain}/${meetingId}`;
+  }
 
-    return urlWithoutParams.href;
+  return urlWithoutParams.href;
 }
 
 /**
@@ -74,9 +70,9 @@ export function getInviteURL(stateOrGetState: Function | Object): string {
  * @returns {boolean}
  */
 export function isInviteURLReady(stateOrGetState: Function | Object): boolean {
-    const state = toState(stateOrGetState);
+  const state = toState(stateOrGetState);
 
-    return Boolean(state['features/base/connection'].locationURL || state['features/base/config'].locationURL);
+  return Boolean(state['features/base/connection'].locationURL || state['features/base/config'].locationURL);
 }
 
 /**
@@ -88,27 +84,27 @@ export function isInviteURLReady(stateOrGetState: Function | Object): boolean {
  * @returns {URL}
  */
 export function getURLWithoutParams(url: URL): URL {
-    const { hash, search } = url;
+  const { hash, search } = url;
 
-    if ((hash && hash.length > 1) || (search && search.length > 1)) {
-        url = new URL(url.href); // eslint-disable-line no-param-reassign
-        url.hash = '';
-        url.search = '';
+  if ((hash && hash.length > 1) || (search && search.length > 1)) {
+    url = new URL(url.href); // eslint-disable-line no-param-reassign
+    url.hash = '';
+    url.search = '';
 
-        // XXX The implementation of URL at least on React Native appends ? and
-        // # at the end of the href which is not desired.
-        let { href } = url;
+    // XXX The implementation of URL at least on React Native appends ? and
+    // # at the end of the href which is not desired.
+    let { href } = url;
 
-        if (href) {
-            href.endsWith('#') && (href = href.substring(0, href.length - 1));
-            href.endsWith('?') && (href = href.substring(0, href.length - 1));
+    if (href) {
+      href.endsWith('#') && (href = href.substring(0, href.length - 1));
+      href.endsWith('?') && (href = href.substring(0, href.length - 1));
 
-            // eslint-disable-next-line no-param-reassign
-            url.href === href || (url = new URL(href));
-        }
+      // eslint-disable-next-line no-param-reassign
+      url.href === href || (url = new URL(href));
     }
+  }
 
-    return url;
+  return url;
 }
 
 /**
@@ -120,13 +116,13 @@ export function getURLWithoutParams(url: URL): URL {
  * @returns {string}
  */
 export function getURLWithoutParamsNormalized(url: URL): string {
-    const urlWithoutParams = getURLWithoutParams(url).href;
+  const urlWithoutParams = getURLWithoutParams(url).href;
 
-    if (urlWithoutParams) {
-        return urlWithoutParams.toLowerCase();
-    }
+  if (urlWithoutParams) {
+    return urlWithoutParams.toLowerCase();
+  }
 
-    return '';
+  return '';
 }
 
 /**
@@ -139,5 +135,5 @@ export function getURLWithoutParamsNormalized(url: URL): string {
  * {@code user@server.com}).
  */
 export function toJid(id: string, { authdomain, domain }: Object): string {
-    return id.indexOf('@') >= 0 ? id : `${id}@${authdomain || domain}`;
+  return id.indexOf('@') >= 0 ? id : `${id}@${authdomain || domain}`;
 }

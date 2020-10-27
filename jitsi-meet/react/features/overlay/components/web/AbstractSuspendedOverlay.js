@@ -7,11 +7,10 @@ import { Component } from 'react';
  * {@link AbstractSuspendedOverlay}.
  */
 type Props = {
-
-    /**
-     * The function to translate human-readable text.
-     */
-    t: Function
+  /**
+   * The function to translate human-readable text.
+   */
+  t: Function,
 };
 
 /**
@@ -19,15 +18,15 @@ type Props = {
  * suspend is detected.
  */
 export default class AbstractSuspendedOverlay extends Component<Props> {
-    /**
-     * Determines whether this overlay needs to be rendered (according to a
-     * specific redux state). Called by {@link OverlayContainer}.
-     *
-     * @param {Object} state - The redux state.
-     * @returns {boolean} - If this overlay needs to be rendered, {@code true};
-     * {@code false}, otherwise.
-     */
-    static needsRender(state: Object) {
-        return state['features/power-monitor'].suspendDetected;
-    }
+  /**
+   * Determines whether this overlay needs to be rendered (according to a
+   * specific redux state). Called by {@link OverlayContainer}.
+   *
+   * @param {Object} state - The redux state.
+   * @returns {boolean} - If this overlay needs to be rendered, {@code true};
+   * {@code false}, otherwise.
+   */
+  static needsRender(state: Object) {
+    return state['features/power-monitor'].suspendDetected;
+  }
 }
