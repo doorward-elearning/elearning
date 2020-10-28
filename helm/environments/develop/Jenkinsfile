@@ -3,7 +3,6 @@ pipeline {
 
   parameters {
       string(name: 'APP_VERSION', defaultValue: '1.2.0-dev', description: 'Version of the application to be deployed?')
-      string(name: 'BRANCH', defaultValue: '*/develop', description: 'Replace with commit ID / Tag, as you wish?')
   }
 
   stages {
