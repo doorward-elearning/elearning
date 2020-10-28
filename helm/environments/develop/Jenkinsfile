@@ -44,7 +44,7 @@ pipeline {
   }
   post {
        success {
-           mail bcc: '', body: 'develop.doorward.org is successfully deployed. Please wait for 5 minutes for the website to become Online.', cc: '', charset: 'UTF-8', from: 'jenkins@doorward.tech', mimeType: 'text/html', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "basil@doorward.tech,moses@doorward.tech,madhu@doorward.tech,sreenath@doorward.tech";
+           mail bcc: '', body: 'develop.doorward.org is successfully deployed. Please wait for 5 minutes for the website to become Online.', cc: '', charset: 'UTF-8', from: 'jenkins@doorward.tech', mimeType: 'text/html', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "basil@doorward.tech,madhu@doorward.tech,sreenath@doorward.tech";
        }
        failure {
            mail bcc: '', body: "<b>Example</b><br>Project: ${env.JOB_NAME} <br>Build Number: ${env.BUILD_NUMBER} <br> URL de build: ${env.BUILD_URL}", cc: '', charset: 'UTF-8', from: 'jenkins@doorward.tech', mimeType: 'text/html', replyTo: '', subject: "ERROR CI: Project name -> ${env.JOB_NAME}", to: "basil@doorward.tech,moses@doorward.tech,madhu@doorward.tech,sreenath@doorward.tech";
