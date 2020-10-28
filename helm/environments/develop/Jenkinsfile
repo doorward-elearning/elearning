@@ -2,10 +2,31 @@ pipeline {
   agent any
 
   parameters {
-      string(name: 'APP_VERSION', defaultValue: '1.1.0', description: 'Version of the application to be deployed?')
+      string(name: 'APP_VERSION', defaultValue: '1.2.0-dev', description: 'Version of the application to be deployed?')
+      string(name: 'BRANCH', defaultValue: '*/develop', description: 'Replace with commit ID / Tag, as you wish?')
   }
 
   stages {
+    stage('Prepare') {
+        steps {
+          sh 'service docker stop'
+          sh 'rm -rf /var/lib/docker'
+          sh "echo { \\\"max-concurrent-uploads\\\": \\\"1\\\" } >> /etc/docker/daemon.json"
+          sh 'service docker start'
+          sh 'sleep 10'
+        }
+    }
+    stage('Registry-Credentials') {
+        steps {
+          sh 'mkdir ${HOME}/.docker'
+          sh 'cp /etc/.jenkins-master-harbor/.dockerconfigjson ${HOME}/.docker/config.json'
+        }
+    }
+    stage('Build') {
+        steps {
+          sh 'make build'
+        }
+    }
     stage('Deploy') {
         steps {
           dir('helm/environments/develop'){
