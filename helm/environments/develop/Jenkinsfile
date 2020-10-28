@@ -1,6 +1,8 @@
 pipeline {
   agent any
-
+  triggers {
+    pollSCM 'H/5 * * * *'
+  }
   parameters {
       string(name: 'APP_VERSION', defaultValue: '1.2.0-dev', description: 'Version of the application to be deployed?')
   }
