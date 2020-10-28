@@ -31,7 +31,7 @@ releases:
   - name: demo-school-thala
     namespace: demo-school-doorward
     labels:
-      stage: 2
+      stage: 3
       name: thala
     chart: ../../charts/apps/thala
     needs:
@@ -42,7 +42,7 @@ releases:
   - name: demo-school-chuchu
     namespace: demo-school-doorward
     labels:
-      stage: 2
+      stage: 3
       name: chuchu
     chart: ../../charts/apps/chuchu
     needs:
