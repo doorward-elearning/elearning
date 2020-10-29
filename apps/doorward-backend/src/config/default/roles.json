@@ -63,7 +63,7 @@
         "discussion-groups.post",
         "assessments.submit",
         "assignments.submit",
-        "meetings.publish"
+        "meetings.subscribe"
       ],
       "exclude": []
     }

@@ -15,7 +15,6 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import translate from '@doorward/common/lang/translate';
-import Meeting from '../Meeting';
 import useAuth from '../../hooks/useAuth';
 
 const MAX_STUDENTS = 3;

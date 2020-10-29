@@ -13,9 +13,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import translate from '@doorward/common/lang/translate';
 import Meeting from '../../components/Meeting';
-
-const STUDENT_TOOLBAR = [
-];
+import RoMeeting from '../../../../../libs/romeeting/src/lib/components/ROMeeting';
 
 const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
   const videoCallState = useDoorwardApi((state) => state.meetings.joinMeeting);
@@ -38,24 +36,29 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
     const { meeting } = videoCallState.data;
 
     const canModerate = hasPrivilege('meetings.moderate');
+    const canPublish = hasPrivilege('meetings.moderate');
 
     return (
       <div className="video-call-page">
         <div className="jitsi-meeting">
-          <Meeting
-            onLeftSession={() => {
-              if (canModerate) {
-                endMeeting(meeting.id);
-              }
-              props.history.push('/dashboard');
-            }}
-            apiRef={(api) => {
-              if (!jitsi) {
-                setJitsi(api);
-              }
-            }}
-            meetingResponse={videoCallState.data}
-          />
+          {canPublish || canModerate ? (
+            <Meeting
+              onLeftSession={() => {
+                if (canModerate) {
+                  endMeeting(meeting.id);
+                }
+                props.history.push('/dashboard');
+              }}
+              apiRef={(api) => {
+                if (!jitsi) {
+                  setJitsi(api);
+                }
+              }}
+              meetingResponse={videoCallState.data}
+            />
+          ) : (
+            <RoMeeting meetingId={meeting.id} domain={process.env.JITSI_MEET_DOMAIN} />
+          )}
         </div>
       </div>
     );

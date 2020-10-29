@@ -13660,6 +13660,11 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
+lib-jitsi-meet@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/lib-jitsi-meet/-/lib-jitsi-meet-1.0.6.tgz#ab506e04febedf9b2c5e3e746f932b8018776dd5"
+  integrity sha1-q1BuBP6+35ssXj50b5MrgBh3bdU=
+
 license-webpack-plugin@2.1.2:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/license-webpack-plugin/-/license-webpack-plugin-2.1.2.tgz#63f7c571537a450ec47dc98f5d5ffdbca7b3b14f"

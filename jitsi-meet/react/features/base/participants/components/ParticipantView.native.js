@@ -113,7 +113,7 @@ type Props = {
   useConnectivityInfoLabel: boolean,
 
   /**
-   * The z-order of the {@link Video} of {@link ParticipantView} in the
+   * The z-order of the {@link ParticipantTracks} of {@link ParticipantView} in the
    * stacking space of all {@code Video}s. For more details, refer to the
    * {@code zOrder} property of the {@code Video} class for React Native.
    */

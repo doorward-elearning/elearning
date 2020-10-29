@@ -23,7 +23,8 @@
       "@doorward/common/*": ["libs/common/src/*"],
       "@doorward/backend/*": ["libs/backend/src/*"],
       "@doorward/chat/*": ["libs/chat/src/*"],
-      "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"]
+      "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"],
+      "@doorward/romeeting": ["libs/romeeting/src/index.ts"]
     },
     "plugins": [
       {
