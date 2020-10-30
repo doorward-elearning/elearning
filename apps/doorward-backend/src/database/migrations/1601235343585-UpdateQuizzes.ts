@@ -1,6 +1,4 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { QuizEntity } from '@doorward/common/entities/quiz.entity';
 
 export class UpdateQuizzes1601235343585 implements MigrationInterface {
   name = 'UpdateQuizzes1601235343585';
@@ -9,17 +7,18 @@ export class UpdateQuizzes1601235343585 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "ModuleItems" ADD "options" json`);
     await queryRunner.query(`ALTER TABLE "ModuleItems" ADD "instructions" text`);
 
-    const repository = queryRunner.manager.getRepository(QuizEntity);
-    const quizzes = await repository.createQueryBuilder('quiz').where('type = :type', { type: 'Quiz' }).getMany();
+    const quizzes = await queryRunner.query('SELECT * FROM "ModuleItems" WHERE type = $1', ['Quiz']);
 
     await Promise.all(
       quizzes.map(async (quiz) => {
         try {
           const content = JSON.parse(quiz.content);
-          await repository.update(quiz.id, {
-            options: content.options,
-            instructions: content.instructions,
-          });
+
+          await queryRunner.query(`UPDATE "ModuleItems" SET options = $1, instructions = $2 WHERE id = $3`, [
+            content.options,
+            content.instructions,
+            quiz.id,
+          ]);
         } catch (e) {
           console.error(e);
         }
@@ -28,17 +27,17 @@ export class UpdateQuizzes1601235343585 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const repository = queryRunner.manager.getRepository(QuizEntity);
-    const quizzes = await repository.createQueryBuilder('quiz').where('type = :type', { type: 'Quiz' }).getMany();
+    const quizzes = await queryRunner.query('SELECT * FROM "ModuleItems" WHERE type = $1', ['Quiz']);
 
     await Promise.all(
       quizzes.map(async (quiz) => {
-        await repository.update(quiz.id, {
-          content: JSON.stringify({
+        await queryRunner.query(`UPDATE "ModuleItems" SET content = $1 WHERE id = $2`, [
+          JSON.stringify({
             options: quiz.options,
             instructions: quiz.instructions,
           }),
-        });
+          quiz.id,
+        ]);
       })
     );
 

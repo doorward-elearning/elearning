@@ -8,32 +8,33 @@ export class UpdateAssignments1601236004070 implements MigrationInterface {
     await queryRunner.query(`ALTER TABLE "ModuleItems" ADD "assignment" character varying`);
     const repository = queryRunner.manager.getRepository(AssignmentEntity);
 
-    const assignments = await repository.find();
+    const assignments = await queryRunner.query(`SELECT * FROM "ModuleItems" WHERE type = $1`, ['Assignment']);
 
     await Promise.all(
       assignments.map(async (assignment) => {
         const { assignment: assignmentContent, ...options }: any = JSON.parse(assignment.content);
 
-        await repository.update(assignment.id, {
+        await queryRunner.query(`UPDATE "ModuleItems" SET options = $1, assignment = $2 WHERE id = $3`, [
           options,
-          assignment: JSON.stringify(assignmentContent),
-        });
+          JSON.stringify(assignmentContent),
+          assignment.id,
+        ]);
       })
     );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const repository = queryRunner.manager.getRepository(AssignmentEntity);
-    const assignments = await repository.find();
+    const assignments = await queryRunner.query(`SELECT * FROM "ModuleItems" WHERE type = $1`, ['Assignment']);
 
     await Promise.all(
       assignments.map(async (assignment) => {
-        await repository.update(assignment.id, {
-          content: JSON.stringify({
+        await queryRunner.query(`UPDATE "ModuleItems" SET content = $1 WHERE id = $2`, [
+          JSON.stringify({
             ...assignment.options,
             assignment: assignment.assignment,
           }),
-        });
+          assignment.id,
+        ]);
       })
     );
     await queryRunner.query(`ALTER TABLE "ModuleItems" DROP COLUMN "assignment"`);
