@@ -20,12 +20,8 @@ export class CreateDefaultUsers1598854206712 extends SeederInterface {
         return;
       }
     }
-    const password = await bcrypt.hash(
-      process.env.DEFAULT_ADMIN_PASSWORD,
-      +(process.env.BCRYPT_PASSWORD_SALT || process.env.BCRYPT_PASSWORD_SALT)
-    );
+    const password = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, +process.env.BCRYPT_PASSWORD_SALT);
 
-    const fullName = process.env.ORGANIZATION_DEFAULT_ADMIN_FULLNAME.trim().split(/\s+/);
     const organization = await entityManager
       .createQueryBuilder(OrganizationEntity, 'organization')
       .where('organization.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
@@ -48,8 +44,8 @@ export class CreateDefaultUsers1598854206712 extends SeederInterface {
           status: UserStatus.ACTIVE,
           email: process.env.DEFAULT_ADMIN_EMAIL,
           organization,
-          firstName: fullName[0],
-          lastName: fullName[1],
+          firstName: process.env.DEFAULT_ADMIN_FIRSTNAME,
+          lastName: process.env.DEFAULT_ADMIN_LASTNAME,
           role,
         },
       ])

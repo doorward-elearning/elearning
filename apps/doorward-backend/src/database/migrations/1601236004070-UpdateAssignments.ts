@@ -1,12 +1,10 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 export class UpdateAssignments1601236004070 implements MigrationInterface {
   name = 'UpdateAssignments1601236004070';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`ALTER TABLE "ModuleItems" ADD "assignment" character varying`);
-    const repository = queryRunner.manager.getRepository(AssignmentEntity);
 
     const assignments = await queryRunner.query(`SELECT * FROM "ModuleItems" WHERE type = $1`, ['Assignment']);
 
