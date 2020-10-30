@@ -1,10 +1,14 @@
 const fs = require('fs');
 const path = require('path');
+const _ = require('lodash');
 const colors = require('colors');
 const ncp = require('ncp');
+const beautify = require('js-beautify');
 
+const source = path.join(__dirname, '../apps/doorward-backend/src/config/default');
 const environments = path.join(__dirname, '../helm/environments');
 
+const configFiles = fs.readdirSync(source);
 const directories = fs.readdirSync(environments);
 
 const mkDir = (pathLike) => {
@@ -19,41 +23,38 @@ const copyDirectory = (source, destination) => {
   });
 };
 
-const source = path.join(__dirname, '../apps/doorward-backend/src/config/default');
-
 const destinations = [path.join(__dirname, '../dist/apps/doorward-backend/config')];
 
 destinations.forEach((destination) => {
   mkDir(destination);
 });
 
+const createFile = (fileName, organizationName) => {
+  console.log(colors.yellow('[' + fileName.replace('.json', '') + ']'), colors.yellow(' - ' + organizationName));
+  const existing = JSON.parse(fs.readFileSync(path.join(source, fileName)).toString());
+
+  let result;
+
+  if (fs.existsSync(path.join(environments, organizationName, fileName))) {
+    const destination = JSON.parse(fs.readFileSync(path.join(environments, organizationName, fileName)).toString());
+    result = _.merge({}, existing, destination);
+  } else {
+    result = existing;
+  }
+
+  destinations.map((destination) => {
+    fs.writeFileSync(path.join(destination, organizationName, fileName), beautify.js_beautify(JSON.stringify(result)));
+  });
+};
+
 const buildOrganizationConfig = async () => {
   console.log(colors.cyan('Building organization configuration...'));
-  await Promise.all(
-    directories.map(async (dirName) => {
-      const dir = path.join(environments, dirName);
-      if (fs.lstatSync(dir).isDirectory()) {
-        await Promise.all(
-          destinations.map(async (destination) => {
-            copyDirectory(source, path.join(destination, dirName));
-            if (fs.existsSync(path.join(dir, 'organization.json'))) {
-              console.log(colors.yellow('[Organization]'), colors.yellow(' - ' + dirName));
-              mkDir(path.join(destination, dirName));
-              fs.copyFileSync(
-                path.join(dir, 'organization.json'),
-                path.join(destination, dirName, 'organization.json')
-              );
-            }
-            if (fs.existsSync(path.join(dir, 'roles.json'))) {
-              console.log(colors.yellow('[Roles]'), colors.yellow(' - ' + dirName));
-              mkDir(path.join(destination, dirName));
-              fs.copyFileSync(path.join(dir, 'roles.json'), path.join(destination, dirName, 'roles.json'));
-            }
-          })
-        );
-      }
-    })
-  );
+
+  configFiles.forEach((configFile) => {
+    directories.forEach((organizationName) => {
+      createFile(configFile, organizationName);
+    });
+  });
   console.log(colors.green('Config files written to: ' + destinations.join(', ')));
 };
 
