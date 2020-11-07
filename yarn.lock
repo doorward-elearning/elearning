@@ -2,6 +2,11 @@
 # yarn lockfile v1
 
 
+"@aktriver/types-lib-jitsi-meet@^0.0.4":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@aktriver/types-lib-jitsi-meet/-/types-lib-jitsi-meet-0.0.4.tgz#b4aa374315129d5e30a767edaea7b3d7049ea2cf"
+  integrity sha512-Asyerqk4KpWUULy9llp9gLTxvS6k9c/A1GXCh42gf0vEHmTKS/gTrysiAd4U/qqp3KGS78iHxDnsfVYOq/j13w==
+
 "@angular-devkit/architect@0.1000.5", "@angular-devkit/architect@~0.1000.0":
   version "0.1000.5"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1000.5.tgz#39488b92a366e49d50dda0af4eee3b0bb9425ec4"

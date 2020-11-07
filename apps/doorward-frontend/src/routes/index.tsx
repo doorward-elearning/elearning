@@ -133,8 +133,8 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
         .public()
         .hideCrumb()
         .with({
-          createPassword: new Route('/create/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
-          resetPassword: new Route('/reset/:resetToken/:resetTokenBuffer', CreatePassword).public().hideCrumb(),
+          createPassword: new Route('/create/:resetToken/', CreatePassword).public().hideCrumb(),
+          resetPassword: new Route('/reset/:resetToken/', CreatePassword).public().hideCrumb(),
           forgotPassword: new Route('/forgot', ForgotPassword).public().hideCrumb(),
         }),
     }),

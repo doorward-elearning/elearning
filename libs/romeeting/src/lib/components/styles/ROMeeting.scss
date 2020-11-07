@@ -1,10 +1,9 @@
 #ro-meeting-layout {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--bg-primary);
+  top: var(--padding);
+  left: var(--padding);
+  right: var(--padding);
+  bottom: var(--padding);
 
   .JI_Video {
     display: grid;
@@ -12,14 +11,54 @@
     transition: 0.2s all;
 
     &__content {
-      background: var(--bg-secondary);
+      background: var(--bg-primary);
       margin: 4px;
+      height: calc(100% - 8px);
+      width: calc(100% - 8px);
+      position: relative;
+      border: 1px solid var(--line-color);
 
       video {
+        pointer-events: none;
+        height: 100%;
         width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        object-fit: cover;
       }
+
       audio {
         display: none;
+      }
+
+      &__footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: calc(100% - (var(--padding) * 2));
+        display: grid;
+        height: 30%;
+        justify-content: space-between;
+        place-items: end;
+        grid-auto-flow: column;
+        padding: var(--padding-sm) var(--padding);
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.3));
+        color: white;
+      }
+
+      .user__displayName {
+        user-select: none;
+        font-size: 0.8em;
+      }
+
+      .user__videoControls {
+        display: grid;
+        grid-gap: var(--padding-sm);
+
+        i {
+          font-size: 0.8em;
+        }
       }
     }
   }

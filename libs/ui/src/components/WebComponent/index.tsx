@@ -47,7 +47,7 @@ function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Elem
       props.empty
     );
 
-  if (hasItems) {
+  if (hasItems && props.data) {
     return (
       <div
         className={classNames({

@@ -1,7 +1,5 @@
 import React, { FunctionComponent } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import AuthoredCoursesReportTable from '../../components/Tables/AuthoredCoursesReportTable';
 import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
@@ -28,7 +26,7 @@ const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Elemen
       <WebComponent data={courseCreator} loading={state.fetching}>
         {(data) => (
           <div className="course-creator-report__content">
-            <AuthoredCoursesReportTable courses={data.courses} />
+            <AuthoredCoursesReportTable courses={data?.courses} />
           </div>
         )}
       </WebComponent>

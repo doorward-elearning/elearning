@@ -21,6 +21,9 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (pr
       validationSchema={Yup.object({
         username: Yup.string().required(translate.usernameIsRequired()),
       })}
+      onSuccess={() => routes.navigate(routes.login)}
+      showSuccessToast
+      showErrorToast
       positiveText={translate.reset()}
       initialValues={{
         username: '',

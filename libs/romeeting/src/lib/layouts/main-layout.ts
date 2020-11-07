@@ -54,14 +54,14 @@ export interface MainLayoutOptions {
 }
 
 export const LayoutOptions = {
-  maxRatio: 3 / 2,
+  maxRatio: 9 / 16,
   minRatio: 9 / 16,
   fixedRatio: false,
   animate: true,
   bigClass: 'JI_Video_Big',
   bigPercentage: 0.8,
   bigFixedRatio: false,
-  bigMaxRatio: 3 / 2,
+  bigMaxRatio: 9 / 16,
   bigMinRatio: 9 / 16,
   bigFirst: true,
 };

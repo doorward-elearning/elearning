@@ -1,4 +1,6 @@
 import React from 'react';
+import { RemoteUser, Track, Tracks } from '../types';
+import Icon from '@doorward/ui/components/Icon';
 
 class Video extends React.Component<VideoProps, VideoState> {
   state = {
@@ -11,46 +13,35 @@ class Video extends React.Component<VideoProps, VideoState> {
 
   componentWillMount(): void {}
 
-  addEventListeners = (track: any) => {
-    if (track) {
-      track.addEventListener(JitsiMeetJS.events.track.TRACK_AUDIO_LEVEL_CHANGED, (audioLevel) =>
-        console.log(`Audio Level remote: ${audioLevel}`)
-      );
-      track.addEventListener(JitsiMeetJS.events.track.TRACK_MUTE_CHANGED, () => console.log('remote track muted'));
-      track.addEventListener(JitsiMeetJS.events.track.LOCAL_TRACK_STOPPED, () => console.log('remote track stoped'));
-      track.addEventListener(JitsiMeetJS.events.track.TRACK_AUDIO_OUTPUT_CHANGED, (deviceId) =>
-        console.log(`track audio output device was changed to ${deviceId}`)
-      );
-    }
-  };
-
   componentDidMount(): void {
-    const { videoTrack, audioTrack } = this.props;
+    const {
+      user: { tracks },
+    } = this.props;
 
-    this.addEventListeners(videoTrack);
-    this.addEventListeners(audioTrack);
-    this.attachTracks();
+    this.attachTracks(tracks);
   }
 
-  attachTracks = (props = this.props) => {
-    this.attachTrack(props.videoTrack, this.videoRef.current);
-    this.attachTrack(props.audioTrack, this.audioRef.current);
-  };
-
-  attachTrack = (track: any, element: HTMLVideoElement | HTMLAudioElement) => {
-    if (element && track) {
-      track.attach(element);
+  attachTracks = (tracks: Tracks) => {
+    if (tracks?.video && this.videoRef.current) {
+      tracks.video.attach(this.videoRef.current);
+    }
+    if (tracks?.audio && this.audioRef.current) {
+      tracks.audio.attach(this.audioRef.current);
     }
   };
 
-  detachTrack = (track: any, element: HTMLVideoElement | HTMLAudioElement) => {
-    if (element && track) {
-      track.detach(element);
+  detachTracks = (tracks: Tracks) => {
+    if (tracks?.video && this.videoRef.current) {
+      tracks.video.detach(this.videoRef.current);
+    }
+    if (tracks?.audio && this.audioRef.current) {
+      tracks.audio.detach(this.audioRef.current);
     }
   };
 
   componentWillReceiveProps(nextProps: Readonly<VideoProps>, nextContext: any): void {
-    this.attachTracks(nextProps);
+    const { tracks } = nextProps.user;
+    this.attachTracks(tracks);
   }
 
   componentWillUnmount(): void {}
@@ -84,11 +75,26 @@ class Video extends React.Component<VideoProps, VideoState> {
   };
 
   render() {
+    const { user } = this.props;
+    const { video, audio } = user.tracks;
+    console.log(user, 'ROMeeting');
+
+    if (this.videoRef?.current && !this.videoRef.current.playing) {
+      video.attach(this.videoRef.current);
+    }
+
     return (
       <div ref={this.parentRef} onDoubleClick={() => this.toggleSize()} className="JI_Video">
         <div className="JI_Video__content">
-          <video autoPlay={true} ref={this.videoRef} />
-          <audio autoPlay={true} ref={this.audioRef} />
+          {video && !video.hasBeenMuted && <video ref={this.videoRef} autoPlay muted />}
+          <audio ref={this.audioRef} autoPlay />
+          <div className="JI_Video__content__footer">
+            <div className="user__displayName">{user.getDisplayName()}</div>
+            <div className="user__videoControls">
+              <Icon icon={!audio || audio.hasBeenMuted ? 'mic_off' : 'mic'} />
+              <Icon icon={!video || video.hasBeenMuted ? 'videocam_off' : 'videocam'} />
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -97,8 +103,7 @@ class Video extends React.Component<VideoProps, VideoState> {
 
 export interface VideoProps {
   participantId: string;
-  audioTrack: any;
-  videoTrack: any;
+  user: RemoteUser;
   onVideoSizeChanged?: (big: boolean) => void;
 }
 

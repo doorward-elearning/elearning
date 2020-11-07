@@ -128,8 +128,8 @@ function createMiddleware<T extends DApiResponse = DApiResponse>(
               message: d.message,
               type: 'success',
               timeout: 3000,
-              hPosition: 'left',
-              vPosition: 'bottom',
+              hPosition: 'center',
+              vPosition: 'top',
             });
           }
         }

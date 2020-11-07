@@ -38,7 +38,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
   }, []);
 
   useEffect(() => {
-    if (!value) {
+    if (!value && editorState?.getCurrentContent()?.hasText()) {
       setEditorState(EditorState.createEmpty());
     }
   }, [value]);
@@ -106,4 +106,4 @@ export interface DraftTextAreaProps extends InputProps {
   shy?: boolean;
 }
 
-export default withInput(DraftTextArea, [InputFeatures.LABEL], {});
+export default withInput(DraftTextArea, [InputFeatures.LABEL], {}, false);

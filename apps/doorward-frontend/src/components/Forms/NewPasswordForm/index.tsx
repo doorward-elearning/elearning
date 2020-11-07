@@ -15,7 +15,7 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
     confirmPassword: '',
     resetToken: match.params.resetToken,
   };
-  const state = useDoorwardApi((state) => state.users.createPassword);
+  const state = useDoorwardApi((state) => state.userProfile.resetAccountPassword);
 
   return (
     <BasicForm
@@ -25,6 +25,7 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
       initialValues={initialValues}
       validationSchema={ResetPasswordBody}
       showSuccessToast
+      showErrorToast
       onCancel={props.onCancel}
       form={props.form}
     >
