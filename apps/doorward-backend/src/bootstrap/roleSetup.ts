@@ -21,8 +21,8 @@ export interface RolesConfig {
   };
 }
 
-const getOrganizationRolesFile = () => {
-  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', 'roles.json');
+const getOrganizationRolesFile = (organization = process.env.ORGANIZATION) => {
+  const filePath = path.join(__dirname, './config', organization || 'default', 'roles.json');
   if (fs.existsSync(filePath)) {
     return filePath;
   }
@@ -31,7 +31,13 @@ const getOrganizationRolesFile = () => {
 
 const parseRoles = (): RolesConfig => {
   try {
-    const filePath = getOrganizationRolesFile();
+    let filePath;
+    try {
+      filePath = getOrganizationRolesFile();
+    } catch (e) {
+      console.error(e);
+      filePath = getOrganizationRolesFile('default');
+    }
     const fileContents = fs.readFileSync(filePath).toString();
     return JSON.parse(fileContents) as RolesConfig;
   } catch (error) {

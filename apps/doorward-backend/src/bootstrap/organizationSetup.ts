@@ -42,8 +42,8 @@ export interface OrganizationConfig {
   }>;
 }
 
-const getConfigFile = (fileName: string) => {
-  const filePath = path.join(__dirname, './config', process.env.ORGANIZATION || 'default', fileName);
+const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION) => {
+  const filePath = path.join(__dirname, './config', organization || 'default', fileName);
   if (fs.existsSync(filePath)) {
     return filePath;
   }
@@ -52,7 +52,13 @@ const getConfigFile = (fileName: string) => {
 
 const parseConfigFile = <T = object>(fileName: string): T => {
   try {
-    const filePath = getConfigFile(fileName);
+    let filePath;
+    try {
+      filePath = getConfigFile(fileName);
+    } catch (e) {
+      console.error(e);
+      filePath = getConfigFile(fileName, 'default');
+    }
     const fileContents = fs.readFileSync(filePath).toString();
 
     return JSON.parse(fileContents) as T;
