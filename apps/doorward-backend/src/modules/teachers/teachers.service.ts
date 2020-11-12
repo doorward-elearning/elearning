@@ -8,6 +8,7 @@ import TeacherAccountWithPasswordEmail from '../../emails/teacher-account.with.p
 import FrontendLinks from '../../utils/frontend.links';
 import TeacherNewAccountEmail from '../../emails/teacher-new.account.email';
 import translate from '@doorward/common/lang/translate';
+import { Roles } from '@doorward/common/types/roles';
 
 @Injectable()
 export class TeachersService {
@@ -31,7 +32,7 @@ export class TeachersService {
    * @param origin
    */
   public async createTeacher(body: CreateUserBody, currentUser: UserEntity, origin: string) {
-    const { resetToken, user } = await this.usersService.createUser(body, currentUser);
+    const { resetToken, user } = await this.usersService.createUser({ ...body, role: Roles.TEACHER }, currentUser);
 
     if (body.password) {
       this.emailsService

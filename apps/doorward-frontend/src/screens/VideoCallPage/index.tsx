@@ -41,24 +41,20 @@ const VideoCallPage: React.FunctionComponent<VideoCallPageProps> = (props) => {
     return (
       <div className="video-call-page">
         <div className="jitsi-meeting">
-          {canPublish || canModerate ? (
-            <Meeting
-              onLeftSession={() => {
-                if (canModerate) {
-                  endMeeting(meeting.id);
-                }
-                props.history.push('/dashboard');
-              }}
-              apiRef={(api) => {
-                if (!jitsi) {
-                  setJitsi(api);
-                }
-              }}
-              meetingResponse={videoCallState.data}
-            />
-          ) : (
-            <RoMeeting meetingId={meeting.id} domain={process.env.JITSI_MEET_DOMAIN} />
-          )}
+          <Meeting
+            onLeftSession={() => {
+              if (canModerate) {
+                endMeeting(meeting.id);
+              }
+              props.history.push('/dashboard');
+            }}
+            apiRef={(api) => {
+              if (!jitsi) {
+                setJitsi(api);
+              }
+            }}
+            meetingResponse={videoCallState.data}
+          />
         </div>
       </div>
     );

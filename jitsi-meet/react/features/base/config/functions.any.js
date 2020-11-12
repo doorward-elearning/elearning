@@ -110,11 +110,11 @@ export function overrideConfigJSON(config: ?Object, interfaceConfig: ?Object, lo
  * that are whitelisted.
  */
 function _getWhitelistedJSON(configName, configJSON) {
-  if (configName === 'interfaceConfig') {
-    return _.pick(configJSON, INTERFACE_CONFIG_WHITELIST);
-  } else if (configName === 'config') {
-    return _.pick(configJSON, CONFIG_WHITELIST);
-  }
+  // if (configName === 'interfaceConfig') {
+  //   return _.pick(configJSON, INTERFACE_CONFIG_WHITELIST);
+  // } else if (configName === 'config') {
+  //   return _.pick(configJSON, CONFIG_WHITELIST);
+  // }
 
   return configJSON;
 }

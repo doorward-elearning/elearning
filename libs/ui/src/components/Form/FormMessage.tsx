@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
 import { WebComponentState } from '../../reducers/reducers';
+import Icon from '@doorward/ui/components/Icon';
 
-const FormMessage: React.FunctionComponent<FormMessageProps> = props => {
+const FormMessage: React.FunctionComponent<FormMessageProps> = (props) => {
   const [error, setError] = useState();
   const [success, setSuccess] = useState();
 
@@ -27,6 +28,13 @@ const FormMessage: React.FunctionComponent<FormMessageProps> = props => {
       })}
     >
       <span>{error || success}</span>
+      <Icon
+        onClick={() => {
+          setError('');
+          setSuccess('');
+        }}
+        icon="close"
+      />
     </div>
   );
 };

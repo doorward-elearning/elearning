@@ -153,7 +153,7 @@ export class StudentsService {
    */
   public async unEnrollStudentFromCourse(studentId: string, courseId: string) {
     const course = await this.coursesRepository.findOne(courseId, { relations: ['meetingRoom'] });
-    await this.studentCourseRepository.softDelete({
+    await this.studentCourseRepository.delete({
       student: { id: studentId },
       course: { id: courseId },
     });

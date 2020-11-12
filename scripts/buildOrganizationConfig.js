@@ -43,6 +43,7 @@ const createFile = (fileName, organizationName) => {
   }
 
   destinations.map((destination) => {
+    mkDir(path.join(destination, organizationName));
     fs.writeFileSync(path.join(destination, organizationName, fileName), beautify.js_beautify(JSON.stringify(result)));
   });
 };

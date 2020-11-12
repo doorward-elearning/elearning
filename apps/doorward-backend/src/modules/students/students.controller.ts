@@ -143,7 +143,7 @@ export class StudentsController {
   ): Promise<StudentResponse> {
     const student = await this.studentsService.unEnrollStudentFromCourse(studentId, courseId);
 
-    return { student, message: '{{student}} has been un-enrolled from the {{course}}' };
+    return { student, message: translate.studentHasBeenUnEnrolledFromCourse() };
   }
 
   /**

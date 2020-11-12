@@ -167,6 +167,6 @@
     "disableKick": true
   },
   "disableRemoteMute": true,
-  "brandingDataUrl": "",
+  "brandingDataUrl": "https://doorward.local:7000/api/v1/jitsi/branding",
   "brandingRoomAlias": null
 }

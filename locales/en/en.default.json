@@ -411,5 +411,6 @@
   "youAreNotAllowedToJoinMeeting": "You are not allowed to join this {{meeting}}.",
   "youAreNotAllowedToSubmitThisAssignment": "You are not allowed to submit this {{assignment}}",
   "youHaveAlreadySubmittedThisAssessment": "You have already submitted this {{assessment}}",
-  "yourPasswordHasNotBeenSet": "Your password has not been set"
+  "yourPasswordHasNotBeenSet": "Your password has not been set",
+  "studentHasBeenUnEnrolledFromCourse": "{{student, capitalize}} has been un-enrolled from the {{course}}"
 }

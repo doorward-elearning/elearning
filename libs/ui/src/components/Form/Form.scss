@@ -15,18 +15,33 @@
   }
 
   &__message {
-    padding-bottom: var(--padding);
     max-height: 0;
-    transition: 0.5s max-height;
+    transition: 0.5s max-height, 0.7s opacity;
+    margin: var(--padding) 0;
+    padding: var(--padding) var(--padding-lg);
+    display: grid;
+    align-items: center;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    grid-template-columns: 1fr auto;
+    grid-gap: var(--padding);
+    opacity: 0;
+    pointer-events: none;
 
     &.error {
-      color: var(--text-error);
-      max-height: 1em;
+      max-height: 2em;
+      opacity: 1;
+      pointer-events: all;
+      background-color: rgba(255, 5, 0, 0.25);
+      border-color: var(--text-error);
     }
 
     &.success {
-      color: var(--text-success);
-      max-height: 1em;
+      background-color: rgba(0, 128, 0, 0.36);
+      max-height: 2em;
+      pointer-events: all;
+      opacity: 1;
+      border-color: var(--text-success);
     }
   }
 }

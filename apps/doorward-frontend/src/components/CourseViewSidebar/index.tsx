@@ -16,6 +16,7 @@ import useDoorwardApi from '../../hooks/useDoorwardApi';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
+import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
@@ -26,6 +27,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
   const managers = useDoorwardApi((state) => state.courseManagers.getCourseManagers);
   const discussionGroups = useDoorwardApi((state) => state.discussionGroups.getAll);
   const course = useDoorwardApi((state) => state.courses.getCourse);
+  const createCourseManager = useDoorwardApi((state) => state.courseManagers.createCourseManager);
   const match: any = useRouteMatch<{ courseId: string }>();
   const hasPrivileges = usePrivileges();
   const auth = useAuth();
@@ -49,6 +51,12 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
       fetchDiscussionGroups(courseId);
     }
   }, []);
+
+  useFormSubmit(createCourseManager, () => {
+    if (hasPrivileges('course-managers.view')) {
+      fetchManagers(courseId);
+    }
+  });
 
   return (
     <div className="course-view-sidebar">

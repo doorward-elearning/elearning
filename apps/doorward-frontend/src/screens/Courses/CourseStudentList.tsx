@@ -13,6 +13,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 
 const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
@@ -20,9 +21,11 @@ const StudentDropdownMenu: React.FunctionComponent<{
 }> = ({ student, onUnEnroll }) => {
   return (
     <Dropdown.Menu>
-      <Dropdown.Item onClick={() => onUnEnroll(student)} icon="delete">
-        {translate.unEnroll()}
-      </Dropdown.Item>
+      <RoleContainer privileges={['course-students.un-enroll']}>
+        <Dropdown.Item onClick={() => onUnEnroll(student)} icon="delete">
+          {translate.unEnroll()}
+        </Dropdown.Item>
+      </RoleContainer>
     </Dropdown.Menu>
   );
 };
@@ -79,7 +82,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
       </WebComponent>
       <WebConfirmModal
         useModal={unEnrollStudentModal}
-        action={() => DoorwardApi.students.unEnrollStudentFromCourse(unEnrollStudent.id, courseId)}
+        action={() => DoorwardApi.students.unEnrollStudentFromCourse(courseId, unEnrollStudent.id)}
         state={unEnrollState}
         showErrorToast
         title={translate.unEnrollStudent()}
