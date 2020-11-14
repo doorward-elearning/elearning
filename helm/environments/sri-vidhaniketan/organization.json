@@ -12,7 +12,7 @@
   "customerType": "college-india",
   "meetingPlatform": "Jitsi",
   "models": {
-    "course": ["course", "courses"],
+    "course": ["program", "programs"],
     "module": ["module", "modules"],
     "meeting": ["meeting", "meetings"],
     "assignment": ["assignment", "assignments"],

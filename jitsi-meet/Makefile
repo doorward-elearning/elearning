@@ -11,8 +11,9 @@ STYLES_MAIN = css/main.scss
 WEBPACK = ./node_modules/.bin/webpack
 WEBPACK_DEV_SERVER = ./node_modules/.bin/webpack-dev-server
 
-DEPLOY_DIR = ../apps/doorward-frontend/src/assets/js/jitsi/
-STYLES_DESTINATION = ../apps/doorward-frontend/src/assets/css/jitsi.css
+DEPLOY_DIR = ../dist/apps/doorward-meet/libs/
+DEPLOY_ENTRYPOINT = ../dist/apps/doorward-meet/
+STYLES_DESTINATION = ../dist/apps/doorward-meet/css/
 
 all: compile deploy clean
 
@@ -23,11 +24,13 @@ clean:
 	rm -fr $(BUILD_DIR)
 
 .NOTPARALLEL:
-deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-lib-jitsi-meet deploy-libflac deploy-css deploy-local
+deploy: deploy-init deploy-appbundle deploy-rnnoise-binary deploy-lib-jitsi-meet deploy-libflac deploy-css deploy-local deploy-html
 
 deploy-init:
 	rm -fr $(DEPLOY_DIR)
 	mkdir -p $(DEPLOY_DIR)
+	mkdir -p $(STYLES_DESTINATION)
+	mkdir -p $(DEPLOY_ENTRYPOINT)
 
 deploy-appbundle:
 	cp \
@@ -77,8 +80,11 @@ deploy-rnnoise-binary:
 
 deploy-css:
 	$(NODE_SASS) $(STYLES_MAIN) $(STYLES_BUNDLE) && \
-	$(CLEANCSS) --skip-rebase $(STYLES_BUNDLE) > $(STYLES_DESTINATION) ; \
+	$(CLEANCSS) --skip-rebase $(STYLES_BUNDLE) > $(STYLES_DESTINATION)/all.css ; \
 	rm $(STYLES_BUNDLE)
+
+deploy-html:
+	cp -r *.js *.html resources/*.txt connection_optimization scripts/include-virtual.js scripts/serve-static.sh favicon.ico fonts images libs static sounds LICENSE lang $(DEPLOY_ENTRYPOINT)
 
 deploy-local:
 	([ ! -x deploy-local.sh ] || ./deploy-local.sh)
