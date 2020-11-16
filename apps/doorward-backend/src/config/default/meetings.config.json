@@ -1,11 +1,10 @@
 {
   "hosts": {
-    "domain": "meet.jit.si"
+    "domain": "alpha.jitsi.net",
+    "muc": "conference.alpha.jitsi.net",
+    "focus": "focus.alpha.jitsi.net"
   },
-  "bosh": "//jitsi-meet.example.com/http-bind",
-  "websocket": "wss://jitsi-meet.example.com/xmpp-websocket",
-  "clientNode": "http://jitsi.org/jitsimeet",
-  "focusUserJid": "focus@auth.jitsi-meet.example.com",
+  "externalConnectUrl": "//alpha.jitsi.net/http-pre-bind",
   "testing": {
     "disableE2EE": false,
     "p2pTestMode": false,
@@ -23,19 +22,9 @@
   "startAudioMuted": 10,
   "startWithAudioMuted": false,
   "startSilent": false,
-  "opusMaxAverageBitrate": 20000,
   "enableOpusRed": false,
   "resolution": 720,
   "maxFullResolutionParticipants": 2,
-  "constraints": {
-    "video": {
-      "height": {
-        "ideal": 720,
-        "max": 720,
-        "min": 140
-      }
-    }
-  },
   "disableSimulcast": false,
   "enableLayerSuspension": false,
   "startVideoMuted": 10,
@@ -64,19 +53,6 @@
     "50": 10,
     "70": 5,
     "90": 2
-  },
-  "videoQuality": {
-    "disabledCodec": "H264",
-    "preferredCodec": "VP8",
-    "maxBitratesVideo": {
-      "low": 200000,
-      "standard": 500000,
-      "high": 1500000
-    },
-    "minHeightForQualityLvl": {
-      "360": "standard",
-      "720": "high"
-    }
   },
   "recordingLimit": {
     "limit": 60,

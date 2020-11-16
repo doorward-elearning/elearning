@@ -8,7 +8,6 @@
     "nx": "nx",
     "start": "yarn env-config && NODE_ENV=production nx serve",
     "start:dev": "yarn env-config && NODE_ENV=development nx serve --ssl true --ssl-cert 'ssl/certificate.crt' --ssl-key 'ssl/certificate.key'",
-    "start-meeting:dev": "cd jitsi-meet && make dev",
     "build": "yarn env-config &&  NODE_ENV=production nx build",
     "organization-config": "node scripts/buildOrganizationConfig.js",
     "openvidu-webcomponent:build": "cd apps/openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').prepareWebcomponent()\" ; yarn build --prod --output-hashing none openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').buildWebcomponent()\"",

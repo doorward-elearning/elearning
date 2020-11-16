@@ -67,22 +67,26 @@ export class MeetingsService {
   }
 
   public async buildJitsiInterfaceConfig(isModerator: boolean, isPublisher: boolean) {
-    const { moderator, publisher } = ORGANIZATION.meetings.interface;
-
-    if (isModerator) {
-      return moderator;
-    } else if (isPublisher) {
-      return publisher;
-    }
-  }
-
-  public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean) {
-    const { base, moderator, publisher } = ORGANIZATION.meetings.config;
+    const { base, moderator, publisher, subscriber } = ORGANIZATION.meetings.interface;
 
     if (isModerator) {
       return merge({}, base, moderator);
     } else if (isPublisher) {
       return merge({}, base, publisher);
+    } else {
+      return merge({}, base, subscriber);
+    }
+  }
+
+  public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean) {
+    const { base, moderator, publisher, subscriber } = ORGANIZATION.meetings.config;
+
+    if (isModerator) {
+      return merge({}, base, moderator);
+    } else if (isPublisher) {
+      return merge({}, base, publisher);
+    } else {
+      return merge({}, base, subscriber);
     }
   }
 

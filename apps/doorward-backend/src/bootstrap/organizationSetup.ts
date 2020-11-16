@@ -75,21 +75,27 @@ const parseMeetingConfig = () => {
   const base = parseConfigFile('meetings.config.json');
   const moderator = parseConfigFile('meetings.config.moderator.json');
   const publisher = parseConfigFile('meetings.config.publisher.json');
+  const subscriber = parseConfigFile("meetings.config.subscriber.json");
 
   return {
     base,
     moderator,
     publisher,
+    subscriber
   };
 };
 
 const parseMeetingInterfaceConfig = () => {
+  const base = parseConfigFile('meetings.interface.json');
   const moderator = parseConfigFile('meetings.interface.moderator.json');
   const publisher = parseConfigFile('meetings.interface.publisher.json');
+  const subscriber = parseConfigFile('meetings.interface.subscriber.json');
 
   return {
+    base,
     moderator,
     publisher,
+    subscriber
   };
 };
 

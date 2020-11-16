@@ -69,10 +69,13 @@ export default class OrganizationEntity {
       base: object;
       moderator: object;
       publisher: object;
+      subscriber: object;
     };
     interface: {
+      base: object,
       moderator: object;
       publisher: object;
+      subscriber: object;
     };
   };
 
