@@ -5,38 +5,12 @@
     "focus": "focus.alpha.jitsi.net"
   },
   "externalConnectUrl": "//alpha.jitsi.net/http-pre-bind",
-  "testing": {
-    "disableE2EE": false,
-    "p2pTestMode": false,
-    "testMode": false,
-    "noAutoPlayVideo": false,
-    "capScreenshareBitrate": 1
-  },
-  "webrtcIceUdpDisable": false,
-  "webrtcIceTcpDisable": false,
-  "disableAudioLevels": false,
-  "audioLevelsInterval": 200,
-  "enableNoAudioDetection": true,
-  "enableNoisyMicDetection": true,
   "startAudioOnly": false,
   "startAudioMuted": 10,
   "startWithAudioMuted": false,
   "startSilent": false,
-  "enableOpusRed": false,
-  "resolution": 720,
-  "maxFullResolutionParticipants": 2,
-  "disableSimulcast": false,
-  "enableLayerSuspension": false,
   "startVideoMuted": 10,
   "startWithVideoMuted": false,
-  "preferH264": true,
-  "disableH264": false,
-  "desktopSharingFrameRate": {
-    "min": 5,
-    "max": 5
-  },
-  "startScreenSharing": false,
-  "fileRecordingsEnabled": true,
   "dropbox": {
     "appKey": "",
     "redirectURI": "https://jitsi-meet.example.com/subfolder/static/oauth.html"
@@ -44,105 +18,27 @@
   "fileRecordingsServiceEnabled": true,
   "fileRecordingsServiceSharingEnabled": true,
   "liveStreamingEnabled": false,
-  "transcribingEnabled": false,
-  "autoCaptionOnRecord": false,
-  "channelLastN": -1,
-  "lastNLimits": {
-    "5": 20,
-    "30": 15,
-    "50": 10,
-    "70": 5,
-    "90": 2
+  "videoQuality": {
+    "maxBitratesVideo": {
+      "low": 20000,
+      "standard": 50000,
+      "high": 100000
+    }
   },
-  "recordingLimit": {
-    "limit": 60,
-    "appName": "Unlimited recordings APP",
-    "appURL": "https://unlimited.recordings.app.com/"
-  },
-  "disableRtx": false,
-  "enableTcc": true,
-  "enableRemb": false,
-  "enableIceRestart": false,
   "minParticipants": 2,
-  "useStunTurn": true,
-  "useTurnUdp": false,
-  "openBridgeChannel": true,
   "requireDisplayName": true,
   "enableWelcomePage": false,
   "enableClosePage": false,
-  "disable1On1Mode": false,
   "defaultLanguage": "en",
-  "enableUserRolesBasedOnToken": false,
-  "enableFeaturesBasedOnToken": true,
-  "lockRoomGuestEnabled": false,
-  "roomPasswordNumberOfDigits": 10,
-  "noticeMessage": "",
-  "enableCalendarIntegration": false,
   "prejoinPageEnabled": false,
-  "enableInsecureRoomNameWarning": false,
-  "enableAutomaticUrlCopy": false,
-  "gatherStats": false,
-  "pcStatsInterval": 10000,
-  "callStatsID": "",
-  "callStatsSecret": "",
-  "enableDisplayNameInStats": false,
-  "enableEmailInStats": false,
-  "disableThirdPartyRequests": false,
-  "p2p": {
-    "enabled": true,
-    "useStunTurn": true,
-    "stunServers": [{ "urls": "stun:meet-jit-si-turnrelay.jitsi.net:443" }],
-    "iceTransportPolicy": "all",
-    "preferH264": true,
-    "preferredCodec": "H264",
-    "disableH264": false,
-    "disabledCodec": "",
-    "backToP2PDelay": 5
-  },
-  "analytics": {
-    "googleAnalyticsTrackingId": "your-tracking-id-UA-123456-1",
-    "matomoEndpoint": "https://your-matomo-endpoint/",
-    "matomoSiteID": "42",
-    "amplitudeAPPKey": "<APP_KEY>",
-    "rtcstatsEnabled": true,
-    "rtcstatsPolIInterval": 1000,
-    "scriptURLs": ["libs/analytics-ga.min.js", "https://example.com/my-custom-analytics.js"]
-  },
-  "deploymentInfo": {
-    "shard": "shard1",
-    "region": "europe",
-    "userRegion": "asia"
-  },
-  "disableRecordAudioNotification": false,
-  "chromeExtensionBanner": {
-    "url": "https://chrome.google.com/webstore/detail/jitsi-meetings/kglhbbefdnlheedjiejgomgmfplipfeb",
-    "chromeExtensionsInfo": [
-      {
-        "id": "kglhbbefdnlheedjiejgomgmfplipfeb",
-        "path": "jitsi-logo-48x48.png"
-      }
-    ]
-  },
-  "localRecording": {
-    "enabled": true,
-    "format": "flac"
-  },
-  "e2eping": {
-    "pingInterval": 10000,
-    "analyticsInterval": 60000
-  },
-  "disableDeepLinking": false,
   "disableLocalVideoFlip": false,
   "disableInviteFunctions": true,
   "doNotStoreRoom": true,
-  "deploymentUrls": {
-    "userDocumentationURL": "https://docs.example.com/video-meetings.html",
-    "downloadAppsUrl": "https://docs.example.com/our-apps.html"
-  },
   "remoteVideoMenu": {
     "disableKick": true
   },
   "disableRemoteMute": true,
   "brandingDataUrl": "https://doorward.local:7000/api/v1/jitsi/branding",
-  "brandingRoomAlias": null
+  "brandingRoomAlias": "Something",
+  "callDisplayName": "Basil's Meeting"
 }
