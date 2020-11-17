@@ -9,6 +9,8 @@
     "start": "yarn env-config && NODE_ENV=production nx serve",
     "start:dev": "yarn env-config && NODE_ENV=development nx serve --ssl true --ssl-cert 'ssl/certificate.crt' --ssl-key 'ssl/certificate.key'",
     "build": "yarn env-config &&  NODE_ENV=production nx build",
+    "start:meeting:dev": "cd apps/jitsi-meet && make dev",
+    "virtualcam": "./scripts/virtual-cam.sh",
     "organization-config": "node scripts/buildOrganizationConfig.js",
     "openvidu-webcomponent:build": "cd apps/openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').prepareWebcomponent()\" ; yarn build --prod --output-hashing none openvidu-frontend ; node -e \"require('./openvidu-webcomponent-build.js').buildWebcomponent()\"",
     "db:vidu:seed": "cd apps/openvidu-backend && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../node_modules/typeorm-seeding/dist/cli.js seed",

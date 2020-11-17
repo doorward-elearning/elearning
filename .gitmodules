@@ -1,0 +1,3 @@
+[submodule "apps/jitsi-meet"]
+	path = apps/jitsi-meet
+	url = https://github.com/gitaumoses4/jitsi-meet
