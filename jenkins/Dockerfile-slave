@@ -29,6 +29,10 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
 #Install Yarn
 RUN npm install -g yarn
 
+#Install newman for regression
+RUN npm install -g newman
+RUN npm install -g newman-reporter-htmlextra
+
 # Install Jenkins Job Builder plugin
 RUN pip install --user jenkins-job-builder
 

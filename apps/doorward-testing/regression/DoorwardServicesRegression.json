@@ -1,0 +1,1933 @@
+{
+	"info": {
+		"_postman_id": "afb92198-51d1-422d-b02d-68273b456dea",
+		"name": "DoorwardServicesRegressionSuite",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "01-Aut_Register_WithAdminUsername_AndPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c06d30fe-a7c0-4094-bd0a-272c59769c44",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response Expected 201 for first time user registration with Admin creds\",function(){pm.response.to.have.status(201);});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/register",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02-Aut_ReRegister_WithAdminUsername_AndPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e2f4be99-6e8e-4206-b01a-3bff617abfff",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response expected 422 for re-registered user with admin creds\",function(){pm.response.to.have.status(422);});\r",
+									"pm.test(\"Verify Error Description as 'username already exists'\",function () {\r",
+									"    pm.expect(jsonData.errors.username.toString()).to.eql(\"A user with this username already exists.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/register",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03-Aut_Register_WithTestUsername_AndPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45349ff5-c0cb-4508-a202-dd5a21e52e9b",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response Expected 201 for first time user registration with Test user creds\",function(){pm.response.to.have.status(201);});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/register",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04-Aut_ReRegister_WithTestUsername_AndPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "152db681-2429-436f-a924-10fa7b5952f0",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response expected 422 for re-registered user with test user creds\",function(){pm.response.to.have.status(422);});\r",
+									"pm.test(\"Verify Error Description as 'username already exists'\",function () {\r",
+									"    pm.expect(jsonData.errors.username.toString()).to.eql(\"A user with this username already exists.\");\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/register",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05-Aut_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6cfb5b50-23e1-4edf-84da-42c30c5fb49d",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06-Aut_Get_Currentuser_withAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a454e8d-5544-427a-872e-babe2c29ef86",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var email=jsonData.user.email.toString();\r",
+									"var uname=jsonData.user.username.toString();\r",
+									"\r",
+									"pm.test(\"Verify admin username : \"+uname,function () {\r",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));\r",
+									"});\r",
+									"pm.test(\"Verify admin email : \"+email,function () {\r",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07-Aut_LoginDoorward_WithTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7492bec2-d9de-445a-8293-616047784600",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"",
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"",
+									"pm.test(\"Verify test username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));",
+									"});",
+									"pm.test(\"Verify test email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08-Aut_Get_Currentuser_withTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "56938668-05a8-4ed0-8906-3c94ded0cc9e",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var uname=jsonData.user.username.toString();\r",
+									"var email=jsonData.user.email.toString();\r",
+									"\r",
+									"pm.test(\"Verify test username : \"+uname,function () {\r",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));\r",
+									"});\r",
+									"pm.test(\"Verify test email : \"+email,function () {\r",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "01-Usr_Update_Doorward_TestuserAccountDetails",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bebe575b-6d80-4275-bb76-fd40b7b53c81",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var uname=jsonData.user.username.toString();\r",
+									"var email=jsonData.user.email.toString();\r",
+									"\r",
+									"pm.test(\"Verify admin username : \"+uname,function () {\r",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));\r",
+									"});\r",
+									"pm.test(\"Verify admin email : \"+email,function () {\r",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/users/profile/account",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02-Usr_Update_Doorward_TestUserAccountPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "edfbdd12-33d6-4f68-81df-fedd592f909c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"{{testpassword}}\",\n    \"newPassword\": \"{{newtestpassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/users/profile/password",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03-Usr_Forgot_Doorward_UserPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "599d8108-590b-4bb7-8b05-ea1f10821400",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,202]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/users/profile/forgotPassword",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04-Usr_Reset_Doorward_UserPassword",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e0903dd-78a4-416f-b7bc-128bbfdf091d",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"resetToken\": \"WXpaPLKY8uF8JFexL9bxhuQOheOsmdToGuVq8XXoiHO86LGWqI\",\n    \"password\": \"{{resetpassword}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/profile/resetPassword",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								"profile",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Course",
+			"item": [
+				{
+					"name": "01-Course_LoginDoorward_WithTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7ff13cff-568d-4f01-8a82-2e1e52a73303",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify test username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));",
+									"});",
+									"pm.test(\"Verify test email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "02-Course_CreateCourse_FirstTime_WithTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05179614-284a-4902-a08a-2ed0e4b8eaa7",
+								"exec": [
+									"pm.test(\"Verify repsonse is 403\",function(){pm.response.to.have.status(403);});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response expected 403 since test user require elevated access\",function(){pm.response.to.have.status(403);});\r",
+									"pm.test(\"Verify Error Description as 'You do not have sufficient privileges'\",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"You do not have sufficient privileges to perform this action.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{coursetitle}}{{randomNumber}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{coursetitle}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "03-Course_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "9382fdfa-e921-4ca4-b093-d1548a1fe4e5",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "04-Course_CreateCourse_FirstTime_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "afea8432-95d6-4735-ad15-a13ddd6ac205",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var courseId=jsonData.course.id.toString();\r",
+									"var title=jsonData.course.title.toString();\r",
+									"var modTitle=jsonData.course.modules[0].title.toString();\r",
+									"pm.test(\"CourseId & Title  : [\"+courseId +\"] [\"+title+\"]\",function () {\r",
+									"    \r",
+									"});\r",
+									"pm.environment.set(\"createdCourseID\",courseId);\r",
+									"pm.environment.set(\"createdCourseTitle\",title);\r",
+									"pm.environment.set(\"createdModuleTitle\", modTitle);\r",
+									"pm.globals.unset(\"variable_key\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{coursetitle}}{{randomNumber}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{moduletitleCC}}{{randomNumber}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "05-Course_CreateCourse_withSame_Title",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d96e8df5-de93-40c3-b1cd-43a847976cf4",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Response expected 422 for create course with same title twice\",function(){pm.response.to.have.status(422);});\r",
+									"pm.test(\"Verify Error Description as 'title already exists'\",function () {\r",
+									"    pm.expect(jsonData.errors.title.toString()).to.eql(\"A program with this title already exists.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{createdCourseTitle}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{createdModuleTitle}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "06-Course_Get_AllCourses_FromDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "288fd018-83b5-410b-b599-4f90f2141945",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var courses = jsonData.courses.length;\r",
+									"\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Total number of courses found : \"+courses,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < courses; i++) {\r",
+									" var courseId=jsonData.courses[i].id;\r",
+									" var courseTitle=jsonData.courses[i].title\r",
+									" myList.push(courseTitle);\r",
+									" pm.test(\"Course ID & Course Title  : [ \"+courseId+\" ] [ \"+courseTitle+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var courseTitle=pm.environment.get(\"createdCourseTitle\");\r",
+									"var courseId=pm.environment.get(\"createdCourseID\");\r",
+									"if(myList.includes( courseTitle)) \r",
+									"{\r",
+									" pm.test(\"Created course title [ \"+courseTitle+\" | \"+courseId+ \" ] found(Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created course title [ \"+courseTitle+ \" | \"+courseId+ \" ] not found(Unexpected Behavior/ Created course should be found) \",function () {\r",
+									"        pm.expect(courseTitle).to.eql(\"Not Found\");\r",
+									" });\r",
+									" \r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "07-Course_UpdateCourse_ByCourseId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "da9cfb53-9ff8-4e28-a161-5c5ebd2d1c76",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "00cb9091-7a28-4167-9a1e-cce65c0378e7",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\": \"{{updatecoursetitle}}{{randomNumber}}\"\r\n}"
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "08-Course_GetCourse_ByCourseId",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "906d3930-104d-4d17-a2ae-11eddfba45bc",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Verify Course ID from response \",function () {\r",
+									"    pm.expect(jsonData.course.id.toString()).to.eql(pm.environment.get(\"createdCourseID\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9a159c13-9121-45fd-9ff1-689a11c99179",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "09-Course_AddModule_toCourse_ByCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e1cb1ab-de0e-467f-a0c1-0fa9018f4b73",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"setTimeout(function(){}, [200]);\r",
+									"var jsonData = pm.response.json();\r",
+									"if(jsonData.statusCode.toString().localeCompare(\"201\") ==0){\r",
+									"\r",
+									"var modulename=jsonData.module.title.toString();\r",
+									"var moduleId= jsonData.module.id.toString();\r",
+									"pm.test(\"Verify Module name created [ \"+modulename+\" ]\",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"Module has been added to the program\");\r",
+									"});\r",
+									"pm.environment.set(\"createdModuleID\",moduleId);\r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{moduletitleMC}}{{randomNumber}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}/modules",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}",
+								"modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "10-Course_GetModules_InCourse_ByCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "b2203573-56a5-4849-9df7-1b389c2cf18f",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var modules = jsonData.modules.length;\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Total number of modules found : \"+modules,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < modules; i++) {\r",
+									" var moduleId=jsonData.modules[i].id;\r",
+									" myList.push(moduleId);\r",
+									"}\r",
+									"var myModuleID=pm.environment.get(\"createdModuleID\").toString();\r",
+									"var myCourseID=pm.environment.get(\"createdCourseID\").toString();\r",
+									"var myCourseName=pm.environment.get(\"createdCourseTitle\").toString();\r",
+									"\r",
+									"if(myList.includes(myModuleID)) \r",
+									"{\r",
+									" pm.test(\"Created module id [ \"+myModuleID+\" ] found in course Name / ID  [ \"+myCourseName+\" | \"+myCourseID+ \" ] \",function () {});\r",
+									"}\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}/modules",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}",
+								"modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "11-Course_GetModule_InCourse_ByModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "752fe852-bab7-4f77-b269-87980e912722",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var modID=jsonData.module.id.toString();\r",
+									"pm.test(\"Verify module id from response is \"+modID,function () {\r",
+									"    \r",
+									"    pm.expect(modID).to.eql(pm.environment.get(\"createdModuleID\").toString());\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "12-Course_UpdateModule_ByModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "00b324d9-7770-496c-8ac5-44f162b31d68",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9bee8e5c-19d5-41c1-9d35-f190e1863b44",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{updatedmoduletitle}}{{randomNumber}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdModuleID}}/modules",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdModuleID}}",
+								"modules"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "13-Course_CreatePageItem_ByModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e2bdd214-328a-47ea-b083-e7f6310f4423",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var pageItemId=jsonData.item.id.toString();\r",
+									"pm.test(\"Verify success message 'Page has been added to module' from response , page ID : \"+pageItemId,function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"Page has been added to module\");\r",
+									"});\r",
+									"pm.environment.set(\"createdPageItemID\",pageItemId);\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{pagetitle}}\",\n    \"page\": \"{{pagecontent}}\",\n    \"type\": \"{{pagetype}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}/items",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "14-Course_GetPageItem_InCourse_MyModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ec6159b-a6bc-4920-a90e-696b72fa2762",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var pageType=jsonData.items[0].type.toString();\r",
+									"var pageItemID=jsonData.items[0].id.toString();\r",
+									"pm.test(\"Verify page type & page ID [ \"+pageType+\" | \"+pageItemID+\" ]\",function () {\r",
+									"    pm.expect(pageItemID).to.eql(pm.environment.get(\"createdPageItemID\"));\r",
+									"     pm.expect(pageType).to.eql(pm.iterationData.get(\"pagetype\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}/modules/items?type=Page",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}",
+								"modules",
+								"items"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "Page"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "15-Course_CreateAssignment_ByModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ca0958f4-2e4d-41da-8e43-e89b6b52b07a",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var assignmentID=jsonData.item.id.toString();\r",
+									"pm.test(\"Verify assignment added to module , assignment Id : [ \"+assignmentID+\" ]\",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"Assignment has been added to module\");\r",
+									"    pm.environment.set(\"CreatedAssignmentID\",assignmentID);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{assignmenttitle}}{{randomNumber}}\",\n    \"assignment\": \"{{assignmentcontent}}{{randomNumber}}\",\n    \"type\": \"Assignment\",\n    \"options\": {\n        \"points\": 1,\n        \"dueDate\": \"2020-06-13T06:32:30.995Z\",\n        \"availability\": {\n            \"to\": null,\n            \"from\": \"2020-06-13T06:32:30.995Z\"\n        },\n        \"submissionType\": [\n            \"Text Entry\"\n        ],\n        \"submissionMedia\": \"Offline\"\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}/items",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "16-Course_CreateQuiz_ByModuleID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7e8013d5-c277-4fc2-ae12-802cf7a0cffd",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{quiztitle}}{{randomNumber}}\",\n    \"assignment\": \"This is the assignment content\",\n    \"type\": \"Quiz\",\n    \"instructions\": \"{{quizinstructions}}{{randomNumber}}\",\n    \"options\": {\n        \"dueDate\": \"2020-08-18T22:30:00.000Z\",\n        \"attempts\": {\n            \"max\": null,\n            \"multiple\": false,\n            \"keepScore\": \"Highest\"\n        },\n        \"questions\": {\n            \"oneAtATime\": true,\n            \"lockAfterAnswering\": false\n        },\n        \"responses\": {\n            \"show\": false,\n            \"frequency\": {\n                \"range\": {\n                    \"to\": null,\n                    \"from\": null,\n                    \"allow\": false\n                },\n                \"onlyOnce\": false\n            }\n        },\n        \"timeLimit\": {\n            \"allow\": false,\n            \"minutes\": null\n        },\n        \"availability\": {\n            \"to\": \"2020-08-21T04:30:00.000Z\",\n            \"from\": \"2020-08-18T10:30:00.546Z\"\n        },\n        \"restrictions\": {\n            \"accessCode\": {\n                \"code\": null,\n                \"require\": false\n            }\n        },\n        \"shuffleAnswers\": false\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}/items",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}",
+								"items"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "17-Course_SubmitAssignment_ByAssignmentID_UsingAdminPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5cefe2c6-daab-4f4a-b4fd-321d159fb6a5",
+								"exec": [
+									"pm.test(\"Response 403 expected since submit assigment action cannot be performed by administrator\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([403]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"submissionType\": \"{{assignmentsubmissiontype}}\",\n    \"submission\": \"{{assignmentsubmission}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/assignments/{{CreatedAssignmentID}}/submit",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"assignments",
+								"{{CreatedAssignmentID}}",
+								"submit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "18-Course_LoginDoorward_With_StudentCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "85a2567b-86d9-4cb7-94a3-0ea004196c3a",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify test username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));",
+									"});",
+									"pm.test(\"Verify test email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "19-Course_SubmitAssignment_ByAssignmentID_UsingStudentPrivileges Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "78bf0546-25e3-4dc1-8ab4-f94c615ff512",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"submissionType\": \"{{assignmentsubmissiontype}}\",\n    \"submission\": \"{{assignmentsubmission}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/assignments/{{CreatedAssignmentID}}/submit",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"assignments",
+								"{{CreatedAssignmentID}}",
+								"submit"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "20-Course_DeleteModule_ByModuleId_UsingStudentPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3c9e0c54-cd26-4f7a-9d96-271666a00119",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([403]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Verify message 'You do not have sufficient privileges to perform this action.' \",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"You do not have sufficient privileges to perform this action.\");\r",
+									"   });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Module\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "21-Course_DeleteCourse_ByCourseId_UsingStudentPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4ff0f506-45b7-4f3f-904e-ff380567e41b",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([403]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Verify message 'You do not have sufficient privileges to perform this action.'\",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"You do not have sufficient privileges to perform this action.\");\r",
+									"   });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "83dbdf68-0e4d-40ad-95ce-1b219b626a1b",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{createdCourseTitle}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "22-Course_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "90cd3eee-73a6-42e7-9a7d-0e693be37105",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "23-Course_DeleteModule_ByModuleId_UsingAdminPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1bfee983-1af4-4dc9-8eea-d6126d7af0a8",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"New Module\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "24-Course_GetModule_InCourse_AfterDeleting_ByModuleID_UsingAdminPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf2ae69b-02fa-4b65-96ab-505bbfed7940",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Response expected 400 since module deleted already\",function(){pm.response.to.have.status(400);});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/modules/{{createdModuleID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"modules",
+								"{{createdModuleID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "25-Course_DeleteCourse_ByCourseId_UsingAdminPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "bf45a5bb-633a-4625-bcbc-7a9e3bcc5e65",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "520b3344-65dc-42ba-930a-b1e3d4d84408",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{createdCourseTitle}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "26-Course_GetCourse_ByCourseId_AfterDelete_UsingAdminPrivileges",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "57341f99-cac4-433f-a0f1-bcb39c6f6899",
+								"exec": [
+									"pm.test(\"Response expected 404\",function(){pm.response.to.have.status(404);});\r",
+									"\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Verify Error Description as 'Resource not found.'\",function () {\r",
+									"    pm.expect(jsonData.message.toString()).to.eql(\"Resource not found.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "af63c8fb-f070-490b-ad24-f3ff4dd64c25",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/courses/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwtToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "c4553507-5308-4328-9c84-6dfafced9295",
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"urlQAT\",\"https://thala.develop.doorward.org/api/v1\");",
+					"pm.environment.set('randomNumber', _.random(10, 99));",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "0a9e82a2-738c-401c-9db9-9d2de7d02779",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

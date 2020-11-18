@@ -41,6 +41,25 @@ pipeline {
           }
         }
     }
+    stage('Regression Test Suite Run') {
+        steps {
+          sh 'sleep 300'
+          dir('apps/doorward-testing/regression'){
+            sh 'newman run DoorwardServicesRegression.json -d TestData.csv --disable-unicode --no-color'
+          }
+          dir('apps/doorward-testing/regression/newman'){
+            sh 'rm ./*.html'
+            publishHTML (target: [
+              allowMissing: false,
+              alwaysLinkToLastBuild: false,
+              keepAll: true,
+              reportDir: 'coverage',
+              reportFiles: '*.html',
+              reportName: "RCov Report"
+              ])
+          }
+        }
+    }
   }
   post {
        success {
