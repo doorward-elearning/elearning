@@ -45,7 +45,7 @@ pipeline {
         steps {
           sh 'sleep 300'
           dir('apps/doorward-testing/regression'){
-            sh 'newman run DoorwardServicesRegression.json -d TestData.csv --disable-unicode --no-color'
+            sh 'newman run DoorwardServicesRegression.json -d TestData.csv --disable-unicode'
           }
           dir('apps/doorward-testing/regression/newman'){
             sh 'rm ./*.html'
