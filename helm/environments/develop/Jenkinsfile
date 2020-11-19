@@ -47,15 +47,15 @@ pipeline {
           dir('apps/doorward-testing/regression'){
             sh 'newman run DoorwardServicesRegression.json -d TestData.csv --disable-unicode'
           }
-          dir('apps/doorward-testing/regression/newman'){
+          dir('apps/doorward-testing/regression'){
             sh 'rm ./*.html'
             publishHTML (target: [
               allowMissing: false,
               alwaysLinkToLastBuild: false,
               keepAll: true,
-              reportDir: 'coverage',
-              reportFiles: '*.html',
-              reportName: "RCov Report"
+              reportDir: 'newman',
+              reportFiles: '**/*.html',
+              reportName: "Regression Report"
               ])
           }
         }
