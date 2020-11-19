@@ -1,2 +1,17 @@
 {
+  "TOOLBAR_BUTTONS": [
+    "closedcaptions",
+    "fullscreen",
+    "hangup",
+    "profile",
+    "chat",
+    "etherpad",
+    "raisehand",
+    "filmstrip",
+    "stats",
+    "shortcuts",
+    "tileview",
+    "videobackgroundblur",
+    "download"
+  ]
 }

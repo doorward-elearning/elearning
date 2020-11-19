@@ -9,6 +9,7 @@ import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities } from '@doorward/common/dtos/response/base.response';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 
 @EntityRepository(CourseEntity)
 export default class CoursesRepository extends OrganizationBasedRepository<CourseEntity> {
@@ -28,14 +29,13 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
     const queryBuilder = await this.createQueryBuilder('course')
       .where('course."createdBy" = :teacherId', { teacherId })
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
-    // if (includeManaged) {
-    //   const managedCourses = await this.getCoursesManagedByTeacher(
-    //     teacherId,
-    //     courses.map((course) => course.id),
-    //   );
-    //
-    //   courses.push(...managedCourses);
-    // }
+    if (includeManaged) {
+      const managedCourses = (await this.getCoursesManagedByTeacher(teacherId)).map((course) => course.id);
+
+      if (managedCourses.length) {
+        queryBuilder.orWhere('course.id IN (:...managedCourses)', { managedCourses });
+      }
+    }
 
     const { entities, pagination } = await this.paginate(queryBuilder, page);
 

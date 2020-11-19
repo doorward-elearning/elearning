@@ -1,16 +1,10 @@
 {
-  "hosts": {
-    "domain": "alpha.jitsi.net",
-    "muc": "conference.alpha.jitsi.net",
-    "focus": "focus.alpha.jitsi.net"
-  },
-  "externalConnectUrl": "//alpha.jitsi.net/http-pre-bind",
   "startAudioOnly": false,
   "startAudioMuted": 10,
-  "startWithAudioMuted": false,
   "startSilent": false,
   "startVideoMuted": 10,
-  "startWithVideoMuted": false,
+  "startWithAudioMuted": true,
+  "startWithVideoMuted": true,
   "dropbox": {
     "appKey": "",
     "redirectURI": "https://jitsi-meet.example.com/subfolder/static/oauth.html"
@@ -25,7 +19,7 @@
       "high": 100000
     }
   },
-  "minParticipants": 2,
+  "minParticipants": 1,
   "requireDisplayName": true,
   "enableWelcomePage": false,
   "enableClosePage": false,
@@ -35,10 +29,9 @@
   "disableInviteFunctions": true,
   "doNotStoreRoom": true,
   "remoteVideoMenu": {
-    "disableKick": true
+    "disableKick": true,
+    "grantModerator": false
   },
   "disableRemoteMute": true,
-  "brandingDataUrl": "https://doorward.local:7000/api/v1/jitsi/branding",
-  "brandingRoomAlias": "Something",
-  "callDisplayName": "Basil's Meeting"
+  "feedbackPercentage": 0
 }

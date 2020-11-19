@@ -19,6 +19,12 @@ samvadam_domain: samvadam.develop.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.develop.doorward.org
 
+# Public Domain of meet ui
+meet_domain: meet.develop.doorward.org
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
 # Public Domain for openvidu API.
 openviduapi_url: https://vidu.develop.doorward.tech/api/
 
@@ -64,6 +70,10 @@ image:
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu
     version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: core.harbor.doorward.tech/doorward/meet
+    version: 1.2.0
     pullPolicy: Always
 
 

@@ -1,26 +1,2 @@
 {
-  "TOOLBAR_BUTTONS": [
-    "closedcaptions",
-    "embedmeeting",
-    "fullscreen",
-    "fodeviceselection",
-    "hangup",
-    "profile",
-    "chat",
-    "etherpad",
-    "sharedvideo",
-    "settings",
-    "raisehand",
-    "videoquality",
-    "filmstrip",
-    "invite",
-    "feedback",
-    "stats",
-    "shortcuts",
-    "tileview",
-    "videobackgroundblur",
-    "download",
-    "help",
-    "security"
-  ]
 }

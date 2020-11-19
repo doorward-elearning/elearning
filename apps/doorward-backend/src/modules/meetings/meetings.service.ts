@@ -10,7 +10,9 @@ import { MeetingResponse } from '@doorward/common/dtos/response/meetings.respons
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
 import Tools from '@doorward/common/utils/Tools';
 import translate from '@doorward/common/lang/translate';
+import { Request } from 'express';
 import { merge } from 'lodash';
+import { JitsiService } from '../jitsi/jitsi.service';
 
 @Injectable()
 export class MeetingsService {
@@ -19,9 +21,10 @@ export class MeetingsService {
   /**
    *
    * @param meetingId
+   * @param request
    * @param currentUser
    */
-  public async joinMeeting(meetingId: string, currentUser?: UserEntity): Promise<MeetingResponse> {
+  public async joinMeeting(meetingId: string, request: Request, currentUser?: UserEntity): Promise<MeetingResponse> {
     const meeting = await this.meetingsRepository.findOne(meetingId, { relations: ['meetingRoom'] });
 
     const meetingRoom = meeting.meetingRoom;
@@ -31,7 +34,7 @@ export class MeetingsService {
         throw new UnauthorizedException(translate.youAreNotAllowedToJoinMeeting());
       }
 
-      return this.joinJitsiMeeting(meeting, currentUser);
+      return this.joinJitsiMeeting(meeting, request, currentUser);
     } else {
       throw new BadRequestException(translate.meetingDoesNotHaveARoom());
     }
@@ -39,10 +42,6 @@ export class MeetingsService {
 
   public async endMeeting(meetingId: string, currentUser: UserEntity) {
     const meeting = await this.meetingsRepository.findOne(meetingId);
-
-    if (!(await currentUser.hasPrivileges('meetings.moderate'))) {
-      throw new UnauthorizedException(translate.youAreNotAllowedToEndMeeting());
-    }
 
     await this.meetingsRepository.update(meeting.id, {
       status: MeetingStatus.ENDED,
@@ -52,17 +51,24 @@ export class MeetingsService {
   /**
    *
    * @param meeting
+   * @param request
    * @param user
    */
-  public async joinJitsiMeeting(meeting: MeetingEntity, user?: UserEntity) {
+  public async joinJitsiMeeting(meeting: MeetingEntity, request: Request, user?: UserEntity) {
     const isModerator = await user.hasPrivileges('meetings.moderate');
     const isPublisher = await user.hasPrivileges('meetings.publish');
+
+    let config = await this.buildJitsiConfig(isModerator, isPublisher);
+
+    const interfaceConfig = await this.buildJitsiInterfaceConfig(isModerator, isPublisher);
+
+    config = await this.overrideJitsiConfig(config, meeting, request);
 
     return {
       user,
       meeting,
-      config: await this.buildJitsiConfig(isModerator, isPublisher),
-      interfaceConfig: await this.buildJitsiInterfaceConfig(isModerator, isPublisher),
+      config,
+      interfaceConfig,
     };
   }
 
@@ -70,11 +76,11 @@ export class MeetingsService {
     const { base, moderator, publisher, subscriber } = ORGANIZATION.meetings.interface;
 
     if (isModerator) {
-      return merge({}, base, moderator);
+      return { ...base, ...moderator };
     } else if (isPublisher) {
-      return merge({}, base, publisher);
+      return { ...base, ...publisher };
     } else {
-      return merge({}, base, subscriber);
+      return { ...base, ...subscriber };
     }
   }
 
@@ -88,6 +94,23 @@ export class MeetingsService {
     } else {
       return merge({}, base, subscriber);
     }
+  }
+
+  private async overrideJitsiConfig(currentConfig: object, meeting: MeetingEntity, request: Request) {
+    const host = process.env.JITSI_HOST;
+    const hostUrl = request.protocol + '://' + request.get('host');
+    const config = {
+      hosts: {
+        domain: host,
+        muc: `conference.${host}`,
+      },
+      bosh: `//${host}/http-bind`,
+      brandingDataUrl: Tools.joinURL(hostUrl, process.env.API_PREFIX, JitsiService.BRANDING_URL),
+      brandingRoomAlias: '',
+      callDisplayName: meeting.meetingRoom.title,
+    };
+
+    return merge({}, config, currentConfig);
   }
 
   /**

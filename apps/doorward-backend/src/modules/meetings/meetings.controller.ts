@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
 import Public from '@doorward/backend/decorators/public.decorator';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { MeetingsService } from './meetings.service';
@@ -36,9 +36,10 @@ export class MeetingsController {
   @TransformerGroups('fullUserProfile')
   async joinMeeting(
     @Param('meetingId') meetingId: string,
-    @CurrentUser() currentUser: UserEntity
+    @CurrentUser() currentUser: UserEntity,
+    @Req() request
   ): Promise<MeetingResponse> {
-    return await this.meetingsService.joinMeeting(meetingId, currentUser);
+    return await this.meetingsService.joinMeeting(meetingId, request, currentUser);
   }
 
   @Delete(':meetingId')

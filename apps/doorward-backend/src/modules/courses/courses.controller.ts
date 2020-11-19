@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
 import { CoursesService } from './courses.service';
 import { ModulesService } from './modules/modules.service';
@@ -195,9 +195,10 @@ export class CoursesController {
   })
   async launchClassroom(
     @Param('courseId') courseId: string,
-    @CurrentUser() user: UserEntity
+    @CurrentUser() user: UserEntity,
+    @Req() request,
   ): Promise<MeetingResponse> {
-    const meeting = await this.coursesService.launchClassroom(courseId, user);
+    const meeting = await this.coursesService.launchClassroom(courseId, request, user);
 
     return { ...meeting };
   }

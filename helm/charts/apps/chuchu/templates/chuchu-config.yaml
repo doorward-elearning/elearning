@@ -4,6 +4,8 @@ data:
   DOORWARD_WEBSITE_LINK: https://{{ .Values.app_domain }}
   OPENVIDU_API_PORT: "{{ .Values.openviduapi_port }}"
   OPENVIDU_API_URL: {{ .Values.openviduapi_url }}
+  JITSI_MEET_DOMAIN:  {{ .Values.meet_domain }}
+  JITSI_HOST: {{ .Values.meet_host }}
 kind: ConfigMap
 metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"

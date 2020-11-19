@@ -1,33 +1,33 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "chuchu.fullname" . }}
+  name: {{ include "meet.fullname" . }}
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
-    {{- include "chuchu.labels" . | nindent 4 }}
+    {{- include "meet.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      {{- include "chuchu.selectorLabels" . | nindent 6 }}
+      {{- include "meet.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       labels:
-        {{- include "chuchu.selectorLabels" . | nindent 8 }}
+        {{- include "meet.selectorLabels" . | nindent 8 }}
     spec:
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
     {{- end }}
-      serviceAccountName: {{ include "chuchu.serviceAccountName" . }}
+      serviceAccountName: {{ include "meet.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.chuchu.repository }}:{{ .Values.image.chuchu.version }}"
-          imagePullPolicy: {{ .Values.image.chuchu.pullPolicy }}
+          image: "{{ .Values.image.meet.repository }}:{{ .Values.image.meet.version }}"
+          imagePullPolicy: {{ .Values.image.meet.pullPolicy }}
           ports:
             - name: http
               containerPort: {{ .Values.service.targetport }}
@@ -46,32 +46,6 @@ spec:
             timeoutSeconds: 2
             tcpSocket:
               port: {{ .Values.service.targetport }}
-          env:
-            - name: OPENVIDU_API_PORT
-              valueFrom:
-                configMapKeyRef:
-                  key: OPENVIDU_API_PORT
-                  name: {{ .Values.customer -}}-config
-            - name: OPENVIDU_API_URL
-              valueFrom:
-                configMapKeyRef:
-                  key: OPENVIDU_API_URL
-                  name: {{ .Values.customer -}}-config
-            - name: REACT_APP_BASE_URL
-              valueFrom:
-                configMapKeyRef:
-                  key: REACT_APP_BASE_URL
-                  name: {{ .Values.customer -}}-config
-            - name: REACT_APP_OPENVIDU_URL
-              valueFrom:
-                configMapKeyRef:
-                  key: REACT_APP_OPENVIDU_URL
-                  name: {{ .Values.customer -}}-config
-            - name: JITSI_MEET_DOMAIN
-              valueFrom:
-                configMapKeyRef:
-                  key: JITSI_MEET_DOMAIN
-                  name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

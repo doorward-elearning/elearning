@@ -12,6 +12,7 @@ import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import translate from '@doorward/common/lang/translate';
+import { Request } from 'express';
 
 @Injectable()
 export class CoursesService {
@@ -99,7 +100,7 @@ export class CoursesService {
     await this.coursesRepository.softDelete(id);
   }
 
-  async launchClassroom(id: string, user: UserEntity) {
+  async launchClassroom(id: string, request: Request, user: UserEntity) {
     const course = await this.coursesRepository.findOne(id);
     let meeting;
     let meetingRoom = await this.coursesRepository.getMeetingRoomForCourse(id);
@@ -115,6 +116,6 @@ export class CoursesService {
       meeting = await this.meetingsService.createMeeting(meetingRoom.id, MeetingStatus.STARTED);
     }
 
-    return this.meetingsService.joinMeeting(meeting.id, user);
+    return this.meetingsService.joinMeeting(meeting.id, request, user);
   }
 }

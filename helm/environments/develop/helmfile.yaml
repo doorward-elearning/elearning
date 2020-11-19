@@ -55,14 +55,11 @@ releases:
     values:
       - config.yaml
 
-  - name: develop-vidu
+  - name: develop-meet
     namespace: develop-doorward
     labels:
-      stage: 2
-      name: vidu
-    chart: ../../charts/apps/vidu
-    needs:
-      - develop-doorward/develop-config
-      - develop-doorward/develop-thaladb
+      stage: 4
+      name: meet
+    chart: ../../charts/apps/meet
     values:
       - config.yaml

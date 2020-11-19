@@ -4,6 +4,7 @@ import { JitsiService } from './jitsi.service';
 
 @Module({
   controllers: [JitsiController],
-  providers: [JitsiService]
+  providers: [JitsiService],
+  exports: [JitsiService]
 })
 export class JitsiModule {}

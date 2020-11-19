@@ -58,14 +58,13 @@ build-thala:
 	@ ${INFO} "Pushing [thala] image to Harbor"
 	@ docker push core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 
-meeting:
-	@ ${INFO} "Building the meeting docker image"
+build-meet:
+	@ ${INFO} "Building [meet] image."
 	@ docker image inspect doorward:${APP_VERSION} >/dev/null 2>&1 && echo "Image already exists" || docker build -t doorward:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
-	@ docker build -f docker/production/doorward-meeting/Dockerfile -t meeting:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
-	@ ${INFO} "Tagging meeting image"
-	@ docker tag meeting:${APP_VERSION} core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
-	@ ${INFO} "Pushing images to Harbor"
-	@ docker push core.harbor.doorward.tech/doorward/meeting:${APP_VERSION}
+	@ docker build -f docker/production/doorward-meet/Dockerfile -t core.harbor.doorward.tech/doorward/meet:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	@
+	@ ${INFO} "Pushing [meet] image to Harbor"
+	@ docker push core.harbor.doorward.tech/doorward/meet:${APP_VERSION}
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"
