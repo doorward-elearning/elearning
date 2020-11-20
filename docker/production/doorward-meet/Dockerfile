@@ -5,15 +5,13 @@ LABEL APPLICATION="doorward"
 
 RUN npm install -g serve
 
-COPY /apps/jitsi-meet /usr/app
+COPY /apps/jitsi-meet/dist /usr/app
 COPY /docker/production/doorward-meet/entrypoint.sh /usr/app
-
-RUN npm install
 
 EXPOSE 5000
 
 RUN chmod +x /usr/app/entrypoint.sh
 
-RUN cd /usr/app && make build
+RUN chmod +x /usr/app/serve-static.sh
 
 ENTRYPOINT ["/usr/app/entrypoint.sh"]

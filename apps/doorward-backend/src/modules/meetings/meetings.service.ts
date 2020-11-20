@@ -98,7 +98,7 @@ export class MeetingsService {
 
   private async overrideJitsiConfig(currentConfig: object, meeting: MeetingEntity, request: Request) {
     const host = process.env.JITSI_HOST;
-    const hostUrl = request.protocol + '://' + request.get('host');
+    const hostUrl = 'https://' + request.get('host');
     const config = {
       hosts: {
         domain: host,
