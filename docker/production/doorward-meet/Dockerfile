@@ -1,17 +1,19 @@
-ARG APP_VERSION=1.0.0
+FROM node:12.18
 
-FROM doorward:$APP_VERSION
+LABEL MAINTAINER="Moses Gitau <gitaumoses4@gmail.com>"
+LABEL APPLICATION="doorward"
 
 RUN npm install -g serve
 
-COPY . /usr/app
+COPY /apps/jitsi-meet /usr/app
+COPY /docker/production/doorward-meet/entrypoint.sh /usr/app
 
-RUN yarn install
+RUN npm install
 
 EXPOSE 5000
 
-RUN chmod +x /usr/app/docker/production/doorward-meet/entrypoint.sh
+RUN chmod +x /usr/app/entrypoint.sh
 
-RUN cd /usr/app && yarn build:meeting
+RUN cd /usr/app && make build
 
-ENTRYPOINT ["/usr/app/docker/production/doorward-meet/entrypoint.sh"]
+ENTRYPOINT ["/usr/app/entrypoint.sh"]

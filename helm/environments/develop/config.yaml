@@ -73,7 +73,7 @@ image:
     pullPolicy: Always
   meet:
     repository: core.harbor.doorward.tech/doorward/meet
-    version: 1.2.0
+    version: 1.0.0
     pullPolicy: Always
 
 

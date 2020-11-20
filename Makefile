@@ -60,7 +60,6 @@ build-thala:
 
 build-meet:
 	@ ${INFO} "Building [meet] image."
-	@ docker image inspect doorward:${APP_VERSION} >/dev/null 2>&1 && echo "Image already exists" || docker build -t doorward:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/doorward-meet/Dockerfile -t core.harbor.doorward.tech/doorward/meet:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@
 	@ ${INFO} "Pushing [meet] image to Harbor"

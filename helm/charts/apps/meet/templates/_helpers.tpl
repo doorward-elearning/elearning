@@ -83,9 +83,9 @@ If release name contains chart name it will be used as a full name.
 */}}
 {{- define "meet.public_app_url" -}}
 {{- if .Values.app_domain -}}
-{{- .Values.app_domain | trunc 63 | trimSuffix "-" -}}
+meet.{{- .Values.app_domain | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
-{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech
+meet.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech
 {{- end -}}
 {{- end -}}
 
