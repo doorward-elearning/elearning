@@ -79,7 +79,7 @@ image:
 
 organization:
   # Organization Logo
-    logo: "https://doorward.s3.amazonaws.com/logos/download1.png"
+    logo: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
 
   # Display Name of Organization
     name: "Doorward E-Learning"
