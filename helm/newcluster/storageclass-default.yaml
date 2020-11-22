@@ -1,0 +1,17 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: do-block-storage
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+parameters:
+  fsType: ext4
+# provisioner changes according to cloud provider.
+# For aws, use kubernetes.io/aws-ebs
+# For Azure Disk, use kubernetes.io/azure-disk
+# For Azure file, use kubernetes.io/azure-file
+# For Local, use kubernetes.io/no-provisioner
+# For digitalocean, use dobs.csi.digitalocean.com
+# For OracleCloud, use blockvolume.csi.oraclecloud.com
+provisioner: kubernetes.io/aws-ebs
+reclaimPolicy: Delete
