@@ -19,6 +19,12 @@ samvadam_domain: samvadam.demo-school.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.demo-school.doorward.tech
 
+# Public Domain of meet ui
+meet_domain: meet.demo-school.doorward.tech
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
 # Public Domain for openvidu API.
 openviduapi_url: https://vidu.demo-school.doorward.tech/api/
 
@@ -51,7 +57,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
-    version: 1.2.0
+    version: 1.2.1
     pullPolicy: Always
   samvadam:
     repository: core.harbor.doorward.tech/doorward/samvadam
@@ -59,23 +65,24 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: core.harbor.doorward.tech/doorward/chuchu
-    version: 1.2.0
+    version: 1.2.1
     pullPolicy: Always
   vidu:
     repository: core.harbor.doorward.tech/doorward/vidu
     version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: core.harbor.doorward.tech/doorward/meet
+    version: 1.0.0
     pullPolicy: Always
 
 
 organization:
   # Organization Logo
     logo: "https://edudoor-logos.s3.ap-south-1.amazonaws.com/demo-school/logo.png"
-
   # Display Name of Organization
     name: "Demo School"
-
   # Application URL
     website: demo-school.doorward.tech
-
   #Organization Admin Email ID
     email: info@doorward.tech

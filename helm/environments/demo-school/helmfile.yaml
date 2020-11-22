@@ -14,6 +14,8 @@ releases:
       stage: 1
       name: thaladb
     chart: ../../charts/apps/thaladb
+    needs:
+      - demo-school-doorward/demo-school-config
     values:
       - config.yaml
 
@@ -24,6 +26,7 @@ releases:
       name: samvadam
     chart: ../../charts/apps/samvadam
     needs:
+      - demo-school-doorward/demo-school-config
       - demo-school-doorward/demo-school-thaladb
     values:
       - config.yaml
@@ -35,6 +38,7 @@ releases:
       name: thala
     chart: ../../charts/apps/thala
     needs:
+      - demo-school-doorward/demo-school-config
       - demo-school-doorward/demo-school-thaladb
     values:
       - config.yaml
@@ -46,17 +50,16 @@ releases:
       name: chuchu
     chart: ../../charts/apps/chuchu
     needs:
+      - demo-school-doorward/demo-school-config
       - demo-school-doorward/demo-school-thaladb
     values:
       - config.yaml
 
-  - name: demo-school-vidu
+  - name: demo-school-meet
     namespace: demo-school-doorward
     labels:
-      stage: 2
-      name: vidu
-    chart: ../../charts/apps/vidu
-    needs:
-      - demo-school-doorward/demo-school-thaladb
+      stage: 4
+      name: meet
+    chart: ../../charts/apps/meet
     values:
       - config.yaml
