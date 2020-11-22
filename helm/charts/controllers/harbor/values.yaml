@@ -192,7 +192,7 @@ persistence:
       storageClass: ""
       subPath: ""
       accessMode: ReadWriteOnce
-      size: 25Gi
+      size: 50Gi
     chartmuseum:
       existingClaim: ""
       storageClass: ""
