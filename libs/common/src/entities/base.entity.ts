@@ -9,8 +9,9 @@ import {
 } from 'typeorm';
 import Tools from '@doorward/common/utils/Tools';
 import { Expose } from 'class-transformer';
+import BaseModel from '@doorward/common/models/base.model';
 
-export default class BaseEntity {
+export default class BaseEntity implements BaseModel {
   @PrimaryColumn({ nullable: false })
   public id: string;
 

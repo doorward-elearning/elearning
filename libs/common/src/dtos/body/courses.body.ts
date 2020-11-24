@@ -1,17 +1,14 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
+import { ObjectSchema } from 'yup';
 import { CreateModuleBody } from '@doorward/common/dtos/body/modules.body';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
 export class UpdateCourseBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   title: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
@@ -24,7 +21,6 @@ export class UpdateCourseBody extends DApiBody {
 }
 
 export class CreateCourseBody extends UpdateCourseBody {
-  @ApiProperty()
   @Expose()
   modules: Array<CreateModuleBody>;
 

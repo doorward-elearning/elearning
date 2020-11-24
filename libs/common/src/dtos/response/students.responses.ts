@@ -1,16 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import DApiResponse, { PaginatedResponse } from '@doorward/common/dtos/response/base.response';
 
 export class StudentResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  student: UserEntity;
+  student: UserModel;
 }
 
 export class StudentsResponse extends PaginatedResponse {
-  @ApiProperty()
   @Expose()
-  students: Array<UserEntity>;
+  students: Array<UserModel>;
 }

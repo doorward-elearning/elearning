@@ -2,9 +2,10 @@ import BaseOrganizationEntity from './base.organization.entity';
 import { Entity, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import CourseEntity from './course.entity';
+import CourseManagerModel from '@doorward/common/models/course.manager.model';
 
 @Entity('CourseManagers')
-export default class CourseManagerEntity extends BaseOrganizationEntity {
+export default class CourseManagerEntity extends BaseOrganizationEntity implements CourseManagerModel{
   @ManyToOne(() => UserEntity, {
     onDelete: 'CASCADE',
   })

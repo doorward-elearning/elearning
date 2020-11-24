@@ -22,7 +22,7 @@ module.exports = (config) => {
       // config.devServer.liveReload = true;
       config.devServer.hot = true;
     }
-    // config.plugins.push(new BundleAnalyzerPlugin());
+    config.plugins.push(new BundleAnalyzerPlugin());
   }
 
   const webpackConfig = babelWebpackConfig(config);

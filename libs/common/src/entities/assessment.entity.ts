@@ -3,9 +3,10 @@ import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleIt
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { AssessmentOptions } from '@doorward/common/types/assessments';
+import AssessmentModel from '@doorward/common/models/assessment.model';
 
 @ChildEntity(ModuleItemType.ASSESSMENT)
-export class AssessmentEntity extends ModuleItemEntity {
+export class AssessmentEntity extends ModuleItemEntity implements AssessmentModel {
   @Column({ type: 'json', nullable: true })
   options: AssessmentOptions;
 

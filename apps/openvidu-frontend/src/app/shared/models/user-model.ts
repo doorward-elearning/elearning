@@ -1,5 +1,5 @@
 import { VideoType } from '../types/video-type';
-import { OPENVIDU_ROLES, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
+import { MeetingRoles, OpenviduUserSession, WhiteboardSessionInfo } from '@doorward/common/types/openvidu';
 import UserConnection from './user-connection';
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
@@ -57,15 +57,15 @@ export abstract class UserModel {
   }
 
   public isModerator(): boolean {
-    return this.session.user.role === OPENVIDU_ROLES.MODERATOR;
+    return this.session.user.role === MeetingRoles.MODERATOR;
   }
 
   public isSubscriber(): boolean {
-    return this.session?.user?.role === OPENVIDU_ROLES.SUBSCRIBER;
+    return this.session?.user?.role === MeetingRoles.SUBSCRIBER;
   }
 
   public isPublisher() {
-    return this.session?.user?.role === OPENVIDU_ROLES.PUBLISHER;
+    return this.session?.user?.role === MeetingRoles.PUBLISHER;
   }
 
   public can(capability: MeetingCapabilities): boolean {

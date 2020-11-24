@@ -4,9 +4,10 @@ import BaseEntity from '@doorward/common/entities/base.entity';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import { Roles } from '@doorward/common/types/roles';
 import { Expose } from 'class-transformer';
+import RoleModel  from '@doorward/common/models/role.model';
 
 @Entity('Roles')
-export default class RoleEntity extends BaseEntity {
+export default class RoleEntity extends BaseEntity implements RoleModel {
   @Column({ enum: Roles, type: 'enum' })
   name: Roles;
 

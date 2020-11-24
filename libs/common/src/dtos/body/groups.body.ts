@@ -1,12 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
 
 export class AddMemberToGroupBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   members: Array<string>;
 
@@ -18,11 +16,9 @@ export class AddMemberToGroupBody extends DApiBody {
 }
 
 export class CreateGroupBody extends AddMemberToGroupBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   type: string;
 

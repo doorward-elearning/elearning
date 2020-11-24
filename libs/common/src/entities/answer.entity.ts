@@ -2,9 +2,10 @@ import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import QuestionEntity from './question.entity';
 import { Expose } from 'class-transformer';
+import AnswerModel from '@doorward/common/models/answer.model';
 
 @Entity('Answers')
-export default class AnswerEntity extends BaseOrganizationEntity {
+export default class AnswerEntity extends BaseOrganizationEntity implements AnswerModel {
   @Column({ type: 'text' })
   answer: string;
 

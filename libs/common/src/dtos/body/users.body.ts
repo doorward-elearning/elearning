@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
+import { ObjectSchema } from 'yup';
 import { UserStatus } from '@doorward/common/types/users';
 import { Gender } from '@doorward/common/types/genders';
 import { Roles } from '@doorward/common/types/roles';
@@ -9,23 +8,18 @@ import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
 export class UpdateAccountBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   firstName: string;
 
-  @ApiProperty()
   @Expose()
   lastName: string;
 
-  @ApiProperty()
   @Expose()
   phoneNumber: string;
 
@@ -43,43 +37,33 @@ export class UpdateAccountBody extends DApiBody {
 }
 
 export class UpdateUserBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   firstName: string;
 
-  @ApiProperty()
   @Expose()
   lastName: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   zipCode?: string;
 
-  @ApiProperty()
   @Expose()
   country?: string;
 
-  @ApiProperty()
   @Expose()
   city?: string;
 
-  @ApiProperty()
   @Expose()
   status?: UserStatus;
 
-  @ApiProperty()
   @Expose()
   gender?: Gender;
 
-  @ApiProperty()
   @Expose()
   phoneNumber?: string;
 
@@ -100,11 +84,9 @@ export class UpdateUserBody extends DApiBody {
 }
 
 export class CreateUserBody extends UpdateUserBody {
-  @ApiProperty()
   @Expose()
   password?: string;
 
-  @ApiProperty()
   @Expose()
   role?: Roles;
 

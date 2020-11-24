@@ -5,11 +5,13 @@ import UserEntity from './user.entity';
 import ModuleEntity from './module.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
-import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
+import CourseModel from '@doorward/common/models/course.model';
+import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
+import UserModel from '@doorward/common/models/user.model';
 
 @Entity('Courses')
-export default class CourseEntity extends BaseOrganizationEntity {
+export default class CourseEntity extends BaseOrganizationEntity implements CourseModel {
   @Column()
   title: string;
 
@@ -55,17 +57,8 @@ export default class CourseEntity extends BaseOrganizationEntity {
   @OneToMany(() => DiscussionGroupEntity, (discussionGroup) => discussionGroup.course)
   discussionGroups: Array<DiscussionGroupEntity>;
 
-  managers: Array<UserEntity>;
-
-  students: Array<UserEntity>;
-
+  managers: Array<UserModel>;
+  students: Array<UserModel>;
   numStudents: number;
-
-  itemsCount: Partial<{
-    [ModuleItemType.PAGE]: number;
-    [ModuleItemType.FILE]: number;
-    [ModuleItemType.ASSIGNMENT]: number;
-    [AssessmentTypes.QUIZ]: number;
-    [AssessmentTypes.EXAM]: number;
-  }>;
+  itemsCount: Partial<Record<ModuleItemType, number> & Record<AssessmentTypes, number>>;
 }

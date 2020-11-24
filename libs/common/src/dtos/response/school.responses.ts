@@ -1,15 +1,12 @@
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import SchoolEntity from '@doorward/common/entities/school.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import SchoolModel from '@doorward/common/models/school.model';
 import { Expose } from 'class-transformer';
 
 export class SchoolResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  school: SchoolEntity;
+  school: SchoolModel;
 }
 export class SchoolsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  schools: SchoolEntity[];
+  schools: SchoolModel[];
 }

@@ -10,16 +10,17 @@ import {
 import UserEntity from './user.entity';
 import Tools from '@doorward/common/utils/Tools';
 import RoleEntity from './role.entity';
-import { OrganizationModels } from '@doorward/common/types/organization.models';
+import { OrganizationModels } from '@doorward/common/types/organizations';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { Expose } from 'class-transformer';
+import OrganizationModel  from '@doorward/common/models/organization.model';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
  */
 @Entity('Organizations')
-export default class OrganizationEntity {
+export default class OrganizationEntity implements OrganizationModel {
   @PrimaryColumn({ nullable: false })
   id: string;
 

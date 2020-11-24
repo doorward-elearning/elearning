@@ -1,42 +1,33 @@
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
-import { ApiProperty } from '@nestjs/swagger';
+import { ObjectSchema } from 'yup';
 import { Expose } from 'class-transformer';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateOrganizationBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
-  @ApiProperty()
   @Expose()
   icon: string;
 
-  @ApiProperty()
   @Expose()
   link: string;
 
-  @ApiProperty()
   @Expose()
   darkThemeIcon: string;
 
-  @ApiProperty()
   @Expose()
   descriptiveLogo: boolean;
 
-  @ApiProperty()
   @Expose()
   meetingPlatform: MeetingPlatform;
 
-  @ApiProperty()
   @Expose()
   customerType: CustomerTypes;
 

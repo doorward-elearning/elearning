@@ -2,8 +2,9 @@ import { BeforeInsert, JoinColumn, ManyToOne } from 'typeorm';
 import BaseEntity from './base.entity';
 import OrganizationEntity from './organization.entity';
 import { Expose } from 'class-transformer';
+import BaseOrganizationModel from '@doorward/common/models/base.organization.model';
 
-export default class BaseOrganizationEntity extends BaseEntity {
+export default class BaseOrganizationEntity extends BaseEntity implements BaseOrganizationModel {
   @ManyToOne(() => OrganizationEntity, {
     onDelete: 'CASCADE',
     nullable: false,

@@ -3,6 +3,7 @@ import { Column, Entity, JoinColumn, ManyToOne, TableInheritance } from 'typeorm
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
 import UserEntity from './user.entity';
+import ModuleItemModel  from '@doorward/common/models/module.item.model';
 
 @Entity('ModuleItems')
 @TableInheritance({
@@ -11,7 +12,7 @@ import UserEntity from './user.entity';
     enum: ModuleItemType,
   },
 })
-export default class ModuleItemEntity extends BaseOrganizationEntity {
+export default class ModuleItemEntity extends BaseOrganizationEntity implements ModuleItemModel {
   @Column()
   title: string;
 

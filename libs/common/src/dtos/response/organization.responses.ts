@@ -1,16 +1,13 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import OrganizationModel from '@doorward/common/models/organization.model';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class OrganizationResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  organization: OrganizationEntity;
+  organization: OrganizationModel;
 }
 
 export class OrganizationsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  organizations: OrganizationEntity[];
+  organizations: OrganizationModel[];
 }

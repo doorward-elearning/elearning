@@ -1,9 +1,10 @@
 import { Column, Entity, ManyToMany } from 'typeorm';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
+import PrivilegeModel  from '@doorward/common/models/privilege.model';
 
 @Entity('Privileges')
-export default class PrivilegeEntity extends BaseEntity {
+export default class PrivilegeEntity extends BaseEntity implements PrivilegeModel {
   @Column({ unique: true })
   name: string;
 

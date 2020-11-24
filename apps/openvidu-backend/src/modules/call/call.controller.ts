@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { OpenviduService } from '../../services/openvidu/openvidu.service';
 import {
   DeleteSessionResponse,
-  OPENVIDU_ROLES,
+  MeetingRoles,
   OpenviduUser,
   OpenviduUserSession,
   SessionConfig,
@@ -43,7 +43,7 @@ export class CallController {
         await this.openviduService.getSessionInfo(sessionId);
       } catch (error) {
         if (error.response?.status === 404) {
-          if (user.role === OPENVIDU_ROLES.MODERATOR) {
+          if (user.role === MeetingRoles.MODERATOR) {
             const response = await this.openviduService.createSession(sessionId);
             id = response.id;
           } else {

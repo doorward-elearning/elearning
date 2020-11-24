@@ -1,25 +1,20 @@
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import MeetingEntity from '@doorward/common/entities/meeting.entity';
-import UserEntity from '@doorward/common/entities/user.entity';
+import MeetingModel from '@doorward/common/models/meeting.model';
+import UserModel from '@doorward/common/models/user.model';
 
 export class OpenviduMeetingUser {}
 
 export class MeetingResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  meeting: MeetingEntity;
+  meeting: MeetingModel;
 
-  @ApiProperty()
   @Expose()
-  user: UserEntity;
+  user: UserModel;
 
-  @ApiProperty()
   @Expose()
   config: object;
 
-  @ApiProperty()
   @Expose()
   interfaceConfig: object;
 }

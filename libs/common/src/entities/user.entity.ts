@@ -13,9 +13,10 @@ import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.en
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import UserModel  from '@doorward/common/models/user.model';
 
 @Entity('Users')
-export default class UserEntity extends BaseOrganizationEntity {
+export default class UserEntity extends BaseOrganizationEntity implements UserModel {
   @Column({ nullable: false })
   username: string;
 

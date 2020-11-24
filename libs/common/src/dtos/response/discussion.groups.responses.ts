@@ -1,29 +1,24 @@
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import DiscussionGroupModel from '@doorward/common/models/discussion.group.model';
 import { Expose } from 'class-transformer';
-import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
+import DiscussionCommentModel from '@doorward/common/models/discussion.comment.model';
 
 export class DiscussionGroupResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  discussionGroup: DiscussionGroupEntity;
+  discussionGroup: DiscussionGroupModel;
 }
 
 export class DiscussionGroupsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  discussionGroups: DiscussionGroupEntity[];
+  discussionGroups: DiscussionGroupModel[];
 }
 
 export class DiscussionCommentResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  discussionComment: DiscussionCommentEntity;
+  discussionComment: DiscussionCommentModel;
 }
 
 export class DiscussionCommentsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
-  discussionComments: DiscussionCommentEntity[];
+  discussionComments: DiscussionCommentModel[];
 }

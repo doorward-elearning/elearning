@@ -1,39 +1,31 @@
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import UserEntity from '@doorward/common/entities/user.entity';
-import CourseEntity from '@doorward/common/entities/course.entity';
-import { ApiProperty } from '@nestjs/swagger';
+import UserModel from '@doorward/common/models/user.model';
+import CourseModel from '@doorward/common/models/course.model';
 import { Expose } from 'class-transformer';
 
 export class StudentReport {
-  @ApiProperty()
   @Expose()
   id: string;
 
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   fullName: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   creatorId: string;
 
-  @ApiProperty()
   @Expose()
   creatorName: string;
 
-  @ApiProperty()
   @Expose()
-  courses: CourseEntity[];
+  courses: CourseModel[];
 
-  constructor(student: UserEntity) {
+  constructor(student: UserModel) {
     this.id = student.id;
     this.username = student.username;
     this.fullName = student.fullName;

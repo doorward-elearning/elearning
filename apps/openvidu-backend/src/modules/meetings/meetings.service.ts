@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { OpenviduService } from '../../services/openvidu/openvidu.service';
 import { AuthService } from '../auth/auth.service';
 import { CreateMeetingBody } from '@doorward/backend/dto/openviduBackend';
-import { OPENVIDU_ROLES, SessionLogo } from '@doorward/common/types/openvidu';
+import { MeetingRoles, SessionLogo } from '@doorward/common/types/openvidu';
 import { InjectRepository } from '@nestjs/typeorm';
 import MeetingEntity from '../../database/entities/meeting.entity';
 import { In, Repository } from 'typeorm';
@@ -56,7 +56,7 @@ export default class MeetingsService {
     try {
       if (await this.openviduService.sessionExists(sessionId)) {
         throw new HttpException('Could not create meeting session as it already exists.', HttpStatus.CONFLICT);
-      } else if (user.role === OPENVIDU_ROLES.MODERATOR) {
+      } else if (user.role === MeetingRoles.MODERATOR) {
         const { id } = await this.openviduService.createSession(sessionId);
         const logo = MeetingsService.extractLogo(logoUrl);
         // create the meeting.
@@ -129,7 +129,7 @@ export default class MeetingsService {
     });
   }
 
-  private async _createTokens(sessionId: string, role: OPENVIDU_ROLES, numTokens: number): Promise<Array<string>> {
+  private async _createTokens(sessionId: string, role: MeetingRoles, numTokens: number): Promise<Array<string>> {
     return Promise.all(
       Array(numTokens)
         .fill(0)
