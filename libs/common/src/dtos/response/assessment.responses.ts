@@ -1,6 +1,6 @@
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import AssessmentSubmissionModel from '@doorward/common/models/assessment.submission.model';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 
 export class AssessmentSubmissionResponse extends DApiResponse {
-  submission: AssessmentSubmissionModel;
+  submission: AssessmentSubmissionEntity;
 }

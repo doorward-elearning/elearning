@@ -2,10 +2,9 @@ import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import UserEntity from './user.entity';
 import GroupMemberEntity from './group.member.entity';
-import GroupModel  from '@doorward/common/models/group.model';
 
 @Entity('Groups')
-export default class GroupEntity extends BaseOrganizationEntity implements GroupModel {
+export default class GroupEntity extends BaseOrganizationEntity {
   @Column()
   name: string;
 

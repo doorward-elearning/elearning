@@ -3,10 +3,9 @@ import BaseOrganizationEntity from '@doorward/common/entities/base.organization.
 import CourseEntity from '@doorward/common/entities/course.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
 import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
-import DiscussionGroupModel  from '@doorward/common/models/discussion.group.model';
 
 @Entity('DiscussionGroups')
-export default class DiscussionGroupEntity extends BaseOrganizationEntity implements DiscussionGroupModel {
+export default class DiscussionGroupEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 

@@ -41,7 +41,7 @@ import { DialogEndMeetingComponent } from '../shared/components/dialog-end-meeti
 import { SignalsService } from '../shared/services/signals/signals.service';
 import {
   MeetingCapabilitiesComponent,
-  MeetingRoles,
+  OPENVIDU_ROLES,
   OpenviduTheme,
   OpenviduUserSession,
   WhiteboardSessionInfo,
@@ -145,7 +145,7 @@ export class VideoRoomComponent extends MeetingCapabilitiesComponent implements 
       const defaultConfig = new ExternalConfigModel();
       defaultConfig.user = {
         name: this.utilsSrv.generateNickname(),
-        role: MeetingRoles.MODERATOR,
+        role: OPENVIDU_ROLES.MODERATOR,
         avatar:
           Math.random() * 1000 > 500
             ? 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500'

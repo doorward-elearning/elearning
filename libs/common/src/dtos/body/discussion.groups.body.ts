@@ -1,13 +1,16 @@
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateDiscussionGroupBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   title: string;
 
+  @ApiProperty()
   @Expose()
   description: string;
 
@@ -20,6 +23,7 @@ export class CreateDiscussionGroupBody extends DApiBody {
 }
 
 export class PostDiscussionCommentBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   comment: string;
 

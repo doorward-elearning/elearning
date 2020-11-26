@@ -1,19 +1,23 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import AssignmentSubmissionModel from '@doorward/common/models/assignment.submission.model';
+import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import ModuleItemModel from '@doorward/common/models/module.item.model';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 
 export class AssignmentSubmissionResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
-  assignmentSubmission: AssignmentSubmissionModel;
+  assignmentSubmission: AssignmentSubmissionEntity;
 }
 
 export class ModuleItemResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
-  item: ModuleItemModel;
+  item: ModuleItemEntity;
 }
 
 export class ModuleItemsResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
-  items: ModuleItemModel[];
+  items: ModuleItemEntity[];
 }

@@ -1,11 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
 
 export class ForgotPasswordBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   username: string;
 
@@ -34,18 +35,23 @@ export class LoginBody extends DApiBody {
 }
 
 export class RegisterBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   username: string;
 
+  @ApiProperty()
   @Expose()
   password: string;
 
+  @ApiProperty()
   @Expose()
   email: string;
 
+  @ApiProperty()
   @Expose()
   firstName: string;
 
+  @ApiProperty()
   @Expose()
   lastName: string;
 
@@ -61,9 +67,11 @@ export class RegisterBody extends DApiBody {
 }
 
 export class ResetPasswordBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   resetToken: string;
 
+  @ApiProperty()
   @Expose()
   password: string;
 
@@ -76,12 +84,15 @@ export class ResetPasswordBody extends DApiBody {
 }
 
 export class UpdatePasswordBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   password: string;
 
+  @ApiProperty()
   @Expose()
   newPassword: string;
 
+  @ApiProperty()
   @Expose()
   confirmPassword: string;
 
@@ -105,6 +116,7 @@ export class UpdatePasswordBody extends DApiBody {
 }
 
 export class ForceChangePasswordBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   password: string;
 

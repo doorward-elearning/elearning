@@ -3,10 +3,9 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
-import AssessmentSubmissionModel from '@doorward/common/models/assessment.submission.model';
 
 @Entity({ name: 'AssessmentSubmission' })
-export default class AssessmentSubmissionEntity extends BaseOrganizationEntity implements AssessmentSubmissionModel {
+export default class AssessmentSubmissionEntity extends BaseOrganizationEntity {
   @Column({ type: 'text' })
   submission: string;
 

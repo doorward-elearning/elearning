@@ -6,7 +6,7 @@ import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities'
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { DOORWARD_MEETING_USER, getMeetingInfo, MeetingInfoState } from '../../components/MeetingInfoForm';
 import Tools from '@doorward/common/utils/Tools';
-import { MeetingRoles } from '@doorward/common/types/openvidu';
+import { OPENVIDU_ROLES } from '@doorward/common/types/openvidu';
 
 const Meeting: React.FunctionComponent<MeetingProps> = (props): JSX.Element => {
   const [state, setState] = useState<MeetingInfoState | null>(null);
@@ -45,7 +45,7 @@ const Meeting: React.FunctionComponent<MeetingProps> = (props): JSX.Element => {
           avatar:
             state.avatar ||
             'https://res.cloudinary.com/dldhztrbs/image/upload/v1597419394/Doorward/yczxlq3jerr9vdmorgws.png',
-          role: MeetingRoles.MODERATOR,
+          role: OPENVIDU_ROLES.MODERATOR,
         },
         sessionConfig: {
           capabilities: new Capabilities(MeetingCapabilities, [

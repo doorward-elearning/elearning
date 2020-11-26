@@ -1,16 +1,20 @@
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
+import * as Yup from 'yup';
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateFileBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   name: string;
 
+  @ApiProperty()
   @Expose()
   public: boolean;
 
+  @ApiProperty()
   @Expose()
   publicUrl: string;
 

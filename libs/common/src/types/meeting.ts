@@ -17,18 +17,3 @@ export enum MeetingPlatform {
   OPENVIDU = 'Openvidu',
   JITSI = 'Jitsi',
 }
-
-export interface JitsiMeetingConfig {
-  config: {
-    base: object;
-    moderator: object;
-    publisher: object;
-    subscriber: object;
-  },
-  interface: {
-    base: object;
-    moderator: object;
-    publisher: object;
-    subscriber: object;
-  }
-}

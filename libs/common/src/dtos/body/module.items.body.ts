@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   AssignmentSubmissionMedia,
@@ -14,43 +15,55 @@ import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateQuestionBody {
+  @ApiProperty()
   @Expose()
   id?: string;
 
+  @ApiProperty()
   @Expose()
   question: string;
 
+  @ApiProperty()
   @Expose()
   points: number;
 
+  @ApiProperty()
   @Expose()
   type: AnswerTypes;
 
+  @ApiProperty()
   @Expose()
   answers: Array<CreateAnswerBody>;
 }
 
 export class CreateAnswerBody {
+  @ApiProperty()
   @Expose()
   id?: string;
 
+  @ApiProperty()
   @Expose()
   answer: string;
 
+  @ApiProperty()
   @Expose()
   description: string;
 
+  @ApiProperty()
   @Expose()
   correct: boolean;
 }
 
 export class CreateModuleItemBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   type: ModuleItemType;
 
+  @ApiProperty()
   @Expose()
   title: string;
 
+  @ApiProperty()
   @Expose()
   order: number;
 
@@ -66,6 +79,7 @@ export class CreateModuleItemBody extends DApiBody {
 }
 
 export class CreatePageBody extends CreateModuleItemBody {
+  @ApiProperty()
   @Expose()
   page: string;
 
@@ -79,9 +93,11 @@ export class CreatePageBody extends CreateModuleItemBody {
 }
 
 export class CreateAssignmentBody extends CreateModuleItemBody {
+  @ApiProperty()
   @Expose()
   assignment: string;
 
+  @ApiProperty()
   @Expose()
   options: AssignmentOptions;
 
@@ -105,15 +121,19 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
 }
 
 export class CreateAssessmentBody extends CreateModuleItemBody {
+  @ApiProperty()
   @Expose()
   questions: Array<CreateQuestionBody>;
 
+  @ApiProperty()
   @Expose()
   instructions: string;
 
+  @ApiProperty()
   @Expose()
   options: AssessmentOptions;
 
+  @ApiProperty()
   @Expose()
   assessmentType: AssessmentTypes;
 
@@ -213,12 +233,15 @@ export class CreateQuizBody extends CreateAssessmentBody {}
 export class CreateExamBody extends CreateQuizBody {}
 
 export class SubmitAssignmentBody extends DApiBody {
+  @ApiProperty()
   @Expose()
   submissionType: AssignmentSubmissionType;
 
+  @ApiProperty()
   @Expose()
   submission: string;
 
+  @ApiProperty()
   @Expose()
   status: AssignmentSubmissionStatus.DRAFT | AssignmentSubmissionStatus.SUBMITTED;
 

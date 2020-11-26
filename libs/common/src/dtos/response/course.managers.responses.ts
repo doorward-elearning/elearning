@@ -1,19 +1,23 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import CourseManagerModel from '@doorward/common/models/course.manager.model';
+import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-export class CourseManagerModel extends UserModel {
+export class CourseManagerModel extends UserEntity {
+  @ApiProperty()
   @Expose()
   courseId: string;
 
+  @ApiProperty()
   @Expose()
   creatorId: string;
 
+  @ApiProperty()
   @Expose()
   creatorFullName: string;
 
-  constructor(courseManager: CourseManagerModel) {
+  constructor(courseManager: CourseManagerEntity) {
     super();
     Object.assign(this, courseManager.manager);
     this.creatorId = courseManager.creator?.id;
@@ -22,11 +26,13 @@ export class CourseManagerModel extends UserModel {
 }
 
 export class CourseManagersResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
-  courseManagers: CourseManagerModel[];
+  courseManagers: CourseManagerEntity[];
 }
 
 export class CourseManagerResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
-  courseManager: CourseManagerModel;
+  courseManager: CourseManagerEntity;
 }

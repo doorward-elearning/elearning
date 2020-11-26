@@ -1,7 +1,7 @@
 import Capabilities from '@doorward/common/utils/Capabilities';
 import { MeetingCapabilities } from '@doorward/common/types/meetingCapabilities';
 
-export enum MeetingRoles {
+export enum OPENVIDU_ROLES {
   PUBLISHER = 'PUBLISHER',
   SUBSCRIBER = 'SUBSCRIBER',
   MODERATOR = 'MODERATOR',
@@ -14,7 +14,7 @@ export interface CreateSessionResponse {
 
 export interface CreateTokenBody {
   session: string;
-  role: MeetingRoles;
+  role: OPENVIDU_ROLES;
   data?: string;
   kurentoOptions?: KurentoOptions;
 }
@@ -45,7 +45,7 @@ export interface OpenviduConnection {
   createdAt: number;
   location: string;
   platform: string;
-  role: MeetingRoles;
+  role: OPENVIDU_ROLES;
   clientData: string;
   serverData: any;
   token: string;
@@ -95,7 +95,7 @@ export enum OpenviduTheme {
 export interface OpenviduUser {
   name?: string;
   avatar?: string;
-  role?: MeetingRoles;
+  role?: OPENVIDU_ROLES;
   data?: any;
 }
 

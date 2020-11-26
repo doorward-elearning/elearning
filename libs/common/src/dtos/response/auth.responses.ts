@@ -1,11 +1,13 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class LoginResponse extends DApiResponse {
+  @ApiProperty()
   @Expose()
   token: string;
-
+  @ApiProperty()
   @Expose()
-  user: UserModel;
+  user: UserEntity;
 }

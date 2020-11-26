@@ -1,6 +1,6 @@
 import { OvSettingsModel } from './ovSettings';
 import {
-  MeetingRoles,
+  OPENVIDU_ROLES,
   OpenviduTheme,
   OpenviduUser,
   OpenviduWebComponentConfig,
@@ -58,7 +58,7 @@ export class ExternalConfigModel implements OpenviduWebComponentConfig {
   }
 
   public isModerator(): boolean {
-    return this.user.role === MeetingRoles.MODERATOR;
+    return this.user.role === OPENVIDU_ROLES.MODERATOR;
   }
 
   public can(capability: MC) {

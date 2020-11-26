@@ -4,10 +4,9 @@ import MeetingRoomMemberEntity from './meeting.room.member.entity';
 import MeetingEntity from './meeting.entity';
 import CourseEntity from './course.entity';
 import { MeetingRoomTypes, MeetingStatus } from '@doorward/common/types/meeting';
-import MeetingRoomModel  from '@doorward/common/models/meeting.room.model';
 
 @Entity('MeetingRooms')
-export default class MeetingRoomEntity extends BaseOrganizationEntity implements MeetingRoomModel {
+export default class MeetingRoomEntity extends BaseOrganizationEntity {
   @Column()
   title: string;
 

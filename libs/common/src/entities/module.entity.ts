@@ -2,10 +2,9 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import BaseOrganizationEntity from './base.organization.entity';
 import CourseEntity from './course.entity';
 import ModuleItemEntity from './module.item.entity';
-import ModuleModel  from '@doorward/common/models/module.model';
 
 @Entity('Modules')
-export default class ModuleEntity extends BaseOrganizationEntity implements ModuleModel {
+export default class ModuleEntity extends BaseOrganizationEntity {
   @Column({ type: 'text', nullable: true })
   description: string;
 
@@ -18,8 +17,8 @@ export default class ModuleEntity extends BaseOrganizationEntity implements Modu
   @ManyToOne(() => CourseEntity, (course) => course.modules, {
     onDelete: 'CASCADE',
   })
-  course: CourseEntity;
+  course?: CourseEntity;
 
   @OneToMany(() => ModuleItemEntity, (moduleItem) => moduleItem.module)
-  items: Array<ModuleItemEntity>;
+  items?: Array<ModuleItemEntity>;
 }

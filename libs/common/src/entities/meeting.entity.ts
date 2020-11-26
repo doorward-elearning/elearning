@@ -3,10 +3,9 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
-import MeetingModel  from '@doorward/common/models/meeting.model';
 
 @Entity('Meetings')
-export default class MeetingEntity extends BaseOrganizationEntity implements MeetingModel {
+export default class MeetingEntity extends BaseOrganizationEntity {
   @Column({ nullable: false })
   sessionId: string;
 
