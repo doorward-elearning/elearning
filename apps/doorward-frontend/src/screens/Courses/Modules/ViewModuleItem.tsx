@@ -13,21 +13,21 @@ import Tools from '@doorward/common/utils/Tools';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import useAction from '@doorward/ui/hooks/useActions';
-import ModuleItemModel from '@doorward/common/entities/module.item.entity';
-import ModuleModel from '@doorward/common/models/module.model';
+import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import { AssignmentModel } from '@doorward/common/models/assignment.model';
-import { PageModel } from '@doorward/common/models/page.model';
+import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { PageEntity } from '@doorward/common/entities/page.entity';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import AssessmentView from '../../../components/UI/AssessmentView';
-import { AssessmentModel } from '@doorward/common/models/assessment.model';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import translate from '@doorward/common/lang/translate';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
-  const [item, setItem] = useState<ModuleItemModel>();
-  const [module, setModule] = useState<ModuleModel>();
+  const [item, setItem] = useState<ModuleItemEntity>();
+  const [module, setModule] = useState<ModuleEntity>();
   const [courseId, course] = useViewCourse();
   const match: any = useRouteMatch();
   const routes = useRoutes();
@@ -106,14 +106,14 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       module={module}
                       editing={editing}
                       params={params}
-                      item={item as PageModel}
+                      item={item as PageEntity}
                     />
                   </IfElse>
                   <IfElse condition={item.type === ModuleItemType.ASSESSMENT}>
                     <EditableView
                       viewerView={
                         <AssessmentView
-                          assessment={item as AssessmentModel}
+                          assessment={item as AssessmentEntity}
                           onCancel={() => routes.navigate(routes.viewCourse, params)}
                         />
                       }
@@ -122,8 +122,8 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                           onSuccess={() => routes.navigate(routes.viewModuleItem, params)}
                           onCancel={() => routes.navigate(routes.viewModuleItem, params)}
                           module={module}
-                          assessment={item as AssessmentModel}
-                          type={(item as AssessmentModel).assessmentType}
+                          assessment={item as AssessmentEntity}
+                          type={(item as AssessmentEntity).assessmentType}
                         />
                       }
                       creatorPrivileges={['moduleItems.create']}
@@ -139,11 +139,11 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                           onCancel={goBack}
                           form={assignmentForm}
                           module={module}
-                          assignment={item as AssignmentModel}
+                          assignment={item as AssignmentEntity}
                         />
                       }
                       isEditing={editing}
-                      viewerView={<AssignmentView assignment={item as AssignmentModel} />}
+                      viewerView={<AssignmentView assignment={item as AssignmentEntity} />}
                       creatorPrivileges={['moduleItems.create']}
                       viewerPrivileges={['moduleItems.read']}
                     />

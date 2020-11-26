@@ -12,7 +12,7 @@ import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { Roles } from '@doorward/common/types/roles';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import CourseModel from '@doorward/common/models/course.model';
+import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
@@ -89,11 +89,11 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
 };
 
 export interface CourseViewMenuProps {
-  course: CourseModel;
+  course: CourseEntity;
 }
 
 export interface CourseViewMenuModalsProps {
-  course: CourseModel;
+  course: CourseEntity;
   deleteCourseModal: UseModal;
 }
 

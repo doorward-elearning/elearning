@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import Table from '@doorward/ui/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
-import CourseModel from '@doorward/common/models/course.model';
+import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {
@@ -21,6 +21,6 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
 };
 
 export interface AuthoredCoursesReportTableProps {
-  courses: Array<CourseModel>;
+  courses: Array<CourseEntity>;
 }
 export default AuthoredCoursesReportTable;

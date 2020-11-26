@@ -7,7 +7,7 @@ import EImage from '@doorward/ui/components/Image';
 import Header from '@doorward/ui/components/Header';
 import IfElse from '@doorward/ui/components/IfElse';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import OrganizationModel from '@doorward/common/models/organization.model';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
@@ -61,7 +61,7 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
 export interface CreateOrganizationFormProps {
   onSuccess: () => void;
   onCancel: () => void;
-  organization?: OrganizationModel;
+  organization?: OrganizationEntity;
 }
 
 export default CreateOrganizationForm;

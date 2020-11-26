@@ -4,7 +4,7 @@ import Dropdown from '@doorward/ui/components/Dropdown';
 import { Icons } from '@doorward/ui/types/icons';
 import Icon from '@doorward/ui/components/Icon';
 import Row from '@doorward/ui/components/Row';
-import ModuleModel from '@doorward/common/models/module.model';
+import ModuleEntity from '@doorward/common/entities/module.entity';
 import translate from '@doorward/common/lang/translate';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
@@ -45,7 +45,7 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
 };
 
 export interface AddModuleItemDropdownProps {
-  module: ModuleModel;
+  module: ModuleEntity;
   courseId: string;
 }
 

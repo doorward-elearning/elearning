@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import UserEntity from '@doorward/common/entities/user.entity';
-import UserModel from '@doorward/common/models/user.model';
 
 export interface UseUserChooser {
   selected: { string?: boolean };
@@ -13,7 +12,7 @@ export interface UseUserChooser {
   count: number;
   filter: (query: string) => void;
 }
-const useUserChooser = (_users: Array<UserModel>, initiallySelectedUsers?: Array<UserEntity>): UseUserChooser => {
+const useUserChooser = (_users: Array<UserEntity>, initiallySelectedUsers?: Array<UserEntity>): UseUserChooser => {
   const [selected, setSelected] = useState<{ [name: string]: boolean }>({});
   const [users, setUsers] = useState(_users);
   const [filteredUsers, setFilteredUsers] = useState(users);

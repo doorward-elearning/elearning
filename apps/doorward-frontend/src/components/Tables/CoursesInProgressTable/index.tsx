@@ -1,7 +1,7 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
 import useRoutes from '../../../hooks/useRoutes';
-import CourseModel from '@doorward/common/models/course.model';
+import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 
 const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProps> = (props) => {
@@ -25,7 +25,7 @@ const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProp
 };
 
 export interface CoursesInProgressTableProps {
-  courses: Array<CourseModel>;
+  courses: Array<CourseEntity>;
 }
 
 export default CoursesInProgressTable;

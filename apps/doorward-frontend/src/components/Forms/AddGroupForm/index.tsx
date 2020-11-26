@@ -13,7 +13,7 @@ import TextLink from '@doorward/ui/components/TextLink';
 import IfElse from '@doorward/ui/components/IfElse';
 import BasicForm from '../BasicForm';
 import VerticalScroll from '@doorward/ui/components/VerticalScroll';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
@@ -88,7 +88,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
             </div>
             <VerticalScroll maxHeight={500}>
               <WebComponent
-                data={formikProps.values.members as Array<UserModel>}
+                data={formikProps.values.members as Array<UserEntity>}
                 loading={false}
                 size="medium"
                 emptyMessage={translate.noneSelectedYet()}
@@ -120,7 +120,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
 };
 
 export interface AddGroupFormProps {
-  users: Array<UserModel>;
+  users: Array<UserEntity>;
   title: string;
   type?: string;
   onSuccess: () => void;

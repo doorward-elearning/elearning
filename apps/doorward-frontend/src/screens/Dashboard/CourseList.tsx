@@ -16,7 +16,7 @@ import Icon from '@doorward/ui/components/Icon';
 import classNames from 'classnames';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
-import CourseModel from '@doorward/common/models/course.model';
+import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useAction from '@doorward/ui/hooks/useActions';
 import { useLocation } from 'react-router';
@@ -24,7 +24,7 @@ import translate from '@doorward/common/lang/translate';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
-  const [classroomCourse, startClassroom] = useState<CourseModel>(null);
+  const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
   const fetchCourses = useAction(DoorwardApi.courses.getCourses);
   const courses = useDoorwardApi((state) => state.courses.getCourses);
 
@@ -60,7 +60,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               }}
             />
             <ItemArray data={data}>
-              {(course: CourseModel) => (
+              {(course: CourseEntity) => (
                 <div className="dashboard__course-list__course">
                   <Card>
                     <Card.Header image>

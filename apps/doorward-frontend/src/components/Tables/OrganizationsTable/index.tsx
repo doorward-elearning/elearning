@@ -7,7 +7,7 @@ import EImage from '@doorward/ui/components/Image';
 import IfElse from '@doorward/ui/components/IfElse';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useRoutes from '../../../hooks/useRoutes';
-import OrganizationModel from '@doorward/common/models/organization.model';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
 
 const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (props): JSX.Element => {
@@ -56,7 +56,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
 };
 
 export interface OrganizationsTableProps {
-  organizations: Array<OrganizationModel>;
+  organizations: Array<OrganizationEntity>;
 }
 
 export default OrganizationsTable;

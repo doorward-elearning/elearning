@@ -4,7 +4,7 @@ import _ from 'lodash';
 import { AssessmentContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
-import QuestionModel from '@doorward/common/models/question.model';
+import QuestionEntity from '@doorward/common/entities/question.entity';
 import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import Spacer from '@doorward/ui/components/Spacer';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
@@ -81,7 +81,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
 };
 
 export interface QuestionViewProps {
-  question: QuestionModel | CreateQuestionBody;
+  question: QuestionEntity | CreateQuestionBody;
   view?: QuestionViewTypes;
   onEditQuestion?: (question: CreateQuestionBody) => void;
   onDeleteQuestion?: (question: CreateQuestionBody) => void;

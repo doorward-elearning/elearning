@@ -11,7 +11,7 @@ import ChangePasswordModal from '../../Modals/ChangePasswordModal';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Button from '@doorward/ui/components/Buttons/Button';
 import withContext from '@doorward/ui/hoc/withContext';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
   const form = useForm();
@@ -68,7 +68,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
 };
 
 export interface UserCardProps {
-  user: UserModel;
+  user: UserEntity;
   changePassword?: boolean;
   onPasswordChanged?: (passwordChanged?: boolean) => void;
   onOpenChangePasswordModal?: () => void;

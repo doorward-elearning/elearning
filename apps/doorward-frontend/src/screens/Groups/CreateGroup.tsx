@@ -7,7 +7,7 @@ import { PageComponent } from '@doorward/ui/types';
 import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import useAction from '@doorward/ui/hooks/useActions';
 import { ROUTES } from '../../routes/routes';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
 import { DoorwardRoutes } from '../../routes';
 import translate from '@doorward/common/lang/translate';
@@ -70,7 +70,7 @@ export interface CreateGroupProps<T, Args = any[]> extends PageComponent {
   title: string;
   type: string;
   state: WebComponentState<T>;
-  getUsers: (data: T) => Array<UserModel>;
+  getUsers: (data: T) => Array<UserEntity>;
   actionCreator: ActionCreator<Args>;
   redirectOnSuccess: keyof DoorwardRoutes;
   currentGroupState?: WebComponentState<GroupResponse>;

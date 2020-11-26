@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
 
 const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
@@ -22,7 +22,7 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
 };
 
 export interface TeachersTableProps {
-  teachers: Array<UserModel>;
+  teachers: Array<UserEntity>;
 }
 
 export default TeachersTable;

@@ -6,8 +6,8 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import AddModuleItemForm from '../AddModuleItemForm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import { CreateModuleItemBody, CreatePageBody } from '@doorward/common/dtos/body';
-import ModuleModel from '@doorward/common/models/module.model';
-import { PageModel } from '@doorward/common/models/page.model';
+import ModuleEntity from '@doorward/common/entities/module.entity';
+import { PageEntity } from '@doorward/common/entities/page.entity';
 import translate from '@doorward/common/lang/translate';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
@@ -45,10 +45,10 @@ export interface AddModulePageFormState extends CreatePageBody {}
 
 export interface AddModulePageFormProps<T = any> {
   useForm: UseForm<T>;
-  module: ModuleModel;
+  module: ModuleEntity;
   onSuccess: () => void;
   onCancel: () => void;
-  page?: PageModel;
+  page?: PageEntity;
 }
 
 export default AddModulePageForm;

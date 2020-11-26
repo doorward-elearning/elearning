@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import QuestionView, { QuestionViewTypes } from './QuestionView';
 import useForm from '@doorward/ui/hooks/useForm';
-import { AssessmentModel } from '@doorward/common/models/assessment.model';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import Header from '@doorward/ui/components/Header';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
@@ -24,7 +24,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import Table from '@doorward/ui/components/Table';
-import AssessmentSubmissionModel from '@doorward/common/entities/assessment.submission.entity';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
@@ -58,7 +58,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
     startDate: null,
     endDate: null,
   });
-  const [submission, setSubmission] = useState<AssessmentSubmissionModel>();
+  const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
 
   const getSubmission = useAction(DoorwardApi.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -211,11 +211,11 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
 };
 
 export interface AssessmentContextProps {
-  assessment?: AssessmentModel;
+  assessment?: AssessmentEntity;
 }
 
 export interface AssessmentViewProps {
-  assessment: AssessmentModel;
+  assessment: AssessmentEntity;
   onCancel: () => void;
 }
 

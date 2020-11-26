@@ -14,7 +14,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
-import UserModel from '@doorward/common/models/user.model';
+import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (props) => {
@@ -143,7 +143,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
 };
 
 export interface ChooseStudentFormState {
-  items: Array<UserModel>;
+  items: Array<UserEntity>;
 }
 
 export interface ChooseStudentGroupFormState {
