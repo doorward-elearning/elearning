@@ -4,10 +4,10 @@ import useForm from '@doorward/ui/hooks/useForm';
 import './AssessmentDetailsForm.scss';
 import AssessmentDetails from './AssessmentDetails';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleModel from '@doorward/common/models/module.model';
 import { CreateAssessmentBody } from '@doorward/common/dtos/body';
 import AssessmentOptions from './AssessmentOptions';
-import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import { AssessmentModel } from '@doorward/common/models/assessment.model';
 import translate from '@doorward/common/lang/translate';
 import { ScoreToKeep } from '@doorward/common/types/assessments';
 
@@ -87,9 +87,9 @@ const CreateAssessmentForm: FunctionComponent<CreateAssessmentFormProps> = (prop
 export interface CreateAssessmentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
-  module: ModuleEntity;
+  module: ModuleModel;
   type: AssessmentTypes;
-  assessment?: AssessmentEntity;
+  assessment?: AssessmentModel;
 }
 
 export type CreateAssessmentFormState = CreateAssessmentBody;

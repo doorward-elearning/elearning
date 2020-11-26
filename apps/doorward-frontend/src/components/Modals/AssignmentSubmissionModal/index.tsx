@@ -1,7 +1,7 @@
 import React from 'react';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import AssignmentSubmissionView from '../../AssignmentSubmissionView';
-import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
+import AssignmentSubmissionModel from '@doorward/common/entities/assignment.submission.entity';
 import translate from '@doorward/common/lang/translate';
 
 const AssignmentSubmissionModal: React.FunctionComponent<AssignmentSubmissionModalProps> = (props): JSX.Element => {
@@ -18,7 +18,7 @@ const AssignmentSubmissionModal: React.FunctionComponent<AssignmentSubmissionMod
 };
 
 export interface AssignmentSubmissionModalProps extends ModalProps {
-  submission: AssignmentSubmissionEntity;
+  submission: AssignmentSubmissionModel;
 }
 
 export default AssignmentSubmissionModal;

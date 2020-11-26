@@ -18,7 +18,6 @@ import './CourseViewSidebar.scss';
 import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
-import VideoCallWidget from '../../screens/VideoCallPage/VideoCallWidget';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;

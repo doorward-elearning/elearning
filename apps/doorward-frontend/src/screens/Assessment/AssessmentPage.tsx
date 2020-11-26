@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import { AssessmentModel } from '@doorward/common/models/assessment.model';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
 import SingleQuestionAssessment from './SingleQuestionAssessment';
@@ -11,7 +11,7 @@ import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
 import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
-import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import AssessmentSubmissionModel from '@doorward/common/entities/assessment.submission.entity';
 import useRoutes from '../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
 
@@ -54,7 +54,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       let startQuestion = 0;
 
       if (submission) {
-        const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.identity));
+        const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.idModel));
         shuffled = shuffled.sort((a, b) => (submittedQuestions.includes(a.id) ? -1 : 1));
         startQuestion = Math.min(shuffled.length - 1, submittedQuestions.length);
       }
@@ -102,8 +102,8 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
 };
 
 export interface StartAssessmentProps {
-  assessment: AssessmentEntity;
-  submission?: AssessmentSubmissionEntity;
+  assessment: AssessmentModel;
+  submission?: AssessmentSubmissionModel;
 }
 
 const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JSX.Element => {
@@ -133,8 +133,8 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
 };
 
 export interface AssessmentPageProps {
-  assessment: AssessmentEntity;
-  submission?: AssessmentSubmissionEntity;
+  assessment: AssessmentModel;
+  submission?: AssessmentSubmissionModel;
 }
 
 export default AssessmentPage;

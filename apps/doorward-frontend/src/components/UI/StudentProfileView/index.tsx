@@ -7,7 +7,7 @@ import { ChangePasswordFormContext } from '../../Forms/ChangePasswordForm';
 import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();
@@ -43,7 +43,7 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
 };
 
 export interface StudentProfileViewProps {
-  student: UserEntity;
+  student: UserModel;
 }
 
 export default StudentProfileView;

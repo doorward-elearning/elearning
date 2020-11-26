@@ -25,14 +25,14 @@ import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import useModal from '@doorward/ui/hooks/useModal';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleModel from '@doorward/common/models/module.model';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import CourseEntity from '@doorward/common/entities/course.entity';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import CourseModel from '@doorward/common/models/course.model';
+import ModuleItemModel from '@doorward/common/entities/module.item.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { AssignmentModel } from '@doorward/common/models/assignment.model';
 import translate from '@doorward/common/lang/translate';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
@@ -60,7 +60,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
             {moduleItem.type === ModuleItemType.ASSIGNMENT && (
               <span className="meta">
                 {translate.dueOn({
-                  date: Tools.shortDateTime((moduleItem as AssignmentEntity)?.options?.dueDate),
+                  date: Tools.shortDateTime((moduleItem as AssignmentModel)?.options?.dueDate),
                 })}
               </span>
             )}
@@ -72,7 +72,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
 };
 
 const ModuleItemsList: React.FunctionComponent<{
-  module: ModuleEntity;
+  module: ModuleModel;
   courseId: string;
 }> = ({ module, courseId }) => {
   return (
@@ -193,12 +193,12 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
 };
 
 export interface CourseModuleListProps {
-  course: CourseEntity;
+  course: CourseModel;
 }
 
 export interface ModuleViewProps {
   index: number;
-  module: ModuleEntity;
+  module: ModuleModel;
   updateModule: WebComponentState<any>;
   droppableState: DroppableStateSnapshot;
   courseId: string;
@@ -206,8 +206,8 @@ export interface ModuleViewProps {
 }
 
 export interface ModuleItemViewProps {
-  module: ModuleEntity;
-  moduleItem: ModuleItemEntity;
+  module: ModuleModel;
+  moduleItem: ModuleItemModel;
   index: number;
   courseId: string;
 }

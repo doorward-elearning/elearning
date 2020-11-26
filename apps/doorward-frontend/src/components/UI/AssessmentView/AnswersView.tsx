@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AnswerEntity from '@doorward/common/entities/answer.entity';
-import QuestionEntity from '@doorward/common/entities/question.entity';
+import AnswerModel from '@doorward/common/models/answer.model';
+import QuestionModel from '@doorward/common/models/question.model';
 import { CreateAnswerBody, CreateQuestionBody } from '@doorward/common/dtos/body';
 import List from '@doorward/ui/components/List';
 import ListItem from '@doorward/ui/components/List/ListItem';
@@ -60,13 +60,13 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
 };
 
 export interface AnswersViewProps {
-  answers: Array<AnswerEntity | CreateAnswerBody>;
-  question: QuestionEntity | CreateQuestionBody;
+  answers: Array<AnswerModel | CreateAnswerBody>;
+  question: QuestionModel | CreateQuestionBody;
   view?: QuestionViewTypes;
 }
 
 export interface DisplayAnswersViewProps {
-  answers: Array<AnswerEntity | CreateAnswerBody>;
+  answers: Array<AnswerModel | CreateAnswerBody>;
 }
 
 export default AnswersView;

@@ -4,10 +4,10 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import { FormikProps } from 'formik';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleItemBody } from '@doorward/common/dtos/body';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleModel from '@doorward/common/models/module.model';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import ModuleItemModel from '@doorward/common/entities/module.item.entity';
 
 function AddModuleItemForm<T extends CreateModuleItemBody>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
@@ -46,8 +46,8 @@ export interface AddModuleItemFormProps<T extends CreateModuleItemBody> {
   onCancel: () => void;
   type: ModuleItemType;
   form: UseForm<T>;
-  module: ModuleEntity;
-  item?: ModuleItemEntity;
+  module: ModuleModel;
+  item?: ModuleItemModel;
   initialValues?: Partial<T>;
   validationSchema?: ((props: any) => any) | any;
   createData?: (values: T) => Array<any>;

@@ -9,15 +9,15 @@ import { PageComponent } from '@doorward/ui/types';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 
 const StudentDropdownMenu: React.FunctionComponent<{
-  student: UserEntity;
-  onUnEnroll: (student: UserEntity) => void;
+  student: UserModel;
+  onUnEnroll: (student: UserModel) => void;
 }> = ({ student, onUnEnroll }) => {
   return (
     <Dropdown.Menu>

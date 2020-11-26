@@ -2,7 +2,7 @@ import React from 'react';
 import Table from '@doorward/ui/components/Table';
 import { MemoryHistory } from 'history';
 import './CourseTable.scss';
-import CourseEntity from '@doorward/common/entities/course.entity';
+import CourseModel from '@doorward/common/models/course.model';
 import useRoutes from '../../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
 
@@ -39,7 +39,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
 };
 
 export interface CourseTableProps {
-  courses: Array<CourseEntity>;
+  courses: Array<CourseModel>;
   history: MemoryHistory;
 }
 

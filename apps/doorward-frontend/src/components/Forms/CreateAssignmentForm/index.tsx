@@ -11,10 +11,10 @@ import IfElse from '@doorward/ui/components/IfElse';
 import Row from '@doorward/ui/components/Row';
 import Header from '@doorward/ui/components/Header';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleModel from '@doorward/common/models/module.model';
 import { CreateAssignmentBody } from '@doorward/common/dtos/body';
 import { AssignmentSubmissionMedia, AssignmentSubmissionType } from '@doorward/common/types/courses';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { AssignmentModel } from '@doorward/common/models/assignment.model';
 import translate from '@doorward/common/lang/translate';
 
 const defaultAssignment = {
@@ -110,8 +110,8 @@ export interface CreateAssignmentFormProps {
   onSuccess: () => void;
   onCancel: () => void;
   form: UseForm<CreateAssignmentBody>;
-  module: ModuleEntity;
-  assignment?: AssignmentEntity;
+  module: ModuleModel;
+  assignment?: AssignmentModel;
 }
 
 export default CreateAssignmentForm;

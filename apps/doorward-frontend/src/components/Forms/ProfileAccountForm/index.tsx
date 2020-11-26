@@ -8,7 +8,7 @@ import withContext from '@doorward/ui/hoc/withContext';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdateAccountBody } from '@doorward/common/dtos/body';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import translate from '@doorward/common/lang/translate';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (props) => {
@@ -59,7 +59,7 @@ export interface ProfileAccountFormState extends UpdateAccountBody {}
 
 export interface ProfileAccountFormProps {
   form: UseForm<ProfileAccountFormState>;
-  user: UserEntity;
+  user: UserModel;
   editing: boolean;
   stopEditing: () => void;
   submitAction?: ActionCreator;

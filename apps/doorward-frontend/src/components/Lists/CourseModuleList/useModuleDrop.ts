@@ -1,12 +1,12 @@
 import { DropResult } from 'react-beautiful-dnd';
 import Tools from '@doorward/common/utils/Tools';
 import { ActionCreator } from '@doorward/ui/reducers/reducers';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import ModuleModel from '@doorward/common/models/module.model';
 
-export type HandleDrop = (dropResult: DropResult, items: Array<ModuleEntity>) => Array<ModuleEntity>;
+export type HandleDrop = (dropResult: DropResult, items: Array<ModuleModel>) => Array<ModuleModel>;
 
 function useModuleDrop(courseId: string, action: ActionCreator): [HandleDrop] {
-  const handleDrop = (dropResult: DropResult, items: Array<ModuleEntity>) => {
+  const handleDrop = (dropResult: DropResult, items: Array<ModuleModel>) => {
     let updatedModules: any = items;
     if (dropResult.type === 'MODULES') {
       updatedModules = Tools.handleReorder(items, 'id', dropResult);

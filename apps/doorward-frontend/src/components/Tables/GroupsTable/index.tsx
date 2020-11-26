@@ -3,7 +3,7 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import Table, { ActionMenu } from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import GroupEntity from '@doorward/common/entities/group.entity';
+import GroupModel from '@doorward/common/models/group.model';
 import translate from '@doorward/common/lang/translate';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
@@ -18,7 +18,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
         return (
           <Table
             columns={{ name: translate.name(), members: translate.members(), createdBy: translate.createdBy() }}
-            data={data as Array<GroupEntity>}
+            data={data as Array<GroupModel>}
             actionMenu={props.actionMenu}
             onRowClick={props.onRowClick}
             getCell={(row) => {
@@ -36,8 +36,8 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
 
 export interface GroupsTableProps {
   type: string;
-  onRowClick?: (row: GroupEntity, index: number) => void;
-  actionMenu?: ActionMenu<GroupEntity>;
+  onRowClick?: (row: GroupModel, index: number) => void;
+  actionMenu?: ActionMenu<GroupModel>;
   search?: string;
 }
 

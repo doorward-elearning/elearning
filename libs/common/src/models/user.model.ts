@@ -25,4 +25,5 @@ export default interface UserModel extends BaseOrganizationModel {
   groups: Array<GroupMemberModel>;
   passwordResets: Array<PasswordsResetsModel>;
   createdBy: UserModel;
+  fullName: string;
 }

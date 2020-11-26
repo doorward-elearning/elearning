@@ -4,7 +4,7 @@ import useRoutes from '../../hooks/useRoutes';
 import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
-import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import { AssessmentModel } from '@doorward/common/models/assessment.model';
 import Layout, { LayoutFeatures } from '../Layout';
 import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
@@ -15,7 +15,7 @@ import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
 
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
-  const [assessment, setAssessment] = useState<AssessmentEntity>();
+  const [assessment, setAssessment] = useState<AssessmentModel>();
   const match: any = useRouteMatch();
   const routes = useRoutes();
 
@@ -33,7 +33,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
   useEffect(() => {
     const moduleItem = state.data.item;
     if (moduleItem) {
-      setAssessment(moduleItem as AssessmentEntity);
+      setAssessment(moduleItem as AssessmentModel);
     }
   }, [state]);
 

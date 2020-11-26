@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Api from '../../services/api';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
-import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
+import AssignmentSubmissionModel from '@doorward/common/entities/assignment.submission.entity';
 import translate from '@doorward/common/lang/translate';
 
 const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionViewProps> = ({
@@ -38,7 +38,7 @@ const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionView
 };
 
 export interface AssignmentSubmissionViewProps {
-  submission: AssignmentSubmissionEntity;
+  submission: AssignmentSubmissionModel;
 }
 
 export default AssignmentSubmissionView;

@@ -1,8 +1,8 @@
 import useDoorwardApi from './useDoorwardApi';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import OrganizationModel from '@doorward/common/models/organization.model';
 import { useEffect } from 'react';
 
-const useOrganization = (): OrganizationEntity | undefined => {
+const useOrganization = (): OrganizationModel | undefined => {
   const organization = useDoorwardApi((state) => state?.organizations?.getCurrentOrganization);
 
   useEffect(() => {

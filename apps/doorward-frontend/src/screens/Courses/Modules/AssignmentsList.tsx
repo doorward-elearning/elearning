@@ -8,7 +8,7 @@ import useViewCourse from '../../../hooks/useViewCourse';
 import useRoutes from '../../../hooks/useRoutes';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { AssignmentModel } from '@doorward/common/models/assignment.model';
 import translate from '@doorward/common/lang/translate';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
@@ -24,7 +24,7 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
       header={translate.assignment({ count: 100 })}
     >
       <WebComponent data={state.data.items} loading={state.fetching}>
-        {(assignments: Array<AssignmentEntity>) => {
+        {(assignments: Array<AssignmentModel>) => {
           return (
             <Table
               data={assignments}

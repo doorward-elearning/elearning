@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import QuestionView, { QuestionViewTypes } from '../../components/UI/AssessmentView/QuestionView';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import QuestionEntity from '@doorward/common/entities/question.entity';
+import QuestionModel from '@doorward/common/models/question.model';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Row from '@doorward/ui/components/Row';
 import Spacer from '@doorward/ui/components/Spacer';
@@ -106,7 +106,7 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
 };
 
 export interface SingleQuestionAssessmentProps {
-  questions: Array<QuestionEntity>;
+  questions: Array<QuestionModel>;
   onReadyToSave: (submission: string) => void;
   startQuestion?: number;
   type: AssessmentTypes;

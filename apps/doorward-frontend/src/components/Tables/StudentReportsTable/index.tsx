@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import Table from '@doorward/ui/components/Table';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import translate from '@doorward/common/lang/translate';
 
 const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => (
@@ -15,7 +15,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
       <Table
         searchText={props.filter}
         filter={(data1, text): typeof data1 =>
-          data1.filter((student: UserEntity) => {
+          data1.filter((student: UserModel) => {
             return new RegExp(text, 'ig').test(student.fullName);
           })
         }
@@ -43,7 +43,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
 );
 
 export interface StudentReportsTableProps {
-  onRowClick: (row: UserEntity, index: number) => void;
+  onRowClick: (row: UserModel, index: number) => void;
   filter?: string;
 }
 export default StudentReportsTable;

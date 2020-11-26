@@ -7,21 +7,21 @@ import Pagination from '@doorward/ui/components/Pagination';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
-import ModuleEntity from '@doorward/common/entities/module.entity';
-import { PageEntity } from '@doorward/common/entities/page.entity';
+import ModuleModel from '@doorward/common/models/module.model';
+import { PageModel } from '@doorward/common/models/page.model';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, params, ...props }) => {
   const [pages] = useState(
     module.items
-      .filter((item: PageEntity) => item.type === ModuleItemType.PAGE)
-      .sort((a: PageEntity, b: PageEntity) => a.order - b.order)
+      .filter((item: PageModel) => item.type === ModuleItemType.PAGE)
+      .sort((a: PageModel, b: PageModel) => a.order - b.order)
   );
   const [page, setPage] = useState();
 
   useEffect(() => {
     if (item) {
-      setPage(pages.findIndex((moduleItem: PageEntity) => moduleItem.id === item.id) + 1);
+      setPage(pages.findIndex((moduleItem: PageModel) => moduleItem.id === item.id) + 1);
     }
   }, [item]);
 
@@ -67,10 +67,10 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
 };
 
 export interface ViewPagesProps {
-  module: ModuleEntity;
+  module: ModuleModel;
   editing: boolean;
   params: { [name: string]: string | undefined };
-  item: PageEntity;
+  item: PageModel;
   onEditSuccess: () => void;
 }
 

@@ -7,7 +7,7 @@ import ProfileAccountForm from '../../Forms/ProfileAccountForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import './UserProfileCard.scss';
 import UserCard from '../UserCard';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import translate from '@doorward/common/lang/translate';
 
 const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, form, ...props }): JSX.Element => {
@@ -43,7 +43,7 @@ const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, 
 
 export interface UserProfileCardProps {
   editable?: boolean;
-  user?: UserEntity;
+  user?: UserModel;
   form: UseForm<any>;
 }
 

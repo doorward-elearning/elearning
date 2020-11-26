@@ -11,7 +11,7 @@ import Table from '@doorward/ui/components/Table';
 import Tools from '@doorward/common/utils/Tools';
 import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
+import { AssignmentModel } from '@doorward/common/models/assignment.model';
 import translate from '@doorward/common/lang/translate';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
@@ -97,7 +97,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
 };
 
 export interface AssignmentViewProps {
-  assignment: AssignmentEntity;
+  assignment: AssignmentModel;
 }
 
 export default AssignmentView;

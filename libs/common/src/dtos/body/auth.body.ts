@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';
@@ -17,12 +16,10 @@ export class ForgotPasswordBody extends DApiBody {
 }
 
 export class LoginBody extends DApiBody {
-  @ApiProperty({ example: 'administrator' })
   @Expose()
   username: string;
 
   @Expose()
-  @ApiProperty({ example: 'password' })
   password: string;
 
   async validation?(): Promise<ObjectSchema<object>> {

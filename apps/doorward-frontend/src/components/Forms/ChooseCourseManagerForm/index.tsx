@@ -6,7 +6,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeachersResponse } from '@doorward/common/dtos/response';
 import useDoorwardApi from '../../../hooks/useDoorwardApi';
-import UserEntity from '@doorward/common/entities/user.entity';
+import UserModel from '@doorward/common/models/user.model';
 import translate from '@doorward/common/lang/translate';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
@@ -46,7 +46,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
 export interface ChooseCourseManagerFormProps {
   managers: WebComponentState<TeachersResponse>;
   onSuccess: () => void;
-  form: UseForm<{ items: Array<UserEntity> }>;
+  form: UseForm<{ items: Array<UserModel> }>;
   courseId: string;
 }
 
