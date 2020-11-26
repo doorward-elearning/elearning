@@ -8,35 +8,27 @@ import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateOrganizationBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
-  @ApiProperty()
   @Expose()
   icon: string;
 
-  @ApiProperty()
   @Expose()
   link: string;
 
-  @ApiProperty()
   @Expose()
   darkThemeIcon: string;
 
-  @ApiProperty()
   @Expose()
   descriptiveLogo: boolean;
 
-  @ApiProperty()
   @Expose()
   meetingPlatform: MeetingPlatform;
 
-  @ApiProperty()
   @Expose()
   customerType: CustomerTypes;
 
@@ -60,4 +52,5 @@ export class CreateOrganizationBody extends DApiBody {
   }
 }
 
-export class UpdateOrganizationBody extends CreateOrganizationBody {}
+export class UpdateOrganizationBody extends CreateOrganizationBody {
+}

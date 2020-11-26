@@ -4,13 +4,11 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import DApiResponse, { PaginatedResponse } from '@doorward/common/dtos/response/base.response';
 
 export class StudentResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   student: UserEntity;
 }
 
 export class StudentsResponse extends PaginatedResponse {
-  @ApiProperty()
   @Expose()
   students: Array<UserEntity>;
 }

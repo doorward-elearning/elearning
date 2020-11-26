@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
 
 export class SaveAssessmentBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   submission: string;
 

@@ -5,11 +5,9 @@ import { Expose } from 'class-transformer';
 import { OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
 
 export class OpenviduWebHookBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   event: OpenviduWebHookEvents;
 
-  @ApiProperty()
   @Expose()
   sessionId: string;
 

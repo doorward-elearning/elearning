@@ -4,7 +4,6 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 
 export class UserResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   user: UserEntity;
 }

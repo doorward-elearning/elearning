@@ -5,31 +5,24 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 export class StudentReport {
-  @ApiProperty()
   @Expose()
   id: string;
 
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   fullName: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   creatorId: string;
 
-  @ApiProperty()
   @Expose()
   creatorName: string;
 
-  @ApiProperty()
   @Expose()
   courses: CourseEntity[];
 
@@ -43,7 +36,8 @@ export class StudentReport {
   }
 }
 
-export class TeacherReport extends StudentReport {}
+export class TeacherReport extends StudentReport {
+}
 
 export class StudentReportResponse extends DApiResponse {
   student: StudentReport;

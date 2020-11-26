@@ -7,11 +7,9 @@ import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
 export class UpdateCourseBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   title: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
@@ -24,7 +22,6 @@ export class UpdateCourseBody extends DApiBody {
 }
 
 export class CreateCourseBody extends UpdateCourseBody {
-  @ApiProperty()
   @Expose()
   modules: Array<CreateModuleBody>;
 
@@ -36,10 +33,10 @@ export class CreateCourseBody extends UpdateCourseBody {
           .of(
             Yup.object().shape({
               title: Yup.string().required(translate.moduleNameIsRequired()),
-            })
+            }),
           )
           .required(translate.provideAtLeastOneModule()),
-      })
+      }),
     );
     return validation;
   }

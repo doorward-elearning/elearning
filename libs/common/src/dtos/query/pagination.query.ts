@@ -17,7 +17,7 @@ export const ApiPaginationQuery = () =>
       name: 'noPagination',
       type: 'boolean',
       required: false,
-    })
+    }),
   );
 
 export interface PaginationQuery {

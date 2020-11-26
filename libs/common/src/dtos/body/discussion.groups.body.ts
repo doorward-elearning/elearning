@@ -6,11 +6,9 @@ import { Expose } from 'class-transformer';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateDiscussionGroupBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   title: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
@@ -23,7 +21,6 @@ export class CreateDiscussionGroupBody extends DApiBody {
 }
 
 export class PostDiscussionCommentBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   comment: string;
 
