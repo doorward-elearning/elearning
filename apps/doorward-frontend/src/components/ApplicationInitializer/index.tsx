@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import useAction from '@doorward/ui/hooks/useActions';
 import LoadingPage from '../../screens/LoadingPage';
 import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
+import configureLang from '@doorward/common/lang/frontend.config';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
   const state = useDoorwardApi((state) => state.organizations.getCurrentOrganization);
+  const [loadingLang, setLoadingLang] = useState(true);
+
+  useEffect(() => {
+    configureLang(process.env.REACT_APP_BASE_URL).then(() => {
+      setLoadingLang(false);
+    });
+  }, []);
 
   const getUserOrganization = useAction(DoorwardApi.organizations.getCurrentOrganization);
 
@@ -18,9 +26,10 @@ const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> 
     }
   }, [state]);
 
-  return <React.Fragment>{state.data.organization ? props.children : <LoadingPage />}</React.Fragment>;
+  return <React.Fragment>{!state.data.organization || loadingLang ? <LoadingPage/> : props.children}</React.Fragment>;
 };
 
-export interface OrganizationWrapperProps {}
+export interface OrganizationWrapperProps {
+}
 
 export default ApplicationInitializer;

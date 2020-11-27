@@ -72,7 +72,11 @@ const ModalFooterButton: React.FunctionComponent<ModalFooterButtonProps> = ({ fe
 };
 
 const Footer: React.FunctionComponent<ModalFooterProps> = ({
-  buttons = { positive: translate.yes(), negative: translate.no(), neutral: translate.cancel() },
+  buttons = {
+    positive: translate.yes(),
+    negative: translate.no(),
+    neutral: translate.cancel(),
+  },
   props = { positive: {}, negative: {}, neutral: {} },
   children,
   onNegativeClick,
@@ -144,7 +148,9 @@ export interface ModalHeaderProps {
   title?: string;
   onSearch?: (search: string) => void;
 }
+
 export interface ModalBodyProps {}
+
 export interface ModalFooterProps {
   buttons?: { positive?: string; negative?: string; neutral?: string };
   props?: { positive?: ButtonProps; negative?: ButtonProps; neutral?: ButtonProps };
@@ -199,20 +205,22 @@ class Modal extends Component<ModalProps> {
     return ReactDOM.createPortal(
       <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
         <ModalContext.Provider value={{ ...useModal, cancellable }}>
-          <div
-            ref={this.modal}
-            className={classNames({
-              'ed-modal': true,
-              open: visible,
-              bottomSheet: props.bottomSheet,
-              [props.className || '']: true,
-            })}
-          >
-            <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
-            <div className="ed-modal__content">
-              <Container>{children}</Container>
+          {visible && (
+            <div
+              ref={this.modal}
+              className={classNames({
+                'ed-modal': true,
+                open: true,
+                bottomSheet: props.bottomSheet,
+                [props.className || '']: true,
+              })}
+            >
+              <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
+              <div className="ed-modal__content">
+                <Container>{children}</Container>
+              </div>
             </div>
-          </div>
+          )}
         </ModalContext.Provider>
       </FeatureProvider>,
       this.container
