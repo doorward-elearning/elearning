@@ -6,15 +6,12 @@ import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateSchoolBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   phoneNumber: string;
 
@@ -28,9 +25,9 @@ export class CreateSchoolBody extends DApiBody {
 }
 
 export class CreateClassroomBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   name: string;
+
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       name: Yup.string().required(translate.nameRequired()),

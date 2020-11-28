@@ -4,12 +4,11 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 
 export class SchoolResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   school: SchoolEntity;
 }
+
 export class SchoolsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   schools: SchoolEntity[];
 }

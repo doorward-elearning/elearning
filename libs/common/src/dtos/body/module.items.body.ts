@@ -15,55 +15,43 @@ import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateQuestionBody {
-  @ApiProperty()
   @Expose()
   id?: string;
 
-  @ApiProperty()
   @Expose()
   question: string;
 
-  @ApiProperty()
   @Expose()
   points: number;
 
-  @ApiProperty()
   @Expose()
   type: AnswerTypes;
 
-  @ApiProperty()
   @Expose()
   answers: Array<CreateAnswerBody>;
 }
 
 export class CreateAnswerBody {
-  @ApiProperty()
   @Expose()
   id?: string;
 
-  @ApiProperty()
   @Expose()
   answer: string;
 
-  @ApiProperty()
   @Expose()
   description: string;
 
-  @ApiProperty()
   @Expose()
   correct: boolean;
 }
 
 export class CreateModuleItemBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   type: ModuleItemType;
 
-  @ApiProperty()
   @Expose()
   title: string;
 
-  @ApiProperty()
   @Expose()
   order: number;
 
@@ -79,7 +67,6 @@ export class CreateModuleItemBody extends DApiBody {
 }
 
 export class CreatePageBody extends CreateModuleItemBody {
-  @ApiProperty()
   @Expose()
   page: string;
 
@@ -87,17 +74,15 @@ export class CreatePageBody extends CreateModuleItemBody {
     return (await super.validation()).concat(
       Yup.object({
         page: Yup.string().required(translate.contentRequired()),
-      })
+      }),
     );
   }
 }
 
 export class CreateAssignmentBody extends CreateModuleItemBody {
-  @ApiProperty()
   @Expose()
   assignment: string;
 
-  @ApiProperty()
   @Expose()
   options: AssignmentOptions;
 
@@ -107,7 +92,7 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
       options: Yup.object({
         dueDate: Yup.string().required(translate.dueDateRequired()),
         submissionTypes: Yup.array(
-          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate.invalidType())
+          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate.invalidType()),
         ).min(1, translate.chooseAtLeastOneType()),
         points: Yup.number().required(translate.pointsRequired()),
         availability: Yup.object(),
@@ -121,19 +106,15 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
 }
 
 export class CreateAssessmentBody extends CreateModuleItemBody {
-  @ApiProperty()
   @Expose()
   questions: Array<CreateQuestionBody>;
 
-  @ApiProperty()
   @Expose()
   instructions: string;
 
-  @ApiProperty()
   @Expose()
   options: AssessmentOptions;
 
-  @ApiProperty()
   @Expose()
   assessmentType: AssessmentTypes;
 
@@ -147,7 +128,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           Yup.object({
             answer: Yup.string().required(translate.answerRequired()),
             correct: Yup.bool(),
-          })
+          }),
         )
         .test('Correct Answer', translate.chooseAtLeastOneAnswer(), (value) => {
           return value.find((x) => x.correct);
@@ -221,27 +202,26 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           }),
         }),
         questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema),
-      })
+      }),
     );
 
     return schema;
   }
 }
 
-export class CreateQuizBody extends CreateAssessmentBody {}
+export class CreateQuizBody extends CreateAssessmentBody {
+}
 
-export class CreateExamBody extends CreateQuizBody {}
+export class CreateExamBody extends CreateQuizBody {
+}
 
 export class SubmitAssignmentBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   submissionType: AssignmentSubmissionType;
 
-  @ApiProperty()
   @Expose()
   submission: string;
 
-  @ApiProperty()
   @Expose()
   status: AssignmentSubmissionStatus.DRAFT | AssignmentSubmissionStatus.SUBMITTED;
 

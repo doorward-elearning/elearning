@@ -6,7 +6,6 @@ import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
 export class AddCourseManagerBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   managerId: string;
 

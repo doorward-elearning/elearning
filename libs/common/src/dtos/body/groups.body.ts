@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
 
 export class AddMemberToGroupBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   members: Array<string>;
 
@@ -18,11 +17,9 @@ export class AddMemberToGroupBody extends DApiBody {
 }
 
 export class CreateGroupBody extends AddMemberToGroupBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   type: string;
 
@@ -31,7 +28,7 @@ export class CreateGroupBody extends AddMemberToGroupBody {
       Yup.object({
         name: Yup.string().required(translate.nameRequired()).nullable(),
         type: Yup.string().nullable(),
-      })
+      }),
     );
   }
 }

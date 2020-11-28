@@ -9,23 +9,18 @@ import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
 export class UpdateAccountBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   firstName: string;
 
-  @ApiProperty()
   @Expose()
   lastName: string;
 
-  @ApiProperty()
   @Expose()
   phoneNumber: string;
 
@@ -43,43 +38,33 @@ export class UpdateAccountBody extends DApiBody {
 }
 
 export class UpdateUserBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   username: string;
 
-  @ApiProperty()
   @Expose()
   firstName: string;
 
-  @ApiProperty()
   @Expose()
   lastName: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   zipCode?: string;
 
-  @ApiProperty()
   @Expose()
   country?: string;
 
-  @ApiProperty()
   @Expose()
   city?: string;
 
-  @ApiProperty()
   @Expose()
   status?: UserStatus;
 
-  @ApiProperty()
   @Expose()
   gender?: Gender;
 
-  @ApiProperty()
   @Expose()
   phoneNumber?: string;
 
@@ -100,11 +85,9 @@ export class UpdateUserBody extends DApiBody {
 }
 
 export class CreateUserBody extends UpdateUserBody {
-  @ApiProperty()
   @Expose()
   password?: string;
 
-  @ApiProperty()
   @Expose()
   role?: Roles;
 
@@ -112,7 +95,7 @@ export class CreateUserBody extends UpdateUserBody {
     return (await super.validation()).concat(
       Yup.object({
         password: Yup.string().notRequired().nullable(),
-      })
+      }),
     );
   }
 }

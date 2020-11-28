@@ -6,15 +6,12 @@ import { Expose } from 'class-transformer';
 import translate from '@doorward/common/lang/translate';
 
 export class CreateFileBody extends DApiBody {
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   public: boolean;
 
-  @ApiProperty()
   @Expose()
   publicUrl: string;
 

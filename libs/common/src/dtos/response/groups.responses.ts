@@ -7,31 +7,24 @@ import GroupEntity from '@doorward/common/entities/group.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
 
 export class GroupMemberResponse extends UserEntity {
-  @ApiProperty()
   @Expose()
   id: string;
 
-  @ApiProperty()
   @Expose()
   firstName: string;
 
-  @ApiProperty()
   @Expose()
   lastName: string;
 
-  @ApiProperty()
   @Expose()
   email: string;
 
-  @ApiProperty()
   @Expose()
   groupRole: GroupRoles;
 
-  @ApiProperty()
   @Expose()
   referredBy: string;
 
-  @ApiProperty()
   @Expose()
   joinedOn: Date;
 
@@ -43,19 +36,15 @@ export class GroupMemberResponse extends UserEntity {
 }
 
 export class SimpleGroupResponse {
-  @ApiProperty()
   @Expose()
   id: string;
 
-  @ApiProperty()
   @Expose()
   name: string;
 
-  @ApiProperty()
   @Expose()
   type: string;
 
-  @ApiProperty()
   @Expose()
   members: Array<GroupMemberResponse>;
 
@@ -68,13 +57,11 @@ export class SimpleGroupResponse {
 }
 
 export class GroupResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   group: SimpleGroupResponse;
 }
 
 export class GroupsResponse extends DApiResponse {
-  @ApiProperty()
   @Expose()
   groups: SimpleGroupResponse[];
 }
