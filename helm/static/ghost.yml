@@ -37,7 +37,6 @@ metadata:
   name: ghostdb
   namespace: default
   resourceVersion: "4669011"
-  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/ghostdb
   uid: bdd8244a-8672-4d99-a063-4e131c881711
 spec:
   progressDeadlineSeconds: 600
@@ -161,7 +160,6 @@ metadata:
   name: ghost
   namespace: default
   resourceVersion: "4674744"
-  selfLink: /apis/extensions/v1beta1/namespaces/default/deployments/ghost
   uid: b2ec19f9-78ca-427e-91c4-a5bca6a5fa24
 spec:
   progressDeadlineSeconds: 600

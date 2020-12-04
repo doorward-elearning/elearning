@@ -9,7 +9,6 @@ metadata:
     kubernetes.io/cluster-service: "true"
   name: standard-gcp-us-central1-c
   resourceVersion: "275"
-  selfLink: /apis/storage.k8s.io/v1/storageclasses/standard
   uid: 48c3ade1-40a6-47bb-937f-f6280472b640
 parameters:
   type: pd-standard
