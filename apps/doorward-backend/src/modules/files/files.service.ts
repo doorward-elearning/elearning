@@ -3,6 +3,7 @@ import { FilesRepository } from '@doorward/backend/repositories/files.repository
 import { CreateFileBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
+import FileEntity from '@doorward/common/entities/file.entity';
 
 @Injectable()
 export class FilesService {
@@ -23,7 +24,7 @@ export class FilesService {
    * @param body
    * @param user
    */
-  public async createFile(body: CreateFileBody, user?: UserEntity) {
+  public async createFile(body: CreateFileBody, user?: UserEntity): Promise<FileEntity> {
     return this.filesRepository.createAndSave({
       ...body,
       public: body.public || !user,

@@ -185,6 +185,12 @@ const DoorwardBackendApi = {
     getFile: (fileId: string, config ? : AxiosRequestConfig): Promise < FileResponse > => {
       return GET(`/files/${fileId}`, {}, config);
     },
+    uploadFile: (undefined, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+      return POST(`/files/upload`, undefined, {}, config);
+    },
+    uploadMultipleFiles: (undefined, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+      return POST(`/files/upload/multiple`, undefined, {}, config);
+    },
   },
   "groups": {
     createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {

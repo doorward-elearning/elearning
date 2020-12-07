@@ -8,9 +8,11 @@ import { Conversation } from '@doorward/chat/type';
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
   return (
     <div className="ed-conversation-list">
-      <Search onChange={() => {}} placeholder="Search conversations..." />
+      <div className="ed-conversation-list__search">
+        <Search onChange={() => {}} placeholder="Search conversations..." />
+      </div>
       <ItemArray data={props.conversations}>
-        {item => {
+        {(item) => {
           return <ConversationListItem recipient={item.recipient} />;
         }}
       </ItemArray>

@@ -5,6 +5,7 @@ export interface Recipient {
 
 export interface Message {
   text: string;
+  me: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

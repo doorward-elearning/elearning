@@ -6,6 +6,7 @@ import { generate } from '@doorward/ui/routes/routes';
 import { routeNames } from './routeNames';
 import useOrganization from '../hooks/useOrganization';
 import LoadingPage from '../screens/LoadingPage';
+import Error404 from '../screens/ErrorPages/Error404';
 
 let generatedRoutes = generate(routeNames(), routeConfigurations, (props) => {
   if (props.privileges.length) {
@@ -33,7 +34,10 @@ export const Router: React.FunctionComponent<any> = (): JSX.Element => {
   return (
     <BrowserRouter>
       <Suspense fallback={LoadingPage}>
-        <Switch>{generatedRoutes.renderRoutes}</Switch>
+        <Switch>
+          {generatedRoutes.renderRoutes}
+          <Route path="*" component={Error404} />
+        </Switch>
       </Suspense>
     </BrowserRouter>
   );

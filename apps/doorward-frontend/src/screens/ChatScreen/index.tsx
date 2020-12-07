@@ -5,7 +5,7 @@ import Chat from '@doorward/chat/Chat';
 
 const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Element => {
   return (
-    <Layout {...props} features={[LayoutFeatures.HEADER]} header="Messaging" noNavBar>
+    <Layout {...props} features={[LayoutFeatures.HEADER]} header="Messaging">
       <Chat
         conversations={[
           {
@@ -13,14 +13,16 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
               name: 'Moses Gitau',
               picture: '',
             },
-            messages: [{ text: 'How are you doing today?', createdAt: new Date(), updatedAt: new Date() }],
+            messages: [{ text: 'How are you doing today?', createdAt: new Date(), updatedAt: new Date(), me: true }],
           },
           {
             recipient: {
               name: 'Jennifer Moko',
               picture: '',
             },
-            messages: [{ text: 'How was the meeting yesterday?', createdAt: new Date(), updatedAt: new Date() }],
+            messages: [
+              { text: 'How was the meeting yesterday?', createdAt: new Date(), updatedAt: new Date(), me: false },
+            ],
           },
         ]}
       />

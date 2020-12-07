@@ -8,7 +8,7 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
   return (
     <div className="ed-conversation-list__item">
       <div>
-        <EImage size="medium" circle alt="" />
+        <EImage size="small" circle alt="" />
       </div>
       <div className="content">
         <Header size={4} className="name">
