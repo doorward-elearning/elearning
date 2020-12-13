@@ -3,6 +3,7 @@ export enum ModuleItemType {
   ASSIGNMENT = 'Assignment',
   ASSESSMENT = 'Assessment',
   FILE = 'File',
+  VIDEO = 'Video'
 }
 
 export enum AssessmentTypes {

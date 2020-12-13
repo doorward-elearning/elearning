@@ -18,7 +18,7 @@ import objectHash from 'object-hash';
 import { ApiCall } from '../services/services';
 import toast from '../utils/toast';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import translate from '@doorward/common/lang/translate';
+import handleApiError from '@doorward/common/net/handleApiError';
 
 export const webComponentState: WebComponentState<any> = {
   action: '',
@@ -142,19 +142,7 @@ function createMiddleware<T extends DApiResponse = DApiResponse>(
         });
       }
     } catch (error) {
-      let data: DApiResponse;
-      if (error.response) {
-        data = error.response.data;
-      } else {
-        data = {
-          success: false,
-          message: translate.serverFacingTechnicalIssue(),
-          timestamp: new Date(),
-          statusCode: 500,
-        };
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
+      const data = handleApiError(error);
 
       if (action.showErrorToast) {
         const d = data as DApiResponse;

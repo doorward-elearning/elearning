@@ -412,5 +412,13 @@
   "youAreNotAllowedToSubmitThisAssignment": "You are not allowed to submit this {{assignment}}",
   "youHaveAlreadySubmittedThisAssessment": "You have already submitted this {{assessment}}",
   "yourPasswordHasNotBeenSet": "Your password has not been set",
-  "studentHasBeenUnEnrolledFromCourse": "{{student, capitalize}} has been un-enrolled from the {{course}}"
+  "studentHasBeenUnEnrolledFromCourse": "{{student, capitalize}} has been un-enrolled from the {{course}}",
+  "videoFileRequired": "The video file is required.",
+  "video": "Video",
+  "addVideo": "Add video",
+  "untitledVideo": "Untitled video",
+  "videoURLRequired": "The video URL is required.",
+  "videoFileOrURLRequired": "The video file or URL is required.",
+  "uploadVideo": "Upload video",
+  "videoURL": "Video URL"
 }

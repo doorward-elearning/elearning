@@ -18,6 +18,7 @@ import {
   CreateModuleItemBody,
   CreatePageBody,
   CreateQuestionBody,
+  CreateVideoBody,
   UpdateModuleItemOrderBody,
 } from '@doorward/common/dtos/body';
 import PageRepository from '@doorward/backend/repositories/page.repository';
@@ -27,6 +28,7 @@ import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import ExamRepository from '@doorward/backend/repositories/exam.repository';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
+import ModuleVideoRepository from '@doorward/backend/repositories/module-video.repository';
 
 @Injectable()
 export class ItemsService {
@@ -38,26 +40,71 @@ export class ItemsService {
     private pageRepository: PageRepository,
     private assignmentRepository: AssignmentRepository,
     private quizRepository: QuizRepository,
-    private examRepository: ExamRepository
+    private examRepository: ExamRepository,
+    private videoRepository: ModuleVideoRepository
   ) {}
 
+  /**
+   *
+   * @param itemId
+   * @param moduleId
+   * @param body
+   * @param author
+   */
+  private static getCommonProperties(itemId: string, moduleId: string, body: CreateModuleItemBody, author: UserEntity) {
+    return {
+      id: itemId,
+      module: { id: moduleId },
+      author: { id: author.id },
+      title: body.title,
+      file: {
+        id: body.fileId,
+      },
+    };
+  }
+
+  /**
+   *
+   * @param item
+   */
   static getModuleItemText(item: ModuleItemType) {
     return `${item === ModuleItemType.ASSIGNMENT ? 'An' : 'A'} ${lowerCase(item)}`;
   }
 
+  /**
+   *
+   * @param itemId
+   */
   async getModuleItem(itemId: string) {
     return this.itemsRepository.getModuleItem(itemId);
   }
 
+  /**
+   *
+   * @param course
+   * @param type
+   */
   async getModuleItemsForCourse(course: { id: string }, type: ModuleItemType) {
     const modules = await this.modulesRepository.find({ course });
     return this.itemsRepository.getModuleItems(type, modules);
   }
 
+  /**
+   *
+   * @param moduleId
+   * @param title
+   * @param type
+   * @param excludeItem
+   */
   async checkModuleItemExists(moduleId: string, title: string, type: ModuleItemType, excludeItem?: string) {
     return this.itemsRepository.checkModuleItemExists(moduleId, title, type, excludeItem);
   }
 
+  /**
+   *
+   * @param moduleId
+   * @param item
+   */
   async updateModuleItemOrder(moduleId: string, item: UpdateModuleItemOrderBody) {
     return this.itemsRepository.update(item.id, {
       ...item,
@@ -65,6 +112,13 @@ export class ItemsService {
     });
   }
 
+  /**
+   *
+   * @param moduleId
+   * @param body
+   * @param author
+   * @param itemId
+   */
   async createOrUpdateModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity, itemId?: string) {
     if (await this.checkModuleItemExists(moduleId, body.title, body.type, itemId)) {
       throw new ValidationException({
@@ -73,44 +127,91 @@ export class ItemsService {
         }),
       });
     } else {
-      const defaultProperties = { id: itemId, module: { id: moduleId }, author: { id: author.id }, title: body.title };
-      if (body.type === ModuleItemType.PAGE) {
-        const { order, page } = body as CreatePageBody;
-        return this.pageRepository.createAndSave({
-          order,
-          page,
-          ...defaultProperties,
-        });
-      } else if (body.type === ModuleItemType.ASSIGNMENT) {
-        const { options, order, assignment } = body as CreateAssignmentBody;
-        return this.assignmentRepository.createAndSave({
-          options,
-          order,
-          assignment,
-          ...defaultProperties,
-        });
-      } else if (body.type === ModuleItemType.ASSESSMENT) {
-        const { options, instructions, assessmentType } = body as CreateAssessmentBody;
-        const properties = {
-          options,
-          instructions,
-          ...defaultProperties,
-        };
-        let assessment;
-        if (assessmentType === AssessmentTypes.QUIZ) {
-          assessment = await this.quizRepository.createAndSave(properties);
-        } else if (assessmentType === AssessmentTypes.EXAM) {
-          assessment = await this.examRepository.createAndSave(properties);
-        }
-        assessment.questions = await this._createOrUpdateAssessmentQuestions(
-          assessment,
-          (body as CreateAssessmentBody).questions
-        );
-        return assessment;
+      const defaultProperties = ItemsService.getCommonProperties(itemId, moduleId, body, author);
+      switch (body.type) {
+        case ModuleItemType.PAGE:
+          return this.createPageModuleItem(body, defaultProperties);
+        case ModuleItemType.ASSIGNMENT:
+          return this.createAssignmentModuleItem(body, defaultProperties);
+        case ModuleItemType.VIDEO:
+          return this.createVideoModuleItem(body, defaultProperties);
+        case ModuleItemType.ASSESSMENT:
+          return this.createAssessmentModuleItem(body, defaultProperties);
       }
     }
   }
 
+  /**
+   *
+   * @param body
+   * @param defaultProperties
+   */
+  private async createVideoModuleItem(body: CreateModuleItemBody, defaultProperties: Partial<CreateModuleItemBody>) {
+    const { videoURL, description } = body as CreateVideoBody;
+    return this.videoRepository.createAndSave({ videoURL, description, ...defaultProperties });
+  }
+
+  /**
+   *
+   * @param body
+   * @param defaultProperties
+   */
+  private async createPageModuleItem(body: CreateModuleItemBody, defaultProperties: Partial<CreateModuleItemBody>) {
+    const { order, page } = body as CreatePageBody;
+    return this.pageRepository.createAndSave({
+      order,
+      page,
+      ...defaultProperties,
+    });
+  }
+
+  private async createAssignmentModuleItem(
+    body: CreateModuleItemBody,
+    defaultProperties: Partial<CreateModuleItemBody>
+  ) {
+    const { options, order, assignment } = body as CreateAssignmentBody;
+    return this.assignmentRepository.createAndSave({
+      options,
+      order,
+      assignment,
+      ...defaultProperties,
+    });
+  }
+
+  /**
+   *
+   * @param body
+   * @param defaultProperties
+   */
+  private async createAssessmentModuleItem(
+    body: CreateModuleItemBody,
+    defaultProperties: Partial<CreateModuleItemBody>
+  ) {
+    const { options, instructions, assessmentType } = body as CreateAssessmentBody;
+    const properties = {
+      options,
+      instructions,
+      ...defaultProperties,
+    };
+    let assessment;
+    if (assessmentType === AssessmentTypes.QUIZ) {
+      assessment = await this.quizRepository.createAndSave(properties);
+    } else if (assessmentType === AssessmentTypes.EXAM) {
+      assessment = await this.examRepository.createAndSave(properties);
+    }
+    assessment.questions = await this._createOrUpdateAssessmentQuestions(
+      assessment,
+      (body as CreateAssessmentBody).questions
+    );
+    return assessment;
+  }
+
+  /**
+   *
+   * @param assessment
+   * @param questions
+   * @private
+   */
   private async _createOrUpdateAssessmentQuestions(
     assessment: AssessmentEntity,
     questions: Array<CreateQuestionBody>
@@ -160,6 +261,12 @@ export class ItemsService {
     );
   }
 
+  /**
+   *
+   * @param question
+   * @param answers
+   * @private
+   */
   private async _createOrUpdateQuestionAnswers(
     question: QuestionEntity,
     answers: Array<CreateAnswerBody>

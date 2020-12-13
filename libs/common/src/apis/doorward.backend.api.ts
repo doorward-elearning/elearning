@@ -16,6 +16,7 @@ import {
   CreateAssessmentBody,
   CreateExamBody,
   UpdateModulesBody,
+  CreateVideoBody,
   CreateOrganizationBody,
   UpdateOrganizationBody,
   CreateUserBody,
@@ -34,7 +35,7 @@ import {
   SubmitAssignmentBody,
   SaveAssessmentBody
 } from '@doorward/common/dtos/body';
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import {
   LoginResponse,
   UserResponse,
@@ -75,7 +76,8 @@ import {
   AssessmentSubmissionResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
-import {
+import handleApiError from '@doorward/common/net/handleApiError';
+import axios, {
   AxiosRequestConfig
 } from 'axios';
 
@@ -185,11 +187,69 @@ const DoorwardBackendApi = {
     getFile: (fileId: string, config ? : AxiosRequestConfig): Promise < FileResponse > => {
       return GET(`/files/${fileId}`, {}, config);
     },
-    uploadFile: (undefined, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
-      return POST(`/files/upload`, undefined, {}, config);
+    uploadFile: async (
+      file: Blob,
+      onUploadProgress ? : (percentage: number) => void,
+      cancelHandler ? : (cancelFunction: () => void) => void
+    ): Promise < FileResponse > => {
+      const formData = new FormData();
+
+      formData.append('file', file);
+
+      let data = null;
+
+      try {
+        const result = await POST("/files/upload", formData, null, {
+          onUploadProgress: (progressEvent) => {
+            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            if (onUploadProgress) {
+              onUploadProgress(percentage);
+            }
+          },
+          cancelToken: new axios.CancelToken((c) => {
+            cancelHandler(c);
+          }),
+        });
+
+        data = result.data;
+      } catch (error) {
+        data = handleApiError(error);
+      }
+
+      return data;
     },
-    uploadMultipleFiles: (undefined, config ? : AxiosRequestConfig): Promise < DApiResponse > => {
-      return POST(`/files/upload/multiple`, undefined, {}, config);
+    uploadMultipleFiles: async (
+      files: Array < Blob > ,
+      onUploadProgress ? : (percentage: number) => void,
+      cancelHandler ? : (cancelFunction: () => void) => void
+    ): Promise < FilesResponse > => {
+      const formData = new FormData();
+
+      files.forEach((file) => {
+        formData.append('files', file);
+      });
+
+      let data = null;
+
+      try {
+        const result = await POST("/files/upload/multiple", formData, null, {
+          onUploadProgress: (progressEvent) => {
+            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            if (onUploadProgress) {
+              onUploadProgress(percentage);
+            }
+          },
+          cancelToken: new axios.CancelToken((c) => {
+            cancelHandler(c);
+          }),
+        });
+
+        data = result.data;
+      } catch (error) {
+        data = handleApiError(error);
+      }
+
+      return data;
     },
   },
   "groups": {
@@ -239,7 +299,7 @@ const DoorwardBackendApi = {
     getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return GET(`/module/items/${itemId}`, {}, config);
     },
-    updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateQuizBody | CreateAssessmentBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
+    updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateQuizBody | CreateAssessmentBody | CreateVideoBody, config ? : AxiosRequestConfig): Promise < ModuleItemResponse > => {
       return PUT(`/module/items/${itemId}`, body, {}, config);
     },
   },

@@ -14,6 +14,7 @@ export const ModuleItemIcons: { [name: string]: Icons } = {
   'Discussion Forum': 'more',
   File: 'file_copy',
   Assessment: 'assessment',
+  Video: 'ondemand_video',
 };
 
 const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps> = (props) => {
@@ -38,7 +39,9 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Dropdown.Item icon={ModuleItemIcons.Assessment} link={routes.addExam.withParams(params)}>
           {translate.exam()}
         </Dropdown.Item>
-        {/*<Dropdown.Item icon={ModuleItemIcons.File}>{translate.file()}</Dropdown.Item>*/}
+        <Dropdown.Item icon={ModuleItemIcons.Video} link={routes.addModuleVideo.withParams(params)}>
+          {translate.video()}
+        </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );

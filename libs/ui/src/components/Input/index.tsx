@@ -115,7 +115,7 @@ function withInput<R extends InputProps>(
       [validationSchema]
     );
 
-    const error = getError(formikProps, name);
+    const error = getError(formikProps, name, !props.alwaysShowError);
 
     const className = classNames({
       'eb-input': true,
@@ -144,7 +144,7 @@ function withInput<R extends InputProps>(
             />
           </div>
           <div className="eb-input__error-message">
-            <ErrorMessage name={name} />
+            <ErrorMessage name={name} alwaysShowError={props.alwaysShowError} />
           </div>
         </div>
       </FeatureProvider>
@@ -159,6 +159,7 @@ export interface InputProps extends React.DetailedHTMLProps<any, any> {
   fluid?: boolean;
   idGenerator?: () => string;
   className?: string;
+  alwaysShowError?: boolean;
 }
 
 export default withInput;

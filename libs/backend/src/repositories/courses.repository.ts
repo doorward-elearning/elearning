@@ -86,6 +86,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       .leftJoinAndSelect('course.author', 'author')
       .leftJoinAndSelect('course.modules', 'module')
       .leftJoinAndSelect('module.items', 'items')
+      .leftJoinAndSelect('items.file', 'file')
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .leftJoin('StudentCourses', 'studentCourse', '"studentCourse"."courseId" = :courseId', { courseId })
       .leftJoinAndMapMany('course.students', 'Users', 'student', 'student.id = "studentCourse"."studentId"')

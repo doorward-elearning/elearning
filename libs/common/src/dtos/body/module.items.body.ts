@@ -53,6 +53,9 @@ export class CreateModuleItemBody extends DApiBody {
   title: string;
 
   @Expose()
+  fileId: string;
+
+  @Expose()
   order: number;
 
   async validation?(): Promise<ObjectSchema> {
@@ -66,6 +69,31 @@ export class CreateModuleItemBody extends DApiBody {
   }
 }
 
+export class CreateVideoBody extends CreateModuleItemBody {
+  @Expose()
+  fileId: string;
+
+  @Expose()
+  description: string;
+
+  @Expose()
+  videoURL: string;
+
+  async validation?(): Promise<ObjectSchema> {
+    return (await super.validation()).concat(
+      Yup.object({
+        description: Yup.string().nullable(),
+        video: Yup.string().when(['videoURL', 'fileId'], {
+          is: (videoURL, fileId) => !videoURL && !fileId,
+          then: Yup.string().required(translate.videoFileOrURLRequired()),
+        }),
+        fileId: Yup.string().nullable(),
+        videoURL: Yup.string().url(translate.urlInvalid()).nullable(),
+      })
+    );
+  }
+}
+
 export class CreatePageBody extends CreateModuleItemBody {
   @Expose()
   page: string;
@@ -74,7 +102,7 @@ export class CreatePageBody extends CreateModuleItemBody {
     return (await super.validation()).concat(
       Yup.object({
         page: Yup.string().required(translate.contentRequired()),
-      }),
+      })
     );
   }
 }
@@ -92,7 +120,7 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
       options: Yup.object({
         dueDate: Yup.string().required(translate.dueDateRequired()),
         submissionTypes: Yup.array(
-          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate.invalidType()),
+          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate.invalidType())
         ).min(1, translate.chooseAtLeastOneType()),
         points: Yup.number().required(translate.pointsRequired()),
         availability: Yup.object(),
@@ -128,7 +156,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           Yup.object({
             answer: Yup.string().required(translate.answerRequired()),
             correct: Yup.bool(),
-          }),
+          })
         )
         .test('Correct Answer', translate.chooseAtLeastOneAnswer(), (value) => {
           return value.find((x) => x.correct);
@@ -202,18 +230,16 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           }),
         }),
         questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema),
-      }),
+      })
     );
 
     return schema;
   }
 }
 
-export class CreateQuizBody extends CreateAssessmentBody {
-}
+export class CreateQuizBody extends CreateAssessmentBody {}
 
-export class CreateExamBody extends CreateQuizBody {
-}
+export class CreateExamBody extends CreateQuizBody {}
 
 export class SubmitAssignmentBody extends DApiBody {
   @Expose()

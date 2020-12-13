@@ -7,7 +7,7 @@ import Pricing from "./screens/pricing";
 import { Provider } from "react-redux";
 import store from "./store";
 import ApplicationTheme from "@doorward/ui/components/ApplicationTheme";
-import ApiRequest from "@doorward/ui/services/apiRequest";
+import ApiRequest from "@doorward/common/net/apiRequest";
 
 ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 

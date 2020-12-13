@@ -60,5 +60,6 @@ export const routeNames = () => {
     updateStudentGroup: translate.updateStudentGroup(),
     discussionGroups: translate.discussionGroups(),
     viewDiscussionGroup: translate.viewDiscussionGroup(),
+    addModuleVideo: translate.addVideo(),
   };
 };

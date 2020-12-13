@@ -75,10 +75,13 @@ export class FilesController {
    *
    * Uploads a single file and creates a file entity that relates to this item
    *
+   * The tag `upload-file` marks this endpoint for generation of a file upload handler
+   *
    * @param file
    * @param currentUser
    */
   @Post('upload')
+  @ApiTags('upload-file')
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(@UploadedFile() file, @CurrentUser() currentUser: UserEntity): Promise<FileResponse> {
     const createdFile = new SimpleFileResponse(
@@ -100,11 +103,14 @@ export class FilesController {
   /**
    * Uploads multiple file and creates file entities on the database with the file information.
    *
+   * The tag `upload-multiple-files` marks this endpoint for generation of a file upload handler
+   *
    * @param files - the list of files to upload
    * @param currentUser - the current logged in user.
    */
   @Post('upload/multiple')
   @UseInterceptors(FilesInterceptor('files'))
+  @ApiTags('upload-multiple-files')
   async uploadMultipleFiles(
     @UploadedFiles() files: Array<any>,
     @CurrentUser() currentUser: UserEntity

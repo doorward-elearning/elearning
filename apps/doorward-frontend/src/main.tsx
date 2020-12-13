@@ -11,7 +11,7 @@ import useApp, { appInitialValue } from './hooks/useApp';
 import RolesManager from '@doorward/ui/components/RolesManager';
 import ApplicationTheme from '@doorward/ui/components/ApplicationTheme';
 import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
