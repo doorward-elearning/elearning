@@ -66,11 +66,11 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
           mini
           bordered
           onClick={() => setCurrentPage(currentPage - 1)}
-          tooltip={currentPage === 1 ? translate.thisIsTheFirstPage() : translate.previous()}
+          tooltip={currentPage === 1 ? translate('thisIsTheFirstPage') : translate('previous')}
           disabled={currentPage === 1}
           icon="skip_previous"
         >
-          {translate.previous()}
+          {translate('previous')}
         </Button>
         <div className="ed-pagination__pages">
           <ItemArray data={pages}>
@@ -93,12 +93,12 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
         <Button
           mini
           bordered
-          tooltip={currentPage === props.numPages ? translate.thisIsTheLastPage() : translate.next()}
+          tooltip={currentPage === props.numPages ? translate('thisIsTheLastPage') : translate('next')}
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === props.numPages}
           icon="skip_next"
         >
-          {translate.next()}
+          {translate('next')}
         </Button>
       </div>
     </IfElse>

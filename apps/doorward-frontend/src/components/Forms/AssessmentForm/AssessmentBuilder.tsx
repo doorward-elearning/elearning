@@ -18,7 +18,7 @@ import translate from '@doorward/common/lang/translate';
 const NoQuestions = () => {
   return (
     <Panel>
-      <p>{translate.noQuestionsHaveBeenAdded()}</p>
+      <p>{translate('noQuestionsHaveBeenAdded')}</p>
     </Panel>
   );
 };
@@ -73,7 +73,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
               <div className="ed-assessment-builder">
                 <HeaderGrid>
                   <Header size={2} padded>
-                    {translate.questions()}
+                    {translate('questions')}
                   </Header>
                   <Button
                     type="button"
@@ -82,7 +82,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
                     }}
                     icon="add"
                   >
-                    {translate.addQuestion()}
+                    {translate('addQuestion')}
                   </Button>
                 </HeaderGrid>
                 {formikProps.values.questions.length ? (

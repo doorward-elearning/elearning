@@ -12,7 +12,7 @@ import { AddMemberToGroupBody, CreateGroupBody } from '@doorward/common/dtos/bod
 import { GroupResponse, GroupsResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 
-const GroupExists = () => ModelExists({ key: 'groupId', model: GroupEntity, message: translate.groupDoesNotExist() });
+const GroupExists = () => ModelExists({ key: 'groupId', model: GroupEntity, message: translate('groupDoesNotExist') });
 
 @Controller('groups')
 @ApiTags('groups')

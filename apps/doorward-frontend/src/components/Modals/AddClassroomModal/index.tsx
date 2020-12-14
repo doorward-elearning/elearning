@@ -7,7 +7,7 @@ import translate from '@doorward/common/lang/translate';
 const AddClassroomModal: React.FunctionComponent<AddClassroomModalProps> = (props): JSX.Element => {
   return (
     <Modal useModal={props.modal}>
-      <Modal.Header title={translate.addClassroom()} />
+      <Modal.Header title={translate('addClassroom')} />
       <Modal.Body>
         <AddClassroomForm schoolId={props.schoolId} onSuccess={props.onSuccess} onCancel={props.modal.closeModal} />
       </Modal.Body>

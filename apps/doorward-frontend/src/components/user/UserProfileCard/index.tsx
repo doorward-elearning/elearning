@@ -20,9 +20,9 @@ const UserProfileCard: React.FunctionComponent<UserProfileCardProps> = ({ user, 
       <div className="ed-userProfileCard__account">
         <Card>
           <Card.Header>
-            <Header size={2}>{translate.accountInformation()}</Header>
+            <Header size={2}>{translate('accountInformation')}</Header>
             <IfElse condition={!editingAccount && props.editable}>
-              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} title={translate.edit()} />
+              <Icon icon="edit" onClick={(): void => setEditingAccount(true)} title={translate('edit')} />
             </IfElse>
           </Card.Header>
           <Card.Body>

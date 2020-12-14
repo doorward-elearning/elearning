@@ -15,11 +15,11 @@ const ForgotPassword: React.FunctionComponent<ResetPasswordProps> = (props) => {
       withBackground
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
-      header={translate.forgotPassword()}
+      header={translate('forgotPassword')}
     >
       <Row style={{ alignItems: 'start' }}>
         <div>
-          <p>{translate.forgotPasswordMessage()}</p>
+          <p>{translate('forgotPasswordMessage')}</p>
           <ForgotPasswordForm />
         </div>
         <div>

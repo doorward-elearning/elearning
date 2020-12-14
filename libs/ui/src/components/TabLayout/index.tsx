@@ -67,6 +67,7 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
   const [tabs, setTabs] = useState<Array<TabProps>>([]);
   const slider = useRef(null);
   const tabLayout = useRef(null);
+  // tabs start from 0
   const [selected, setSelected] = useState(props.selected || 0);
   const children = (props.children instanceof Array ? props.children : [props.children]) as Array<
     ReactElement<TabProps>
@@ -129,24 +130,26 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
       })}
       ref={tabLayout}
     >
-      <div className="ed-tabLayout__header">
-        <TabHeader
-          controlled={props.controlled}
-          tabs={tabs}
-          disabled={props.disabled}
-          setSelected={(tab) => {
-            if (tab !== selected) {
-              if (props.controlled) {
-                props.onTabChange(tab);
-              } else {
-                setSelected(tab);
+      {!props.hiddenTabs && (
+        <div className="ed-tabLayout__header">
+          <TabHeader
+            controlled={props.controlled}
+            tabs={tabs}
+            disabled={props.disabled}
+            setSelected={(tab) => {
+              if (tab !== selected) {
+                if (props.controlled) {
+                  props.onTabChange(tab);
+                } else {
+                  setSelected(tab);
+                }
               }
-            }
-          }}
-          selected={selected}
-        />
-        <span ref={slider} className="ed-tabLayout__slider" />
-      </div>
+            }}
+            selected={selected}
+          />
+          <span ref={slider} className="ed-tabLayout__slider" />
+        </div>
+      )}
       <div className="ed-tabLayout__content">
         <TabContent selected={selected}>{children}</TabContent>
       </div>
@@ -163,6 +166,7 @@ export interface TabLayoutProps {
   wrapTabs?: boolean;
   controlled?: boolean;
   disabled?: (tabIndex: number) => void;
+  hiddenTabs?: boolean;
 }
 
 export interface TabHeaderProps {

@@ -24,6 +24,9 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import AssessmentView from '../../../components/UI/AssessmentView';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import translate from '@doorward/common/lang/translate';
+import ModulesSideBar from './ModulesSideBar';
+import ViewModuleVideo from './ViewModuleVideo';
+import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -37,7 +40,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   const fetchItem = useAction(DoorwardApi.moduleItems.getModuleItem);
   useEffect(() => {
     fetchItem(match.params.itemId);
-  }, []);
+  }, [match.params.itemId]);
 
   const state = useDoorwardApi((state) => state.moduleItems.getModuleItem);
 
@@ -83,16 +86,16 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         LayoutFeatures.BACK_BUTTON,
         LayoutFeatures.ACTION_BUTTON,
       ]}
-      noNavBar
       actionBtnProps={{
         icon: 'edit',
-        text: item ? translate.editAssessment() : '',
+        text: item ? translate('editItem', { item: item.type }) : '',
         theme: 'secondary',
         privileges: ['modules.update'],
         onClick: () => routes.navigate(routes.editModuleItem, params),
         disabled: editing,
       }}
       header={Tools.str(state.fetching ? '' : item?.title)}
+      rightContent={<ModulesSideBar course={course?.data?.course} item={item} />}
     >
       <WebComponent data={item} hasData={() => !state.fetching} loading={state.fetching}>
         {(item): JSX.Element => {
@@ -146,6 +149,15 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       viewerView={<AssignmentView assignment={item as AssignmentEntity} />}
                       creatorPrivileges={['moduleItems.create']}
                       viewerPrivileges={['moduleItems.read']}
+                    />
+                  </IfElse>
+                  <IfElse condition={item.type === ModuleItemType.VIDEO}>
+                    <ViewModuleVideo
+                      module={module}
+                      editing={editing}
+                      params={params}
+                      item={item as ModuleVideoEntity}
+                      onEditSuccess={() => setEditing(false)}
                     />
                   </IfElse>
                 </React.Fragment>

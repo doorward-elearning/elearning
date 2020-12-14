@@ -9,8 +9,6 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Spacer from '../Spacer';
 import translate from '@doorward/common/lang/translate';
 
-const defaultMessage = translate.thereAreNoItemsHere();
-
 const Empty: React.FunctionComponent<EmptyProps> = ({
   message,
   icon = 'work_outline',
@@ -20,6 +18,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
   children,
   modelName,
 }) => {
+  const defaultMessage = translate('thereAreNoItemsHere');
   return (
     <Panel
       className={classNames({

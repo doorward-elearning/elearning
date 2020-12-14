@@ -10,8 +10,8 @@ const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (pr
   const studentList = useDoorwardApi((state) => state.students.getAllStudents);
   return (
     <CreateGroup
-      emptyMessage={translate.noStudentsHaveBeenCreatedYet()}
-      title={translate.students()}
+      emptyMessage={translate('noStudentsHaveBeenCreatedYet')}
+      title={translate('students')}
       type={Groups.STUDENT}
       state={studentList}
       getUsers={(data) => data.students}

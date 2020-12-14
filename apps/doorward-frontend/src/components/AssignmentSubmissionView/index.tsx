@@ -29,7 +29,7 @@ const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionView
             }}
             icon="cloud_download"
           >
-            {translate.downloadAssignment()}
+            {translate('downloadAssignment')}
           </Button>
         </div>
       </IfElse>

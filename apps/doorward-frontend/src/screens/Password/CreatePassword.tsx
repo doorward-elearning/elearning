@@ -23,7 +23,7 @@ const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
   return (
     <Layout
       {...props}
-      header={translate.createANewPassword()}
+      header={translate('createANewPassword')}
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT]}
       features={[LayoutFeatures.HEADER]}
     >

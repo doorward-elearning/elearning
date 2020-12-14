@@ -61,7 +61,7 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
       </div>
     );
   }
-  return <Empty message={translate.meetingNotFound()} icon="no_meeting_room" />;
+  return <Empty message={translate('meetingNotFound')} icon="no_meeting_room" />;
 };
 
 export interface VideoCallWidgetProps {

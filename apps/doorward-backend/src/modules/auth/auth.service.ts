@@ -38,11 +38,11 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new ValidationException({ username: translate.userWithUsernameDoesNotExist() });
+      throw new ValidationException({ username: translate('userWithUsernameDoesNotExist') });
     }
 
     if (!user.password) {
-      throw new ValidationException({ password: translate.yourPasswordHasNotBeenSet() });
+      throw new ValidationException({ password: translate('yourPasswordHasNotBeenSet') });
     }
 
     if (user.validatePassword(password)) {

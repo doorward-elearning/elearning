@@ -19,17 +19,17 @@ const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (pr
       form={form}
       onCancel={() => routes.navigate(routes.home)}
       validationSchema={Yup.object({
-        username: Yup.string().required(translate.usernameIsRequired()),
+        username: Yup.string().required(translate('usernameIsRequired')),
       })}
       onSuccess={() => routes.navigate(routes.login)}
       showSuccessToast
       showErrorToast
-      positiveText={translate.reset()}
+      positiveText={translate('reset')}
       initialValues={{
         username: '',
       }}
     >
-      <TextField name="username" label={translate.username()} />
+      <TextField name="username" label={translate('username')} />
     </BasicForm>
   );
 };

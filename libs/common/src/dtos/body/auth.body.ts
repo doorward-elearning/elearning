@@ -11,7 +11,7 @@ export class ForgotPasswordBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      username: Yup.string().required(translate.usernameIsRequired()).nullable(),
+      username: Yup.string().required(translate('usernameIsRequired')).nullable(),
     });
   }
 }
@@ -25,8 +25,8 @@ export class LoginBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema<object>> {
     return Yup.object({
-      username: Yup.string().required(translate.usernameIsRequired()).nullable(),
-      password: Yup.string().required(translate.passwordIsRequired()).nullable(),
+      username: Yup.string().required(translate('usernameIsRequired')).nullable(),
+      password: Yup.string().required(translate('passwordIsRequired')).nullable(),
     });
   }
 }
@@ -49,9 +49,9 @@ export class RegisterBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema<object>> {
     return Yup.object({
-      username: Yup.string().required(translate.usernameIsRequired()).nullable(),
-      password: Yup.string().required(translate.passwordIsRequired()).nullable(),
-      email: Yup.string().required(translate.emailIsRequired()).email(translate.enterValidEmail()).nullable(),
+      username: Yup.string().required(translate('usernameIsRequired')).nullable(),
+      password: Yup.string().required(translate('passwordIsRequired')).nullable(),
+      email: Yup.string().required(translate('emailIsRequired')).email(translate('enterValidEmail')).nullable(),
       firstName: Yup.string().notRequired(),
       lastName: Yup.string().notRequired(),
     });
@@ -67,8 +67,8 @@ export class ResetPasswordBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      resetToken: Yup.string().required(translate.resetTokenRequired()).nullable(),
-      password: Yup.string().required(translate.newPasswordRequired()).nullable(),
+      resetToken: Yup.string().required(translate('resetTokenRequired')).nullable(),
+      password: Yup.string().required(translate('newPasswordRequired')).nullable(),
     });
   }
 }
@@ -85,14 +85,14 @@ export class UpdatePasswordBody extends DApiBody {
 
   async validation?(currentPassword?: boolean): Promise<ObjectSchema> {
     const validation = {
-      password: Yup.string().required(translate.enterCurrentPassword()),
+      password: Yup.string().required(translate('enterCurrentPassword')),
       newPassword: Yup.string()
-        .required(translate.enterNewPassword())
-        .oneOf([Yup.ref('confirmPassword'), null], translate.passwordsMustMatch())
-        .notOneOf([Yup.ref('password'), null], translate.newPasswordCannotBeSameAsOldPassword()),
+        .required(translate('enterNewPassword'))
+        .oneOf([Yup.ref('confirmPassword'), null], translate('passwordsMustMatch'))
+        .notOneOf([Yup.ref('password'), null], translate('newPasswordCannotBeSameAsOldPassword')),
       confirmPassword: Yup.string()
         .required('Re-enter the new password')
-        .oneOf([Yup.ref('newPassword'), null], translate.passwordsMustMatch()),
+        .oneOf([Yup.ref('newPassword'), null], translate('passwordsMustMatch')),
     };
 
     if (!currentPassword) {
@@ -108,7 +108,7 @@ export class ForceChangePasswordBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      password: Yup.string().required(translate.passwordIsRequired()).nullable(),
+      password: Yup.string().required(translate('passwordIsRequired')).nullable(),
     });
   }
 }

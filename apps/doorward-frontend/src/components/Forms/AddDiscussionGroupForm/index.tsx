@@ -29,8 +29,8 @@ const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProp
       features={[BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON]}
       createData={(values) => [props.courseId, values]}
     >
-      <TextField name="title" label={translate.title()} icon="forum" />
-      <DraftTextArea fluid name="description" label={translate.description()} labelPosition="top" />
+      <TextField name="title" label={translate('title')} icon="forum" />
+      <DraftTextArea fluid name="description" label={translate('description')} labelPosition="top" />
     </BasicForm>
   );
 };

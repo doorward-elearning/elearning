@@ -21,7 +21,7 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
         type,
       }}
       actionBtnProps={{
-        text: translate.addGroup(),
+        text: translate('addGroup'),
         onClick: () => {
           routes.navigate(routes.routes[createRoute]);
         },
@@ -46,7 +46,7 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
                     });
                   }}
                 >
-                  {translate.edit()}
+                  {translate('edit')}
                 </Dropdown.Item>
               )}
             </Dropdown.Menu>

@@ -51,8 +51,8 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
         {({ assessment, submission }) => {
           return submission?.status === AssessmentSubmissionStatus.SUBMITTED ? (
             <Empty
-              message={translate.youHaveAlreadySubmittedThisAssessment()}
-              actionMessage={translate.goBack()}
+              message={translate('youHaveAlreadySubmittedThisAssessment')}
+              actionMessage={translate('goBack')}
               onAction={() => routes.navigate(routes.dashboard)}
             />
           ) : (

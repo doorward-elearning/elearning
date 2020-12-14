@@ -61,7 +61,7 @@ export class AssessmentsService {
 
       await this.submissionRepository.save(submission);
     } else {
-      throw new NotFoundException(translate.assessmentSubmissionDoesNotExist());
+      throw new NotFoundException(translate('assessmentSubmissionDoesNotExist'));
     }
     return submission;
   }

@@ -8,7 +8,7 @@ const AssignmentSubmissionModal: React.FunctionComponent<AssignmentSubmissionMod
   return (
     <Modal {...props}>
       <Modal.Header
-        title={translate.assignmentSubmissionForStudent({
+        title={translate('assignmentSubmissionForStudent', {
           fullName: props.submission?.student?.fullName,
         })}
       />

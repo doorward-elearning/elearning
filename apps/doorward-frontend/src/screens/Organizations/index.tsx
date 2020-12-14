@@ -20,9 +20,9 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
   return (
     <Layout
       {...props}
-      header={translate.organizations()}
+      header={translate('organizations')}
       actionBtnProps={{
-        text: translate.createOrganization(),
+        text: translate('createOrganization'),
         onClick: () => routes.navigate(routes.createOrganization),
       }}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}

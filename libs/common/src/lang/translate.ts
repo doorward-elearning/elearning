@@ -1,30 +1,22 @@
 import i18next, { StringMap, TFunctionResult, TOptions } from 'i18next';
 import defaultLang from '../../../../locales/en/en.default.json';
 
-export interface TranslateFunction<K extends string> {
-  <TResult extends TFunctionResult = K, TInterpolationMap extends object = StringMap>(
+type TKeys = keyof typeof defaultLang;
+
+export interface TFunction {
+  // basic usage
+  <TResult extends TFunctionResult = string, TInterpolationMap extends object = StringMap>(
+    key: TKeys | TKeys[],
     options?: TOptions<TInterpolationMap> | string
   ): TResult;
-
   // overloaded usage
-  <TResult extends TFunctionResult = K, TInterpolationMap extends object = StringMap>(
+  <TResult extends TFunctionResult = string, TInterpolationMap extends object = StringMap>(
+    key: TKeys | TKeys[],
     defaultValue?: string,
     options?: TOptions<TInterpolationMap> | string
   ): TResult;
 }
 
-export type Translate<T extends Record<string, string>, K extends keyof T = keyof T> = Record<
-  K,
-  TranslateFunction<T[K]>
->;
-
-const translate: Translate<typeof defaultLang> = Object.keys(defaultLang).reduce((acc, cur) => {
-  return {
-    ...acc,
-    [cur]: (defaultValue?: any, options?: any) => {
-      return i18next.t(cur, defaultValue, options);
-    },
-  };
-}, {} as any);
+const translate: TFunction = i18next.t.bind(i18next);
 
 export default translate;

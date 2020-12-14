@@ -15,10 +15,10 @@ import {
 import translate from '@doorward/common/lang/translate';
 
 const StudentExists = () =>
-  ModelExists({ key: 'studentId', model: UserEntity, message: translate.studentDoesNotExist() });
+  ModelExists({ key: 'studentId', model: UserEntity, message: translate('studentDoesNotExist') });
 
 const TeacherExists = () =>
-  ModelExists({ key: 'teacherId', model: UserEntity, message: translate.teacherDoesNotExist() });
+  ModelExists({ key: 'teacherId', model: UserEntity, message: translate('teacherDoesNotExist') });
 
 @Controller('reports')
 @ApiTags('reports')

@@ -43,7 +43,7 @@ function CreateGroup<T, Args extends Array<any>>({
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={`${currentGroupState ? translate.updateGroup() : translate.createGroup()}`}
+      header={`${currentGroupState ? translate('updateGroup') : translate('createGroup')}`}
     >
       <WebComponent
         data={{ allUsers: getUsers(state.data), group: currentGroupState?.data?.group }}

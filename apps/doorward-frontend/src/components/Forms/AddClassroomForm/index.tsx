@@ -26,11 +26,11 @@ const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
         form.formikProps.resetForm();
         onSuccess();
       }}
-      negativeText={translate.close()}
+      negativeText={translate('close')}
       onCancel={onCancel}
       form={form}
     >
-      <TextField name="name" placeholder={translate.classroomName()} labelPosition="top" />
+      <TextField name="name" placeholder={translate('classroomName')} labelPosition="top" />
     </BasicForm>
   );
 };

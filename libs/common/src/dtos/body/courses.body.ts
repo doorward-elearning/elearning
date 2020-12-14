@@ -15,7 +15,7 @@ export class UpdateCourseBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required(translate.courseTitleIsRequired()).nullable(),
+      title: Yup.string().required(translate('courseTitleIsRequired')).nullable(),
       description: Yup.string().notRequired().nullable(),
     });
   }
@@ -32,10 +32,10 @@ export class CreateCourseBody extends UpdateCourseBody {
         modules: Yup.array()
           .of(
             Yup.object().shape({
-              title: Yup.string().required(translate.moduleNameIsRequired()),
+              title: Yup.string().required(translate('moduleNameIsRequired')),
             }),
           )
-          .required(translate.provideAtLeastOneModule()),
+          .required(translate('provideAtLeastOneModule')),
       }),
     );
     return validation;

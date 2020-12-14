@@ -53,7 +53,7 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
         useModal={confirmModal}
         title={`Submit ${props.type}`}
       >
-        <p>{translate.areYouSureYouWantToSubmitThisAssessment()}</p>
+        <p>{translate('areYouSureYouWantToSubmitThisAssessment')}</p>
       </ConfirmModal>
       <TabLayout
         stickyHeader
@@ -80,7 +80,7 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
           disabled={displayedQuestion === 0}
           onClick={() => setDisplayedQuestion(displayedQuestion - 1)}
         >
-          {translate.previous()}
+          {translate('previous')}
         </Button>
         <Button
           onClick={() => {
@@ -98,7 +98,7 @@ const SingleQuestionAssessment: React.FunctionComponent<SingleQuestionAssessment
           theme={currentQuestion === questions.length - 1 ? 'success' : 'primary'}
           disabled={!currentAnswered && currentQuestion === displayedQuestion}
         >
-          {currentQuestion === questions.length - 1 ? translate.submit() : translate.next()}
+          {currentQuestion === questions.length - 1 ? translate('submit') : translate('next')}
         </Button>
       </Row>
     </div>

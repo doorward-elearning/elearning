@@ -30,7 +30,7 @@ import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 
 export const ModuleExists = () =>
-  ModelExists({ key: 'moduleId', model: ModuleEntity, message: translate.moduleDoesNotExist() });
+  ModelExists({ key: 'moduleId', model: ModuleEntity, message: translate('moduleDoesNotExist') });
 
 @Controller('modules')
 @ApiTags('modules')
@@ -108,9 +108,7 @@ export class ModulesController {
     return {
       item: moduleItem,
       statusCode: HttpStatus.CREATED,
-      message: translate.moduleItemHasBeenAddedToModule({
-        moduleItem: body.type,
-      }),
+      message: translate('moduleItemHasBeenAddedToModule', { moduleItem: body.type }),
     };
   }
 
@@ -126,7 +124,7 @@ export class ModulesController {
   async updateModule(@Body() body: UpdateModuleBody, @Param('moduleId') moduleId: string): Promise<ModuleResponse> {
     const module = await this.modulesService.updateModule(moduleId, body);
 
-    return { module, message: translate.moduleHasBeenUpdated() };
+    return { module, message: translate('moduleHasBeenUpdated') };
   }
 
   /**
@@ -146,7 +144,7 @@ export class ModulesController {
 
     return {
       id: moduleId,
-      message: translate.moduleHasBeenDeleted(),
+      message: translate('moduleHasBeenDeleted'),
     };
   }
 

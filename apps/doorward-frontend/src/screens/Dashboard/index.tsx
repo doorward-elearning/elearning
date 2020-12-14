@@ -16,11 +16,11 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER]}
-      header={translate.dashboard().toUpperCase()}
+      header={translate('dashboard').toUpperCase()}
       renderTopContent={() => (
         <IfElse condition={query.newAccount}>
           <Message onClose={() => routes.navigate(routes.dashboard)}>
-            <Header size={5}>{translate.thankYouForJoiningDoorward()}</Header>
+            <Header size={5}>{translate('thankYouForJoiningDoorward')}</Header>
           </Message>
         </IfElse>
       )}

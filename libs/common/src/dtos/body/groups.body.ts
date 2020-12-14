@@ -11,7 +11,7 @@ export class AddMemberToGroupBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      members: Yup.array(Yup.string()).required(translate.chooseAtLeastOneMember()),
+      members: Yup.array(Yup.string()).required(translate('chooseAtLeastOneMember')),
     });
   }
 }
@@ -26,7 +26,7 @@ export class CreateGroupBody extends AddMemberToGroupBody {
   async validation?(): Promise<ObjectSchema> {
     return (await super.validation()).concat(
       Yup.object({
-        name: Yup.string().required(translate.nameRequired()).nullable(),
+        name: Yup.string().required(translate('nameRequired')).nullable(),
         type: Yup.string().nullable(),
       }),
     );

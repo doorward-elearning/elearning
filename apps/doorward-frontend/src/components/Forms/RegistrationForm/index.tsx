@@ -20,8 +20,8 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
   const form = useForm();
   return (
     <AuthForm
-      title={translate.register()}
-      buttonText={translate.register()}
+      title={translate('register')}
+      buttonText={translate('register')}
       submitAction={DoorwardApi.auth.register}
       state={state}
       form={form}
@@ -38,10 +38,10 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
       initialValues={initialValues}
     >
       <React.Fragment>
-        <TextField name="fullName" label={translate.fullName()} />
-        <TextField name="username" label={translate.username()} />
-        <TextField name="email" label={translate.email()} type="email" />
-        <PasswordField name="password" label={translate.password()} />
+        <TextField name="fullName" label={translate('fullName')} />
+        <TextField name="username" label={translate('username')} />
+        <TextField name="email" label={translate('email')} type="email" />
+        <PasswordField name="password" label={translate('password')} />
       </React.Fragment>
     </AuthForm>
   );

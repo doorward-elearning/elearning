@@ -9,7 +9,7 @@ const CreateDiscussionGroupModal: React.FunctionComponent<CreateDiscussionGroupM
   const form = useForm();
   return (
     <Modal useModal={props.modal}>
-      <Modal.Header title={translate.addDiscussionGroup()} />
+      <Modal.Header title={translate('addDiscussionGroup')} />
       <Modal.Body>
         <AddDiscussionGroupForm form={form} onSuccess={props.modal.closeModal} courseId={props.courseId} />
       </Modal.Body>

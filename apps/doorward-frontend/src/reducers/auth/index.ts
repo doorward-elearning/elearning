@@ -1,7 +1,7 @@
 import { modifyReducer } from '@doorward/ui/reducers/builder';
 import Tools from '@doorward/common/utils/Tools';
 import { Action } from '@doorward/ui/reducers/reducers';
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import { DoorwardApiTypes } from '../../services/apis/doorward.api';
 import { CLEAR_LOGIN } from './types';
 

@@ -11,7 +11,7 @@ export class SaveAssessmentBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      submission: Yup.string().required(translate.submissionIsRequired()),
+      submission: Yup.string().required(translate('submissionIsRequired')),
     });
   }
 }

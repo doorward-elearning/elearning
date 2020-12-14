@@ -23,7 +23,11 @@ async function bootstrap() {
   await configureLang(ORGANIZATION);
 
   const app = await setUpNestApplication(AppModule);
-  app.useLogger(await app.resolve(PinoLogger));
+
+  if (process.env.NODE_ENV === 'production') {
+    app.useLogger(await app.resolve(PinoLogger));
+  }
+
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
   swaggerDocumentation(

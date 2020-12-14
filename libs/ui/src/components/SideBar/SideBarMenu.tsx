@@ -37,13 +37,17 @@ const Item: React.FunctionComponent<ItemProps> = (props) => {
     }
   };
 
+  const Parent = (props) => {
+    return subMenu ? <span style={{ cursor: 'pointer' }} {...props} /> : <Link {...props} to={link} />;
+  };
+
   return (
     <li className={classes}>
-      <Link to={subMenu ? '#' : link} className="nav-link" onClick={onItemClick}>
+      <Parent className="nav-link" onClick={onItemClick}>
         <Icon icon={icon} />
         <span className="title">{name}</span>
         <Icon icon="keyboard_arrow_right" className={classNames({ arrow: true, open: !!activeSubItem && subMenu })} />
-      </Link>
+      </Parent>
       {subMenu && (
         <SideBarSubMenu
           history={history}

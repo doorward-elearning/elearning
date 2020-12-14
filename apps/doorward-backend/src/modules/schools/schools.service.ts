@@ -36,13 +36,13 @@ export class SchoolsService {
    */
   public async createSchool(body: CreateSchoolBody) {
     if (await this.schoolRepository.findByEmail(body.email)) {
-      throw new ValidationException({ email: translate.schoolWithThisEmailAlreadyExists() });
+      throw new ValidationException({ email: translate('schoolWithThisEmailAlreadyExists') });
     }
     if (await this.schoolRepository.findByName(body.name)) {
-      throw new ValidationException({ name: translate.schoolWithThisNameAlreadyExists() });
+      throw new ValidationException({ name: translate('schoolWithThisNameAlreadyExists') });
     }
     if (await this.schoolRepository.findByPhoneNumber(body.phoneNumber)) {
-      throw new ValidationException({ phoneNumber: translate.schoolWithThisPhoneAlreadyExists() });
+      throw new ValidationException({ phoneNumber: translate('schoolWithThisPhoneAlreadyExists') });
     }
 
     const school = await this.schoolRepository.save(
@@ -64,7 +64,7 @@ export class SchoolsService {
     this.emailService
       .send(
         new SchoolCreatedEmail({
-          subject: translate.newSchoolCreated(),
+          subject: translate('newSchoolCreated'),
           data: school,
           recipient: {
             fullName: 'Admin',

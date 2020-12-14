@@ -59,7 +59,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
             </Row>
             {moduleItem.type === ModuleItemType.ASSIGNMENT && (
               <span className="meta">
-                {translate.dueOn({
+                {translate('dueOn', {
                   date: Tools.shortDateTime((moduleItem as AssignmentEntity)?.options?.dueDate),
                 })}
               </span>
@@ -151,12 +151,12 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
     <div className="course-module-list">
       <WebConfirmModal
         args={[moduleToDelete]}
-        title={translate.deleteModule()}
+        title={translate('deleteModule')}
         useModal={deleteModuleModal}
         action={DoorwardApi.modules.deleteModule}
         state={state}
       >
-        <p>{translate.areYouSureYouWantToDeleteModule()}</p>
+        <p>{translate('areYouSureYouWantToDeleteModule')}</p>
       </WebConfirmModal>
       <WebComponent data={course.modules} loading={false}>
         {(rawModules): JSX.Element => (

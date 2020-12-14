@@ -65,7 +65,7 @@ export class UsersService {
   ): Promise<{ user: UserEntity; resetToken: string | null }> {
     const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
-      throw new ValidationException({ username: translate.userWithUsernameAlreadyExists() });
+      throw new ValidationException({ username: translate('userWithUsernameAlreadyExists') });
     }
     const { role, status = UserStatus.PENDING_ACTIVATION, ...userBody } = body;
 

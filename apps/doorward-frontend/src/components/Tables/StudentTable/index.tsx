@@ -5,12 +5,12 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
 
 const columns = {
-  username: translate.username(),
-  firstName: translate.firstName(),
-  lastName: translate.lastName(),
-  email: translate.email(),
-  phoneNumber: translate.phoneNumber(),
-  status: translate.status(),
+  username: translate('username'),
+  firstName: translate('firstName'),
+  lastName: translate('lastName'),
+  email: translate('email'),
+  phoneNumber: translate('phoneNumber'),
+  status: translate('status'),
 };
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {

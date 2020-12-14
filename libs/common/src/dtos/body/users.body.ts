@@ -26,12 +26,12 @@ export class UpdateAccountBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      email: Yup.string().email(translate.enterValidEmail()).nullable(),
+      email: Yup.string().email(translate('enterValidEmail')).nullable(),
       phoneNumber: Yup.string()
         .nullable()
         .when('email', {
           is: (value) => !value,
-          then: Yup.string().required(translate.enterEmailOrPhoneNumber()),
+          then: Yup.string().required(translate('enterEmailOrPhoneNumber')),
         }),
     });
   }
@@ -70,15 +70,15 @@ export class UpdateUserBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      username: Yup.string().required(translate.usernameIsRequired()).nullable(),
-      firstName: Yup.string().required(translate.firstNameRequired()).nullable(),
-      lastName: Yup.string().required(translate.lastNameRequired()).nullable(),
-      email: Yup.string().email(translate.emailIsRequired()).nullable(),
+      username: Yup.string().required(translate('usernameIsRequired')).nullable(),
+      firstName: Yup.string().required(translate('firstNameRequired')).nullable(),
+      lastName: Yup.string().required(translate('lastNameRequired')).nullable(),
+      email: Yup.string().email(translate('emailIsRequired')).nullable(),
       phoneNumber: Yup.string()
         .nullable()
         .when('email', {
           is: (value) => !value,
-          then: Yup.string().required(translate.enterEmailOrPhoneNumber()),
+          then: Yup.string().required(translate('enterEmailOrPhoneNumber')),
         }),
     });
   }

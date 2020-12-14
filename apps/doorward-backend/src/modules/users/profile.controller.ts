@@ -41,7 +41,7 @@ export default class ProfileController {
   ): Promise<DApiResponse> {
     await this.usersService.updateAccountPassword(body, currentUser);
     return {
-      message: translate.passwordHasBeenUpdated(),
+      message: translate('passwordHasBeenUpdated'),
     };
   }
 
@@ -56,7 +56,7 @@ export default class ProfileController {
     const hadPassword = await this.usersService.resetAccountPassword(body);
 
     return {
-      message: hadPassword ? translate.passwordCreated() : translate.passwordHasBeenReset(),
+      message: hadPassword ? translate('passwordCreated') : translate('passwordHasBeenReset'),
     };
   }
 
@@ -71,7 +71,7 @@ export default class ProfileController {
   async forgotAccountPassword(@Body() body: ForgotPasswordBody, @Origin() origin: string): Promise<DApiResponse> {
     await this.usersService.userForgotPassword(body, origin);
     return {
-      message: translate.passwordResetLinkHasBeenSentToYourEmail(),
+      message: translate('passwordResetLinkHasBeenSentToYourEmail'),
     };
   }
 }

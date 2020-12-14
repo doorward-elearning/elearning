@@ -12,9 +12,9 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
     <Table
       className="course-table"
       columns={{
-        displayName: translate.courseName(),
-        students: translate.numberOfStudents(),
-        status: translate.status(),
+        displayName: translate('courseName'),
+        students: translate('numberOfStudents'),
+        status: translate('status'),
       }}
       data={props.courses}
       onRowClick={(course): void => {

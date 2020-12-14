@@ -34,10 +34,10 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
         },
       ]}
       columns={{
-        username: translate.username(),
-        firstName: translate.firstName(),
-        lastName: translate.lastName(),
-        email: translate.email(),
+        username: translate('username'),
+        firstName: translate('firstName'),
+        lastName: translate('lastName'),
+        email: translate('email'),
       }}
     />
   );

@@ -27,6 +27,7 @@ import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.en
 import { ExamEntity } from '@doorward/common/entities/exam.entity';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 
 const entities = [
   AnswerEntity,
@@ -58,6 +59,7 @@ const entities = [
   ExamEntity,
   AssessmentEntity,
   AssessmentSubmissionEntity,
+  ModuleVideoEntity,
 ];
 
 export default entities;

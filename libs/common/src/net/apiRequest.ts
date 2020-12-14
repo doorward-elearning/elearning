@@ -1,8 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Tools from '@doorward/common/utils/Tools';
-import { ParsedUrlQuery } from 'querystring';
 import * as queryString from 'querystring';
-import { pickBy, identity } from 'lodash';
+import { identity, pickBy } from 'lodash';
 
 const service = axios.create();
 

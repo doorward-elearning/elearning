@@ -21,18 +21,18 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
-      header={translate.assignment({ count: 100 })}
+      header={translate('assignment', { count: 100 })}
     >
       <WebComponent data={state.data.items} loading={state.fetching}>
         {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table
               data={assignments}
-              columns={{ title: translate.name(), module: translate.module(), status: translate.status() }}
+              columns={{ title: translate('name'), module: translate('module'), status: translate('status') }}
               getCell={(row) => {
                 return {
                   module: row.module.title,
-                  status: row.assignmentSubmissions?.[0] ? translate.submitted() : translate.notSubmitted(),
+                  status: row.assignmentSubmissions?.[0] ? translate('submitted') : translate('notSubmitted'),
                 };
               }}
               onRowClick={(row) => {

@@ -50,7 +50,7 @@ export class OrganizationsController {
   async createOrganization(@Body() body: CreateOrganizationBody): Promise<OrganizationResponse> {
     const organization = await this.organizationService.createOrganization(body);
 
-    return { organization, message: translate.organizationCreated() };
+    return { organization, message: translate('organizationCreated') };
   }
 
   /**

@@ -16,7 +16,7 @@ const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) 
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.SEARCH_BAR]}
-      header={translate.studentReports()}
+      header={translate('studentReports')}
       onSearch={onSearch}
     >
       <StudentReportsTable

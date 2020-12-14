@@ -86,10 +86,11 @@ export default class DocumentationBuilder {
 
     return `
       ${bodies ? `import { ${bodies} } from '@doorward/common/dtos/body';` : ''}
-      import ApiRequest from '@doorward/ui/services/apiRequest';
+      import ApiRequest from '@doorward/common/net/apiRequest';
       ${responses ? `import { ${responses} } from '@doorward/common/dtos/response';` : ''}
       import DApiResponse from '@doorward/common/dtos/response/base.response';
-      import { AxiosRequestConfig } from 'axios';
+      import handleApiError from '@doorward/common/net/handleApiError';
+      import axios, { AxiosRequestConfig } from 'axios';
       
       const { GET, PUT, POST, DELETE } = ApiRequest;
     
@@ -110,6 +111,8 @@ export default class DocumentationBuilder {
         let pathTitle = operationItem.operationId;
         const tokens = pathTitle.split('_');
 
+        const tags = operationItem.tags;
+
         pathTitle = tokens.length === 2 ? tokens[1] : tokens[0];
 
         const body = this.extractSchema(
@@ -128,7 +131,7 @@ export default class DocumentationBuilder {
         body.forEach((b) => this.requestBody.add(b));
         response.forEach((r) => this.responseBody.add(r));
 
-        return `${pathTitle}: ${this.generateFunction(method, path, Params, body, response, Query)},\n`;
+        return `${pathTitle}: ${this.generateFunction(method, path, Params, body, response, tags, Query)},\n`;
       })
       .sort()
       .join('');
@@ -140,12 +143,18 @@ export default class DocumentationBuilder {
     Params: { params: string; path: string },
     body: Array<string>,
     response: Array<string>,
+    tags: Array<string>,
     query?: {
       optional: string;
       required: string;
       queryParams: string;
     }
   ) {
+    if (tags.includes('upload-file')) {
+      return this.createLocalUploadHandler(path, true);
+    } else if (tags.includes('upload-multiple-files')) {
+      return this.createLocalUploadHandler(path, false);
+    }
     const { params, path: newPath } = Params;
     const Body = body.join(' | ');
     const Response = response.join(' | ');
@@ -235,5 +244,45 @@ export default class DocumentationBuilder {
       const tokens = ref.split('/');
       return tokens[tokens.length - 1];
     }
+  }
+
+  private createLocalUploadHandler(path: string, singleFile: boolean): string {
+    return `async (
+      ${singleFile ? 'file: Blob' : 'files: Array<Blob>'},
+      onUploadProgress?: (percentage: number) => void,
+      cancelHandler?: (cancelFunction: () => void) => void
+    ): Promise<${singleFile ? 'FileResponse' : 'FilesResponse'}> => {
+      const formData = new FormData();
+      
+      ${
+        singleFile
+          ? `formData.append('file', file); `
+          : `files.forEach((file) => {
+          formData.append('files', file);
+        }); `
+      }
+      
+      let data = null;
+      
+      try {
+        const result = await POST("${path}", formData, null, {
+          onUploadProgress: (progressEvent) => {
+            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+            if (onUploadProgress) {
+              onUploadProgress(percentage);
+            }
+          },
+          cancelToken: new axios.CancelToken((c) => {
+            cancelHandler(c);
+          }),
+        });
+        
+        data = result.data;
+      }catch(error) {
+        data = handleApiError(error);
+      }
+      
+      return data;
+    }`;
   }
 }

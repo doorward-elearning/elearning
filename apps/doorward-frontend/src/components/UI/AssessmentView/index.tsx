@@ -35,13 +35,13 @@ const AssessmentTimes = ({ startDate, endDate }) => {
       <HeaderGrid>
         <div>
           <Header padded size={2}>
-            {translate.availableFrom()}
+            {translate('availableFrom')}
           </Header>
           <DisplayLabel>{Tools.normalDateTime(startDate)}</DisplayLabel>
         </div>
         <div>
           <Header padded size={2}>
-            {translate.availableTo()}
+            {translate('availableTo')}
           </Header>
           <DisplayLabel>{Tools.normalDateTime(endDate)}</DisplayLabel>
         </div>
@@ -132,7 +132,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         {assessment.instructions && (
           <React.Fragment>
             <Header padded size={2}>
-              {translate.instructions()}
+              {translate('instructions')}
             </Header>
             <DraftHTMLContent content={assessment.instructions} />
           </React.Fragment>
@@ -141,10 +141,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           <React.Fragment>
             <HeaderGrid>
               <Header padded size={2}>
-                {translate.questions()}
+                {translate('questions')}
               </Header>
               <DisplayLabel>
-                {translate.totalPoints()}
+                {translate('totalPoints')}
                 <b>{assessment.questions.reduce((acc, question) => acc + question.points, 0)}</b>
               </DisplayLabel>
             </HeaderGrid>
@@ -176,9 +176,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 })
               }
             >
-              {translate.startAssessment({
-                assessment: assessment.assessmentType,
-              })}
+              {translate('startAssessment', { assessment: assessment.assessmentType })}
             </Button>
           )}
         </RoleContainer>
@@ -189,7 +187,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         {submission && (
           <RoleContainer privileges={['assessments.submit']}>
             <Header padded size={2}>
-              {translate.submission({ count: 1 })}
+              {translate('submission', { count: 1 })}
             </Header>
             <Table
               data={[submission]}
@@ -197,10 +195,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 submittedOn: Tools.normalDateTime(row.submittedOn),
               })}
               columns={{
-                status: translate.status(),
-                submittedOn: translate.dateSubmitted(),
-                grade: translate.grade(),
-                gradedBy: translate.gradedBy(),
+                status: translate('status'),
+                submittedOn: translate('dateSubmitted'),
+                grade: translate('grade'),
+                gradedBy: translate('gradedBy'),
               }}
             />
           </RoleContainer>

@@ -13,7 +13,7 @@ import { SubmitAssignmentBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
 
 const AssignmentExists = () =>
-  ModelExists({ key: 'assignmentId', model: ModuleItemEntity, message: translate.assignmentDoesNotExist() });
+  ModelExists({ key: 'assignmentId', model: ModuleItemEntity, message: translate('assignmentDoesNotExist') });
 
 @Controller('assignments')
 @ApiTags('assignments')

@@ -17,6 +17,7 @@ import {
   CreateModuleItemBody,
   CreatePageBody,
   CreateQuizBody,
+  CreateVideoBody,
 } from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
@@ -25,7 +26,7 @@ const ModuleItemExists = () =>
   ModelExists({
     key: 'itemId',
     model: ModuleItemEntity,
-    message: translate.moduleItemDoesNotExist(),
+    message: translate('moduleItemDoesNotExist'),
   });
 
 @Controller('module/items')
@@ -68,7 +69,8 @@ export class ItemsController {
         CreateAssignmentBody,
         CreatePageBody,
         CreateQuizBody,
-        CreateAssessmentBody
+        CreateAssessmentBody,
+        CreateVideoBody
       ),
     },
   })
@@ -81,6 +83,7 @@ export class ItemsController {
       | CreateAssignmentBody
       | CreatePageBody
       | CreateExamBody
+      | CreateVideoBody
       | CreateQuizBody,
     @CurrentUser() author: UserEntity
   ): Promise<ModuleItemResponse> {
@@ -95,15 +98,15 @@ export class ItemsController {
       await YupValidationPipe.validate(CreatePageBody, body);
     } else if (body.type === ModuleItemType.ASSIGNMENT) {
       await YupValidationPipe.validate(CreateAssignmentBody, body);
+    } else if (body.type === ModuleItemType.VIDEO) {
+      await YupValidationPipe.validate(CreateVideoBody, body);
     }
     const existingItem = await this.itemsService.getModuleItem(itemId);
     const moduleItem = await this.itemsService.createOrUpdateModuleItem(existingItem.module.id, body, author, itemId);
 
     return {
       item: moduleItem,
-      message: translate.moduleItemWasUpdated({
-        moduleItem: body.type,
-      }),
+      message: translate('moduleItemWasUpdated', { moduleItem: body.type }),
     };
   }
 }

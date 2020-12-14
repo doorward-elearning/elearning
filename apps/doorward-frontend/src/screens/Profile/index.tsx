@@ -17,7 +17,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const match = useRouteMatch();
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate.myProfile()}>
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate('myProfile')}>
       <UserCardContext
         openModal={match.path === routes.changePassword.link}
         onOpenChangePasswordModal={() => {

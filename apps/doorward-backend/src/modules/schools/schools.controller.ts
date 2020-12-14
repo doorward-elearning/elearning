@@ -23,7 +23,7 @@ export class SchoolsController {
   async createSchool(@Body() body: CreateSchoolBody): Promise<SchoolResponse> {
     const school = await this.schoolService.createSchool(body);
 
-    return { school, message: translate.schoolHasBeenCreated() };
+    return { school, message: translate('schoolHasBeenCreated') };
   }
 
   /**

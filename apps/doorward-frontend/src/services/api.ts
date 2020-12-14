@@ -1,4 +1,4 @@
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import axios from 'axios';
 
 /**

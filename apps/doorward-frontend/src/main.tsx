@@ -11,19 +11,18 @@ import useApp, { appInitialValue } from './hooks/useApp';
 import RolesManager from '@doorward/ui/components/RolesManager';
 import ApplicationTheme from '@doorward/ui/components/ApplicationTheme';
 import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
-import configureLang from '@doorward/common/lang/frontend.config';
 
 ApiRequest.setBaseURL(process.env.REACT_APP_BASE_URL);
 // ensure the user is logged in
 ApiRequest.setAuth();
 
-configureLang(process.env.REACT_APP_BASE_URL).then();
 
-export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
+export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {
+}
 
 export const AppContext = createAppContext({
   ...appInitialValue,
@@ -33,6 +32,7 @@ const App: React.FC = () => {
   const app = useApp();
   useOfflineToast();
 
+
   const auth = useAuth();
 
   return (
@@ -40,7 +40,7 @@ const App: React.FC = () => {
       <ApplicationTheme theme="base">
         <ApplicationInitializer>
           <RolesManager auth={auth}>
-            <Router />
+            <Router/>
           </RolesManager>
         </ApplicationInitializer>
       </ApplicationTheme>
@@ -50,9 +50,9 @@ const App: React.FC = () => {
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App/>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change

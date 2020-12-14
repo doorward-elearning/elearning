@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import './styles/FileUploadField.scss';
 import withInput, { InputFeatures } from '@doorward/ui/components/Input/index';
 import IfElse from '@doorward/ui/components/IfElse';
-import Plural from '@doorward/ui/components/Plural';
 import { InputProps } from './index';
 import Panel from '@doorward/ui/components/Panel';
 import Tools from '@doorward/common/utils/Tools';
@@ -11,8 +10,8 @@ import ProgressBar from '@doorward/ui/components/ProgressBar';
 import classNames from 'classnames';
 import Spinner from '@doorward/ui/components/Spinner';
 import MoreInfo from '@doorward/ui/components/MoreInfo';
-import FileEntity from '@doorward/common/entities/file.entity';
 import translate from '@doorward/common/lang/translate';
+import { FileResponse, FilesResponse, SimpleFileResponse } from '@doorward/common/dtos/response';
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
   const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');
@@ -23,7 +22,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
 
   const validate = () => {
     if (file.size > +process.env.MAX_UPLOAD_SIZE * 1024 * 1024) {
-      setError(translate.maxFileSize({ size: Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024) }));
+      setError(translate('maxFileSize', { size: Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024) }));
       return false;
     }
     return true;
@@ -39,11 +38,11 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
           .then((result) => {
             setPercentage(100);
             setStatus('uploaded');
-            props.onSuccess(result.data.file);
+            props.onSuccess(result);
           })
           .catch((err) => {
             setStatus('failed');
-            setError(translate.errorUploadingFile());
+            setError(translate('errorUploadingFile'));
             props.onFailure(error);
           });
       } else {
@@ -94,17 +93,30 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
 };
 
 const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): JSX.Element => {
-  const maxFiles = props.maxFiles || (props.multiple ? Number.MAX_SAFE_INTEGER : 1);
+  const maxFiles = props.multiple ? props.maxFiles || 10 : 1;
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState<Record<string, SimpleFileResponse>>({});
 
   useEffect(() => {
     const result = Object.values(value).filter((v) => !!v);
+    let _value = null;
+
+    if (props.multiple) {
+      _value = result.map((file) => file.id);
+      if (props.onFilesChanged) {
+        props.onFilesChanged(result);
+      }
+    } else {
+      _value = result?.[0]?.id;
+      if (props.onFileChanged) {
+        props.onFileChanged(result?.[0]);
+      }
+    }
 
     props.onChange({
       target: {
-        value: result,
+        value: _value,
         name: props.name,
       },
     });
@@ -138,15 +150,15 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
             }}
           >
             <span>
-              {translate.dragAndDropFilesHere()} {translate.or()}{' '}
-              <span className="upload-field__browse">{translate.browse()}</span>
+              {translate('dragAndDropFilesHere')} {translate('or')}{' '}
+              <span className="upload-field__browse">{translate('browse')}</span>
             </span>
           </div>
           <div className="meta instructions">
             <IfElse condition={maxFiles > 0}>
-              <span>{translate.uploadUpToWithCount({ count: maxFiles })}</span>
+              <span>{translate('uploadUpToWithCount', { count: maxFiles })}. &nbsp;</span>
             </IfElse>
-            <span>{translate.maxFileSize({ size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
+            <span>{translate('maxFileSize', { size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
           </div>
         </React.Fragment>
       )}
@@ -160,7 +172,7 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
               onSuccess={(uploaded) => {
                 setValue({
                   ...value,
-                  [fileId]: uploaded,
+                  [fileId]: uploaded.file,
                 });
               }}
               onFailure={(error) => {
@@ -186,22 +198,34 @@ export type UploadHandler = (
   file: Blob,
   onUploadProgress: (percentage: number) => void,
   cancelHandler: (cancelFunction: () => void) => void
-) => Promise<any>;
+) => Promise<FileResponse>;
 
-export type FileUploadFieldValue = Array<FileEntity>;
+export type MultipleUploadHandler = (
+  file: Array<Blob>,
+  onUploadProgress: (percentage: number) => void,
+  cancelHandler: (cancelFunction: () => void) => void
+) => Promise<FilesResponse>;
 
-export interface FileUploadFieldProps extends InputProps {
-  maxFiles?: number;
-  multiple?: boolean;
-  fileTypes?: Array<string>;
-  uploadHandler: UploadHandler;
-}
+export type FileUploadFieldProps =
+  | (InputProps & {
+      fileTypes?: Array<string>;
+      multiple?: false;
+      onFileChanged?: (file: SimpleFileResponse) => void;
+      uploadHandler?: UploadHandler;
+    })
+  | (InputProps & {
+      maxFiles?: number;
+      multiple?: true;
+      fileTypes?: Array<string>;
+      uploadHandler: UploadHandler;
+      onFilesChanged?: (files: Array<SimpleFileResponse>) => void;
+    });
 
 export interface ChosenFileProps {
   file: File;
   removeFile: () => void;
   uploadHandler: UploadHandler;
-  onSuccess: (file: FileEntity) => void;
+  onSuccess: (file: FileResponse) => void;
   onFailure: (error: string) => void;
 }
-export default withInput(FileUploadField, [InputFeatures.LABEL], { labelPosition: 'top' });
+export default withInput(FileUploadField, [InputFeatures.LABEL], { labelPosition: 'top', multiple: false });

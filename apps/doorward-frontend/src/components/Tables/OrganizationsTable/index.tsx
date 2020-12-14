@@ -16,7 +16,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
     <Table
       className="organizations-table"
       data={props.organizations}
-      columns={{ name: translate.name(), id: translate.id(), description: translate.description() }}
+      columns={{ name: translate('name'), id: translate('id'), description: translate('description') }}
       actionMenu={(row) => {
         return (
           <Dropdown.Menu>

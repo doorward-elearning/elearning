@@ -34,7 +34,7 @@ const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={translate.createQuiz()}
+      header={translate('createQuiz')}
       noNavBar
     >
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>

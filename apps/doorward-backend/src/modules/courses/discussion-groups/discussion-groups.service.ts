@@ -24,7 +24,7 @@ export class DiscussionGroupsService {
   public async createDiscussionGroup(courseId: string, body: CreateDiscussionGroupBody, currentUser: UserEntity) {
     const exists = await this.discussionGroupRepository.findByTitle(body.title, courseId);
     if (exists) {
-      throw new ValidationException({ title: translate.discussionGroupWithThisTitleExists() });
+      throw new ValidationException({ title: translate('discussionGroupWithThisTitleExists') });
     }
     return this.discussionGroupRepository.createAndSave({
       ...body,

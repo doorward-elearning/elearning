@@ -15,7 +15,7 @@ import {
 import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers.body';
 import translate from '@doorward/common/lang/translate';
 
-const UserExists = () => ModelExists({ key: 'managerId', model: UserEntity, message: translate.userDoesNotExist() });
+const UserExists = () => ModelExists({ key: 'managerId', model: UserEntity, message: translate('userDoesNotExist') });
 
 @Controller('course-managers')
 @ApiTags('courseManagers')
@@ -54,9 +54,7 @@ export class ManagersController {
 
     return {
       courseManager,
-      message: translate.courseManagerAdded({
-        fullName: courseManager.manager.fullName,
-      }),
+      message: translate('courseManagerAdded', { fullName: courseManager.manager.fullName }),
     };
   }
 }

@@ -66,9 +66,9 @@ function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Elem
     return (
       <div className="web-component">
         <NotFound
-          title={translate.notFound()}
-          buttonText={translate.dashboard()}
-          message={translate.thisResourceDoesNotExist()}
+          title={translate('notFound')}
+          buttonText={translate('dashboard')}
+          message={translate('thisResourceDoesNotExist')}
         />
       </div>
     );

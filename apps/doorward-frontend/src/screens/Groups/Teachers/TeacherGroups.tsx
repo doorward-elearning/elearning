@@ -7,7 +7,7 @@ import translate from '@doorward/common/lang/translate';
 const TeacherGroups: React.FunctionComponent<TeacherGroupsProps> = (props): JSX.Element => {
   return (
     <GroupList
-      header={translate.teacherGroups()}
+      header={translate('teacherGroups')}
       createRoute="addTeacherGroup"
       type={Groups.TEACHER}
       viewRoute="viewTeacherGroup"

@@ -23,11 +23,11 @@ const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> =
   });
   return (
     <Modal {...props}>
-      <Modal.Header title={translate.addCourseModule()} />
+      <Modal.Header title={translate('addCourseModule')} />
       <Modal.Body>
         <AddModuleForm courseId={props.courseId} useForm={form} />
       </Modal.Body>
-      <Modal.Footer buttons={{ positive: translate.save() }} onPositiveClick={formikProps && formikProps.submitForm} />
+      <Modal.Footer buttons={{ positive: translate('save') }} onPositiveClick={formikProps && formikProps.submitForm} />
     </Modal>
   );
 };

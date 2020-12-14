@@ -10,7 +10,7 @@ const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (pr
   return (
     <Layout
       {...props}
-      header={translate.createOrganization()}
+      header={translate('createOrganization')}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
       <CreateOrganizationForm

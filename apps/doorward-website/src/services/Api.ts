@@ -1,4 +1,4 @@
-import ApiRequest from '@doorward/ui/services/apiRequest';
+import ApiRequest from '@doorward/common/net/apiRequest';
 import { FreeTrial } from '@doorward/common/requests/body';
 import { SchoolResponse } from '../../../doorward-frontend/src/services/models/responseBody';
 

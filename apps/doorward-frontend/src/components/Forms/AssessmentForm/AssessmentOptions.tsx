@@ -16,16 +16,16 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
       {({ formikProps }) => (
         <div className="assessment-details">
           <Header size={2} padded>
-            {translate.options()}
+            {translate('options')}
           </Header>
           <div>
             <Panel noBackground>
-              <Checkbox name="options.shuffleAnswers" label={translate.shuffleAnswers()} />
-              <Checkbox name="options.timeLimit.allow" label={translate.timeLimit()} />
+              <Checkbox name="options.shuffleAnswers" label={translate('shuffleAnswers')} />
+              <Checkbox name="options.timeLimit.allow" label={translate('timeLimit')} />
               <IfElse condition={formikProps?.values.options.timeLimit.allow}>
                 <NumberField
                   name="options.timeLimit.minutes"
-                  label={translate.minutes()}
+                  label={translate('minutes')}
                   labelPosition="left"
                   min={1}
                 />
@@ -33,58 +33,58 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
             </Panel>
             {/*<Spacer />*/}
             {/*<Panel noBackground>*/}
-            {/*  <Header size={3}>{translate.questions()}</Header>*/}
-            {/*  <Checkbox name="options.questions.oneAtATime" label={translate.showOneQuestionAtATime()} />*/}
+            {/*  <Header size={3}>{translate('questions')}</Header>*/}
+            {/*  <Checkbox name="options.questions.oneAtATime" label={translate('showOneQuestionAtATime')} />*/}
             {/*  <IfElse condition={formikProps?.values.options.questions.oneAtATime}>*/}
-            {/*    <Checkbox name="options.questions.lockAfterAnswering" label={translate.lockQuestionsAfterAnswering()} />*/}
+            {/*    <Checkbox name="options.questions.lockAfterAnswering" label={translate('lockQuestionsAfterAnswering')} />*/}
             {/*  </IfElse>*/}
             {/*</Panel>*/}
             {/*<Spacer />*/}
             {/*<Panel noBackground>*/}
-            {/*  <Header size={3}>{translate.attempts()}</Header>*/}
-            {/*  <Checkbox name="options.attempts.multiple" label={translate.allowMultipleAttempts()} />*/}
+            {/*  <Header size={3}>{translate('attempts')}</Header>*/}
+            {/*  <Checkbox name="options.attempts.multiple" label={translate('allowMultipleAttempts')} />*/}
             {/*  <IfElse condition={formikProps?.values.options.attempts.multiple}>*/}
             {/*    <React.Fragment>*/}
             {/*      <DropdownSelect*/}
-            {/*        options={[translate.highest(), translate.average(), translate.latest()]}*/}
-            {/*        label={translate.assessmentScoreToKeep()}*/}
+            {/*        options={[translate('highest'), translate('average'), translate('latest')]}*/}
+            {/*        label={translate('assessmentScoreToKeep')}*/}
             {/*        name="options.attempts.keepScore"*/}
             {/*        icon="timelapse"*/}
             {/*      />*/}
-            {/*      <NumberField name="options.attempts.max" label={translate.allowedAttempts()} min={1} />*/}
+            {/*      <NumberField name="options.attempts.max" label={translate('allowedAttempts')} min={1} />*/}
             {/*    </React.Fragment>*/}
             {/*  </IfElse>*/}
             {/*</Panel>*/}
             {/*<Spacer />*/}
             {/*<Panel noBackground>*/}
-            {/*  <Header size={3}>{translate.access()}</Header>*/}
-            {/*  <Checkbox name="options.restrictions.accessCode.require" label={translate.requireAnAccessCode()} />*/}
+            {/*  <Header size={3}>{translate('access')}</Header>*/}
+            {/*  <Checkbox name="options.restrictions.accessCode.require" label={translate('requireAnAccessCode')} />*/}
             {/*  <IfElse condition={formikProps?.values.options.restrictions.accessCode.require}>*/}
-            {/*    <TextField name="options.restrictions.accessCode.code" label={translate.accessCode()} />*/}
+            {/*    <TextField name="options.restrictions.accessCode.code" label={translate('accessCode')} />*/}
             {/*  </IfElse>*/}
             {/*</Panel>*/}
             {/*<Spacer />*/}
             {/*<Panel noBackground>*/}
-            {/*  <Header size={3}>{translate.responses()}</Header>*/}
-            {/*  <Checkbox name="options.responses.show" label={translate.letStudentsSeeResponses()} />*/}
+            {/*  <Header size={3}>{translate('responses')}</Header>*/}
+            {/*  <Checkbox name="options.responses.show" label={translate('letStudentsSeeResponses')} />*/}
             {/*  <IfElse condition={formikProps?.values.options.responses.show}>*/}
             {/*    <React.Fragment>*/}
-            {/*      <Checkbox name="options.responses.frequency.onlyOnce" label={translate.onlyOneAfterEachAttempt()} />*/}
+            {/*      <Checkbox name="options.responses.frequency.onlyOnce" label={translate('onlyOneAfterEachAttempt')} />*/}
             {/*      <Checkbox*/}
             {/*        name="options.responses.frequency.range.allow"*/}
-            {/*        label={translate.letStudentsSeeTheCorrectAnswers()}*/}
+            {/*        label={translate('letStudentsSeeTheCorrectAnswers')}*/}
             {/*      />*/}
             {/*      <IfElse condition={formikProps?.values.options.responses.frequency.range.allow}>*/}
             {/*        <React.Fragment>*/}
             {/*          <DateInput*/}
             {/*            name="options.responses.frequency.range.from"*/}
             {/*            showTimeSelect*/}
-            {/*            label={translate.showCorrectAnswersAt()}*/}
+            {/*            label={translate('showCorrectAnswersAt')}*/}
             {/*          />*/}
             {/*          <DateInput*/}
             {/*            name="options.responses.frequency.range.to"*/}
             {/*            showTimeSelect*/}
-            {/*            label={translate.hideCorrectAnswersAt()}*/}
+            {/*            label={translate('hideCorrectAnswersAt')}*/}
             {/*          />*/}
             {/*        </React.Fragment>*/}
             {/*      </IfElse>*/}
@@ -93,19 +93,19 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
             {/*</Panel>*/}
             {/*<Spacer />*/}
             <Panel noBackground>
-              <Header size={3}>{translate.availability()}</Header>
+              <Header size={3}>{translate('availability')}</Header>
               <Row>
                 <DateInput
                   name="options.availability.from"
                   shortDate
-                  label={translate.availableFrom()}
+                  label={translate('availableFrom')}
                   minDate={new Date()}
                   showTimeSelect
                 />
                 <DateInput
                   name="options.availability.to"
                   shortDate
-                  label={translate.availableTo()}
+                  label={translate('availableTo')}
                   minDate={formikProps.values?.options?.availability?.from || new Date()}
                   showTimeSelect
                 />

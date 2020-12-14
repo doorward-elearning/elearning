@@ -40,9 +40,9 @@ const AnswerInput: React.FunctionComponent<AnswerInputProps> = ({ answerIndex, o
   return (
     <div className="answer-panel">
       <div className="answer-panel__header">
-        <Checkbox name={`answers[${answerIndex}].correct`} label="" title={translate.isCorrectAnswer()} />
+        <Checkbox name={`answers[${answerIndex}].correct`} label="" title={translate('isCorrectAnswer')} />
         <span>
-          {translate.answer()} {answerIndex + 1}
+          {translate('answer')} {answerIndex + 1}
         </span>
         <Icon icon="delete" className="delete-answer" onClick={onRemove} />
       </div>
@@ -95,7 +95,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
             features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}
             bottomSheet
           >
-            <Modal.Header title={editQuestion ? translate.editQuestion() : translate.addQuestion()} />
+            <Modal.Header title={editQuestion ? translate('editQuestion') : translate('addQuestion')} />
             <Modal.Body>
               <div className="assessment-questions">
                 <div className="assessment-questions__question">
@@ -107,17 +107,17 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
                       options={[
                         {
                           value: AnswerTypes.MULTIPLE_CHOICE,
-                          label: translate.multipleChoice(),
+                          label: translate('multipleChoice'),
                         },
                         {
                           value: AnswerTypes.TEXT_INPUT,
-                          label: translate.textInput(),
+                          label: translate('textInput'),
                         },
                       ]}
-                      label={translate.type()}
+                      label={translate('type')}
                     />
                   )}
-                  <DraftTextArea fluid name={`question`} label={translate.description()} />
+                  <DraftTextArea fluid name={`question`} label={translate('description')} />
                 </div>
                 {question.type === AnswerTypes.MULTIPLE_CHOICE && (
                   <div className="assessment-questions__answers">
@@ -137,7 +137,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
                                 })
                               }
                             >
-                              {translate.addAnswer()}
+                              {translate('addAnswer')}
                             </Button>
                           </HeaderGrid>
                           <ErrorMessage name={`answers`} />
@@ -155,7 +155,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
               props={{
                 positive: { disabled: !isValid },
               }}
-              buttons={{ positive: editQuestion ? translate.save() : translate.add(), negative: translate.cancel() }}
+              buttons={{ positive: editQuestion ? translate('save') : translate('add'), negative: translate('cancel') }}
             />
           </Modal>
         );

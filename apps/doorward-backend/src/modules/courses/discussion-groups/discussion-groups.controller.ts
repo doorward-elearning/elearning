@@ -21,14 +21,14 @@ const CourseExists = () =>
   ModelExists({
     model: CourseEntity,
     key: 'courseId',
-    message: translate.courseDoesNotExist(),
+    message: translate('courseDoesNotExist'),
   });
 
 const DiscussionGroupExists = () =>
   ModelExists({
     model: DiscussionGroupEntity,
     key: 'discussionGroupId',
-    message: translate.discussionGroupDoesNotExist(),
+    message: translate('discussionGroupDoesNotExist'),
   });
 
 @Controller('discussion-groups')
@@ -66,7 +66,7 @@ export class DiscussionGroupsController {
   ): Promise<DiscussionGroupResponse> {
     const discussionGroup = await this.discussionGroupsService.createDiscussionGroup(courseId, body, currentUser);
 
-    return { discussionGroup, message: translate.discussionGroupHasBeenAdded() };
+    return { discussionGroup, message: translate('discussionGroupHasBeenAdded') };
   }
 
   @Post('post/:discussionGroupId')

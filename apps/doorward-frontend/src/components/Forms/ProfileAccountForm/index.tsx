@@ -46,11 +46,11 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (pr
       validationSchema={UpdateAccountBody}
       showOverlay
     >
-      <TextField name="firstName" label={translate.firstName()} />
-      <TextField name="lastName" label={translate.lastName()} />
-      <TextField name="email" type="email" label={translate.email()} />
-      <TextField name="phoneNumber" label={translate.phoneNumber()} />
-      <TextField name="username" label={translate.username()} editable={false} />
+      <TextField name="firstName" label={translate('firstName')} />
+      <TextField name="lastName" label={translate('lastName')} />
+      <TextField name="email" type="email" label={translate('email')} />
+      <TextField name="phoneNumber" label={translate('phoneNumber')} />
+      <TextField name="username" label={translate('username')} editable={false} />
     </BasicForm>
   );
 };

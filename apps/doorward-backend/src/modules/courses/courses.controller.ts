@@ -27,7 +27,7 @@ export const CourseExists = () =>
   ModelExists({
     key: 'courseId',
     model: CourseEntity,
-    message: translate.courseDoesNotExist(),
+    message: translate('courseDoesNotExist'),
   });
 
 @Controller('courses')
@@ -122,7 +122,7 @@ export class CoursesController {
     await this.coursesService.deleteCourse(courseId);
 
     return {
-      message: translate.courseHasBeenDeleted(),
+      message: translate('courseHasBeenDeleted'),
       id: courseId,
     };
   }
@@ -181,7 +181,7 @@ export class CoursesController {
 
     return {
       module,
-      message: translate.moduleHasBeenAddedToCourse(),
+      message: translate('moduleHasBeenAddedToCourse'),
       statusCode: HttpStatus.CREATED,
     };
   }

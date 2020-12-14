@@ -25,7 +25,7 @@ function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItem
         data={props.getItems(props.items)}
         loading={props.items.fetching}
         showRefreshingProgress
-        actionMessage={props.hasSearch && translate.removeFilter()}
+        actionMessage={props.hasSearch && translate('removeFilter')}
         onAction={props.onRemoveFilter}
       >
         {(items): JSX.Element => (
@@ -44,7 +44,7 @@ function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItem
                 <Table
                   columns={{
                     ...props.columns,
-                    _uniqueColumnAdd_: props.chooseHeader || translate.choose(),
+                    _uniqueColumnAdd_: props.chooseHeader || translate('choose'),
                   }}
                   data={formikProps.values.items}
                   onRowClick={(row, index): void => {

@@ -23,7 +23,7 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
       <Redirect to={routes.routes.studentList.link} />
       <Layout
         {...props}
-        header={translate.addStudent()}
+        header={translate('addStudent')}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
         <AddStudentForm

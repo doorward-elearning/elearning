@@ -29,6 +29,7 @@ const CreateAssignment = lazy(() => import('../screens/Courses/Modules/CreateAss
 const AddStudent = lazy(() => import('../screens/Students/AddStudent'));
 const CreateQuiz = lazy(() => import('../screens/Courses/Modules/CreateQuiz'));
 const CreateExam = lazy(() => import('../screens/Courses/Modules/CreateExam'));
+const AddModuleVideo = lazy(() => import('../screens/Courses/Modules/AddModuleVideo'));
 const Profile = lazy(() => import('../screens/Profile'));
 const StudentGroups = lazy(() => import('../screens/Groups/Students/StudentGroups'));
 const CreateStudentGroup = lazy(() => import('../screens/Groups/Students/CreateStudentGroup'));
@@ -75,10 +76,15 @@ export const routeConfigurations: Routes<DoorwardRoutes> = {
                 moduleItems: new Route('/:moduleId/items').with({
                   viewModuleItem: new Route('/:itemId', ViewModuleItem),
                   editModuleItem: new Route('/:itemId/edit', ViewModuleItem).privileges('moduleItems.update'),
-                  addModulePage: new Route('/create/page', AddModulePage),
-                  addAssignment: new Route('/create/assignment', CreateAssignment),
-                  addQuiz: new Route('/create/quiz', CreateQuiz),
-                  addExam: new Route('/create/exam', CreateExam),
+                  createModuleItem: new Route('/create')
+                    .with({
+                      addModulePage: new Route('/page', AddModulePage),
+                      addAssignment: new Route('/assignment', CreateAssignment),
+                      addQuiz: new Route('/quiz', CreateQuiz),
+                      addExam: new Route('/exam', CreateExam),
+                      addModuleVideo: new Route('/video', AddModuleVideo),
+                    })
+                    .privileges('moduleItems.create'),
                 }),
                 assignmentList: new Route('/assignments', AssignmentsList),
               }),
