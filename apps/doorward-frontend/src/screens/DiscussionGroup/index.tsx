@@ -47,7 +47,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
         data={state.data.discussionGroup}
         loading={state.fetching}
         icon="forum"
-        emptyMessage={translate.discussionGroupDoesNotExist()}
+        emptyMessage={translate('discussionGroupDoesNotExist')}
       >
         {(discussionGroup) => {
           return (
@@ -60,11 +60,11 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
               </div>
               <div className="discussion-info">
                 <Header size={3} padded>
-                  {translate.moderators()}
+                  {translate('moderators')}
                 </Header>
                 <SimpleUserView user={discussionGroup.creator} />
                 <Header size={3} padded>
-                  {translate.participants()}
+                  {translate('participants')}
                 </Header>
                 <WebComponent data={null} loading={false} size="medium">
                   {() => <div />}

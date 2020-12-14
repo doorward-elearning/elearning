@@ -17,7 +17,7 @@ const AssessmentExists = () =>
   ModelExists({
     model: AssessmentEntity,
     key: 'assessmentId',
-    message: translate.assessmentDoesNotExist(),
+    message: translate('assessmentDoesNotExist'),
   });
 
 @Controller('assessments')
@@ -76,6 +76,6 @@ export class AssessmentsController {
   ) {
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, currentUser);
 
-    return { submission, message: translate.assessmentSubmittedForReview() };
+    return { submission, message: translate('assessmentSubmittedForReview') };
   }
 }

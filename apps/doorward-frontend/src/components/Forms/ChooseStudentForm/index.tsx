@@ -53,7 +53,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
   return (
     <div>
       <TabLayout onTabChange={props.onTabChange}>
-        <Tab title={translate.students()}>
+        <Tab title={translate('students')}>
           <Panel plain>
             <ChooseItemsForm
               getItems={(state1) => state1.data.students}
@@ -75,15 +75,15 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 },
               ]}
               columns={{
-                username: translate.username(),
-                firstName: translate.firstName(),
-                lastName: translate.lastName(),
-                email: translate.email(),
+                username: translate('username'),
+                firstName: translate('firstName'),
+                lastName: translate('lastName'),
+                email: translate('email'),
               }}
             />
           </Panel>
         </Tab>
-        <Tab title={translate.groups()}>
+        <Tab title={translate('groups')}>
           <Panel plain>
             <Row style={{ alignItems: 'start' }}>
               <ChooseItemsForm
@@ -97,8 +97,8 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 hasSearch={!!props.search}
                 createData={(values) => [courseId, { students: createStudentsFromGroups(values) }]}
                 columns={{
-                  name: translate.groupName(),
-                  members: translate.members(),
+                  name: translate('groupName'),
+                  members: translate('members'),
                 }}
                 renderCell={(row) => {
                   return {

@@ -13,8 +13,8 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
   const group = useDoorwardApi((state) => state.groups.getGroup);
   return (
     <CreateGroup
-      emptyMessage={translate.noStudentsHaveBeenCreatedYet()}
-      title={translate.students()}
+      emptyMessage={translate('noStudentsHaveBeenCreatedYet')}
+      title={translate('students')}
       type={Groups.STUDENT}
       state={studentList}
       getUsers={(data) => data.students}

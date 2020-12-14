@@ -30,7 +30,7 @@ export class ManagersService {
     let courseManager = await this.managersRepository.courseManagerExists(courseId, body.managerId);
 
     if (await this.usersRepository.userExistsByRole(courseId, Roles.STUDENT)) {
-      throw new UnauthorizedException(translate.studentCannotBeACourseManager());
+      throw new UnauthorizedException(translate('studentCannotBeACourseManager'));
     }
 
     if (!courseManager) {

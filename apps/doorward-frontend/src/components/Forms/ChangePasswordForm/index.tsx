@@ -30,9 +30,9 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (pr
       createData={props.createData || ((data) => [data])}
       showOverlay
     >
-      {!props.dontEnterCurrentPassword && <PasswordField name="password" label={translate.currentPassword()} />}
-      <PasswordField name="newPassword" label={translate.newPassword()} />
-      <PasswordField name="confirmPassword" label={translate.reEnterPassword()} />
+      {!props.dontEnterCurrentPassword && <PasswordField name="password" label={translate('currentPassword')} />}
+      <PasswordField name="newPassword" label={translate('newPassword')} />
+      <PasswordField name="confirmPassword" label={translate('reEnterPassword')} />
     </BasicForm>
   );
 };

@@ -16,7 +16,7 @@ const MeetingExists = () =>
   ModelExists({
     key: 'meetingId',
     model: MeetingEntity,
-    message: translate.meetingDoesNotExist(),
+    message: translate('meetingDoesNotExist'),
   });
 
 @Controller('meetings')
@@ -48,7 +48,7 @@ export class MeetingsController {
     await this.meetingsService.endMeeting(meetingId, user);
 
     return {
-      message: translate.meetingHasEnded(),
+      message: translate('meetingHasEnded'),
     };
   }
 

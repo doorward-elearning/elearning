@@ -31,7 +31,7 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       initialValues={initialValues}
-      positiveText={props.organization ? translate.save() : translate.add()}
+      positiveText={props.organization ? translate('save') : translate('add')}
       validationSchema={CreateOrganizationBody}
       state={state}
       form={form}
@@ -43,15 +43,15 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
     >
       {(formikProps) => (
         <React.Fragment>
-          <TextField name="name" label={translate.name()} />
-          <TextField name="icon" label={translate.icon()} placeholder="https://" />
+          <TextField name="name" label={translate('name')} />
+          <TextField name="icon" label={translate('icon')} placeholder="https://" />
           <IfElse condition={formikProps.values.icon && !formikProps.errors.icon}>
             <div>
-              <Header size={4}>{translate.iconPreview()}</Header>
+              <Header size={4}>{translate('iconPreview')}</Header>
               <EImage size="medium" src={formikProps.values.icon} />
             </div>
           </IfElse>
-          <TextArea name="description" label={translate.description()} />
+          <TextArea name="description" label={translate('description')} />
         </React.Fragment>
       )}
     </BasicForm>

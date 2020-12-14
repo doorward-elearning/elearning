@@ -8,8 +8,8 @@ import translate from '@doorward/common/lang/translate';
 const AssessmentDetails: React.FunctionComponent<AssessmentDetailsProps> = (props) => {
   return (
     <div className="assessment-details-form">
-      <TextField name="title" label="Title" placeholder={translate.titleOfTheModuleItem({ item: props.type })} />
-      <DraftTextArea name="instructions" label={translate.instructions()} labelPosition="top" fluid shy />
+      <TextField name="title" label="Title" placeholder={translate('titleOfTheModuleItem', { item: props.type })} />
+      <DraftTextArea name="instructions" label={translate('instructions')} labelPosition="top" fluid shy />
       <AssessmentBuilder {...props} />
     </div>
   );

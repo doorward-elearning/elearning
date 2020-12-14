@@ -18,7 +18,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
   children,
   modelName,
 }) => {
-  const defaultMessage = translate.thereAreNoItemsHere();
+  const defaultMessage = translate('thereAreNoItemsHere');
   return (
     <Panel
       className={classNames({

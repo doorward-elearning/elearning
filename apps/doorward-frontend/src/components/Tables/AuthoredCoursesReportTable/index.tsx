@@ -15,7 +15,7 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
         };
       }}
       onRowClick={(row) => routes.navigate(routes.viewCourse, { courseId: row.id })}
-      columns={{ title: translate.courseName(), ratings: translate.rating() }}
+      columns={{ title: translate('courseName'), ratings: translate('rating') }}
     />
   );
 };

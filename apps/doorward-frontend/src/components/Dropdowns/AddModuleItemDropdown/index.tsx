@@ -28,19 +28,19 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
       </Row>
       <Dropdown.Menu>
         <Dropdown.Item icon={ModuleItemIcons.Page} link={routes.addModulePage.withParams(params)}>
-          {translate.page()}
+          {translate('page')}
         </Dropdown.Item>
         <Dropdown.Item icon={ModuleItemIcons.Assignment} link={routes.addAssignment.withParams(params)}>
-          {translate.assignment()}
+          {translate('assignment')}
         </Dropdown.Item>
         <Dropdown.Item icon={ModuleItemIcons.Quiz} link={routes.addQuiz.withParams(params)}>
-          {translate.quiz()}
+          {translate('quiz')}
         </Dropdown.Item>
         <Dropdown.Item icon={ModuleItemIcons.Assessment} link={routes.addExam.withParams(params)}>
-          {translate.exam()}
+          {translate('exam')}
         </Dropdown.Item>
         <Dropdown.Item icon={ModuleItemIcons.Video} link={routes.addModuleVideo.withParams(params)}>
-          {translate.video()}
+          {translate('video')}
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>

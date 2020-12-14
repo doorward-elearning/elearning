@@ -23,10 +23,10 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (pr
           };
         }}
         columns={{
-          fullName: translate.name(),
-          department: translate.department(),
-          courses: translate.numberOfCourses(),
-          ratings: translate.rating(),
+          fullName: translate('name'),
+          department: translate('department'),
+          courses: translate('numberOfCourses'),
+          ratings: translate('rating'),
         }}
         onRowClick={props.onRowClick}
       />

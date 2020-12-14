@@ -19,17 +19,17 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
   return (
     <AuthForm
       initialValues={initialState}
-      buttonText={translate.login()}
+      buttonText={translate('login')}
       submitAction={DoorwardApi.auth.login}
       validationSchema={LoginBody}
       state={login}
       form={form}
-      title={translate.login()}
+      title={translate('login')}
       renderFooter={() => <Link to={routes.forgotPassword.link}>Forgot Password?</Link>}
     >
       <React.Fragment>
-        <TextField name="username" placeholder={translate.username()} icon="account_circle" />
-        <PasswordField name="password" placeholder={translate.password()} icon="lock" />
+        <TextField name="username" placeholder={translate('username')} icon="account_circle" />
+        <PasswordField name="password" placeholder={translate('password')} icon="lock" />
       </React.Fragment>
     </AuthForm>
   );

@@ -63,7 +63,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
                       disabled={!props.enableSubmitButton && (formikProps.isSubmitting || !formikProps?.isValid)}
                       loading={state.submitting}
                     >
-                      {props.positiveText || translate.save()}
+                      {props.positiveText || translate('save')}
                     </Button>
                   </Feature>
                   <Feature feature={BasicFormFeatures.CANCEL_BUTTON}>
@@ -73,7 +73,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
                       disabled={state.submitting}
                       onClick={props.onCancel || history.goBack}
                     >
-                      {props.negativeText || translate.back()}
+                      {props.negativeText || translate('back')}
                     </Button>
                   </Feature>
                 </Row>

@@ -14,8 +14,8 @@ export class CreateDiscussionGroupBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required(translate.titleForDiscussionGroupRequired()).nullable(),
-      description: Yup.string().required(translate.descriptionRequired()).nullable(),
+      title: Yup.string().required(translate('titleForDiscussionGroupRequired')).nullable(),
+      description: Yup.string().required(translate('descriptionRequired')).nullable(),
     });
   }
 }
@@ -26,7 +26,7 @@ export class PostDiscussionCommentBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      comment: Yup.string().required(translate.contentRequired()).nullable(),
+      comment: Yup.string().required(translate('contentRequired')).nullable(),
     });
   }
 }

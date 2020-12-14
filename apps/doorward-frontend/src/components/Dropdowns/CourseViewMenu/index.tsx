@@ -31,8 +31,8 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
         validationSchema={Yup.object({
           courseName: Yup.string()
             .nullable()
-            .required(translate.nameRequired())
-            .oneOf([course.title], translate.enterExactCourseName()),
+            .required(translate('nameRequired'))
+            .oneOf([course.title], translate('enterExactCourseName')),
         })}
       >
         {(formikProps) => (
@@ -53,7 +53,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
                 <li>Course resources will be deleted</li>
                 <li>Course report will no longer be accessible.</li>
               </ul>
-              <TextField placeholder={translate.courseName()} name="courseName" />
+              <TextField placeholder={translate('courseName')} name="courseName" />
             </div>
           </WebConfirmModal>
         )}
@@ -78,7 +78,7 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
             {/*  Backup course*/}
             {/*</Dropdown.Item>*/}
             <Dropdown.Item icon="delete" onClick={deleteCourseModal.openModal}>
-              {translate.deleteCourse()}
+              {translate('deleteCourse')}
             </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>

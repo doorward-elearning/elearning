@@ -39,7 +39,7 @@ export class AuthController {
     this.emailService
       .send(
         new SelfRegistrationEmail({
-          subject: translate.confirmRegistration(),
+          subject: translate('confirmRegistration'),
           data: { link: origin + FrontendLinks.login },
           recipient: user,
         })

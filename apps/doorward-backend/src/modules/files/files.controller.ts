@@ -28,7 +28,7 @@ const FileExists = () =>
   ModelExists({
     key: 'fileId',
     model: FileEntity,
-    message: translate.fileDoesNotExist(),
+    message: translate('fileDoesNotExist'),
   });
 
 @Controller('files')

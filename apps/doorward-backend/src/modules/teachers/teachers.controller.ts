@@ -29,7 +29,7 @@ export class TeachersController {
 
     const teacher = await this.teachersService.createTeacher(body, currentUser, origin);
 
-    return { teacher, message: translate.studentCreated() };
+    return { teacher, message: translate('studentCreated') };
   }
 
   @Post('freeTrial')
@@ -38,7 +38,7 @@ export class TeachersController {
   async createFreeTrialTeacherAccount(@Body() body: CreateUserBody, @Origin() origin: string) {
     const teacher = await this.teachersService.createTeacher(body, null, origin);
 
-    return { teacher, message: translate.teacherCreated() };
+    return { teacher, message: translate('teacherCreated') };
   }
 
   @Get()

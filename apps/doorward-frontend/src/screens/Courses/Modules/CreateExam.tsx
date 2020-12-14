@@ -34,7 +34,7 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={translate.createExam()}
+      header={translate('createExam')}
       noNavBar
     >
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>

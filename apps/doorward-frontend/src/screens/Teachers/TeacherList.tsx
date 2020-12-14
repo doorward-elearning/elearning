@@ -22,10 +22,10 @@ const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
   return (
     <Layout
       {...props}
-      header={translate.allTeachers()}
+      header={translate('allTeachers')}
       suggestionsType="teachers"
       actionBtnProps={{
-        text: translate.addTeacher(),
+        text: translate('addTeacher'),
         onClick: (): void => props.history.push(routes.routes.addTeacher.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}

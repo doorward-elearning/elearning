@@ -39,8 +39,8 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
           <Header size={1}>{organization.name}</Header>
           <RegistrationForm />
           <div className="page__login--footer">
-            <p>{translate.alreadyHaveAnAccount()}</p>
-            <Link to={routes.login.link}>{translate.login()}</Link>
+            <p>{translate('alreadyHaveAnAccount')}</p>
+            <Link to={routes.login.link}>{translate('login')}</Link>
           </div>
         </div>
       </Layout>

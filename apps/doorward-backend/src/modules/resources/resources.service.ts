@@ -14,7 +14,7 @@ export class ResourcesService {
       const language = JSON.parse(fs.readFileSync(filePath).toString());
 
       Object.keys(language).forEach((key) => {
-        language[key] = translate[key]();
+        language[key] = translate(key as any);
       });
 
       return language;

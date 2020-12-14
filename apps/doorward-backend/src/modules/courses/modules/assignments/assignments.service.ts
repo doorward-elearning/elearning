@@ -22,7 +22,7 @@ export class AssignmentsService {
     const numSubmissions = await this.submissionRepository.getNumberOfSubmissions(assignmentId, author.id);
 
     if (numSubmissions > 0 && !(await this.submissionRepository.canResubmit(assignmentId, author.id))) {
-      throw new UnauthorizedException(translate.youAreNotAllowedToSubmitThisAssignment());
+      throw new UnauthorizedException(translate('youAreNotAllowedToSubmitThisAssignment'));
     }
 
     return await this.submissionRepository.save(

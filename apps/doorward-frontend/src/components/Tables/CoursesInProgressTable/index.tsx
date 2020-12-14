@@ -9,8 +9,8 @@ const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProp
   return (
     <Table
       columns={{
-        name: translate.courseName(),
-        percentage: translate.percentage(),
+        name: translate('courseName'),
+        percentage: translate('percentage'),
       }}
       data={props.courses}
       onRowClick={(row) => routes.navigate(routes.viewCourse, { courseId: row.id })}

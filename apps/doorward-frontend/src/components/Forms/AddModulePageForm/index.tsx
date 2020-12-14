@@ -18,7 +18,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   onCancel,
 }: AddModulePageFormProps<T>) {
   const initialValues: Partial<CreatePageBody> = page || {
-    title: translate.untitledPage(),
+    title: translate('untitledPage'),
     page: null,
   };
   return (
@@ -34,8 +34,8 @@ function AddModulePageForm<T extends AddModulePageFormState>({
       form={useForm}
     >
       <div className="add-module-page">
-        <TextField name="title" placeholder={translate.title()} />
-        <DraftTextArea name="page" placeholder={translate.emptySpaceIsBoringAddSomeContent()} />
+        <TextField name="title" placeholder={translate('title')} />
+        <DraftTextArea name="page" placeholder={translate('emptySpaceIsBoringAddSomeContent')} />
       </div>
     </AddModuleItemForm>
   );

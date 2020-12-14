@@ -29,7 +29,7 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
       state={state}
       form={props.useForm}
     >
-      <TextField name="title" label={translate.moduleName()} icon="calendar_view_day" />
+      <TextField name="title" label={translate('moduleName')} icon="calendar_view_day" />
     </Form>
   );
 };

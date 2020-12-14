@@ -34,14 +34,14 @@ const PasswordField: FunctionComponent<PasswordFieldProps> = (props) => {
       <IfElse condition={props.showGenerator}>
         <Button
           mini
-          tooltip={translate.generateAStrongPassword()}
+          tooltip={translate('generateAStrongPassword')}
           type="button"
           style={{ display: 'block' }}
           onClick={() => {
             setGeneratedPassword(Tools.generatePassword());
           }}
         >
-          {translate.generatePassword()}
+          {translate('generatePassword')}
         </Button>
       </IfElse>
     </div>

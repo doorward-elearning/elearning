@@ -128,6 +128,7 @@
   "dueDateRequired": "The due date is required",
   "dueOn": "Due: {{date}}",
   "edit": "Edit",
+  "editItem": "Edit {{item}}",
   "editAssessment": "Edit {{assessment}}",
   "editModuleItem": "Edit {{moduleItem}}",
   "editOrganization": "Edit {{organization}}",
@@ -420,5 +421,6 @@
   "videoURLRequired": "The video URL is required.",
   "videoFileOrURLRequired": "The video file or URL is required.",
   "uploadVideo": "Upload video",
-  "videoURL": "Video URL"
+  "videoURL": "Video URL",
+  "courseContent": "{{course, capitalize}} content"
 }

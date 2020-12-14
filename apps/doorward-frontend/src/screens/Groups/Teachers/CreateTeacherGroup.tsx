@@ -10,8 +10,8 @@ const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (pr
   const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   return (
     <CreateGroup
-      emptyMessage={translate.noTeachersHaveBeenCreatedYet()}
-      title={translate.teachers()}
+      emptyMessage={translate('noTeachersHaveBeenCreatedYet')}
+      title={translate('teachers')}
       type={Groups.TEACHER}
       state={teacherList}
       getUsers={(data) => data.teachers}

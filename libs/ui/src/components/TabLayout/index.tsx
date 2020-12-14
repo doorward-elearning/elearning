@@ -67,6 +67,7 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
   const [tabs, setTabs] = useState<Array<TabProps>>([]);
   const slider = useRef(null);
   const tabLayout = useRef(null);
+  // tabs start from 0
   const [selected, setSelected] = useState(props.selected || 0);
   const children = (props.children instanceof Array ? props.children : [props.children]) as Array<
     ReactElement<TabProps>

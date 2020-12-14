@@ -10,7 +10,7 @@ const UserManagement: React.FunctionComponent<UserManagementProps> = (props) => 
       <Condition condition={props.authenticated}>
         <React.Fragment>{props.children}</React.Fragment>
         <Button link={props.loginLink} theme="secondary">
-          {translate.login()}
+          {translate('login')}
         </Button>
       </Condition>
     </div>

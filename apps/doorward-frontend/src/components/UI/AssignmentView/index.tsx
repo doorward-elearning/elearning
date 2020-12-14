@@ -33,12 +33,12 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
   return (
     <div className="assignment-view">
       <Header size={2} style={{ paddingBottom: 'var(--padding-lg)' }}>
-        {translate.description()}
+        {translate('description')}
       </Header>
       <DraftHTMLContent content={props.assignment.assignment} />
       <RoleContainer privileges={['assignments.submit']}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
-          <Header size={3}>{translate.submission()}</Header>
+          <Header size={3}>{translate('submission')}</Header>
         </div>
         <Panel style={{ marginTop: 'var(--padding-lg)' }} noBackground>
           {submission ? (
@@ -54,7 +54,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
       </RoleContainer>
       <RoleContainer privileges={['assignments.grade']}>
         <Header size={2} style={{ paddingBottom: 'var(--padding-lg)', paddingTop: 'var(--padding-lg)' }}>
-          {translate.submission({
+          {translate('submission', {
             count: props.assignment?.assignmentSubmissions?.length,
           })}
         </Header>
@@ -62,7 +62,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
         <WebComponent
           data={props.assignment?.assignmentSubmissions}
           loading={false}
-          emptyMessage={translate.noStudentHasSubmittedTheirAssignment()}
+          emptyMessage={translate('noStudentHasSubmittedTheirAssignment')}
           size="medium"
           icon="assessment"
         >
@@ -75,10 +75,10 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
                     setCurrentSubmission(row);
                   }}
                   columns={{
-                    student: translate.student(),
-                    submittedOn: translate.date(),
-                    submittedAt: translate.time(),
-                    submissionType: translate.type(),
+                    student: translate('student'),
+                    submittedOn: translate('date'),
+                    submittedAt: translate('time'),
+                    submissionType: translate('type'),
                   }}
                   getCell={(row) => ({
                     student: row.student.fullName,

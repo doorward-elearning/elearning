@@ -61,10 +61,10 @@ export class CreateModuleItemBody extends DApiBody {
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       type: Yup.string()
-        .required(translate.typeIsRequired())
-        .oneOf(Object.values(ModuleItemType), translate.chooseValidType())
+        .required(translate('typeIsRequired'))
+        .oneOf(Object.values(ModuleItemType), translate('chooseValidType'))
         .nullable(),
-      title: Yup.string().required(translate.titleRequired()).nullable(),
+      title: Yup.string().required(translate('titleRequired')).nullable(),
     });
   }
 }
@@ -85,10 +85,10 @@ export class CreateVideoBody extends CreateModuleItemBody {
         description: Yup.string().nullable(),
         video: Yup.string().when(['videoURL', 'fileId'], {
           is: (videoURL, fileId) => !videoURL && !fileId,
-          then: Yup.string().required(translate.videoFileOrURLRequired()),
+          then: Yup.string().required(translate('videoFileOrURLRequired')),
         }),
         fileId: Yup.string().nullable(),
-        videoURL: Yup.string().url(translate.urlInvalid()).nullable(),
+        videoURL: Yup.string().url(translate('urlInvalid')).nullable(),
       })
     );
   }
@@ -101,7 +101,7 @@ export class CreatePageBody extends CreateModuleItemBody {
   async validation?(): Promise<ObjectSchema> {
     return (await super.validation()).concat(
       Yup.object({
-        page: Yup.string().required(translate.contentRequired()),
+        page: Yup.string().required(translate('contentRequired')),
       })
     );
   }
@@ -116,19 +116,19 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required(translate.titleRequired()),
+      title: Yup.string().required(translate('titleRequired')),
       options: Yup.object({
-        dueDate: Yup.string().required(translate.dueDateRequired()),
+        dueDate: Yup.string().required(translate('dueDateRequired')),
         submissionTypes: Yup.array(
-          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate.invalidType())
-        ).min(1, translate.chooseAtLeastOneType()),
-        points: Yup.number().required(translate.pointsRequired()),
+          Yup.string().oneOf(Object.values(AssignmentSubmissionType), translate('invalidType'))
+        ).min(1, translate('chooseAtLeastOneType')),
+        points: Yup.number().required(translate('pointsRequired')),
         availability: Yup.object(),
         submissionMedia: Yup.string()
           .nullable()
-          .oneOf(Object.values(AssignmentSubmissionMedia), translate.invalidMedia()),
+          .oneOf(Object.values(AssignmentSubmissionMedia), translate('invalidMedia')),
       }),
-      assignment: Yup.string().nullable().required(translate.contentRequired()),
+      assignment: Yup.string().nullable().required(translate('contentRequired')),
     });
   }
 }
@@ -147,18 +147,18 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
   assessmentType: AssessmentTypes;
 
   static QuestionValidationSchema = Yup.object({
-    question: Yup.string().required(translate.questionRequired()).nullable(),
-    type: Yup.string().oneOf(Object.values(AnswerTypes), translate.invalidType()),
+    question: Yup.string().required(translate('questionRequired')).nullable(),
+    type: Yup.string().oneOf(Object.values(AnswerTypes), translate('invalidType')),
     answers: Yup.array().when('type', {
       is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
       then: Yup.array()
         .of(
           Yup.object({
-            answer: Yup.string().required(translate.answerRequired()),
+            answer: Yup.string().required(translate('answerRequired')),
             correct: Yup.bool(),
           })
         )
-        .test('Correct Answer', translate.chooseAtLeastOneAnswer(), (value) => {
+        .test('Correct Answer', translate('chooseAtLeastOneAnswer'), (value) => {
           return value.find((x) => x.correct);
         }),
     }),
@@ -169,17 +169,17 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
 
     schema = schema.concat(
       Yup.object({
-        instructions: Yup.string().required(translate.instructionsRequired()).nullable(),
+        instructions: Yup.string().required(translate('instructionsRequired')).nullable(),
         options: Yup.object({
           shuffleAnswers: Yup.boolean(),
           timeLimit: Yup.object({
             allow: Yup.boolean(),
             minutes: Yup.number()
-              .typeError(translate.numberTypeError())
+              .typeError(translate('numberTypeError'))
               .nullable()
               .when('allow', {
                 is: (value) => !!value,
-                then: Yup.number().typeError(translate.numberTypeError()).required(translate.timeLimitInMinutes()),
+                then: Yup.number().typeError(translate('numberTypeError')).required(translate('timeLimitInMinutes')),
               }),
           }),
           attempts: Yup.object({
@@ -187,14 +187,14 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
             keepScore: Yup.string().when('multiple', {
               is: (value) => !!value,
               then: Yup.string()
-                .required(translate.chooseScoreToKeep())
-                .oneOf(['Highest', 'Lowest', 'Average'], translate.chooseScoreToKeep()),
+                .required(translate('chooseScoreToKeep'))
+                .oneOf(['Highest', 'Lowest', 'Average'], translate('chooseScoreToKeep')),
             }),
             max: Yup.number()
               .nullable()
               .when('multiple', {
                 is: (value) => !!value,
-                then: Yup.number().required(translate.maximumTrials()),
+                then: Yup.number().required(translate('maximumTrials')),
               }),
           }),
           questions: Yup.object({
@@ -208,7 +208,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
                 .nullable()
                 .when('require', {
                   is: (value) => !!value,
-                  then: Yup.string().required(translate.accessCodeRequired()),
+                  then: Yup.string().required(translate('accessCodeRequired')),
                 }),
             }),
           }),
@@ -254,10 +254,10 @@ export class SubmitAssignmentBody extends DApiBody {
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       submissionType: Yup.string()
-        .required(translate.typeIsRequired())
-        .oneOf(Object.values(AssignmentSubmissionType), translate.invalidType())
+        .required(translate('typeIsRequired'))
+        .oneOf(Object.values(AssignmentSubmissionType), translate('invalidType'))
         .nullable(),
-      submission: Yup.string().required(translate.contentRequired()),
+      submission: Yup.string().required(translate('contentRequired')),
     });
   }
 }

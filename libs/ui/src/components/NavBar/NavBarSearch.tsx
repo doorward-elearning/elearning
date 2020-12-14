@@ -170,7 +170,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = (props
             onFocus={() => {
               setFocused(true);
             }}
-            placeholder={props.placeholder || translate.searchPlaceholder()}
+            placeholder={props.placeholder || translate('searchPlaceholder')}
             name="search"
             ref={inputElement}
             value={searchText || ''}
@@ -192,7 +192,7 @@ const NavBarSearchComponent: React.FunctionComponent<NavBarSearchProps> = (props
         <WebComponent
           data={suggestions}
           loading={loading}
-          empty={<div className="no-suggestions">{translate.noSuggestions()}</div>}
+          empty={<div className="no-suggestions">{translate('noSuggestions')}</div>}
         >
           {() => {
             return (

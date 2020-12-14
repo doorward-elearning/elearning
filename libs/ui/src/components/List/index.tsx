@@ -5,6 +5,7 @@ import Panel from '../Panel';
 const List: React.FunctionComponent<ListProps> = props => {
   const list = useRef<HTMLUListElement>(null);
   if (list) {
+    // This is to handle styling for nested lists
     const { current } = list;
     if (current && current.parentElement) {
       if (current.parentElement.classList.contains('ed-list__item')) {

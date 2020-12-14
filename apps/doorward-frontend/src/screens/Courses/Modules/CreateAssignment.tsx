@@ -35,7 +35,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       noNavBar
-      header={translate.createAssignment()}
+      header={translate('createAssignment')}
     >
       <WebComponent data={module} loading={state.fetching}>
         {(data) => <CreateAssignmentForm onSuccess={finish} onCancel={finish} form={form} module={data} />}

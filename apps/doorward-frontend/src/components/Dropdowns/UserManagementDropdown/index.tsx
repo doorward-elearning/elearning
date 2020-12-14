@@ -37,13 +37,13 @@ const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (
         <Dropdown.Divider />
         <Dropdown.Item icon="opacity" onClick={changeTheme}>
           <Row style={{ justifyContent: 'space-between', padding: 'var(--padding-lg) 0' }}>
-            {translate.darkTheme()}
+            {translate('darkTheme')}
             <Switch open={theme === themes.dark} onToggle={changeTheme} />
           </Row>
         </Dropdown.Item>
         <Dropdown.Divider />
         {/*<Dropdown.Item icon="lock" link="" title="Lock" />*/}
-        <Dropdown.Item icon="exit_to_app" title={translate.logout()} onClick={logout} />
+        <Dropdown.Item icon="exit_to_app" title={translate('logout')} onClick={logout} />
       </Dropdown.Menu>
     </Dropdown>
   );

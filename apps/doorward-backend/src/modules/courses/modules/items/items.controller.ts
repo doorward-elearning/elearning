@@ -26,7 +26,7 @@ const ModuleItemExists = () =>
   ModelExists({
     key: 'itemId',
     model: ModuleItemEntity,
-    message: translate.moduleItemDoesNotExist(),
+    message: translate('moduleItemDoesNotExist'),
   });
 
 @Controller('module/items')
@@ -106,9 +106,7 @@ export class ItemsController {
 
     return {
       item: moduleItem,
-      message: translate.moduleItemWasUpdated({
-        moduleItem: body.type,
-      }),
+      message: translate('moduleItemWasUpdated', { moduleItem: body.type }),
     };
   }
 }

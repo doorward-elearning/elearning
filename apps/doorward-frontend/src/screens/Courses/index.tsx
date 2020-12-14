@@ -20,12 +20,12 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
     fetchCourses({});
   }, [props.location.search]);
 
-  const TITLE = translate.createANewCourse().toUpperCase();
+  const TITLE = translate('createANewCourse').toUpperCase();
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
-      header={translate.courses()}
+      header={translate('courses')}
       actionBtnProps={{
         text: TITLE,
         onClick: (): void => props.history.push(ROUTES.createCourse.link),

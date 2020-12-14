@@ -16,7 +16,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (pr
   return (
     <NavBarSearchContext searchText={searchText}>
       <Modal {...props}>
-        <Modal.Header title={translate.addStudentToCourse()} onSearch={setSearchText} />
+        <Modal.Header title={translate('addStudentToCourse')} onSearch={setSearchText} />
         <Modal.Body>
           <ChooseStudentForm
             onTabChange={setSelected}
@@ -29,7 +29,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (pr
           />
         </Modal.Body>
         <Modal.Footer
-          buttons={{ positive: translate.save() }}
+          buttons={{ positive: translate('save') }}
           props={{
             positive: {
               loading: state.submitting,

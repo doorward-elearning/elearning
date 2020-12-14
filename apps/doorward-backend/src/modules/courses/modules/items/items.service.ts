@@ -52,15 +52,19 @@ export class ItemsService {
    * @param author
    */
   private static getCommonProperties(itemId: string, moduleId: string, body: CreateModuleItemBody, author: UserEntity) {
-    return {
+    const properties = {
       id: itemId,
       module: { id: moduleId },
       author: { id: author.id },
       title: body.title,
-      file: {
-        id: body.fileId,
-      },
+      file: null,
     };
+    if (body.fileId) {
+      properties.file = {
+        id: body.fileId,
+      };
+    }
+    return properties;
   }
 
   /**
@@ -122,7 +126,7 @@ export class ItemsService {
   async createOrUpdateModuleItem(moduleId: string, body: CreateModuleItemBody, author: UserEntity, itemId?: string) {
     if (await this.checkModuleItemExists(moduleId, body.title, body.type, itemId)) {
       throw new ValidationException({
-        title: translate.moduleItemWithThisTitleAlreadyExists({
+        title: translate('moduleItemWithThisTitleAlreadyExists', {
           moduleItem: ItemsService.getModuleItemText(body.type),
         }),
       });

@@ -39,7 +39,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       header={state.data?.school?.name}
       navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.PAGE_LOGO]}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      actionBtnProps={{ text: translate.addClassroom(), onClick: addClassroomModal.openModal }}
+      actionBtnProps={{ text: translate('addClassroom'), onClick: addClassroomModal.openModal }}
     >
       <AddClassroomModal
         onSuccess={() => {
@@ -49,11 +49,11 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
         modal={addClassroomModal}
         schoolId={state.data?.school?.id}
       />
-      <Panel plain>{translate.clickOnAnyOfTheFollowingClassroomsToJoinAMeeting()}</Panel>
+      <Panel plain>{translate('clickOnAnyOfTheFollowingClassroomsToJoinAMeeting')}</Panel>
       <WebComponent
         data={state.data?.school?.classRooms}
         loading={state.fetching}
-        emptyMessage={translate.noClassroomsHaveBeenCreatedForThisSchool()}
+        emptyMessage={translate('noClassroomsHaveBeenCreatedForThisSchool')}
         icon="business_center"
       >
         {(classrooms) => {
@@ -80,7 +80,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
                         </Card.Body>
                         <Card.Footer>
                           <Panel plain>
-                            <Button>{translate.join()}</Button>
+                            <Button>{translate('join')}</Button>
                           </Panel>
                         </Card.Footer>
                       </Card>

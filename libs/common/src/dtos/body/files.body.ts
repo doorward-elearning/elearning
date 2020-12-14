@@ -17,9 +17,9 @@ export class CreateFileBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required(translate.nameRequired()).nullable(),
+      name: Yup.string().required(translate('nameRequired')).nullable(),
       public: Yup.boolean().notRequired(),
-      publicUrl: Yup.string().required(translate.urlRequired()).nullable(),
+      publicUrl: Yup.string().required(translate('urlRequired')).nullable(),
     });
   }
 }

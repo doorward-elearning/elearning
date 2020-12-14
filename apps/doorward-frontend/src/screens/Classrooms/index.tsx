@@ -22,17 +22,17 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
   return (
     <Layout
       {...props}
-      header={translate.classrooms()}
+      header={translate('classrooms')}
       features={[LayoutFeatures.BREAD_CRUMBS]}
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
     >
-      <p>{translate.joinAClassroomFromAnySchoolBelow()}</p>
+      <p>{translate('joinAClassroomFromAnySchoolBelow')}</p>
       <WebComponent data={state.data.schools} loading={state.fetching}>
         {(schools) => {
           return (
             <Table
               data={schools}
-              columns={{ name: translate.schoolName() }}
+              columns={{ name: translate('schoolName') }}
               onRowClick={(row) => {
                 routes.navigate(routes.schoolClassrooms, { schoolId: row.id });
               }}

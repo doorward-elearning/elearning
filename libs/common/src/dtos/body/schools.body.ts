@@ -17,9 +17,9 @@ export class CreateSchoolBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required(translate.nameRequired()).nullable(),
-      email: Yup.string().required(translate.emailIsRequired()).nullable(),
-      phoneNumber: Yup.string().required(translate.phoneNumberRequired()).nullable(),
+      name: Yup.string().required(translate('nameRequired')).nullable(),
+      email: Yup.string().required(translate('emailIsRequired')).nullable(),
+      phoneNumber: Yup.string().required(translate('phoneNumberRequired')).nullable(),
     });
   }
 }
@@ -30,7 +30,7 @@ export class CreateClassroomBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required(translate.nameRequired()),
+      name: Yup.string().required(translate('nameRequired')),
     });
   }
 }

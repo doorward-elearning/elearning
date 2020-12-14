@@ -18,7 +18,7 @@ import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
 
 const defaultAssignment = {
-  title: translate.unnamedAssignment(),
+  title: translate('unnamedAssignment'),
   type: ModuleItemType.ASSIGNMENT,
   assignment: null,
   options: {
@@ -50,51 +50,51 @@ const CreateAssignmentForm: FunctionComponent<CreateAssignmentFormProps> = (prop
     >
       {(formikProps) => (
         <div className="add-course-assignment">
-          <TextField name="title" placeholder={translate.titleOfTheAssignment()} label={translate.title()} />
+          <TextField name="title" placeholder={translate('titleOfTheAssignment')} label={translate('title')} />
           <DraftTextArea
             fluid
             name="assignment"
-            placeholder={translate.emptySpaceIsBoringAddSomeContent()}
+            placeholder={translate('emptySpaceIsBoringAddSomeContent')}
           />
           <TextField
             name="options.points"
-            placeholder={translate.numberOfPoints()}
+            placeholder={translate('numberOfPoints')}
             type="number"
-            label={translate.points()}
+            label={translate('points')}
             max={10}
             min={1}
           />
           <DropdownSelect
             options={{
-              [AssignmentSubmissionMedia.ONLINE]: translate.online(),
-              [AssignmentSubmissionMedia.OFFLINE]: translate.offline(),
+              [AssignmentSubmissionMedia.ONLINE]: translate('online'),
+              [AssignmentSubmissionMedia.OFFLINE]: translate('offline'),
             }}
             icon="subject"
             name="options.submissionMedia"
-            label={translate.submissionType()}
+            label={translate('submissionType')}
           />
           <IfElse condition={formikProps?.values.options.submissionMedia === AssignmentSubmissionMedia.ONLINE}>
             <MultipleSwitchField
               name="options.submissionTypes"
               choices={Object.values(AssignmentSubmissionType)}
-              label={translate.onlineSubmissionTypes()}
+              label={translate('onlineSubmissionTypes')}
             />
           </IfElse>
           <div style={{ maxWidth: '500px' }}>
-            <Header size={3}>{translate.availability()}</Header>
-            <DateInput name="options.dueDate" label={translate.dueDate()} minDate={new Date()} showTimeSelect />
+            <Header size={3}>{translate('availability')}</Header>
+            <DateInput name="options.dueDate" label={translate('dueDate')} minDate={new Date()} showTimeSelect />
             <Row>
               <DateInput
                 name="options.availability.from"
                 shortDate
-                label={translate.availableFrom()}
+                label={translate('availableFrom')}
                 minDate={new Date()}
                 showTimeSelect
               />
               <DateInput
                 name="options.availability.to"
                 shortDate
-                label={translate.availableTo()}
+                label={translate('availableTo')}
                 minDate={new Date()}
                 showTimeSelect
               />

@@ -51,7 +51,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               cancellable={false}
               showErrorToast
               action={() => DoorwardApi.courses.launchClassroom(classroomCourse?.id)}
-              title={(classroomCourse?.meetingRoom?.currentMeeting ? translate.joiningMeeting() : translate.startingMeeting()) }
+              title={(classroomCourse?.meetingRoom?.currentMeeting ? translate('joiningMeeting') : translate('startingMeeting')) }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
@@ -77,7 +77,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                       <div>
                         <ItemArray
                           data={Tools.truncate(course.modules, 3)}
-                          empty={<span>{translate.noModulesHaveBeenAdded()}</span>}
+                          empty={<span>{translate('noModulesHaveBeenAdded')}</span>}
                         >
                           {(module) => <div>{module?.title}</div>}
                         </ItemArray>
@@ -86,7 +86,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                         <span className="meta">{Tools.normalDate(course.createdAt)}</span>
                         <RoleContainer privileges={['courses.create']}>
                           <span className="meta text-primary">
-                            {translate.studentWithCount({ count: +course.numStudents })}
+                            {translate('studentWithCount', { count: +course.numStudents })}
                           </span>
                         </RoleContainer>
                       </Row>
@@ -101,7 +101,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                               action: true,
                             })}
                             icon="phone"
-                            title={translate.meeting()}
+                            title={translate('meeting')}
                             onClick={() => startClassroom(course)}
                           />
                         </RoleContainer>

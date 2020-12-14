@@ -18,6 +18,7 @@ const configureLang = (baseUrl: string) => {
         },
         interpolation: {
           defaultVariables: {},
+          escapeValue: false,
         },
       })
       .then(resolve)

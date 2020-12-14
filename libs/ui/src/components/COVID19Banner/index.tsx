@@ -19,13 +19,13 @@ const COVID19Banner: React.FunctionComponent<COVID19BannerProps> = (props): JSX.
               <EImage src={man} size="small" />
               <EImage src={woman} size="small" />
               <div>
-                <Header size={4}>{translate.covid19()}</Header>
-                <div>{translate.getTheLatestInformationFromWHO()}</div>
+                <Header size={4}>{translate('covid19')}</Header>
+                <div>{translate('getTheLatestInformationFromWHO')}</div>
               </div>
             </div>
           </div>
           <Anchor href="https://who.int" target="_blank" rel="noreferrer noopener">
-            {translate.learnMore()}
+            {translate('learnMore')}
           </Anchor>
         </div>
       </Panel>

@@ -78,19 +78,19 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
           <React.Fragment>
             <RoleContainer privileges={['modules.create']}>
               <Button onClick={addModuleModal.openModal} bordered>
-                {translate.addModule()}
+                {translate('addModule')}
               </Button>
             </RoleContainer>
             {course.data.course && (
               <React.Fragment>
                 {!hasPrivileges('meetings.read-only') && ongoingMeeting && (
                   <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                    {translate.joinMeeting()}
+                    {translate('joinMeeting')}
                   </Button>
                 )}
                 {hasPrivileges('courses.start-meeting') && !ongoingMeeting && (
                   <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
-                    {translate.startMeeting()}
+                    {translate('startMeeting')}
                   </Button>
                 )}
               </React.Fragment>
@@ -102,8 +102,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               action={() => DoorwardApi.courses.launchClassroom(courseId)}
               title={
                 course.data.course?.meetingRoom?.currentMeeting
-                  ? translate.joiningMeeting()
-                  : translate.startingMeeting()
+                  ? translate('joiningMeeting')
+                  : translate('startingMeeting')
               }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
@@ -151,23 +151,23 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
                     <LabelRow>
-                      <span className="meta">{translate.moduleWithCount({ count: course?.modules?.length || 0 })}</span>
+                      <span className="meta">{translate('moduleWithCount', { count: course?.modules?.length || 0 })}</span>
                       <Link to={routes.assignmentList.link} className="meta">
-                        {translate.assignmentWithCount({ count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0 })}
+                        {translate('assignmentWithCount', { count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0 })}
                       </Link>
                       <span className="meta">
-                        {translate.quizWithCount({ count: course?.itemsCount?.[AssessmentTypes.QUIZ] || 0 })}
+                        {translate('quizWithCount', { count: course?.itemsCount?.[AssessmentTypes.QUIZ] || 0 })}
                       </span>
                       <span className="meta">
-                        {translate.examWithCount({ count: course?.itemsCount?.[AssessmentTypes.EXAM] || 0 })}
+                        {translate('examWithCount', { count: course?.itemsCount?.[AssessmentTypes.EXAM] || 0 })}
                       </span>
                       <span className="meta">
-                        {translate.examWithCount({ count: course?.itemsCount?.[ModuleItemType.PAGE] || 0 })}
+                        {translate('examWithCount', { count: course?.itemsCount?.[ModuleItemType.PAGE] || 0 })}
                       </span>
                     </LabelRow>
                     <div style={{ justifySelf: 'end' }}>
                       <Pill>
-                        {translate.authoredBy()}
+                        {translate('authoredBy')}
                         <b>{course.author.fullName}</b>
                       </Pill>
                     </div>

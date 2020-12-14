@@ -31,12 +31,12 @@ export class MeetingsService {
 
     if (meetingRoom) {
       if (!currentUser || !(await this.meetingRoomsService.existsInMeetingRoom(meetingRoom.id, currentUser.id))) {
-        throw new UnauthorizedException(translate.youAreNotAllowedToJoinMeeting());
+        throw new UnauthorizedException(translate('youAreNotAllowedToJoinMeeting'));
       }
 
       return this.joinJitsiMeeting(meeting, request, currentUser);
     } else {
-      throw new BadRequestException(translate.meetingDoesNotHaveARoom());
+      throw new BadRequestException(translate('meetingDoesNotHaveARoom'));
     }
   }
 

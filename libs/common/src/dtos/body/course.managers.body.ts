@@ -11,7 +11,7 @@ export class AddCourseManagerBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      managerId: Yup.string().required(translate.courseManagerIdIsRequired()).nullable(),
+      managerId: Yup.string().required(translate('courseManagerIdIsRequired')).nullable(),
     });
   }
 }

@@ -59,13 +59,13 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
               }
             }}
           >
-            <Tab title={translate.textEntry()}>
+            <Tab title={translate('textEntry')}>
               <TextArea name="submission" />
             </Tab>
-            <Tab title={translate.websiteURL()}>
+            <Tab title={translate('websiteURL')}>
               <TextField name="submission" />
             </Tab>
-            <Tab title={translate.fileUpload()}>
+            <Tab title={translate('fileUpload')}>
               <FileUploadField
                 name="submission"
                 uploadHandler={(file, onUploadProgress, cancelHandler) => {

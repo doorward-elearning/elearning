@@ -41,7 +41,7 @@ export class FilesService {
     const file = await this.getFileById(fileId);
 
     if (!file.public && !user) {
-      throw new NotFoundException(translate.fileDoesNotExist());
+      throw new NotFoundException(translate('fileDoesNotExist'));
     }
     return file;
   }

@@ -34,19 +34,19 @@ export class CreateOrganizationBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required(translate.nameRequired()).nullable(),
+      name: Yup.string().required(translate('nameRequired')).nullable(),
       description: Yup.string().nullable().notRequired(),
-      icon: Yup.string().required(translate.logoRequired()).nullable().url(translate.urlInvalid()),
-      link: Yup.string().required(translate.urlRequired()).nullable().url(translate.urlInvalid()),
-      darkThemeLogo: Yup.string().nullable().url(translate.urlInvalid()).notRequired(),
+      icon: Yup.string().required(translate('logoRequired')).nullable().url(translate('urlInvalid')),
+      link: Yup.string().required(translate('urlRequired')).nullable().url(translate('urlInvalid')),
+      darkThemeLogo: Yup.string().nullable().url(translate('urlInvalid')).notRequired(),
       descriptiveLogo: Yup.bool().notRequired(),
       meetingPlatform: Yup.string()
         .nullable()
         .notRequired()
-        .oneOf(Object.values(MeetingPlatform), translate.invalidMeetingPlatform()),
+        .oneOf(Object.values(MeetingPlatform), translate('invalidMeetingPlatform')),
       customerType: Yup.string()
-        .required(translate.typeIsRequired())
-        .oneOf(Object.values(CustomerTypes), translate.invalidType())
+        .required(translate('typeIsRequired'))
+        .oneOf(Object.values(CustomerTypes), translate('invalidType'))
         .nullable(),
     });
   }

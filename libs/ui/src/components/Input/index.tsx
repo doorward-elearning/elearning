@@ -132,7 +132,7 @@ function withInput<R extends InputProps>(
             <label htmlFor={inputProps.id}>
               {props.label || props.placeholder}
               <IfElse condition={isRequired && props.label}>
-                <span title={translate.thisFieldIsRequired()}>*</span>
+                <span title={translate('thisFieldIsRequired')}>*</span>
               </IfElse>
             </label>
           </Feature>

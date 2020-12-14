@@ -22,7 +22,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
 
   const validate = () => {
     if (file.size > +process.env.MAX_UPLOAD_SIZE * 1024 * 1024) {
-      setError(translate.maxFileSize({ size: Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024) }));
+      setError(translate('maxFileSize', { size: Tools.fileSize(+process.env.MAX_UPLOAD_SIZE * 1024 * 1024) }));
       return false;
     }
     return true;
@@ -42,7 +42,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
           })
           .catch((err) => {
             setStatus('failed');
-            setError(translate.errorUploadingFile());
+            setError(translate('errorUploadingFile'));
             props.onFailure(error);
           });
       } else {
@@ -150,15 +150,15 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
             }}
           >
             <span>
-              {translate.dragAndDropFilesHere()} {translate.or()}{' '}
-              <span className="upload-field__browse">{translate.browse()}</span>
+              {translate('dragAndDropFilesHere')} {translate('or')}{' '}
+              <span className="upload-field__browse">{translate('browse')}</span>
             </span>
           </div>
           <div className="meta instructions">
             <IfElse condition={maxFiles > 0}>
-              <span>{translate.uploadUpToWithCount({ count: maxFiles })}. &nbsp;</span>
+              <span>{translate('uploadUpToWithCount', { count: maxFiles })}. &nbsp;</span>
             </IfElse>
-            <span>{translate.maxFileSize({ size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
+            <span>{translate('maxFileSize', { size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
           </div>
         </React.Fragment>
       )}

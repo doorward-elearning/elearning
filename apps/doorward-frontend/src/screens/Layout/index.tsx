@@ -74,6 +74,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   navFeatures = Tools.enumKeys(NavbarFeatures),
   renderTopContent,
   suggestionsType,
+  rightContent,
   ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
@@ -244,6 +245,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             </IfElse>
           </Container>
         </div>
+        {rightContent && <div className="ed-page-layout__right_content">{rightContent}</div>}
       </div>
     </FeatureProvider>
   );
@@ -275,6 +277,7 @@ export interface LayoutProps extends PageComponent {
   searchPlaceholder?: string;
   searchQuery?: ParsedUrlQuery;
   announcement?: () => JSX.Element;
+  rightContent?: JSX.Element;
 }
 
 export default Layout;

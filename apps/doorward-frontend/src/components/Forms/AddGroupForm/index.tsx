@@ -64,7 +64,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
               <div className="member-list__header">
                 <Header size={3}>{props.title}</Header>
                 <IfElse condition={hook.count !== props.users.length}>
-                  <TextLink onClick={hook.selectAll}>{translate.selectAll()}</TextLink>
+                  <TextLink onClick={hook.selectAll}>{translate('selectAll')}</TextLink>
                 </IfElse>
               </div>
               <UserChooser
@@ -80,10 +80,10 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
           <div className="add-group-form__selected">
             <div className="member-list__header">
               <Header size={2}>
-                {translate.selected()} {props.title}
+                {translate('selected')} {props.title}
               </Header>
               <IfElse condition={formikProps.values.members.length}>
-                <TextLink onClick={hook.deselectAll}>{translate.deselectAll()}</TextLink>
+                <TextLink onClick={hook.deselectAll}>{translate('deselectAll')}</TextLink>
               </IfElse>
             </div>
             <VerticalScroll maxHeight={500}>
@@ -91,7 +91,7 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
                 data={formikProps.values.members as Array<UserEntity>}
                 loading={false}
                 size="medium"
-                emptyMessage={translate.noneSelectedYet()}
+                emptyMessage={translate('noneSelectedYet')}
               >
                 {(items) => (
                   <div className="add-group-form__selected--list">

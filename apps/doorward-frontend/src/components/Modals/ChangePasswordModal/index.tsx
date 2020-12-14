@@ -9,7 +9,7 @@ import translate from '@doorward/common/lang/translate';
 const ChangePasswordModal: React.FunctionComponent<ChangePasswordModalProps> = (props) => {
   return (
     <Modal useModal={props.useModal}>
-      <Modal.Header title={translate.changePassword()} />
+      <Modal.Header title={translate('changePassword')} />
       <Modal.Body>
         <PasswordPolicy />
         <ChangePasswordForm

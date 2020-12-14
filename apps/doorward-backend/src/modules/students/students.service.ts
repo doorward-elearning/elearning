@@ -124,7 +124,7 @@ export class StudentsService {
     let email;
     if (body.password) {
       email = new StudentAccountWithPasswordEmail({
-        subject: translate.newStudentAccountCreated(),
+        subject: translate('newStudentAccountCreated'),
         data: {
           link: origin + FrontendLinks.login,
           password: body.password,
@@ -133,7 +133,7 @@ export class StudentsService {
       });
     } else {
       email = new StudentNewAccountEmail({
-        subject: translate.newStudentAccountCreated(),
+        subject: translate('newStudentAccountCreated'),
         data: {
           link: origin + FrontendLinks.passwordReset(resetToken),
         },

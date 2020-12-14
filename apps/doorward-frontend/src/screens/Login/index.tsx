@@ -46,13 +46,13 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
         <Header size={1}>{organization.name}</Header>
         <IfElse condition={showMessage}>
           <Message>
-            <Header size={4}>{translate.thankYouForTryingDoorwardLoginToProceed()}</Header>
+            <Header size={4}>{translate('thankYouForTryingDoorwardLoginToProceed')}</Header>
           </Message>
         </IfElse>
         <LoginForm />
         <div className="page__login--footer">
-          <p>{translate.dontHaveAnAccount()}</p>
-          <Link to={routes.register.link}>{translate.createANewAccount()}</Link>
+          <p>{translate('dontHaveAnAccount')}</p>
+          <Link to={routes.register.link}>{translate('createANewAccount')}</Link>
         </div>
       </div>
     </IfElse>

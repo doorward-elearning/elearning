@@ -69,7 +69,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>
-            {translate.points()}: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}
+            {translate('points')}: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}
           </DisplayLabel>
           <AssessmentTimer totalTimeMinutes={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
         </HeaderGrid>

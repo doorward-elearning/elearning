@@ -12,7 +12,7 @@ import translate from '@doorward/common/lang/translate';
 import { ScoreToKeep } from '@doorward/common/types/assessments';
 
 const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
-  title: title || translate.unnamedItem({ item: type }),
+  title: title || translate('unnamedItem', { item: type }),
   instructions: '',
   type: ModuleItemType.ASSESSMENT,
   assessmentType: type,

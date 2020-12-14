@@ -4,8 +4,17 @@ const DotEnv = require('dotenv-webpack');
 const webpack = require('webpack');
 const TerserPlugin = require('terser-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const path = require('path');
 
 console.log('=== Webpack Setup === ');
+
+class CustomContextPlugin {
+  apply(compiler) {
+    compiler.hooks.beforeCompile.tap('CustomContextPlugin', (params) => {
+      params.compilationDependencies.add(path.resolve(__dirname, 'locales'));
+    });
+  }
+}
 
 module.exports = (config) => {
   config.node = { ...config.node, global: true, fs: 'empty' };
@@ -18,6 +27,7 @@ module.exports = (config) => {
   if (process.env.NODE_ENV === 'production') {
   } else {
     config.plugins.push(new webpack.HotModuleReplacementPlugin());
+    config.plugins.push(new CustomContextPlugin());
     if (config.devServer) {
       // config.devServer.liveReload = true;
       config.devServer.hot = true;

@@ -30,7 +30,7 @@ export class CoursesService {
       .getOne();
 
     if (courseExists) {
-      throw new ValidationException({ title: translate.courseWithThisTitleAlreadyExists() });
+      throw new ValidationException({ title: translate('courseWithThisTitleAlreadyExists') });
     }
     const { modules, title } = body;
 
@@ -86,7 +86,7 @@ export class CoursesService {
       .getOne();
 
     if (existingCourse) {
-      throw new ValidationException({ title: translate.courseWithThisTitleAlreadyExists() });
+      throw new ValidationException({ title: translate('courseWithThisTitleAlreadyExists') });
     }
 
     await this.coursesRepository.update(id, {

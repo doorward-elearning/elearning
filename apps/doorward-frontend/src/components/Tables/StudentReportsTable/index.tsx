@@ -21,11 +21,11 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
         }
         data={data}
         columns={{
-          name: translate.name(),
-          department: translate.department(),
-          enrollments: translate.numberOfEnrollments(),
-          courses: translate.coursesCompleted(),
-          grade: translate.averageGrade(),
+          name: translate('name'),
+          department: translate('department'),
+          enrollments: translate('numberOfEnrollments'),
+          courses: translate('coursesCompleted'),
+          grade: translate('averageGrade'),
         }}
         getCell={(row) => {
           return {

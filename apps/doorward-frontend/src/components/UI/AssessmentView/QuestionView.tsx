@@ -49,11 +49,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
     <div className="question-view">
       <Panel noBackground>
         <HeaderGrid>
-          <Header size={4}>
-            {translate.pointsWithCount({
-              count: question.points,
-            })}
-          </Header>
+          <Header size={4}>{translate('pointsWithCount', { count: question.points })}</Header>
           {view === QuestionViewTypes.EDIT_MODE && (
             <Row>
               <Icon onClick={() => onDeleteQuestion(question)} icon="delete" />
@@ -70,7 +66,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
             <DraftTextArea fluid name={`submission[${question.id}]`} />
           ) : (
             <DisplayLabel>
-              <i>{translate.noChoicesForThisQuestion()}...</i>
+              <i>{translate('noChoicesForThisQuestion')}...</i>
             </DisplayLabel>
           )}
         </div>

@@ -9,12 +9,12 @@ const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
       className="teachers-table"
       sortable
       columns={{
-        username: translate.username(),
-        firstName: translate.firstName(),
-        lastName: translate.lastName(),
-        email: translate.email(),
-        phoneNumber: translate.phoneNumber(),
-        status: translate.status(),
+        username: translate('username'),
+        firstName: translate('firstName'),
+        lastName: translate('lastName'),
+        email: translate('email'),
+        phoneNumber: translate('phoneNumber'),
+        status: translate('status'),
       }}
       data={props.teachers}
     />

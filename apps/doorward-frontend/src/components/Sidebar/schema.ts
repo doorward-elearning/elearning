@@ -42,7 +42,7 @@ export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRout
       icon: 'meeting_room',
     },
     {
-      name: translate.logout(),
+      name: translate('logout'),
       onClick: (): void => {
         logout();
         window.location.href = routes.login.link;

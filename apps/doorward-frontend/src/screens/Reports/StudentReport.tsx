@@ -21,7 +21,7 @@ import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 
-const data = [[translate.course(), translate.marks()]];
+const data = [[translate('course'), translate('marks')]];
 
 const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
@@ -68,12 +68,12 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
                 data={[...data, ...grades]}
                 options={{
                   hAxis: {
-                    title: translate.courses(),
+                    title: translate('courses'),
                   },
                   vAxis: {
-                    title: translate.grade(),
+                    title: translate('grade'),
                   },
-                  title: translate.courseGrades(),
+                  title: translate('courseGrades'),
                 }}
                 width="100%"
                 height="400px"
@@ -85,7 +85,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
           <Grid columns={1}>
             <Header size={3}>
               <div>
-                {translate.ongoingCourses()}
+                {translate('ongoingCourses')}
                 <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
                   {(data) => <Badge>{data.courses.length}</Badge>}
                 </WebComponent>
@@ -95,7 +95,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
               icon="school"
               data={state.data.student?.courses}
               loading={state.fetching}
-              message={translate.noOngoingCourses()}
+              message={translate('noOngoingCourses')}
               size="medium"
             >
               {(data): JSX.Element => <CoursesInProgressTable courses={data} />}
@@ -105,7 +105,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
             <Row style={{ justifyContent: 'space-between' }}>
               <Header size={3}>
                 <div>
-                  {translate.completedCourses()}
+                  {translate('completedCourses')}
                   <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
                     {(data): JSX.Element => <Badge>{data.courses.length}</Badge>}
                   </WebComponent>
@@ -116,7 +116,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
               icon="school"
               data={state.data.student?.courses}
               loading={state.fetching}
-              message={translate.noCompletedCourses()}
+              message={translate('noCompletedCourses')}
               size="medium"
             >
               {(data): JSX.Element => <CoursesInProgressTable courses={data} />}

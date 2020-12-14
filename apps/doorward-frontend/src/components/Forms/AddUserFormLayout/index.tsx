@@ -42,25 +42,25 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (prop
       <Card flat>
         <Card.Body>
           <Row style={{ gridAutoFlow: 'row', gridTemplateColumns: '1fr 1fr', gridColumnGap: 'var(--padding-lg)' }}>
-            <TextField name="firstName" label={translate.firstName()} icon="account_circle" />
-            <TextField name="lastName" label={translate.lastName()} icon="account_box" />
-            <TextField name="email" type="email" label={translate.email()} icon="email" />
-            <TextField name="phoneNumber" type="phoneNumber" label={translate.phoneNumber()} icon="phone" />
-            <TextField name="username" label={translate.username()} icon="account_circle" />
-            <TextField name="city" label={translate.city()} icon="business" />
-            <DropdownSelect options={countries} name="country" label={translate.country()} icon="my_location" />
+            <TextField name="firstName" label={translate('firstName')} icon="account_circle" />
+            <TextField name="lastName" label={translate('lastName')} icon="account_box" />
+            <TextField name="email" type="email" label={translate('email')} icon="email" />
+            <TextField name="phoneNumber" type="phoneNumber" label={translate('phoneNumber')} icon="phone" />
+            <TextField name="username" label={translate('username')} icon="account_circle" />
+            <TextField name="city" label={translate('city')} icon="business" />
+            <DropdownSelect options={countries} name="country" label={translate('country')} icon="my_location" />
           </Row>
         </Card.Body>
       </Card>
       <IfElse condition={props.withPasswordField}>
         <div>
           <Header size={2} style={{ marginTop: 'var(--padding-lg)', marginBottom: 'var(--padding-lg)' }}>
-            {translate.loginCredentials()}
+            {translate('loginCredentials')}
           </Header>
           <Card flat>
             <Card.Body>
               <Grid columns={2}>
-                <PasswordField name="password" label={translate.password()} icon="lock" showPassword showGenerator />
+                <PasswordField name="password" label={translate('password')} icon="lock" showPassword showGenerator />
                 <PasswordPolicy />
               </Grid>
             </Card.Body>

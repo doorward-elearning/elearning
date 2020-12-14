@@ -29,7 +29,7 @@ const UserChooser: React.FunctionComponent<PeopleChooserProps> = (props): JSX.El
           data={filteredUsers}
           loading={false}
           size="small"
-          emptyMessage={translate.noUsers()}
+          emptyMessage={translate('noUsers')}
           icon="account_circle"
         >
           {() => (

@@ -73,9 +73,9 @@ const ModalFooterButton: React.FunctionComponent<ModalFooterButtonProps> = ({ fe
 
 const Footer: React.FunctionComponent<ModalFooterProps> = ({
   buttons = {
-    positive: translate.yes(),
-    negative: translate.no(),
-    neutral: translate.cancel(),
+    positive: translate('yes'),
+    negative: translate('no'),
+    neutral: translate('cancel'),
   },
   props = { positive: {}, negative: {}, neutral: {} },
   children,
@@ -107,7 +107,7 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
               </ModalFooterButton>
               <Feature feature={ModalFeatures.CLOSE_BUTTON_FOOTER}>
                 <Button theme="default" className="neutral_button" onClick={closeModal}>
-                  {translate.close()}
+                  {translate('close')}
                 </Button>
               </Feature>
             </div>

@@ -18,10 +18,10 @@ const Error404: FunctionComponent<NotFoundProps> = (props): JSX.Element => {
     >
       <div className="page-not-found">
         <NotFound
-          title={translate.error404()}
-          buttonText={translate.goBackHome()}
+          title={translate('error404')}
+          buttonText={translate('goBackHome')}
           buttonLink={routes.dashboard.link}
-          message={translate.thePageYouAreLookingForDoesNotExist()}
+          message={translate('thePageYouAreLookingForDoesNotExist')}
         />
       </div>
     </Layout>

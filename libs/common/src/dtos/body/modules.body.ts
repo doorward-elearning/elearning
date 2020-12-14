@@ -11,7 +11,7 @@ export class CreateModuleBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      title: Yup.string().required(translate.titleRequired()).nullable(),
+      title: Yup.string().required(translate('titleRequired')).nullable(),
     });
   }
 }
@@ -46,8 +46,8 @@ export class UpdateModulesBody extends DApiBody {
     return Yup.object({
       modules: Yup.array(
         Yup.object({
-          order: Yup.number().required(translate.orderRequired()),
-          id: Yup.string().required(translate.moduleRequired()),
+          order: Yup.number().required(translate('orderRequired')),
+          id: Yup.string().required(translate('moduleRequired')),
         }),
       ),
     });

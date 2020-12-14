@@ -9,7 +9,7 @@ const handleApiError = (error: AxiosError) => {
   } else {
     data = {
       success: false,
-      message: translate.serverFacingTechnicalIssue(),
+      message: translate('serverFacingTechnicalIssue'),
       timestamp: new Date(),
       statusCode: 500,
     };

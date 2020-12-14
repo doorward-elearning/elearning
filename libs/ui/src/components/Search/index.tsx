@@ -16,7 +16,7 @@ const Search: React.FunctionComponent<SearchProps> = (props): JSX.Element => {
   }, [search]);
   return (
     <PlainTextField
-      placeholder={props.placeholder || translate.searchPlaceholder()}
+      placeholder={props.placeholder || translate('searchPlaceholder')}
       labelPosition="none"
       className="ed-search"
       icon="search"

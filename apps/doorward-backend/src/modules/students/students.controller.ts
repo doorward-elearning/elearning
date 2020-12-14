@@ -35,10 +35,10 @@ import { ApiPaginationQuery, PaginationQuery } from '@doorward/common/dtos/query
 import translate from '@doorward/common/lang/translate';
 
 const CourseExists = () =>
-  ModelExists({ key: 'courseId', model: CourseEntity, message: translate.courseDoesNotExist() });
+  ModelExists({ key: 'courseId', model: CourseEntity, message: translate('courseDoesNotExist') });
 
 const StudentExists = () =>
-  ModelExists({ key: 'studentId', model: UserEntity, message: translate.studentDoesNotExist() });
+  ModelExists({ key: 'studentId', model: UserEntity, message: translate('studentDoesNotExist') });
 
 /**
  *
@@ -84,7 +84,7 @@ export class StudentsController {
   ): Promise<StudentResponse> {
     const student = await this.studentsService.createStudentInCourse(body, user, origin, courseId);
 
-    return { student, message: translate.studentHasBeenAddedToCourse() };
+    return { student, message: translate('studentHasBeenAddedToCourse') };
   }
 
   /**
@@ -143,7 +143,7 @@ export class StudentsController {
   ): Promise<StudentResponse> {
     const student = await this.studentsService.unEnrollStudentFromCourse(studentId, courseId);
 
-    return { student, message: translate.studentHasBeenUnEnrolledFromCourse() };
+    return { student, message: translate('studentHasBeenUnEnrolledFromCourse') };
   }
 
   /**
@@ -162,7 +162,7 @@ export class StudentsController {
   ): Promise<StudentResponse> {
     const student = await this.studentsService.createStudentInCourse(body, user, origin);
 
-    return { student, message: translate.studentCreated() };
+    return { student, message: translate('studentCreated') };
   }
 
   /**
@@ -178,7 +178,7 @@ export class StudentsController {
   async updateStudent(@Param('studentId') studentId: string, @Body() body: UpdateUserBody): Promise<StudentResponse> {
     const student = await this.studentsService.updateStudent(studentId, body);
 
-    return { student, message: translate.studentUpdated() };
+    return { student, message: translate('studentUpdated') };
   }
 
   /**
@@ -222,6 +222,6 @@ export class StudentsController {
   async updateStudentPassword(@Param('studentId') studentId: string, @Body() body: ForceChangePasswordBody) {
     await this.studentsService.changePassword(studentId, body);
 
-    return { message: translate.studentPasswordChanged() };
+    return { message: translate('studentPasswordChanged') };
   }
 }

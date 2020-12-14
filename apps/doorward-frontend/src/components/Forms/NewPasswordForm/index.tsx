@@ -29,8 +29,8 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
       onCancel={props.onCancel}
       form={props.form}
     >
-      <PasswordField name="password" label={translate.password()} />
-      <PasswordField name="confirmPassword" label={translate.reEnterPassword()} />
+      <PasswordField name="password" label={translate('password')} />
+      <PasswordField name="confirmPassword" label={translate('reEnterPassword')} />
     </BasicForm>
   );
 };

@@ -15,7 +15,7 @@ const Course: React.FunctionComponent<CourseProps> = ({ course, onClick }) => {
         </Card.Header>
         <Card.Body>
           <Header size={3}>{course.title}</Header>
-          <p>{translate.modules()}: 5</p>
+          <p>{translate('modules')}: 5</p>
         </Card.Body>
       </Card>
     </div>

@@ -21,7 +21,7 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
   return (
     <Row style={{ gridTemplateColumns: '2fr 1fr', alignItems: 'start' }}>
       <div>
-        <Header size={3}>{translate.pleaseRateTheQualityOfTheMeeting()}</Header>
+        <Header size={3}>{translate('pleaseRateTheQualityOfTheMeeting')}</Header>
         <BasicForm
           submitAction={() => ({ type: '' })}
           state={state}
@@ -29,10 +29,10 @@ const VideoCallFeedback: FunctionComponent<VideoCallFeedbackProps> = (props): JS
           form={form}
           initialValues={initialValues}
           features={[BasicFormFeatures.SAVE_BUTTON]}
-          positiveText={translate.submit()}
+          positiveText={translate('submit')}
         >
-          <RatingInput name="rating" label={translate.rating()} size="large" />
-          <TextArea label={translate.feedback()} name="feedback" />
+          <RatingInput name="rating" label={translate('rating')} size="large" />
+          <TextArea label={translate('feedback')} name="feedback" />
         </BasicForm>
       </div>
       <div>

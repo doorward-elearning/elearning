@@ -38,7 +38,7 @@ export class TeachersService {
       this.emailsService
         .send(
           new TeacherAccountWithPasswordEmail({
-            subject: translate.newTeacherAccountCreated(),
+            subject: translate('newTeacherAccountCreated'),
             recipient: user,
             data: { password: body.password, link: origin + FrontendLinks.login },
           })
@@ -48,7 +48,7 @@ export class TeachersService {
       this.emailsService
         .send(
           new TeacherNewAccountEmail({
-            subject: translate.newTeacherAccountCreated(),
+            subject: translate('newTeacherAccountCreated'),
             recipient: user,
             data: { link: origin + FrontendLinks.passwordReset(resetToken) },
           })
