@@ -1,0 +1,9 @@
+.ed-conversation-input-form {
+  display: grid;
+  grid-gap: var(--padding);
+
+  &--toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+}

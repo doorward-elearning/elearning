@@ -1,0 +1,23 @@
+.ed-conversation-content {
+  display: grid;
+  grid-template-rows: 1fr auto;
+
+  &--messages {
+    background: var(--bg-secondary);
+    display: grid;
+    align-content: end;
+    padding: 0 var(--padding-lg) var(--padding);
+  }
+
+  &--input {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--line-color);
+    padding: var(--padding) var(--padding-xlg);
+
+    textarea {
+      min-height: 30px;
+      max-height: 100px;
+      resize: none;
+    }
+  }
+}

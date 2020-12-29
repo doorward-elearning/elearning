@@ -2,6 +2,7 @@ import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import Chat from '@doorward/chat/Chat';
+import { MessageStatus } from '@doorward/chat/types';
 
 const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Element => {
   return (
@@ -9,19 +10,51 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
       <Chat
         conversations={[
           {
+            id: '1',
             recipient: {
+              id: 'moses',
               name: 'Moses Gitau',
-              picture: '',
+              picture: 'https://picsum.photos/200',
             },
-            messages: [{ text: 'How are you doing today?', createdAt: new Date(), updatedAt: new Date(), me: true }],
+            blocks: [
+              {
+                day: 'Sunday',
+                messages: [{ text: 'Hi?', timestamp: new Date(), me: true, status: MessageStatus.READ }],
+              },
+              {
+                day: 'Yesterday',
+                messages: [
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                ],
+              },
+            ],
           },
           {
+            id: '2',
             recipient: {
+              id: 'jennifer',
               name: 'Jennifer Moko',
-              picture: '',
+              picture: 'https://picsum.photos/200',
             },
-            messages: [
-              { text: 'How was the meeting yesterday?', createdAt: new Date(), updatedAt: new Date(), me: false },
+            blocks: [
+              {
+                day: 'Today',
+                messages: [
+                  {
+                    text: 'Hi',
+                    timestamp: new Date(),
+                    me: false,
+                    status: MessageStatus.READ,
+                  },
+                  {
+                    text: 'How was the meeting yesterday?',
+                    timestamp: new Date(),
+                    me: false,
+                    status: MessageStatus.READ,
+                  },
+                ],
+              },
             ],
           },
         ]}

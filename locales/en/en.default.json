@@ -422,5 +422,8 @@
   "videoFileOrURLRequired": "The video file or URL is required.",
   "uploadVideo": "Upload video",
   "videoURL": "Video URL",
-  "courseContent": "{{course, capitalize}} content"
+  "courseContent": "{{course, capitalize}} content",
+  "searchConversations": "Search conversations....",
+  "enterMessage": "Type a message....",
+  "send": "Send"
 }

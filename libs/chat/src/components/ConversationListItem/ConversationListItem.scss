@@ -1,15 +1,37 @@
 .ed-conversation-list__item {
   display: grid;
   grid-template-columns: auto 1fr;
-  grid-gap: var(--padding);
-  padding: var(--padding) var(--padding-lg);
+  grid-gap: var(--padding-lg);
+  padding: var(--padding-lg) var(--padding);
   border-bottom: 1px solid var(--line-color);
   user-select: none;
   transition: 0.5s background;
   cursor: pointer;
 
+  &:first-child {
+    border-top: 1px solid var(--line-color);
+  }
+
+  &.selected {
+    position: relative;
+
+    &:before, &:after {
+      position: absolute;
+      content: '';
+      top: 0;
+      right: 0;
+      height: 100%;
+      width: 3px;
+      background: var(--accent);
+    }
+
+    &:after {
+      left: 0;
+    }
+  }
+
   &:hover {
-    background: rgba(0, 0, 0, 0.1);
+    background: var(--bg-secondary);
   }
 
   .content {
@@ -17,14 +39,26 @@
     align-items: center;
     align-content: center;
     line-height: 1em;
+    grid-gap: var(--padding-sm);
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+
+      &-time {
+        color: var(--text-secondary);
+        font-size: 0.7em;
+      }
+    }
 
     .last-message {
       overflow: hidden;
+      color: var(--text-secondary);
       text-overflow: ellipsis;
       display: -webkit-box;
       -webkit-box-orient: vertical;
       -webkit-line-clamp: 2;
-      font-size: 0.9em;
+      font-size: 0.8em;
     }
   }
 }

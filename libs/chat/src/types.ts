@@ -1,0 +1,31 @@
+export interface Recipient {
+  id: string;
+  name: string;
+  picture: string;
+}
+
+export enum MessageStatus {
+  SENDING = 0,
+  FAILED = 1,
+  SENT = 2,
+  DELIVERED = 3,
+  READ = 4,
+}
+
+export interface ChatMessage {
+  text: string;
+  me: boolean;
+  timestamp: Date;
+  status: MessageStatus;
+}
+
+export interface MessageBlock {
+  day: string;
+  messages: Array<ChatMessage>;
+}
+
+export interface Conversation {
+  id: string;
+  recipient: Recipient;
+  blocks: Array<MessageBlock>;
+}

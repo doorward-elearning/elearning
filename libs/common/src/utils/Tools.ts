@@ -1,5 +1,7 @@
 import { Enum } from '@doorward/common/types';
 import moment from 'moment';
+import { capitalize } from 'lodash';
+import ago from 's-ago';
 import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
 
@@ -181,6 +183,10 @@ class Tools {
 
   static joinURL(...paths: Array<string>) {
     return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
+  }
+
+  static humanReadableTime(date: Date) {
+    return capitalize(ago(date));
   }
 }
 
