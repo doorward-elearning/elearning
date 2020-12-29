@@ -4,9 +4,10 @@ import ConversationListItem from '@doorward/chat/components/ConversationListItem
 import Search from '@doorward/ui/components/Search';
 import translate from '@doorward/common/lang/translate';
 import { ChatContext } from '@doorward/chat/Chat';
+import Button from '@doorward/ui/components/Buttons/Button';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
-  const { conversations, setCurrentConversation, currentConversation } = useContext(ChatContext);
+  const { conversations, setCurrentConversation, currentConversation, startNewChat } = useContext(ChatContext);
   return (
     <div className="ed-conversation-list">
       <div className="ed-conversation-list__search">
@@ -20,6 +21,9 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
             onClick={() => setCurrentConversation(conversation)}
           />
         ))}
+      </div>
+      <div className="ed-conversation-list--newChat">
+        <Button mini fab icon="add" onClick={() => startNewChat(true)} />
       </div>
     </div>
   );

@@ -1,6 +1,8 @@
 .ed-conversation-list {
   border-right: 1px solid var(--line-color);
   box-shadow: var(--box-shadow);
+  position: relative;
+  height: 100%;
 
   &__search {
     margin: var(--padding);
@@ -9,5 +11,11 @@
       input {
       }
     }
+  }
+
+  &--newChat {
+    position: absolute;
+    bottom: var(--padding-lg);
+    right: var(--padding-lg);
   }
 }

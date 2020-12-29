@@ -8,6 +8,23 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
   return (
     <Layout {...props} features={[LayoutFeatures.HEADER]} header="Messaging">
       <Chat
+        contacts={[
+          {
+            id: 'jennifer',
+            name: 'Jennifer Moko',
+            picture: 'https://picsum.photos/200',
+          },
+          {
+            id: 'moses',
+            name: 'Moses Gitau',
+            picture: 'https://picsum.photos/200',
+          },
+          {
+            id: 'edward',
+            name: 'Edward Njoroge',
+            picture: 'https://picsum.photos/200',
+          },
+        ]}
         conversations={[
           {
             id: '2',

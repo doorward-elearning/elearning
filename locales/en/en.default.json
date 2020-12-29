@@ -425,5 +425,7 @@
   "courseContent": "{{course, capitalize}} content",
   "searchConversations": "Search conversations....",
   "enterMessage": "Type a message....",
-  "send": "Send"
+  "send": "Send",
+  "newChat": "New chat",
+  "searchContacts": "Search contacts..."
 }

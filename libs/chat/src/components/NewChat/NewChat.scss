@@ -1,0 +1,46 @@
+.ed-new-chat {
+  background: var(--bg-primary);
+  transform: translateX(-150%);
+  transition: 0.5s transform;
+  box-shadow: var(--box-shadow);
+  border-right: 1px solid var(--line-color);
+
+  &.open {
+    transform: translateX(0%);
+  }
+
+  &--header {
+    display: grid;
+    padding: var(--padding-xlg) var(--padding-lg);
+    grid-gap: var(--padding-lg);
+    grid-auto-flow: column;
+    justify-content: start;
+  }
+
+  &__search {
+    padding: 0 var(--padding-lg);
+  }
+
+  &__contacts {
+    display: grid;
+    margin-top: var(--padding-lg);
+  }
+
+  &__contact {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: var(--padding-lg);
+    padding: var(--padding-lg) var(--padding-lg);
+    align-items: center;
+    border-bottom: 1px solid var(--line-color);
+    cursor: pointer;
+
+    &:first-child {
+      border-top: 1px solid var(--line-color);
+    }
+
+    &:hover {
+      background: var(--bg-secondary);
+    }
+  }
+}
