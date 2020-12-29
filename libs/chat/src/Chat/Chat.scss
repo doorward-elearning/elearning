@@ -1,9 +1,9 @@
 .ed-chat {
   display: grid;
   grid-template-columns: 350px 1fr;
-  grid-template-rows: 1fr;
   border: 1px solid var(--line-color);
   background: var(--bg-primary);
+  height: 100%;
 
   &.single {
     grid-template-columns: 1fr;

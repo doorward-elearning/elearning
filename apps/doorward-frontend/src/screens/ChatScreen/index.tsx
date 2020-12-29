@@ -10,27 +10,6 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
       <Chat
         conversations={[
           {
-            id: '1',
-            recipient: {
-              id: 'moses',
-              name: 'Moses Gitau',
-              picture: 'https://picsum.photos/200',
-            },
-            blocks: [
-              {
-                day: 'Sunday',
-                messages: [{ text: 'Hi?', timestamp: new Date(), me: true, status: MessageStatus.READ }],
-              },
-              {
-                day: 'Yesterday',
-                messages: [
-                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
-                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
-                ],
-              },
-            ],
-          },
-          {
             id: '2',
             recipient: {
               id: 'jennifer',
@@ -53,6 +32,45 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
                     me: false,
                     status: MessageStatus.READ,
                   },
+                ],
+              },
+            ],
+          },
+          {
+            id: '1',
+            recipient: {
+              id: 'moses',
+              name: 'Moses Gitau',
+              picture: 'https://picsum.photos/200',
+            },
+            blocks: [
+              {
+                day: 'Sunday',
+                messages: [{ text: 'Hi?', timestamp: new Date(), me: true, status: MessageStatus.READ }],
+              },
+              {
+                day: 'Yesterday',
+                messages: [
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'Hello?', timestamp: new Date(), me: false, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
+                  { text: 'How are you doing today?', timestamp: new Date(), me: true, status: MessageStatus.READ },
                 ],
               },
             ],

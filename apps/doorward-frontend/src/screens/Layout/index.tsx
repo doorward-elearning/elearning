@@ -187,10 +187,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           />
         </div>
         <div className="ed-page-layout__content">
-          <Container fullHeight={loading}>
+          <Container fullHeight>
             <IfElse condition={loading}>
               <ContentSpinner type="Grid" />
-              <div>
+              <React.Fragment>
                 <div className="ed-page-layout__topContent">{renderTopContent && renderTopContent()}</div>
                 <div className="ed-page-layout__topHeader">
                   <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
@@ -241,7 +241,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                     </Feature>
                   </div>
                 </div>
-              </div>
+              </React.Fragment>
             </IfElse>
           </Container>
         </div>

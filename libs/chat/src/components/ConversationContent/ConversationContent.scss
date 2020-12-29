@@ -1,12 +1,20 @@
 .ed-conversation-content {
-  display: grid;
-  grid-template-rows: 1fr auto;
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+
+  &--messages-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--padding-lg) var(--padding);
+  }
 
   &--messages {
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column-reverse;
+    flex: 1 0 0;
     background: var(--bg-secondary);
-    display: grid;
-    align-content: end;
-    padding: 0 var(--padding-lg) var(--padding);
   }
 
   &--input {
