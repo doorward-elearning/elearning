@@ -11,27 +11,29 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
         contacts={[
           {
             id: 'jennifer',
-            name: 'Jennifer Moko',
-            picture: 'https://picsum.photos/200',
+            fullName: 'Jennifer Moko',
+            profilePicture: 'https://picsum.photos/200',
           },
           {
             id: 'moses',
-            name: 'Moses Gitau',
-            picture: 'https://picsum.photos/200',
+            fullName: 'Moses Gitau',
+            profilePicture: 'https://picsum.photos/200',
           },
           {
             id: 'edward',
-            name: 'Edward Njoroge',
-            picture: 'https://picsum.photos/200',
+            fullName: 'Edward Njoroge',
+            profilePicture: 'https://picsum.photos/200',
           },
         ]}
         conversations={[
           {
             id: '2',
+            title: 'Jennifer Moko',
+            avatar: 'https://picsum.photos/200',
             recipient: {
               id: 'jennifer',
-              name: 'Jennifer Moko',
-              picture: 'https://picsum.photos/200',
+              fullName: 'Jennifer Moko',
+              profilePicture: 'https://picsum.photos/200',
             },
             blocks: [
               {
@@ -55,10 +57,12 @@ const ChatScreen: React.FunctionComponent<ChatScreenProps> = (props): JSX.Elemen
           },
           {
             id: '1',
+            title: 'Moses Gitau',
+            avatar: 'https://picsum.photos/200',
             recipient: {
               id: 'moses',
-              name: 'Moses Gitau',
-              picture: 'https://picsum.photos/200',
+              fullName: 'Moses Gitau',
+              profilePicture: 'https://picsum.photos/200',
             },
             blocks: [
               {

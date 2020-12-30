@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import GroupEntity from '@doorward/common/entities/group.entity';

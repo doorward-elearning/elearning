@@ -1,9 +1,9 @@
 import { Body, Controller, Get, HttpStatus, Post, Request, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import LocalAuthGuard from './guards/local.auth.guard';
+import LocalAuthGuard from '@doorward/backend/guards/local.auth.guard';
 import SelfRegistrationEmail from '../../emails/self.registration.email';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
-import JwtAuthGuard from './guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';

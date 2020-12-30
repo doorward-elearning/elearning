@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
 import Public from '@doorward/backend/decorators/public.decorator';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { MeetingsService } from './meetings.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';

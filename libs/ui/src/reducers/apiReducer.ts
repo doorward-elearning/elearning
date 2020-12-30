@@ -1,7 +1,6 @@
 import { ArgumentTypes } from '@doorward/common/types';
 import { Action, BuiltReducer, ReduxReducerApiActionProps, WebComponentState } from '@doorward/ui/reducers/reducers';
 import reducerBuilder, { BuiltState, reducerApiAction } from '@doorward/ui/reducers/builder';
-import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
 
 type ApiEndpoint<T> = (...args: any) => Promise<T>;
 
@@ -91,7 +90,7 @@ function generateReducer(
   }, {}) as any;
 }
 
-function generateActions<A extends typeof DoorwardBackendApi>(api: A, name: string): ApiActions<A> {
+function generateActions<A extends Api>(api: A, name: string): ApiActions<A> {
   const apiActions = {};
 
   const groupNames = Object.keys(api);
@@ -115,7 +114,7 @@ function generateActionsForGroup(apiGroup: Record<string, ApiEndpoint<any>>, pre
   return actions as any;
 }
 
-export function generateActionsTypes<A extends typeof DoorwardBackendApi>(api: A, name: string): ApiActionTypes<A> {
+export function generateActionsTypes<A extends Api>(api: A, name: string): ApiActionTypes<A> {
   const apiActions = {};
 
   const groupNames = Object.keys(api);
@@ -139,7 +138,7 @@ function generateActionTypesForGroup(apiGroup: Record<string, ApiEndpoint<any>>,
   return actions as any;
 }
 
-function buildApiReducer<T extends Api>(api: typeof DoorwardBackendApi, name, middleware?: ApiReducerMiddleware<T>) {
+function buildApiReducer<T extends Api>(api: T, name, middleware?: ApiReducerMiddleware<T>) {
   const actions = generateActions(api, name);
 
   const reducers = generateReducers(api, name, middleware);

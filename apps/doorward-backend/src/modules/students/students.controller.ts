@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import ModelExists, { ModelsExist } from '@doorward/backend/decorators/model.exists.decorator';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';

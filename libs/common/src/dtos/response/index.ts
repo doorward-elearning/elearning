@@ -16,3 +16,4 @@ export * from './students.responses';
 export * from './suggestions.response';
 export * from './teachers.responses';
 export * from './users.responses';
+export * from './chat.responses';

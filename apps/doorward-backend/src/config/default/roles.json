@@ -27,7 +27,8 @@
     "students": ["create", "update", "view", "list", "change-password"],
     "reports": ["students", "teachers"],
     "teachers": ["create", "update", "view", "list"],
-    "discussion-groups": ["create", "update", "view", "list", "post"]
+    "discussion-groups": ["create", "update", "view", "list", "post"],
+    "chat": ["directMessage"]
   },
   "roles": {
     "SUPER_ADMINISTRATOR": {
@@ -46,7 +47,8 @@
         "meetings.moderate",
         "students.*",
         "student.groups.*",
-        "discussion-groups.*"
+        "discussion-groups.*",
+        "chat.*"
       ],
       "exclude": ["courses.view-all"]
     },
@@ -63,7 +65,8 @@
         "discussion-groups.post",
         "assessments.submit",
         "assignments.submit",
-        "meetings.subscribe"
+        "meetings.subscribe",
+        "chat.*"
       ],
       "exclude": []
     }

@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { CoursesService } from './courses.service';
 import { ModulesService } from './modules/modules.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';

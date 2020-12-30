@@ -31,12 +31,12 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
       onClick={onClick}
     >
       <div>
-        <EImage size="small" circle alt="" src={conversation.recipient.picture} />
+        <EImage size="small" circle alt="" src={conversation.avatar} />
       </div>
       <div className="content">
         <div className="content__header">
           <Header size={4} className="content__header-name">
-            {conversation.recipient.name}
+            {conversation.title}
           </Header>
           {message && (
             <span className="content__header-time">

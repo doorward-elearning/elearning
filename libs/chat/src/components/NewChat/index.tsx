@@ -37,6 +37,8 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
               setCurrentConversation(
                 newConversation || {
                   recipient: contact,
+                  title: contact.fullName,
+                  avatar: contact.profilePicture,
                   id: Tools.randomString(),
                   blocks: [],
                 }
@@ -44,9 +46,9 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
               startNewChat(false);
             }}
           >
-            <EImage size="small" circle src={contact.picture} />
+            <EImage size="small" circle src={contact.profilePicture} />
             <div className="ed-new-chat__contact__content">
-              <Header size={3}>{contact.name}</Header>
+              <Header size={3}>{contact.fullName}</Header>
             </div>
           </div>
         ))}

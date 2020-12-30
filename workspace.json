@@ -320,7 +320,7 @@
             "outputPath": "dist/apps/doorward-chat-api",
             "main": "apps/doorward-chat-api/src/main.ts",
             "tsConfig": "apps/doorward-chat-api/tsconfig.app.json",
-            "assets": ["apps/doorward-chat-api/src/assets"]
+            "assets": []
           },
           "configurations": {
             "production": {

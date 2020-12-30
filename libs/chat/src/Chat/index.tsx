@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Chat.scss';
 import classNames from 'classnames';
 import ConversationList from '../components/ConversationList';
 import ConversationFrame from '../components/ConversationFrame';
 import { Conversation, Recipient } from '@doorward/chat/types';
 import NewChat from '@doorward/chat/components/NewChat';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardChatApi from '../../../../apps/doorward-frontend/src/services/apis/doorward.chat.api';
 
 export interface ChatContextType {
   conversations: Array<Conversation>;
@@ -29,6 +31,18 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
     props.currentConversation || props.conversations[0]
   );
   const [newChat, startNewChat] = useState(true);
+
+  const [contacts, setContats] = useState([]);
+
+  const fetchContacts = useAction(DoorwardChatApi.contacts.getContacts, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
 
   return (
     <ChatContext.Provider

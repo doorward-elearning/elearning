@@ -2,7 +2,7 @@ import { Body, Controller, HttpStatus, Post, Put, UseGuards } from '@nestjs/comm
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from './users.service';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
 import Public from '@doorward/backend/decorators/public.decorator';
 import Privileges from '../../decorators/privileges.decorator';

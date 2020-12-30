@@ -1,10 +1,12 @@
 import createReduxStore from '@doorward/ui/store/createReduxStore';
 import { DoorwardApiReducers } from '../services/apis/doorward.api';
+import { DoorwardChatApiReducers } from '../services/apis/doorward.chat.api';
 
 const store = createReduxStore(
   {},
   {
     DoorwardApi: DoorwardApiReducers,
+    DoorwardChatApi: DoorwardChatApiReducers,
   }
 );
 

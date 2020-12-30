@@ -9,9 +9,9 @@ const ConversationHeader: React.FunctionComponent<ConversationHeaderProps> = (pr
 
   return (
     <div className="ed-conversation-header">
-      <EImage size="small" circle src={currentConversation.recipient.picture} />
+      <EImage size="small" circle src={currentConversation.avatar} />
       <div className="ed-conversation-header__content">
-        <Header size={4}> {currentConversation.recipient.name}</Header>
+        <Header size={4}> {currentConversation.title}</Header>
       </div>
     </div>
   );

@@ -2,25 +2,23 @@ import '@doorward/backend/bootstrap/setUpEnvironment';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import { AppModule } from './app.module';
 import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplication';
-import organizationSetup, { ORGANIZATION } from './bootstrap/organizationSetup';
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
-import rolesSetup from './bootstrap/roleSetup';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
-import configureLang from '@doorward/common/lang/backend.config';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
+import ormConfig from '../ormconfig';
+import entities from './database/entities';
+import initializeBackend from './bootstrap/initializeBackend';
 
 const globalPrefix = process.env.API_PREFIX;
 
 async function bootstrap() {
-  await rolesSetup();
-  await organizationSetup();
-  await configureLang(ORGANIZATION);
+  await initializeBackend(entities, ormConfig);
 
   const app = await setUpNestApplication(AppModule);
 

@@ -10,7 +10,7 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../guards/privileges.guard';
 import Public from '@doorward/backend/decorators/public.decorator';
 import { CreateFileBody } from '@doorward/common/dtos/body';

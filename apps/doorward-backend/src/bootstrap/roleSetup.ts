@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as fs from 'fs';
-import connectDatabase from '../utils/connectDatabase';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import compareLists from '@doorward/common/utils/compareLists';
-import { In } from 'typeorm';
+import { ConnectionManager, In } from 'typeorm';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
+
 const chalk = require('chalk').default;
 
 export interface RolesConfig {
@@ -45,8 +45,7 @@ const parseRoles = (): RolesConfig => {
   }
 };
 
-const rolesSetup = async (): Promise<void> => {
-  const connectionManager = await connectDatabase();
+const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> => {
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {

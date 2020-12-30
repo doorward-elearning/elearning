@@ -1,7 +1,7 @@
 export interface Recipient {
   id: string;
-  name: string;
-  picture: string;
+  fullName: string;
+  profilePicture: string;
 }
 
 export enum MessageStatus {
@@ -26,6 +26,8 @@ export interface MessageBlock {
 
 export interface Conversation {
   id: string;
+  title: string;
+  avatar: string;
   recipient: Recipient;
   blocks: Array<MessageBlock>;
 }

@@ -1,5 +1,5 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import Public from '@doorward/backend/decorators/public.decorator';
 import { OrganizationsService } from './organizations.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';

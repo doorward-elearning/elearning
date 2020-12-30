@@ -1,11 +1,9 @@
 import { ConnectionManager } from 'typeorm';
-import * as ormconfig from '../../ormconfig';
-import entities from '../database/entities';
 
-const connectDatabase = async (): Promise<ConnectionManager> => {
+const connectDatabase = async (entities: Array<any>, ormConfig: any): Promise<ConnectionManager> => {
   const connectionManager = new ConnectionManager();
   const connection = await connectionManager.create({
-    ...ormconfig,
+    ...ormConfig,
     entities: [...entities],
   });
 

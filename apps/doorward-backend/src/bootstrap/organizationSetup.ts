@@ -1,4 +1,3 @@
-import connectDatabase from '../utils/connectDatabase';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -10,6 +9,7 @@ import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
+import { ConnectionManager } from 'typeorm';
 
 const chalk = require('chalk');
 
@@ -99,8 +99,7 @@ const parseMeetingInterfaceConfig = () => {
   };
 };
 
-const organizationSetup = async (): Promise<OrganizationEntity> => {
-  const connectionManager = await connectDatabase();
+const organizationSetup = async (connectionManager: ConnectionManager): Promise<OrganizationEntity> => {
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {

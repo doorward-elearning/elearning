@@ -1,6 +1,6 @@
 import { Controller, Get, HttpStatus, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiParam, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
-import JwtAuthGuard from '../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { SearchSuggestionTypes } from '@doorward/common/types/suggestions';
 import { Roles } from '@doorward/common/types/roles';
 import { SearchSuggestionsService } from './search-suggestions.service';

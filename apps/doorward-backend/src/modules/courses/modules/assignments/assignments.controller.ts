@@ -1,7 +1,7 @@
 import { Body, Controller, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import JwtAuthGuard from '../../../auth/guards/jwt.auth.guard';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';

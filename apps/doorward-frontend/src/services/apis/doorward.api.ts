@@ -3,14 +3,20 @@ import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
 import auth from '../../reducers/auth';
 import courses from '../../reducers/courses';
 
-export const DoorwardApiTypes = generateActionsTypes(DoorwardBackendApi, 'DoorwardBackendApi');
+export const DoorwardApiTypes = generateActionsTypes(DoorwardBackendApi(), 'DoorwardBackendApi');
 
-const middleware: ApiReducerMiddleware<typeof DoorwardBackendApi> = {
+const middleware: ApiReducerMiddleware<ReturnType<typeof DoorwardBackendApi>> = {
   auth,
   courses,
 };
 
-const apiReducer = buildApiReducer(DoorwardBackendApi, 'DoorwardBackendApi', middleware);
+const apiReducer = buildApiReducer(
+  DoorwardBackendApi({
+    baseURL: process.env.REACT_APP_BASE_URL,
+  }),
+  'DoorwardBackendApi',
+  middleware
+);
 
 const DoorwardApi = apiReducer.actions;
 
