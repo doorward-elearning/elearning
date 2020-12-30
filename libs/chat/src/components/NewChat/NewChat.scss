@@ -2,6 +2,8 @@
   background: var(--bg-primary);
   transform: translateX(-150%);
   transition: 0.5s transform;
+  display: flex;
+  flex-direction: column;
   box-shadow: var(--box-shadow);
   border-right: 1px solid var(--line-color);
 
@@ -24,6 +26,10 @@
   &__contacts {
     display: grid;
     margin-top: var(--padding-lg);
+    overflow-y: scroll;
+    flex: 1 0 0;
+    align-items: start;
+    align-content: start;
   }
 
   &__contact {

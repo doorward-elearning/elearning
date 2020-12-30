@@ -16,7 +16,10 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
   actionMessage,
   onAction,
   children,
+  actionIcon,
   modelName,
+  noBorder,
+  fullHeight,
 }) => {
   const defaultMessage = translate('thereAreNoItemsHere');
   return (
@@ -24,7 +27,9 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
       className={classNames({
         'ed-content-empty': true,
         [size]: true,
+        fullHeight,
       })}
+      plain={noBorder}
     >
       <Icon icon={icon} className="ed-content-empty__icon" />
       <span className="ed-content-empty__message">
@@ -33,7 +38,7 @@ const Empty: React.FunctionComponent<EmptyProps> = ({
       {children}
       <Spacer />
       <IfElse condition={!!actionMessage}>
-        <Button theme="secondary" onClick={onAction}>
+        <Button theme="secondary" onClick={onAction} icon={actionIcon}>
           {actionMessage}
         </Button>
       </IfElse>
@@ -48,6 +53,9 @@ export interface EmptyProps {
   actionMessage?: string;
   onAction?: MouseEventHandler;
   modelName?: string;
+  noBorder?: boolean;
+  actionIcon?: Icons;
+  fullHeight?: boolean;
 }
 
 export default Empty;

@@ -7,13 +7,15 @@ import { ChatContext } from '@doorward/chat/Chat';
 const ConversationHeader: React.FunctionComponent<ConversationHeaderProps> = (props): JSX.Element => {
   const { currentConversation } = useContext(ChatContext);
 
-  return (
+  return currentConversation ? (
     <div className="ed-conversation-header">
       <EImage size="small" circle src={currentConversation.avatar} />
       <div className="ed-conversation-header__content">
         <Header size={4}> {currentConversation.title}</Header>
       </div>
     </div>
+  ) : (
+    <div />
   );
 };
 

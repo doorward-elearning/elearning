@@ -8,11 +8,17 @@ import { ChatContext } from '@doorward/chat/Chat';
 import Search from '@doorward/ui/components/Search';
 import EImage from '@doorward/ui/components/Image';
 import Tools from '@doorward/common/utils/Tools';
+import useSearch from '@doorward/ui/hooks/useSearch';
 
 const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
   const { startNewChat, contacts, currentConversation, conversations, setCurrentConversation } = useContext(
     ChatContext
   );
+
+  const { filtered: filteredContacts, search, setSearch } = useSearch(contacts, (search, item) =>
+    item.fullName.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div
       className={classNames({
@@ -25,10 +31,10 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
         <Header size={2}>{translate('newChat')}</Header>
       </div>
       <div className="ed-new-chat__search">
-        <Search onChange={() => {}} placeholder={translate('searchConversations')} />
+        <Search onChange={setSearch} search={search} placeholder={translate('searchContacts')} />
       </div>
       <div className="ed-new-chat__contacts">
-        {contacts.map((contact) => (
+        {filteredContacts.map((contact) => (
           <div
             className="ed-new-chat__contact"
             onClick={() => {

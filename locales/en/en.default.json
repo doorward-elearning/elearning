@@ -427,5 +427,7 @@
   "enterMessage": "Type a message....",
   "send": "Send",
   "newChat": "New chat",
-  "searchContacts": "Search contacts..."
+  "searchContacts": "Search contacts...",
+  "thereAreNoConversations": "There are no conversations",
+  "startConversation": "Start a new conversation"
 }

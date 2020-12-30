@@ -75,13 +75,13 @@ const parseMeetingConfig = () => {
   const base = parseConfigFile('meetings.config.json');
   const moderator = parseConfigFile('meetings.config.moderator.json');
   const publisher = parseConfigFile('meetings.config.publisher.json');
-  const subscriber = parseConfigFile("meetings.config.subscriber.json");
+  const subscriber = parseConfigFile('meetings.config.subscriber.json');
 
   return {
     base,
     moderator,
     publisher,
-    subscriber
+    subscriber,
   };
 };
 
@@ -95,7 +95,7 @@ const parseMeetingInterfaceConfig = () => {
     base,
     moderator,
     publisher,
-    subscriber
+    subscriber,
   };
 };
 
@@ -199,7 +199,6 @@ const organizationSetup = async (connectionManager: ConnectionManager): Promise<
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
-    await connection.close();
   }
 };
 

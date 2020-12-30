@@ -1,5 +1,5 @@
 import { Controller, Get, HttpStatus, UseGuards } from '@nestjs/common';
-import { ApiBearerAuth, ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { ContactsResponse } from '@doorward/common/dtos/response/chat.responses';
 import { ContactsService } from './contacts.service';
@@ -11,7 +11,7 @@ import Privileges from '../../../../doorward-backend/src/decorators/privileges.d
 export class ContactsController {
   constructor(private contactsService: ContactsService) {}
 
-  @Get('all')
+  @Get()
   @Privileges('chat.*')
   @ApiResponse({
     status: HttpStatus.OK,

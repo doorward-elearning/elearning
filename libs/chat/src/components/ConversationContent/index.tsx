@@ -3,6 +3,8 @@ import './ConversationContent.scss';
 import ConversationInputForm from '@doorward/chat/components/ConversationInputForm';
 import { ChatContext } from '@doorward/chat/Chat';
 import ConversationMessageBlock from '@doorward/chat/components/ConversationMessageBlock';
+import Empty from '@doorward/ui/components/Empty';
+import translate from '@doorward/common/lang/translate';
 
 const ConversationContent: React.FunctionComponent<ConversationContentProps> = (props): JSX.Element => {
   const { currentConversation } = useContext(ChatContext);
@@ -19,7 +21,19 @@ const ConversationContent: React.FunctionComponent<ConversationContentProps> = (
         <ConversationInputForm />
       </div>
     </div>
-  ) : null;
+  ) : (
+    <div className="ed-conversation-content__noConversation">
+      <Empty
+        fullHeight
+        icon="chat"
+        message={translate('startConversation')}
+        onAction={() => {}}
+        noBorder
+        actionMessage={translate('newChat')}
+        actionIcon="add"
+      />
+    </div>
+  );
 };
 
 export interface ConversationContentProps {}

@@ -3,6 +3,10 @@
   flex-direction: column;
   min-height: auto;
 
+  &__noConversation {
+    height: 100%;
+  }
+
   &--messages-list {
     display: flex;
     flex-direction: column;

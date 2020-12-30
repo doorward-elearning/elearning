@@ -136,7 +136,6 @@ const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> =
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
-    await connection.close();
   }
 };
 

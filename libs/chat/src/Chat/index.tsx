@@ -30,13 +30,13 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   const [currentConversation, setCurrentConversation] = useState<Conversation>(
     props.currentConversation || props.conversations[0]
   );
-  const [newChat, startNewChat] = useState(true);
+  const [newChat, startNewChat] = useState(false);
 
-  const [contacts, setContats] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
   const fetchContacts = useAction(DoorwardChatApi.contacts.getContacts, {
     onSuccess: (data) => {
-      console.log(data);
+      setContacts(data.contacts);
     },
   });
 
@@ -52,7 +52,7 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
         setCurrentConversation,
         newChat,
         startNewChat,
-        contacts: props.contacts,
+        contacts: contacts,
       }}
     >
       <div
@@ -74,7 +74,7 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
 
 export interface ChatProps {
   conversations: Array<Conversation>;
-  contacts: Array<Recipient>;
+  contacts?: Array<Recipient>;
   currentConversation?: Conversation;
   size?: 'small' | 'medium' | 'large';
 }

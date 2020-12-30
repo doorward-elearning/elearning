@@ -18,7 +18,7 @@ const {
 const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
   "contacts": {
     getContacts: (config ? : AxiosRequestConfig): Promise < ContactsResponse > => {
-      return GET(`/contacts/all`, {}, {
+      return GET(`/contacts`, {}, {
         ...(config || {}),
         ...defaultConfig
       });
