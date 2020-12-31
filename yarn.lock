@@ -2483,6 +2483,22 @@
     multer "1.4.2"
     tslib "1.11.1"
 
+"@nestjs/platform-socket.io@^7.6.5":
+  version "7.6.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-socket.io/-/platform-socket.io-7.6.5.tgz#300ff4ec9087a4fa09cfaf9ebf6e13682ced59f7"
+  integrity sha512-KX3j7yFFUKZVrYZQCG6vuLGW24/ozegmZEb9hbwTNlXNgLUaqqvOwMH596g1DlOS2Ju1XjazTwP/VlbckS05HA==
+  dependencies:
+    socket.io "2.3.0"
+    tslib "2.0.3"
+
+"@nestjs/platform-ws@^7.6.5":
+  version "7.6.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-ws/-/platform-ws-7.6.5.tgz#4fee32705b1e8af4529a7cee28d8702aa1bbf106"
+  integrity sha512-fODRKKubEBqQ4qc8bv+VBcNmV046SfmAejOvgVla53XDepz6xCjZ9DJcJo9dITgYxNZqZ6WQ8jEasQPMcIvtaA==
+  dependencies:
+    tslib "2.0.3"
+    ws "7.4.1"
+
 "@nestjs/schematics@^6.7.0":
   version "6.9.4"
   resolved "https://registry.yarnpkg.com/@nestjs/schematics/-/schematics-6.9.4.tgz#4624c35da771fbb9a346cbd77aebd747d9348fd9"
@@ -2524,6 +2540,14 @@
   integrity sha512-xKqvhMF68TDFjptBerLD6HDe7qrb9RpZ2X1zBTdGKipFQrlVBTJtgs6Hmy+deuPJ3OnFzw0oe78U57Ur87xq8g==
   dependencies:
     uuid "8.1.0"
+
+"@nestjs/websockets@^7.6.5":
+  version "7.6.5"
+  resolved "https://registry.yarnpkg.com/@nestjs/websockets/-/websockets-7.6.5.tgz#d9fac438a7909fe2ae0310560d68b2f3f4aaffae"
+  integrity sha512-PdrQtXvjFVAB8AhN4ZtfdJKtk11ds8reYWBZaDK14WSCOcjZNzdosaQ1Tde7wDA2vctPTSiQDxckIKsX80t3tQ==
+  dependencies:
+    iterare "1.2.1"
+    tslib "2.0.3"
 
 "@ngtools/webpack@9.1.0":
   version "9.1.0"
@@ -4240,13 +4264,21 @@
   resolved "https://registry.yarnpkg.com/@types/socket.io-client/-/socket.io-client-1.4.33.tgz#8e705b9b3f7fba6cb329d27cd2eda222812adbf1"
   integrity sha512-m4LnxkljsI9fMsjwpW5QhRpMixo2BeeLpFmg0AE+sS4H1pzAd/cs/ftTiL60FLZgfFa8PFRPx5KsHu8O0bADKQ==
 
-"@types/socket.io@^2.1.4":
-  version "2.1.10"
-  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.10.tgz#cb00583313cc40a65d5201e897d7b8c95cfd8c73"
-  integrity sha512-1fQMaDU/x2LPljEI/QI5IKl8sBYHM/zv32YYKvNrVEor7/1+MLqMqmWt8Bb8Vpf+PlIPBiTTC0BnrRx7ju3xOw==
+"@types/socket.io-parser@*":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@types/socket.io-parser/-/socket.io-parser-2.2.1.tgz#dc94aed303839487f4975249a32a548109ea3647"
+  integrity sha512-+JNb+7N7tSINyXPxAJb62+NcpC1x/fPn7z818W4xeNCdPTp6VsO/X8fCsg6+ug4a56m1v9sEiTIIUKVupcHOFQ==
+  dependencies:
+    "@types/node" "*"
+
+"@types/socket.io@^2.1.12":
+  version "2.1.12"
+  resolved "https://registry.yarnpkg.com/@types/socket.io/-/socket.io-2.1.12.tgz#91187f826a5dd2ed1113e935815bbaf9627e5cb0"
+  integrity sha512-oStc5VFkpb0AsjOxQUj9ztX5Iziatyla/rjZTYbFGoVrrKwd+JU2mtxk7iSl5RGYx9WunLo6UXW1fBzQok/ZyA==
   dependencies:
     "@types/engine.io" "*"
     "@types/node" "*"
+    "@types/socket.io-parser" "*"
 
 "@types/sonic-boom@*":
   version "0.7.0"
@@ -19705,7 +19737,7 @@ socket.io@2.1.1:
     socket.io-client "2.1.1"
     socket.io-parser "~3.2.0"
 
-socket.io@^2.3.0:
+socket.io@2.3.0, socket.io@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/socket.io/-/socket.io-2.3.0.tgz#cd762ed6a4faeca59bc1f3e243c0969311eb73fb"
   integrity sha512-2A892lrj0GcgR/9Qk81EaY2gYhCBxurV0PfmmESO6p27QPrUK1J3zdns+5QPqvUYK2q657nSj0guoIil9+7eFg==
@@ -21043,6 +21075,11 @@ tslib@2.0.1, tslib@>=1.9.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
   integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
+
+tslib@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.0.3.tgz#8e0741ac45fc0c226e58a17bfc3e64b9bc6ca61c"
+  integrity sha512-uZtkfKblCEQtZKBF6EBXVZeQNl82yqtDQdv+eck8u7tdPxjLu2/lp5/uPW+um2tpuxINHWy3GhiccY7QgEaVHQ==
 
 tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.13.0"
@@ -22581,6 +22618,11 @@ write@1.0.3:
   dependencies:
     mkdirp "^0.5.1"
 
+ws@7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.1.tgz#a333be02696bd0e54cea0434e21dcc8a9ac294bb"
+  integrity sha512-pTsP8UAfhy3sk1lSk/O/s4tjD0CRwvMnzvwr4OKGX7ZvqZtUyx4KIJB5JWbkykPoc55tixMGgTNoh3k4FkNGFQ==
+
 ws@^6.0.0, ws@^6.1.2, ws@^6.2.1:
   version "6.2.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-6.2.1.tgz#442fdf0a47ed64f59b6a5d8ff130f4748ed524fb"
@@ -22592,6 +22634,11 @@ ws@^7.0.0, ws@^7.1.2:
   version "7.3.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.3.1.tgz#d0547bf67f7ce4f12a72dfe31262c68d7dc551c8"
   integrity sha512-D3RuNkynyHmEJIpD2qrgVkc9DQ23OrN/moAwZX4L8DfvszsJxpjQuUq3LMx6HoYji9fbIOBY18XWBsAux1ZZUA==
+
+ws@^7.4.2:
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-7.4.2.tgz#782100048e54eb36fe9843363ab1c68672b261dd"
+  integrity sha512-T4tewALS3+qsrpGI/8dqNMLIVdq/g/85U98HPMa6F0m6xTbvhXU6RCQLqPH3+SlomNV/LdY6RXEbBpMH6EOJnA==
 
 ws@~3.3.1:
   version "3.3.3"

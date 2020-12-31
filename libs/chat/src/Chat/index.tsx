@@ -7,6 +7,7 @@ import { Conversation, Recipient } from '@doorward/chat/types';
 import NewChat from '@doorward/chat/components/NewChat';
 import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardChatApi from '../../../../apps/doorward-frontend/src/services/apis/doorward.chat.api';
+import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
 
 export interface ChatContextType {
   conversations: Array<Conversation>;
@@ -45,30 +46,32 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   }, []);
 
   return (
-    <ChatContext.Provider
-      value={{
-        conversations: props.conversations,
-        currentConversation,
-        setCurrentConversation,
-        newChat,
-        startNewChat,
-        contacts: contacts,
-      }}
-    >
-      <div
-        className={classNames({
-          'ed-chat': true,
-          single: props.conversations.length === 1,
-          [props.size || 'large']: true,
-        })}
+    <WebSocketComponent endpoint={process.env.REACT_APP_CHAT_WEBSOCKET_URL}>
+      <ChatContext.Provider
+        value={{
+          conversations: props.conversations,
+          currentConversation,
+          setCurrentConversation,
+          newChat,
+          startNewChat,
+          contacts: contacts,
+        }}
       >
-        <div className="ed-chat-sidebar">
-          <ConversationList />
-          <NewChat open={newChat} />
+        <div
+          className={classNames({
+            'ed-chat': true,
+            single: props.conversations.length === 1,
+            [props.size || 'large']: true,
+          })}
+        >
+          <div className="ed-chat-sidebar">
+            <ConversationList />
+            <NewChat open={newChat} />
+          </div>
+          <ConversationFrame />
         </div>
-        <ConversationFrame />
-      </div>
-    </ChatContext.Provider>
+      </ChatContext.Provider>
+    </WebSocketComponent>
   );
 };
 

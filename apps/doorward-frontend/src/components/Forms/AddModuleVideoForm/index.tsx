@@ -62,7 +62,7 @@ const AddModuleVideoForm: React.FunctionComponent<AddModuleVideoFormProps> = ({
                   placeholder={translate('video')}
                   name="fileId"
                   fileTypes={['video/*']}
-                  uploadHandler={DoorwardBackendApi.files.uploadFile}
+                  uploadHandler={DoorwardBackendApi().files.uploadFile}
                   onFileChanged={(file) => {
                     if (file) {
                       const title = formikProps.values.title;

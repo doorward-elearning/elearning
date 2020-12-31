@@ -12,6 +12,7 @@ import { Logger } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import getOrganization from '@doorward/backend/bootstrap/getOrganization';
+import ChatAdapter from './modules/chat/chat.adapter';
 
 const globalPrefix = process.env.CHAT_API_PREFIX;
 
@@ -40,6 +41,7 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
+  app.useWebSocketAdapter(new ChatAdapter(app));
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
@@ -49,7 +51,7 @@ async function bootstrap() {
   const documentation = new DocumentationBuilder();
   documentation.scanApplication(app, 'doorward.chat.api.ts', 'Doorward Chat API');
 
-  const port = +(process.env.CHAT_PORT || 3333);
+  const port = +(process.env.CHAT_API_PORT || 3333);
   await app.listen(port, () => {
     const hostPrefix = process.env.NODE_ENV === 'development' ? 'https' : 'http';
 

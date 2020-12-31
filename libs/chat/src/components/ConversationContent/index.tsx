@@ -7,7 +7,7 @@ import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
 
 const ConversationContent: React.FunctionComponent<ConversationContentProps> = (props): JSX.Element => {
-  const { currentConversation } = useContext(ChatContext);
+  const { currentConversation, startNewChat } = useContext(ChatContext);
   return currentConversation ? (
     <div className="ed-conversation-content">
       <div className="ed-conversation-content--messages">
@@ -27,7 +27,7 @@ const ConversationContent: React.FunctionComponent<ConversationContentProps> = (
         fullHeight
         icon="chat"
         message={translate('startConversation')}
-        onAction={() => {}}
+        onAction={() => startNewChat(true)}
         noBorder
         actionMessage={translate('newChat')}
         actionIcon="add"

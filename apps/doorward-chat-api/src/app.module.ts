@@ -6,6 +6,7 @@ import { ConversationsModule } from './modules/conversations/conversations.modul
 import { ContactsModule } from './modules/contacts/contacts.module';
 import ormConfig from '../ormconfig.js';
 import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base.auth.module';
+import { ChatModule } from './modules/chat/chat.module';
 
 @Global()
 @Module({
@@ -28,6 +29,7 @@ import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base.auth.mo
     }),
     ConversationsModule,
     ContactsModule,
+    ChatModule,
   ],
 })
 export class AppModule {

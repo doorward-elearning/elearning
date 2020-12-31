@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './ConversationList.scss';
 import ConversationListItem from '@doorward/chat/components/ConversationListItem';
 import Search from '@doorward/ui/components/Search';
@@ -6,9 +6,15 @@ import translate from '@doorward/common/lang/translate';
 import { ChatContext } from '@doorward/chat/Chat';
 import Button from '@doorward/ui/components/Buttons/Button';
 import WebComponent from '@doorward/ui/components/WebComponent';
+import { WebSocketContext } from '@doorward/ui/components/WebSocketComponent';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
   const { conversations, setCurrentConversation, currentConversation, startNewChat } = useContext(ChatContext);
+  const { socket } = useContext(WebSocketContext);
+
+  useEffect(() => {
+    socket.emit('join', { name: 'Moses Gitau' });
+  }, []);
   return (
     <div className="ed-conversation-list">
       <div className="ed-conversation-list__search">

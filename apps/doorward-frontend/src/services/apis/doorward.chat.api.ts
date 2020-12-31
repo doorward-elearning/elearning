@@ -7,7 +7,7 @@ const middleware: ApiReducerMiddleware<ReturnType<typeof ChatApi>> = {};
 
 const apiReducer = buildApiReducer(
   ChatApi({
-    baseURL: process.env.REACT_APP_CHAT_URL,
+    baseURL: process.env.REACT_APP_CHAT_API_URL,
   }),
   'DoorwardChatApi',
   middleware
