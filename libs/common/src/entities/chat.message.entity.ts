@@ -15,7 +15,7 @@ export default class ChatMessageEntity extends BaseEntity {
   @ManyToOne(() => ConversationEntity)
   conversation: ConversationEntity;
 
-  @OneToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity)
   @JoinColumn()
   sender: UserEntity;
 }

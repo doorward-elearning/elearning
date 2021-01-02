@@ -6,11 +6,11 @@ type ApiEndpoint<T> = (...args: any) => Promise<T>;
 
 type ApiGroup = Record<string, ApiEndpoint<any>>;
 
-type Api = Record<string, ApiGroup>;
+export type Api = Record<string, ApiGroup>;
 
-type EndpointData<T> = T extends (...args: any) => Promise<infer R> ? R : unknown;
+export type EndpointData<T> = T extends (...any) => Promise<infer R> ? R : T;
 
-type ApiActions<A extends Api> = {
+export type ApiActions<A extends Api> = {
   [K in keyof A]: {
     [L in keyof A[K]]: (...args: ArgumentTypes<A[K][L]>) => Action;
   };
@@ -22,7 +22,7 @@ type ApiActionTypes<A extends Api> = {
   };
 };
 
-type ApiReducer<A extends Api> = {
+export type ApiReducer<A extends Api> = {
   [K in keyof A]: BuiltReducer<
     BuiltState<
       {
@@ -47,12 +47,15 @@ function apiActionCreator<T, R extends ApiEndpoint<T>, A extends Array<any> = Ar
   api: R,
   actionType: string
 ) {
-  return (...args: A): Action => {
+  const actionCreator = (...args: A): Action => {
     return {
       type: actionType,
       payload: [...args],
     };
   };
+  actionCreator.type = actionType;
+
+  return actionCreator;
 }
 
 function generateReducers<R extends Api>(

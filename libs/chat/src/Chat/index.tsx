@@ -6,7 +6,7 @@ import ConversationFrame from '../components/ConversationFrame';
 import { ChatMessage, Conversation, MessageStatus, Recipient } from '@doorward/chat/types';
 import NewChat from '@doorward/chat/components/NewChat';
 import useAction from '@doorward/ui/hooks/useActions';
-import DoorwardChatApi from '../../../../apps/doorward-frontend/src/services/apis/doorward.chat.api';
+import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
 import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
