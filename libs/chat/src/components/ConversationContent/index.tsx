@@ -7,7 +7,8 @@ import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
 
 const ConversationContent: React.FunctionComponent<ConversationContentProps> = (props): JSX.Element => {
-  const { currentConversation, startNewChat } = useContext(ChatContext);
+  const { currentConversation, startNewChat, sendMessage } = useContext(ChatContext);
+
   return currentConversation ? (
     <div className="ed-conversation-content">
       <div className="ed-conversation-content--messages">
@@ -18,7 +19,7 @@ const ConversationContent: React.FunctionComponent<ConversationContentProps> = (
         </div>
       </div>
       <div className="ed-conversation-content--input">
-        <ConversationInputForm />
+        <ConversationInputForm onSendMessage={sendMessage} />
       </div>
     </div>
   ) : (

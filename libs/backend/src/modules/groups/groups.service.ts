@@ -57,7 +57,10 @@ export class GroupsService {
         name: body.name,
         type: body.type,
         author: creator,
-      })
+      }),
+      {
+        transaction: false,
+      }
     );
 
     // add members to the group

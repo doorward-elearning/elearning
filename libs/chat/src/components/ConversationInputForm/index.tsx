@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import './ConversationInputForm.scss';
 import { BasicTextArea } from '@doorward/ui/components/Input/TextArea';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -6,6 +6,12 @@ import translate from '@doorward/common/lang/translate';
 
 const ConversationInputForm: React.FunctionComponent<ConversationInputFormProps> = (props): JSX.Element => {
   const [message, setMessage] = useState();
+
+  const sendMessage = useCallback(() => {
+    props.onSendMessage(message);
+    setMessage('');
+  }, [message]);
+
   return (
     <div className="ed-conversation-input-form">
       <BasicTextArea
@@ -17,7 +23,7 @@ const ConversationInputForm: React.FunctionComponent<ConversationInputFormProps>
       <div className="ed-conversation-input-form--toolbar">
         <div></div>
         <div>
-          <Button disabled={!message} theme="primary">
+          <Button disabled={!message} theme="primary" onClick={sendMessage}>
             {translate('send').toUpperCase()}
           </Button>
         </div>
@@ -26,6 +32,8 @@ const ConversationInputForm: React.FunctionComponent<ConversationInputFormProps>
   );
 };
 
-export interface ConversationInputFormProps {}
+export interface ConversationInputFormProps {
+  onSendMessage: (message: string) => void;
+}
 
 export default ConversationInputForm;

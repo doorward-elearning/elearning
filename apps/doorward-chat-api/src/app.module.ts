@@ -1,6 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import entities from './database/entities';
+import entities from '@doorward/common/entities';
 import { LoggerModule } from 'nestjs-pino/dist';
 import { ConversationsModule } from './modules/conversations/conversations.module';
 import { ContactsModule } from './modules/contacts/contacts.module';

@@ -6,15 +6,24 @@ import translate from '@doorward/common/lang/translate';
 import { ChatContext } from '@doorward/chat/Chat';
 import Button from '@doorward/ui/components/Buttons/Button';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import { WebSocketContext } from '@doorward/ui/components/WebSocketComponent';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardChatApi from '../../../../../apps/doorward-frontend/src/services/apis/doorward.chat.api';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
-  const { conversations, setCurrentConversation, currentConversation, startNewChat } = useContext(ChatContext);
-  const { socket } = useContext(WebSocketContext);
+  const { conversations, setConversations, setCurrentConversation, currentConversation, startNewChat } = useContext(
+    ChatContext
+  );
+
+  const fetchConversations = useAction(DoorwardChatApi.chat.getConversations, {
+    onSuccess: (response) => {
+      setConversations(response.conversations);
+    },
+  });
 
   useEffect(() => {
-    socket.emit('join', { name: 'Moses Gitau' });
+    fetchConversations();
   }, []);
+
   return (
     <div className="ed-conversation-list">
       <div className="ed-conversation-list__search">

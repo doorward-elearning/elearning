@@ -12,8 +12,8 @@ import { Logger } from '@nestjs/common';
 import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import ormConfig from '../ormconfig';
-import entities from './database/entities';
 import initializeBackend from './bootstrap/initializeBackend';
+import entities from '@doorward/common/entities';
 
 const globalPrefix = process.env.API_PREFIX;
 

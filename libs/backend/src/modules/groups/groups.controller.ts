@@ -1,12 +1,12 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
-import PrivilegesGuard from '../../guards/privileges.guard';
+import PrivilegesGuard from '../../../../../apps/doorward-backend/src/guards/privileges.guard';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import { GroupsService } from './groups.service';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
-import Privileges from '../../decorators/privileges.decorator';
+import Privileges from '../../../../../apps/doorward-backend/src/decorators/privileges.decorator';
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AddMemberToGroupBody, CreateGroupBody } from '@doorward/common/dtos/body/groups.body';
 import { GroupResponse, GroupsResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';

@@ -1,0 +1,26 @@
+diff --git a/node_modules/s-ago/index.d.ts b/node_modules/s-ago/index.d.ts
+index 70132c5..adfbf52 100644
+--- a/node_modules/s-ago/index.d.ts
++++ b/node_modules/s-ago/index.d.ts
+@@ -1,2 +1,2 @@
+-declare const _default: (date: Date, max?: string) => string;
++declare const _default: (date: Date, max?: string, initial?: string) => string;
+ export = _default;
+diff --git a/node_modules/s-ago/index.js b/node_modules/s-ago/index.js
+index 2ff899c..05bee8f 100644
+--- a/node_modules/s-ago/index.js
++++ b/node_modules/s-ago/index.js
+@@ -27,11 +27,11 @@ var units = [
+     { max: 2419200000, value: 604800000, name: 'week', past: 'last week', future: 'in a week' },
+     { max: 28512000000, value: 2592000000, name: 'month', past: 'last month', future: 'in a month' } // max: 11 months
+ ];
+-module.exports = function ago(date, max) {
++module.exports = function ago(date, max, initial = 'just now') {
+     var diff = Date.now() - date.getTime();
+     // less than a minute
+     if (Math.abs(diff) < 60000)
+-        return 'just now';
++        return initial;
+     for (var i = 0; i < units.length; i++) {
+         if (Math.abs(diff) < units[i].max || (max && units[i].name === max)) {
+             return format(diff, units[i].value, units[i].name, units[i].past, units[i].future, diff < 0);

@@ -1,8 +1,10 @@
 import BaseEntity from '@doorward/common/entities/base.entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import GroupEntity from '@doorward/common/entities/group.entity';
+import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
+import UserEntity from '@doorward/common/entities/user.entity';
 
-@Entity('Conversation')
+@Entity('Conversations')
 export default class ConversationEntity extends BaseEntity {
   @Column()
   title: string;
@@ -13,6 +15,12 @@ export default class ConversationEntity extends BaseEntity {
   @Column({ default: true })
   directMessage: boolean;
 
-  @Column(() => GroupEntity)
+  @OneToOne(() => GroupEntity, { onDelete: 'CASCADE' })
+  @JoinColumn()
   group: GroupEntity;
+
+  @OneToMany(() => ChatMessageEntity, (message) => message.conversation)
+  messages: Array<ChatMessageEntity>;
+
+  recipient: UserEntity;
 }

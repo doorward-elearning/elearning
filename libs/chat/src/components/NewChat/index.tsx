@@ -45,7 +45,7 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
                   recipient: contact,
                   title: contact.fullName,
                   avatar: contact.profilePicture,
-                  id: Tools.randomString(),
+                  id: null,
                   blocks: [],
                 }
               );

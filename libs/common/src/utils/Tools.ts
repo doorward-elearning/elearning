@@ -185,8 +185,8 @@ class Tools {
     return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
   }
 
-  static humanReadableTime(date: Date) {
-    return capitalize(ago(date));
+  static humanReadableTime(date: Date | string, maxUnit?: string, initial?: string) {
+    return capitalize(ago(moment(date).toDate(), maxUnit, initial));
   }
 }
 
