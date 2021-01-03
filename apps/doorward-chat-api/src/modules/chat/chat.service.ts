@@ -8,7 +8,6 @@ import { ChatMessage, Conversation, MessageBlock, MessageStatus } from '@doorwar
 import GroupsRepository from '@doorward/backend/repositories/groups.repository';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
-import Tools from '@doorward/common/utils/Tools';
 
 @Injectable()
 export class ChatService {
@@ -19,6 +18,25 @@ export class ChatService {
     private groupService: GroupsService,
     private groupsRepository: GroupsRepository
   ) {}
+
+  /**
+   *
+   * @param userId
+   */
+  async getAllConversationsForUser(userId: string) {
+    return this.conversationRepository.getConversationsForUser(userId);
+  }
+
+  /**
+   *
+   * @param id
+   * @param userId
+   */
+  async getConversationByUser(id: string, userId: string) {
+    const conversations = await this.conversationRepository.getConversationsForUser(userId, [id]);
+
+    return conversations?.length ? conversations[0] : null;
+  }
 
   /**
    *
@@ -103,7 +121,7 @@ export class ChatService {
       .sort((a, b) => (moment(a, 'MM/DD/YYYY').isAfter(moment(b, 'MM/DD/YYYY')) ? 1 : -1))
       .map((day) => {
         return {
-          day: Tools.humanReadableTime(moment(day, 'MM/DD/YYYY').toDate(), 'day', 'Today'),
+          day: blocks[day][0].timestamp,
           messages: blocks[day],
         };
       });

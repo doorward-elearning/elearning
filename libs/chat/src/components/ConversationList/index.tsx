@@ -33,7 +33,7 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
         <Search onChange={() => {}} placeholder={translate('searchConversations')} />
       </div>
       <WebComponent
-        data={conversations}
+        data={fetchConversations}
         noBorder
         loading={fetchConversations.state.fetching}
         size="small"
@@ -41,7 +41,7 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
         fullHeight
         message={translate('thereAreNoConversations')}
       >
-        {(conversations) => (
+        {() => (
           <div className="ed-conversation-list__items">
             {conversations.map((conversation) => (
               <ConversationListItem

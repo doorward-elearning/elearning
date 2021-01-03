@@ -8,6 +8,11 @@ export interface ChatMessageBody extends Record<ChatMessageTypes, any> {
   INITIALIZE: {
     userId: string;
   };
+  SEND_MESSAGE: {
+    userId: string;
+    message: string;
+    conversationId: string;
+  };
   SEND_MESSAGE_TO_NEW_CONVERSATION: {
     userId: string;
     message: string;

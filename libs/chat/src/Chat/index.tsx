@@ -55,26 +55,33 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   const newMessage = useCallback(
     (conversationId: string, message: ChatMessage) => {
       const newConversations = [...conversations];
-
-      const conversation = conversationId
-        ? newConversations.find((conversation) => conversation.id === conversationId)
-        : currentConversation;
-
       if (!conversationId) {
-        newConversations.push(conversation);
+        newConversations.push(currentConversation);
       }
 
+      const conversationIndex = conversationId
+        ? newConversations.findIndex((conversation) => conversation.id === conversationId)
+        : 0;
+
+      let conversation = newConversations[conversationIndex];
+
       if (conversation) {
-        const blocks = conversation.blocks;
-        if (!blocks.length) {
-          blocks.push({
-            day: Tools.humanReadableTime(message.timestamp, 'day', 'Today'),
-            messages: [],
-          });
-        }
+        const blocks = conversation.blocks.length
+          ? [...conversation.blocks]
+          : [
+              {
+                day: Tools.humanReadableTime(message.timestamp, 'day'),
+                messages: [],
+              },
+            ];
+
         const block = blocks[blocks.length - 1];
 
         block.messages.push(message);
+
+        conversation = { ...conversation, blocks: blocks };
+
+        newConversations[conversationIndex] = conversation;
       }
 
       setConversations(newConversations);
@@ -85,15 +92,22 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
 
   const sendMessage = useCallback(
     (socket: SocketIOClient.Socket, message: string) => {
+      const data = {
+        userId: props.auth.user.id,
+        message,
+      };
       if (currentConversation.id) {
-        //
+        socket.emit(ChatMessageTypes.SEND_MESSAGE, {
+          ...data,
+          conversationId: currentConversation.id,
+        });
       } else {
         socket.emit(ChatMessageTypes.SEND_MESSAGE_TO_NEW_CONVERSATION, {
-          userId: props.auth.user.id,
-          message,
+          ...data,
           recipientId: currentConversation.recipient.id,
         });
       }
+
       newMessage(currentConversation.id, {
         timestamp: new Date(),
         text: message,
@@ -118,7 +132,6 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
       }}
     >
       {(socket) => {
-        console.log(currentConversation);
         return (
           <ChatContext.Provider
             value={{

@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "rootDir": "/",
+    "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
@@ -16,6 +16,7 @@
     "skipLibCheck": true,
     "types": ["node"],
     "skipDefaultLibCheck": true,
+    "allowJs": true,
     "baseUrl": ".",
     "resolveJsonModule": true,
     "paths": {

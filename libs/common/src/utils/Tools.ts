@@ -1,9 +1,9 @@
 import { Enum } from '@doorward/common/types';
-import moment from 'moment';
+import moment, { Moment } from 'moment';
 import { capitalize } from 'lodash';
-import ago from 's-ago';
 import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
+import ago, { Units } from '@doorward/common/utils/ago';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -185,8 +185,8 @@ class Tools {
     return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
   }
 
-  static humanReadableTime(date: Date | string, maxUnit?: string, initial?: string) {
-    return capitalize(ago(moment(date).toDate(), maxUnit, initial));
+  static humanReadableTime(date: Date | string | Moment, maxUnit: Units) {
+    return capitalize(ago(moment(date).toDate(), maxUnit));
   }
 }
 

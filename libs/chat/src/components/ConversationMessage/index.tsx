@@ -2,8 +2,8 @@ import React from 'react';
 import './ConversationMessage.scss';
 import classNames from 'classnames';
 import { ChatMessage, MessageStatus } from '@doorward/chat/types';
-import Tools from '@doorward/common/utils/Tools';
 import Icon from '@doorward/ui/components/Icon';
+import RealTimeMoment from '@doorward/ui/components/RealTimeMoment';
 
 const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = ({ message }): JSX.Element => {
   return (
@@ -15,7 +15,9 @@ const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = (
     >
       <div className="ed-conversation-message--text">{message.text}</div>
       <div className="ed-conversation-message--tools">
-        <div className="ed-conversation-message--date">{Tools.humanReadableTime(message.timestamp)}</div>
+        <div className="ed-conversation-message--date">
+          <RealTimeMoment time={message.timestamp} />
+        </div>
         <div className="message-read-status">
           {message.status >= MessageStatus.SENT && <Icon icon="check" />}
           {message.status >= MessageStatus.DELIVERED && <Icon icon="check" />}

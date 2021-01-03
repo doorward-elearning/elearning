@@ -3,6 +3,7 @@ import ChatApi from '@doorward/common/apis/doorward.chat.api';
 
 export const DoorwardChatApiTypes = generateActionsTypes(ChatApi(), 'DoorwardChatApi');
 
+
 const middleware: ApiReducerMiddleware<ReturnType<typeof ChatApi>> = {};
 
 const apiReducer = buildApiReducer(

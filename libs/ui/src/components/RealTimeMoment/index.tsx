@@ -1,20 +1,16 @@
 import React from 'react';
-import Tools from '@doorward/common/utils/Tools';
 import Timer from 'react-compound-timer';
+import TimeDisplay from '@doorward/ui/components/TimeDisplay';
 
-const RealTimeMoment: React.FunctionComponent<RealTimeMomentProps> = ({
-  render = (str) => str,
-  ...props
-}): JSX.Element => {
+const RealTimeMoment: React.FunctionComponent<RealTimeMomentProps> = ({ ...props }): JSX.Element => {
   return (
     <Timer initialTime={0} timeToUpdate={60000}>
-      <React.Fragment>{render(Tools.humanReadableTime(props.time))}</React.Fragment>
+      <TimeDisplay time={props.time} />
     </Timer>
   );
 };
 
 export interface RealTimeMomentProps {
-  render?: (time: string) => JSX.Element | string;
   time: Date;
 }
 

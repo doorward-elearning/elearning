@@ -20,7 +20,7 @@ export interface ChatMessage {
 }
 
 export interface MessageBlock {
-  day: string;
+  day: string | Date;
   messages: Array<ChatMessage>;
 }
 
