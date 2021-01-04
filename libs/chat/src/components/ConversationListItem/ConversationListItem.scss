@@ -15,7 +15,8 @@
   &.selected {
     position: relative;
 
-    &:before, &:after {
+    &:before,
+    &:after {
       position: absolute;
       content: '';
       top: 0;
@@ -25,9 +26,7 @@
       background: var(--accent);
     }
 
-    &:after {
-      left: 0;
-    }
+    background: rgba(0, 0, 0, 0.06);
   }
 
   &:hover {
@@ -52,13 +51,44 @@
     }
 
     .last-message {
-      overflow: hidden;
-      color: var(--text-secondary);
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-      font-size: 0.8em;
+      display: grid;
+      grid-auto-flow: column;
+      grid-gap: var(--padding);
+      justify-content: start;
+      align-items: center;
+
+      .message-read-status {
+        color: var(--text-secondary);
+
+        &.read {
+          color: var(--accent);
+        }
+
+        i.material-icons {
+          font-size: 0.8em;
+          height: 0.8em;
+          padding: 0;
+          margin: 0;
+          width: 0.8em;
+
+          &:last-child {
+            margin-left: -5px;
+          }
+        }
+
+        .sending-indicator {
+          font-size: 0.8em;
+        }
+      }
+      &__text {
+        overflow: hidden;
+        color: var(--text-secondary);
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        font-size: 0.8em;
+      }
     }
   }
 }

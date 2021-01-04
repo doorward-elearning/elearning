@@ -5,7 +5,9 @@
     padding: var(--padding-lg) 0;
     display: flex;
     justify-content: center;
-    position: relative;
+    position: sticky;
+    top: calc(-1 * var(--padding-lg));
+    z-index: 2;
 
     &:before {
       content: '';

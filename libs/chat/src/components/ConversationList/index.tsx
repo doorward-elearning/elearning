@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './ConversationList.scss';
 import ConversationListItem from '@doorward/chat/components/ConversationListItem';
 import Search from '@doorward/ui/components/Search';
@@ -8,17 +8,34 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import useApiAction from '@doorward/ui/hooks/useApiAction';
+import moment from 'moment';
+import { WebSocketContext } from '@doorward/ui/components/WebSocketComponent';
+import { deliverMessages } from '@doorward/chat/Chat/functions';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
-  const { conversations, setConversations, setCurrentConversation, currentConversation, startNewChat } = useContext(
-    ChatContext
-  );
+  const {
+    conversations,
+    setConversations,
+    setCurrentConversation,
+    currentConversation,
+    startNewChat,
+    currentUser,
+  } = useContext(ChatContext);
+  const { socket } = useContext(WebSocketContext);
+  const [sortedConversations, setSortedConversations] = useState([]);
+
+  useEffect(() => {
+    setSortedConversations(
+      conversations.sort((a, b) => moment(b.lastMessageTimestamp).diff(moment(a.lastMessageTimestamp)))
+    );
+  }, [conversations, currentConversation]);
 
   const fetchConversations = useApiAction(DoorwardChatApi, 'chat', 'getConversations', {
     onSuccess: (response) => {
       if (response.conversations.length) {
         setConversations(response.conversations);
-        setCurrentConversation(response.conversations[0]);
+
+        deliverMessages(currentUser.id, response.conversations, socket);
       }
     },
   });
@@ -43,12 +60,14 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
       >
         {() => (
           <div className="ed-conversation-list__items">
-            {conversations.map((conversation) => (
+            {sortedConversations.map((conversation, index) => (
               <ConversationListItem
                 key={conversation.id}
                 selected={currentConversation?.id === conversation.id}
                 conversation={conversation}
-                onClick={() => setCurrentConversation(conversation)}
+                onClick={() => {
+                  setCurrentConversation(conversation.id);
+                }}
               />
             ))}
           </div>

@@ -13,9 +13,7 @@ export default class ChatAdapter extends IoAdapter {
   createIOServer(port: number, options?: any): socketIO.Server {
     const server = super.createIOServer(port, {}) as socketIO.Server;
 
-    server.on('connection', (client) => {
-      this.logger.debug(`Client connection established with id ${client.id}`);
-    });
+    server.on('connection', (client) => {});
 
     return server;
   }

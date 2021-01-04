@@ -7,13 +7,18 @@ import Icon from '@doorward/ui/components/Icon';
 import { ChatContext } from '@doorward/chat/Chat';
 import Search from '@doorward/ui/components/Search';
 import EImage from '@doorward/ui/components/Image';
-import Tools from '@doorward/common/utils/Tools';
 import useSearch from '@doorward/ui/hooks/useSearch';
+import Tools from '@doorward/common/utils/Tools';
 
 const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
-  const { startNewChat, contacts, currentConversation, conversations, setCurrentConversation } = useContext(
-    ChatContext
-  );
+  const {
+    startNewChat,
+    contacts,
+    currentConversation,
+    setConversations,
+    conversations,
+    setCurrentConversation,
+  } = useContext(ChatContext);
 
   const { filtered: filteredContacts, search, setSearch } = useSearch(contacts, (search, item) =>
     item.fullName.toLowerCase().includes(search.toLowerCase())
@@ -38,17 +43,23 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
           <div
             className="ed-new-chat__contact"
             onClick={() => {
-              const newConversation = conversations.find((conversation) => contact.id === conversation.recipient.id);
+              const createConversation = {
+                recipient: contact,
+                title: contact.fullName,
+                avatar: contact.profilePicture,
+                id: Tools.generateId(),
+                blocks: [],
+                lastMessageTimestamp: new Date(),
+              };
+              const newConversation =
+                conversations.find((conversation) => contact.id === conversation.recipient.id) || createConversation;
 
-              setCurrentConversation(
-                newConversation || {
-                  recipient: contact,
-                  title: contact.fullName,
-                  avatar: contact.profilePicture,
-                  id: null,
-                  blocks: [],
-                }
-              );
+              if (newConversation.id === createConversation.id) {
+                setConversations([newConversation, ...conversations]);
+              }
+
+              setCurrentConversation(newConversation.id);
+
               startNewChat(false);
             }}
           >

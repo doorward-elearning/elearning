@@ -17,6 +17,8 @@ export interface TFunction {
   ): TResult;
 }
 
-const translate: TFunction = i18next.t.bind(i18next);
+const translate: TFunction = i18next
+  ? i18next.t.bind(i18next)
+  : require('i18next').t.bind(require('i18next'));
 
 export default translate;

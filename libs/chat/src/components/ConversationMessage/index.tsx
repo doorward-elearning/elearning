@@ -3,6 +3,7 @@ import './ConversationMessage.scss';
 import classNames from 'classnames';
 import { ChatMessage, MessageStatus } from '@doorward/chat/types';
 import Icon from '@doorward/ui/components/Icon';
+import Spinner from '@doorward/ui/components/Spinner';
 import RealTimeMoment from '@doorward/ui/components/RealTimeMoment';
 
 const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = ({ message }): JSX.Element => {
@@ -16,12 +17,21 @@ const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = (
       <div className="ed-conversation-message--text">{message.text}</div>
       <div className="ed-conversation-message--tools">
         <div className="ed-conversation-message--date">
-          <RealTimeMoment time={message.timestamp} />
+          {message.status !== MessageStatus.SENDING && <RealTimeMoment time={message.timestamp} />}
         </div>
-        <div className="message-read-status">
+        <div
+          className={classNames({
+            'message-read-status': true,
+            read: message.status === MessageStatus.READ,
+          })}
+        >
           {message.status >= MessageStatus.SENT && <Icon icon="check" />}
           {message.status >= MessageStatus.DELIVERED && <Icon icon="check" />}
-          {message.status <= MessageStatus.SENDING && <span className="sending-indicator">Sending...</span>}
+          {message.status <= MessageStatus.SENDING && (
+            <span className="sending-indicator">
+              <Spinner width={15} height={15} />
+            </span>
+          )}
         </div>
       </div>
       <span className="chat-indicator">

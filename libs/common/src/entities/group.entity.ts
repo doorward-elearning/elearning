@@ -20,7 +20,7 @@ export default class GroupEntity extends BaseOrganizationEntity {
   })
   author: UserEntity;
 
-  @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.group)
+  @OneToMany(() => GroupMemberEntity, (groupMember) => groupMember.group, { onDelete: 'CASCADE' })
   members: Array<GroupMemberEntity>;
 
   @OneToOne(() => ConversationEntity, (conversation) => conversation.group, { onDelete: 'CASCADE' })

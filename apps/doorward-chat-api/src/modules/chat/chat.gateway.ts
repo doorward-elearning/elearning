@@ -17,23 +17,44 @@ export default class ChatGateway {
     @ConnectedSocket() client: Socket
   ) {
     const conversations = await this.chatService.getAllConversationsForUser(body.userId);
-    console.log(conversations, body);
 
     conversations.forEach((conversation) => {
       client.join(conversation.id);
     });
   }
 
-  @SubscribeMessage(ChatMessageTypes.SEND_MESSAGE_TO_NEW_CONVERSATION)
-  async sendMessageToNewConversation(
-    @MessageBody() body: ChatMessageBody[ChatMessageTypes.SEND_MESSAGE_TO_NEW_CONVERSATION],
+  @SubscribeMessage(ChatMessageTypes.READ_REPORT)
+  async onReadReport(
+    @MessageBody() body: ChatMessageBody[ChatMessageTypes.READ_REPORT],
     @ConnectedSocket() client: Socket
   ) {
-    const conversation = await this.chatService.createNewConversation(body.userId, body.recipientId);
+    if (body.messageId) {
+      await this.chatService.updateMessage(body.messageId, {
+        readAt: body.timestamp,
+        status: MessageStatus.READ,
+      });
 
-    const message = await this.chatService.newMessage(conversation.id, body.userId, body.message);
+      client.to(body.conversationId).emit(ChatMessageTypes.READ_REPORT, body);
+    } else {
+      this.chatService.readMessages(body.userId, client, body.conversationId).then();
+    }
+  }
 
-    client.join(conversation.id);
+  @SubscribeMessage(ChatMessageTypes.DELIVERY_REPORT)
+  async onDeliveryReport(
+    @MessageBody() body: ChatMessageBody[ChatMessageTypes.DELIVERY_REPORT],
+    @ConnectedSocket() client: Socket
+  ) {
+    if (body.messageId) {
+      await this.chatService.updateMessage(body.messageId, {
+        deliveredAt: body.timestamp,
+        status: MessageStatus.DELIVERED,
+      });
+
+      client.to(body.conversationId).emit(ChatMessageTypes.DELIVERY_REPORT, body);
+    } else {
+      this.chatService.deliverMessages(client, body.conversationId).then();
+    }
   }
 
   @SubscribeMessage(ChatMessageTypes.SEND_MESSAGE)
@@ -41,17 +62,24 @@ export default class ChatGateway {
     @MessageBody() body: ChatMessageBody[ChatMessageTypes.SEND_MESSAGE],
     @ConnectedSocket() client: Socket
   ) {
-    const conversation = await this.chatService.getConversationByUser(body.conversationId, body.userId);
-    if (conversation) {
-      const message = await this.chatService.newMessage(conversation.id, body.userId, body.message);
-
-      client.to(conversation.id).emit(ChatMessageTypes.SEND_MESSAGE, {
-        conversationId: conversation.id,
-        text: message.text,
-        timestamp: new Date(),
-        status: MessageStatus.SENT,
-        me: false,
-      });
+    let conversation = await this.chatService.getConversationByUser(body.conversationId, body.userId);
+    if (!conversation) {
+      conversation = await this.chatService.createNewConversation(body.userId, body.recipientId, body.conversationId);
     }
+    const message = await this.chatService.newMessage(conversation.id, body.userId, body.message, body.messageId);
+
+    client.to(conversation.id).emit(ChatMessageTypes.NEW_MESSAGE, {
+      conversationId: conversation.id,
+      text: message.text,
+      timestamp: new Date(),
+      status: MessageStatus.SENT,
+      me: false,
+      id: message.id,
+    });
+
+    client.emit(ChatMessageTypes.SENT_REPORT, {
+      conversationId: conversation.id,
+      messageId: message.id,
+    });
   }
 }

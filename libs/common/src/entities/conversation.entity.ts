@@ -19,7 +19,7 @@ export default class ConversationEntity extends BaseEntity {
   @JoinColumn()
   group: GroupEntity;
 
-  @OneToMany(() => ChatMessageEntity, (message) => message.conversation)
+  @OneToMany(() => ChatMessageEntity, (message) => message.conversation, { onDelete: 'CASCADE' })
   messages: Array<ChatMessageEntity>;
 
   recipient: UserEntity;

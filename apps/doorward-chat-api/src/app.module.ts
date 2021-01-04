@@ -13,7 +13,7 @@ import { ChatModule } from './modules/chat/chat.module';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        ...ormConfig,
+        ...ormConfig as any,
         entities,
       }),
     }),

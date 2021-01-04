@@ -12,6 +12,7 @@ export default class ConversationRepository extends ModelRepository<Conversation
       .leftJoinAndSelect('conversation.messages', 'message')
       .leftJoinAndSelect('group.members', 'member')
       .leftJoinAndSelect('message.sender', 'sender')
+      .addOrderBy('message."createdAt"', 'ASC')
       .where('member."userId" = :id', { id: userId })
       .leftJoin(
         (qb) => qb.select().from(GroupMemberEntity, 'groupMember'),

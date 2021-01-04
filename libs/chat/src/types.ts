@@ -13,6 +13,7 @@ export enum MessageStatus {
 }
 
 export interface ChatMessage {
+  id: string;
   text: string;
   me: boolean;
   timestamp: Date;
@@ -30,4 +31,5 @@ export interface Conversation {
   avatar: string;
   recipient: Recipient;
   blocks: Array<MessageBlock>;
+  lastMessageTimestamp: string | Date;
 }

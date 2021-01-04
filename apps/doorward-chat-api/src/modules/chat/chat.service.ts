@@ -8,9 +8,18 @@ import { ChatMessage, Conversation, MessageBlock, MessageStatus } from '@doorwar
 import GroupsRepository from '@doorward/backend/repositories/groups.repository';
 import UserEntity from '@doorward/common/entities/user.entity';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
+import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
+import { In, Not } from 'typeorm';
+import { WebSocketServer } from '@nestjs/websockets';
+import { Server, Socket } from 'socket.io';
+import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 
 @Injectable()
 export class ChatService {
+  @WebSocketServer()
+  server: Server;
+
   constructor(
     private conversationRepository: ConversationRepository,
     private messageRepository: ChatMessageRepository,
@@ -42,8 +51,9 @@ export class ChatService {
    *
    * @param senderId
    * @param recipientId
+   * @param conversationId
    */
-  async createNewConversation(senderId: string, recipientId: string) {
+  async createNewConversation(senderId: string, recipientId: string, conversationId: string) {
     const creator = await this.userRepository.findOne(senderId);
     const recipient = await this.userRepository.findOne(recipientId);
 
@@ -69,10 +79,97 @@ export class ChatService {
     );
 
     return await this.conversationRepository.createAndSave({
+      id: conversationId,
       title: creator.fullName + ' and ' + recipient.fullName,
       avatar: '',
       group,
     });
+  }
+
+  async updateMessage(messageId: string, data: QueryDeepPartialEntity<ChatMessageEntity>) {
+    return this.messageRepository.update(messageId, data);
+  }
+
+  /**
+   *
+   * @param messageId
+   */
+  async getMessageById(messageId: string) {
+    return this.messageRepository.findOne(messageId);
+  }
+
+  /**
+   *
+   * @param userId
+   * @param client
+   * @param conversationIds
+   */
+  async readMessages(userId: string, client: Socket, ...conversationIds: Array<string>) {
+    if (conversationIds?.length) {
+      const messages = await this.messageRepository.find({
+        where: {
+          conversation: {
+            id: In(conversationIds),
+          },
+          status: MessageStatus.DELIVERED,
+          sender: {
+            id: Not(userId),
+          },
+        },
+        relations: ['conversation'],
+      });
+
+      if (messages?.length) {
+        return Promise.all(
+          messages.map(async (message) => {
+            await this.messageRepository.update(message.id, {
+              readAt: new Date(),
+              status: MessageStatus.READ,
+            });
+            client.to(message.conversation.id).emit(ChatMessageTypes.READ_REPORT, {
+              conversationId: message.conversation.id,
+              messageId: message.id,
+              timestamp: new Date(),
+            });
+          })
+        );
+      }
+    }
+  }
+
+  /**
+   *
+   * @param client
+   * @param conversationIds
+   */
+  async deliverMessages(client: Socket, ...conversationIds: Array<string>) {
+    if (conversationIds?.length) {
+      const messages = await this.messageRepository.find({
+        where: {
+          conversation: {
+            id: In(conversationIds),
+          },
+          status: MessageStatus.SENT,
+        },
+        relations: ['conversation'],
+      });
+
+      if (messages?.length) {
+        return Promise.all(
+          messages.map(async (message) => {
+            await this.messageRepository.update(message.id, {
+              deliveredAt: new Date(),
+              status: MessageStatus.DELIVERED,
+            });
+            client.to(message.conversation.id).emit(ChatMessageTypes.DELIVERY_REPORT, {
+              conversationId: message.conversation.id,
+              messageId: message.id,
+              timestamp: new Date(),
+            });
+          })
+        );
+      }
+    }
   }
 
   /**
@@ -80,9 +177,11 @@ export class ChatService {
    * @param conversationId
    * @param senderId
    * @param messageText
+   * @param messageId
    */
-  async newMessage(conversationId: string, senderId: string, messageText: string) {
+  async newMessage(conversationId: string, senderId: string, messageText: string, messageId: string) {
     return this.messageRepository.createAndSave({
+      id: messageId,
       status: MessageStatus.SENT,
       text: messageText,
       conversation: {
@@ -97,7 +196,11 @@ export class ChatService {
   async getConversations(currentUser: UserEntity): Promise<Array<Conversation>> {
     const conversations = await this.conversationRepository.getConversationsForUser(currentUser.id);
 
-    return Promise.all(conversations.map((conversation) => this.getConversationInfo(conversation, currentUser)));
+    const conversationResponse = await Promise.all(
+      conversations.map((conversation) => this.getConversationInfo(conversation, currentUser))
+    );
+
+    return conversationResponse.sort((a, b) => moment(b.lastMessageTimestamp).diff(moment(a.lastMessageTimestamp)));
   }
 
   createConversationBlocks(conversation: ConversationEntity, currentUser: UserEntity): Array<MessageBlock> {
@@ -108,6 +211,7 @@ export class ChatService {
         ...message,
         timestamp: message.createdAt,
         me: message.sender.id === currentUser.id,
+        id: message.id,
       };
 
       if (blocks[day]) {
@@ -140,6 +244,7 @@ export class ChatService {
       title,
       avatar,
       blocks,
+      lastMessageTimestamp: conversation.messages[conversation.messages.length - 1].createdAt,
     };
   }
 }

@@ -12,10 +12,16 @@ export default class ChatMessageEntity extends BaseEntity {
   @Column({ type: 'enum', enum: MessageStatus, default: MessageStatus.SENDING })
   status: MessageStatus;
 
-  @ManyToOne(() => ConversationEntity)
+  @ManyToOne(() => ConversationEntity, { onDelete: 'CASCADE' })
   conversation: ConversationEntity;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn()
   sender: UserEntity;
+
+  @Column({ nullable: true })
+  deliveredAt: Date;
+
+  @Column({ nullable: true })
+  readAt: Date;
 }

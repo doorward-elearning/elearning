@@ -11,17 +11,19 @@ export const WebSocketContext = React.createContext<WebSocketContextType>({
 
 const WebSocket: React.FunctionComponent<WebSocketProps> = React.memo(
   (props): JSX.Element => {
-    const [socket] = useState(io(props.endpoint));
+    const [socket, setSocket] = useState();
 
     useEffect(() => {
+      const socket = io(props.endpoint);
       socket.on('connect', () => {
         if (props.initialize) {
           props.initialize(socket);
         }
       });
+      setSocket(socket);
     }, []);
 
-    return <WebSocketContext.Provider value={{ socket }}>{props.children(socket)}</WebSocketContext.Provider>;
+    return <WebSocketContext.Provider value={{ socket }}>{socket && props.children(socket)}</WebSocketContext.Provider>;
   }
 );
 

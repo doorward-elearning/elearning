@@ -31,7 +31,7 @@ import { ResourcesModule } from './modules/resources/resources.module';
   imports: [
     TypeOrmModule.forRootAsync({
       useFactory: () => ({
-        ...ormConfig,
+        ...(ormConfig as any),
         entities,
       }),
     }),

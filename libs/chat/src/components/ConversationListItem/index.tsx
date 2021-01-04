@@ -2,9 +2,11 @@ import React, { MouseEventHandler, useEffect, useState } from 'react';
 import './ConversationListItem.scss';
 import EImage from '@doorward/ui/components/Image';
 import Header from '@doorward/ui/components/Header';
-import { ChatMessage, Conversation } from '@doorward/chat/types';
+import { ChatMessage, Conversation, MessageStatus } from '@doorward/chat/types';
 import RealTimeMoment from '@doorward/ui/components/RealTimeMoment';
 import classNames from 'classnames';
+import Icon from '@doorward/ui/components/Icon';
+import Spinner from '@doorward/ui/components/Spinner';
 
 const ConversationListItem: React.FunctionComponent<ConversationListItemProps> = ({
   conversation,
@@ -44,7 +46,31 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
             </span>
           )}
         </div>
-        {message && <span className="last-message">{message.text}</span>}
+        <div className="content__body">
+          {message && (
+            <span className="last-message">
+              {message.me && (
+                <div
+                  className={classNames({
+                    'message-read-status': true,
+                    read: message.status === MessageStatus.READ,
+                  })}
+                >
+                  {message.status >= MessageStatus.SENT && <Icon icon="check" />}
+                  {message.status >= MessageStatus.DELIVERED && <Icon icon="check" />}
+                  {message.status <= MessageStatus.SENDING && (
+                    <span className="sending-indicator">
+                      <Spinner width={15} height={15} />
+                    </span>
+                  )}
+                </div>
+              )}
+              <div title={message.text} className="last-message__text">
+                {message.text}
+              </div>
+            </span>
+          )}
+        </div>
       </div>
     </div>
   );

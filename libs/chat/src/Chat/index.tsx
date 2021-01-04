@@ -11,20 +11,24 @@ import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
 import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
 import Tools from '@doorward/common/utils/Tools';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 export interface ChatContextType {
+  currentUser: UserEntity;
   conversations: Array<Conversation>;
   currentConversation: Conversation;
   newChat: boolean;
-  setCurrentConversation: (conversation: Conversation) => void;
+  setCurrentConversation: (conversationIndex: string) => void;
   startNewChat: (open: boolean) => void;
   contacts: Array<Recipient>;
   sendMessage: (message: string) => void;
   newMessage: (conversationId: string, message: ChatMessage) => void;
   setConversations: (conversations: Array<Conversation>) => void;
+  updateMessage: (messageId: string, data: Partial<ChatMessage>) => ChatMessage;
 }
 
 export const ChatContext = React.createContext<ChatContextType>({
+  currentUser: null,
   conversations: [],
   currentConversation: null,
   newChat: false,
@@ -34,12 +38,12 @@ export const ChatContext = React.createContext<ChatContextType>({
   sendMessage: () => {},
   newMessage: () => {},
   setConversations: () => {},
+  updateMessage: () => null,
 });
 
 const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
-  const [currentConversation, setCurrentConversation] = useState<Conversation>(
-    props.currentConversation || props.conversations[0]
-  );
+  const [currentConversation, setCurrentConversation] = useState<Conversation>();
+  const [currentConversationId, setCurrentConversationId] = useState();
   const [conversations, setConversations] = useState(props.conversations);
 
   const [newChat, startNewChat] = useState(false);
@@ -52,16 +56,17 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
     },
   });
 
+  useEffect(() => {
+    if (currentConversationId) {
+      setCurrentConversation(conversations.find((conversation) => conversation.id === currentConversationId));
+    }
+  }, [currentConversationId, conversations]);
+
   const newMessage = useCallback(
     (conversationId: string, message: ChatMessage) => {
       const newConversations = [...conversations];
-      if (!conversationId) {
-        newConversations.push(currentConversation);
-      }
 
-      const conversationIndex = conversationId
-        ? newConversations.findIndex((conversation) => conversation.id === conversationId)
-        : 0;
+      const conversationIndex = newConversations.findIndex((conversation) => conversation.id === conversationId);
 
       let conversation = newConversations[conversationIndex];
 
@@ -79,7 +84,7 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
 
         block.messages.push(message);
 
-        conversation = { ...conversation, blocks: blocks };
+        conversation = { ...conversation, blocks: blocks, lastMessageTimestamp: message.timestamp };
 
         newConversations[conversationIndex] = conversation;
       }
@@ -96,26 +101,54 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
         userId: props.auth.user.id,
         message,
       };
-      if (currentConversation.id) {
-        socket.emit(ChatMessageTypes.SEND_MESSAGE, {
-          ...data,
-          conversationId: currentConversation.id,
-        });
-      } else {
-        socket.emit(ChatMessageTypes.SEND_MESSAGE_TO_NEW_CONVERSATION, {
-          ...data,
-          recipientId: currentConversation.recipient.id,
-        });
-      }
+      const id = Tools.generateId();
+      socket.emit(ChatMessageTypes.SEND_MESSAGE, {
+        ...data,
+        conversationId: currentConversation.id,
+        recipientId: currentConversation.recipient.id,
+        messageId: id,
+      });
 
       newMessage(currentConversation.id, {
         timestamp: new Date(),
         text: message,
-        status: MessageStatus.SENT,
+        status: MessageStatus.SENDING,
         me: true,
+        id,
       });
     },
     [currentConversation]
+  );
+
+  const updateMessage = useCallback(
+    (messageId: string, data: Partial<ChatMessage>) => {
+      let messageResult = null;
+      const newConversations = [...conversations].map((conversation) => {
+        return {
+          ...conversation,
+          blocks: [...conversation.blocks].map((block) => {
+            return {
+              ...block,
+              messages: [...block.messages].map((message) => {
+                if (message.id === messageId) {
+                  messageResult = message;
+                  return {
+                    ...message,
+                    ...data,
+                  };
+                }
+                return message;
+              }),
+            };
+          }),
+        };
+      });
+
+      setConversations(newConversations);
+
+      return messageResult;
+    },
+    [conversations, setConversations]
   );
 
   useEffect(() => {
@@ -135,15 +168,17 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
         return (
           <ChatContext.Provider
             value={{
+              currentUser: props.auth.user,
               conversations,
               currentConversation,
-              setCurrentConversation,
+              setCurrentConversation: setCurrentConversationId,
               newChat,
               startNewChat,
               contacts,
               setConversations,
               sendMessage: (message) => sendMessage(socket, message),
               newMessage,
+              updateMessage,
             }}
           >
             <div

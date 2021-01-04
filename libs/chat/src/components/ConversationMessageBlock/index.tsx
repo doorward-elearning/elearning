@@ -10,7 +10,7 @@ const ConversationMessageBlock: React.FunctionComponent<ConversationMessageBlock
     <div className="ed-conversation-message-block">
       <div className="ed-conversation-message-block--title">
         <Pill>
-          <TimeDisplay time={block.day} />
+          <TimeDisplay time={block.day} max="day" />
         </Pill>
       </div>
       <div className="ed-conversation-message-block--messages">

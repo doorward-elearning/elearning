@@ -7,38 +7,55 @@
   display: grid;
   min-width: 200px;
   position: relative;
+  max-width: 60%;
 
-  svg {
-    position: absolute;
-    transform: rotate(90deg);
-    left: -10px;
-    top: -3px;
+  .chat-indicator {
+    display: none;
+    svg {
+      position: absolute;
+      transform: rotate(90deg);
+      left: -10px;
+      top: -3px;
+    }
   }
 
-  &:before {
+  &:after {
     content: '';
     position: absolute;
-    width: 13px;
-    height: 1px;
-    top: -1px;
+    width: 16px;
+    height: 16px;
+    top: calc(50% - 8px);
     z-index: 1;
-    left: -12px;
-    background: var(--line-color);
+    left: -10px;
+    background: var(--bg-primary);
+    transform: skew(45deg);
+    border-top: 1px solid var(--line-color);
+    border-left: 1px solid var(--line-color);
   }
 
   &.me {
     justify-self: end;
     background: var(--bg-secondary);
 
-    svg {
-      right: -10px;
-      left: unset;
-      transform: scaleY(-1) rotate(270deg);
+    .chat-indicator {
+      svg {
+        right: -10px;
+        left: unset;
+        transform: scaleY(-1) rotate(270deg);
+      }
     }
 
-    &:before {
+    &:after {
       left: unset;
-      right: -12px;
+      right: -9px;
+      transform: skew(-45deg) rotate(90deg);
+      background: var(--bg-secondary);
+    }
+  }
+
+  &:not(.me) {
+    .message-read-status {
+      display: none;
     }
   }
 
@@ -54,12 +71,20 @@
     .message-read-status {
       color: var(--text-secondary);
 
+      &.read {
+        color: var(--accent);
+      }
+
       i.material-icons {
         font-size: 0.8em;
         height: 0.8em;
         padding: 0;
         margin: 0;
         width: 0.8em;
+
+        &:last-child {
+          margin-left: -5px;
+        }
       }
 
       .sending-indicator {
