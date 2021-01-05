@@ -31,4 +31,18 @@ export default class GroupsRepository extends OrganizationBasedRepository<GroupE
     }
     return queryBuilder.getMany();
   }
+
+  public async getGroupsWithUser(userId: string, includeChat?: boolean) {
+    const queryBuilder = this.createQueryBuilder('group');
+
+    queryBuilder.leftJoin('group.members', 'member').where('member."userId" = :userId', { userId });
+
+    if (!includeChat) {
+      queryBuilder.andWhere('type != :type', { type: 'DirectMessage' });
+    }
+
+    queryBuilder.leftJoinAndSelect('group.members', 'groupMember');
+
+    return queryBuilder.getMany();
+  }
 }

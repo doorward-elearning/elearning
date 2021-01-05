@@ -7,6 +7,8 @@ import RealTimeMoment from '@doorward/ui/components/RealTimeMoment';
 import classNames from 'classnames';
 import Icon from '@doorward/ui/components/Icon';
 import Spinner from '@doorward/ui/components/Spinner';
+import { getMessagesByStatus } from '@doorward/chat/Chat/functions';
+import Badge from '@doorward/ui/components/Badge';
 
 const ConversationListItem: React.FunctionComponent<ConversationListItemProps> = ({
   conversation,
@@ -14,6 +16,7 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
   selected,
 }): JSX.Element => {
   const [message, setMessage] = useState<ChatMessage>();
+  const [numUnread, setNumUnread] = useState(0);
 
   useEffect(() => {
     if (conversation.blocks.length) {
@@ -21,6 +24,7 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
       if (lastDay?.messages?.length) {
         setMessage(lastDay.messages[lastDay.messages.length - 1]);
       }
+      setNumUnread(getMessagesByStatus(conversation, MessageStatus.DELIVERED).filter((message) => !message.me).length);
     }
   }, [conversation]);
 
@@ -29,6 +33,7 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
       className={classNames({
         'ed-conversation-list__item': true,
         selected,
+        hasUnread: numUnread > 0,
       })}
       onClick={onClick}
     >
@@ -49,25 +54,29 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
         <div className="content__body">
           {message && (
             <span className="last-message">
-              {message.me && (
-                <div
-                  className={classNames({
-                    'message-read-status': true,
-                    read: message.status === MessageStatus.READ,
-                  })}
-                >
-                  {message.status >= MessageStatus.SENT && <Icon icon="check" />}
-                  {message.status >= MessageStatus.DELIVERED && <Icon icon="check" />}
-                  {message.status <= MessageStatus.SENDING && (
-                    <span className="sending-indicator">
-                      <Spinner width={15} height={15} />
-                    </span>
-                  )}
-                </div>
-              )}
+              <div
+                className={classNames({
+                  'message-read-status': true,
+                  read: message.status === MessageStatus.READ,
+                  me: message.me,
+                })}
+              >
+                {message.me && (
+                  <React.Fragment>
+                    {message.status >= MessageStatus.SENT && <Icon icon="check" />}
+                    {message.status >= MessageStatus.DELIVERED && <Icon icon="check" />}
+                    {message.status <= MessageStatus.SENDING && (
+                      <span className="sending-indicator">
+                        <Spinner width={15} height={15} />
+                      </span>
+                    )}
+                  </React.Fragment>
+                )}
+              </div>
               <div title={message.text} className="last-message__text">
                 {message.text}
               </div>
+              {numUnread > 0 && <Badge className="unread-counter">{numUnread}</Badge>}
             </span>
           )}
         </div>

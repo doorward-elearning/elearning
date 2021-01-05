@@ -8,10 +8,17 @@ import { ChatController } from './chat.controller';
 import ConversationRepository from '@doorward/backend/repositories/conversation.repository';
 import { GroupsModule } from '@doorward/backend/modules/groups/groups.module';
 import GroupsRepository from '@doorward/backend/repositories/groups.repository';
+import ChatMessageActivityRepository from '@doorward/backend/repositories/chat.message.activity.repository';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([ChatMessageRepository, UsersRepository, ConversationRepository, GroupsRepository]),
+    TypeOrmModule.forFeature([
+      ChatMessageRepository,
+      UsersRepository,
+      ConversationRepository,
+      GroupsRepository,
+      ChatMessageActivityRepository,
+    ]),
     GroupsModule,
   ],
   providers: [ChatGateway, ChatService],

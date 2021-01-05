@@ -37,6 +37,12 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...defaultConfig
       });
     },
+    getGroupContacts: (config ? : AxiosRequestConfig): Promise < ContactsResponse > => {
+      return GET(`/contacts/groups`, {}, {
+        ...(config || {}),
+        ...defaultConfig
+      });
+    },
   },
   "groups": {
     createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {

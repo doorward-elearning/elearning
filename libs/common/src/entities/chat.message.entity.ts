@@ -1,8 +1,9 @@
 import BaseEntity from '@doorward/common/entities/base.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany } from 'typeorm';
 import { MessageStatus } from '@doorward/chat/types';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
+import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
 
 @Entity('ChatMessages')
 export default class ChatMessageEntity extends BaseEntity {
@@ -19,9 +20,15 @@ export default class ChatMessageEntity extends BaseEntity {
   @JoinColumn()
   sender: UserEntity;
 
-  @Column({ nullable: true })
-  deliveredAt: Date;
+  @OneToMany(() => ChatMessageActivityEntity, (activity) => activity.message)
+  activities: Array<ChatMessageActivityEntity>;
 
-  @Column({ nullable: true })
-  readAt: Date;
+  @Column({ default: 0 })
+  numRecipients: number;
+
+  @Column({ default: 0 })
+  numDelivered: number;
+
+  @Column({ default: 0 })
+  numRead: number;
 }

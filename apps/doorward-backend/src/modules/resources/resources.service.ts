@@ -9,6 +9,7 @@ const LOCALES_DIR = '../../../locales/en/en.default.json';
 export class ResourcesService {
   public async getTranslations() {
     const filePath = path.join(__dirname, LOCALES_DIR);
+    console.log(filePath);
 
     if (fs.existsSync(filePath)) {
       const language = JSON.parse(fs.readFileSync(filePath).toString());

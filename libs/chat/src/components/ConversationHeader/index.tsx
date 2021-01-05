@@ -12,6 +12,9 @@ const ConversationHeader: React.FunctionComponent<ConversationHeaderProps> = (pr
       <EImage size="small" circle src={currentConversation.avatar} />
       <div className="ed-conversation-header__content">
         <Header size={4}> {currentConversation.title}</Header>
+        {!currentConversation.directMessage && (
+          <div className="ed-conversation-header__content--recipients">{currentConversation.recipientsList}</div>
+        )}
       </div>
     </div>
   ) : (

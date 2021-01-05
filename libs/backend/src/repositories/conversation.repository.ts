@@ -6,6 +6,11 @@ import UserEntity from '@doorward/common/entities/user.entity';
 
 @EntityRepository(ConversationEntity)
 export default class ConversationRepository extends ModelRepository<ConversationEntity> {
+  /**
+   *
+   * @param userId
+   * @param conversationIds
+   */
   async getConversationsForUser(userId: string, conversationIds?: Array<string>) {
     const queryBuilder = this.createQueryBuilder('conversation')
       .leftJoinAndSelect('conversation.group', 'group')
@@ -31,5 +36,20 @@ export default class ConversationRepository extends ModelRepository<Conversation
     }
 
     return queryBuilder.getMany();
+  }
+
+  /**
+   *
+   * @param conversationId
+   */
+  async getNumberOfRecipients(conversationId: string) {
+    const queryBuilder = this.createQueryBuilder('conversation')
+      .leftJoinAndSelect('conversation.group', 'group')
+      .leftJoinAndSelect('group.members', 'member')
+      .where('conversation.id = :id', { id: conversationId });
+
+    const conversation = await queryBuilder.getOne();
+
+    return conversation?.group?.members?.length || 0;
   }
 }

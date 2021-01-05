@@ -30,6 +30,7 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
 import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
+import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
 
 const entities = [
   AnswerEntity,
@@ -64,6 +65,7 @@ const entities = [
   ModuleVideoEntity,
   ConversationEntity,
   ChatMessageEntity,
+  ChatMessageActivityEntity,
 ];
 
 export default entities;

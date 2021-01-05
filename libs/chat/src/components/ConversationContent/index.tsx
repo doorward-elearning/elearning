@@ -5,16 +5,30 @@ import { ChatContext } from '@doorward/chat/Chat';
 import ConversationMessageBlock from '@doorward/chat/components/ConversationMessageBlock';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
-import { readMessages } from '@doorward/chat/Chat/functions';
+import { getMessagesByStatus, readMessages } from '@doorward/chat/Chat/functions';
 import { WebSocketContext } from '@doorward/ui/components/WebSocketComponent';
+import { MessageStatus } from '@doorward/chat/types';
 
 const ConversationContent: React.FunctionComponent<ConversationContentProps> = (props): JSX.Element => {
-  const { currentConversation, startNewChat, conversations, sendMessage, currentUser } = useContext(ChatContext);
+  const { currentConversation, startNewChat, conversations, sendMessage, currentUser, updateMessage } = useContext(
+    ChatContext
+  );
   const { socket } = useContext(WebSocketContext);
 
   useEffect(() => {
     if (currentConversation) {
-      readMessages(currentUser.id, [currentConversation], socket);
+      const unReadMessages = getMessagesByStatus(currentConversation, MessageStatus.DELIVERED).filter(
+        (message) => !message.me
+      );
+      if (unReadMessages.length) {
+        readMessages(currentUser.id, [currentConversation], socket);
+        updateMessage(
+          unReadMessages.map((message) => message.id),
+          {
+            status: MessageStatus.READ,
+          }
+        );
+      }
     }
   }, [currentConversation, conversations]);
 
@@ -23,7 +37,7 @@ const ConversationContent: React.FunctionComponent<ConversationContentProps> = (
       <div className="ed-conversation-content--messages">
         <div className="ed-conversation-content--messages-list">
           {currentConversation.blocks.map((block) => (
-            <ConversationMessageBlock block={block} />
+            <ConversationMessageBlock block={block} key={block.day + ''} />
           ))}
         </div>
       </div>

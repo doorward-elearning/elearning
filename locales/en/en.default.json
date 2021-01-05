@@ -480,5 +480,9 @@
   "yearAgoWithCount": "last year",
   "yearAgoWithCount_plural": "{{count}} years ago",
   "yearFutureWithCount": "next year",
-  "yearFutureWithCount_plural": "in {{count}} years"
+  "yearFutureWithCount_plural": "in {{count}} years",
+  "newGroupChat": "New group chat",
+  "searchGroups": "Search groups",
+  "memberCount": "{{count}} member",
+  "memberCount_plural": "{{count}} members"
 }

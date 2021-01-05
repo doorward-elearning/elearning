@@ -44,11 +44,20 @@ export class GroupsService {
 
   /**
    *
+   * @param userId
+   */
+  public async getGroupsWithUser(userId: string) {
+    return this.groupsRepository.getGroupsWithUser(userId);
+  }
+
+  /**
+   *
    * @param body
    * @param creator
+   * @param uniqueName
    */
-  public async createGroup(body: CreateGroupBody, creator: UserEntity): Promise<GroupEntity> {
-    if (await this.groupsRepository.checkGroupExists(body.name)) {
+  public async createGroup(body: CreateGroupBody, creator: UserEntity, uniqueName = true): Promise<GroupEntity> {
+    if ((await this.groupsRepository.checkGroupExists(body.name)) && uniqueName) {
       throw new ValidationException({ name: translate('groupWithThisNameAlreadyExists') });
     }
 

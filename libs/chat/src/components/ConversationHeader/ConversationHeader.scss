@@ -9,5 +9,15 @@
     display: grid;
     align-items: center;
     align-content: center;
+
+    &--recipients {
+      font-size: 0.8em;
+      color: var(--text-secondary);
+      text-overflow: ellipsis;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 1;
+    }
   }
 }

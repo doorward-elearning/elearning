@@ -3,6 +3,8 @@ import { ChatMessageBody, ChatMessageTypes } from '@doorward/chat/chat.message.t
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { MessageStatus } from '@doorward/chat/types';
+import ConversationEntity from '@doorward/common/entities/conversation.entity';
+import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 
 @WebSocketGateway({ transports: ['websocket'] })
 export default class ChatGateway {
@@ -20,6 +22,7 @@ export default class ChatGateway {
 
     conversations.forEach((conversation) => {
       client.join(conversation.id);
+      client.join(body.userId);
     });
   }
 
@@ -29,12 +32,7 @@ export default class ChatGateway {
     @ConnectedSocket() client: Socket
   ) {
     if (body.messageId) {
-      await this.chatService.updateMessage(body.messageId, {
-        readAt: body.timestamp,
-        status: MessageStatus.READ,
-      });
-
-      client.to(body.conversationId).emit(ChatMessageTypes.READ_REPORT, body);
+      await this.chatService.readMessage(client, body.conversationId, body.messageId, body.userId);
     } else {
       this.chatService.readMessages(body.userId, client, body.conversationId).then();
     }
@@ -46,14 +44,27 @@ export default class ChatGateway {
     @ConnectedSocket() client: Socket
   ) {
     if (body.messageId) {
-      await this.chatService.updateMessage(body.messageId, {
-        deliveredAt: body.timestamp,
-        status: MessageStatus.DELIVERED,
-      });
-
-      client.to(body.conversationId).emit(ChatMessageTypes.DELIVERY_REPORT, body);
+      await this.chatService.deliverMessage(client, body.conversationId, body.messageId, body.userId, body.messageRead);
     } else {
-      this.chatService.deliverMessages(client, body.conversationId).then();
+      this.chatService.deliverMessages(body.userId, client, body.messageRead, body.conversationId).then();
+    }
+  }
+
+  @SubscribeMessage(ChatMessageTypes.REGISTER_CONVERSATION)
+  async registerUserToConversation(
+    @MessageBody() body: ChatMessageBody[ChatMessageTypes.REGISTER_CONVERSATION],
+    @ConnectedSocket() client: Socket
+  ) {
+    const conversation = await this.chatService.getConversationByUser(body.conversationId, body.userId);
+    if (conversation) {
+      client.join(conversation.id);
+
+      const undeliveredMessages = await this.chatService.getUndeliveredMessages(conversation.id, body.userId);
+      console.log(undeliveredMessages);
+
+      undeliveredMessages.forEach((message) => {
+        this.sendNewMessage(this.server, conversation, message, body.userId);
+      });
     }
   }
 
@@ -63,23 +74,61 @@ export default class ChatGateway {
     @ConnectedSocket() client: Socket
   ) {
     let conversation = await this.chatService.getConversationByUser(body.conversationId, body.userId);
+    const currentUser = await this.chatService.getUser(body.userId);
+
+    let newConversation = false;
     if (!conversation) {
-      conversation = await this.chatService.createNewConversation(body.userId, body.recipientId, body.conversationId);
+      newConversation = true;
+      conversation = await this.chatService.createNewConversation(
+        body.userId,
+        body.recipientId,
+        body.conversationId,
+        body.directMessage
+      );
+      // ensure all members are listening to this group
+      const newMembers = await this.chatService.getAllRecipients(conversation.id);
+
+      await Promise.all(
+        newMembers.map(async (member) => {
+          const conversationInfo = await this.chatService.getConversationInfo(conversation, member.member, currentUser);
+          if (member.member.id !== body.userId) {
+            client.to(member.member.id).emit(ChatMessageTypes.NEW_CONVERSATION, conversationInfo);
+          }
+        })
+      );
+
+      client.join(conversation.id);
     }
+
     const message = await this.chatService.newMessage(conversation.id, body.userId, body.message, body.messageId);
 
-    client.to(conversation.id).emit(ChatMessageTypes.NEW_MESSAGE, {
+    if (!newConversation) {
+      this.sendNewMessage(client, conversation, message);
+    }
+
+    client.emit(ChatMessageTypes.MESSAGE_CHANGED, {
+      id: message.id,
+      status: MessageStatus.SENT,
+    });
+  }
+
+  private sendNewMessage(
+    client: Socket | Server,
+    conversation: ConversationEntity,
+    message: ChatMessageEntity,
+    to?: string
+  ) {
+    client.to(to || conversation.id).emit(ChatMessageTypes.NEW_MESSAGE, {
       conversationId: conversation.id,
       text: message.text,
       timestamp: new Date(),
       status: MessageStatus.SENT,
       me: false,
       id: message.id,
-    });
-
-    client.emit(ChatMessageTypes.SENT_REPORT, {
-      conversationId: conversation.id,
-      messageId: message.id,
+      sender: {
+        ...message.sender,
+        fullName: message.sender.fullName,
+      },
     });
   }
 }

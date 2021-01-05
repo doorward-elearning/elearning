@@ -14,6 +14,7 @@ import { In, Not } from 'typeorm';
 import { WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
+import ChatMessageActivityRepository from '@doorward/backend/repositories/chat.message.activity.repository';
 
 @Injectable()
 export class ChatService {
@@ -25,7 +26,8 @@ export class ChatService {
     private messageRepository: ChatMessageRepository,
     private userRepository: UsersRepository,
     private groupService: GroupsService,
-    private groupsRepository: GroupsRepository
+    private groupsRepository: GroupsRepository,
+    private activityRepository: ChatMessageActivityRepository
   ) {}
 
   /**
@@ -34,6 +36,22 @@ export class ChatService {
    */
   async getAllConversationsForUser(userId: string) {
     return this.conversationRepository.getConversationsForUser(userId);
+  }
+
+  async getAllRecipients(conversationId: string) {
+    const conversation = await this.conversationRepository.findOne(conversationId, {
+      relations: ['group', 'group.members', 'group.members.member'],
+    });
+
+    return conversation.group.members;
+  }
+
+  /**
+   *
+   * @param userId
+   */
+  async getUser(userId: string) {
+    return this.userRepository.findOne(userId);
   }
 
   /**
@@ -48,42 +66,93 @@ export class ChatService {
   }
 
   /**
+   * Get messages that were not delivered to the current user
+   *
+   * @param conversationId
+   * @param currentUser
+   */
+  async getUndeliveredMessages(conversationId: string, currentUser: string) {
+    return this.messageRepository.find({
+      where: {
+        conversation: { id: conversationId },
+        status: MessageStatus.SENT,
+        sender: {
+          id: Not(currentUser),
+        },
+      },
+      relations: ['sender'],
+      order: { createdAt: 'ASC' },
+    });
+  }
+
+  /**
    *
    * @param senderId
    * @param recipientId
    * @param conversationId
+   * @param directMessage
    */
-  async createNewConversation(senderId: string, recipientId: string, conversationId: string) {
+  async createNewConversation(senderId: string, recipientId: string, conversationId: string, directMessage?: boolean) {
     const creator = await this.userRepository.findOne(senderId);
-    const recipient = await this.userRepository.findOne(recipientId);
+    let group;
+    let title;
+    let avatar = '';
 
-    const groupName = creator.id + recipient.id;
+    if (directMessage) {
+      const recipient = await this.userRepository.findOne(recipientId);
 
-    if (await this.groupsRepository.checkGroupExists(groupName)) {
-      return await this.conversationRepository.findOne({
-        where: {
-          group: {
-            name: groupName,
+      const groupName = creator.id + recipient.id;
+
+      if (await this.groupsRepository.checkGroupExists(groupName)) {
+        return await this.conversationRepository.findOne({
+          where: {
+            group: {
+              name: groupName,
+            },
           },
+        });
+      }
+
+      group = await this.groupService.createGroup(
+        {
+          name: groupName,
+          type: 'DirectMessage',
+          members: [senderId, recipientId],
         },
-      });
+        creator
+      );
+
+      title = creator.fullName + ' and ' + recipient.fullName;
+      avatar = recipient.profilePicture || '';
+    } else {
+      const existing = await this.groupsRepository.findOne(recipientId, { relations: ['members', 'members.member'] });
+
+      group = await this.groupService.createGroup(
+        {
+          name: existing.name,
+          type: 'ChatGroup',
+          members: [...existing.members.map((member) => member.member.id), creator.id],
+        },
+        creator,
+        false
+      );
+
+      title = group.name;
     }
 
-    const group = await this.groupService.createGroup(
-      {
-        name: groupName,
-        type: 'DirectMessage',
-        members: [senderId, recipientId],
-      },
-      creator
-    );
-
-    return await this.conversationRepository.createAndSave({
+    const conversation = await this.conversationRepository.createAndSave({
       id: conversationId,
-      title: creator.fullName + ' and ' + recipient.fullName,
-      avatar: '',
+      title,
+      avatar,
       group,
+      directMessage,
     });
+
+    if (directMessage) {
+      conversation.recipient = await this.userRepository.findOne(recipientId);
+    }
+
+    return conversation;
   }
 
   async updateMessage(messageId: string, data: QueryDeepPartialEntity<ChatMessageEntity>) {
@@ -96,6 +165,38 @@ export class ChatService {
    */
   async getMessageById(messageId: string) {
     return this.messageRepository.findOne(messageId);
+  }
+
+  async deliverMessage(
+    client: Socket,
+    conversationId: string,
+    messageId: string,
+    userId: string,
+    readMessage?: boolean
+  ) {
+    const message = await this.activityRepository.deliverMessage(messageId, userId);
+
+    if (message) {
+      client.to(conversationId).emit(ChatMessageTypes.MESSAGE_CHANGED, {
+        status: MessageStatus.DELIVERED,
+        id: message.id,
+      });
+
+      if (readMessage) {
+        await this.readMessage(client, conversationId, messageId, userId);
+      }
+    }
+  }
+
+  async readMessage(client: Socket, conversationId: string, messageId: string, userId: string) {
+    const message = await this.activityRepository.readMessage(messageId, userId);
+
+    if (message) {
+      client.to(conversationId).emit(ChatMessageTypes.MESSAGE_CHANGED, {
+        status: MessageStatus.READ,
+        id: message.id,
+      });
+    }
   }
 
   /**
@@ -122,15 +223,7 @@ export class ChatService {
       if (messages?.length) {
         return Promise.all(
           messages.map(async (message) => {
-            await this.messageRepository.update(message.id, {
-              readAt: new Date(),
-              status: MessageStatus.READ,
-            });
-            client.to(message.conversation.id).emit(ChatMessageTypes.READ_REPORT, {
-              conversationId: message.conversation.id,
-              messageId: message.id,
-              timestamp: new Date(),
-            });
+            await this.readMessage(client, message.conversation.id, message.id, userId);
           })
         );
       }
@@ -139,10 +232,12 @@ export class ChatService {
 
   /**
    *
+   * @param userId
    * @param client
+   * @param read
    * @param conversationIds
    */
-  async deliverMessages(client: Socket, ...conversationIds: Array<string>) {
+  async deliverMessages(userId: string, client: Socket, read?: boolean, ...conversationIds: Array<string>) {
     if (conversationIds?.length) {
       const messages = await this.messageRepository.find({
         where: {
@@ -157,15 +252,7 @@ export class ChatService {
       if (messages?.length) {
         return Promise.all(
           messages.map(async (message) => {
-            await this.messageRepository.update(message.id, {
-              deliveredAt: new Date(),
-              status: MessageStatus.DELIVERED,
-            });
-            client.to(message.conversation.id).emit(ChatMessageTypes.DELIVERY_REPORT, {
-              conversationId: message.conversation.id,
-              messageId: message.id,
-              timestamp: new Date(),
-            });
+            await this.deliverMessage(client, message.conversation.id, message.id, userId, read);
           })
         );
       }
@@ -180,16 +267,19 @@ export class ChatService {
    * @param messageId
    */
   async newMessage(conversationId: string, senderId: string, messageText: string, messageId: string) {
+    const numRecipients = await this.conversationRepository.getNumberOfRecipients(conversationId);
+
+    const sender = await this.userRepository.findOne(senderId);
+
     return this.messageRepository.createAndSave({
       id: messageId,
       status: MessageStatus.SENT,
       text: messageText,
+      numRecipients: numRecipients - 1,
       conversation: {
         id: conversationId,
       },
-      sender: {
-        id: senderId,
-      },
+      sender,
     });
   }
 
@@ -205,7 +295,7 @@ export class ChatService {
 
   createConversationBlocks(conversation: ConversationEntity, currentUser: UserEntity): Array<MessageBlock> {
     const blocks: Record<string, ChatMessage[]> = {};
-    conversation.messages.forEach((message) => {
+    [...(conversation.messages || [])].forEach((message) => {
       const day = moment(message.createdAt).format('MM/DD/YYYY');
       const chatMessage = {
         ...message,
@@ -231,20 +321,36 @@ export class ChatService {
       });
   }
 
-  async getConversationInfo(conversation: ConversationEntity, currentUser: UserEntity): Promise<Conversation> {
-    const recipient = conversation.recipient;
-    const title = recipient.fullName;
-    const avatar = recipient.profilePicture;
+  async getConversationInfo(
+    conversation: ConversationEntity,
+    currentUser: UserEntity,
+    recipient?: UserEntity
+  ): Promise<Conversation> {
+    let title, avatar;
+    const _recipient = recipient || conversation.recipient;
+
+    if (conversation.directMessage) {
+      title = _recipient.fullName;
+      avatar = _recipient.profilePicture;
+    } else {
+      title = conversation.group.name;
+      avatar = conversation.avatar;
+    }
 
     const blocks = this.createConversationBlocks(conversation, currentUser);
+    const recipients = await this.getAllRecipients(conversation.id);
 
     return {
       id: conversation.id,
-      recipient,
+      recipient: conversation.directMessage ? _recipient : conversation.group,
       title,
       avatar,
       blocks,
-      lastMessageTimestamp: conversation.messages[conversation.messages.length - 1].createdAt,
+      directMessage: conversation.directMessage,
+      lastMessageTimestamp: conversation.messages?.length
+        ? conversation.messages[conversation.messages.length - 1]?.createdAt
+        : new Date(),
+      recipientsList: recipients.map((recipient) => recipient.member.fullName).join(' , '),
     };
   }
 }

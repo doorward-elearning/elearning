@@ -53,12 +53,27 @@
     .last-message {
       display: grid;
       grid-auto-flow: column;
-      grid-gap: var(--padding);
+      grid-template-columns: auto 1fr auto;
       justify-content: start;
       align-items: center;
 
+      .unread-counter {
+        margin-left: var(--padding);
+        font-size: 0.8em;
+        padding: 0.2em 0.2em;
+        width: 1em;
+        height: 1em;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+      }
+
       .message-read-status {
         color: var(--text-secondary);
+
+        &.me {
+          margin-right: var(--padding);
+        }
 
         &.read {
           color: var(--accent);
@@ -88,6 +103,16 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         font-size: 0.8em;
+      }
+    }
+  }
+
+  &.hasUnread {
+    .content {
+      .last-message {
+        &__text {
+          font-weight: bold;
+        }
       }
     }
   }

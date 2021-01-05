@@ -3,28 +3,35 @@ import './Chat.scss';
 import classNames from 'classnames';
 import ConversationList from '../components/ConversationList';
 import ConversationFrame from '../components/ConversationFrame';
-import { ChatMessage, Conversation, MessageStatus, Recipient } from '@doorward/chat/types';
+import { ChatMessage, Conversation, Recipient } from '@doorward/chat/types';
 import NewChat from '@doorward/chat/components/NewChat';
 import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
 import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
-import Tools from '@doorward/common/utils/Tools';
 import UserEntity from '@doorward/common/entities/user.entity';
+import NewGroup from '../components/NewGroup';
+import GroupEntity from '@doorward/common/entities/group.entity';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { addNewMessage, sendNewMessage, updateExistingMessage } from '@doorward/chat/Chat/functions';
 
 export interface ChatContextType {
   currentUser: UserEntity;
   conversations: Array<Conversation>;
   currentConversation: Conversation;
   newChat: boolean;
+  newGroupChat: boolean;
   setCurrentConversation: (conversationIndex: string) => void;
   startNewChat: (open: boolean) => void;
+  startNewGroupChat: (open: boolean) => void;
   contacts: Array<Recipient>;
+  groups: Array<GroupEntity>;
+  setGroups: (groups: Array<GroupEntity>) => void;
   sendMessage: (message: string) => void;
   newMessage: (conversationId: string, message: ChatMessage) => void;
   setConversations: (conversations: Array<Conversation>) => void;
-  updateMessage: (messageId: string, data: Partial<ChatMessage>) => ChatMessage;
+  updateMessage: (messageIds: Array<string>, data: Partial<ChatMessage>) => ChatMessage;
 }
 
 export const ChatContext = React.createContext<ChatContextType>({
@@ -39,20 +46,30 @@ export const ChatContext = React.createContext<ChatContextType>({
   newMessage: () => {},
   setConversations: () => {},
   updateMessage: () => null,
+  newGroupChat: false,
+  startNewGroupChat: () => {},
+  groups: [],
+  setGroups: (groups: Array<GroupEntity>) => {},
 });
 
 const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
   const [currentConversationId, setCurrentConversationId] = useState();
   const [conversations, setConversations] = useState(props.conversations);
-
   const [newChat, startNewChat] = useState(false);
-
   const [contacts, setContacts] = useState([]);
+  const [newGroupChat, startNewGroupChat] = useState(false);
+  const [groups, setGroups] = useState([]);
 
   const fetchContacts = useAction(DoorwardChatApi.contacts.getContacts, {
     onSuccess: (data) => {
       setContacts(data.contacts);
+    },
+  });
+
+  const fetchGroups = useApiAction(DoorwardChatApi, 'contacts', 'getGroupContacts', {
+    onSuccess: (data) => {
+      setGroups(data.groups);
     },
   });
 
@@ -63,96 +80,33 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
   }, [currentConversationId, conversations]);
 
   const newMessage = useCallback(
-    (conversationId: string, message: ChatMessage) => {
-      const newConversations = [...conversations];
-
-      const conversationIndex = newConversations.findIndex((conversation) => conversation.id === conversationId);
-
-      let conversation = newConversations[conversationIndex];
-
-      if (conversation) {
-        const blocks = conversation.blocks.length
-          ? [...conversation.blocks]
-          : [
-              {
-                day: Tools.humanReadableTime(message.timestamp, 'day'),
-                messages: [],
-              },
-            ];
-
-        const block = blocks[blocks.length - 1];
-
-        block.messages.push(message);
-
-        conversation = { ...conversation, blocks: blocks, lastMessageTimestamp: message.timestamp };
-
-        newConversations[conversationIndex] = conversation;
-      }
-
-      setConversations(newConversations);
-      setCurrentConversation(currentConversation);
-    },
+    (conversationId: string, message: ChatMessage) =>
+      addNewMessage(
+        conversations,
+        setConversations,
+        currentConversation,
+        setCurrentConversation,
+        conversationId,
+        message
+      ),
     [conversations, currentConversation]
   );
 
   const sendMessage = useCallback(
-    (socket: SocketIOClient.Socket, message: string) => {
-      const data = {
-        userId: props.auth.user.id,
-        message,
-      };
-      const id = Tools.generateId();
-      socket.emit(ChatMessageTypes.SEND_MESSAGE, {
-        ...data,
-        conversationId: currentConversation.id,
-        recipientId: currentConversation.recipient.id,
-        messageId: id,
-      });
-
-      newMessage(currentConversation.id, {
-        timestamp: new Date(),
-        text: message,
-        status: MessageStatus.SENDING,
-        me: true,
-        id,
-      });
-    },
-    [currentConversation]
+    (socket: SocketIOClient.Socket, message: string) =>
+      sendNewMessage(props.auth.user.id, currentConversation, newMessage, socket, message),
+    [currentConversation, newMessage]
   );
 
   const updateMessage = useCallback(
-    (messageId: string, data: Partial<ChatMessage>) => {
-      let messageResult = null;
-      const newConversations = [...conversations].map((conversation) => {
-        return {
-          ...conversation,
-          blocks: [...conversation.blocks].map((block) => {
-            return {
-              ...block,
-              messages: [...block.messages].map((message) => {
-                if (message.id === messageId) {
-                  messageResult = message;
-                  return {
-                    ...message,
-                    ...data,
-                  };
-                }
-                return message;
-              }),
-            };
-          }),
-        };
-      });
-
-      setConversations(newConversations);
-
-      return messageResult;
-    },
+    (messageIds: Array<string>, data: Partial<ChatMessage>) =>
+      updateExistingMessage(conversations, setConversations, messageIds, data),
     [conversations, setConversations]
   );
 
   useEffect(() => {
     fetchContacts();
+    fetchGroups.action();
   }, []);
 
   return props.auth.user ? (
@@ -179,6 +133,10 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
               sendMessage: (message) => sendMessage(socket, message),
               newMessage,
               updateMessage,
+              newGroupChat,
+              startNewGroupChat,
+              groups,
+              setGroups,
             }}
           >
             <div
@@ -191,6 +149,7 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
               <div className="ed-chat-sidebar">
                 <ConversationList />
                 <NewChat open={newChat} />
+                <NewGroup open={newGroupChat} />
               </div>
               <ConversationFrame />
             </div>

@@ -1,4 +1,4 @@
-.ed-new-chat {
+.ed-new-group-chat {
   background: var(--bg-primary);
   transform: translateX(-150%);
   transition: 0.5s transform;
@@ -23,12 +23,9 @@
     padding: 0 var(--padding-lg);
   }
 
-  &__newGroup {
-    padding: var(--padding-lg) var(--padding-lg);
-  }
-
   &__contacts {
     display: grid;
+    margin-top: var(--padding-lg);
     overflow-y: scroll;
     flex: 1 0 0;
     align-items: start;

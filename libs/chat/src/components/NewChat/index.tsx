@@ -9,6 +9,7 @@ import Search from '@doorward/ui/components/Search';
 import EImage from '@doorward/ui/components/Image';
 import useSearch from '@doorward/ui/hooks/useSearch';
 import Tools from '@doorward/common/utils/Tools';
+import Button from '@doorward/ui/components/Buttons/Button';
 
 const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
   const {
@@ -17,6 +18,7 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
     currentConversation,
     setConversations,
     conversations,
+    startNewGroupChat,
     setCurrentConversation,
   } = useContext(ChatContext);
 
@@ -38,6 +40,11 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
       <div className="ed-new-chat__search">
         <Search onChange={setSearch} search={search} placeholder={translate('searchContacts')} />
       </div>
+      <div className="ed-new-chat__newGroup">
+        <Button icon="group" onClick={() => startNewGroupChat(true)}>
+          New Group
+        </Button>
+      </div>
       <div className="ed-new-chat__contacts">
         {filteredContacts.map((contact) => (
           <div
@@ -50,6 +57,7 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
                 id: Tools.generateId(),
                 blocks: [],
                 lastMessageTimestamp: new Date(),
+                directMessage: true,
               };
               const newConversation =
                 conversations.find((conversation) => contact.id === conversation.recipient.id) || createConversation;

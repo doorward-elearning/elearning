@@ -15,7 +15,7 @@ const ConversationMessageBlock: React.FunctionComponent<ConversationMessageBlock
       </div>
       <div className="ed-conversation-message-block--messages">
         {block.messages.map((message) => (
-          <ConversationMessage message={message} />
+          <ConversationMessage message={message} key={message.id} />
         ))}
       </div>
     </div>

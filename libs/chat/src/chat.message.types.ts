@@ -1,12 +1,14 @@
-import { MessageStatus } from '@doorward/chat/types';
+import { ChatMessage, Conversation, MessageStatus } from '@doorward/chat/types';
 
 export enum ChatMessageTypes {
   INITIALIZE = 'INITIALIZE',
   SEND_MESSAGE = 'SEND_MESSAGE',
-  SENT_REPORT = 'SENT_REPORT',
   NEW_MESSAGE = 'NEW_MESSAGE',
   DELIVERY_REPORT = 'DELIVERY_REPORT',
   READ_REPORT = 'READ_REPORT',
+  MESSAGE_CHANGED = 'MESSAGE_CHANGED',
+  NEW_CONVERSATION = 'NEW_CONVERSATION',
+  REGISTER_CONVERSATION = 'REGISTER_CONVERSATION',
 }
 
 export interface ChatMessageBody extends Record<ChatMessageTypes, any> {
@@ -19,6 +21,7 @@ export interface ChatMessageBody extends Record<ChatMessageTypes, any> {
     conversationId: string;
     recipientId: string;
     messageId: string;
+    directMessage: boolean;
   };
   NEW_MESSAGE: {
     conversationId: string;
@@ -38,6 +41,7 @@ export interface ChatMessageBody extends Record<ChatMessageTypes, any> {
     messageId: string;
     timestamp: string | Date;
     userId: string;
+    messageRead?: boolean;
   };
   READ_REPORT: {
     conversationId: string;
@@ -45,4 +49,7 @@ export interface ChatMessageBody extends Record<ChatMessageTypes, any> {
     timestamp: string | Date;
     userId: string;
   };
+  MESSAGE_CHANGED: { id: string } & Partial<ChatMessage>;
+  NEW_CONVERSATION: Conversation;
+  REGISTER_CONVERSATION: { conversationId: string; userId: string };
 }

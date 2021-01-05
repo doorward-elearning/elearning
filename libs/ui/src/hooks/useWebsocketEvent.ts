@@ -8,7 +8,7 @@ export type WebsocketEventResponse = {
 
 const useWebsocketEvent = <T = any>(
   event: string,
-  callback: (data: T) => WebsocketEventResponse | void,
+  callback: (data: T) => WebsocketEventResponse | void | Array<WebsocketEventResponse>,
   deps?: Array<any>
 ) => {
   const { socket } = useContext(WebSocketContext);
@@ -18,7 +18,11 @@ const useWebsocketEvent = <T = any>(
       const response = callback(data);
 
       if (response) {
-        socket.emit(response.event, response.data);
+        if (response instanceof Array) {
+          response.forEach((res) => socket.emit(res.event, res.data));
+        } else {
+          socket.emit(response.event, response.data);
+        }
       }
     };
     const emitter = socket.once(event, listener);

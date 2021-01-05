@@ -5,59 +5,63 @@ import ConversationContent from '@doorward/chat/components/ConversationContent';
 import { ChatContext } from '@doorward/chat/Chat';
 import { ChatMessageBody, ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import useWebsocketEvent from '@doorward/ui/hooks/useWebsocketEvent';
-import { MessageStatus } from '@doorward/chat/types';
+import { Conversation, MessageStatus } from '@doorward/chat/types';
 
 const ConversationFrame: React.FunctionComponent<ConversationFrameProps> = (props): JSX.Element => {
-  const { updateMessage, conversations, newMessage } = useContext(ChatContext);
+  const { updateMessage, currentConversation, conversations, currentUser, newMessage, setConversations } = useContext(
+    ChatContext
+  );
+
+  useWebsocketEvent(
+    ChatMessageTypes.NEW_CONVERSATION,
+    (conversation: Conversation) => {
+      setConversations([conversation, ...conversations]);
+
+      return {
+        event: ChatMessageTypes.REGISTER_CONVERSATION,
+        data: {
+          conversationId: conversation.id,
+          userId: currentUser.id,
+        },
+      };
+    },
+    [setConversations, conversations]
+  );
 
   useWebsocketEvent(
     ChatMessageTypes.NEW_MESSAGE,
     (message) => {
       newMessage(message.conversationId, {
         ...message,
+        status: MessageStatus.DELIVERED,
       });
+
+      const data = {
+        conversationId: message.conversationId,
+        messageId: message.id,
+        timestamp: new Date(),
+        userId: currentUser.id,
+        messageRead: message.conversationId === currentConversation.id,
+      };
 
       return {
         event: ChatMessageTypes.DELIVERY_REPORT,
-        data: {
-          conversationId: message.conversationId,
-          messageId: message.id,
-          timestamp: new Date(),
-        },
+        data,
       };
     },
-    [newMessage]
+    [newMessage, currentConversation]
   );
 
-  useWebsocketEvent<ChatMessageBody[ChatMessageTypes.SENT_REPORT]>(
-    ChatMessageTypes.SENT_REPORT,
+  useWebsocketEvent<ChatMessageBody[ChatMessageTypes.MESSAGE_CHANGED]>(
+    ChatMessageTypes.MESSAGE_CHANGED,
     (data) => {
-      updateMessage(data.messageId, {
-        status: MessageStatus.SENT,
+      updateMessage([data.id], {
+        ...data,
       });
     },
     [updateMessage]
   );
 
-  useWebsocketEvent<ChatMessageBody[ChatMessageTypes.DELIVERY_REPORT]>(
-    ChatMessageTypes.DELIVERY_REPORT,
-    (data) => {
-      updateMessage(data.messageId, {
-        status: MessageStatus.DELIVERED,
-      });
-    },
-    [updateMessage]
-  );
-
-  useWebsocketEvent<ChatMessageBody[ChatMessageTypes.READ_REPORT]>(
-    ChatMessageTypes.READ_REPORT,
-    (data) => {
-      updateMessage(data.messageId, {
-        status: MessageStatus.READ,
-      });
-    },
-    [updateMessage]
-  );
   return (
     <div className="ed-conversation-frame">
       <ConversationHeader />

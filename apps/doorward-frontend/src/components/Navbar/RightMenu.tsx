@@ -9,7 +9,7 @@ const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element 
       <Icon
         icon="chat"
         onClick={() => {
-          // routes.navigate(routes.chat);
+          routes.navigate(routes.chat);
         }}
       />
     </div>

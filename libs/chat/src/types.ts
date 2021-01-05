@@ -1,3 +1,11 @@
+import GroupEntity from '@doorward/common/entities/group.entity';
+
+export interface Sender {
+  id: string;
+  fullName: string;
+  profilePicture: string;
+}
+
 export interface Recipient {
   id: string;
   fullName: string;
@@ -18,6 +26,7 @@ export interface ChatMessage {
   me: boolean;
   timestamp: Date;
   status: MessageStatus;
+  sender?: Sender;
 }
 
 export interface MessageBlock {
@@ -29,7 +38,9 @@ export interface Conversation {
   id: string;
   title: string;
   avatar: string;
-  recipient: Recipient;
+  recipient: Recipient | GroupEntity;
   blocks: Array<MessageBlock>;
   lastMessageTimestamp: string | Date;
+  directMessage: boolean;
+  recipientsList?: string;
 }

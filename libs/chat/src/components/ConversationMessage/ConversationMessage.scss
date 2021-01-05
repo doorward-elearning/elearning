@@ -1,13 +1,8 @@
 .ed-conversation-message {
-  background: var(--bg-primary);
-  padding: var(--padding) var(--padding-lg);
-  border: 1px solid var(--line-color);
-  border-radius: 5px;
-  justify-self: start;
   display: grid;
-  min-width: 200px;
-  position: relative;
-  max-width: 60%;
+  grid-auto-flow: column;
+  justify-content: start;
+  grid-gap: 20px;
 
   .chat-indicator {
     display: none;
@@ -19,37 +14,29 @@
     }
   }
 
-  &:after {
-    content: '';
-    position: absolute;
-    width: 16px;
-    height: 16px;
-    top: calc(50% - 8px);
-    z-index: 1;
-    left: -10px;
-    background: var(--bg-primary);
-    transform: skew(45deg);
-    border-top: 1px solid var(--line-color);
-    border-left: 1px solid var(--line-color);
-  }
-
   &.me {
     justify-self: end;
-    background: var(--bg-secondary);
-
-    .chat-indicator {
-      svg {
-        right: -10px;
-        left: unset;
-        transform: scaleY(-1) rotate(270deg);
-      }
+    .ed-conversation-message__profile {
+      display: none;
     }
 
-    &:after {
-      left: unset;
-      right: -9px;
-      transform: skew(-45deg) rotate(90deg);
+    .ed-conversation-message__content {
       background: var(--bg-secondary);
+
+      .chat-indicator {
+        svg {
+          right: -10px;
+          left: unset;
+          transform: scaleY(-1) rotate(270deg);
+        }
+      }
+
+      &:after {
+        left: unset;
+        right: -9px;
+        transform: skew(-45deg) rotate(90deg);
+        background: var(--bg-secondary);
+      }
     }
   }
 
@@ -59,43 +46,75 @@
     }
   }
 
-  &--text {
-  }
-
-  &--tools {
+  &__content {
+    position: relative;
+    background: var(--bg-primary);
+    padding: var(--padding) var(--padding-lg);
+    border: 1px solid var(--line-color);
+    border-radius: 5px;
+    justify-self: start;
     display: grid;
-    justify-content: end;
-    grid-auto-flow: column;
-    grid-gap: var(--padding-sm);
+    min-width: 200px;
+    max-width: 60%;
 
-    .message-read-status {
-      color: var(--text-secondary);
+    &:after {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      top: calc(50% - 8px);
+      z-index: 1;
+      left: -10px;
+      background: var(--bg-primary);
+      transform: skew(45deg);
+      border-top: 1px solid var(--line-color);
+      border-left: 1px solid var(--line-color);
+    }
 
-      &.read {
-        color: var(--accent);
-      }
+    &--senderName {
+      font-weight: bold;
+      font-size: 1em;
+    }
 
-      i.material-icons {
-        font-size: 0.8em;
-        height: 0.8em;
-        padding: 0;
-        margin: 0;
-        width: 0.8em;
+    &--text {
+      font-size: 0.9em;
+    }
 
-        &:last-child {
-          margin-left: -5px;
+    &--tools {
+      display: grid;
+      justify-content: end;
+      grid-auto-flow: column;
+      grid-gap: var(--padding-sm);
+
+      .message-read-status {
+        color: var(--text-secondary);
+
+        &.read {
+          color: var(--accent);
+        }
+
+        i.material-icons {
+          font-size: 0.8em;
+          height: 0.8em;
+          padding: 0;
+          margin: 0;
+          width: 0.8em;
+
+          &:last-child {
+            margin-left: -5px;
+          }
+        }
+
+        .sending-indicator {
+          font-size: 0.8em;
         }
       }
-
-      .sending-indicator {
-        font-size: 0.8em;
-      }
     }
-  }
 
-  &--date {
-    color: var(--text-secondary);
-    font-size: 0.7em;
-    justify-self: end;
+    &--date {
+      color: var(--text-secondary);
+      font-size: 0.7em;
+      justify-self: end;
+    }
   }
 }

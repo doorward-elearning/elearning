@@ -46,7 +46,7 @@ const format = (now: Moment, date: Moment, max: Units, diff: number, future: boo
       unitDiff = currentUnitValue + unitValues[unit] - date.get(unit);
     }
 
-    unitDiff = Math.abs(unitDiff);
+    unitDiff = Math.abs(unitDiff) || 0;
   }
 
   if (max === unit || Math.floor(Math.abs(diff) / Values[unit]) > 0 || unitIndex === units.length - 1) {
