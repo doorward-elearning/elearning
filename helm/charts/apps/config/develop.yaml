@@ -1,0 +1,184 @@
+# Default values for config.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name:
+
+podSecurityContext: {}
+  # fsGroup: 2000
+
+securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: chart-example.local
+      paths: []
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+resources: {}
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+openviduapi_port: 80
+
+#db
+postgres_user: postgres
+postgres_password: postgres
+postgres_port: 5432
+postgres_db: doorward
+
+#classrooms
+classrooms:
+  url: classrooms.doorward.tech
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
+
+# disable latency
+swagat_enable_latency: false
+
+#samvadam
+samvadamcontainerport: 4443
+samvadamsecretkey: password
+samvadamwebhook: true
+samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
+samvadamsslenabled: false
+
+# Name of the Customer / Website
+customer: develop
+
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: develop.doorward.org
+
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: www.doorward.org
+
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://develop.doorward.org
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.develop.doorward.tech
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.develop.doorward.org
+
+# Public Domain of meet ui
+meet_domain: meet.develop.doorward.org
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.develop.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.develop.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.edudoor.org
+
+# Name of the Website. Default Value: <Customer-Name>
+websitename: develop
+
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: develop-doorward
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-harbor
+
+# Override default variables for stage environments
+
+image:
+  swagat:
+    repository: core.harbor.doorward.tech/doorward/swagat
+    version: 1.1.2-beta
+    pullPolicy: Always
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: core.harbor.doorward.tech/doorward/thala
+    version: 1.2.0
+    pullPolicy: Always
+  samvadam:
+    repository: core.harbor.doorward.tech/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: core.harbor.doorward.tech/doorward/chuchu
+    version: 1.2.0
+    pullPolicy: Always
+  vidu:
+    repository: core.harbor.doorward.tech/doorward/vidu
+    version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: core.harbor.doorward.tech/doorward/meet
+    version: 1.0.0
+    pullPolicy: Always
+
+
+organization:
+  # Organization Logo
+    logo: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+
+  # Display Name of Organization
+    name: "Doorward E-Learning"
+
+  # Application URL
+    website: develop.doorward.tech
+
+  #Organization Admin Email ID
+    email: info@doorward.tech
