@@ -60,10 +60,9 @@ export default class ChatGateway {
       client.join(conversation.id);
 
       const undeliveredMessages = await this.chatService.getUndeliveredMessages(conversation.id, body.userId);
-      console.log(undeliveredMessages);
 
       undeliveredMessages.forEach((message) => {
-        this.sendNewMessage(this.server, conversation, message, body.userId);
+        ChatGateway.sendNewMessage(this.server, conversation, message, body.userId);
       });
     }
   }
@@ -103,7 +102,7 @@ export default class ChatGateway {
     const message = await this.chatService.newMessage(conversation.id, body.userId, body.message, body.messageId);
 
     if (!newConversation) {
-      this.sendNewMessage(client, conversation, message);
+      ChatGateway.sendNewMessage(client, conversation, message);
     }
 
     client.emit(ChatMessageTypes.MESSAGE_CHANGED, {
@@ -112,7 +111,7 @@ export default class ChatGateway {
     });
   }
 
-  private sendNewMessage(
+  private static sendNewMessage(
     client: Socket | Server,
     conversation: ConversationEntity,
     message: ChatMessageEntity,

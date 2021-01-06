@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import ConversationRepository from '@doorward/backend/repositories/conversation.repository';
+import _ from 'lodash';
 import moment from 'moment';
 import ChatMessageRepository from '@doorward/backend/repositories/chat.message.repository';
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
@@ -15,6 +16,7 @@ import { WebSocketServer } from '@nestjs/websockets';
 import { Server, Socket } from 'socket.io';
 import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import ChatMessageActivityRepository from '@doorward/backend/repositories/chat.message.activity.repository';
+import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class ChatService {
@@ -178,7 +180,7 @@ export class ChatService {
 
     if (message) {
       client.to(conversationId).emit(ChatMessageTypes.MESSAGE_CHANGED, {
-        status: MessageStatus.DELIVERED,
+        status: message.status,
         id: message.id,
       });
 
@@ -193,7 +195,7 @@ export class ChatService {
 
     if (message) {
       client.to(conversationId).emit(ChatMessageTypes.MESSAGE_CHANGED, {
-        status: MessageStatus.READ,
+        status: message.status,
         id: message.id,
       });
     }
@@ -350,7 +352,21 @@ export class ChatService {
       lastMessageTimestamp: conversation.messages?.length
         ? conversation.messages[conversation.messages.length - 1]?.createdAt
         : new Date(),
-      recipientsList: recipients.map((recipient) => recipient.member.fullName).join(' , '),
+      recipientsList: recipients
+        .sort((a, b) => {
+          if (a.member.id === currentUser.id) {
+            return -1;
+          }
+          return a.member.fullName > b.member.fullName ? 1 : -1;
+        })
+        .map((recipient) => {
+          if (currentUser.id === recipient.member.id) {
+            return _.capitalize(translate('you'));
+          } else {
+            return recipient.member.fullName;
+          }
+        })
+        .join(' , '),
     };
   }
 }

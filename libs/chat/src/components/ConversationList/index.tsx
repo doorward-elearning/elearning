@@ -6,22 +6,10 @@ import translate from '@doorward/common/lang/translate';
 import { ChatContext } from '@doorward/chat/Chat';
 import Button from '@doorward/ui/components/Buttons/Button';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
 import moment from 'moment';
-import { WebSocketContext } from '@doorward/ui/components/WebSocketComponent';
-import { deliverMessages } from '@doorward/chat/Chat/functions';
 
 const ConversationList: React.FunctionComponent<ConversationListProps> = (props): JSX.Element => {
-  const {
-    conversations,
-    setConversations,
-    setCurrentConversation,
-    currentConversation,
-    startNewChat,
-    currentUser,
-  } = useContext(ChatContext);
-  const { socket } = useContext(WebSocketContext);
+  const { conversations, setCurrentConversationId, currentConversation, startNewChat } = useContext(ChatContext);
   const [sortedConversations, setSortedConversations] = useState([]);
 
   useEffect(() => {
@@ -30,29 +18,15 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
     );
   }, [conversations, currentConversation]);
 
-  const fetchConversations = useApiAction(DoorwardChatApi, 'chat', 'getConversations', {
-    onSuccess: (response) => {
-      if (response.conversations.length) {
-        setConversations(response.conversations);
-
-        deliverMessages(currentUser.id, response.conversations, socket);
-      }
-    },
-  });
-
-  useEffect(() => {
-    fetchConversations.action();
-  }, []);
-
   return (
     <div className="ed-conversation-list">
       <div className="ed-conversation-list__search">
         <Search onChange={() => {}} placeholder={translate('searchConversations')} />
       </div>
       <WebComponent
-        data={fetchConversations}
+        data={conversations}
         noBorder
-        loading={fetchConversations.state.fetching}
+        loading={false}
         size="small"
         icon="chat"
         fullHeight
@@ -66,7 +40,7 @@ const ConversationList: React.FunctionComponent<ConversationListProps> = (props)
                 selected={currentConversation?.id === conversation.id}
                 conversation={conversation}
                 onClick={() => {
-                  setCurrentConversation(conversation.id);
+                  setCurrentConversationId(conversation.id);
                 }}
               />
             ))}
