@@ -36,7 +36,7 @@ const ConversationContent: React.FunctionComponent<ConversationContentProps> = (
     <div className="ed-conversation-content">
       <div className="ed-conversation-content--messages">
         <div className="ed-conversation-content--messages-list">
-          {currentConversation.blocks.map((block) => (
+          {[...(currentConversation.blocks || [])].map((block) => (
             <ConversationMessageBlock block={block} key={block.day + ''} />
           ))}
         </div>

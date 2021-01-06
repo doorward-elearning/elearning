@@ -1,0 +1,69 @@
+@import '../../../animations';
+
+.ed-notifications {
+  position: fixed;
+  width: 100vw;
+  z-index: 100;
+  right: 0;
+  top: var(--navBar-size);
+  pointer-events: none;
+  display: grid;
+  justify-content: end;
+  grid-auto-flow: row;
+  align-items: start;
+
+  &__notification {
+    width: 300px;
+    background: var(--bg-primary);
+    margin: var(--padding);
+    display: grid;
+    grid-gap: var(--padding);
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--line-color);
+    cursor: pointer;
+    pointer-events: all;
+    border-radius: 5px;
+    transform: translateX(200%);
+    transition: 0.5s transform;
+
+    &.opening,
+    &.open {
+      transform: translateX(0);
+    }
+
+    &.closing {
+      transform: translateX(200%);
+    }
+
+    &.closed {
+      display: none;
+    }
+
+    &--header {
+      display: grid;
+      grid-template-columns: auto auto 1fr auto;
+      grid-gap: var(--padding);
+      padding: var(--padding);
+      align-items: center;
+      border-bottom: 1px solid var(--line-color);
+    }
+
+    &--content {
+      display: grid;
+      grid-gap: var(--padding);
+      padding: var(--padding);
+      grid-template-columns: auto 1fr;
+    }
+
+    &--message {
+      font-size: 0.9em;
+      text-overflow: ellipsis;
+      color: var(--text-secondary);
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 4;
+      text-wrap: avoid;
+    }
+  }
+}

@@ -16,6 +16,8 @@ import ApplicationInitializer from './components/ApplicationInitializer';
 import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
 import ChatWebSocketContext from '@doorward/chat/components/ChatWebSocketContext';
+import Notifications from '@doorward/ui/components/Notifications';
+import { BrowserRouter } from 'react-router-dom';
 
 // ensure the user is logged in
 ApiRequest.setAuth();
@@ -35,13 +37,17 @@ const App: React.FC = () => {
   return (
     <AppContext.Provider value={{ ...app }}>
       <ApplicationTheme theme="base">
-        <ApplicationInitializer>
-          <RolesManager auth={auth}>
-            <ChatWebSocketContext auth={auth}>
-              <Router />
-            </ChatWebSocketContext>
-          </RolesManager>
-        </ApplicationInitializer>
+        <Notifications>
+          <ApplicationInitializer>
+            <BrowserRouter>
+              <RolesManager auth={auth}>
+                <ChatWebSocketContext auth={auth} path="/dashboard/chat">
+                  <Router />
+                </ChatWebSocketContext>
+              </RolesManager>
+            </BrowserRouter>
+          </ApplicationInitializer>
+        </Notifications>
       </ApplicationTheme>
     </AppContext.Provider>
   );

@@ -1,5 +1,5 @@
-import React, { useEffect, Suspense } from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import React, { Suspense, useEffect } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import { routeConfigurations } from './index';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { generate } from '@doorward/ui/routes/routes';
@@ -32,13 +32,11 @@ export const Router: React.FunctionComponent<any> = (): JSX.Element => {
     ROUTES = generatedRoutes.routes;
   }, [organization]);
   return (
-    <BrowserRouter>
-      <Suspense fallback={LoadingPage}>
-        <Switch>
-          {generatedRoutes.renderRoutes}
-          <Route path="*" component={Error404} />
-        </Switch>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense fallback={LoadingPage}>
+      <Switch>
+        {generatedRoutes.renderRoutes}
+        <Route path="*" component={Error404} />
+      </Switch>
+    </Suspense>
   );
 };

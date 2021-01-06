@@ -1,4 +1,4 @@
-import React, { ReactChildren, useCallback, useEffect, useState } from 'react';
+import React, { ReactChildren, useCallback, useContext, useEffect, useState } from 'react';
 import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
 import { ChatMessageBody, ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import { ChatMessage, Conversation, MessageStatus } from '@doorward/chat/types';
@@ -14,6 +14,10 @@ import { ChatContext } from '@doorward/chat/Chat';
 import useWebsocketEvent from '@doorward/ui/hooks/useWebsocketEvent';
 import useApiAction from '@doorward/ui/hooks/useApiAction';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
+import { NotificationsContext } from '@doorward/ui/components/Notifications';
+import { UseBaseRoutes } from '@doorward/ui/hooks/useBaseRoutes';
+import { useHistory } from 'react-router';
+import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 
 const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> = (props): JSX.Element => {
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
@@ -26,6 +30,8 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
   const [currentUser, setCurrentUser] = useState(props.auth.user);
   const [unreadMessages, setUnreadMessages] = useState([]);
   const { socket } = props;
+  const { pushNotification } = useContext(NotificationsContext);
+  const queryParams = useQueryParams();
 
   const fetchConversations = useApiAction(DoorwardChatApi, 'chat', 'getConversations', {
     onSuccess: (response) => {
@@ -114,6 +120,18 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
         messageRead: message.conversationId === currentConversationId,
       };
 
+      if (!data.messageRead) {
+        pushNotification({
+          icon: 'chat',
+          title: message.sender.fullName,
+          message: message.text,
+          onClick: () => {
+            queryParams.updateLocation({ conversation: message.conversationId }, props.path);
+          },
+          context: message.conversationId,
+        });
+      }
+
       return {
         event: ChatMessageTypes.DELIVERY_REPORT,
         data,
@@ -165,6 +183,7 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
 export interface ChatWebSocketContextProps {
   auth: UseAuth;
   socket: SocketIOClient.Socket;
+  path: string;
   children: ReactChildren | Element | JSX.Element;
 }
 

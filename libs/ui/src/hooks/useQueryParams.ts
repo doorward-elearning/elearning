@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 export interface UseQueryParams<T> {
   query: T;
-  updateLocation: (params: ParsedUrlQuery) => void;
+  updateLocation: (params: ParsedUrlQuery, pathname?: string) => void;
 }
 
 const useQueryParams = <T extends {} = any>(): UseQueryParams<T> => {
@@ -15,9 +15,9 @@ const useQueryParams = <T extends {} = any>(): UseQueryParams<T> => {
 
   return {
     query: query as T,
-    updateLocation: (params) => {
+    updateLocation: (params, pathname) => {
       history.push(
-        location.pathname +
+        (pathname || location.pathname) +
           '?' +
           queryString.stringify(
             _.pickBy(
