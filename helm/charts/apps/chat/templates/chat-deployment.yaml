@@ -1,0 +1,87 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chat.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
+  labels:
+    {{- include "chat.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "chat.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "chat.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.chat.repository }}:{{ .Values.image.chat.version }}"
+          imagePullPolicy: {{ .Values.image.chat.pullPolicy }}
+          ports:
+            - name: {{ .Values.service.protocol }}
+              containerPort: {{ .Values.service.targetport }}
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            periodSeconds: 100
+            successThreshold: 1
+            timeoutSeconds: 3
+            tcpSocket:
+              port: {{ .Values.service.targetport }}
+          readinessProbe:
+            failureThreshold: 3
+            periodSeconds: {{ .Values.container.startupseconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            tcpSocket:
+              port: {{ .Values.service.targetport }}
+          env:
+          - name: DOORWARD_DATABASE_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_USERNAME
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_HOST
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_HOST
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_PORT
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_PORT
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_NAME
+                name: {{ .Values.customer -}}-config
+          - name: DOORWARD_DATABASE_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: DATABASE_PASSWORD
+                name: {{ .Values.customer -}}-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

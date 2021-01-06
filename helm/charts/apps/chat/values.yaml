@@ -1,12 +1,12 @@
-# Default values for chuchu.
+# Default values for chat.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
 replicaCount: 1
 
 image:
-  chuchu:
-    repository: core.harbor.doorward.tech/doorward/chuchu
+  chat:
+    repository: core.harbor.doorward.tech/doorward/chat
     version: 1.1.0
     pullPolicy: IfNotPresent
 
@@ -36,7 +36,8 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 5000
+  targetport: 7000
+  protocol: http
 
 ingress:
   enabled: false
@@ -69,18 +70,17 @@ tolerations: []
 
 affinity: {}
 
-# This value will decide the public URL of thala APIs. (eg: nodeapi.customer_name.doorward.tech/api/v1)
-thalaapiprefix: nodeapi
-containerport: 5000
+#chatdburl: postgres://postgres:postgres@doorward-database-service:5434/doorward
+chatdbname: doorward
+chatdbuser: postgres
+chatdbpassword: postgres
+chatdbhostpostfix: chatdb
+chatdbport: 5434
 
 container:
   startupseconds: 100
 
 api:
-  samvadamuri: samvadam
   thalauri: thala
 
-app_domain: beta.doorward.tech
-classrooms_url: classrooms.doorward.tech
-meet_domain: meet.develop.doorward.org
-meet_host: alpha.jitsi.net
+swagat_enable_latency: "false"

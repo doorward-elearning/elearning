@@ -20,7 +20,7 @@ build-all:
 	@ docker build -f docker/production/doorward-frontend/Dockerfile -t chuchu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/doorward-backend/Dockerfile -t thala:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@ docker build -f docker/production/doorward-website/Dockerfile -t swagat:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
-	@ docker build -f docker/production/openvidu-backend/Dockerfile -t vidu:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	@ docker build -f docker/production/doorward-chat-api/Dockerfile -t chat:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
 	@
 	@ ${INFO} "Tagging doorward image"
 	@ docker tag doorward:${APP_VERSION} core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
@@ -30,15 +30,13 @@ build-all:
 	@ docker tag thala:${APP_VERSION} core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ ${INFO} "Tagging website image"
 	@ docker tag swagat:${APP_VERSION} core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
-	@ ${INFO} "Tagging vidu image"
-	@ docker tag vidu:${APP_VERSION} core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
 	@
 	@ ${INFO} "Pushing images to GCP"
 	@ docker push core.harbor.doorward.tech/doorward/doorward:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/chuchu:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/thala:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
-	@ docker push core.harbor.doorward.tech/doorward/vidu:${APP_VERSION}
+	@ docker push core.harbor.doorward.tech/doorward/chat:${APP_VERSION}
 
 build: build-chuchu build-thala
 
@@ -64,6 +62,13 @@ build-meet:
 	@
 	@ ${INFO} "Pushing [meet] image to Harbor"
 	@ docker push core.harbor.doorward.tech/doorward/meet:${APP_VERSION}
+
+build-chat:
+	@ ${INFO} "Building [chat api] image."
+	@ docker build -f docker/production/doorward-chat-api/Dockerfile -t core.harbor.doorward.tech/doorward/chat:${APP_VERSION} . --build-arg APP_VERSION=${APP_VERSION}
+	@
+	@ ${INFO} "Pushing [chat api] image to Harbor"
+	@ docker push core.harbor.doorward.tech/doorward/chat:${APP_VERSION}
 
 openvidu:
 	@ ${INFO} "Starting the OpenVIDU server"

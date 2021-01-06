@@ -19,6 +19,9 @@ samvadam_domain: samvadam.develop.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.develop.doorward.org
 
+#Public Domain of Chat API
+chat_domain: chat.develop.doorward.org
+
 # Public Domain of meet ui
 meet_domain: meet.develop.doorward.org
 
@@ -57,6 +60,10 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: core.harbor.doorward.tech/doorward/thala
+    version: 1.2.0
+    pullPolicy: Always
+  chat:
+    repository: core.harbor.doorward.tech/doorward/chat
     version: 1.2.0
     pullPolicy: Always
   samvadam:

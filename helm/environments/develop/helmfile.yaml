@@ -43,15 +43,29 @@ releases:
     values:
       - config.yaml
 
-  - name: develop-chuchu
+  - name: develop-chat
     namespace: develop-doorward
     labels:
       stage: 3
+      name: chat
+    chart: ../../charts/apps/chat
+    needs:
+      - develop-doorward/develop-config
+      - develop-doorward/develop-thaladb
+      - develop-doorward/develop-thala
+    values:
+      - config.yaml
+
+  - name: develop-chuchu
+    namespace: develop-doorward
+    labels:
+      stage: 4
       name: chuchu
     chart: ../../charts/apps/chuchu
     needs:
       - develop-doorward/develop-config
-      - develop-doorward/develop-thaladb
+      - develop-doorward/develop-thala
+      - develop-doorward/develop-chat
     values:
       - config.yaml
 
