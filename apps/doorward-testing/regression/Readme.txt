@@ -1,4 +1,4 @@
-Step 1 : Prerequisites to run postman scripts
+Step 1 : Prerequisites to run postman scripts from cli (newman)
 ======================================================================================
 
 a. Install node js in windows or mac , refer 'https://www.toolsqa.com/mobile-automation/appium/download-and-install-nodejs/' for step by step installation 

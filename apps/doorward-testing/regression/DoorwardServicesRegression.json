@@ -415,7 +415,7 @@
 			"name": "Users",
 			"item": [
 				{
-					"name": "01-Usr_Update_Doorward_TestuserAccountDetails",
+					"name": "09-Usr_Update_Doorward_TestuserAccountDetails",
 					"event": [
 						{
 							"listen": "test",
@@ -469,7 +469,7 @@
 					"response": []
 				},
 				{
-					"name": "02-Usr_Update_Doorward_TestUserAccountPassword",
+					"name": "10-Usr_Update_Doorward_TestUserAccountPassword",
 					"event": [
 						{
 							"listen": "test",
@@ -511,7 +511,7 @@
 					"response": []
 				},
 				{
-					"name": "03-Usr_Forgot_Doorward_UserPassword",
+					"name": "11-Usr_Forgot_Doorward_UserPassword",
 					"event": [
 						{
 							"listen": "test",
@@ -556,7 +556,7 @@
 					"response": []
 				},
 				{
-					"name": "04-Usr_Reset_Doorward_UserPassword",
+					"name": "12-Usr_Reset_Doorward_UserPassword",
 					"event": [
 						{
 							"listen": "test",
@@ -604,7 +604,7 @@
 			"name": "Course",
 			"item": [
 				{
-					"name": "01-Course_LoginDoorward_WithTestCredentials",
+					"name": "13-Course_LoginDoorward_WithTestCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -662,7 +662,7 @@
 					"response": []
 				},
 				{
-					"name": "02-Course_CreateCourse_FirstTime_WithTestCredentials",
+					"name": "14-Course_CreateCourse_FirstTime_WithTestCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -708,7 +708,7 @@
 					"response": []
 				},
 				{
-					"name": "03-Course_LoginDoorward_WithAdminCredentials",
+					"name": "15-Course_LoginDoorward_WithAdminCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -766,7 +766,7 @@
 					"response": []
 				},
 				{
-					"name": "04-Course_CreateCourse_FirstTime_WithAdminCredentials",
+					"name": "16-Course_CreateCourse_FirstTime_WithAdminCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -819,7 +819,7 @@
 					"response": []
 				},
 				{
-					"name": "05-Course_CreateCourse_withSame_Title",
+					"name": "17-Course_CreateCourse_withSame_Title",
 					"event": [
 						{
 							"listen": "test",
@@ -863,7 +863,7 @@
 					"response": []
 				},
 				{
-					"name": "06-Course_Get_AllCourses_FromDoorward",
+					"name": "18-Course_Get_AllCourses_FromDoorward",
 					"event": [
 						{
 							"listen": "test",
@@ -928,7 +928,7 @@
 					"response": []
 				},
 				{
-					"name": "07-Course_UpdateCourse_ByCourseId",
+					"name": "19-Course_UpdateCourse_ByCourseId",
 					"event": [
 						{
 							"listen": "test",
@@ -974,7 +974,7 @@
 					"response": []
 				},
 				{
-					"name": "08-Course_GetCourse_ByCourseId",
+					"name": "20-Course_GetCourse_ByCourseId",
 					"event": [
 						{
 							"listen": "test",
@@ -1021,7 +1021,7 @@
 					"response": []
 				},
 				{
-					"name": "09-Course_AddModule_toCourse_ByCourseID",
+					"name": "21-Course_AddModule_toCourse_ByCourseID",
 					"event": [
 						{
 							"listen": "test",
@@ -1078,7 +1078,7 @@
 					"response": []
 				},
 				{
-					"name": "10-Course_GetModules_InCourse_ByCourseID",
+					"name": "22-Course_GetModules_InCourse_ByCourseID",
 					"event": [
 						{
 							"listen": "test",
@@ -1132,7 +1132,7 @@
 					"response": []
 				},
 				{
-					"name": "11-Course_GetModule_InCourse_ByModuleID",
+					"name": "23-Course_GetModule_InCourse_ByModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1171,7 +1171,7 @@
 					"response": []
 				},
 				{
-					"name": "12-Course_UpdateModule_ByModuleID",
+					"name": "24-Course_UpdateModule_ByModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1223,7 +1223,7 @@
 					"response": []
 				},
 				{
-					"name": "13-Course_CreatePageItem_ByModuleID",
+					"name": "25-Course_CreatePageItem_ByModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1272,7 +1272,7 @@
 					"response": []
 				},
 				{
-					"name": "14-Course_GetPageItem_InCourse_MyModuleID",
+					"name": "26-Course_GetPageItem_InCourse_MyModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1321,7 +1321,7 @@
 					"response": []
 				},
 				{
-					"name": "15-Course_CreateAssignment_ByModuleID",
+					"name": "27-Course_CreateAssignment_ByModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1370,7 +1370,7 @@
 					"response": []
 				},
 				{
-					"name": "16-Course_CreateQuiz_ByModuleID",
+					"name": "28-Course_CreateQuiz_ByModuleID",
 					"event": [
 						{
 							"listen": "test",
@@ -1413,7 +1413,7 @@
 					"response": []
 				},
 				{
-					"name": "17-Course_SubmitAssignment_ByAssignmentID_UsingAdminPrivileges",
+					"name": "29-Course_SubmitAssignment_ByAssignmentID_UsingAdminPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1456,7 +1456,7 @@
 					"response": []
 				},
 				{
-					"name": "18-Course_LoginDoorward_With_StudentCredentials",
+					"name": "30-Course_LoginDoorward_With_StudentCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -1514,7 +1514,7 @@
 					"response": []
 				},
 				{
-					"name": "19-Course_SubmitAssignment_ByAssignmentID_UsingStudentPrivileges Copy",
+					"name": "31-Course_SubmitAssignment_ByAssignmentID_UsingStudentPrivileges Copy",
 					"event": [
 						{
 							"listen": "test",
@@ -1535,7 +1535,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"submissionType\": \"{{assignmentsubmissiontype}}\",\n    \"submission\": \"{{assignmentsubmission}}\"\n}",
+							"raw": "{\n    \"submissionType\": \"{{assignmentsubmissiontype}}\",\n    \"submission\": \"{{assignmentsubmission}}{{randomNumber}}\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1557,7 +1557,7 @@
 					"response": []
 				},
 				{
-					"name": "20-Course_DeleteModule_ByModuleId_UsingStudentPrivileges",
+					"name": "32-Course_DeleteModule_ByModuleId_UsingStudentPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1604,7 +1604,7 @@
 					"response": []
 				},
 				{
-					"name": "21-Course_DeleteCourse_ByCourseId_UsingStudentPrivileges",
+					"name": "33-Course_DeleteCourse_ByCourseId_UsingStudentPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1661,7 +1661,7 @@
 					"response": []
 				},
 				{
-					"name": "22-Course_LoginDoorward_WithAdminCredentials",
+					"name": "34-Course_LoginDoorward_WithAdminCredentials",
 					"event": [
 						{
 							"listen": "test",
@@ -1719,7 +1719,7 @@
 					"response": []
 				},
 				{
-					"name": "23-Course_DeleteModule_ByModuleId_UsingAdminPrivileges",
+					"name": "35-Course_DeleteModule_ByModuleId_UsingAdminPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1761,7 +1761,7 @@
 					"response": []
 				},
 				{
-					"name": "24-Course_GetModule_InCourse_AfterDeleting_ByModuleID_UsingAdminPrivileges",
+					"name": "36-Course_GetModule_InCourse_AfterDeleting_ByModuleID_UsingAdminPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1794,7 +1794,7 @@
 					"response": []
 				},
 				{
-					"name": "25-Course_DeleteCourse_ByCourseId_UsingAdminPrivileges",
+					"name": "37-Course_DeleteCourse_ByCourseId_UsingAdminPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1845,7 +1845,7 @@
 					"response": []
 				},
 				{
-					"name": "26-Course_GetCourse_ByCourseId_AfterDelete_UsingAdminPrivileges",
+					"name": "38-Course_GetCourse_ByCourseId_AfterDelete_UsingAdminPrivileges",
 					"event": [
 						{
 							"listen": "test",
@@ -1893,6 +1893,2693 @@
 				}
 			],
 			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Organization",
+			"item": [
+				{
+					"name": "39-Orgz_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2b97b195-d788-43e9-950c-3df31ce3b1a0",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "40-Orgz_CreateOrganization_InDoorward_UsingAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "0498fed5-0f82-4a84-9734-a02e7df1b393",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var orgId=jsonData.organization.id.toString();\r",
+									"var orgName=jsonData.organization.name.toString();\r",
+									"var orgNameData=pm.iterationData.get(\"orgname\")+pm.environment.get(\"randomNumber\");\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Organization ID generated : \"+orgId,function () {\r",
+									"    pm.environment.set(\"CreatedOrganizationID\",orgId);\r",
+									"});\r",
+									"pm.test(\"Verify organization name : \"+orgName,function () {\r",
+									"    pm.expect(orgName).to.eql(orgNameData);\r",
+									"    pm.environment.set(\"CreatedOrganizationName\",orgName);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{orgname}}{{randomNumber}}\",\n    \"icon\": \"https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png\",\n    \"link\": \"https://microsoft.com\",\n    \"customerType\": \"{{orgcustomertype}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/organizations",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "41-Orgz_GetOrganization_UsingCreatedOrganizationID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "484a5bf5-bb2c-4d9c-b8ef-c1daaca9619f",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var orgId=jsonData.organization.id.toString();\r",
+									"var orgName=jsonData.organization.name.toString();\r",
+									"\r",
+									"pm.test(\"Organization ID verified : \"+orgId,function () {\r",
+									"     pm.expect(orgId).to.eql(pm.environment.get(\"CreatedOrganizationID\"));\r",
+									"});\r",
+									"pm.test(\"Verify organization name : \"+orgName,function () {\r",
+									"   pm.expect(orgName).to.eql(pm.environment.get(\"CreatedOrganizationName\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Microsoft\",\n    \"icon\": \"https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png\",\n    \"link\": \"https://microsoft.com\",\n    \"customerType\": \"school-india\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/organizations/{{CreatedOrganizationID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations",
+								"{{CreatedOrganizationID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "42-Orgz_GetCurrentOrganization_inDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "14fc7619-ca9a-4311-b030-f6eba85a173c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var orgName=jsonData.organization.name.toString();\r",
+									"pm.test(\"Verify current organization name : \"+orgName,function () {\r",
+									"   pm.expect(orgName).to.eql(\"Doorward\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/organizations/current",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations",
+								"current"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "43-Orgz_GetAllOrganizations_inDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1a3371bc-1f05-4f6e-91c5-2e471a479340",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var organizations = jsonData.organizations.length;\r",
+									"\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Total number of organizations found : \"+organizations,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < organizations; i++) {\r",
+									" var orgId=jsonData.organizations[i].id;\r",
+									" var orgName=jsonData.organizations[i].name\r",
+									" myList.push(orgName);\r",
+									" pm.test(\"Organization ID & Organization Name  : [ \"+orgId+\" ] [ \"+orgName+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var orgName=pm.environment.get(\"CreatedOrganizationName\");\r",
+									"var orgId=pm.environment.get(\"CreatedOrganizationID\");\r",
+									"if(myList.includes( orgName)) \r",
+									"{\r",
+									" pm.test(\"Created organization name [ \"+orgName+\" | \"+orgId+ \" ] found in Doorward (Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created organization name [ \"+orgName+ \" | \"+orgId+ \" ] not found(Unexpected Behavior/ Created organization should be found) \",function () {\r",
+									"        pm.expect(orgName).to.eql(\"Not Found\");\r",
+									" });\r",
+									" \r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Microsoft\",\n    \"icon\": \"https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png\",\n    \"link\": \"https://microsoft.com\",\n    \"customerType\": \"school-india\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/organizations",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "44-Orgz_UpdateOrganization_UsingCreatedOrganizationID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c8996140-9b74-4227-a5f1-9c99e8277560",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var orgName=jsonData.organization.name.toString();\r",
+									"var updtdOrganizationName=\"MicrosoftTestUpdate\"+pm.environment.get(\"randomNumber\");\r",
+									"pm.test(\"Verify updated organization name : \"+orgName,function () {\r",
+									"   pm.expect(orgName).to.eql(updtdOrganizationName);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"MicrosoftTestUpdate{{randomNumber}}\",\n    \"icon\": \"https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png\",\n    \"link\": \"https://microsoft.com/login\",\n    \"customerType\": \"college-india\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/organizations/{{CreatedOrganizationID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations",
+								"{{CreatedOrganizationID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "45-Orgz_LoginDoorward_WithTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5ab7e88d-f55b-41bc-a44f-d67dfb087340",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify test username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"testusername\"));",
+									"});",
+									"pm.test(\"Verify test email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"testemail\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{testusername}}\",\n    \"password\": \"{{testpassword}}\",\n    \"email\": \"{{testemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "46-Orgz_CreateOrganization_InDoorward_UsingTestCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c012b0bc-bcd3-402d-8a30-421cbb7b09dc",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var errorMsg=jsonData.message.toString();\r",
+									"pm.test(\"Response expected 404\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([403,401]);\r",
+									"});\r",
+									"pm.test(\"Verify error message  'You do not have sufficient privileges to perform this action.' : \",function () {\r",
+									"    pm.expect(errorMsg).to.eql(\"You do not have sufficient privileges to perform this action.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{orgname}}{{randomNumber}}\",\n    \"icon\": \"https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/doorward_logo_blue.png\",\n    \"link\": \"https://microsoft.com\",\n    \"customerType\": \"{{orgcustomertype}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/organizations",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"organizations"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "47-Student_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3f1f4e3b-d8ba-4491-9e1f-b48ccacebee2",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "48-Student_CreateCourse_FirstTime_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "67906126-d53e-48b8-9cfd-cefff720e5c2",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var courseId=jsonData.course.id.toString();\r",
+									"var title=jsonData.course.title.toString();\r",
+									"var modTitle=jsonData.course.modules[0].title.toString();\r",
+									"pm.test(\"CourseId & Title  : [\"+courseId +\"] [\"+title+\"]\",function () {\r",
+									"    \r",
+									"});\r",
+									"pm.environment.set(\"createdCourseID\",courseId);\r",
+									"pm.environment.set(\"createdCourseTitle\",title);\r",
+									"pm.environment.set(\"createdModuleTitle\", modTitle);\r",
+									"//pm.globals.unset(\"variable_key\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{coursetitle}}{{randomNumber}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{moduletitleCC}}{{randomNumber}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "49-Student_CreateStudent_AndAssignCourseByCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ebe0b543-c967-48c2-a827-07cf11f90f36",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var messageDesc=jsonData.message.toString();\r",
+									"var studentUserName=jsonData.student.username.toString();\r",
+									"var studentfullName=jsonData.student.fullName.toString();\r",
+									"var studentID=jsonData.student.id.toString();\r",
+									"pm.test(\"Verify success message description  : \"+messageDesc, () => {\r",
+									"  pm.expect(messageDesc).to.eql(\"Learner has been added to the course.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Student full name & Username : \"+studentfullName +\" | \"+studentUserName, () => {\r",
+									"  pm.environment.set(\"CreatedStudentFullName\",studentfullName)\r",
+									"});\r",
+									"pm.test(\"Created Student ID : \"+studentID, () => {\r",
+									"  pm.environment.set(\"CreatedStudentID\",studentID)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{studentusername}}{{randomNumber}}\",\n    \"firstName\": \"{{studentfirstname}}{{randomNumber}}\",\n    \"lastName\": \"{{studentlastname}}\",\n    \"email\": \"{{studentemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/course/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"course",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "50-Students_GetStudentsInCourse_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5e1069af-f4c1-4c44-bcf6-bd2a0222587c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var studentUserName=jsonData.students[0].username.toString();\r",
+									"var studentfullName=jsonData.students[0].fullName.toString();\r",
+									"var studentID=jsonData.students[0].id.toString();\r",
+									"pm.test(\"Verify student full name & Username & student ID : \"+studentfullName +\" | \"+studentUserName+\" | \"+studentID, () => {\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/students/course/{{createdCourseID}}/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"course",
+								"{{createdCourseID}}",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "51-Students_GetStudents_NotInCourse_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fbdbd249-2cb5-416b-800a-4277c0ea86e8",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var students = jsonData.students.length;\r",
+									"\r",
+									"pm.test(\"Total number of students not enrolled in course found : \"+students,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < students; i++) {\r",
+									" var stuId=jsonData.students[i].id;\r",
+									" var stuName=jsonData.students[i].fullName\r",
+									" //myList.push(orgName);\r",
+									" pm.test(\"STUDENTS NOT ENROLLED IN COURSE : [Student ID | Student Full Name  ] [ \"+stuId+\" | \"+stuName+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/students/course/{{createdCourseID}}/not-registered?search=mo",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"course",
+								"{{createdCourseID}}",
+								"not-registered"
+							],
+							"query": [
+								{
+									"key": "search",
+									"value": "mo"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "52-Students_AddStudentToCourse_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "97a8a5dc-322d-4e89-a1da-472cccec1c2c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"students\": [{\n        \"id\": \"YjRsgAt4agro\",\n        \"username\": \"teststudent4\",\n        \"firstName\": \"\",\n        \"lastName\": \"\",\n        \"email\": \"gitaumoses4@gmail.com\",\n        \"phoneNumber\": null,\n        \"profilePicture\": null,\n        \"status\": \"Pending Activation\",\n        \"fullName\": \"teststudent4\"\n    }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/{{CreatedStudentID}}/course/{{createdCourseID}}/register",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"{{CreatedStudentID}}",
+								"course",
+								"{{createdCourseID}}",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "53-Students_UnenrollStudentFromCourse_UsingCourseIDnStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "819dca69-0f8e-4ba0-9ff0-780188d7648e",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/students/course/{{createdCourseID}}/un-enroll/{{CreatedStudentID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"course",
+								"{{createdCourseID}}",
+								"un-enroll",
+								"{{CreatedStudentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "54-Student_CreateStudent_inDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "92cf7aa9-526e-47de-a85a-cf3d7c315041",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var studentUserName=jsonData.student.username.toString();\r",
+									"var studentfullName=jsonData.student.fullName.toString();\r",
+									"var studentID=jsonData.student.id.toString();\r",
+									"pm.test(\"Student full name & Username : \"+studentfullName +\" | \"+studentUserName, () => {\r",
+									"  pm.environment.set(\"CreatedStudentFullName\",studentfullName)\r",
+									"});\r",
+									"pm.test(\"Created Student ID : \"+studentID, () => {\r",
+									"  pm.environment.set(\"CreatedStudentID\",studentID)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{studentusername}}{{randomNumber}}\",\n    \"firstName\": \"{{studentfirstname}}{{randomNumber}}\",\n    \"lastName\": \"{{studentlastname}}\",\n    \"email\": \"{{studentemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "55-Student_GetStudent_inDoorwardByStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a6c7be5c-73f0-4e2e-8d63-98162ee9934e",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var studentfullName=jsonData.student.fullName.toString();\r",
+									"var studentID=jsonData.student.id.toString();\r",
+									"pm.test(\"Verify full name of student : \"+studentfullName,function () {\r",
+									"    pm.expect(studentfullName).to.eql(pm.environment.get(\"CreatedStudentFullName\"));\r",
+									"});\r",
+									"pm.test(\"Verify created ID of student : \"+studentID,function () {\r",
+									"    pm.expect(studentID).to.eql(pm.environment.get(\"CreatedStudentID\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/{{CreatedStudentID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"{{CreatedStudentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "56-Student_GetallStudents_inDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2a6fb09e-f569-461b-9662-26d9c7a0d62a",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var studentsTotal = jsonData.students.length;\r",
+									"\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Total number of students found : \"+studentsTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < studentsTotal; i++) {\r",
+									" var stuId=jsonData.students[i].id;\r",
+									" var stuFullName=jsonData.students[i].fullName\r",
+									" myList.push(stuFullName);\r",
+									" pm.test(\"Student ID & Student Full Name  : [ \"+stuId+\" ] [ \"+stuFullName+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var stuFullName=pm.environment.get(\"CreatedStudentFullName\");\r",
+									"var stuId=pm.environment.get(\"CreatedStudentID\");\r",
+									"if(myList.includes( stuFullName)) \r",
+									"{\r",
+									" pm.test(\"Created student name [ \"+stuFullName+\" | \"+stuId+ \" ] found in Doorward (Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created student name [ \"+stuFullName+ \" | \"+stuId+ \" ] not found(Unexpected Behavior/ Created student should be found) \",function () {\r",
+									"        pm.expect(stuFullName).to.eql(\"Not Found\");\r",
+									" });\r",
+									" \r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "57-Student_UpdateStudentDetails_ByStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ebee30b-aa38-46d1-91f1-38754b543678",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var message=jsonData.message.toString();\r",
+									"pm.test(\"Verify message 'Learner has been updated' \",function () {\r",
+									"    pm.expect(message).to.eql(\"Learner has been updated\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"HDStudent007\",\n    \"firstName\": \"HDSreenath\",\n    \"lastName\": \"HDMitrasenan\",\n    \"email\": \"Sreenath.Mitrasenan@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/{{CreatedStudentID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"{{CreatedStudentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "58-Student_GetUpdatedStudentDetails_ByStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "6e14f68c-a1cb-4fa6-844e-972cdc78d499",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var updatedStudentUsername=jsonData.student.username.toString();\r",
+									"pm.test(\"Verify updated user name of student : \"+updatedStudentUsername,function () {\r",
+									"    pm.expect(updatedStudentUsername).to.eql(\"HDStudent007\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/{{CreatedStudentID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"{{CreatedStudentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "59-Student_ChangeStudentsPassword_ByStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "29f410f8-acfb-487e-a7cc-9801121d0461",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var message=jsonData.message.toString();\r",
+									"pm.test(\"Verify message 'Password changed successfully' \",function () {\r",
+									"    pm.expect(message).to.eql(\"Password changed successfully. The new password has been sent on email to the learner\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"password\": \"password\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students/{{CreatedStudentID}}/changePassword",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students",
+								"{{CreatedStudentID}}",
+								"changePassword"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "CourseManagers",
+			"item": [
+				{
+					"name": "60-CrsMngr_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a66e6f77-ca4d-405c-ba2d-3f586dd29a8d",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "61-CrsMngr_CreateCourse_FirstTime_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f02d1026-f665-460e-a737-95b5fbe072b5",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var courseId=jsonData.course.id.toString();\r",
+									"var title=jsonData.course.title.toString();\r",
+									"var modTitle=jsonData.course.modules[0].title.toString();\r",
+									"pm.test(\"CourseId & Title  : [\"+courseId +\"] [\"+title+\"]\",function () {\r",
+									"    \r",
+									"});\r",
+									"pm.environment.set(\"createdCourseID\",courseId);\r",
+									"pm.environment.set(\"createdCourseTitle\",title);\r",
+									"pm.environment.set(\"createdModuleTitle\", modTitle);\r",
+									"//pm.globals.unset(\"variable_key\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{coursetitle}}{{randomNumber}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{moduletitleCC}}{{randomNumber}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "62-CrsMngr_GetlistOfCourseManagers_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7d0540d4-6b19-4965-8fc7-ce1a19520d4c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/course-managers/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"course-managers",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "63-CrsMngr_EnrollCourseManager_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1e76d33b-6651-4c7c-82f3-30c9636cce6f",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"managerId\": \"RvieSLAad9eFlggVJ1l8rgah2-yPZ\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/course-managers/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"course-managers",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Groups",
+			"item": [
+				{
+					"name": "64-Groups_CreateGroup_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ccff0b56-957f-4eb8-892f-00597b5e32e2",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test group03\",\n    \"members\": [\n        \"vaZhwgQ42deC4\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/groups",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "65-Groups_AddMemberToGroup_UsingGroupID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ac22d796-1e59-45ce-8303-6d2e0e1d0ebb",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"members\": [\n        \"cweun3TcDquv\"\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/groups/:groupId",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": "tOwDEKVXUsGr"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "66-Groups_GetGgroups_UsingGroupID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "a806790b-097c-4fc9-afc9-98e7c4838d8d",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "90c79168-595c-421a-9e68-d85b0855635c",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/groups/:groupId",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": "tOwDEKVXUsGr"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "67-Groups_UpdateGroup_UsingGroupID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "fb3b27fe-3fd8-4423-ab3d-14a53b6c30ad",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"test group\",\n    \"members\": [\"vaZhwgQ42deC\", \"cweun3TcDquv\", \"cweun3TcDquv\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/groups/:groupId",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"groups",
+								":groupId"
+							],
+							"variable": [
+								{
+									"key": "groupId",
+									"value": "tOwDEKVXUsGr"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "68-Groups_GetAllGroups_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "231bc35c-417a-4214-84cf-428d49af886d",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var groupsTotal = jsonData.groups.length;\r",
+									"pm.test(\"Total number of groups found : \"+groupsTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < groupsTotal; i++) {\r",
+									" var groupId=jsonData.groups[i].id;\r",
+									" var groupName=jsonData.groups[i].name;\r",
+									" myList.push(groupName);\r",
+									" pm.test(\"Group Name & Group ID  : [ \"+groupName+\" ] [ \"+groupId+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"// Implement after service 64 is working, this is an additional verification step for service 64\r",
+									"/*\r",
+									"var fileName=pm.environment.get(\"createdFileName\");\r",
+									"var fileId=pm.environment.get(\"createdFileID\");\r",
+									"if(myList.includes( fileName)) \r",
+									"{\r",
+									" pm.test(\"Created file name [ \"+fileName+\" | \"+fileId+ \" ] found in Doorward (Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created file name [ \"+stuFullName+ \" | \"+stuId+ \" ] not found(Unexpected Behavior/ Created file should be found) \",function () {\r",
+									"        pm.expect(fileName).to.eql(\"Not Found\");\r",
+									" });\r",
+									"  \r",
+									"}\r",
+									"*/\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/groups",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Jitsi",
+			"item": [
+				{
+					"name": "69-JITSIBranding_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ec92ed6-1d0b-4fa7-a6b2-e385a5f12b7a",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/jitsi/branding",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"jitsi",
+								"branding"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Files",
+			"item": [
+				{
+					"name": "70-Files_CreateFile_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "7dbaa94f-45e9-47bc-8494-8a12035173c6",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var fileId=jsonData.file.id.toString();\r",
+									"var fileName=jsonData.file.name.toString();\r",
+									"pm.test(\"Created FileID & Name   : [\"+fileId +\"] [\"+fileName+\"]\",function () {\r",
+									"    pm.environment.set(\"createdFileID\",fileId);\r",
+									"    pm.environment.set(\"createdFileName\",fileName);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"{{filename}}{{randomNumber}}\",\n    \"publicUrl\": \"https://assignment.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/files",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"files"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "71-Files_GetSingleFile_ByFileID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c689d9a3-4653-4503-9d2c-ba6993559367",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var fileId=jsonData.file.id.toString();\r",
+									"var fileName=jsonData.file.name.toString();\r",
+									"var storedFileName=pm.environment.get(\"createdFileName\").toString();\r",
+									"var storedFileID=pm.environment.get(\"createdFileID\").toString();\r",
+									"pm.test(\"Created File Name verified  : [\"+fileName+\"]\",function () {\r",
+									"   pm.expect(fileName).to.eql(storedFileName);\r",
+									"});\r",
+									"pm.test(\"Created File ID verified  : [\"+fileId+\"]\",function () {\r",
+									"  pm.expect(fileId).to.eql(storedFileID);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/files/{{createdFileID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"files",
+								"{{createdFileID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "72-Files_GetAllFiles_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "17966b89-8ff4-43b8-aaf4-1dd1a1aa5662",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var filesTotal = jsonData.files.length;\r",
+									"pm.test(\"Total number of files found : \"+filesTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < filesTotal; i++) {\r",
+									" var fileId=jsonData.files[i].id;\r",
+									" var fileName=jsonData.files[i].name;\r",
+									" myList.push(fileName);\r",
+									" pm.test(\"File Name & File ID  : [ \"+fileName+\" ] [ \"+fileId+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var fileName=pm.environment.get(\"createdFileName\");\r",
+									"var fileId=pm.environment.get(\"createdFileID\");\r",
+									"if(myList.includes( fileName)) \r",
+									"{\r",
+									" pm.test(\"Created file name [ \"+fileName+\" | \"+fileId+ \" ] found in Doorward (Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created file name [ \"+stuFullName+ \" | \"+stuId+ \" ] not found(Unexpected Behavior/ Created file should be found) \",function () {\r",
+									"        pm.expect(fileName).to.eql(\"Not Found\");\r",
+									" });\r",
+									" \r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/files",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"files"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Teachers",
+			"item": [
+				{
+					"name": "73-Teachers_CreateTeacher_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d8203f36-977b-4254-89eb-1d9b774adeb8",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var teacherUname=jsonData.teacher.username.toString();\r",
+									"var teacherFullname=jsonData.teacher.fullName.toString();\r",
+									"var teacherID=jsonData.teacher.id.toString();\r",
+									"var message=jsonData.message.toString();\r",
+									"pm.test(\"Teacher Created with UserName  : [\"+teacherUname+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherUserName\",teacherUname);\r",
+									"});\r",
+									"pm.test(\"Created Teacher Details Name & ID : [\"+teacherFullname+\"] [\"+teacherID+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherName\",teacherFullname);\r",
+									"   pm.environment.set(\"CreatedTeacherID\",teacherID);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify success message 'Teacher has been created' \",function () {\r",
+									"   pm.expect(message).to.eql(\"Teacher has been created.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{teacherusername}}{{randomNumber}}\",\n    \"firstName\": \"{{teacherfirstname}}\",\n    \"lastName\": \"{{teacherlastname}}\",\n    \"email\": \"{{teacheremail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/teachers",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "74-Teachers_GetAllTeachers_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "903f558d-65e1-4656-b6ec-6cc64703a5f0",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var teachersTotal = jsonData.teachers.length;\r",
+									"pm.test(\"Total number of teachers found : \"+teachersTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < teachersTotal; i++) {\r",
+									" var teacherId=jsonData.teachers[i].id;\r",
+									" var teacherName=jsonData.teachers[i].fullName;\r",
+									" myList.push(teacherName);\r",
+									" pm.test(\"Teacher Name &  ID  : [ \"+teacherName+\" ] [ \"+teacherId+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"var tName=pm.environment.get(\"CreatedTeacherName\");\r",
+									"var tId=pm.environment.get(\"CreatedTeacherID\");\r",
+									"if(myList.includes(tName)) \r",
+									"{\r",
+									" pm.test(\"Created teacher name [ \"+tName+\" | \"+tId+ \" ] found in Doorward (Expected Behavior)\",function () {});\r",
+									"}\r",
+									"else {\r",
+									" pm.test(\"Created teacher name [ \"+tName+ \" | \"+tId+ \" ] not found(Unexpected Behavior/ Created teacher should be found) \",function () {\r",
+									"        pm.expect(tName).to.eql(\"Not Found\");\r",
+									" });\r",
+									" \r",
+									"\r",
+									"}\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/teachers",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "75-Teachers_CreateTeacherFreeTrial_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e98de7b5-30b2-4a97-9858-9a5171b0d272",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var teacherUname=jsonData.teacher.username.toString();\r",
+									"var teacherFullname=jsonData.teacher.fullName.toString();\r",
+									"var teacherID=jsonData.teacher.id.toString();\r",
+									"var message=jsonData.message.toString();\r",
+									"pm.test(\"Teacher Created with UserName  : [\"+teacherUname+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherUserName\",teacherUname);\r",
+									"});\r",
+									"pm.test(\"Created Teacher Details Name & ID : [\"+teacherFullname+\"] [\"+teacherID+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherName\",teacherFullname);\r",
+									"   pm.environment.set(\"CreatedTeacherID\",teacherID);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify success message 'Teacher has been created' \",function () {\r",
+									"   pm.expect(message).to.eql(\"Teacher has been created.\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{teacherusername}}{{randomNumberX}}\",\n    \"firstName\": \"{{teacherfirstname}}\",\n    \"lastName\": \"{{teacherlastname}}{{randomNumberX}}\",\n    \"email\": \"{{teacheremail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/teachers/freeTrial",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"teachers",
+								"freeTrial"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Reports",
+			"item": [
+				{
+					"name": "76-Student_CreateStudent_inDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8b3ecd05-9fde-4033-84a8-0ec87930e8f5",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var studentUserName=jsonData.student.username.toString();\r",
+									"var studentfullName=jsonData.student.fullName.toString();\r",
+									"var studentID=jsonData.student.id.toString();\r",
+									"pm.test(\"Student full name & Username : \"+studentfullName +\" | \"+studentUserName, () => {\r",
+									"  pm.environment.set(\"CreatedStudentFullName\",studentfullName)\r",
+									"});\r",
+									"pm.test(\"Created Student ID : \"+studentID, () => {\r",
+									"  pm.environment.set(\"CreatedStudentID\",studentID)\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{studentusername}}{{randomNumber}}\",\n    \"firstName\": \"{{studentfirstname}}{{randomNumber}}\",\n    \"lastName\": \"{{studentlastname}}\",\n    \"email\": \"{{studentemail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/students",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "77-Teachers_CreateTeacher_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "f4b29f5c-0fd7-4022-afd8-f5c928c0cba8",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var teacherUname=jsonData.teacher.username.toString();\r",
+									"var teacherFullname=jsonData.teacher.fullName.toString();\r",
+									"var teacherID=jsonData.teacher.id.toString();\r",
+									"var message=jsonData.message.toString();\r",
+									"pm.test(\"Teacher Created with UserName  : [\"+teacherUname+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherUserName\",teacherUname);\r",
+									"});\r",
+									"pm.test(\"Created Teacher Details Name & ID : [\"+teacherFullname+\"] [\"+teacherID+\"]\",function () {\r",
+									"   pm.environment.set(\"CreatedTeacherName\",teacherFullname);\r",
+									"   pm.environment.set(\"CreatedTeacherID\",teacherID);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify success message 'Teacher has been created' \",function () {\r",
+									"   pm.expect(message).to.eql(\"Teacher has been created.\");\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{teacherusername}}{{randomNumber}}\",\n    \"firstName\": \"{{teacherfirstname}}\",\n    \"lastName\": \"{{teacherlastname}}\",\n    \"email\": \"{{teacheremail}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/teachers",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "78-Reports_GetStudentsReport_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "e5d0b673-66d8-44cd-ac82-2cab8df54381",
+								"exec": [
+									"var jsonData = pm.response.json();\r",
+									"var studentsTotal = jsonData.students.length;\r",
+									"\r",
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"pm.test(\"Total number of student reports found : \"+studentsTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < studentsTotal; i++) {\r",
+									" var stuId=jsonData.students[i].id;\r",
+									" var stuFullName=jsonData.students[i].fullName\r",
+									" myList.push(stuFullName);\r",
+									" pm.test(\"Student ID & Student Full Name  : [ \"+stuId+\" ] [ \"+stuFullName+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jennifermoko10\",\n    \"firstName\": \"Moses\",\n    \"lastName\": \"Gitau\",\n    \"email\": \"gitaumoses4@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/reports/students",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"reports",
+								"students"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "79-Reports_GetTeachersReport_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "1bfb23ea-6140-4d94-924a-51543634d11e",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var teachersTotal = jsonData.teachers.length;\r",
+									"pm.test(\"Total number of teachers reports found : \"+teachersTotal,function () {\r",
+									"    \r",
+									"});\r",
+									"\r",
+									"var i;\r",
+									"var myList=[];\r",
+									"for (i = 0; i < teachersTotal; i++) {\r",
+									" var teacherId=jsonData.teachers[i].id;\r",
+									" var teacherName=jsonData.teachers[i].fullName;\r",
+									" myList.push(teacherName);\r",
+									" pm.test(\"Teacher Name &  ID  : [ \"+teacherName+\" ] [ \"+teacherId+\"]\",function () {\r",
+									"\r",
+									"});\r",
+									"}\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jennifermoko10\",\n    \"firstName\": \"Moses\",\n    \"lastName\": \"Gitau\",\n    \"email\": \"gitaumoses4@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/reports/teachers",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"reports",
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "80-Reports_GetSingleStudentReport_UsingStudentID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "be3069fa-936b-4e0c-b3b9-195cb492dccd",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var studentfullName=jsonData.student.fullName.toString();\r",
+									"var studentID=jsonData.student.id.toString();\r",
+									"\r",
+									"pm.test(\"Verify created student records(Name & ID) exists in Doorward report [ \"+studentfullName+\" ][ \"+studentID+\" ]\",function () {\r",
+									"   pm.expect(studentfullName).to.eql(pm.environment.get(\"CreatedStudentFullName\"));\r",
+									"   pm.expect(studentID).to.eql(pm.environment.get(\"CreatedStudentID\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jennifermoko10\",\n    \"firstName\": \"Moses\",\n    \"lastName\": \"Gitau\",\n    \"email\": \"gitaumoses4@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/reports/students/{{CreatedStudentID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"reports",
+								"students",
+								"{{CreatedStudentID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "81-Reports_GetSingleTeacherReport_UsingteacherID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "37fecbf3-ec37-40ba-a2f0-ecba6bdd1091",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"\r",
+									"var teacherFullname=jsonData.teacher.fullName.toString();\r",
+									"var teacherID=jsonData.teacher.id.toString();\r",
+									"\r",
+									"pm.test(\"Verify created teacher records(Name & ID) exists in Doorward report [ \"+teacherFullname+\" ][ \"+teacherID+\" ]\",function () {\r",
+									"   pm.expect(teacherFullname).to.eql(pm.environment.get(\"CreatedTeacherName\"));\r",
+									"   pm.expect(teacherID).to.eql(pm.environment.get(\"CreatedTeacherID\"));\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jennifermoko10\",\n    \"firstName\": \"Moses\",\n    \"lastName\": \"Gitau\",\n    \"email\": \"gitaumoses4@gmail.com\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/reports/teachers/{{CreatedTeacherID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"reports",
+								"teachers",
+								"{{CreatedTeacherID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Discussion-groups",
+			"item": [
+				{
+					"name": "82-DG_LoginDoorward_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c35b6177-607c-407a-be7d-bdf9f98cfcf6",
+								"exec": [
+									"let loginResponse = JSON.parse(responseBody);",
+									"var jsonData = pm.response.json();",
+									"var uname=jsonData.user.username.toString();",
+									"var email=jsonData.user.email.toString();",
+									"if( loginResponse ){",
+									"    postman.setEnvironmentVariable(\"jwtToken\", loginResponse.token);",
+									"}",
+									"pm.test(\"Response success expected\", () => {",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);",
+									"});",
+									"pm.test(\"Verify admin username : \"+uname,function () {",
+									"    pm.expect(uname).to.eql(pm.iterationData.get(\"username\"));",
+									"});",
+									"pm.test(\"Verify admin email : \"+email,function () {",
+									"    pm.expect(email).to.eql(pm.iterationData.get(\"email\"));",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"{{username}}\",\n    \"password\": \"{{password}}\",\n    \"email\": \"{{email}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/auth/login",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "83-DG_CreateCourse_FirstTime_WithAdminCredentials",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d3e2358a-bd80-4a46-8d34-6f680520ece2",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var courseId=jsonData.course.id.toString();\r",
+									"var title=jsonData.course.title.toString();\r",
+									"var modTitle=jsonData.course.modules[0].title.toString();\r",
+									"pm.test(\"CourseId & Title  : [\"+courseId +\"] [\"+title+\"]\",function () {\r",
+									"    \r",
+									"});\r",
+									"pm.environment.set(\"createdCourseID\",courseId);\r",
+									"pm.environment.set(\"createdCourseTitle\",title);\r",
+									"pm.environment.set(\"createdModuleTitle\", modTitle);\r",
+									"pm.globals.unset(\"variable_key\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{coursetitle}}{{randomNumber}}\",\n    \"modules\": [\n        {\n            \"title\": \"{{moduletitleCC}}{{randomNumber}}\"\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/courses/",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"courses",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "84-DG_CreateDiscussionGroupInCourse_UsingCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "81c6be83-0228-400a-99a5-b3516ec6ff3f",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var dgMessage=jsonData.message.toString();\r",
+									"var dgId=jsonData.discussionGroup.id.toString();\r",
+									"var dgDescription=jsonData.discussionGroup.description.toString();\r",
+									"\r",
+									"pm.test(\"Verify success 'Discussion group has been added.' : \",function () {\r",
+									"    pm.expect(dgMessage).to.eql(\"Discussion group has been added.\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Created Discussion group ID & Description [ \"+dgId+\" ] [ \"+dgDescription+\" ]\",function () {\r",
+									"    pm.environment.set(\"CreatedDiscussionGroupID\",dgId);\r",
+									"    pm.environment.set(\"CreatedDiscussionGroupDescription\",dgDescription);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"{{dgtitle}}{{randomNumber}}\",\n    \"description\": \"{{dgdescription}}{{randomNumberX}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/discussion-groups/course/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"discussion-groups",
+								"course",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "85-DG_GetDiscussionGroupDetails_ByCourseID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "5d73c8e5-f012-4d40-a9fd-9f308efeb7c1",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"var dgId=jsonData.discussionGroups[0].id.toString();\r",
+									"var dgDescription=jsonData.discussionGroups[0].description.toString();\r",
+									"\r",
+									"pm.test(\"Verify discussion group  ID created [ \"+ dgId+\" ]\",function () {\r",
+									"    pm.expect(dgId).to.eql(pm.environment.get(\"CreatedDiscussionGroupID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify discussion group  description created [ \"+dgDescription+\" ]\",function () {\r",
+									"    pm.expect(dgDescription).to.eql(pm.environment.get(\"CreatedDiscussionGroupDescription\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/discussion-groups/course/{{createdCourseID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"discussion-groups",
+								"course",
+								"{{createdCourseID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "86-DG_PostCommentInDiscussionGroup_ByDiscussionID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4d826dcd-b392-47ab-b7a9-055e277527f7",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var dgId=jsonData.discussionComment.discussionGroup.id.toString();\r",
+									"var dgComment=jsonData.discussionComment.comment.toString();\r",
+									"var dgCommentID=jsonData.discussionComment.id.toString();\r",
+									"\r",
+									"pm.test(\"Verify discussion group  ID created [ \"+ dgId+\" ]\",function () {\r",
+									"    pm.expect(dgId).to.eql(pm.environment.get(\"CreatedDiscussionGroupID\"));\r",
+									"});\r",
+									"pm.test(\"Store comment & comment ID generated from discussion group [ \"+dgComment+\" ][ \"+dgCommentID+\" ]\",function () {\r",
+									"    pm.environment.set(\"CreatedDiscussionnGroupComment\",dgComment);\r",
+									"    pm.environment.set(\"CreatedDiscussionnGroupCommentID\",dgCommentID);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"comment\": \"{{dgcomment}}{{randomNumberX}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/discussion-groups/post/{{CreatedDiscussionGroupID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"discussion-groups",
+								"post",
+								"{{CreatedDiscussionGroupID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "87-DG_GetDiscussionGroupDetails_ByDiscussionGroupID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "45270fde-2070-4219-9b8f-5f69705b1d0c",
+								"exec": [
+									"pm.test(\"Response success expected\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});\r",
+									"var jsonData = pm.response.json();\r",
+									"var dgId=jsonData.discussionGroup.id.toString();\r",
+									"var dgComment=jsonData.discussionGroup.comments[0].comment.toString();\r",
+									"var dgCommentID=jsonData.discussionGroup.comments[0].id.toString();\r",
+									"\r",
+									"pm.test(\"Verify discussion group id created [ \"+ dgId+\" ]\",function () {\r",
+									"    pm.expect(dgId).to.eql(pm.environment.get(\"CreatedDiscussionGroupID\"));\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Verify discussion group comment created [ \"+ dgComment+\" ]\",function () {\r",
+									"    pm.expect(dgComment).to.eql(pm.environment.get(\"CreatedDiscussionnGroupComment\"));\r",
+									"});\r",
+									"pm.test(\"Verify discussion group comment id created [ \"+ dgCommentID+\" ]\",function () {\r",
+									"    pm.expect(dgCommentID).to.eql(pm.environment.get(\"CreatedDiscussionnGroupCommentID\"));\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{urlQAT}}/discussion-groups/view/{{CreatedDiscussionGroupID}}",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"discussion-groups",
+								"view",
+								"{{CreatedDiscussionGroupID}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "HealthCheck",
+			"item": [
+				{
+					"name": "88-HealthCheckReport_InDoorward",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "ec530b89-b85d-42e1-96b9-d3f3e580f332",
+								"exec": [
+									"pm.test(\"Response success expected, Health check is Good\", () => {\r",
+									"  pm.expect(pm.response.code).to.be.oneOf([201,200]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{urlQAT}}/health-check",
+							"host": [
+								"{{urlQAT}}"
+							],
+							"path": [
+								"health-check"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"auth": {
@@ -1913,7 +4600,8 @@
 				"type": "text/javascript",
 				"exec": [
 					"pm.environment.set(\"urlQAT\",\"https://thala.develop.doorward.org/api/v1\");",
-					"pm.environment.set('randomNumber', _.random(10, 99));",
+					"pm.environment.set('randomNumber', _.random(100, 999));",
+					"pm.environment.set('randomNumberX', _.random(1000, 2000));",
 					""
 				]
 			}
