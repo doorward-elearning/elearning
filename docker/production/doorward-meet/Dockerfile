@@ -6,7 +6,7 @@ LABEL APPLICATION="doorward"
 RUN npm install -g serve
 
 COPY /apps/jitsi-meet/dist /usr/app
-COPY /docker/production/doorward-meet/entrypoint.sh /usr/app
+COPY docker/production/doorward-meet/entrypoint.sh /usr/app
 
 EXPOSE 5000
 

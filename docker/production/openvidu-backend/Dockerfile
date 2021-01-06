@@ -1,6 +1,6 @@
 ARG APP_VERSION=1.0.0
 
-FROM doorward:$APP_VERSION
+FROM core.harbor.doorward.tech/doorward/doorward:$APP_VERSION
 
 EXPOSE 7000
 
