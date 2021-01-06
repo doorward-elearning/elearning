@@ -1,20 +1,20 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import './Chat.scss';
 import classNames from 'classnames';
 import ConversationList from '../components/ConversationList';
 import ConversationFrame from '../components/ConversationFrame';
 import { ChatMessage, Conversation, Recipient } from '@doorward/chat/types';
 import NewChat from '@doorward/chat/components/NewChat';
-import useAction from '@doorward/ui/hooks/useActions';
-import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
-import WebSocketComponent from '@doorward/ui/components/WebSocketComponent';
-import { ChatMessageTypes } from '@doorward/chat/chat.message.types';
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
 import UserEntity from '@doorward/common/entities/user.entity';
 import NewGroup from '../components/NewGroup';
 import GroupEntity from '@doorward/common/entities/group.entity';
+import { UseBaseRoutes } from '@doorward/ui/hooks/useBaseRoutes';
+import { RouteNames } from '@doorward/ui/types';
+import useQueryParams from '@doorward/ui/hooks/useQueryParams';
+import useAction from '@doorward/ui/hooks/useActions';
+import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import useApiAction from '@doorward/ui/hooks/useApiAction';
-import { addNewMessage, sendNewMessage, updateExistingMessage } from '@doorward/chat/Chat/functions';
 
 export interface ChatContextType {
   currentUser: UserEntity;
@@ -22,16 +22,21 @@ export interface ChatContextType {
   currentConversation: Conversation;
   newChat: boolean;
   newGroupChat: boolean;
-  setCurrentConversation: (conversationIndex: string) => void;
+  setCurrentConversation: (conversation: Conversation) => void;
   startNewChat: (open: boolean) => void;
   startNewGroupChat: (open: boolean) => void;
   contacts: Array<Recipient>;
+  setContacts: (contacts: Array<Recipient>) => void;
   groups: Array<GroupEntity>;
   setGroups: (groups: Array<GroupEntity>) => void;
   sendMessage: (message: string) => void;
   newMessage: (conversationId: string, message: ChatMessage) => void;
   setConversations: (conversations: Array<Conversation>) => void;
   updateMessage: (messageIds: Array<string>, data: Partial<ChatMessage>) => ChatMessage;
+  currentConversationId: string;
+  setCurrentConversationId: (currentConversationId: string) => void;
+  unreadMessages: Array<ChatMessage>;
+  setUnreadMessages: (messages: Array<ChatMessage>) => void;
 }
 
 export const ChatContext = React.createContext<ChatContextType>({
@@ -50,22 +55,42 @@ export const ChatContext = React.createContext<ChatContextType>({
   startNewGroupChat: () => {},
   groups: [],
   setGroups: (groups: Array<GroupEntity>) => {},
+  currentConversationId: null,
+  setCurrentConversationId: () => {},
+  setContacts: () => {},
+  unreadMessages: [],
+  setUnreadMessages: () => {},
 });
 
-const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
-  const [currentConversation, setCurrentConversation] = useState<Conversation>();
-  const [currentConversationId, setCurrentConversationId] = useState();
-  const [conversations, setConversations] = useState(props.conversations);
-  const [newChat, startNewChat] = useState(false);
-  const [contacts, setContacts] = useState([]);
-  const [newGroupChat, startNewGroupChat] = useState(false);
-  const [groups, setGroups] = useState([]);
+function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
+  const {
+    newChat,
+    newGroupChat,
+    setContacts,
+    setCurrentConversation,
+    setCurrentConversationId,
+    currentConversationId,
+    setGroups,
+    conversations,
+  } = useContext(ChatContext);
+
+  const queryParams = useQueryParams<{ conversation: string }>();
 
   const fetchContacts = useAction(DoorwardChatApi.contacts.getContacts, {
     onSuccess: (data) => {
       setContacts(data.contacts);
     },
   });
+
+  useEffect(() => {
+    if (queryParams.query.conversation) {
+      setCurrentConversationId(queryParams.query.conversation);
+    }
+  }, [queryParams.query.conversation]);
+
+  useEffect(() => {
+    queryParams.updateLocation({ conversation: currentConversationId });
+  }, [currentConversationId]);
 
   const fetchGroups = useApiAction(DoorwardChatApi, 'contacts', 'getGroupContacts', {
     onSuccess: (data) => {
@@ -79,93 +104,36 @@ const Chat: React.FunctionComponent<ChatProps> = (props): JSX.Element => {
     }
   }, [currentConversationId, conversations]);
 
-  const newMessage = useCallback(
-    (conversationId: string, message: ChatMessage) =>
-      addNewMessage(
-        conversations,
-        setConversations,
-        currentConversation,
-        setCurrentConversation,
-        conversationId,
-        message
-      ),
-    [conversations, currentConversation]
-  );
-
-  const sendMessage = useCallback(
-    (socket: SocketIOClient.Socket, message: string) =>
-      sendNewMessage(props.auth.user.id, currentConversation, newMessage, socket, message),
-    [currentConversation, newMessage]
-  );
-
-  const updateMessage = useCallback(
-    (messageIds: Array<string>, data: Partial<ChatMessage>) =>
-      updateExistingMessage(conversations, setConversations, messageIds, data),
-    [conversations, setConversations]
-  );
-
   useEffect(() => {
     fetchContacts();
     fetchGroups.action();
   }, []);
 
-  return props.auth.user ? (
-    <WebSocketComponent
-      endpoint={process.env.REACT_APP_CHAT_WEBSOCKET_URL}
-      initialize={(socket) => {
-        socket.emit(ChatMessageTypes.INITIALIZE, {
-          userId: props.auth.user.id,
-        });
-      }}
+  return (
+    <div
+      className={classNames({
+        'ed-chat': true,
+        single: props.conversations.length === 1,
+        [props.size || 'large']: true,
+      })}
     >
-      {(socket) => {
-        return (
-          <ChatContext.Provider
-            value={{
-              currentUser: props.auth.user,
-              conversations,
-              currentConversation,
-              setCurrentConversation: setCurrentConversationId,
-              newChat,
-              startNewChat,
-              contacts,
-              setConversations,
-              sendMessage: (message) => sendMessage(socket, message),
-              newMessage,
-              updateMessage,
-              newGroupChat,
-              startNewGroupChat,
-              groups,
-              setGroups,
-            }}
-          >
-            <div
-              className={classNames({
-                'ed-chat': true,
-                single: props.conversations.length === 1,
-                [props.size || 'large']: true,
-              })}
-            >
-              <div className="ed-chat-sidebar">
-                <ConversationList />
-                <NewChat open={newChat} />
-                <NewGroup open={newGroupChat} />
-              </div>
-              <ConversationFrame />
-            </div>
-          </ChatContext.Provider>
-        );
-      }}
-    </WebSocketComponent>
-  ) : null;
-};
+      <div className="ed-chat-sidebar">
+        <ConversationList />
+        <NewChat open={newChat} />
+        <NewGroup open={newGroupChat} />
+      </div>
+      <ConversationFrame />
+    </div>
+  );
+}
 
-export interface ChatProps {
+export interface ChatProps<T extends RouteNames> {
   conversations: Array<Conversation>;
   contacts?: Array<Recipient>;
   currentConversation?: Conversation;
   size?: 'small' | 'medium' | 'large';
   auth: UseAuth;
+  routes: UseBaseRoutes<T>;
 }
 
 export default Chat;

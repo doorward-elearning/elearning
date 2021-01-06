@@ -484,5 +484,6 @@
   "newGroupChat": "New group chat",
   "searchGroups": "Search groups",
   "memberCount": "{{count}} member",
-  "memberCount_plural": "{{count}} members"
+  "memberCount_plural": "{{count}} members",
+  "you": "you"
 }

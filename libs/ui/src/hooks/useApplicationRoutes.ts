@@ -1,14 +1,19 @@
 import { RouteDefinition, RouteDefinitions, RouteNames } from '@doorward/ui/types';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useHistory, useLocation, useRouteMatch } from 'react-router';
 
 export interface UseApplicationRoutes<T extends RouteNames> {
-  navigate: (route: RouteDefinition<T>, params?: { [name: string]: string | undefined }) => void;
+  navigate: (
+    route: RouteDefinition<T>,
+    params?: { [name: string]: string | undefined },
+    query?: { [name: string]: string | undefined }
+  ) => void;
   currentRoute?: keyof T;
 }
 
 function useApplicationRoutes<T extends RouteNames>(routes: RouteDefinitions<T>): UseApplicationRoutes<T> {
   const history = useHistory();
   const match: any = useRouteMatch();
+  const location = useLocation();
 
   const tree = (Object.keys(routes) as Array<keyof T>).find((route) => {
     const detail = routes[route];
@@ -23,8 +28,22 @@ function useApplicationRoutes<T extends RouteNames>(routes: RouteDefinitions<T>)
     return false;
   });
 
-  const navigate = (route: RouteDefinition<T>, params = {}, query: string = ''): void => {
-    history.push(route.withParams(params) + query);
+  const navigate = (route: RouteDefinition<T>, params = {}, query = {}): void => {
+    const queryParams = new URLSearchParams(location.search);
+
+    Object.keys(query).forEach((key) => {
+      if (query[key]) {
+        queryParams.set(key, query[key]);
+      }
+    });
+
+    let url = route?.withParams ? route.withParams(params) : '';
+
+    if (queryParams.toString()) {
+      url += '?' + queryParams.toString();
+    }
+
+    history.push(url);
   };
 
   return {

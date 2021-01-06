@@ -44,7 +44,10 @@ export default class ChatMessageActivityRepository extends ModelRepository<ChatM
 
   public async readMessage(messageId: string, userId: string) {
     const messageRepository = this.getRepository(ChatMessageEntity);
-    const message = await messageRepository.findOne(messageId);
+    const message = await messageRepository.findOne({
+      where: { id: messageId, sender: { id: Not(userId) } },
+    });
+
     if (message.status === MessageStatus.DELIVERED) {
       const activity = await this.findOrCreateActivity(messageId, userId);
       if (!activity.readAt) {
@@ -67,7 +70,9 @@ export default class ChatMessageActivityRepository extends ModelRepository<ChatM
 
   public async deliverMessage(messageId: string, userId: string) {
     const messageRepository = this.getRepository(ChatMessageEntity);
-    const message = await messageRepository.findOne(messageId);
+    const message = await messageRepository.findOne({
+      where: { id: messageId, sender: { id: Not(userId) } },
+    });
     if (message.status === MessageStatus.SENT) {
       const activity = await this.findOrCreateActivity(messageId, userId);
       if (!activity.deliveredAt) {
