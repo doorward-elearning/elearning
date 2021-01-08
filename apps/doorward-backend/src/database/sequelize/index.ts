@@ -6,7 +6,7 @@ import * as colors from 'colors';
 
 const connect = async () => {
   const connectionManager = new ConnectionManager();
-  const connection = await connectionManager.create(ormconfig);
+  const connection = await connectionManager.create(ormconfig as any);
 
   await connection.connect();
 
@@ -52,7 +52,7 @@ const convertMigrations = async () => {
     await queryRunner.query(`DROP TABLE "SequelizeMeta"`);
   }
 
-  await connectionManager.get().close();
+  await queryRunner.close();
 };
 
 convertMigrations().then(() => {

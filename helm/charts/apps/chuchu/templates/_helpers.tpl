@@ -75,6 +75,19 @@ thala.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech//{{- .V
 {{- end -}}
 {{- end -}}
 
+{{/*
+Create the public UR for Chat Api. Defaults to chat.customer-name.doorward.tech, but user can override it by passing chat_domain.
+We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
+If release name contains chart name it will be used as a full name.
+*/}}
+{{- define "chuchu.chatpublicurl" -}}
+{{- if .Values.chat_domain -}}
+{{- .Values.chat_domain | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+chat.{{- .Values.customer | trunc 63 | trimSuffix "-" -}}.doorward.tech//{{- .Values.customer -}}/{{- .Values.api.chaturi -}}/api/v1/
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 Create the public UR for chuchu. Defaults to customer-name.doorward.tech, but user can override it by passing app_url.

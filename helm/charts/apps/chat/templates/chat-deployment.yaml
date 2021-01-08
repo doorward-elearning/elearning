@@ -71,6 +71,11 @@ spec:
               configMapKeyRef:
                 key: DATABASE_PASSWORD
                 name: {{ .Values.customer -}}-config
+          - name: REACT_APP_BASE_URL
+            valueFrom:
+              configMapKeyRef:
+                key: REACT_APP_BASE_URL
+                name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

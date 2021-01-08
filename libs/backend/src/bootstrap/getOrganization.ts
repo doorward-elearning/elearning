@@ -3,7 +3,7 @@ import * as https from 'https';
 import { OrganizationResponse } from '@doorward/common/dtos/response';
 
 const MAX_TRIALS = 10;
-const INTERVAL = 30;
+const INTERVAL = 30_000;
 
 const getOrganization = async (baseURL: string) => {
   for (let i = 0; i < MAX_TRIALS; i++) {

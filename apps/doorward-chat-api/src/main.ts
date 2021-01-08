@@ -9,21 +9,20 @@ import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
-import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import getOrganization from '@doorward/backend/bootstrap/getOrganization';
 import ChatAdapter from './modules/chat/chat.adapter';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 const globalPrefix = process.env.CHAT_API_PREFIX;
 
 async function bootstrap() {
-  await getOrganization(process.env.REACT_APP_BASE_URL);
+  const organization = await getOrganization(process.env.REACT_APP_BASE_URL);
+  new DoorwardLogger().info('Fetched organization from ' + process.env.REACT_APP_BASE_URL + ' id: ' + organization?.id);
 
-  const app = await setUpNestApplication(AppModule);
-
-  if (process.env.NODE_ENV === 'production') {
-    app.useLogger(await app.resolve(PinoLogger));
-  }
+  const app = await setUpNestApplication(AppModule, {
+    logger: new DoorwardLogger(),
+  });
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
@@ -43,7 +42,7 @@ async function bootstrap() {
 
   app.useWebSocketAdapter(new ChatAdapter(app));
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
+  app.useGlobalFilters(new TransformExceptionFilter(new DoorwardLogger()));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();

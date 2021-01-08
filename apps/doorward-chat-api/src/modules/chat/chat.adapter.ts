@@ -1,13 +1,14 @@
 import { INestApplication, Logger } from '@nestjs/common';
 import { IoAdapter } from '@nestjs/platform-socket.io';
 import socketIO from 'socket.io';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 export default class ChatAdapter extends IoAdapter {
-  private logger: Logger;
+  private logger: DoorwardLogger;
 
   constructor(private app: INestApplication) {
     super(app);
-    this.logger = app.get(Logger);
+    this.logger = new DoorwardLogger();
   }
 
   createIOServer(port: number, options?: any): socketIO.Server {

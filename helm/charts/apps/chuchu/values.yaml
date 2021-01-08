@@ -79,6 +79,7 @@ container:
 api:
   samvadamuri: samvadam
   thalauri: thala
+  chaturi: chat
 
 app_domain: beta.doorward.tech
 classrooms_url: classrooms.doorward.tech

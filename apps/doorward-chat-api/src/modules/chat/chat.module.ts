@@ -9,6 +9,7 @@ import ConversationRepository from '@doorward/backend/repositories/conversation.
 import { GroupsModule } from '@doorward/backend/modules/groups/groups.module';
 import GroupsRepository from '@doorward/backend/repositories/groups.repository';
 import ChatMessageActivityRepository from '@doorward/backend/repositories/chat.message.activity.repository';
+import { DoorwardLoggerModule } from '@doorward/backend/modules/logging/doorward.logger.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import ChatMessageActivityRepository from '@doorward/backend/repositories/chat.m
       ChatMessageActivityRepository,
     ]),
     GroupsModule,
+    DoorwardLoggerModule,
   ],
   providers: [ChatGateway, ChatService],
   controllers: [ChatController],

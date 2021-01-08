@@ -1,11 +1,8 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 
 export class UpdateAssignmentTypesToBeArray1601624124733 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
-    const repository = queryRunner.manager.getRepository(AssignmentEntity);
-
-    const assignments = await repository.find();
+    const assignments = await queryRunner.manager.query('SELECT * FROM "ModuleItems" WHERE type = $1', ['Assignment']);
 
     await Promise.all(
       assignments.map(async (assignment) => {
@@ -21,9 +18,11 @@ export class UpdateAssignmentTypesToBeArray1601624124733 implements MigrationInt
         // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
         // @ts-ignore
         delete options.submissionType;
-        await repository.update(assignment.id, {
+
+        await queryRunner.manager.query('UPDATE "ModuleItems" SET options = $1 WHERE id = $2', [
           options,
-        });
+          assignment.id,
+        ]);
       })
     );
   }

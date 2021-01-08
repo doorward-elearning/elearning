@@ -48,7 +48,7 @@ export default class ChatMessageActivityRepository extends ModelRepository<ChatM
       where: { id: messageId, sender: { id: Not(userId) } },
     });
 
-    if (message.status === MessageStatus.DELIVERED) {
+    if (message && message.status === MessageStatus.DELIVERED) {
       const activity = await this.findOrCreateActivity(messageId, userId);
       if (!activity.readAt) {
         activity.readAt = new Date();
@@ -73,7 +73,7 @@ export default class ChatMessageActivityRepository extends ModelRepository<ChatM
     const message = await messageRepository.findOne({
       where: { id: messageId, sender: { id: Not(userId) } },
     });
-    if (message.status === MessageStatus.SENT) {
+    if (message && message.status === MessageStatus.SENT) {
       const activity = await this.findOrCreateActivity(messageId, userId);
       if (!activity.deliveredAt) {
         activity.deliveredAt = new Date();

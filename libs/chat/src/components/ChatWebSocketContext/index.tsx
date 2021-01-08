@@ -15,8 +15,6 @@ import useWebsocketEvent from '@doorward/ui/hooks/useWebsocketEvent';
 import useApiAction from '@doorward/ui/hooks/useApiAction';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import { NotificationsContext } from '@doorward/ui/components/Notifications';
-import { UseBaseRoutes } from '@doorward/ui/hooks/useBaseRoutes';
-import { useHistory } from 'react-router';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 
 const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> = (props): JSX.Element => {
@@ -203,5 +201,7 @@ export default (props: Omit<ChatWebSocketContextProps, 'socket'>) => {
         </ChatWebSocketContext>
       )}
     </WebSocketComponent>
-  ) : null;
+  ) : (
+    <React.Fragment>{props.children}</React.Fragment>
+  );
 };

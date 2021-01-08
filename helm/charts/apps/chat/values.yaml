@@ -36,7 +36,7 @@ securityContext: {}
 service:
   type: ClusterIP
   port: 80
-  targetport: 7000
+  targetport: 7001
   protocol: http
 
 ingress:

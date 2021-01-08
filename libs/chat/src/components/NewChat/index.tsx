@@ -19,7 +19,7 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
     setConversations,
     conversations,
     startNewGroupChat,
-    setCurrentConversation,
+    setCurrentConversationId,
   } = useContext(ChatContext);
 
   const { filtered: filteredContacts, search, setSearch } = useSearch(contacts, (search, item) =>
@@ -66,7 +66,7 @@ const NewChat: React.FunctionComponent<NewChatProps> = (props): JSX.Element => {
                 setConversations([newConversation, ...conversations]);
               }
 
-              setCurrentConversation(newConversation.id);
+              setCurrentConversationId(newConversation.id);
 
               startNewChat(false);
             }}

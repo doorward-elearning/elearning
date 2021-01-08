@@ -46,7 +46,7 @@ releases:
   - name: develop-chat
     namespace: develop-doorward
     labels:
-      stage: 3
+      stage: 4
       name: chat
     chart: ../../charts/apps/chat
     needs:
@@ -59,7 +59,7 @@ releases:
   - name: develop-chuchu
     namespace: develop-doorward
     labels:
-      stage: 4
+      stage: 5
       name: chuchu
     chart: ../../charts/apps/chuchu
     needs:

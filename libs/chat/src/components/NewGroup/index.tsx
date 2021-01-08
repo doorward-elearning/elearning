@@ -8,7 +8,6 @@ import Header from '@doorward/ui/components/Header';
 import translate from '@doorward/common/lang/translate';
 import Search from '@doorward/ui/components/Search';
 import Tools from '@doorward/common/utils/Tools';
-import EImage from '@doorward/ui/components/Image';
 
 const NewGroup: React.FunctionComponent<NewGroupProps> = (props): JSX.Element => {
   const {
@@ -17,7 +16,7 @@ const NewGroup: React.FunctionComponent<NewGroupProps> = (props): JSX.Element =>
     setConversations,
     conversations,
     startNewChat,
-    setCurrentConversation,
+    setCurrentConversationId,
   } = useContext(ChatContext);
 
   const { filtered: filteredGroups, search, setSearch } = useSearch(groups, (search, item) =>
@@ -59,7 +58,7 @@ const NewGroup: React.FunctionComponent<NewGroupProps> = (props): JSX.Element =>
                 setConversations([newConversation, ...conversations]);
               }
 
-              setCurrentConversation(newConversation.id);
+              setCurrentConversationId(newConversation.id);
 
               startNewGroupChat(false);
               startNewChat(false);

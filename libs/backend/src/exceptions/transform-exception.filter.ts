@@ -1,19 +1,27 @@
-import { ArgumentsHost, Catch, ExceptionFilter, ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+} from '@nestjs/common';
 import { Response } from 'express';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
-import { PinoLogger } from 'nestjs-pino/dist';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 @Catch(HttpException)
 @Injectable()
 export class TransformExceptionFilter implements ExceptionFilter {
-  constructor(private logger: PinoLogger) {
+  constructor(private logger: DoorwardLogger) {
     logger.setContext('ExceptionFilter');
   }
   performTransform(exception: HttpException): DApiResponse {
     console.error({ ...exception });
-    this.logger.error(exception.message);
+    this.logger.error(exception);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
     const response = exception.getResponse() as any;

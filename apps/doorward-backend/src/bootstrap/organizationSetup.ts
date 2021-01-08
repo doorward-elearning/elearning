@@ -9,7 +9,7 @@ import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
-import { ConnectionManager } from 'typeorm';
+import connectDatabase from '@doorward/backend/database/connectDatabase';
 
 const chalk = require('chalk');
 
@@ -99,9 +99,11 @@ const parseMeetingInterfaceConfig = () => {
   };
 };
 
-const organizationSetup = async (connectionManager: ConnectionManager): Promise<OrganizationEntity> => {
+const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<OrganizationEntity> => {
+  const connectionManager = await connectDatabase(entities, ormConfig);
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
+  let organization = null;
   try {
     await queryRunner.startTransaction();
 
@@ -124,7 +126,7 @@ const organizationSetup = async (connectionManager: ConnectionManager): Promise<
       console.error('Organization id is required in the "organization.json" config file');
       process.exit(1);
     }
-    let organization = entityManager.create(OrganizationEntity, {
+    organization = entityManager.create(OrganizationEntity, {
       id,
       link,
       name,
@@ -192,14 +194,14 @@ const organizationSetup = async (connectionManager: ConnectionManager): Promise<
 
     //set it as an environment variable
     process.env.ORGANIZATION_ID = ORGANIZATION.id;
-
-    return organization;
   } catch (error) {
     console.error(error);
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
+    await connection.close();
   }
+  return organization;
 };
 
 export default organizationSetup;

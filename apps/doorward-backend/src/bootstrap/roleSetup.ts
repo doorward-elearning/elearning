@@ -3,8 +3,9 @@ import * as fs from 'fs';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import compareLists from '@doorward/common/utils/compareLists';
-import { ConnectionManager, In } from 'typeorm';
+import { In } from 'typeorm';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
+import connectDatabase from '@doorward/backend/database/connectDatabase';
 
 const chalk = require('chalk').default;
 
@@ -45,7 +46,8 @@ const parseRoles = (): RolesConfig => {
   }
 };
 
-const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> => {
+const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> => {
+  const connectionManager = await connectDatabase(entities, ormConfig);
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {
@@ -65,6 +67,8 @@ const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> =
     }, []);
     const privilegeNames = privileges.map((privilege) => privilege.name);
 
+    const privilegeEntities = [];
+
     // create all the privileges if they do not exist.
     await Promise.all(
       privileges.map(async ({ name, description }) => {
@@ -75,8 +79,7 @@ const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> =
         });
 
         if (!exists) {
-          await entityManager.save(
-            PrivilegeEntity,
+          privilegeEntities.push(
             entityManager.create(PrivilegeEntity, {
               name,
               description,
@@ -85,6 +88,9 @@ const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> =
         }
       })
     );
+    await entityManager.save(privilegeEntities, {
+      transaction: false,
+    });
 
     // set up the role privileges
     await Promise.all(
@@ -136,6 +142,7 @@ const rolesSetup = async (connectionManager: ConnectionManager): Promise<void> =
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
+    await connection.close();
   }
 };
 

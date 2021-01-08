@@ -62,6 +62,16 @@ spec:
                 configMapKeyRef:
                   key: REACT_APP_BASE_URL
                   name: {{ .Values.customer -}}-config
+            - name: REACT_APP_CHAT_API_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REACT_APP_CHAT_API_URL
+                  name: {{ .Values.customer -}}-config
+            - name: REACT_APP_CHAT_WEBSOCKET_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: REACT_APP_CHAT_WEBSOCKET_URL
+                  name: {{ .Values.customer -}}-config
             - name: REACT_APP_OPENVIDU_URL
               valueFrom:
                 configMapKeyRef:

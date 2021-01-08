@@ -38,7 +38,7 @@ build-all:
 	@ docker push core.harbor.doorward.tech/doorward/swagat:${APP_VERSION}
 	@ docker push core.harbor.doorward.tech/doorward/chat:${APP_VERSION}
 
-build: build-chuchu build-thala
+build: build-chuchu build-thala build-chat
 
 build-chuchu:
 	@ ${INFO} "Building [chuchu] image."
