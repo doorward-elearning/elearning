@@ -1,6 +1,5 @@
 import { Action as ReduxAction, AnyAction, Reducer } from 'redux';
 import { ApiCall, ApiError } from '../services/services';
-import { PaginatedResponse, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
 export type SagaFunction = () => IterableIterator<any>;
 

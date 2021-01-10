@@ -644,6 +644,12 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     },
   },
   "userProfile": {
+    getUserProfile: (username: string, config ? : AxiosRequestConfig): Promise < UserResponse > => {
+      return GET(`/users/profile/${username}`, {}, {
+        ...(config || {}),
+        ...defaultConfig
+      });
+    },
     updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < UserResponse > => {
       return PUT(`/users/profile/account`, body, {}, {
         ...(config || {}),

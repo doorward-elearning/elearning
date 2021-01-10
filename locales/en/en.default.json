@@ -485,5 +485,6 @@
   "searchGroups": "Search groups",
   "memberCount": "{{count}} member",
   "memberCount_plural": "{{count}} members",
-  "you": "you"
+  "you": "you",
+  "userProfile": "{{user}} profile"
 }

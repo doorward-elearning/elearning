@@ -1,7 +1,7 @@
 import { Action, WebComponentState } from '@doorward/ui/reducers/reducers';
 import useAction from '@doorward/ui/hooks/useActions';
 import { useSelector } from 'react-redux';
-import { Api, ApiActions, EndpointData } from '@doorward/ui/reducers/apiReducer';
+import { Api, ApiEndpointDefinition, ApiReducerContext, EndpointData } from '@doorward/ui/reducers/apiReducer';
 
 function useApiAction<
   T extends Api,
@@ -9,21 +9,18 @@ function useApiAction<
   Endpoint extends keyof T[Group],
   TSelected extends WebComponentState<EndpointData<T[Group][Endpoint]>>
 >(
-  api: ApiActions<T>,
-  group: Group,
-  endpoint: Endpoint,
+  api: ApiReducerContext<T>,
+  getEndpoint: (api: ApiEndpointDefinition<T>) => [Group, Endpoint],
   actionParams?: { [n in keyof Action]?: any }
 ): {
   action: (...args: Parameters<T[Group][Endpoint]>) => Action;
   state: TSelected;
 } {
-  const actionCreator = useAction(api[group][endpoint], actionParams);
+  const [group, endpoint] = getEndpoint(api.endpoints);
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  const apiName = (api[group][endpoint].type as string).split('_')[0];
+  const actionCreator = useAction(api.actions[group][endpoint], actionParams);
 
-  const endpointState: TSelected = useSelector((state) => state[apiName][group][endpoint]);
+  const endpointState: TSelected = useSelector((state) => state[api.name][group][endpoint]);
 
   return { action: actionCreator, state: endpointState };
 }

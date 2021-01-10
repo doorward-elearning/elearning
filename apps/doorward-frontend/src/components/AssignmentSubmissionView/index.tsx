@@ -2,7 +2,6 @@ import React from 'react';
 import IfElse from '@doorward/ui/components/IfElse';
 import { Link } from 'react-router-dom';
 import Button from '@doorward/ui/components/Buttons/Button';
-import Api from '../../services/api';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import translate from '@doorward/common/lang/translate';
@@ -23,12 +22,7 @@ const AssignmentSubmissionView: React.FunctionComponent<AssignmentSubmissionView
       <IfElse condition={submission.type === AssignmentSubmissionType.FILE_UPLOAD}>
         <div>
           <span>{submission.file?.name}</span>
-          <Button
-            onClick={() => {
-              window.location.href = Api.fileURL(submission.submission, true);
-            }}
-            icon="cloud_download"
-          >
+          <Button onClick={() => {}} icon="cloud_download">
             {translate('downloadAssignment')}
           </Button>
         </div>

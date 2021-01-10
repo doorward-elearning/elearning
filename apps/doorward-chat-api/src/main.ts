@@ -13,12 +13,18 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import getOrganization from '@doorward/backend/bootstrap/getOrganization';
 import ChatAdapter from './modules/chat/chat.adapter';
 import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
+import configureLang from '@doorward/common/lang/backend.config';
 
 const globalPrefix = process.env.CHAT_API_PREFIX;
 
+const logger = new DoorwardLogger();
+
 async function bootstrap() {
   const organization = await getOrganization(process.env.REACT_APP_BASE_URL);
-  new DoorwardLogger().info('Fetched organization from ' + process.env.REACT_APP_BASE_URL + ' id: ' + organization?.id);
+
+  logger.info('Fetched organization from ' + process.env.REACT_APP_BASE_URL + ' id: ' + organization?.id);
+
+  await configureLang(organization);
 
   const app = await setUpNestApplication(AppModule, {
     logger: new DoorwardLogger(),

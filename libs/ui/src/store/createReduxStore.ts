@@ -2,19 +2,20 @@ import { applyMiddleware, CombinedState, combineReducers, compose, createStore, 
 import createSagaMiddleware from 'redux-saga';
 import { all } from 'redux-saga/effects';
 import build, { GeneratedReducers, ReducerObject } from '@doorward/ui/store/middleware';
+import { ApiReducerContext, ExtractReducers } from '@doorward/ui/reducers/apiReducer';
 
-export default function <T extends ReducerObject, R extends Record<string, ReducerObject>>(
+export default function <T extends ReducerObject, R extends Record<string, ApiReducerContext<any>>>(
   reducers: T,
   collections?: R
-): Store<CombinedState<GeneratedReducers<T, R>>> {
+): Store<CombinedState<GeneratedReducers<T, ExtractReducers<R>>>> {
   const sagaMiddleware = createSagaMiddleware();
   const { state: allStates, sagas: allSagas }: any = build(reducers);
 
   if (collections) {
     Object.keys(collections).forEach((collection) => {
-      const { state, sagas } = build(collections[collection]);
+      const { state, sagas } = build(collections[collection].reducers);
 
-      allStates[collection] = combineReducers(state);
+      allStates[collections[collection].name] = combineReducers(state);
       allSagas.push(...sagas);
     });
   }

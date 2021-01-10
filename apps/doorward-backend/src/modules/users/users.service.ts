@@ -33,9 +33,15 @@ export class UsersService {
     private privilegeRepository: PrivilegeRepository
   ) {}
 
-  async getUserDetails(id: string): Promise<UserEntity> {
+  async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
+    const where = id ? { id } : { username };
+
+    if (!username && !id) {
+      throw new Error('Neither id nor username is specified.');
+    }
+
     const user = await this.usersRepository.findOne({
-      where: { id },
+      where,
       relations: ['organization', 'role', 'role.privileges'],
     });
 

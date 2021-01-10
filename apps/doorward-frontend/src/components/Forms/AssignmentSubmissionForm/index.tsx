@@ -4,8 +4,6 @@ import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import TextField from '@doorward/ui/components/Input/TextField';
-import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
-import Api from '../../../services/api';
 import useForm from '@doorward/ui/hooks/useForm';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import DoorwardApi from '../../../services/apis/doorward.api';
@@ -66,12 +64,12 @@ const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionForm
               <TextField name="submission" />
             </Tab>
             <Tab title={translate('fileUpload')}>
-              <FileUploadField
-                name="submission"
-                uploadHandler={(file, onUploadProgress, cancelHandler) => {
-                  return Api.storage.upload(file, false, onUploadProgress, cancelHandler);
-                }}
-              />
+              {/*<FileUploadField*/}
+              {/*  name="submission"*/}
+              {/*  uploadHandler={(file, onUploadProgress, cancelHandler) => {*/}
+              {/*    // return Api.storage.upload(file, false, onUploadProgress, cancelHandler);*/}
+              {/*  }}*/}
+              {/*/>*/}
             </Tab>
           </TabLayout>
         );

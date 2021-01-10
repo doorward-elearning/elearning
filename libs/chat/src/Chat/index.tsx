@@ -12,7 +12,6 @@ import GroupEntity from '@doorward/common/entities/group.entity';
 import { UseBaseRoutes } from '@doorward/ui/hooks/useBaseRoutes';
 import { RouteNames } from '@doorward/ui/types';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import useApiAction from '@doorward/ui/hooks/useApiAction';
 
@@ -76,7 +75,7 @@ function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
 
   const queryParams = useQueryParams<{ conversation: string }>();
 
-  const fetchContacts = useAction(DoorwardChatApi.contacts.getContacts, {
+  const fetchContacts = useApiAction(DoorwardChatApi, (api) => api.contacts.getContacts, {
     onSuccess: (data) => {
       setContacts(data.contacts);
     },
@@ -92,7 +91,7 @@ function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
     queryParams.updateLocation({ conversation: currentConversationId });
   }, [currentConversationId]);
 
-  const fetchGroups = useApiAction(DoorwardChatApi, 'contacts', 'getGroupContacts', {
+  const fetchGroups = useApiAction(DoorwardChatApi, (api) => api.contacts.getGroupContacts, {
     onSuccess: (data) => {
       setGroups(data.groups);
     },
@@ -105,7 +104,7 @@ function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
   }, [currentConversationId, conversations]);
 
   useEffect(() => {
-    fetchContacts();
+    fetchContacts.action();
     fetchGroups.action();
   }, []);
 

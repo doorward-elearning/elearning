@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from './users.service';
@@ -19,6 +19,21 @@ import translate from '@doorward/common/lang/translate';
 @UseGuards(JwtAuthGuard)
 export default class ProfileController {
   constructor(private usersService: UsersService) {}
+
+  @Get('/:username')
+  @Privileges('profile.view')
+  @ApiResponse({ status: HttpStatus.OK, type: UserResponse, description: 'The profile of the specified user.' })
+  @TransformerGroups('fullUserProfile')
+  async getUserProfile(
+    @Param('username') username: string,
+    @CurrentUser() currentUser: UserEntity
+  ): Promise<UserResponse> {
+    const userName = username === 'me' ? currentUser.username : username;
+
+    const user = await this.usersService.getUserDetails(null, userName);
+
+    return { user };
+  }
 
   @Put('account')
   @Privileges('profile.update')
