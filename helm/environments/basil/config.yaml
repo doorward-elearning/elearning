@@ -19,6 +19,15 @@ samvadam_domain: samvadam.basil.doorward.tech
 # Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
 thala_domain: thala.basil.doorward.tech
 
+#Public Domain of Chat API
+chat_domain: chat.basil.doorward.tech
+
+# Public Domain of meet ui
+meet_domain: meet.develop.doorward.org
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
 # Public Domain for openvidu API.
 openviduapi_url: https://vidu.basil.doorward.tech/api/
 

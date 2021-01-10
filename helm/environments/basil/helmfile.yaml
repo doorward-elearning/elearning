@@ -39,6 +39,19 @@ releases:
     values:
       - config.yaml
 
+  - name: develop-chat
+    namespace: develop-doorward
+    labels:
+      stage: 2
+      name: chat
+    chart: ../../charts/apps/chat
+    needs:
+      - basil-doorward/basil-config
+      - basil-doorward/basil-thaladb
+      - basil-doorward/basil-thala
+    values:
+      - config.yaml
+
   - name: basil-chuchu
     namespace: basil-doorward
     labels:
