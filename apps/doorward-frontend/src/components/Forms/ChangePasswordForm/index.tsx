@@ -6,8 +6,8 @@ import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers
 import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdatePasswordBody } from '@doorward/common/dtos/body';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
@@ -16,17 +16,18 @@ const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (pr
     confirmPassword: '',
   };
 
-  const state = useDoorwardApi((state) => state.userProfile.updateAccountPassword);
+  const updateAccountPassword = useApiAction(DoorwardApi, (api) => api.userProfile.updateAccountPassword);
 
   return (
     <BasicForm
       form={props.form}
       initialValues={initialValues}
       validationSchema={new UpdatePasswordBody().validation(!props.dontEnterCurrentPassword)}
-      state={props.state || state}
+      apiAction={updateAccountPassword}
+      state={props.state}
       onCancel={props.onCancel}
       onSuccess={props.onSuccess}
-      submitAction={props.submitAction || DoorwardApi.userProfile.updateAccountPassword}
+      submitAction={props.submitAction}
       createData={props.createData || ((data) => [data])}
       showOverlay
     >

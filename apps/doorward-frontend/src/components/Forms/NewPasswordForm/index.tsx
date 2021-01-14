@@ -5,8 +5,8 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import { useRouteMatch } from 'react-router';
 import { ResetPasswordBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.Element => {
   const match: any = useRouteMatch();
@@ -15,12 +15,11 @@ const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.El
     confirmPassword: '',
     resetToken: match.params.resetToken,
   };
-  const state = useDoorwardApi((state) => state.userProfile.resetAccountPassword);
+  const apiAction = useApiAction(DoorwardApi, (api) => api.userProfile.resetAccountPassword);
 
   return (
     <BasicForm
-      state={state}
-      submitAction={DoorwardApi.userProfile.resetAccountPassword}
+      apiAction={apiAction}
       onSuccess={props.onSuccess}
       initialValues={initialValues}
       validationSchema={ResetPasswordBody}

@@ -4,15 +4,16 @@ import { PageComponent } from '@doorward/ui/types';
 import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import OrganizationsTable from '../../components/Tables/OrganizationsTable';
-import useAction from '@doorward/ui/hooks/useActions';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
   const routes = useRoutes();
-  const organizations = useDoorwardApi((state) => state.organizations.getAllOrganizations);
-  const fetch = useAction(DoorwardApi.organizations.getAllOrganizations);
+  const { action: fetch, state: organizations } = useApiAction(
+    DoorwardApi,
+    (api) => api.organizations.getAllOrganizations
+  );
 
   useEffect(() => {
     fetch();

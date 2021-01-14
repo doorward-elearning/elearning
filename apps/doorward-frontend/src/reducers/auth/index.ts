@@ -2,7 +2,6 @@ import { modifyReducer } from '@doorward/ui/reducers/builder';
 import Tools from '@doorward/common/utils/Tools';
 import { Action } from '@doorward/ui/reducers/reducers';
 import ApiRequest from '@doorward/common/net/apiRequest';
-import { DoorwardApiTypes } from '../../services/apis/doorward.api';
 import { CLEAR_LOGIN } from './types';
 
 const login = {
@@ -27,8 +26,8 @@ const login = {
 const getCurrentUser = {
   reducer: (state: any, action: Action) => {
     if (
-      action.type === DoorwardApiTypes.auth.login + '_SUCCESS' ||
-      action.type === DoorwardApiTypes.userProfile.updateAccountDetails + '_SUCCESS'
+      action.type === 'DoorwardBackendApi_auth_login_SUCCESS' ||
+      action.type === 'DoorwardBackendApi_userProfile_updateAccountDetails_SUCCESS'
     ) {
       return modifyReducer('data', state, action, () => action.payload);
     }

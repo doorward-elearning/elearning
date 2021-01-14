@@ -6,8 +6,8 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleItemBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 function AddModuleItemForm<T extends CreateModuleItemBody>(props: AddModuleItemFormProps<T>): JSX.Element {
   const initialValues: any = {
@@ -19,18 +19,15 @@ function AddModuleItemForm<T extends CreateModuleItemBody>(props: AddModuleItemF
 
   const editing = !!props.item;
 
-  const state = useDoorwardApi((state) =>
-    editing ? state.moduleItems.updateModuleItem : state.modules.createModuleItem
-  );
+  const updateModuleItem = useApiAction(DoorwardApi, (api) => api.moduleItems.updateModuleItem);
+  const createModuleItem = useApiAction(DoorwardApi, (api) => api.modules.createModuleItem);
 
   return (
     <BasicForm
-      submitAction={editing ? DoorwardApi.moduleItems.updateModuleItem : DoorwardApi.modules.createModuleItem}
       onSuccess={props.onSuccess}
-      onCancel={props.onCancel}
       initialValues={initialValues}
       validationSchema={props.validationSchema}
-      state={state}
+      apiAction={editing ? updateModuleItem : createModuleItem}
       form={props.form}
       showSuccessToast
       showOverlay

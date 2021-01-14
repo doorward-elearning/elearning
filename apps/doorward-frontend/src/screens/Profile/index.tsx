@@ -19,12 +19,11 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const routes = useRoutes();
   const match = useRouteMatch<{ username: string }>();
 
-  const getUserProfile = useApiAction(DoorwardApi, api => api.userProfile.getUserProfile, {
+  const getUserProfile = useApiAction(DoorwardApi, (api) => api.userProfile.getUserProfile, {
     onSuccess: (data) => {
       setUser(data.user);
     },
   });
-
 
   useEffect(() => {
     getUserProfile.action(match.params.username);

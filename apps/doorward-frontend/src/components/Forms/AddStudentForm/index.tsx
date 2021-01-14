@@ -5,9 +5,12 @@ import AddUserFormLayout from '../AddUserFormLayout';
 import { StudentResponse } from '@doorward/common/dtos/response';
 import { CreateUserBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = (props) => {
-  return <AddUserFormLayout {...props} action={props.action || DoorwardApi.students.createStudent} withPasswordField />;
+  const createStudent = useApiAction(DoorwardApi, (api) => api.students.createStudent);
+
+  return <AddUserFormLayout {...props} action={props.action || createStudent.action} withPasswordField />;
 };
 
 export interface AddStudentFormState extends CreateUserBody {}

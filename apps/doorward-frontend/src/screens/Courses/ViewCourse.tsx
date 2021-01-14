@@ -20,16 +20,15 @@ import { PageComponent } from '@doorward/ui/types';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManagerModal';
-import useAction from '@doorward/ui/hooks/useActions';
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 import translate from '@doorward/common/lang/translate';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -38,20 +37,20 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const liveClassroomModal = useModal(false);
   const createDiscussionGroupModal = useModal();
   const hasPrivileges = usePrivileges();
-  const fetchTeachers = useAction(DoorwardApi.teachers.getAllTeachers);
+  const fetchTeachers = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
+  const updateCourse = useApiAction(DoorwardApi, (api) => api.courses.updateCourse);
 
   const [courseId, course] = useViewCourse();
 
   useEffect(() => {
     if (hasPrivileges('teachers.list')) {
-      fetchTeachers();
+      fetchTeachers.action();
     }
   }, []);
   const routes = useRoutes();
 
-  const updateCourse = useDoorwardApi((state) => state.courses.updateCourse);
-  const launchClassroom = useDoorwardApi((state) => state.courses.launchClassroom);
-  const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
+  const launchClassroom = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
+  const teacherList = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
   return (
     <Layout
       {...props}
@@ -62,8 +61,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
         <IfElse condition={course.data.course}>
           <React.Fragment>
             <EditableLabelForm
-              submitAction={DoorwardApi.courses.updateCourse}
-              state={updateCourse}
+              submitAction={updateCourse.action}
+              state={updateCourse.state}
               name="title"
               privileges={['courses.update']}
               createData={(values) => [courseId, values]}
@@ -96,10 +95,10 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               </React.Fragment>
             )}
             <ProgressModal
-              state={launchClassroom}
+              state={launchClassroom.state}
               cancellable={false}
               showErrorToast
-              action={() => DoorwardApi.courses.launchClassroom(courseId)}
+              action={() => launchClassroom.action(courseId)}
               title={
                 course.data.course?.meetingRoom?.currentMeeting
                   ? translate('joiningMeeting')
@@ -141,7 +140,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                   ]}
                 />
                 <ChooseCourseManagerModal
-                  managers={teacherList}
+                  managers={teacherList.state}
                   onSuccess={addCourseManagerModal.closeModal}
                   courseId={course.id}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
@@ -151,9 +150,13 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 <div className="view-course__module-list">
                   <Grid columns={2} justifyContent="space-between">
                     <LabelRow>
-                      <span className="meta">{translate('moduleWithCount', { count: course?.modules?.length || 0 })}</span>
+                      <span className="meta">
+                        {translate('moduleWithCount', { count: course?.modules?.length || 0 })}
+                      </span>
                       <Link to={routes.assignmentList.link} className="meta">
-                        {translate('assignmentWithCount', { count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0 })}
+                        {translate('assignmentWithCount', {
+                          count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0,
+                        })}
                       </Link>
                       <span className="meta">
                         {translate('quizWithCount', { count: course?.itemsCount?.[AssessmentTypes.QUIZ] || 0 })}

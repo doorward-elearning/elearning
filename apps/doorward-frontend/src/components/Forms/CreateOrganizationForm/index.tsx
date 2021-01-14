@@ -9,13 +9,10 @@ import IfElse from '@doorward/ui/components/IfElse';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProps> = (props): JSX.Element => {
-  const state = useDoorwardApi((state) =>
-    props.organization ? state.organizations.createOrganization : state.organizations.createOrganization
-  );
   const form = useForm();
   const initialValues = {
     name: '',
@@ -23,17 +20,18 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
     description: '',
     ...(props.organization || {}),
   };
+
+  const apiAction = useApiAction(DoorwardApi, (api) =>
+    props.organization ? api.organizations.createOrganization : api.organizations.updateOrganization
+  );
   return (
     <BasicForm
-      submitAction={
-        props.organization ? DoorwardApi.organizations.createOrganization : DoorwardApi.organizations.updateOrganization
-      }
+      apiAction={apiAction}
       onSuccess={props.onSuccess}
       onCancel={props.onCancel}
       initialValues={initialValues}
       positiveText={props.organization ? translate('save') : translate('add')}
       validationSchema={CreateOrganizationBody}
-      state={state}
       form={form}
       createData={(values) => {
         return props.organization ? [props.organization.id, values] : [values];

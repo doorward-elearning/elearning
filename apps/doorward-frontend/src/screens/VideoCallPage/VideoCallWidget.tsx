@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useOrganization from '../../hooks/useOrganization';
-import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import LoadingPage from '../LoadingPage';
@@ -10,14 +8,14 @@ import './VideoCallWidget.scss';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
 import { useHistory } from 'react-router';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): JSX.Element => {
-  const videoCallState = useDoorwardApi((state) => state.meetings.joinMeeting);
   const organization = useOrganization();
   const [jitsi, setJitsi] = useState<JitsiMeetExternalAPI>();
-  const endMeeting = useAction(DoorwardApi.meetings.endMeeting);
+  const endMeeting = useApiAction(DoorwardApi, (api) => api.meetings.endMeeting);
   const hasPrivilege = usePrivileges();
-  const joinMeeting = useAction(DoorwardApi.meetings.joinMeeting);
+  const { action: joinMeeting, state: videoCallState } = useApiAction(DoorwardApi, (api) => api.meetings.joinMeeting);
   const history = useHistory();
 
   useEffect(() => {
@@ -25,11 +23,6 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
       joinMeeting(props.meetingId);
     }
   }, []);
-
-  useEffect(() => {
-    if (jitsi) {
-    }
-  }, [jitsi]);
 
   if (videoCallState.fetching) {
     return <LoadingPage />;
@@ -46,7 +39,7 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
           <Meeting
             onLeftSession={() => {
               if (canModerate) {
-                endMeeting(meeting.id);
+                endMeeting.action(meeting.id);
               }
               history.push('/dashboard');
             }}

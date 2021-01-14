@@ -3,14 +3,15 @@ import ChooseStudentForm, { ChooseStudentFormState, ChooseStudentGroupFormState 
 import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (props) => {
   const [selected, setSelected] = useState(0);
   const form = useForm<ChooseStudentFormState>();
   const groupForm = useForm<ChooseStudentGroupFormState>();
-  const state = useDoorwardApi((state) => state.students.addStudentToCourse);
+  const apiAction = useApiAction(DoorwardApi, (api) => api.students.addStudentToCourse);
   const [searchText, setSearchText] = useState('');
 
   return (
@@ -32,7 +33,7 @@ const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (pr
           buttons={{ positive: translate('save') }}
           props={{
             positive: {
-              loading: state.submitting,
+              loading: apiAction.state.submitting,
             },
           }}
           onPositiveClick={() => {

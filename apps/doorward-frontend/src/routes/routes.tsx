@@ -1,11 +1,10 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { routeConfigurations } from './index';
 import AuthenticatedRoute from './AuthenticatedRoute';
 import { generate } from '@doorward/ui/routes/routes';
 import { routeNames } from './routeNames';
 import useOrganization from '../hooks/useOrganization';
-import LoadingPage from '../screens/LoadingPage';
 import Error404 from '../screens/ErrorPages/Error404';
 
 let generatedRoutes = generate(routeNames(), routeConfigurations, (props) => {
@@ -32,11 +31,9 @@ export const Router: React.FunctionComponent<any> = (): JSX.Element => {
     ROUTES = generatedRoutes.routes;
   }, [organization]);
   return (
-    <Suspense fallback={LoadingPage}>
-      <Switch>
-        {generatedRoutes.renderRoutes}
-        <Route path="*" component={Error404} />
-      </Switch>
-    </Suspense>
+    <Switch>
+      {generatedRoutes.renderRoutes}
+      <Route path="*" component={Error404} />
+    </Switch>
   );
 };

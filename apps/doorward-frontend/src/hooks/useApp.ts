@@ -4,10 +4,10 @@ import { ROUTES } from '../routes/routes';
 import useStateRef from '@doorward/ui/hooks/useStateRef';
 import Tools from '@doorward/common/utils/Tools';
 import { DoorwardAppContextProps } from '../main';
-import useAction from '@doorward/ui/hooks/useActions';
 import { DoorwardRoutes } from '../routes';
 import DoorwardApi from '../services/apis/doorward.api';
 import useAuth from './useAuth';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 export const appInitialValue = {
   routes: { ...ROUTES },
@@ -20,15 +20,12 @@ export interface UseApp extends DoorwardAppContextProps {}
 const useApp = (): UseApp => {
   const [routes, setRoutes, previousRoutes] = useStateRef(ROUTES);
 
-  useEffect(() => {
-    // setIO(connectSocket());
-  }, []);
-
   const auth = useAuth();
-  const getCurrentUser = useAction(DoorwardApi.auth.getCurrentUser);
+  const getCurrentUser = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
+
   useEffect(() => {
     if (auth.authenticated) {
-      getCurrentUser();
+      getCurrentUser.action();
     }
   }, []);
 

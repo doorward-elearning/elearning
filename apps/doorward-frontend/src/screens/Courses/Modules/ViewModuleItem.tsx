@@ -12,11 +12,9 @@ import IfElse from '@doorward/ui/components/IfElse';
 import Tools from '@doorward/common/utils/Tools';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import useAction from '@doorward/ui/hooks/useActions';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
@@ -27,6 +25,7 @@ import translate from '@doorward/common/lang/translate';
 import ModulesSideBar from './ModulesSideBar';
 import ViewModuleVideo from './ViewModuleVideo';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -37,12 +36,11 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
 
-  const fetchItem = useAction(DoorwardApi.moduleItems.getModuleItem);
+  const { action: fetchItem, state } = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
+
   useEffect(() => {
     fetchItem(match.params.itemId);
   }, [match.params.itemId]);
-
-  const state = useDoorwardApi((state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
     setEditing(routes.currentRoute === routes.editModuleItem.id);

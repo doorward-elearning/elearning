@@ -7,7 +7,6 @@ import Card from '@doorward/ui/components/Card';
 import IfElse from '@doorward/ui/components/IfElse';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import { Action } from '@doorward/ui/reducers/reducers';
-import { Omit } from '@doorward/common/types';
 import useLogo from '../../../hooks/useLogo';
 
 function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
@@ -27,7 +26,7 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
         </div>
         <div className="login-form">
           <BasicForm features={[]} {...props}>
-            {formikProps => (
+            {(formikProps) => (
               <React.Fragment>
                 {props.children}
                 <div className="login-form__footer">
@@ -42,11 +41,11 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
     </Card>
   );
 }
-export interface AuthFormProps<T, R extends (...args: any[]) => Action> extends Omit<BasicFormProps<T, R>, 'onSubmit'> {
+export type AuthFormProps<T, R extends (...args: any[]) => Action> = BasicFormProps<T, R, any> & {
   renderFooter?: () => JSX.Element;
   title: string;
   children: ReactChild | Array<ReactChild>;
   buttonText: string;
   message?: string;
-}
+};
 export default AuthForm;

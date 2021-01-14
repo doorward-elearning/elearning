@@ -10,13 +10,14 @@ import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import useOrganization from '../../hooks/useOrganization';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
 import { clearLoginAction } from '../../reducers/auth/actions';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
-  const registration = useDoorwardApi((state) => state.auth.register);
+  const { state: registration } = useApiAction(DoorwardApi, (api) => api.auth.register);
   const { authenticate, authenticated } = useAuth();
   const [newAccount, setNewAccount] = useState(false);
   const organization = useOrganization();

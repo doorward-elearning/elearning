@@ -5,7 +5,6 @@ import './Layout.mobile.scss';
 import ContentSpinner from '../../components/UI/ContentSpinner';
 import _ from 'lodash';
 import Helmet from 'react-helmet';
-import CONSTANTS from '../../assets/constants';
 import useRoutes from '../../hooks/useRoutes';
 import schema from '../../components/Sidebar/schema';
 import UserManagementDropdown from '../../components/Dropdowns/UserManagementDropdown';
@@ -30,12 +29,11 @@ import RightMenu from '../../components/Navbar/RightMenu';
 import Row from '@doorward/ui/components/Row';
 import useLogo from '../../hooks/useLogo';
 import Badge from '@doorward/ui/components/Badge';
-import useAction from '@doorward/ui/hooks/useActions';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
 import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -78,7 +76,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   ...props
 }) => {
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const searchSuggestions = useDoorwardApi((state) => state.searchSuggestions.getSuggestions);
+  const searchSuggestions = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
@@ -86,14 +84,14 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
-  const fetchSuggestions = useAction(DoorwardApi.searchSuggestions.getSuggestions);
+  const fetchSuggestions = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
   const clearSuggestions = () => {};
   const sideBarRef = useRef();
   const auth = useAuth();
 
   useEffect(() => {
     if (suggestionsType) {
-      fetchSuggestions(suggestionsType, props.searchQuery);
+      fetchSuggestions.action(suggestionsType, props.searchQuery);
     }
 
     return clearSuggestions;
@@ -131,7 +129,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
-          <NavBarSearchContext state={searchSuggestions} placeholder={props.searchPlaceholder}>
+          <NavBarSearchContext state={searchSuggestions.state} placeholder={props.searchPlaceholder}>
             <NavBar
               icon={icon}
               history={history}

@@ -3,6 +3,11 @@ import useAction from '@doorward/ui/hooks/useActions';
 import { useSelector } from 'react-redux';
 import { Api, ApiEndpointDefinition, ApiReducerContext, EndpointData } from '@doorward/ui/reducers/apiReducer';
 
+export type UseApiAction<A extends (...args: Array<any>) => any, S> = {
+  action: (...args: Parameters<A>) => Action;
+  state: S;
+};
+
 function useApiAction<
   T extends Api,
   Group extends keyof T,
@@ -12,10 +17,7 @@ function useApiAction<
   api: ApiReducerContext<T>,
   getEndpoint: (api: ApiEndpointDefinition<T>) => [Group, Endpoint],
   actionParams?: { [n in keyof Action]?: any }
-): {
-  action: (...args: Parameters<T[Group][Endpoint]>) => Action;
-  state: TSelected;
-} {
+): UseApiAction<T[Group][Endpoint], TSelected> {
   const [group, endpoint] = getEndpoint(api.endpoints);
 
   const actionCreator = useAction(api.actions[group][endpoint], actionParams);

@@ -1,22 +1,21 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import AddStudentForm, { AddStudentFormState } from '../../components/Forms/AddStudentForm';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import useRoutes from '../../hooks/useRoutes';
 import { Redirect } from 'react-router';
 import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm<AddStudentFormState>();
   const routes = useRoutes();
-  const newStudent = useDoorwardApi((state) => state.students.createStudent);
-  const submitted = useFormSubmit(newStudent);
+  const newStudent = useApiAction(DoorwardApi, (api) => api.students.createStudent);
+  const submitted = useFormSubmit(newStudent.state);
 
   return (
     <IfElse condition={submitted}>
@@ -29,7 +28,7 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
         <AddStudentForm
           onCancel={() => routes.navigate(routes.routes.studentList)}
           useForm={studentForm}
-          state={newStudent}
+          state={newStudent.state}
         />
       </Layout>
     </IfElse>

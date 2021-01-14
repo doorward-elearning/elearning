@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import './DiscussionGroup.scss';
 import { PageComponent } from '@doorward/ui/types';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
-import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { useRouteMatch } from 'react-router';
 import Tools from '@doorward/common/utils/Tools';
@@ -16,10 +14,13 @@ import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import DiscussionCommentForm from '../../components/Forms/DiscussionCommentForm';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
-  const state = useDoorwardApi((state) => state.discussionGroups.getDiscussionGroup);
-  const fetchDiscussionGroup = useAction(DoorwardApi.discussionGroups.getDiscussionGroup);
+  const { action: fetchDiscussionGroup, state } = useApiAction(
+    DoorwardApi,
+    (api) => api.discussionGroups.getDiscussionGroup
+  );
   const match = useRouteMatch<{ discussionGroupId: string; courseId: string }>();
   const [discussionGroup, setDiscussionGroup] = useState();
   useViewCourse();

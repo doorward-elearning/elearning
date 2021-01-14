@@ -11,24 +11,29 @@ import './BasicForm.scss';
 import { Omit } from '@doorward/common/types';
 import { useHistory } from 'react-router';
 import translate from '@doorward/common/lang/translate';
+import { UseApiAction } from '@doorward/ui/hooks/useApiAction';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
   CANCEL_BUTTON = 2,
 }
 
-function BasicForm<T, A extends (...args: any[]) => Action, W>(
-  props: Omit<BasicFormProps<T, A, W>, 'onSubmit'>
-): JSX.Element {
+function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormProps<T, A, W>): JSX.Element {
   const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
-  const submit = useAction(props.submitAction, {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const action = props.submitAction || props.apiAction?.action;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const state = props.state || props.apiAction?.state;
+
+  const submit = useAction(action, {
     showSuccessToast,
     showErrorToast,
   });
 
   const form = props.form;
-  const state = props.state;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
   const createData = props.createData || ((data) => [data]);
 
@@ -88,10 +93,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(
 
 export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
 
-export interface BasicFormProps<Values, ActionCreator extends (...args: any[]) => Action, WebState = any>
-  extends FormProps<Values> {
-  submitAction: ActionCreator;
-  state: WebComponentState<WebState>;
+export type BasicFormProps<Values, ActionCreator extends (...args: any[]) => Action, WebState> = {
   children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
@@ -104,6 +106,7 @@ export interface BasicFormProps<Values, ActionCreator extends (...args: any[]) =
   resetOnSubmit?: boolean;
   onSuccess?: (result?: WebState) => void;
   enableSubmitButton?: boolean;
-}
+} & Omit<FormProps<Values>, 'onSubmit'> &
+  ({ submitAction: ActionCreator; state: WebComponentState<WebState> } | { apiAction: UseApiAction<any, WebState> });
 
 export default BasicForm;

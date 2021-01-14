@@ -4,11 +4,10 @@ import StudentTable from '../../components/Tables/StudentTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
-import useAction from '@doorward/ui/hooks/useActions';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 export interface StudentListQueryParams {
   search: string;
@@ -16,9 +15,8 @@ export interface StudentListQueryParams {
 }
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
-  const studentList = useDoorwardApi((state) => state.students.getAllStudents);
   const routes = useRoutes();
-  const fetch = useAction(DoorwardApi.students.getAllStudents);
+  const { action: fetch, state: studentList } = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
   const total = studentList.data.pagination?.totalCount;
 

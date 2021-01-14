@@ -4,8 +4,8 @@ import { useHistory, useLocation, useRouteMatch } from 'react-router';
 export interface UseApplicationRoutes<T extends RouteNames> {
   navigate: (
     route: RouteDefinition<T>,
-    params?: { [name: string]: string | undefined },
-    query?: { [name: string]: string | undefined }
+    params?: { [name: string]: string | number | undefined },
+    query?: { [name: string]: string | number | undefined }
   ) => void;
   currentRoute?: keyof T;
 }

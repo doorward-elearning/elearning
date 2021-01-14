@@ -1,23 +1,21 @@
 import React from 'react';
 import Form from '@doorward/ui/components/Form';
 import TextField from '@doorward/ui/components/Input/TextField';
-import useAction from '@doorward/ui/hooks/useActions';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateModuleBody } from '@doorward/common/dtos/body';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
   const initialValues = {
     title: '',
   };
-  const state = useDoorwardApi((state) => state.courses.createCourseModule);
 
-  const createCourseModule = useAction(DoorwardApi.courses.createCourseModule);
+  const createCourseModule = useApiAction(DoorwardApi, api => api.courses.createCourseModule);
 
   const onSubmit = (values: AddModuleFormState): void => {
-    createCourseModule(props.courseId, values);
+    createCourseModule.action(props.courseId, values);
   };
 
   return (
@@ -26,7 +24,7 @@ const AddModuleForm: React.FunctionComponent<AddModuleFormProps> = (props) => {
       onSubmit={onSubmit}
       showOverlay
       validationSchema={CreateModuleBody}
-      state={state}
+      state={createCourseModule.state}
       form={props.useForm}
     >
       <TextField name="title" label={translate('moduleName')} icon="calendar_view_day" />

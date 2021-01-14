@@ -12,10 +12,11 @@ import Header from '@doorward/ui/components/Header';
 import Message from '@doorward/ui/components/Message';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useOrganization from '../../hooks/useOrganization';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import useAuth from '../../hooks/useAuth';
 import { clearLoginAction } from '../../reducers/auth/actions';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
@@ -25,7 +26,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   const { query } = useQueryParams();
 
   const routes = useRoutes();
-  const login = useDoorwardApi((state) => state.auth.login);
+  const login = useApiAction(DoorwardApi, (api) => api.auth.login).state;
 
   useEffect(() => {
     if (query.newAccount) {

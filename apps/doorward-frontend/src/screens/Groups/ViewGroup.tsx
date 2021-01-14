@@ -8,30 +8,37 @@ import { PageComponent } from '@doorward/ui/types';
 import Tools from '@doorward/common/utils/Tools';
 import './ViewGroup.scss';
 import useRoutes from '../../hooks/useRoutes';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element => {
-  usePageResource('groupId', DoorwardApi.groups.getGroup);
-  const state = useDoorwardApi((state) => state.groups.getGroup);
+  const getGroup = useApiAction(DoorwardApi, (state) => state.groups.getGroup);
+  const groupState = getGroup.state;
+
+  usePageResource('groupId', getGroup.action);
+
   const routes = useRoutes();
 
   useEffect(() => {
-    if (state.data.group) {
-      routes.setCurrentTitle(state.data.group?.name);
+    if (groupState.data.group) {
+      routes.setCurrentTitle(groupState.data.group?.name);
     }
-  }, [state]);
+  }, [groupState]);
 
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
-      actionBtnProps={{ text: translate('edit'), icon: 'edit', onClick: () => props.onEditGroup(state.data.group) }}
-      header={Tools.str(state.data.group?.name)}
+      actionBtnProps={{
+        text: translate('edit'),
+        icon: 'edit',
+        onClick: () => props.onEditGroup(groupState.data.group),
+      }}
+      header={Tools.str(groupState.data.group?.name)}
     >
-      <WebComponent data={state.data.group} loading={state.fetching}>
+      <WebComponent data={groupState.data.group} loading={groupState.fetching}>
         {(group) => {
           return (
             <div className="ed-view-group">

@@ -27,13 +27,13 @@ import useModal from '@doorward/ui/hooks/useModal';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
@@ -111,7 +111,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
       <Accordion
         title={(): JSX.Element => (
           <EditableLabelForm
-            submitAction={DoorwardApi.modules.updateModule}
+            submitAction={DoorwardApi.actions.modules.updateModule}
             state={updateModule}
             createData={(values) => [module.id, values]}
             name="title"
@@ -139,11 +139,11 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 };
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
-  const updateModule = useDoorwardApi((state) => state.modules.updateModule);
-  const action = useAction(DoorwardApi.modules.updateCourseModules);
+  const updateModule = useApiAction(DoorwardApi, (api) => api.modules.updateModule);
+  const action = useAction(DoorwardApi.actions.modules.updateCourseModules);
   const hasPrivileges = usePrivileges();
   const [handleDrop] = useModuleDrop(course.id, action);
-  const state = useDoorwardApi((state) => state.modules.deleteModule);
+  const deleteModule = useApiAction(DoorwardApi, (api) => api.modules.deleteModule);
   const deleteModuleModal = useModal();
   const [moduleToDelete, setModuleToDelete] = useState();
 
@@ -153,8 +153,8 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
         args={[moduleToDelete]}
         title={translate('deleteModule')}
         useModal={deleteModuleModal}
-        action={DoorwardApi.modules.deleteModule}
-        state={state}
+        action={deleteModule.action}
+        state={deleteModule.state}
       >
         <p>{translate('areYouSureYouWantToDeleteModule')}</p>
       </WebConfirmModal>
@@ -178,7 +178,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                       courseId={course.id}
                       index={index}
                       module={module}
-                      updateModule={updateModule}
+                      updateModule={updateModule.state}
                       droppableState={state}
                     />
                   </DragAndDropListItem>

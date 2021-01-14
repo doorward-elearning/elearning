@@ -5,13 +5,15 @@ import Tools from '@doorward/common/utils/Tools';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
+  const getGroups = useApiAction(DoorwardApi, (api) => api.groups.getGroups);
   return (
     <SimpleWebComponent
-      action={DoorwardApi.groups.getGroups}
+      action={getGroups.action}
       params={[{ type: props.type, search: props.search }]}
-      selector={(state) => state.groups.getGroups}
+      state={getGroups.state}
       dataSelector={(data) => data.groups}
     >
       {(data) => {

@@ -8,21 +8,23 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,
   initialValues,
   onSuccess,
 }): JSX.Element => {
-  const state = useDoorwardApi((state) => state.courses.getCourseModuleItems);
+  const getCourseModuleItems = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
+  const submitAssignment = useApiAction(DoorwardApi, (api) => api.assignments.submitAssignment);
   const form = useForm();
   const [currentTab, setCurrentTab] = useState();
+
   return (
     <BasicForm
-      state={state}
-      submitAction={DoorwardApi.assignments.submitAssignment}
+      state={getCourseModuleItems.state}
+      submitAction={submitAssignment.action}
       form={form}
       showSuccessToast
       showErrorToast

@@ -3,20 +3,21 @@ import Layout, { LayoutFeatures } from '../Layout';
 import useRoutes from '../../hooks/useRoutes';
 import TeachersTable from '../../components/Tables/TeachersTable';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
-  const teacherList = useDoorwardApi((state) => state.teachers.getAllTeachers);
   const routes = useRoutes();
 
-  const fetch = useAction(DoorwardApi.teachers.getAllTeachers);
+  const { action: getAllTeachers, state: teacherList } = useApiAction(
+    DoorwardApi,
+    (api) => api.teachers.getAllTeachers
+  );
 
   useEffect(() => {
-    fetch();
+    getAllTeachers();
   }, []);
 
   return (

@@ -4,43 +4,48 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
-const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => (
-  <SimpleWebComponent
-    action={DoorwardApi.reports.getStudentsReport}
-    selector={(state) => state.reports.getStudentsReport}
-    dataSelector={(data) => data.students}
-  >
-    {(data): JSX.Element => (
-      <Table
-        searchText={props.filter}
-        filter={(data1, text): typeof data1 =>
-          data1.filter((student: UserEntity) => {
-            return new RegExp(text, 'ig').test(student.fullName);
-          })
-        }
-        data={data}
-        columns={{
-          name: translate('name'),
-          department: translate('department'),
-          enrollments: translate('numberOfEnrollments'),
-          courses: translate('coursesCompleted'),
-          grade: translate('averageGrade'),
-        }}
-        getCell={(row) => {
-          return {
-            name: row.fullName,
-            department: 'Computer Science',
-            enrollments: '23',
-            courses: '12',
-            grade: '12.4',
-          };
-        }}
-        onRowClick={props.onRowClick}
-      />
-    )}
-  </SimpleWebComponent>
-);
+const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => {
+  const studentsReport = useApiAction(DoorwardApi, (api) => api.reports.getStudentsReport);
+
+  return (
+    <SimpleWebComponent
+      action={studentsReport.action}
+      state={studentsReport.state}
+      dataSelector={(data) => data.students}
+    >
+      {(data): JSX.Element => (
+        <Table
+          searchText={props.filter}
+          filter={(data1, text): typeof data1 =>
+            data1.filter((student: UserEntity) => {
+              return new RegExp(text, 'ig').test(student.fullName);
+            })
+          }
+          data={data}
+          columns={{
+            name: translate('name'),
+            department: translate('department'),
+            enrollments: translate('numberOfEnrollments'),
+            courses: translate('coursesCompleted'),
+            grade: translate('averageGrade'),
+          }}
+          getCell={(row) => {
+            return {
+              name: row.fullName,
+              department: 'Computer Science',
+              enrollments: '23',
+              courses: '12',
+              grade: '12.4',
+            };
+          }}
+          onRowClick={props.onRowClick}
+        />
+      )}
+    </SimpleWebComponent>
+  );
+};
 
 export interface StudentReportsTableProps {
   onRowClick: (row: UserEntity, index: number) => void;

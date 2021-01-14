@@ -31,7 +31,7 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
   const { pushNotification } = useContext(NotificationsContext);
   const queryParams = useQueryParams();
 
-  const fetchConversations = useApiAction(DoorwardChatApi, 'chat', 'getConversations', {
+  const fetchConversations = useApiAction(DoorwardChatApi, (api) => api.chat.getConversations, {
     onSuccess: (response) => {
       if (response.conversations.length) {
         setConversations(response.conversations);

@@ -9,11 +9,11 @@ import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import _ from 'lodash';
 import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
-import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import useRoutes from '../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
@@ -35,12 +35,12 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     }
   };
 
-  const saveSubmission = useAction(DoorwardApi.assessments.saveAssessment, {
+  const saveSubmission = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
     onSuccess: (data) => {
       setSubmission(data.submission);
     },
   });
-  const submitAssessment = useAction(DoorwardApi.assessments.submitAssignment, {
+  const submitAssessment = useApiAction(DoorwardApi, (api) => api.assessments.submitAssignment, {
     onSuccess: () => {
       routes.navigate(routes.dashboard);
     },
@@ -86,12 +86,12 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           startQuestion={startQuestion}
           type={assessment.assessmentType}
           onFinishAssessment={(submission) => {
-            submitAssessment(assessment.id, {
+            submitAssessment.action(assessment.id, {
               submission,
             });
           }}
           onReadyToSave={(submission) => {
-            saveSubmission(assessment.id, {
+            saveSubmission.action(assessment.id, {
               submission,
             });
           }}

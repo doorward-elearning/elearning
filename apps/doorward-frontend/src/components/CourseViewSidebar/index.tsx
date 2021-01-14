@@ -1,6 +1,5 @@
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import React, { useEffect } from 'react';
-import useAction from '@doorward/ui/hooks/useActions';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
@@ -12,51 +11,47 @@ import { UseModal } from '@doorward/ui/hooks/useModal';
 import { Link, useRouteMatch } from 'react-router-dom';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import './CourseViewSidebar.scss';
 import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
-import VideoCallWidget from '../../screens/VideoCallPage/VideoCallWidget';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
 const MAX_DISCUSSION_GROUPS = 5;
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (props) => {
-  const students = useDoorwardApi((state) => state.students.getStudentsInCourse);
-  const managers = useDoorwardApi((state) => state.courseManagers.getCourseManagers);
-  const discussionGroups = useDoorwardApi((state) => state.discussionGroups.getAll);
-  const course = useDoorwardApi((state) => state.courses.getCourse);
-  const createCourseManager = useDoorwardApi((state) => state.courseManagers.createCourseManager);
+  const students = useApiAction(DoorwardApi, (api) => api.students.getStudentsInCourse);
+  const managers = useApiAction(DoorwardApi, (api) => api.courseManagers.getCourseManagers);
+  const discussionGroups = useApiAction(DoorwardApi, (api) => api.discussionGroups.getAll);
+  const course = useApiAction(DoorwardApi, (api) => api.courses.getCourse);
+  const createCourseManager = useApiAction(DoorwardApi, (api) => api.courseManagers.createCourseManager);
   const match: any = useRouteMatch<{ courseId: string }>();
   const hasPrivileges = usePrivileges();
   const auth = useAuth();
 
   const routes = useRoutes();
-  const fetchStudents = useAction(DoorwardApi.students.getStudentsInCourse);
-  const fetchManagers = useAction(DoorwardApi.courseManagers.getCourseManagers);
-  const fetchDiscussionGroups = useAction(DoorwardApi.discussionGroups.getAll);
   const courseId = match.params.courseId;
 
-  const existingMeeting = course?.data?.course?.meetingRoom?.currentMeeting;
+  const existingMeeting = course.state.data?.course?.meetingRoom?.currentMeeting;
 
   useEffect(() => {
     if (hasPrivileges('students.list')) {
-      fetchStudents(courseId);
+      students.action(courseId);
     }
     if (hasPrivileges('course-managers.view')) {
-      fetchManagers(courseId);
+      managers.action(courseId);
     }
     if (hasPrivileges('discussion-groups.list')) {
-      fetchDiscussionGroups(courseId);
+      discussionGroups.action(courseId);
     }
   }, []);
 
-  useFormSubmit(createCourseManager, () => {
+  useFormSubmit(createCourseManager.state, () => {
     if (hasPrivileges('course-managers.view')) {
-      fetchManagers(courseId);
+      managers.action(courseId);
     }
   });
 
@@ -69,8 +64,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
           action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
         >
           <WebComponent
-            data={students.data.students}
-            loading={students.fetching}
+            data={students.state.data.students}
+            loading={students.state.fetching}
             message={translate('noStudentHaveBeenAddedToTheCourseYet')}
             size="medium"
             actionMessage={translate('createStudent')}
@@ -105,8 +100,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             open
           >
             <WebComponent
-              data={managers.data.courseManagers}
-              loading={students.fetching}
+              data={managers.state.data.courseManagers}
+              loading={students.state.fetching}
               message={translate('noManagersHaveBeenAdded')}
               size="medium"
               actionMessage={translate('createTeacher')}
@@ -140,8 +135,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             title={() => <Header size={5}>{translate('discussionGroups')}</Header>}
           >
             <WebComponent
-              data={discussionGroups.data.discussionGroups}
-              loading={discussionGroups.fetching}
+              data={discussionGroups.state.data.discussionGroups}
+              loading={discussionGroups.state.fetching}
               emptyMessage={translate('noDiscussionGroupsHaveBeenAdded')}
               size="medium"
               icon="forum"

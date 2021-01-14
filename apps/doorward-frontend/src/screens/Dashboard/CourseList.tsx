@@ -4,7 +4,6 @@ import useRoutes from '../../hooks/useRoutes';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '@doorward/ui/components/Image';
 import Tools from '@doorward/common/utils/Tools';
-import Plural from '@doorward/ui/components/Plural';
 import Row from '@doorward/ui/components/Row';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import Card from '@doorward/ui/components/Card';
@@ -14,26 +13,25 @@ import ProgressModal from '../../components/Modals/ProgressModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import Icon from '@doorward/ui/components/Icon';
 import classNames from 'classnames';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
-import useAction from '@doorward/ui/hooks/useActions';
 import { useLocation } from 'react-router';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
   const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
-  const fetchCourses = useAction(DoorwardApi.courses.getCourses);
-  const courses = useDoorwardApi((state) => state.courses.getCourses);
+  const fetchCourses = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
+  const courses = useApiAction(DoorwardApi, (api) => api.courses.getCourses).state;
 
-  const launchClassroom = useDoorwardApi((state) => state.courses.launchClassroom);
+  const launchClassroom = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
   const routes = useRoutes();
   const location = useLocation();
 
   useEffect(() => {
-    fetchCourses({ limit: 8 });
+    fetchCourses.action({ limit: 8 });
   }, [location.search]);
 
   useEffect(() => {
@@ -47,11 +45,15 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
         <div>
           <div className="dashboard__course-list">
             <ProgressModal
-              state={launchClassroom}
+              state={launchClassroom.state}
               cancellable={false}
               showErrorToast
-              action={() => DoorwardApi.courses.launchClassroom(classroomCourse?.id)}
-              title={(classroomCourse?.meetingRoom?.currentMeeting ? translate('joiningMeeting') : translate('startingMeeting')) }
+              action={() => launchClassroom.action(classroomCourse?.id)}
+              title={
+                classroomCourse?.meetingRoom?.currentMeeting
+                  ? translate('joiningMeeting')
+                  : translate('startingMeeting')
+              }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {

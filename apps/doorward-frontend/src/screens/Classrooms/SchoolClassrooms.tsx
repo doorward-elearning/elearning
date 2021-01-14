@@ -8,7 +8,6 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
 import useModal from '@doorward/ui/hooks/useModal';
 import AddClassroomModal from '../../components/Modals/AddClassroomModal';
-import useAction from '@doorward/ui/hooks/useActions';
 import Card from '@doorward/ui/components/Card';
 import Tools from '@doorward/common/utils/Tools';
 import EImage from '@doorward/ui/components/Image';
@@ -17,26 +16,26 @@ import Header from '@doorward/ui/components/Header';
 import ItemArray from '@doorward/ui/components/ItemArray';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Panel from '@doorward/ui/components/Panel';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
-  const state = useDoorwardApi((state) => state.schools.getSchool);
-  const fetchSchool = useAction(DoorwardApi.schools.getSchool);
-  usePageResource('schoolId', DoorwardApi.schools.getSchool);
+  const fetchSchool = useApiAction(DoorwardApi, (api) => api.schools.getSchool);
+
+  usePageResource('schoolId', fetchSchool.action);
   const routes = useRoutes();
   const addClassroomModal = useModal();
 
   useEffect(() => {
-    if (state.data.school) {
-      routes.setCurrentTitle(state.data.school.name);
+    if (fetchSchool.state.data.school) {
+      routes.setCurrentTitle(fetchSchool.state.data.school.name);
     }
-  }, [state]);
+  }, [fetchSchool.state]);
   return (
     <Layout
       {...props}
-      header={state.data?.school?.name}
+      header={fetchSchool.state.data?.school?.name}
       navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.PAGE_LOGO]}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
       actionBtnProps={{ text: translate('addClassroom'), onClick: addClassroomModal.openModal }}
@@ -44,15 +43,15 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       <AddClassroomModal
         onSuccess={() => {
           addClassroomModal.closeModal();
-          fetchSchool(state.data?.school?.id);
+          fetchSchool.action(fetchSchool.state.data?.school?.id);
         }}
         modal={addClassroomModal}
-        schoolId={state.data?.school?.id}
+        schoolId={fetchSchool.state.data?.school?.id}
       />
       <Panel plain>{translate('clickOnAnyOfTheFollowingClassroomsToJoinAMeeting')}</Panel>
       <WebComponent
-        data={state.data?.school?.classRooms}
-        loading={state.fetching}
+        data={fetchSchool.state.data?.school?.classRooms}
+        loading={fetchSchool.state.fetching}
         emptyMessage={translate('noClassroomsHaveBeenCreatedForThisSchool')}
         icon="business_center"
       >

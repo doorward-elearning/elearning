@@ -5,17 +5,18 @@ import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@doorward/ui/types';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
-  const state = useDoorwardApi((state) => state.modules.getModule);
+  const { action: getModule, state } = useApiAction(DoorwardApi, (api) => api.modules.getModule);
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('moduleId', DoorwardApi.modules.getModule);
+
+  usePageResource('moduleId', getModule);
 
   const { module } = state.data;
   useEffect(() => {

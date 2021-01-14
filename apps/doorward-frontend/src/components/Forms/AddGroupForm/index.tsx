@@ -16,9 +16,9 @@ import VerticalScroll from '@doorward/ui/components/VerticalScroll';
 import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { GroupMemberResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 interface InitialValues {
   name: string;
@@ -28,7 +28,7 @@ interface InitialValues {
 const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.Element => {
   const form = useForm();
   const hook = useUserChooser(props.users, props.group?.members);
-  const state = useDoorwardApi((state) => (props.group ? state.groups.updateGroup : state.groups.createGroup));
+  const api = useApiAction(DoorwardApi, (api) => (props.group ? api.groups.updateGroup : api.groups.createGroup));
   const initialValues: InitialValues = props.group || {
     name: '',
     members: [],
@@ -41,8 +41,8 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
       validationSchema={CreateGroupBody}
       showSuccessToast
       onSuccess={props.onSuccess}
-      submitAction={props.group ? DoorwardApi.groups.updateGroup : DoorwardApi.groups.createGroup}
-      state={state}
+      submitAction={api.action}
+      state={api.state}
       createData={(values) => {
         const data = [];
         if (props.group) {

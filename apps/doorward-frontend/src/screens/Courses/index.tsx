@@ -4,20 +4,18 @@ import AddCourse from './AddCourse';
 import CourseTable from '../../components/Tables/CourseTable';
 import { ROUTES } from '../../routes/routes';
 import useModal from '@doorward/ui/hooks/useModal';
-import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
-  const fetchCourses = useAction(DoorwardApi.courses.getCourses);
-  const courses = useDoorwardApi((state) => state.courses.getCourses);
+  const fetchCourses = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
 
   useEffect(() => {
-    fetchCourses({});
+    fetchCourses.action({});
   }, [props.location.search]);
 
   const TITLE = translate('createANewCourse').toUpperCase();
@@ -33,7 +31,11 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <PaginationContainer state={courses} onChangePage={(page) => {}} data={courses.data.courses}>
+      <PaginationContainer
+        state={fetchCourses.state}
+        onChangePage={(page) => {}}
+        data={fetchCourses.state.data.courses}
+      >
         {(courses): JSX.Element => {
           return <CourseTable courses={courses} history={props.history} />;
         }}

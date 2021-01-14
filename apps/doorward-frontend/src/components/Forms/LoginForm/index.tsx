@@ -6,23 +6,22 @@ import useForm from '@doorward/ui/hooks/useForm';
 import useRoutes from '../../../hooks/useRoutes';
 import AuthForm from '../AuthForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import { LoginBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const LoginForm: FunctionComponent<LoginFormProps> = () => {
   const initialState = { username: '', password: '' };
   const form = useForm<LoginBody>();
-  const login = useDoorwardApi((state) => state.auth.login);
+  const login = useApiAction(DoorwardApi, (state) => state.auth.login);
   const routes = useRoutes();
 
   return (
     <AuthForm
       initialValues={initialState}
       buttonText={translate('login')}
-      submitAction={DoorwardApi.auth.login}
+      apiAction={login}
       validationSchema={LoginBody}
-      state={login}
       form={form}
       title={translate('login')}
       renderFooter={() => <Link to={routes.forgotPassword.link}>Forgot Password?</Link>}

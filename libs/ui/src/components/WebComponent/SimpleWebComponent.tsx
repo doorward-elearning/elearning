@@ -1,10 +1,7 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import WebComponent, { WebComponentProps } from './index';
 import { ActionCreator, WebComponentState } from '../../reducers/reducers';
 import useAction from '../../hooks/useActions';
-import useDoorwardApi from '../../../../../apps/doorward-frontend/src/hooks/useDoorwardApi';
-import { State } from '../../../../../apps/doorward-frontend/src/store';
 
 function SimpleWebComponent<
   T extends WebComponentState<any>,
@@ -16,9 +13,8 @@ function SimpleWebComponent<
     const params = props.params || [];
     action(...(params as Parameters<S>));
   }, [props.params]);
-  const state = useDoorwardApi(props.selector);
   return (
-    <WebComponent {...props} data={props.dataSelector(state.data)} loading={state.fetching}>
+    <WebComponent {...props} data={props.state.data} loading={props.state.fetching}>
       {(data): JSX.Element => <React.Fragment>{props.children(data)}</React.Fragment>}
     </WebComponent>
   );
@@ -34,7 +30,7 @@ export interface SimpleWebComponentProps<
   U extends (data: Data<T>) => any
 > extends WebComponentProps<ApiData<U, T>> {
   action: S;
-  selector: (state: State['DoorwardApi']) => T;
+  state: T;
   params?: Parameters<S>;
   dataSelector: U;
 }

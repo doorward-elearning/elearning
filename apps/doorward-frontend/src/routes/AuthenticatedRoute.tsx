@@ -6,12 +6,13 @@ import useRoutes from '../hooks/useRoutes';
 import { DoorwardRoutes } from './index';
 import LoadingPage from '../screens/LoadingPage';
 import useAuth from '../hooks/useAuth';
-import useDoorwardApi from '../hooks/useDoorwardApi';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../services/apis/doorward.api';
 
 function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();
   const { authenticated } = useAuth();
-  const user = useDoorwardApi((state) => state.auth.getCurrentUser);
+  const user = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser).state;
   const hasPrivileges = usePrivileges();
 
   if (user.errors.message || user.errors.errors || !authenticated) {

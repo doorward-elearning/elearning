@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { useSelector } from 'react-redux';
-import { State } from '../../store';
 import CoursesInProgressTable from '../../components/Tables/CoursesInProgressTable';
 import './StudentReport.scss';
 import useRoutes from '../../hooks/useRoutes';
@@ -9,7 +7,6 @@ import Panel from '@doorward/ui/components/Panel';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Grid from '@doorward/ui/components/Grid';
 import Tools from '@doorward/common/utils/Tools';
-import useAction from '@doorward/ui/hooks/useActions';
 import CustomChart from '@doorward/ui/components/CustomChart';
 import Row from '@doorward/ui/components/Row';
 import usePageResource from '../../hooks/usePageResource';
@@ -17,21 +14,23 @@ import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import Badge from '@doorward/ui/components/Badge';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
-import useDoorwardApi from '../../hooks/useDoorwardApi';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const data = [[translate('course'), translate('marks')]];
 
 const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
-  const state = useDoorwardApi((state) => state.reports.getStudentReport);
-  const courses = useDoorwardApi((state) => state.courses.getCourses.data?.courses);
+  const getStudentReport = useApiAction(DoorwardApi, (api) => api.reports.getStudentReport);
   const routes = useRoutes();
 
-  usePageResource('studentId', DoorwardApi.reports.getStudentReport);
-  const fetchCourses = useAction(DoorwardApi.courses.getCourses);
-  useBreadCrumbTitle(state, (state) => state.data.student?.fullName, routes);
+  usePageResource('studentId', getStudentReport.action);
+
+  const fetchCourses = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
+  const courses = fetchCourses.state.data.courses;
+
+  useBreadCrumbTitle(getStudentReport.state, (state) => state.data.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {
@@ -44,7 +43,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
 
   useEffect(() => {
     if (!courses) {
-      fetchCourses();
+      fetchCourses.action();
     }
   }, []);
 
@@ -52,7 +51,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={Tools.str(state.data?.student?.fullName)}
+      header={Tools.str(getStudentReport.state.data?.student?.fullName)}
       renderHeaderEnd={(): JSX.Element => (
         <Panel>
           <Header size={1}>98%</Header>
@@ -86,15 +85,21 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
             <Header size={3}>
               <div>
                 {translate('ongoingCourses')}
-                <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
+                <WebComponent
+                  data={getStudentReport.state.data.student}
+                  inline
+                  loading={getStudentReport.state.fetching}
+                  loader={null}
+                  empty={null}
+                >
                   {(data) => <Badge>{data.courses.length}</Badge>}
                 </WebComponent>
               </div>
             </Header>
             <WebComponent
               icon="school"
-              data={state.data.student?.courses}
-              loading={state.fetching}
+              data={getStudentReport.state.data.student?.courses}
+              loading={getStudentReport.state.fetching}
               message={translate('noOngoingCourses')}
               size="medium"
             >
@@ -106,7 +111,13 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
               <Header size={3}>
                 <div>
                   {translate('completedCourses')}
-                  <WebComponent data={state.data.student} inline loading={state.fetching} loader={null} empty={null}>
+                  <WebComponent
+                    data={getStudentReport.state.data.student}
+                    inline
+                    loading={getStudentReport.state.fetching}
+                    loader={null}
+                    empty={null}
+                  >
                     {(data): JSX.Element => <Badge>{data.courses.length}</Badge>}
                   </WebComponent>
                 </div>
@@ -114,8 +125,8 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
             </Row>
             <WebComponent
               icon="school"
-              data={state.data.student?.courses}
-              loading={state.fetching}
+              data={getStudentReport.state.data.student?.courses}
+              loading={getStudentReport.state.fetching}
               message={translate('noCompletedCourses')}
               size="medium"
             >

@@ -20,12 +20,11 @@ import Form from '@doorward/ui/components/Form';
 import useMergeState from '@doorward/ui/hooks/useMergeState';
 import useRoutes from '../../../hooks/useRoutes';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
-import useAction from '@doorward/ui/hooks/useActions';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import Table from '@doorward/ui/components/Table';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -60,15 +59,15 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
 
-  const getSubmission = useAction(DoorwardApi.assessments.getSubmission, {
+  const getSubmission = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
       setSubmission(data.submission);
     },
   });
-  const getSubmissionState = useDoorwardApi((state) => state.assessments.getSubmission);
+  const getSubmissionState = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
 
   useEffect(() => {
-    getSubmission(assessment.id);
+    getSubmission.action(assessment.id);
   }, []);
 
   const form = useForm();
@@ -87,7 +86,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   }, [assessment]);
 
   useEffect(() => {
-    if (getSubmissionState.fetched) {
+    if (getSubmissionState.state.fetched) {
       let startAssessment = false;
       let startDate, endDate;
 

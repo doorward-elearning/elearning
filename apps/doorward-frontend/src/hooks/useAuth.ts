@@ -1,8 +1,9 @@
 import useBaseAuth from '@doorward/ui/hooks/useAuth';
-import useDoorwardApi from './useDoorwardApi';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
+import DoorwardApi from '../services/apis/doorward.api';
 
 const useAuth = () => {
-  const currentUser = useDoorwardApi((state) => state.auth.getCurrentUser);
+  const currentUser = useApiAction(DoorwardApi, (state) => state.auth.getCurrentUser).state;
   return useBaseAuth(currentUser.data?.user);
 };
 

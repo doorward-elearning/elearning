@@ -5,15 +5,15 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { UserCardContext } from '../../user/UserCard';
 import { ChangePasswordFormContext } from '../../Forms/ChangePasswordForm';
 import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
-import useDoorwardApi from '../../../hooks/useDoorwardApi';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
+import useApiAction from '@doorward/ui/hooks/useApiAction';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
-  const state = useDoorwardApi((state) => state.students.updateStudentPassword);
-  const changeDetails = useDoorwardApi((state) => state.students.updateStudent);
+  const updateStudentPassword = useApiAction(DoorwardApi, (api) => api.students.updateStudentPassword);
+  const changeDetails = useApiAction(DoorwardApi, (api) => api.students.updateStudent);
 
   return (
     <div className="ed-student__profile_view">
@@ -24,15 +24,15 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
         openModal={passwordModalOpen}
       >
         <ProfileAccountFormContext
-          submitAction={DoorwardApi.students.updateStudent}
-          state={changeDetails}
+          submitAction={changeDetails.action}
+          state={changeDetails.state}
           createData={(values) => [props.student.id, values]}
         >
           <ChangePasswordFormContext
-            submitAction={DoorwardApi.students.updateStudentPassword}
+            submitAction={updateStudentPassword.action}
             createData={(data) => [props.student.id, { password: data.newPassword }]}
             dontEnterCurrentPassword
-            state={state}
+            state={updateStudentPassword.state}
           >
             <UserProfileCard form={form} user={props.student} editable />
           </ChangePasswordFormContext>
