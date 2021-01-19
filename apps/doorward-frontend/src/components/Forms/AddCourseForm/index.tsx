@@ -62,7 +62,10 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
 const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
   const modules = { min: 1, max: 10 };
 
-  const createCourse = useApiAction(DoorwardApi, (api) => api.courses.createCourse);
+  const createCourse = useApiAction(DoorwardApi, (api) => api.courses.createCourse, {
+    showSuccessToast: true,
+    showErrorToast: true,
+  });
 
   const initialValues = {
     title: '',

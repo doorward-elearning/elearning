@@ -20,7 +20,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
         return (
           <Table
             columns={{ name: translate('name'), members: translate('members'), createdBy: translate('createdBy') }}
-            data={data as Array<GroupEntity>}
+            data={data}
             actionMenu={props.actionMenu}
             onRowClick={props.onRowClick}
             getCell={(row) => {

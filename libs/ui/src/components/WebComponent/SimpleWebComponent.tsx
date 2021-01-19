@@ -14,7 +14,7 @@ function SimpleWebComponent<
     action(...(params as Parameters<S>));
   }, [props.params]);
   return (
-    <WebComponent {...props} data={props.state.data} loading={props.state.fetching}>
+    <WebComponent {...props} data={props.state.data} hasData={props.state.data} loading={props.state.fetching}>
       {(data): JSX.Element => <React.Fragment>{props.children(data)}</React.Fragment>}
     </WebComponent>
   );
@@ -38,3 +38,4 @@ export interface SimpleWebComponentProps<
 export type SimpleWebConsumer<S, T> = (props: S) => (data: T) => JSX.Element;
 
 export default SimpleWebComponent;
+

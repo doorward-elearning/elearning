@@ -1,7 +1,6 @@
 import React, { ReactChild } from 'react';
 import Form, { FormProps, FormRenderProps } from '@doorward/ui/components/Form';
 import { Action, WebComponentState } from '@doorward/ui/reducers/reducers';
-import useAction from '@doorward/ui/hooks/useActions';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import Row from '@doorward/ui/components/Row';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -21,17 +20,14 @@ export enum BasicFormFeatures {
 function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormProps<T, A, W>): JSX.Element {
   const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  const action = props.submitAction || props.apiAction?.action;
+
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
   const state = props.state || props.apiAction?.state;
 
-  const submit = useAction(action, {
-    showSuccessToast,
-    showErrorToast,
-  });
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  const submit = props.submitAction || props.apiAction?.action;
 
   const form = props.form;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
@@ -40,7 +36,10 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormP
   const history = useHistory();
 
   const onSubmit = (body: T): void => {
-    submit(...createData(body));
+    submit(...createData(body), {
+      showErrorToast: true,
+      showSuccessToast: true,
+    });
   };
 
   useFormSubmit(props.state, () => {
