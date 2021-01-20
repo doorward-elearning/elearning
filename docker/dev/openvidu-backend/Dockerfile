@@ -1,0 +1,19 @@
+ARG APP_VERSION=1.0.0
+
+FROM core.harbor.doorward.tech/doorward/doorward@sha256:$APP_VERSION
+
+EXPOSE 7000
+
+COPY . /usr/app
+
+RUN cd /usr/app/
+
+RUN yarn install
+
+RUN yarn build openvidu-backend --prod
+
+RUN cp .env dist/apps/openvidu-backend/.env
+
+RUN chmod +x docker/production/openvidu-backend/entrypoint.sh
+
+ENTRYPOINT ["/usr/app/docker/production/openvidu-backend/entrypoint.sh"]
