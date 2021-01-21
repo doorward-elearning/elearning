@@ -6,10 +6,13 @@ kubectl apply -f efk.yaml
 helm install nginx-ingress ../charts/controllers/nginx-ingress
 helm install grafana ../charts/controllers/grafana
 helm install prometheus ../charts/controllers/prometheus
+#kubectl apply --filename https://storage.googleapis.com/tekton-releases/pipeline/latest/release.yaml
+#kubectl apply --filename https://storage.googleapis.com/tekton-releases/triggers/latest/release.yaml
+#kubectl apply --filename https://storage.googleapis.com/tekton-releases/dashboard/latest/tekton-dashboard-release.yaml
 
 for i in 1 2 3 4 5 6 7 8 9 10;
 do
-  kubectl get pods | egrep 'es-cluster|fluentd|grafana|kibana|nginx-ingress-controller|nginx-ingress-default|prometheus-alertmanager|prometheus-kube-state-metrics|prometheus-node-exporter|prometheus-pushgateway|prometheus-server' | grep -v Running
+  kubectl get pods --all-namespaces| egrep 'tekton-dashboard|tekton-pipelines-controller|tekton-pipelines-webhook|tekton-triggers-controller|tekton-triggers-webhook|es-cluster|fluentd|grafana|kibana|nginx-ingress-controller|nginx-ingress-default|prometheus-alertmanager|prometheus-kube-state-metrics|prometheus-node-exporter|prometheus-pushgateway|prometheus-server' | grep -v Running
   if [ $? -eq 0 ]; then
     sleep 120
   else
