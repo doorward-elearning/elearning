@@ -1,0 +1,97 @@
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  creationTimestamp: "2020-10-18T06:16:30Z"
+  generation: 1
+  managedFields:
+  - apiVersion: cert-manager.io/v1alpha2
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        .: {}
+        f:acme:
+          .: {}
+          f:email: {}
+          f:privateKeySecretRef:
+            .: {}
+            f:name: {}
+          f:server: {}
+          f:solvers: {}
+    manager: Go-http-client
+    operation: Update
+    time: "2020-10-18T06:16:29Z"
+  - apiVersion: cert-manager.io/v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:acme:
+          .: {}
+          f:lastRegisteredEmail: {}
+          f:uri: {}
+        f:conditions: {}
+    manager: controller
+    operation: Update
+  name: letsencrypt-prod
+  namespace: doorward-commons
+spec:
+  acme:
+    email: basil@doorward.tech
+    preferredChain: ""
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    server: https://acme-v02.api.letsencrypt.org/directory
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: letsencrypt-prod
+  name: commons
+  namespace: doorward-commons
+  labels:
+    app.kubernetes.io/name: ghost
+
+spec:
+  rules:
+    - host: clients.doorward.org
+      http:
+        paths:
+          - backend:
+              serviceName: corteza-webapp
+              servicePort: 80
+            path: /
+
+    - host: clients.doorward.org
+      http:
+        paths:
+          - backend:
+              serviceName: ghost-service
+              servicePort: 80
+            path: /blog
+
+    - host: api.clients.doorward.org
+      http:
+        paths:
+          - backend:
+              serviceName: corteza-server
+              servicePort: 80
+            path: /
+
+    - host: clients.doorward.org
+      http:
+        paths:
+          - backend:
+              serviceName: bookstack
+              servicePort: 80
+            path: /docs
+
+  tls:
+  - hosts:
+    - api.clients.doorward.org
+    - clients.doorward.org
+    secretName: api.clients.doorward.org

@@ -1,0 +1,206 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: webserver-config
+  namespace: doorward-commons
+data:
+  bookstack.conf: |
+    <VirtualHost *:8080>
+    ServerName clients.doorward.org
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    # BookStack Configuration
+    Alias "/docs" "/var/www/bookstack/public"
+
+    <Directory "/var/www/bookstack/public">
+    Options FollowSymlinks
+    AllowOverride none
+    Require all granted
+
+    RewriteEngine On
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+    </Directory>
+
+    <Directory "/var/www/bookstack">
+    AllowOverride None
+    Require all denied
+    </Directory>
+    # End BookStack Configuration
+
+    </VirtualHost>
+
+---
+# Source: bookstack/templates/storage-pvc.yaml
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: bookstack-storage
+  namespace: doorward-commons
+  labels:
+    app: bookstack
+    chart: "bookstack-1.2.1"
+    release: "bookstack"
+    heritage: "Helm"
+spec:
+  accessModes:
+    - "ReadWriteOnce"
+  storageClassName: do-block-storage
+  resources:
+    requests:
+      storage: "8Gi"
+---
+# Source: bookstack/templates/serviceaccount.yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app: bookstack
+    chart: "bookstack-1.2.1"
+    heritage: Helm
+    release: bookstack
+  name: bookstack
+  namespace: doorward-commons
+---
+# Source: bookstack/templates/role.yaml
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: bookstack
+  namespace: doorward-commons
+  labels:
+    app: bookstack
+    chart: bookstack-1.2.1
+    release: "bookstack"
+    heritage: "Helm"
+rules:
+- apiGroups: [""]
+  resources: ["endpoints"]
+  verbs: ["get"]
+---
+# Source: bookstack/templates/rolebinding.yaml
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: bookstack
+  namespace: doorward-commons
+  labels:
+    app: bookstack
+    chart: bookstack-1.2.1
+    release: "bookstack"
+    heritage: "Helm"
+subjects:
+- kind: ServiceAccount
+  name: bookstack
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: bookstack
+---
+# Source: bookstack/templates/service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstack
+  namespace: doorward-commons
+  labels:
+    app: bookstack
+    chart: bookstack-1.2.1
+    release: bookstack
+    heritage: Helm
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app: bookstack
+    release: bookstack
+---
+# Source: bookstack/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bookstack
+  namespace: doorward-commons
+  labels:
+    app: bookstack
+    chart: bookstack-1.2.1
+    release: bookstack
+    heritage: Helm
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bookstack
+      release: bookstack
+  template:
+    metadata:
+      labels:
+        app: bookstack
+        release: bookstack
+    spec:
+      serviceAccountName: bookstack
+      containers:
+        - name: bookstack
+          image: "solidnerd/bookstack:0.29.3"
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /docs
+              port: http
+          readinessProbe:
+            httpGet:
+              path: /docs
+              port: http
+          env:
+            - name: DB_HOST
+              value: bookstack-mysql
+            - name: DB_DATABASE
+              value: "bookstack"
+            - name: DB_USERNAME
+              value: "bookstack"
+            - name: APP_URL
+              value: "https://clients.doorward.org/docs"
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: bookstack-mysql
+                  key: mysql-password
+          volumeMounts:
+          - name: storage
+            subPath: uploads
+            mountPath: /var/www/bookstack/public/uploads
+          - name: storage
+            subPath: storage
+            mountPath: /var/www/bookstack/storage/uploads
+          - name: webserver-config
+            mountPath: "/etc/apache2/sites-enabled"
+          resources:
+            {}
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: bookstack-storage
+        - name: webserver-config
+          configMap:
+            name: webserver-config
+            items:
+              - key: bookstack.conf
+                path: bookstack.conf

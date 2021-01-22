@@ -1,0 +1,89 @@
+---
+# Source: bookstack/charts/mysql/templates/secrets.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: bookstack-mysql
+  namespace: doorward-commons
+  labels:
+    app: "mysql"
+    chart: mysql-4.4.0
+    release: "bookstack"
+    heritage: "Helm"
+type: Opaque
+data:
+  mysql-root-password: "SW1xRjJwQm1Zcg=="
+  mysql-password: "eGF6UkJWcFI2UA=="
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: bookstack-mysql-pv-claim
+  namespace: doorward-commons
+spec:
+  storageClassName: do-block-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 15Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: bookstack-mysql
+  namespace: doorward-commons
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: bookstack-mysql
+  clusterIP: None
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: bookstack-mysql
+  namespace: doorward-commons
+spec:
+  selector:
+    matchLabels:
+      app: bookstack-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: bookstack-mysql
+    spec:
+      containers:
+      - image: mysql:8
+        name: mysql
+        args: ["--default-authentication-plugin=mysql_native_password"]
+        env:
+          # Use secret in real usage
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookstack-mysql
+              key: mysql-root-password
+        - name: MYSQL_USER
+          value: "bookstack"
+        - name: MYSQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: bookstack-mysql
+              key: mysql-password
+        - name: MYSQL_DATABASE
+          value: "bookstack"
+        ports:
+        - containerPort: 3306
+          name: mysql
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+          subPath: mysql
+      volumes:
+      - name: mysql-persistent-storage
+        persistentVolumeClaim:
+          claimName: bookstack-mysql-pv-claim
