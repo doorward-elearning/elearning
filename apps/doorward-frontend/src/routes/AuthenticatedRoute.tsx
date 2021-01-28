@@ -15,10 +15,10 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const [, user] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
   const hasPrivileges = usePrivileges();
 
-  if (user.errors.message || user.errors.errors || !authenticated) {
+  if (user.errors?.message || user.errors?.errors || !authenticated) {
     Tools.clearToken();
     return <Redirect to={props.redirect || routes.login.link} />;
-  } else if (authenticated && user.data.user) {
+  } else if (authenticated && user.data?.user) {
     if (hasPrivileges(...props.privileges)) {
       return <Route {...props} />;
     } else {

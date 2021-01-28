@@ -28,9 +28,9 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   usePageResource('studentId', getStudentReport);
 
   const [fetchCourses, coursesState] = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
-  const courses = coursesState.data.courses;
+  const courses = coursesState.data?.courses;
 
-  useBreadCrumbTitle(studentReportState, (state) => state.data.student?.fullName, routes);
+  useBreadCrumbTitle(studentReportState, (state) => state.data?.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {
@@ -86,19 +86,19 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
               <div>
                 {translate('ongoingCourses')}
                 <WebComponent
-                  data={studentReportState.data.student}
+                  data={studentReportState.data?.student}
                   inline
                   loading={studentReportState.fetching}
                   loader={null}
                   empty={null}
                 >
-                  {(data) => <Badge>{data.courses.length}</Badge>}
+                  {(data) => <Badge>{data?.courses.length}</Badge>}
                 </WebComponent>
               </div>
             </Header>
             <WebComponent
               icon="school"
-              data={studentReportState.data.student?.courses}
+              data={studentReportState.data?.student?.courses}
               loading={studentReportState.fetching}
               message={translate('noOngoingCourses')}
               size="medium"
@@ -112,20 +112,20 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
                 <div>
                   {translate('completedCourses')}
                   <WebComponent
-                    data={studentReportState.data.student}
+                    data={studentReportState.data?.student}
                     inline
                     loading={studentReportState.fetching}
                     loader={null}
                     empty={null}
                   >
-                    {(data): JSX.Element => <Badge>{data.courses.length}</Badge>}
+                    {(data): JSX.Element => <Badge>{data?.courses.length}</Badge>}
                   </WebComponent>
                 </div>
               </Header>
             </Row>
             <WebComponent
               icon="school"
-              data={studentReportState.data.student?.courses}
+              data={studentReportState.data?.student?.courses}
               loading={studentReportState.fetching}
               message={translate('noCompletedCourses')}
               size="medium"

@@ -17,7 +17,7 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
       title={translate('students')}
       type={Groups.STUDENT}
       state={studentList}
-      getUsers={(data) => data.students}
+      getUsers={(data) => data?.students}
       currentGroupState={groupState}
       actionCreator={fetchStudents}
       actionArgs={[{ noPagination: true }]}

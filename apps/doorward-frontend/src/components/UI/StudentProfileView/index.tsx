@@ -33,7 +33,7 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
         >
           <ChangePasswordFormContext
             submitAction={updateStudentPassword}
-            createData={(data) => [props.student.id, { password: data.newPassword }]}
+            createData={(data) => [props.student.id, { password: data?.newPassword }]}
             dontEnterCurrentPassword
             state={updateStudentPasswordState}
           >

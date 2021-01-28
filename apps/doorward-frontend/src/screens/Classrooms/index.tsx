@@ -25,7 +25,7 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
     >
       <p>{translate('joinAClassroomFromAnySchoolBelow')}</p>
-      <WebComponent data={schoolState.data.schools} loading={schoolState.fetching}>
+      <WebComponent data={schoolState.data?.schools} loading={schoolState.fetching}>
         {(schools) => {
           return (
             <Table

@@ -10,7 +10,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
   const [studentsReport, state] = useApiAction(DoorwardApi, (api) => api.reports.getStudentsReport);
 
   return (
-    <SimpleWebComponent action={studentsReport} state={state} dataSelector={(data) => data.students}>
+    <SimpleWebComponent action={studentsReport} state={state} dataSelector={(data) => data?.students}>
       {(data): JSX.Element => (
         <Table
           searchText={props.filter}

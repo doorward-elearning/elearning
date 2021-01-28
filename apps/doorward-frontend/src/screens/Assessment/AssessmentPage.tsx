@@ -38,7 +38,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
 
   const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
     onSuccess: (data) => {
-      setSubmission(data.submission);
+      setSubmission(data?.submission);
     },
   });
   const [submitAssessment, submitAssessmentState] = useApiAction(

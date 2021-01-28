@@ -24,7 +24,7 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   useEffect(() => {
     if (registration.data) {
       setNewAccount(true);
-      authenticate(registration.data.token);
+      authenticate(registration.data?.token);
       // clearLogin();
     }
   }, [registration.data]);

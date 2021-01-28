@@ -14,7 +14,7 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
       action={getGroups}
       params={[{ type: props.type, search: props.search }]}
       state={state}
-      dataSelector={(data) => data.groups}
+      dataSelector={(data) => data?.groups}
     >
       {(data) => {
         return (

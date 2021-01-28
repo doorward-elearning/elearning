@@ -25,7 +25,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
       }}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
-      <WebComponent data={organizations.data.organizations} loading={organizations.fetching}>
+      <WebComponent data={organizations.data?.organizations} loading={organizations.fetching}>
         {(organizations) => <OrganizationsTable organizations={organizations} />}
       </WebComponent>
     </Layout>

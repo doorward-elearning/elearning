@@ -21,7 +21,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
 
   const [getUserProfile, profileState] = useApiAction(DoorwardApi, (api) => api.userProfile.getUserProfile, {
     onSuccess: (data) => {
-      setUser(data.user);
+      setUser(data?.user);
     },
   });
 

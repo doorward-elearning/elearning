@@ -48,9 +48,9 @@ const AddGroupForm: React.FunctionComponent<AddGroupFormProps> = (props): JSX.El
       createData={(values) => {
         const data = [];
         if (props.group) {
-          data.push(props.group.id);
+          data?.push(props.group.id);
         }
-        data.push({
+        data?.push({
           name: values.name,
           members: values.members.map((member) => member.id),
           type: props.type,

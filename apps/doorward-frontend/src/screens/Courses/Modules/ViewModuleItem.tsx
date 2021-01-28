@@ -47,21 +47,21 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   }, [routes.currentRoute]);
 
   useEffect(() => {
-    const moduleItem = state.data.item;
+    const moduleItem = state.data?.item;
     if (moduleItem) {
       setItem(moduleItem);
     }
   }, [state]);
 
   useEffect(() => {
-    if (course.data.course) {
-      const currentModule = course.data.course.modules.find((module) => module.id === match.params.moduleId);
+    if (course.data?.course) {
+      const currentModule = course.data?.course.modules.find((module) => module.id === match.params.moduleId);
       if (currentModule) {
         setModule(currentModule);
         routes.setTitle(routes.viewModuleItem.id, currentModule.title);
       }
     }
-  }, [course.data.course, match.params.itemId]);
+  }, [course.data?.course, match.params.itemId]);
 
   const goBack = () => {
     routes.navigate(routes.viewCourse, {

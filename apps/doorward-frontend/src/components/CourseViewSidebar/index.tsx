@@ -65,7 +65,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
           action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
         >
           <WebComponent
-            data={studentsInCourse.data.students}
+            data={studentsInCourse.data?.students}
             loading={studentsInCourse.fetching}
             message={translate('noStudentHaveBeenAddedToTheCourseYet')}
             size="medium"
@@ -101,7 +101,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             open
           >
             <WebComponent
-              data={courseManagers.data.courseManagers}
+              data={courseManagers.data?.courseManagers}
               loading={studentsInCourse.fetching}
               message={translate('noManagersHaveBeenAdded')}
               size="medium"
@@ -136,7 +136,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             title={() => <Header size={5}>{translate('discussionGroups')}</Header>}
           >
             <WebComponent
-              data={discussionGroups.data.discussionGroups}
+              data={discussionGroups.data?.discussionGroups}
               loading={discussionGroups.fetching}
               emptyMessage={translate('noDiscussionGroupsHaveBeenAdded')}
               size="medium"

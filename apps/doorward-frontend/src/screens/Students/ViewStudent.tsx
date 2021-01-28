@@ -14,8 +14,8 @@ const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Elem
   const routes = useRoutes();
 
   useEffect(() => {
-    if (student.data.student) {
-      routes.setCurrentTitle(student.data.student.fullName);
+    if (student.data?.student) {
+      routes.setCurrentTitle(student.data?.student.fullName);
     }
   }, [student]);
 
@@ -25,7 +25,7 @@ const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Elem
       header={student.data?.student?.fullName}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
     >
-      <WebComponent data={student.data.student} loading={student.fetching}>
+      <WebComponent data={student.data?.student} loading={student.fetching}>
         {(data) => <StudentProfileView student={data} />}
       </WebComponent>
     </Layout>

@@ -18,7 +18,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
   return (
     <ChooseItemsForm
       items={props.managers}
-      getItems={(state1) => state1.data.teachers}
+      getItems={(state1) => state1.data?.teachers}
       submitAction={fetchTeacherList}
       state={teacherList}
       form={props.form}

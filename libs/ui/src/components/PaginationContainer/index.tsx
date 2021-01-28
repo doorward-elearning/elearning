@@ -10,9 +10,7 @@ function PaginationContainer<T extends PaginatedResponse, Data>(props: Paginatio
     query: { page },
     updateLocation,
   } = useQueryParams<{ page: string }>();
-  const {
-    data: { pagination },
-  } = props.state;
+  const pagination = props.state.data?.pagination;
 
   useEffect(() => {
     if (+page !== pagination?.page || page === undefined) {

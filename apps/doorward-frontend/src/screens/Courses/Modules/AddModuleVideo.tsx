@@ -17,10 +17,10 @@ const AddModuleVideo: React.FunctionComponent<AddModuleVideoProps> = (props): JS
   const routes = useRoutes();
 
   useEffect(() => {
-    if (course.data.course) {
-      setModule(course.data.course.modules.find((module) => module.id === match.params.moduleId));
+    if (course.data?.course) {
+      setModule(course.data?.course.modules.find((module) => module.id === match.params.moduleId));
     }
-  }, [course.data.course]);
+  }, [course.data?.course]);
 
   const finish = () => {
     routes.navigate(routes.routes.viewCourse, {

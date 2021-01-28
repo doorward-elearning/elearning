@@ -57,7 +57,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
       noNavBar
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
-        <IfElse condition={course.data.course}>
+        <IfElse condition={course.data?.course}>
           <React.Fragment>
             <EditableLabelForm
               submitAction={updateCourse}
@@ -65,7 +65,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               name="title"
               privileges={['courses.update']}
               createData={(values) => [courseId, values]}
-              value={course.data.course?.title}
+              value={course.data?.course?.title}
             />
           </React.Fragment>
         </IfElse>
@@ -79,7 +79,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 {translate('addModule')}
               </Button>
             </RoleContainer>
-            {course.data.course && (
+            {course.data?.course && (
               <React.Fragment>
                 {!hasPrivileges('meetings.read-only') && ongoingMeeting && (
                   <Button icon="phone" mini onClick={liveClassroomModal.openModal}>
@@ -99,26 +99,26 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               showErrorToast
               action={() => launchClassroom(courseId)}
               title={
-                course.data.course?.meetingRoom?.currentMeeting
+                course.data?.course?.meetingRoom?.currentMeeting
                   ? translate('joiningMeeting')
                   : translate('startingMeeting')
               }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
-                  meetingId: data.meeting.id,
+                  meetingId: data?.meeting.id,
                 });
               }}
             />
-            <IfElse condition={course.data.course}>
-              <CourseViewMenu course={course.data.course} />
+            <IfElse condition={course.data?.course}>
+              <CourseViewMenu course={course.data?.course} />
             </IfElse>
           </React.Fragment>
         );
       }}
     >
       <div className="view-course__content">
-        <WebComponent data={course.data.course} loading={course.fetching}>
+        <WebComponent data={course.data?.course} loading={course.fetching}>
           {(course): JSX.Element => {
             return (
               <div>

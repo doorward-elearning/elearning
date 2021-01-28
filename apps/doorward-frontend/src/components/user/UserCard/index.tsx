@@ -32,14 +32,14 @@ const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
             {props.changePassword && <ChangePasswordModal useModal={modal} useForm={form} />}
             <Card>
               <Card.Header center>
-                <Header size={2}>{data.fullName}</Header>
+                <Header size={2}>{data?.fullName}</Header>
               </Card.Header>
               <Card.Body>
                 <div className="profile-details">
                   <EImage src={profile} alt="User Image" circle size="large" />
-                  <Header size={3}>{data.email || data.phoneNumber}</Header>
+                  <Header size={3}>{data?.email || data?.phoneNumber}</Header>
                   <div>
-                    <Pill>{data.role?.displayName}</Pill>
+                    <Pill>{data?.role?.displayName}</Pill>
                   </div>
                 </div>
               </Card.Body>

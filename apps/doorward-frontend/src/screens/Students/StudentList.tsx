@@ -18,7 +18,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
   const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
-  const total = studentList.data.pagination?.totalCount;
+  const total = studentList.data?.pagination?.totalCount;
 
   useEffect(() => {
     fetch();
@@ -43,7 +43,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
       }}
     >
       <PaginationContainer
-        data={studentList.data.students}
+        data={studentList.data?.students}
         state={studentList}
         onChangePage={(currentPage) => {
           fetch({ page: currentPage });

@@ -30,8 +30,8 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
   }, [sortColumn]);
 
   useEffect(() => {
-    setData(props.data);
-    setManipulated(props.data);
+    setData(props.data || []);
+    setManipulated(props.data || []);
   }, [props.data, data]);
 
   useEffect(() => {

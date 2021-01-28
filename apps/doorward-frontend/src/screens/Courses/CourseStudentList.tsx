@@ -58,14 +58,14 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
     <Layout
       noNavBar
       {...props}
-      header={`${course.data?.course?.title ? course.data.course.title + ' - ' : ''} ${translate('studentList')}`}
+      header={`${course.data?.course?.title ? course.data?.course.title + ' - ' : ''} ${translate('studentList')}`}
       actionBtnProps={{
         text: translate('enrollStudent'),
         onClick: (): void => props.history.push(routes.routes.addCourseStudent.link),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
-      <WebComponent data={studentListState.data.students} loading={studentListState.fetching}>
+      <WebComponent data={studentListState.data?.students} loading={studentListState.fetching}>
         {(students): JSX.Element => {
           return (
             <StudentTable

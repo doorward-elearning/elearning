@@ -23,7 +23,7 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={translate('assignment', { count: 100 })}
     >
-      <WebComponent data={state.data.items} loading={state.fetching}>
+      <WebComponent data={state.data?.items} loading={state.fetching}>
         {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table

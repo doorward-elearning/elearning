@@ -14,7 +14,7 @@ const CreateStudentGroup: React.FunctionComponent<CreateStudentGroupProps> = (pr
       title={translate('students')}
       type={Groups.STUDENT}
       state={studentList}
-      getUsers={(data) => data.students}
+      getUsers={(data) => data?.students}
       actionCreator={fetchStudents}
       actionArgs={[{ noPagination: true }]}
       redirectOnSuccess="studentGroups"

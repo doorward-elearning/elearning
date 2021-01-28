@@ -24,9 +24,9 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
   const routes = useRoutes();
 
   useEffect(() => {
-    if (state.data.discussionGroup) {
-      setDiscussionGroup(state.data.discussionGroup);
-      routes.setCurrentTitle(state.data.discussionGroup.title);
+    if (state.data?.discussionGroup) {
+      setDiscussionGroup(state.data?.discussionGroup);
+      routes.setCurrentTitle(state.data?.discussionGroup.title);
     }
   }, [state]);
 
@@ -42,7 +42,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
       header={Tools.str(discussionGroup?.title)}
     >
       <WebComponent
-        data={state.data.discussionGroup}
+        data={state.data?.discussionGroup}
         loading={state.fetching}
         icon="forum"
         emptyMessage={translate('discussionGroupDoesNotExist')}

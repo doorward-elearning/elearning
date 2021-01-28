@@ -21735,10 +21735,10 @@ url@^0.11.0:
     punycode "1.3.2"
     querystring "0.2.0"
 
-use-api-action@^1.1.3:
-  version "1.1.3"
-  resolved "https://registry.yarnpkg.com/use-api-action/-/use-api-action-1.1.3.tgz#9c142b82049fe1d2d48c3dd90b553fe7fcc9bb28"
-  integrity sha512-ZUXuUBozYnIjQenudOaJHyrW1qe2oUaFnw5jI/lthHOExOfdvVlAQVll6NUWcJPUbWAKv8Cd6C4femC9J8GMnw==
+use-api-action@^1.1.4:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/use-api-action/-/use-api-action-1.1.4.tgz#8eb119a23b86677236d4fef7bd0afecf7e0cbbf1"
+  integrity sha512-RrCDnad8SyCJNY2RPFOCGeY7FR5uJxlYKhXNRvIGlqa0sZ1DVR/LR9UQ5hu56zTzfErw/apONDnoyhK2NQjeAQ==
   dependencies:
     "@babel/runtime" "^7.9.2"
     axios "^0.21.1"

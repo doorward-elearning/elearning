@@ -29,7 +29,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
   const getModuleItem = useApiAction(DoorwardApi, (state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
-    const moduleItem = itemState.data.item;
+    const moduleItem = itemState.data?.item;
     if (moduleItem) {
       setAssessment(moduleItem as AssessmentEntity);
     }

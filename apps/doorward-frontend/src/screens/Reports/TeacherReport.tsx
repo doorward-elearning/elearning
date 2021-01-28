@@ -14,9 +14,9 @@ const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Elemen
   const [getTeacherReport, teacherReport] = useApiAction(DoorwardApi, (api) => api.reports.getTeacherReport);
   const routes = useRoutes();
   usePageResource('teacherId', getTeacherReport);
-  useBreadCrumbTitle(teacherReport, (state) => state.data.teacher?.fullName, routes);
+  useBreadCrumbTitle(teacherReport, (state) => state.data?.teacher?.fullName, routes);
 
-  const courseCreator = teacherReport.data.teacher;
+  const courseCreator = teacherReport.data?.teacher;
   return (
     <Layout
       {...props}

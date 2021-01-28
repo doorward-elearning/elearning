@@ -19,7 +19,7 @@ const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> 
     getUserOrganization();
   }, []);
 
-  return <React.Fragment>{!state.data.organization || loadingLang ? <LoadingPage /> : props.children}</React.Fragment>;
+  return <React.Fragment>{!state.data?.organization || loadingLang ? <LoadingPage /> : props.children}</React.Fragment>;
 };
 
 export interface OrganizationWrapperProps {}

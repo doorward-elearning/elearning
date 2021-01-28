@@ -21,8 +21,8 @@ const useViewCourse = (): [string, WebComponentState<CourseResponse, CourseRespo
   }, []);
 
   useEffect(() => {
-    if (course.data.course) {
-      const courseData = course.data.course;
+    if (course.data?.course) {
+      const courseData = course.data?.course;
       setParams(ROUTES.viewCourse.id, { courseId: courseData.id, ...match.params });
       setTitle(ROUTES.viewCourse.id, courseData.title, ROUTES.viewCourse.link);
     }

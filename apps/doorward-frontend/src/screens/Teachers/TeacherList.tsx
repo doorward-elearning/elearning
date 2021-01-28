@@ -28,7 +28,7 @@ const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
-      <WebComponent data={teacherList.data.teachers} loading={teacherList.fetching}>
+      <WebComponent data={teacherList.data?.teachers} loading={teacherList.fetching}>
         {(teachers): JSX.Element => {
           return <TeachersTable teachers={teachers} />;
         }}

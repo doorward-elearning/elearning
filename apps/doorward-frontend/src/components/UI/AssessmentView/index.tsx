@@ -61,7 +61,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
-      setSubmission(data.submission);
+      setSubmission(data?.submission);
     },
   });
 

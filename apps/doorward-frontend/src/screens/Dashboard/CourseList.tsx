@@ -40,7 +40,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
     }
   }, [classroomCourse]);
   return (
-    <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data.courses}>
+    <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data?.courses}>
       {(data) => (
         <div>
           <div className="dashboard__course-list">
@@ -57,7 +57,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
               useModal={liveClassroomModal}
               onSuccess={(data) => {
                 routes.navigate(routes.videoCall, {
-                  meetingId: data.meeting.id,
+                  meetingId: data?.meeting.id,
                 });
               }}
             />

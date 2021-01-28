@@ -24,7 +24,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
       courseId,
     });
   };
-  const module = state.data.module;
+  const module = state.data?.module;
   useEffect(() => {
     if (module && routes.currentRoute) {
       routes.setTitle(routes.currentRoute, module.title);

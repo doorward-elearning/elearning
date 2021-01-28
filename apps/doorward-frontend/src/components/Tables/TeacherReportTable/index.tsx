@@ -9,7 +9,7 @@ import { useApiAction } from 'use-api-action';
 const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (props) => {
   const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.reports.getTeachersReport);
   return (
-    <SimpleWebComponent action={apiAction} state={state} dataSelector={(data) => data.teachers}>
+    <SimpleWebComponent action={apiAction} state={state} dataSelector={(data) => data?.teachers}>
       {(data) => (
         <Table
           data={data}

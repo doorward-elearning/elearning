@@ -21,7 +21,7 @@ const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props)
       header={Tools.str(state.data?.organization?.name)}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >
-      <WebComponent data={state.data.organization} loading={state.fetching}>
+      <WebComponent data={state.data?.organization} loading={state.fetching}>
         {(organization) => (
           <CreateOrganizationForm
             organization={organization}

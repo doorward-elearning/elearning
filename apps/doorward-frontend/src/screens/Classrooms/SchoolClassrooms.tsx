@@ -28,8 +28,8 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
   const addClassroomModal = useModal();
 
   useEffect(() => {
-    if (schoolState.data.school) {
-      routes.setCurrentTitle(schoolState.data.school.name);
+    if (schoolState.data?.school) {
+      routes.setCurrentTitle(schoolState.data?.school.name);
     }
   }, [schoolState]);
   return (

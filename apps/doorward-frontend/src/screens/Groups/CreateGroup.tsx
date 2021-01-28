@@ -46,7 +46,7 @@ function CreateGroup<T, Args extends Array<any>>({
     >
       <WebComponent
         data={{ allUsers: getUsers(state.data), group: currentGroupState?.data?.group }}
-        hasData={(data) => !!data.allUsers}
+        hasData={(data) => !!data?.allUsers}
         loading={loading}
         emptyMessage={emptyMessage}
       >

@@ -31,7 +31,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
       }}
     >
       <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
-      <PaginationContainer state={courses} onChangePage={(page) => {}} data={courses.data.courses}>
+      <PaginationContainer state={courses} onChangePage={(page) => {}} data={courses.data?.courses}>
         {(courses): JSX.Element => {
           return <CourseTable courses={courses} history={props.history} />;
         }}

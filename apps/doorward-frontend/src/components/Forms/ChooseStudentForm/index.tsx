@@ -60,7 +60,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
         <Tab title={translate('students')}>
           <Panel plain>
             <ChooseItemsForm
-              getItems={(state1) => state1.data.students}
+              getItems={(state1) => state1.data?.students}
               items={studentsNotRegistered}
               state={addStudentToCourseState}
               onRemoveFilter={props.onClearSearch}
@@ -92,7 +92,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
             <Row style={{ alignItems: 'start' }}>
               <ChooseItemsForm
                 items={groups}
-                getItems={(state1) => state1.data.groups}
+                getItems={(state1) => state1.data?.groups}
                 state={addStudentToCourseState}
                 form={props.groupForm}
                 onSuccess={onSuccess}

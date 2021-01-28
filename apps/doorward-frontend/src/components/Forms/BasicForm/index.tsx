@@ -23,11 +23,11 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  const state = props.state || props.apiAction?.state;
+  const state = props.state || props.apiAction?.[1];
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   // @ts-ignore
-  const submit = props.submitAction || props.apiAction?.action;
+  const submit = props.submitAction || props.apiAction?.[0];
 
   const form = props.form;
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];

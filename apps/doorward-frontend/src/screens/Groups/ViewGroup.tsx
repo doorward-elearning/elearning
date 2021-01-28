@@ -21,8 +21,8 @@ const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element 
   const routes = useRoutes();
 
   useEffect(() => {
-    if (groupState.data.group) {
-      routes.setCurrentTitle(groupState.data.group?.name);
+    if (groupState.data?.group) {
+      routes.setCurrentTitle(groupState.data?.group?.name);
     }
   }, [groupState]);
 
@@ -33,11 +33,11 @@ const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element 
       actionBtnProps={{
         text: translate('edit'),
         icon: 'edit',
-        onClick: () => props.onEditGroup(groupState.data.group),
+        onClick: () => props.onEditGroup(groupState.data?.group),
       }}
-      header={Tools.str(groupState.data.group?.name)}
+      header={Tools.str(groupState.data?.group?.name)}
     >
-      <WebComponent data={groupState.data.group} loading={groupState.fetching}>
+      <WebComponent data={groupState.data?.group} loading={groupState.fetching}>
         {(group) => {
           return (
             <div className="ed-view-group">

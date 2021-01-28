@@ -14,7 +14,7 @@ const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (pr
       title={translate('teachers')}
       type={Groups.TEACHER}
       state={teacherList}
-      getUsers={(data) => data.teachers}
+      getUsers={(data) => data?.teachers}
       redirectOnSuccess={'teacherGroups'}
       actionCreator={fetchTeachers}
       {...props}

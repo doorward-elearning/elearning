@@ -33,7 +33,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
 
   useEffect(() => {
     if (login.data) {
-      authenticate(login.data.token);
+      authenticate(login.data?.token);
       clearLogin();
     }
   }, [login.data]);
