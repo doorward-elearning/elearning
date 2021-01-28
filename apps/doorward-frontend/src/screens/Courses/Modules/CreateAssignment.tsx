@@ -9,14 +9,14 @@ import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.Element => {
   const form = useForm();
   const routes = useRoutes();
   const [courseId] = useViewCourse();
 
-  const { action: getModule, state } = useApiAction(DoorwardApi, (api) => api.modules.getModule);
+  const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
 
   usePageResource('moduleId', getModule);
   const finish = () => {

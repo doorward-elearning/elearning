@@ -8,14 +8,14 @@ import './VideoCallWidget.scss';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
 import { useHistory } from 'react-router';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): JSX.Element => {
   const organization = useOrganization();
   const [jitsi, setJitsi] = useState<JitsiMeetExternalAPI>();
-  const endMeeting = useApiAction(DoorwardApi, (api) => api.meetings.endMeeting);
+  const [endMeeting] = useApiAction(DoorwardApi, (api) => api.meetings.endMeeting);
   const hasPrivilege = usePrivileges();
-  const { action: joinMeeting, state: videoCallState } = useApiAction(DoorwardApi, (api) => api.meetings.joinMeeting);
+  const [joinMeeting, videoCallState] = useApiAction(DoorwardApi, (api) => api.meetings.joinMeeting);
   const history = useHistory();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
           <Meeting
             onLeftSession={() => {
               if (canModerate) {
-                endMeeting.action(meeting.id);
+                endMeeting(meeting.id);
               }
               history.push('/dashboard');
             }}

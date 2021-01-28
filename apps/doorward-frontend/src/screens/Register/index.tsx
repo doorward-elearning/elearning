@@ -6,29 +6,26 @@ import { Link, Redirect } from 'react-router-dom';
 import useRoutes from '../../hooks/useRoutes';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import IfElse from '@doorward/ui/components/IfElse';
-import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import useOrganization from '../../hooks/useOrganization';
 import useAuth from '../../hooks/useAuth';
-import { clearLoginAction } from '../../reducers/auth/actions';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../services/apis/doorward.api';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
-  const { state: registration } = useApiAction(DoorwardApi, (api) => api.auth.register);
+  const [, registration] = useApiAction(DoorwardApi, (api) => api.auth.register);
   const { authenticate, authenticated } = useAuth();
   const [newAccount, setNewAccount] = useState(false);
   const organization = useOrganization();
   const routes = useRoutes();
-  const clearLogin = useAction(clearLoginAction);
 
   useEffect(() => {
     if (registration.data) {
       setNewAccount(true);
       authenticate(registration.data.token);
-      clearLogin();
+      // clearLogin();
     }
   }, [registration.data]);
 

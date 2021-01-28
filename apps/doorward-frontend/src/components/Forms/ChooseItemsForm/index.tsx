@@ -1,13 +1,13 @@
 import React, { useCallback, useState } from 'react';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import BasicForm, { BasicFormFeatures } from '../BasicForm';
-import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import Table, { TableColumns } from '@doorward/ui/components/Table';
 import SwitchInput from '@doorward/ui/components/Input/SwitchInput';
 import { FormikProps } from 'formik';
 import Row from '@doorward/ui/components/Row';
 import translate from '@doorward/common/lang/translate';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {
   const [itemsState, setItemsState] = useState<Record<string, boolean>>({});
@@ -83,7 +83,7 @@ export interface ChooseItemsFormProps<T extends { id: string | number }, R> {
   form: UseForm<{ items: Array<T & { selected?: boolean }> }>;
   onSuccess: () => void;
   features?: Array<BasicFormFeatures>;
-  submitAction: ActionCreator;
+  submitAction: ApiActionCreator;
   chooseHeader?: string;
   createData: (data: { items: Array<T & { selected: boolean }> }) => any;
   columns: TableColumns;

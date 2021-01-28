@@ -16,18 +16,21 @@ import './CourseViewSidebar.scss';
 import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
 const MAX_DISCUSSION_GROUPS = 5;
 
 const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (props) => {
-  const students = useApiAction(DoorwardApi, (api) => api.students.getStudentsInCourse);
-  const managers = useApiAction(DoorwardApi, (api) => api.courseManagers.getCourseManagers);
-  const discussionGroups = useApiAction(DoorwardApi, (api) => api.discussionGroups.getAll);
-  const course = useApiAction(DoorwardApi, (api) => api.courses.getCourse);
-  const createCourseManager = useApiAction(DoorwardApi, (api) => api.courseManagers.createCourseManager);
+  const [getStudentsInCourse, studentsInCourse] = useApiAction(DoorwardApi, (api) => api.students.getStudentsInCourse);
+  const [getCourseManagers, courseManagers] = useApiAction(DoorwardApi, (api) => api.courseManagers.getCourseManagers);
+  const [getDiscussionGroups, discussionGroups] = useApiAction(DoorwardApi, (api) => api.discussionGroups.getAll);
+  const [getCourse, courseState] = useApiAction(DoorwardApi, (api) => api.courses.getCourse);
+  const [createCourseManager, createCourseManagerState] = useApiAction(
+    DoorwardApi,
+    (api) => api.courseManagers.createCourseManager
+  );
   const match: any = useRouteMatch<{ courseId: string }>();
   const hasPrivileges = usePrivileges();
   const auth = useAuth();
@@ -35,23 +38,21 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
   const routes = useRoutes();
   const courseId = match.params.courseId;
 
-  const existingMeeting = course.state.data?.course?.meetingRoom?.currentMeeting;
-
   useEffect(() => {
     if (hasPrivileges('students.list')) {
-      students.action(courseId);
+      getStudentsInCourse(courseId);
     }
     if (hasPrivileges('course-managers.view')) {
-      managers.action(courseId);
+      getCourseManagers(courseId);
     }
     if (hasPrivileges('discussion-groups.list')) {
-      discussionGroups.action(courseId);
+      getDiscussionGroups(courseId);
     }
   }, []);
 
-  useFormSubmit(createCourseManager.state, () => {
+  useFormSubmit(createCourseManagerState, () => {
     if (hasPrivileges('course-managers.view')) {
-      managers.action(courseId);
+      getCourseManagers(courseId);
     }
   });
 
@@ -64,8 +65,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
           action={() => <Button mini bordered icon="add" onClick={props.addStudentModal.openModal} />}
         >
           <WebComponent
-            data={students.state.data.students}
-            loading={students.state.fetching}
+            data={studentsInCourse.data.students}
+            loading={studentsInCourse.fetching}
             message={translate('noStudentHaveBeenAddedToTheCourseYet')}
             size="medium"
             actionMessage={translate('createStudent')}
@@ -100,8 +101,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             open
           >
             <WebComponent
-              data={managers.state.data.courseManagers}
-              loading={students.state.fetching}
+              data={courseManagers.data.courseManagers}
+              loading={studentsInCourse.fetching}
               message={translate('noManagersHaveBeenAdded')}
               size="medium"
               actionMessage={translate('createTeacher')}
@@ -135,8 +136,8 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             title={() => <Header size={5}>{translate('discussionGroups')}</Header>}
           >
             <WebComponent
-              data={discussionGroups.state.data.discussionGroups}
-              loading={discussionGroups.state.fetching}
+              data={discussionGroups.data.discussionGroups}
+              loading={discussionGroups.fetching}
               emptyMessage={translate('noDiscussionGroupsHaveBeenAdded')}
               size="medium"
               icon="forum"

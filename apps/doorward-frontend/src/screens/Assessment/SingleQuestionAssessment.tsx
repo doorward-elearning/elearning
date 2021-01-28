@@ -7,7 +7,6 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Row from '@doorward/ui/components/Row';
 import Spacer from '@doorward/ui/components/Spacer';
 import { FormContext } from '@doorward/ui/components/Form';
-import { start } from 'repl';
 import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';

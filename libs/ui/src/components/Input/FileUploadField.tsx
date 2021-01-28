@@ -12,6 +12,7 @@ import Spinner from '@doorward/ui/components/Spinner';
 import MoreInfo from '@doorward/ui/components/MoreInfo';
 import translate from '@doorward/common/lang/translate';
 import { FileResponse, FilesResponse, SimpleFileResponse } from '@doorward/common/dtos/response';
+import { AxiosResponse } from 'axios';
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
   const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');
@@ -38,7 +39,7 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
           .then((result) => {
             setPercentage(100);
             setStatus('uploaded');
-            props.onSuccess(result);
+            props.onSuccess(result.data);
           })
           .catch((err) => {
             setStatus('failed');
@@ -198,7 +199,7 @@ export type UploadHandler = (
   file: Blob,
   onUploadProgress: (percentage: number) => void,
   cancelHandler: (cancelFunction: () => void) => void
-) => Promise<FileResponse>;
+) => Promise<AxiosResponse<FileResponse>>;
 
 export type MultipleUploadHandler = (
   file: Array<Blob>,

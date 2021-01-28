@@ -14,13 +14,10 @@ import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import DiscussionCommentForm from '../../components/Forms/DiscussionCommentForm';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
-  const { action: fetchDiscussionGroup, state } = useApiAction(
-    DoorwardApi,
-    (api) => api.discussionGroups.getDiscussionGroup
-  );
+  const [fetchDiscussionGroup, state] = useApiAction(DoorwardApi, (api) => api.discussionGroups.getDiscussionGroup);
   const match = useRouteMatch<{ discussionGroupId: string; courseId: string }>();
   const [discussionGroup, setDiscussionGroup] = useState();
   useViewCourse();

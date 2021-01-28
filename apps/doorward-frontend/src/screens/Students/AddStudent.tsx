@@ -8,14 +8,14 @@ import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../services/apis/doorward.api';
 
 const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm<AddStudentFormState>();
   const routes = useRoutes();
-  const newStudent = useApiAction(DoorwardApi, (api) => api.students.createStudent);
-  const submitted = useFormSubmit(newStudent.state);
+  const [, newStudentState] = useApiAction(DoorwardApi, (api) => api.students.createStudent);
+  const submitted = useFormSubmit(newStudentState);
 
   return (
     <IfElse condition={submitted}>
@@ -28,7 +28,7 @@ const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
         <AddStudentForm
           onCancel={() => routes.navigate(routes.routes.studentList)}
           useForm={studentForm}
-          state={newStudent.state}
+          state={newStudentState}
         />
       </Layout>
     </IfElse>

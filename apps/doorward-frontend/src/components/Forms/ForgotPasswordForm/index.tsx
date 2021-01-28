@@ -6,7 +6,9 @@ import useForm from '@doorward/ui/hooks/useForm';
 import useRoutes from '../../../hooks/useRoutes';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+
+;
 
 const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (props) => {
   const form = useForm();

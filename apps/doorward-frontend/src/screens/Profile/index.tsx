@@ -8,7 +8,7 @@ import UserProfileCard from '../../components/user/UserProfileCard';
 import { useRouteMatch } from 'react-router';
 import { UserCardContext } from '../../components/user/UserCard';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../services/apis/doorward.api';
 import WebComponent from '@doorward/ui/components/WebComponent';
 
@@ -19,14 +19,14 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const routes = useRoutes();
   const match = useRouteMatch<{ username: string }>();
 
-  const getUserProfile = useApiAction(DoorwardApi, (api) => api.userProfile.getUserProfile, {
+  const [getUserProfile, profileState] = useApiAction(DoorwardApi, (api) => api.userProfile.getUserProfile, {
     onSuccess: (data) => {
       setUser(data.user);
     },
   });
 
   useEffect(() => {
-    getUserProfile.action(match.params.username);
+    getUserProfile(match.params.username);
   }, []);
 
   return (
@@ -35,7 +35,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
       header={translate(me ? 'myProfile' : 'userProfile')}
     >
-      <WebComponent data={user} loading={getUserProfile.state.fetching}>
+      <WebComponent data={user} loading={profileState.fetching}>
         {(user) => (
           <UserCardContext
             openModal={match.path === routes.changePassword.link}

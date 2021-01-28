@@ -19,7 +19,6 @@ import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '@doorward/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
 import useRoutes from '../../../hooks/useRoutes';
-import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import useAction from '@doorward/ui/hooks/useActions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
@@ -33,7 +32,8 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import { WebComponentState } from 'use-api-action/types/types';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
@@ -139,11 +139,11 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateMo
 };
 
 const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
-  const updateModule = useApiAction(DoorwardApi, (api) => api.modules.updateModule);
+  const [updateModule, updateModuleState] = useApiAction(DoorwardApi, (api) => api.modules.updateModule);
   const action = useAction(DoorwardApi.actions.modules.updateCourseModules);
   const hasPrivileges = usePrivileges();
   const [handleDrop] = useModuleDrop(course.id, action);
-  const deleteModule = useApiAction(DoorwardApi, (api) => api.modules.deleteModule);
+  const [deleteModule, deleteModuleState] = useApiAction(DoorwardApi, (api) => api.modules.deleteModule);
   const deleteModuleModal = useModal();
   const [moduleToDelete, setModuleToDelete] = useState();
 
@@ -153,8 +153,8 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
         args={[moduleToDelete]}
         title={translate('deleteModule')}
         useModal={deleteModuleModal}
-        action={deleteModule.action}
-        state={deleteModule.state}
+        action={deleteModule}
+        state={deleteModuleState}
       >
         <p>{translate('areYouSureYouWantToDeleteModule')}</p>
       </WebConfirmModal>
@@ -178,7 +178,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                       courseId={course.id}
                       index={index}
                       module={module}
-                      updateModule={updateModule.state}
+                      updateModule={updateModuleState}
                       droppableState={state}
                     />
                   </DragAndDropListItem>

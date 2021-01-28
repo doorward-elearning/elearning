@@ -9,21 +9,21 @@ import useRoutes from '../../../hooks/useRoutes';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
-  const apiAction = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
+  const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
 
   const routes = useRoutes();
   const [courseId] = useViewCourse();
-  usePageResource('courseId', apiAction.action, [{ type: 'Assignment' }]);
+  usePageResource('courseId', apiAction, [{ type: 'Assignment' }]);
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={translate('assignment', { count: 100 })}
     >
-      <WebComponent data={apiAction.state.data.items} loading={apiAction.state.fetching}>
+      <WebComponent data={state.data.items} loading={state.fetching}>
         {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table

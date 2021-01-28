@@ -4,13 +4,12 @@ import Layout, { LayoutFeatures } from '../Layout';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import AddGroupForm from '../../components/Forms/AddGroupForm';
 import { PageComponent } from '@doorward/ui/types';
-import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import useAction from '@doorward/ui/hooks/useActions';
-import { ROUTES } from '../../routes/routes';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
 import { DoorwardRoutes } from '../../routes';
 import translate from '@doorward/common/lang/translate';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -65,13 +64,13 @@ function CreateGroup<T, Args extends Array<any>>({
   );
 }
 
-export interface CreateGroupProps<T, Args = any[]> extends PageComponent {
+export interface CreateGroupProps<T, Args extends Array<any> = any[]> extends PageComponent {
   emptyMessage: string;
   title: string;
   type: string;
-  state: WebComponentState<T>;
+  state: WebComponentState<T, T>;
   getUsers: (data: T) => Array<UserEntity>;
-  actionCreator: ActionCreator<Args>;
+  actionCreator: ApiActionCreator<Args>;
   redirectOnSuccess: keyof DoorwardRoutes;
   currentGroupState?: WebComponentState<GroupResponse>;
   actionArgs?: Args;

@@ -3,10 +3,10 @@ import './ProgressModal.scss';
 import { ActionCreator } from 'redux';
 import useRequestModal from '@doorward/ui/hooks/useRequestModal';
 import Spinner from '@doorward/ui/components/Spinner';
-import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
+import { WebComponentState } from 'use-api-action/types/types';
 
-const ProgressModal: React.FunctionComponent<ProgressModalProps> = props => {
+const ProgressModal: React.FunctionComponent<ProgressModalProps> = (props) => {
   const { submit } = useRequestModal(props);
 
   useEffect(() => {

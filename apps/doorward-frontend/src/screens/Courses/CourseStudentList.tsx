@@ -12,7 +12,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
@@ -30,8 +30,11 @@ const StudentDropdownMenu: React.FunctionComponent<{
 };
 
 const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => {
-  const studentList = useApiAction(DoorwardApi, (api) => api.students.getStudentsInCourse);
-  const unEnrollStudentApi = useApiAction(DoorwardApi, (api) => api.students.unEnrollStudentFromCourse);
+  const [studentList, studentListState] = useApiAction(DoorwardApi, (api) => api.students.getStudentsInCourse);
+  const [unEnrollStudentApi, unEnrollStudentState] = useApiAction(
+    DoorwardApi,
+    (api) => api.students.unEnrollStudentFromCourse
+  );
   const routes = useRoutes();
   const unEnrollStudentModal = useModal(false);
   const [unEnrollStudent, setUnEnrollStudent] = useState(null);
@@ -40,7 +43,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
   const [courseId, course] = useViewCourse();
 
   useEffect(() => {
-    studentList.action(courseId);
+    studentList(courseId);
   }, []);
 
   useEffect(() => {
@@ -62,7 +65,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
-      <WebComponent data={studentList.state.data.students} loading={studentList.state.fetching}>
+      <WebComponent data={studentListState.data.students} loading={studentListState.fetching}>
         {(students): JSX.Element => {
           return (
             <StudentTable
@@ -79,13 +82,13 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
       </WebComponent>
       <WebConfirmModal
         useModal={unEnrollStudentModal}
-        action={() => unEnrollStudentApi.action(courseId, unEnrollStudent.id)}
-        state={unEnrollStudentApi.state}
+        action={() => unEnrollStudentApi(courseId, unEnrollStudent.id)}
+        state={unEnrollStudentState}
         showErrorToast
         title={translate('unEnrollStudent')}
         showSuccessToast
         onSuccess={() => {
-          studentList.action(courseId);
+          studentList(courseId);
           setUnEnrollStudent(null);
         }}
       >

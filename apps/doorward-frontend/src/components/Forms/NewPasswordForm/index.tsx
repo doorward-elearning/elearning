@@ -6,7 +6,9 @@ import { useRouteMatch } from 'react-router';
 import { ResetPasswordBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+
+;
 
 const NewPasswordForm: FunctionComponent<NewPasswordFormProps> = (props): JSX.Element => {
   const match: any = useRouteMatch();

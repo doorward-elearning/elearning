@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { WebComponentState } from '../reducers/reducers';
+import { WebComponentState } from 'use-api-action/types/types';
 
-function useFormSubmit<T extends WebComponentState<R>, R>(form?: T, onSubmit?: () => void): boolean {
+function useFormSubmit<T extends WebComponentState<Data, any>, Data>(form?: T, onSubmit?: () => void): boolean {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 

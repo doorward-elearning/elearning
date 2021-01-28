@@ -24,7 +24,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import Table from '@doorward/ui/components/Table';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -59,15 +59,14 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
 
-  const getSubmission = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
+  const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
       setSubmission(data.submission);
     },
   });
-  const getSubmissionState = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
 
   useEffect(() => {
-    getSubmission.action(assessment.id);
+    getSubmission(assessment.id);
   }, []);
 
   const form = useForm();
@@ -86,7 +85,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   }, [assessment]);
 
   useEffect(() => {
-    if (getSubmissionState.state.fetched) {
+    if (getSubmissionState.fetched) {
       let startAssessment = false;
       let startDate, endDate;
 

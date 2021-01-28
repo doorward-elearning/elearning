@@ -7,11 +7,11 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props): JSX.Element => {
   const routes = useRoutes();
-  const { action: getOrganization, state } = useApiAction(DoorwardApi, (api) => api.organizations.getOrganization);
+  const [getOrganization, state] = useApiAction(DoorwardApi, (api) => api.organizations.getOrganization);
 
   usePageResource('organizationId', getOrganization);
 

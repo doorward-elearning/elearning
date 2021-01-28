@@ -12,10 +12,10 @@ import {
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
 import { ChatContext } from '@doorward/chat/Chat';
 import useWebsocketEvent from '@doorward/ui/hooks/useWebsocketEvent';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import { NotificationsContext } from '@doorward/ui/components/Notifications';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
+import { useApiAction } from 'use-api-action';
 
 const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> = (props): JSX.Element => {
   const [currentConversation, setCurrentConversation] = useState<Conversation>();
@@ -31,7 +31,7 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
   const { pushNotification } = useContext(NotificationsContext);
   const queryParams = useQueryParams();
 
-  const fetchConversations = useApiAction(DoorwardChatApi, (api) => api.chat.getConversations, {
+  const [fetchConversations, conversationsState] = useApiAction(DoorwardChatApi, (api) => api.chat.getConversations, {
     onSuccess: (response) => {
       if (response.conversations.length) {
         setConversations(response.conversations);
@@ -42,7 +42,7 @@ const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> =
   });
 
   useEffect(() => {
-    fetchConversations.action();
+    fetchConversations();
   }, []);
 
   useEffect(() => {

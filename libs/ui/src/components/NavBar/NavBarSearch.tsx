@@ -8,10 +8,10 @@ import IfElse from '@doorward/ui/components/IfElse';
 import useCaptureKeyDown from '@doorward/ui/hooks/useCaptureKeyDown';
 import { SearchSuggestion } from '@doorward/common/types/api';
 import withContext from '@doorward/ui/hoc/withContext';
-import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Spinner from '@doorward/ui/components/Spinner';
 import translate from '@doorward/common/lang/translate';
+import { WebComponentState } from 'use-api-action/types/types';
 
 const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> = ({
   suggestion,

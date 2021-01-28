@@ -4,11 +4,11 @@ import Spinner, { SpinnerProps } from '../Spinner';
 import './Form.scss';
 import IfElse from '../IfElse';
 import { UseForm } from '../../hooks/useForm';
-import { WebComponentState } from '../../reducers/reducers';
 import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
+import { WebComponentState } from 'use-api-action/types/types';
 
 export const FormContext = React.createContext<FormContextProps>({});
 

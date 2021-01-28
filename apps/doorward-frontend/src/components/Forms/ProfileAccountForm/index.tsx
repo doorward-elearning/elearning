@@ -3,13 +3,13 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import TextField from '@doorward/ui/components/Input/TextField';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import BasicForm, { BasicFormFeatures, CreateData } from '../BasicForm';
-import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdateAccountBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (props) => {
   const initialValues: ProfileAccountFormState = {
@@ -23,7 +23,7 @@ const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (pr
     setFeatures(props.editing ? [BasicFormFeatures.SAVE_BUTTON, BasicFormFeatures.CANCEL_BUTTON] : []);
   }, [props.editing]);
 
-  useFormSubmit(apiAction.state, props.stopEditing);
+  useFormSubmit(apiAction[1], props.stopEditing);
 
   const stopEditing = () => {
     if (props.form.formikProps) {
@@ -63,7 +63,7 @@ export interface ProfileAccountFormProps {
   user: UserEntity;
   editing: boolean;
   stopEditing: () => void;
-  submitAction?: ActionCreator;
+  submitAction?: ApiActionCreator;
   state?: WebComponentState<any>;
   createData?: CreateData<ProfileAccountFormState>;
 }

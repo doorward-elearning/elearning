@@ -7,7 +7,7 @@ import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 export interface StudentListQueryParams {
   search: string;
@@ -16,7 +16,7 @@ export interface StudentListQueryParams {
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
-  const { action: fetch, state: studentList } = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
+  const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
   const total = studentList.data.pagination?.totalCount;
 

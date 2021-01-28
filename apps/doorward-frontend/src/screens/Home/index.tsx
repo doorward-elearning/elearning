@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import {Redirect} from "react-router";
-import {ROUTES} from "../../routes/routes";
+import { Redirect } from 'react-router';
+import { ROUTES } from '../../routes/routes';
 
 const Home: React.FunctionComponent<HomeProps> = props => {
   const [hasWebsite, setHasWebsite ] = useState(true);

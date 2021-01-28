@@ -1,15 +1,6 @@
-import buildApiReducer, { ApiReducerMiddleware } from '@doorward/ui/reducers/apiReducer';
 import ChatApi from '@doorward/common/apis/doorward.chat.api';
+import { buildApiReducer } from 'use-api-action';
 
-const middleware: ApiReducerMiddleware<ReturnType<typeof ChatApi>> = {};
-
-const DoorwardChatApi = buildApiReducer(
-  ChatApi,
-  'DoorwardChatApi',
-  {
-    baseURL: process.env.REACT_APP_CHAT_API_URL,
-  },
-  middleware
-);
+const DoorwardChatApi = buildApiReducer(ChatApi({ baseURL: process.env.REACT_APP_CHAT_API_URL }), 'DoorwardChatApi');
 
 export default DoorwardChatApi;

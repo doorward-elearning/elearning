@@ -6,15 +6,12 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const TeacherList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
 
-  const { action: getAllTeachers, state: teacherList } = useApiAction(
-    DoorwardApi,
-    (api) => api.teachers.getAllTeachers
-  );
+  const [getAllTeachers, teacherList] = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
 
   useEffect(() => {
     getAllTeachers();

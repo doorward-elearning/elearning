@@ -16,21 +16,21 @@ import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const data = [[translate('course'), translate('marks')]];
 
 const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
-  const getStudentReport = useApiAction(DoorwardApi, (api) => api.reports.getStudentReport);
+  const [getStudentReport, studentReportState] = useApiAction(DoorwardApi, (api) => api.reports.getStudentReport);
   const routes = useRoutes();
 
-  usePageResource('studentId', getStudentReport.action);
+  usePageResource('studentId', getStudentReport);
 
-  const fetchCourses = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
-  const courses = fetchCourses.state.data.courses;
+  const [fetchCourses, coursesState] = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
+  const courses = coursesState.data.courses;
 
-  useBreadCrumbTitle(getStudentReport.state, (state) => state.data.student?.fullName, routes);
+  useBreadCrumbTitle(studentReportState, (state) => state.data.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {
@@ -43,7 +43,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
 
   useEffect(() => {
     if (!courses) {
-      fetchCourses.action();
+      fetchCourses();
     }
   }, []);
 
@@ -51,7 +51,7 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={Tools.str(getStudentReport.state.data?.student?.fullName)}
+      header={Tools.str(studentReportState.data?.student?.fullName)}
       renderHeaderEnd={(): JSX.Element => (
         <Panel>
           <Header size={1}>98%</Header>
@@ -86,9 +86,9 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
               <div>
                 {translate('ongoingCourses')}
                 <WebComponent
-                  data={getStudentReport.state.data.student}
+                  data={studentReportState.data.student}
                   inline
-                  loading={getStudentReport.state.fetching}
+                  loading={studentReportState.fetching}
                   loader={null}
                   empty={null}
                 >
@@ -98,8 +98,8 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
             </Header>
             <WebComponent
               icon="school"
-              data={getStudentReport.state.data.student?.courses}
-              loading={getStudentReport.state.fetching}
+              data={studentReportState.data.student?.courses}
+              loading={studentReportState.fetching}
               message={translate('noOngoingCourses')}
               size="medium"
             >
@@ -112,9 +112,9 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
                 <div>
                   {translate('completedCourses')}
                   <WebComponent
-                    data={getStudentReport.state.data.student}
+                    data={studentReportState.data.student}
                     inline
-                    loading={getStudentReport.state.fetching}
+                    loading={studentReportState.fetching}
                     loader={null}
                     empty={null}
                   >
@@ -125,8 +125,8 @@ const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
             </Row>
             <WebComponent
               icon="school"
-              data={getStudentReport.state.data.student?.courses}
-              loading={getStudentReport.state.fetching}
+              data={studentReportState.data.student?.courses}
+              loading={studentReportState.fetching}
               message={translate('noCompletedCourses')}
               size="medium"
             >

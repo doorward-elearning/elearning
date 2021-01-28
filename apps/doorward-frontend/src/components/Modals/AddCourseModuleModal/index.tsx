@@ -4,7 +4,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 
@@ -14,7 +14,7 @@ const AddCourseModuleModal: React.FunctionComponent<AddCourseModuleModalProps> =
 
   const apiAction = useApiAction(DoorwardApi, (api) => api.courses.createCourseModule);
 
-  useFormSubmit(apiAction.state, props.useModal.closeModal);
+  useFormSubmit(apiAction[1], props.useModal.closeModal);
 
   props.useModal.onClose(() => {
     formikProps && formikProps.resetForm();

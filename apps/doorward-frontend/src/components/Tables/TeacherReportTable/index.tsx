@@ -4,12 +4,12 @@ import Table from '@doorward/ui/components/Table';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeacherReport } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (props) => {
-  const apiAction = useApiAction(DoorwardApi, (api) => api.reports.getTeachersReport);
+  const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.reports.getTeachersReport);
   return (
-    <SimpleWebComponent action={apiAction.action} state={apiAction.state} dataSelector={(data) => data.teachers}>
+    <SimpleWebComponent action={apiAction} state={state} dataSelector={(data) => data.teachers}>
       {(data) => (
         <Table
           data={data}

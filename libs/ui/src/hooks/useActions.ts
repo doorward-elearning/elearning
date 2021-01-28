@@ -1,11 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { Action } from '../reducers/reducers';
 import { useCallback } from 'react';
+import { ApiAction, ApiActionCreator } from 'use-api-action/types/types';
 
-function useAction<T extends (...args: any) => Action>(
+function useAction<T extends ApiActionCreator>(
   action: T,
-  actionParams?: { [n in keyof Action]?: any }
-): (...args: Parameters<typeof action>) => Action {
+  actionParams?: { [n in keyof ApiAction]?: any }
+): (...args: Parameters<typeof action>) => ApiAction {
   const dispatch = useDispatch();
 
   const isActionParams = (arg: any) => {

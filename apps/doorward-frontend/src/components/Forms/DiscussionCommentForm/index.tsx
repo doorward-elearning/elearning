@@ -4,7 +4,9 @@ import { PostDiscussionCommentBody } from '@doorward/common/dtos/body';
 import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+
+;
 
 const DiscussionCommentForm: React.FunctionComponent<DicussionCommentFormProps> = (props): JSX.Element => {
   const postComment = useApiAction(DoorwardApi, (api) => api.discussionGroups.postComment);

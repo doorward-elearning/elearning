@@ -6,7 +6,6 @@ import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import { getNames } from 'country-list';
 import BasicForm from '../BasicForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import IfElse from '@doorward/ui/components/IfElse';
 import Header from '@doorward/ui/components/Header';
@@ -14,6 +13,7 @@ import PasswordPolicy from '../../UI/PasswordPolicy';
 import Grid from '@doorward/ui/components/Grid';
 import { CreateUserBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (props) => {
   const countries = getNames();
@@ -73,9 +73,9 @@ const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (prop
 
 export interface AddUserFormLayoutProps {
   useForm: UseForm<any>;
-  state: WebComponentState<any>;
+  state: WebComponentState;
   onCancel: () => void;
-  action: ActionCreator;
+  action: ApiActionCreator;
   onSuccess?: () => void;
   createData?: (data: any) => Array<any>;
   withPasswordField?: boolean;

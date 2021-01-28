@@ -12,12 +12,12 @@ import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
   const routes = useRoutes();
-  const deleteState = useApiAction(DoorwardApi, (api) => api.courses.deleteCourse);
+  const [deleteCourse, deleteState] = useApiAction(DoorwardApi, (api) => api.courses.deleteCourse);
 
   const onDeleteSuccess = () => {
     routes.navigate(routes.courseList);
@@ -38,13 +38,13 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
       >
         {(formikProps) => (
           <WebConfirmModal
-            state={deleteState.state}
+            state={deleteState}
             useModal={deleteCourseModal}
             title="Delete Course"
             showErrorToast
             showSuccessToast
             buttonDisabled={!formikProps.isValid}
-            action={() => deleteState.action(course.id)}
+            action={() => deleteCourse(course.id)}
             onSuccess={onDeleteSuccess}
           >
             <div>

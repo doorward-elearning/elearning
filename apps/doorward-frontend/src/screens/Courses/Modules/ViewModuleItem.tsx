@@ -25,7 +25,7 @@ import translate from '@doorward/common/lang/translate';
 import ModulesSideBar from './ModulesSideBar';
 import ViewModuleVideo from './ViewModuleVideo';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -36,7 +36,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
   const assignmentForm = useForm();
 
-  const { action: fetchItem, state } = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
+  const [fetchItem, state] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
 
   useEffect(() => {
     fetchItem(match.params.itemId);

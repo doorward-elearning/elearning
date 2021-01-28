@@ -14,7 +14,8 @@ import BasicForm from '../BasicForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CourseResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
   minModules,
@@ -62,10 +63,9 @@ const CourseModules: React.FunctionComponent<CourseModulesProps> = ({
 const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
   const modules = { min: 1, max: 10 };
 
-  const createCourse = useApiAction(DoorwardApi, (api) => api.courses.createCourse, {
-    showSuccessToast: true,
-    showErrorToast: true,
-  });
+  const [createCourse, createCourseState] = useApiAction(DoorwardApi, (api) => api.courses.createCourse);
+
+  useRequestToast(createCourseState);
 
   const initialValues = {
     title: '',
@@ -80,8 +80,8 @@ const AddCourseForm: React.FunctionComponent<AddCourseFormProps> = (props) => {
       initialValues={initialValues}
       formClassName="add-course-form"
       validationSchema={CreateCourseBody}
-      submitAction={createCourse.action}
-      state={createCourse.state}
+      submitAction={createCourse}
+      state={createCourseState}
       showSuccessToast
       showErrorToast
       onSuccess={props.onSuccess}

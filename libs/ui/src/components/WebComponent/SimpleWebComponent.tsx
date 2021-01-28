@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import WebComponent, { WebComponentProps } from './index';
-import { ActionCreator, WebComponentState } from '../../reducers/reducers';
 import useAction from '../../hooks/useActions';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 function SimpleWebComponent<
   T extends WebComponentState<any>,
-  S extends ActionCreator,
+  S extends ApiActionCreator,
   U extends (data: Data<T>) => any
 >(props: Omit<SimpleWebComponentProps<T, S, U>, 'loading' | 'data'>): JSX.Element {
   const action = useAction(props.action);
@@ -26,7 +26,7 @@ type ApiData<T, R> = T extends (data: Data<R>) => infer U ? U : T;
 
 export interface SimpleWebComponentProps<
   T extends WebComponentState<any>,
-  S extends ActionCreator,
+  S extends ApiActionCreator,
   U extends (data: Data<T>) => any
 > extends WebComponentProps<ApiData<U, T>> {
   action: S;
@@ -38,4 +38,3 @@ export interface SimpleWebComponentProps<
 export type SimpleWebConsumer<S, T> = (props: S) => (data: T) => JSX.Element;
 
 export default SimpleWebComponent;
-

@@ -2,12 +2,12 @@ import React from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import BasicForm from '../BasicForm';
-import { ActionCreator, WebComponentState } from '@doorward/ui/reducers/reducers';
 import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdatePasswordBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {
@@ -47,7 +47,7 @@ export interface ChangePasswordFormProps {
   onSuccess: (result?: any) => void;
   onCancel: () => void;
   state?: WebComponentState<any>;
-  submitAction?: ActionCreator;
+  submitAction?: ApiActionCreator;
   dontEnterCurrentPassword?: boolean;
   createData?: (data: ChangePasswordFormState) => Array<any>;
 }

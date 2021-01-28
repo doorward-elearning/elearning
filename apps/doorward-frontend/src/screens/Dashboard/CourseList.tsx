@@ -18,20 +18,20 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import { useLocation } from 'react-router';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
   const [classroomCourse, startClassroom] = useState<CourseEntity>(null);
-  const fetchCourses = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
-  const courses = useApiAction(DoorwardApi, (api) => api.courses.getCourses).state;
+  const [fetchCourses, courses] = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
 
-  const launchClassroom = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
+  const [launchClassroom, launchClassroomState] = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
+
   const routes = useRoutes();
   const location = useLocation();
 
   useEffect(() => {
-    fetchCourses.action({ limit: 8 });
+    fetchCourses({ limit: 8 });
   }, [location.search]);
 
   useEffect(() => {
@@ -45,10 +45,10 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
         <div>
           <div className="dashboard__course-list">
             <ProgressModal
-              state={launchClassroom.state}
+              state={launchClassroomState}
               cancellable={false}
               showErrorToast
-              action={() => launchClassroom.action(classroomCourse?.id)}
+              action={() => launchClassroom(classroomCourse?.id)}
               title={
                 classroomCourse?.meetingRoom?.currentMeeting
                   ? translate('joiningMeeting')

@@ -7,13 +7,16 @@ import { ChangePasswordFormContext } from '../../Forms/ChangePasswordForm';
 import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();
   const [passwordModalOpen, setPasswordModalOpen] = useState(false);
-  const updateStudentPassword = useApiAction(DoorwardApi, (api) => api.students.updateStudentPassword);
-  const changeDetails = useApiAction(DoorwardApi, (api) => api.students.updateStudent);
+  const [updateStudentPassword, updateStudentPasswordState] = useApiAction(
+    DoorwardApi,
+    (api) => api.students.updateStudentPassword
+  );
+  const [changeDetails, updateStudentState] = useApiAction(DoorwardApi, (api) => api.students.updateStudent);
 
   return (
     <div className="ed-student__profile_view">
@@ -24,15 +27,15 @@ const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (pr
         openModal={passwordModalOpen}
       >
         <ProfileAccountFormContext
-          submitAction={changeDetails.action}
-          state={changeDetails.state}
+          submitAction={changeDetails}
+          state={updateStudentState}
           createData={(values) => [props.student.id, values]}
         >
           <ChangePasswordFormContext
-            submitAction={updateStudentPassword.action}
+            submitAction={updateStudentPassword}
             createData={(data) => [props.student.id, { password: data.newPassword }]}
             dontEnterCurrentPassword
-            state={updateStudentPassword.state}
+            state={updateStudentPasswordState}
           >
             <UserProfileCard form={form} user={props.student} editable />
           </ChangePasswordFormContext>

@@ -1,26 +1,26 @@
 import React, { useEffect } from 'react';
 import ChooseItemsForm from '../ChooseItemsForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
-import { WebComponentState } from '@doorward/ui/reducers/reducers';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeachersResponse } from '@doorward/common/dtos/response';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import { WebComponentState } from 'use-api-action/types/types';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
-  const fetchTeacherList = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
+  const [fetchTeacherList, teacherList] = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
 
   useEffect(() => {
-    fetchTeacherList.action();
+    fetchTeacherList();
   }, []);
 
   return (
     <ChooseItemsForm
       items={props.managers}
       getItems={(state1) => state1.data.teachers}
-      submitAction={fetchTeacherList.action}
-      state={fetchTeacherList.state}
+      submitAction={fetchTeacherList}
+      state={teacherList}
       form={props.form}
       singleChoice
       onSuccess={props.onSuccess}
@@ -41,7 +41,7 @@ const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormPr
 };
 
 export interface ChooseCourseManagerFormProps {
-  managers: WebComponentState<TeachersResponse>;
+  managers: WebComponentState<TeachersResponse, TeachersResponse>;
   onSuccess: () => void;
   form: UseForm<{ items: Array<UserEntity> }>;
   courseId: string;

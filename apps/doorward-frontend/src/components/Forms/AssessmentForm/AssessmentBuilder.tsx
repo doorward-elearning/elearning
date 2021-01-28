@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import './AssessmentBuilder.scss';
 import Header from '@doorward/ui/components/Header';
 import { FormContext } from '@doorward/ui/components/Form';

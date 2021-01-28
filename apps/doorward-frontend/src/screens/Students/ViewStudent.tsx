@@ -6,10 +6,10 @@ import usePageResource from '../../hooks/usePageResource';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useRoutes from '../../hooks/useRoutes';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Element => {
-  const { action: getStudent, state: student } = useApiAction(DoorwardApi, (api) => api.students.getStudent);
+  const [getStudent, student] = useApiAction(DoorwardApi, (api) => api.students.getStudent);
   usePageResource('studentId', getStudent);
   const routes = useRoutes();
 

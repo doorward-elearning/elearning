@@ -8,7 +8,9 @@ import AuthForm from '../AuthForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { LoginBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+
+;
 
 const LoginForm: FunctionComponent<LoginFormProps> = () => {
   const initialState = { username: '', password: '' };

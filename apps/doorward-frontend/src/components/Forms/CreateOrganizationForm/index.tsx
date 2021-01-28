@@ -10,7 +10,9 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+
+;
 
 const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProps> = (props): JSX.Element => {
   const form = useForm();

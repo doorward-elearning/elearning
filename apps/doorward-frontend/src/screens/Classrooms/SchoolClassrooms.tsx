@@ -18,24 +18,24 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Panel from '@doorward/ui/components/Panel';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
-  const fetchSchool = useApiAction(DoorwardApi, (api) => api.schools.getSchool);
+  const [fetchSchool, schoolState] = useApiAction(DoorwardApi, (api) => api.schools.getSchool);
 
-  usePageResource('schoolId', fetchSchool.action);
+  usePageResource('schoolId', fetchSchool);
   const routes = useRoutes();
   const addClassroomModal = useModal();
 
   useEffect(() => {
-    if (fetchSchool.state.data.school) {
-      routes.setCurrentTitle(fetchSchool.state.data.school.name);
+    if (schoolState.data.school) {
+      routes.setCurrentTitle(schoolState.data.school.name);
     }
-  }, [fetchSchool.state]);
+  }, [schoolState]);
   return (
     <Layout
       {...props}
-      header={fetchSchool.state.data?.school?.name}
+      header={schoolState.data?.school?.name}
       navFeatures={[NavbarFeatures.BACK_BUTTON, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.PAGE_LOGO]}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
       actionBtnProps={{ text: translate('addClassroom'), onClick: addClassroomModal.openModal }}
@@ -43,15 +43,15 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       <AddClassroomModal
         onSuccess={() => {
           addClassroomModal.closeModal();
-          fetchSchool.action(fetchSchool.state.data?.school?.id);
+          fetchSchool(schoolState.data?.school?.id);
         }}
         modal={addClassroomModal}
-        schoolId={fetchSchool.state.data?.school?.id}
+        schoolId={schoolState.data?.school?.id}
       />
       <Panel plain>{translate('clickOnAnyOfTheFollowingClassroomsToJoinAMeeting')}</Panel>
       <WebComponent
-        data={fetchSchool.state.data?.school?.classRooms}
-        loading={fetchSchool.state.fetching}
+        data={schoolState.data?.school?.classRooms}
+        loading={schoolState.fetching}
         emptyMessage={translate('noClassroomsHaveBeenCreatedForThisSchool')}
         icon="business_center"
       >

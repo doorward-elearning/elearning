@@ -6,7 +6,7 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -14,13 +14,13 @@ const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProp
     description: '',
   };
 
-  const createDiscussionGroup = useApiAction(DoorwardApi, (api) => api.discussionGroups.createDiscussionGroup);
+  const [createDiscussionGroup, state] = useApiAction(DoorwardApi, (api) => api.discussionGroups.createDiscussionGroup);
 
   return (
     <BasicForm
       initialValues={initialValues}
-      submitAction={createDiscussionGroup.action}
-      state={createDiscussionGroup.state}
+      submitAction={createDiscussionGroup}
+      state={state}
       onSuccess={props.onSuccess}
       showSuccessToast
       showErrorToast

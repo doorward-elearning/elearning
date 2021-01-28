@@ -11,13 +11,12 @@ import useRoutes from '../../hooks/useRoutes';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element => {
-  const getGroup = useApiAction(DoorwardApi, (state) => state.groups.getGroup);
-  const groupState = getGroup.state;
+  const [getGroup, groupState] = useApiAction(DoorwardApi, (state) => state.groups.getGroup);
 
-  usePageResource('groupId', getGroup.action);
+  usePageResource('groupId', getGroup);
 
   const routes = useRoutes();
 

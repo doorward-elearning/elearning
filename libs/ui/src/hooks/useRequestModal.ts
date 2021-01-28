@@ -1,17 +1,17 @@
 import useAction from './useActions';
 import useFormSubmit from './useFormSubmit';
 import { UseModal } from './useModal';
-import { ActionCreator, WebComponentState } from '../reducers/reducers';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {
   const overrideAction = () => {
-    const action = { ...props.action(...(props.args || [])) };
-    action.showErrorToast = props.showErrorToast;
-    action.showSuccessToast = props.showSuccessToast;
-    return action;
+    return { ...props.action(...(props.args || [])) };
   };
 
   const action = useAction(overrideAction);
+
+  useRequestToast(props.state, props.showSuccessToast, props.showErrorToast);
 
   useFormSubmit(props.state, () => {
     if (props.state.fetched) {
@@ -43,7 +43,7 @@ export interface UseRequestModal {
 }
 
 export interface UseRequestModalProps {
-  action: ActionCreator;
+  action: ApiActionCreator;
   state: WebComponentState<any>;
   showErrorToast?: boolean;
   showSuccessToast?: boolean;

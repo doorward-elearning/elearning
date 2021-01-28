@@ -10,18 +10,18 @@ import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm();
   const [courseId] = useViewCourse();
   const routes = useRoutes();
   const history = useHistory();
-  const createStudent = useApiAction(DoorwardApi, (api) => api.students.createStudentInCourse);
-  const submitted = useFormSubmit(createStudent.state);
+  const [createStudent, createStudentState] = useApiAction(DoorwardApi, (api) => api.students.createStudentInCourse);
+  const submitted = useFormSubmit(createStudentState);
 
   return (
-    <IfElse condition={submitted && createStudent.state.fetched}>
+    <IfElse condition={submitted && createStudentState.fetched}>
       <Redirect to={routes.routes.courseStudents.link} />
       <Layout
         noNavBar
@@ -32,8 +32,8 @@ const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
         <AddStudentForm
           onCancel={(): void => history.push(routes.routes.courseStudents.link)}
           useForm={studentForm}
-          action={createStudent.action}
-          state={createStudent.state}
+          action={createStudent}
+          state={createStudentState}
           createData={(data) => [courseId, data]}
         />
       </Layout>

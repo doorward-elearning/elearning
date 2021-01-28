@@ -11,7 +11,8 @@ import {
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 import handleApiError from '@doorward/common/net/handleApiError';
 import axios, {
-  AxiosRequestConfig
+  AxiosRequestConfig,
+  AxiosResponse
 } from 'axios';
 
 const {
@@ -23,7 +24,7 @@ const {
 
 const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
   "chat": {
-    getConversations: (config ? : AxiosRequestConfig): Promise < DApiResponse > => {
+    getConversations: (config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return GET(`/chat/conversations`, {}, {
         ...(config || {}),
         ...defaultConfig
@@ -31,13 +32,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     },
   },
   "contacts": {
-    getContacts: (config ? : AxiosRequestConfig): Promise < ContactsResponse > => {
+    getContacts: (config ? : AxiosRequestConfig): Promise < AxiosResponse < ContactsResponse >> => {
       return GET(`/contacts`, {}, {
         ...(config || {}),
         ...defaultConfig
       });
     },
-    getGroupContacts: (config ? : AxiosRequestConfig): Promise < ContactsResponse > => {
+    getGroupContacts: (config ? : AxiosRequestConfig): Promise < AxiosResponse < ContactsResponse >> => {
       return GET(`/contacts/groups`, {}, {
         ...(config || {}),
         ...defaultConfig
@@ -45,7 +46,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     },
   },
   "groups": {
-    createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups`, body, {}, {
         ...(config || {}),
         ...defaultConfig
@@ -54,7 +55,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getGroups: (query ? : {
       type ? : string,
       search ? : string
-    }, config ? : AxiosRequestConfig): Promise < GroupsResponse > => {
+    }, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupsResponse >> => {
       return GET(`/groups`, {
         ...(query || {})
       }, {
@@ -62,19 +63,19 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...defaultConfig
       });
     },
-    addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
         ...defaultConfig
       });
     },
-    getGroup: (groupId: string, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    getGroup: (groupId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return GET(`/groups/${groupId}`, {}, {
         ...(config || {}),
         ...defaultConfig
       });
     },
-    updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < GroupResponse > => {
+    updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return PUT(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
         ...defaultConfig

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingPage from '../../screens/LoadingPage';
 import DoorwardApi from '../../services/apis/doorward.api';
 import configureLang from '@doorward/common/lang/frontend.config';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {
   const [loadingLang, setLoadingLang] = useState(true);
@@ -13,10 +13,7 @@ const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> 
     });
   }, []);
 
-  const { action: getUserOrganization, state } = useApiAction(
-    DoorwardApi,
-    (api) => api.organizations.getCurrentOrganization
-  );
+  const [getUserOrganization, state] = useApiAction(DoorwardApi, (api) => api.organizations.getCurrentOrganization);
 
   useEffect(() => {
     getUserOrganization();

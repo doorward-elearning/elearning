@@ -13,7 +13,8 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import useRoutes from '../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
+import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
@@ -35,18 +36,22 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     }
   };
 
-  const saveSubmission = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
+  const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
     onSuccess: (data) => {
       setSubmission(data.submission);
     },
   });
-  const submitAssessment = useApiAction(DoorwardApi, (api) => api.assessments.submitAssignment, {
-    onSuccess: () => {
-      routes.navigate(routes.dashboard);
-    },
-    showSuccessToast: true,
-    showErrorToast: true,
-  });
+  const [submitAssessment, submitAssessmentState] = useApiAction(
+    DoorwardApi,
+    (api) => api.assessments.submitAssignment,
+    {
+      onSuccess: () => {
+        routes.navigate(routes.dashboard);
+      },
+    }
+  );
+
+  useRequestToast(submitAssessmentState);
 
   useEffect(() => {
     if (assessment.questions) {
@@ -86,12 +91,12 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           startQuestion={startQuestion}
           type={assessment.assessmentType}
           onFinishAssessment={(submission) => {
-            submitAssessment.action(assessment.id, {
+            submitAssessment(assessment.id, {
               submission,
             });
           }}
           onReadyToSave={(submission) => {
-            saveSubmission.action(assessment.id, {
+            saveSubmission(assessment.id, {
               submission,
             });
           }}

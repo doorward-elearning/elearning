@@ -1,6 +1,5 @@
 import React, { ReactChild } from 'react';
 import Form, { FormProps, FormRenderProps } from '@doorward/ui/components/Form';
-import { Action, WebComponentState } from '@doorward/ui/reducers/reducers';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import Row from '@doorward/ui/components/Row';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -10,14 +9,15 @@ import './BasicForm.scss';
 import { Omit } from '@doorward/common/types';
 import { useHistory } from 'react-router';
 import translate from '@doorward/common/lang/translate';
-import { UseApiAction } from '@doorward/ui/hooks/useApiAction';
+import { ApiActionCreator, UseApiAction, WebComponentState } from 'use-api-action/types/types';
+import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
   CANCEL_BUTTON = 2,
 }
 
-function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormProps<T, A, W>): JSX.Element {
+function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A, W>): JSX.Element {
   const { children } = props;
   const { showSuccessToast, showErrorToast } = props;
 
@@ -35,11 +35,10 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormP
 
   const history = useHistory();
 
+  useRequestToast(state, showSuccessToast, showErrorToast);
+
   const onSubmit = (body: T): void => {
-    submit(...createData(body), {
-      showErrorToast: true,
-      showSuccessToast: true,
-    });
+    submit(...createData(body));
   };
 
   useFormSubmit(props.state, () => {
@@ -92,7 +91,7 @@ function BasicForm<T, A extends (...args: any[]) => Action, W>(props: BasicFormP
 
 export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
 
-export type BasicFormProps<Values, ActionCreator extends (...args: any[]) => Action, WebState> = {
+export type BasicFormProps<Values, ActionCreator extends ApiActionCreator, WebState> = {
   children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
@@ -106,6 +105,9 @@ export type BasicFormProps<Values, ActionCreator extends (...args: any[]) => Act
   onSuccess?: (result?: WebState) => void;
   enableSubmitButton?: boolean;
 } & Omit<FormProps<Values>, 'onSubmit'> &
-  ({ submitAction: ActionCreator; state: WebComponentState<WebState> } | { apiAction: UseApiAction<any, WebState> });
+  (
+    | { submitAction: ActionCreator; state: WebComponentState<WebState, WebState> }
+    | { apiAction: UseApiAction<any, any, any, any, WebState> }
+  );
 
 export default BasicForm;

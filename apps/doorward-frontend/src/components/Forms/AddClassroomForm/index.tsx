@@ -5,23 +5,23 @@ import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateClassroomBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
   schoolId,
   onSuccess,
   onCancel,
 }): JSX.Element => {
-  const addClassroom = useApiAction(DoorwardApi, (api) => api.schools.addClassroomToSchool);
+  const [addClassroom, state] = useApiAction(DoorwardApi, (api) => api.schools.addClassroomToSchool);
   const form = useForm();
   return (
     <BasicForm
-      submitAction={addClassroom.action}
+      submitAction={addClassroom}
       createData={(values) => [schoolId, { ...values }]}
       validationSchema={CreateClassroomBody}
       initialValues={{ name: '' }}
       showSuccessToast
-      state={addClassroom.state}
+      state={state}
       onSuccess={() => {
         form.formikProps.resetForm();
         onSuccess();

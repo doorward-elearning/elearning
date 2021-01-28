@@ -90,7 +90,7 @@ export default class DocumentationBuilder {
       ${responses ? `import { ${responses} } from '@doorward/common/dtos/response';` : ''}
       import DApiResponse from '@doorward/common/dtos/response/base.response';
       import handleApiError from '@doorward/common/net/handleApiError';
-      import axios, { AxiosRequestConfig } from 'axios';
+      import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
       
       const { GET, PUT, POST, DELETE } = ApiRequest;
     
@@ -161,10 +161,12 @@ export default class DocumentationBuilder {
     switch (method) {
       case 'get':
       case 'delete':
-        return `(${params}${query?.required}${query?.optional}config?: AxiosRequestConfig): Promise<${
+        return `(${params}${query?.required}${query?.optional}config?: AxiosRequestConfig): Promise<AxiosResponse<${
           Response || 'DApiResponse'
-        }> => {
-              return ${method.toUpperCase()}(\`${newPath}\`, ${query?.queryParams}, { ...(config || {}), ...defaultConfig } );
+        }>> => {
+              return ${method.toUpperCase()}(\`${newPath}\`, ${
+          query?.queryParams
+        }, { ...(config || {}), ...defaultConfig } );
           }
         `;
       case 'post':
@@ -172,7 +174,7 @@ export default class DocumentationBuilder {
       case 'patch':
         return `(${params}${query?.required}${(Body ? 'body: ' + Body : 'undefined') + ','}${
           query?.optional
-        }config?: AxiosRequestConfig): Promise<${Response || 'DApiResponse'}> => {
+        }config?: AxiosRequestConfig): Promise<AxiosResponse<${Response || 'DApiResponse'}>> => {
               return ${method.toUpperCase()}(\`${newPath}\`,${Body ? 'body' : 'undefined'}, ${
           query?.queryParams
         }, {...(config || {}), ...defaultConfig } );
@@ -251,7 +253,7 @@ export default class DocumentationBuilder {
       ${singleFile ? 'file: Blob' : 'files: Array<Blob>'},
       onUploadProgress?: (percentage: number) => void,
       cancelHandler?: (cancelFunction: () => void) => void
-    ): Promise<${singleFile ? 'FileResponse' : 'FilesResponse'}> => {
+    ): Promise<AxiosResponse<${singleFile ? 'FileResponse' : 'FilesResponse'}>> => {
       const formData = new FormData();
       
       ${
@@ -264,25 +266,19 @@ export default class DocumentationBuilder {
       
       let data = null;
       
-      try {
-        const result = await POST("${path}", formData, null, {
-          onUploadProgress: (progressEvent) => {
-            const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-            if (onUploadProgress) {
-              onUploadProgress(percentage);
-            }
-          },
-          cancelToken: new axios.CancelToken((c) => {
-            cancelHandler(c);
-          }),
-        });
-        
-        data = result.data;
-      }catch(error) {
-        data = handleApiError(error);
-      }
+      const result = await POST("${path}", formData, null, {
+        onUploadProgress: (progressEvent) => {
+          const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          if (onUploadProgress) {
+            onUploadProgress(percentage);
+          }
+        },
+        cancelToken: new axios.CancelToken((c) => {
+          cancelHandler(c);
+        }),
+      });
       
-      return data;
+      return result;
     }`;
   }
 }

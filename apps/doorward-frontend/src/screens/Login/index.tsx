@@ -6,27 +6,24 @@ import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
 import { ROUTES } from '../../routes/routes';
 import IfElse from '@doorward/ui/components/IfElse';
-import useAction from '@doorward/ui/hooks/useActions';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import Message from '@doorward/ui/components/Message';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import useOrganization from '../../hooks/useOrganization';
 import useAuth from '../../hooks/useAuth';
-import { clearLoginAction } from '../../reducers/auth/actions';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../services/apis/doorward.api';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
   const { authenticated, authenticate } = useAuth();
-  const clearLogin = useAction(clearLoginAction);
   const organization = useOrganization();
   const { query } = useQueryParams();
 
   const routes = useRoutes();
-  const login = useApiAction(DoorwardApi, (api) => api.auth.login).state;
+  const [, login, clearLogin] = useApiAction(DoorwardApi, (api) => api.auth.login);
 
   useEffect(() => {
     if (query.newAccount) {

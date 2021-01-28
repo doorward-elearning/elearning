@@ -33,7 +33,7 @@ import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch
 import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useAuth from '../../hooks/useAuth';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -75,8 +75,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   rightContent,
   ...props
 }) => {
+  const [fetchSuggestions, suggestionsState] = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
+
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
-  const searchSuggestions = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
   const [search, setSearchText] = useState(searchText);
   const routes = useRoutes();
   const { breadcrumbs, titles } = useBreadCrumbs(routes);
@@ -84,14 +85,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
-  const fetchSuggestions = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
   const clearSuggestions = () => {};
   const sideBarRef = useRef();
   const auth = useAuth();
 
   useEffect(() => {
     if (suggestionsType) {
-      fetchSuggestions.action(suggestionsType, props.searchQuery);
+      fetchSuggestions(suggestionsType, props.searchQuery);
     }
 
     return clearSuggestions;
@@ -129,7 +129,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
-          <NavBarSearchContext state={searchSuggestions.state} placeholder={props.searchPlaceholder}>
+          <NavBarSearchContext state={suggestionsState} placeholder={props.searchPlaceholder}>
             <NavBar
               icon={icon}
               history={history}

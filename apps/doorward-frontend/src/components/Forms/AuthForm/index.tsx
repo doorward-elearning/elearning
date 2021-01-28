@@ -6,10 +6,10 @@ import Header from '@doorward/ui/components/Header';
 import Card from '@doorward/ui/components/Card';
 import IfElse from '@doorward/ui/components/IfElse';
 import BasicForm, { BasicFormProps } from '../BasicForm';
-import { Action } from '@doorward/ui/reducers/reducers';
 import useLogo from '../../../hooks/useLogo';
+import { ApiActionCreator } from 'use-api-action/types/types';
 
-function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<T, R>) {
+function AuthForm<T, R extends ApiActionCreator>(props: AuthFormProps<T, R>) {
   const { buttonText } = props;
   const icon = useLogo();
 
@@ -41,7 +41,7 @@ function AuthForm<T, R extends (...args: any[]) => Action>(props: AuthFormProps<
     </Card>
   );
 }
-export type AuthFormProps<T, R extends (...args: any[]) => Action> = BasicFormProps<T, R, any> & {
+export type AuthFormProps<T, R extends ApiActionCreator> = BasicFormProps<T, R, any> & {
   renderFooter?: () => JSX.Element;
   title: string;
   children: ReactChild | Array<ReactChild>;

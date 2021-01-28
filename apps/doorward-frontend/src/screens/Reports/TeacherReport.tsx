@@ -8,22 +8,22 @@ import usePageResource from '../../hooks/usePageResource';
 import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
-  const getTeacherReport = useApiAction(DoorwardApi, (api) => api.reports.getTeacherReport);
+  const [getTeacherReport, teacherReport] = useApiAction(DoorwardApi, (api) => api.reports.getTeacherReport);
   const routes = useRoutes();
-  usePageResource('teacherId', getTeacherReport.action);
-  useBreadCrumbTitle(getTeacherReport.state, (state) => state.data.teacher?.fullName, routes);
+  usePageResource('teacherId', getTeacherReport);
+  useBreadCrumbTitle(teacherReport, (state) => state.data.teacher?.fullName, routes);
 
-  const courseCreator = getTeacherReport.state.data.teacher;
+  const courseCreator = teacherReport.data.teacher;
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
       header={Tools.str(courseCreator?.fullName)}
     >
-      <WebComponent data={courseCreator} loading={getTeacherReport.state.fetching}>
+      <WebComponent data={courseCreator} loading={teacherReport.fetching}>
         {(data) => (
           <div className="course-creator-report__content">
             <AuthoredCoursesReportTable courses={data?.courses} />

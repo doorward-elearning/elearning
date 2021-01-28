@@ -11,41 +11,40 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
   const [assessment, setAssessment] = useState<AssessmentEntity>();
   const match: any = useRouteMatch();
   const routes = useRoutes();
 
-  const fetchSubmission = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
-  const fetchItem = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
+  const [fetchSubmission, submissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
+  const [fetchItem, itemState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
 
   useEffect(() => {
-    fetchItem.action(match.params.assessmentId);
-    fetchSubmission.action(match.params.assessmentId);
+    fetchItem(match.params.assessmentId);
+    fetchSubmission(match.params.assessmentId);
   }, []);
 
   const getModuleItem = useApiAction(DoorwardApi, (state) => state.moduleItems.getModuleItem);
-  const submissionState = useApiAction(DoorwardApi, (state) => state.assessments.getSubmission).state;
 
   useEffect(() => {
-    const moduleItem = getModuleItem.state.data.item;
+    const moduleItem = itemState.data.item;
     if (moduleItem) {
       setAssessment(moduleItem as AssessmentEntity);
     }
-  }, [getModuleItem.state]);
+  }, [itemState]);
 
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BACK_BUTTON]}
-      header={Tools.str(getModuleItem.state.fetching ? '' : assessment?.title)}
+      header={Tools.str(itemState.fetching ? '' : assessment?.title)}
     >
       <WebComponent
         data={{ assessment, submission: submissionState.data?.submission }}
-        loading={submissionState.fetching || getModuleItem.state.fetching}
-        hasData={() => !submissionState.fetching && !getModuleItem.state.fetching && !!assessment}
+        loading={submissionState.fetching || itemState.fetching}
+        hasData={() => !submissionState.fetching && !itemState.fetching && !!assessment}
       >
         {({ assessment, submission }) => {
           return submission?.status === AssessmentSubmissionStatus.SUBMITTED ? (

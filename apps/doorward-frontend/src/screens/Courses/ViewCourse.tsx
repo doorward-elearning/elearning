@@ -28,7 +28,7 @@ import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 import translate from '@doorward/common/lang/translate';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -37,20 +37,19 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const liveClassroomModal = useModal(false);
   const createDiscussionGroupModal = useModal();
   const hasPrivileges = usePrivileges();
-  const fetchTeachers = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
-  const updateCourse = useApiAction(DoorwardApi, (api) => api.courses.updateCourse);
+  const [fetchTeachers, teacherList] = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
+  const [updateCourse, updateCourseState] = useApiAction(DoorwardApi, (api) => api.courses.updateCourse);
+  const [launchClassroom, launchClassroomState] = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
 
   const [courseId, course] = useViewCourse();
 
   useEffect(() => {
     if (hasPrivileges('teachers.list')) {
-      fetchTeachers.action();
+      fetchTeachers();
     }
   }, []);
   const routes = useRoutes();
 
-  const launchClassroom = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
-  const teacherList = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
   return (
     <Layout
       {...props}
@@ -61,8 +60,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
         <IfElse condition={course.data.course}>
           <React.Fragment>
             <EditableLabelForm
-              submitAction={updateCourse.action}
-              state={updateCourse.state}
+              submitAction={updateCourse}
+              state={updateCourseState}
               name="title"
               privileges={['courses.update']}
               createData={(values) => [courseId, values]}
@@ -95,10 +94,10 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               </React.Fragment>
             )}
             <ProgressModal
-              state={launchClassroom.state}
+              state={launchClassroomState}
               cancellable={false}
               showErrorToast
-              action={() => launchClassroom.action(courseId)}
+              action={() => launchClassroom(courseId)}
               title={
                 course.data.course?.meetingRoom?.currentMeeting
                   ? translate('joiningMeeting')
@@ -140,7 +139,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                   ]}
                 />
                 <ChooseCourseManagerModal
-                  managers={teacherList.state}
+                  managers={teacherList}
                   onSuccess={addCourseManagerModal.closeModal}
                   courseId={course.id}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}

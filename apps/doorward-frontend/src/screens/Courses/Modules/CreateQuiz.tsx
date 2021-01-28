@@ -9,10 +9,10 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
-import useApiAction from '@doorward/ui/hooks/useApiAction';
+import { useApiAction } from 'use-api-action';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
-  const { action: getModule, state } = useApiAction(DoorwardApi, (api) => api.modules.getModule);
+  const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
   const routes = useRoutes();
   const [courseId] = useViewCourse();
 
