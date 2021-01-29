@@ -13,7 +13,7 @@ const randomString = require('random-string');
 const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET || '');
 
 class Tools {
-  static AUTHORIZATION_TOKEN = 'token';
+  static AUTHORIZATION_TOKEN = 'jwtToken';
 
   static enumKeys<T extends Enum<S>, S>(enumeration: T): Array<T> {
     const keys: any[] = Object.keys(enumeration);
@@ -42,24 +42,46 @@ class Tools {
     return btoa(username + ':' + password);
   }
 
-  static setToken(token: string): void {
-    sessionStorage.setItem(Tools.AUTHORIZATION_TOKEN, Tools.encrypt(token));
-  }
-
   static encrypt(str: string | null): string {
     return str ? simpleCrypto.encrypt(str) : '';
+  }
+
+  static setCookie(name: string, value: string, days: number) {
+    const date = new Date();
+    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
+    const expires = '; expires=' + date.toUTCString();
+    document.cookie = name + '=' + (value || '') + expires;
+  }
+
+  static getCookie(name) {
+    const nameEQ = name + '=';
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+      let c = ca[i];
+      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+    }
+    return null;
+  }
+
+  static eraseCookie(name) {
+    document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   }
 
   static decrypt(str: string | null): string {
     return str ? simpleCrypto.decrypt(str) : '';
   }
 
+  static setToken(token: string): void {
+    Tools.setCookie(Tools.AUTHORIZATION_TOKEN, token, +(process.env.JWT_EXPIRY_TIME.replace('d', '') || '30'));
+  }
+
   static clearToken(): void {
-    sessionStorage.removeItem(Tools.AUTHORIZATION_TOKEN);
+    Tools.eraseCookie(Tools.AUTHORIZATION_TOKEN);
   }
 
   static getToken(): string | null {
-    return Tools.decrypt(sessionStorage.getItem(Tools.AUTHORIZATION_TOKEN));
+    return this.getCookie(Tools.AUTHORIZATION_TOKEN);
   }
 
   static isLoggedIn(): boolean {

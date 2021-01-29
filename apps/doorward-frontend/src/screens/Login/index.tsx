@@ -24,6 +24,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
 
   const routes = useRoutes();
   const [, login, clearLogin] = useApiAction(DoorwardApi, (api) => api.auth.login);
+  const [getCurrentUser] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
 
   useEffect(() => {
     if (query.newAccount) {
@@ -35,6 +36,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
     if (login.data) {
       authenticate(login.data?.token);
       clearLogin();
+      getCurrentUser();
     }
   }, [login.data]);
   return (

@@ -9,6 +9,7 @@ const routeDefinitions: any = {};
 interface MRouteProps<T extends RouteNames> extends RouteProps {
   authRedirect: keyof T;
   privileges: Array<string>;
+  authenticated: boolean;
   key?: string;
 }
 
@@ -32,6 +33,7 @@ function generateRoutes<T extends RouteNames>(
         path: fullLink,
         component: detail.component,
         authRedirect: detail.redirectLink,
+        authenticated: detail._authenticated,
         privileges: detail.allowedPrivileges,
       };
 
@@ -55,6 +57,7 @@ function generateRoutes<T extends RouteNames>(
         withParams: (params: { [name: string]: any }): string => {
           return Tools.createRoute(fullLink, params);
         },
+        authenticated: detail._authenticated,
         tree: newPath,
         id: current,
       } as RouteDefinition<T>;

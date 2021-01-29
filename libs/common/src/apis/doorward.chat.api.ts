@@ -22,12 +22,12 @@ const {
   DELETE
 } = ApiRequest;
 
-const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
+const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
   "chat": {
     getConversations: (config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return GET(`/chat/conversations`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -35,13 +35,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getContacts: (config ? : AxiosRequestConfig): Promise < AxiosResponse < ContactsResponse >> => {
       return GET(`/contacts`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getGroupContacts: (config ? : AxiosRequestConfig): Promise < AxiosResponse < ContactsResponse >> => {
       return GET(`/contacts/groups`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -49,7 +49,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getGroups: (query ? : {
@@ -60,25 +60,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getGroup: (groupId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return GET(`/groups/${groupId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return PUT(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   }

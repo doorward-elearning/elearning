@@ -8,7 +8,7 @@ import useOrganization from '../hooks/useOrganization';
 import Error404 from '../screens/ErrorPages/Error404';
 
 let generatedRoutes = generate(routeNames(), routeConfigurations, (props) => {
-  if (props.privileges.length) {
+  if (props.authenticated) {
     return <AuthenticatedRoute {...props} />;
   } else {
     return <Route {...props} />;
@@ -22,7 +22,7 @@ export const Router: React.FunctionComponent<any> = (): JSX.Element => {
 
   useEffect(() => {
     generatedRoutes = generate(routeNames(), routeConfigurations, (props) => {
-      if (props.privileges.length) {
+      if (props.authenticated) {
         return <AuthenticatedRoute {...props} />;
       } else {
         return <Route {...props} />;

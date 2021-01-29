@@ -4,6 +4,7 @@ import { RouteNames, Routes } from '@doorward/ui/types';
 export default class MRoute<T extends RouteNames> {
   path: string;
   allowedPrivileges: Array<string>;
+  _authenticated = true;
   routes: Routes<T>;
   component?: React.FunctionComponent<any>;
   hideBreadCrumb?: boolean;
@@ -25,6 +26,7 @@ export default class MRoute<T extends RouteNames> {
 
   public(): MRoute<T> {
     this.allowedPrivileges = [];
+    this._authenticated = false;
     return this;
   }
 

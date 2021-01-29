@@ -89,24 +89,24 @@ const {
   DELETE
 } = ApiRequest;
 
-const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
+const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
   "assessments": {
     saveAssessment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
       return POST(`/assessments/submissions/save/${assessmentId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getSubmission: (assessmentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
       return GET(`/assessments/submissions/${assessmentId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     submitAssignment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
       return POST(`/assessments/submissions/submit/${assessmentId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -114,7 +114,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     submitAssignment: (assignmentId: string, body: SubmitAssignmentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssignmentSubmissionResponse >> => {
       return POST(`/assignments/${assignmentId}/submit`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -122,19 +122,19 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     login: (body: LoginBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < LoginResponse >> => {
       return POST(`/auth/login`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     register: (body: RegisterBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < LoginResponse >> => {
       return POST(`/auth/register`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCurrentUser: (config ? : AxiosRequestConfig): Promise < AxiosResponse < UserResponse >> => {
       return GET(`/auth`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -142,13 +142,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createCourseManager: (courseId: string, body: AddCourseManagerBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < CourseManagerResponse >> => {
       return POST(`/course-managers/${courseId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCourseManagers: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < CourseManagersResponse >> => {
       return GET(`/course-managers/${courseId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -156,7 +156,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createCourse: (body: CreateCourseBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < CourseResponse >> => {
       return POST(`/courses`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCourses: (query ? : {
@@ -168,37 +168,37 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     deleteCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < DeleteCourseResponse >> => {
       return DELETE(`/courses/${courseId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < CourseResponse >> => {
       return GET(`/courses/${courseId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateCourse: (courseId: string, body: UpdateCourseBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < CourseResponse >> => {
       return PUT(`/courses/${courseId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     createCourseModule: (courseId: string, body: CreateModuleBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleResponse >> => {
       return POST(`/courses/${courseId}/modules`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCourseModules: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModulesResponse >> => {
       return GET(`/courses/${courseId}/modules`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getCourseModuleItems: (courseId: string, query ? : {
@@ -208,13 +208,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     launchClassroom: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < MeetingResponse >> => {
       return GET(`/courses/${courseId}/liveClassroom`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -222,25 +222,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createDiscussionGroup: (courseId: string, body: CreateDiscussionGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DiscussionGroupResponse >> => {
       return POST(`/discussion-groups/course/${courseId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getAll: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < DiscussionGroupsResponse >> => {
       return GET(`/discussion-groups/course/${courseId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     postComment: (discussionGroupId: string, body: PostDiscussionCommentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DiscussionCommentResponse >> => {
       return POST(`/discussion-groups/post/${discussionGroupId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getDiscussionGroup: (discussionGroupId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < DiscussionGroupResponse >> => {
       return GET(`/discussion-groups/view/${discussionGroupId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -248,19 +248,19 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createFile: (body: CreateFileBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < FileResponse >> => {
       return POST(`/files`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getFiles: (config ? : AxiosRequestConfig): Promise < AxiosResponse < FilesResponse >> => {
       return GET(`/files`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getFile: (fileId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < FileResponse >> => {
       return GET(`/files/${fileId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     uploadFile: async (
@@ -320,7 +320,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createGroup: (body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getGroups: (query ? : {
@@ -331,25 +331,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     addMemberToGroup: (groupId: string, body: AddMemberToGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return POST(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getGroup: (groupId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return GET(`/groups/${groupId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateGroup: (groupId: string, body: CreateGroupBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < GroupResponse >> => {
       return PUT(`/groups/${groupId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -357,7 +357,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     healthCheck: (config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return GET(`/health-check`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -365,7 +365,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getJitsiBranding: (config ? : AxiosRequestConfig): Promise < AxiosResponse < JitsiBrandingResponse >> => {
       return GET(`/jitsi/branding`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -373,19 +373,19 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     joinMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < MeetingResponse >> => {
       return GET(`/meetings/${meetingId}/join`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     endMeeting: (meetingId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return DELETE(`/meetings/${meetingId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     processOpenviduWebHook: (config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return GET(`/meetings/openvidu/webhook`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -393,13 +393,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getModuleItem: (itemId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleItemResponse >> => {
       return GET(`/module/items/${itemId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateModuleItem: (itemId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateQuizBody | CreateAssessmentBody | CreateVideoBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleItemResponse >> => {
       return PUT(`/module/items/${itemId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -407,31 +407,31 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     deleteModule: (moduleId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < DeleteModuleResponse >> => {
       return DELETE(`/modules/${moduleId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getModule: (moduleId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleResponse >> => {
       return GET(`/modules/${moduleId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateModule: (moduleId: string, body: UpdateModuleBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleResponse >> => {
       return PUT(`/modules/${moduleId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     createModuleItem: (moduleId: string, body: CreateModuleItemBody | CreateQuizBody | CreateAssignmentBody | CreatePageBody | CreateAssessmentBody | CreateExamBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < ModuleItemResponse >> => {
       return POST(`/modules/${moduleId}/items`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateCourseModules: (body: UpdateModulesBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < UpdateModulesOrderResponse >> => {
       return PUT(`/modules`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -439,31 +439,31 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getCurrentOrganization: (config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
       return GET(`/organizations/current`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     createOrganization: (body: CreateOrganizationBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
       return POST(`/organizations`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getAllOrganizations: (config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationsResponse >> => {
       return GET(`/organizations`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getOrganization: (organizationId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
       return GET(`/organizations/${organizationId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateOrganization: (organizationId: string, body: UpdateOrganizationBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
       return PUT(`/organizations/${organizationId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -471,25 +471,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getStudentsReport: (config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentsReportResponse >> => {
       return GET(`/reports/students`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getTeachersReport: (config ? : AxiosRequestConfig): Promise < AxiosResponse < TeachersReportResponse >> => {
       return GET(`/reports/teachers`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getStudentReport: (studentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentReportResponse >> => {
       return GET(`/reports/students/${studentId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getTeacherReport: (teacherId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < TeacherReportResponse >> => {
       return GET(`/reports/teachers/${teacherId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -497,7 +497,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getLocaleFile: (config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return GET(`/resources/translations`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -505,25 +505,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createSchool: (body: CreateSchoolBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < SchoolResponse >> => {
       return POST(`/schools`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getAllSchools: (config ? : AxiosRequestConfig): Promise < AxiosResponse < SchoolsResponse >> => {
       return GET(`/schools`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getSchool: (schoolId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < SchoolResponse >> => {
       return GET(`/schools/${schoolId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     addClassroomToSchool: (schoolId: string, body: CreateClassroomBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < SchoolResponse >> => {
       return POST(`/schools/${schoolId}/classrooms`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -535,7 +535,7 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -543,13 +543,13 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createStudentInCourse: (courseId: string, body: CreateUserBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentResponse >> => {
       return POST(`/students/course/${courseId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getStudentsInCourse: (courseId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentsResponse >> => {
       return GET(`/students/course/${courseId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getStudentsNotRegisteredToCourse: (courseId: string, query ? : {
@@ -559,25 +559,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     addStudentToCourse: (courseId: string, body: AddStudentsToCourseBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentsResponse >> => {
       return POST(`/students/course/${courseId}/register`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     unEnrollStudentFromCourse: (courseId: string, studentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentResponse >> => {
       return DELETE(`/students/course/${courseId}/un-enroll/${studentId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     createStudent: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentResponse >> => {
       return POST(`/students`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getAllStudents: (query ? : {
@@ -590,25 +590,25 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
         ...(query || {})
       }, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getStudent: (studentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentResponse >> => {
       return GET(`/students/${studentId}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateStudent: (studentId: string, body: UpdateUserBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < StudentResponse >> => {
       return PUT(`/students/${studentId}`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateStudentPassword: (studentId: string, body: ForceChangePasswordBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return POST(`/students/${studentId}/changePassword`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -616,19 +616,19 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     createTeacherAccount: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < TeacherResponse >> => {
       return POST(`/teachers`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     getAllTeachers: (config ? : AxiosRequestConfig): Promise < AxiosResponse < TeachersResponse >> => {
       return GET(`/teachers`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     createFreeTrialTeacherAccount: (body: CreateUserBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < TeacherResponse >> => {
       return POST(`/teachers/freeTrial`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   },
@@ -636,31 +636,31 @@ const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
     getUserProfile: (username: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < UserResponse >> => {
       return GET(`/users/profile/${username}`, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < UserResponse >> => {
       return PUT(`/users/profile/account`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     updateAccountPassword: (body: UpdatePasswordBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return PUT(`/users/profile/password`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     resetAccountPassword: (body: ResetPasswordBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return POST(`/users/profile/resetPassword`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
     forgotAccountPassword: (body: ForgotPasswordBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < DApiResponse >> => {
       return POST(`/users/profile/forgotPassword`, body, {}, {
         ...(config || {}),
-        ...defaultConfig
+        ...(defaultConfig && defaultConfig())
       });
     },
   }

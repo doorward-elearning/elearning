@@ -94,7 +94,7 @@ export default class DocumentationBuilder {
       
       const { GET, PUT, POST, DELETE } = ApiRequest;
     
-      const DoorwardBackendApi = (defaultConfig: AxiosRequestConfig = {}) => ({
+      const DoorwardBackendApi = (defaultConfig?: () => AxiosRequestConfig) => ({
         ${endpoints}
       })
       
@@ -166,7 +166,7 @@ export default class DocumentationBuilder {
         }>> => {
               return ${method.toUpperCase()}(\`${newPath}\`, ${
           query?.queryParams
-        }, { ...(config || {}), ...defaultConfig } );
+        }, { ...(config || {}), ...(defaultConfig && defaultConfig()) } );
           }
         `;
       case 'post':
@@ -177,7 +177,7 @@ export default class DocumentationBuilder {
         }config?: AxiosRequestConfig): Promise<AxiosResponse<${Response || 'DApiResponse'}>> => {
               return ${method.toUpperCase()}(\`${newPath}\`,${Body ? 'body' : 'undefined'}, ${
           query?.queryParams
-        }, {...(config || {}), ...defaultConfig } );
+        }, {...(config || {}), ...(defaultConfig && defaultConfig()) } );
           }
         `;
       default:
