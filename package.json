@@ -340,6 +340,7 @@
     "typedoc": "0.17.6",
     "typescript": "3.7.4",
     "webpack-bundle-analyzer": "^3.9.0",
+    "yaml": "^1.10.0",
     "yargs": "^15.4.1"
   }
 }

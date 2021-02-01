@@ -29,46 +29,5 @@
     "teachers": ["create", "update", "view", "list"],
     "discussion-groups": ["create", "update", "view", "list", "post"],
     "chat": ["directMessage", "createGroupChat"]
-  },
-  "roles": {
-    "SUPER_ADMINISTRATOR": {
-      "privileges": ["*"],
-      "exclude": ["assignments.submit", "assessments.submit"]
-    },
-    "TEACHER": {
-      "privileges": [
-        "courses.*",
-        "modules.*",
-        "moduleItems.*",
-        "profile.*",
-        "course-students.*",
-        "course-managers.*",
-        "groups.*",
-        "meetings.moderate",
-        "students.*",
-        "student.groups.*",
-        "discussion-groups.*",
-        "chat.*"
-      ],
-      "exclude": ["courses.view-all"]
-    },
-    "STUDENT": {
-      "privileges": [
-        "modules.read",
-        "moduleItems.read",
-        "courses.read",
-        "profile.*",
-        "course-managers.view",
-        "groups.*",
-        "discussion-groups.view",
-        "discussion-groups.list",
-        "discussion-groups.post",
-        "assessments.submit",
-        "assignments.submit",
-        "meetings.subscribe",
-        "chat.directMessage"
-      ],
-      "exclude": []
-    }
   }
 }

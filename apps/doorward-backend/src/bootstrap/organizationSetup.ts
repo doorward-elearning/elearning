@@ -10,6 +10,10 @@ import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import connectDatabase from '@doorward/backend/database/connectDatabase';
+import wildcardPattern from '@doorward/common/utils/wildcardPattern';
+import compareLists from '@doorward/common/utils/compareLists';
+import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
+import { In } from 'typeorm';
 
 const chalk = require('chalk');
 
@@ -40,6 +44,12 @@ export interface OrganizationConfig {
     city: string;
     status: UserStatus;
   }>;
+  roles: {
+    [role: string]: {
+      privileges: Array<string>;
+      exclude: Array<string>;
+    };
+  };
 }
 
 const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION) => {
@@ -121,6 +131,7 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<
       descriptiveLogo,
       customerType,
       meetingPlatform,
+      roles,
     } = organizationConfig;
     if (!organizationConfig.id) {
       console.error('Organization id is required in the "organization.json" config file');
@@ -138,6 +149,52 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<
       meetingPlatform,
     });
     organization = await entityManager.save(OrganizationEntity, organization);
+
+    const privileges = await entityManager.query('SELECT name FROM "Privileges"');
+
+    const privilegeNames = privileges.map((privilege) => privilege.name);
+
+    // set up the role privileges
+    await Promise.all(
+      Object.keys(roles).map(async (role) => {
+        const roleExists = await entityManager.findOne(RoleEntity, {
+          where: {
+            name: role.trim(),
+          },
+          relations: ['privileges'],
+        });
+        if (roleExists) {
+          // get all existing privileges
+          const existingPrivileges = (await roleExists.privileges).map((x) => x.name);
+          const rolePrivileges = roles[role].privileges;
+          const excludedPrivileges = roles[role].exclude;
+
+          let newPrivileges = privilegeNames.filter(
+            (privilege) =>
+              rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
+              !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
+          );
+
+          const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);
+
+          newPrivileges = [...newItems, ...unchanged];
+
+          if (newPrivileges.length) {
+            roleExists.privileges = await entityManager.find(PrivilegeEntity, {
+              where: {
+                name: In(newPrivileges),
+              },
+            });
+          } else {
+            roleExists.privileges = [];
+          }
+
+          await entityManager.save(roleExists);
+        } else {
+          console.warn(role + ' does not exist.');
+        }
+      })
+    );
 
     const role = await entityManager.findOne(RoleEntity, {
       name: Roles.SUPER_ADMINISTRATOR,

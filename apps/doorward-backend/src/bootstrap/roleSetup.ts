@@ -1,10 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
-import RoleEntity from '@doorward/common/entities/role.entity';
-import compareLists from '@doorward/common/utils/compareLists';
-import { In } from 'typeorm';
-import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import connectDatabase from '@doorward/backend/database/connectDatabase';
 
 const chalk = require('chalk').default;
@@ -13,12 +9,6 @@ export interface RolesConfig {
   delimiter: string;
   privileges: {
     [base: string]: Array<string | { name: string; description: string }>;
-  };
-  roles: {
-    [role: string]: {
-      privileges: Array<string>;
-      exclude: Array<string>;
-    };
   };
 }
 
@@ -51,7 +41,7 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
   const connection = connectionManager.get();
   const queryRunner = connection.createQueryRunner();
   try {
-    const { privileges: rawPrivileges, roles, delimiter } = parseRoles();
+    const { privileges: rawPrivileges, delimiter } = parseRoles();
     await queryRunner.startTransaction();
 
     const entityManager = queryRunner.manager;
@@ -65,7 +55,6 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
       });
       return [...acc, ...generated];
     }, []);
-    const privilegeNames = privileges.map((privilege) => privilege.name);
 
     const privilegeEntities = [];
 
@@ -83,56 +72,15 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
             entityManager.create(PrivilegeEntity, {
               name,
               description,
-            })
+            }),
           );
         }
-      })
+      }),
     );
     await entityManager.save(privilegeEntities, {
       transaction: false,
     });
 
-    // set up the role privileges
-    await Promise.all(
-      Object.keys(roles).map(async (role) => {
-        const roleExists = await entityManager.findOne(RoleEntity, {
-          where: {
-            name: role.trim(),
-          },
-          relations: ['privileges'],
-        });
-        if (roleExists) {
-          // get all existing privileges
-          const existingPrivileges = (await roleExists.privileges).map((x) => x.name);
-          const rolePrivileges = roles[role].privileges;
-          const excludedPrivileges = roles[role].exclude;
-
-          let newPrivileges = privilegeNames.filter(
-            (privilege) =>
-              rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
-              !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
-          );
-
-          const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);
-
-          newPrivileges = [...newItems, ...unchanged];
-
-          if (newPrivileges.length) {
-            roleExists.privileges = await entityManager.find(PrivilegeEntity, {
-              where: {
-                name: In(newPrivileges),
-              },
-            });
-          } else {
-            roleExists.privileges = [];
-          }
-
-          await entityManager.save(roleExists);
-        } else {
-          console.warn(role + ' does not exist.');
-        }
-      })
-    );
 
     await queryRunner.commitTransaction();
 
