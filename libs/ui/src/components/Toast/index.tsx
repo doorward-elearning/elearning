@@ -2,9 +2,8 @@ import React, { MouseEventHandler } from 'react';
 import './Toast.scss';
 import classNames from 'classnames';
 import Icon from '../Icon';
-import IfElse from '../IfElse';
 
-const Toast: React.FunctionComponent<ToastProps> = props => {
+const Toast: React.FunctionComponent<ToastProps> = (props) => {
   const className = classNames({
     'ed-toast': true,
     ['v-' + (props.vPosition || 'top')]: true,
@@ -14,9 +13,7 @@ const Toast: React.FunctionComponent<ToastProps> = props => {
   return (
     <div className={className}>
       <div className="toast__text">{props.message}</div>
-      <IfElse condition={!props.static}>
-        <Icon icon="close" onClick={props.closeToast} />
-      </IfElse>
+      {!props.static && <Icon icon="close" onClick={props.closeToast} />}
     </div>
   );
 };

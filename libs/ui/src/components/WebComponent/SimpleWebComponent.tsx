@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import WebComponent, { WebComponentProps } from './index';
 import useAction from '../../hooks/useActions';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
@@ -9,10 +9,18 @@ function SimpleWebComponent<
   U extends (data: Data<T>) => any
 >(props: Omit<SimpleWebComponentProps<T, S, U>, 'loading' | 'data'>): JSX.Element {
   const action = useAction(props.action);
+  const [params, setParams] = useState([]);
+
   useEffect(() => {
-    const params = props.params || [];
-    action(...(params as Parameters<S>));
+    if (JSON.stringify(props.params) !== JSON.stringify(params)) {
+      setParams(props.params || []);
+    }
   }, [props.params]);
+
+  useEffect(() => {
+    action(...(params as Parameters<S>));
+  }, [params]);
+
   return (
     <WebComponent {...props} data={props.state.data} loading={props.state.fetching}>
       {(data): JSX.Element => <React.Fragment>{props.children(props.dataSelector(data))}</React.Fragment>}

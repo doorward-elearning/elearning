@@ -1,9 +1,7 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
-import { Editor } from 'react-draft-wysiwyg';
-import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import fullEditor from './tools/editorTools';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
+import { ContentState, convertFromRaw, convertToRaw, Editor, EditorState } from 'draft-js';
+import 'draft-js/dist/Draft.css';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';
@@ -81,13 +79,9 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         </div>
       ) : (
         <Editor
-          toolbar={fullEditor}
           placeholder={props.placeholder}
-          wrapperClassName="eb-input--draft-text-area__wrapper"
-          editorClassName="eb-input--draft-text-area__editor"
-          toolbarClassName="eb-input--draft-text-area__toolbar"
           editorState={editorState}
-          onEditorStateChange={setEditorState}
+          onChange={setEditorState}
           onBlur={() => {
             formikProps.handleBlur({ target: { value, name } });
             setFocused(false);

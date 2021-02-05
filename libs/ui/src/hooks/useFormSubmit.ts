@@ -12,9 +12,7 @@ function useFormSubmit<T extends WebComponentState<Data, any>, Data>(form?: T, o
         setSubmitted(false);
       }
       if (form.submitted && submitting) {
-        if (!(form.errors?.errors || form.errors?.errors)) {
-          setSubmitted(true);
-        }
+        setSubmitted(true);
       }
     }
   }, [form]);

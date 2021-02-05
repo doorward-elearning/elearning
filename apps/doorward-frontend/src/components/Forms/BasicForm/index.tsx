@@ -1,5 +1,5 @@
-import React, { ReactChild } from 'react';
-import Form, { FormProps, FormRenderProps } from '@doorward/ui/components/Form';
+import React, { ReactChild, useCallback } from 'react';
+import Form, { FormProps } from '@doorward/ui/components/Form';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import Row from '@doorward/ui/components/Row';
 import Button from '@doorward/ui/components/Buttons/Button';
@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import translate from '@doorward/common/lang/translate';
 import { ApiActionCreator, UseApiAction, WebComponentState } from 'use-api-action/types/types';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
+import { FormikProps } from 'formik';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
@@ -41,22 +42,29 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
     submit(...createData(body));
   };
 
-  useFormSubmit(props.state, () => {
+  const onFormSubmit = useCallback(() => {
     if (props.resetOnSubmit && form.formikProps) {
       form.formikProps.resetForm();
     }
-    if (!(props.state.errors?.message || props.state.errors?.errors) && props.onSuccess) {
-      props.onSuccess(props.state.data);
+    if (!(state.errors?.message || state.errors?.errors) && props.onSuccess) {
+      props.onSuccess(state.data);
     }
-  });
+  }, [state]);
+
+  useFormSubmit(state, onFormSubmit);
 
   return (
     <FeatureProvider features={features}>
-      <Form {...props} onSubmit={onSubmit}>
+      <Form
+        {...props}
+        state={state}
+        onSubmit={onSubmit}
+        hideFormMessage={showSuccessToast || showErrorToast || props.hideFormMessage}
+      >
         {(formikProps) => {
           return (
             <React.Fragment>
-              {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(formikProps) : children}
+              {(children as any).apply ? (children as any)(formikProps, state) : children}
               <Feature feature={[BasicFormFeatures.SAVE_BUTTON, BasicFormFeatures.CANCEL_BUTTON]}>
                 <Row className="basic-form__submitArea">
                   <Feature feature={BasicFormFeatures.SAVE_BUTTON}>
@@ -92,7 +100,10 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
 export type CreateData<T, ReturnValue = any> = (values: T) => ReturnValue;
 
 export type BasicFormProps<Values, ActionCreator extends ApiActionCreator, WebState> = {
-  children: Array<ReactChild> | ReactChild | FormRenderProps<Values>;
+  children:
+    | Array<ReactChild>
+    | ReactChild
+    | ((props: FormikProps<Values>, state: WebComponentState<WebState, WebState>) => React.ReactNode);
   onCancel?: () => void;
   features?: Array<BasicFormFeatures>;
   showSuccessToast?: boolean;

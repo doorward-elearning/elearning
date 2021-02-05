@@ -62,7 +62,7 @@ function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItem
                   getCell={(row, index) => {
                     return {
                       _uniqueColumnAdd_: <SwitchInput labelPosition="right" name={`items.${index}.selected`} />,
-                      ...(props.renderCell ? props.renderCell(row, index) : {}),
+                      ...(props.renderCell ? props.renderCell(row as any, index) : {}),
                     };
                   }}
                 />

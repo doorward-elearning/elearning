@@ -8,7 +8,7 @@ import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
-  const [getGroups, state] = useApiAction(DoorwardApi, (api) => api.groups.getGroups);
+  const [getGroups, state] = useApiAction(DoorwardApi, (api) => api.groups.getGroups, { clearData: true });
   return (
     <SimpleWebComponent
       action={getGroups}

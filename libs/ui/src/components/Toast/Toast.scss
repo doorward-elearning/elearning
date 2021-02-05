@@ -3,18 +3,22 @@
 .ed-toast {
   position: fixed;
   z-index: 1000;
-  height: 60px;
+  height: 50px;
   background: var(--primary);
   color: var(--text-alternate);
   padding: 0 var(--padding-xlg);
-  display: grid;
+  display: flex;
   align-items: center;
-  grid-auto-flow: column;
-  grid-gap: var(--padding-lg);
+  justify-content: space-between;
+  flex-direction: row;
   box-shadow: var(--box-shadow--hover);
   transition: 0.5s opacity;
   border-radius: 3px;
   min-width: 200px;
+
+  .toast__text {
+    margin-right: var(--padding-lg);
+  }
 
   &.error {
     background: var(--text-error);

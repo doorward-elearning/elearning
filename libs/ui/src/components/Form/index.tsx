@@ -34,8 +34,8 @@ function Form<T>({
   usePromiseEffect(getValidationSchema(validationSchema), setValidation, [validationSchema]);
 
   useEffect(() => {
-    if (allProps && state && state.errors) {
-      if (state.errors.errors) {
+    if (allProps && state?.errors) {
+      if (state.errors.errors && !state.submitting) {
         allProps.setErrors(state.errors.errors as FormikErrors<any>);
         allProps.setSubmitting(false);
       } else if (state.errors.message) {
@@ -71,9 +71,7 @@ function Form<T>({
         return (
           <div className="ed-form">
             <FormContext.Provider value={{ formikProps: props, editable, validationSchema }}>
-              <IfElse condition={!hideFormMessage}>
-                <FormMessage state={state} formikProps={props} />
-              </IfElse>
+              {!hideFormMessage && <FormMessage state={state} formikProps={props} />}
               <form className={formClassName} onSubmit={props.handleSubmit}>
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
               </form>

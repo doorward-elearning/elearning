@@ -13,7 +13,7 @@ function AuthenticatedRoute(props: AuthenticatedRouteProps): JSX.Element {
   const routes = useRoutes();
   const { authenticated } = useAuth();
   const [, user] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
-  const hasPrivileges = usePrivileges();
+  const hasPrivileges = usePrivileges(user.data?.user);
 
   if (user.errors?.message || user.errors?.errors || !authenticated) {
     Tools.clearToken();
@@ -34,4 +34,5 @@ export interface AuthenticatedRouteProps extends RouteProps {
   authRedirect: keyof DoorwardRoutes;
   privileges: Array<string>;
 }
+
 export default AuthenticatedRoute;

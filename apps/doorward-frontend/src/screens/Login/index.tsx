@@ -23,7 +23,10 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   const { query } = useQueryParams();
 
   const routes = useRoutes();
-  const [, login, clearLogin] = useApiAction(DoorwardApi, (api) => api.auth.login);
+  const [, login, clearLogin] = useApiAction(DoorwardApi, (api) => api.auth.login, {
+    clearData: true,
+    clearErrors: true,
+  });
   const [getCurrentUser] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
 
   useEffect(() => {

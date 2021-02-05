@@ -9,16 +9,14 @@ const FormMessage: React.FunctionComponent<FormMessageProps> = (props) => {
   const [success, setSuccess] = useState();
 
   useEffect(() => {
-    setError(props.state?.errors?.message);
-    setSuccess(props.state?.data?.message);
-  }, [props.state]);
-
-  useEffect(() => {
-    if (!props.formikProps.isValid && (error || success)) {
+    if (!props.state?.submitting) {
+      setError(props.state?.errors?.message);
+      setSuccess(props.state?.data?.message);
+    } else {
       setError('');
       setSuccess('');
     }
-  }, [props.formikProps]);
+  }, [props.state]);
   return (
     <div
       className={classNames({

@@ -25,12 +25,12 @@ function AuthForm<T, R extends ApiActionCreator>(props: AuthFormProps<T, R>) {
           </IfElse>
         </div>
         <div className="login-form">
-          <BasicForm features={[]} {...props}>
-            {(formikProps) => (
+          <BasicForm features={[]} {...props} showSuccessToast showErrorToast>
+            {(_, state) => (
               <React.Fragment>
                 {props.children}
                 <div className="login-form__footer">
-                  <Button loading={formikProps.isSubmitting}>{buttonText}</Button>
+                  <Button loading={state.submitting}>{buttonText}</Button>
                   {props.renderFooter && props.renderFooter()}
                 </div>
               </React.Fragment>

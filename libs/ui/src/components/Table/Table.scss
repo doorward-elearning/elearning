@@ -37,7 +37,7 @@
     th,
     tr,
     td {
-      padding: var(--padding-lg) var(--padding);
+      padding: var(--padding) var(--padding-sm);
     }
 
     thead {
@@ -63,6 +63,7 @@
     }
 
     tbody {
+      background: rgba(0, 0, 0, 0.01);
       tr {
         .menu {
           text-align: right;
@@ -92,7 +93,7 @@
         &:hover {
           td {
             &:before {
-              background: rgba(0, 0, 0, 0.02);
+              background: rgba(0, 0, 0, 0.03);
             }
           }
         }

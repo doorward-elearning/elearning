@@ -15,7 +15,7 @@ import CourseManagerEntity from '@doorward/common/entities/course.manager.entity
 export default class CoursesRepository extends OrganizationBasedRepository<CourseEntity> {
   public async getCoursesForStudent(
     studentId: string,
-    page: PaginationQuery
+    page: PaginationQuery,
   ): Promise<PaginatedEntities<CourseEntity>> {
     const queryBuilder = this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
@@ -61,7 +61,8 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
   public async getCoursesByAdmin(adminId: string, page: PaginationQuery) {
     const queryBuilder = await this.createQueryBuilder('course')
       .leftJoinAndSelect('course.author', 'author')
-      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
+      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
+      .addOrderBy('course.createdAt', 'DESC');
 
     const { entities, pagination } = await this.paginate(queryBuilder, page);
 
@@ -76,7 +77,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       courses.map(async (course) => {
         course.numStudents = await this.getRepository(StudentCoursesEntity).count({ course: { id: course.id } });
         return course;
-      })
+      }),
     );
   }
 
@@ -117,7 +118,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
         'Meetings',
         'currentMeeting',
         '"meetingRoom".id = "currentMeeting"."meetingRoomId" AND' + ' "currentMeeting".status = :status',
-        { status: MeetingStatus.STARTED }
+        { status: MeetingStatus.STARTED },
       )
       .getOne();
   }
