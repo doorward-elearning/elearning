@@ -1,7 +1,3 @@
 [submodule "apps/jitsi-meet"]
 	path = apps/jitsi-meet
 	url = https://github.com/gitaumoses4/jitsi-meet
-[submodule "elearning-ops"]
-	path = elearning-ops
-	url = https://github.com/doorward-elearning/elearning-ops
-	branch = develop
