@@ -4,4 +4,3 @@
 [submodule "elearning-ops"]
 	path = elearning-ops
 	url = https://github.com/doorward-elearning/elearning-ops
-	branch = develop
