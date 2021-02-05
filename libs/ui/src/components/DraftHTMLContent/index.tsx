@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor } from 'draft-js';
 import './DraftHTMLContent.scss';
 import handleDraftPagination from './handleDraftPagination';
 import IfElse from '../IfElse';
@@ -50,13 +50,7 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
         </div>
       </IfElse>
       <div className="ed-draft-reader__editorWrapper">
-        <Editor
-          editorState={editorState}
-          toolbarHidden
-          readOnly
-          wrapperClassName="ed-draft-reader__wrapper"
-          editorClassName="ed-draft-reader__editor"
-        />
+        <Editor editorState={editorState} onChange={() => {}} readOnly />
       </div>
       <IfElse condition={props.paginate && paginationPosition === 'bottom'}>
         <div className="pagination__bottom">

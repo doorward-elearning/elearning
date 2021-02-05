@@ -80,7 +80,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
       ) : (
         <Editor
           placeholder={props.placeholder}
-          editorState={editorState}
+          editorState={editorState || EditorState.createEmpty()}
           onChange={setEditorState}
           onBlur={() => {
             formikProps.handleBlur({ target: { value, name } });
