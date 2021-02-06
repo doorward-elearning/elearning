@@ -7,6 +7,7 @@ import { getFirstIcon } from '../../../utils/toolbar';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 import Option from '../../../components/Option';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface ListProps {
   expanded: boolean;
@@ -60,7 +61,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             active={listType === 'unordered'}
             title={unordered.title || translations['components.controls.list.unordered']}
           >
-            <img src={unordered.icon} alt="" />
+            <Icon icon={unordered.icon} />
           </Option>
         )}
         {options.indexOf('ordered') >= 0 && (
@@ -71,7 +72,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             active={listType === 'ordered'}
             title={ordered.title || translations['components.controls.list.ordered']}
           >
-            <img src={ordered.icon} alt="" />
+            <Icon icon={ordered.icon} />
           </Option>
         )}
         {options.indexOf('indent') >= 0 && (
@@ -81,7 +82,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             className={classNames(indent.className)}
             title={indent.title || translations['components.controls.list.indent']}
           >
-            <img src={indent.icon} alt="" />
+            <Icon icon={indent.icon} />
           </Option>
         )}
         {options.indexOf('outdent') >= 0 && (
@@ -91,7 +92,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             className={classNames(outdent.className)}
             title={outdent.title || translations['components.controls.list.outdent']}
           >
-            <img src={outdent.icon} alt="" />
+            <Icon icon={outdent.icon} />
           </Option>
         )}
       </div>
@@ -122,7 +123,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
         aria-label="rdw-list-control"
         title={title || translations['components.controls.list.list']}
       >
-        <img src={getFirstIcon(config)} alt="" />
+        <Icon icon={getFirstIcon(config)} />
         {this.options
           .filter((option) => options.indexOf(option) >= 0)
           .map((option, index) => (
@@ -134,7 +135,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
               active={listType === option}
               title={config[option].title || translations[`components.controls.list.${option}`]}
             >
-              <img src={config[option].icon} alt="" />
+              <Icon icon={config[option].icon} />
             </DropdownOption>
           ))}
       </Dropdown>

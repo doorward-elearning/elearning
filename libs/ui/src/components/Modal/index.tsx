@@ -40,11 +40,11 @@ const ModalHeader: React.FunctionComponent<ModalHeaderProps> = (props) => {
           <div className="ed-modal__content__header">
             <Feature feature={ModalFeatures.TITLE}>{props.title && <Header size={2}>{props.title}</Header>}</Feature>
             {props.children}
-            <IfElse condition={cancellable}>
+            {cancellable && (
               <Feature feature={ModalFeatures.CLOSE_BUTTON_HEADER}>
                 <Icon icon="close" onClick={closeModal} />
               </Feature>
-            </IfElse>
+            )}
           </div>
           <Feature feature={ModalFeatures.SEARCH_BAR}>
             <div className="ed-modal__content__header--searchBar">
@@ -142,6 +142,7 @@ export interface ModalProps {
   className?: string;
   blurBackground?: boolean;
   bottomSheet?: boolean;
+  onClose?: () => void;
 }
 
 export interface ModalHeaderProps {
@@ -185,6 +186,8 @@ class Modal extends Component<ModalProps> {
 
   container = document.getElementById('modal-box');
 
+  componentDidMount(): void {}
+
   componentWillUnmount(): void {}
 
   componentWillReceiveProps(nextProps: Readonly<ModalProps>): void {
@@ -198,13 +201,26 @@ class Modal extends Component<ModalProps> {
     }
   }
 
+  closeModal = () => {
+    if (this.props.onClose) {
+      this.props.onClose();
+    }
+    this.props.useModal.closeModal();
+  };
+
   render() {
     const { features = [], children, useModal, cancellable = true, ...props } = this.props;
     const { visible } = this.state;
 
     return ReactDOM.createPortal(
       <FeatureProvider features={[...features, ...DEFAULT_FEATURES]}>
-        <ModalContext.Provider value={{ ...useModal, cancellable }}>
+        <ModalContext.Provider
+          value={{
+            ...useModal,
+            cancellable,
+            closeModal: this.closeModal,
+          }}
+        >
           {visible && (
             <div
               ref={this.modal}
@@ -215,7 +231,7 @@ class Modal extends Component<ModalProps> {
                 [props.className || '']: true,
               })}
             >
-              <div className="ed-modal__background" onClick={() => cancellable && useModal.closeModal()} />
+              <div className="ed-modal__background" onClick={() => cancellable && this.closeModal()} />
               <div className="ed-modal__content">
                 <Container>{children}</Container>
               </div>

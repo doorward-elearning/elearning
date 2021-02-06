@@ -13,17 +13,19 @@
   display: flex;
   flex-wrap: wrap;
   width: 235px;
+  justify-content: center;
   height: 180px;
   border: 1px solid #F1F1F1;
   padding: 15px;
   border-radius: 2px;
   z-index: 100;
-  background: white;
-  box-shadow: 3px 3px 5px #BFBDBD;
+  background: var(--bg-primary);
+  box-shadow: var(--box-shadow);
 }
 .rdw-emoji-icon {
   margin: 2.5px;
   height: 24px;
+  padding: var(--padding-sm);
   width: 24px;
   cursor: pointer;
   font-size: 22px;

@@ -7,6 +7,7 @@ import { getFirstIcon } from '../../../utils/toolbar';
 import Option from '../../../components/Option';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface HistoryProps {
   expanded: boolean;
@@ -47,7 +48,7 @@ export default class History extends Component<HistoryProps, any> {
         aria-label="rdw-history-control"
         title={title || translations['components.controls.history.history']}
       >
-        <img src={getFirstIcon(config)} alt="" />
+        <Icon icon={getFirstIcon(config)} />
         {options.indexOf('undo') >= 0 && (
           <DropdownOption
             value="undo"
@@ -56,7 +57,7 @@ export default class History extends Component<HistoryProps, any> {
             className={classNames('rdw-history-dropdownoption', undo.className)}
             title={undo.title || translations['components.controls.history.undo']}
           >
-            <img src={undo.icon} alt="" />
+            <Icon icon={undo.icon} />
           </DropdownOption>
         )}
         {options.indexOf('redo') >= 0 && (
@@ -67,7 +68,7 @@ export default class History extends Component<HistoryProps, any> {
             className={classNames('rdw-history-dropdownoption', redo.className)}
             title={redo.title || translations['components.controls.history.redo']}
           >
-            <img src={redo.icon} alt="" />
+            <Icon icon={redo.icon} />
           </DropdownOption>
         )}
       </Dropdown>
@@ -90,7 +91,7 @@ export default class History extends Component<HistoryProps, any> {
             disabled={undoDisabled}
             title={undo.title || translations['components.controls.history.undo']}
           >
-            <img src={undo.icon} alt="" />
+            <Icon icon={undo.icon} />
           </Option>
         )}
         {options.indexOf('redo') >= 0 && (
@@ -101,14 +102,14 @@ export default class History extends Component<HistoryProps, any> {
             disabled={redoDisabled}
             title={redo.title || translations['components.controls.history.redo']}
           >
-            <img src={redo.icon} alt="" />
+            <Icon icon={redo.icon} />
           </Option>
         )}
       </div>
     );
   }
 
-  render(): Object {
+  render() {
     const { config } = this.props;
     if (config.inDropdown) {
       return this.renderInDropDown();

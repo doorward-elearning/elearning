@@ -128,7 +128,7 @@ class Link extends Component<LinkProps, any> {
   addLink = (linkTitle, linkTarget, linkTargetOption) => {
     const { editorState, onChange } = this.props;
     const { currentEntity } = this.state;
-    let selection = editorState.getSelection();
+    let selection: any = editorState.getSelection();
 
     if (currentEntity) {
       const entityRange = getEntityRange(editorState, currentEntity);

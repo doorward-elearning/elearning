@@ -3,7 +3,7 @@ import { getSelectedBlocksType } from 'draftjs-utils';
 import { RichUtils } from 'draft-js';
 
 import LayoutComponent from './Component';
-import { EditorState } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
 
 interface BlockTypeProps {
   onChange: (state: EditorState) => void;

@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import Option from '../../../components/Option';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 const RemoveComponent: React.FunctionComponent<RemoveComponentProps> = ({
   config,
@@ -19,7 +20,7 @@ const RemoveComponent: React.FunctionComponent<RemoveComponentProps> = ({
         onClick={onChange}
         title={title || translations['components.controls.remove.remove']}
       >
-        <img src={icon} alt="" />
+        <Icon icon={icon} />
       </Option>
     </div>
   );

@@ -4,12 +4,12 @@
   box-sizing: border-box;
 }
 .rdw-editor-toolbar {
-  padding: 6px 5px 0;
+  padding: var(--padding-sm) var(--padding);
   border-radius: 2px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid var(--line-color);
   display: flex;
   justify-content: flex-start;
-  background: white;
+  background: var(--bg-primary);
   flex-wrap: wrap;
   font-size: 15px;
   margin-bottom: 5px;

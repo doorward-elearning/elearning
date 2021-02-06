@@ -481,7 +481,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
             }}
             onMouseDown={this.preventDefault}
             aria-label="rdw-toolbar"
-            aria-hidden={(!editorFocused && toolbarOnFocus).toString()}
+            aria-hidden={!editorFocused && toolbarOnFocus}
             onFocus={this.onToolbarFocus}
           >
             {toolbar.options.map((opt, index) => {
@@ -514,7 +514,6 @@ class WysiwygEditor extends Component<EditorProps, any> {
             blockStyleFn={blockStyleFn}
             customStyleMap={this.getStyleMap(this.props)}
             handleReturn={this.handleReturn}
-            handlePastedText={this.handlePastedTextFn}
             blockRendererFn={this.blockRendererFn}
             handleKeyCommand={this.handleKeyCommand}
             ariaLabel={ariaLabel || 'rdw-editor'}

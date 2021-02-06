@@ -39,44 +39,7 @@
     color: #333;
   }
 
-  &__toolbar {
-    background: #eee;
-    border: 1px solid var(--line-color);
-    * {
-      color: #333;
-    }
-
-    .rdw-option-wrapper,
-    .rdw-dropdown-wrapper,
-    .rdw-dropdown-optionwrapper {
-      border: 1px solid var(--line-color);
-      background: #fff;
-      * {
-        color: #333;
-      }
-    }
-
-    .rdw-option-active {
-      box-shadow: 3px 3px 0 var(--accent) inset;
-    }
-
-    .rdw-dropdownoption {
-      &-active,
-      &-highlighted {
-        background: var(--bg-secondary);
-      }
-    }
-    .rdw-option-disabled {
-      background: var(--bg-secondary);
-      cursor: not-allowed;
-    }
-  }
-
   input {
     width: auto !important;
-  }
-
-  .rdw-embedded-modal {
-    width: auto;
   }
 }

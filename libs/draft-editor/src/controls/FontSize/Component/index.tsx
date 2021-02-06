@@ -5,6 +5,7 @@ import classNames from 'classnames';
 
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface LayoutComponentProps {
   expanded: boolean;
@@ -63,7 +64,7 @@ export default class LayoutComponent extends Component<LayoutComponentProps, any
           onExpandEvent={onExpandEvent}
           title={title || translations['components.controls.fontsize.fontsize']}
         >
-          {currentFontSize ? <span>{currentFontSize}</span> : <img src={icon} alt="" />}
+          {currentFontSize ? <span>{currentFontSize}</span> : <Icon icon={icon} />}
           {options.map((size, index) => (
             <DropdownOption className="rdw-fontsize-option" active={currentFontSize === size} value={size} key={index}>
               {size}

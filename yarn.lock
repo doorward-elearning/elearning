@@ -4146,14 +4146,6 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-draft-wysiwyg@^1.13.1":
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/@types/react-draft-wysiwyg/-/react-draft-wysiwyg-1.13.1.tgz#75ec086d348f4dbcfa329aa40b7b7dcbda8d1cca"
-  integrity sha512-y5zGYwBa7iHcuqWwGQEh1+KD6Ppho9YG/1Bs3LmUtSROKYesVCaZ6nWuiKSbTn8ipCkuTiBhjMJulNX5L0klHQ==
-  dependencies:
-    "@types/draft-js" "*"
-    "@types/react" "*"
-
 "@types/react-helmet@^5.0.14":
   version "5.0.16"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.16.tgz#dafac5f043665b880559285a27c71a69abd1f29e"

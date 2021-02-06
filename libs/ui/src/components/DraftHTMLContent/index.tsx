@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor } from 'react-draft-wysiwyg';
 import './DraftHTMLContent.scss';
 import handleDraftPagination from './handleDraftPagination';
 import IfElse from '../IfElse';
@@ -8,6 +7,7 @@ import { ContentBlock, convertFromRaw, EditorState } from 'draft-js';
 import classNames from 'classnames';
 import createPlyrForYouTubeVideos from '@doorward/ui/components/DraftHTMLContent/createPlyrForYouTubeVideos';
 import draftEditorWrapper from '@doorward/ui/hoc/draftEditorWrapper';
+import { Editor } from '@doorward/draft-editor';
 
 const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());

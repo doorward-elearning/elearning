@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AtomicBlockUtils } from 'draft-js';
 
 import LayoutComponent from './Component';
-import { EditorState } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
 
 interface ImageControlProps {
   editorState: EditorState;
@@ -17,17 +17,12 @@ class ImageControl extends Component<ImageControlProps, any> {
 
   constructor(props) {
     super(props);
-    const { modalHandler } = this.props;
     this.state = {
       expanded: false,
     };
-    modalHandler.registerCallBack(this.expandCollapse);
   }
 
-  componentWillUnmount() {
-    const { modalHandler } = this.props;
-    modalHandler.deregisterCallBack(this.expandCollapse);
-  }
+  componentWillUnmount() {}
 
   onExpandEvent = () => {
     this.signalExpanded = !this.state.expanded;

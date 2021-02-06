@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface LayoutComponentProps {
   expanded?: boolean;
@@ -134,7 +135,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           onClick={onExpandEvent}
           title={title || translations['components.controls.embedded.embedded']}
         >
-          <img src={icon} alt="" />
+          <Icon icon={icon} />
         </Option>
         {expanded ? this.rendeEmbeddedLinkModal() : undefined}
       </div>

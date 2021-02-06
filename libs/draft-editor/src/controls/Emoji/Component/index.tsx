@@ -6,6 +6,7 @@ import classNames from 'classnames';
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface LayoutComponentProps {
   expanded: boolean;
@@ -52,7 +53,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
         title={title || translations['components.controls.emoji.emoji']}
       >
         <Option className={classNames(className)} value="unordered-list-item" onClick={onExpandEvent}>
-          <img src={icon} alt="" />
+          <Icon icon={icon} />
         </Option>
         {expanded ? this.renderEmojiModal() : undefined}
       </div>

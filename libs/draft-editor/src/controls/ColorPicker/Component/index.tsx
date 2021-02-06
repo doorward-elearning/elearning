@@ -1,80 +1,34 @@
 import React, { Component, MouseEventHandler } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface LayoutComponentProps {
   expanded: boolean;
   onExpandEvent: MouseEventHandler;
   onChange: Function;
   config: Record<string, any>;
-  currentState: Record<string, any>;
+  currentColor: string;
   translations: Record<string, any>;
+  type: string;
 }
 
 class LayoutComponent extends Component<LayoutComponentProps, any> {
-  state = {
-    currentStyle: 'color',
-  };
-
-  componentDidUpdate(prevProps) {
-    const { expanded } = this.props;
-    if (expanded && !prevProps.expanded) {
-      this.setState({
-        currentStyle: 'color',
-      });
-    }
-  }
-
   onChange = (color) => {
-    const { onChange } = this.props;
-    const { currentStyle } = this.state;
-    onChange(currentStyle, color);
-  };
-
-  setCurrentStyleColor = () => {
-    this.setState({
-      currentStyle: 'color',
-    });
-  };
-
-  setCurrentStyleBgcolor = () => {
-    this.setState({
-      currentStyle: 'bgcolor',
-    });
+    const { onChange, type } = this.props;
+    onChange(type, color);
   };
 
   renderModal = () => {
     const {
       config: { popupClassName, colors },
-      currentState: { color, bgColor },
-      translations,
+      currentColor,
     } = this.props;
-    const { currentStyle } = this.state;
-    const currentSelectedColor = currentStyle === 'color' ? color : bgColor;
     return (
       <div className={classNames('rdw-colorpicker-modal', popupClassName)} onClick={stopPropagation}>
-        <span className="rdw-colorpicker-modal-header">
-          <span
-            className={classNames('rdw-colorpicker-modal-style-label', {
-              'rdw-colorpicker-modal-style-label-active': currentStyle === 'color',
-            })}
-            onClick={this.setCurrentStyleColor}
-          >
-            {translations['components.controls.colorpicker.text']}
-          </span>
-          <span
-            className={classNames('rdw-colorpicker-modal-style-label', {
-              'rdw-colorpicker-modal-style-label-active': currentStyle === 'bgcolor',
-            })}
-            onClick={this.setCurrentStyleBgcolor}
-          >
-            {translations['components.controls.colorpicker.background']}
-          </span>
-        </span>
         <span className="rdw-colorpicker-modal-options">
           {colors.map((c, index) => (
             <Option
@@ -82,10 +36,11 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
               key={index}
               className="rdw-colorpicker-option"
               activeClassName="rdw-colorpicker-option-active"
-              active={currentSelectedColor === c}
+              active={currentColor === c}
               onClick={this.onChange}
             >
               <span style={{ backgroundColor: c }} className="rdw-colorpicker-cube" />
+              {currentColor === c && <Icon icon="check" className="rdw-colorpicker-cube--check" />}
             </Option>
           ))}
         </span>
@@ -94,12 +49,8 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
   };
 
   render() {
-    const {
-      config: { icon, className, title },
-      expanded,
-      onExpandEvent,
-      translations,
-    } = this.props;
+    const { config, expanded, onExpandEvent, translations, currentColor, type } = this.props;
+    const { icon, className, title } = config;
     return (
       <div
         className="rdw-colorpicker-wrapper"
@@ -108,8 +59,14 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
         aria-label="rdw-color-picker"
         title={title || translations['components.controls.colorpicker.colorpicker']}
       >
-        <Option onClick={onExpandEvent} className={classNames(className)}>
-          <img src={icon} alt="" />
+        <Option onClick={onExpandEvent} className={classNames('rdw-colorpicker-wrapper-option', className)}>
+          <Icon icon={icon} />
+          {
+            <div
+              style={{ background: currentColor || (type === 'color' ? 'black' : 'var(--bg-primary)') }}
+              className="current-color"
+            />
+          }
         </Option>
         {expanded ? this.renderModal() : undefined}
       </div>

@@ -8,6 +8,7 @@ import Option from '../../../components/Option';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface InlineProps {
   expanded: boolean;
@@ -34,7 +35,7 @@ export default class Inline extends Component<InlineProps, any> {
             active={currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE)}
             title={config[style].title || translations[`components.controls.inline.${style}`]}
           >
-            <img alt="" src={config[style].icon} />
+            <Icon icon={config[style].icon} />
           </Option>
         ))}
       </div>
@@ -56,7 +57,7 @@ export default class Inline extends Component<InlineProps, any> {
         aria-label="rdw-inline-control"
         title={title}
       >
-        <img src={getFirstIcon(config)} alt="" />
+        <Icon icon={getFirstIcon(config)} />
         {config.options.map((style, index) => (
           <DropdownOption
             key={index}
@@ -65,7 +66,7 @@ export default class Inline extends Component<InlineProps, any> {
             active={currentState[style] === true || (style === 'MONOSPACE' && currentState.CODE)}
             title={config[style].title || translations[`components.controls.inline.${style}`]}
           >
-            <img src={config[style].icon} alt="" />
+            <Icon icon={config[style].icon} />
           </DropdownOption>
         ))}
       </Dropdown>

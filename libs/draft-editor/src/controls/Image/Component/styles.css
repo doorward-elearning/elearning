@@ -2,30 +2,16 @@
   display: flex;
   align-items: center;
   margin-bottom: 6px;
-  position: relative;
-  flex-wrap: wrap
-}
-.rdw-image-modal {
-  position: absolute;
-  top: 35px;
-  left: 5px;
-  display: flex;
-  flex-direction: column;
-  width: 235px;
-  border: 1px solid #F1F1F1;
-  padding: 15px;
-  border-radius: 2px;
-  z-index: 100;
-  background: white;
-  box-shadow: 3px 3px 5px #BFBDBD;
+  flex-wrap: wrap;
 }
 .rdw-image-modal-header {
   font-size: 15px;
   margin: 10px 0;
   display: flex;
+  justify-content: start;
+  justify-items: start;
 }
 .rdw-image-modal-header-option {
-  width: 50%;
   cursor: pointer;
   display: flex;
   justify-content: center;
@@ -39,7 +25,7 @@
   margin-top: 5px;
 }
 .rdw-image-modal-header-label-highlighted {
-  background: #6EB8D4;
+  background: #6eb8d4;
   border-bottom: 2px solid #0a66b7;
 }
 .rdw-image-modal-upload-option {
@@ -51,9 +37,10 @@
   font-size: 15px;
   align-items: center;
   justify-content: center;
-  background-color: #f1f1f1;
+  background-color: var(--bg-primary);
   outline: 2px dashed gray;
   outline-offset: -10px;
+  height: 100px;
   margin: 10px 0;
   padding: 9px 0;
 }
@@ -69,7 +56,7 @@
   align-items: center;
   padding: 15px;
 }
-.rdw-image-modal-upload-option-label span{
+.rdw-image-modal-upload-option-label span {
   padding: 0 20px;
 }
 .rdw-image-modal-upload-option-image-preview {
@@ -77,47 +64,37 @@
   max-height: 200px;
 }
 .rdw-image-modal-upload-option-input {
-	width: 0.1px;
-	height: 0.1px;
-	opacity: 0;
-	overflow: hidden;
-	position: absolute;
-	z-index: -1;
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
 }
 .rdw-image-modal-url-section {
-  display: flex;
-  align-items: center;
 }
 .rdw-image-modal-url-input {
-  width: 90%;
-  height: 35px;
-  margin: 15px 0 12px;
-  border: 1px solid #F1F1F1;
-  border-radius: 2px;
-  font-size: 15px;
-  padding: 0 5px;
 }
 .rdw-image-modal-btn-section {
   margin: 10px auto 0;
 }
 .rdw-image-modal-url-input:focus {
-  outline: none;
 }
 .rdw-image-modal-btn {
   margin: 0 5px;
   width: 75px;
   height: 30px;
-  border: 1px solid #F1F1F1;
+  border: 1px solid #f1f1f1;
   border-radius: 2px;
   cursor: pointer;
   background: white;
   text-transform: capitalize;
 }
 .rdw-image-modal-btn:hover {
-  box-shadow: 1px 1px 0px #BFBDBD;
+  box-shadow: 1px 1px 0px #bfbdbd;
 }
 .rdw-image-modal-btn:active {
-  box-shadow: 1px 1px 0px #BFBDBD inset;
+  box-shadow: 1px 1px 0px #bfbdbd inset;
 }
 .rdw-image-modal-btn:focus {
   outline: none !important;
@@ -134,15 +111,8 @@
   opacity: 0.5;
 }
 .rdw-image-modal-alt-input {
-  width: 70%;
-  height: 20px;
-  border: 1px solid #F1F1F1;
-  border-radius: 2px;
-  font-size: 12px;
-  margin-left: 5px;
 }
 .rdw-image-modal-alt-input:focus {
-  outline: none;
 }
 .rdw-image-modal-alt-lbl {
   font-size: 12px;
@@ -154,14 +124,8 @@
   justify-content: space-between;
 }
 .rdw-image-modal-size-input {
-  width: 40%;
-  height: 20px;
-  border: 1px solid #F1F1F1;
-  border-radius: 2px;
-  font-size: 12px;
 }
 .rdw-image-modal-size-input:focus {
-  outline: none;
 }
 .rdw-image-mandatory-sign {
   color: red;

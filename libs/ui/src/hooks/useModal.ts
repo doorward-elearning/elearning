@@ -1,30 +1,33 @@
-import { MutableRefObject, useEffect } from 'react';
+import { MutableRefObject, useEffect, useRef } from 'react';
 import useStateRef from './useStateRef';
 
-const useModal = (defaultState?: boolean): UseModal => {
-  const [open, setOpen, openRef] = useStateRef(defaultState || false);
-  let onClose: any = null;
+const useModal = (open?: boolean, listener?: Function): UseModal => {
+  const [_open, setOpen, openRef] = useStateRef(open || false);
+  const onClose = useRef(listener);
 
   useEffect(() => {
-    setOpen(defaultState);
-  }, [defaultState]);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : 'auto';
+    setOpen(open);
   }, [open]);
 
+  useEffect(() => {
+    document.body.style.overflow = _open ? 'hidden' : 'auto';
+  }, [_open]);
+
   return {
-    isOpen: open,
+    isOpen: _open,
     isOpenRef: openRef,
     openModal: (): void => setOpen(true),
     closeModal: (...args: any[]): void => {
       setOpen(false);
-      if (onClose) {
-        onClose(...args);
+      if (onClose.current) {
+        onClose.current(...args);
       }
     },
     onClose: (listener: () => void): void => {
-      onClose = listener;
+      onClose.current = listener;
+    },
+    removeCloseListener: () => {
+      onClose.current = null;
     },
   };
 };
@@ -35,6 +38,7 @@ export interface UseModal {
   openModal: () => void;
   closeModal: (...args: any[]) => void;
   onClose: (listener: (...args: any[]) => void) => void;
+  removeCloseListener: () => void;
 }
 
 export default useModal;

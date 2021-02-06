@@ -20,11 +20,12 @@ export const handlePastedText = (text, html, editorState, onChange) => {
     contentBlock.entityMap.forEach((value, key) => {
       contentState = contentState.mergeEntityData(key, value);
     });
-    contentState = Modifier.replaceWithFragment(
-      contentState,
-      editorState.getSelection(),
-      (List(contentBlock.contentBlocks) as unknown) as BlockMap
-    );
+    // contentState = Modifier.replaceWithFragment(
+    //   contentState,
+    //   editorState.getSelection(),
+    //   (List(contentBlock.contentBlocks) as unknown) as BlockMap
+    // );
+    console.log(contentState.getBlocksAsArray());
     onChange(EditorState.push(editorState, contentState, 'insert-characters'));
     return true;
   }

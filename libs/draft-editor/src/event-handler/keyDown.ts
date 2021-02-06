@@ -1,7 +1,7 @@
 let callBacks = [];
 
 export default {
-  onKeyDown: (event: KeyboardEvent) => {
+  onKeyDown: (event) => {
     callBacks.forEach((callBack) => {
       callBack(event);
     });

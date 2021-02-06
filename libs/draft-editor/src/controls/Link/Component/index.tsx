@@ -6,6 +6,7 @@ import { getFirstIcon } from '../../../utils/toolbar';
 import Option from '../../../components/Option';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface LayoutComponentProps {
   expanded: boolean;
@@ -168,7 +169,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
             aria-expanded={showModal}
             title={link.title || translations['components.controls.link.link']}
           >
-            <img src={link.icon} alt="" />
+            <Icon icon={link.icon} />
           </Option>
         )}
         {options.indexOf('unlink') >= 0 && (
@@ -179,7 +180,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
             onClick={this.removeLink}
             title={unlink.title || translations['components.controls.link.unlink']}
           >
-            <img src={unlink.icon} alt="" />
+            <Icon icon={unlink.icon} />
           </Option>
         )}
         {expanded && showModal ? this.renderAddLinkModal() : undefined}
@@ -208,14 +209,14 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           doCollapse={doCollapse}
           onExpandEvent={onExpandEvent}
         >
-          <img src={getFirstIcon(config)} alt="" />
+          <Icon icon={getFirstIcon(config)} />
           {options.indexOf('link') >= 0 && (
             <DropdownOption
               onClick={this.forceExpandAndShowModal}
               className={classNames('rdw-link-dropdownoption', link.className)}
               title={link.title || translations['components.controls.link.link']}
             >
-              <img src={link.icon} alt="" />
+              <Icon icon={link.icon} />
             </DropdownOption>
           )}
           {options.indexOf('unlink') >= 0 && (
@@ -225,7 +226,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
               className={classNames('rdw-link-dropdownoption', unlink.className)}
               title={unlink.title || translations['components.controls.link.unlink']}
             >
-              <img src={unlink.icon} alt="" />
+              <Icon icon={unlink.icon} />
             </DropdownOption>
           )}
         </Dropdown>

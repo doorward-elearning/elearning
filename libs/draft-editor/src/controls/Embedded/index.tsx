@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { AtomicBlockUtils } from 'draft-js';
 
 import LayoutComponent from './Component';
-import { EditorState } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
 
 interface EmbeddedProps {
   editorState: EditorState;

@@ -7,6 +7,7 @@ import Option from '../../../components/Option';
 import { Dropdown, DropdownOption } from '../../../components/Dropdown';
 import { getFirstIcon } from '../../../utils/toolbar';
 import './styles.css';
+import Icon from '@doorward/ui/components/Icon';
 
 interface TextAlignProps {
   expanded: boolean;
@@ -37,7 +38,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             onClick={onChange}
             title={left.title || translations['components.controls.textalign.left']}
           >
-            <img src={left.icon} alt="" />
+            <Icon icon={left.icon} />
           </Option>
         )}
         {options.indexOf('center') >= 0 && (
@@ -48,7 +49,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             onClick={onChange}
             title={center.title || translations['components.controls.textalign.center']}
           >
-            <img src={center.icon} alt="" />
+            <Icon icon={center.icon} />
           </Option>
         )}
         {options.indexOf('right') >= 0 && (
@@ -59,7 +60,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             onClick={onChange}
             title={right.title || translations['components.controls.textalign.right']}
           >
-            <img src={right.icon} alt="" />
+            <Icon icon={right.icon} />
           </Option>
         )}
         {options.indexOf('justify') >= 0 && (
@@ -70,7 +71,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             onClick={onChange}
             title={justify.title || translations['components.controls.textalign.justify']}
           >
-            <img src={justify.icon} alt="" />
+            <Icon icon={justify.icon} />
           </Option>
         )}
       </div>
@@ -112,7 +113,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames('rdw-text-align-dropdownOption', left.className)}
             title={left.title || translations['components.controls.textalign.left']}
           >
-            <img src={left.icon} alt="" />
+            <Icon icon={left.icon} />
           </DropdownOption>
         )}
         {options.indexOf('center') >= 0 && (
@@ -122,7 +123,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames('rdw-text-align-dropdownOption', center.className)}
             title={center.title || translations['components.controls.textalign.center']}
           >
-            <img src={center.icon} alt="" />
+            <Icon icon={center.icon} />
           </DropdownOption>
         )}
         {options.indexOf('right') >= 0 && (
@@ -132,7 +133,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames('rdw-text-align-dropdownOption', right.className)}
             title={right.title || translations['components.controls.textalign.right']}
           >
-            <img src={right.icon} alt="" />
+            <Icon icon={right.icon} />
           </DropdownOption>
         )}
         {options.indexOf('justify') >= 0 && (
@@ -142,7 +143,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames('rdw-text-align-dropdownOption', justify.className)}
             title={justify.title || translations['components.controls.textalign.justify']}
           >
-            <img src={justify.icon} alt="" />
+            <Icon icon={justify.icon} />
           </DropdownOption>
         )}
       </Dropdown>

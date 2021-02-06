@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { getSelectionCustomInlineStyle, toggleCustomInlineStyle } from 'draftjs-utils';
 
 import LayoutComponent from './Component';
-import { EditorState } from 'react-draft-wysiwyg';
+import { EditorState } from 'draft-js';
 
 interface FontSizeProps {
   onChange: Function;

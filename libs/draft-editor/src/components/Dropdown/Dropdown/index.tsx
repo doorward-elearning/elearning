@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import './styles.css';
 
 import { stopPropagation } from '../../../utils/common';
+import Icon from '@doorward/ui/components/Icon';
 
 interface DropdownProps {
   onChange?: Function;
@@ -66,12 +67,7 @@ export default class Dropdown extends Component<DropdownProps> {
       >
         <a className="rdw-dropdown-selectedtext" onClick={onExpandEvent} title={title}>
           {children[0]}
-          <div
-            className={classNames({
-              'rdw-dropdown-carettoclose': expanded,
-              'rdw-dropdown-carettoopen': !expanded,
-            })}
-          />
+          <Icon icon={expanded ? 'arrow_drop_up' : 'arrow_drop_down'} />
         </a>
         {expanded ? (
           <ul className={classNames('rdw-dropdown-optionwrapper', optionWrapperClassName)} onClick={stopPropagation}>

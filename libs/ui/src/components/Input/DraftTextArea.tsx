@@ -80,7 +80,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         </div>
       ) : (
         <Editor
-          toolbar={fullEditor}
+          uploadCallback={() => new Promise<object>((resolve, reject) => reject())}
           placeholder={props.placeholder}
           wrapperClassName="eb-input--draft-text-area__wrapper"
           editorClassName="eb-input--draft-text-area__editor"
