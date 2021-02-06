@@ -59,6 +59,9 @@
     },
     "romeeting": {
       "tags": []
+    },
+    "draft-editor": {
+      "tags": []
     }
   }
 }

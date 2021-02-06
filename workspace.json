@@ -750,6 +750,30 @@
           }
         }
       }
+    },
+    "draft-editor": {
+      "root": "libs/draft-editor",
+      "sourceRoot": "libs/draft-editor/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["libs/draft-editor/tsconfig.lib.json", "libs/draft-editor/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/draft-editor/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/draft-editor/jest.config.js",
+            "tsConfig": "libs/draft-editor/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

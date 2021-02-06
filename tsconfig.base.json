@@ -25,7 +25,8 @@
       "@doorward/backend/*": ["libs/backend/src/*"],
       "@doorward/chat/*": ["libs/chat/src/*"],
       "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"],
-      "@doorward/romeeting": ["libs/romeeting/src/index.ts"]
+      "@doorward/romeeting": ["libs/romeeting/src/index.ts"],
+      "@doorward/draft-editor": ["libs/draft-editor/src/index.ts"]
     },
     "plugins": [
       {

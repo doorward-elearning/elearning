@@ -1,9 +1,8 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
-import { Editor } from 'react-draft-wysiwyg';
+import { Editor } from '@doorward/draft-editor';
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import fullEditor from './tools/editorTools';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';

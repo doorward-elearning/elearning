@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Editor } from 'draft-js';
+import { Editor } from 'react-draft-wysiwyg';
 import './DraftHTMLContent.scss';
 import handleDraftPagination from './handleDraftPagination';
 import IfElse from '../IfElse';
