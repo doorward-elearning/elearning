@@ -8,9 +8,9 @@ import Icon from '@doorward/ui/components/Icon';
 import Modal, { ModalFeatures } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import withModal from '@doorward/ui/hoc/withModal';
-import TextField, { PlainTextField } from '@doorward/ui/components/Input/TextField';
+import TextField from '@doorward/ui/components/Input/TextField';
 import Form from '@doorward/ui/components/Form';
-import useForm, { UseForm } from '@doorward/ui/hooks/useForm';
+import { UseForm } from '@doorward/ui/hooks/useForm';
 import withForm from '@doorward/ui/hoc/withForm';
 import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
 import validation from './validation';
@@ -24,7 +24,7 @@ interface LayoutComponentProps {
   config: Record<string, any>;
   translations: Record<string, any>;
   modal: UseModal;
-  form: UseForm;
+  form: UseForm<any>;
 }
 
 class LayoutComponent extends Component<LayoutComponentProps, any> {
@@ -210,72 +210,98 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
             </span>
           )}
         </div>
-        <Form
-          form={form}
-          initialValues={{
-            imgSrc: '',
-            height: 'auto',
-            width: 'auto',
-          }}
-          validationSchema={validation}
-          onSubmit={() => {}}
-        >
-          {uploadHighlighted ? (
-            <FileUploadField name="imgSrc" placeholder="File" />
-          ) : (
-            <div className="rdw-image-modal-url-section">
-              <TextField
-                className="rdw-image-modal-url-input"
-                placeholder={'URL' || translations['components.controls.image.enterlink']}
-                name="imgSrc"
-                fluid
-                required
-                onChange={this.updateValue}
-                onBlur={this.updateValue}
-                value={imgSrc}
-              />
+        {uploadHighlighted ? (
+          <div onClick={this.fileUploadClick}>
+            <div
+              onDragEnter={this.onDragEnter}
+              onDragOver={this.stopPropagation}
+              onDrop={this.onImageDrop}
+              className={classNames('rdw-image-modal-upload-option', {
+                'rdw-image-modal-upload-option-highlighted': dragEnter,
+              })}
+            >
+              <label htmlFor="file" className="rdw-image-modal-upload-option-label">
+                {previewImage && imgSrc ? (
+                  <img src={imgSrc} alt={imgSrc} className="rdw-image-modal-upload-option-image-preview" />
+                ) : (
+                  imgSrc || translations['components.controls.image.dropFileText']
+                )}
+              </label>
             </div>
-          )}
-          {altConf.present && (
-            <div className="rdw-image-modal-size">
-              <span className="rdw-image-modal-alt-lbl">Alt Text</span>
-              <TextField
-                onChange={this.updateValue}
-                onBlur={this.updateValue}
-                value={alt}
-                name="alt"
-                required
-                className="rdw-image-modal-alt-input"
-                placeholder="alt"
-              />
-            </div>
-          )}
-          <div className="rdw-image-modal-size">
-            <TextField
-              onChange={this.updateValue}
-              onBlur={this.updateValue}
-              value={height}
-              required
-              name="height"
-              className="rdw-image-modal-size-input"
-              placeholder="Height"
-            />
-            <TextField
-              onChange={this.updateValue}
-              required
-              onBlur={this.updateValue}
-              value={width}
-              name="width"
-              className="rdw-image-modal-size-input"
-              placeholder="Width"
+            <input
+              type="file"
+              id="file"
+              accept={inputAccept}
+              onChange={this.selectImage}
+              className="rdw-image-modal-upload-option-input"
             />
           </div>
-          {showImageLoading ? (
-            <div className="rdw-image-modal-spinner">
-              <Spinner />
-            </div>
-          ) : undefined}
-        </Form>
+        ) : (
+          <div className="rdw-image-modal-url-section">
+            <input
+              className="rdw-image-modal-url-input"
+              placeholder={translations['components.controls.image.enterlink']}
+              name="imgSrc"
+              onChange={this.updateValue}
+              onBlur={this.updateValue}
+              value={imgSrc}
+            />
+            <span className="rdw-image-mandatory-sign">*</span>
+          </div>
+        )}
+        {altConf.present && (
+          <div className="rdw-image-modal-size">
+            <span className="rdw-image-modal-alt-lbl">Alt Text</span>
+            <input
+              onChange={this.updateValue}
+              onBlur={this.updateValue}
+              value={alt}
+              name="alt"
+              className="rdw-image-modal-alt-input"
+              placeholder="alt"
+            />
+            <span className="rdw-image-mandatory-sign">{altConf.mandatory && '*'}</span>
+          </div>
+        )}
+        <div className="rdw-image-modal-size">
+          &#8597;&nbsp;
+          <input
+            onChange={this.updateValue}
+            onBlur={this.updateValue}
+            value={height}
+            name="height"
+            className="rdw-image-modal-size-input"
+            placeholder="Height"
+          />
+          <span className="rdw-image-mandatory-sign">*</span>
+          &nbsp;&#8596;&nbsp;
+          <input
+            onChange={this.updateValue}
+            onBlur={this.updateValue}
+            value={width}
+            name="width"
+            className="rdw-image-modal-size-input"
+            placeholder="Width"
+          />
+          <span className="rdw-image-mandatory-sign">*</span>
+        </div>
+        <span className="rdw-image-modal-btn-section">
+          <button
+            className="rdw-image-modal-btn"
+            onClick={this.addImageFromState}
+            disabled={!imgSrc || !height || !width || (altConf.mandatory && !alt)}
+          >
+            {translations['generic.add']}
+          </button>
+          <button className="rdw-image-modal-btn" onClick={() => {}}>
+            {translations['generic.cancel']}
+          </button>
+        </span>
+        {showImageLoading ? (
+          <div className="rdw-image-modal-spinner">
+            <Spinner />
+          </div>
+        ) : undefined}
       </div>
     );
   };

@@ -1,7 +1,13 @@
+.rdw-editor-wrapper {
+  display: flex;
+  flex-direction: column;
+}
 .rdw-editor-main {
-  height: 100%;
   overflow: auto;
+  width: 100%;
   box-sizing: border-box;
+  padding: 0 var(--padding);
+  flex: 1;
 }
 .rdw-editor-toolbar {
   padding: var(--padding-sm) var(--padding);
@@ -14,6 +20,9 @@
   font-size: 15px;
   margin-bottom: 5px;
   user-select: none;
+  position: sticky;
+  top: calc(-1 * var(--padding-lg));
+  z-index: 2;
 }
 .public-DraftStyleDefault-block {
   margin: 1em 0;

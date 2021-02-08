@@ -26,13 +26,15 @@ const FormMessage: React.FunctionComponent<FormMessageProps> = (props) => {
       })}
     >
       <span>{error || success}</span>
-      <Icon
-        onClick={() => {
-          setError('');
-          setSuccess('');
-        }}
-        icon="close"
-      />
+      {(error || success) && (
+        <Icon
+          onClick={() => {
+            setError('');
+            setSuccess('');
+          }}
+          icon="close"
+        />
+      )}
     </div>
   );
 };

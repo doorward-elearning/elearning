@@ -23,6 +23,11 @@
 .rdw-image-imagewrapper {
   position: relative;
 }
+
+.rdw-image-imagewrapper img {
+  width: 100%;
+  height: auto;
+}
 .rdw-image-center {
   display: flex;
   justify-content: center;

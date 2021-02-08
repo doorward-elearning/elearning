@@ -76,5 +76,8 @@ export default {
   "components.controls.textalign.left": "Left",
   "components.controls.textalign.center": "Center",
   "components.controls.textalign.right": "Right",
-  "components.controls.textalign.justify": "Justify"
+  "components.controls.textalign.justify": "Justify",
+
+  "components.controls.fullScreen.minimize": "Exit fullscreen",
+  "components.controls.fullScreen.maximize": "Enter fullscreen"
 };

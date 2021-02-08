@@ -10,6 +10,7 @@ import embedded from './Embedded';
 import emoji from './Emoji';
 import image from './Image';
 import remove from './Remove';
+import fullScreen from './FullScreen';
 import history from './History';
 
 export default {
@@ -27,4 +28,5 @@ export default {
   image,
   remove,
   history,
+  fullScreen,
 };

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Draft, {
   CompositeDecorator,
   convertFromRaw,
   convertToRaw,
+  DefaultDraftBlockRenderMap,
   Editor,
   EditorState,
   getDefaultKeyBinding,
+  Modifier,
   RichUtils,
 } from 'draft-js';
 import {
@@ -34,6 +37,10 @@ import defaultToolbar from '../config/defaultToolbar';
 import localeTranslations from '../i18n';
 import './styles.css';
 import '../../css/Draft.css';
+import customHTML2Content from '../utils/customHTMLToContent';
+import { Map } from 'immutable';
+import getCurrentBlock from '../utils/getCurrentBlock';
+import addNewBlock from '../utils/addNewBlock';
 
 export type SyntheticKeyboardEvent = React.KeyboardEvent<{}>;
 export type SyntheticEvent = React.SyntheticEvent<{}>;
@@ -50,6 +57,7 @@ export interface EditorProps {
   onContentStateChange?(contentState: RawDraftContentState): void;
   initialContentState?: RawDraftContentState;
   defaultContentState?: RawDraftContentState;
+  fullScreenParent?: HTMLElement;
   contentState?: RawDraftContentState;
   editorState?: EditorState;
   defaultEditorState?: EditorState;
@@ -107,6 +115,8 @@ class WysiwygEditor extends Component<EditorProps, any> {
   private compositeDecorator: any;
   private wrapper: any;
   private editor: any;
+  private blockRenderMap: any;
+  private extendedBlockRenderMap: any;
 
   constructor(props) {
     super(props);
@@ -133,12 +143,43 @@ class WysiwygEditor extends Component<EditorProps, any> {
       editorState,
       editorFocused: false,
       toolbar,
+      fullScreen: false,
     };
+
+    this.blockRenderMap = Map({
+      image: {
+        element: 'figure',
+      },
+      video: {
+        element: 'figure',
+      },
+      embed: {
+        element: 'div',
+      },
+      unstyled: {
+        wrapper: null,
+        element: 'div',
+        aliasedElements: ['p'],
+      },
+      paragraph: {
+        wrapper: null,
+        element: 'div',
+        aliasedElements: ['p'],
+      },
+      placeholder: {
+        wrapper: null,
+        element: 'div',
+      },
+      'code-block': {
+        element: 'pre',
+        wrapper: null,
+      },
+    });
+
+    this.extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(this.blockRenderMap);
   }
 
-  componentDidMount() {
-    this.modalHandler.init(this.wrapperId);
-  }
+  componentDidMount() {}
   // todo: change decorators depending on properties recceived in componentWillReceiveProps.
 
   componentDidUpdate(prevProps) {
@@ -227,6 +268,12 @@ class WysiwygEditor extends Component<EditorProps, any> {
     if (onBlur && this.focusHandler.isEditorBlur(event)) {
       onBlur(event, this.getEditorState());
     }
+  };
+
+  onFullScreenChanged = () => {
+    this.setState((prevState) => ({
+      fullScreen: !prevState.fullScreen,
+    }));
   };
 
   onChange = (editorState) => {
@@ -422,9 +469,87 @@ class WysiwygEditor extends Component<EditorProps, any> {
       return handlePastedTextProp(text, html, editorState, this.onChange);
     }
     if (!stripPastedStyles) {
-      return handlePastedText(text, html, editorState, this.onChange);
+      handlePastedText(text, html, editorState, this.extendedBlockRenderMap).then((contentState) => {
+        this.onChange(EditorState.push(editorState, contentState, 'insert-characters'));
+      });
     }
-    return false;
+    return true;
+  };
+
+  handleTXTPaste = (text, html) => {
+    const currentBlock = this.getCurrentBlock(this.state.editorState);
+
+    let { editorState } = this.state;
+
+    switch (currentBlock.getType() as any) {
+      case 'image':
+      case 'video':
+      case 'placeholder': {
+        const newContent = Modifier.replaceText(
+          editorState.getCurrentContent(),
+          new SelectionState({
+            anchorKey: currentBlock.getKey(),
+            anchorOffset: 0,
+            focusKey: currentBlock.getKey(),
+            focusOffset: 2,
+          }),
+          text
+        );
+
+        editorState = EditorState.push(editorState, newContent, 'insert-characters');
+
+        this.onChange(editorState);
+
+        return true;
+      }
+      default:
+        return false;
+    }
+  };
+
+  getCurrentBlock = (editorState) => {
+    return getCurrentBlock(editorState);
+  };
+
+  handleHTMLPaste = (text, html) => {
+    const currentBlock = this.getCurrentBlock(this.state.editorState);
+
+    const { editorState } = this.state;
+
+    switch (currentBlock.getType() as any) {
+      case 'image':
+      case 'video':
+      case 'placeholder':
+        return this.handleTXTPaste(text, html);
+    }
+
+    const newContentState = customHTML2Content(html, this.extendedBlockRenderMap);
+
+    const pastedBlocks = newContentState.getBlockMap();
+
+    const newState = Modifier.replaceWithFragment(
+      editorState.getCurrentContent(),
+      editorState.getSelection(),
+      pastedBlocks
+    );
+
+    const pushedContentState = EditorState.push(editorState, newState, 'insert-fragment');
+
+    this.onChange(pushedContentState);
+
+    return true;
+  };
+
+  handlePasteImage = (files) => {
+    //TODO: check file types
+    return files.map((file) => {
+      const opts = {
+        url: URL.createObjectURL(file),
+        file,
+      };
+
+      return this.onChange(addNewBlock(this.state.editorState, 'image', opts));
+    });
   };
 
   preventDefault = (event) => {
@@ -436,7 +561,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
   };
 
   render() {
-    const { editorState, editorFocused, toolbar } = this.state;
+    const { fullScreen, editorState, editorFocused, toolbar } = this.state;
     const {
       locale,
       localization: { locale: newLocale, translations },
@@ -455,6 +580,8 @@ class WysiwygEditor extends Component<EditorProps, any> {
 
     const controlProps = {
       modalHandler: this.modalHandler,
+      onFullScreenChanged: this.onFullScreenChanged,
+      fullScreen,
       editorState,
       onChange: this.onChange,
       translations: {
@@ -463,7 +590,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
       },
     };
     const toolbarShow = editorFocused || this.focusHandler.isInputFocused() || !toolbarOnFocus;
-    return (
+    const EditorComponent = (
       <div
         id={this.wrapperId}
         className={classNames(wrapperClassName, 'rdw-editor-wrapper')}
@@ -484,21 +611,25 @@ class WysiwygEditor extends Component<EditorProps, any> {
             aria-hidden={!editorFocused && toolbarOnFocus}
             onFocus={this.onToolbarFocus}
           >
-            {toolbar.options.map((opt, index) => {
-              const Control = Controls[opt];
-              const config = toolbar[opt];
-              if (opt === 'image' && uploadCallback) {
-                config.uploadCallback = uploadCallback;
-              }
-              return <Control key={index} {...controlProps} config={config} />;
-            })}
+            {toolbar.options
+              .filter((option) => {
+                return !(option === 'fullScreen' && !this.props.fullScreenParent);
+              })
+              .map((opt, index) => {
+                const Control = Controls[opt];
+                const config = toolbar[opt];
+                if (opt === 'image' && uploadCallback) {
+                  config.uploadCallback = uploadCallback;
+                }
+                return <Control key={index} {...controlProps} config={config} />;
+              })}
             {toolbarCustomButtons &&
               toolbarCustomButtons.map((button, index) => React.cloneElement(button, { key: index, ...controlProps }))}
           </div>
         )}
         <div
           ref={this.setWrapperReference}
-          className={classNames(editorClassName, 'rdw-editor-main')}
+          className={classNames(editorClassName, 'rdw-editor-main ed-container')}
           style={editorStyle}
           onClick={this.focusEditor}
           onFocus={this.onEditorFocus}
@@ -515,6 +646,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
             customStyleMap={this.getStyleMap(this.props)}
             handleReturn={this.handleReturn}
             blockRendererFn={this.blockRendererFn}
+            handlePastedText={this.handlePastedTextFn}
             handleKeyCommand={this.handleKeyCommand}
             ariaLabel={ariaLabel || 'rdw-editor'}
             blockRenderMap={blockRenderMap}
@@ -523,6 +655,18 @@ class WysiwygEditor extends Component<EditorProps, any> {
         </div>
       </div>
     );
+
+    if (this.props.fullScreenParent) {
+      if (this.state.fullScreen) {
+        this.props.fullScreenParent.classList.add('fullscreen');
+      } else {
+        this.props.fullScreenParent.classList.remove('fullscreen');
+      }
+    }
+
+    return this.state.fullScreen && this.props.fullScreenParent
+      ? ReactDOM.createPortal(EditorComponent, this.props.fullScreenParent)
+      : EditorComponent;
   }
 
   static defaultProps = {

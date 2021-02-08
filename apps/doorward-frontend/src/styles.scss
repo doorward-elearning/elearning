@@ -1,3 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
 #modal-box {
 }
+
+#editor-box {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+
+  &.fullscreen {
+    pointer-events: all;
+    background: var(--bg-primary);
+    padding-bottom: var(--padding);
+
+    > .rdw-editor-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: unset;
+    }
+  }
+}

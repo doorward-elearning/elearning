@@ -2,7 +2,6 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import { Editor } from '@doorward/draft-editor';
 import { ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
-import fullEditor from './tools/editorTools';
 import './styles/DraftTextArea.scss';
 import draftToHTML from 'draftjs-to-html';
 import classNames from 'classnames';
@@ -12,7 +11,7 @@ import _ from 'lodash';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
-  html: (content: ContentState): string => draftToHTML(convertToRaw(content)),
+  html: (content: ContentState): string => draftToHTML(convertToRaw(content) as any),
 };
 
 const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
@@ -35,6 +34,10 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     }
     setEditorState(newState);
   }, []);
+
+  if (editorState) {
+    console.log(JSON.stringify(convertToRaw((editorState as EditorState).getCurrentContent())));
+  }
 
   useEffect(() => {
     if (!value && editorState?.getCurrentContent()?.hasText()) {
@@ -87,6 +90,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
           toolbarClassName="eb-input--draft-text-area__toolbar"
           editorState={editorState}
           onEditorStateChange={setEditorState}
+          fullScreenParent={document.getElementById('editor-box')}
           onBlur={() => {
             formikProps.handleBlur({ target: { value, name } });
             setFocused(false);

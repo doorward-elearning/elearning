@@ -210,6 +210,36 @@ class Tools {
   static humanReadableTime(date: Date | string | Moment, maxUnit: Units) {
     return capitalize(ago(moment(date).toDate(), maxUnit));
   }
+
+  static htmlToElement(html: string) {
+    const template = document.createElement('template');
+    if (html) {
+      html = html.trim(); // Never return a text node of whitespace as the result
+      template.innerHTML = html;
+      return template.content.firstChild;
+    }
+  }
+
+  static getParentElement(el: HTMLElement | ChildNode) {
+    while (el.parentElement) {
+      if (el.parentElement.tagName !== 'BODY') {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        el = el.parentNode;
+      }
+      if (el.parentElement.tagName === 'BODY') {
+        return el;
+      }
+    }
+  }
+  static replaceElement(newElement: Element | ChildNode, oldElement: HTMLElement | ChildNode) {
+    if (!(newElement instanceof HTMLElement)) {
+      return;
+    }
+
+    const parentNode = oldElement.parentNode;
+    return parentNode.replaceChild(newElement, oldElement);
+  }
 }
 
 export default Tools;

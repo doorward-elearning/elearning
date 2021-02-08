@@ -17,8 +17,6 @@
   &__message {
     max-height: 0;
     transition: 0.5s max-height, 0.7s opacity;
-    margin: var(--padding) 0;
-    padding: var(--padding) var(--padding-lg);
     display: grid;
     align-items: center;
     border-radius: 5px;
@@ -27,6 +25,11 @@
     grid-gap: var(--padding);
     opacity: 0;
     pointer-events: none;
+
+    &.error, &.success {
+      margin: var(--padding) 0;
+      padding: var(--padding) var(--padding-lg);
+    }
 
     &.error {
       max-height: 2em;

@@ -18,6 +18,7 @@ export default {
     'image',
     'remove',
     'history',
+    'fullScreen',
   ],
   inline: {
     inDropdown: false,
@@ -354,6 +355,14 @@ export default {
     undo: { icon: 'undo', className: undefined, title: undefined },
     redo: { icon: 'redo', className: undefined, title: undefined },
     title: undefined,
+  },
+  fullScreen: {
+    isDropdown: false,
+    className: undefined,
+    component: undefined,
+    dropdownClassName: undefined,
+    icons: { maximize: 'fullscreen', minimize: 'fullscreen_exit' },
+    title: { maximize: '', minimize: '' },
   },
 };
 

@@ -119,9 +119,10 @@
 }
 .rdw-image-modal-size {
   align-items: center;
-  display: flex;
-  margin: 8px 0;
-  justify-content: space-between;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: var(--padding);
+  justify-content: start;
 }
 .rdw-image-modal-size-input {
 }
