@@ -35,10 +35,6 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
     setEditorState(newState);
   }, []);
 
-  if (editorState) {
-    console.log(JSON.stringify(convertToRaw((editorState as EditorState).getCurrentContent())));
-  }
-
   useEffect(() => {
     if (!value && editorState?.getCurrentContent()?.hasText()) {
       setEditorState(EditorState.createEmpty());

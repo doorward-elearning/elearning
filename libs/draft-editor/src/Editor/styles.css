@@ -42,3 +42,10 @@
   border-radius: 3px;
   padding: 1px 10px;
 }
+
+.rdw-editor-toolbar.fullScreen {
+  border-top: none;
+}
+
+.rdw-editor-toolbar-wrapper {
+}

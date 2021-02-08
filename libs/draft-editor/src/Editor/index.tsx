@@ -41,6 +41,7 @@ import customHTML2Content from '../utils/customHTMLToContent';
 import { Map } from 'immutable';
 import getCurrentBlock from '../utils/getCurrentBlock';
 import addNewBlock from '../utils/addNewBlock';
+import Icon from '@doorward/ui/components/Icon';
 
 export type SyntheticKeyboardEvent = React.KeyboardEvent<{}>;
 export type SyntheticEvent = React.SyntheticEvent<{}>;
@@ -599,34 +600,40 @@ class WysiwygEditor extends Component<EditorProps, any> {
         onBlur={this.onWrapperBlur}
         aria-label="rdw-wrapper"
       >
-        {!toolbarHidden && (
-          <div
-            className={classNames('rdw-editor-toolbar', toolbarClassName)}
-            style={{
-              visibility: toolbarShow ? 'visible' : 'hidden',
-              ...toolbarStyle,
-            }}
-            onMouseDown={this.preventDefault}
-            aria-label="rdw-toolbar"
-            aria-hidden={!editorFocused && toolbarOnFocus}
-            onFocus={this.onToolbarFocus}
-          >
-            {toolbar.options
-              .filter((option) => {
-                return !(option === 'fullScreen' && !this.props.fullScreenParent);
-              })
-              .map((opt, index) => {
-                const Control = Controls[opt];
-                const config = toolbar[opt];
-                if (opt === 'image' && uploadCallback) {
-                  config.uploadCallback = uploadCallback;
-                }
-                return <Control key={index} {...controlProps} config={config} />;
+        <div className="rdw-editor-toolbar-wrapper">
+          {!toolbarHidden && !this.isReadOnly() && (
+            <div
+              className={classNames('rdw-editor-toolbar', toolbarClassName, {
+                fullScreen,
               })}
-            {toolbarCustomButtons &&
-              toolbarCustomButtons.map((button, index) => React.cloneElement(button, { key: index, ...controlProps }))}
-          </div>
-        )}
+              style={{
+                visibility: toolbarShow ? 'visible' : 'hidden',
+                ...toolbarStyle,
+              }}
+              onMouseDown={this.preventDefault}
+              aria-label="rdw-toolbar"
+              aria-hidden={!editorFocused && toolbarOnFocus}
+              onFocus={this.onToolbarFocus}
+            >
+              {toolbar.options
+                .filter((option) => {
+                  return !(option === 'fullScreen' && !this.props.fullScreenParent);
+                })
+                .map((opt, index) => {
+                  const Control = Controls[opt];
+                  const config = toolbar[opt];
+                  if (opt === 'image' && uploadCallback) {
+                    config.uploadCallback = uploadCallback;
+                  }
+                  return <Control key={index} {...controlProps} config={config} />;
+                })}
+              {toolbarCustomButtons &&
+                toolbarCustomButtons.map((button, index) =>
+                  React.cloneElement(button, { key: index, ...controlProps })
+                )}
+            </div>
+          )}
+        </div>
         <div
           ref={this.setWrapperReference}
           className={classNames(editorClassName, 'rdw-editor-main ed-container')}

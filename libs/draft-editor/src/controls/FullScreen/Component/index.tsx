@@ -1,6 +1,8 @@
 import React from 'react';
 import Icon from '@doorward/ui/components/Icon';
 import Option from '../../../components/Option';
+import Button from '@doorward/ui/components/Buttons/Button';
+import useKeyPress from '@doorward/ui/hooks/useKeyPress';
 
 const LayoutComponent: React.FunctionComponent<LayoutComponentProps> = (props): JSX.Element => {
   const {
@@ -9,6 +11,12 @@ const LayoutComponent: React.FunctionComponent<LayoutComponentProps> = (props): 
     fullScreen,
     onFullScreenChanged,
   } = props;
+
+  useKeyPress(27, () => {
+    if (fullScreen) {
+      onFullScreenChanged();
+    }
+  });
   return (
     <div className="rdw-fullscreen-wrapper">
       <Option
@@ -20,7 +28,13 @@ const LayoutComponent: React.FunctionComponent<LayoutComponentProps> = (props): 
             : title?.maximize || translations['components.controls.fullScreen.maximize']
         }
       >
-        <Icon icon={fullScreen ? icons.minimize : icons.maximize} />
+        {fullScreen ? (
+          <Button icon={icons.minimize} mini>
+            {title?.minimize || translations['components.controls.fullScreen.minimize']}
+          </Button>
+        ) : (
+          <Icon icon={icons.maximize} />
+        )}
       </Option>
     </div>
   );

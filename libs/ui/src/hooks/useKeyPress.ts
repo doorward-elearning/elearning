@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useKeyPress = (key: number, cb: () => void, cntrl: boolean): void => {
+const useKeyPress = (key: number, cb: () => void, cntrl = false): void => {
   const callback: any = useRef();
 
   useEffect(() => {
