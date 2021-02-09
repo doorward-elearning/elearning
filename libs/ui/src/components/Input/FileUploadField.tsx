@@ -143,9 +143,9 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
     });
   }, [value]);
 
-  const onChooseFile = (files) => {
-    if (files?.length) {
-      const newFiles = [...files];
+  const onChooseFile = (_files) => {
+    if (_files?.length) {
+      const newFiles = [..._files];
       let existing = files;
       existing = existing.filter((file) => !newFiles.find((aFile) => Tools.compareFiles(aFile, file)));
       setFiles([...existing, ...newFiles]);
@@ -163,7 +163,7 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
             type="file"
             accept={(props.fileTypes || []).join(',')}
             multiple={props.multiple}
-            onChange={(e) => onChooseFile(e.target.files)}
+            onChange={(e) => onChooseFile({ ...e }.target.files)}
             style={{ visibility: 'hidden' }}
             ref={inputRef}
           />

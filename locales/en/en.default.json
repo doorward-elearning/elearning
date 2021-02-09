@@ -513,7 +513,7 @@
   "components_controls_image_image": "Image",
   "components_controls_image_fileUpload": "File Upload",
   "components_controls_image_byURL": "URL",
-  "components_controls_image_dropFileText": "Drop the file or click to upload",
+  "components_controls_image_dropFileText": "File",
   "components_controls_image_altText": "Alt Text",
   "components_controls_image_height": "Height",
   "components_controls_image_width": "Width",

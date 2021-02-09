@@ -1,11 +1,7 @@
 import React from 'react';
 
 const ImageFileRender: React.FunctionComponent<ImageFileRenderProps> = (props): JSX.Element => {
-  return (
-    <div style={{ width: 'auto', height: 'auto' }}>
-      <img src={props.source} alt="" />
-    </div>
-  );
+  return <img src={props.source} alt="" />;
 };
 
 export interface ImageFileRenderProps {
