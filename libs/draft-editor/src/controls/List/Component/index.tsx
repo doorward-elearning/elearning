@@ -17,7 +17,7 @@ interface ListProps {
   config: Record<string, any>;
   onChange: Function;
   currentState: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
   indentDisabled: boolean;
   outdentDisabled: boolean;
 }
@@ -59,7 +59,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             onClick={this.toggleBlockType}
             className={classNames(unordered.className)}
             active={listType === 'unordered'}
-            title={unordered.title || translations['components.controls.list.unordered']}
+            title={unordered.title || translations('components_controls_list_unordered')}
           >
             <Icon icon={unordered.icon} />
           </Option>
@@ -70,7 +70,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             onClick={this.toggleBlockType}
             className={classNames(ordered.className)}
             active={listType === 'ordered'}
-            title={ordered.title || translations['components.controls.list.ordered']}
+            title={ordered.title || translations('components_controls_list_ordered')}
           >
             <Icon icon={ordered.icon} />
           </Option>
@@ -80,7 +80,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             onClick={this.indent}
             disabled={indentDisabled}
             className={classNames(indent.className)}
-            title={indent.title || translations['components.controls.list.indent']}
+            title={indent.title || translations('components_controls_list_indent')}
           >
             <Icon icon={indent.icon} />
           </Option>
@@ -90,7 +90,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
             onClick={this.outdent}
             disabled={outdentDisabled}
             className={classNames(outdent.className)}
-            title={outdent.title || translations['components.controls.list.outdent']}
+            title={outdent.title || translations('components_controls_list_outdent')}
           >
             <Icon icon={outdent.icon} />
           </Option>
@@ -121,7 +121,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
         doCollapse={doCollapse}
         onExpandEvent={onExpandEvent}
         aria-label="rdw-list-control"
-        title={title || translations['components.controls.list.list']}
+        title={title || translations('components_controls_list_list')}
       >
         <Icon icon={getFirstIcon(config)} />
         {this.options
@@ -133,7 +133,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
               disabled={this.props[`${option}Disabled`]}
               className={classNames('rdw-list-dropdownOption', config[option].className)}
               active={listType === option}
-              title={config[option].title || translations[`components.controls.list.${option}`]}
+              title={config[option].title || translations(`components.controls.list.${option}`)}
             >
               <Icon icon={config[option].icon} />
             </DropdownOption>

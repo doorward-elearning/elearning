@@ -9,7 +9,7 @@ interface TextAlignProps {
   onChange: Function;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class TextAlign extends Component<TextAlignProps, any> {

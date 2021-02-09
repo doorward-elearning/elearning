@@ -1,0 +1,72 @@
+.rdw-image-alignment-options-popup {
+  position: absolute;
+  background: var(--bg-primary);
+  display: flex;
+  padding: 5px 2px;
+  border-radius: 2px;
+  border: 1px solid var(--line-color);
+  width: 105px;
+  cursor: pointer;
+  z-index: 1000;
+  bottom: 0;
+}
+.rdw-alignment-option-left {
+  justify-content: flex-start;
+}
+.rdw-image-alignment-option {
+  height: 15px;
+  width: 15px;
+  min-width: 15px;
+}
+.rdw-image-alignment {
+  display: grid;
+  z-index: 200;
+}
+
+.rdw-image-alignment.clicked .rdw-image-imagewrapper img {
+  //border: 2px solid var(--accent);
+}
+.rdw-image-imagewrapper {
+}
+
+.rdw-image-wrapper-handle {
+  background: var(--accent);
+
+  &.top, &.bottom {
+    height: 2px !important;
+  }
+
+  &.left, &.right {
+    width: 2px !important;
+  }
+
+  &.top-right, &.top-left, &.bottom-right, &.bottom-left {
+    width: 10px !important;
+    height: 10px !important;
+  }
+}
+
+.react-draggable {
+  position: static !important;
+}
+
+.rdw-image-imagewrapper img {
+  width: 100%;
+  max-width: 100%;
+  height: 100% !important;
+  border: 2px solid transparent;
+}
+.rdw-image-center {
+  display: flex;
+  justify-content: center;
+}
+.rdw-image-left {
+  display: flex;
+}
+.rdw-image-right {
+  display: flex;
+  justify-content: flex-end;
+}
+.rdw-image-alignment-options-popup-right {
+  right: 0;
+}

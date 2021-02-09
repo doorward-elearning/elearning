@@ -9,7 +9,7 @@ interface RemoveProps {
   onChange: Function;
   editorState: EditorState;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
   modalHandler: Record<string, any>;
 }
 

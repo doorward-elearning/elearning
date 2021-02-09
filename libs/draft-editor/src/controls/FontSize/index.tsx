@@ -9,7 +9,7 @@ interface FontSizeProps {
   editorState: EditorState;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class FontSize extends Component<FontSizeProps, any> {

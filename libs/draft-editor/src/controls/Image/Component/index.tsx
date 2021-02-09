@@ -2,18 +2,14 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import Option from '../../../components/Option';
-import Spinner from '../../../components/Spinner';
 import './styles.css';
 import Icon from '@doorward/ui/components/Icon';
 import Modal, { ModalFeatures } from '@doorward/ui/components/Modal';
 import { UseModal } from '@doorward/ui/hooks/useModal';
 import withModal from '@doorward/ui/hoc/withModal';
-import TextField from '@doorward/ui/components/Input/TextField';
-import Form from '@doorward/ui/components/Form';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import withForm from '@doorward/ui/hoc/withForm';
-import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
-import validation from './validation';
+import ImageModal from './ImageModal';
 
 interface LayoutComponentProps {
   expanded: boolean;
@@ -22,7 +18,7 @@ interface LayoutComponentProps {
   doExpand: Function;
   onChange: Function;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
   modal: UseModal;
   form: UseForm<any>;
 }
@@ -180,129 +176,35 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
   };
 
   RenderAddImageModal = () => {
-    const { imgSrc, uploadHighlighted, showImageLoading, dragEnter, height, width, alt } = this.state;
+    const { imgSrc, height, width, alt } = this.state;
     const {
-      config: { popupClassName, uploadCallback, uploadEnabled, urlEnabled, previewImage, inputAccept, alt: altConf },
+      config: { uploadCallback, uploadEnabled, urlEnabled, previewImage, inputAccept, alt: altConf },
       translations,
       form,
+      modal,
     } = this.props;
     return (
-      <div className={classNames(popupClassName)} onClick={this.stopPropagation}>
-        <div className="rdw-image-modal-header">
-          {uploadEnabled && uploadCallback && (
-            <span onClick={this.showImageUploadOption} className="rdw-image-modal-header-option">
-              {translations['components.controls.image.fileUpload']}
-              <span
-                className={classNames('rdw-image-modal-header-label', {
-                  'rdw-image-modal-header-label-highlighted': uploadHighlighted,
-                })}
-              />
-            </span>
-          )}
-          {urlEnabled && (
-            <span onClick={this.showImageURLOption} className="rdw-image-modal-header-option">
-              {translations['components.controls.image.byURL']}
-              <span
-                className={classNames('rdw-image-modal-header-label', {
-                  'rdw-image-modal-header-label-highlighted': !uploadHighlighted,
-                })}
-              />
-            </span>
-          )}
-        </div>
-        {uploadHighlighted ? (
-          <div onClick={this.fileUploadClick}>
-            <div
-              onDragEnter={this.onDragEnter}
-              onDragOver={this.stopPropagation}
-              onDrop={this.onImageDrop}
-              className={classNames('rdw-image-modal-upload-option', {
-                'rdw-image-modal-upload-option-highlighted': dragEnter,
-              })}
-            >
-              <label htmlFor="file" className="rdw-image-modal-upload-option-label">
-                {previewImage && imgSrc ? (
-                  <img src={imgSrc} alt={imgSrc} className="rdw-image-modal-upload-option-image-preview" />
-                ) : (
-                  imgSrc || translations['components.controls.image.dropFileText']
-                )}
-              </label>
-            </div>
-            <input
-              type="file"
-              id="file"
-              accept={inputAccept}
-              onChange={this.selectImage}
-              className="rdw-image-modal-upload-option-input"
-            />
-          </div>
-        ) : (
-          <div className="rdw-image-modal-url-section">
-            <input
-              className="rdw-image-modal-url-input"
-              placeholder={translations['components.controls.image.enterlink']}
-              name="imgSrc"
-              onChange={this.updateValue}
-              onBlur={this.updateValue}
-              value={imgSrc}
-            />
-            <span className="rdw-image-mandatory-sign">*</span>
-          </div>
-        )}
-        {altConf.present && (
-          <div className="rdw-image-modal-size">
-            <span className="rdw-image-modal-alt-lbl">Alt Text</span>
-            <input
-              onChange={this.updateValue}
-              onBlur={this.updateValue}
-              value={alt}
-              name="alt"
-              className="rdw-image-modal-alt-input"
-              placeholder="alt"
-            />
-            <span className="rdw-image-mandatory-sign">{altConf.mandatory && '*'}</span>
-          </div>
-        )}
-        <div className="rdw-image-modal-size">
-          &#8597;&nbsp;
-          <input
-            onChange={this.updateValue}
-            onBlur={this.updateValue}
-            value={height}
-            name="height"
-            className="rdw-image-modal-size-input"
-            placeholder="Height"
-          />
-          <span className="rdw-image-mandatory-sign">*</span>
-          &nbsp;&#8596;&nbsp;
-          <input
-            onChange={this.updateValue}
-            onBlur={this.updateValue}
-            value={width}
-            name="width"
-            className="rdw-image-modal-size-input"
-            placeholder="Width"
-          />
-          <span className="rdw-image-mandatory-sign">*</span>
-        </div>
-        <span className="rdw-image-modal-btn-section">
-          <button
-            className="rdw-image-modal-btn"
-            onClick={this.addImageFromState}
-            disabled={!imgSrc || !height || !width || (altConf.mandatory && !alt)}
-          >
-            {translations['generic.add']}
-          </button>
-          <button className="rdw-image-modal-btn" onClick={() => {}}>
-            {translations['generic.cancel']}
-          </button>
-        </span>
-        {showImageLoading ? (
-          <div className="rdw-image-modal-spinner">
-            <Spinner />
-          </div>
-        ) : undefined}
-      </div>
+      <ImageModal
+        form={form}
+        onSubmit={(values) => {
+          this.setState(values);
+          this.addImageFromState();
+          modal.closeModal();
+        }}
+        uploadEnabled={uploadEnabled}
+        translations={translations}
+        inputAccept={inputAccept}
+        uploadCallback={uploadCallback}
+        urlEnabled={urlEnabled}
+        previewImage={previewImage}
+        altConf={altConf}
+        initialValues={{
+          imgSrc,
+          height,
+          width,
+          alt,
+        }}
+      />
     );
   };
 
@@ -313,17 +215,17 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
       doExpand,
       doCollapse,
       modal,
+      form,
       translations,
     } = this.props;
 
-    const { imgSrc, height, width, alt } = this.state;
     return (
       <div className="rdw-image-wrapper" aria-haspopup="true" aria-expanded={expanded} aria-label="rdw-image-control">
         <Option
           className={classNames(className)}
           value="unordered-list-item"
           onClick={doExpand}
-          title={title || translations['components.controls.image.image']}
+          title={title || translations('components_controls_image_image')}
         >
           <Icon icon={icon} />
         </Option>
@@ -333,17 +235,17 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON, ModalFeatures.TITLE]}
           onClose={() => doCollapse()}
         >
-          <Modal.Header title={title || translations['components.controls.image.image']} />
+          <Modal.Header title={title || translations('components_controls_image_image')} />
           <Modal.Body>{this.RenderAddImageModal()}</Modal.Body>
           <Modal.Footer
             props={{
-              positive: { disabled: !imgSrc || !height || !width || (altConf.mandatory && !alt) },
+              positive: { disabled: !form.formikProps?.isValid },
             }}
             buttons={{
-              positive: translations['generic.add'],
-              negative: translations['generic.cancel'],
+              positive: translations('add'),
+              negative: translations('cancel'),
             }}
-            onPositiveClick={this.addImageFromState}
+            onPositiveClick={form.formikProps?.submitForm}
             onNegativeClick={() => doCollapse()}
           />
         </Modal>

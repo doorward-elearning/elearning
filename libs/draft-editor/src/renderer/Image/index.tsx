@@ -1,8 +1,10 @@
 import React, { Component, MouseEventHandler } from 'react';
-import { ContentState, EditorState } from 'draft-js';
+import { ContentState, EditorState, Modifier, SelectionState } from 'draft-js';
 import classNames from 'classnames';
 import Option from '../../components/Option';
-import './styles.css';
+import './styles.scss';
+import { Rnd } from 'react-rnd';
+import Icon from '@doorward/ui/components/Icon';
 
 interface ImageProps {
   block: Record<string, any>;
@@ -10,14 +12,16 @@ interface ImageProps {
 }
 
 interface ImageState {
-  hovered: boolean;
+  clicked: boolean;
   dummy?: boolean;
+  resizing?: boolean;
 }
 
 const getImageComponent = (config) =>
   class Image extends Component<ImageProps, ImageState> {
     state = {
-      hovered: false,
+      clicked: false,
+      resizing: false,
     };
 
     setEntityAlignmentLeft: Function = (): void => {
@@ -42,11 +46,16 @@ const getImageComponent = (config) =>
       });
     };
 
-    toggleHovered: MouseEventHandler = (): void => {
-      const hovered = !this.state.hovered;
-      this.setState({
-        hovered,
-      });
+    setEntitySize = (width, height) => {
+      const { block, contentState } = this.props;
+      const entityKey = block.getEntityAt(0);
+      contentState.mergeEntityData(entityKey, { width, height });
+      config.onChange(EditorState.push(config.getEditorState(), contentState, 'change-block-data'));
+    };
+
+    toggleClicked: MouseEventHandler = (): void => {
+      const { clicked } = this.state;
+      this.setState({ clicked: !clicked });
     };
 
     renderAlignmentOptions(alignment) {
@@ -57,13 +66,13 @@ const getImageComponent = (config) =>
           })}
         >
           <Option onClick={this.setEntityAlignmentLeft} className="rdw-image-alignment-option">
-            L
+            <Icon icon="format_align_left" />
           </Option>
           <Option onClick={this.setEntityAlignmentCenter} className="rdw-image-alignment-option">
-            C
+            <Icon icon="format_align_center" />
           </Option>
           <Option onClick={this.setEntityAlignmentRight} className="rdw-image-alignment-option">
-            R
+            <Icon icon="format_align_right" />
           </Option>
         </div>
       );
@@ -71,31 +80,54 @@ const getImageComponent = (config) =>
 
     render() {
       const { block, contentState } = this.props;
-      const { hovered } = this.state;
+      const { clicked, resizing } = this.state;
       const { isReadOnly, isImageAlignmentEnabled } = config;
       const entity = contentState.getEntity(block.getEntityAt(0));
       const { src, alignment, height, width, alt } = entity.getData();
 
       return (
         <span
-          onMouseEnter={this.toggleHovered}
-          onMouseLeave={this.toggleHovered}
+          onClick={this.toggleClicked}
           className={classNames('rdw-image-alignment', {
             'rdw-image-left': alignment === 'left',
             'rdw-image-right': alignment === 'right',
             'rdw-image-center': !alignment || alignment === 'none',
+            clicked,
           })}
         >
           <span className="rdw-image-imagewrapper">
-            <img
-              src={src}
-              alt={alt}
-              style={{
-                height,
-                width,
+            <Rnd
+              disableDragging
+              enableResizing={!isReadOnly()}
+              onResizeStart={() => {
+                this.setState({ resizing: true });
               }}
-            />
-            {!isReadOnly() && hovered && isImageAlignmentEnabled() ? this.renderAlignmentOptions(alignment) : undefined}
+              onResizeStop={(e, direction, ref) => {
+                this.setState({ resizing: false });
+                this.setEntitySize(ref.style.width, ref.style.height);
+              }}
+              resizeHandleClasses={
+                clicked || resizing
+                  ? {
+                      top: 'rdw-image-wrapper-handle top',
+                      bottom: 'rdw-image-wrapper-handle bottom',
+                      right: 'rdw-image-wrapper-handle right',
+                      left: 'rdw-image-wrapper-handle left',
+                      topLeft: 'rdw-image-wrapper-handle top-left',
+                      topRight: 'rdw-image-wrapper-handle top-right',
+                      bottomLeft: 'rdw-image-wrapper-handle bottom-left',
+                      bottomRight: 'rdw-image-wrapper-handle bottom-right',
+                    }
+                  : {}
+              }
+            >
+              <div style={{ width, height, position: 'relative' }}>
+                <img src={src} alt={alt} />
+                {!isReadOnly() && clicked && isImageAlignmentEnabled()
+                  ? this.renderAlignmentOptions(alignment)
+                  : undefined}
+              </div>
+            </Rnd>
           </span>
         </span>
       );

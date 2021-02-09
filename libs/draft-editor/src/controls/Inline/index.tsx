@@ -10,7 +10,7 @@ interface InlineProps {
   editorState: EditorState;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class Inline extends Component<InlineProps, any> {

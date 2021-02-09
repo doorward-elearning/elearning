@@ -57,7 +57,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
       <div className={classNames('rdw-embedded-modal', popupClassName)} onClick={stopPropagation}>
         <div className="rdw-embedded-modal-header">
           <span className="rdw-embedded-modal-header-option">
-            {translations['components.controls.embedded.embeddedlink']}
+            {translations('components_controls_embedded_embeddedlink')}
             <span className="rdw-embedded-modal-header-label" />
           </span>
         </div>
@@ -65,7 +65,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           <span className="rdw-embedded-modal-link-input-wrapper">
             <input
               className="rdw-embedded-modal-link-input"
-              placeholder={translations['components.controls.embedded.enterlink']}
+              placeholder={translations('components_controls_embedded_enterlink')}
               onChange={this.updateValue}
               onBlur={this.updateValue}
               value={embeddedLink}
@@ -105,10 +105,10 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
             onClick={this.onChange}
             disabled={!embeddedLink || !height || !width}
           >
-            {translations['generic.add']}
+            {translations('add')}
           </button>
           <button type="button" className="rdw-embedded-modal-btn" onClick={doCollapse}>
-            {translations['generic.cancel']}
+            {translations('cancel')}
           </button>
         </span>
       </div>
@@ -133,7 +133,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           className={classNames(className)}
           value="unordered-list-item"
           onClick={onExpandEvent}
-          title={title || translations['components.controls.embedded.embedded']}
+          title={title || translations('components_controls_embedded_embedded')}
         >
           <Icon icon={icon} />
         </Option>

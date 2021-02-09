@@ -266,7 +266,8 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
     uploadFile: async (
       file: Blob,
       onUploadProgress ? : (percentage: number) => void,
-      cancelHandler ? : (cancelFunction: () => void) => void
+      cancelHandler ? : (cancelFunction: () => void) => void,
+      config ? : AxiosRequestConfig
     ): Promise < AxiosResponse < FileResponse >> => {
       const formData = new FormData();
 
@@ -284,6 +285,8 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
         cancelToken: new axios.CancelToken((c) => {
           cancelHandler(c);
         }),
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
       });
 
       return result;
@@ -291,7 +294,8 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
     uploadMultipleFiles: async (
       files: Array < Blob > ,
       onUploadProgress ? : (percentage: number) => void,
-      cancelHandler ? : (cancelFunction: () => void) => void
+      cancelHandler ? : (cancelFunction: () => void) => void,
+      config ? : AxiosRequestConfig
     ): Promise < AxiosResponse < FilesResponse >> => {
       const formData = new FormData();
 
@@ -311,6 +315,8 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
         cancelToken: new axios.CancelToken((c) => {
           cancelHandler(c);
         }),
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
       });
 
       return result;

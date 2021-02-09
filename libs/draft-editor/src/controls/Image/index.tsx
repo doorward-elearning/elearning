@@ -9,7 +9,7 @@ interface ImageControlProps {
   onChange: Function;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 class ImageControl extends Component<ImageControlProps, any> {

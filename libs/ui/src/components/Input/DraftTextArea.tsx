@@ -8,6 +8,8 @@ import classNames from 'classnames';
 import { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapper';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import _ from 'lodash';
+import DoorwardApi from '../../../../../apps/doorward-frontend/src/services/apis/doorward.api';
+import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -79,7 +81,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         </div>
       ) : (
         <Editor
-          uploadCallback={() => new Promise<object>((resolve, reject) => reject())}
+          uploadCallback={DoorwardApi.api.files.uploadFile}
           placeholder={props.placeholder}
           wrapperClassName="eb-input--draft-text-area__wrapper"
           editorClassName="eb-input--draft-text-area__editor"

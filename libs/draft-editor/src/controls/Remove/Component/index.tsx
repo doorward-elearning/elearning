@@ -18,7 +18,7 @@ const RemoveComponent: React.FunctionComponent<RemoveComponentProps> = ({
       <Option
         className={classNames(className)}
         onClick={onChange}
-        title={title || translations['components.controls.remove.remove']}
+        title={title || translations('components_controls_remove_remove')}
       >
         <Icon icon={icon} />
       </Option>
@@ -29,7 +29,7 @@ const RemoveComponent: React.FunctionComponent<RemoveComponentProps> = ({
 interface RemoveComponentProps {
   onChange: Function;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default RemoveComponent;

@@ -10,7 +10,7 @@ interface BlockTypeProps {
   editorState: EditorState;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 class BlockType extends Component<BlockTypeProps, any> {

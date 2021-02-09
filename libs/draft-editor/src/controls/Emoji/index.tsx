@@ -8,7 +8,7 @@ interface EmojiProps {
   onChange: Function;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class Emoji extends Component<EmojiProps, any> {

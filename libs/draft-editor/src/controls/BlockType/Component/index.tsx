@@ -36,39 +36,39 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
   getBlockTypes = (translations) => [
     {
       label: 'Normal',
-      displayName: translations['components.controls.blocktype.normal'],
+      displayName: translations('components_controls_blocktype_normal'),
     },
     {
       label: 'H1',
-      displayName: translations['components.controls.blocktype.h1'],
+      displayName: translations('components_controls_blocktype_h1'),
     },
     {
       label: 'H2',
-      displayName: translations['components.controls.blocktype.h2'],
+      displayName: translations('components_controls_blocktype_h2'),
     },
     {
       label: 'H3',
-      displayName: translations['components.controls.blocktype.h3'],
+      displayName: translations('components_controls_blocktype_h3'),
     },
     {
       label: 'H4',
-      displayName: translations['components.controls.blocktype.h4'],
+      displayName: translations('components_controls_blocktype_h4'),
     },
     {
       label: 'H5',
-      displayName: translations['components.controls.blocktype.h5'],
+      displayName: translations('components_controls_blocktype_h5'),
     },
     {
       label: 'H6',
-      displayName: translations['components.controls.blocktype.h6'],
+      displayName: translations('components_controls_blocktype_h6'),
     },
     {
       label: 'Blockquote',
-      displayName: translations['components.controls.blocktype.blockquote'],
+      displayName: translations('components_controls_blocktype_blockquote'),
     },
     {
       label: 'Code',
-      displayName: translations['components.controls.blocktype.code'],
+      displayName: translations('components_controls_blocktype_code'),
     },
   ];
 
@@ -113,9 +113,9 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           doExpand={doExpand}
           doCollapse={doCollapse}
           onExpandEvent={onExpandEvent}
-          title={title || translations['components.controls.blocktype.blocktype']}
+          title={title || translations('components_controls_blocktype_blocktype')}
         >
-          <span>{currentLabel || translations['components.controls.blocktype.blocktype']}</span>
+          <span>{currentLabel || translations('components_controls_blocktype_blocktype')}</span>
           {blocks.map((block, index) => (
             <DropdownOption active={blockType === block.label} value={block.label} key={index}>
               {block.displayName}

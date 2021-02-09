@@ -6,7 +6,7 @@
   overflow: auto;
   width: 100%;
   box-sizing: border-box;
-  padding: 0 var(--padding);
+  padding: 0 50px;
   flex: 1;
 }
 .rdw-editor-toolbar {

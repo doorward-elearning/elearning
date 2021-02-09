@@ -24,13 +24,13 @@ const LayoutComponent: React.FunctionComponent<LayoutComponentProps> = (props): 
         onClick={onFullScreenChanged}
         title={
           fullScreen
-            ? title?.minimize || translations['components.controls.fullScreen.minimize']
-            : title?.maximize || translations['components.controls.fullScreen.maximize']
+            ? title?.minimize || translations('components_controls_fullScreen_minimize')
+            : title?.maximize || translations('components_controls_fullScreen_maximize')
         }
       >
         {fullScreen ? (
           <Button icon={icons.minimize} mini>
-            {title?.minimize || translations['components.controls.fullScreen.minimize']}
+            {title?.minimize || translations('components_controls_fullScreen_minimize')}
           </Button>
         ) : (
           <Icon icon={icons.maximize} />
@@ -42,7 +42,7 @@ const LayoutComponent: React.FunctionComponent<LayoutComponentProps> = (props): 
 
 export interface LayoutComponentProps {
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
   fullScreen: boolean;
   onFullScreenChanged: Function;
 }

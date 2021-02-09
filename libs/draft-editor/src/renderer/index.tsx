@@ -8,8 +8,6 @@ const getBlockRenderFunc = (config, customBlockRenderer) => (block: ContentBlock
     if (renderedComponent) return renderedComponent;
   }
 
-  console.log('Running...');
-
   if (block.getType() === 'atomic') {
     const contentState = config.getEditorState().getCurrentContent();
     const entity = block.getEntityAt(0) ? contentState.getEntity(block.getEntityAt(0)) : null;

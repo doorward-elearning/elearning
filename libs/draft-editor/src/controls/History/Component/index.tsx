@@ -17,7 +17,7 @@ interface HistoryProps {
   config: Record<string, any>;
   onChange: Function;
   currentState: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class History extends Component<HistoryProps, any> {
@@ -46,7 +46,7 @@ export default class History extends Component<HistoryProps, any> {
         doCollapse={doCollapse}
         onExpandEvent={onExpandEvent}
         aria-label="rdw-history-control"
-        title={title || translations['components.controls.history.history']}
+        title={title || translations('components_controls_history_history')}
       >
         <Icon icon={getFirstIcon(config)} />
         {options.indexOf('undo') >= 0 && (
@@ -55,7 +55,7 @@ export default class History extends Component<HistoryProps, any> {
             onClick={this.onChange}
             disabled={undoDisabled}
             className={classNames('rdw-history-dropdownoption', undo.className)}
-            title={undo.title || translations['components.controls.history.undo']}
+            title={undo.title || translations('components_controls_history_undo')}
           >
             <Icon icon={undo.icon} />
           </DropdownOption>
@@ -66,7 +66,7 @@ export default class History extends Component<HistoryProps, any> {
             onClick={this.onChange}
             disabled={redoDisabled}
             className={classNames('rdw-history-dropdownoption', redo.className)}
-            title={redo.title || translations['components.controls.history.redo']}
+            title={redo.title || translations('components_controls_history_redo')}
           >
             <Icon icon={redo.icon} />
           </DropdownOption>
@@ -89,7 +89,7 @@ export default class History extends Component<HistoryProps, any> {
             onClick={this.onChange}
             className={classNames(undo.className)}
             disabled={undoDisabled}
-            title={undo.title || translations['components.controls.history.undo']}
+            title={undo.title || translations('components_controls_history_undo')}
           >
             <Icon icon={undo.icon} />
           </Option>
@@ -100,7 +100,7 @@ export default class History extends Component<HistoryProps, any> {
             onClick={this.onChange}
             className={classNames(redo.className)}
             disabled={redoDisabled}
-            title={redo.title || translations['components.controls.history.redo']}
+            title={redo.title || translations('components_controls_history_redo')}
           >
             <Icon icon={redo.icon} />
           </Option>

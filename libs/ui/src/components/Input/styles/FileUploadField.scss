@@ -6,12 +6,18 @@
     background: var(--bg-primary);
     border: 3px dotted var(--line-color);
     cursor: pointer;
+    transition: 0.3s all;
 
     .upload-field__browse {
       padding: var(--padding-sm) var(--padding-sm);
       border-radius: 2px;
       border: 1px solid var(--line-color);
       margin-left: var(--padding);
+    }
+
+    &.dragOver {
+      border: 3px dotted var(--primary);
+      background: var(--bg-secondary);
     }
   }
 
@@ -42,9 +48,21 @@
 
     &-content {
       display: grid;
-      grid-template-columns: auto 1fr auto auto;
+      grid-template-columns: auto auto 1fr auto auto;
       grid-gap: var(--padding);
       align-items: center;
+
+      .file-preview {
+        width: 30px;
+        height: 30px;
+
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          object-position: center center;
+        }
+      }
 
       .file-name {
         text-overflow: ellipsis;

@@ -7,7 +7,7 @@ interface FullScreenProps {
   editorState: EditorState;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
   onFullScreenChanged: (fullScreen: boolean) => void;
   fullScreen: boolean;
 }

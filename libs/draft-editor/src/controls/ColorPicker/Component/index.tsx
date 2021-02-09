@@ -12,7 +12,7 @@ interface LayoutComponentProps {
   onChange: Function;
   config: Record<string, any>;
   currentColor: string;
-  translations: Record<string, any>;
+  translations: any;
   type: string;
 }
 
@@ -57,7 +57,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
         aria-haspopup="true"
         aria-expanded={expanded}
         aria-label="rdw-color-picker"
-        title={title || translations['components.controls.colorpicker.colorpicker']}
+        title={title || translations('components_controls_colorpicker_colorpicker')}
       >
         <Option onClick={onExpandEvent} className={classNames('rdw-colorpicker-wrapper-option', className)}>
           <Icon icon={icon} />

@@ -34,14 +34,14 @@ import getMentionDecorators from '../decorators/Mention';
 import getHashtagDecorator from '../decorators/HashTag';
 import getBlockRenderFunc from '../renderer';
 import defaultToolbar from '../config/defaultToolbar';
-import localeTranslations from '../i18n';
 import './styles.css';
 import '../../css/Draft.css';
 import customHTML2Content from '../utils/customHTMLToContent';
 import { Map } from 'immutable';
 import getCurrentBlock from '../utils/getCurrentBlock';
 import addNewBlock from '../utils/addNewBlock';
-import Icon from '@doorward/ui/components/Icon';
+import { UploadHandler } from '@doorward/ui/components/Input/FileUploadField';
+import translate from '@doorward/common/lang/translate';
 
 export type SyntheticKeyboardEvent = React.KeyboardEvent<{}>;
 export type SyntheticEvent = React.SyntheticEvent<{}>;
@@ -76,7 +76,7 @@ export interface EditorProps {
   toolbarStyle?: object;
   editorStyle?: React.CSSProperties;
   wrapperStyle?: React.CSSProperties;
-  uploadCallback?(file: object): Promise<object>;
+  uploadCallback?: UploadHandler;
   onFocus?(event: SyntheticEvent): void;
   onBlur?(event: SyntheticEvent, editorState?: any): void;
   onTab?(event: SyntheticKeyboardEvent): any;
@@ -270,6 +270,18 @@ class WysiwygEditor extends Component<EditorProps, any> {
       onBlur(event, this.getEditorState());
     }
   };
+
+  componentWillReceiveProps(nextProps: Readonly<EditorProps>, nextContext: any): void {
+    this.blockRendererFn = getBlockRenderFunc(
+      {
+        isReadOnly: this.isReadOnly,
+        isImageAlignmentEnabled: this.isImageAlignmentEnabled,
+        getEditorState: this.getEditorState,
+        onChange: this.onChange,
+      },
+      this.props.customBlockRenderFunc
+    );
+  }
 
   onFullScreenChanged = () => {
     this.setState((prevState) => ({
@@ -564,8 +576,6 @@ class WysiwygEditor extends Component<EditorProps, any> {
   render() {
     const { fullScreen, editorState, editorFocused, toolbar } = this.state;
     const {
-      locale,
-      localization: { locale: newLocale, translations },
       toolbarCustomButtons,
       toolbarOnFocus,
       toolbarClassName,
@@ -585,10 +595,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
       fullScreen,
       editorState,
       onChange: this.onChange,
-      translations: {
-        ...localeTranslations[locale || newLocale],
-        ...translations,
-      },
+      translations: translate,
     };
     const toolbarShow = editorFocused || this.focusHandler.isInputFocused() || !toolbarOnFocus;
     const EditorComponent = (

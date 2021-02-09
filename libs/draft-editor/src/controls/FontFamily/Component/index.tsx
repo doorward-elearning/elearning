@@ -14,7 +14,7 @@ interface LayoutComponentProps {
   onChange: Function;
   config: Record<string, any>;
   currentState: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 class LayoutComponent extends Component<LayoutComponentProps, any> {
@@ -64,10 +64,10 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           doExpand={doExpand}
           doCollapse={doCollapse}
           onExpandEvent={onExpandEvent}
-          title={title || translations['components.controls.fontfamily.fontfamily']}
+          title={title || translations('components_controls_fontfamily_fontfamily')}
         >
           <span className="rdw-fontfamily-placeholder">
-            {currentFontFamily || translations['components.controls.fontfamily.fontfamily']}
+            {currentFontFamily || translations('components_controls_fontfamily_fontfamily')}
           </span>
           {options.map((family, index) => (
             <DropdownOption active={currentFontFamily === family} value={family} key={index}>

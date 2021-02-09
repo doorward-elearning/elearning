@@ -13,7 +13,7 @@ interface LayoutComponentProps {
   onExpandEvent: Function;
   onChange: Function;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 class LayoutComponent extends Component<LayoutComponentProps, any> {
@@ -50,7 +50,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
         aria-haspopup="true"
         aria-label="rdw-emoji-control"
         aria-expanded={expanded}
-        title={title || translations['components.controls.emoji.emoji']}
+        title={title || translations('components_controls_emoji_emoji')}
       >
         <Option className={classNames(className)} value="unordered-list-item" onClick={onExpandEvent}>
           <Icon icon={icon} />

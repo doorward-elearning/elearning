@@ -9,7 +9,7 @@ interface ListProps {
   editorState: EditorState;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class List extends Component<ListProps, any> {

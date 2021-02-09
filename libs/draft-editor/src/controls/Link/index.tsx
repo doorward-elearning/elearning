@@ -19,7 +19,7 @@ interface LinkProps {
   onChange: Function;
   modalHandler: Record<string, any>;
   config: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 class Link extends Component<LinkProps, any> {
@@ -34,7 +34,6 @@ class Link extends Component<LinkProps, any> {
       selectionText: undefined,
       currentEntity: editorState ? getSelectionEntity(editorState) : undefined,
     };
-    modalHandler.registerCallBack(this.expandCollapse);
   }
 
   componentDidUpdate(prevProps) {
@@ -44,10 +43,7 @@ class Link extends Component<LinkProps, any> {
     }
   }
 
-  componentWillUnmount() {
-    const { modalHandler } = this.props;
-    modalHandler.deregisterCallBack(this.expandCollapse);
-  }
+  componentWillUnmount() {}
 
   onExpandEvent = () => {
     this.signalExpanded = !this.state.expanded;

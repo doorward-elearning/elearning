@@ -17,7 +17,7 @@ interface TextAlignProps {
   config: Record<string, any>;
   onChange: Function;
   currentState: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class TextAlign extends Component<TextAlignProps, any> {
@@ -36,7 +36,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames(left.className)}
             active={textAlignment === 'left'}
             onClick={onChange}
-            title={left.title || translations['components.controls.textalign.left']}
+            title={left.title || translations('components_controls_textalign_left')}
           >
             <Icon icon={left.icon} />
           </Option>
@@ -47,7 +47,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames(center.className)}
             active={textAlignment === 'center'}
             onClick={onChange}
-            title={center.title || translations['components.controls.textalign.center']}
+            title={center.title || translations('components_controls_textalign_center')}
           >
             <Icon icon={center.icon} />
           </Option>
@@ -58,7 +58,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames(right.className)}
             active={textAlignment === 'right'}
             onClick={onChange}
-            title={right.title || translations['components.controls.textalign.right']}
+            title={right.title || translations('components_controls_textalign_right')}
           >
             <Icon icon={right.icon} />
           </Option>
@@ -69,7 +69,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             className={classNames(justify.className)}
             active={textAlignment === 'justify'}
             onClick={onChange}
-            title={justify.title || translations['components.controls.textalign.justify']}
+            title={justify.title || translations('components_controls_textalign_justify')}
           >
             <Icon icon={justify.icon} />
           </Option>
@@ -100,7 +100,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
         doCollapse={doCollapse}
         onExpandEvent={onExpandEvent}
         aria-label="rdw-textalign-control"
-        title={title || translations['components.controls.textalign.textalign']}
+        title={title || translations('components_controls_textalign_textalign')}
       >
         <img
           src={(textAlignment && config[textAlignment] && config[textAlignment].icon) || getFirstIcon(config)}
@@ -111,7 +111,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             value="left"
             active={textAlignment === 'left'}
             className={classNames('rdw-text-align-dropdownOption', left.className)}
-            title={left.title || translations['components.controls.textalign.left']}
+            title={left.title || translations('components_controls_textalign_left')}
           >
             <Icon icon={left.icon} />
           </DropdownOption>
@@ -121,7 +121,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             value="center"
             active={textAlignment === 'center'}
             className={classNames('rdw-text-align-dropdownOption', center.className)}
-            title={center.title || translations['components.controls.textalign.center']}
+            title={center.title || translations('components_controls_textalign_center')}
           >
             <Icon icon={center.icon} />
           </DropdownOption>
@@ -131,7 +131,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             value="right"
             active={textAlignment === 'right'}
             className={classNames('rdw-text-align-dropdownOption', right.className)}
-            title={right.title || translations['components.controls.textalign.right']}
+            title={right.title || translations('components_controls_textalign_right')}
           >
             <Icon icon={right.icon} />
           </DropdownOption>
@@ -141,7 +141,7 @@ export default class TextAlign extends Component<TextAlignProps, any> {
             value="justify"
             active={textAlignment === 'justify'}
             className={classNames('rdw-text-align-dropdownOption', justify.className)}
-            title={justify.title || translations['components.controls.textalign.justify']}
+            title={justify.title || translations('components_controls_textalign_justify')}
           >
             <Icon icon={justify.icon} />
           </DropdownOption>

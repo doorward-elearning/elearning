@@ -15,7 +15,7 @@ interface LayoutComponentProps {
   onChange: Function;
   config: Record<string, any>;
   currentState: Record<string, any>;
-  translations: Record<string, any>;
+  translations: any;
 }
 
 export default class LayoutComponent extends Component<LayoutComponentProps, any> {
@@ -62,7 +62,7 @@ export default class LayoutComponent extends Component<LayoutComponentProps, any
           doExpand={doExpand}
           doCollapse={doCollapse}
           onExpandEvent={onExpandEvent}
-          title={title || translations['components.controls.fontsize.fontsize']}
+          title={title || translations('components_controls_fontsize_fontsize')}
         >
           {currentFontSize ? <span>{currentFontSize}</span> : <Icon icon={icon} />}
           {options.map((size, index) => (
