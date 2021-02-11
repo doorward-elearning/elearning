@@ -13,7 +13,7 @@ interface LayoutComponentProps {
   onChange?: Function;
   config?: Record<string, any>;
   currentState?: Record<string, any>;
-  translations?: Record<string, any>;
+  translations?: any;
 }
 
 class LayoutComponent extends Component<LayoutComponentProps, any> {

@@ -6,12 +6,6 @@
 
   .chat-indicator {
     display: none;
-    svg {
-      position: absolute;
-      transform: rotate(90deg);
-      left: -10px;
-      top: -3px;
-    }
   }
 
   &.me {
@@ -21,21 +15,21 @@
     }
 
     .ed-conversation-message__content {
-      background: var(--bg-secondary);
-
-      .chat-indicator {
-        svg {
-          right: -10px;
-          left: unset;
-          transform: scaleY(-1) rotate(270deg);
-        }
+      justify-self: end;
+      &--text {
+        background: var(--primary);
+        color: var(--text-alternate);
+        border-radius: 20px 0 20px 20px;
       }
 
-      &:after {
-        left: unset;
-        right: -9px;
-        transform: skew(-45deg) rotate(90deg);
-        background: var(--bg-secondary);
+      &--date {
+      }
+
+      &--tools {
+        .message-read-status {
+          &.read {
+          }
+        }
       }
     }
   }
@@ -48,28 +42,11 @@
 
   &__content {
     position: relative;
-    background: var(--bg-primary);
-    padding: var(--padding) var(--padding-lg);
-    border: 1px solid var(--line-color);
-    border-radius: 5px;
     justify-self: start;
     display: grid;
+    grid-gap: var(--padding);
+    max-width: 50%;
     min-width: 200px;
-    max-width: 60%;
-
-    &:after {
-      content: '';
-      position: absolute;
-      width: 16px;
-      height: 16px;
-      top: calc(50% - 8px);
-      z-index: 1;
-      left: -10px;
-      background: var(--bg-primary);
-      transform: skew(45deg);
-      border-top: 1px solid var(--line-color);
-      border-left: 1px solid var(--line-color);
-    }
 
     &--senderName {
       font-weight: bold;
@@ -77,7 +54,16 @@
     }
 
     &--text {
+      padding: var(--padding-lg) var(--padding-lg);
       font-size: 0.9em;
+      background: var(--bg-primary-dark);
+      border-radius: 0 20px 20px 20px;
+      text-wrap: normal;
+      overflow: hidden;
+      white-space: pre-wrap;      /* CSS3 */
+      white-space: -moz-pre-wrap; /* Firefox */
+      white-space: -o-pre-wrap;   /* Opera 7 */
+      word-wrap: break-word;
     }
 
     &--tools {
@@ -115,6 +101,7 @@
       color: var(--text-secondary);
       font-size: 0.7em;
       justify-self: end;
+      margin: 0 var(--padding-sm);
     }
   }
 }

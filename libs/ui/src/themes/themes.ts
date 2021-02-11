@@ -1,7 +1,7 @@
 const base = {
   '--bg-primary': '#FFFFFF',
   '--bg-primary-dark': 'rgba(221,221,221,0.61)',
-  '--bg-secondary': '#f3f5fa',
+  '--bg-secondary': 'rgba(249,249,249)',
   '--primary': '#3F51B5',
   '--primary-dark': '#354497',
   '--text-alternate': '#f4f4f4',

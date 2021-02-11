@@ -9,7 +9,7 @@ interface ColorPickerProps {
   editorState: EditorState;
   modalHandler?: Record<string, any>;
   config?: Record<string, any>;
-  translations?: Record<string, any>;
+  translations?: any;
 }
 
 function CreateColorPicker(type: 'color' | 'bgcolor') {

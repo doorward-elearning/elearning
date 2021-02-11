@@ -1,6 +1,7 @@
 import translate from '@doorward/common/lang/translate';
 const moment = require('moment');
 import { Moment } from 'moment';
+import Tools from '@doorward/common/utils/Tools';
 
 const Values = {
   second: 1000,
@@ -25,9 +26,26 @@ const unitValues = {
   second: 60,
 };
 
+const formatPrecise = (now: Moment, date: Moment, diff: number, future: boolean): string => {
+  if (diff <= Values.minute) {
+    return translate(future ? 'minute_0' : 'minute_0');
+  }
+
+  const numDays = date.diff(now, 'day');
+
+  if (numDays === 0) {
+    return Tools.normalTime(date.toDate());
+  } else if (numDays === 1) {
+    return translate(future ? 'dayFutureWithCount' : 'dayAgoWithCount', { count: 1 });
+  }
+
+  return Tools.shortDateTime(date.toDate());
+};
+
 const format = (now: Moment, date: Moment, max: Units, diff: number, future: boolean, unitIndex: number) => {
   const unit = units[unitIndex];
   const currentUnitValue = now.get(unit);
+
   let unitDiff = 0;
   if (unitIndex >= 4) {
     unitDiff = Math.abs(diff) / Values[unit];
@@ -65,9 +83,14 @@ const format = (now: Moment, date: Moment, max: Units, diff: number, future: boo
   return format(now, date, max, diff, future, unitIndex + 1);
 };
 
-const ago = (date: Date | Moment, max: Units = 'second'): string => {
+const ago = (date: Date | Moment, max: Units = 'second', precise = true): string => {
   const now = moment(Date.now());
   const diff = moment(now).toDate().getTime() - moment(date).toDate().getTime();
+
+  if (precise) {
+    return formatPrecise(now, moment(date), Math.abs(diff), diff < 0);
+  }
+
   return format(now, moment(date), max, Math.abs(diff), diff < 0, 0);
 };
 

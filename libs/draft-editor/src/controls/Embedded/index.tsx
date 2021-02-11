@@ -9,7 +9,7 @@ interface EmbeddedProps {
   onChange?: Function;
   modalHandler?: Record<string, any>;
   config?: Record<string, any>;
-  translations?: Record<string, any>;
+  translations?: any;
 }
 
 class Embedded extends Component<EmbeddedProps, any> {

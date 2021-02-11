@@ -9,9 +9,11 @@ const beautify = require('js-beautify');
 const source = path.join(__dirname, '../apps/doorward-backend/src/config/default');
 const environments = path.join(__dirname, '../elearning-ops/helm/charts/apps/config');
 
-const organizationFiles = fs.readdirSync(environments).filter((name) => {
-  return name.endsWith('yaml') && !['Chart.yaml', 'secrets.yaml', 'values.yaml'].includes(name);
-});
+const organizationFiles = fs.existsSync(environments)
+  ? fs.readdirSync(environments).filter((name) => {
+      return name.endsWith('yaml') && !['Chart.yaml', 'secrets.yaml', 'values.yaml'].includes(name);
+    })
+  : [];
 
 const mkDir = (pathLike) => {
   if (!fs.existsSync(pathLike)) {
@@ -46,7 +48,7 @@ const mergeConfig = (config) => {
 
   const organizationName = config.customer;
 
-  map.forEach(item => {
+  map.forEach((item) => {
     const existing = JSON.parse(fs.readFileSync(path.join(source, item.file)).toString());
 
     let result = existing;
@@ -59,10 +61,12 @@ const mergeConfig = (config) => {
 
     destinations.map((destination) => {
       mkDir(path.join(destination, organizationName));
-      fs.writeFileSync(path.join(destination, organizationName, item.file), beautify.js_beautify(JSON.stringify(result)));
+      fs.writeFileSync(
+        path.join(destination, organizationName, item.file),
+        beautify.js_beautify(JSON.stringify(result))
+      );
     });
   });
-
 };
 
 const createFile = (organizationName) => {

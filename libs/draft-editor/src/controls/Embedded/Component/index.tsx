@@ -11,7 +11,7 @@ interface LayoutComponentProps {
   onExpandEvent?: Function;
   onChange?: Function;
   config?: Record<string, any>;
-  translations?: Record<string, any>;
+  translations?: any;
   doCollapse?: MouseEventHandler;
 }
 

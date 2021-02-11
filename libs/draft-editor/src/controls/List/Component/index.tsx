@@ -133,7 +133,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
               disabled={this.props[`${option}Disabled`]}
               className={classNames('rdw-list-dropdownOption', config[option].className)}
               active={listType === option}
-              title={config[option].title || translations(`components.controls.list.${option}`)}
+              title={config[option].title || translations(`components_controls_list_${option}`)}
             >
               <Icon icon={config[option].icon} />
             </DropdownOption>
@@ -142,7 +142,7 @@ export default class LayoutComponent extends Component<ListProps, any> {
     );
   }
 
-  render(): Object {
+  render(){
     const {
       config: { inDropdown },
     } = this.props;
