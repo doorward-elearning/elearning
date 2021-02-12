@@ -12,6 +12,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Button from '@doorward/ui/components/Buttons/Button';
 import withContext from '@doorward/ui/hoc/withContext';
 import UserEntity from '@doorward/common/entities/user.entity';
+import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
   const form = useForm();
@@ -36,7 +37,7 @@ const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
               </Card.Header>
               <Card.Body>
                 <div className="profile-details">
-                  <EImage src={profile} alt="User Image" circle size="large" />
+                  <ProfilePicture user={user} />
                   <Header size={3}>{data?.email || data?.phoneNumber}</Header>
                   <div>
                     <Pill>{data?.role?.displayName}</Pill>

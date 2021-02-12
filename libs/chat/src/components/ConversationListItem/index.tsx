@@ -9,6 +9,7 @@ import Icon from '@doorward/ui/components/Icon';
 import Spinner from '@doorward/ui/components/Spinner';
 import { getMessagesByStatus } from '@doorward/chat/Chat/functions';
 import Badge from '@doorward/ui/components/Badge';
+import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const ConversationListItem: React.FunctionComponent<ConversationListItemProps> = ({
   conversation,
@@ -38,7 +39,12 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
       onClick={onClick}
     >
       <div>
-        <EImage size="small" circle alt="" src={conversation.avatar} />
+        <ProfilePicture
+          user={{
+            profilePicture: conversation.avatar,
+            fullName: conversation.title,
+          }}
+        />
       </div>
       <div className="content">
         <div className="content__header">
@@ -47,7 +53,7 @@ const ConversationListItem: React.FunctionComponent<ConversationListItemProps> =
           </Header>
           {message && (
             <span className="content__header-time">
-              <RealTimeMoment time={message.timestamp} />
+              <RealTimeMoment precise time={message.timestamp} />
             </span>
           )}
         </div>

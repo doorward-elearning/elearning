@@ -5,5 +5,11 @@
   &--toolbar {
     display: flex;
     justify-content: space-between;
+
+    .ed-conversation--enter-is-send {
+      display: grid;
+      grid-gap: var(--padding);
+      grid-auto-flow: column;
+    }
   }
 }

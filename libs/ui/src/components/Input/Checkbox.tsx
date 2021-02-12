@@ -9,7 +9,7 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
   formikProps,
   idGenerator,
   labelPosition,
-  editable,
+  editable = true,
   ...props
 }) => {
   const checkbox = useRef();

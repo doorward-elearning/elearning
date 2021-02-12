@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useContext } from 'react';
-import EImage from '@doorward/ui/components/Image';
 import Tools from '@doorward/common/utils/Tools';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import { ThemeContext } from '@doorward/ui/components/ApplicationTheme';
@@ -7,9 +6,9 @@ import themes from '@doorward/ui/themes/themes';
 import useRoutes from '../../../hooks/useRoutes';
 import Row from '@doorward/ui/components/Row';
 import Switch from '@doorward/ui/components/Switch';
-import profile from '../../../assets/images/profile.svg';
 import useAuth from '../../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
+import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const routes = useRoutes();
@@ -22,13 +21,13 @@ const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (
   return (
     <Dropdown positionX="right" positionY="bottom">
       <div className="user-management__user">
-        <EImage src={profile} circle size="small" />
+        <ProfilePicture user={auth.user} />
         <Dropdown.Arrow />
       </div>
       <Dropdown.Menu>
         <Dropdown.Item link={routes.myProfile.withParams({ username: auth.user?.username })}>
           <Row style={{ padding: 'var(--padding) 0', justifyItems: 'start' }}>
-            <EImage src={profile} circle size="small" />
+            <ProfilePicture user={auth.user} />
             {auth.user?.username}
           </Row>
         </Dropdown.Item>

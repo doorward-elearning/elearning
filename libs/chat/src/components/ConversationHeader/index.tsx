@@ -1,15 +1,15 @@
 import React, { useContext } from 'react';
 import './ConversationHeader.scss';
-import EImage from '@doorward/ui/components/Image';
 import Header from '@doorward/ui/components/Header';
 import { ChatContext } from '@doorward/chat/Chat';
+import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const ConversationHeader: React.FunctionComponent<ConversationHeaderProps> = (props): JSX.Element => {
   const { currentConversation } = useContext(ChatContext);
 
   return currentConversation ? (
     <div className="ed-conversation-header">
-      <EImage size="small" circle src={currentConversation.avatar} />
+      <ProfilePicture user={{ profilePicture: currentConversation.avatar, fullName: currentConversation.title }} />
       <div className="ed-conversation-header__content">
         <Header size={4}> {currentConversation.title}</Header>
         {!currentConversation.directMessage && (

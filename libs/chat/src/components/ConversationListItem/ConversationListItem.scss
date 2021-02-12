@@ -3,7 +3,6 @@
   grid-template-columns: auto 1fr;
   grid-gap: var(--padding-lg);
   padding: var(--padding-lg) var(--padding);
-  border-bottom: 1px solid var(--line-color);
   user-select: none;
   transition: 0.5s background;
   cursor: pointer;
@@ -14,17 +13,6 @@
 
   &.selected {
     position: relative;
-
-    &:before,
-    &:after {
-      position: absolute;
-      content: '';
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: 3px;
-      background: var(--accent);
-    }
 
     background: rgba(0, 0, 0, 0.06);
   }
@@ -38,7 +26,7 @@
     align-items: center;
     align-content: center;
     line-height: 1em;
-    grid-gap: var(--padding-sm);
+    grid-gap: var(--padding);
 
     &__header {
       display: flex;

@@ -1,14 +1,15 @@
 import { Enum } from '@doorward/common/types';
-import moment, { Moment } from 'moment';
+import { Moment } from 'moment';
 import { capitalize } from 'lodash';
 import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
-import ago, { Units } from '@doorward/common/utils/ago';
+import ago, { agoPrecise, Units } from '@doorward/common/utils/ago';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
 const shortId = require('shortid');
 const randomString = require('random-string');
+const moment = require('moment');
 
 const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET || '');
 
@@ -207,8 +208,8 @@ class Tools {
     return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
   }
 
-  static humanReadableTime(date: Date | string | Moment, maxUnit: Units) {
-    return capitalize(ago(moment(date).toDate(), maxUnit));
+  static humanReadableTime(date: Date | string | Moment, maxUnit: Units, precise?: boolean) {
+    return capitalize(precise ? agoPrecise(moment(date).toDate()) : ago(moment(date).toDate(), maxUnit));
   }
 
   static htmlToElement(html: string) {

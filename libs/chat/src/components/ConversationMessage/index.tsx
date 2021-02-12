@@ -5,8 +5,8 @@ import { ChatMessage, MessageStatus } from '@doorward/chat/types';
 import Icon from '@doorward/ui/components/Icon';
 import Spinner from '@doorward/ui/components/Spinner';
 import RealTimeMoment from '@doorward/ui/components/RealTimeMoment';
-import EImage from '@doorward/ui/components/Image';
 import { ChatContext } from '@doorward/chat/Chat';
+import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = ({ message }): JSX.Element => {
   const { currentConversation } = useContext(ChatContext);
@@ -18,7 +18,7 @@ const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = (
       })}
     >
       <div className="ed-conversation-message__profile">
-        <EImage size="small" circle alt="" src={message.sender?.profilePicture} />
+        <ProfilePicture user={message.sender} />
       </div>
       <div className="ed-conversation-message__content">
         {!message.me && !currentConversation.directMessage && (
@@ -27,7 +27,7 @@ const ConversationMessage: React.FunctionComponent<ConversationMessageProps> = (
         <div className="ed-conversation-message__content--text">{message.text}</div>
         <div className="ed-conversation-message__content--tools">
           <div className="ed-conversation-message__content--date">
-            {message.status !== MessageStatus.SENDING && <RealTimeMoment time={message.timestamp} />}
+            {message.status !== MessageStatus.SENDING && <RealTimeMoment precise time={message.timestamp} />}
           </div>
           <div
             className={classNames({
