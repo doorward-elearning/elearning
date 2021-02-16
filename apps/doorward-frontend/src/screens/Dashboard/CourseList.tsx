@@ -40,83 +40,85 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
     }
   }, [classroomCourse]);
   return (
-    <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data?.courses}>
-      {(data) => (
-        <div>
-          <div className="dashboard__course-list">
-            <ProgressModal
-              state={launchClassroomState}
-              cancellable={false}
-              showErrorToast
-              action={() => launchClassroom(classroomCourse?.id)}
-              title={
-                classroomCourse?.meetingRoom?.currentMeeting
-                  ? translate('joiningMeeting')
-                  : translate('startingMeeting')
-              }
-              useModal={liveClassroomModal}
-              onSuccess={(data) => {
-                routes.navigate(routes.videoCall, {
-                  meetingId: data?.meeting.id,
-                });
-              }}
-            />
-            <ItemArray data={data}>
-              {(course: CourseEntity) => (
-                <div className="dashboard__course-list__course">
-                  <Card>
-                    <Card.Header image>
-                      <div
-                        className="card-image"
-                        style={{ background: Tools.color(course.id) }}
-                        onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}
-                      >
-                        <EImage src={courseImage} />
-                      </div>
-                    </Card.Header>
-                    <Card.Body>
-                      <Header size={2}>{course.title}</Header>
-                      <div>
-                        <ItemArray
-                          data={Tools.truncate(course.modules, 3)}
-                          empty={<span>{translate('noModulesHaveBeenAdded')}</span>}
+    <div style={{ flex: 1 }}>
+      <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data?.courses}>
+        {(data) => (
+          <div>
+            <div className="dashboard__course-list">
+              <ProgressModal
+                state={launchClassroomState}
+                cancellable={false}
+                showErrorToast
+                action={() => launchClassroom(classroomCourse?.id)}
+                title={
+                  classroomCourse?.meetingRoom?.currentMeeting
+                    ? translate('joiningMeeting')
+                    : translate('startingMeeting')
+                }
+                useModal={liveClassroomModal}
+                onSuccess={(data) => {
+                  routes.navigate(routes.videoCall, {
+                    meetingId: data?.meeting.id,
+                  });
+                }}
+              />
+              <ItemArray data={data}>
+                {(course: CourseEntity) => (
+                  <div className="dashboard__course-list__course">
+                    <Card>
+                      <Card.Header image>
+                        <div
+                          className="card-image"
+                          style={{ background: Tools.color(course.id) }}
+                          onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}
                         >
-                          {(module) => <div>{module?.title}</div>}
-                        </ItemArray>
-                      </div>
-                      <Row style={{ justifyContent: 'space-between' }}>
-                        <span className="meta">{Tools.normalDate(course.createdAt)}</span>
-                        <RoleContainer privileges={['courses.create']}>
-                          <span className="meta text-primary">
-                            {translate('studentWithCount', { count: +course.numStudents })}
-                          </span>
-                        </RoleContainer>
-                      </Row>
-                      <div className="actions">
-                        <RoleContainer
-                          privileges={['courses.start-meeting']}
-                          condition={!!course?.meetingRoom?.currentMeeting}
-                        >
-                          <Icon
-                            className={classNames({
-                              joinMeeting: course?.meetingRoom?.currentMeeting,
-                              action: true,
-                            })}
-                            icon="phone"
-                            title={translate('meeting')}
-                            onClick={() => startClassroom(course)}
-                          />
-                        </RoleContainer>
-                      </div>
-                    </Card.Body>
-                  </Card>
-                </div>
-              )}
-            </ItemArray>
+                          <EImage src={courseImage} />
+                        </div>
+                      </Card.Header>
+                      <Card.Body>
+                        <Header size={2}>{course.title}</Header>
+                        <div>
+                          <ItemArray
+                            data={Tools.truncate(course.modules, 3)}
+                            empty={<span>{translate('noModulesHaveBeenAdded')}</span>}
+                          >
+                            {(module) => <div>{module?.title}</div>}
+                          </ItemArray>
+                        </div>
+                        <Row style={{ justifyContent: 'space-between' }}>
+                          <span className="meta">{Tools.normalDate(course.createdAt)}</span>
+                          <RoleContainer privileges={['courses.create']}>
+                            <span className="meta text-primary">
+                              {translate('studentWithCount', { count: +course.numStudents })}
+                            </span>
+                          </RoleContainer>
+                        </Row>
+                        <div className="actions">
+                          <RoleContainer
+                            privileges={['courses.start-meeting']}
+                            condition={!!course?.meetingRoom?.currentMeeting}
+                          >
+                            <Icon
+                              className={classNames({
+                                joinMeeting: course?.meetingRoom?.currentMeeting,
+                                action: true,
+                              })}
+                              icon="phone"
+                              title={translate('meeting')}
+                              onClick={() => startClassroom(course)}
+                            />
+                          </RoleContainer>
+                        </div>
+                      </Card.Body>
+                    </Card>
+                  </div>
+                )}
+              </ItemArray>
+            </div>
           </div>
-        </div>
-      )}
-    </PaginationContainer>
+        )}
+      </PaginationContainer>
+    </div>
   );
 };
 

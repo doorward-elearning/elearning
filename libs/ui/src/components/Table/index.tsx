@@ -1,226 +1,102 @@
-import React, { MutableRefObject, ReactNode, useEffect, useRef, useState } from 'react';
-import './Table.scss';
+import React, { ReactNode, useEffect, useState } from 'react';
 import classNames from 'classnames';
-import Panel from '../Panel';
+import './Table.scss';
+import {
+  AutoSizer,
+  Column,
+  ColumnSizer,
+  InfiniteLoader,
+  Table as VTable,
+  TableCellProps,
+  TableCellRenderer,
+} from 'react-virtualized';
+import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import Tools from '@doorward/common/utils/Tools';
-import Icon from '../Icon';
-import Dropdown from '@doorward/ui/components/Dropdown';
-import { BasicCheckbox } from '../Input/Checkbox';
 
 function Table<T extends { id: string | number }, K extends TableColumns>({
   sortable = true,
   ...props
 }: TableProps<T, K>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
-  const [manipulated, setManipulated] = useState(data);
-  const [selected, setSelected] = useState(props.selected || {});
-  const [sortColumn, setSortColumn] = useState({ key: '', descending: true });
 
   useEffect(() => {
-    const compareFunction = props.sortColumn?.[sortColumn.key] || ((a, b) => a[sortColumn.key] > b[sortColumn.key]);
-
-    if (sortColumn.key) {
-      setManipulated(
-        data.sort((a, b) => {
-          const comparison = compareFunction(a, b);
-          return (comparison ? 1 : -1) * (sortColumn.descending ? -1 : 1);
-        })
-      );
+    if (props.data) {
+      setData(props.data);
     }
-  }, [sortColumn]);
+  }, [props.data]);
 
-  useEffect(() => {
-    setData(props.data || []);
-    setManipulated(props.data || []);
-  }, [props.data, data]);
-
-  useEffect(() => {
-    if (props.filter) {
-      setManipulated(props.filter([...data], props.searchText || ''));
+  const cellRenderer: TableCellRenderer = (cellProps) => {
+    if (props.getCell?.[cellProps.dataKey]) {
+      return props.getCell[cellProps.dataKey](cellProps);
     }
-  }, [props.searchText]);
+    return Tools.str(cellProps.cellData);
+  };
 
-  const Container = props.noPanel ? React.Fragment : Panel;
   return (
     <div
       className={classNames({
         'ed-table': true,
+        'ed-panel': !props.noPanel,
         [props.className || '']: true,
         condensed: !!props.condensed,
         sortable: !!sortable,
         selectable: !!props.selectable,
       })}
+      style={{ width: '100%', height: props.height || 'auto', maxHeight: props.height || 1000 }}
     >
-      <Container>
-        <table>
-          <TableHeader
-            columns={props.columns}
-            allSelected={!data.find((x) => !selected[x.id])}
-            toggleSelection={(allSelected) => {
-              setSelected(data.reduce((acc, cur) => ({ ...acc, [cur.id]: !allSelected }), {}));
-              return !allSelected;
-            }}
-            selectable={props.selectable}
-            onColumnClick={(key) => {
-              if (sortable) {
-                setSortColumn({
-                  key: key + '',
-                  descending: !sortColumn.descending,
-                });
-              }
-            }}
-            sortColumn={sortColumn}
-          />
-          <TableBody
-            {...props}
-            selected={selected}
-            toggleSelection={(item) => {
-              setSelected({
-                ...selected,
-                [item.id]: !selected[item.id],
-              });
-              return !selected[item.id];
-            }}
-            data={manipulated}
-          />
-        </table>
-      </Container>
-    </div>
-  );
-}
-
-function renderRow<T extends { id: number | string }, K extends TableColumns>(
-  item: T,
-  index: number,
-  props: TableProps<T, K>,
-  actionMenuRef: MutableRefObject<any>
-): JSX.Element {
-  const onRowClick = (): void => {
-    if (props.onRowClick) {
-      props.onRowClick(item, index);
-    }
-  };
-
-  const defaultRenderer = (columnKey) => {
-    return <span>{Tools.str(item[columnKey as keyof typeof item])}</span>;
-  };
-
-  const propsRenderCell = (columnKey: any): JSX.Element | string => {
-    const result = props.getCell && props.getCell(item, index);
-
-    if (result && result[columnKey]) {
-      return result[columnKey];
-    }
-    return defaultRenderer(columnKey);
-  };
-
-  return (
-    <tr key={index}>
-      {props.selectable && (
-        <td>
-          <BasicCheckbox theme="primary" value={props.selected[item.id]} onChange={() => props.toggleSelection(item)} />
-        </td>
-      )}
-      {Object.keys(props.columns).map((columnKey) => {
-        return (
-          <td
-            key={columnKey}
-            onClick={(e) => {
-              if (actionMenuRef.current) {
-                if (!actionMenuRef.current.contains(e.target)) {
-                  onRowClick();
-                }
-              } else {
-                onRowClick();
-              }
-            }}
-          >
-            {propsRenderCell(columnKey)}
-          </td>
-        );
-      })}
-      {props.actionMenu && (
-        <td className="menu" ref={actionMenuRef}>
-          <Dropdown positionX="right">
-            <Icon icon="more_vert" />
-            {props.actionMenu(item)}
-          </Dropdown>
-        </td>
-      )}
-    </tr>
-  );
-}
-
-function TableBody<T extends { id: string | number }, K extends TableColumns>(props: TableProps<T, K>): JSX.Element {
-  const actionMenuRef = useRef();
-  return (
-    <tbody>
-      {props.data.map(
-        (item: T, index: number): JSX.Element => {
-          return renderRow(item, index, props, actionMenuRef);
-        }
-      )}
-    </tbody>
-  );
-}
-function TableHeader<T extends TableColumns>(props: TableHeaderProps<T>): JSX.Element {
-  return (
-    <thead>
-      <tr>
-        {props.selectable && (
-          <th>
-            <BasicCheckbox
-              theme={'primary'}
-              value={props.allSelected}
-              onChange={() => props.toggleSelection(props.allSelected)}
-            />
-          </th>
-        )}
-        {(Object.keys(props.columns) as Array<keyof T>).map((columnKey, index) => {
-          return (
-            <th
-              onClick={() => props.onColumnClick(columnKey)}
-              key={columnKey + ' ' + index}
-              className={classNames({
-                sorting: props?.sortColumn?.key === columnKey,
-              })}
-            >
-              <div className="content">
-                <span>{props.columns[columnKey]}</span>
-                {props.sortColumn?.key === columnKey && (
-                  <span className="sort-icon">
-                    <Icon icon={props.sortColumn?.descending ? 'arrow_downward' : 'arrow_upward'} />
-                  </span>
+      <InfiniteLoader
+        loadMoreRows={() => {
+          if (props.pagination && props.loadMore) {
+            if (props.pagination.page < props.pagination.totalPages) {
+              return props.loadMore(props.pagination.page + 1);
+            }
+          }
+        }}
+        isRowLoaded={({ index }) => !!data[index]}
+        rowCount={1000000}
+      >
+        {({ onRowsRendered }) => (
+          <AutoSizer>
+            {({ width, height }) => (
+              <ColumnSizer width={width} columnCount={Object.keys(props.columns).length}>
+                {({ adjustedWidth }) => (
+                  <VTable
+                    rowCount={data.length}
+                    rowHeight={props.rowHeight || 40}
+                    onRowsRendered={onRowsRendered}
+                    height={height}
+                    rowGetter={({ index }) => data[index]}
+                    headerHeight={props.headerHeight || 40}
+                    width={width}
+                  >
+                    {Object.keys(props.columns).map((columnKey) => (
+                      <Column
+                        width={adjustedWidth}
+                        dataKey={columnKey}
+                        label={props.columns[columnKey]}
+                        cellRenderer={cellRenderer}
+                      />
+                    ))}
+                  </VTable>
                 )}
-              </div>
-            </th>
-          );
-        })}
-      </tr>
-    </thead>
+              </ColumnSizer>
+            )}
+          </AutoSizer>
+        )}
+      </InfiniteLoader>
+    </div>
   );
 }
 
 export interface TableColumns {
   [name: string]: string;
 }
-export interface TableHeaderProps<K extends TableColumns> {
-  columns: K;
-  allSelected: boolean;
-  toggleSelection: (allSelected: boolean) => boolean;
-  onColumnClick: (key: keyof K) => void;
-  sortColumn?: { key: keyof K; descending: boolean };
-  selectable?: boolean;
-}
-
-export type CellRenderer<T, K> = (row: T, index: number, column: keyof K) => JSX.Element | string;
 
 export type OnRowClick<T> = (row: T, index: number) => void;
 
-export type GetCell<T, K extends TableColumns> = (
-  row: T,
-  index: number
-) => { [name in keyof K]?: JSX.Element | string };
+export type CellRenderer<K extends TableColumns> = {
+  [name in keyof K]?: TableCellRenderer;
+};
 
 export type ActionMenu<T> = (row: T) => JSX.Element;
 
@@ -230,7 +106,13 @@ export interface TableProps<T extends { id: string | number }, K extends TableCo
   onRowClick?: OnRowClick<T>;
   className?: string;
   data: Array<T>;
-  getCell?: GetCell<T, K>;
+  height?: number;
+  rowHeight?: number;
+  headerHeight?: number;
+  pagination?: PaginationMetaData;
+  loadMore?: (page: number) => Promise<any>;
+
+  getCell?: CellRenderer<K>;
   columns: K;
   filter?: FilterTable<T>;
   searchText?: string;

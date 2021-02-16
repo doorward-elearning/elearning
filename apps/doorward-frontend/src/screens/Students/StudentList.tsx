@@ -3,7 +3,6 @@ import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
-import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
@@ -16,7 +15,12 @@ export interface StudentListQueryParams {
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
-  const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
+  const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents, {
+    onNewData: (prevState, nextState) => ({
+      ...nextState,
+      students: [...prevState.students, ...nextState.students],
+    }),
+  });
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
   const total = studentList.data?.pagination?.totalCount;
 
@@ -42,26 +46,21 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
         });
       }}
     >
-      <PaginationContainer
-        data={studentList.data?.students}
-        state={studentList}
-        onChangePage={(currentPage) => {
-          fetch({ page: currentPage });
+      <StudentTable
+        students={studentList.data?.students}
+        pagination={studentList.data?.pagination}
+        loadMore={(page) => {
+          return new Promise<any>((resolve) => {
+            fetch({ page });
+            resolve();
+          });
         }}
-      >
-        {(students): JSX.Element => {
-          return (
-            <StudentTable
-              students={students}
-              onClickStudent={(row) => {
-                routes.navigate(routes.viewStudent, {
-                  studentId: row.id,
-                });
-              }}
-            />
-          );
+        onClickStudent={(row) => {
+          routes.navigate(routes.viewStudent, {
+            studentId: row.id,
+          });
         }}
-      </PaginationContainer>
+      />
     </Layout>
   );
 };

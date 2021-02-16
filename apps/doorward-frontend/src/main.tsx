@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store';
 import '@doorward/ui/fonts.scss';
 import '@material/react-linear-progress/dist/linear-progress.css';
+import 'react-virtualized/styles.css'; // only needs to be imported once
 import { Router } from './routes/routes';
 import { DoorwardRoutes } from './routes';
 import useApp, { appInitialValue } from './hooks/useApp';

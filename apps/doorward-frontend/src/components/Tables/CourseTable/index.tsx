@@ -5,6 +5,7 @@ import './CourseTable.scss';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import useRoutes from '../../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
+import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
   const routes = useRoutes();
@@ -12,27 +13,23 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
     <Table
       className="course-table"
       columns={{
-        displayName: translate('courseName'),
+        title: translate('courseName'),
         students: translate('numberOfStudents'),
         status: translate('status'),
       }}
+      loadMore={props.loadMore}
       data={props.courses}
+      pagination={props.pagination}
       onRowClick={(course): void => {
         props.history.push(routes.viewCourse.withParams({ courseId: course.id }));
       }}
-      sortColumn={{
-        displayName: (a, b) => a.title.toLowerCase() > b.title.toLowerCase(),
-        students: (a, b) => a.numStudents > b.numStudents,
-      }}
-      getCell={(row) => {
-        return {
-          displayName: (
-            <div className="course-title">
-              <span>{row.title}</span>
-            </div>
-          ),
-          students: <span>{row.numStudents}</span>,
-        };
+      getCell={{
+        title: ({ cellData }) => (
+          <div className="course-title">
+            <span>{cellData}</span>
+          </div>
+        ),
+        students: ({ rowData }) => <span>{rowData.numStudents}</span>,
       }}
     />
   );
@@ -41,6 +38,8 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
 export interface CourseTableProps {
   courses: Array<CourseEntity>;
   history: MemoryHistory;
+  loadMore?: (page: number) => Promise<any>;
+  pagination?: PaginationMetaData;
 }
 
 export default CourseTable;

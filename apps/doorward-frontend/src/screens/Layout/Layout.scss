@@ -71,6 +71,8 @@
 
     > .ed-container {
       height: calc(100% - 4 * var(--padding-lg)) !important;
+      display: flex;
+      flex-direction: column;
     }
 
     .ed-page-layout__header {
@@ -108,9 +110,15 @@
 
   &__full_content {
     display: grid;
-    height: 100%;
+    flex: 1;
 
     &--body {
+      display: flex;
+      flex-direction: column;
+
+      > * {
+        flex: 1;
+      }
     }
 
     &--footer {
