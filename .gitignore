@@ -39,3 +39,4 @@ testem.log
 Thumbs.db
 
 docker/dev/openvidu/certificates/
+elearning-ops

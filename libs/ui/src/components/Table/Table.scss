@@ -23,4 +23,14 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
+  &--action-menu {
+    flex: unset !important;
+    width: 150px !important;
+
+    &-header {
+      flex: unset !important;
+      width: 150px !important;
+    }
+  }
 }

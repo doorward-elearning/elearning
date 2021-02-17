@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Tools from '@doorward/common/utils/Tools';
 import UserEntity from '@doorward/common/entities/user.entity';
 
@@ -13,25 +13,19 @@ const useAuth = (currentUser: UserEntity): UseAuth => {
     }
   }, [currentUser]);
 
-  const logout = useMemo(
-    () => (): void => {
-      if (authenticated) {
-        Tools.clearToken();
-        setAuthenticated(false);
-      }
-    },
-    [authenticated]
-  );
+  const logout = useCallback((): void => {
+    if (authenticated) {
+      Tools.clearToken();
+      setAuthenticated(false);
+    }
+  }, [authenticated]);
 
-  const authenticate = useMemo(
-    () => (token: string): void => {
-      if (token) {
-        Tools.setToken(token);
-        setAuthenticated(true);
-      }
-    },
-    []
-  );
+  const authenticate = useCallback((token: string): void => {
+    if (token) {
+      Tools.setToken(token);
+      setAuthenticated(true);
+    }
+  }, []);
 
   return {
     authenticated,

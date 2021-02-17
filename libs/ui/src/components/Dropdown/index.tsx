@@ -1,10 +1,9 @@
-import React, { MouseEventHandler, useRef } from 'react';
+import React, { Component, MouseEventHandler } from 'react';
 import './Dropdown.scss';
+import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
-import useStateRef from '../../hooks/useStateRef';
-import useClickOutside from '../../hooks/useClickOutside';
 import { Icons } from '../../types/icons';
 
 const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onClick, icon, title }) => {
@@ -16,47 +15,100 @@ const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onCl
     </li>
   );
 };
-const Dropdown: DropdownComponent = ({
-  children,
-  positionX = 'left',
-  positionY = 'bottom',
-  openOnHover,
-}): JSX.Element => {
-  const dropdown = useRef<any>(null);
-  const dropdownContent = useRef<HTMLDivElement | null>(null);
-  const dropdownTrigger = useRef<HTMLDivElement | null>(null);
-  const [open, setOpen] = useStateRef(false);
 
-  useClickOutside(() => {
-    setOpen(false);
-  }, dropdown);
+class Dropdown extends Component<DropdownProps> {
+  static defaultProps = { positionX: 'left', positionY: 'bottom' };
+  dropdown = React.createRef<HTMLDivElement>();
+  dropdownContent = React.createRef<HTMLDivElement>();
+  dropdownTrigger = React.createRef<HTMLDivElement>();
+  state = {
+    open: false,
+  };
+  static Item: React.ComponentType<DropdownItemProps>;
+  static Menu: React.ComponentType<DropdownMenuProps>;
+  static Arrow: React.ComponentType<ArrowProps>;
+  static Divider: React.ComponentType<DividerProps>;
 
-  return (
-    <div
-      ref={dropdown}
-      className={classNames({
-        'ed-dropdown': true,
-        [positionX]: true,
-        [positionY]: true,
-        open,
-      })}
-    >
+  container = document.getElementById('dropdown-box');
+
+  componentDidMount(): void {
+    document.addEventListener('click', this.onClickOutside);
+  }
+
+  onClickOutside = (e) => {
+    if (!this.dropdown.current.contains(e.target)) {
+      this.setState({
+        open: false,
+      });
+    }
+  };
+
+  componentWillUnmount(): void {
+    document.removeEventListener('click', this.onClickOutside);
+  }
+
+  createDimensions = () => {
+    const dropdownPosition = this.dropdown.current?.getBoundingClientRect();
+    const dimensions = this.dropdownContent.current?.getBoundingClientRect();
+
+    const padding = 50;
+
+    const width = window.innerWidth;
+    const height = window.innerHeight;
+
+    const position = { left: 0, top: 0 };
+    if (dropdownPosition && dimensions) {
+      position.left = dimensions.x;
+      position.top = dimensions.y + dimensions.height;
+
+      if (position.left + dimensions.width > width - padding) {
+        position.left = width - padding - dimensions.width;
+      }
+
+      if (position.top + dimensions.height > height - padding) {
+        position.top = height - padding - dimensions.height;
+      }
+    }
+
+    return position;
+  };
+
+  render(): JSX.Element {
+    const { children, positionX, positionY, openOnHover, ...props } = this.props;
+    const { open } = this.state;
+
+    return (
       <div
-        className="ed-dropdown__trigger"
-        ref={dropdownTrigger}
-        onClick={(): void => setOpen(!open)}
-        onMouseEnter={() => {
-          openOnHover && setOpen(true);
-        }}
+        ref={this.dropdown}
+        className={classNames({
+          'ed-dropdown': true,
+          [positionX]: true,
+          [positionY]: true,
+          open,
+        })}
       >
-        {children[0]}
+        <div
+          className="ed-dropdown__trigger"
+          ref={this.dropdownTrigger}
+          onClick={(e): void => {
+            if (props.preventClickPropagation) {
+              e.stopPropagation();
+            }
+            this.setState({ open: !open });
+          }}
+          onMouseEnter={() => {
+            openOnHover && this.setState({ open: true });
+          }}
+        >
+          {children[0]}
+        </div>
+        <div className="ed-dropdown__content" ref={this.dropdownContent}>
+          <div className="ed-dropdown__content--body">{children[1]}</div>
+        </div>
       </div>
-      <div className="ed-dropdown__content" ref={dropdownContent}>
-        <div className="ed-dropdown__content--body">{children[1]}</div>
-      </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export const Menu: React.FunctionComponent<DropdownMenuProps> = ({ children }) => {
   return <ul className="dropdown-menu">{children}</ul>;
@@ -75,6 +127,7 @@ export interface DropdownProps {
   positionX?: 'left' | 'right' | 'center';
   positionY?: 'top' | 'bottom';
   openOnHover?: boolean;
+  preventClickPropagation?: boolean;
 }
 
 export interface DropdownItemProps {

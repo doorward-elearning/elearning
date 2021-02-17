@@ -3,7 +3,7 @@ import { Moment } from 'moment';
 
 const moment = require('moment');
 
-const Values = {
+export const TimeValues = {
   second: 1000,
   minute: 60000,
   hour: 3600000,
@@ -31,7 +31,7 @@ const numUnits = (unitIndex: number, diff: number, date: Moment, now: Moment, fu
   const currentUnitValue = now.get(unit);
   let unitDiff = 0;
   if (unitIndex >= 4) {
-    unitDiff = Math.abs(diff) / Values[unit];
+    unitDiff = Math.abs(diff) / TimeValues[unit];
     if (unitDiff > 1) {
       unitDiff = Math.round(unitDiff);
     } else {
@@ -54,21 +54,21 @@ const numUnits = (unitIndex: number, diff: number, date: Moment, now: Moment, fu
 };
 
 const formatPrecise = (now: Moment, date: Moment, diff: number, future: boolean): string => {
-  if (Math.abs(diff) / Values.minute < 1) {
+  if (Math.abs(diff) / TimeValues.minute < 1) {
     return translate(future ? 'minute_0' : 'minute_0');
   }
 
-  if (Math.abs(diff) / Values.hour < 1) {
+  if (Math.abs(diff) / TimeValues.hour < 1) {
     return translate(future ? 'minuteFutureWithCount' : 'minuteAgoWithCount', {
-      count: Math.ceil(Math.abs(diff) / Values.minute),
+      count: Math.ceil(Math.abs(diff) / TimeValues.minute),
     });
   }
 
-  if (Math.abs(diff) / Values.day < 1) {
+  if (Math.abs(diff) / TimeValues.day < 1) {
     return moment(date).format('HH:mm');
   }
 
-  if (Math.abs(diff) / Values.week < 1) {
+  if (Math.abs(diff) / TimeValues.week < 1) {
     const daysCount = numUnits(3, diff, date, now, future);
     if (daysCount === 1) {
       return translate(future ? 'dayFutureWithCount' : 'dayAgoWithCount', { count: 1 });
@@ -76,7 +76,7 @@ const formatPrecise = (now: Moment, date: Moment, diff: number, future: boolean)
     return moment(date).format('ddd');
   }
 
-  if (Math.abs(diff) / Values.year < 1) {
+  if (Math.abs(diff) / TimeValues.year < 1) {
     return moment(date).format('MMM D');
   }
 
@@ -88,13 +88,13 @@ const format = (now: Moment, date: Moment, max: Units, diff: number, future: boo
 
   let unitDiff = numUnits(unitIndex, diff, date, now, future);
 
-  if (max === unit || Math.floor(Math.abs(diff) / Values[unit]) > 0 || unitIndex === units.length - 1) {
+  if (max === unit || Math.floor(Math.abs(diff) / TimeValues[unit]) > 0 || unitIndex === units.length - 1) {
     if (unitDiff === 0) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
       // @ts-ignore
       return translate(`${unit}_0`);
     } else if (unitDiff != 1) {
-      unitDiff = Math.round(Math.abs(diff) / Values[unit]);
+      unitDiff = Math.round(Math.abs(diff) / TimeValues[unit]);
     }
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

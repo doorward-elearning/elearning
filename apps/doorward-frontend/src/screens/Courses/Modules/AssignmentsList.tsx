@@ -27,15 +27,23 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
         {(assignments: Array<AssignmentEntity>) => {
           return (
             <Table
+              height={400}
               data={assignments}
-              columns={{ title: translate('name'), module: translate('module'), status: translate('status') }}
-              getCell={(row) => {
-                return {
-                  module: row.module.title,
-                  status: row.assignmentSubmissions?.[0] ? translate('submitted') : translate('notSubmitted'),
-                };
+              columns={{
+                title: {
+                  title: translate('name'),
+                },
+                module: {
+                  title: translate('module'),
+                  cellRenderer: ({ rowData: row }) => row.module.title,
+                },
+                status: {
+                  title: translate('status'),
+                  cellRenderer: ({ rowData: row }) =>
+                    row.assignmentSubmissions?.[0] ? translate('submitted') : translate('notSubmitted'),
+                },
               }}
-              onRowClick={(row) => {
+              onRowClick={({ rowData: row }) => {
                 routes.navigate(routes.viewModuleItem, {
                   courseId,
                   moduleId: row.module.id,

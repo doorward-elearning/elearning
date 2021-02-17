@@ -38,6 +38,7 @@ const DateInput: FunctionComponent<DateInputProps> = (props): JSX.Element => {
             timeFormat="hh:mm aa"
             {...props}
             onChange={setDate}
+            autoComplete="off"
             selected={date}
           />
           <Icon

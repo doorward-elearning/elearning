@@ -163,7 +163,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                         {translate('examWithCount', { count: course?.itemsCount?.[AssessmentTypes.EXAM] || 0 })}
                       </span>
                       <span className="meta">
-                        {translate('examWithCount', { count: course?.itemsCount?.[ModuleItemType.PAGE] || 0 })}
+                        {translate('pageWithCount', { count: course?.itemsCount?.[ModuleItemType.PAGE] || 0 })}
                       </span>
                     </LabelRow>
                     <div style={{ justifySelf: 'end' }}>

@@ -17,7 +17,7 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
   const [courseId] = useViewCourse();
   usePageResource('moduleId', getModule);
 
-  const { module } = state.data;
+  const module = state.data?.module;
   useEffect(() => {
     if (module) {
       routes.setCurrentTitle(module.title);
@@ -31,12 +31,7 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
   }, []);
 
   return (
-    <Layout
-      {...props}
-      features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]}
-      header={translate('createExam')}
-      noNavBar
-    >
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate('createExam')}>
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>
         {(module) => (
           <CreateAssessmentForm type={AssessmentTypes.EXAM} onSuccess={finish} onCancel={finish} module={module} />

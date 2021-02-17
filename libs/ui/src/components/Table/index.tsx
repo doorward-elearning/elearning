@@ -17,6 +17,8 @@ import {
 import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import Tools from '@doorward/common/utils/Tools';
 import translate from '@doorward/common/lang/translate';
+import Dropdown from '@doorward/ui/components/Dropdown';
+import Icon from '@doorward/ui/components/Icon';
 
 function Table<T, Columns extends ColumnProperties<T>>({
   sortable = true,
@@ -34,6 +36,16 @@ function Table<T, Columns extends ColumnProperties<T>>({
       if (props.actionMenu) {
         _columns.action = {
           title: translate('actionMenuTitle'),
+          minWidth: 60,
+          maxWidth: 80,
+          cellRenderer: (cellProps) => {
+            return (
+              <Dropdown preventClickPropagation>
+                <Icon icon={'more_horiz'} />
+                {props.actionMenu(cellProps)}
+              </Dropdown>
+            );
+          },
         };
       }
       setColumns(_columns);
@@ -77,6 +89,7 @@ function Table<T, Columns extends ColumnProperties<T>>({
       </span>
     );
   };
+
   return (
     <div
       className={classNames({

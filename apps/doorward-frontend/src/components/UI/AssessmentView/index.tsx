@@ -25,6 +25,7 @@ import Table from '@doorward/ui/components/Table';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -189,14 +190,32 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             </Header>
             <Table
               data={[submission]}
-              getCell={(row, index) => ({
-                submittedOn: Tools.normalDateTime(row.submittedOn),
-              })}
+              height={300}
               columns={{
-                status: translate('status'),
-                submittedOn: translate('dateSubmitted'),
-                grade: translate('grade'),
-                gradedBy: translate('gradedBy'),
+                id: {
+                  title: translate('id'),
+                  cellRenderer: ({ rowIndex }) => rowIndex + 1,
+                  maxWidth: 80,
+                },
+                assessmentTime: {
+                  title: translate('timeTakenToComplete'),
+                  cellRenderer: ({ rowData }) => Tools.timeTaken(+rowData.assessmentTime),
+                },
+                status: {
+                  title: translate('status'),
+                },
+                submittedOn: {
+                  cellRenderer: ({ rowData }) => Tools.humanReadableTime(rowData.submittedOn),
+                  title: translate('dateSubmitted'),
+                },
+                grade: {
+                  title: translate('grade'),
+                  cellRenderer: ({ rowData }) =>
+                    rowData.status === AssessmentSubmissionStatus.GRADED ? rowData.grade : '--',
+                },
+                gradedBy: {
+                  title: translate('gradedBy'),
+                },
               }}
             />
           </RoleContainer>

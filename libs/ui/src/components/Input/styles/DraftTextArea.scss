@@ -1,11 +1,14 @@
 .eb-input--draft-text-area {
   &__display {
     max-width: 1000px;
-    transition: 0.2s background;
+    transition: 0.2s opacity;
     cursor: text;
+    background: var(--bg-primary-dark);
+    opacity: 0.8;
+    border-radius: 5px;
 
     &:hover {
-      background: rgba(0, 0, 0, 0.08);
+      opacity: 1;
     }
   }
 
@@ -36,6 +39,9 @@
     min-height: 300px;
     background: white;
     color: #333;
+  }
+  .rdw-editor-toolbar {
+    z-index: 1;
   }
 
   input {

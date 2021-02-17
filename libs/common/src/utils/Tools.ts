@@ -3,7 +3,8 @@ import { Moment } from 'moment';
 import { capitalize } from 'lodash';
 import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
-import ago, { agoPrecise, Units } from '@doorward/common/utils/ago';
+import ago, { agoPrecise, TimeValues, Units } from '@doorward/common/utils/ago';
+import translate from '@doorward/common/lang/translate';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -48,6 +49,7 @@ class Tools {
   }
 
   static setCookie(name: string, value: string, days: number) {
+    Tools.eraseCookie(name);
     const date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
     const expires = '; expires=' + date.toUTCString();
@@ -74,6 +76,7 @@ class Tools {
   }
 
   static setToken(token: string): void {
+    console.log(token);
     Tools.setCookie(Tools.AUTHORIZATION_TOKEN, token, +(process.env.JWT_EXPIRY_TIME.replace('d', '') || '30'));
   }
 
@@ -82,7 +85,7 @@ class Tools {
   }
 
   static getToken(): string | null {
-    return this.getCookie(Tools.AUTHORIZATION_TOKEN);
+    return Tools.getCookie(Tools.AUTHORIZATION_TOKEN);
   }
 
   static isLoggedIn(): boolean {
@@ -210,6 +213,19 @@ class Tools {
 
   static humanReadableTime(date: Date | string | Moment, maxUnit: Units = 'second', precise?: boolean) {
     return capitalize(precise ? agoPrecise(moment(date).toDate()) : ago(moment(date).toDate(), maxUnit));
+  }
+
+  static timeTaken(seconds: number) {
+    seconds = seconds * 1000;
+    if (seconds < TimeValues.minute) {
+      return translate('secondWithCount', { count: seconds / TimeValues.second });
+    } else if (seconds < TimeValues.hour) {
+      return translate('minuteWithCount', { count: seconds / TimeValues.minute });
+    } else if (seconds < TimeValues.day) {
+      return translate('hourWithCount', { count: seconds / TimeValues.hour });
+    } else {
+      return translate('dayWithCount', { count: seconds / TimeValues.day });
+    }
   }
 
   static htmlToElement(html: string) {
