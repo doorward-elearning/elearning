@@ -1,0 +1,13 @@
+.ed-items-chooser {
+  .items-chooser-checkbox {
+    overflow: visible !important;
+    width: 120px !important;
+    flex: unset !important;
+
+    &-header {
+      overflow: visible !important;
+      width: 120px !important;
+      flex: unset !important;
+    }
+  }
+}

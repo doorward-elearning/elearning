@@ -7,6 +7,7 @@ import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import WebComponent from '@doorward/ui/components/WebComponent';
 
 export interface StudentListQueryParams {
   search: string;
@@ -16,16 +17,20 @@ export interface StudentListQueryParams {
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
   const routes = useRoutes();
   const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents, {
-    onNewData: (prevState, nextState) => ({
-      ...nextState,
-      students: [...prevState.students, ...nextState.students],
-    }),
+    onNewData: (prevState, nextState) => {
+      return nextState.pagination.page === 1
+        ? nextState
+        : {
+            ...nextState,
+            students: [...prevState.students, ...nextState.students],
+          };
+    },
   });
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
   const total = studentList.data?.pagination?.totalCount;
 
   useEffect(() => {
-    fetch();
+    fetch({ page: 1 });
   }, [query.search]);
 
   return (
@@ -34,7 +39,6 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
       header={translate('allStudents')}
       suggestionsType="students"
       searchPlaceholder={translate('searchStudents')}
-      headerBadge={total === undefined ? null : `${total}`}
       actionBtnProps={{
         text: translate('addStudent'),
         onClick: (): void => props.history.push(routes.routes.newStudent.link),
@@ -46,21 +50,25 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
         });
       }}
     >
-      <StudentTable
-        students={studentList.data?.students}
-        pagination={studentList.data?.pagination}
-        loadMore={(page) => {
-          return new Promise<any>((resolve) => {
-            fetch({ page });
-            resolve();
-          });
-        }}
-        onClickStudent={(row) => {
-          routes.navigate(routes.viewStudent, {
-            studentId: row.id,
-          });
-        }}
-      />
+      <WebComponent data={studentList.data?.students} loading={studentList.fetching} style={{ flex: 1 }}>
+        {(students) => (
+          <StudentTable
+            students={students}
+            pagination={studentList.data?.pagination}
+            loadMore={(page) => {
+              return new Promise<any>((resolve) => {
+                fetch({ page });
+                resolve();
+              });
+            }}
+            onClickStudent={({ rowData }) => {
+              routes.navigate(routes.viewStudent, {
+                studentId: rowData.id,
+              });
+            }}
+          />
+        )}
+      </WebComponent>
     </Layout>
   );
 };

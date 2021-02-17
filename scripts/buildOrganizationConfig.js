@@ -81,7 +81,7 @@ const createFile = (organizationName) => {
 };
 
 const buildOrganizationConfig = async () => {
-  console.log(colors.cyan('Building organization configuration...'));
+  console.log(colors.cyan('Building organization configuration... [' + organizationFiles + ']'));
 
   organizationFiles.forEach((organizationName) => {
     createFile(organizationName);

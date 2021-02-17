@@ -4,20 +4,55 @@ import './Table.scss';
 import {
   AutoSizer,
   Column,
+  ColumnProps,
   ColumnSizer,
   InfiniteLoader,
+  RowMouseEventHandlerParams,
+  SortDirection,
   Table as VTable,
   TableCellProps,
   TableCellRenderer,
+  TableHeaderRenderer,
 } from 'react-virtualized';
 import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import Tools from '@doorward/common/utils/Tools';
+import translate from '@doorward/common/lang/translate';
 
-function Table<T extends { id: string | number }, K extends TableColumns>({
+function Table<T, Columns extends ColumnProperties<T>>({
   sortable = true,
   ...props
-}: TableProps<T, K>): JSX.Element {
+}: TableProps<T, Columns>): JSX.Element {
   const [data, setData] = useState<Array<T>>([]);
+  const [sortInfo, setSortInfo] = useState();
+  const [_data, _setData] = useState([]);
+  const [columns, setColumns] = useState<ColumnProperties<T>>({});
+
+  useEffect(() => {
+    if (props.columns) {
+      const _columns: ColumnProperties<T> = props.columns;
+
+      if (props.actionMenu) {
+        _columns.action = {
+          title: translate('actionMenuTitle'),
+        };
+      }
+      setColumns(_columns);
+    }
+  }, [props.columns, props.actionMenu]);
+
+  useEffect(() => {
+    let _updated = [...data];
+    if (sortInfo) {
+      _updated = _updated.sort((a, b) => {
+        const sortFunction =
+          columns?.[sortInfo.sortBy]?.sortFunction || ((a, b) => a[sortInfo.sortBy] > b[sortInfo.sortBy]);
+
+        return (sortFunction(a, b) ? 1 : -1) * (sortInfo.sortDirection === SortDirection.DESC ? -1 : 1);
+      });
+    }
+
+    _setData(_updated);
+  }, [data, sortInfo]);
 
   useEffect(() => {
     if (props.data) {
@@ -26,12 +61,22 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
   }, [props.data]);
 
   const cellRenderer: TableCellRenderer = (cellProps) => {
-    if (props.getCell?.[cellProps.dataKey]) {
-      return props.getCell[cellProps.dataKey](cellProps);
+    if (columns?.[cellProps.dataKey]?.cellRenderer) {
+      return columns[cellProps.dataKey].cellRenderer(cellProps);
     }
     return Tools.str(cellProps.cellData);
   };
 
+  const headerRenderer: TableHeaderRenderer = (cellProps) => {
+    if (columns?.[cellProps.dataKey]?.headerRenderer) {
+      return columns[cellProps.dataKey].headerRenderer(cellProps);
+    }
+    return (
+      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        {Tools.str(cellProps.label)}
+      </span>
+    );
+  };
   return (
     <div
       className={classNames({
@@ -42,7 +87,7 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
         sortable: !!sortable,
         selectable: !!props.selectable,
       })}
-      style={{ width: '100%', height: props.height || 'auto', maxHeight: props.height || 1000 }}
+      style={{ width: '100%', height: props.height || '100%', maxHeight: props.height || 1000 }}
     >
       <InfiniteLoader
         loadMoreRows={() => {
@@ -52,28 +97,34 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
             }
           }
         }}
-        isRowLoaded={({ index }) => !!data[index]}
+        isRowLoaded={({ index }) => !!_data[index]}
         rowCount={1000000}
       >
         {({ onRowsRendered }) => (
           <AutoSizer>
             {({ width, height }) => (
-              <ColumnSizer width={width} columnCount={Object.keys(props.columns).length}>
+              <ColumnSizer width={width} columnCount={Object.keys(columns).length}>
                 {({ adjustedWidth }) => (
                   <VTable
-                    rowCount={data.length}
+                    rowCount={_data.length}
                     rowHeight={props.rowHeight || 40}
                     onRowsRendered={onRowsRendered}
                     height={height}
-                    rowGetter={({ index }) => data[index]}
+                    rowGetter={({ index }) => _data[index]}
+                    onRowClick={props.onRowClick}
+                    sort={setSortInfo}
+                    sortBy={sortInfo?.sortBy}
+                    sortDirection={sortInfo?.sortDirection}
                     headerHeight={props.headerHeight || 40}
                     width={width}
                   >
-                    {Object.keys(props.columns).map((columnKey) => (
+                    {Object.keys(columns).map((columnKey) => (
                       <Column
-                        width={adjustedWidth}
+                        {...columns[columnKey]}
+                        headerRenderer={headerRenderer}
+                        width={columns[columnKey].width || adjustedWidth}
                         dataKey={columnKey}
-                        label={props.columns[columnKey]}
+                        label={columns[columnKey].title}
                         cellRenderer={cellRenderer}
                       />
                     ))}
@@ -88,22 +139,22 @@ function Table<T extends { id: string | number }, K extends TableColumns>({
   );
 }
 
-export interface TableColumns {
-  [name: string]: string;
-}
-
-export type OnRowClick<T> = (row: T, index: number) => void;
-
-export type CellRenderer<K extends TableColumns> = {
-  [name in keyof K]?: TableCellRenderer;
-};
-
-export type ActionMenu<T> = (row: T) => JSX.Element;
+export type OnRowClick = (info: RowMouseEventHandlerParams) => void;
 
 export type FilterTable<T> = (data: Array<T>, text: string) => Array<T>;
 
-export interface TableProps<T extends { id: string | number }, K extends TableColumns> {
-  onRowClick?: OnRowClick<T>;
+export type ColumnProperties<T> = Record<
+  string,
+  {
+    sortFunction?: (a: T, b: T) => boolean;
+    title: string;
+    cellRenderer?: TableCellRenderer;
+    headerRenderer?: TableHeaderRenderer;
+  } & Partial<ColumnProps>
+>;
+
+export interface TableProps<T, Columns extends ColumnProperties<T> = any> {
+  onRowClick?: OnRowClick;
   className?: string;
   data: Array<T>;
   height?: number;
@@ -111,20 +162,18 @@ export interface TableProps<T extends { id: string | number }, K extends TableCo
   headerHeight?: number;
   pagination?: PaginationMetaData;
   loadMore?: (page: number) => Promise<any>;
+  columns: Columns;
+  actionMenu?: (props: TableCellProps) => JSX.Element;
 
-  getCell?: CellRenderer<K>;
-  columns: K;
   filter?: FilterTable<T>;
   searchText?: string;
   noPanel?: boolean;
-  actionMenu?: ActionMenu<T>;
   children?: ReactNode;
   condensed?: boolean;
   sortable?: boolean;
   selectable?: boolean;
   selected?: Record<string | number, boolean>;
   toggleSelection?: (item: T) => boolean;
-  sortColumn?: Partial<Record<keyof K, (a: T, b: T) => boolean>>;
 }
 
 export default Table;

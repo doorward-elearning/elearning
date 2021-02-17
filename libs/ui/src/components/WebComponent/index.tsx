@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { CSSProperties, useContext, useEffect, useState } from 'react';
 import Spinner from '../Spinner';
 import Empty, { EmptyProps } from '../Empty';
 import './WebComponent.scss';
@@ -55,6 +55,7 @@ function WebComponent<T>({ children, ...props }: WebComponentProps<T>): JSX.Elem
           refreshing: props.loading,
           inline: props.inline,
         })}
+        style={props.style}
       >
         <div className="web-component__refreshing">
           <div>{loader}</div>
@@ -100,6 +101,7 @@ export interface WebComponentProps<T> extends EmptyProps {
   hasData?: (data: T) => boolean;
   modelName?: string;
   showRefreshingProgress?: boolean;
+  style?: CSSProperties;
 }
 
 export default WebComponent;

@@ -2,7 +2,7 @@ import React from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import Switch from '../Switch';
 
-const SwitchInput: React.FunctionComponent<SwitchInputProps> = props => {
+const SwitchInput: React.FunctionComponent<SwitchInputProps> = (props) => {
   const handleToggle = (open: boolean): void => {
     props.onChange({ target: { value: open, name: props.name } });
   };
@@ -14,5 +14,7 @@ const SwitchInput: React.FunctionComponent<SwitchInputProps> = props => {
 };
 
 export interface SwitchInputProps extends InputProps {}
+
+export const BasicSwitchInput = SwitchInput;
 
 export default withInput(SwitchInput, [InputFeatures.LABEL], { labelPosition: 'top' });

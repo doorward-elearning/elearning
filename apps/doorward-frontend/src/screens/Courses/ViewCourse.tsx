@@ -54,7 +54,6 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
     <Layout
       {...props}
       className="view-course"
-      noNavBar
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
         <IfElse condition={course.data?.course}>

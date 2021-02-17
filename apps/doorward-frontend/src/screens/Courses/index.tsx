@@ -46,7 +46,6 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
         courses={courses.data?.courses}
         history={props.history}
       />
-      ;
     </Layout>
   );
 };

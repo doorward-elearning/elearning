@@ -71,7 +71,6 @@
   }
 
   &__content {
-    grid-template-rows: auto 1fr auto;
     background: var(--bg-primary);
     min-width: 500px;
     max-width: var(--container-width);
@@ -80,6 +79,11 @@
     opacity: 0;
     z-index: 1;
     max-height: calc(100vh - var(--padding-xlg) * 2);
+
+    .ed-container {
+      display: flex;
+      flex-direction: column;
+    }
 
     &__header,
     &__footer {
@@ -115,6 +119,7 @@
       max-height: 50vh;
       overflow-y: auto;
       height: 100%;
+      flex: 1;
     }
 
     &__footer {

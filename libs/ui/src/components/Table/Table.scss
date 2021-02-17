@@ -4,4 +4,23 @@
   .ReactVirtualized__Grid.ReactVirtualized__Table__Grid {
     outline: none;
   }
+  .ReactVirtualized__Table__row {
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s background;
+
+    &:active {
+      background: var(--bg-secondary);
+    }
+
+    &:hover {
+      background: var(--bg-secondary);
+    }
+  }
+
+  .ReactVirtualized__Table__headerColumn {
+    outline: none;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }

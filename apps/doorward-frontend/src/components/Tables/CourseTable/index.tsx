@@ -6,6 +6,7 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import useRoutes from '../../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
 import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
+import Tools from '@doorward/common/utils/Tools';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
   const routes = useRoutes();
@@ -13,23 +14,33 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
     <Table
       className="course-table"
       columns={{
-        title: translate('courseName'),
-        students: translate('numberOfStudents'),
-        status: translate('status'),
+        title: {
+          title: translate('courseName'),
+          sortFunction: (a, b) => a.title.toLowerCase() > b.title.toLowerCase(),
+          cellRenderer: ({ cellData }) => (
+            <div className="course-title">
+              <span>{cellData}</span>
+            </div>
+          ),
+        },
+        students: {
+          title: translate('numberOfStudents'),
+          sortFunction: (a, b) => a.numStudents > b.numStudents,
+          cellRenderer: ({ rowData }) => <span>{rowData.numStudents}</span>,
+        },
+        status: {
+          title: translate('status'),
+        },
+        createdAt: {
+          title: translate('dateCreated'),
+          cellRenderer: ({ cellData }) => Tools.humanReadableTime(cellData),
+        },
       }}
       loadMore={props.loadMore}
       data={props.courses}
       pagination={props.pagination}
-      onRowClick={(course): void => {
-        props.history.push(routes.viewCourse.withParams({ courseId: course.id }));
-      }}
-      getCell={{
-        title: ({ cellData }) => (
-          <div className="course-title">
-            <span>{cellData}</span>
-          </div>
-        ),
-        students: ({ rowData }) => <span>{rowData.numStudents}</span>,
+      onRowClick={({ rowData }): void => {
+        props.history.push(routes.viewCourse.withParams({ courseId: rowData.id }));
       }}
     />
   );

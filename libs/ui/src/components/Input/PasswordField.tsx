@@ -2,16 +2,16 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import TextField, { TextFieldProps } from './TextField';
 import './styles/PasswordField.scss';
 import Icon from '../Icon';
-import IfElse from '@doorward/ui/components/IfElse';
-import Button from '@doorward/ui/components/Buttons/Button';
-import Row from '@doorward/ui/components/Row';
 import Tools from '@doorward/common/utils/Tools';
 import translate from '@doorward/common/lang/translate';
+import Dropdown from '@doorward/ui/components/Dropdown';
+import Panel from '@doorward/ui/components/Panel';
 
 const PasswordField: FunctionComponent<PasswordFieldProps> = (props) => {
   const [visibility, setVisibility] = useState(props.showPassword);
   const [icon, setIcon] = useState();
-  const [generatedPassword, setGeneratedPassword] = useState('');
+  const [generatedPassword] = useState(Tools.generatePassword());
+  const [useGeneratedPassword, setUseGeneratedPassword] = useState(false);
 
   useEffect(() => {
     setIcon(visibility ? 'visibility' : 'visibility_off');
@@ -23,27 +23,30 @@ const PasswordField: FunctionComponent<PasswordFieldProps> = (props) => {
 
   return (
     <div>
-      <TextField
-        {...props}
-        overrideValue={generatedPassword}
-        className="eb-input__password"
-        type={visibility ? 'text' : 'password'}
-      >
-        <Icon icon={icon} className="visibility" onClick={toggleVisibility} />
-      </TextField>
-      <IfElse condition={props.showGenerator}>
-        <Button
-          mini
-          tooltip={translate('generateAStrongPassword')}
-          type="button"
-          style={{ display: 'block' }}
-          onClick={() => {
-            setGeneratedPassword(Tools.generatePassword());
-          }}
+      <Dropdown>
+        <TextField
+          {...props}
+          overrideValue={useGeneratedPassword ? generatedPassword : undefined}
+          className="eb-input__password"
+          type={visibility ? 'text' : 'password'}
         >
-          {translate('generatePassword')}
-        </Button>
-      </IfElse>
+          <Icon icon={icon} className="visibility" onClick={toggleVisibility} />
+        </TextField>
+        {props.showGenerator && (
+          <Dropdown.Menu>
+            <Dropdown.Item
+              onClick={() => {
+                setUseGeneratedPassword(true);
+              }}
+            >
+              <div className="password-generator">
+                <div>{translate('useSuggestedPassword')}</div>
+                <span className="suggestedPassword">{generatedPassword}</span>
+              </div>
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        )}
+      </Dropdown>
     </div>
   );
 };

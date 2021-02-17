@@ -8,8 +8,6 @@ import Panel from '@doorward/ui/components/Panel';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import Row from '@doorward/ui/components/Row';
-import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
-import WebComponent from '@doorward/ui/components/WebComponent';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -79,17 +77,25 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 },
               ]}
               columns={{
-                username: translate('username'),
-                firstName: translate('firstName'),
-                lastName: translate('lastName'),
-                email: translate('email'),
+                username: {
+                  title: translate('username'),
+                },
+                firstName: {
+                  title: translate('firstName'),
+                },
+                lastName: {
+                  title: translate('lastName'),
+                },
+                email: {
+                  title: translate('email'),
+                },
               }}
             />
           </Panel>
         </Tab>
         <Tab title={translate('groups')}>
           <Panel plain>
-            <Row style={{ alignItems: 'start' }}>
+            <Row style={{ alignItems: 'start', gridGap: 'var(--padding)' }}>
               <ChooseItemsForm
                 items={groups}
                 getItems={(state1) => state1.data?.groups}
@@ -101,43 +107,19 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
                 hasSearch={!!props.search}
                 createData={(values) => [courseId, { students: createStudentsFromGroups(values) }]}
                 columns={{
-                  name: translate('groupName'),
-                  members: translate('members'),
+                  name: {
+                    title: translate('groupName'),
+                  },
+                  members: {
+                    title: translate('members'),
+                    cellRenderer: ({ rowData: row }) => <span>{Tools.str(row.members.length)}</span>,
+                  },
+                  createdAt: {
+                    title: translate('dateCreated'),
+                    cellRenderer: ({ rowData }) => Tools.normalDate(rowData),
+                  },
                 }}
-                renderCell={(row) => {
-                  return {
-                    members: <span>{Tools.str(row.members.length)}</span>,
-                  };
-                }}
-              >
-                {(formikProps) => (
-                  <div className="choose-student-form__group__selected">
-                    <WebComponent
-                      data={formikProps.values.items.filter((item) => item.selected)}
-                      loading={false}
-                      size="medium"
-                    >
-                      {(items) => {
-                        return items
-                          .reduce((acc, group) => {
-                            const result = [...acc];
-                            group.members.map((member) => {
-                              if (!result.find((one) => one.id === member.id)) {
-                                result.push(member);
-                              }
-                            });
-                            return result;
-                          }, [])
-                          .map((member) => (
-                            <Panel plain key={member.id}>
-                              <SimpleUserView user={member} />
-                            </Panel>
-                          ));
-                      }}
-                    </WebComponent>
-                  </div>
-                )}
-              </ChooseItemsForm>
+              />
             </Row>
           </Panel>
         </Tab>

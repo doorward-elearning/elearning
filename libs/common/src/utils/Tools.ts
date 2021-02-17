@@ -208,7 +208,7 @@ class Tools {
     return paths.map((path) => path.replace(/^\//, '').replace(/\/$/, '')).join('/');
   }
 
-  static humanReadableTime(date: Date | string | Moment, maxUnit: Units, precise?: boolean) {
+  static humanReadableTime(date: Date | string | Moment, maxUnit: Units = 'second', precise?: boolean) {
     return capitalize(precise ? agoPrecise(moment(date).toDate()) : ago(moment(date).toDate(), maxUnit));
   }
 

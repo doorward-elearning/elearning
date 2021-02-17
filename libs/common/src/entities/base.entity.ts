@@ -15,7 +15,6 @@ export default class BaseEntity {
   public id: string;
 
   @CreateDateColumn()
-  @Expose({ groups: ['timestamps'] })
   public createdAt: Date;
 
   @UpdateDateColumn()

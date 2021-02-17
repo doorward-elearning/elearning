@@ -88,7 +88,7 @@
   }
   &.bottom {
     .ed-dropdown__content {
-      top: 0;
+      top: calc(90%);
       &--body {
         transition: 0.5s transform;
       }

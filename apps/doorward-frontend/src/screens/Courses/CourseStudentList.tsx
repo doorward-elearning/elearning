@@ -69,10 +69,10 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
         {(students): JSX.Element => {
           return (
             <StudentTable
-              tableProps={{
-                actionMenu: (student) => <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />,
-              }}
-              onClickStudent={(student) => {
+              actionMenu={({ rowData: student }) => (
+                <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />
+              )}
+              onClickStudent={({ rowData: student }) => {
                 routes.navigate(routes.viewStudent, { studentId: student.id });
               }}
               students={students}

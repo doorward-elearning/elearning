@@ -542,5 +542,8 @@
   "components_controls_textalign_justify": "Justify",
   "components_controls_fullScreen_minimize": "Exit fullscreen",
   "components_controls_fullScreen_maximize": "Enter fullscreen",
-  "enterIsSend": "Enter is send"
+  "enterIsSend": "Press \"Enter\" to send",
+  "dateCreated": "Date created",
+  "useSuggestedPassword": "Use suggested password",
+  "actionMenuTitle": "Action"
 }
