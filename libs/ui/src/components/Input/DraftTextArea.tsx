@@ -9,7 +9,6 @@ import { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapp
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import _ from 'lodash';
 import DoorwardApi from '../../../../../apps/doorward-frontend/src/services/apis/doorward.api';
-import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -88,7 +87,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
           toolbarClassName="eb-input--draft-text-area__toolbar"
           editorState={editorState}
           onEditorStateChange={setEditorState}
-          fullScreenParent={document.getElementById('editor-box')}
+          fullScreenParent={document.getElementById('modal-box')}
           onBlur={() => {
             formikProps.handleBlur({ target: { value, name } });
             setFocused(false);

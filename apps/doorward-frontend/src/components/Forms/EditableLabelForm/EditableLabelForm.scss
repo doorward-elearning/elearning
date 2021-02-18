@@ -1,4 +1,5 @@
 .editable-label-form {
+  position: relative;
   .eb-input {
     padding: 0;
 
@@ -12,6 +13,27 @@
   .ed-form__spinner {
     .ed-spinner {
       height: 2em;
+    }
+  }
+
+  .submit-instructions {
+    font-size: 11px;
+    position: absolute;
+    left: calc(100% + var(--padding));
+    width: 100px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg-primary);
+    padding: var(--padding) var(--padding-lg);
+    box-shadow: var(--box-shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s opacity;
+  }
+
+  &.editing {
+    .submit-instructions {
+      opacity: 1;
     }
   }
 }

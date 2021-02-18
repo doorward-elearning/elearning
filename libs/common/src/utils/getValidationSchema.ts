@@ -10,7 +10,9 @@ const getValidationSchema = async (
   }
   try {
     validationSchema = await new (validationSchema as any)().validation();
-  } catch (e) {}
+  } catch (e) {
+    return null;
+  }
 
   return validationSchema as ObjectSchema;
 };

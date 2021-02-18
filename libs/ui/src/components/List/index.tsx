@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import './List.scss';
 import Panel from '../Panel';
+import classNames from 'classnames';
 
-const List: React.FunctionComponent<ListProps> = props => {
+const List: React.FunctionComponent<ListProps> = (props) => {
   const list = useRef<HTMLUListElement>(null);
   if (list) {
     // This is to handle styling for nested lists
@@ -18,12 +19,14 @@ const List: React.FunctionComponent<ListProps> = props => {
     }
   }
   return (
-    <Panel className="ed-list">
+    <Panel className={classNames('ed-list', props.className)}>
       <ul ref={list}>{props.children}</ul>
     </Panel>
   );
 };
 
-export interface ListProps {}
+export interface ListProps {
+  className?: string;
+}
 
 export default List;

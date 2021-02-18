@@ -1,24 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
+import './styles/AnswersView.scss';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { CreateAnswerBody, CreateQuestionBody } from '@doorward/common/dtos/body';
 import List from '@doorward/ui/components/List';
 import ListItem from '@doorward/ui/components/List/ListItem';
-import Row from '@doorward/ui/components/Row';
-import Switch from '@doorward/ui/components/Switch';
 import { QuestionViewTypes } from './QuestionView';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
+import translate from '@doorward/common/lang/translate';
+import Badge from '@doorward/ui/components/Badge';
 
 const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({ answers }) => {
   return (
     <List>
-      {answers.map((answer) => {
+      {answers.map((answer, index) => {
         return (
           <ListItem>
-            <Row style={{ justifyContent: 'start', gridGap: 'var(--padding-lg)' }}>
-              <Switch open={answer.correct} onToggle={(open) => {}} disabled />
+            <div className="answer-view-item">
+              <span>{index + 1}. </span>
               <span>{answer.answer}</span>
-            </Row>
+              {answer.correct && (
+                <Badge theme="success" className="correct-answer-display">
+                  <span>{translate('correctAnswer')}</span>
+                </Badge>
+              )}
+            </div>
           </ListItem>
         );
       })}
@@ -44,7 +50,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
   }, [view]);
 
   return (
-    <div className="answers-view">
+    <div className="ed-answers-view">
       {editable ? (
         <MultipleSwitchField
           choices={answers.map((answer) => answer.answer)}

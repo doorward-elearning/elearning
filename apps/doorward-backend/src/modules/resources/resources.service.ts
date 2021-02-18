@@ -2,6 +2,8 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import path from 'path';
 import fs from 'fs';
 import translate from '@doorward/common/lang/translate';
+import configureLang from '@doorward/common/lang/backend.config';
+import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 
 const LOCALES_DIR = '../../../locales/en/en.default.json';
 
@@ -13,6 +15,7 @@ export class ResourcesService {
 
     if (fs.existsSync(filePath)) {
       const language = JSON.parse(fs.readFileSync(filePath).toString());
+      await configureLang(ORGANIZATION);
 
       Object.keys(language).forEach((key) => {
         language[key] = translate(key as any);

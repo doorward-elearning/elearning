@@ -643,7 +643,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
         </div>
         <div
           ref={this.setWrapperReference}
-          className={classNames(editorClassName, 'rdw-editor-main ed-container')}
+          className={classNames(editorClassName, 'rdw-editor-main')}
           style={editorStyle}
           onClick={this.focusEditor}
           onFocus={this.onEditorFocus}
@@ -651,21 +651,23 @@ class WysiwygEditor extends Component<EditorProps, any> {
           onKeyDown={KeyDownHandler.onKeyDown}
           onMouseDown={this.onEditorMouseDown}
         >
-          <Editor
-            ref={this.setEditorReference}
-            keyBindingFn={this.keyBindingFn}
-            editorState={editorState}
-            onChange={this.onChange}
-            blockStyleFn={blockStyleFn}
-            customStyleMap={this.getStyleMap(this.props)}
-            handleReturn={this.handleReturn}
-            blockRendererFn={this.blockRendererFn}
-            handlePastedText={this.handlePastedTextFn}
-            handleKeyCommand={this.handleKeyCommand}
-            ariaLabel={ariaLabel || 'rdw-editor'}
-            blockRenderMap={blockRenderMap}
-            {...this.editorProps}
-          />
+          <div className="ed-container">
+            <Editor
+              ref={this.setEditorReference}
+              keyBindingFn={this.keyBindingFn}
+              editorState={editorState}
+              onChange={this.onChange}
+              blockStyleFn={blockStyleFn}
+              customStyleMap={this.getStyleMap(this.props)}
+              handleReturn={this.handleReturn}
+              blockRendererFn={this.blockRendererFn}
+              handlePastedText={this.handlePastedTextFn}
+              handleKeyCommand={this.handleKeyCommand}
+              ariaLabel={ariaLabel || 'rdw-editor'}
+              blockRenderMap={blockRenderMap}
+              {...this.editorProps}
+            />
+          </div>
         </div>
       </div>
     );

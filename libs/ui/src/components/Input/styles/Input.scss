@@ -73,4 +73,10 @@
       display: none;
     }
   }
+
+  &.label-top {
+    .eb-input__error-message {
+      margin-top: 2px;
+    }
+  }
 }

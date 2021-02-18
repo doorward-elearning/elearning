@@ -146,23 +146,24 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
   @Expose()
   assessmentType: AssessmentTypes;
 
-  static QuestionValidationSchema = Yup.object({
-    question: Yup.string().required(translate('questionRequired')).nullable(),
-    type: Yup.string().oneOf(Object.values(AnswerTypes), translate('invalidType')),
-    answers: Yup.array().when('type', {
-      is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
-      then: Yup.array()
-        .of(
-          Yup.object({
-            answer: Yup.string().required(translate('answerRequired')),
-            correct: Yup.bool(),
-          })
-        )
-        .test('Correct Answer', translate('chooseAtLeastOneAnswer'), (value) => {
-          return value.find((x) => x.correct);
-        }),
-    }),
-  });
+  static QuestionValidationSchema = () =>
+    Yup.object({
+      question: Yup.string().required(translate('questionRequired')).nullable(),
+      type: Yup.string().oneOf(Object.values(AnswerTypes), translate('invalidType')),
+      answers: Yup.array().when('type', {
+        is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
+        then: Yup.array()
+          .of(
+            Yup.object({
+              answer: Yup.string().required(translate('answerRequired')),
+              correct: Yup.bool(),
+            })
+          )
+          .test('Correct Answer', translate('chooseAtLeastOneAnswer'), (value) => {
+            return value.find((x) => x.correct);
+          }),
+      }),
+    });
 
   async validation?(): Promise<ObjectSchema> {
     let schema = await super.validation();
@@ -225,11 +226,19 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           }),
           dueDate: Yup.string().nullable(),
           availability: Yup.object({
-            from: Yup.string().nullable(),
-            to: Yup.string().nullable(),
+            from: Yup.date()
+              .min(new Date(), translate('fromDateShouldBeInTheFuture'))
+              .nullable()
+              .required(translate('thisFieldIsRequired')),
+            to: Yup.date()
+              .nullable()
+              .when('from', {
+                is: (value) => !!value,
+                then: Yup.date().min(Yup.ref('from'), translate('untilDateShouldBeAfterFromDate')),
+              }),
           }),
         }),
-        questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema),
+        questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema()),
       })
     );
 

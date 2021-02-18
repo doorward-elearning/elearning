@@ -3,4 +3,8 @@
   color: var(--text-alternate);
   padding: var(--padding-sm) var(--padding);
   border-radius: 5px;
+
+  &.success {
+    background: var(--text-success);
+  }
 }

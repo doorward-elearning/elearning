@@ -9,8 +9,12 @@ import Row from '@doorward/ui/components/Row';
 import { FormContext } from '@doorward/ui/components/Form';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
+import { AnswerTypes } from '@doorward/common/types/exam';
 
 const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (props): JSX.Element => {
+  const hasMultipleChoiceQuestions = (formikProps) => {
+    return formikProps?.values?.questions?.find((question) => question.type === AnswerTypes.MULTIPLE_CHOICE);
+  };
   return (
     <FormContext.Consumer>
       {({ formikProps }) => (
@@ -20,7 +24,9 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
           </Header>
           <div>
             <Panel noBackground>
-              <Checkbox name="options.shuffleAnswers" label={translate('shuffleAnswers')} />
+              {hasMultipleChoiceQuestions(formikProps) && (
+                <Checkbox name="options.shuffleAnswers" label={translate('shuffleAnswers')} />
+              )}
               <Checkbox name="options.timeLimit.allow" label={translate('timeLimit')} />
               <IfElse condition={formikProps?.values.options.timeLimit.allow}>
                 <NumberField

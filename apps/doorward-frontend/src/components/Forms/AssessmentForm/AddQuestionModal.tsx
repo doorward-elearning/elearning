@@ -86,15 +86,11 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
         useModal.closeModal();
         onAddQuestion(values);
       }}
-      validationSchema={CreateAssessmentBody.QuestionValidationSchema}
+      validationSchema={CreateAssessmentBody.QuestionValidationSchema()}
     >
       {({ values: question, isValid, submitForm }) => {
         return (
-          <Modal
-            useModal={useModal}
-            features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}
-            bottomSheet
-          >
+          <Modal useModal={useModal} features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}>
             <Modal.Header title={editQuestion ? translate('editQuestion') : translate('addQuestion')} />
             <Modal.Body>
               <div className="assessment-questions">

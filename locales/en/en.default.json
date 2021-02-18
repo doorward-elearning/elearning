@@ -148,6 +148,7 @@
   "exam": "{{exam, capitalize}}",
   "examWithCount": "{{count}} {{exam}}",
   "pageWithCount": "{{count}} {{page}}",
+  "pageWithCount_plural": "{{count}} {{page_plural}}",
   "examWithCount_plural": "{{count}} {{exam_plural}}",
   "feedback": "Feedback",
   "file": "File",
@@ -561,5 +562,10 @@
   "dateCreated": "Date created",
   "useSuggestedPassword": "Use suggested password",
   "actionMenuTitle": "Action",
-  "timeTakenToComplete": "Time taken"
+  "timeTakenToComplete": "Time taken",
+  "pressEnterToSubmit": "Press \"Enter\" to submit",
+  "correctAnswer": "Correct Answer",
+  "fromDateShouldBeInTheFuture": "The availability start date should be in the future.",
+  "fromDateShouldBeLessThanUntilDate": "The start date should be before the end date",
+  "untilDateShouldBeAfterFromDate": "The end date should be after the start date."
 }

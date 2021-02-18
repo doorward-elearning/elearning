@@ -33,7 +33,7 @@ import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const routes = useRoutes();
@@ -105,14 +105,20 @@ const ModuleItemsList: React.FunctionComponent<{
   );
 };
 
-const ModuleView: React.FunctionComponent<ModuleViewProps> = ({ module, updateModule, onDelete, courseId }) => {
+const ModuleView: React.FunctionComponent<ModuleViewProps> = ({
+  module,
+  updateModuleState,
+  updateModule,
+  onDelete,
+  courseId,
+}) => {
   return (
     <Panel>
       <Accordion
         title={(): JSX.Element => (
           <EditableLabelForm
-            submitAction={DoorwardApi.actions.modules.updateModule}
-            state={updateModule}
+            submitAction={updateModule}
+            state={updateModuleState}
             createData={(values) => [module.id, values]}
             name="title"
             privileges={['modules.update']}
@@ -178,7 +184,8 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
                       courseId={course.id}
                       index={index}
                       module={module}
-                      updateModule={updateModuleState}
+                      updateModuleState={updateModuleState}
+                      updateModule={updateModule}
                       droppableState={state}
                     />
                   </DragAndDropListItem>
@@ -199,7 +206,8 @@ export interface CourseModuleListProps {
 export interface ModuleViewProps {
   index: number;
   module: ModuleEntity;
-  updateModule: WebComponentState<any>;
+  updateModuleState: WebComponentState<any>;
+  updateModule: ApiActionCreator;
   droppableState: DroppableStateSnapshot;
   courseId: string;
   onDelete: () => void;

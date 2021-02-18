@@ -34,7 +34,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
         })}
       >
         <IfElse condition={editable}>
-          <input type="text" {...props} value={value == null ? '' : value} autoComplete="off" />
+          <input type="text" {...props} value={value == null ? '' : value} autoComplete="off" ref={props.inputRef} />
           <DisplayLabel>{Tools.str(value)}</DisplayLabel>
         </IfElse>
         <Icon
@@ -52,6 +52,7 @@ const TextField: FunctionComponent<TextFieldProps> = ({
 export interface TextFieldProps extends InputProps {
   icon?: Icons;
   overrideValue?: string;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default withInput<TextFieldProps>(TextField, [InputFeatures.LABEL], { labelPosition: 'top' }, true);

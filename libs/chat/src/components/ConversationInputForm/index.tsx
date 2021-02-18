@@ -61,13 +61,13 @@ const ConversationInputForm: React.FunctionComponent<ConversationInputFormProps>
       />
       <div className="ed-conversation-input-form--toolbar">
         <div>
-          <div className="ed-conversation--enter-is-send">
-            <BasicCheckbox
-              value={enterIsSend}
-              onChange={(e) => {
-                setEnterIsSend(!!e.target.value);
-              }}
-            />
+          <div
+            className="ed-conversation--enter-is-send"
+            onClick={(e) => {
+              setEnterIsSend(!enterIsSend);
+            }}
+          >
+            <BasicCheckbox value={enterIsSend} onChange={(e) => {}} />
             <span>{translate('enterIsSend')}</span>
           </div>
         </div>

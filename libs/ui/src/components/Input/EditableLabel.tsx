@@ -51,6 +51,7 @@ export interface EditableLabelProps extends TextFieldProps {
   editing?: boolean;
   toggle: [boolean, (value: boolean) => void];
   noEdit?: boolean;
+  inputRef?: React.RefObject<HTMLInputElement>;
 }
 
 export default withInput(EditableLabel);

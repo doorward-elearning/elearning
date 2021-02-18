@@ -142,6 +142,7 @@ export interface ModalProps {
   className?: string;
   blurBackground?: boolean;
   bottomSheet?: boolean;
+  fullScreenBottomSheet?: boolean;
   onClose?: () => void;
 }
 
@@ -227,7 +228,8 @@ class Modal extends Component<ModalProps> {
               className={classNames({
                 'ed-modal': true,
                 open: true,
-                bottomSheet: props.bottomSheet,
+                bottomSheet: props.bottomSheet || props.fullScreenBottomSheet,
+                fullScreenBottomSheet: props.fullScreenBottomSheet,
                 [props.className || '']: true,
               })}
             >

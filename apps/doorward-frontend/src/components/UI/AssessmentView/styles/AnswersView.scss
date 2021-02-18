@@ -1,0 +1,21 @@
+.ed-answers-view {
+  width: auto;
+  min-width: 300px;
+  max-width: 500px;
+
+  .answer-view-item {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: var(--padding);
+    align-items: start;
+    padding: var(--padding);
+    position: relative;
+
+    .correct-answer-display {
+      position: absolute;
+      left: calc(100% + var(--padding));
+      top: 0;
+      white-space: nowrap;
+    }
+  }
+}

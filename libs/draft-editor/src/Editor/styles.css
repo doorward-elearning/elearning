@@ -9,6 +9,9 @@
   padding: 0 50px;
   flex: 1;
 }
+
+.rdw-editor-main .ed-container {
+}
 .rdw-editor-toolbar {
   padding: var(--padding-sm) var(--padding);
   border-radius: 2px;

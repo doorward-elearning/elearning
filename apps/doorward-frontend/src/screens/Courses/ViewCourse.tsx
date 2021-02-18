@@ -56,8 +56,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
       className="view-course"
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
       header={
-        <IfElse condition={course.data?.course}>
-          <React.Fragment>
+        <React.Fragment>
+          {course.data?.course && (
             <EditableLabelForm
               submitAction={updateCourse}
               state={updateCourseState}
@@ -66,8 +66,8 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               createData={(values) => [courseId, values]}
               value={course.data?.course?.title}
             />
-          </React.Fragment>
-        </IfElse>
+          )}
+        </React.Fragment>
       }
       renderHeaderEnd={(): JSX.Element => {
         const ongoingMeeting = !!course.data?.course?.meetingRoom?.currentMeeting;

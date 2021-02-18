@@ -58,7 +58,9 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           )}
         </HeaderGrid>
         <div>
-          <DraftHTMLContent content={question.question} />
+          <Panel>
+            <DraftHTMLContent content={question.question} />
+          </Panel>
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ? (
             <AnswersView answers={answers} question={question} view={view} />

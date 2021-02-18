@@ -10,6 +10,10 @@
       display: grid;
       grid-gap: var(--padding);
       grid-auto-flow: column;
+
+      span {
+        cursor: pointer;
+      }
     }
   }
 }
