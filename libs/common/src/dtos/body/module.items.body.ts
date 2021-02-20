@@ -226,10 +226,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
           }),
           dueDate: Yup.string().nullable(),
           availability: Yup.object({
-            from: Yup.date()
-              .min(new Date(), translate('fromDateShouldBeInTheFuture'))
-              .nullable()
-              .required(translate('thisFieldIsRequired')),
+            from: Yup.date().nullable().required(translate('thisFieldIsRequired')),
             to: Yup.date()
               .nullable()
               .when('from', {

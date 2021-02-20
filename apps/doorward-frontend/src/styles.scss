@@ -29,3 +29,61 @@
   bottom: 0;
   pointer-events: none;
 }
+
+@mixin spacing($property) {
+  &-2 {
+    #{$property}: 4px;
+  }
+
+  &-4 {
+    #{$property}: 8px;
+  }
+
+  &-8 {
+    #{$property}: 16px;
+  }
+
+  &-16 {
+    #{$property}: 32px;
+  }
+}
+
+.pt {
+  @include spacing(padding-top);
+}
+
+.pb {
+  @include spacing(padding-bottom);
+}
+
+.pr {
+  @include spacing(padding-right);
+}
+
+.pl {
+  @include spacing(padding-left);
+}
+
+.p {
+  @include spacing(padding);
+}
+
+.mt {
+  @include spacing(margin-top);
+}
+
+.mb {
+  @include spacing(margin-bottom);
+}
+
+.mr {
+  @include spacing(margin-right);
+}
+
+.ml {
+  @include spacing(margin-left);
+}
+
+.m {
+  @include spacing(margin);
+}

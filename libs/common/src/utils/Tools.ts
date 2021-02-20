@@ -217,15 +217,25 @@ class Tools {
 
   static timeTaken(seconds: number) {
     seconds = seconds * 1000;
-    if (seconds < TimeValues.minute) {
-      return translate('secondWithCount', { count: seconds / TimeValues.second });
-    } else if (seconds < TimeValues.hour) {
-      return translate('minuteWithCount', { count: seconds / TimeValues.minute });
-    } else if (seconds < TimeValues.day) {
-      return translate('hourWithCount', { count: seconds / TimeValues.hour });
-    } else {
-      return translate('dayWithCount', { count: seconds / TimeValues.day });
+
+    const secondsTaken = Math.round(seconds / TimeValues.second) % 60;
+    const minutesTaken = Math.round(seconds / TimeValues.minute) % 60;
+    const hoursTaken = Math.round(seconds / TimeValues.hour) % 24;
+    const daysTaken = Math.round(seconds / TimeValues.day);
+
+    let result = '';
+
+    if (daysTaken > 0) {
+      result = translate('dayWithCount', { count: daysTaken }) + ' ';
     }
+    if (hoursTaken > 0) {
+      result += translate('hourWithCount', { count: hoursTaken }) + ' ';
+    }
+    if (minutesTaken > 0) {
+      result += translate('minuteWithCount', { count: minutesTaken }) + ' ';
+    }
+    result += translate('secondWithCount', { count: secondsTaken });
+    return result;
   }
 
   static htmlToElement(html: string) {

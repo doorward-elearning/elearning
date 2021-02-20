@@ -6,7 +6,7 @@ import useInterval from '@doorward/ui/hooks/useInterval';
 
 const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): JSX.Element => {
   const [stage, setStage] = useState('good');
-  const [currentTime, setCurrentTime] = useState(props.totalTimeMinutes);
+  const [currentTime, setCurrentTime] = useState(props.totalTimeSeconds);
 
   useInterval(
     () => {
@@ -29,7 +29,7 @@ const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): 
       })}
     >
       <Timer
-        initialTime={props.totalTimeMinutes * 1000}
+        initialTime={props.totalTimeSeconds * 1000}
         startImmediately
         lastUnit="h"
         direction="backward"
@@ -72,7 +72,7 @@ const AssessmentTimer: React.FunctionComponent<AssessmentTimerProps> = (props): 
 };
 
 export interface AssessmentTimerProps {
-  totalTimeMinutes: number;
+  totalTimeSeconds: number;
   onTimeEnded?: () => void;
   onTimeUpdate?: (seconds: number) => void;
 }

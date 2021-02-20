@@ -5,11 +5,8 @@ import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import Header from '@doorward/ui/components/Header';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
-import TabLayout from '@doorward/ui/components/TabLayout';
-import Tab from '@doorward/ui/components/TabLayout/Tab';
 import AssessmentOptions from '../../Forms/AssessmentForm/AssessmentOptions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import Panel from '@doorward/ui/components/Panel';
 import Tools from '@doorward/common/utils/Tools';
 import Spacer from '@doorward/ui/components/Spacer';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
@@ -26,27 +23,30 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
 const AssessmentTimes = ({ startDate, endDate }) => {
   return startDate || endDate ? (
-    <Panel>
-      <HeaderGrid>
-        <div>
-          <Header padded size={2}>
-            {translate('availableFrom')}
-          </Header>
+    <div>
+      <div className="mt-4">
+        <Header padded size={2}>
+          {translate('availableFrom')}
+        </Header>
+        <div className="mt-4 mb-4">
           <DisplayLabel>{Tools.normalDateTime(startDate)}</DisplayLabel>
         </div>
-        <div>
-          <Header padded size={2}>
-            {translate('availableTo')}
-          </Header>
+      </div>
+      <div className="mt-4">
+        <Header padded size={2}>
+          {translate('availableTo')}
+        </Header>
+        <div className="mt-4 mb-4">
           <DisplayLabel>{Tools.normalDateTime(endDate)}</DisplayLabel>
         </div>
-      </HeaderGrid>
-    </Panel>
+      </div>
+    </div>
   ) : null;
 };
 
@@ -143,27 +143,42 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 {translate('questions')}
               </Header>
               <DisplayLabel>
-                {translate('totalPoints')}
+                {translate('totalPoints')}&nbsp;
                 <b>{assessment.questions.reduce((acc, question) => acc + question.points, 0)}</b>
               </DisplayLabel>
             </HeaderGrid>
             <div className="ed-assessment">
-              <TabLayout wrapTabs>
-                {assessment.questions.map((question, index) => {
-                  return (
-                    <Tab title={`${index + 1}`}>
-                      <QuestionView
-                        view={hasPrivileges('moduleItems.create') ? QuestionViewTypes.ANSWER_PREVIEW_MODE : undefined}
-                        question={question}
-                      />
-                    </Tab>
-                  );
-                })}
-              </TabLayout>
+              {assessment.questions.map((question, index) => {
+                return (
+                  <QuestionView
+                    view={hasPrivileges('moduleItems.create') ? QuestionViewTypes.ANSWER_PREVIEW_MODE : undefined}
+                    question={question}
+                  />
+                );
+              })}
             </div>
           </React.Fragment>
         )}
         <RoleContainer privileges={['assessments.submit']}>
+          {moment().isBefore(startDate) && (
+            <React.Fragment>
+              <Spacer />
+              <Header size={2}>{translate('examWillStartIn')}</Header>
+              <Spacer />
+              {moment().diff(startDate, 'hour') < 24 ? (
+                <AssessmentTimer
+                  totalTimeSeconds={Math.abs(moment().diff(startDate, 'second'))}
+                  onTimeEnded={() => {
+                    setState({
+                      startAssessment: true,
+                    });
+                  }}
+                />
+              ) : (
+                <DisplayLabel>{Tools.humanReadableTime(startDate)}</DisplayLabel>
+              )}
+            </React.Fragment>
+          )}
           <Spacer />
           <AssessmentTimes startDate={startDate} endDate={endDate} />
           <Spacer />
@@ -191,6 +206,13 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             <Table
               data={[submission]}
               height={300}
+              onRowClick={({ rowData }) => {
+                if (rowData.status === AssessmentSubmissionStatus.DRAFT) {
+                  routes.navigate(routes[assessment.assessmentType === AssessmentTypes.EXAM ? 'exam' : 'quiz'], {
+                    assessmentId: rowData.id,
+                  });
+                }
+              }}
               columns={{
                 id: {
                   title: translate('id'),
@@ -205,7 +227,8 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                   title: translate('status'),
                 },
                 submittedOn: {
-                  cellRenderer: ({ rowData }) => Tools.humanReadableTime(rowData.submittedOn),
+                  cellRenderer: ({ rowData }) =>
+                    rowData.submittedOn ? Tools.humanReadableTime(rowData.submittedOn) : '--',
                   title: translate('dateSubmitted'),
                 },
                 grade: {

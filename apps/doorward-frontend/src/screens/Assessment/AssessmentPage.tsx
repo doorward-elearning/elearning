@@ -76,7 +76,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           <DisplayLabel>
             {translate('points')}: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}
           </DisplayLabel>
-          <AssessmentTimer totalTimeMinutes={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
+          <AssessmentTimer totalTimeSeconds={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
         </HeaderGrid>
       )}
       <Form
