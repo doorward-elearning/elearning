@@ -8,6 +8,17 @@ import { Roles } from '@doorward/common/types/roles';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import translate from '@doorward/common/lang/translate';
 
+export class UpdateProfilePictureBody extends DApiBody {
+  @Expose()
+  profilePictureId: string;
+
+  async validation?(): Promise<ObjectSchema> {
+    return Yup.object({
+      profilePictureId: Yup.string().required(translate('profilePictureIsRequired')).nullable(),
+    });
+  }
+}
+
 export class UpdateAccountBody extends DApiBody {
   @Expose()
   username: string;
@@ -95,7 +106,7 @@ export class CreateUserBody extends UpdateUserBody {
     return (await super.validation()).concat(
       Yup.object({
         password: Yup.string().notRequired().nullable(),
-      }),
+      })
     );
   }
 }

@@ -26,12 +26,14 @@ const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JS
   ) : null;
 };
 
+export interface ProfilePictureUser {
+  profilePicture?: string;
+  fullName: string;
+  id?: string;
+}
+
 export interface ProfilePictureProps {
-  user: {
-    profilePicture?: string;
-    fullName: string;
-    id?: string;
-  };
+  user: ProfilePictureUser;
   width?: number;
   height?: number;
 }

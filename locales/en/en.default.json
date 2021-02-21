@@ -568,5 +568,6 @@
   "fromDateShouldBeInTheFuture": "The availability start date should be in the future.",
   "fromDateShouldBeLessThanUntilDate": "The start date should be before the end date",
   "untilDateShouldBeAfterFromDate": "The end date should be after the start date.",
-  "examWillStartIn": "Exam starts in"
+  "examWillStartIn": "Exam starts in",
+  "profilePictureIsRequired": "The profile picture is required."
 }

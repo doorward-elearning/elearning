@@ -2,6 +2,7 @@ import {
   LoginBody,
   RegisterBody,
   UpdateAccountBody,
+  UpdateProfilePictureBody,
   UpdatePasswordBody,
   ResetPasswordBody,
   ForgotPasswordBody,
@@ -647,6 +648,12 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
     },
     updateAccountDetails: (body: UpdateAccountBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < UserResponse >> => {
       return PUT(`/users/profile/account`, body, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    updateAccountProfilePicture: (body: UpdateProfilePictureBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < UserResponse >> => {
+      return PUT(`/users/profile/account/profilePicture`, body, {}, {
         ...(config || {}),
         ...(defaultConfig && defaultConfig())
       });

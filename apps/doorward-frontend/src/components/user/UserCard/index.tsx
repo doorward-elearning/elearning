@@ -1,7 +1,5 @@
 import React from 'react';
-import profile from '../../../assets/images/profile.svg';
 import './UserCard.scss';
-import EImage from '@doorward/ui/components/Image';
 import useModal from '@doorward/ui/hooks/useModal';
 import useForm from '@doorward/ui/hooks/useForm';
 import Pill from '@doorward/ui/components/Pill';
@@ -12,12 +10,18 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Button from '@doorward/ui/components/Buttons/Button';
 import withContext from '@doorward/ui/hoc/withContext';
 import UserEntity from '@doorward/common/entities/user.entity';
-import ProfilePicture from '@doorward/ui/components/ProfilePicture';
+import { useApiAction } from 'use-api-action';
+import DoorwardApi from '../../../services/apis/doorward.api';
+import { BasicProfilePicture } from '@doorward/ui/components/Input/ProfilePicture';
 
 const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
   const form = useForm();
   const modal = useModal(props.openModal);
   const { user } = props;
+  const [getCurrentUser] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
+  const [updateProfilePicture] = useApiAction(DoorwardApi, (api) => api.userProfile.updateAccountProfilePicture, {
+    onSuccess: getCurrentUser,
+  });
 
   modal.onClose((passwordChanged) => {
     if (props.onPasswordChanged) {
@@ -37,7 +41,17 @@ const UserCard: React.FunctionComponent<UserCardProps> = (props) => {
               </Card.Header>
               <Card.Body>
                 <div className="profile-details">
-                  <ProfilePicture user={user} />
+                  <BasicProfilePicture
+                    name="profilePicture"
+                    user={user}
+                    uploadHandler={DoorwardApi.api.files.uploadFile}
+                    valueField="id"
+                    onChange={(e) => {
+                      updateProfilePicture({
+                        profilePictureId: e.target.value,
+                      });
+                    }}
+                  />
                   <Header size={3}>{data?.email || data?.phoneNumber}</Header>
                   <div>
                     <Pill>{data?.role?.displayName}</Pill>

@@ -13,6 +13,7 @@ import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.en
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import FileEntity from '@doorward/common/entities/file.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseOrganizationEntity {
@@ -37,6 +38,9 @@ export default class UserEntity extends BaseOrganizationEntity {
 
   @Column({ nullable: true })
   profilePicture: string;
+
+  @Column({ nullable: true })
+  profilePictureFileId: string;
 
   @Column({ nullable: true })
   @Expose({ groups: ['fullUserProfile'] })

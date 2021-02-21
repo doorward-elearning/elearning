@@ -19,9 +19,10 @@ import {
   ResetPasswordBody,
   UpdatePasswordBody,
 } from '@doorward/common/dtos/body/auth.body';
-import { CreateUserBody, UpdateAccountBody } from '@doorward/common/dtos/body';
+import { CreateUserBody, UpdateAccountBody, UpdateProfilePictureBody } from '@doorward/common/dtos/body';
 import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class UsersService {
@@ -30,7 +31,8 @@ export class UsersService {
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
     private emailsService: EmailsService,
-    private privilegeRepository: PrivilegeRepository
+    private privilegeRepository: PrivilegeRepository,
+    private filesService: FilesService
   ) {}
 
   async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
@@ -118,6 +120,22 @@ export class UsersService {
 
   async findById(id: string, options?: FindOneOptions<UserEntity>): Promise<UserEntity> {
     return this.usersRepository.findOne(id, options);
+  }
+
+  async updateAccountProfilePicture(body: UpdateProfilePictureBody, user: UserEntity): Promise<UserResponse> {
+    const file = await this.filesService.getFileById(body.profilePictureId);
+
+    if (file) {
+      await this.usersRepository.save({
+        ...user,
+        profilePicture: file.publicUrl,
+        profilePictureFileId: body.profilePictureId,
+      });
+    }
+
+    user = await this.usersRepository.findOne(user.id);
+
+    return { user };
   }
 
   async updateAccountDetails(body: UpdateAccountBody, user: UserEntity): Promise<UserResponse> {

@@ -140,7 +140,12 @@ function withInput<R extends InputProps>(
             <Input
               {...{ name, editable, ...inputProps, className: `${inputProps.className || ''} ${className}` }}
               value={changeEvent ? changeEvent?.target?.value : inputProps.value}
-              onChange={(e) => (debounceInput ? onChange(e, inputProps.onChange) : inputProps.onChange(e))}
+              onChange={(e) => {
+                if (props.onValueChange && e.target.value) {
+                  props.onValueChange(e.target.value);
+                }
+                return debounceInput ? onChange(e, inputProps.onChange) : inputProps.onChange(e);
+              }}
             />
           </div>
           <div className="eb-input__error-message">
@@ -160,6 +165,7 @@ export interface InputProps extends React.DetailedHTMLProps<any, any> {
   idGenerator?: () => string;
   className?: string;
   alwaysShowError?: boolean;
+  onValueChange?: (value: any) => void;
 }
 
 export default withInput;

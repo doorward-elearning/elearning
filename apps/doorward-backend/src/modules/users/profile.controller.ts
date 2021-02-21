@@ -10,7 +10,7 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 import { ForgotPasswordBody, ResetPasswordBody, UpdatePasswordBody } from '@doorward/common/dtos/body/auth.body';
 import { UserResponse } from '@doorward/common/dtos/response';
-import { UpdateAccountBody } from '@doorward/common/dtos/body';
+import { UpdateAccountBody, UpdateProfilePictureBody } from '@doorward/common/dtos/body';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 import translate from '@doorward/common/lang/translate';
 
@@ -41,6 +41,17 @@ export default class ProfileController {
   @TransformerGroups('fullUserProfile')
   updateAccountDetails(@Body() body: UpdateAccountBody, @CurrentUser() currentUser: UserEntity): Promise<UserResponse> {
     return this.usersService.updateAccountDetails(body, currentUser);
+  }
+
+  @Put('account/profilePicture')
+  @Privileges('profile.update')
+  @ApiResponse({ status: HttpStatus.OK, type: UserResponse, description: 'The newly updated user details' })
+  @TransformerGroups('fullUserProfile')
+  updateAccountProfilePicture(
+    @Body() body: UpdateProfilePictureBody,
+    @CurrentUser() currentUser: UserEntity
+  ): Promise<UserResponse> {
+    return this.usersService.updateAccountProfilePicture(body, currentUser);
   }
 
   @Put('password')
