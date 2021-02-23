@@ -1,8 +1,7 @@
 import React from 'react';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
-import Table from '@doorward/ui/components/Table';
+import Table, { OnRowClick } from '@doorward/ui/components/Table';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { TeacherReport } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 
@@ -13,19 +12,23 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (pr
       {(data) => (
         <Table
           data={data}
-          getCell={(row) => {
-            return {
-              fullName: row.fullName,
-              department: 'Computer Science',
-              courses: '' + row.courses.length,
-              ratings: '4.5',
-            };
-          }}
           columns={{
-            fullName: translate('name'),
-            department: translate('department'),
-            courses: translate('numberOfCourses'),
-            ratings: translate('rating'),
+            fullName: {
+              title: translate('name'),
+              cellRenderer: ({ rowData }) => rowData.fullName,
+            },
+            department: {
+              title: translate('department'),
+              cellRenderer: () => 'Computer Science',
+            },
+            courses: {
+              title: translate('numberOfCourses'),
+              cellRenderer: ({ rowData }) => rowData.courses.length,
+            },
+            ratings: {
+              title: translate('rating'),
+              cellRenderer: () => '4.5',
+            },
           }}
           onRowClick={props.onRowClick}
         />
@@ -35,7 +38,7 @@ const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (pr
 };
 
 export interface TeacherReportTableProps {
-  onRowClick: (row: TeacherReport, index: number) => void;
+  onRowClick: OnRowClick;
 }
 
 export default TeacherReportTable;

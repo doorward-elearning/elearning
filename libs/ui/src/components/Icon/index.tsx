@@ -2,6 +2,7 @@ import React, { MouseEventHandler, MutableRefObject } from 'react';
 import classNames from 'classnames';
 import './Icon.scss';
 import { Icons } from '../../types/icons';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   const className = classNames({
@@ -12,9 +13,11 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
   return (
     <React.Fragment>
       {props.icon && (
-        <i className={className} onClick={props.onClick}>
-          {props.icon}
-        </i>
+        <Tooltip title={props.title}>
+          <i className={className} onClick={props.onClick}>
+            {props.icon}
+          </i>
+        </Tooltip>
       )}
     </React.Fragment>
   );

@@ -31,8 +31,8 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
             <Table
               data={schools}
               columns={{ name: translate('schoolName') }}
-              onRowClick={(row) => {
-                routes.navigate(routes.schoolClassrooms, { schoolId: row.id });
+              onRowClick={({ rowData }) => {
+                routes.navigate(routes.schoolClassrooms, { schoolId: rowData.id });
               }}
             />
           );

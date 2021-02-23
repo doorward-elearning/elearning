@@ -30,12 +30,12 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
       <GroupsTable
         type={type}
         search={query.search}
-        onRowClick={(group) => {
+        onRowClick={({ rowData: group }) => {
           routes.navigate(routes[viewRoute], {
             groupId: group.id,
           });
         }}
-        actionMenu={(group) => {
+        actionMenu={({ rowData: group }) => {
           return (
             <Dropdown.Menu>
               {props.updateRoute && (

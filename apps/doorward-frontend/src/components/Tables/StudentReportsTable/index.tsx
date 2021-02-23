@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import Table from '@doorward/ui/components/Table';
+import Table, { OnRowClick } from '@doorward/ui/components/Table';
 import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebComponent';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -21,20 +21,26 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
           }
           data={data}
           columns={{
-            name: translate('name'),
-            department: translate('department'),
-            enrollments: translate('numberOfEnrollments'),
-            courses: translate('coursesCompleted'),
-            grade: translate('averageGrade'),
-          }}
-          getCell={(row) => {
-            return {
-              name: row.fullName,
-              department: 'Computer Science',
-              enrollments: '23',
-              courses: '12',
-              grade: '12.4',
-            };
+            name: {
+              title: translate('name'),
+              cellRenderer: ({ rowData }) => rowData.fullName,
+            },
+            department: {
+              title: translate('department'),
+              cellRenderer: () => 'Computer Science',
+            },
+            enrollments: {
+              title: translate('numberOfEnrollments'),
+              cellRenderer: () => '23',
+            },
+            courses: {
+              title: translate('coursesCompleted'),
+              cellRenderer: () => '12',
+            },
+            grade: {
+              title: translate('averageGrade'),
+              cellRenderer: () => '12.4',
+            },
           }}
           onRowClick={props.onRowClick}
         />
@@ -44,7 +50,7 @@ const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props)
 };
 
 export interface StudentReportsTableProps {
-  onRowClick: (row: UserEntity, index: number) => void;
+  onRowClick: OnRowClick;
   filter?: string;
 }
 export default StudentReportsTable;

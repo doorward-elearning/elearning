@@ -1,14 +1,14 @@
 import React from 'react';
 import { Units } from '@doorward/common/utils/ago';
-import { Moment } from 'moment';
+import moment, { Moment } from 'moment';
 import Tools from '@doorward/common/utils/Tools';
-import moment from 'moment';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 const TimeDisplay: React.FunctionComponent<TimeDisplayProps> = (props): JSX.Element => {
   return (
-    <span title={Tools.normalDateTime(moment(props.time).toDate())}>
+    <Tooltip title={Tools.normalDateTime(moment(props.time).toDate())}>
       {Tools.humanReadableTime(props.time, props.max || 'minute', props.precise)}
-    </span>
+    </Tooltip>
   );
 };
 

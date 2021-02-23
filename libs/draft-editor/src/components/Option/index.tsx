@@ -3,6 +3,7 @@
 import React, { Component, MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import './styles.css';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 interface OptionProps {
   onClick: Function;
@@ -30,7 +31,7 @@ export default class Option extends Component<OptionProps> {
   render() {
     const { children, className, activeClassName, active, disabled, title } = this.props;
     return (
-      <div
+      <Tooltip
         className={classNames('rdw-option-wrapper', className, {
           [`rdw-option-active ${activeClassName}`]: active,
           'rdw-option-disabled': disabled,
@@ -40,7 +41,7 @@ export default class Option extends Component<OptionProps> {
         title={title}
       >
         {children}
-      </div>
+      </Tooltip>
     );
   }
 }

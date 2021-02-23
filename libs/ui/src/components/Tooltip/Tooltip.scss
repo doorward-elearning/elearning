@@ -1,0 +1,18 @@
+@import '../../../animations';
+
+.ed-tooltip {
+  position: absolute;
+  background: var(--text-primary);
+  color: var(--bg-primary);
+  padding: var(--padding) var(--padding-lg);
+  border: 1px solid var(--line-color);
+  font-size: 0.8em;
+  box-shadow: var(--box-shadow);
+  opacity: 0;
+  transition: 0.5s opacity, 0.2s width;
+
+  &.visible {
+    pointer-events: all;
+    opacity: 1;
+  }
+}

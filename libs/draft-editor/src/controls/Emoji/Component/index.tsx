@@ -7,6 +7,7 @@ import { stopPropagation } from '../../../utils/common';
 import Option from '../../../components/Option';
 import './styles.css';
 import Icon from '@doorward/ui/components/Icon';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 interface LayoutComponentProps {
   expanded: boolean;
@@ -45,7 +46,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
       translations,
     } = this.props;
     return (
-      <div
+      <Tooltip
         className="rdw-emoji-wrapper"
         aria-haspopup="true"
         aria-label="rdw-emoji-control"
@@ -56,7 +57,7 @@ class LayoutComponent extends Component<LayoutComponentProps, any> {
           <Icon icon={icon} />
         </Option>
         {expanded ? this.renderEmojiModal() : undefined}
-      </div>
+      </Tooltip>
     );
   }
 }

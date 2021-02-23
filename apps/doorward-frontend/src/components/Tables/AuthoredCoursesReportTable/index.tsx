@@ -9,13 +9,16 @@ const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTablePr
   return (
     <Table
       data={props.courses}
-      getCell={() => {
-        return {
-          ratings: <span>4.5</span>,
-        };
+      onRowClick={({ rowData: row }) => routes.navigate(routes.viewCourse, { courseId: row.id })}
+      columns={{
+        title: {
+          title: translate('courseName'),
+        },
+        ratings: {
+          title: translate('rating'),
+          cellRenderer: () => <span>4.5</span>,
+        },
       }}
-      onRowClick={(row) => routes.navigate(routes.viewCourse, { courseId: row.id })}
-      columns={{ title: translate('courseName'), ratings: translate('rating') }}
     />
   );
 };

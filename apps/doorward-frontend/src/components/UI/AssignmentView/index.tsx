@@ -75,17 +75,23 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
                     setCurrentSubmission(row);
                   }}
                   columns={{
-                    student: translate('student'),
-                    submittedOn: translate('date'),
-                    submittedAt: translate('time'),
-                    submissionType: translate('type'),
+                    student: {
+                      title: translate('student'),
+                      cellRenderer: ({ rowData }) => rowData.student.fullName,
+                    },
+                    submittedOn: {
+                      title: translate('date'),
+                      cellRenderer: ({ rowData }) => Tools.normalDate(rowData.createdAt),
+                    },
+                    submittedAt: {
+                      title: translate('time'),
+                      cellRenderer: ({ rowData }) => Tools.normalTime(rowData.createdAt),
+                    },
+                    submissionType: {
+                      title: translate('type'),
+                      cellRenderer: ({ rowData }) => rowData.type,
+                    },
                   }}
-                  getCell={(row) => ({
-                    student: row.student.fullName,
-                    submittedOn: Tools.normalDate(row.createdAt),
-                    submittedAt: Tools.normalTime(row.createdAt),
-                    type: row.type,
-                  })}
                 />
               </div>
             );

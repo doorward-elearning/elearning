@@ -13,7 +13,9 @@ const TeacherListReport: FunctionComponent<TeacherListReportProps> = (props): JS
       features={[LayoutFeatures.HEADER, LayoutFeatures.SEARCH_BAR, LayoutFeatures.BREAD_CRUMBS]}
       header={translate('teacherReport')}
     >
-      <TeacherReportTable onRowClick={(row) => routes.navigate(routes.teacherReport, { teacherId: row.id })} />
+      <TeacherReportTable
+        onRowClick={({ rowData }) => routes.navigate(routes.teacherReport, { teacherId: rowData.id })}
+      />
     </Layout>
   );
 };

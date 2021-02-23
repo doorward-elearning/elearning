@@ -4,6 +4,7 @@ import './styles.css';
 
 import { stopPropagation } from '../../../utils/common';
 import Icon from '@doorward/ui/components/Icon';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 interface DropdownProps {
   onChange?: Function;
@@ -65,10 +66,10 @@ export default class Dropdown extends Component<DropdownProps> {
         aria-expanded={expanded}
         aria-label={ariaLabel || 'rdw-dropdown'}
       >
-        <a className="rdw-dropdown-selectedtext" onClick={onExpandEvent} title={title}>
+        <Tooltip className="rdw-dropdown-selectedtext" onClick={onExpandEvent} title={title}>
           {children[0]}
           <Icon icon={expanded ? 'arrow_drop_up' : 'arrow_drop_down'} />
-        </a>
+        </Tooltip>
         {expanded ? (
           <ul className={classNames('rdw-dropdown-optionwrapper', optionWrapperClassName)} onClick={stopPropagation}>
             {React.Children.map(options, (option, index) => {

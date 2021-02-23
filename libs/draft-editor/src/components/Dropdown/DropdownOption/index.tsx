@@ -3,6 +3,7 @@
 import React, { Component, MouseEventHandler } from 'react';
 import classNames from 'classnames';
 import './styles.css';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 interface DropdownOptionProps {
   children?: any;
@@ -73,9 +74,8 @@ export default class DropDownOption extends Component<DropdownOptionProps> {
         onMouseEnter={this.setHighlighted}
         onMouseLeave={this.resetHighlighted}
         onClick={this.onClick}
-        title={title}
       >
-        {children}
+        <Tooltip title={title}>{children}</Tooltip>
       </li>
     );
   }

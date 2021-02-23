@@ -9,17 +9,17 @@ const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProp
   return (
     <Table
       columns={{
-        name: translate('courseName'),
-        percentage: translate('percentage'),
+        name: {
+          title: translate('courseName'),
+          cellRenderer: ({ rowData }) => <span>{rowData.title}</span>,
+        },
+        percentage: {
+          title: translate('percentage'),
+          cellRenderer: () => <span>50%</span>,
+        },
       }}
       data={props.courses}
-      onRowClick={(row) => routes.navigate(routes.viewCourse, { courseId: row.id })}
-      getCell={(row) => {
-        return {
-          name: <span>{row.title}</span>,
-          percentage: <span>50%</span>,
-        };
-      }}
+      onRowClick={({ rowData }) => routes.navigate(routes.viewCourse, { courseId: rowData.id })}
     />
   );
 };

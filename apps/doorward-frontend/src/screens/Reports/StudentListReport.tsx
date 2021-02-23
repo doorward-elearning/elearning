@@ -3,7 +3,6 @@ import Layout, { LayoutFeatures } from '../Layout';
 import StudentReportsTable from '../../components/Tables/StudentReportsTable';
 import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
-import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
 
 const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) => {
@@ -21,7 +20,7 @@ const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) 
     >
       <StudentReportsTable
         filter={search}
-        onRowClick={(student: UserEntity): void => routes.navigate(routes.studentReport, { studentId: student.id })}
+        onRowClick={({ rowData: student }): void => routes.navigate(routes.studentReport, { studentId: student.id })}
       />
     </Layout>
   );

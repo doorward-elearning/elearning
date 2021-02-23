@@ -16,15 +16,39 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
     <Table
       className="organizations-table"
       data={props.organizations}
-      columns={{ name: translate('name'), id: translate('id'), description: translate('description') }}
-      actionMenu={(row) => {
+      columns={{
+        name: {
+          title: translate('name'),
+          cellRenderer: ({ rowData }) => (
+            <Row>
+              <IfElse condition={rowData.icon}>
+                <EImage src={rowData.icon} size="small" />
+              </IfElse>
+              <span>{rowData.name}</span>
+            </Row>
+          ),
+        },
+        id: {
+          title: translate('id'),
+          cellRenderer: ({ rowData }) => (
+            <Row style={{ gridGap: '1em', justifyContent: 'start' }}>
+              <span className="organization-id">{rowData.id}</span>
+              <CopyButton text={rowData.id} className="copy-icon" />
+            </Row>
+          ),
+        },
+        description: {
+          title: translate('description'),
+        },
+      }}
+      actionMenu={({ rowData }) => {
         return (
           <Dropdown.Menu>
             <Dropdown.Item
               icon="edit"
               onClick={() => {
                 routes.navigate(routes.editOrganization, {
-                  organizationId: row.id,
+                  organizationId: rowData.id,
                 });
               }}
             >
@@ -32,24 +56,6 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
             </Dropdown.Item>
           </Dropdown.Menu>
         );
-      }}
-      getCell={(row) => {
-        return {
-          id: (
-            <Row style={{ gridGap: '1em', justifyContent: 'start' }}>
-              <span className="organization-id">{row.id}</span>
-              <CopyButton text={row.id} className="copy-icon" />
-            </Row>
-          ),
-          name: (
-            <Row>
-              <IfElse condition={row.icon}>
-                <EImage src={row.icon} size="small" />
-              </IfElse>
-              <span>{row.name}</span>
-            </Row>
-          ),
-        };
       }}
     />
   );

@@ -140,7 +140,6 @@ export interface ModalProps {
   useModal: UseModal;
   cancellable?: boolean;
   className?: string;
-  blurBackground?: boolean;
   bottomSheet?: boolean;
   fullScreenBottomSheet?: boolean;
   onClose?: () => void;
@@ -192,14 +191,10 @@ class Modal extends Component<ModalProps> {
   componentWillUnmount(): void {}
 
   componentWillReceiveProps(nextProps: Readonly<ModalProps>): void {
-    const { useModal, blurBackground = true } = nextProps;
+    const { useModal } = nextProps;
     this.setState({
       visible: useModal.isOpen,
     });
-
-    if (blurBackground) {
-      document.getElementById('root').style.filter = useModal.isOpen ? 'blur(2px)' : '';
-    }
   }
 
   closeModal = () => {

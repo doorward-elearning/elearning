@@ -6,6 +6,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { RowMouseEventHandlerParams } from 'react-virtualized';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {
   const [getGroups, state] = useApiAction(DoorwardApi, (api) => api.groups.getGroups, { clearData: true });
@@ -19,16 +20,22 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
       {(data) => {
         return (
           <Table
-            columns={{ name: translate('name'), members: translate('members'), createdBy: translate('createdBy') }}
+            columns={{
+              name: {
+                title: translate('name'),
+              },
+              members: {
+                title: translate('members'),
+                cellRenderer: ({ rowData }) => <span>{Tools.str(rowData.members?.length)}</span>,
+              },
+              createdBy: {
+                title: translate('createdBy'),
+                cellRenderer: ({ rowData }) => <span>{Tools.str(rowData.author?.fullName)}</span>,
+              },
+            }}
             data={data}
             actionMenu={props.actionMenu}
             onRowClick={props.onRowClick}
-            getCell={(row) => {
-              return {
-                members: <span>{Tools.str(row.members?.length)}</span>,
-                createdBy: <span>{Tools.str(row.author?.fullName)}</span>,
-              };
-            }}
           />
         );
       }}
@@ -38,8 +45,8 @@ const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Elem
 
 export interface GroupsTableProps {
   type: string;
-  onRowClick?: (row: GroupEntity, index: number) => void;
-  actionMenu?: ActionMenu<GroupEntity>;
+  onRowClick?: (props: RowMouseEventHandlerParams) => void;
+  actionMenu?: ActionMenu;
   search?: string;
 }
 

@@ -156,6 +156,8 @@ export type OnRowClick = (info: RowMouseEventHandlerParams) => void;
 
 export type FilterTable<T> = (data: Array<T>, text: string) => Array<T>;
 
+export type ActionMenu = (props: TableCellProps) => JSX.Element;
+
 export type ColumnProperties<T> = Record<
   string,
   {
@@ -176,7 +178,7 @@ export interface TableProps<T, Columns extends ColumnProperties<T> = any> {
   pagination?: PaginationMetaData;
   loadMore?: (page: number) => Promise<any>;
   columns: Columns;
-  actionMenu?: (props: TableCellProps) => JSX.Element;
+  actionMenu?: ActionMenu;
 
   filter?: FilterTable<T>;
   searchText?: string;
