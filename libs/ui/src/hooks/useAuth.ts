@@ -14,11 +14,9 @@ const useAuth = (currentUser: UserEntity): UseAuth => {
   }, [currentUser]);
 
   const logout = useCallback((): void => {
-    if (authenticated) {
-      Tools.clearToken();
-      setAuthenticated(false);
-    }
-  }, [authenticated]);
+    Tools.clearToken();
+    setAuthenticated(false);
+  }, []);
 
   const authenticate = useCallback((token: string): void => {
     if (token) {

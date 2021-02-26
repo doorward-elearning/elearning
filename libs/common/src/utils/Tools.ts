@@ -5,6 +5,7 @@ import colors from '@doorward/ui/colors/colors';
 import { DropResult } from 'react-beautiful-dnd';
 import ago, { agoPrecise, TimeValues, Units } from '@doorward/common/utils/ago';
 import translate from '@doorward/common/lang/translate';
+import Cookies from 'js-cookie';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -49,26 +50,15 @@ class Tools {
   }
 
   static setCookie(name: string, value: string, days: number) {
-    Tools.eraseCookie(name);
-    const date = new Date();
-    date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    const expires = '; expires=' + date.toUTCString();
-    document.cookie = name + '=' + (value || '') + expires;
+    Cookies.set(name, value, { expires: days });
   }
 
   static getCookie(name) {
-    const nameEQ = name + '=';
-    const ca = document.cookie.split(';');
-    for (let i = 0; i < ca.length; i++) {
-      let c = ca[i];
-      while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
-    }
-    return null;
+    return Cookies.get(name);
   }
 
   static eraseCookie(name) {
-    document.cookie = name + '=; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+    Cookies.remove(name);
   }
 
   static decrypt(str: string | null): string {
@@ -76,7 +66,6 @@ class Tools {
   }
 
   static setToken(token: string): void {
-    console.log(token);
     Tools.setCookie(Tools.AUTHORIZATION_TOKEN, token, +(process.env.JWT_EXPIRY_TIME.replace('d', '') || '30'));
   }
 
