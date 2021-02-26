@@ -84,7 +84,7 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
                       disabled={state.submitting}
                       onClick={props.onCancel || history.goBack}
                     >
-                      {props.negativeText || translate('back')}
+                      {props.negativeText || translate('cancel')}
                     </Button>
                   </Feature>
                 </Row>

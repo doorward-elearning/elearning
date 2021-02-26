@@ -3,7 +3,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import './UserInfoCard.scss';
 
 const UserInfoCard: React.FunctionComponent<UserInfoCardProps> = (props): JSX.Element => {
-  return <div className="ed-user-info-card"></div>;
+  return <div className="ed-user-info-card">{props.user.fullName}</div>;
 };
 
 export interface UserInfoCardProps {

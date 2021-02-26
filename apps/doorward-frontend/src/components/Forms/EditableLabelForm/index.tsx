@@ -8,6 +8,7 @@ import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 import translate from '@doorward/common/lang/translate';
 import classNames from 'classnames';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 function EditableLabelForm<T>(props: EditableLabelFormProps<T>): JSX.Element {
   const [editing, setEditing] = useToggle(false);
@@ -60,15 +61,16 @@ function EditableLabelForm<T>(props: EditableLabelFormProps<T>): JSX.Element {
         }}
         {...props}
       >
-        <EditableLabel
-          inputRef={ref}
-          toggle={[editing, setEditing]}
-          noEdit={!hasPrivileges(...props.privileges)}
-          name={props.name}
-          component={props.component}
-          fluid
-        />
-        <span className="submit-instructions meta">{translate('pressEnterToSubmit')}</span>
+        <Tooltip title={translate('pressEnterToSubmit')} hidden={!editing}>
+          <EditableLabel
+            inputRef={ref}
+            toggle={[editing, setEditing]}
+            noEdit={!hasPrivileges(...props.privileges)}
+            name={props.name}
+            component={props.component}
+            fluid
+          />
+        </Tooltip>
       </BasicForm>
     </div>
   );

@@ -1,7 +1,5 @@
-import React, { Component, MouseEventHandler } from 'react';
-import ReactDOM from 'react-dom';
+import React, { Component, MouseEventHandler, MutableRefObject, ReactElement } from 'react';
 import './Tooltip.scss';
-import classNames from 'classnames';
 
 interface TooltipState {
   visible: boolean;
@@ -13,7 +11,7 @@ interface TooltipState {
 
 class Tooltip extends Component<TooltipProps, TooltipState> {
   container = document.getElementById('modal-box');
-  parent = React.createRef<HTMLDivElement>();
+  parent = React.createRef<any>();
   tooltip: HTMLDivElement;
 
   state = {
@@ -35,9 +33,42 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     this.tooltip = tooltip as HTMLDivElement;
   }
 
+  componentDidMount(): void {}
+
+  componentWillUnmount(): void {
+    this.removeEventListeners();
+  }
+
+  removeEventListeners = () => {
+    const { parentRef: ref, onClick } = this.props;
+    if (ref?.current) {
+      const element = ref.current;
+
+      element.removeEventListener('click', onClick as any);
+      element.removeEventListener('mouseover', this.show);
+      element.removeEventListener('mouseout', this.hide);
+    }
+  };
+
+  componentWillReceiveProps(nextProps: Readonly<TooltipProps>, nextContext: any): void {
+    const { parentRef: ref, onClick } = nextProps;
+
+    if (ref?.current) {
+      this.removeEventListeners();
+      const element = ref.current;
+
+      element.addEventListener('click', onClick as any);
+      element.addEventListener('mouseover', this.show);
+      element.addEventListener('mouseout', this.hide);
+
+      this.parent = ref;
+    }
+  }
+
   show = () => {
+    const { hidden } = this.props;
     const { visible } = this.state;
-    if (!visible) {
+    if (!visible && !hidden) {
       this.setState(
         {
           visible: true,
@@ -77,7 +108,7 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
   };
 
   render(): JSX.Element {
-    const { className, children, title, onClick } = this.props;
+    const { className, children, title, onClick, parentRef: ref } = this.props;
     const { visible, top, left } = this.state;
 
     if (top + left > 0 && title) {
@@ -93,18 +124,34 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     } else {
       this.tooltip.classList.remove('visible');
     }
-    return (
-      <div className={className} onClick={onClick} onMouseOver={this.show} onMouseOut={this.hide} ref={this.parent}>
-        {children}
-      </div>
-    );
+
+    if (ref) {
+      return <React.Fragment>{children}</React.Fragment>;
+    } else {
+      const component = this.props.component || <div />;
+      return (
+        <React.Fragment>
+          {React.cloneElement(component, {
+            className,
+            onClick,
+            onMouseOver: this.show,
+            onMouseOut: this.hide,
+            ref: this.parent,
+            children,
+          })}
+        </React.Fragment>
+      );
+    }
   }
 }
 
 export interface TooltipProps {
   className?: string;
   title: string;
-  onClick?: MouseEventHandler;
+  onClick?: MouseEventHandler<any>;
+  parentRef?: MutableRefObject<HTMLElement>;
+  hidden?: boolean;
+  component?: ReactElement<any>;
 }
 
 export default Tooltip;

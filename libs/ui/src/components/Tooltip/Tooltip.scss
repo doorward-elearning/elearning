@@ -10,6 +10,7 @@
   box-shadow: var(--box-shadow);
   opacity: 0;
   transition: 0.5s opacity, 0.2s width;
+  z-index: 100;
 
   &.visible {
     pointer-events: all;

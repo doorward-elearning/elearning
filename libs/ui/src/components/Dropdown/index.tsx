@@ -1,6 +1,5 @@
 import React, { Component, MouseEventHandler } from 'react';
 import './Dropdown.scss';
-import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
@@ -47,34 +46,8 @@ class Dropdown extends Component<DropdownProps> {
     document.removeEventListener('click', this.onClickOutside);
   }
 
-  createDimensions = () => {
-    const dropdownPosition = this.dropdown.current?.getBoundingClientRect();
-    const dimensions = this.dropdownContent.current?.getBoundingClientRect();
-
-    const padding = 50;
-
-    const width = window.innerWidth;
-    const height = window.innerHeight;
-
-    const position = { left: 0, top: 0 };
-    if (dropdownPosition && dimensions) {
-      position.left = dimensions.x;
-      position.top = dimensions.y + dimensions.height;
-
-      if (position.left + dimensions.width > width - padding) {
-        position.left = width - padding - dimensions.width;
-      }
-
-      if (position.top + dimensions.height > height - padding) {
-        position.top = height - padding - dimensions.height;
-      }
-    }
-
-    return position;
-  };
-
   render(): JSX.Element {
-    const { children, positionX, positionY, openOnHover, ...props } = this.props;
+    const { children, positionX, positionY, openOnHover, disabled, ...props } = this.props;
     const { open } = this.state;
 
     return (
@@ -91,20 +64,26 @@ class Dropdown extends Component<DropdownProps> {
           className="ed-dropdown__trigger"
           ref={this.dropdownTrigger}
           onClick={(e): void => {
-            if (props.preventClickPropagation) {
-              e.stopPropagation();
+            if (!disabled) {
+              if (props.preventClickPropagation) {
+                e.stopPropagation();
+              }
+              this.setState({ open: !open });
             }
-            this.setState({ open: !open });
           }}
           onMouseEnter={() => {
-            openOnHover && this.setState({ open: true });
+            if (!disabled) {
+              openOnHover && this.setState({ open: true });
+            }
           }}
         >
           {children[0]}
         </div>
-        <div className="ed-dropdown__content" ref={this.dropdownContent}>
-          <div className="ed-dropdown__content--body">{children[1]}</div>
-        </div>
+        {!disabled && (
+          <div className="ed-dropdown__content" ref={this.dropdownContent}>
+            <div className="ed-dropdown__content--body">{children[1]}</div>
+          </div>
+        )}
       </div>
     );
   }
@@ -128,6 +107,7 @@ export interface DropdownProps {
   positionY?: 'top' | 'bottom';
   openOnHover?: boolean;
   preventClickPropagation?: boolean;
+  disabled?: boolean;
 }
 
 export interface DropdownItemProps {

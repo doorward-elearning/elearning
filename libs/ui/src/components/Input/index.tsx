@@ -19,6 +19,7 @@ import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import ErrorMessage, { getError } from '@doorward/ui/components/Input/ErrorMessage';
 import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
 import translate from '@doorward/common/lang/translate';
+import Tooltip from '@doorward/ui/components/Tooltip';
 
 export enum InputFeatures {
   LABEL = 1,
@@ -132,7 +133,9 @@ function withInput<R extends InputProps>(
             <label htmlFor={inputProps.id}>
               {props.label || props.placeholder}
               <IfElse condition={isRequired && props.label}>
-                <span title={translate('thisFieldIsRequired')}>*</span>
+                <Tooltip title={translate('thisFieldIsRequired')} component={<span />}>
+                  *
+                </Tooltip>
               </IfElse>
             </label>
           </Feature>

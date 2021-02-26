@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, MutableRefObject } from 'react';
+import React, { MouseEventHandler, MutableRefObject, useRef } from 'react';
 import classNames from 'classnames';
 import './Icon.scss';
 import { Icons } from '../../types/icons';
@@ -10,11 +10,13 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
     [props.className || '']: true,
     clickable: !!props.onClick || props.clickable,
   });
+  const ref = useRef();
+
   return (
     <React.Fragment>
       {props.icon && (
-        <Tooltip title={props.title}>
-          <i className={className} onClick={props.onClick}>
+        <Tooltip title={props.title} parentRef={ref}>
+          <i className={className} onClick={props.onClick} ref={ref}>
             {props.icon}
           </i>
         </Tooltip>

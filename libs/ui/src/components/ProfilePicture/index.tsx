@@ -9,7 +9,7 @@ const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JS
   const width = props.width || 50;
   const height = props.height || 50;
   return props.user ? (
-    <Dropdown openOnHover>
+    <Dropdown openOnHover disabled={props.hideUserInfo}>
       <div className="ed-profilePicture">
         {props.user?.profilePicture ? (
           <img src={props.user.profilePicture} alt="" style={{ width, height }} />
@@ -27,7 +27,7 @@ const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JS
           </div>
         )}
       </div>
-      {!props.hideUserInfo && props.user.id && <UserInfoCard user={props.user as UserEntity} />}
+      {props.user.id && <UserInfoCard user={props.user as UserEntity} />}
     </Dropdown>
   ) : null;
 };

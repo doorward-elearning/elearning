@@ -8,8 +8,6 @@ import ListItem from '@doorward/ui/components/List/ListItem';
 import { QuestionViewTypes } from './QuestionView';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
 import translate from '@doorward/common/lang/translate';
-import Badge from '@doorward/ui/components/Badge';
-import Icon from '@doorward/ui/components/Icon';
 
 const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({ answers }) => {
   return (
@@ -18,15 +16,8 @@ const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({ 
         return (
           <ListItem>
             <div className="answer-view-item">
-              <span>
-                {answer.correct ? (
-                  <div className="correct-answer-display" title={translate('correctAnswer')}>
-                    <Icon icon="check" />
-                  </div>
-                ) : (
-                  `${index + 1}. `
-                )}
-              </span>
+              {answer.correct && <div className="correct-answer-display">{translate('correctAnswer')}</div>}
+              <span>{index + 1}. </span>
               <span>{answer.answer}</span>
             </div>
           </ListItem>

@@ -12,13 +12,28 @@
     position: relative;
 
     .correct-answer-display {
+      position: absolute;
+      display: grid;
       background: var(--text-success);
       color: var(--text-alternate);
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 50%;
+      top: 50%;
+      white-space: nowrap;
+      align-items: center;
+      right: 0;
+      transform: translateY(-50%) translateX(100%);
+      padding: var(--padding-sm) var(--padding);
+      box-shadow: var(--box-shadow);
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 1.5em;
+        height: 1.5em;
+        z-index: -1;
+        background: var(--text-success);
+        left: -0.5em;
+        transform: rotate(45deg);
+      }
     }
   }
 }
