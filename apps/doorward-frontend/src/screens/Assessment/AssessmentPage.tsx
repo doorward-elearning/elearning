@@ -46,7 +46,11 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     (api) => api.assessments.submitAssignment,
     {
       onSuccess: () => {
-        routes.navigate(routes.dashboard);
+        routes.navigate(routes.viewModuleItem, {
+          courseId: assessment.module?.course?.id,
+          moduleId: assessment.module?.id,
+          itemId: assessment.id,
+        });
       },
     }
   );

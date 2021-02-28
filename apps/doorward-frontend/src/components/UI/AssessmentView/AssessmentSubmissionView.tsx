@@ -26,7 +26,7 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           <InformationCard.Item title={translate('timeTaken')} icon="timer">
             {Tools.timeTaken(submission.assessmentTime)}
           </InformationCard.Item>
-          <InformationCard.Item title={translate('gradedOn')} icon={'grade'}>
+          <InformationCard.Item title={translate('gradedOn')} icon={'grade'} hidden={!submission.gradedOn}>
             {Tools.normalDateTime(submission.gradedOn)}
           </InformationCard.Item>
           <InformationCard.Item title={translate('submittedOn')} icon={'send'}>
@@ -34,10 +34,13 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           </InformationCard.Item>
           <InformationCard.Item title={translate('grade')} icon={'grade'}>
             <DisplayLabel>
-              {translate('gradeOutOf', { points: submission.grade, totalPoints: results?.totalPoints })}
+              {submission.gradedOn
+                ? translate('gradeOutOf', { points: submission.grade, totalPoints: results?.totalPoints })
+                : translate('notYetGraded')}
             </DisplayLabel>
           </InformationCard.Item>
           <InformationCard.Item
+            hidden={!submission.gradedOn}
             title={translate('gradedBy')}
             icon={submission.grader?.fullName ? 'account_circle' : 'devices'}
           >
@@ -45,12 +48,14 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           </InformationCard.Item>
         </InformationCard.Body>
       </InformationCard>
-      <div className="results mt-8">
-        {results &&
-          Object.keys(results.questions).map((questionId) => {
-            return <QuestionView question={results.questions[questionId]} view={QuestionViewTypes.SUBMISSION_MODE} />;
-          })}
-      </div>
+      {submission.gradedOn && (
+        <div className="results mt-8">
+          {results &&
+            Object.keys(results.questions).map((questionId) => {
+              return <QuestionView question={results.questions[questionId]} view={QuestionViewTypes.SUBMISSION_MODE} />;
+            })}
+        </div>
+      )}
     </div>
   );
 };

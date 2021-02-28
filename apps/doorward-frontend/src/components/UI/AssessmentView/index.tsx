@@ -24,6 +24,7 @@ import { useApiAction } from 'use-api-action';
 import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
 import InformationCard from '@doorward/ui/components/InformationCard';
 import AssessmentSubmissionView from './AssessmentSubmissionView';
+import Empty from '@doorward/ui/components/Empty';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -144,10 +145,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         )}
         <RoleContainer privileges={['assessments.submit']}>
           <Spacer />
+          <Header padded size={2} className="mb-8">
+            {translate('exam', { count: 1 })}
+          </Header>
           <InformationCard>
-            <InformationCard.Header>
-              <Header size={2}>{translate('exam')}</Header>
-            </InformationCard.Header>
             <InformationCard.Body>
               {moment().isBefore(startDate) && (
                 <InformationCard.Item title={translate('examWillStartIn')}>
@@ -207,7 +208,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
         </RoleContainer>
-        {submission && submission.gradedOn && (
+        {submission && (
           <RoleContainer privileges={['assessments.submit']}>
             <Header padded size={2} className="mb-8">
               {translate('submission', { count: 1 })}

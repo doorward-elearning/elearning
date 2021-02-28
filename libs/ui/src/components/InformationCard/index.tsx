@@ -13,25 +13,25 @@ const Body: React.FunctionComponent<BodyProps> = (props): JSX.Element => {
 };
 
 const InformationItemBody: React.FunctionComponent<InformationItemBodyProps> = (props): JSX.Element => {
-  return (
+  return !props.hidden ? (
     <div className="information-card-item-body">
       {props.icon && <Icon icon={props.icon} />}
       <span className="information-card-item-content">
         {typeof props.children === 'string' ? <a href={props.link}>{props.children}</a> : props.children}
       </span>
     </div>
-  );
+  ) : null;
 };
 
 const InformationItem: React.FunctionComponent<InformationItemProps> = (props): JSX.Element => {
-  return (
+  return !props.hidden ? (
     <div className="information-card-item">
       <div className="information-card-item-title">{props.title}</div>
       <InformationItemBody link={props.link} icon={props.icon}>
         {props.children}
       </InformationItemBody>
     </div>
-  );
+  ) : null;
 };
 
 class InformationCard extends Component<InformationCardProps> {
@@ -61,6 +61,7 @@ export interface InformationItemBodyProps {
   children: string | JSX.Element | Array<JSX.Element>;
   link?: string;
   icon?: Icons;
+  hidden?: boolean;
 }
 
 export interface HeaderProps {
