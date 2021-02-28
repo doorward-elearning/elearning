@@ -2,12 +2,19 @@
   display: flex;
   flex-direction: column;
 }
+
+.rdw-editor-wrapper.readOnly .rdw-editor-main {
+  padding: 0 var(--padding);
+}
 .rdw-editor-main {
   overflow: auto;
   width: 100%;
   box-sizing: border-box;
   padding: 0 50px;
   flex: 1;
+}
+
+.public-DraftEditorPlaceholder-root {
 }
 
 .rdw-editor-main .ed-container {

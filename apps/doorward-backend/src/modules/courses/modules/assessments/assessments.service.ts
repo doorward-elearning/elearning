@@ -6,6 +6,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import translate from '@doorward/common/lang/translate';
+import assessmentGrader from '../../../../utils/assessment.grader';
 
 @Injectable()
 export class AssessmentsService {
@@ -49,7 +50,7 @@ export class AssessmentsService {
   }
 
   public async submitAssessment(assessmentId: string, body: SaveAssessmentBody, user: UserEntity) {
-    const submission = await this.getSubmission(assessmentId, user);
+    let submission = await this.getSubmission(assessmentId, user);
 
     if (submission) {
       const startTime = moment(submission.createdAt);
@@ -60,6 +61,11 @@ export class AssessmentsService {
       submission.submittedOn = new Date();
 
       await this.submissionRepository.save(submission);
+
+      // grade the assessment
+      await assessmentGrader(submission.id, submission.getConnection());
+
+      submission = await this.getSubmission(assessmentId, user);
     } else {
       throw new NotFoundException(translate('assessmentSubmissionDoesNotExist'));
     }

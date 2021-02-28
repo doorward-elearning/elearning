@@ -13,13 +13,14 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
   container = document.getElementById('modal-box');
   parent = React.createRef<any>();
   tooltip: HTMLDivElement;
+  displayTimeout: any;
 
   state = {
     visible: false,
     top: 0,
     left: 0,
     padding: 5,
-    delay: 100, // wait for the component to be mounted.
+    delay: 300, // wait for the component to be mounted.
   };
 
   componentWillMount(): void {
@@ -67,19 +68,20 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
 
   show = () => {
     const { hidden } = this.props;
-    const { visible } = this.state;
+    const { visible, delay } = this.state;
     if (!visible && !hidden) {
-      this.setState(
-        {
-          visible: true,
-        },
-        this.updatePosition
-      );
+      this.displayTimeout = setTimeout(() => {
+        this.setState(
+          {
+            visible: true,
+          },
+          this.updatePosition
+        );
+      }, delay);
     }
   };
 
   updatePosition = () => {
-    const { delay } = this.state;
     setTimeout(() => {
       const { padding } = this.state;
 
@@ -98,10 +100,11 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
           });
         }
       }
-    }, delay);
+    }, 100);
   };
 
   hide = () => {
+    clearTimeout(this.displayTimeout);
     this.setState({
       visible: false,
     });

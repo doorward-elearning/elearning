@@ -18,37 +18,14 @@ import useMergeState from '@doorward/ui/hooks/useMergeState';
 import useRoutes from '../../../hooks/useRoutes';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import Table from '@doorward/ui/components/Table';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
+import InformationCard from '@doorward/ui/components/InformationCard';
+import AssessmentSubmissionView from './AssessmentSubmissionView';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
-
-const AssessmentTimes = ({ startDate, endDate }) => {
-  return startDate || endDate ? (
-    <div>
-      <div className="mt-4">
-        <Header padded size={2}>
-          {translate('availableFrom')}
-        </Header>
-        <div className="mt-4 mb-4">
-          <DisplayLabel>{Tools.normalDateTime(startDate)}</DisplayLabel>
-        </div>
-      </div>
-      <div className="mt-4">
-        <Header padded size={2}>
-          {translate('availableTo')}
-        </Header>
-        <div className="mt-4 mb-4">
-          <DisplayLabel>{Tools.normalDateTime(endDate)}</DisplayLabel>
-        </div>
-      </div>
-    </div>
-  ) : null;
-};
 
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
@@ -57,7 +34,9 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
     startAssessment: false,
     startDate: null,
     endDate: null,
+    points: 0,
   });
+  const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
@@ -65,6 +44,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
       setSubmission(data?.submission);
     },
   });
+
+  useEffect(() => {
+    setPoints(assessment.questions.reduce((acc, question) => acc + question.points, 0));
+  }, []);
 
   useEffect(() => {
     getSubmission(assessment.id);
@@ -144,7 +127,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               </Header>
               <DisplayLabel>
                 {translate('totalPoints')}&nbsp;
-                <b>{assessment.questions.reduce((acc, question) => acc + question.points, 0)}</b>
+                <b>{points}</b>
               </DisplayLabel>
             </HeaderGrid>
             <div className="ed-assessment">
@@ -160,27 +143,53 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           </React.Fragment>
         )}
         <RoleContainer privileges={['assessments.submit']}>
-          {moment().isBefore(startDate) && (
-            <React.Fragment>
-              <Spacer />
-              <Header size={2}>{translate('examWillStartIn')}</Header>
-              <Spacer />
-              {moment().diff(startDate, 'hour') < 24 ? (
-                <AssessmentTimer
-                  totalTimeSeconds={Math.abs(moment().diff(startDate, 'second'))}
-                  onTimeEnded={() => {
-                    setState({
-                      startAssessment: true,
-                    });
-                  }}
-                />
-              ) : (
-                <DisplayLabel>{Tools.humanReadableTime(startDate)}</DisplayLabel>
-              )}
-            </React.Fragment>
-          )}
           <Spacer />
-          <AssessmentTimes startDate={startDate} endDate={endDate} />
+          <InformationCard>
+            <InformationCard.Header>
+              <Header size={2}>{translate('exam')}</Header>
+            </InformationCard.Header>
+            <InformationCard.Body>
+              {moment().isBefore(startDate) && (
+                <InformationCard.Item title={translate('examWillStartIn')}>
+                  {moment().diff(startDate, 'hour') < 24 ? (
+                    <AssessmentTimer
+                      totalTimeSeconds={Math.abs(moment().diff(startDate, 'second'))}
+                      onTimeEnded={() => {
+                        setState({
+                          startAssessment: true,
+                        });
+                      }}
+                    />
+                  ) : (
+                    <DisplayLabel>{Tools.humanReadableTime(startDate)}</DisplayLabel>
+                  )}
+                </InformationCard.Item>
+              )}
+              <InformationCard.Item
+                title={`${translate(endDate ? 'availability' : 'availableFrom')} ${
+                  endDate ? '(' + Tools.timeTaken(moment(endDate).diff(startDate, 'seconds')) + ')' : ''
+                }`}
+              >
+                <InformationCard.ItemBody icon={'timer'}>{Tools.normalDateTime(startDate)}</InformationCard.ItemBody>
+                {endDate && (
+                  <InformationCard.ItemBody icon={'timer_off'}>
+                    {Tools.normalDateTime(endDate)}
+                  </InformationCard.ItemBody>
+                )}
+              </InformationCard.Item>
+              {assessment.options?.timeLimit?.allow && (
+                <InformationCard.Item title={translate('timeLimit')} icon="timer">
+                  {Tools.timeTaken(assessment.options.timeLimit.minutes * 60)}
+                </InformationCard.Item>
+              )}
+              <InformationCard.Item title={translate('numberOfQuestions')} icon={'list'}>
+                {`${assessment.questions?.length || 0}`}
+              </InformationCard.Item>
+              <InformationCard.Item title={translate('totalPoints')} icon={'all_inclusive'}>
+                {`${points}`}
+              </InformationCard.Item>
+            </InformationCard.Body>
+          </InformationCard>
           <Spacer />
           {startAssessment && (
             <Button
@@ -198,49 +207,12 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
         </RoleContainer>
-        {submission && (
+        {submission && submission.gradedOn && (
           <RoleContainer privileges={['assessments.submit']}>
-            <Header padded size={2}>
+            <Header padded size={2} className="mb-8">
               {translate('submission', { count: 1 })}
             </Header>
-            <Table
-              data={[submission]}
-              height={300}
-              onRowClick={({ rowData }) => {
-                if (rowData.status === AssessmentSubmissionStatus.DRAFT) {
-                  routes.navigate(routes[assessment.assessmentType === AssessmentTypes.EXAM ? 'exam' : 'quiz'], {
-                    assessmentId: rowData.id,
-                  });
-                }
-              }}
-              columns={{
-                id: {
-                  title: translate('id'),
-                  cellRenderer: ({ rowIndex }) => rowIndex + 1,
-                  maxWidth: 80,
-                },
-                assessmentTime: {
-                  title: translate('timeTakenToComplete'),
-                  cellRenderer: ({ rowData }) => Tools.timeTaken(+rowData.assessmentTime),
-                },
-                status: {
-                  title: translate('status'),
-                },
-                submittedOn: {
-                  cellRenderer: ({ rowData }) =>
-                    rowData.submittedOn ? Tools.humanReadableTime(rowData.submittedOn) : '--',
-                  title: translate('dateSubmitted'),
-                },
-                grade: {
-                  title: translate('grade'),
-                  cellRenderer: ({ rowData }) =>
-                    rowData.status === AssessmentSubmissionStatus.GRADED ? rowData.grade : '--',
-                },
-                gradedBy: {
-                  title: translate('gradedBy'),
-                },
-              }}
-            />
+            <AssessmentSubmissionView submission={submission} />
           </RoleContainer>
         )}
       </Form>

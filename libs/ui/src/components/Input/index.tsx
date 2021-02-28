@@ -125,6 +125,7 @@ function withInput<R extends InputProps>(
       fluid: props.fluid,
       [props.className || '']: true,
       required: isRequired,
+      disabled: props.disabled,
     });
     return (
       <FeatureProvider features={features}>

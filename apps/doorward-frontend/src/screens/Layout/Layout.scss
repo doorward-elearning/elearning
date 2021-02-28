@@ -111,6 +111,7 @@
   &__full_content {
     display: grid;
     flex: 1;
+    margin-right: 5px; // prevents the scrollbar from flickering
 
     &--body {
       display: flex;

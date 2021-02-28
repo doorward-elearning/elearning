@@ -1,3 +1,5 @@
+@import '../../../animations';
+
 .ed-modal {
   position: fixed;
   top: 0;
@@ -27,7 +29,9 @@
 
       &__content {
         opacity: 1;
-        display: grid;
+        display: flex;
+        flex-direction: column;
+        animation: popOut 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       }
     }
 
@@ -69,7 +73,6 @@
     }
 
     &.fullScreenBottomSheet {
-
       .ed-modal__content {
         top: 0;
         height: 100%;
@@ -87,7 +90,7 @@
     z-index: 1;
     max-height: calc(100vh - var(--padding-xlg) * 2);
 
-    .ed-container {
+    > .ed-container {
       display: flex;
       flex-direction: column;
     }
@@ -123,7 +126,6 @@
       padding: var(--padding-xlg);
       border-top: 1px solid var(--line-color);
       border-bottom: 1px solid var(--line-color);
-      max-height: 50vh;
       overflow-y: auto;
       height: 100%;
       flex: 1;

@@ -43,6 +43,9 @@ export class CreateAnswerBody {
 
   @Expose()
   correct: boolean;
+
+  @Expose()
+  points?: number;
 }
 
 export class CreateModuleItemBody extends DApiBody {
@@ -150,19 +153,33 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
     Yup.object({
       question: Yup.string().required(translate('questionRequired')).nullable(),
       type: Yup.string().oneOf(Object.values(AnswerTypes), translate('invalidType')),
-      answers: Yup.array().when('type', {
-        is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
-        then: Yup.array()
-          .of(
-            Yup.object({
-              answer: Yup.string().required(translate('answerRequired')),
-              correct: Yup.bool(),
-            })
-          )
-          .test('Correct Answer', translate('chooseAtLeastOneAnswer'), (value) => {
-            return value.find((x) => x.correct);
-          }),
-      }),
+      answers: Yup.array()
+        .when('type', {
+          is: (value) => value === AnswerTypes.MULTIPLE_CHOICE,
+          then: Yup.array()
+            .of(
+              Yup.object({
+                answer: Yup.string().required(translate('answerRequired')),
+                correct: Yup.bool(),
+              })
+            )
+            .test('Correct Answer', translate('chooseAtLeastOneAnswer'), (value) => {
+              return value.find((x) => x.correct);
+            }),
+        })
+        .when('type', {
+          is: (value) => value === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE,
+          then: Yup.array()
+            .of(
+              Yup.object({
+                answer: Yup.string().required(translate('answerRequired')),
+                correct: Yup.bool(),
+              })
+            )
+            .test('Correct Answer', translate('atLeastOneAnswerWithPoints'), (value) => {
+              return value.find((x) => x.points > 0);
+            }),
+        }),
     });
 
   async validation?(): Promise<ObjectSchema> {

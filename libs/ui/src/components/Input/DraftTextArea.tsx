@@ -9,6 +9,8 @@ import { generateEditorStateFromString } from '@doorward/ui/hoc/draftEditorWrapp
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import _ from 'lodash';
 import DoorwardApi from '../../../../../apps/doorward-frontend/src/services/apis/doorward.api';
+import Tooltip from '@doorward/ui/components/Tooltip';
+import translate from '@doorward/common/lang/translate';
 
 const exportFunction = {
   json: (content: ContentState): object => convertToRaw(content),
@@ -25,7 +27,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
 }): JSX.Element => {
   const editorRef = React.useRef(null);
   const [editorState, setEditorState] = React.useState<any>();
-  const [focused, setFocused] = useState(true);
+  const [focused, setFocused] = useState(false);
   useEffect(() => {
     let newState = null;
     try {
@@ -69,22 +71,25 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         fluid: props.fluid,
       })}
     >
-      {!editing ? (
-        <div
-          className="eb-input--draft-text-area__display"
-          onClick={() => {
+      <Tooltip
+        className={classNames({
+          'eb-input--draft-text-area__display': !editing,
+        })}
+        title={translate('clickToEdit')}
+        hidden={focused || !props.shy}
+        onClick={() => {
+          if (!editing) {
             setFocused(true);
-          }}
-        >
-          <DraftHTMLContent content={value} />
-        </div>
-      ) : (
+          }
+        }}
+      >
         <Editor
+          readOnly={!editing}
           uploadCallback={DoorwardApi.api.files.uploadFile}
-          placeholder={props.placeholder}
-          wrapperClassName="eb-input--draft-text-area__wrapper"
-          editorClassName="eb-input--draft-text-area__editor"
-          toolbarClassName="eb-input--draft-text-area__toolbar"
+          placeholder={props.placeholder || translate('inputPlaceholder')}
+          wrapperClassName={editing && 'eb-input--draft-text-area__wrapper'}
+          editorClassName={editing && 'eb-input--draft-text-area__editor'}
+          toolbarClassName={editing && 'eb-input--draft-text-area__toolbar'}
           editorState={editorState}
           onEditorStateChange={setEditorState}
           fullScreenParent={document.getElementById('modal-box')}
@@ -97,7 +102,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
           }}
           ref={editorRef}
         />
-      )}
+      </Tooltip>
       {children}
     </div>
   );

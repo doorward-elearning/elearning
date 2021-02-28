@@ -289,13 +289,14 @@ export class ItemsService {
       });
     }
     return Promise.all(
-      [...newItems, ...unchanged].map(async ({ id, answer: answerBody, correct, description = '' }) => {
+      [...newItems, ...unchanged].map(async ({ id, answer: answerBody, correct, points, description = '' }) => {
         return this.answerRepository.save(
           this.answerRepository.create({
             id,
             answer: answerBody,
             question,
             correct,
+            points,
             description: description || '',
           }),
           {

@@ -1,0 +1,46 @@
+.ed-information-card {
+  .information-card-header {
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: space-between;
+  }
+
+  .information-card-body {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .information-card-item {
+      display: grid;
+      grid-gap: var(--padding);
+      align-items: start;
+      align-content: start;
+      margin: var(--padding-lg) var(--padding);
+      min-width: 300px;
+
+      .information-card-item-title {
+        color: var(--text-secondary);
+        opacity: 0.8;
+      }
+
+      .information-card-item-body {
+        display: grid;
+        align-items: center;
+        grid-auto-flow: column;
+        justify-content: start;
+        grid-gap: var(--padding);
+        padding: var(--padding-sm) 0;
+
+        i {
+          font-size: 18px;
+        }
+
+        a {
+          color: var(--text-primary);
+          text-decoration: unset;
+        }
+      }
+    }
+  }
+}

@@ -9,6 +9,9 @@ export default class AssessmentSubmissionEntity extends BaseOrganizationEntity {
   @Column({ type: 'text' })
   submission: string;
 
+  @Column({ type: 'text', nullable: true })
+  submissionResults: string;
+
   @Column({ default: 0 })
   assessmentTime: number;
 

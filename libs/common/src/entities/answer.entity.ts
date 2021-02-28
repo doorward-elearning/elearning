@@ -14,6 +14,9 @@ export default class AnswerEntity extends BaseOrganizationEntity {
   @Column({ default: false })
   correct: boolean;
 
+  @Column({ default: 0 })
+  points: number;
+
   @ManyToOne(() => QuestionEntity, (question) => question.answers, {
     onDelete: 'CASCADE',
   })

@@ -38,20 +38,22 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = (
   return (
     <div className="eb-input__switch">
       <List>
-        <ItemArray data={props.choices} getKey={(i) => i}>
-          {(item, index) => (
-            <ListItem>
+        {props.choices.map((item, index) => {
+          return (
+            <ListItem key={index}>
               <Row style={{ justifyContent: 'start', gridGap: 'var(--padding-lg)' }}>
                 <Switch
-                  open={props.singleChoice ? value === values[index] : !!value?.find((i: string) => i === values[index])}
+                  open={
+                    props.singleChoice ? value === values[index] : !!value?.find((i: string) => i === values[index])
+                  }
                   onToggle={(open) => handleToggle(values[index], open)}
                   id={props.id + values[index]}
                 />
-                <span>{item}</span>
+                <span>{props.itemRenderer ? props.itemRenderer(item) : item}</span>
               </Row>
             </ListItem>
-          )}
-        </ItemArray>
+          );
+        })}
       </List>
     </div>
   );
@@ -61,6 +63,7 @@ export interface MultipleSwitchFieldProps extends InputProps {
   choices: Array<string>;
   values?: Array<string>;
   singleChoice?: boolean;
+  itemRenderer?: (value: string) => JSX.Element;
 }
 
 export default withInput(MultipleSwitchField, [InputFeatures.LABEL], { labelPosition: 'top' });

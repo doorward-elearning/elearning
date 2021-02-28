@@ -24,15 +24,24 @@
     }
 
     .react-dropdown-select-dropdown {
-      margin-left: -3em;
-      padding-right: 3em;
       top: calc(100% + var(--padding-lg));
       width: 100%;
       background: var(--bg-primary);
+      border: none;
     }
 
     .react-dropdown-select-content {
-      align-items: center;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      justify-content: stretch;
+
+      span {
+        white-space: nowrap;
+      }
+      input {
+        grid-row: unset;
+        grid-column: unset;
+      }
     }
 
     .react-dropdown-select-separator {
@@ -43,11 +52,11 @@
       padding: var(--padding) 0 var(--padding) 3em;
       width: calc(100% - 0.3em);
       max-width: 500px;
-      border-bottom: 1px solid var(--line-color);
+      border: none;
 
       &-selected {
         color: var(--primary);
-        background: none;
+        background: var(--bg-secondary);
         position: relative;
 
         &:before {
@@ -55,7 +64,7 @@
           font-size: 1.2em;
           color: var(--text-success);
           position: absolute;
-          left: var(--padding);
+          left: var(--padding-lg);
           top: 50%;
           transform: translateY(-50%);
         }

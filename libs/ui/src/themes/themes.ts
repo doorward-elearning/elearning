@@ -29,7 +29,7 @@ const base = {
   '--collapsed-sidebar-size': '74px',
   '--menu-item-height': '40px',
   '--search-bar-background': 'rgba(74,74,74,0.07)',
-  '--page-font-size': '1em',
+  '--page-font-size': '14px',
   '--list-item-height': '40px',
   '--list-item-width': '200px',
   '--modal-background': 'rgba(0, 0, 0, .5)',

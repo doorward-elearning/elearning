@@ -308,10 +308,12 @@ class WysiwygEditor extends Component<EditorProps, any> {
   };
 
   setEditorReference = (ref) => {
-    if (this.props.editorRef) {
-      this.props.editorRef(ref);
+    if (ref) {
+      if (this.props.editorRef) {
+        this.props.editorRef(ref);
+      }
+      this.editor = ref;
     }
-    this.editor = ref;
   };
 
   getCompositeDecorator = (toolbar) => {
@@ -442,8 +444,10 @@ class WysiwygEditor extends Component<EditorProps, any> {
 
   focusEditor = () => {
     setTimeout(() => {
-      this.editor.focus();
-    });
+      if (this.editor) {
+        this.editor.focus();
+      }
+    }, 300);
   };
 
   handleKeyCommand = (command) => {
@@ -601,7 +605,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
     const EditorComponent = (
       <div
         id={this.wrapperId}
-        className={classNames(wrapperClassName, 'rdw-editor-wrapper')}
+        className={classNames(wrapperClassName, 'rdw-editor-wrapper', { readOnly: this.isReadOnly() })}
         style={wrapperStyle}
         onClick={this.modalHandler.onEditorClick}
         onBlur={this.onWrapperBlur}

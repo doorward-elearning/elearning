@@ -225,13 +225,10 @@ class Modal extends Component<ModalProps> {
                 open: true,
                 bottomSheet: props.bottomSheet || props.fullScreenBottomSheet,
                 fullScreenBottomSheet: props.fullScreenBottomSheet,
-                [props.className || '']: true,
               })}
             >
               <div className="ed-modal__background" onClick={() => cancellable && this.closeModal()} />
-              <div className="ed-modal__content">
-                <Container>{children}</Container>
-              </div>
+              <div className={classNames('ed-modal__content', props.className)}>{children}</div>
             </div>
           )}
         </ModalContext.Provider>

@@ -5,13 +5,12 @@
 
   .answer-view-item {
     display: grid;
-    grid-template-columns: 40px 1fr;
-    grid-gap: var(--padding);
     align-items: start;
-    padding: var(--padding);
     position: relative;
 
-    .correct-answer-display {
+    .correct-answer-display,
+    .chosen-answer-display,
+    .answer-points-display {
       position: absolute;
       display: grid;
       background: var(--text-success);
@@ -33,6 +32,26 @@
         background: var(--text-success);
         left: -0.5em;
         transform: rotate(45deg);
+      }
+    }
+
+    .chosen-answer-display {
+      &:not(.correct) {
+        background: var(--text-error);
+
+        &:before {
+          background: var(--text-error);
+        }
+      }
+    }
+
+    .answer-points-display {
+      &:not(.correct) {
+        background: var(--text-primary);
+
+        &:before {
+          background: var(--text-primary);
+        }
       }
     }
   }

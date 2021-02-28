@@ -1,0 +1,23 @@
+.ed-question-view {
+  .no-choices-display {
+    margin: var(--padding) 0;
+  }
+
+  .points-count {
+    display: inline-grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--text-primary);
+    color: var(--text-alternate);
+
+    &.success {
+      background: var(--text-success);
+    }
+
+    &.error {
+      background: var(--text-error);
+    }
+  }
+}

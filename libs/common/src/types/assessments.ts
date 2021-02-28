@@ -1,3 +1,6 @@
+import QuestionEntity from '@doorward/common/entities/question.entity';
+import { AnswerTypes } from '@doorward/common/types/exam';
+
 export interface AssessmentOptions {
   shuffleAnswers: boolean;
   timeLimit: {
@@ -40,4 +43,42 @@ export enum ScoreToKeep {
   HIGHEST = 'highest',
   LATEST = 'latest',
   AVERAGE = 'average',
+}
+
+export interface AssessmentAnswerResult {
+  id: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  deletedAt: Date | string;
+  answer: string;
+  description: string;
+  correct: boolean;
+  points: number;
+}
+
+export interface AssessmentQuestionResult {
+  id: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+  deletedAt: Date | string;
+  question: string;
+  points: number;
+  type: AnswerTypes;
+  answers: Array<AssessmentAnswerResult>;
+  graded: boolean;
+  answerId?: string;
+  answer?: string;
+  isCorrect?: boolean;
+  comments?: string;
+}
+
+export interface AssessmentSubmission {
+  [questionId: string]: string;
+}
+
+export interface AssessmentSubmissionResult {
+  questions: {
+    [questionId: string]: AssessmentQuestionResult;
+  };
+  totalPoints: number;
 }

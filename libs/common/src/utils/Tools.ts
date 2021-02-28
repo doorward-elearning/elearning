@@ -223,7 +223,9 @@ class Tools {
     if (minutesTaken > 0) {
       result += translate('minuteWithCount', { count: minutesTaken }) + ' ';
     }
-    result += translate('secondWithCount', { count: secondsTaken });
+    if (secondsTaken || !result) {
+      result += translate('secondWithCount', { count: secondsTaken });
+    }
     return result;
   }
 

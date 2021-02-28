@@ -57,7 +57,7 @@
   "changePassword": "Change password",
   "chat": "Chat",
   "choose": "Choose",
-  "chooseAtLeastOneAnswer": "Please choose at least one answer",
+  "chooseAtLeastOneAnswer": "Please choose at least one correct answer",
   "chooseAtLeastOneMember": "Please choose at least one member",
   "chooseAtLeastOneStudent": "Please choose at least one student.",
   "chooseAtLeastOneType": "Please choose at least one type",
@@ -568,5 +568,18 @@
   "fromDateShouldBeLessThanUntilDate": "The start date should be before the end date",
   "untilDateShouldBeAfterFromDate": "The end date should be after the start date.",
   "examWillStartIn": "Exam starts in",
-  "profilePictureIsRequired": "The profile picture is required."
+  "profilePictureIsRequired": "The profile picture is required.",
+  "delete": "Delete",
+  "clickToEdit": "Click to edit",
+  "multipleChoiceDescriptive": "Multiple choice with answer points",
+  "numberOfQuestions": "No. of questions",
+  "to": "to",
+  "inputPlaceholder": "Type here...",
+  "atLeastOneAnswerWithPoints": "At least one answer should have points.",
+  "chosenAnswer": "Chosen answer",
+  "timeTaken": "Time taken",
+  "gradedOn": "Graded on",
+  "submittedOn": "Submitted on",
+  "gradeOutOf": "{{points}} out of {{totalPoints}}",
+  "systemGraded": "Automatically graded."
 }
