@@ -8,39 +8,39 @@ import translate from '@doorward/common/lang/translate';
 export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRoutes>): Array<MenuItem> => {
   const { logout } = useAuth();
   return [
-    {
-      ...routes.dashboard,
-      icon: 'dashboard',
-    },
-    {
-      ...routes.courses,
-      icon: 'school',
-      subMenu: [routes.courseList],
-    },
-    {
-      ...routes.students,
-      icon: 'account_circle',
-      subMenu: [routes.studentList, routes.newStudent],
-    },
-    {
-      ...routes.teachers,
-      icon: 'work',
-      subMenu: [routes.teacherList, routes.addTeacher],
-    },
-    {
-      ...routes.groups,
-      icon: 'people',
-      subMenu: [routes.studentGroups, routes.teacherGroups],
-    },
-    {
-      ...routes.reports,
-      icon: 'trending_up',
-      subMenu: [routes.studentListReports, routes.teacherListReports],
-    },
-    {
-      ...routes.organizations,
-      icon: 'meeting_room',
-    },
+    // {
+    //   ...routes.dashboard,
+    //   icon: 'dashboard',
+    // },
+    // {
+    //   ...routes.courses,
+    //   icon: 'school',
+    //   subMenu: [routes.courseList],
+    // },
+    // {
+    //   ...routes.students,
+    //   icon: 'account_circle',
+    //   subMenu: [routes.studentList, routes.newStudent],
+    // },
+    // {
+    //   ...routes.teachers,
+    //   icon: 'work',
+    //   subMenu: [routes.teacherList, routes.addTeacher],
+    // },
+    // {
+    //   ...routes.groups,
+    //   icon: 'people',
+    //   subMenu: [routes.studentGroups, routes.teacherGroups],
+    // },
+    // {
+    //   ...routes.reports,
+    //   icon: 'trending_up',
+    //   subMenu: [routes.studentListReports, routes.teacherListReports],
+    // },
+    // {
+    //   ...routes.organizations,
+    //   icon: 'meeting_room',
+    // },
     {
       name: translate('logout'),
       onClick: (): void => {

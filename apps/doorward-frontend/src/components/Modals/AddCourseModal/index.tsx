@@ -4,17 +4,15 @@ import { useHistory } from 'react-router';
 import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { CourseResponse } from '@doorward/common/dtos/response';
-import useRoutes from '../../../hooks/useRoutes';
 
 const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = (props) => {
   const form = useForm<AddCourseFormState>();
   const { formikProps } = form;
   const history = useHistory();
-  const routes = useRoutes();
 
   props.useModal.onClose(() => {
     formikProps && formikProps.resetForm();
-    history.push(routes.courseList.link);
+    history.push('/courses');
   });
   return (
     <Modal {...props}>

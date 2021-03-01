@@ -3,9 +3,7 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import './SchoolClassrooms.scss';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
-import usePageResource from '../../hooks/usePageResource';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import useRoutes from '../../hooks/useRoutes';
 import useModal from '@doorward/ui/hooks/useModal';
 import AddClassroomModal from '../../components/Modals/AddClassroomModal';
 import Card from '@doorward/ui/components/Card';
@@ -19,19 +17,21 @@ import Panel from '@doorward/ui/components/Panel';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const [fetchSchool, schoolState] = useApiAction(DoorwardApi, (api) => api.schools.getSchool);
-
-  usePageResource('schoolId', fetchSchool);
-  const routes = useRoutes();
-  const addClassroomModal = useModal();
+  const match = useRouteMatch<{ schoolId: string }>();
+  const history = useHistory();
 
   useEffect(() => {
-    if (schoolState.data?.school) {
-      routes.setCurrentTitle(schoolState.data?.school.name);
+    if (match.params.schoolId) {
+      fetchSchool(match.params.schoolId);
     }
-  }, [schoolState]);
+  }, [match.params]);
+
+  const addClassroomModal = useModal();
+
   return (
     <Layout
       {...props}
@@ -62,13 +62,7 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
                 <ItemArray data={classrooms}>
                   {(classroom) => (
                     <div className="classroom__list__item">
-                      <Card
-                        onClick={() =>
-                          routes.navigate(routes.videoCall, {
-                            meetingId: classroom.meetingRoom.currentMeeting.id,
-                          })
-                        }
-                      >
+                      <Card onClick={() => history.push(`/meeting/${classroom.meetingRoom.currentMeeting.id}`)}>
                         <Card.Header image>
                           <div className="card-image" style={{ background: Tools.color(classroom.id) }}>
                             <EImage src={courseImage} />

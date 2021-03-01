@@ -3,7 +3,6 @@ import Tools from '@doorward/common/utils/Tools';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import { ThemeContext } from '@doorward/ui/components/ApplicationTheme';
 import themes from '@doorward/ui/themes/themes';
-import useRoutes from '../../../hooks/useRoutes';
 import Row from '@doorward/ui/components/Row';
 import Switch from '@doorward/ui/components/Switch';
 import useAuth from '../../../hooks/useAuth';
@@ -11,7 +10,6 @@ import translate from '@doorward/common/lang/translate';
 import ProfilePicture from '@doorward/ui/components/ProfilePicture';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
-  const routes = useRoutes();
   const { changeTheme, theme } = useContext(ThemeContext);
   const auth = useAuth();
   const logout = (): void => {
@@ -25,7 +23,7 @@ const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (
         <Dropdown.Arrow />
       </div>
       <Dropdown.Menu>
-        <Dropdown.Item link={routes.myProfile.withParams({ username: auth.user?.username })}>
+        <Dropdown.Item link={`/profile/${auth.user?.username}`}>
           <Row style={{ padding: 'var(--padding) 0', justifyItems: 'start' }}>
             <ProfilePicture user={auth.user} />
             {auth.user?.username}

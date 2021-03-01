@@ -44,7 +44,6 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
         }}
         pagination={courses.data?.pagination}
         courses={courses.data?.courses}
-        history={props.history}
       />
     </Layout>
   );

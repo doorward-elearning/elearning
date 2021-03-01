@@ -1,34 +1,29 @@
 import React, { FunctionComponent, useCallback, useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import useViewCourse from '../../../hooks/useViewCourse';
-import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import usePageResource from '../../../hooks/usePageResource';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const CreateQuiz: FunctionComponent<CreateQuizProps> = (props): JSX.Element => {
   const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
-  const routes = useRoutes();
-  const [courseId] = useViewCourse();
+  const match = useRouteMatch<{ moduleId: string }>();
+  const history = useHistory();
 
-  usePageResource('moduleId', getModule);
-
-  const { module } = state.data;
   useEffect(() => {
-    if (module) {
-      routes.setCurrentTitle(module.title);
+    if (match.params.moduleId) {
+      getModule(match.params.moduleId);
     }
-  }, [module]);
+  }, [match]);
+
+  const module = state.data?.module;
 
   const finish = useCallback(() => {
-    routes.navigate(routes.viewCourse, {
-      courseId,
-    });
+    history.push(`/courses/${module?.course?.id}`);
   }, []);
 
   return (

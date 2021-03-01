@@ -18,7 +18,6 @@ import ListItem from '@doorward/ui/components/List/ListItem';
 import { Droppable, DroppableStateSnapshot } from 'react-beautiful-dnd';
 import Empty from '@doorward/ui/components/Empty';
 import useModuleDrop from './useModuleDrop';
-import useRoutes from '../../../hooks/useRoutes';
 import useAction from '@doorward/ui/hooks/useActions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
@@ -36,7 +35,6 @@ import { useApiAction } from 'use-api-action';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
-  const routes = useRoutes();
   const hasPrivileges = usePrivileges();
   return (
     <DragAndDropListItem isDragDisabled={!hasPrivileges('modules.update')} index={index} draggableId={moduleItem.id}>
@@ -46,11 +44,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
             'course-module-item': true,
             [_.camelCase(moduleItem.type.toLowerCase())]: true,
           })}
-          to={routes.routes.viewModuleItem.withParams({
-            itemId: moduleItem.id,
-            moduleId: module.id,
-            courseId,
-          })}
+          to={`/moduleItems/${moduleItem.id}`}
         >
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Row style={{ justifyContent: 'start' }}>

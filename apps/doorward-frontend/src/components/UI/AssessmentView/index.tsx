@@ -15,7 +15,6 @@ import moment from 'moment';
 import Button from '@doorward/ui/components/Buttons/Button';
 import Form from '@doorward/ui/components/Form';
 import useMergeState from '@doorward/ui/hooks/useMergeState';
-import useRoutes from '../../../hooks/useRoutes';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
@@ -25,6 +24,7 @@ import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
 import InformationCard from '@doorward/ui/components/InformationCard';
 import AssessmentSubmissionView from './AssessmentSubmissionView';
 import Empty from '@doorward/ui/components/Empty';
+import { useHistory } from 'react-router';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -39,6 +39,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
+  const history = useHistory();
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -56,7 +57,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
 
   const form = useForm();
   const hasPrivileges = usePrivileges();
-  const routes = useRoutes();
 
   useEffect(() => {
     let showQuestions = false;
@@ -193,13 +193,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           </InformationCard>
           <Spacer />
           {startAssessment && (
-            <Button
-              onClick={() =>
-                routes.navigate(routes[assessment.assessmentType === AssessmentTypes.EXAM ? 'exam' : 'quiz'], {
-                  assessmentId: assessment.id,
-                })
-              }
-            >
+            <Button onClick={() => history.push(`${assessment.assessmentType.toLowerCase()}/${assessment.id}`)}>
               {translate('startAssessment', { assessment: assessment.assessmentType })}
             </Button>
           )}

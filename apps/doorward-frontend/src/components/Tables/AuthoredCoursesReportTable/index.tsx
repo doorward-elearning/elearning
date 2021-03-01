@@ -1,15 +1,15 @@
 import React, { FunctionComponent } from 'react';
 import Table from '@doorward/ui/components/Table';
-import useRoutes from '../../../hooks/useRoutes';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const AuthoredCoursesReportTable: FunctionComponent<AuthoredCoursesReportTableProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <Table
       data={props.courses}
-      onRowClick={({ rowData: row }) => routes.navigate(routes.viewCourse, { courseId: row.id })}
+      onRowClick={({ rowData: row }) => history.push(`/courses/${row.id}`)}
       columns={{
         title: {
           title: translate('courseName'),

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
-import useRoutes from '../../hooks/useRoutes';
+import { useHistory, useRouteMatch } from 'react-router';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import Layout, { LayoutFeatures } from '../Layout';
@@ -16,7 +15,7 @@ import { useApiAction } from 'use-api-action';
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
   const [assessment, setAssessment] = useState<AssessmentEntity>();
   const match: any = useRouteMatch();
-  const routes = useRoutes();
+  const history = useHistory();
 
   const [fetchSubmission, submissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
   const [fetchItem, itemState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
@@ -51,7 +50,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
             <Empty
               message={translate('youHaveAlreadySubmittedThisAssessment')}
               actionMessage={translate('goBack')}
-              onAction={() => routes.navigate(routes.dashboard)}
+              onAction={() => history.push(`/moduleItems/${assessment.id}`)}
             />
           ) : (
             <AssessmentPage assessment={assessment} submission={submission} />

@@ -8,12 +8,12 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Empty from '@doorward/ui/components/Empty';
 import Row from '@doorward/ui/components/Row';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import useRoutes from '../../../hooks/useRoutes';
 import Icon from '@doorward/ui/components/Icon';
 import { ModuleItemIcons } from '../../../components/Dropdowns/AddModuleItemDropdown';
+import { useHistory } from 'react-router';
 
 const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, item }): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
 
   return (
     <WebComponent data={course} loading={!course} emptyMessage={translate('courseDoesNotExist')} size="small">
@@ -29,11 +29,7 @@ const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, 
                     {module.items.map((moduleItem) => (
                       <ContentList.MenuItem
                         onClick={() => {
-                          routes.navigate(routes.viewModuleItem, {
-                            itemId: moduleItem.id,
-                            moduleId: module.id,
-                            courseId: course.id,
-                          });
+                          history.push(`/moduleItems/${moduleItem.id}`);
                         }}
                         selected={item?.id === moduleItem.id}
                       >

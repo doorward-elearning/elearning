@@ -1,6 +1,5 @@
 import React from 'react';
 import * as Yup from 'yup';
-import useRoutes from '../../../hooks/useRoutes';
 import WebConfirmModal from '@doorward/ui/components/ConfirmModal/WebConfirmModal';
 import useModal, { UseModal } from '@doorward/ui/hooks/useModal';
 import Dropdown from '@doorward/ui/components/Dropdown';
@@ -13,14 +12,15 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useHistory } from 'react-router';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
-  const routes = useRoutes();
+  const history = useHistory();
   const [deleteCourse, deleteState] = useApiAction(DoorwardApi, (api) => api.courses.deleteCourse);
 
   const onDeleteSuccess = () => {
-    routes.navigate(routes.courseList);
+    history.push('/courses');
   };
 
   return (

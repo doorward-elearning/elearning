@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import useViewCourse from '../../../hooks/useViewCourse';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import Layout, { LayoutFeatures } from '../../Layout';
-import useRoutes from '../../../hooks/useRoutes';
 import CreateAssignmentForm from '../../../components/Forms/CreateAssignmentForm';
 import EditableView from '../../../components/EditableView';
 import AssignmentView from '../../../components/UI/AssignmentView';
@@ -30,49 +28,34 @@ import { useApiAction } from 'use-api-action';
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
   const [module, setModule] = useState<ModuleEntity>();
-  const [courseId, course] = useViewCourse();
-  const match: any = useRouteMatch();
-  const routes = useRoutes();
-  const [editing, setEditing] = useState(routes.currentRoute === routes.editModuleItem.id);
+  const match = useRouteMatch<{ itemId: string }>();
+  const history = useHistory();
+  const [editing, setEditing] = useState(match.path === '/moduleItems/:itemId/update');
   const assignmentForm = useForm();
 
-  const [fetchItem, state] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
+  const [fetchModule, moduleState] = useApiAction(DoorwardApi, (api) => api.modules.getModule, {
+    onSuccess: (data) => {
+      setModule(data.module);
+    },
+  });
+
+  const [fetchItem, state] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem, {
+    onSuccess: (data) => {
+      setItem(data.item);
+      fetchModule(data.item.moduleId);
+    },
+  });
 
   useEffect(() => {
     fetchItem(match.params.itemId);
   }, [match.params.itemId]);
 
   useEffect(() => {
-    setEditing(routes.currentRoute === routes.editModuleItem.id);
-  }, [routes.currentRoute]);
-
-  useEffect(() => {
-    const moduleItem = state.data?.item;
-    if (moduleItem) {
-      setItem(moduleItem);
-    }
-  }, [state]);
-
-  useEffect(() => {
-    if (course.data?.course) {
-      const currentModule = course.data?.course.modules.find((module) => module.id === match.params.moduleId);
-      if (currentModule) {
-        setModule(currentModule);
-        routes.setTitle(routes.viewModuleItem.id, currentModule.title);
-      }
-    }
-  }, [course.data?.course, match.params.itemId]);
+    setEditing(match.path === `/moduleItems/:itemId/update`);
+  }, [match.path]);
 
   const goBack = () => {
-    routes.navigate(routes.viewCourse, {
-      courseId,
-    });
-  };
-
-  const params = {
-    courseId,
-    moduleId: module?.id,
-    itemId: item?.id,
+    history.push(`/courses/${item.courseId}`);
   };
 
   return (
@@ -89,11 +72,13 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         text: item ? translate('editItem', { item: item.type }) : '',
         theme: 'secondary',
         privileges: ['modules.update'],
-        onClick: () => routes.navigate(routes.editModuleItem, params),
+        onClick: () => {
+          history.push(`/moduleItems/${item.id}/update`);
+        },
         disabled: editing,
       }}
       header={Tools.str(state.fetching ? '' : item?.title)}
-      rightContent={<ModulesSideBar course={course?.data?.course} item={item} />}
+      rightContent={<ModulesSideBar item={item} />}
     >
       <WebComponent data={item} hasData={() => !state.fetching} loading={state.fetching}>
         {(item): JSX.Element => {
@@ -106,7 +91,6 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       onEditSuccess={() => setEditing(false)}
                       module={module}
                       editing={editing}
-                      params={params}
                       item={item as PageEntity}
                     />
                   </IfElse>
@@ -115,13 +99,13 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       viewerView={
                         <AssessmentView
                           assessment={item as AssessmentEntity}
-                          onCancel={() => routes.navigate(routes.viewCourse, params)}
+                          onCancel={() => history.push(`/courses/${item.courseId}`)}
                         />
                       }
                       creatorView={
                         <CreateAssessmentForm
-                          onSuccess={() => routes.navigate(routes.viewModuleItem, params)}
-                          onCancel={() => routes.navigate(routes.viewModuleItem, params)}
+                          onSuccess={() => history.push(`/moduleItems/${item.id}`)}
+                          onCancel={() => history.push(`/moduleItems/${item.id}`)}
                           module={module}
                           assessment={item as AssessmentEntity}
                           type={(item as AssessmentEntity).assessmentType}

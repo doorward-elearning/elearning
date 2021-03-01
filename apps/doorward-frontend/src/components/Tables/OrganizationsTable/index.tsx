@@ -6,12 +6,12 @@ import './OrganizationsTable.scss';
 import EImage from '@doorward/ui/components/Image';
 import IfElse from '@doorward/ui/components/IfElse';
 import Dropdown from '@doorward/ui/components/Dropdown';
-import useRoutes from '../../../hooks/useRoutes';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <Table
       className="organizations-table"
@@ -47,9 +47,7 @@ const OrganizationsTable: React.FunctionComponent<OrganizationsTableProps> = (pr
             <Dropdown.Item
               icon="edit"
               onClick={() => {
-                routes.navigate(routes.editOrganization, {
-                  organizationId: rowData.id,
-                });
+                history.push(`/organizations/${rowData.id}/update`);
               }}
             >
               Edit

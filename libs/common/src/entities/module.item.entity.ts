@@ -41,4 +41,8 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   @ManyToOne(() => UserEntity)
   @JoinColumn({ name: 'createdBy' })
   author: UserEntity;
+
+  courseId?: string;
+
+  moduleId?: string;
 }

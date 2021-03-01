@@ -3,13 +3,13 @@ import Table from '@doorward/ui/components/Table';
 import { MemoryHistory } from 'history';
 import './CourseTable.scss';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import useRoutes from '../../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
 import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import Tools from '@doorward/common/utils/Tools';
+import { useHistory } from 'react-router';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <Table
       className="course-table"
@@ -40,7 +40,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
       data={props.courses}
       pagination={props.pagination}
       onRowClick={({ rowData }): void => {
-        props.history.push(routes.viewCourse.withParams({ courseId: rowData.id }));
+        history.push(`/courses/${rowData.id}`);
       }}
     />
   );
@@ -48,7 +48,6 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
 
 export interface CourseTableProps {
   courses: Array<CourseEntity>;
-  history: MemoryHistory;
   loadMore?: (page: number) => Promise<any>;
   pagination?: PaginationMetaData;
 }

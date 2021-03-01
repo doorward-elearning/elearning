@@ -21,4 +21,6 @@ export default class ModuleEntity extends BaseOrganizationEntity {
 
   @OneToMany(() => ModuleItemEntity, (moduleItem) => moduleItem.module)
   items?: Array<ModuleItemEntity>;
+
+  courseId?: string;
 }

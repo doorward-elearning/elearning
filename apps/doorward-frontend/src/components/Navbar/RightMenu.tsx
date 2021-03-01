@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import Icon from '@doorward/ui/components/Icon';
-import useRoutes from '../../hooks/useRoutes';
 import BadgeControl from '@doorward/ui/components/BadgeControl';
 import { ChatContext } from '@doorward/chat/Chat';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   const { unreadMessages } = useContext(ChatContext);
   return (
     <div>
@@ -14,7 +14,7 @@ const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element 
         <Icon
           icon="chat"
           onClick={() => {
-            routes.navigate(routes.chat);
+            history.push('/chat');
           }}
           title={translate('chat')}
         />

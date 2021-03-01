@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import useViewCourse from '../../../hooks/useViewCourse';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
-import useRoutes from '../../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import ModuleEntity from '@doorward/common/entities/module.entity';
+import { useApiAction } from 'use-api-action';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
-  const [module, setModule] = useState<ModuleEntity>();
-  const [courseId, course] = useViewCourse();
-  const match: any = useRouteMatch();
+  const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
+  const match = useRouteMatch<{ moduleId: string }>();
   const form = useForm();
-  const routes = useRoutes();
+  const history = useHistory();
 
   useEffect(() => {
-    if (course.data?.course) {
-      setModule(course.data?.course.modules.find((module) => module.id === match.params.moduleId));
+    if (match.params.moduleId) {
+      getModule(match.params.moduleId);
     }
-  }, [course.data?.course]);
+  }, [match]);
+
+  const module = state.data?.module;
 
   const finish = () => {
-    routes.navigate(routes.routes.viewCourse, {
-      courseId: courseId,
-    });
+    history.push(`/courses/${module?.course?.id}`);
   };
 
   return (

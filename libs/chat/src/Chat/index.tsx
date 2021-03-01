@@ -9,8 +9,6 @@ import { UseAuth } from '@doorward/ui/hooks/useAuth';
 import UserEntity from '@doorward/common/entities/user.entity';
 import NewGroup from '../components/NewGroup';
 import GroupEntity from '@doorward/common/entities/group.entity';
-import { UseBaseRoutes } from '@doorward/ui/hooks/useBaseRoutes';
-import { RouteNames } from '@doorward/ui/types';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import { useApiAction } from 'use-api-action';
@@ -61,7 +59,7 @@ export const ChatContext = React.createContext<ChatContextType>({
   setUnreadMessages: () => {},
 });
 
-function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
+function Chat(props: ChatProps): JSX.Element {
   const {
     newChat,
     newGroupChat,
@@ -126,13 +124,12 @@ function Chat<T extends RouteNames>(props: ChatProps<T>): JSX.Element {
   );
 }
 
-export interface ChatProps<T extends RouteNames> {
+export interface ChatProps {
   conversations: Array<Conversation>;
   contacts?: Array<Recipient>;
   currentConversation?: Conversation;
   size?: 'small' | 'medium' | 'large';
   auth: UseAuth;
-  routes: UseBaseRoutes<T>;
 }
 
 export default Chat;

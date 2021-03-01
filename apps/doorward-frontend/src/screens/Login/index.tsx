@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router';
 import './Login.scss';
 import LoginForm from '../../components/Forms/LoginForm';
-import useRoutes from '../../hooks/useRoutes';
 import { Link } from 'react-router-dom';
-import { ROUTES } from '../../routes/routes';
 import IfElse from '@doorward/ui/components/IfElse';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
@@ -22,7 +20,6 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   const organization = useOrganization();
   const { query } = useQueryParams();
 
-  const routes = useRoutes();
   const [, login, clearLogin] = useApiAction(DoorwardApi, (api) => api.auth.login, {
     clearData: true,
     clearErrors: true,
@@ -44,7 +41,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   }, [login.data]);
   return (
     <IfElse condition={authenticated}>
-      <Redirect to={ROUTES.dashboard.link} />
+      <Redirect to="/dashboard" />
       <div className="page page__login">
         <Header size={1}>{organization.name}</Header>
         <IfElse condition={showMessage}>
@@ -55,7 +52,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
         <LoginForm />
         <div className="page__login--footer">
           <p>{translate('dontHaveAnAccount')}</p>
-          <Link to={routes.register.link}>{translate('createANewAccount')}</Link>
+          <Link to="/register">{translate('createANewAccount')}</Link>
         </div>
       </div>
     </IfElse>

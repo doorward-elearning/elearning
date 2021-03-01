@@ -8,13 +8,12 @@ import '@material/react-linear-progress/dist/linear-progress.css';
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import { Router } from './routes/routes';
 import { DoorwardRoutes } from './routes';
-import useApp, { appInitialValue } from './hooks/useApp';
 import RolesManager from '@doorward/ui/components/RolesManager';
 import ApplicationTheme from '@doorward/ui/components/ApplicationTheme';
 import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
 import ApiRequest from '@doorward/common/net/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
-import createAppContext, { AppContextProps } from '@doorward/ui/template/appContext';
+import { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
 import ChatWebSocketContext from '@doorward/chat/components/ChatWebSocketContext';
 import Notifications from '@doorward/ui/components/Notifications';
@@ -25,32 +24,25 @@ ApiRequest.setAuth();
 
 export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
 
-export const AppContext = createAppContext({
-  ...appInitialValue,
-});
-
 const App: React.FC = () => {
-  const app = useApp();
   useOfflineToast();
 
   const auth = useAuth();
 
   return (
-    <AppContext.Provider value={{ ...app }}>
-      <ApplicationTheme theme="base">
-        <Notifications>
-          <ApplicationInitializer>
-            <BrowserRouter>
-              <RolesManager auth={auth}>
-                <ChatWebSocketContext auth={auth} path="/dashboard/chat">
-                  <Router />
-                </ChatWebSocketContext>
-              </RolesManager>
-            </BrowserRouter>
-          </ApplicationInitializer>
-        </Notifications>
-      </ApplicationTheme>
-    </AppContext.Provider>
+    <ApplicationTheme theme="base">
+      <Notifications>
+        <ApplicationInitializer>
+          <BrowserRouter>
+            <RolesManager auth={auth}>
+              <ChatWebSocketContext auth={auth} path="/dashboard/chat">
+                <Router />
+              </ChatWebSocketContext>
+            </RolesManager>
+          </BrowserRouter>
+        </ApplicationInitializer>
+      </Notifications>
+    </ApplicationTheme>
   );
 };
 

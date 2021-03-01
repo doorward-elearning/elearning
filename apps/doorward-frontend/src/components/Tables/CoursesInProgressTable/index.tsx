@@ -1,11 +1,11 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
-import useRoutes from '../../../hooks/useRoutes';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProps> = (props) => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <Table
       columns={{
@@ -19,7 +19,7 @@ const CoursesInProgressTable: React.FunctionComponent<CoursesInProgressTableProp
         },
       }}
       data={props.courses}
-      onRowClick={({ rowData }) => routes.navigate(routes.viewCourse, { courseId: rowData.id })}
+      onRowClick={({ rowData }) => history.push(`/courses/${rowData.id}`)}
     />
   );
 };

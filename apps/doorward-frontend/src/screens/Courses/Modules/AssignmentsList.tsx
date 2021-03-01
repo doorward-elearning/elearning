@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
 import { PageComponent } from '@doorward/ui/types';
-import usePageResource from '../../../hooks/usePageResource';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Table from '@doorward/ui/components/Table';
-import useViewCourse from '../../../hooks/useViewCourse';
-import useRoutes from '../../../hooks/useRoutes';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
   const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
+  const match = useRouteMatch<{ courseId: string }>();
+  const history = useHistory();
 
-  const routes = useRoutes();
-  const [courseId] = useViewCourse();
-  usePageResource('courseId', apiAction, [{ type: 'Assignment' }]);
+  useEffect(() => {
+    if (match.params.courseId) {
+      apiAction(match.params.courseId, { type: 'Assignment ' });
+    }
+  }, [match]);
   return (
     <Layout
       {...props}
@@ -44,11 +46,7 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
                 },
               }}
               onRowClick={({ rowData: row }) => {
-                routes.navigate(routes.viewModuleItem, {
-                  courseId,
-                  moduleId: row.module.id,
-                  itemId: row.id,
-                });
+                history.push(`/moduleItems/${row.id}`);
               }}
             />
           );
