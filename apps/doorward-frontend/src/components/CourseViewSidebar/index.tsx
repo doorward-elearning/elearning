@@ -16,6 +16,8 @@ import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import { useApiAction } from 'use-api-action';
+import Tools from '@doorward/common/utils/Tools';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
@@ -69,7 +71,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             message={translate('noStudentHaveBeenAddedToTheCourseYet')}
             size="medium"
             actionMessage={translate('createStudent')}
-            onAction={(): void => history.push(`/courses/${courseId}/students/new`)}
+            onAction={(): void => history.push(Tools.createRoute(ROUTES.courses.students.create, { courseId }))}
           >
             {(students): JSX.Element => (
               <List>

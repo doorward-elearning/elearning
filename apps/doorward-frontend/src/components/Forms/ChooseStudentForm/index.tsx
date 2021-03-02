@@ -53,7 +53,7 @@ const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (prop
   };
 
   return (
-    <div>
+    <div className="choose-student-form">
       <TabLayout onTabChange={props.onTabChange}>
         <Tab title={translate('students')}>
           <Panel plain>

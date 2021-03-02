@@ -582,5 +582,6 @@
   "submittedOn": "Submitted on",
   "gradeOutOf": "{{points}} out of {{totalPoints}}",
   "systemGraded": "Automatically graded.",
-  "notYetGraded": "Not yet graded"
+  "notYetGraded": "Not yet graded",
+  "postComment": "Post"
 }

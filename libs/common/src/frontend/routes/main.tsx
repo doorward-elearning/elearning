@@ -1,0 +1,107 @@
+const ROUTES = {
+  home: '/',
+  auth: {
+    login: '/auth/login',
+    register: '/auth/register',
+    password: {
+      create: '/auth/password/create/:resetToken',
+      reset: '/auth/password/reset/:resetToken',
+      forgot: '/auth/password/forgot',
+    },
+  },
+  classrooms: {
+    list: '/classrooms',
+    classroom: '/classrooms/:schoolId',
+  },
+  meeting: {
+    join: '/meeting/:meetingId',
+  },
+  dashboard: '/dashboard',
+  assessments: {
+    exam: '/assessments/exam/:assessmentId',
+    quiz: '/assessments/quiz/:assessmentId',
+  },
+  courses: {
+    list: '/courses',
+    view: '/courses/:courseId',
+    create: '/courses/create',
+    students: {
+      list: '/courses/:courseId/students',
+      create: '/courses/:courseId/students/create',
+    },
+    modules: {
+      items: {
+        view: '/courses/modules/items/:itemId',
+        update: '/courses/modules/items/:itemId/update',
+      },
+      assignments: {
+        list: '/courses/:courseId/modules/assignments',
+        create: '/courses/modules/:moduleId/assignments/view',
+      },
+      pages: {
+        create: '/courses/modules/:moduleId/pages/create',
+      },
+      quizzes: {
+        create: '/courses/modules/:moduleId/quizzes/create',
+      },
+      exams: {
+        create: '/courses/modules/:moduleId/exams/create',
+      },
+      videos: {
+        create: '/courses/modules/:moduleId/videos/create',
+      },
+    },
+    discussionGroups: {
+      view: '/courses/discussionGroups/:discussionGroupId',
+    },
+  },
+  students: {
+    list: '/students',
+    create: '/students/create',
+    view: '/students/:studentId',
+  },
+  teachers: {
+    list: '/teachers',
+    create: '/teachers/create',
+  },
+  profile: {
+    view: '/profile/:username',
+    changePassword: '/profile/:username/changePassword',
+  },
+  reports: {
+    students: {
+      list: '/reports/students',
+      view: '/reports/students/:studentId',
+    },
+    teachers: {
+      list: '/reports/teachers',
+      view: '/reports/teachers/:teacherId',
+    },
+    courses: {
+      list: '/reports/courses',
+    },
+  },
+  groups: {
+    teachers: {
+      list: '/groups/teachers/',
+      create: '/groups/teachers/create',
+      view: '/groups/teachers/:groupId',
+    },
+    students: {
+      list: '/groups/students',
+      create: '/groups/students/create',
+      view: '/groups/students/:groupId',
+      update: '/groups/students/:groupId/update',
+    },
+  },
+  organizations: {
+    list: '/organizations',
+    create: '/organizations/create',
+    update: 'organizations/:organizationId/update',
+  },
+  chat: {
+    home: '/chat',
+  },
+};
+
+export default ROUTES;

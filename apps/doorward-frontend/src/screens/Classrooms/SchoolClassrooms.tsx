@@ -40,51 +40,53 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
       actionBtnProps={{ text: translate('addClassroom'), onClick: addClassroomModal.openModal }}
     >
-      <AddClassroomModal
-        onSuccess={() => {
-          addClassroomModal.closeModal();
-          fetchSchool(schoolState.data?.school?.id);
-        }}
-        modal={addClassroomModal}
-        schoolId={schoolState.data?.school?.id}
-      />
-      <Panel plain>{translate('clickOnAnyOfTheFollowingClassroomsToJoinAMeeting')}</Panel>
-      <WebComponent
-        data={schoolState.data?.school?.classRooms}
-        loading={schoolState.fetching}
-        emptyMessage={translate('noClassroomsHaveBeenCreatedForThisSchool')}
-        icon="business_center"
-      >
-        {(classrooms) => {
-          return (
-            <React.Fragment>
-              <div className="classroom__list">
-                <ItemArray data={classrooms}>
-                  {(classroom) => (
-                    <div className="classroom__list__item">
-                      <Card onClick={() => history.push(`/meeting/${classroom.meetingRoom.currentMeeting.id}`)}>
-                        <Card.Header image>
-                          <div className="card-image" style={{ background: Tools.color(classroom.id) }}>
-                            <EImage src={courseImage} />
-                          </div>
-                        </Card.Header>
-                        <Card.Body>
-                          <Header size={2}>{classroom.name}</Header>
-                        </Card.Body>
-                        <Card.Footer>
-                          <Panel plain>
-                            <Button>{translate('join')}</Button>
-                          </Panel>
-                        </Card.Footer>
-                      </Card>
-                    </div>
-                  )}
-                </ItemArray>
-              </div>
-            </React.Fragment>
-          );
-        }}
-      </WebComponent>
+      <div>
+        <AddClassroomModal
+          onSuccess={() => {
+            addClassroomModal.closeModal();
+            fetchSchool(schoolState.data?.school?.id);
+          }}
+          modal={addClassroomModal}
+          schoolId={schoolState.data?.school?.id}
+        />
+        <Panel plain>{translate('clickOnAnyOfTheFollowingClassroomsToJoinAMeeting')}</Panel>
+        <WebComponent
+          data={schoolState.data?.school?.classRooms}
+          loading={schoolState.fetching}
+          emptyMessage={translate('noClassroomsHaveBeenCreatedForThisSchool')}
+          icon="business_center"
+        >
+          {(classrooms) => {
+            return (
+              <React.Fragment>
+                <div className="classroom__list">
+                  <ItemArray data={classrooms}>
+                    {(classroom) => (
+                      <div className="classroom__list__item">
+                        <Card onClick={() => history.push(`/meeting/${classroom.meetingRoom.currentMeeting.id}`)}>
+                          <Card.Header image>
+                            <div className="card-image" style={{ background: Tools.color(classroom.id) }}>
+                              <EImage src={courseImage} />
+                            </div>
+                          </Card.Header>
+                          <Card.Body>
+                            <Header size={2}>{classroom.name}</Header>
+                          </Card.Body>
+                          <Card.Footer>
+                            <Panel plain>
+                              <Button>{translate('join')}</Button>
+                            </Panel>
+                          </Card.Footer>
+                        </Card>
+                      </div>
+                    )}
+                  </ItemArray>
+                </div>
+              </React.Fragment>
+            );
+          }}
+        </WebComponent>
+      </div>
     </Layout>
   );
 };

@@ -4,21 +4,25 @@ import BadgeControl from '@doorward/ui/components/BadgeControl';
 import { ChatContext } from '@doorward/chat/Chat';
 import translate from '@doorward/common/lang/translate';
 import { useHistory } from 'react-router';
+import useAuth from '../../hooks/useAuth';
 
 const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element => {
   const history = useHistory();
+  const { authenticated } = useAuth();
   const { unreadMessages } = useContext(ChatContext);
   return (
     <div>
-      <BadgeControl value={unreadMessages.length}>
-        <Icon
-          icon="chat"
-          onClick={() => {
-            history.push('/chat');
-          }}
-          title={translate('chat')}
-        />
-      </BadgeControl>
+      {authenticated && (
+        <BadgeControl value={unreadMessages.length}>
+          <Icon
+            icon="chat"
+            onClick={() => {
+              history.push('/chat');
+            }}
+            title={translate('chat')}
+          />
+        </BadgeControl>
+      )}
     </div>
   );
 };

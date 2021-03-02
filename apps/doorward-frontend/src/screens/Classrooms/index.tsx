@@ -24,20 +24,27 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
       features={[LayoutFeatures.BREAD_CRUMBS]}
       navFeatures={[NavbarFeatures.PAGE_LOGO, NavbarFeatures.USER_MANAGEMENT, NavbarFeatures.BACK_BUTTON]}
     >
-      <p>{translate('joinAClassroomFromAnySchoolBelow')}</p>
-      <WebComponent data={schoolState.data?.schools} loading={schoolState.fetching}>
-        {(schools) => {
-          return (
-            <Table
-              data={schools}
-              columns={{ name: translate('schoolName') }}
-              onRowClick={({ rowData }) => {
-                history.push(`/classrooms/${rowData.id}`);
-              }}
-            />
-          );
-        }}
-      </WebComponent>
+      <div>
+        <p>{translate('joinAClassroomFromAnySchoolBelow')}</p>
+        <WebComponent data={schoolState.data?.schools} loading={schoolState.fetching}>
+          {(schools) => {
+            return (
+              <Table
+                height={400}
+                data={schools}
+                columns={{
+                  name: {
+                    title: translate('schoolName'),
+                  },
+                }}
+                onRowClick={({ rowData }) => {
+                  history.push(`/classrooms/${rowData.id}`);
+                }}
+              />
+            );
+          }}
+        </WebComponent>
+      </div>
     </Layout>
   );
 };

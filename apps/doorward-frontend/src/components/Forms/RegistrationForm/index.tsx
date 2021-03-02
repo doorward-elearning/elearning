@@ -8,15 +8,16 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 
-;
-
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {
     username: '',
     email: '',
     password: '',
   };
-  const apiAction = useApiAction(DoorwardApi, (api) => api.auth.register);
+  const apiAction = useApiAction(DoorwardApi, (api) => api.auth.register, {
+    clearData: true,
+    clearErrors: true,
+  });
   const form = useForm();
   return (
     <AuthForm
@@ -24,6 +25,9 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
       buttonText={translate('register')}
       apiAction={apiAction}
       form={form}
+      onSuccess={() => {
+        window.location.href = '/login?newAccount=true';
+      }}
       validationSchema={RegisterBody}
       createData={(values) => {
         return [

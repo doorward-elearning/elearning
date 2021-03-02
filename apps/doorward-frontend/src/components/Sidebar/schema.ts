@@ -20,6 +20,7 @@ export default (): Array<MenuItem> => {
       name: translate('students'),
       link: '/students',
       icon: 'account_circle',
+      privileges: ['students.*'],
       subMenu: [
         { name: translate('studentList'), link: '/students' },
         { name: translate('addStudent'), link: '/students/create' },
@@ -29,6 +30,7 @@ export default (): Array<MenuItem> => {
       name: translate('teachers'),
       link: '/teachers',
       icon: 'work',
+      privileges: ['teachers.*'],
       subMenu: [
         { name: translate('teacherList'), link: '/teachers' },
         { name: translate('addTeacher'), link: '/teachers/create' },
@@ -38,9 +40,10 @@ export default (): Array<MenuItem> => {
       name: translate('groups'),
       link: '/groups',
       icon: 'people',
+      privileges: ['groups.*'],
       subMenu: [
-        { name: translate('studentGroups'), link: '/groups/students' },
-        { name: translate('teacherGroups'), link: '/groups/teachers' },
+        { name: translate('studentGroups'), link: '/groups/students', privileges: ['groups.students.*'] },
+        { name: translate('teacherGroups'), link: '/groups/teachers', privileges: ['groups.teachers.*'] },
       ],
     },
     {
@@ -48,15 +51,17 @@ export default (): Array<MenuItem> => {
       link: '/reports',
       icon: 'trending_up',
       hidden: true,
+      privileges: ['reports.*'],
       subMenu: [
-        { name: translate('studentReports'), link: '/reports/students' },
-        { name: translate('teacherListReports'), link: '/reports/teachers' },
+        { name: translate('studentReports'), link: '/reports/students', privileges: ['reports.students'] },
+        { name: translate('teacherListReports'), link: '/reports/teachers', privileges: ['reports.teachers'] },
       ],
     },
     {
       name: translate('organizations'),
       link: '/organizations',
       icon: 'meeting_room',
+      privileges: ['organizations.*'],
     },
     {
       name: translate('logout'),

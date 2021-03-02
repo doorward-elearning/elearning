@@ -17,8 +17,6 @@ import { useApiAction } from 'use-api-action';
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
   const [fetchDiscussionGroup, state] = useApiAction(DoorwardApi, (api) => api.discussionGroups.getDiscussionGroup);
   const match = useRouteMatch<{ discussionGroupId: string; courseId: string }>();
-  const [discussionGroup, setDiscussionGroup] = useState();
-  const history = useHistory();
 
   useEffect(() => {
     fetchDiscussionGroup(match.params.discussionGroupId);
@@ -29,7 +27,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
       {...props}
       className="discussion-group-page"
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON, LayoutFeatures.HEADER]}
-      header={Tools.str(discussionGroup?.title)}
+      header={Tools.str(state?.data?.discussionGroup?.title)}
     >
       <WebComponent
         data={state.data?.discussionGroup}

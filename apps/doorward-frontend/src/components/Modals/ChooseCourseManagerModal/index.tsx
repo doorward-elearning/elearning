@@ -13,7 +13,7 @@ const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModal
   const form = useForm<ChooseStudentFormState>();
   const [, state] = useApiAction(DoorwardApi, (api) => api.courseManagers.createCourseManager);
   return (
-    <Modal {...props}>
+    <Modal {...props} >
       <Modal.Header title={translate('addCourseManager')} />
       <Modal.Body>
         <ChooseCourseManagerForm

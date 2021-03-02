@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ChooseItemsForm from '../ChooseItemsForm';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
@@ -9,34 +9,43 @@ import { useApiAction } from 'use-api-action';
 import { WebComponentState } from 'use-api-action/types/types';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
-  const [fetchTeacherList, teacherList] = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
-
-  useEffect(() => {
-    fetchTeacherList();
-  }, []);
+  const [addCourseManager, addCourseManagerState] = useApiAction(
+    DoorwardApi,
+    (api) => api.courseManagers.createCourseManager
+  );
 
   return (
-    <ChooseItemsForm
-      items={props.managers}
-      getItems={(state1) => state1.data?.teachers}
-      submitAction={fetchTeacherList}
-      state={teacherList}
-      form={props.form}
-      singleChoice
-      onSuccess={props.onSuccess}
-      createData={(values) => [
-        props.courseId,
-        {
-          managerId: values.items.find((x) => x.selected)?.id,
-        },
-      ]}
-      columns={{
-        username: translate('username'),
-        firstName: translate('firstName'),
-        lastName: translate('lastName'),
-        email: translate('email'),
-      }}
-    />
+    <div style={{ width: 900 }}>
+      <ChooseItemsForm
+        items={props.managers}
+        getItems={(state) => state.data?.teachers}
+        submitAction={addCourseManager}
+        state={addCourseManagerState}
+        form={props.form}
+        singleChoice
+        onSuccess={props.onSuccess}
+        createData={(values) => [
+          props.courseId,
+          {
+            managerId: values.items.find((x) => x.selected)?.id,
+          },
+        ]}
+        columns={{
+          username: {
+            title: translate('username'),
+          },
+          firstName: {
+            title: translate('firstName'),
+          },
+          lastName: {
+            title: translate('lastName'),
+          },
+          email: {
+            title: translate('email'),
+          },
+        }}
+      />
+    </div>
   );
 };
 

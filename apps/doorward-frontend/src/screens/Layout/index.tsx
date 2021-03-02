@@ -70,6 +70,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   renderTopContent,
   suggestionsType,
   rightContent,
+  hideBackButton,
   ...props
 }) => {
   const [fetchSuggestions, suggestionsState] = useApiAction(DoorwardApi, (api) => api.searchSuggestions.getSuggestions);
@@ -109,7 +110,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     localStorage.setItem('sidebar-collapse', !sidebarCollapsed + '');
     collapseSidebar(!sidebarCollapsed);
   };
-  if (history.action !== 'POP') {
+  if (history.action !== 'POP' && !hideBackButton) {
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
@@ -265,6 +266,7 @@ export interface LayoutProps extends PageComponent {
   searchQuery?: ParsedUrlQuery;
   announcement?: () => JSX.Element;
   rightContent?: JSX.Element;
+  hideBackButton?: boolean;
 }
 
 export default Layout;

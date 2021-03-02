@@ -1,5 +1,5 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, TableInheritance } from 'typeorm';
+import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToOne, TableInheritance } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
 import UserEntity from './user.entity';
@@ -45,4 +45,10 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   courseId?: string;
 
   moduleId?: string;
+
+  @AfterLoad()
+  async populateModuleAndCourse() {
+    this.moduleId = (await this.module)?.id;
+    this.courseId = (await this.module?.course)?.id;
+  }
 }
