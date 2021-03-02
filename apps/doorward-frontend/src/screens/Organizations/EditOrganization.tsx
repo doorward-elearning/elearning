@@ -1,19 +1,25 @@
-import React from 'react';
-import useRoutes from '../../hooks/useRoutes';
+import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
-import usePageResource from '../../hooks/usePageResource';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { useApiAction } from 'use-api-action';
+import { useHistory, useRouteMatch } from 'react-router';
 
 const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   const [getOrganization, state] = useApiAction(DoorwardApi, (api) => api.organizations.getOrganization);
+  const {
+    params: { organizationId },
+  } = useRouteMatch();
 
-  usePageResource('organizationId', getOrganization);
+  useEffect(() => {
+    if (organizationId) {
+      getOrganization(organizationId);
+    }
+  }, [organizationId]);
 
   return (
     <Layout
@@ -26,10 +32,10 @@ const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props)
           <CreateOrganizationForm
             organization={organization}
             onSuccess={() => {
-              routes.navigate(routes.organizations);
+              history.push('/organizations');
             }}
             onCancel={() => {
-              routes.navigate(routes.organizations);
+              history.push('/organizations');
             }}
           />
         )}

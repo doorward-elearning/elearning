@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
-import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import WebComponent from '@doorward/ui/components/WebComponent';
+import { useHistory } from 'react-router';
 
 export interface StudentListQueryParams {
   search: string;
@@ -15,7 +15,7 @@ export interface StudentListQueryParams {
 }
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
-  const routes = useRoutes();
+  const history = useHistory();
   const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents, {
     onNewData: (prevState, nextState) => {
       return nextState.pagination.page === 1
@@ -27,7 +27,6 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
     },
   });
   const { query, updateLocation } = useQueryParams<StudentListQueryParams>();
-  const total = studentList.data?.pagination?.totalCount;
 
   useEffect(() => {
     fetch({ page: 1 });
@@ -41,7 +40,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
       searchPlaceholder={translate('searchStudents')}
       actionBtnProps={{
         text: translate('addStudent'),
-        onClick: (): void => props.history.push(routes.routes.newStudent.link),
+        onClick: (): void => props.history.push('/students/create'),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
       onSearch={(text) => {
@@ -62,9 +61,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
               });
             }}
             onClickStudent={({ rowData }) => {
-              routes.navigate(routes.viewStudent, {
-                studentId: rowData.id,
-              });
+              history.push(`/students/${rowData.id}`);
             }}
           />
         )}

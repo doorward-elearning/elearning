@@ -1,16 +1,15 @@
 import React from 'react';
-import useRoutes from '../../hooks/useRoutes';
 import Layout, { LayoutFeatures } from '../Layout';
 import GroupsTable from '../../components/Tables/GroupsTable';
 import { PageComponent } from '@doorward/ui/types';
-import { ROUTES } from '../../routes/routes';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
-function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupListProps): JSX.Element {
-  const routes = useRoutes();
+function GroupList({ header, createRoute, type, onGroupClick, ...props }: GroupListProps): JSX.Element {
   const { query } = useQueryParams();
+  const history = useHistory();
   return (
     <Layout
       {...props}
@@ -23,7 +22,7 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
       actionBtnProps={{
         text: translate('addGroup'),
         onClick: () => {
-          routes.navigate(routes.routes[createRoute]);
+          history.push(createRoute);
         },
       }}
     >
@@ -31,19 +30,15 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
         type={type}
         search={query.search}
         onRowClick={({ rowData: group }) => {
-          routes.navigate(routes[viewRoute], {
-            groupId: group.id,
-          });
+          onGroupClick(group.id);
         }}
         actionMenu={({ rowData: group }) => {
           return (
             <Dropdown.Menu>
-              {props.updateRoute && (
+              {props.onUpdate && (
                 <Dropdown.Item
                   onClick={() => {
-                    routes.navigate(routes[props.updateRoute], {
-                      groupId: group.id,
-                    });
+                    props.onUpdate(group.id);
                   }}
                 >
                   {translate('edit')}
@@ -59,10 +54,10 @@ function GroupList({ header, createRoute, type, viewRoute, ...props }: GroupList
 
 export interface GroupListProps extends PageComponent {
   header: string;
-  createRoute: keyof typeof ROUTES;
+  createRoute: string;
   type: string;
-  viewRoute: keyof typeof ROUTES;
-  updateRoute?: keyof typeof ROUTES;
+  onGroupClick: (groupId: string) => void;
+  onUpdate?: (groupId: string) => void;
 }
 
 export default GroupList;

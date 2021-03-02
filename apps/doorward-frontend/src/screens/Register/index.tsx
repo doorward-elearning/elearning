@@ -3,7 +3,6 @@ import '../Login/Login.scss';
 import Layout from '../Layout';
 import RegistrationForm from '../../components/Forms/RegistrationForm';
 import { Link, Redirect } from 'react-router-dom';
-import useRoutes from '../../hooks/useRoutes';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import IfElse from '@doorward/ui/components/IfElse';
 import { PageComponent } from '@doorward/ui/types';
@@ -19,7 +18,6 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const { authenticate, authenticated } = useAuth();
   const [newAccount, setNewAccount] = useState(false);
   const organization = useOrganization();
-  const routes = useRoutes();
 
   useEffect(() => {
     if (registration.data) {
@@ -31,14 +29,14 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
 
   return (
     <IfElse condition={authenticated}>
-      <Redirect to={routes.dashboard.link + (newAccount ? '?newAccount=true' : '')} />
+      <Redirect to={'/dashboard' + (newAccount ? '?newAccount=true' : '')} />
       <Layout {...props} noNavBar navFeatures={[NavbarFeatures.HAMBURGER]} withBackground>
         <div className="page page__login">
           <Header size={1}>{organization.name}</Header>
           <RegistrationForm />
           <div className="page__login--footer">
             <p>{translate('alreadyHaveAnAccount')}</p>
-            <Link to={routes.login.link}>{translate('login')}</Link>
+            <Link to="/login">{translate('login')}</Link>
           </div>
         </div>
       </Layout>

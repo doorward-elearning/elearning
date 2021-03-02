@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import AddCourse from './AddCourse';
 import CourseTable from '../../components/Tables/CourseTable';
-import { ROUTES } from '../../routes/routes';
 import useModal from '@doorward/ui/hooks/useModal';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
@@ -10,7 +9,7 @@ import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
-  const addCourseModal = useModal(props.location.pathname === ROUTES.createCourse.link);
+  const addCourseModal = useModal(props.location.pathname === '/courses/create');
   const [fetchCourses, courses] = useApiAction(DoorwardApi, (api) => api.courses.getCourses, {
     onNewData: (prevState, nextState) => {
       if (nextState?.pagination?.page === 1) {
@@ -33,7 +32,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
       header={translate('courses')}
       actionBtnProps={{
         text: TITLE,
-        onClick: (): void => props.history.push(ROUTES.createCourse.link),
+        onClick: (): void => props.history.push('/courses/create'),
         privileges: ['courses.create'],
       }}
     >

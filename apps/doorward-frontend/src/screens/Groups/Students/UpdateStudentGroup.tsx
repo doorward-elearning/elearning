@@ -1,16 +1,24 @@
 import CreateGroup from '../CreateGroup';
 import Groups from '@doorward/common/utils/GroupTypes';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PageComponent } from '@doorward/ui/types';
-import usePageResource from '../../../hooks/usePageResource';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useRouteMatch } from 'react-router';
 
 const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (props): JSX.Element => {
   const [fetchStudents, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
   const [getGroup, groupState] = useApiAction(DoorwardApi, (api) => api.groups.getGroup);
-  usePageResource('groupId', getGroup);
+  const {
+    params: { groupId },
+  } = useRouteMatch<{ groupId: string }>();
+
+  useEffect(() => {
+    if (groupId) {
+      getGroup(groupId);
+    }
+  }, [groupId]);
   return (
     <CreateGroup
       emptyMessage={translate('noStudentsHaveBeenCreatedYet')}

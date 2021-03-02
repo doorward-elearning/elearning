@@ -2,42 +2,37 @@ import { SideBarSubMenuProps } from '../components/SideBar/SideBarSubMenu';
 import { SideBarProps } from '../components/SideBar';
 import { BreadCrumb } from '../components/BreadCrumbs';
 import { Icons } from '../types/icons';
-import { RouteNames, Routes } from '@doorward/ui/types';
+import { useRouteMatch } from 'react-router';
 
-export type SideBarSchema<T extends RouteNames> = (routes: Routes<T>, props: SideBarProps<T>) => Array<MenuItem>;
+export type SideBarSchema = () => Array<MenuItem>;
 
-function useSidebarSchema<T extends RouteNames>(
-  props: SideBarProps<T>,
-  routes: Routes<T>
+function useSidebarSchema(
+  props: SideBarProps
 ): {
   sidebar: Array<MenuItem>;
   selected: string;
 } {
-  const sidebar: Array<MenuItem> = props.schema(routes, props);
-  let selected = '';
+  const match = useRouteMatch();
+  const sidebar: Array<MenuItem> = props.schema();
+  let selected = match.path;
 
-  if (routes.currentRoute) {
-    const currentRoute = routes[routes.currentRoute];
-    for (let i = currentRoute.tree.length - 1; i >= 0; i--) {
-      const link = routes[currentRoute.tree[i]].matchURL;
-      sidebar.forEach(item => {
-        if (!selected) {
-          if (item.link === link) {
-            selected = link;
-          }
-          const subMenu = item.subMenu;
-          if (subMenu) {
-            subMenu.forEach(menuItem => {
-              if (!selected) {
-                if (menuItem.link === link) {
-                  selected = link;
-                }
-              }
-            });
-          }
+  const pathFound = sidebar.find((menu) => {
+    return menu.link === selected || (menu.subMenu ? menu.subMenu.find((subMenu) => subMenu.link === selected) : false);
+  });
+
+  if (!pathFound) {
+    sidebar.forEach((menu) => {
+      if (menu.subMenu) {
+        if (selected.startsWith(menu.link)) {
+          selected = menu.link;
         }
-      });
-    }
+        menu.subMenu.forEach((subMenu) => {
+          if (selected.startsWith(subMenu.link)) {
+            selected = subMenu.link;
+          }
+        });
+      }
+    });
   }
 
   return {
@@ -54,6 +49,7 @@ export interface MenuItem extends BreadCrumb {
   icon: Icons;
   subMenu?: Array<SubMenuItem>;
   onClick?: () => void;
+  hidden?: boolean;
 }
 
 export default useSidebarSchema;

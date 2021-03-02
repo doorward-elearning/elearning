@@ -46,94 +46,67 @@ import ForgotPassword from '../screens/Password/ForgotPassword';
 import VideoCallPage from '../screens/VideoCallPage';
 import PageRoute from './PageRoute';
 
-export const Router: React.FunctionComponent<any> = (): JSX.Element => {
+export const Router: React.FunctionComponent = (): JSX.Element => {
   return (
     <Switch>
-      <PageRoute public path="/" exact component={Home} />
-      <PageRoute public path="/login" exact component={Login} />
-      <PageRoute public path="/register" exact component={Register} />
-      <PageRoute public path="/classrooms" exact component={Classrooms} />
-      <PageRoute public path="/classrooms/:schoolId" exact component={SchoolClassrooms} />
-      <PageRoute public path="/password/create/:resetToken" exact component={CreatePassword} />
-      <PageRoute public path="/password/reset/:resetToken" exact component={CreatePassword} />
-      <PageRoute public path="/password/forgot" exact component={ForgotPassword} />
-      <PageRoute public path="/meeting/:meetingId" exact component={VideoCallPage} />
-      <PageRoute public path="*" component={Error404} />
-      <PageRoute path="/dashboard" exact component={Dashboard} />
-      <PageRoute path="/exam/:assessmentId" exact component={Assessment} />
-      <PageRoute path="/quiz/:assessmentId" exact component={Assessment} />
-      <PageRoute path="/courses" exact component={Courses} />
-      <PageRoute path="/courses/create" exact component={Courses} />
-      <PageRoute path="/courses/:courseId" exact component={ViewCourse} />
-      <PageRoute path="/courses/:courseId/students" exact component={CourseStudentList} />
-      <PageRoute path="/courses/:courseId/students/new" exact component={AddCourseStudent} />
-      <PageRoute path="/moduleItems/:itemId" exact component={ViewModuleItem} />
-      <PageRoute
-        path="/moduleItems/:itemId/update"
-        exact
-        component={ViewModuleItem}
-        privileges={['moduleItems.update']}
-      />
-      <PageRoute path="/modules/:moduleId/pages/create" exact component={AddModulePage} />
-      <PageRoute path="/modules/:moduleId/assignments/create" exact component={CreateAssignment} />
-      <PageRoute path="/modules/:moduleId/quizzes/create" exact component={CreateQuiz} />
-      <PageRoute path="/modules/:moduleId/exams/create" exact component={CreateExam} />
-      <PageRoute path="/modules/:moduleId/videos/create" exact component={AddModuleVideo} />
-      <PageRoute path="/assignments/:courseId" exact component={AssignmentsList} />
-      <PageRoute path="/discussionGroups/:discussionGroupId" exact component={DiscussionGroup} />
-      <PageRoute path="/students" exact component={StudentList} privileges={['students.*']} />
-      <PageRoute path="/students/create" exact component={AddStudent} privileges={['students.create']} />
-      <PageRoute path="/students/:studentId" exact component={ViewStudent} privileges={['students.*']} />
-      <PageRoute path="/teachers" exact component={TeacherList} privileges={['teachers.*']} />
-      <PageRoute path="/teachers/create" exact component={AddTeacher} privileges={['teachers.create']} />
-      <PageRoute path="/profile/:username" exact component={Profile} />
-      <PageRoute path="/profile/:username/changePassword" exact component={Profile} />
-      <PageRoute path="/reports/students" exact component={StudentListReport} privileges={['reports.*']} />
-      <PageRoute path="/reports/students/:studentId" exact component={StudentReport} privileges={['reports.*']} />
-      <PageRoute path="/reports/courses" exact component={Error404} privileges={['reports.*']} />
-      <PageRoute path="/reports/teachers" exact component={TeacherListReport} privileges={['reports.*']} />
-      <PageRoute path="/reports/teachers/:teacherId" exact component={TeacherReport} privileges={['reports.*']} />
-      <PageRoute path="/groups/teachers" exact component={TeacherGroups} privileges={['teacher.groups.*']} />
-      <PageRoute
-        path="/groups/teachers/create"
-        exact
-        component={CreateTeacherGroup}
-        privileges={['teacher.groups.create']}
-      />
-      <PageRoute path="/groups/teachers/:groupId" exact component={ViewGroup} privileges={['teacher.groups.view']} />
-      <PageRoute path="/groups/students" exact component={StudentGroups} privileges={['student.groups.*']} />
-      <PageRoute
-        path="/groups/students/create"
-        exact
-        component={CreateStudentGroup}
-        privileges={['student.groups.create']}
-      />
-      <PageRoute
-        path="/groups/students/:groupId"
-        exact
-        component={ViewStudentGroup}
-        privileges={['student.groups.view']}
-      />
+      <PageRoute public path="/" component={Home} />
+      <PageRoute public path="/login" component={Login} />
+      <PageRoute public path="/register" component={Register} />
+      <PageRoute public path="/classrooms" component={Classrooms} />
+      <PageRoute public path="/classrooms/:schoolId" component={SchoolClassrooms} />
+      <PageRoute public path="/password/create/:resetToken" component={CreatePassword} />
+      <PageRoute public path="/password/reset/:resetToken" component={CreatePassword} />
+      <PageRoute public path="/password/forgot" component={ForgotPassword} />
+      <PageRoute public path="/meeting/:meetingId" component={VideoCallPage} />
+      <PageRoute path="/dashboard" component={Dashboard} />
+      <PageRoute path="/exam/:assessmentId" component={Assessment} />
+      <PageRoute path="/quiz/:assessmentId" component={Assessment} />
+      <PageRoute path="/courses" component={Courses} />
+      <PageRoute path="/courses/create" component={Courses} />
+      <PageRoute path="/courses/:courseId" component={ViewCourse} />
+      <PageRoute path="/courses/:courseId/students" component={CourseStudentList} />
+      <PageRoute path="/courses/:courseId/students/new" component={AddCourseStudent} />
+      <PageRoute path="/moduleItems/:itemId" component={ViewModuleItem} />
+      <PageRoute path="/moduleItems/:itemId/update" component={ViewModuleItem} privileges={['moduleItems.update']} />
+      <PageRoute path="/modules/:moduleId/pages/create" component={AddModulePage} />
+      <PageRoute path="/modules/:moduleId/assignments/create" component={CreateAssignment} />
+      <PageRoute path="/modules/:moduleId/quizzes/create" component={CreateQuiz} />
+      <PageRoute path="/modules/:moduleId/exams/create" component={CreateExam} />
+      <PageRoute path="/modules/:moduleId/videos/create" component={AddModuleVideo} />
+      <PageRoute path="/assignments/:courseId" component={AssignmentsList} />
+      <PageRoute path="/discussionGroups/:discussionGroupId" component={DiscussionGroup} />
+      <PageRoute path="/students" component={StudentList} privileges={['students.*']} />
+      <PageRoute path="/students/create" component={AddStudent} privileges={['students.create']} />
+      <PageRoute path="/students/:studentId" component={ViewStudent} privileges={['students.*']} />
+      <PageRoute path="/teachers" component={TeacherList} privileges={['teachers.*']} />
+      <PageRoute path="/teachers/create" component={AddTeacher} privileges={['teachers.create']} />
+      <PageRoute path="/profile/:username" component={Profile} />
+      <PageRoute path="/profile/:username/changePassword" component={Profile} />
+      <PageRoute path="/reports/students" component={StudentListReport} privileges={['reports.*']} />
+      <PageRoute path="/reports/students/:studentId" component={StudentReport} privileges={['reports.*']} />
+      <PageRoute path="/reports/courses" component={Error404} privileges={['reports.*']} />
+      <PageRoute path="/reports/teachers" component={TeacherListReport} privileges={['reports.*']} />
+      <PageRoute path="/reports/teachers/:teacherId" component={TeacherReport} privileges={['reports.*']} />
+      <PageRoute path="/groups/teachers" component={TeacherGroups} privileges={['teacher.groups.*']} />
+      <PageRoute path="/groups/teachers/create" component={CreateTeacherGroup} privileges={['teacher.groups.create']} />
+      <PageRoute path="/groups/teachers/:groupId" component={ViewGroup} privileges={['teacher.groups.view']} />
+      <PageRoute path="/groups/students" component={StudentGroups} privileges={['student.groups.*']} />
+      <PageRoute path="/groups/students/create" component={CreateStudentGroup} privileges={['student.groups.create']} />
+      <PageRoute path="/groups/students/:groupId" component={ViewStudentGroup} privileges={['student.groups.view']} />
       <PageRoute
         path="/groups/students/:groupId/update"
-        exact
         component={UpdateStudentGroup}
         privileges={['student.groups.update']}
       />
-      <PageRoute path="/organizations" exact component={Organizations} privileges={['organizations.*']} />
-      <PageRoute
-        path="/organizations/create"
-        exact
-        component={CreateOrganization}
-        privileges={['organizations.create']}
-      />
+      <PageRoute path="/organizations" component={Organizations} privileges={['organizations.*']} />
+      <PageRoute path="/organizations/create" component={CreateOrganization} privileges={['organizations.create']} />
       <PageRoute
         path="/organizations/:organizationId/update"
-        exact
         component={EditOrganization}
         privileges={['organizations.update']}
       />
-      <PageRoute path="/chat" exact component={ChatScreen} />
+      <PageRoute path="/chat" component={ChatScreen} />
+      <PageRoute exact={false} public path="*" component={Error404} />
     </Switch>
   );
 };

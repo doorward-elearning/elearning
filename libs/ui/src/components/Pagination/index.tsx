@@ -73,22 +73,20 @@ const Pagination: FunctionComponent<PaginationProps> = (props): JSX.Element => {
           {translate('previous')}
         </Button>
         <div className="ed-pagination__pages">
-          <ItemArray data={pages}>
-            {(page) => {
-              const button = (
-                <React.Fragment>
-                  <IfElse condition={page.page - previousPage.page > 1}>
-                    <span>...</span>
-                  </IfElse>
-                  <Button mini bordered={page.page != currentPage} onClick={() => setCurrentPage(page.page)}>
-                    {page.name}
-                  </Button>
-                </React.Fragment>
-              );
-              previousPage = page;
-              return button;
-            }}
-          </ItemArray>
+          {pages.map((page, index) => {
+            const button = (
+              <React.Fragment key={index + ''}>
+                <IfElse condition={page.page - previousPage.page > 1}>
+                  <span>...</span>
+                </IfElse>
+                <Button mini bordered={+page.page !== +currentPage} onClick={() => setCurrentPage(page.page)}>
+                  {page.name}
+                </Button>
+              </React.Fragment>
+            );
+            previousPage = page;
+            return button;
+          })}
         </div>
         <Button
           mini

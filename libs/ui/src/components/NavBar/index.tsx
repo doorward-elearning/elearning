@@ -4,17 +4,15 @@ import NavBarSearch from './NavBarSearch';
 import UserManagement from './UserManagement';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
-import { Location, MemoryHistory } from 'history';
+import { Location } from 'history';
 import NavLogo from './NavLogo';
 import { NavbarFeatures } from './features';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import { SearchSuggestion } from '@doorward/common/types/api';
 import { UseAuth } from '@doorward/ui/hooks/useAuth';
 
 const NavBar: React.FunctionComponent<NavBarProps> = ({
   onHamburgerClick,
   features,
-  history,
   renderNavEnd,
   title,
   icon,
@@ -31,13 +29,7 @@ const NavBar: React.FunctionComponent<NavBarProps> = ({
     <FeatureProvider features={features}>
       <div className="ed-navBar">
         <div className="ed-navBar__start">
-          <NavLogo
-            features={features}
-            onHamburgerClick={onHamburgerClick}
-            history={history}
-            title={title}
-            icon={icon}
-          />
+          <NavLogo features={features} onHamburgerClick={onHamburgerClick} title={title} icon={icon} />
         </div>
         <div className="ed-navBar__inner">
           <Feature feature={NavbarFeatures.SEARCH_BAR}>
@@ -65,7 +57,6 @@ export interface NavBarProps {
   withSidebar?: boolean;
   onHamburgerClick?: MouseEventHandler;
   features: Array<NavbarFeatures | string | typeof NavbarFeatures>;
-  history: MemoryHistory;
   location: Location;
   renderNavEnd?: () => JSX.Element;
   title: string;

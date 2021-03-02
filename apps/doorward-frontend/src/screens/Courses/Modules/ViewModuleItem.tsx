@@ -137,7 +137,6 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                     <ViewModuleVideo
                       module={module}
                       editing={editing}
-                      params={params}
                       item={item as ModuleVideoEntity}
                       onEditSuccess={() => setEditing(false)}
                     />

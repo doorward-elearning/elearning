@@ -5,19 +5,18 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 import useForm from '@doorward/ui/hooks/useForm';
 import AddModuleVideoForm from '../../../components/Forms/AddModuleVideoForm';
-import useRoutes from '../../../hooks/useRoutes';
 import VideoPlayer from '@doorward/ui/components/VideoPlayer';
 import Spacer from '@doorward/ui/components/Spacer';
+import { useHistory } from 'react-router';
 
 const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
   editing,
   item,
-  params,
   module,
   ...props
 }): JSX.Element => {
   const form = useForm();
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <div className="view-module-video">
       <EditableView
@@ -28,7 +27,7 @@ const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
             module={module}
             onSuccess={props.onEditSuccess}
             video={item}
-            onCancel={() => routes.navigate(routes.viewModuleItem, params)}
+            onCancel={() => history.push(`/moduleItems/${item.id}`)}
           />
         }
         viewerView={
@@ -48,7 +47,6 @@ const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
 export interface ViewModuleVideoProps {
   module: ModuleEntity;
   editing: boolean;
-  params: { [name: string]: string | undefined };
   item: ModuleVideoEntity;
   onEditSuccess: () => void;
 }

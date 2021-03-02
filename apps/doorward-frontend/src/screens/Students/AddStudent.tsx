@@ -1,8 +1,7 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import AddStudentForm, { AddStudentFormState } from '../../components/Forms/AddStudentForm';
-import useRoutes from '../../hooks/useRoutes';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
@@ -13,23 +12,19 @@ import DoorwardApi from '../../services/apis/doorward.api';
 
 const AddStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm<AddStudentFormState>();
-  const routes = useRoutes();
+  const history = useHistory();
   const [, newStudentState] = useApiAction(DoorwardApi, (api) => api.students.createStudent);
   const submitted = useFormSubmit(newStudentState);
 
   return (
     <IfElse condition={submitted}>
-      <Redirect to={routes.routes.studentList.link} />
+      <Redirect to="/students" />
       <Layout
         {...props}
         header={translate('addStudent')}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
-        <AddStudentForm
-          onCancel={() => routes.navigate(routes.routes.studentList)}
-          useForm={studentForm}
-          state={newStudentState}
-        />
+        <AddStudentForm onCancel={() => history.push('/students')} useForm={studentForm} state={newStudentState} />
       </Layout>
     </IfElse>
   );

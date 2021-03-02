@@ -2,11 +2,11 @@ import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
-import useRoutes from '../../hooks/useRoutes';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <Layout
       {...props}
@@ -15,10 +15,10 @@ const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (pr
     >
       <CreateOrganizationForm
         onSuccess={() => {
-          routes.navigate(routes.organizations);
+          history.push('/organizations');
         }}
         onCancel={() => {
-          routes.navigate(routes.organizations);
+          history.push('/organizations');
         }}
       />
     </Layout>

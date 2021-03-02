@@ -35,27 +35,28 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   useEffect(() => {
     if (login.data) {
       authenticate(login.data?.token);
-      clearLogin();
       getCurrentUser();
     }
   }, [login.data]);
+
+  if (authenticated) {
+    clearLogin();
+    return <Redirect to="/dashboard" />;
+  }
   return (
-    <IfElse condition={authenticated}>
-      <Redirect to="/dashboard" />
-      <div className="page page__login">
-        <Header size={1}>{organization.name}</Header>
-        <IfElse condition={showMessage}>
-          <Message>
-            <Header size={4}>{translate('thankYouForTryingDoorwardLoginToProceed')}</Header>
-          </Message>
-        </IfElse>
-        <LoginForm />
-        <div className="page__login--footer">
-          <p>{translate('dontHaveAnAccount')}</p>
-          <Link to="/register">{translate('createANewAccount')}</Link>
-        </div>
+    <div className="page page__login">
+      <Header size={1}>{organization.name}</Header>
+      {showMessage && (
+        <Message>
+          <Header size={4}>{translate('thankYouForTryingDoorwardLoginToProceed')}</Header>
+        </Message>
+      )}
+      <LoginForm />
+      <div className="page__login--footer">
+        <p>{translate('dontHaveAnAccount')}</p>
+        <Link to="/register">{translate('createANewAccount')}</Link>
       </div>
-    </IfElse>
+    </div>
   );
 };
 

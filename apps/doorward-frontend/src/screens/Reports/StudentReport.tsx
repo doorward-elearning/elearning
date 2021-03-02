@@ -2,35 +2,37 @@ import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import CoursesInProgressTable from '../../components/Tables/CoursesInProgressTable';
 import './StudentReport.scss';
-import useRoutes from '../../hooks/useRoutes';
 import Panel from '@doorward/ui/components/Panel';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Grid from '@doorward/ui/components/Grid';
 import Tools from '@doorward/common/utils/Tools';
 import CustomChart from '@doorward/ui/components/CustomChart';
 import Row from '@doorward/ui/components/Row';
-import usePageResource from '../../hooks/usePageResource';
-import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import Badge from '@doorward/ui/components/Badge';
 import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import { useRouteMatch } from 'react-router';
 
 const data = [[translate('course'), translate('marks')]];
 
 const StudentReport: React.FunctionComponent<StudentReportProps> = (props) => {
   const [grades, setGrades] = useState<Array<[string, number]>>([]);
   const [getStudentReport, studentReportState] = useApiAction(DoorwardApi, (api) => api.reports.getStudentReport);
-  const routes = useRoutes();
+  const {
+    params: { studentId },
+  } = useRouteMatch();
 
-  usePageResource('studentId', getStudentReport);
+  useEffect(() => {
+    if (studentId) {
+      getStudentReport(studentId);
+    }
+  }, [studentId]);
 
   const [fetchCourses, coursesState] = useApiAction(DoorwardApi, (api) => api.courses.getCourses);
   const courses = coursesState.data?.courses;
-
-  useBreadCrumbTitle(studentReportState, (state) => state.data?.student?.fullName, routes);
 
   useEffect(() => {
     if (courses) {

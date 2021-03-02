@@ -1,20 +1,24 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import AuthoredCoursesReportTable from '../../components/Tables/AuthoredCoursesReportTable';
-import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Tools from '@doorward/common/utils/Tools';
-import usePageResource from '../../hooks/usePageResource';
-import useBreadCrumbTitle from '@doorward/ui/hooks/useBreadCrumbTitle';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { useApiAction } from 'use-api-action';
+import { useRouteMatch } from 'react-router';
 
 const TeacherReport: FunctionComponent<TeacherReportProps> = (props): JSX.Element => {
   const [getTeacherReport, teacherReport] = useApiAction(DoorwardApi, (api) => api.reports.getTeacherReport);
-  const routes = useRoutes();
-  usePageResource('teacherId', getTeacherReport);
-  useBreadCrumbTitle(teacherReport, (state) => state.data?.teacher?.fullName, routes);
+  const {
+    params: { teacherId },
+  } = useRouteMatch();
+
+  useEffect(() => {
+    if (teacherId) {
+      getTeacherReport(teacherId);
+    }
+  }, [teacherId]);
 
   const courseCreator = teacherReport.data?.teacher;
   return (

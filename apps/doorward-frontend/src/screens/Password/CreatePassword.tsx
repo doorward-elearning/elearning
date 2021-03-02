@@ -2,7 +2,6 @@ import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import NewPasswordForm from '../../components/Forms/NewPasswordForm';
 import './CreatePassword.scss';
-import useRoutes from '../../hooks/useRoutes';
 import PasswordPolicy from '../../components/UI/PasswordPolicy';
 import createPassword from '../../assets/illustrations/create_new_password.svg';
 import EImage from '@doorward/ui/components/Image';
@@ -11,13 +10,14 @@ import Row from '@doorward/ui/components/Row';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
-const CreatePassword: React.FunctionComponent<CreatePasswordProps> = props => {
+const CreatePassword: React.FunctionComponent<CreatePasswordProps> = (props) => {
   const form = useForm();
-  const routes = useRoutes();
+  const history = useHistory();
 
   const onSuccess = (): void => {
-    routes.navigate(routes.login);
+    history.push('/login');
   };
 
   return (

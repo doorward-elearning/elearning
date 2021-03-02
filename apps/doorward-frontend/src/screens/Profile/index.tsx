@@ -3,9 +3,8 @@ import Layout, { LayoutFeatures } from '../Layout';
 import './styles/Profile.scss';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import useRoutes from '../../hooks/useRoutes';
 import UserProfileCard from '../../components/user/UserProfileCard';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { UserCardContext } from '../../components/user/UserCard';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
@@ -16,7 +15,7 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
   const [user, setUser] = useState(null);
   const [me, setMe] = useState(false);
   const form = useForm();
-  const routes = useRoutes();
+  const history = useHistory();
   const match = useRouteMatch<{ username: string }>();
 
   const [getUserProfile, profileState] = useApiAction(DoorwardApi, (api) => api.userProfile.getUserProfile, {
@@ -38,12 +37,12 @@ const Profile: FunctionComponent<ProfileProps> = (props): JSX.Element => {
       <WebComponent data={user} loading={profileState.fetching}>
         {(user) => (
           <UserCardContext
-            openModal={match.path === routes.changePassword.link}
+            openModal={match.path === '/profile/:username/changePassword'}
             onOpenChangePasswordModal={() => {
-              routes.navigate(routes.changePassword, { username: user.username });
+              history.push(`/profile/${user.username}/changePassword`);
             }}
             onPasswordChanged={() => {
-              routes.navigate(routes.myProfile, { username: user.username });
+              history.push(`/profile/${user.username}`);
             }}
             changePassword
           >

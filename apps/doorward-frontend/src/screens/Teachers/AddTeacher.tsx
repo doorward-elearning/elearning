@@ -1,7 +1,6 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import useRoutes from '../../hooks/useRoutes';
-import { Redirect } from 'react-router';
+import { Redirect, useHistory } from 'react-router';
 import AddTeacherForm from '../../components/Forms/AddTeacherForm';
 import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
@@ -13,23 +12,19 @@ import DoorwardApi from '../../services/apis/doorward.api';
 
 const AddTeacher: React.FunctionComponent<AddStudentProps> = (props) => {
   const teacherForm = useForm();
-  const routes = useRoutes();
   const [, teacherAccountState] = useApiAction(DoorwardApi, (api) => api.teachers.createTeacherAccount);
   const submitted = useFormSubmit(teacherAccountState);
+  const history = useHistory();
 
   return (
     <IfElse condition={submitted}>
-      <Redirect to={routes.routes.teacherList.link} />
+      <Redirect to="/teachers" />
       <Layout
         {...props}
         header={translate('addTeacher')}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
-        <AddTeacherForm
-          onCancel={() => routes.navigate(routes.routes.teacherList)}
-          useForm={teacherForm}
-          state={teacherAccountState}
-        />
+        <AddTeacherForm onCancel={() => history.push('/teachers')} useForm={teacherForm} state={teacherAccountState} />
       </Layout>
     </IfElse>
   );

@@ -1,51 +1,68 @@
-import { SideBarProps } from '@doorward/ui/components/SideBar';
 import { MenuItem } from '@doorward/ui/hooks/useSidebarSchema';
-import { Routes } from '@doorward/ui/types';
-import { DoorwardRoutes } from '../../routes';
 import useAuth from '../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
 
-export default (routes: Routes<DoorwardRoutes>, props: SideBarProps<DoorwardRoutes>): Array<MenuItem> => {
+export default (): Array<MenuItem> => {
   const { logout } = useAuth();
   return [
-    // {
-    //   ...routes.dashboard,
-    //   icon: 'dashboard',
-    // },
-    // {
-    //   ...routes.courses,
-    //   icon: 'school',
-    //   subMenu: [routes.courseList],
-    // },
-    // {
-    //   ...routes.students,
-    //   icon: 'account_circle',
-    //   subMenu: [routes.studentList, routes.newStudent],
-    // },
-    // {
-    //   ...routes.teachers,
-    //   icon: 'work',
-    //   subMenu: [routes.teacherList, routes.addTeacher],
-    // },
-    // {
-    //   ...routes.groups,
-    //   icon: 'people',
-    //   subMenu: [routes.studentGroups, routes.teacherGroups],
-    // },
-    // {
-    //   ...routes.reports,
-    //   icon: 'trending_up',
-    //   subMenu: [routes.studentListReports, routes.teacherListReports],
-    // },
-    // {
-    //   ...routes.organizations,
-    //   icon: 'meeting_room',
-    // },
+    {
+      name: translate('dashboard'),
+      icon: 'dashboard',
+      link: '/dashboard',
+    },
+    {
+      name: translate('courses'),
+      icon: 'school',
+      link: '/courses',
+      subMenu: [{ name: translate('courseList'), link: '/courses' }],
+    },
+    {
+      name: translate('students'),
+      link: '/students',
+      icon: 'account_circle',
+      subMenu: [
+        { name: translate('studentList'), link: '/students' },
+        { name: translate('addStudent'), link: '/students/create' },
+      ],
+    },
+    {
+      name: translate('teachers'),
+      link: '/teachers',
+      icon: 'work',
+      subMenu: [
+        { name: translate('teacherList'), link: '/teachers' },
+        { name: translate('addTeacher'), link: '/teachers/create' },
+      ],
+    },
+    {
+      name: translate('groups'),
+      link: '/groups',
+      icon: 'people',
+      subMenu: [
+        { name: translate('studentGroups'), link: '/groups/students' },
+        { name: translate('teacherGroups'), link: '/groups/teachers' },
+      ],
+    },
+    {
+      name: translate('reports'),
+      link: '/reports',
+      icon: 'trending_up',
+      hidden: true,
+      subMenu: [
+        { name: translate('studentReports'), link: '/reports/students' },
+        { name: translate('teacherListReports'), link: '/reports/teachers' },
+      ],
+    },
+    {
+      name: translate('organizations'),
+      link: '/organizations',
+      icon: 'meeting_room',
+    },
     {
       name: translate('logout'),
       onClick: (): void => {
         logout();
-        window.location.href = routes.login.link;
+        window.location.href = '/login';
       },
       icon: 'exit_to_app',
       link: '',

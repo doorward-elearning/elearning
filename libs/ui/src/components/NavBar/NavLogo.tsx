@@ -2,13 +2,13 @@ import React, { MouseEventHandler } from 'react';
 import FeatureProvider from '../FeatureProvider';
 import Feature from '../FeatureProvider/Feature';
 import Icon from '../Icon';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './NavLogo.scss';
-import { MemoryHistory } from 'history';
 import EImage from '../Image';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 
-const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
+const NavLogo: React.FunctionComponent<NavLogoProps> = (props) => {
+  const history = useHistory();
   return (
     <div className="nav-logo">
       <FeatureProvider features={props.features}>
@@ -19,7 +19,7 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
           <Icon
             icon="arrow_back"
             onClick={(): void => {
-              props.history.goBack();
+              history.goBack();
             }}
           />
         </Feature>
@@ -39,7 +39,6 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = props => {
 export interface NavLogoProps {
   features: Array<NavbarFeatures | string | typeof NavbarFeatures>;
   onHamburgerClick?: MouseEventHandler;
-  history: MemoryHistory;
   homeLink?: string;
   title: string;
   icon: string;

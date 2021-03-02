@@ -35,6 +35,7 @@ PageRoute.defaultProps = {
   unAuthenticatedPath: '/login',
   unAuthorizedPath: '/dashboard',
   public: false,
+  exact: true,
 };
 
 export interface AuthenticatedRouteProps extends RouteProps {
@@ -42,6 +43,7 @@ export interface AuthenticatedRouteProps extends RouteProps {
   unAuthorizedPath?: string;
   privileges?: Array<string>;
   public?: boolean;
+  exact?: boolean;
 }
 
 export default PageRoute;

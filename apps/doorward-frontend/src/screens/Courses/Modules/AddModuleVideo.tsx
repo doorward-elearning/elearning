@@ -26,7 +26,7 @@ const AddModuleVideo: React.FunctionComponent<AddModuleVideoProps> = (props): JS
   };
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} noNavBar header={module?.title}>
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={module?.title}>
       <WebComponent data={module} loading={!module}>
         {(module): JSX.Element => {
           return <AddModuleVideoForm useForm={form} module={module} onCancel={finish} onSuccess={finish} />;

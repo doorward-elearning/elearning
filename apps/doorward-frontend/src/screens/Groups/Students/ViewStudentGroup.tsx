@@ -1,17 +1,15 @@
 import React from 'react';
 import { PageComponent } from '@doorward/ui/types';
 import ViewGroup from '../ViewGroup';
-import useRoutes from '../../../hooks/useRoutes';
+import { useHistory } from 'react-router';
 
 const ViewStudentGroup: React.FunctionComponent<ViewStudentGroupProps> = (props): JSX.Element => {
-  const routes = useRoutes();
+  const history = useHistory();
   return (
     <ViewGroup
       {...props}
-      onEditGroup={group => {
-        routes.navigate(routes.updateStudentGroup, {
-          groupId: group.id,
-        });
+      onEditGroup={(group) => {
+        history.push(`/groups/student/${group.id}/update`);
       }}
     />
   );

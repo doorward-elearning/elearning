@@ -5,16 +5,13 @@ import './Layout.mobile.scss';
 import ContentSpinner from '../../components/UI/ContentSpinner';
 import _ from 'lodash';
 import Helmet from 'react-helmet';
-import useRoutes from '../../hooks/useRoutes';
 import schema from '../../components/Sidebar/schema';
 import UserManagementDropdown from '../../components/Dropdowns/UserManagementDropdown';
-import useBreadCrumbs from '@doorward/ui/hooks/useBreadCrumbs';
 import IfElse from '@doorward/ui/components/IfElse';
 import Tools from '@doorward/common/utils/Tools';
 import Button, { ButtonProps } from '@doorward/ui/components/Buttons/Button';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import Feature from '@doorward/ui/components/FeatureProvider/Feature';
-import BreadCrumbs from '@doorward/ui/components/BreadCrumbs';
 import { PageComponent } from '@doorward/ui/types';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import Container from '@doorward/ui/components/Container';
@@ -34,6 +31,7 @@ import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useAuth from '../../hooks/useAuth';
 import { useApiAction } from 'use-api-action';
+import { useHistory } from 'react-router';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -53,7 +51,6 @@ const ActionButton: React.FunctionComponent<ActionButtonProps> = ({ onClick, tex
 };
 
 const Layout: React.FunctionComponent<LayoutProps> = ({
-  history,
   location,
   children,
   header = '',
@@ -79,15 +76,13 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
 
   const [sidebarCollapsed, collapseSidebar] = useState(localStorage.getItem('sidebar-collapse') === 'true');
   const [search, setSearchText] = useState(searchText);
-  const routes = useRoutes();
-  const { breadcrumbs, titles } = useBreadCrumbs(routes);
-  const currentRoute = routes.currentRoute;
   const debouncedSearch = _.debounce(onSearchText, 1000);
   const organization = useOrganization();
   const icon = useLogo();
   const clearSuggestions = () => {};
   const sideBarRef = useRef();
   const auth = useAuth();
+  const history = useHistory();
 
   useEffect(() => {
     if (suggestionsType) {
@@ -114,11 +109,11 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     localStorage.setItem('sidebar-collapse', !sidebarCollapsed + '');
     collapseSidebar(!sidebarCollapsed);
   };
-  if (breadcrumbs.length > 1) {
+  if (history.action !== 'POP') {
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
-  const title = pageTitle || titles || (currentRoute ? routes.routes[currentRoute].name : '');
+  const title = pageTitle || '';
 
   const isMobile = window.innerWidth < 500;
 
@@ -132,10 +127,9 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
           <NavBarSearchContext state={suggestionsState} placeholder={props.searchPlaceholder}>
             <NavBar
               icon={icon}
-              history={history}
               auth={auth}
               location={location}
-              loginLink={routes.routes.login.link}
+              loginLink="/login"
               features={navFeatures}
               title={organization.name}
               onHamburgerClick={toggleSidebar}
@@ -169,13 +163,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             schema={schema}
             sideBarRef={sideBarRef}
             navBarShown={!noNavBar}
-            history={history}
             icon={icon}
-            routes={routes}
             title={organization.name}
             onHamburgerClick={toggleSidebar}
             auth={auth}
-            location={location}
             onItemSelected={() => {
               if (isMobile) {
                 toggleSidebar();
@@ -191,9 +182,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               <React.Fragment>
                 <div className="ed-page-layout__topContent">{renderTopContent && renderTopContent()}</div>
                 <div className="ed-page-layout__topHeader">
-                  <Feature feature={LayoutFeatures.BREAD_CRUMBS}>
-                    <BreadCrumbs crumbs={breadcrumbs} />
-                  </Feature>
+                  <Feature feature={LayoutFeatures.BREAD_CRUMBS}>{/*<BreadCrumbs crumbs={breadcrumbs} />*/}</Feature>
                 </div>
                 <div className="ed-page-layout__header">
                   <div className="ed-page-layout__header--start">

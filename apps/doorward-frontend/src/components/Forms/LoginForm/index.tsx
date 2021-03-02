@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import TextField from '@doorward/ui/components/Input/TextField';
 import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import useForm from '@doorward/ui/hooks/useForm';
@@ -22,7 +22,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
       validationSchema={LoginBody}
       form={form}
       title={translate('login')}
-      renderFooter={() => <Link to={`/password/forgot`}>Forgot Password?</Link>}
+      renderFooter={() => <Link to={`/password/forgot`}>{translate('forgotPassword') + '?'}</Link>}
     >
       <React.Fragment>
         <TextField name="username" placeholder={translate('username')} icon="account_circle" />

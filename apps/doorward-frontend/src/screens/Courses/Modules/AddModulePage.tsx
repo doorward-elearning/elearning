@@ -27,7 +27,7 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
   };
 
   return (
-    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} noNavBar header={module?.title}>
+    <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={module?.title}>
       <WebComponent data={module} loading={!module}>
         {(module): JSX.Element => {
           return <AddModulePageForm useForm={form} module={module} onCancel={finish} onSuccess={finish} />;

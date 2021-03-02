@@ -1,6 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import './styles/CourseList.scss';
-import useRoutes from '../../hooks/useRoutes';
 import courseImage from '../../assets/images/course.svg';
 import EImage from '@doorward/ui/components/Image';
 import Tools from '@doorward/common/utils/Tools';
@@ -16,7 +15,7 @@ import classNames from 'classnames';
 import DoorwardApi from '../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
-import { useLocation } from 'react-router';
+import { useHistory, useLocation } from 'react-router';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 
@@ -27,7 +26,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
 
   const [launchClassroom, launchClassroomState] = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
 
-  const routes = useRoutes();
+  const history = useHistory();
   const location = useLocation();
 
   useEffect(() => {
@@ -57,9 +56,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                 }
                 useModal={liveClassroomModal}
                 onSuccess={(data) => {
-                  routes.navigate(routes.videoCall, {
-                    meetingId: data?.meeting.id,
-                  });
+                  history.push(`/meeting/${data?.meeting?.id}`);
                 }}
               />
               <ItemArray data={data}>
@@ -70,7 +67,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                         <div
                           className="card-image"
                           style={{ background: Tools.color(course.id) }}
-                          onClick={() => routes.navigate(routes.viewCourse, { courseId: course.id })}
+                          onClick={() => history.push(`/courses/${course.id}`)}
                         >
                           <EImage src={courseImage} />
                         </div>

@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentTable from '../../components/Tables/StudentTable';
-import useViewCourse from '../../hooks/useViewCourse';
-import useRoutes from '../../hooks/useRoutes';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import { PageComponent } from '@doorward/ui/types';
 import Dropdown from '@doorward/ui/components/Dropdown';
@@ -13,6 +11,8 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { useApiAction } from 'use-api-action';
+import { useHistory, useRouteMatch } from 'react-router';
+import useCourse from '../../hooks/useCourse';
 
 const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
@@ -35,12 +35,13 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
     DoorwardApi,
     (api) => api.students.unEnrollStudentFromCourse
   );
-  const routes = useRoutes();
+  const history = useHistory();
+  const {
+    params: { courseId },
+  } = useRouteMatch<{ courseId: string }>();
   const unEnrollStudentModal = useModal(false);
   const [unEnrollStudent, setUnEnrollStudent] = useState(null);
-  useViewCourse();
-
-  const [courseId, course] = useViewCourse();
+  const course = useCourse(courseId);
 
   useEffect(() => {
     studentList(courseId);
@@ -56,12 +57,11 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
 
   return (
     <Layout
-      noNavBar
       {...props}
       header={`${course.data?.course?.title ? course.data?.course.title + ' - ' : ''} ${translate('studentList')}`}
       actionBtnProps={{
         text: translate('enrollStudent'),
-        onClick: (): void => props.history.push(routes.routes.addCourseStudent.link),
+        onClick: (): void => history.push(`/courses/${courseId}/students/new`),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
@@ -73,7 +73,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
                 <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />
               )}
               onClickStudent={({ rowData: student }) => {
-                routes.navigate(routes.viewStudent, { studentId: student.id });
+                history.push(`/students/${student.id}`)
               }}
               students={students}
             />

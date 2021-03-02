@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import classNames from 'classnames';
 import SideBarSubMenu from './SideBarSubMenu';
-import { Location, MemoryHistory } from 'history';
 import { Link } from 'react-router-dom';
 import Icon from '../Icon';
 import { MenuItem, SubMenuItem } from '../../hooks/useSidebarSchema';
 import RoleContainer from '../RolesManager/RoleContainer';
 
 const Item: React.FunctionComponent<ItemProps> = (props) => {
-  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed, history } = props;
+  const { icon, link = '#', name, subMenu, open, onClick, setOpen, collapsed } = props;
   const activeSubItem: SubMenuItem | undefined = (subMenu || [{ link, name }]).find((item: SubMenuItem): boolean => {
     return props.selected === item.link;
   });
@@ -50,7 +49,6 @@ const Item: React.FunctionComponent<ItemProps> = (props) => {
       </Parent>
       {subMenu && (
         <SideBarSubMenu
-          history={history}
           menu={subMenu}
           active={activeSubItem}
           open={open}
@@ -63,8 +61,6 @@ const Item: React.FunctionComponent<ItemProps> = (props) => {
 };
 const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
   menu,
-  history,
-  location,
   collapsed,
   selected,
   ...props
@@ -86,16 +82,16 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
     <React.Fragment>
       {menu.map((item) => (
         <RoleContainer privileges={item.privileges} key={item.name}>
-          <Item
-            {...item}
-            history={history}
-            collapsed={collapsed}
-            location={location}
-            selected={selected}
-            onItemSelected={props.onItemSelected}
-            open={(open && open.link === item.link) || collapsed}
-            setOpen={(value): void => handleOpen(item, value)}
-          />
+          {!item.hidden && (
+            <Item
+              {...item}
+              collapsed={collapsed}
+              selected={selected}
+              onItemSelected={props.onItemSelected}
+              open={(open && open.link === item.link) || collapsed}
+              setOpen={(value): void => handleOpen(item, value)}
+            />
+          )}
         </RoleContainer>
       ))}
     </React.Fragment>
@@ -103,17 +99,13 @@ const SideBarMenu: React.FunctionComponent<SideBarMenuProps> = ({
 };
 
 export interface SideBarMenuProps {
-  history: MemoryHistory;
   menu: Array<MenuItem>;
-  location: Location;
   collapsed: boolean;
   selected: string;
   onItemSelected?: (item: MenuItem) => void;
 }
 
 export interface ItemProps extends MenuItem {
-  history: MemoryHistory;
-  location: Location;
   open: boolean;
   collapsed: boolean;
   selected: string;

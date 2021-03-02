@@ -2,22 +2,22 @@ import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentProfileView from '../../components/UI/StudentProfileView';
 import { PageComponent } from '@doorward/ui/types';
-import usePageResource from '../../hooks/usePageResource';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import useRoutes from '../../hooks/useRoutes';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { useApiAction } from 'use-api-action';
+import { useRouteMatch } from 'react-router';
 
 const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Element => {
   const [getStudent, student] = useApiAction(DoorwardApi, (api) => api.students.getStudent);
-  usePageResource('studentId', getStudent);
-  const routes = useRoutes();
+  const {
+    params: { studentId },
+  } = useRouteMatch();
 
   useEffect(() => {
-    if (student.data?.student) {
-      routes.setCurrentTitle(student.data?.student.fullName);
+    if (studentId) {
+      getStudent(studentId);
     }
-  }, [student]);
+  }, [studentId]);
 
   return (
     <Layout

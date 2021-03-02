@@ -31,7 +31,6 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
-      noNavBar
       header={translate('createAssignment')}
     >
       <WebComponent data={module} loading={state.fetching}>

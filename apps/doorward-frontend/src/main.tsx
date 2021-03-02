@@ -7,13 +7,11 @@ import '@doorward/ui/fonts.scss';
 import '@material/react-linear-progress/dist/linear-progress.css';
 import 'react-virtualized/styles.css'; // only needs to be imported once
 import { Router } from './routes/routes';
-import { DoorwardRoutes } from './routes';
 import RolesManager from '@doorward/ui/components/RolesManager';
 import ApplicationTheme from '@doorward/ui/components/ApplicationTheme';
 import useOfflineToast from '@doorward/ui/hooks/useOfflineToast';
 import ApiRequest from '@doorward/common/net/apiRequest';
 import ApplicationInitializer from './components/ApplicationInitializer';
-import { AppContextProps } from '@doorward/ui/template/appContext';
 import useAuth from './hooks/useAuth';
 import ChatWebSocketContext from '@doorward/chat/components/ChatWebSocketContext';
 import Notifications from '@doorward/ui/components/Notifications';
@@ -21,8 +19,6 @@ import { BrowserRouter } from 'react-router-dom';
 
 // ensure the user is logged in
 ApiRequest.setAuth();
-
-export interface DoorwardAppContextProps extends AppContextProps<DoorwardRoutes> {}
 
 const App: React.FC = () => {
   useOfflineToast();

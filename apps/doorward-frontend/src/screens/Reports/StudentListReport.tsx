@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import StudentReportsTable from '../../components/Tables/StudentReportsTable';
-import useRoutes from '../../hooks/useRoutes';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
+import { useHistory } from 'react-router';
 
 const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) => {
-  const routes = useRoutes();
+  const history = useHistory();
   const [search, setSearch] = useState('');
   const onSearch = (text: string) => {
     setSearch(text);
@@ -20,7 +20,7 @@ const StudentListReport: React.FunctionComponent<StudentReportsProps> = (props) 
     >
       <StudentReportsTable
         filter={search}
-        onRowClick={({ rowData: student }): void => routes.navigate(routes.studentReport, { studentId: student.id })}
+        onRowClick={({ rowData: student }): void => history.push(`/reports/students/${student.id}`)}
       />
     </Layout>
   );

@@ -1,7 +1,6 @@
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
-import { MemoryHistory } from 'history';
 import { SubMenuItem } from '../../hooks/useSidebarSchema';
 import useHeightTransition from '../../hooks/useHeightTransition';
 import RoleContainer from '../RolesManager/RoleContainer';
@@ -45,7 +44,6 @@ export interface SideBarSubMenuProps {
   active?: SubMenuItem;
   open: boolean;
   collapsed: boolean;
-  history: MemoryHistory;
   onItemSelected?: (item: SubMenuItem) => void;
 }
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useRoutes from '../../hooks/useRoutes';
 import Layout, { LayoutFeatures } from '../Layout';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import AddGroupForm from '../../components/Forms/AddGroupForm';
@@ -7,9 +6,9 @@ import { PageComponent } from '@doorward/ui/types';
 import useAction from '@doorward/ui/hooks/useActions';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
-import { DoorwardRoutes } from '../../routes';
 import translate from '@doorward/common/lang/translate';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { useHistory } from 'react-router';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -23,7 +22,7 @@ function CreateGroup<T, Args extends Array<any>>({
   ...props
 }: CreateGroupProps<T, Args>) {
   const [loading, setLoading] = useState(true);
-  const routes = useRoutes();
+  const history = useHistory();
   const action = useAction(actionCreator);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ function CreateGroup<T, Args extends Array<any>>({
       >
         {({ allUsers, group }) => (
           <AddGroupForm
-            onSuccess={() => routes.navigate(routes[redirectOnSuccess])}
+            onSuccess={() => history.push(redirectOnSuccess)}
             group={group}
             users={allUsers}
             title={title}
@@ -71,7 +70,7 @@ export interface CreateGroupProps<T, Args extends Array<any> = any[]> extends Pa
   state: WebComponentState<T, T>;
   getUsers: (data: T) => Array<UserEntity>;
   actionCreator: ApiActionCreator<Args>;
-  redirectOnSuccess: keyof DoorwardRoutes;
+  redirectOnSuccess: string;
   currentGroupState?: WebComponentState<GroupResponse>;
   actionArgs?: Args;
 }
