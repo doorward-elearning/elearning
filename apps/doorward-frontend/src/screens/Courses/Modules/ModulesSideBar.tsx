@@ -10,10 +10,11 @@ import Row from '@doorward/ui/components/Row';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import Icon from '@doorward/ui/components/Icon';
 import { ModuleItemIcons } from '../../../components/Dropdowns/AddModuleItemDropdown';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, item }): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
 
   return (
     <WebComponent data={course} loading={!course} emptyMessage={translate('courseDoesNotExist')} size="small">
@@ -29,7 +30,9 @@ const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, 
                     {module.items.map((moduleItem) => (
                       <ContentList.MenuItem
                         onClick={() => {
-                          history.push(`/moduleItems/${moduleItem.id}`);
+                          navigation.navigate(ROUTES.courses.modules.items.view, {
+                            itemId: moduleItem.id,
+                          });
                         }}
                         selected={item?.id === moduleItem.id}
                       >

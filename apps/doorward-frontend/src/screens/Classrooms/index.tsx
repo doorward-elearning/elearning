@@ -7,11 +7,12 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const [fetchSchools, schoolState] = useApiAction(DoorwardApi, (api) => api.schools.getAllSchools);
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchSchools();
@@ -38,7 +39,9 @@ const Classrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Elemen
                   },
                 }}
                 onRowClick={({ rowData }) => {
-                  history.push(`/classrooms/${rowData.id}`);
+                  navigation.navigate(ROUTES.classrooms.classroom, {
+                    schoolId: rowData.id,
+                  });
                 }}
               />
             );

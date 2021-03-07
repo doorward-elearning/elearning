@@ -10,7 +10,6 @@ import Tools from '@doorward/common/utils/Tools';
 import PasswordResetsRepository from '@doorward/backend/repositories/password.resets.repository';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import ForgotPasswordEmail from '../../emails/forgot.password.email';
-import FrontendLinks from '../../utils/frontend.links';
 import PrivilegeRepository from '@doorward/backend/repositories/privilege.repository';
 import { UserStatus } from '@doorward/common/types/users';
 import {
@@ -23,6 +22,7 @@ import { CreateUserBody, UpdateAccountBody, UpdateProfilePictureBody } from '@do
 import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { FilesService } from '../files/files.service';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 @Injectable()
 export class UsersService {
@@ -214,9 +214,9 @@ export class UsersService {
     this.emailsService
       .send(
         new ForgotPasswordEmail({
-          subject: 'Forgot password',
+          subject: translate('forgotPassword'),
           data: {
-            link: origin + FrontendLinks.passwordReset(resetToken),
+            link: origin + Tools.createRoute(ROUTES.auth.password.reset, { resetToken }),
           },
           recipient: user,
         })

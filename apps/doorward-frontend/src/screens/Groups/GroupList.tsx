@@ -5,11 +5,11 @@ import { PageComponent } from '@doorward/ui/types';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 function GroupList({ header, createRoute, type, onGroupClick, ...props }: GroupListProps): JSX.Element {
   const { query } = useQueryParams();
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <Layout
       {...props}
@@ -22,7 +22,7 @@ function GroupList({ header, createRoute, type, onGroupClick, ...props }: GroupL
       actionBtnProps={{
         text: translate('addGroup'),
         onClick: () => {
-          history.push(createRoute);
+          navigation.navigate(createRoute);
         },
       }}
     >

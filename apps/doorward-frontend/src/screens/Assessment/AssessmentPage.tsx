@@ -14,7 +14,8 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [questions, setQuestions] = useState([]);
@@ -22,7 +23,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
   const [submission, setSubmission] = useState(props.submission);
   const [startQuestion, setStartQuestion] = useState(0);
   const [timeEnded, setTimeEnded] = useState(false);
-  const history = useHistory();
+  const navigation = useNavigation();
 
   const calculateElapsedTime = () => {
     if (props.submission) {
@@ -46,7 +47,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     (api) => api.assessments.submitAssignment,
     {
       onSuccess: () => {
-        history.push(`/moduleItems/${assessment.id}`);
+        navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });
       },
     }
   );

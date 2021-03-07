@@ -3,11 +3,12 @@ import Icon from '@doorward/ui/components/Icon';
 import BadgeControl from '@doorward/ui/components/BadgeControl';
 import { ChatContext } from '@doorward/chat/Chat';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
 import useAuth from '../../hooks/useAuth';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   const { authenticated } = useAuth();
   const { unreadMessages } = useContext(ChatContext);
   return (
@@ -17,7 +18,7 @@ const RightMenu: React.FunctionComponent<RightMenuProps> = (props): JSX.Element 
           <Icon
             icon="chat"
             onClick={() => {
-              history.push('/chat');
+              navigation.navigate(ROUTES.chat.home);
             }}
             title={translate('chat')}
           />

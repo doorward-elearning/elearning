@@ -3,17 +3,20 @@ import Layout, { LayoutFeatures } from '../Layout';
 import TeacherReportTable from '../../components/Tables/TeacherReportTable';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const TeacherListReport: FunctionComponent<TeacherListReportProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.SEARCH_BAR, LayoutFeatures.BREAD_CRUMBS]}
       header={translate('teacherReport')}
     >
-      <TeacherReportTable onRowClick={({ rowData }) => history.push(`/reports/teachers/${rowData.id}`)} />
+      <TeacherReportTable
+        onRowClick={({ rowData }) => navigation.navigate(ROUTES.reports.teachers.view, { teacherId: rowData.id })}
+      />
     </Layout>
   );
 };

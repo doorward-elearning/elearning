@@ -6,10 +6,11 @@ import OrganizationsTable from '../../components/Tables/OrganizationsTable';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   const [fetch, organizations] = useApiAction(DoorwardApi, (api) => api.organizations.getAllOrganizations);
 
   useEffect(() => {
@@ -21,7 +22,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
       header={translate('organizations')}
       actionBtnProps={{
         text: translate('createOrganization'),
-        onClick: () => history.push('/organizations/create'),
+        onClick: () => navigation.navigate(ROUTES.organizations.create),
       }}
       features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
     >

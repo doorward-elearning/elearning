@@ -7,11 +7,12 @@ import Header from '@doorward/ui/components/Header';
 import IfElse from '@doorward/ui/components/IfElse';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
   const { query } = useQueryParams();
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <Layout
       {...props}
@@ -19,7 +20,7 @@ const Dashboard: React.FunctionComponent<DashboardProps> = (props) => {
       header={translate('dashboard').toUpperCase()}
       renderTopContent={() => (
         <IfElse condition={query.newAccount}>
-          <Message onClose={() => history.push('/dashboard')}>
+          <Message onClose={() => navigation.navigate(ROUTES.dashboard)}>
             <Header size={5}>{translate('thankYouForJoiningDoorward')}</Header>
           </Message>
         </IfElse>

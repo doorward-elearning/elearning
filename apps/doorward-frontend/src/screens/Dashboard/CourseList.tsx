@@ -15,9 +15,11 @@ import classNames from 'classnames';
 import DoorwardApi from '../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation } from 'react-router';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
   const liveClassroomModal = useModal(false);
@@ -26,7 +28,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
 
   const [launchClassroom, launchClassroomState] = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
 
-  const history = useHistory();
+  const navigation = useNavigation();
   const location = useLocation();
 
   useEffect(() => {
@@ -56,7 +58,9 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                 }
                 useModal={liveClassroomModal}
                 onSuccess={(data) => {
-                  history.push(`/meeting/${data?.meeting?.id}`);
+                  navigation.navigate(ROUTES.meeting.join, {
+                    meetingId: data?.meeting?.id,
+                  });
                 }}
               />
               <ItemArray data={data}>
@@ -67,7 +71,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
                         <div
                           className="card-image"
                           style={{ background: Tools.color(course.id) }}
-                          onClick={() => history.push(`/courses/${course.id}`)}
+                          onClick={() => navigation.navigate(ROUTES.courses.view, { courseId: course.id })}
                         >
                           <EImage src={courseImage} />
                         </div>

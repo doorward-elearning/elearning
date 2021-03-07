@@ -31,7 +31,7 @@ import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useAuth from '../../hooks/useAuth';
 import { useApiAction } from 'use-api-action';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 export enum LayoutFeatures {
   HEADER = 1,
@@ -83,7 +83,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   const clearSuggestions = () => {};
   const sideBarRef = useRef();
   const auth = useAuth();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (suggestionsType) {
@@ -110,7 +110,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
     localStorage.setItem('sidebar-collapse', !sidebarCollapsed + '');
     collapseSidebar(!sidebarCollapsed);
   };
-  if (history.action !== 'POP' && !hideBackButton) {
+  if (navigation.action !== 'POP' && !hideBackButton) {
     features.push(LayoutFeatures.BACK_BUTTON);
   }
 
@@ -192,7 +192,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
                         icon="arrow_back"
                         className="ed-page-layout__header--start__arrow-back"
                         onClick={(): void => {
-                          history.goBack();
+                          navigation.goBack();
                         }}
                       />
                     </Feature>

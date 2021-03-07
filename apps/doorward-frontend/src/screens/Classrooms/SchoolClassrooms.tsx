@@ -17,12 +17,14 @@ import Panel from '@doorward/ui/components/Panel';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.Element => {
   const [fetchSchool, schoolState] = useApiAction(DoorwardApi, (api) => api.schools.getSchool);
   const match = useRouteMatch<{ schoolId: string }>();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (match.params.schoolId) {
@@ -63,7 +65,13 @@ const SchoolClassrooms: React.FunctionComponent<ClassroomsProps> = (props): JSX.
                   <ItemArray data={classrooms}>
                     {(classroom) => (
                       <div className="classroom__list__item">
-                        <Card onClick={() => history.push(`/meeting/${classroom.meetingRoom.currentMeeting.id}`)}>
+                        <Card
+                          onClick={() =>
+                            navigation.navigate(ROUTES.meeting.join, {
+                              meetingId: classroom.meetingRoom.currentMeeting.id,
+                            })
+                          }
+                        >
                           <Card.Header image>
                             <div className="card-image" style={{ background: Tools.color(classroom.id) }}>
                               <EImage src={courseImage} />

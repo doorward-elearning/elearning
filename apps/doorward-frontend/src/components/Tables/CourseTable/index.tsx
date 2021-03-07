@@ -1,15 +1,15 @@
 import React from 'react';
 import Table from '@doorward/ui/components/Table';
-import { MemoryHistory } from 'history';
 import './CourseTable.scss';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 import { PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 import Tools from '@doorward/common/utils/Tools';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <Table
       className="course-table"
@@ -40,7 +40,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
       data={props.courses}
       pagination={props.pagination}
       onRowClick={({ rowData }): void => {
-        history.push(`/courses/${rowData.id}`);
+        navigation.navigate(ROUTES.courses.view, { courseId: rowData.id });
       }}
     />
   );

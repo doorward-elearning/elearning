@@ -7,11 +7,13 @@ import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.Element => {
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   const match = useRouteMatch<{ moduleId: string }>();
 
   const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
@@ -24,7 +26,9 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
   const module = state.data?.module;
 
   const finish = () => {
-    history.push(`/courses/${module?.course?.id}`);
+    navigation.navigate(ROUTES.courses.view, {
+      courseId: module?.course?.id,
+    });
   };
 
   return (

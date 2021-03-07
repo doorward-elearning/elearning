@@ -7,11 +7,11 @@ import FeatureProvider from '@doorward/ui/components/FeatureProvider';
 import Feature from '@doorward/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
 import { Omit } from '@doorward/common/types';
-import { useHistory } from 'react-router';
 import translate from '@doorward/common/lang/translate';
 import { ApiActionCreator, UseApiAction, WebComponentState } from 'use-api-action/types/types';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import { FormikProps } from 'formik';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,
@@ -34,7 +34,7 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
   const features = props.features || [BasicFormFeatures.CANCEL_BUTTON, BasicFormFeatures.SAVE_BUTTON];
   const createData = props.createData || ((data) => [data]);
 
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useRequestToast(state, showSuccessToast, showErrorToast);
 
@@ -82,7 +82,7 @@ function BasicForm<T, A extends ApiActionCreator, W>(props: BasicFormProps<T, A,
                       theme="secondary"
                       type="button"
                       disabled={state.submitting}
-                      onClick={props.onCancel || history.goBack}
+                      onClick={props.onCancel || navigation.goBack}
                     >
                       {props.negativeText || translate('cancel')}
                     </Button>

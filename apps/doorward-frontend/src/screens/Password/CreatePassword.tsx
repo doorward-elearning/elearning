@@ -10,14 +10,15 @@ import Row from '@doorward/ui/components/Row';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CreatePassword: React.FunctionComponent<CreatePasswordProps> = (props) => {
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   const onSuccess = (): void => {
-    history.push('/login');
+    navigation.navigate(ROUTES.auth.login);
   };
 
   return (

@@ -7,12 +7,14 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
   const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
   const match = useRouteMatch<{ courseId: string }>();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (match.params.courseId) {
@@ -46,7 +48,9 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
                 },
               }}
               onRowClick={({ rowData: row }) => {
-                history.push(`/moduleItems/${row.id}`);
+                navigation.navigate(ROUTES.courses.modules.items.view, {
+                  itemId: row.id,
+                });
               }}
             />
           );

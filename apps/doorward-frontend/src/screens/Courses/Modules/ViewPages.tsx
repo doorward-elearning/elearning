@@ -7,11 +7,12 @@ import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, ...props }) => {
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <div className="view-module-pages">
       <EditableView
@@ -22,7 +23,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
             module={module}
             page={item}
             onSuccess={props.onEditSuccess}
-            onCancel={() => history.push(`/moduleItems/${item.id}`)}
+            onCancel={() => navigation.navigate(ROUTES.courses.modules.items.update, { itemId: item.id })}
           />
         }
         viewerView={

@@ -6,6 +6,7 @@ import LoadingPage from '../screens/LoadingPage';
 import useAuth from '../hooks/useAuth';
 import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../services/apis/doorward.api';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 function PageRoute(props: AuthenticatedRouteProps): JSX.Element {
   const { authenticated } = useAuth();
@@ -32,8 +33,8 @@ function PageRoute(props: AuthenticatedRouteProps): JSX.Element {
 
 PageRoute.defaultProps = {
   privileges: [],
-  unAuthenticatedPath: '/login',
-  unAuthorizedPath: '/dashboard',
+  unAuthenticatedPath: ROUTES.auth.login,
+  unAuthorizedPath: ROUTES.dashboard,
   public: false,
   exact: true,
 };

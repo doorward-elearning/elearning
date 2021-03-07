@@ -12,15 +12,16 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import CourseEntity from '@doorward/common/entities/course.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   const [deleteCourse, deleteState] = useApiAction(DoorwardApi, (api) => api.courses.deleteCourse);
 
   const onDeleteSuccess = () => {
-    history.push('/courses');
+    navigation.push(ROUTES.courses.list);
   };
 
   return (

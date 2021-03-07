@@ -8,7 +8,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 function CreateGroup<T, Args extends Array<any>>({
   state,
@@ -22,7 +22,7 @@ function CreateGroup<T, Args extends Array<any>>({
   ...props
 }: CreateGroupProps<T, Args>) {
   const [loading, setLoading] = useState(true);
-  const history = useHistory();
+  const navigation = useNavigation();
   const action = useAction(actionCreator);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ function CreateGroup<T, Args extends Array<any>>({
       >
         {({ allUsers, group }) => (
           <AddGroupForm
-            onSuccess={() => history.push(redirectOnSuccess)}
+            onSuccess={() => navigation.navigate(redirectOnSuccess)}
             group={group}
             users={allUsers}
             title={title}

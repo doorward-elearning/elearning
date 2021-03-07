@@ -6,10 +6,12 @@ import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   const [getOrganization, state] = useApiAction(DoorwardApi, (api) => api.organizations.getOrganization);
   const {
     params: { organizationId },
@@ -32,10 +34,10 @@ const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props)
           <CreateOrganizationForm
             organization={organization}
             onSuccess={() => {
-              history.push('/organizations');
+              navigation.navigate(ROUTES.organizations.list);
             }}
             onCancel={() => {
-              history.push('/organizations');
+              navigation.navigate(ROUTES.organizations.list);
             }}
           />
         )}

@@ -7,7 +7,8 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import WebComponent from '@doorward/ui/components/WebComponent';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 export interface StudentListQueryParams {
   search: string;
@@ -15,7 +16,7 @@ export interface StudentListQueryParams {
 }
 
 const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
-  const history = useHistory();
+  const navigation = useNavigation();
   const [fetch, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents, {
     onNewData: (prevState, nextState) => {
       return nextState.pagination.page === 1
@@ -40,7 +41,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
       searchPlaceholder={translate('searchStudents')}
       actionBtnProps={{
         text: translate('addStudent'),
-        onClick: (): void => props.history.push('/students/create'),
+        onClick: (): void => navigation.navigate(ROUTES.students.create),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
       onSearch={(text) => {
@@ -61,7 +62,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
               });
             }}
             onClickStudent={({ rowData }) => {
-              history.push(`/students/${rowData.id}`);
+              navigation.navigate(ROUTES.students.view, { studentId: rowData.id });
             }}
           />
         )}

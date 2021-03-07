@@ -18,6 +18,8 @@ import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import { useApiAction } from 'use-api-action';
 import Tools from '@doorward/common/utils/Tools';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import NavLink from '@doorward/ui/components/NavLink';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const MAX_STUDENTS = 3;
 const MAX_MANAGERS = 3;
@@ -35,7 +37,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
   const match: any = useRouteMatch<{ courseId: string }>();
   const hasPrivileges = usePrivileges();
   const auth = useAuth();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   const courseId = match.params.courseId;
 
@@ -71,7 +73,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
             message={translate('noStudentHaveBeenAddedToTheCourseYet')}
             size="medium"
             actionMessage={translate('createStudent')}
-            onAction={(): void => history.push(Tools.createRoute(ROUTES.courses.students.create, { courseId }))}
+            onAction={(): void => navigation.navigate(ROUTES.courses.students.create, { courseId })}
           >
             {(students): JSX.Element => (
               <List>
@@ -79,7 +81,9 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
                   {(student) => <ListItem key={student.id}>{student.fullName}</ListItem>}
                 </ItemArray>
                 <ListItem>
-                  <Link to={`/courses/${courseId}/students`}>{translate('viewAll')}</Link>
+                  <NavLink to={ROUTES.courses.students.list} params={{ courseId }}>
+                    {translate('viewAll')}
+                  </NavLink>
                 </ListItem>
               </List>
             )}
@@ -97,7 +101,7 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
               message={translate('noManagersHaveBeenAdded')}
               size="medium"
               actionMessage={translate('createTeacher')}
-              onAction={(): void => history.push(`/teachers/create`)}
+              onAction={(): void => navigation.push(ROUTES.teachers.create)}
             >
               {(managers): JSX.Element => (
                 <List>
@@ -136,7 +140,12 @@ const CourseViewSidebar: React.FunctionComponent<CourseViewSidebarProps> = (prop
                   <ItemArray data={discussions} max={MAX_DISCUSSION_GROUPS}>
                     {(discussion) => (
                       <ListItem key={discussion.id}>
-                        <Link to={`/discussionGroups/${discussion.id}`}>{discussion.title}</Link>
+                        <NavLink
+                          to={ROUTES.courses.discussionGroups.view}
+                          params={{ discussionGroupId: discussion.id }}
+                        >
+                          {discussion.title}
+                        </NavLink>
                       </ListItem>
                     )}
                   </ItemArray>

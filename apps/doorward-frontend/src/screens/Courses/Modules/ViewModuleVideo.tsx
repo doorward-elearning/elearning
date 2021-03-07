@@ -7,7 +7,8 @@ import useForm from '@doorward/ui/hooks/useForm';
 import AddModuleVideoForm from '../../../components/Forms/AddModuleVideoForm';
 import VideoPlayer from '@doorward/ui/components/VideoPlayer';
 import Spacer from '@doorward/ui/components/Spacer';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
   editing,
@@ -16,7 +17,7 @@ const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
   ...props
 }): JSX.Element => {
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <div className="view-module-video">
       <EditableView
@@ -27,7 +28,7 @@ const ViewModuleVideo: React.FunctionComponent<ViewModuleVideoProps> = ({
             module={module}
             onSuccess={props.onEditSuccess}
             video={item}
-            onCancel={() => history.push(`/moduleItems/${item.id}`)}
+            onCancel={() => navigation.navigate(ROUTES.courses.modules.items.update, { itemId: item.id })}
           />
         }
         viewerView={

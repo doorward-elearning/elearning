@@ -3,7 +3,6 @@ import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { useHistory } from 'react-router';
 import AssignmentSubmissionForm from '../../Forms/AssignmentSubmissionForm';
 import AssignmentSubmissionView from '../../AssignmentSubmissionView';
 import WebComponent from '@doorward/ui/components/WebComponent';
@@ -13,13 +12,14 @@ import AssignmentSubmissionModal from '../../Modals/AssignmentSubmissionModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => {
   const initialValues = {
     submission: '',
     submissionType: '',
   };
-  const history = useHistory();
+  const navigation = useNavigation();
   const viewAssignmentSubmissionModal = useModal(false);
   const [currentSubmission, setCurrentSubmission] = useState(null);
 
@@ -47,7 +47,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
             <AssignmentSubmissionForm
               assignment={props.assignment}
               initialValues={initialValues}
-              onSuccess={history.goBack}
+              onSuccess={navigation.goBack}
             />
           )}
         </Panel>

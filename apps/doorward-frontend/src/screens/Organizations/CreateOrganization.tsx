@@ -3,10 +3,11 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import CreateOrganizationForm from '../../components/Forms/CreateOrganizationForm';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <Layout
       {...props}
@@ -15,10 +16,10 @@ const CreateOrganization: React.FunctionComponent<CreateOrganizationProps> = (pr
     >
       <CreateOrganizationForm
         onSuccess={() => {
-          history.push('/organizations');
+          navigation.navigate(ROUTES.organizations.list);
         }}
         onCancel={() => {
-          history.push('/organizations');
+          navigation.navigate(ROUTES.organizations.list);
         }}
       />
     </Layout>

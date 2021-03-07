@@ -7,8 +7,9 @@ import Meeting from '../../components/Meeting';
 import './VideoCallWidget.scss';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
 import { useApiAction } from 'use-api-action';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): JSX.Element => {
   const organization = useOrganization();
@@ -16,7 +17,7 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
   const [endMeeting] = useApiAction(DoorwardApi, (api) => api.meetings.endMeeting);
   const hasPrivilege = usePrivileges();
   const [joinMeeting, videoCallState] = useApiAction(DoorwardApi, (api) => api.meetings.joinMeeting);
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (props.meetingId) {
@@ -41,7 +42,7 @@ const VideoCallWidget: React.FunctionComponent<VideoCallWidgetProps> = (props): 
               if (canModerate) {
                 endMeeting(meeting.id);
               }
-              history.push('/dashboard');
+              navigation.navigate(ROUTES.dashboard);
             }}
             apiRef={(api) => {
               if (!jitsi) {

@@ -4,7 +4,6 @@ import Accordion from '@doorward/ui/components/Accordion';
 import Header from '@doorward/ui/components/Header';
 import AddModuleItemDropdown, { ModuleItemIcons } from '../../Dropdowns/AddModuleItemDropdown';
 import './CourseModuleList.scss';
-import { Link } from 'react-router-dom';
 import Row from '@doorward/ui/components/Row';
 import Icon from '@doorward/ui/components/Icon';
 import classNames from 'classnames';
@@ -33,18 +32,21 @@ import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import NavLink from '@doorward/ui/components/NavLink';
 
 const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleItem, module, index, courseId }) => {
   const hasPrivileges = usePrivileges();
   return (
     <DragAndDropListItem isDragDisabled={!hasPrivileges('modules.update')} index={index} draggableId={moduleItem.id}>
       <ListItem>
-        <Link
+        <NavLink
           className={classNames({
             'course-module-item': true,
             [_.camelCase(moduleItem.type.toLowerCase())]: true,
           })}
-          to={`/moduleItems/${moduleItem.id}`}
+          to={ROUTES.courses.modules.items.view}
+          params={{ itemId: moduleItem.id }}
         >
           <Row style={{ justifyContent: 'space-between', alignItems: 'center' }}>
             <Row style={{ justifyContent: 'start' }}>
@@ -59,7 +61,7 @@ const ModuleItemView: React.FunctionComponent<ModuleItemViewProps> = ({ moduleIt
               </span>
             )}
           </Row>
-        </Link>
+        </NavLink>
       </ListItem>
     </DragAndDropListItem>
   );

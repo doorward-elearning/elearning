@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import AddStudentForm from '../../components/Forms/AddStudentForm';
-import { Redirect, useHistory, useRouteMatch } from 'react-router';
+import { Redirect, useRouteMatch } from 'react-router';
 import IfElse from '@doorward/ui/components/IfElse';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import useForm from '@doorward/ui/hooks/useForm';
@@ -10,27 +10,30 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import useCourse from '../../hooks/useCourse';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import Tools from '@doorward/common/utils/Tools';
 
 const AddCourseStudent: React.FunctionComponent<AddStudentProps> = (props) => {
   const studentForm = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   const [createStudent, createStudentState] = useApiAction(DoorwardApi, (api) => api.students.createStudentInCourse);
   const submitted = useFormSubmit(createStudentState);
   const {
     params: { courseId },
   } = useRouteMatch();
-  const course = useCourse(courseId);
+  useCourse(courseId);
 
   return (
     <IfElse condition={submitted && createStudentState.fetched}>
-      <Redirect to={`/courses/${courseId}/students`} />
+      <Redirect to={Tools.createRoute(ROUTES.courses.students.list, { courseId })} />
       <Layout
         {...props}
         header={translate('addStudent')}
         features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.BACK_BUTTON]}
       >
         <AddStudentForm
-          onCancel={(): void => history.push(`/courses/${courseId}/students`)}
+          onCancel={(): void => navigation.navigate(ROUTES.courses.students.list, { courseId })}
           useForm={studentForm}
           action={createStudent}
           state={createStudentState}

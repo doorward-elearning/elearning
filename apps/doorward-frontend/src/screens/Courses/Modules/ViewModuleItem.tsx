@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import Layout, { LayoutFeatures } from '../../Layout';
 import CreateAssignmentForm from '../../../components/Forms/CreateAssignmentForm';
 import EditableView from '../../../components/EditableView';
@@ -24,13 +24,15 @@ import ModulesSideBar from './ModulesSideBar';
 import ViewModuleVideo from './ViewModuleVideo';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 import { useApiAction } from 'use-api-action';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
   const [module, setModule] = useState<ModuleEntity>();
   const match = useRouteMatch<{ itemId: string }>();
-  const history = useHistory();
-  const [editing, setEditing] = useState(match.path === '/moduleItems/:itemId/update');
+  const navigation = useNavigation();
+  const [editing, setEditing] = useState(match.path === ROUTES.courses.modules.items.update);
   const assignmentForm = useForm();
 
   const [fetchModule, moduleState] = useApiAction(DoorwardApi, (api) => api.modules.getModule, {
@@ -51,11 +53,13 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   }, [match.params.itemId]);
 
   useEffect(() => {
-    setEditing(match.path === `/moduleItems/:itemId/update`);
+    setEditing(match.path === ROUTES.courses.modules.items.update);
   }, [match.path]);
 
   const goBack = () => {
-    history.push(`/courses/${item.courseId}`);
+    navigation.navigate(ROUTES.courses.view, {
+      courseId: item.courseId,
+    });
   };
 
   return (
@@ -73,7 +77,9 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         theme: 'secondary',
         privileges: ['modules.update'],
         onClick: () => {
-          history.push(`/moduleItems/${item.id}/update`);
+          navigation.navigate(ROUTES.courses.modules.items.update, {
+            itemId: item.id,
+          });
         },
         disabled: editing,
       }}
@@ -99,13 +105,25 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       viewerView={
                         <AssessmentView
                           assessment={item as AssessmentEntity}
-                          onCancel={() => history.push(`/courses/${item.courseId}`)}
+                          onCancel={() =>
+                            navigation.navigate(ROUTES.courses.view, {
+                              courseId: item.courseId,
+                            })
+                          }
                         />
                       }
                       creatorView={
                         <CreateAssessmentForm
-                          onSuccess={() => history.push(`/moduleItems/${item.id}`)}
-                          onCancel={() => history.push(`/moduleItems/${item.id}`)}
+                          onSuccess={() =>
+                            navigation.navigate(ROUTES.courses.modules.items.view, {
+                              itemId: item.id,
+                            })
+                          }
+                          onCancel={() =>
+                            navigation.navigate(ROUTES.courses.modules.items.view, {
+                              itemId: item.id,
+                            })
+                          }
                           module={module}
                           assessment={item as AssessmentEntity}
                           type={(item as AssessmentEntity).assessmentType}

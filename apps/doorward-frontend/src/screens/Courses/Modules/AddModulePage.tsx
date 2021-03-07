@@ -1,18 +1,20 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../../Layout';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
 import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
   const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
   const match = useRouteMatch<{ moduleId: string }>();
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (match.params.moduleId) {
@@ -23,7 +25,9 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
   const module = state.data?.module;
 
   const finish = () => {
-    history.push(`/courses/${module?.course?.id}`);
+    navigation.navigate(ROUTES.courses.view, {
+      courseId: module?.course?.id,
+    });
   };
 
   return (

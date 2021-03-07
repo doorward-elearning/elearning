@@ -6,22 +6,23 @@ import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const ForgotPasswordForm: React.FunctionComponent<ForgotPasswordFormProps> = (props) => {
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
   const apiAction = useApiAction(DoorwardApi, (api) => api.userProfile.forgotAccountPassword);
 
   return (
     <BasicForm
       apiAction={apiAction}
       form={form}
-      onCancel={() => history.push('/')}
+      onCancel={() => navigation.navigate(ROUTES.home)}
       validationSchema={Yup.object({
         username: Yup.string().required(translate('usernameIsRequired')),
       })}
-      onSuccess={() => history.push('/login')}
+      onSuccess={() => navigation.navigate(ROUTES.auth.login)}
       showSuccessToast
       showErrorToast
       positiveText={translate('reset')}

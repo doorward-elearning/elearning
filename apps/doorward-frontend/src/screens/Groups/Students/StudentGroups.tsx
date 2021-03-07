@@ -3,17 +3,18 @@ import Groups from '@doorward/common/utils/GroupTypes';
 import GroupList from '../GroupList';
 import { PageComponent } from '@doorward/ui/types';
 import translate from '@doorward/common/lang/translate';
-import { useHistory } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const StudentGroups: React.FunctionComponent<StudentGroupsProps> = (props): JSX.Element => {
-  const history = useHistory();
+  const navigation = useNavigation();
   return (
     <GroupList
       header={translate('studentGroups')}
-      createRoute="addStudentGroup"
+      createRoute={ROUTES.groups.students.create}
       type={Groups.STUDENT}
-      onGroupClick={(groupId) => history.push(`/groups/students/${groupId}`)}
-      onUpdate={(groupId) => history.push(`/groups/students/${groupId}/update`)}
+      onGroupClick={(groupId) => navigation.navigate(ROUTES.groups.students.view, { groupId })}
+      onUpdate={(groupId) => navigation.navigate(ROUTES.groups.students.update, { groupId })}
       {...props}
     />
   );

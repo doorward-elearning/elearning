@@ -23,8 +23,8 @@ import { useApiAction } from 'use-api-action';
 import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
 import InformationCard from '@doorward/ui/components/InformationCard';
 import AssessmentSubmissionView from './AssessmentSubmissionView';
-import Empty from '@doorward/ui/components/Empty';
-import { useHistory } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -39,7 +39,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -193,7 +193,18 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           </InformationCard>
           <Spacer />
           {startAssessment && (
-            <Button onClick={() => history.push(`${assessment.assessmentType.toLowerCase()}/${assessment.id}`)}>
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
               {translate('startAssessment', { assessment: assessment.assessmentType })}
             </Button>
           )}

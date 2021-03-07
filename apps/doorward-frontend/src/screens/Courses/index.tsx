@@ -7,6 +7,8 @@ import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
   const addCourseModal = useModal(props.location.pathname === '/courses/create');
@@ -19,6 +21,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
     },
     id: 'all-courses-table',
   });
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchCourses({ page: 1 });
@@ -32,7 +35,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
       header={translate('courses')}
       actionBtnProps={{
         text: TITLE,
-        onClick: (): void => props.history.push('/courses/create'),
+        onClick: (): void => navigation.navigate(ROUTES.courses.create),
         privileges: ['courses.create'],
       }}
     >

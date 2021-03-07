@@ -7,12 +7,14 @@ import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/Creat
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
   const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
   const match = useRouteMatch<{ moduleId: string }>();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (match.params.moduleId) {
@@ -23,7 +25,9 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
   const module = state.data?.module;
 
   const finish = useCallback(() => {
-    history.push(`/courses/${module.course?.id}`);
+    navigation.navigate(ROUTES.courses.view, {
+      courseId: module.course?.id,
+    });
   }, []);
 
   return (

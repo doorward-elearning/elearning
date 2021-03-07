@@ -9,6 +9,7 @@ import Header from '@doorward/ui/components/Header';
 import useOrganization from '../../hooks/useOrganization';
 import useAuth from '../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   const { authenticated } = useAuth();
@@ -25,7 +26,7 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
         <RegistrationForm />
         <div className="page__login--footer">
           <p>{translate('alreadyHaveAnAccount')}</p>
-          <Link to="/login">{translate('login')}</Link>
+          <Link to={ROUTES.auth.login}>{translate('login')}</Link>
         </div>
       </div>
     </Layout>

@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import StudentAccountWithPasswordEmail from '../../emails/student-account.with.password.email';
-import FrontendLinks from '../../utils/frontend.links';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import StudentNewAccountEmail from '../../emails/student-new.account.email';
 import StudentCoursesRepository from '@doorward/backend/repositories/student.courses.repository';
@@ -20,6 +19,8 @@ import { AuthService } from '../auth/auth.service';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import translate from '@doorward/common/lang/translate';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import Tools from '@doorward/common/utils/Tools';
 
 /**
  *
@@ -126,7 +127,7 @@ export class StudentsService {
       email = new StudentAccountWithPasswordEmail({
         subject: translate('newStudentAccountCreated'),
         data: {
-          link: origin + FrontendLinks.login,
+          link: origin + ROUTES.auth.login,
           password: body.password,
         },
         recipient: user,
@@ -135,7 +136,7 @@ export class StudentsService {
       email = new StudentNewAccountEmail({
         subject: translate('newStudentAccountCreated'),
         data: {
-          link: origin + FrontendLinks.passwordReset(resetToken),
+          link: origin + Tools.createRoute(ROUTES.auth.password.reset, { resetToken }),
         },
         recipient: user,
       });

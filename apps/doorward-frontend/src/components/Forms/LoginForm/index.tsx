@@ -9,6 +9,7 @@ import { LoginBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import useAuth from '../../../hooks/useAuth';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const LoginForm: FunctionComponent<LoginFormProps> = () => {
   const initialState = { username: '', password: '' };
@@ -33,7 +34,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
       validationSchema={LoginBody}
       form={form}
       title={translate('login')}
-      renderFooter={() => <Link to={`/password/forgot`}>{translate('forgotPassword') + '?'}</Link>}
+      renderFooter={() => <Link to={ROUTES.auth.password.forgot}>{translate('forgotPassword') + '?'}</Link>}
     >
       <React.Fragment>
         <TextField name="username" placeholder={translate('username')} icon="account_circle" />

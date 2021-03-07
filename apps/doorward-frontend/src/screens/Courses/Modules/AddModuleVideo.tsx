@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import useForm from '@doorward/ui/hooks/useForm';
 import Layout, { LayoutFeatures } from '../../Layout';
 import WebComponent from '@doorward/ui/components/WebComponent';
@@ -7,12 +7,14 @@ import { PageComponent } from '@doorward/ui/types';
 import AddModuleVideoForm from '../../../components/Forms/AddModuleVideoForm';
 import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const AddModuleVideo: React.FunctionComponent<AddModuleVideoProps> = (props): JSX.Element => {
   const [getModule, state] = useApiAction(DoorwardApi, (api) => api.modules.getModule);
   const match = useRouteMatch<{ moduleId: string }>();
   const form = useForm();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   useEffect(() => {
     if (match.params.moduleId) {
@@ -22,7 +24,9 @@ const AddModuleVideo: React.FunctionComponent<AddModuleVideoProps> = (props): JS
   const module = state.data?.module;
 
   const finish = () => {
-    history.push(`/courses/${module?.course?.id}`);
+    navigation.navigate(ROUTES.courses.view, {
+      courseId: module?.course?.id,
+    });
   };
 
   return (

@@ -11,6 +11,7 @@ import useOrganization from '../../hooks/useOrganization';
 import useAuth from '../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
 import Layout from '../Layout';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
@@ -39,7 +40,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
         <LoginForm />
         <div className="page__login--footer">
           <p>{translate('dontHaveAnAccount')}</p>
-          <Link to="/register">{translate('createANewAccount')}</Link>
+          <Link to={ROUTES.auth.register}>{translate('createANewAccount')}</Link>
         </div>
       </div>
     </Layout>

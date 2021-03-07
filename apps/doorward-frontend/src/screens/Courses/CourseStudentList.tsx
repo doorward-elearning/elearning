@@ -11,8 +11,10 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
 import { useApiAction } from 'use-api-action';
-import { useHistory, useRouteMatch } from 'react-router';
+import { useRouteMatch } from 'react-router';
 import useCourse from '../../hooks/useCourse';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
@@ -35,7 +37,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
     DoorwardApi,
     (api) => api.students.unEnrollStudentFromCourse
   );
-  const history = useHistory();
+  const navigation = useNavigation();
   const {
     params: { courseId },
   } = useRouteMatch<{ courseId: string }>();
@@ -61,7 +63,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
       header={`${course.data?.course?.title ? course.data?.course.title + ' - ' : ''} ${translate('studentList')}`}
       actionBtnProps={{
         text: translate('enrollStudent'),
-        onClick: (): void => history.push(`/courses/${courseId}/students/new`),
+        onClick: (): void => navigation.navigate(ROUTES.courses.students.create, { courseId }),
       }}
       features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON]}
     >
@@ -73,7 +75,7 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
                 <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />
               )}
               onClickStudent={({ rowData: student }) => {
-                history.push(`/students/${student.id}`)
+                navigation.navigate(ROUTES.students.view, { studentId: student.id });
               }}
               students={students}
             />

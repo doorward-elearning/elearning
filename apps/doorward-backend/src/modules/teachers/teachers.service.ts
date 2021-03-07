@@ -5,10 +5,11 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import TeacherAccountWithPasswordEmail from '../../emails/teacher-account.with.password.email';
-import FrontendLinks from '../../utils/frontend.links';
 import TeacherNewAccountEmail from '../../emails/teacher-new.account.email';
 import translate from '@doorward/common/lang/translate';
 import { Roles } from '@doorward/common/types/roles';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import Tools from '@doorward/common/utils/Tools';
 
 @Injectable()
 export class TeachersService {
@@ -40,7 +41,7 @@ export class TeachersService {
           new TeacherAccountWithPasswordEmail({
             subject: translate('newTeacherAccountCreated'),
             recipient: user,
-            data: { password: body.password, link: origin + FrontendLinks.login },
+            data: { password: body.password, link: origin + ROUTES.auth.login },
           })
         )
         .then();
@@ -50,7 +51,7 @@ export class TeachersService {
           new TeacherNewAccountEmail({
             subject: translate('newTeacherAccountCreated'),
             recipient: user,
-            data: { link: origin + FrontendLinks.passwordReset(resetToken) },
+            data: { link: origin + Tools.createRoute(ROUTES.auth.password.reset, { resetToken }) },
           })
         )
         .then();

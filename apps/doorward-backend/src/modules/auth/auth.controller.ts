@@ -5,7 +5,6 @@ import SelfRegistrationEmail from '../../emails/self.registration.email';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
-import FrontendLinks from '../../utils/frontend.links';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
@@ -14,6 +13,7 @@ import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -40,7 +40,7 @@ export class AuthController {
       .send(
         new SelfRegistrationEmail({
           subject: translate('confirmRegistration'),
-          data: { link: origin + FrontendLinks.login },
+          data: { link: origin + ROUTES.auth.login },
           recipient: user,
         })
       )

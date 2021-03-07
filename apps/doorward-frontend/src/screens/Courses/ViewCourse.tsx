@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
-import { match, useHistory, useRouteMatch } from 'react-router';
+import { match, useRouteMatch } from 'react-router';
 import './Courses.scss';
 import CourseModuleList from '../../components/Lists/CourseModuleList';
 import CourseViewSidebar from '../../components/CourseViewSidebar';
@@ -21,13 +21,15 @@ import ChooseCourseManagerModal from '../../components/Modals/ChooseCourseManage
 import Pill from '@doorward/ui/components/Pill';
 import Grid from '@doorward/ui/components/Grid';
 import DoorwardApi from '../../services/apis/doorward.api';
-import { Link } from 'react-router-dom';
 import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 import translate from '@doorward/common/lang/translate';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { useApiAction } from 'use-api-action';
 import useCourse from '../../hooks/useCourse';
+import NavLink from '@doorward/ui/components/NavLink';
+import ROUTES from '@doorward/common/frontend/routes/main';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -42,7 +44,7 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const {
     params: { courseId },
   } = useRouteMatch<{ courseId: string }>();
-  const history = useHistory();
+  const navigation = useNavigation();
 
   const course = useCourse(courseId);
 
@@ -106,7 +108,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
               }
               useModal={liveClassroomModal}
               onSuccess={(data) => {
-                history.push(`/meeting/${data?.meeting?.id}`);
+                navigation.navigate(ROUTES.meeting.join, {
+                  meetingId: data?.meeting?.id,
+                });
               }}
             />
             <IfElse condition={course.data?.course}>
@@ -151,11 +155,15 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                       <span className="meta">
                         {translate('moduleWithCount', { count: course?.modules?.length || 0 })}
                       </span>
-                      <Link to={`/assignments/${course?.id}`} className="meta">
+                      <NavLink
+                        to={ROUTES.courses.modules.assignments.list}
+                        params={{ courseId: course?.id }}
+                        className="meta"
+                      >
                         {translate('assignmentWithCount', {
                           count: course?.itemsCount?.[ModuleItemType.ASSIGNMENT] || 0,
                         })}
-                      </Link>
+                      </NavLink>
                       <span className="meta">
                         {translate('quizWithCount', { count: course?.itemsCount?.[AssessmentTypes.QUIZ] || 0 })}
                       </span>
