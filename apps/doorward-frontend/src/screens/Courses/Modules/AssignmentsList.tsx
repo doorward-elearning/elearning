@@ -10,6 +10,7 @@ import { useApiAction } from 'use-api-action';
 import { useRouteMatch } from 'react-router';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import { ModuleItemType } from '@doorward/common/types/moduleItems';
 
 const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): JSX.Element => {
   const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.courses.getCourseModuleItems);
@@ -18,7 +19,7 @@ const AssignmentsList: React.FunctionComponent<AssignmentsListProps> = (props): 
 
   useEffect(() => {
     if (match.params.courseId) {
-      apiAction(match.params.courseId, { type: 'Assignment ' });
+      apiAction(match.params.courseId, { type: ModuleItemType.ASSIGNMENT });
     }
   }, [match]);
   return (

@@ -29,7 +29,7 @@ const LoginForm: FunctionComponent<LoginFormProps> = () => {
       onSuccess={(result) => {
         getCurrentUser();
         auth.authenticate(result.token);
-        window.location.href = '/dashboard';
+        window.location.href = ROUTES.dashboard;
       }}
       validationSchema={LoginBody}
       form={form}

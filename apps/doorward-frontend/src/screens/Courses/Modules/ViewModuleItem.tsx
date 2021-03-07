@@ -84,7 +84,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         disabled: editing,
       }}
       header={Tools.str(state.fetching ? '' : item?.title)}
-      rightContent={<ModulesSideBar item={item} />}
+      rightContent={<ModulesSideBar item={item} courseId={item?.courseId} />}
     >
       <WebComponent data={item} hasData={() => !state.fetching} loading={state.fetching}>
         {(item): JSX.Element => {

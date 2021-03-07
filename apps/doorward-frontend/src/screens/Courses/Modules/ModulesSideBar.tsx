@@ -3,7 +3,6 @@ import Header from '@doorward/ui/components/Header';
 import translate from '@doorward/common/lang/translate';
 import Spacer from '@doorward/ui/components/Spacer';
 import ContentList from '@doorward/ui/components/ContentList';
-import CourseEntity from '@doorward/common/entities/course.entity';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Empty from '@doorward/ui/components/Empty';
 import Row from '@doorward/ui/components/Row';
@@ -12,12 +11,19 @@ import Icon from '@doorward/ui/components/Icon';
 import { ModuleItemIcons } from '../../../components/Dropdowns/AddModuleItemDropdown';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import useCourse from '../../../hooks/useCourse';
 
-const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, item }): JSX.Element => {
+const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ courseId, item }): JSX.Element => {
   const navigation = useNavigation();
+  const course = useCourse(courseId);
 
   return (
-    <WebComponent data={course} loading={!course} emptyMessage={translate('courseDoesNotExist')} size="small">
+    <WebComponent
+      data={course.data?.course}
+      loading={!course}
+      emptyMessage={translate('courseDoesNotExist')}
+      size="small"
+    >
       {({ modules }) => (
         <div>
           <Header size={2}>{translate('courseContent')}</Header>
@@ -56,7 +62,7 @@ const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ course, 
 };
 
 export interface ModulesSideBarProps {
-  course?: CourseEntity;
+  courseId: string;
   item: ModuleItemEntity;
 }
 

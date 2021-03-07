@@ -3,7 +3,7 @@ import './DraftHTMLContent.scss';
 import handleDraftPagination from './handleDraftPagination';
 import IfElse from '../IfElse';
 import Pagination from '../Pagination';
-import { ContentBlock, convertFromRaw, EditorState } from 'draft-js';
+import { ContentBlock, ContentState, convertFromRaw, convertToRaw, EditorState } from 'draft-js';
 import classNames from 'classnames';
 import createPlyrForYouTubeVideos from '@doorward/ui/components/DraftHTMLContent/createPlyrForYouTubeVideos';
 import draftEditorWrapper from '@doorward/ui/hoc/draftEditorWrapper';
@@ -16,7 +16,11 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
   const [blocks, setBlocks] = useState<Array<Array<ContentBlock>>>([]);
   const editorRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const content = JSON.parse(props.content);
+    let content;
+    content = JSON.parse(props.content);
+    if (!content?.blocks) {
+      content = convertToRaw(ContentState.createFromText(content));
+    }
     if (props.paginate) {
       setBlocks(handleDraftPagination(content));
     } else {
@@ -30,7 +34,11 @@ const DraftHTMLContent: React.FunctionComponent<DraftHTMLContentProps> = (props)
 
   useEffect(() => {
     if (blocks.length) {
-      const temp = JSON.parse(props.content);
+      let temp;
+      temp = JSON.parse(props.content);
+      if (!temp?.blocks) {
+        temp = convertToRaw(ContentState.createFromText(temp));
+      }
       temp.blocks = blocks[page - 1];
       setEditorState(EditorState.createWithContent(convertFromRaw(temp)));
     }

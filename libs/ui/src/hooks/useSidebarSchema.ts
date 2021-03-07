@@ -23,11 +23,11 @@ function useSidebarSchema(
   if (!pathFound) {
     sidebar.forEach((menu) => {
       if (menu.subMenu) {
-        if (selected.startsWith(menu.link)) {
+        if (selected.startsWith(menu.link) && menu.link) {
           selected = menu.link;
         }
         menu.subMenu.forEach((subMenu) => {
-          if (selected.startsWith(subMenu.link)) {
+          if (selected.startsWith(subMenu.link) && subMenu.link) {
             selected = subMenu.link;
           }
         });

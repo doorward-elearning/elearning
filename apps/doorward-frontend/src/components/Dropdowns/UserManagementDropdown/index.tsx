@@ -8,13 +8,14 @@ import Switch from '@doorward/ui/components/Switch';
 import useAuth from '../../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
 import ProfilePicture from '@doorward/ui/components/ProfilePicture';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const UserManagementDropdown: FunctionComponent<UserManagementDropdownProps> = (props): JSX.Element => {
   const { changeTheme, theme } = useContext(ThemeContext);
   const auth = useAuth();
   const logout = (): void => {
     Tools.clearToken();
-    window.location.href = '/login';
+    window.location.href = ROUTES.auth.login;
   };
   return (
     <Dropdown positionX="right" positionY="bottom">

@@ -7,6 +7,8 @@ import { RegisterBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
+import Tools from '@doorward/common/utils/Tools';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.Element => {
   const initialValues = {
@@ -26,7 +28,7 @@ const RegistrationForm: FunctionComponent<RegistrationFormProps> = (props): JSX.
       apiAction={apiAction}
       form={form}
       onSuccess={() => {
-        window.location.href = '/login?newAccount=true';
+        window.location.href = Tools.createRoute(ROUTES.auth.login, null, { newAccount: true });
       }}
       validationSchema={RegisterBody}
       createData={(values) => {

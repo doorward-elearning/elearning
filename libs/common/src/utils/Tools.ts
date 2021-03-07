@@ -6,6 +6,7 @@ import { DropResult } from 'react-beautiful-dnd';
 import ago, { agoPrecise, TimeValues, Units } from '@doorward/common/utils/ago';
 import translate from '@doorward/common/lang/translate';
 import Cookies from 'js-cookie';
+import queryString from 'querystring';
 
 const SimpleCrypto = require('simple-crypto-js').default;
 const parser = require('fast-xml-parser');
@@ -91,13 +92,23 @@ class Tools {
     return matches;
   }
 
-  static createRoute(path: string, params: { [name: string]: any }): string {
-    const regexp = new RegExp('(:)([a-zA-z]+)', 'g');
-    const matches = Tools.findMatches(regexp, path);
+  static createRoute(path: string, params: Record<string, any>, query?: Record<string, any>): string {
+    let fullPath = path;
 
-    return matches.reduce((acc: string, cur: RegExpExecArray): string => {
-      return acc.replace(cur[0], params[cur[2]] || cur[0]);
-    }, path);
+    if (params) {
+      const regexp = new RegExp('(:)([a-zA-z]+)', 'g');
+      const matches = Tools.findMatches(regexp, path);
+
+      fullPath = matches.reduce((acc: string, cur: RegExpExecArray): string => {
+        return acc.replace(cur[0], params[cur[2]] || cur[0]);
+      }, path);
+    }
+
+    if (query) {
+      fullPath += `?${queryString.stringify(query)}`;
+    }
+
+    return fullPath;
   }
 
   static str(value: any): string {
