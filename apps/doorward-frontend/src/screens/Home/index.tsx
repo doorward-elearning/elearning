@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Home: React.FunctionComponent<HomeProps> = (props) => {
   const [hasWebsite, setHasWebsite] = useState(true);
@@ -22,7 +23,7 @@ const Home: React.FunctionComponent<HomeProps> = (props) => {
     return <React.Fragment />;
   }
 
-  return <Redirect to="/login" />;
+  return <Redirect to={ROUTES.auth.login} />;
 };
 
 export interface HomeProps {}

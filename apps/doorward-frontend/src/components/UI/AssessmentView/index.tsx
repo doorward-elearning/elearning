@@ -28,6 +28,26 @@ import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
+const evaluateStatus = (
+  submission?: AssessmentSubmissionEntity,
+  startDate?: Date | string,
+  endDate?: Date | string
+) => {
+  if (submission) {
+    return translate('submitted');
+  }
+
+  if (moment().isBefore(moment(startDate))) {
+    return translate('notYetDone');
+  } else {
+    if (moment().isAfter(moment(endDate))) {
+      return translate('dueDatePassed');
+    } else {
+      return translate('notSubmitted');
+    }
+  }
+};
+
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
   const [{ showQuestions, startDate, startAssessment, endDate }, setState] = useMergeState({
@@ -177,6 +197,9 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                     {Tools.normalDateTime(endDate)}
                   </InformationCard.ItemBody>
                 )}
+              </InformationCard.Item>
+              <InformationCard.Item title={translate('status')} icon={'info'}>
+                <DisplayLabel>{evaluateStatus(submission, startDate, endDate)}</DisplayLabel>
               </InformationCard.Item>
               {assessment.options?.timeLimit?.allow && (
                 <InformationCard.Item title={translate('timeLimit')} icon="timer">

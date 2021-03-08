@@ -43,8 +43,8 @@ export default (): Array<MenuItem> => {
       icon: 'people',
       privileges: ['groups.*'],
       subMenu: [
-        { name: translate('studentGroups'), link: ROUTES.groups.students.list, privileges: ['groups.students.*'] },
-        { name: translate('teacherGroups'), link: ROUTES.groups.teachers.list, privileges: ['groups.teachers.*'] },
+        { name: translate('studentGroups'), link: ROUTES.groups.students.list, privileges: ['student.groups.*'] },
+        { name: translate('teacherGroups'), link: ROUTES.groups.teachers.list, privileges: ['teacher.groups.*'] },
       ],
     },
     {
