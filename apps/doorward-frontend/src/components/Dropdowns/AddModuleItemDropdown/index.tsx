@@ -5,6 +5,8 @@ import Icon from '@doorward/ui/components/Icon';
 import Row from '@doorward/ui/components/Row';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import translate from '@doorward/common/lang/translate';
+import Tools from '@doorward/common/utils/Tools';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 export const ModuleItemIcons: { [name: string]: Icons } = {
   Page: 'format_align_justify',
@@ -24,19 +26,34 @@ const AddModuleItemDropdown: React.FunctionComponent<AddModuleItemDropdownProps>
         <Icon clickable icon="add" />
       </Row>
       <Dropdown.Menu>
-        <Dropdown.Item icon={ModuleItemIcons.Page} link={`/modules/${module.id}/pages/create`}>
+        <Dropdown.Item
+          icon={ModuleItemIcons.Page}
+          link={Tools.createRoute(ROUTES.courses.modules.pages.create, { moduleId: module.id })}
+        >
           {translate('page')}
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.Assignment} link={`/modules/${module.id}/assignments/create`}>
+        <Dropdown.Item
+          icon={ModuleItemIcons.Assignment}
+          link={Tools.createRoute(ROUTES.courses.modules.assignments.create, { moduleId: module.id })}
+        >
           {translate('assignment')}
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.Quiz} link={`/modules/${module.id}/quizzes/create`}>
+        <Dropdown.Item
+          icon={ModuleItemIcons.Quiz}
+          link={Tools.createRoute(ROUTES.courses.modules.quizzes.create, { moduleId: module.id })}
+        >
           {translate('quiz')}
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.Assessment} link={`/modules/${module.id}/exams/create`}>
+        <Dropdown.Item
+          icon={ModuleItemIcons.Assessment}
+          link={Tools.createRoute(ROUTES.courses.modules.exams.create, { moduleId: module.id })}
+        >
           {translate('exam')}
         </Dropdown.Item>
-        <Dropdown.Item icon={ModuleItemIcons.Video} link={`/modules/${module.id}/videos/create`}>
+        <Dropdown.Item
+          icon={ModuleItemIcons.Video}
+          link={Tools.createRoute(ROUTES.courses.modules.videos.create, { moduleId: module.id })}
+        >
           {translate('video')}
         </Dropdown.Item>
       </Dropdown.Menu>

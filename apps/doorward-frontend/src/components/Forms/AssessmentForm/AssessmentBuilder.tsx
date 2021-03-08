@@ -14,6 +14,7 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import AddQuestionModal from './AddQuestionModal';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
+import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 
 const NoQuestions = () => {
   return (
@@ -44,11 +45,16 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
     const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
     const [editQuestionIndex, setEditQuestionIndex] = useState();
     const [editQuestion, setEditQuestion] = useState();
-    const questionModal = useModal();
+    const query = useQueryParams<{ addQuestion: boolean }>();
+    const questionModal = useModal(query.query.addQuestion);
     const editQuestionModal = useModal();
 
     editQuestionModal.onClose(() => {
       setEditQuestion(null);
+    });
+
+    questionModal.onClose(() => {
+      query.updateLocation({ addQuestion: null });
     });
 
     return (
@@ -75,13 +81,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
                   <Header size={2} padded>
                     {translate('questions')}
                   </Header>
-                  <Button
-                    type="button"
-                    onClick={() => {
-                      questionModal.openModal();
-                    }}
-                    icon="add"
-                  >
+                  <Button type="button" link={query.withQuery({ addQuestion: 'true' })} icon="add">
                     {translate('addQuestion')}
                   </Button>
                 </HeaderGrid>
@@ -116,6 +116,7 @@ const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React
 
 export interface AssessmentBuilderProps {
   type: AssessmentTypes;
+  editing?: boolean;
 }
 
 export interface QuestionDisplayProps {

@@ -33,6 +33,7 @@ const ROUTES = {
       items: {
         view: '/courses/modules/items/:itemId',
         update: '/courses/modules/items/:itemId/update',
+        addQuestion: '/courses/modules/items/:itemId/update/addQuestion',
       },
       assignments: {
         list: '/courses/:courseId/modules/assignments',
@@ -43,9 +44,11 @@ const ROUTES = {
       },
       quizzes: {
         create: '/courses/modules/:moduleId/quizzes/create',
+        addQuestion: '/courses/modules/:moduleId/quizzes/create/addQuestion',
       },
       exams: {
         create: '/courses/modules/:moduleId/exams/create',
+        addQuestion: '/courses/modules/:moduleId/exams/create/addQuestion',
       },
       videos: {
         create: '/courses/modules/:moduleId/videos/create',

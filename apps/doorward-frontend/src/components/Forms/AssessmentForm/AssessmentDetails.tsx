@@ -17,6 +17,7 @@ const AssessmentDetails: React.FunctionComponent<AssessmentDetailsProps> = (prop
 
 export interface AssessmentDetailsProps {
   type: AssessmentTypes;
+  editing?: boolean;
 }
 
 export default AssessmentDetails;

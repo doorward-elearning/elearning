@@ -75,7 +75,7 @@ const CreateAssessmentForm: FunctionComponent<CreateAssessmentFormProps> = (prop
       >
         {() => (
           <div className="assessment-details-form">
-            <AssessmentDetails type={props.type} />
+            <AssessmentDetails type={props.type} editing={!!props.assessment} />
             <AssessmentOptions type={props.type} />
           </div>
         )}

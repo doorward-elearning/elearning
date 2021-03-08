@@ -90,7 +90,7 @@ const ModuleItemsList: React.FunctionComponent<{
                 {provided.placeholder}
               </React.Fragment>
             ) : (
-              <Empty message="No Assignments, Pages, Quizzes etc." size="medium">
+              <Empty message={translate('noAssignmentsPagesQuizzes')} size="medium">
                 {provided.placeholder}
               </Empty>
             )}

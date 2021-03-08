@@ -32,7 +32,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   const [module, setModule] = useState<ModuleEntity>();
   const match = useRouteMatch<{ itemId: string }>();
   const navigation = useNavigation();
-  const [editing, setEditing] = useState(match.path === ROUTES.courses.modules.items.update);
+  const [editing, setEditing] = useState([ROUTES.courses.modules.items.update].includes(match.path));
   const assignmentForm = useForm();
 
   const [fetchModule, moduleState] = useApiAction(DoorwardApi, (api) => api.modules.getModule, {
@@ -53,7 +53,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
   }, [match.params.itemId]);
 
   useEffect(() => {
-    setEditing(match.path === ROUTES.courses.modules.items.update);
+    setEditing([ROUTES.courses.modules.items.update].includes(match.path));
   }, [match.path]);
 
   const goBack = () => {
