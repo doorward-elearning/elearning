@@ -73,6 +73,7 @@ export default class ProfileController {
 
   @Post('resetPassword')
   @Privileges('profile.reset-password')
+  @Public()
   @ApiResponse({
     type: DApiResponse,
     description: 'A message notifying the user of the password reset.',
