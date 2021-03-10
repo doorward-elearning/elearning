@@ -7,4 +7,8 @@
   &.success {
     background: var(--text-success);
   }
+
+  &.error {
+    background: var(--text-error);
+  }
 }

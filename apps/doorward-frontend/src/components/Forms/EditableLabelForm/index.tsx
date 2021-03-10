@@ -17,6 +17,13 @@ function EditableLabelForm<T>(props: EditableLabelFormProps<T>): JSX.Element {
   const ref = useRef();
   const [success, setSuccess] = useState(false);
   const [prevValue, setPrevValue] = useState();
+  const [initialValues, setInitialValues] = useState({ [props.name]: props.value });
+
+  useEffect(() => {
+    setInitialValues({
+      [props.name]: props.value,
+    });
+  }, [props.name, props.value]);
 
   const onSuccess = () => {
     setSuccess(true);
@@ -25,9 +32,6 @@ function EditableLabelForm<T>(props: EditableLabelFormProps<T>): JSX.Element {
   };
   const onCancel = () => {};
 
-  const initialValues: any = {
-    [props.name]: props.value,
-  };
   useEffect(() => {
     if (editing) {
       setSuccess(false);

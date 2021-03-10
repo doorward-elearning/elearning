@@ -32,7 +32,7 @@
   user-select: none;
   position: sticky;
   top: calc(-1 * var(--padding-lg));
-  z-index: 2;
+  z-index: 3;
 }
 .public-DraftStyleDefault-block {
   margin: 1em 0;
@@ -58,4 +58,5 @@
 }
 
 .rdw-editor-toolbar-wrapper {
+  z-index: 2;
 }

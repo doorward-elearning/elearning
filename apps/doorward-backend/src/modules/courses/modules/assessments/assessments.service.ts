@@ -80,4 +80,12 @@ export class AssessmentsService {
   public async getStudentSubmissions(assessmentId: string): Promise<Array<AssessmentSubmissionEntity>> {
     return await this.submissionRepository.getStudentSubmissions(assessmentId);
   }
+
+  /**
+   *
+   * @param submissionId
+   */
+  public async getStudentSubmission(submissionId: string): Promise<AssessmentSubmissionEntity> {
+    return this.submissionRepository.getStudentSubmission(submissionId);
+  }
 }

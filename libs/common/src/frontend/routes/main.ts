@@ -40,7 +40,7 @@ const ROUTES = {
       },
       assignments: {
         list: '/courses/:courseId/modules/assignments',
-        create: '/courses/modules/:moduleId/assignments/view',
+        create: '/courses/modules/:moduleId/assignments/create',
       },
       pages: {
         create: '/courses/modules/:moduleId/pages/create',

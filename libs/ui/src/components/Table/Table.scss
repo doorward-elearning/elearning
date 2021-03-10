@@ -24,6 +24,10 @@
     text-overflow: ellipsis;
   }
 
+  .ReactVirtualized__Table__rowColumn {
+    overflow: visible !important;
+  }
+
   &--action-menu {
     flex: unset !important;
     width: 150px !important;

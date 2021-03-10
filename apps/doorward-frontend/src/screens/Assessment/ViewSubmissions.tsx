@@ -6,6 +6,7 @@ import { useApiAction } from 'use-api-action';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import WebComponent from '@doorward/ui/components/WebComponent';
+import StudentsAssessmentSubmissionTable from '../../components/Tables/StudentsAssessmentSubmissionTable';
 
 const ViewSubmissions: React.FunctionComponent<ViewSubmissionsProps> = (props): JSX.Element => {
   const match = useRouteMatch<{ assessmentId: string }>();
@@ -34,7 +35,7 @@ const ViewSubmissions: React.FunctionComponent<ViewSubmissionsProps> = (props): 
         loading={submissionsState.fetching}
         emptyMessage={translate('noSubmissionsMessage')}
       >
-        {(submissions) => <div />}
+        {(submissions) => <StudentsAssessmentSubmissionTable submissions={submissions} />}
       </WebComponent>
     </Layout>
   );

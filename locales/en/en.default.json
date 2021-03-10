@@ -588,5 +588,6 @@
   "dueDatePassed": "The due date passed.",
   "viewSubmissions": "View submissions",
   "assessmentSubmissionsTitle": "{{title}} - submissions",
-  "noSubmissionsMessage": "There are no submissions."
+  "noSubmissionsMessage": "There are no submissions.",
+  "graded": "Graded"
 }

@@ -63,12 +63,13 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
         <React.Fragment>
           {course.data?.course && (
             <EditableLabelForm
+              key={course.data.course.id}
               submitAction={updateCourse}
               state={updateCourseState}
               name="title"
               privileges={['courses.update']}
               createData={(values) => [courseId, values]}
-              value={course.data?.course?.title}
+              value={course.data.course.title}
             />
           )}
         </React.Fragment>

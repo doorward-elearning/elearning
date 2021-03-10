@@ -8,7 +8,7 @@ const Badge: React.FunctionComponent<BadgeProps> = (props) => {
 
 export interface BadgeProps {
   className?: string;
-  theme?: 'success';
+  theme?: 'success' | 'error';
 }
 
 export default Badge;

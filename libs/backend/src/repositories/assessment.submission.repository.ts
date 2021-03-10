@@ -11,7 +11,10 @@ export default class AssessmentSubmissionRepository extends OrganizationBasedRep
    * @param assessmentId
    * @param includeDrafts
    */
-  public async getStudentSubmissions(assessmentId: string, includeDrafts = false) {
+  public async getStudentSubmissions(
+    assessmentId: string,
+    includeDrafts = false
+  ): Promise<AssessmentSubmissionEntity[]> {
     const status = [AssessmentSubmissionStatus.GRADED, AssessmentSubmissionStatus.SUBMITTED];
     if (includeDrafts) {
       status.push(AssessmentSubmissionStatus.DRAFT);
@@ -21,6 +24,20 @@ export default class AssessmentSubmissionRepository extends OrganizationBasedRep
       where: {
         assessment: { id: assessmentId },
         status: In(status),
+      },
+      relations: ['student', 'grader'],
+    });
+  }
+
+  /**
+   *
+   * Get a single student's assessment submission
+   * @param submissionId
+   */
+  public async getStudentSubmission(submissionId: string): Promise<AssessmentSubmissionEntity> {
+    return this.findOne({
+      where: {
+        id: submissionId,
       },
       relations: ['student', 'grader'],
     });

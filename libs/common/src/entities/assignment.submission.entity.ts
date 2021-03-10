@@ -1,5 +1,5 @@
 import BaseOrganizationEntity from './base.organization.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleItemEntity from './module.item.entity';
