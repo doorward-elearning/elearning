@@ -1,4 +1,4 @@
-import { BadRequestException, HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import AssessmentSubmissionRepository from '@doorward/backend/repositories/assessment.submission.repository';
 import moment from 'moment';
 import { SaveAssessmentBody } from '@doorward/common/dtos/body';
@@ -7,6 +7,7 @@ import AssessmentRepository from '@doorward/backend/repositories/assessment.repo
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import translate from '@doorward/common/lang/translate';
 import assessmentGrader from '../../../../utils/assessment.grader';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 
 @Injectable()
 export class AssessmentsService {
@@ -70,5 +71,13 @@ export class AssessmentsService {
       throw new NotFoundException(translate('assessmentSubmissionDoesNotExist'));
     }
     return submission;
+  }
+
+  /**
+   *
+   * @param assessmentId
+   */
+  public async getStudentSubmissions(assessmentId: string): Promise<Array<AssessmentSubmissionEntity>> {
+    return await this.submissionRepository.getStudentSubmissions(assessmentId);
   }
 }

@@ -218,10 +218,10 @@ class Tools {
   static timeTaken(seconds: number) {
     seconds = seconds * 1000;
 
-    const secondsTaken = Math.round(seconds / TimeValues.second) % 60;
-    const minutesTaken = Math.round(seconds / TimeValues.minute) % 60;
-    const hoursTaken = Math.round(seconds / TimeValues.hour) % 24;
-    const daysTaken = Math.round(seconds / TimeValues.day);
+    const secondsTaken = Math.floor(seconds / TimeValues.second) % 60;
+    const minutesTaken = Math.floor(seconds / TimeValues.minute) % 60;
+    const hoursTaken = Math.floor(seconds / TimeValues.hour) % 24;
+    const daysTaken = Math.floor(seconds / TimeValues.day);
 
     let result = '';
 

@@ -4,3 +4,7 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 export class AssessmentSubmissionResponse extends DApiResponse {
   submission: AssessmentSubmissionEntity;
 }
+
+export class AssessmentSubmissionsResponse extends DApiResponse {
+  submissions: Array<AssessmentSubmissionEntity>;
+}

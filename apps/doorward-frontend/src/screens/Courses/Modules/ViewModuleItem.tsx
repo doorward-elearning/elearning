@@ -26,6 +26,8 @@ import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity
 import { useApiAction } from 'use-api-action';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
+import Button from '@doorward/ui/components/Buttons/Button';
 
 const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => {
   const [item, setItem] = useState<ModuleItemEntity>();
@@ -83,6 +85,18 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
         },
         disabled: editing,
       }}
+      renderHeaderEnd={() => (
+        <RoleContainer privileges={['assignments.grade', 'assessments.grade']}>
+          {item?.type === ModuleItemType.ASSESSMENT && (
+            <Button
+              link={Tools.createRoute(ROUTES.assessments.submissions.list, { assessmentId: item.id })}
+              theme="primary"
+            >
+              {translate('viewSubmissions')}
+            </Button>
+          )}
+        </RoleContainer>
+      )}
       header={Tools.str(state.fetching ? '' : item?.title)}
       rightContent={<ModulesSideBar item={item} courseId={item?.courseId} />}
     >

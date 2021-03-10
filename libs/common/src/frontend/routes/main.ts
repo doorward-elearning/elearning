@@ -20,6 +20,9 @@ const ROUTES = {
   assessments: {
     exam: '/assessments/exam/:assessmentId',
     quiz: '/assessments/quiz/:assessmentId',
+    submissions: {
+      list: '/assessments/:assessmentId/submissions',
+    },
   },
   courses: {
     list: '/courses',

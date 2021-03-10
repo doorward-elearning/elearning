@@ -585,5 +585,8 @@
   "notYetGraded": "Not yet graded",
   "postComment": "Post",
   "notYetDone": "Not done yet",
-  "dueDatePassed": "The due date passed."
+  "dueDatePassed": "The due date passed.",
+  "viewSubmissions": "View submissions",
+  "assessmentSubmissionsTitle": "{{title}} - submissions",
+  "noSubmissionsMessage": "There are no submissions."
 }

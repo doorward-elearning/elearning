@@ -46,6 +46,7 @@ import Organizations from '../screens/Organizations';
 import CreateOrganization from '../screens/Organizations/CreateOrganization';
 import EditOrganization from '../screens/Organizations/EditOrganization';
 import ChatScreen from '../screens/ChatScreen';
+import ViewSubmissions from '../screens/Assessment/ViewSubmissions';
 
 const Router: React.FunctionComponent = (props): JSX.Element => {
   return (
@@ -123,6 +124,11 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
         privileges={['organizations.update']}
       />
       <PageRoute path={ROUTES.chat.home} component={ChatScreen} />
+      <PageRoute
+        path={ROUTES.assessments.submissions.list}
+        component={ViewSubmissions}
+        privileges={['assessments.grade']}
+      />
       <PageRoute exact={false} public path="*" component={Error404} />
     </Switch>
   );

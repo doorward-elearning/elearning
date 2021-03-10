@@ -170,7 +170,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           </Header>
           <InformationCard>
             <InformationCard.Body>
-              {moment().isBefore(startDate) && (
+              {moment().isBefore(startDate) && !submission && (
                 <InformationCard.Item title={translate('examWillStartIn')}>
                   {moment().diff(startDate, 'hour') < 24 ? (
                     <AssessmentTimer

@@ -42,7 +42,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   }, [question.answers]);
 
   useEffect(() => {
-    if (view !== QuestionViewTypes.EDIT_MODE) {
+    if (view !== QuestionViewTypes.EXAM_MODE) {
       if (assessment?.options.shuffleAnswers) {
         setAnswers(_.shuffle(answers) as any);
       }

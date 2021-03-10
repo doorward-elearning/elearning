@@ -3,7 +3,10 @@ import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
-import { AssessmentSubmissionResponse } from '@doorward/common/dtos/response/assessment.responses';
+import {
+  AssessmentSubmissionResponse,
+  AssessmentSubmissionsResponse,
+} from '@doorward/common/dtos/response/assessment.responses';
 import { SaveAssessmentBody } from '@doorward/common/dtos/body';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
@@ -77,5 +80,20 @@ export class AssessmentsController {
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, currentUser);
 
     return { submission, message: translate('assessmentSubmittedForReview') };
+  }
+
+  @Get('studentSubmissions/:assessmentId')
+  @Privileges('assessments.grade')
+  @AssessmentExists()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: AssessmentSubmissionsResponse,
+    description: 'The student submissions for the assessment',
+  })
+  @TransformerGroups('timestamps')
+  async getStudentSubmissions(@Param('assessmentId') assessmentId: string): Promise<AssessmentSubmissionsResponse> {
+    const submissions = await this.assessmentsService.getStudentSubmissions(assessmentId);
+
+    return { submissions };
   }
 }

@@ -74,7 +74,8 @@ import {
   DiscussionGroupsResponse,
   DiscussionCommentResponse,
   AssignmentSubmissionResponse,
-  AssessmentSubmissionResponse
+  AssessmentSubmissionResponse,
+  AssessmentSubmissionsResponse
 } from '@doorward/common/dtos/response';
 import DApiResponse from '@doorward/common/dtos/response/base.response';
 import handleApiError from '@doorward/common/net/handleApiError';
@@ -106,6 +107,12 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
     },
     submitAssignment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
       return POST(`/assessments/submissions/submit/${assessmentId}`, body, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    getStudentSubmissions: (assessmentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionsResponse >> => {
+      return GET(`/assessments/studentSubmissions/${assessmentId}`, {}, {
         ...(config || {}),
         ...(defaultConfig && defaultConfig())
       });
