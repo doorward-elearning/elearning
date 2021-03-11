@@ -82,8 +82,8 @@
 
   &__content {
     background: var(--bg-primary);
-    min-width: 500px;
-    max-width: var(--container-width);
+    min-width: 250px;
+    max-width: 90%;
     border-radius: 5px;
     border: 1px solid var(--line-color);
     opacity: 0;

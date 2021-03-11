@@ -1,3 +1,5 @@
+@import '../../responsive';
+
 .ed-page-layout {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -62,6 +64,10 @@
     padding: var(--padding-lg);
     background: var(--bg-primary);
     border-left: 1px solid var(--line-color);
+
+    @include mobile {
+      display: none;
+    }
   }
 
   &__content {
@@ -112,6 +118,7 @@
     display: grid;
     flex: 1;
     margin-right: 5px; // prevents the scrollbar from flickering
+    padding-bottom: var(--padding-lg);
 
     &--body {
       display: flex;
