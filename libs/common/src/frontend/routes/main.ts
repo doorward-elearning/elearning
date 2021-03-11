@@ -22,6 +22,7 @@ const ROUTES = {
     quiz: '/assessments/quiz/:assessmentId',
     submissions: {
       list: '/assessments/:assessmentId/submissions',
+      grade: '/assessments/submissions/:submissionId',
     },
   },
   courses: {

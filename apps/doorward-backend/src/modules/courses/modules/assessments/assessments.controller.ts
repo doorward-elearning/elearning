@@ -15,12 +15,20 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 import translate from '@doorward/common/lang/translate';
+import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 
 const AssessmentExists = () =>
   ModelExists({
     model: AssessmentEntity,
     key: 'assessmentId',
     message: translate('assessmentDoesNotExist'),
+  });
+
+const SubmissionExists = () =>
+  ModelExists({
+    model: AssessmentSubmissionEntity,
+    key: 'submissionId',
+    message: translate('submissionDoesNotExist'),
   });
 
 @Controller('assessments')
@@ -82,7 +90,7 @@ export class AssessmentsController {
     return { submission, message: translate('assessmentSubmittedForReview') };
   }
 
-  @Get('studentSubmissions/:assessmentId')
+  @Get(':assessmentId/studentSubmissions')
   @Privileges('assessments.grade')
   @AssessmentExists()
   @ApiResponse({
@@ -95,5 +103,20 @@ export class AssessmentsController {
     const submissions = await this.assessmentsService.getStudentSubmissions(assessmentId);
 
     return { submissions };
+  }
+
+  @Get('studentSubmission/:submissionId')
+  @Privileges('assessments.grade')
+  @SubmissionExists()
+  @ApiResponse({
+    status: HttpStatus.OK,
+    type: AssessmentSubmissionResponse,
+    description: 'The student submission',
+  })
+  @TransformerGroups('timestamps')
+  async getStudentSubmission(@Param('submissionId') submissionId: string): Promise<AssessmentSubmissionResponse> {
+    const submission = await this.assessmentsService.getStudentSubmission(submissionId);
+
+    return { submission };
   }
 }

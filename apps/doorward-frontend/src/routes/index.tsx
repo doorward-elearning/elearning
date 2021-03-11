@@ -47,6 +47,7 @@ import CreateOrganization from '../screens/Organizations/CreateOrganization';
 import EditOrganization from '../screens/Organizations/EditOrganization';
 import ChatScreen from '../screens/ChatScreen';
 import ViewSubmissions from '../screens/Assessment/ViewSubmissions';
+import GradeAssessment from '../screens/Assessment/GradeAssessment';
 
 const Router: React.FunctionComponent = (props): JSX.Element => {
   return (
@@ -127,6 +128,11 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
       <PageRoute
         path={ROUTES.assessments.submissions.list}
         component={ViewSubmissions}
+        privileges={['assessments.grade']}
+      />
+      <PageRoute
+        path={ROUTES.assessments.submissions.grade}
+        component={GradeAssessment}
         privileges={['assessments.grade']}
       />
       <PageRoute exact={false} public path="*" component={Error404} />

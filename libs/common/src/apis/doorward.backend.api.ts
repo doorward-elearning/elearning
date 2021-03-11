@@ -112,7 +112,13 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
       });
     },
     getStudentSubmissions: (assessmentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionsResponse >> => {
-      return GET(`/assessments/studentSubmissions/${assessmentId}`, {}, {
+      return GET(`/assessments/${assessmentId}/studentSubmissions`, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    getStudentSubmission: (submissionId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
+      return GET(`/assessments/studentSubmission/${submissionId}`, {}, {
         ...(config || {}),
         ...(defaultConfig && defaultConfig())
       });

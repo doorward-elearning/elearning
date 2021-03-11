@@ -7,9 +7,12 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import StudentsAssessmentSubmissionTable from '../../components/Tables/StudentsAssessmentSubmissionTable';
+import useNavigation from '@doorward/ui/hooks/useNavigation';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const ViewSubmissions: React.FunctionComponent<ViewSubmissionsProps> = (props): JSX.Element => {
   const match = useRouteMatch<{ assessmentId: string }>();
+  const navigation = useNavigation();
   const [getAssessment, assessmentState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
   const [getSubmissions, submissionsState] = useApiAction(DoorwardApi, (api) => api.assessments.getStudentSubmissions);
 
@@ -35,7 +38,16 @@ const ViewSubmissions: React.FunctionComponent<ViewSubmissionsProps> = (props): 
         loading={submissionsState.fetching}
         emptyMessage={translate('noSubmissionsMessage')}
       >
-        {(submissions) => <StudentsAssessmentSubmissionTable submissions={submissions} />}
+        {(submissions) => (
+          <StudentsAssessmentSubmissionTable
+            submissions={submissions}
+            onClickSubmission={(submission) => {
+              navigation.navigate(ROUTES.assessments.submissions.grade, {
+                submissionId: submission.id,
+              });
+            }}
+          />
+        )}
       </WebComponent>
     </Layout>
   );

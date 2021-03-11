@@ -6,6 +6,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import { useApiAction } from 'use-api-action';
 import { useRouteMatch } from 'react-router';
+import ROUTES from '@doorward/common/frontend/routes/main';
 
 const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (props): JSX.Element => {
   const [fetchStudents, studentList] = useApiAction(DoorwardApi, (api) => api.students.getAllStudents);
@@ -29,7 +30,7 @@ const UpdateStudentGroup: React.FunctionComponent<UpdateStudentGroupProps> = (pr
       currentGroupState={groupState}
       actionCreator={fetchStudents}
       actionArgs={[{ noPagination: true }]}
-      redirectOnSuccess="studentGroups"
+      redirectOnSuccess={ROUTES.groups.students.list}
       {...props}
     />
   );

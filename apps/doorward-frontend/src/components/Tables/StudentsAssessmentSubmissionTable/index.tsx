@@ -5,7 +5,6 @@ import translate from '@doorward/common/lang/translate';
 import Tools from '@doorward/common/utils/Tools';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import { AssessmentSubmissionResult } from '@doorward/common/types/assessments';
-import Badge from '@doorward/ui/components/Badge';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 
 const calculateGrade = (submission: AssessmentSubmissionEntity): number => {
@@ -23,6 +22,7 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
         height={500}
         data={props.submissions}
         rowHeight={50}
+        onRowClick={(rowData) => props.onClickSubmission(rowData.rowData)}
         columns={{
           student: {
             title: translate('student'),
@@ -67,6 +67,7 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
 
 export interface StudentsAssessmentSubmissionTableProps {
   submissions: Array<AssessmentSubmissionEntity>;
+  onClickSubmission: (submission: AssessmentSubmissionEntity) => void;
 }
 
 export default StudentsAssessmentSubmissionTable;

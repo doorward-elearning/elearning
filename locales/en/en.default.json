@@ -589,5 +589,6 @@
   "viewSubmissions": "View submissions",
   "assessmentSubmissionsTitle": "{{title}} - submissions",
   "noSubmissionsMessage": "There are no submissions.",
-  "graded": "Graded"
+  "graded": "Graded",
+  "submissionDoesNotExist": "The submission was not found."
 }
