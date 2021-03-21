@@ -28,7 +28,7 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
     navigation.navigate(ROUTES.courses.view, {
       courseId: module.course?.id,
     });
-  }, []);
+  }, [module]);
 
   return (
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate('createExam')}>

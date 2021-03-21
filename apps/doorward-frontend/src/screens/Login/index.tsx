@@ -26,7 +26,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   }, []);
 
   if (authenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to={ROUTES.dashboard} />;
   }
   return (
     <Layout {...props} noNavBar withBackground hideBackButton>
