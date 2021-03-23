@@ -113,8 +113,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           if (endDate.isSameOrBefore(moment())) {
             startAssessment = false;
           }
-        } else {
-          startAssessment = true;
         }
 
         if (submission) {
@@ -128,6 +126,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
       }
     }
   }, [getSubmissionState]);
+
+  if (startDate) {
+    console.log(moment().diff(startDate, 'hour'), 'Moses');
+  }
 
   return (
     <AssessmentContext.Provider value={{ assessment: assessment }}>
@@ -172,7 +174,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (
                 <InformationCard.Item title={translate('examWillStartIn')}>
-                  {moment().diff(startDate, 'hour') < 24 ? (
+                  {moment(startDate).diff(moment(), 'hour') < 24 ? (
                     <AssessmentTimer
                       totalTimeSeconds={Math.abs(moment().diff(startDate, 'second'))}
                       onTimeEnded={() => {

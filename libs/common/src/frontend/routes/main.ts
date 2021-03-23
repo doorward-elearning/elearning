@@ -92,6 +92,7 @@ const ROUTES = {
     teachers: {
       list: '/groups/teachers/',
       create: '/groups/teachers/create',
+      update: '/groups/teachers/:groupId/update',
       view: '/groups/teachers/:groupId',
     },
     students: {

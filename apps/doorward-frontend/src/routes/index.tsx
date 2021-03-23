@@ -48,6 +48,8 @@ import EditOrganization from '../screens/Organizations/EditOrganization';
 import ChatScreen from '../screens/ChatScreen';
 import ViewSubmissions from '../screens/Assessment/ViewSubmissions';
 import GradeAssessment from '../screens/Assessment/GradeAssessment';
+import ViewTeacherGroup from '../screens/Groups/Teachers/ViewTeacherGroup';
+import UpdateTeacherGroup from '../screens/Groups/Teachers/UpdateTeacherGroup';
 
 const Router: React.FunctionComponent = (props): JSX.Element => {
   return (
@@ -100,7 +102,12 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
         component={CreateTeacherGroup}
         privileges={['teacher.groups.create']}
       />
-      <PageRoute path={ROUTES.groups.teachers.view} component={ViewGroup} privileges={['teacher.groups.view']} />
+      <PageRoute path={ROUTES.groups.teachers.view} component={ViewTeacherGroup} privileges={['teacher.groups.view']} />
+      <PageRoute
+        path={ROUTES.groups.teachers.update}
+        component={UpdateTeacherGroup}
+        privileges={['teacher.groups.update']}
+      />
       <PageRoute path={ROUTES.groups.students.list} component={StudentGroups} privileges={['student.groups.*']} />
       <PageRoute
         path={ROUTES.groups.students.create}
