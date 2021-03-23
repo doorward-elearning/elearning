@@ -26,7 +26,7 @@ const AddModulePage: React.FunctionComponent<AddModulePageProps> = (props) => {
 
   const finish = () => {
     navigation.navigate(ROUTES.courses.view, {
-      courseId: module?.course?.id,
+      courseId: module?.courseId,
     });
   };
 

@@ -15,6 +15,7 @@ const AddCourseModal: React.FunctionComponent<AddCourseModalProps> = (props) => 
     formikProps && formikProps.resetForm();
     navigation.navigate(ROUTES.courses.list);
   });
+
   return (
     <Modal {...props}>
       <Modal.Header title={props.title} />

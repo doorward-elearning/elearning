@@ -8,7 +8,10 @@ const AddCourse: React.FunctionComponent<AddCourseProps> = (props) => {
     <AddCourseModal
       useModal={props.useModal}
       features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
-      onSuccess={props.useModal.closeModal}
+      onSuccess={() => {
+        props.useModal.closeModal();
+        props.onSuccess();
+      }}
       title={props.title}
     />
   );
@@ -17,6 +20,7 @@ const AddCourse: React.FunctionComponent<AddCourseProps> = (props) => {
 export interface AddCourseProps extends ModalProps {
   title: string;
   history: MemoryHistory;
+  onSuccess: () => void;
 }
 
 export default AddCourse;

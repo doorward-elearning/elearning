@@ -10,7 +10,7 @@ const useRequestToast = <Response extends DApiResponse>(
   showErrorToast = true
 ) => {
   const onFormSubmit = useCallback(() => {
-    if (showSuccessToast && state.fetched) {
+    if (showSuccessToast && state.fetched && state.data?.message) {
       toast.show({
         message: state.data?.message,
         type: 'success',
@@ -19,7 +19,7 @@ const useRequestToast = <Response extends DApiResponse>(
       });
     }
 
-    if (showErrorToast && state.failed) {
+    if (showErrorToast && state.failed && state.errors?.message) {
       toast.show({
         message: state.errors?.message,
         type: 'error',

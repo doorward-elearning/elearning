@@ -1,9 +1,9 @@
 import React from 'react';
 import './ProfilePicture.scss';
-import Tools from '@doorward/common/utils/Tools';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import UserInfoCard from '@doorward/ui/components/ProfilePicture/UserInfoCard';
 import UserEntity from '@doorward/common/entities/user.entity';
+import LetterIcon from '@doorward/ui/components/LetterIcon';
 
 const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JSX.Element => {
   const width = props.width || 50;
@@ -14,17 +14,7 @@ const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JS
         {props.user?.profilePicture ? (
           <img src={props.user.profilePicture} alt="" style={{ width, height }} />
         ) : (
-          <div
-            style={{
-              background: Tools.color(props.user.fullName),
-              width,
-              height,
-              fontSize: height / 2.5,
-            }}
-            className="profile-picture-letter"
-          >
-            {props.user.fullName.toUpperCase().charAt(0)}
-          </div>
+          <LetterIcon word={props.user.fullName} width={width} height={height} />
         )}
       </div>
       {props.user.id && <UserInfoCard user={props.user as UserEntity} />}

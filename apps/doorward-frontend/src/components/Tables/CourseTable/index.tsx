@@ -7,6 +7,7 @@ import { PaginationMetaData } from '@doorward/common/dtos/response/base.response
 import Tools from '@doorward/common/utils/Tools';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import LetterIcon from '@doorward/ui/components/LetterIcon';
 
 const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
   const navigation = useNavigation();
@@ -19,6 +20,7 @@ const CourseTable: React.FunctionComponent<CourseTableProps> = (props) => {
           sortFunction: (a, b) => a.title.toLowerCase() > b.title.toLowerCase(),
           cellRenderer: ({ cellData }) => (
             <div className="course-title">
+              <LetterIcon word={cellData} width={20} height={20} />
               <span>{cellData}</span>
             </div>
           ),

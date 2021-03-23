@@ -26,7 +26,7 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
 
   const finish = useCallback(() => {
     navigation.navigate(ROUTES.courses.view, {
-      courseId: module.course?.id,
+      courseId: module.courseId,
     });
   }, [module]);
 

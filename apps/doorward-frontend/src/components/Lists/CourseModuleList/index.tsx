@@ -140,7 +140,7 @@ const ModuleView: React.FunctionComponent<ModuleViewProps> = ({
   );
 };
 
-const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course }) => {
+const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ course, onDeleteModule }) => {
   const [updateModule, updateModuleState] = useApiAction(DoorwardApi, (api) => api.modules.updateModule);
   const action = useAction(DoorwardApi.actions.modules.updateCourseModules);
   const hasPrivileges = usePrivileges();
@@ -157,6 +157,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
         useModal={deleteModuleModal}
         action={deleteModule}
         state={deleteModuleState}
+        onSuccess={() => onDeleteModule(moduleToDelete)}
       >
         <p>{translate('areYouSureYouWantToDeleteModule')}</p>
       </WebConfirmModal>
@@ -197,6 +198,7 @@ const CourseModuleList: React.FunctionComponent<CourseModuleListProps> = ({ cour
 
 export interface CourseModuleListProps {
   course: CourseEntity;
+  onDeleteModule?: (moduleId: string) => void;
 }
 
 export interface ModuleViewProps {

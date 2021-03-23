@@ -41,18 +41,18 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const [fetchTeachers, teacherList] = useApiAction(DoorwardApi, (api) => api.teachers.getAllTeachers);
   const [updateCourse, updateCourseState] = useApiAction(DoorwardApi, (api) => api.courses.updateCourse);
   const [launchClassroom, launchClassroomState] = useApiAction(DoorwardApi, (api) => api.courses.launchClassroom);
+  const [fetchCourse, course] = useApiAction(DoorwardApi, (api) => api.courses.getCourse);
   const {
     params: { courseId },
   } = useRouteMatch<{ courseId: string }>();
   const navigation = useNavigation();
 
-  const course = useCourse(courseId);
-
   useEffect(() => {
     if (hasPrivileges('teachers.list')) {
       fetchTeachers();
     }
-  }, []);
+    fetchCourse(courseId);
+  }, [courseId]);
 
   return (
     <Layout
@@ -129,6 +129,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                 <AddCourseModuleModal
                   courseId={course.id}
                   useModal={addModuleModal}
+                  onSuccess={() => {
+                    fetchCourse(course.id);
+                  }}
                   features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.CLOSE_BUTTON_FOOTER]}
                 />
                 <ChooseStudentModal
@@ -182,7 +185,12 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                       </Pill>
                     </div>
                   </Grid>
-                  <CourseModuleList course={course} />
+                  <CourseModuleList
+                    course={course}
+                    onDeleteModule={() => {
+                      fetchCourse(course.id);
+                    }}
+                  />
                 </div>
               </div>
             );

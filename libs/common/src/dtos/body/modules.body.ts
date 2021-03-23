@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import * as Yup from 'yup';
 import { ObjectSchema } from 'yup';

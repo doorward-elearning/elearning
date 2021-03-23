@@ -27,7 +27,7 @@ const CreateAssignment: FunctionComponent<CreateAssignmentProps> = (props): JSX.
 
   const finish = () => {
     navigation.navigate(ROUTES.courses.view, {
-      courseId: module?.course?.id,
+      courseId: module?.courseId,
     });
   };
 

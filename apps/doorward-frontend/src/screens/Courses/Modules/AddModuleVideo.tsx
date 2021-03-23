@@ -25,7 +25,7 @@ const AddModuleVideo: React.FunctionComponent<AddModuleVideoProps> = (props): JS
 
   const finish = () => {
     navigation.navigate(ROUTES.courses.view, {
-      courseId: module?.course?.id,
+      courseId: module?.courseId,
     });
   };
 

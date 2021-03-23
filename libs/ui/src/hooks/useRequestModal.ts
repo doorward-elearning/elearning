@@ -22,7 +22,7 @@ const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {
         }
       }, 200);
     }
-    if (props.state.errors.message || props.state.errors.errors) {
+    if (props.state?.errors?.message || props.state?.errors?.errors) {
       props.useModal.closeModal();
       setTimeout(() => {
         if (props.onError) {

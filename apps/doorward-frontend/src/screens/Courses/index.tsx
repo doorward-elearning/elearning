@@ -11,7 +11,7 @@ import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
-  const addCourseModal = useModal(props.location.pathname === '/courses/create');
+  const addCourseModal = useModal(props.location.pathname === ROUTES.courses.create);
   const [fetchCourses, courses] = useApiAction(DoorwardApi, (api) => api.courses.getCourses, {
     onNewData: (prevState, nextState) => {
       if (nextState?.pagination?.page === 1) {
@@ -39,7 +39,12 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
         privileges: ['courses.create'],
       }}
     >
-      <AddCourse history={props.history} useModal={addCourseModal} title={TITLE} />
+      <AddCourse
+        history={props.history}
+        useModal={addCourseModal}
+        title={TITLE}
+        onSuccess={() => fetchCourses({ page: 1 })}
+      />
       <CourseTable
         loadMore={async (page) => {
           fetchCourses({ page });

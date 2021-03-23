@@ -3,4 +3,7 @@
   padding: var(--padding) var(--padding-lg);
   border-radius: 5px;
   margin: var(--padding-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
 }
