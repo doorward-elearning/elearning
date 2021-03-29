@@ -7,9 +7,11 @@ import InformationCard from '@doorward/ui/components/InformationCard';
 import translate from '@doorward/common/lang/translate';
 import Tools from '@doorward/common/utils/Tools';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
 const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionViewProps> = ({
   submission,
+  assessment,
 }): JSX.Element => {
   const [results, setResults] = useState<AssessmentSubmissionResult>();
 
@@ -51,8 +53,15 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
       {submission.gradedOn && (
         <div className="results mt-8">
           {results &&
-            Object.keys(results.questions).map((questionId) => {
-              return <QuestionView question={results.questions[questionId]} view={QuestionViewTypes.SUBMISSION_MODE} />;
+            Object.keys(results.questions).map((questionId, index) => {
+              return (
+                <QuestionView
+                  question={results.questions[questionId]}
+                  view={QuestionViewTypes.SUBMISSION_MODE}
+                  assessmentOptions={assessment.options}
+                  questionNumber={index + 1}
+                />
+              );
             })}
         </div>
       )}
@@ -62,6 +71,7 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
 
 export interface AssessmentSubmissionViewProps {
   submission: AssessmentSubmissionEntity;
+  assessment: AssessmentEntity;
 }
 
 export default AssessmentSubmissionView;

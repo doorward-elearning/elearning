@@ -1,4 +1,3 @@
-import QuestionEntity from '@doorward/common/entities/question.entity';
 import { AnswerTypes } from '@doorward/common/types/exam';
 
 export interface AssessmentOptions {

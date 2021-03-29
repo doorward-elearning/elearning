@@ -39,7 +39,7 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
       },
     },
     responses: {
-      show: false,
+      show: true,
       frequency: {
         onlyOnce: false,
         range: {

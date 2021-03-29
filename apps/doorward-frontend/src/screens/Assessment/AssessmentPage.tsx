@@ -90,6 +90,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
         <SingleQuestionAssessment
           questions={questions}
           startQuestion={startQuestion}
+          savingState={saveSubmissionState}
           type={assessment.assessmentType}
           onFinishAssessment={(submission) => {
             submitAssessment(assessment.id, {

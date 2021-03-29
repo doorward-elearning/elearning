@@ -17,12 +17,24 @@ import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import translate from '@doorward/common/lang/translate';
 import './styles/QuestionView.scss';
 import classNames from 'classnames';
-import { AssessmentQuestionResult } from '@doorward/common/types/assessments';
+import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
 
 export enum QuestionViewTypes {
+  /**
+   * The teacher editing the questions
+   */
   EDIT_MODE = 'editMode',
+  /**
+   * Display the correct answers
+   */
   ANSWER_PREVIEW_MODE = 'answerPreviewMode',
+  /**
+   * A student taking an exam
+   */
   EXAM_MODE = 'examMode',
+  /**
+   * A student viewing their submission
+   */
   SUBMISSION_MODE = 'submissionMode',
 }
 
@@ -31,6 +43,8 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   view,
   onEditQuestion,
   onDeleteQuestion,
+  assessmentOptions,
+  questionNumber,
 }) => {
   const [answers, setAnswers] = useState(question.answers);
   const { assessment } = useContext(AssessmentContext);
@@ -54,16 +68,18 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
       <Panel noBackground>
         <HeaderGrid>
           <Header size={4}>
-            {translate('points')}{' '}
-            <div
-              className={classNames('points-count', {
-                success: (question as AssessmentQuestionResult).isCorrect,
-                error: (question as AssessmentQuestionResult).isCorrect === false, // to prevent checking if
-                // undefined or null
-              })}
-            >
-              {question.points}
-            </div>
+            <React.Fragment>
+              {translate('points')}{' '}
+              <div
+                className={classNames('points-count', {
+                  success: (question as AssessmentQuestionResult).isCorrect,
+                  error: (question as AssessmentQuestionResult).isCorrect === false, // to prevent checking if
+                  // undefined or null
+                })}
+              >
+                {question.points}
+              </div>
+            </React.Fragment>
           </Header>
           {view === QuestionViewTypes.EDIT_MODE && (
             <Row>
@@ -79,7 +95,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ||
           question.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE ? (
-            <AnswersView answers={answers} question={question} view={view} />
+            <AnswersView answers={answers} question={question} view={view} assessmentOptions={assessmentOptions} />
           ) : view === QuestionViewTypes.EXAM_MODE ? (
             <DraftTextArea fluid name={`submission[${question.id}]`} />
           ) : (
@@ -101,6 +117,8 @@ export interface QuestionViewProps {
   view?: QuestionViewTypes;
   onEditQuestion?: (question: CreateQuestionBody) => void;
   onDeleteQuestion?: (question: CreateQuestionBody) => void;
+  assessmentOptions?: AssessmentOptions;
+  questionNumber?: number;
 }
 
 export default QuestionView;

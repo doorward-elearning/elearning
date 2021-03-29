@@ -47,6 +47,7 @@ const checkRequired = (field: string, schema: any) => {
   }
   return false;
 };
+
 function withInput<R extends InputProps>(
   Input: FunctionComponent<R>,
   features: Array<InputFeatures | string | typeof InputFeatures> = [],
@@ -61,6 +62,7 @@ function withInput<R extends InputProps>(
     const { formikProps, editable, validationSchema } = useContext(FormContext);
     const { name } = props;
     const mountedRef = useRef<boolean>(false);
+    const [id, setId] = useState(props.id || (props.idGenerator && props.idGenerator()));
 
     const inputProps: any = { ...props, formikProps };
     useEffect(() => {
@@ -106,7 +108,7 @@ function withInput<R extends InputProps>(
     inputProps.onChange = formikProps.handleChange || props.onChange;
     inputProps.onBlur = formikProps.handleBlur;
     inputProps.value = _.get(formikProps.values, name);
-    inputProps.id = props.id || (props.idGenerator && props.idGenerator());
+    inputProps.id = id;
 
     usePromiseEffect(
       getValidationSchema(validationSchema),

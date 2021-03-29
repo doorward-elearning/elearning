@@ -1,0 +1,16 @@
+.ed-single-question-assessment {
+  .saving-status {
+    &__saved {
+      display: flex;
+      align-items: center;
+
+      i {
+        background: var(--text-success);
+        color: white;
+        border-radius: 50%;
+        font-size: 1em;
+        padding: var(--padding-sm);
+      }
+    }
+  }
+}

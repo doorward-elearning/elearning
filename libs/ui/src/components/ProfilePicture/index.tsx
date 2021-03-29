@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './ProfilePicture.scss';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import UserInfoCard from '@doorward/ui/components/ProfilePicture/UserInfoCard';
@@ -8,11 +8,20 @@ import LetterIcon from '@doorward/ui/components/LetterIcon';
 const ProfilePicture: React.FunctionComponent<ProfilePictureProps> = (props): JSX.Element => {
   const width = props.width || 50;
   const height = props.height || 50;
+
+  const [showImage, setShowImage] = useState<boolean>(!!props.user?.profilePicture);
+
   return props.user ? (
     <Dropdown openOnHover disabled={props.hideUserInfo}>
       <div className="ed-profilePicture">
-        {props.user?.profilePicture ? (
-          <img src={props.user.profilePicture} alt="" style={{ width, height }} />
+        {showImage ? (
+          <img
+            src={props.user.profilePicture}
+            loading="lazy"
+            onError={() => setShowImage(false)}
+            alt=""
+            style={{ width, height }}
+          />
         ) : (
           <LetterIcon word={props.user.fullName} width={width} height={height} />
         )}

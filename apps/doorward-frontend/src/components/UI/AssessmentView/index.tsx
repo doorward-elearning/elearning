@@ -25,6 +25,7 @@ import InformationCard from '@doorward/ui/components/InformationCard';
 import AssessmentSubmissionView from './AssessmentSubmissionView';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -34,7 +35,7 @@ const evaluateStatus = (
   endDate?: Date | string
 ) => {
   if (submission) {
-    return translate('submitted');
+    return submission.status === AssessmentSubmissionStatus.DRAFT ? translate('inProgress') : translate('submitted');
   }
 
   if (moment().isBefore(moment(startDate))) {
@@ -50,9 +51,10 @@ const evaluateStatus = (
 
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
-  const [{ showQuestions, startDate, startAssessment, endDate }, setState] = useMergeState({
+  const [{ showQuestions, startDate, startAssessment, endDate, continueAssessment }, setState] = useMergeState({
     showQuestions: false,
     startAssessment: false,
+    continueAssessment: false,
     startDate: null,
     endDate: null,
     points: 0,
@@ -92,6 +94,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   useEffect(() => {
     if (getSubmissionState.fetched) {
       let startAssessment = false;
+      let continueAssessment = false;
       let startDate, endDate;
 
       if (hasPrivileges('assessments.submit')) {
@@ -117,11 +120,15 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
 
         if (submission) {
           startAssessment = false;
+          if (submission.status === AssessmentSubmissionStatus.DRAFT) {
+            continueAssessment = true;
+          }
         }
         setState({
           startAssessment,
           startDate,
           endDate,
+          continueAssessment,
         });
       }
     }
@@ -233,17 +240,33 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               {translate('startAssessment', { assessment: assessment.assessmentType })}
             </Button>
           )}
+          {continueAssessment && (
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
+              {translate('continueAssessment', { assessment: assessment.assessmentType })}
+            </Button>
+          )}
         </RoleContainer>
 
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
         </RoleContainer>
-        {submission && (
+        {submission && submission.status !== AssessmentSubmissionStatus.DRAFT && (
           <RoleContainer privileges={['assessments.submit']}>
             <Header padded size={2} className="mb-8">
               {translate('submission', { count: 1 })}
             </Header>
-            <AssessmentSubmissionView submission={submission} />
+            <AssessmentSubmissionView submission={submission} assessment={assessment} />
           </RoleContainer>
         )}
       </Form>

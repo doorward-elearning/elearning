@@ -11,23 +11,48 @@ import translate from '@doorward/common/lang/translate';
 import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import classNames from 'classnames';
-import { AssessmentQuestionResult } from '@doorward/common/types/assessments';
+import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
 
 const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({
   answers,
   type,
   chosenAnswer,
   view,
+  options,
 }) => {
   const maxPoints = Math.max(...answers.map((answer) => answer.points));
+  const [showCorrectAnswers, setShowCorrectAnswers] = useState(false);
+  const [showChosenAnswer, setShowChosenAnswer] = useState(false);
+  const [showPoints, setShowPoints] = useState(false);
+
+  useEffect(() => {
+    if (view === QuestionViewTypes.SUBMISSION_MODE) {
+      setShowCorrectAnswers(options?.responses?.show);
+    } else {
+      setShowCorrectAnswers(true);
+    }
+
+    if (view === QuestionViewTypes.SUBMISSION_MODE) {
+      setShowChosenAnswer(true);
+    }
+
+    if (
+      (view === QuestionViewTypes.ANSWER_PREVIEW_MODE || view === QuestionViewTypes.EDIT_MODE) &&
+      type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE
+    ) {
+      setShowPoints(true);
+    }
+  }, [view, options]);
   return (
     <List>
       {answers.map((answer, index) => {
         return (
           <ListItem key={answer.id}>
             <div className="answer-view-item">
-              {answer.correct && <div className="correct-answer-display">{translate('correctAnswer')}</div>}
-              {!answer.correct && chosenAnswer === answer.id && (
+              {answer.correct && showCorrectAnswers && (
+                <div className="correct-answer-display">{translate('correctAnswer')}</div>
+              )}
+              {(showCorrectAnswers ? !answer.correct : true) && chosenAnswer === answer.id && showChosenAnswer && (
                 <div
                   className={classNames('chosen-answer-display', {
                     correct: type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE,
@@ -37,7 +62,7 @@ const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({
                 </div>
               )}
               <DraftHTMLContent content={answer.answer} />
-              {type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE && view !== QuestionViewTypes.SUBMISSION_MODE && (
+              {showPoints && (
                 <div
                   className={classNames('answer-points-display', {
                     correct: maxPoints === answer.points,
@@ -54,7 +79,7 @@ const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({
   );
 };
 
-const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answers, view }) => {
+const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answers, assessmentOptions, view }) => {
   const [editable, setEditable] = useState(true);
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(1);
 
@@ -95,6 +120,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
           chosenAnswer={(question as AssessmentQuestionResult).answerId}
           type={question.type}
           view={view}
+          options={assessmentOptions}
         />
       )}
     </div>
@@ -105,6 +131,7 @@ export interface AnswersViewProps {
   answers: Array<AnswerEntity | CreateAnswerBody>;
   question: QuestionEntity | CreateQuestionBody | AssessmentQuestionResult;
   view?: QuestionViewTypes;
+  assessmentOptions?: AssessmentOptions;
 }
 
 export interface DisplayAnswersViewProps {
@@ -112,6 +139,7 @@ export interface DisplayAnswersViewProps {
   type: AnswerTypes;
   view: QuestionViewTypes;
   chosenAnswer: string;
+  options?: AssessmentOptions;
 }
 
 export default AnswersView;

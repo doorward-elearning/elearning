@@ -64,6 +64,13 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
     });
   };
 
+  const editingComplete = () => {
+    fetchItem(match.params.itemId);
+    navigation.navigate(ROUTES.courses.modules.items.view, {
+      itemId: item.id,
+    });
+  };
+
   return (
     <Layout
       {...props}
@@ -119,20 +126,17 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       viewerView={
                         <AssessmentView
                           assessment={item as AssessmentEntity}
-                          onCancel={() =>
+                          onCancel={() => {
+                            fetchItem(match.params.itemId);
                             navigation.navigate(ROUTES.courses.view, {
                               courseId: item.courseId,
-                            })
-                          }
+                            });
+                          }}
                         />
                       }
                       creatorView={
                         <CreateAssessmentForm
-                          onSuccess={() =>
-                            navigation.navigate(ROUTES.courses.modules.items.view, {
-                              itemId: item.id,
-                            })
-                          }
+                          onSuccess={editingComplete}
                           onCancel={() =>
                             navigation.navigate(ROUTES.courses.modules.items.view, {
                               itemId: item.id,
@@ -152,7 +156,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                     <EditableView
                       creatorView={
                         <CreateAssignmentForm
-                          onSuccess={() => {}}
+                          onSuccess={editingComplete}
                           onCancel={goBack}
                           form={assignmentForm}
                           module={module}
@@ -170,7 +174,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
                       module={module}
                       editing={editing}
                       item={item as ModuleVideoEntity}
-                      onEditSuccess={() => setEditing(false)}
+                      onEditSuccess={editingComplete}
                     />
                   </IfElse>
                 </React.Fragment>

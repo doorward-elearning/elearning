@@ -10,6 +10,7 @@ import { FormContext } from '@doorward/ui/components/Form';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
 import { AnswerTypes } from '@doorward/common/types/exam';
+import Spacer from '@doorward/ui/components/Spacer';
 
 const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (props): JSX.Element => {
   const hasMultipleChoiceQuestions = (formikProps) => {
@@ -69,35 +70,12 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
             {/*    <TextField name="options.restrictions.accessCode.code" label={translate('accessCode')} />*/}
             {/*  </IfElse>*/}
             {/*</Panel>*/}
-            {/*<Spacer />*/}
-            {/*<Panel noBackground>*/}
-            {/*  <Header size={3}>{translate('responses')}</Header>*/}
-            {/*  <Checkbox name="options.responses.show" label={translate('letStudentsSeeResponses')} />*/}
-            {/*  <IfElse condition={formikProps?.values.options.responses.show}>*/}
-            {/*    <React.Fragment>*/}
-            {/*      <Checkbox name="options.responses.frequency.onlyOnce" label={translate('onlyOneAfterEachAttempt')} />*/}
-            {/*      <Checkbox*/}
-            {/*        name="options.responses.frequency.range.allow"*/}
-            {/*        label={translate('letStudentsSeeTheCorrectAnswers')}*/}
-            {/*      />*/}
-            {/*      <IfElse condition={formikProps?.values.options.responses.frequency.range.allow}>*/}
-            {/*        <React.Fragment>*/}
-            {/*          <DateInput*/}
-            {/*            name="options.responses.frequency.range.from"*/}
-            {/*            showTimeSelect*/}
-            {/*            label={translate('showCorrectAnswersAt')}*/}
-            {/*          />*/}
-            {/*          <DateInput*/}
-            {/*            name="options.responses.frequency.range.to"*/}
-            {/*            showTimeSelect*/}
-            {/*            label={translate('hideCorrectAnswersAt')}*/}
-            {/*          />*/}
-            {/*        </React.Fragment>*/}
-            {/*      </IfElse>*/}
-            {/*    </React.Fragment>*/}
-            {/*  </IfElse>*/}
-            {/*</Panel>*/}
-            {/*<Spacer />*/}
+            <Spacer />
+            <Panel noBackground>
+              <Header size={3}>{translate('responses')}</Header>
+              <Checkbox name="options.responses.show" label={translate('letStudentsSeeResponses')} />
+            </Panel>
+            <Spacer />
             <Panel noBackground>
               <Header size={3}>{translate('availability')}</Header>
               <Row>
