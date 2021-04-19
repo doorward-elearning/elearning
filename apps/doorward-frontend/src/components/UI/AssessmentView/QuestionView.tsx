@@ -23,6 +23,7 @@ export enum QuestionViewTypes {
   /**
    * The teacher editing the questions
    */
+  
   EDIT_MODE = 'editMode',
   /**
    * Display the correct answers

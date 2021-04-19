@@ -12,6 +12,7 @@ import image from './Image';
 import remove from './Remove';
 import fullScreen from './FullScreen';
 import history from './History';
+import equation from './Equation';
 
 export default {
   inline,
@@ -29,4 +30,5 @@ export default {
   remove,
   history,
   fullScreen,
+  equation,
 };

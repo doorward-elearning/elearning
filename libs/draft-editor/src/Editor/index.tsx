@@ -32,7 +32,6 @@ import Controls from '../controls';
 import getLinkDecorator from '../decorators/Link';
 import getMentionDecorators from '../decorators/Mention';
 import getHashtagDecorator from '../decorators/HashTag';
-import getBlockRenderFunc from '../renderer';
 import defaultToolbar from '../config/defaultToolbar';
 import './styles.css';
 import '../../css/Draft.css';
@@ -42,6 +41,11 @@ import getCurrentBlock from '../utils/getCurrentBlock';
 import addNewBlock from '../utils/addNewBlock';
 import { UploadHandler } from '@doorward/ui/components/Input/FileUploadField';
 import translate from '@doorward/common/lang/translate';
+import texContent from '../data/texContent';
+import { removeTeXBlock } from '../utils/removeTeXBlock';
+import getImageComponent from '../renderer/Image';
+import Embedded from '../renderer/Embedded';
+import TeXBlock from '../components/KatexOutput';
 
 export type SyntheticKeyboardEvent = React.KeyboardEvent<{}>;
 export type SyntheticEvent = React.SyntheticEvent<{}>;
@@ -126,7 +130,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
     this.wrapperId = `rdw-wrapper-${wrapperId}`;
     this.modalHandler = new ModalHandler();
     this.focusHandler = new FocusHandler();
-    this.blockRendererFn = getBlockRenderFunc(
+    this.blockRendererFn = this.getBlockRenderFunc(
       {
         isReadOnly: this.isReadOnly,
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
@@ -145,6 +149,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
       editorFocused: false,
       toolbar,
       fullScreen: false,
+      liveTeXEdits: Map(),
     };
 
     this.blockRenderMap = Map({
@@ -179,6 +184,14 @@ class WysiwygEditor extends Component<EditorProps, any> {
 
     this.extendedBlockRenderMap = DefaultDraftBlockRenderMap.merge(this.blockRenderMap);
   }
+
+  _removeTeX = (blockKey) => {
+    const { editorState, liveTeXEdits } = this.state;
+    this.setState({
+      liveTeXEdits: liveTeXEdits.remove(blockKey),
+      editorState: removeTeXBlock(editorState, blockKey),
+    });
+  };
 
   componentDidMount() {}
   // todo: change decorators depending on properties recceived in componentWillReceiveProps.
@@ -272,7 +285,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
   };
 
   componentWillReceiveProps(nextProps: Readonly<EditorProps>, nextContext: any): void {
-    this.blockRendererFn = getBlockRenderFunc(
+    this.blockRendererFn = this.getBlockRenderFunc(
       {
         isReadOnly: this.isReadOnly,
         isImageAlignmentEnabled: this.isImageAlignmentEnabled,
@@ -282,6 +295,49 @@ class WysiwygEditor extends Component<EditorProps, any> {
       this.props.customBlockRenderFunc
     );
   }
+
+  getBlockRenderFunc = (config, customBlockRenderer) => (block: ContentBlock) => {
+    if (typeof customBlockRenderer === 'function') {
+      const renderedComponent = customBlockRenderer(block, config, config.getEditorState);
+      if (renderedComponent) return renderedComponent;
+    }
+
+    if (block.getType() === 'atomic') {
+      const contentState = config.getEditorState().getCurrentContent();
+      const entity = block.getEntityAt(0) ? contentState.getEntity(block.getEntityAt(0)) : null;
+      if (entity && entity.type === 'IMAGE') {
+        return {
+          component: getImageComponent(config),
+          editable: false,
+        };
+      } else if (entity && entity.type === 'EMBEDDED_LINK') {
+        return {
+          component: Embedded,
+          editable: false,
+        };
+      } else if (entity && entity.type === 'TOKEN') {
+        return {
+          component: TeXBlock,
+          editable: false,
+          props: {
+            onStartEdit: (blockKey) => {
+              const { liveTeXEdits } = this.state;
+              this.setState({ liveTeXEdits: liveTeXEdits.set(blockKey, true) });
+            },
+            onFinishEdit: (blockKey, newContentState) => {
+              const { liveTeXEdits } = this.state;
+              this.setState({
+                liveTeXEdits: liveTeXEdits.remove(blockKey),
+                editorState: EditorState.createWithContent(newContentState),
+              });
+            },
+            onRemove: (blockKey) => this._removeTeX(blockKey),
+          },
+        };
+      }
+    }
+    return undefined;
+  };
 
   onFullScreenChanged = () => {
     this.setState((prevState) => ({
@@ -343,7 +399,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
 
   getWrapperRef = () => this.wrapper;
 
-  getEditorState = () => (this.state ? this.state.editorState : null);
+  getEditorState = () => (this.state ? this.state.editorState : EditorState.createWithContent(texContent));
 
   getSuggestions = () => this.props.mention && this.props.mention.suggestions;
 
@@ -661,7 +717,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
               keyBindingFn={this.keyBindingFn}
               editorState={editorState}
               onChange={this.onChange}
-              blockStyleFn={blockStyleFn}
+              blockStyleFn={blockStyleFn.bind(this)}
               customStyleMap={this.getStyleMap(this.props)}
               handleReturn={this.handleReturn}
               blockRendererFn={this.blockRendererFn}
@@ -670,6 +726,7 @@ class WysiwygEditor extends Component<EditorProps, any> {
               ariaLabel={ariaLabel || 'rdw-editor'}
               blockRenderMap={blockRenderMap}
               {...this.editorProps}
+              readOnly={this.state.liveTeXEdits.count()}
             />
           </div>
         </div>

@@ -16,6 +16,7 @@ export default {
     'link',
     'emoji',
     'image',
+    'equation',
     'remove',
     'history',
     'fullScreen',
@@ -339,6 +340,14 @@ export default {
       width: 'auto',
     },
     title: undefined,
+  },
+  equation: {
+    icon: 'functions',
+    className: undefined,
+    component: undefined,
+    popupClassName: undefined,
+    autoCommands: 'pi theta sqrt sum prod alpha beta gamma rho',
+    autoOperatorNames: 'sin cos tan',
   },
   remove: {
     icon: 'format_clear',
