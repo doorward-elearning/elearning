@@ -332,6 +332,10 @@ class WysiwygEditor extends Component<EditorProps, any> {
               });
             },
             onRemove: (blockKey) => this._removeTeX(blockKey),
+            translations: translate,
+            autoCommands: this.state.toolbar?.equation?.autoCommands || '',
+            autoOperatorNames: this.state.toolbar?.equation?.autoOperatorNames || '',
+            title: this.state.toolbar?.equation?.title || translate('components_controls_equation_equation'),
           },
         };
       }

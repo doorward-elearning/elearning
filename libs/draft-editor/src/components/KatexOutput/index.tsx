@@ -2,6 +2,7 @@ import React, { MouseEventHandler } from 'react';
 import katex from 'katex';
 import { ContentBlock, ContentState } from 'draft-js';
 import './TeXEditor.scss';
+import MathEquationEditor from '../MathEquationEditor';
 
 export interface KatexOutputProps {
   content: string;
@@ -12,6 +13,7 @@ export interface TeXBlockProps {
   block: ContentBlock;
   contentState: ContentState;
   blockProps: any;
+  translations: any;
 }
 
 class KatexOutput extends React.Component<KatexOutputProps> {
@@ -57,9 +59,11 @@ export default class TeXBlock extends React.Component<TeXBlockProps> {
   };
 
   componentDidMount() {
-    if (!this._getValue()) {
-      this.onClick();
-    }
+    setTimeout(() => {
+      if (!this._getValue()) {
+        this.onClick();
+      }
+    }, 100);
   }
 
   _save = () => {
@@ -123,42 +127,34 @@ export default class TeXBlock extends React.Component<TeXBlockProps> {
       texContent = this._getValue();
     }
 
-    let className = 'TeXEditor-tex';
-    if (this.state.editMode) {
-      className += ' TeXEditor-activeTeX';
-    }
-
-    let editPanel = null;
-    if (this.state.editMode) {
-      let buttonClass = 'TeXEditor-saveButton';
-      if (this.state.invalidTeX) {
-        buttonClass += ' TeXEditor-invalidButton';
-      }
-
-      editPanel = (
-        <div className="TeXEditor-panel">
-          <textarea
-            className="TeXEditor-texValue"
-            onChange={this._onValueChange}
-            ref="textarea"
-            value={this.state.texValue}
-          />
-          <div className="TeXEditor-buttons">
-            <button className={buttonClass} disabled={this.state.invalidTeX} onClick={this._save}>
-              {this.state.invalidTeX ? 'Invalid TeX' : 'Done'}
-            </button>
-            <button className="TeXEditor-removeButton" onClick={this._remove}>
-              Remove
-            </button>
-          </div>
-        </div>
-      );
-    }
-
     return (
-      <div className={className}>
+      <div className="TeXEditor-tex">
         <KatexOutput content={texContent} onClick={this.onClick} />
-        {editPanel}
+        <MathEquationEditor
+          onClose={() => {
+            if (!this._getValue()) {
+              this._remove();
+            }
+            this.setState({
+              editMode: false,
+            });
+          }}
+          title={this.props.blockProps.title}
+          onSubmit={(equation) => {
+            this.setState(
+              {
+                texValue: equation,
+                editMode: false,
+              },
+              this._save
+            );
+          }}
+          autoOperatorNames={this.props.blockProps.autoOperatorNames}
+          autoCommands={this.props.blockProps.autoCommands}
+          value={this.state.texValue}
+          open={this.state.editMode}
+          translations={this.props.blockProps.translations}
+        />
       </div>
     );
   }

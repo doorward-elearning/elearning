@@ -6,7 +6,7 @@ export function removeTeXBlock(editorState, blockKey) {
 
   const targetRange = new SelectionState({
     anchorKey: blockKey,
-    anchorOffset: 0,
+    anchorOffset: 1,
     focusKey: blockKey,
     focusOffset: block.getLength(),
   });

@@ -118,6 +118,7 @@
     "draftjs-to-html": "^0.8.4",
     "draftjs-utils": "^0.10.2",
     "email-templates": "^6.0.3",
+    "equation-editor-react": "^0.0.6",
     "eslint-config-react-app": "^5.0.2",
     "eslint-loader": "3.0.2",
     "eslint-plugin-flowtype": "3.13.0",

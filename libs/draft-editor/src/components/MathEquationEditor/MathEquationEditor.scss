@@ -1,0 +1,22 @@
+.ed-math-editor {
+  border: 1px solid var(--line-color);
+  padding: var(--padding-lg) var(--padding);
+  border-radius: 5px;
+  display: grid;
+  max-width: 800px;
+  overflow: hidden;
+  position: relative;
+
+  &:focus-within {
+    border: 1px solid var(--primary);
+  }
+
+  &__placeholder {
+    position: absolute;
+    top: 50%;
+    left: var(--padding);
+    transform: translateY(-50%);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}

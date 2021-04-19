@@ -1,8 +1,0 @@
-.ed-math-editor {
-  border: 1px solid var(--line-color);
-  padding: var(--padding) var(--padding-sm);
-  border-radius: 5px;
-  display: grid;
-  max-width: 800px;
-  overflow: hidden;
-}

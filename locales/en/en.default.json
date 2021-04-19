@@ -595,5 +595,6 @@
   "assessmentSubmissionsTitle": "{{title}} - submissions",
   "noSubmissionsMessage": "There are no submissions.",
   "graded": "Graded",
-  "submissionDoesNotExist": "The submission was not found."
+  "submissionDoesNotExist": "The submission was not found.",
+  "enterEquationHere": "Enter equation here..."
 }
