@@ -596,5 +596,13 @@
   "noSubmissionsMessage": "There are no submissions.",
   "graded": "Graded",
   "submissionDoesNotExist": "The submission was not found.",
-  "enterEquationHere": "Enter equation here..."
+  "enterEquationHere": "Enter equation here...",
+  "addSection": "Add Section",
+  "sectionHeader": "Section {{index}}",
+  "allQuestionsAreCompulsory": "All questions are compulsory",
+  "numQuestionsRequired": "Number of questions to choose",
+  "enterNoQuestionsRequired": "Enter the number of questions to choose.",
+  "sectionPleaseChooseQuestions_plural": "Choose {{count}} questions from this section.",
+  "sectionPleaseChooseQuestions": "Choose {{count}} question from this section",
+  "sectionAllQuestionsCompulsory": "All questions are compulsory in this section."
 }

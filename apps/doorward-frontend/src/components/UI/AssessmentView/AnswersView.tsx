@@ -79,7 +79,13 @@ const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({
   );
 };
 
-const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answers, assessmentOptions, view }) => {
+const AnswersView: React.FunctionComponent<AnswersViewProps> = ({
+  disabled,
+  question,
+  answers,
+  assessmentOptions,
+  view,
+}) => {
   const [editable, setEditable] = useState(true);
   const [numCorrectAnswers, setNumCorrectAnswers] = useState(1);
 
@@ -108,6 +114,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({ question, answ
     <div className="ed-answers-view">
       {editable ? (
         <MultipleSwitchField
+          editable={!disabled}
           choices={answers.map((answer) => answer.answer)}
           itemRenderer={(value) => <DraftHTMLContent content={value} />}
           values={answers.map((answer) => answer.id)}
@@ -132,6 +139,7 @@ export interface AnswersViewProps {
   question: QuestionEntity | CreateQuestionBody | AssessmentQuestionResult;
   view?: QuestionViewTypes;
   assessmentOptions?: AssessmentOptions;
+  disabled?: boolean;
 }
 
 export interface DisplayAnswersViewProps {

@@ -1,8 +1,8 @@
 import { BeforeInsert, ChildEntity, Column, OneToMany } from 'typeorm';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import QuestionEntity from '@doorward/common/entities/question.entity';
 import { AssessmentOptions } from '@doorward/common/types/assessments';
+import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 
 @ChildEntity(ModuleItemType.ASSESSMENT)
 export class AssessmentEntity extends ModuleItemEntity {
@@ -15,8 +15,8 @@ export class AssessmentEntity extends ModuleItemEntity {
   @Column({ type: 'enum', enum: AssessmentTypes })
   assessmentType: AssessmentTypes;
 
-  @OneToMany(() => QuestionEntity, (question) => question.assessment)
-  questions: Array<QuestionEntity>;
+  @OneToMany(() => QuestionSectionEntity, (section) => section.assessment)
+  sections: Array<QuestionSectionEntity>;
 
   @BeforeInsert()
   updateAssessmentType() {}

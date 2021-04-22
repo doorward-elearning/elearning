@@ -26,6 +26,10 @@ import AssessmentSubmissionView from './AssessmentSubmissionView';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+import Panel from '@doorward/ui/components/Panel';
+import Tab from '@doorward/ui/components/TabLayout/Tab';
+import TabLayout from '@doorward/ui/components/TabLayout';
+import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -70,7 +74,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
 
   useEffect(() => {
-    setPoints(assessment.questions.reduce((acc, question) => acc + question.points, 0));
+    setPoints(assessment.sections.reduce((acc, section) => acc + section.points, 0));
   }, []);
 
   useEffect(() => {
@@ -161,14 +165,32 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               </DisplayLabel>
             </HeaderGrid>
             <div className="ed-assessment">
-              {assessment.questions.map((question, index) => {
-                return (
-                  <QuestionView
-                    view={hasPrivileges('moduleItems.create') ? QuestionViewTypes.ANSWER_PREVIEW_MODE : undefined}
-                    question={question}
-                  />
-                );
-              })}
+              <TabLayout>
+                {assessment.sections.map((section, index) => {
+                  return (
+                    <Tab title={translate('sectionHeader', { index: index + 1 })}>
+                      <div>
+                        <QuestionSectionConfig sectionIndex={index} section={section} />
+                        <Header size={3}>{translate('questions')}</Header>
+                        <div className="mt-4">
+                          {section.questions.map((question) => {
+                            return (
+                              <QuestionView
+                                view={
+                                  hasPrivileges('moduleItems.create')
+                                    ? QuestionViewTypes.ANSWER_PREVIEW_MODE
+                                    : undefined
+                                }
+                                question={question}
+                              />
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </Tab>
+                  );
+                })}
+              </TabLayout>
             </div>
           </React.Fragment>
         )}
@@ -216,7 +238,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                 </InformationCard.Item>
               )}
               <InformationCard.Item title={translate('numberOfQuestions')} icon={'list'}>
-                {`${assessment.questions?.length || 0}`}
+                {`${assessment.sections.reduce((total, section) => total + section.questions?.length || 0, 0)}`}
               </InformationCard.Item>
               <InformationCard.Item title={translate('totalPoints')} icon={'all_inclusive'}>
                 {`${points}`}
@@ -257,7 +279,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             </Button>
           )}
         </RoleContainer>
-
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
         </RoleContainer>

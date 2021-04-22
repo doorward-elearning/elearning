@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import {
   AssignmentSubmissionMedia,
@@ -10,9 +9,26 @@ import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { AssignmentOptions } from '@doorward/common/types/assignments';
-import { AssessmentOptions } from '@doorward/common/types/assessments';
+import { AssessmentOptions, QuestionSectionOptions } from '@doorward/common/types/assessments';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
+
+export class CreateQuestionSectionBody {
+  @Expose()
+  id?: string;
+
+  @Expose()
+  instructions: string;
+
+  @Expose()
+  order: number;
+
+  @Expose()
+  config: QuestionSectionOptions;
+
+  @Expose()
+  questions: Array<CreateQuestionBody>;
+}
 
 export class CreateQuestionBody {
   @Expose()
@@ -138,7 +154,7 @@ export class CreateAssignmentBody extends CreateModuleItemBody {
 
 export class CreateAssessmentBody extends CreateModuleItemBody {
   @Expose()
-  questions: Array<CreateQuestionBody>;
+  sections: Array<CreateQuestionSectionBody>;
 
   @Expose()
   instructions: string;
@@ -148,6 +164,23 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
 
   @Expose()
   assessmentType: AssessmentTypes;
+
+  static QuestionSectionValidationSchema = () =>
+    Yup.object({
+      questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema()),
+      order: Yup.number().notRequired(),
+      config: Yup.object({
+        questions: Yup.object({
+          allCompulsory: Yup.boolean().notRequired(),
+          numRequired: Yup.number()
+            .notRequired()
+            .when('allCompulsory', {
+              is: (value) => !value,
+              then: Yup.number().required(translate('enterNoQuestionsRequired')),
+            }),
+        }),
+      }),
+    });
 
   static QuestionValidationSchema = () =>
     Yup.object({
@@ -252,7 +285,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
               }),
           }),
         }),
-        questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema()),
+        sections: Yup.array().of(CreateAssessmentBody.QuestionSectionValidationSchema()),
       })
     );
 

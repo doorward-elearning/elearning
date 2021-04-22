@@ -60,7 +60,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
 
   let editing = props.editable;
 
-  if (props.shy) {
+  if (props.shy && editing) {
     editing = focused;
   }
 
@@ -76,7 +76,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
           'eb-input--draft-text-area__display': !editing,
         })}
         title={translate('clickToEdit')}
-        hidden={focused || !props.shy}
+        hidden={focused || !props.shy || !editing}
         onClick={() => {
           if (!editing) {
             setFocused(true);

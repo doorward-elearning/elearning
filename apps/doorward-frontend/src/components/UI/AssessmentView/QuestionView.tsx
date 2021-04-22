@@ -23,7 +23,7 @@ export enum QuestionViewTypes {
   /**
    * The teacher editing the questions
    */
-  
+
   EDIT_MODE = 'editMode',
   /**
    * Display the correct answers
@@ -44,6 +44,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   view,
   onEditQuestion,
   onDeleteQuestion,
+  disabled,
   assessmentOptions,
   questionNumber,
 }) => {
@@ -96,9 +97,9 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ||
           question.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE ? (
-            <AnswersView answers={answers} question={question} view={view} assessmentOptions={assessmentOptions} />
+            <AnswersView disabled={disabled} answers={answers} question={question} view={view} assessmentOptions={assessmentOptions} />
           ) : view === QuestionViewTypes.EXAM_MODE ? (
-            <DraftTextArea fluid name={`submission[${question.id}]`} />
+            <DraftTextArea editable={!disabled} fluid name={`submission[${question.id}]`} />
           ) : (
             <div className="no-choices-display">
               <DisplayLabel>
@@ -120,6 +121,7 @@ export interface QuestionViewProps {
   onDeleteQuestion?: (question: CreateQuestionBody) => void;
   assessmentOptions?: AssessmentOptions;
   questionNumber?: number;
+  disabled?: boolean;
 }
 
 export default QuestionView;

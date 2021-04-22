@@ -34,7 +34,13 @@ const CreateExam: FunctionComponent<CreateExamProps> = (props): JSX.Element => {
     <Layout {...props} features={[LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.HEADER]} header={translate('createExam')}>
       <WebComponent data={module} loading={state.fetching} errors={state.errors}>
         {(module) => (
-          <CreateAssessmentForm type={AssessmentTypes.EXAM} onSuccess={finish} onCancel={finish} module={module} />
+          <CreateAssessmentForm
+            hasSections
+            type={AssessmentTypes.EXAM}
+            onSuccess={finish}
+            onCancel={finish}
+            module={module}
+          />
         )}
       </WebComponent>
     </Layout>

@@ -1,7 +1,6 @@
 import React from 'react';
 import withInput, { InputFeatures, InputProps } from './index';
 import Switch from '../Switch';
-import ItemArray from '../ItemArray';
 import Row from '../Row';
 import List from '../List';
 import ListItem from '../List/ListItem';
@@ -48,6 +47,7 @@ const MultipleSwitchField: React.FunctionComponent<MultipleSwitchFieldProps> = (
                   }
                   onToggle={(open) => handleToggle(values[index], open)}
                   id={props.id + values[index]}
+                  disabled={!props.editable}
                 />
                 <span>{props.itemRenderer ? props.itemRenderer(item) : item}</span>
               </Row>

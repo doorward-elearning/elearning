@@ -11,8 +11,9 @@ export default class ModuleItemsRepository<
   private moduleItemsQueryBuilder() {
     return this.createQueryBuilder('moduleItem')
       .leftJoinAndSelect('moduleItem.module', 'module')
-      .leftJoinAndSelect('moduleItem.questions', 'questions')
-      .leftJoinAndSelect('questions.answers', 'answers');
+      .leftJoinAndSelect('moduleItem.sections', 'section')
+      .leftJoinAndSelect('section.questions', 'question')
+      .leftJoinAndSelect('question.answers', 'answer');
   }
   async getModuleItems(type: ModuleItemType, modules: ModuleEntity[]) {
     const moduleIds = modules.map((module) => module.id);

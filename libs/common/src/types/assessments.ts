@@ -1,5 +1,12 @@
 import { AnswerTypes } from '@doorward/common/types/exam';
 
+export interface QuestionSectionOptions {
+  questions: {
+    allCompulsory: boolean;
+    numRequired: number;
+  };
+}
+
 export interface AssessmentOptions {
   shuffleAnswers: boolean;
   timeLimit: {

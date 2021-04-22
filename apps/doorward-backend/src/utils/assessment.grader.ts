@@ -43,7 +43,12 @@ const gradeQuestion = async (questionEntity: QuestionEntity, response: string): 
 const assessmentGrader = async (submissionId: string, connection: Connection) => {
   const assessmentSubmissionRepository = connection.getRepository(AssessmentSubmissionEntity);
   const submissionEntity = await assessmentSubmissionRepository.findOne(submissionId, {
-    relations: ['assessment', 'assessment.questions', 'assessment.questions.answers'],
+    relations: [
+      'assessment',
+      'assessment.sections',
+      'assessment.sections.questions',
+      'assessment.sections.questions.answers',
+    ],
   });
 
   const assessment = submissionEntity.assessment;
@@ -59,22 +64,34 @@ const assessmentGrader = async (submissionId: string, connection: Connection) =>
   };
 
   await Promise.all(
-    assessment.questions.map(async (question) => {
-      const result = await gradeQuestion(question, submission[question.id]);
-      if (result?.graded) {
-        totalPoints += result.points;
-        numGraded++;
-      }
-      submissionResult.questions[question.id] = result;
-      submissionResult.totalPoints += question.points;
-      return result;
+    assessment.sections.map(async (section) => {
+      await Promise.all(
+        section.questions.map(async (question) => {
+          const result = await gradeQuestion(question, submission[question.id]);
+          if (result?.graded) {
+            totalPoints += result.points;
+            numGraded++;
+          }
+          submissionResult.questions[question.id] = result;
+          submissionResult.totalPoints += question.points;
+          return result;
+        })
+      );
     })
   );
 
   submissionEntity.submissionResults = JSON.stringify(submissionResult);
   submissionEntity.grade = totalPoints;
 
-  if (numGraded === assessment.questions.length) {
+  if (
+    numGraded ===
+    assessment.sections.reduce(
+      (sum, section) =>
+        sum +
+        (section.config.questions.allCompulsory ? section.questions.length : section.config.questions.numRequired),
+      0
+    )
+  ) {
     // all questions have been graded.
     submissionEntity.gradedOn = new Date();
   }

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
-import SingleQuestionAssessment from './SingleQuestionAssessment';
+import SingleSectionAssessment from './SingleSectionAssessment';
 import AssessmentTimer from './AssessmentTimer';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
@@ -18,10 +18,9 @@ import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
-  const [questions, setQuestions] = useState([]);
+  const [sections, setSections] = useState([]);
   const form = useForm();
   const [submission, setSubmission] = useState(props.submission);
-  const [startQuestion, setStartQuestion] = useState(0);
   const [timeEnded, setTimeEnded] = useState(false);
   const navigation = useNavigation();
 
@@ -52,21 +51,15 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
     }
   );
 
+  const onReadyToSave = _.debounce((submission) => saveSubmission(assessment.id, { submission }), 1000);
+
   useRequestToast(submitAssessmentState);
 
   useEffect(() => {
-    if (assessment.questions) {
-      let shuffled = _.shuffle(assessment.questions);
-      let startQuestion = 0;
+    if (assessment.sections) {
+      const sections = assessment.sections.sort((a, b) => a.order - b.order);
 
-      if (submission) {
-        const submittedQuestions = Object.keys(_.pickBy(JSON.parse(submission.submission), _.identity));
-        shuffled = shuffled.sort((a, b) => (submittedQuestions.includes(a.id) ? -1 : 1));
-        startQuestion = Math.min(shuffled.length - 1, submittedQuestions.length);
-      }
-
-      setQuestions(shuffled);
-      setStartQuestion(startQuestion);
+      setSections(sections);
     }
   }, [assessment]);
 
@@ -75,7 +68,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>
-            {translate('points')}: {assessment.questions.reduce((acc, cur) => acc + cur.points, 0)}
+            {translate('points')}: {assessment.sections.reduce((acc, cur) => acc + cur.points, 0)}
           </DisplayLabel>
           <AssessmentTimer totalTimeSeconds={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
         </HeaderGrid>
@@ -87,9 +80,8 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
         }}
         onSubmit={() => {}}
       >
-        <SingleQuestionAssessment
-          questions={questions}
-          startQuestion={startQuestion}
+        <SingleSectionAssessment
+          sections={sections}
           savingState={saveSubmissionState}
           type={assessment.assessmentType}
           onFinishAssessment={(submission) => {
@@ -97,11 +89,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
               submission,
             });
           }}
-          onReadyToSave={(submission) => {
-            saveSubmission(assessment.id, {
-              submission,
-            });
-          }}
+          onReadyToSave={onReadyToSave}
         />
       </Form>
     </div>

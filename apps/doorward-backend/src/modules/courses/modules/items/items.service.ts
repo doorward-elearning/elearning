@@ -9,7 +9,7 @@ import QuestionRepository from '@doorward/backend/repositories/question.reposito
 import AnswerRepository from '@doorward/backend/repositories/answer.repository';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import compareLists from '@doorward/common/utils/compareLists';
-import { In } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import AnswerEntity from '@doorward/common/entities/answer.entity';
 import {
   CreateAnswerBody,
@@ -18,6 +18,7 @@ import {
   CreateModuleItemBody,
   CreatePageBody,
   CreateQuestionBody,
+  CreateQuestionSectionBody,
   CreateVideoBody,
   UpdateModuleItemOrderBody,
 } from '@doorward/common/dtos/body';
@@ -29,6 +30,9 @@ import ExamRepository from '@doorward/backend/repositories/exam.repository';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
 import ModuleVideoRepository from '@doorward/backend/repositories/module-video.repository';
+import QuestionSectionRepository from '@doorward/backend/repositories/question.section.repository';
+import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
+import ModelRepository from '@doorward/backend/repositories/model.repository';
 
 @Injectable()
 export class ItemsService {
@@ -41,7 +45,8 @@ export class ItemsService {
     private assignmentRepository: AssignmentRepository,
     private quizRepository: QuizRepository,
     private examRepository: ExamRepository,
-    private videoRepository: ModuleVideoRepository
+    private videoRepository: ModuleVideoRepository,
+    private questionSectionRepository: QuestionSectionRepository
   ) {}
 
   /**
@@ -191,10 +196,10 @@ export class ItemsService {
     body: CreateModuleItemBody,
     defaultProperties: Partial<CreateModuleItemBody>
   ) {
-    const { options, instructions, assessmentType } = body as CreateAssessmentBody;
+    const { options, sections, assessmentType } = body as CreateAssessmentBody;
     const properties = {
       options,
-      instructions,
+      instructions: sections.length ? sections[0].instructions : null,
       ...defaultProperties,
     };
     let assessment;
@@ -203,42 +208,93 @@ export class ItemsService {
     } else if (assessmentType === AssessmentTypes.EXAM) {
       assessment = await this.examRepository.createAndSave(properties);
     }
-    assessment.questions = await this._createOrUpdateAssessmentQuestions(
+    assessment.sections = await this._createOrUpdateAssessmentSections(
       assessment,
-      (body as CreateAssessmentBody).questions
+      (body as CreateAssessmentBody).sections
     );
     return assessment;
   }
 
   /**
    *
-   * @param assessment
-   * @param questions
+   * @param allItems
+   * @param items
+   * @param repository
    * @private
    */
-  private async _createOrUpdateAssessmentQuestions(
-    assessment: AssessmentEntity,
-    questions: Array<CreateQuestionBody>
-  ): Promise<QuestionEntity[]> {
-    const allQuestions = await this.questionRepository.find({ where: { assessment } });
-
+  private static async _updateExistingItems<T extends CreateQuestionSectionBody | CreateQuestionBody>(
+    allItems: Array<T>,
+    items: Array<T>,
+    repository: QuestionSectionRepository | QuestionRepository
+  ) {
     const { newItems, unchanged, removed } = compareLists(
-      allQuestions,
-      questions,
+      allItems,
+      items,
       (a, b) => a.id === b.id,
-      (existingQuestion, newQuestion) => {
+      (existingItem, newItem) => {
         return {
-          ...existingQuestion,
-          ...newQuestion,
+          ...existingItem,
+          ...newItem,
         };
       }
     );
 
     if (removed.length) {
-      await this.questionRepository.delete({
+      await repository.delete({
         id: In(removed.map((r) => r.id)),
       });
     }
+
+    return { newItems, unchanged };
+  }
+
+  private async _createOrUpdateAssessmentSections(
+    assessment: AssessmentEntity,
+    sections: Array<CreateQuestionSectionBody>
+  ) {
+    const allSections = await this.questionSectionRepository.find({ where: { assessment } });
+
+    const { newItems, unchanged } = await ItemsService._updateExistingItems(
+      allSections,
+      sections,
+      this.questionSectionRepository
+    );
+
+    return Promise.all(
+      [...newItems, ...unchanged].map(async ({ id, config, instructions, questions, order }) => {
+        const section = await this.questionSectionRepository.save(
+          this.questionSectionRepository.create({
+            id,
+            config,
+            instructions,
+            points: questions.reduce((sum, question) => sum + question.points, 0),
+            order,
+            assessment,
+          })
+        );
+
+        section.questions = await this._createOrUpdateAssessmentQuestions(section, questions);
+      })
+    );
+  }
+
+  /**
+   *
+   * @param section
+   * @param questions
+   * @private
+   */
+  private async _createOrUpdateAssessmentQuestions(
+    section: QuestionSectionEntity,
+    questions: Array<CreateQuestionBody>
+  ): Promise<QuestionEntity[]> {
+    const allQuestions = await this.questionRepository.find({ where: { section } });
+
+    const { newItems, unchanged } = await ItemsService._updateExistingItems(
+      allQuestions,
+      questions,
+      this.questionRepository
+    );
 
     return Promise.all(
       [...newItems, ...unchanged].map(async ({ id, question: questionBody, points, answers, type }) => {
@@ -248,7 +304,7 @@ export class ItemsService {
             points,
             id,
             type,
-            assessment,
+            section,
           }),
           {
             transaction: false,

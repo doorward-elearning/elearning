@@ -104,6 +104,7 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
 
 export interface AssessmentOptionsProps {
   type: AssessmentTypes;
+  hasSections?: boolean;
 }
 
 export default AssessmentOptions;

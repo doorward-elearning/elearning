@@ -12,6 +12,7 @@ import AssignmentRepository from '@doorward/backend/repositories/assignment.repo
 import AssessmentRepository from '@doorward/backend/repositories/assessment.repository';
 import ExamRepository from '@doorward/backend/repositories/exam.repository';
 import ModuleVideoRepository from '@doorward/backend/repositories/module-video.repository';
+import QuestionSectionRepository from '@doorward/backend/repositories/question.section.repository';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import ModuleVideoRepository from '@doorward/backend/repositories/module-video.r
       AssessmentRepository,
       ExamRepository,
       ModuleVideoRepository,
+      QuestionSectionRepository,
     ]),
   ],
   providers: [ItemsService],

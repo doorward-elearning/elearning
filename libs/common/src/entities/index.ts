@@ -31,6 +31,7 @@ import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
 import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
+import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 
 const entities = [
   AnswerEntity,
@@ -66,6 +67,7 @@ const entities = [
   ConversationEntity,
   ChatMessageEntity,
   ChatMessageActivityEntity,
+  QuestionSectionEntity,
 ];
 
 export default entities;

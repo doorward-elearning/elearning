@@ -10,6 +10,8 @@ import AssessmentOptions from './AssessmentOptions';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import translate from '@doorward/common/lang/translate';
 import { ScoreToKeep } from '@doorward/common/types/assessments';
+import TabLayout from '@doorward/ui/components/TabLayout';
+import Tab from '@doorward/ui/components/TabLayout/Tab';
 
 const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
   title: title || translate('unnamedItem', { item: type }),
@@ -54,7 +56,7 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
       to: null,
     },
   },
-  questions: [],
+  sections: [],
 });
 
 const CreateAssessmentForm: FunctionComponent<CreateAssessmentFormProps> = (props): JSX.Element => {
@@ -75,8 +77,14 @@ const CreateAssessmentForm: FunctionComponent<CreateAssessmentFormProps> = (prop
       >
         {() => (
           <div className="assessment-details-form">
-            <AssessmentDetails type={props.type} editing={!!props.assessment} />
-            <AssessmentOptions type={props.type} />
+            <TabLayout>
+              <Tab title={translate('questions')}>
+                <AssessmentDetails hasSections={props.hasSections} type={props.type} editing={!!props.assessment} />
+              </Tab>
+              <Tab title={translate('options')}>
+                <AssessmentOptions hasSections={props.hasSections} type={props.type} />
+              </Tab>
+            </TabLayout>
           </div>
         )}
       </AddModuleItemForm>
@@ -90,6 +98,7 @@ export interface CreateAssessmentFormProps {
   module: ModuleEntity;
   type: AssessmentTypes;
   assessment?: AssessmentEntity;
+  hasSections?: boolean;
 }
 
 export type CreateAssessmentFormState = CreateAssessmentBody;

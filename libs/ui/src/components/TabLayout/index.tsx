@@ -147,7 +147,7 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
             }}
             selected={selected}
           />
-          <span ref={slider} className="ed-tabLayout__slider" />
+          {props.contentRight}
         </div>
       )}
       <div className="ed-tabLayout__content">
@@ -167,6 +167,7 @@ export interface TabLayoutProps {
   controlled?: boolean;
   disabled?: (tabIndex: number) => void;
   hiddenTabs?: boolean;
+  contentRight?: JSX.Element;
 }
 
 export interface TabHeaderProps {
