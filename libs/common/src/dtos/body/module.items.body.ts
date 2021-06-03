@@ -169,6 +169,7 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
     Yup.object({
       questions: Yup.array().of(CreateAssessmentBody.QuestionValidationSchema()),
       order: Yup.number().notRequired(),
+      instructions: Yup.string().required(translate('instructionsRequired')).nullable(),
       config: Yup.object({
         questions: Yup.object({
           allCompulsory: Yup.boolean().notRequired(),
@@ -220,7 +221,6 @@ export class CreateAssessmentBody extends CreateModuleItemBody {
 
     schema = schema.concat(
       Yup.object({
-        instructions: Yup.string().required(translate('instructionsRequired')).nullable(),
         options: Yup.object({
           shuffleAnswers: Yup.boolean(),
           timeLimit: Yup.object({
