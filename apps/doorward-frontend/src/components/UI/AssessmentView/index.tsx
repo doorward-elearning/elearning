@@ -138,10 +138,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
     }
   }, [getSubmissionState]);
 
-  if (startDate) {
-    console.log(moment().diff(startDate, 'hour'), 'Moses');
-  }
-
   return (
     <AssessmentContext.Provider value={{ assessment: assessment }}>
       <Form form={form} onSubmit={() => {}} editable={false} initialValues={initialValues}>
@@ -199,6 +195,23 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           <Header padded size={2} className="mb-8">
             {translate('exam', { count: 1 })}
           </Header>
+          <Spacer />
+          {startAssessment && (
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
+              {translate('startAssessment', { assessment: assessment.assessmentType })}
+            </Button>
+          )}
           <InformationCard>
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (
@@ -246,22 +259,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             </InformationCard.Body>
           </InformationCard>
           <Spacer />
-          {startAssessment && (
-            <Button
-              onClick={() =>
-                navigation.navigate(
-                  assessment.assessmentType === AssessmentTypes.EXAM
-                    ? ROUTES.assessments.exam
-                    : ROUTES.assessments.quiz,
-                  {
-                    assessmentId: assessment.id,
-                  }
-                )
-              }
-            >
-              {translate('startAssessment', { assessment: assessment.assessmentType })}
-            </Button>
-          )}
           {continueAssessment && (
             <Button
               onClick={() =>
