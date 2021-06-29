@@ -84,7 +84,7 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
         }}
       >
         <Editor
-          readOnly={!editing}
+          readOnly
           uploadCallback={DoorwardApi.api.files.uploadFile}
           placeholder={props.placeholder || translate('inputPlaceholder')}
           wrapperClassName={editing && 'eb-input--draft-text-area__wrapper'}
