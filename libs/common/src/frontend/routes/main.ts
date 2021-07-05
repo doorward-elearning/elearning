@@ -105,7 +105,7 @@ const ROUTES = {
   organizations: {
     list: '/organizations',
     create: '/organizations/create',
-    update: 'organizations/:organizationId/update',
+    update: '/organizations/:organizationId/update',
   },
   chat: {
     home: '/chat',
