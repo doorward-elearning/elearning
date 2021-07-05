@@ -1,6 +1,6 @@
 ARG APP_VERSION=1.0.0
 
-FROM core.harbor.doorward.tech/doorward/doorward:$APP_VERSION
+FROM 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/doorward:$APP_VERSION
 
 RUN npm install -g serve
 
