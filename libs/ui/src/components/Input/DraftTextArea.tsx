@@ -27,10 +27,18 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
             tagName={name}
             init={{
               width: '100%',
-              // eslint-disable-next-line @typescript-eslint/camelcase
               root_name: name,
-              // eslint-disable-next-line @typescript-eslint/camelcase
               min_height: 300,
+              toolbar_mode: 'floating',
+              plugins:
+                'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media fullscreen' +
+                ' mediaembed pageembed permanentpen powerpaste table advtable tinymcespellchecker tiny_mce_wiris',
+              toolbar:
+                'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify |' +
+                ' outdent indent | tiny_mce_wiris_formulaEditor tiny_mce_wiris_formulaEditorChemistry | fullscreen',
+              external_plugins: {
+                tiny_mce_wiris: '/assets/js/wiris.plugin.min.js',
+              },
             }}
             {...props}
             onBlur={(e) => {
