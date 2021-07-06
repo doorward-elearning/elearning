@@ -6,7 +6,7 @@ import DoorwardApi from '../../services/apis/doorward.api';
 import { useHistory, useRouteMatch } from 'react-router';
 import Tools from '@doorward/common/utils/Tools';
 import Panel from '@doorward/ui/components/Panel';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
@@ -40,7 +40,7 @@ const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): 
             <div className="discussion-group-page__content">
               <div className="discussion-content">
                 <Panel>
-                  <DraftHTMLContent content={discussionGroup.description} />
+                  <HTMLContentView content={discussionGroup.description} />
                   <DiscussionCommentForm />
                 </Panel>
               </div>

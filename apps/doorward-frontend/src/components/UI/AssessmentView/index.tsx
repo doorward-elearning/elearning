@@ -3,7 +3,7 @@ import QuestionView, { QuestionViewTypes } from './QuestionView';
 import useForm from '@doorward/ui/hooks/useForm';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import Header from '@doorward/ui/components/Header';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import AssessmentOptions from '../../Forms/AssessmentForm/AssessmentOptions';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
@@ -146,7 +146,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             <Header padded size={2}>
               {translate('instructions')}
             </Header>
-            <DraftHTMLContent content={assessment.instructions} />
+            <HTMLContentView content={assessment.instructions} />
           </React.Fragment>
         )}
         {showQuestions && (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import Panel from '@doorward/ui/components/Panel';
 import Header from '@doorward/ui/components/Header';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
@@ -35,7 +35,7 @@ const AssignmentView: React.FunctionComponent<AssignmentViewProps> = (props) => 
       <Header size={2} style={{ paddingBottom: 'var(--padding-lg)' }}>
         {translate('description')}
       </Header>
-      <DraftHTMLContent content={props.assignment.assignment} />
+      <HTMLContentView content={props.assignment.assignment} />
       <RoleContainer privileges={['assignments.submit']}>
         <div style={{ marginTop: 'var(--padding-lg)' }}>
           <Header size={3}>{translate('submission')}</Header>

@@ -8,7 +8,7 @@ import ListItem from '@doorward/ui/components/List/ListItem';
 import { QuestionViewTypes } from './QuestionView';
 import MultipleSwitchField from '@doorward/ui/components/Input/MultipleSwitchField';
 import translate from '@doorward/common/lang/translate';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import classNames from 'classnames';
 import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
@@ -61,7 +61,7 @@ const DisplayAnswersView: React.FunctionComponent<DisplayAnswersViewProps> = ({
                   {translate('chosenAnswer')}
                 </div>
               )}
-              <DraftHTMLContent content={answer.answer} />
+              <HTMLContentView content={answer.answer} />
               {showPoints && (
                 <div
                   className={classNames('answer-points-display', {
@@ -116,7 +116,7 @@ const AnswersView: React.FunctionComponent<AnswersViewProps> = ({
         <MultipleSwitchField
           editable={!disabled}
           choices={answers.map((answer) => answer.answer)}
-          itemRenderer={(value) => <DraftHTMLContent content={value} />}
+          itemRenderer={(value) => <HTMLContentView content={value} />}
           values={answers.map((answer) => answer.id)}
           name={`submission[${question.id}]`}
           singleChoice={numCorrectAnswers === 1}

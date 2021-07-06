@@ -2,7 +2,7 @@ import React from 'react';
 import './ViewPages.scss';
 import EditableView from '../../../components/EditableView';
 import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import useForm from '@doorward/ui/hooks/useForm';
 import Panel from '@doorward/ui/components/Panel';
 import ModuleEntity from '@doorward/common/entities/module.entity';
@@ -29,7 +29,7 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         viewerView={
           <div>
             <Panel>
-              <DraftHTMLContent content={item.page} />
+              <HTMLContentView content={item.page} />
             </Panel>
           </div>
         }

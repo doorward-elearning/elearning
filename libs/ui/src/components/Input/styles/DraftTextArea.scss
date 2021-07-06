@@ -13,32 +13,19 @@
   }
 
   &.error {
-    .eb-input--draft-text-area__toolbar {
-      border-top: 1px solid var(--text-error);
-      border-right: 1px solid var(--text-error);
-      border-left: 1px solid var(--text-error);
-    }
-
-    .eb-input--draft-text-area__editor {
+    .tox-tinymce {
       border: 1px solid var(--text-error);
-      border-top: none;
-    }
-    .eb-input--draft-text-area__display {
-      border: 1px solid var(--text-error);
-      border-radius: 5px;
     }
   }
+
   &__wrapper:not(.fluid) {
     max-width: 1000px;
   }
 
-  &__editor {
+  .ed-htmlContent {
     border: 1px solid var(--line-color);
-    border-top: none;
-    margin-top: -5px;
-    min-height: 300px;
-    background: white;
-    color: #333;
+    border-radius: 5px;
+    background: var(--bg-primary);
   }
   .rdw-editor-toolbar {
     z-index: 1;

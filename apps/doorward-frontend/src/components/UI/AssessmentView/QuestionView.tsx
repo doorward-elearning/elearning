@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import _ from 'lodash';
 import { AssessmentContext } from './index';
 import Panel from '@doorward/ui/components/Panel';
@@ -92,7 +92,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
         </HeaderGrid>
         <div>
           <Panel>
-            <DraftHTMLContent content={question.question} />
+            <HTMLContentView content={question.question} />
           </Panel>
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ||

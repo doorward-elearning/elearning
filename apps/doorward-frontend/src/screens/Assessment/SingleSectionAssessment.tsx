@@ -15,7 +15,7 @@ import { WebComponentState } from 'use-api-action/types/types';
 import { AssessmentSubmissionResponse } from '@doorward/common/dtos/response';
 import Icon from '@doorward/ui/components/Icon';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
-import DraftHTMLContent from '@doorward/ui/components/DraftHTMLContent';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Header from '@doorward/ui/components/Header';
 
@@ -81,7 +81,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
                     <i>{translate('sectionPleaseChooseQuestions', { count: section.config.questions.numRequired })}</i>
                   )}
                 </DisplayLabel>
-                <DraftHTMLContent content={section.instructions} />
+                <HTMLContentView content={section.instructions} />
               </div>
               <div>
                 <DisplayLabel>{translate('pointsWithCount', { count: section.points })}</DisplayLabel>

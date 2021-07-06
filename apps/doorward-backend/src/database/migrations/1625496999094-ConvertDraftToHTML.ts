@@ -8,32 +8,37 @@ const JSDOM = require('jsdom').JSDOM;
 
 const transformFunctions = {
   fromHTML: (html) => {
-    try {
-      const dom = new JSDOM(html);
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
-      global.document = dom.window.document;
+    if (html) {
+      try {
+        const dom = new JSDOM(html);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+        // @ts-ignore
+        global.document = dom.window.document;
 
-      const contentState = stateFromHTML(html);
+        const contentState = stateFromHTML(html);
 
-      const rawContent = convertToRaw(contentState);
+        const rawContent = convertToRaw(contentState);
 
-      return JSON.stringify(rawContent);
-    } catch (error) {
-      console.log(error);
-      return html;
+        return JSON.stringify(rawContent);
+      } catch (error) {
+        console.error(error);
+      }
     }
+    return html;
   },
   toHTML: (draftContent: string) => {
-    try {
-      const contentState = convertFromRaw(JSON.parse(draftContent));
+    if (draftContent) {
+      try {
+        const contentState = convertFromRaw(JSON.parse(draftContent));
 
-      const rawContentState = convertToRaw(contentState);
+        const rawContentState = convertToRaw(contentState);
 
-      return draftToHTML(rawContentState);
-    } catch (error) {
-      return draftContent;
+        return draftToHTML(rawContentState);
+      } catch (error) {
+        console.error(error);
+      }
     }
+    return draftContent;
   },
 };
 
@@ -59,6 +64,7 @@ const updateColumn = async (
 export class ConvertDraftToHTML1625496999094 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await updateColumn(queryRunner, 'Questions', 'question', transformFunctions.toHTML);
+    await updateColumn(queryRunner, 'Answers', 'answer', transformFunctions.toHTML);
     await updateColumn(queryRunner, 'AssessmentSubmission', 'submission', (submission) => {
       try {
         const submissionJSON = JSON.parse(submission);
@@ -81,6 +87,7 @@ export class ConvertDraftToHTML1625496999094 implements MigrationInterface {
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await updateColumn(queryRunner, 'Questions', 'question', transformFunctions.fromHTML);
+    await updateColumn(queryRunner, 'Answers', 'answer', transformFunctions.fromHTML);
     await updateColumn(queryRunner, 'AssessmentSubmission', 'submission', (submission) => {
       try {
         const submissionJSON = JSON.parse(submission);
