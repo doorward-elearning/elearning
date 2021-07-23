@@ -12,17 +12,7 @@ const NavLogo: React.FunctionComponent<NavLogoProps> = (props) => {
   return (
     <div className="nav-logo">
       <FeatureProvider features={props.features}>
-        <Feature feature={NavbarFeatures.HAMBURGER}>
-          <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />
-        </Feature>
-        <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
-          <Icon
-            icon="arrow_back"
-            onClick={(): void => {
-              history.goBack();
-            }}
-          />
-        </Feature>
+      
         <Feature feature={NavbarFeatures.PAGE_LOGO}>
           <div className="page-logo">
             <Link to={props.homeLink || ''}>

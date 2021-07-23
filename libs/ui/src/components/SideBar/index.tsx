@@ -2,12 +2,12 @@ import React, { MouseEventHandler, MutableRefObject } from 'react';
 import './SideBar.scss';
 import SideBarMenu from './SideBarMenu';
 import classNames from 'classnames';
-import NavLogo from '../NavBar/NavLogo';
+//import NavLogo from '../NavBar/NavLogo';
 import IfElse from '../IfElse';
 import useSidebarSchema, { MenuItem, SideBarSchema } from '../../hooks/useSidebarSchema';
 import { UseAuth } from '../../hooks/useAuth';
-import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
-import UserPanel from '@doorward/ui/components/SideBar/UserPanel';
+//import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
+//import UserPanel from '@doorward/ui/components/SideBar/UserPanel';
 
 function SideBar(props: SideBarProps) {
   const { collapsed } = props;
@@ -20,19 +20,8 @@ function SideBar(props: SideBarProps) {
   });
   return (
     <IfElse condition={authenticated}>
-      <div className={className} ref={props.sideBarRef}>
-        {!props.navBarShown && (
-          <div className="sidebar-logo">
-            <NavLogo
-              features={[NavbarFeatures.HAMBURGER, NavbarFeatures.PAGE_LOGO]}
-              onHamburgerClick={props.onHamburgerClick}
-              title={props.title}
-              icon={props.icon}
-            />
-          </div>
-        )}
-        <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />
+      <div className={className} ref={props.sideBarRef}>        
+        <ul className="sidemenu">          
           <SideBarMenu
             menu={schema.sidebar}
             selected={schema.selected}
