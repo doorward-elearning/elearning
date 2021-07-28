@@ -1,5 +1,11 @@
 import { AnswerTypes } from '@doorward/common/types/exam';
 
+export interface QuestionOptions {
+  timeLimit: {
+    allow: boolean;
+    seconds: number;
+  };
+}
 export interface QuestionSectionOptions {
   questions: {
     allCompulsory: boolean;

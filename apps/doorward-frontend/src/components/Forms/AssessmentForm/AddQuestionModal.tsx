@@ -21,7 +21,10 @@ import DropdownSelect from '@doorward/ui/components/Input/DropdownSelect';
 import translate from '@doorward/common/lang/translate';
 import Tooltip from '@doorward/ui/components/Tooltip';
 import Checkbox from '@doorward/ui/components/Input/Checkbox';
-
+import IfElse from '@doorward/ui/components/IfElse';
+import QuestionTimer from 'apps/doorward-frontend/src/screens/Assessment/QuestionTimer';
+import { Check } from 'typeorm';
+import { config } from 'process';
 export const defaultAnswer: CreateAnswerBody = {
   answer: '',
   description: null,
@@ -33,6 +36,7 @@ export const defaultQuestion: CreateQuestionBody = {
   question: null,
   points: 1,
   type: AnswerTypes.MULTIPLE_CHOICE,
+  config: null,
   answers: _.times(4, _.constant(defaultAnswer)),
 };
 
@@ -113,7 +117,7 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
     >
       {({ values: question, isValid, submitForm }) => {
         return (
-          <Modal
+          <Modal 
             useModal={useModal}
             features={[ModalFeatures.POSITIVE_BUTTON, ModalFeatures.NEGATIVE_BUTTON]}
             className="add-question-modal"
@@ -153,6 +157,15 @@ const AddQuestionModal: React.FunctionComponent<AssessmentQuestionsProps> = ({
                       label={translate('type')}
                     />
                   )}
+                  
+                  <Checkbox name="options.timeLimit.allow" label={translate('timeLimit')} />
+                   
+                      <NumberField
+                        name="options.timeLimit.minutes"
+                        label={translate('minutes')}
+                        labelPosition="left"
+                        sec={1} />
+                   
                   <DraftTextArea fluid name={`question`} label={translate('description')} />
                 </div>
                 {[AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE, AnswerTypes.MULTIPLE_CHOICE].includes(question.type) && (
@@ -199,6 +212,7 @@ export interface AssessmentQuestionsProps {
   onAddQuestion: (question: CreateQuestionBody) => void;
   question?: CreateQuestionBody;
   type: AssessmentTypes;
+  
 }
 
 export interface AnswerInputProps {

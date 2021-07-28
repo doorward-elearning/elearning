@@ -9,7 +9,7 @@ import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import { AssignmentOptions } from '@doorward/common/types/assignments';
-import { AssessmentOptions, QuestionSectionOptions } from '@doorward/common/types/assessments';
+import { AssessmentOptions, QuestionOptions, QuestionSectionOptions } from '@doorward/common/types/assessments';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import translate from '@doorward/common/lang/translate';
 
@@ -42,6 +42,9 @@ export class CreateQuestionBody {
 
   @Expose()
   type: AnswerTypes;
+
+  @Expose()
+  config: QuestionOptions;
 
   @Expose()
   answers: Array<CreateAnswerBody>;

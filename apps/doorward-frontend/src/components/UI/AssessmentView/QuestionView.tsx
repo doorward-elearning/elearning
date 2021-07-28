@@ -18,6 +18,9 @@ import translate from '@doorward/common/lang/translate';
 import './styles/QuestionView.scss';
 import classNames from 'classnames';
 import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
+import QuestionTimer from 'apps/doorward-frontend/src/screens/Assessment/QuestionTimer';
+import moment from 'moment';
+import AssessmentDetails from '../../Forms/AssessmentForm/AssessmentDetails';
 
 export enum QuestionViewTypes {
   /**
@@ -47,10 +50,11 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   disabled,
   assessmentOptions,
   questionNumber,
+  ...props
 }) => {
   const [answers, setAnswers] = useState(question.answers);
   const { assessment } = useContext(AssessmentContext);
-
+  
   useEffect(() => {
     if (view === QuestionViewTypes.EDIT_MODE) {
       setAnswers(question.answers);
@@ -75,7 +79,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
               <div
                 className={classNames('points-count', {
                   success: (question as AssessmentQuestionResult).isCorrect,
-                  error: (question as AssessmentQuestionResult).isCorrect === false, // to prevent checking if
+                  error: (question as  AssessmentQuestionResult).isCorrect === false, // to prevent checking if
                   // undefined or null
                 })}
               >
@@ -89,6 +93,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
               <Icon onClick={() => onEditQuestion(question)} icon="edit" title={translate('edit')} />
             </Row>
           )}
+         
         </HeaderGrid>
         <div>
           <Panel>
@@ -99,6 +104,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
           question.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE ? (
             <AnswersView disabled={disabled} answers={answers} question={question} view={view} assessmentOptions={assessmentOptions} />
           ) : view === QuestionViewTypes.EXAM_MODE ? (
+          
             <DraftTextArea editable={!disabled} fluid name={`submission[${question.id}]`} />
           ) : (
             <div className="no-choices-display">
