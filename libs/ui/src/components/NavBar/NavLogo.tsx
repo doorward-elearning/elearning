@@ -7,22 +7,19 @@ import './NavLogo.scss';
 import EImage from '../Image';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 
+const isMobile = window.innerWidth < 500;
 const NavLogo: React.FunctionComponent<NavLogoProps> = (props) => {
   const history = useHistory();
   return (
     <div className="nav-logo">
-      <FeatureProvider features={props.features}>
+       <FeatureProvider features={props.features}>
         <Feature feature={NavbarFeatures.HAMBURGER}>
-          <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />
+        {isMobile && <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />}
         </Feature>
         <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
-          <Icon
-            icon="arrow_back"
-            onClick={(): void => {
-              history.goBack();
-            }}
-          />
+         {isMobile && <Icon icon="arrow_back" onClick={(): void => {history.goBack();}}/>}
         </Feature>
+        
         <Feature feature={NavbarFeatures.PAGE_LOGO}>
           <div className="page-logo">
             <Link to={props.homeLink || ''}>

@@ -1,3 +1,4 @@
+@import '../../responsive';
 .nav-logo {
   .hamburger {
   }
@@ -23,4 +24,12 @@
   align-items: center;
   grid-gap: var(--padding-xlg);
   justify-content: start;
+
+  @include desktop{  
+    .nav-logo{  
+     .hamburger{        
+      display: none;
+     }    
+    }
+  }
 }

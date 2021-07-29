@@ -39,4 +39,14 @@
       }
     }
   }
+
+  @include desktop{
+    .ed-navBar__start {
+      .hamburger{
+        
+        display: none;
+      }
+    }
+  }
+  
 }

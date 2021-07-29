@@ -13,6 +13,7 @@ function SideBar(props: SideBarProps) {
   const { collapsed } = props;
   const schema = useSidebarSchema(props);
   const { authenticated } = props.auth;
+  const isMobile = window.innerWidth < 500;
 
   const className = classNames({
     'eb-sideBar': true,
@@ -20,19 +21,19 @@ function SideBar(props: SideBarProps) {
   });
   return (
     <IfElse condition={authenticated}>
-      <div className={className} ref={props.sideBarRef}>
-        {!props.navBarShown && (
-          <div className="sidebar-logo">
-            <NavLogo
-              features={[NavbarFeatures.HAMBURGER, NavbarFeatures.PAGE_LOGO]}
-              onHamburgerClick={props.onHamburgerClick}
-              title={props.title}
-              icon={props.icon}
-            />
-          </div>
+      <div className={className} ref={props.sideBarRef}> 
+      { isMobile && !props.navBarShown && (
+        <div className="sidebar-logo">
+          <NavLogo features={[NavbarFeatures.HAMBURGER, NavbarFeatures.PAGE_LOGO]}
+               onHamburgerClick={props.onHamburgerClick}
+               title={props.title}
+               icon={props.icon}
+          />
+        </div>
         )}
-        <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />
+  
+        <ul className="sidemenu">      
+          { isMobile && <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />}     
           <SideBarMenu
             menu={schema.sidebar}
             selected={schema.selected}

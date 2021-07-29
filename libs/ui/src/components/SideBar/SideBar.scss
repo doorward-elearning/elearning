@@ -1,4 +1,5 @@
 @import '../../../index';
+@import '../../responsive';
 
 @mixin hoverEffect {
   @include darkenHover();
@@ -33,6 +34,11 @@
     padding: 0 var(--padding-xlg);
     height: var(--navBar-size);
     border-bottom: 1px solid var(--primary);
+  }
+  @include desktop{
+    .sidebar-logo{
+      display: none;
+    }
   }
 
   &.collapsed {
@@ -237,4 +243,5 @@
       }
     }
   }
+
 }
