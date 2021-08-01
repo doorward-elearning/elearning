@@ -3,7 +3,7 @@
 .eb-button {
   display: flex;
   align-items: center;
-  grid-gap: var(--padding);
+  gap: var(--padding);
   padding: var(--padding) var(--padding-xlg);
   border: none;
   outline: none;
@@ -172,10 +172,12 @@
   display: grid;
   grid-template-rows: 1fr;
   grid-template-columns: 1fr;
-  place-items: center;
+  place-items: center start;
   > * {
-    grid-row: 1 / 1;
-    grid-column: 1 / 1;
+    grid-row-start: 1;
+    grid-row-end: 1;
+    grid-column-start: 1;
+    grid-column-end: 1;
   }
 
   .ed-spinner {

@@ -131,8 +131,8 @@ const QuestionSectionBuilder: React.FunctionComponent<QuestionSectionBuilderProp
 }): JSX.Element => {
   const questionModal = useModal();
   const editQuestionModal = useModal();
-  const [editQuestion, setEditQuestion] = useState();
-  const [editQuestionIndex, setEditQuestionIndex] = useState();
+  const [editQuestion, setEditQuestion] = useState<CreateQuestionBody>();
+  const [editQuestionIndex, setEditQuestionIndex] = useState(sectionIndex);
   const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
 
   editQuestionModal.onClose(() => {

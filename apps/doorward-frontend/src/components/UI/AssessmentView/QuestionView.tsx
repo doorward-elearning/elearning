@@ -115,7 +115,7 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
 };
 
 export interface QuestionViewProps {
-  question: QuestionEntity | CreateQuestionBody;
+  question: QuestionEntity | CreateQuestionBody | AssessmentQuestionResult;
   view?: QuestionViewTypes;
   onEditQuestion?: (question: CreateQuestionBody) => void;
   onDeleteQuestion?: (question: CreateQuestionBody) => void;
