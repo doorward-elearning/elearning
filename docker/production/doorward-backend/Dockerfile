@@ -12,7 +12,7 @@ RUN yarn install
 
 RUN yarn build doorward-backend --prod
 
-RUN cp .env dist/apps/doorward-backend/.env
+RUN cp .envexample dist/apps/doorward-backend/.env
 
 RUN node/buildOrganizationConfig.js
 

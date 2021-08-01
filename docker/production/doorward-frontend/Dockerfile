@@ -5,6 +5,7 @@ FROM 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/doorward:$
 RUN npm install -g serve
 
 COPY . /usr/app
+COPY .envexample /usr/app/.env
 
 RUN yarn install
 
