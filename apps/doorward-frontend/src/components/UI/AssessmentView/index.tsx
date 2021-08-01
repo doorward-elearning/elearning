@@ -212,6 +212,22 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               {translate('startAssessment', { assessment: assessment.assessmentType })}
             </Button>
           )}
+          {continueAssessment && (
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
+              {translate('continueAssessment', { assessment: assessment.assessmentType })}
+            </Button>
+          )}
           <InformationCard>
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (
@@ -259,22 +275,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             </InformationCard.Body>
           </InformationCard>
           <Spacer />
-          {continueAssessment && (
-            <Button
-              onClick={() =>
-                navigation.navigate(
-                  assessment.assessmentType === AssessmentTypes.EXAM
-                    ? ROUTES.assessments.exam
-                    : ROUTES.assessments.quiz,
-                  {
-                    assessmentId: assessment.id,
-                  }
-                )
-              }
-            >
-              {translate('continueAssessment', { assessment: assessment.assessmentType })}
-            </Button>
-          )}
         </RoleContainer>
         <RoleContainer privileges={['moduleItems.create']}>
           <AssessmentOptions type={assessment.assessmentType} />
