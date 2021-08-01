@@ -69,7 +69,17 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>
-            {translate('points')}: {assessment.sections.reduce((acc, cur) => acc + cur.points, 0)}
+            {translate('points')}:
+            {assessment.sections.reduceRight((acc, section) => {
+              if (section.config.questions.allCompulsory) {
+                return acc + section.points;
+              } else {
+                const required = section.config.questions.numRequired;
+                const totalQuestions = section.questions.length;
+                const pointsForEach = Math.round(section.points / totalQuestions);
+                return acc + pointsForEach * required;
+              }
+            }, 0)}
           </DisplayLabel>
           <AssessmentTimer
             totalTimeSeconds={calculateElapsedTime(props.submission, assessment)}
