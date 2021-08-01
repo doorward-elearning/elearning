@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
@@ -16,6 +16,19 @@ import { useApiAction } from 'use-api-action';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+
+export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
+  if (submission) {
+    const currentTime = moment();
+    const startTime = moment(submission.createdAt);
+    const totalTime = assessment.options.timeLimit.minutes * 60;
+
+    return totalTime - currentTime.diff(startTime, 'seconds');
+  } else {
+    return assessment.options.timeLimit.minutes * 60;
+  }
+};
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
   const [sections, setSections] = useState([]);
@@ -23,18 +36,6 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
   const [submission, setSubmission] = useState(props.submission);
   const [timeEnded, setTimeEnded] = useState(false);
   const navigation = useNavigation();
-
-  const calculateElapsedTime = () => {
-    if (props.submission) {
-      const currentTime = moment();
-      const startTime = moment(props.submission.createdAt);
-      const totalTime = assessment.options.timeLimit.minutes * 60;
-
-      return totalTime - currentTime.diff(startTime, 'seconds');
-    } else {
-      return assessment.options.timeLimit.minutes * 60;
-    }
-  };
 
   const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
     onSuccess: (data) => {
@@ -70,7 +71,10 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
           <DisplayLabel>
             {translate('points')}: {assessment.sections.reduce((acc, cur) => acc + cur.points, 0)}
           </DisplayLabel>
-          <AssessmentTimer totalTimeSeconds={calculateElapsedTime()} onTimeEnded={() => setTimeEnded(true)} />
+          <AssessmentTimer
+            totalTimeSeconds={calculateElapsedTime(props.submission, assessment)}
+            onTimeEnded={() => setTimeEnded(true)}
+          />
         </HeaderGrid>
       )}
       <Form
@@ -110,7 +114,11 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
     const endDate = availability?.to && moment(availability.to);
 
     if (startDate.isSameOrBefore(moment())) {
-      setIsAvailable(!endDate || endDate.isSameOrAfter(moment()));
+      setIsAvailable(
+        !endDate ||
+          endDate.isSameOrAfter(moment()) ||
+          (props.submission && props.submission?.status === AssessmentSubmissionStatus.DRAFT)
+      );
     } else {
       setIsAvailable(true);
     }
