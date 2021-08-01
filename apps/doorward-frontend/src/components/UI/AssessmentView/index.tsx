@@ -201,32 +201,32 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               {translate('exam', { count: 1 })}
             </Header>
             {getSubmissionState.fetched &&
-              getSubmissionState.data?.submission?.status === AssessmentSubmissionStatus.DRAFT && (
-                <AssessmentTimer
-                  totalTimeSeconds={calculateElapsedTime(submission, assessment)}
-                  onTimeEnded={() => {
-                    setState({ timeEnded: true });
-                  }}
-                />
-              )}
-            {startAssessment && (
-              <Button
-                onClick={() =>
-                  navigation.navigate(
-                    assessment.assessmentType === AssessmentTypes.EXAM
-                      ? ROUTES.assessments.exam
-                      : ROUTES.assessments.quiz,
-                    {
-                      assessmentId: assessment.id,
-                    }
-                  )
-                }
-              >
-                {translate('startAssessment', { assessment: assessment.assessmentType })}
-              </Button>
+              getSubmissionState.data?.submission?.status === AssessmentSubmissionStatus.DRAFT &&  (
+              <AssessmentTimer
+                totalTimeSeconds={calculateElapsedTime(submission, assessment)}
+                onTimeEnded={() => {
+                  setState({ timeEnded: true });
+                }}
+              />
             )}
-          </HeaderGrid>
           <Spacer />
+          {startAssessment && (
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
+              {translate('startAssessment', { assessment: assessment.assessmentType })}
+            </Button>
+          )}
+          </HeaderGrid>
           <InformationCard>
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (

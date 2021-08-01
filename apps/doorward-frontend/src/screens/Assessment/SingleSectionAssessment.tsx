@@ -56,7 +56,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
         useModal={confirmModal}
         title={`Submit ${props.type}`}
       >
-        <p>{translate('areYouSureYouWantToSubmitThisAssessment')}</p>
+        <p>{translate('conformSubmitionWarning')}</p>
       </ConfirmModal>
       <TabLayout
         stickyHeader
@@ -97,7 +97,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
             })}
             <div>
               <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                {translate('submit')}
+                {translate('submitExam')}
               </Button>
             </div>
           </Tab>
