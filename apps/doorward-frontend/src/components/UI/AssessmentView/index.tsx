@@ -30,6 +30,7 @@ import Panel from '@doorward/ui/components/Panel';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
+import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -55,13 +56,17 @@ const evaluateStatus = (
 
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
-  const [{ showQuestions, startDate, startAssessment, endDate, continueAssessment }, setState] = useMergeState({
+  const [
+    { showQuestions, startDate, startAssessment, endDate, continueAssessment, timeEnded },
+    setState,
+  ] = useMergeState({
     showQuestions: false,
     startAssessment: false,
     continueAssessment: false,
     startDate: null,
     endDate: null,
     points: 0,
+    timeEnded: false,
   });
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
@@ -192,9 +197,19 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         )}
         <RoleContainer privileges={['assessments.submit']}>
           <Spacer />
-          <Header padded size={2} className="mb-8">
-            {translate('exam', { count: 1 })}
-          </Header>
+          <HeaderGrid>
+            <Header padded size={2} className="mb-8">
+              {translate('exam', { count: 1 })}
+            </Header>
+            {getSubmissionState.fetched && (
+              <AssessmentTimer
+                totalTimeSeconds={calculateElapsedTime(submission, assessment)}
+                onTimeEnded={() => {
+                  setState({ timeEnded: true });
+                }}
+              />
+            )}
+          </HeaderGrid>
           <Spacer />
           {startAssessment && (
             <Button
@@ -242,9 +257,11 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                   </InformationCard.ItemBody>
                 )}
               </InformationCard.Item>
-              <InformationCard.Item title={translate('status')} icon={'info'}>
-                <DisplayLabel>{evaluateStatus(submission, startDate, endDate)}</DisplayLabel>
-              </InformationCard.Item>
+              {!timeEnded && (
+                <InformationCard.Item title={translate('status')} icon={'info'}>
+                  <DisplayLabel>{evaluateStatus(submission, startDate, endDate)}</DisplayLabel>
+                </InformationCard.Item>
+              )}
               {assessment.options?.timeLimit?.allow && (
                 <InformationCard.Item title={translate('timeLimit')} icon="timer">
                   {Tools.timeTaken(assessment.options.timeLimit.minutes * 60)}
@@ -259,7 +276,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             </InformationCard.Body>
           </InformationCard>
           <Spacer />
-          {continueAssessment && (
+          {continueAssessment && !timeEnded && (
             <Button
               onClick={() =>
                 navigation.navigate(
