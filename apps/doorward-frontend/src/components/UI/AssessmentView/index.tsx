@@ -30,7 +30,7 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
-import useTotalPoints from 'apps/doorward-frontend/src/hooks/useTotalPoints';
+import calculateTotalAssessmentPoints from 'apps/doorward-frontend/src/utils/calculateTotalAssessmentPoints';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -56,18 +56,16 @@ const evaluateStatus = (
 
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
-  const [
-    { showQuestions, startDate, startAssessment, endDate, continueAssessment, timeEnded },
-    setState,
-  ] = useMergeState({
-    showQuestions: false,
-    startAssessment: false,
-    continueAssessment: false,
-    startDate: null,
-    endDate: null,
-    points: 0,
-    timeEnded: false,
-  });
+  const [{ showQuestions, startDate, startAssessment, endDate, continueAssessment, timeEnded }, setState] =
+    useMergeState({
+      showQuestions: false,
+      startAssessment: false,
+      continueAssessment: false,
+      startDate: null,
+      endDate: null,
+      points: 0,
+      timeEnded: false,
+    });
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
@@ -79,7 +77,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
 
   useEffect(() => {
-    return setPoints(useTotalPoints(assessment));
+    calculateTotalAssessmentPoints(assessment);
   }, []);
 
   useEffect(() => {

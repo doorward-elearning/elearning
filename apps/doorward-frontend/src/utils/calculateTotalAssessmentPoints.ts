@@ -1,6 +1,6 @@
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 
-const useTotalPoints = (assessment: AssessmentEntity) => {
+const calculateTotalAssessmentPoints = (assessment: AssessmentEntity) => {
   return assessment.sections.reduceRight((acc, section, index) => {
     if (section.config.questions.allCompulsory) {
       return acc + section.points;
@@ -13,4 +13,4 @@ const useTotalPoints = (assessment: AssessmentEntity) => {
   }, 0);
 };
 
-export default useTotalPoints;
+export default calculateTotalAssessmentPoints;

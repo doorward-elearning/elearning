@@ -346,7 +346,7 @@
     "ng-packagr": "9.0.3",
     "node-sass": "^4.12.0",
     "nodemon": "^1.19.1",
-    "prettier": "2.0.4",
+    "prettier": "^2.3.2",
     "protractor": "5.4.4",
     "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
