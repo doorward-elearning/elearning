@@ -54,13 +54,15 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
         <div className="results mt-8">
           {results &&
             Object.keys(results.questions).map((questionId, index) => {
-              return (
+              return results.questions[questionId] ? (
                 <QuestionView
                   question={results.questions[questionId]}
                   view={QuestionViewTypes.SUBMISSION_MODE}
                   assessmentOptions={assessment.options}
                   questionNumber={index + 1}
                 />
+              ) : (
+                <React.Fragment />
               );
             })}
         </div>

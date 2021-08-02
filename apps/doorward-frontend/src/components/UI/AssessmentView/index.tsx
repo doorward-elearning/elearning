@@ -26,7 +26,6 @@ import AssessmentSubmissionView from './AssessmentSubmissionView';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
-import Panel from '@doorward/ui/components/Panel';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
@@ -201,32 +200,33 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
             <Header padded size={2} className="mb-8">
               {translate('exam', { count: 1 })}
             </Header>
-            {getSubmissionState.fetched && (
-              <AssessmentTimer
-                totalTimeSeconds={calculateElapsedTime(submission, assessment)}
-                onTimeEnded={() => {
-                  setState({ timeEnded: true });
-                }}
-              />
+            {getSubmissionState.fetched &&
+              getSubmissionState.data?.submission?.status === AssessmentSubmissionStatus.DRAFT && (
+                <AssessmentTimer
+                  totalTimeSeconds={calculateElapsedTime(submission, assessment)}
+                  onTimeEnded={() => {
+                    setState({ timeEnded: true });
+                  }}
+                />
+              )}
+            {startAssessment && (
+              <Button
+                onClick={() =>
+                  navigation.navigate(
+                    assessment.assessmentType === AssessmentTypes.EXAM
+                      ? ROUTES.assessments.exam
+                      : ROUTES.assessments.quiz,
+                    {
+                      assessmentId: assessment.id,
+                    }
+                  )
+                }
+              >
+                {translate('startAssessment', { assessment: assessment.assessmentType })}
+              </Button>
             )}
           </HeaderGrid>
           <Spacer />
-          {startAssessment && (
-            <Button
-              onClick={() =>
-                navigation.navigate(
-                  assessment.assessmentType === AssessmentTypes.EXAM
-                    ? ROUTES.assessments.exam
-                    : ROUTES.assessments.quiz,
-                  {
-                    assessmentId: assessment.id,
-                  }
-                )
-              }
-            >
-              {translate('startAssessment', { assessment: assessment.assessmentType })}
-            </Button>
-          )}
           <InformationCard>
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (
