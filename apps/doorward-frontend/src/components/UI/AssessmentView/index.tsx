@@ -30,6 +30,7 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
+import calculateTotalAssessmentPoints from '../../../utils/calculateTotalAssessmentPoints';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -55,18 +56,16 @@ const evaluateStatus = (
 
 const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessment, ...props }) => {
   const initialValues = { ...assessment };
-  const [
-    { showQuestions, startDate, startAssessment, endDate, continueAssessment, timeEnded },
-    setState,
-  ] = useMergeState({
-    showQuestions: false,
-    startAssessment: false,
-    continueAssessment: false,
-    startDate: null,
-    endDate: null,
-    points: 0,
-    timeEnded: false,
-  });
+  const [{ showQuestions, startDate, startAssessment, endDate, continueAssessment, timeEnded }, setState] =
+    useMergeState({
+      showQuestions: false,
+      startAssessment: false,
+      continueAssessment: false,
+      startDate: null,
+      endDate: null,
+      points: 0,
+      timeEnded: false,
+    });
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
@@ -78,7 +77,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
 
   useEffect(() => {
-    setPoints(assessment.sections.reduce((acc, section) => acc + section.points, 0));
+    calculateTotalAssessmentPoints(assessment);
   }, []);
 
   useEffect(() => {
@@ -201,32 +200,32 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
               {translate('exam', { count: 1 })}
             </Header>
             {getSubmissionState.fetched &&
-              getSubmissionState.data?.submission?.status === AssessmentSubmissionStatus.DRAFT && (
-                <AssessmentTimer
-                  totalTimeSeconds={calculateElapsedTime(submission, assessment)}
-                  onTimeEnded={() => {
-                    setState({ timeEnded: true });
-                  }}
-                />
-              )}
-            {startAssessment && (
-              <Button
-                onClick={() =>
-                  navigation.navigate(
-                    assessment.assessmentType === AssessmentTypes.EXAM
-                      ? ROUTES.assessments.exam
-                      : ROUTES.assessments.quiz,
-                    {
-                      assessmentId: assessment.id,
-                    }
-                  )
-                }
-              >
-                {translate('startAssessment', { assessment: assessment.assessmentType })}
-              </Button>
+              getSubmissionState.data?.submission?.status === AssessmentSubmissionStatus.DRAFT &&  (
+              <AssessmentTimer
+                totalTimeSeconds={calculateElapsedTime(submission, assessment)}
+                onTimeEnded={() => {
+                  setState({ timeEnded: true });
+                }}
+              />
             )}
-          </HeaderGrid>
           <Spacer />
+          {startAssessment && (
+            <Button
+              onClick={() =>
+                navigation.navigate(
+                  assessment.assessmentType === AssessmentTypes.EXAM
+                    ? ROUTES.assessments.exam
+                    : ROUTES.assessments.quiz,
+                  {
+                    assessmentId: assessment.id,
+                  }
+                )
+              }
+            >
+              {translate('startAssessment', { assessment: assessment.assessmentType })}
+            </Button>
+          )}
+          </HeaderGrid>
           <InformationCard>
             <InformationCard.Body>
               {moment().isBefore(startDate) && !submission && (
