@@ -10,5 +10,6 @@ WORKDIR /usr/app
 RUN npm install -g @nrwl/nx &&  rm -rf package-lock.json
 
 COPY . /usr/app
+COPY .envexample /usr/app/.env
 
 RUN yarn install
