@@ -30,6 +30,7 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
+import useTotalPoints from 'apps/doorward-frontend/src/hooks/useTotalPoints';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -78,19 +79,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   });
 
   useEffect(() => {
-    setPoints(
-      assessment.sections.reduceRight((acc, section, index) => {
-        if (section.config.questions.allCompulsory) {
-          return acc + section.points;
-        }
-        else{
-          const required = section.config.questions.numRequired;
-          const totalQuestions = section.questions.length;
-          const pointsForEach = Math.round(section.points/totalQuestions);
-          return acc + pointsForEach * required;
-        }
-      }, 0)
-    );
+    return setPoints(useTotalPoints(assessment));
   }, []);
 
   useEffect(() => {

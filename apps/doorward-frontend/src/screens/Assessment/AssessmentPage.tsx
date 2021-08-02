@@ -17,6 +17,7 @@ import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
+import useTotalPoints from '../../hooks/useTotalPoints';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
@@ -69,17 +70,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
       {assessment?.options?.timeLimit?.minutes > 0 && (
         <HeaderGrid>
           <DisplayLabel>
-            {translate('points')}:
-            {assessment.sections.reduceRight((acc, section) => {
-              if (section.config.questions.allCompulsory) {
-                return acc + section.points;
-              } else {
-                const required = section.config.questions.numRequired;
-                const totalQuestions = section.questions.length;
-                const pointsForEach = Math.round(section.points / totalQuestions);
-                return acc + pointsForEach * required;
-              }
-            }, 0)}
+            {translate('points')} : {useTotalPoints(assessment)}
           </DisplayLabel>
           <AssessmentTimer
             totalTimeSeconds={calculateElapsedTime(props.submission, assessment)}

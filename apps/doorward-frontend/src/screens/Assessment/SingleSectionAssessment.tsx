@@ -47,17 +47,19 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
     [formikProps.values]
   );
 
-  const setPoints = useCallback((section: QuestionSectionEntity) => {
-    if (section.config.questions.allCompulsory) {
-      return section.points;
-    }
-    else{
-      const required = section.config.questions.numRequired;
-      const totalQuestions = section.questions.length;
-      const pointsForEach = Math.round(section.points/totalQuestions);
-      return pointsForEach * required;
-    }
-  }, [formikProps.values]);
+  const setPoints = useCallback(
+    (section: QuestionSectionEntity) => {
+      if (section.config.questions.allCompulsory) {
+        return section.points;
+      } else {
+        const required = section.config.questions.numRequired;
+        const totalQuestions = section.questions.length;
+        const pointsForEach = Math.round(section.points / totalQuestions);
+        return pointsForEach * required;
+      }
+    },
+    [formikProps.values]
+  );
 
   return (
     <div className="ed-single-question-assessment">
@@ -68,7 +70,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
         useModal={confirmModal}
         title={`Submit ${props.type}`}
       >
-        <p>{translate('conformSubmitionWarning')}</p>
+        <p>{translate('confirmSubmissionWarning')}</p>
       </ConfirmModal>
       <TabLayout
         stickyHeader
