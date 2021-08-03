@@ -132,6 +132,13 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
           </div>
         )}
       </div>
+      <Spacer />
+      <Spacer />
+      <Spacer />
+      <Spacer />
+      <Spacer />
+      <Spacer />
+      <Spacer />
     </div>
   );
 };
