@@ -47,6 +47,20 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
     [formikProps.values]
   );
 
+  const setPoints = useCallback(
+    (section: QuestionSectionEntity) => {
+      if (section.config.questions.allCompulsory) {
+        return section.points;
+      } else {
+        const required = section.config.questions.numRequired;
+        const totalQuestions = section.questions.length;
+        const pointsForEach = Math.round(section.points / totalQuestions);
+        return pointsForEach * required;
+      }
+    },
+    [formikProps.values]
+  );
+
   return (
     <div className="ed-single-question-assessment">
       <ConfirmModal
@@ -56,7 +70,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
         useModal={confirmModal}
         title={`Submit ${props.type}`}
       >
-        <p>{translate('areYouSureYouWantToSubmitThisAssessment')}</p>
+        <p>{translate('confirmSubmissionWarning')}</p>
       </ConfirmModal>
       <TabLayout
         stickyHeader
@@ -84,7 +98,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
                 <HTMLContentView content={section.instructions} />
               </div>
               <div>
-                <DisplayLabel>{translate('pointsWithCount', { count: section.points })}</DisplayLabel>
+                <DisplayLabel>{translate('pointsWithCount', { count: setPoints(section) })}</DisplayLabel>
               </div>
             </div>
             {section.questions.map((question) => {
@@ -97,7 +111,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
             })}
             <div>
               <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                {translate('submit')}
+                {translate('submitExam')}
               </Button>
             </div>
           </Tab>

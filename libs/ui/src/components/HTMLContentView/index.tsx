@@ -5,6 +5,15 @@ import createPlyrForYouTubeVideos from '@doorward/ui/components/HTMLContentView/
 
 const HTMLContentView: React.FunctionComponent<DraftHTMLContentProps> = (props) => {
   const editorRef = useRef<HTMLDivElement>(null);
+  const renderMath = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    window.MathJax.Hub.Queue(['Typeset', window.MathJax.Hub, editorRef.current]);
+  };
+
+  useEffect(() => {
+    renderMath();
+  });
 
   useEffect(() => {
     createPlyrForYouTubeVideos(editorRef.current);

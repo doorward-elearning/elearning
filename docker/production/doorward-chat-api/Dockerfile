@@ -12,7 +12,7 @@ RUN yarn install
 
 RUN yarn build doorward-chat-api --prod
 
-RUN cp .env dist/apps/doorward-chat-api/.env
+RUN cp .envexample dist/apps/doorward-chat-api/.env
 
 RUN chmod +x docker/production/doorward-chat-api/entrypoint.sh
 
