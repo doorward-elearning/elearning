@@ -64,6 +64,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
   return (
     <div className="ed-single-question-assessment">
       <ConfirmModal
+        defaultAction="negative"
         onConfirm={() => {
           onFinishAssessment(JSON.stringify(formikProps.values.submission));
         }}
@@ -85,21 +86,18 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
         {sections.map((section, index) => (
           <Tab title={translate('sectionHeader', { index: section.order + 1 })}>
             <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
-              <div className="mb-4">
-                <Header size={3}>{translate('instructions')}</Header>
-                <Spacer size="large" />
-                <DisplayLabel className="mt-4">
-                  {section.config.questions.allCompulsory ? (
-                    <i>{translate('sectionAllQuestionsCompulsory')}</i>
-                  ) : (
-                    <i>{translate('sectionPleaseChooseQuestions', { count: section.config.questions.numRequired })}</i>
-                  )}
-                </DisplayLabel>
-                <HTMLContentView content={section.instructions} />
-              </div>
-              <div>
-                <DisplayLabel>{translate('pointsWithCount', { count: setPoints(section) })}</DisplayLabel>
-              </div>
+              <Header size={3}>{translate('instructions')}</Header>
+              <DisplayLabel>{translate('pointsWithCount', { count: setPoints(section) })}</DisplayLabel>
+            </div>
+            <div className="mb-4 mt-8">
+              <DisplayLabel className="mt-4 mb-4">
+                {section.config.questions.allCompulsory ? (
+                  <i>{translate('sectionAllQuestionsCompulsory')}</i>
+                ) : (
+                  <i>{translate('sectionPleaseChooseQuestions', { count: section.config.questions.numRequired })}</i>
+                )}
+              </DisplayLabel>
+              <HTMLContentView content={section.instructions} />
             </div>
             {section.questions.map((question) => {
               const questionsAnswered = getQuestionsAnswered(section);
@@ -132,13 +130,6 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
           </div>
         )}
       </div>
-      <Spacer />
-      <Spacer />
-      <Spacer />
-      <Spacer />
-      <Spacer />
-      <Spacer />
-      <Spacer />
     </div>
   );
 };
