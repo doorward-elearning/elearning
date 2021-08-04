@@ -2,7 +2,7 @@ import React from 'react';
 import Modal, { ModalFeatures } from '../Modal';
 import { UseModal } from '../../hooks/useModal';
 
-const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = props => {
+const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = (props) => {
   const modal = props.useModal;
 
   const onClick = () => {
@@ -26,6 +26,10 @@ const ConfirmModal: React.FunctionComponent<ConfirmModalProps> = props => {
             positive: {
               loading: props.loading,
               disabled: props.buttonDisabled,
+              theme: props.defaultAction === 'negative' ? 'secondary' : 'primary',
+            },
+            negative: {
+              theme: props.defaultAction === 'negative' ? 'primary' : 'secondary',
             },
           }}
           onPositiveClick={() => {
@@ -55,6 +59,7 @@ export interface ConfirmModalProps {
   useModal: UseModal;
   keepOpen?: boolean;
   cancellable?: boolean;
+  defaultAction?: 'positive' | 'negative';
 }
 
 export default ConfirmModal;

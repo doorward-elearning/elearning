@@ -99,7 +99,7 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
           <div className="ed-modal__content__footer__buttons">
             <div className="no-action-buttons">
               <ModalFooterButton
-                props={{ ...props.neutral, theme: 'default', className: 'neutral_button' }}
+                props={{ theme: 'default', ...props.neutral, className: 'neutral_button' }}
                 onClick={handleClick}
                 feature={ModalFeatures.NEUTRAL_BUTTON}
               >
@@ -113,14 +113,14 @@ const Footer: React.FunctionComponent<ModalFooterProps> = ({
             </div>
             <div className="action-buttons">
               <ModalFooterButton
-                props={{ ...props.negative, theme: 'primary', className: 'negative_button' }}
+                props={{ theme: 'secondary', ...props.negative, className: 'negative_button' }}
                 onClick={handleClick}
                 feature={ModalFeatures.NEGATIVE_BUTTON}
               >
                 {buttons.negative}
               </ModalFooterButton>
               <ModalFooterButton
-                props={{ ...props.positive, theme: 'success', className: 'positive_button' }}
+                props={{ theme: 'success', ...props.positive, className: 'positive_button' }}
                 onClick={handleClick}
                 feature={ModalFeatures.POSITIVE_BUTTON}
               >
