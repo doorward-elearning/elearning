@@ -18,7 +18,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateGroupBody } from '@doorward/common/dtos/body';
 import { GroupMemberResponse, SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 interface InitialValues {
   name: string;

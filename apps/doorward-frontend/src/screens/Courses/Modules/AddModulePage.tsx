@@ -5,7 +5,7 @@ import AddModulePageForm from '../../../components/Forms/AddModulePageForm';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import useForm from '@doorward/ui/hooks/useForm';
 import { PageComponent } from '@doorward/ui/types';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';

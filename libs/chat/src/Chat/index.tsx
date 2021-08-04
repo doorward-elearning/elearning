@@ -11,7 +11,7 @@ import NewGroup from '../components/NewGroup';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 export interface ChatContextType {
   currentUser: UserEntity;

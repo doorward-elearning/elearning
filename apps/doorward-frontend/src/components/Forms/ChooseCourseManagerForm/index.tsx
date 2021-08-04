@@ -5,8 +5,8 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { TeachersResponse } from '@doorward/common/dtos/response';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
-import { WebComponentState } from 'use-api-action/types/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const ChooseCourseManagerForm: React.FunctionComponent<ChooseCourseManagerFormProps> = (props): JSX.Element => {
   const [addCourseManager, addCourseManagerState] = useApiAction(

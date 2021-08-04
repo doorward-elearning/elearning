@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { FormikProps } from 'formik';
 import Icon from '@doorward/ui/components/Icon';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const FormMessage: React.FunctionComponent<FormMessageProps> = (props) => {
   const [error, setError] = useState();

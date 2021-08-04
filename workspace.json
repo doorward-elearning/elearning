@@ -371,8 +371,8 @@
         "build": {
           "builder": "@nrwl/node:build",
           "options": {
-            "memoryLimit":2028,
-            "maxWorkers":1,
+            "memoryLimit": 2028,
+            "maxWorkers": 1,
             "outputPath": "dist/apps/doorward-backend",
             "main": "apps/doorward-backend/src/main.ts",
             "tsConfig": "apps/doorward-backend/tsconfig.app.json",
@@ -772,6 +772,30 @@
           "options": {
             "jestConfig": "libs/draft-editor/jest.config.js",
             "tsConfig": "libs/draft-editor/tsconfig.spec.json",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "api-actions": {
+      "root": "libs/api-actions",
+      "sourceRoot": "libs/api-actions/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:lint",
+          "options": {
+            "linter": "eslint",
+            "tsConfig": ["libs/api-actions/tsconfig.lib.json", "libs/api-actions/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/api-actions/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/api-actions/jest.config.js",
+            "tsConfig": "libs/api-actions/tsconfig.spec.json",
             "passWithNoTests": true
           }
         }

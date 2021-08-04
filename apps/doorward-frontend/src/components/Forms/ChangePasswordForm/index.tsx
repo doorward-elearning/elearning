@@ -6,8 +6,8 @@ import withContext from '@doorward/ui/hoc/withContext';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdatePasswordBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const ChangePasswordForm: React.FunctionComponent<ChangePasswordFormProps> = (props) => {
   const initialValues = {

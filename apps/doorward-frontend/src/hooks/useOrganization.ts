@@ -1,5 +1,5 @@
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../services/apis/doorward.api';
 
 const useOrganization = (): OrganizationEntity | undefined => {

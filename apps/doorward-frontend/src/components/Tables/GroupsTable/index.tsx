@@ -5,7 +5,7 @@ import Tools from '@doorward/common/utils/Tools';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import GroupEntity from '@doorward/common/entities/group.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { RowMouseEventHandlerParams } from 'react-virtualized';
 
 const GroupsTable: React.FunctionComponent<GroupsTableProps> = (props): JSX.Element => {

@@ -7,7 +7,7 @@ import useAction from '@doorward/ui/hooks/useActions';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { GroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 function CreateGroup<T, Args extends Array<any>>({

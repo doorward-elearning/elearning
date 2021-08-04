@@ -8,8 +8,8 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { UpdateAccountBody } from '@doorward/common/dtos/body';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 
 const ProfileAccountForm: React.FunctionComponent<ProfileAccountFormProps> = (props) => {
   const initialValues: ProfileAccountFormState = {

@@ -5,7 +5,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import useToggle from '@doorward/ui/hooks/useToggle';
 import './EditableLabelForm.scss';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 import translate from '@doorward/common/lang/translate';
 import classNames from 'classnames';
 import Tooltip from '@doorward/ui/components/Tooltip';

@@ -15,7 +15,7 @@ import useWebsocketEvent from '@doorward/ui/hooks/useWebsocketEvent';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import { NotificationsContext } from '@doorward/ui/components/Notifications';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const ChatWebSocketContext: React.FunctionComponent<ChatWebSocketContextProps> = (props): JSX.Element => {
   const [currentConversation, setCurrentConversation] = useState<Conversation>();

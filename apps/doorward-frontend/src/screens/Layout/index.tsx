@@ -30,7 +30,7 @@ import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch
 import { ParsedUrlQuery } from 'querystring';
 import DoorwardApi from '../../services/apis/doorward.api';
 import useAuth from '../../hooks/useAuth';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 
 export enum LayoutFeatures {

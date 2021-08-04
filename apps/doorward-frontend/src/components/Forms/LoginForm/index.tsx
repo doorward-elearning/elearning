@@ -7,7 +7,7 @@ import AuthForm from '../AuthForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { LoginBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useAuth from '../../../hooks/useAuth';
 import ROUTES from '@doorward/common/frontend/routes/main';
 

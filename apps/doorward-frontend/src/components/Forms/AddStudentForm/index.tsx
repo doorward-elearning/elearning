@@ -4,8 +4,8 @@ import AddUserFormLayout from '../AddUserFormLayout';
 import { StudentResponse } from '@doorward/common/dtos/response';
 import { CreateUserBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { useApiAction } from 'use-api-action';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 
 const AddStudentForm: React.FunctionComponent<AddStudentFormProps> = (props) => {
   const [createStudent] = useApiAction(DoorwardApi, (api) => api.students.createStudent);

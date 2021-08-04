@@ -12,7 +12,7 @@ import Header from '@doorward/ui/components/Header';
 import SimpleUserView from '@doorward/ui/components/UserChooser/SimpleUserView';
 import DiscussionCommentForm from '../../components/Forms/DiscussionCommentForm';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const DiscussionGroup: React.FunctionComponent<DiscussionGroupProps> = (props): JSX.Element => {
   const [fetchDiscussionGroup, state] = useApiAction(DoorwardApi, (api) => api.discussionGroups.getDiscussionGroup);

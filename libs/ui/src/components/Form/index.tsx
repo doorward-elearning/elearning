@@ -8,7 +8,7 @@ import useFormSubmit from '../../hooks/useFormSubmit';
 import FormMessage from './FormMessage';
 import getValidationSchema from '@doorward/common/utils/getValidationSchema';
 import usePromiseEffect from '@doorward/ui/hooks/usePromiseEffect';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 export const FormContext = React.createContext<FormContextProps>({});
 

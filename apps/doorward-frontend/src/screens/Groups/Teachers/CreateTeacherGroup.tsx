@@ -4,7 +4,7 @@ import React from 'react';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 
 const CreateTeacherGroup: React.FunctionComponent<CreateTeacherGroupProps> = (props): JSX.Element => {

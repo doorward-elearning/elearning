@@ -4,7 +4,7 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const StudentReportsTable: FunctionComponent<StudentReportsTableProps> = (props): JSX.Element => {
   const [studentsReport, state] = useApiAction(DoorwardApi, (api) => api.reports.getStudentsReport);

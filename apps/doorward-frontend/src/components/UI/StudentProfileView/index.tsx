@@ -7,7 +7,7 @@ import { ChangePasswordFormContext } from '../../Forms/ChangePasswordForm';
 import { ProfileAccountFormContext } from '../../Forms/ProfileAccountForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const StudentProfileView: React.FunctionComponent<StudentProfileViewProps> = (props): JSX.Element => {
   const form = useForm();

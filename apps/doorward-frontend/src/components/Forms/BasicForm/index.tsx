@@ -8,10 +8,10 @@ import Feature from '@doorward/ui/components/FeatureProvider/Feature';
 import './BasicForm.scss';
 import { Omit } from '@doorward/common/types';
 import translate from '@doorward/common/lang/translate';
-import { ApiActionCreator, UseApiAction, WebComponentState } from 'use-api-action/types/types';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import { FormikProps } from 'formik';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import { ApiActionCreator, UseApiAction, WebComponentState } from '@doorward/api-actions/types';
 
 export enum BasicFormFeatures {
   SAVE_BUTTON = 1,

@@ -14,7 +14,7 @@ import BasicForm from '../BasicForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CourseResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 const CourseModules: React.FunctionComponent<CourseModulesProps> = ({

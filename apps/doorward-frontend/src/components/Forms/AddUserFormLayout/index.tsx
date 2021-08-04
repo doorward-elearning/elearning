@@ -13,7 +13,7 @@ import PasswordPolicy from '../../UI/PasswordPolicy';
 import Grid from '@doorward/ui/components/Grid';
 import { CreateUserBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 
 const AddUserFormLayout: React.FunctionComponent<AddUserFormLayoutProps> = (props) => {
   const countries = getNames();

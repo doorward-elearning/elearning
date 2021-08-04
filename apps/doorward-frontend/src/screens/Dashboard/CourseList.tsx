@@ -17,7 +17,7 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import PaginationContainer from '@doorward/ui/components/PaginationContainer';
 import { useLocation } from 'react-router';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 

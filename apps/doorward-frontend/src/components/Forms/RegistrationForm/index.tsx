@@ -6,7 +6,7 @@ import PasswordField from '@doorward/ui/components/Input/PasswordField';
 import { RegisterBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import Tools from '@doorward/common/utils/Tools';
 import ROUTES from '@doorward/common/frontend/routes/main';
 

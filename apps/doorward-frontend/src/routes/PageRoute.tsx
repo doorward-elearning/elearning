@@ -4,7 +4,7 @@ import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import Tools from '@doorward/common/utils/Tools';
 import LoadingPage from '../screens/LoadingPage';
 import useAuth from '../hooks/useAuth';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../services/apis/doorward.api';
 import ROUTES from '@doorward/common/frontend/routes/main';
 

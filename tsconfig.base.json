@@ -26,7 +26,8 @@
       "@doorward/chat/*": ["libs/chat/src/*"],
       "@doorward/whiteboard/*": ["libs/whiteboard/src/lib/*"],
       "@doorward/romeeting": ["libs/romeeting/src/index.ts"],
-      "@doorward/draft-editor": ["libs/draft-editor/src/index.ts"]
+      "@doorward/draft-editor": ["libs/draft-editor/src/index.ts"],
+      "@doorward/api-actions/*": ["libs/api-actions/src/*"],
     },
     "plugins": [
       {

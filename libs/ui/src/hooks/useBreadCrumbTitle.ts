@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { RouteNames, Routes } from '@doorward/ui/types';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const useBreadCrumbTitle = <T, R extends RouteNames>(
   state: WebComponentState<T>,

@@ -15,7 +15,7 @@ import './CourseViewSidebar.scss';
 import translate from '@doorward/common/lang/translate';
 import useAuth from '../../hooks/useAuth';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import Tools from '@doorward/common/utils/Tools';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import NavLink from '@doorward/ui/components/NavLink';

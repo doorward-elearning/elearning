@@ -7,7 +7,7 @@ import Card from '@doorward/ui/components/Card';
 import IfElse from '@doorward/ui/components/IfElse';
 import BasicForm, { BasicFormProps } from '../BasicForm';
 import useLogo from '../../../hooks/useLogo';
-import { ApiActionCreator } from 'use-api-action/types/types';
+import { ApiActionCreator } from '@doorward/api-actions/types';
 
 function AuthForm<T, R extends ApiActionCreator>(props: AuthFormProps<T, R>) {
   const { buttonText } = props;

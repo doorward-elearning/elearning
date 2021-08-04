@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useCallback } from 'react';
-import { ApiAction, ApiActionCreator } from 'use-api-action/types/types';
+import { ApiAction, ApiActionCreator } from '@doorward/api-actions/types';
 
 function useAction<T extends ApiActionCreator>(
   action: T,

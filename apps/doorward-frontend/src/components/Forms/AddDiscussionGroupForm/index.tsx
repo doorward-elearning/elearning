@@ -6,7 +6,7 @@ import TextField from '@doorward/ui/components/Input/TextField';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const AddDiscussionGroupForm: React.FunctionComponent<AddDiscussionGroupFormProps> = (props): JSX.Element => {
   const initialValues = {

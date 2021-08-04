@@ -12,7 +12,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';

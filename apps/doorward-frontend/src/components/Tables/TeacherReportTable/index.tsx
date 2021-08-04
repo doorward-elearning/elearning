@@ -3,7 +3,7 @@ import SimpleWebComponent from '@doorward/ui/components/WebComponent/SimpleWebCo
 import Table, { OnRowClick } from '@doorward/ui/components/Table';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const TeacherReportTable: React.FunctionComponent<TeacherReportTableProps> = (props) => {
   const [apiAction, state] = useApiAction(DoorwardApi, (api) => api.reports.getTeachersReport);

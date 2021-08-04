@@ -1,6 +1,6 @@
 import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
-import { buildApiReducer } from 'use-api-action';
 import Tools from '@doorward/common/utils/Tools';
+import buildApiReducer from '@doorward/api-actions/build.api.reducer';
 
 const DoorwardApi = buildApiReducer(
   DoorwardBackendApi(() => {

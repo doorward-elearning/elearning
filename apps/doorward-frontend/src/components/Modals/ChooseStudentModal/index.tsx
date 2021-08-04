@@ -4,7 +4,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import { NavBarSearchContext } from '@doorward/ui/components/NavBar/NavBarSearch';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../../services/apis/doorward.api';
 
 const ChooseStudentModal: React.FunctionComponent<ChooseStudentModalProps> = (props) => {

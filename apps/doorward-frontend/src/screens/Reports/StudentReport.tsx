@@ -13,7 +13,7 @@ import { PageComponent } from '@doorward/ui/types';
 import Header from '@doorward/ui/components/Header';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 
 const data = [[translate('course'), translate('marks')]];
