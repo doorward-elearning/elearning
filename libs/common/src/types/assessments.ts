@@ -4,6 +4,9 @@ export interface QuestionSectionOptions {
   questions: {
     allCompulsory: boolean;
     numRequired: number;
+    answers: {
+      answerAll: boolean; // Allow student to answer all the questions
+    };
   };
 }
 

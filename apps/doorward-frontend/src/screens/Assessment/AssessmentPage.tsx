@@ -17,7 +17,7 @@ import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
-import calculateTotalAssessmentPoints from '../../utils/calculateTotalAssessmentPoints';
+import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
