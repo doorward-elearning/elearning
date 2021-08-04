@@ -3,8 +3,13 @@ import { Connection } from 'typeorm';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import { AssessmentQuestionResult, AssessmentSubmissionResult } from '@doorward/common/types/assessments';
+import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
+import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
 
 const gradeQuestion = async (questionEntity: QuestionEntity, response: string): Promise<AssessmentQuestionResult> => {
+  const result = { ...questionEntity, points: 0, graded: true };
+
   if (
     questionEntity.type === AnswerTypes.MULTIPLE_CHOICE ||
     questionEntity.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE
@@ -16,23 +21,42 @@ const gradeQuestion = async (questionEntity: QuestionEntity, response: string): 
         points = answerEntity.points;
       }
       return {
-        ...questionEntity,
+        ...result,
         answerId: response,
         points,
         isCorrect: answerEntity.correct || questionEntity.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE,
-        graded: true,
       };
     }
-  } else {
-    return {
-      answer: response,
-      points: 0,
-      graded: false,
-      ...questionEntity,
-    };
-  }
 
-  return null;
+    return { ...result, isCorrect: false };
+  } else {
+    return { ...result, answer: response, graded: false };
+  }
+};
+
+const calculateSectionPoints = (section: QuestionSectionEntity, submissionResult: AssessmentSubmissionResult) => {
+  if (section.config.questions.allCompulsory) {
+    return section.questions.reduce((acc, question) => acc + submissionResult.questions[question.id].points, 0);
+  } else {
+    const numRequired = section.config.questions.numRequired;
+
+    const sortedQuestions = section.questions.sort(
+      (a, b) => submissionResult.questions[b.id].points - submissionResult.questions[a.id].points
+    );
+
+    return sortedQuestions
+      .slice(0, numRequired)
+      .reduce((acc, question) => acc + submissionResult.questions[question.id].points, 0);
+  }
+};
+
+const calculatePoints = (assessment: AssessmentEntity, submissionResult: AssessmentSubmissionResult) => {
+  let totalPoints = 0;
+  assessment.sections.map((section) => {
+    totalPoints += calculateSectionPoints(section, submissionResult);
+  });
+
+  return totalPoints;
 };
 
 /**
@@ -55,8 +79,7 @@ const assessmentGrader = async (submissionId: string, connection: Connection) =>
 
   const submission = JSON.parse(submissionEntity.submission);
 
-  let totalPoints = 0;
-  let numGraded = 0;
+  let allGraded = true;
 
   const submissionResult: AssessmentSubmissionResult = {
     questions: {},
@@ -68,31 +91,23 @@ const assessmentGrader = async (submissionId: string, connection: Connection) =>
       await Promise.all(
         section.questions.map(async (question) => {
           const result = await gradeQuestion(question, submission[question.id]);
-          if (result?.graded) {
-            totalPoints += result.points;
-            numGraded++;
+          if (!result?.graded) {
+            allGraded = false;
           }
           submissionResult.questions[question.id] = result;
-          submissionResult.totalPoints += question.points;
           return result;
         })
       );
     })
   );
 
+  const totalPoints = calculatePoints(assessment, submissionResult);
+
+  submissionResult.totalPoints = calculateTotalAssessmentPoints(assessment);
   submissionEntity.submissionResults = JSON.stringify(submissionResult);
   submissionEntity.grade = totalPoints;
 
-  if (
-    numGraded ===
-    assessment.sections.reduce(
-      (sum, section) =>
-        sum +
-        (section.config.questions.allCompulsory ? section.questions.length : section.config.questions.numRequired),
-      0
-    )
-  ) {
-    // all questions have been graded.
+  if (allGraded) {
     submissionEntity.gradedOn = new Date();
   }
 

@@ -17,6 +17,7 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import Checkbox from '@doorward/ui/components/Input/Checkbox';
 import NumberField from '@doorward/ui/components/Input/NumberField';
+import Row from '@doorward/ui/components/Row';
 
 const defaultSection = (index: number) => ({
   order: index,
@@ -25,6 +26,9 @@ const defaultSection = (index: number) => ({
     questions: {
       allCompulsory: true,
       numRequired: 1,
+      answers: {
+        answerAll: false,
+      },
     },
   },
   questions: [],
@@ -112,12 +116,19 @@ export const QuestionSectionConfig: React.FunctionComponent<QuestionSectionConfi
           labelPosition="left"
         />
         {!section.config?.questions?.allCompulsory && (
-          <NumberField
-            name={`sections[${sectionIndex}].config.questions.numRequired`}
-            placeholder={translate('numQuestionsRequired')}
-            labelPosition="left"
-            min={1}
-          />
+          <Panel>
+            <NumberField
+              name={`sections[${sectionIndex}].config.questions.numRequired`}
+              placeholder={translate('numQuestionsRequired')}
+              labelPosition="left"
+              min={1}
+            />
+            <Checkbox
+              name={`sections[${sectionIndex}].config.questions.answers.answerAll`}
+              placeholder={translate('answerAllQuestionsChooseBest')}
+              labelPosition="left"
+            />
+          </Panel>
         )}
       </Panel>
     </div>
@@ -185,42 +196,40 @@ const QuestionSectionBuilder: React.FunctionComponent<QuestionSectionBuilderProp
   );
 };
 
-const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React.memo(
-  (props): JSX.Element => {
-    const { formikProps } = useContext(FormContext);
-    const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
+const AssessmentBuilder: React.FunctionComponent<AssessmentBuilderProps> = React.memo((props): JSX.Element => {
+  const { formikProps } = useContext(FormContext);
+  const [arrayHelpers, setArrayHelpers] = useState<ArrayHelpers>();
 
-    return (
-      <React.Fragment>
-        <FieldArray name="sections">
-          {(_sectionArrayHelpers) => {
-            if (!arrayHelpers) {
-              setArrayHelpers(_sectionArrayHelpers);
-            }
-            return (
-              <div className="ed-assessment-section-builder">
-                {formikProps.values.sections.map((section, sectionIndex) => (
-                  <QuestionSectionBuilder
-                    type={props.type}
-                    section={{ ...section, config: section.config || defaultSection(sectionIndex).config }}
-                    sectionIndex={sectionIndex}
-                  />
-                ))}
-              </div>
-            );
-          }}
-        </FieldArray>
-        <Button
-          type="button"
-          className="mt-4"
-          onClick={() => arrayHelpers.push(defaultSection(formikProps.values.sections.length))}
-        >
-          {translate('addSection')}
-        </Button>
-      </React.Fragment>
-    );
-  }
-);
+  return (
+    <React.Fragment>
+      <FieldArray name="sections">
+        {(_sectionArrayHelpers) => {
+          if (!arrayHelpers) {
+            setArrayHelpers(_sectionArrayHelpers);
+          }
+          return (
+            <div className="ed-assessment-section-builder">
+              {formikProps.values.sections.map((section, sectionIndex) => (
+                <QuestionSectionBuilder
+                  type={props.type}
+                  section={{ ...section, config: section.config || defaultSection(sectionIndex).config }}
+                  sectionIndex={sectionIndex}
+                />
+              ))}
+            </div>
+          );
+        }}
+      </FieldArray>
+      <Button
+        type="button"
+        className="mt-4"
+        onClick={() => arrayHelpers.push(defaultSection(formikProps.values.sections.length))}
+      >
+        {translate('addSection')}
+      </Button>
+    </React.Fragment>
+  );
+});
 
 export interface AssessmentBuilderProps {
   type: AssessmentTypes;

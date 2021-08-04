@@ -30,7 +30,7 @@ import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
-import calculateTotalAssessmentPoints from '../../../utils/calculateTotalAssessmentPoints';
+import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -208,7 +208,6 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
                   }}
                 />
               )}
-            <Spacer />
           </HeaderGrid>
           <Spacer />
           {startAssessment && (

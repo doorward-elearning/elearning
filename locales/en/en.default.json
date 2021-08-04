@@ -608,5 +608,6 @@
   "enterNoQuestionsRequired": "Enter the number of questions to choose.",
   "sectionPleaseChooseQuestions_plural": "Choose {{count}} questions from this section.",
   "sectionPleaseChooseQuestions": "Choose {{count}} question from this section",
-  "sectionAllQuestionsCompulsory": "All questions are compulsory in this section."
+  "sectionAllQuestionsCompulsory": "All questions are compulsory in this section.",
+  "answerAllQuestionsChooseBest": "Allow {{student}} to answer all questions. (Grading will choose the best)"
 }

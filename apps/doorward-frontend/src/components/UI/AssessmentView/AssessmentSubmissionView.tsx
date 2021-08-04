@@ -37,7 +37,7 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           <InformationCard.Item title={translate('grade')} icon={'grade'}>
             <DisplayLabel>
               {submission.gradedOn
-                ? `${((submission.grade / results?.totalPoints) * 100).toFixed(1)}%`
+                ? `${((+submission.grade / +results?.totalPoints) * 100).toFixed(1)}%`
                 : translate('notYetGraded')}
             </DisplayLabel>
           </InformationCard.Item>

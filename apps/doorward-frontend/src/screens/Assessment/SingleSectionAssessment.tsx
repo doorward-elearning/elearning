@@ -90,21 +90,26 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
               <DisplayLabel>{translate('pointsWithCount', { count: setPoints(section) })}</DisplayLabel>
             </div>
             <div className="mb-4 mt-8">
-              <DisplayLabel className="mt-4 mb-4">
-                {section.config.questions.allCompulsory ? (
-                  <i>{translate('sectionAllQuestionsCompulsory')}</i>
-                ) : (
-                  <i>{translate('sectionPleaseChooseQuestions', { count: section.config.questions.numRequired })}</i>
-                )}
-              </DisplayLabel>
+              {!section.config.questions.answers?.answerAll && (
+                <DisplayLabel className="mt-4 mb-4">
+                  {section.config.questions.allCompulsory ? (
+                    <i>{translate('sectionAllQuestionsCompulsory')}</i>
+                  ) : (
+                    <i>{translate('sectionPleaseChooseQuestions', { count: section.config.questions.numRequired })}</i>
+                  )}
+                </DisplayLabel>
+              )}
               <HTMLContentView content={section.instructions} />
             </div>
             {section.questions.map((question) => {
               const questionsAnswered = getQuestionsAnswered(section);
-              const disableQuestion =
-                !section.config.questions.allCompulsory &&
-                questionsAnswered.length === section.config.questions.numRequired &&
-                !questionsAnswered.includes(question.id);
+
+              let disableQuestion =
+                !section.config.questions.allCompulsory && !section.config.questions?.answers?.answerAll;
+
+              disableQuestion = disableQuestion && questionsAnswered.length === section.config.questions.numRequired;
+              disableQuestion = disableQuestion && !questionsAnswered.includes(question.id);
+
               return <QuestionView disabled={disableQuestion} question={question} view={QuestionViewTypes.EXAM_MODE} />;
             })}
             <div>

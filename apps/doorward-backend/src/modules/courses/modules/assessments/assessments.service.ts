@@ -16,13 +16,36 @@ export class AssessmentsService {
     private assessmentRepository: AssessmentRepository
   ) {}
 
-  public async getSubmission(assessmentId: string, user: UserEntity) {
+  private async getSubmissionByAssessmentId(assessmentId: string, user: UserEntity) {
     return this.submissionRepository.findOne({
       where: {
         assessment: { id: assessmentId },
         student: user,
       },
     });
+  }
+
+  public async getSubmission(assessmentId: string, user: UserEntity) {
+    let submission = await this.getSubmissionByAssessmentId(assessmentId, user);
+
+    if (submission) {
+      if (submission.status === AssessmentSubmissionStatus.DRAFT) {
+        const assessment = await this.assessmentRepository.findOne({ id: assessmentId });
+
+        if (moment(submission.createdAt).add(assessment.options.timeLimit, 'minutes').isBefore(moment())) {
+          await this.submitAssessment(
+            assessmentId,
+            {
+              submission: submission.submission,
+            },
+            user
+          );
+        }
+
+        submission = await this.getSubmissionByAssessmentId(assessmentId, user);
+      }
+    }
+    return submission;
   }
 
   public async saveAssessment(assessmentId: string, body: SaveAssessmentBody, user: UserEntity) {
@@ -51,7 +74,7 @@ export class AssessmentsService {
   }
 
   public async submitAssessment(assessmentId: string, body: SaveAssessmentBody, user: UserEntity) {
-    let submission = await this.getSubmission(assessmentId, user);
+    let submission = await this.getSubmissionByAssessmentId(assessmentId, user);
 
     if (submission) {
       const startTime = moment(submission.createdAt);
@@ -66,7 +89,7 @@ export class AssessmentsService {
       // grade the assessment
       await assessmentGrader(submission.id, submission.getConnection());
 
-      submission = await this.getSubmission(assessmentId, user);
+      submission = await this.getSubmissionByAssessmentId(assessmentId, user);
     } else {
       throw new NotFoundException(translate('assessmentSubmissionDoesNotExist'));
     }
