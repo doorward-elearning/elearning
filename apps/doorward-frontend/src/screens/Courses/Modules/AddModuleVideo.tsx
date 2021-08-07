@@ -5,7 +5,7 @@ import Layout, { LayoutFeatures } from '../../Layout';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import { PageComponent } from '@doorward/ui/types';
 import AddModuleVideoForm from '../../../components/Forms/AddModuleVideoForm';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';

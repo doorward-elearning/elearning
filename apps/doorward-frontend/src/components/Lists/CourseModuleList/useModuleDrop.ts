@@ -1,7 +1,7 @@
 import { DropResult } from 'react-beautiful-dnd';
 import Tools from '@doorward/common/utils/Tools';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { ApiActionCreator } from 'use-api-action/types/types';
+import { ApiActionCreator } from '@doorward/api-actions/types';
 
 export type HandleDrop = (dropResult: DropResult, items: Array<ModuleEntity>) => Array<ModuleEntity>;
 

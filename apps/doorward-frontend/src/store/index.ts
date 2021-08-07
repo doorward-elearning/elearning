@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
-import { combineApiReducers } from 'use-api-action';
 import DoorwardApi from '../services/apis/doorward.api';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
+import combineApiReducers from '@doorward/api-actions/combine.api.reducers';
 
 const apis = combineApiReducers({
   DoorwardApi,

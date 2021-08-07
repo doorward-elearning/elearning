@@ -3,8 +3,8 @@ import { UseForm } from '@doorward/ui/hooks/useForm';
 import AddUserFormLayout from '../AddUserFormLayout';
 import { TeacherResponse } from '@doorward/common/dtos/response';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { useApiAction } from 'use-api-action';
-import { WebComponentState } from 'use-api-action/types/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const AddTeacherForm: React.FunctionComponent<AddTeacherFormProps> = (props) => {
   const [createTeacher] = useApiAction(DoorwardApi, (api) => api.teachers.createTeacherAccount);

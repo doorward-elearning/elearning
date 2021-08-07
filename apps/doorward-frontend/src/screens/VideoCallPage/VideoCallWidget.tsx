@@ -7,7 +7,7 @@ import Meeting from '../../components/Meeting';
 import './VideoCallWidget.scss';
 import Empty from '@doorward/ui/components/Empty';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 

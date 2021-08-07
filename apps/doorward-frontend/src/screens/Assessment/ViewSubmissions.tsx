@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import { useRouteMatch } from 'react-router';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import WebComponent from '@doorward/ui/components/WebComponent';

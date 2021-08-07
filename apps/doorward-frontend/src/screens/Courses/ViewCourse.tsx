@@ -25,7 +25,7 @@ import LabelRow from '@doorward/ui/components/LabelRow';
 import CreateDiscussionGroupModal from '../../components/Modals/CreateDiscussionGroupModal';
 import translate from '@doorward/common/lang/translate';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useCourse from '../../hooks/useCourse';
 import NavLink from '@doorward/ui/components/NavLink';
 import ROUTES from '@doorward/common/frontend/routes/main';

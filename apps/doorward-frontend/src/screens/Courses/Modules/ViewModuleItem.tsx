@@ -23,7 +23,7 @@ import translate from '@doorward/common/lang/translate';
 import ModulesSideBar from './ModulesSideBar';
 import ViewModuleVideo from './ViewModuleVideo';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';

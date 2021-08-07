@@ -9,7 +9,7 @@ import './ViewGroup.scss';
 import DoorwardApi from '../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 
 const ViewGroup: React.FunctionComponent<ViewGroupProps> = (props): JSX.Element => {

@@ -62,6 +62,9 @@
     },
     "draft-editor": {
       "tags": []
+    },
+    "api-actions": {
+      "tags": []
     }
   }
 }

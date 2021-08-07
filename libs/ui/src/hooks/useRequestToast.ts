@@ -1,4 +1,4 @@
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 import useFormSubmit from '@doorward/ui/hooks/useFormSubmit';
 import toast from '@doorward/ui/utils/toast';
 import DApiResponse from '@doorward/common/dtos/response/base.response';

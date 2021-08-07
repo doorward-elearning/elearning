@@ -1,7 +1,7 @@
 import useAction from './useActions';
 import useFormSubmit from './useFormSubmit';
 import { UseModal } from './useModal';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 import useRequestToast from '@doorward/ui/hooks/useRequestToast';
 
 const useRequestModal = (props: UseRequestModalProps): UseRequestModal => {

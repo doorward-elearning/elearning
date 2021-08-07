@@ -5,7 +5,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Tools from '@doorward/common/utils/Tools';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';

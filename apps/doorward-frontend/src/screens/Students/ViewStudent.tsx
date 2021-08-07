@@ -4,7 +4,7 @@ import StudentProfileView from '../../components/UI/StudentProfileView';
 import { PageComponent } from '@doorward/ui/types';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import DoorwardApi from '../../services/apis/doorward.api';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 
 const ViewStudent: React.FunctionComponent<ViewStudentProps> = (props): JSX.Element => {

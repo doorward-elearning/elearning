@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LoadingPage from '../../screens/LoadingPage';
 import DoorwardApi from '../../services/apis/doorward.api';
 import configureLang from '@doorward/common/lang/frontend.config';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useAuth from '../../hooks/useAuth';
 
 const ApplicationInitializer: React.FunctionComponent<OrganizationWrapperProps> = (props): JSX.Element => {

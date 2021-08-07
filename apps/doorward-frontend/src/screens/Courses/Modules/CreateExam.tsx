@@ -6,7 +6,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import CreateAssessmentForm from '../../../components/Forms/AssessmentForm/CreateAssessmentForm';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';

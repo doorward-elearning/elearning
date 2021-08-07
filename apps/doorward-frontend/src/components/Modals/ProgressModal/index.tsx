@@ -4,7 +4,7 @@ import { ActionCreator } from 'redux';
 import useRequestModal from '@doorward/ui/hooks/useRequestModal';
 import Spinner from '@doorward/ui/components/Spinner';
 import Modal, { ModalProps } from '@doorward/ui/components/Modal';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const ProgressModal: React.FunctionComponent<ProgressModalProps> = (props) => {
   const { submit } = useRequestModal(props);

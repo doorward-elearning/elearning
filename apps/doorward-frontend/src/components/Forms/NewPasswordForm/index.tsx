@@ -6,7 +6,7 @@ import { useRouteMatch } from 'react-router';
 import { ResetPasswordBody } from '@doorward/common/dtos/body';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 ;
 

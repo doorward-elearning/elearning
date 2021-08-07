@@ -7,7 +7,7 @@ import UserProfileCard from '../../components/user/UserProfileCard';
 import { useHistory, useRouteMatch } from 'react-router';
 import { UserCardContext } from '../../components/user/UserCard';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../services/apis/doorward.api';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import ROUTES from '@doorward/common/frontend/routes/main';

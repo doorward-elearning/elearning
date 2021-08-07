@@ -5,9 +5,9 @@ import Modal, { ModalProps } from '@doorward/ui/components/Modal';
 import ChooseCourseManagerForm from '../../Forms/ChooseCourseManagerForm';
 import { TeachersResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../../services/apis/doorward.api';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const ChooseCourseManagerModal: React.FunctionComponent<ChooseCourseManagerModalProps> = (props): JSX.Element => {
   const form = useForm<ChooseStudentFormState>();

@@ -9,7 +9,7 @@ import { AssignmentSubmissionType } from '@doorward/common/types/courses';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const AssignmentSubmissionForm: React.FunctionComponent<AssignmentSubmissionFormProps> = ({
   assignment,

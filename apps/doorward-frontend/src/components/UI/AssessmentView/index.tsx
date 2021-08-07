@@ -19,7 +19,7 @@ import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import AssessmentTimer from '../../../screens/Assessment/AssessmentTimer';
 import InformationCard from '@doorward/ui/components/InformationCard';
 import AssessmentSubmissionView from './AssessmentSubmissionView';

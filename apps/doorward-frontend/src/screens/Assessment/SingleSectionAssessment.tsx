@@ -11,7 +11,7 @@ import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 import { AssessmentSubmissionResponse } from '@doorward/common/dtos/response';
 import Icon from '@doorward/ui/components/Icon';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';

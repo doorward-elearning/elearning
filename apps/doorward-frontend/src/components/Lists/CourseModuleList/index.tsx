@@ -30,8 +30,8 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import Tools from '@doorward/common/utils/Tools';
 import { AssignmentEntity } from '@doorward/common/entities/assignment.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import NavLink from '@doorward/ui/components/NavLink';
 

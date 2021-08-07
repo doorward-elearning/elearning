@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 function useFormSubmit<T extends WebComponentState<Data, any>, Data>(form?: T, onSubmit?: () => void): boolean {
   const [submitting, setSubmitting] = useState(false);

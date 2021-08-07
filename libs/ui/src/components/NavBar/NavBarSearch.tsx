@@ -11,7 +11,7 @@ import withContext from '@doorward/ui/hoc/withContext';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import Spinner from '@doorward/ui/components/Spinner';
 import translate from '@doorward/common/lang/translate';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 const SearchSuggestionView: React.FunctionComponent<SearchSuggestionViewProps> = ({
   suggestion,

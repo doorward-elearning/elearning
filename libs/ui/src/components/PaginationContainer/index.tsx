@@ -3,7 +3,7 @@ import Pagination from '@doorward/ui/components/Pagination';
 import WebComponent, { WebComponentProps } from '@doorward/ui/components/WebComponent';
 import useQueryParams from '@doorward/ui/hooks/useQueryParams';
 import { PaginatedResponse } from '@doorward/common/dtos/response/base.response';
-import { WebComponentState } from 'use-api-action/types/types';
+import { WebComponentState } from '@doorward/api-actions/types';
 
 function PaginationContainer<T extends PaginatedResponse, Data>(props: PaginationContainerProps<T, Data>): JSX.Element {
   const {

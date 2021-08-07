@@ -6,7 +6,7 @@ import useModal from '@doorward/ui/hooks/useModal';
 import { PageComponent } from '@doorward/ui/types';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';
 

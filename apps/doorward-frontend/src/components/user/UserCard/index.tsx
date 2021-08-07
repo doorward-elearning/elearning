@@ -10,7 +10,7 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import Button from '@doorward/ui/components/Buttons/Button';
 import withContext from '@doorward/ui/hoc/withContext';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { BasicProfilePicture } from '@doorward/ui/components/Input/ProfilePicture';
 

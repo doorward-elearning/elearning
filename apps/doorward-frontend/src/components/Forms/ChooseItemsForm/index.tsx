@@ -7,7 +7,7 @@ import Table, { ColumnProperties } from '@doorward/ui/components/Table';
 import { FieldArray, FormikProps } from 'formik';
 import Row from '@doorward/ui/components/Row';
 import translate from '@doorward/common/lang/translate';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 import Checkbox, { BasicCheckbox } from '@doorward/ui/components/Input/Checkbox';
 
 function ChooseItemsForm<T extends { id: string | number }, R>(props: ChooseItemsFormProps<T, R>): JSX.Element {

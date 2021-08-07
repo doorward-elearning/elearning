@@ -5,7 +5,7 @@ import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { CreateClassroomBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const AddClassroomForm: React.FunctionComponent<AddClassroomFormProps> = ({
   schoolId,

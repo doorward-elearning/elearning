@@ -12,7 +12,7 @@ import DoorwardApi from '../../../services/apis/doorward.api';
 import { SimpleGroupResponse } from '@doorward/common/dtos/response';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 
 const ChooseStudentForm: React.FunctionComponent<ChooseStudentFormProps> = (props) => {
   const [getStudentsNotRegistered, studentsNotRegistered] = useApiAction(

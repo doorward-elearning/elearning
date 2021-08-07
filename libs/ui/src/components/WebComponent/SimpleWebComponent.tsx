@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import WebComponent, { WebComponentProps } from './index';
 import useAction from '../../hooks/useActions';
-import { ApiActionCreator, WebComponentState } from 'use-api-action/types/types';
+import { ApiActionCreator, WebComponentState } from '@doorward/api-actions/types';
 
 function SimpleWebComponent<
   T extends WebComponentState<any>,

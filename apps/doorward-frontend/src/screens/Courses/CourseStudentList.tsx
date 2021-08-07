@@ -10,7 +10,7 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
-import { useApiAction } from 'use-api-action';
+import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 import useCourse from '../../hooks/useCourse';
 import ROUTES from '@doorward/common/frontend/routes/main';
