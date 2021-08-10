@@ -299,7 +299,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         {submission && submission.status !== AssessmentSubmissionStatus.DRAFT && (
           <RoleContainer privileges={['assessments.submit']}>
             <Header padded size={2} className="mb-8">
-              {translate('submission', { count: 1 })}
+              {translate('results', { count: 1 })}
             </Header>
             <AssessmentSubmissionView submission={submission} assessment={assessment} />
           </RoleContainer>

@@ -99,7 +99,7 @@ const ViewModuleItem: React.FunctionComponent<ViewModulePageProps> = (props) => 
               link={Tools.createRoute(ROUTES.assessments.submissions.list, { assessmentId: item.id })}
               theme="primary"
             >
-              {translate('viewSubmissions')}
+              {translate('viewResults')}
             </Button>
           )}
         </RoleContainer>
