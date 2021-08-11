@@ -8,6 +8,7 @@ import translate from '@doorward/common/lang/translate';
 import Tools from '@doorward/common/utils/Tools';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 
 const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionViewProps> = ({
   submission,
@@ -29,20 +30,29 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
             {Tools.timeTaken(submission.assessmentTime)}
           </InformationCard.Item>
           <InformationCard.Item title={translate('gradedOn')} icon={'grade'} hidden={!submission.gradedOn}>
-            {Tools.normalDateTime(submission.gradedOn)}
+            {submission.status === AssessmentSubmissionStatus.GRADED
+              ? Tools.normalDateTime(submission.gradedOn)
+              : translate('notYetGraded')}
           </InformationCard.Item>
           <InformationCard.Item title={translate('submittedOn')} icon={'send'}>
             {Tools.normalDateTime(submission.submittedOn)}
           </InformationCard.Item>
-          <InformationCard.Item title={translate('grade')} icon={'grade'}>
+          <InformationCard.Item title={translate('marksObtained')} icon={'grade'}>
             <DisplayLabel>
-              {submission.gradedOn
+              {submission.status === AssessmentSubmissionStatus.GRADED
+                ? `${submission.grade}`
+                : translate('notYetGraded')}
+            </DisplayLabel>
+          </InformationCard.Item>
+          <InformationCard.Item title={translate('percentage')} icon={'grade'}>
+            <DisplayLabel>
+              {submission.status === AssessmentSubmissionStatus.GRADED
                 ? `${((+submission.grade / +results?.totalPoints) * 100).toFixed(1)}%`
                 : translate('notYetGraded')}
             </DisplayLabel>
           </InformationCard.Item>
           <InformationCard.Item
-            hidden={!submission.gradedOn}
+            hidden={!(submission.status === AssessmentSubmissionStatus.GRADED)}
             title={translate('gradedBy')}
             icon={submission.grader?.fullName ? 'account_circle' : 'devices'}
           >
@@ -50,7 +60,7 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           </InformationCard.Item>
         </InformationCard.Body>
       </InformationCard>
-      {submission.gradedOn && (
+      {submission.status === AssessmentSubmissionStatus.GRADED && (
         <div className="results mt-8">
           {results &&
             Object.keys(results.questions).map((questionId, index) => {

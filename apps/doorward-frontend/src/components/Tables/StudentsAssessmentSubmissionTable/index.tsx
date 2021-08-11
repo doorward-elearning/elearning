@@ -34,9 +34,16 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
           },
           gradedOn: {
             title: translate('gradedOn'),
+            cellRenderer: (cell) => Tools.normalDateTime(cell.cellData),
+          },
+          marks: {
+            title: translate('marksObtained'),
+            cellRenderer: (cell) => {
+              return Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? cell.rowData.grade : '');
+            },
           },
           grade: {
-            title: translate('grade'),
+            title: translate('percentage'),
             cellRenderer: (cell) =>
               Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? calculateGrade(cell.rowData) : ''),
           },
