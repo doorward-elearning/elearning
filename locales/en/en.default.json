@@ -201,7 +201,7 @@
   "lowest": "Lowest",
   "marks": "Marks",
   "maxFileSize": "Max file size is: {{size}}",
-  "marksObtained" : "Marks Obtained",
+  "marksObtained": "Marks Obtained",
   "maximumTrials": "Enter the maximum number of trials",
   "meeting": "{{meeting, capitalize}}",
   "meetingDoesNotExist": "{{meeting, capitalize}} does not exist",
@@ -597,7 +597,7 @@
   "notYetDone": "Not done yet",
   "dueDatePassed": "The due date passed.",
   "viewSubmissions": "View submissions",
-  "viewResults":"View Results",
+  "viewResults": "View Results",
   "assessmentSubmissionsTitle": "{{title}} - Results",
   "noSubmissionsMessage": "There are no submissions.",
   "graded": "Graded",
@@ -612,5 +612,5 @@
   "sectionPleaseChooseQuestions": "Choose {{count}} question from this section",
   "sectionAllQuestionsCompulsory": "All questions are compulsory in this section.",
   "answerAllQuestionsChooseBest": "Allow {{student}} to answer all questions. (Grading will choose the best)",
-  "results":"Results"
+  "results": "Results"
 }

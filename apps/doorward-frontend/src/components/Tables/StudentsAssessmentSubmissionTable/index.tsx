@@ -39,9 +39,7 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
           marks: {
             title: translate('marksObtained'),
             cellRenderer: (cell) => {
-              const results = JSON.parse(cell.rowData.submissionResults) as AssessmentSubmissionResult;
-              const marks = results.totalPoints;
-              return Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? marks : '');
+              return Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? cell.rowData.grade : '');
             },
           },
           grade: {

@@ -40,7 +40,7 @@ const AssessmentSubmissionView: React.FunctionComponent<AssessmentSubmissionView
           <InformationCard.Item title={translate('marksObtained')} icon={'grade'}>
             <DisplayLabel>
               {submission.status === AssessmentSubmissionStatus.GRADED
-                ? `${results?.totalPoints}`
+                ? `${submission.grade}`
                 : translate('notYetGraded')}
             </DisplayLabel>
           </InformationCard.Item>
