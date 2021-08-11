@@ -17,6 +17,7 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
         title: translate('firstName'),
       },
       
+      
     }}
     data={props.students}
   
