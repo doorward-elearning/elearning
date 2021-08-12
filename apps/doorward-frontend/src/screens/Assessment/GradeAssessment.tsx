@@ -9,12 +9,20 @@ import WebComponent from '@doorward/ui/components/WebComponent';
 import InformationCard from '@doorward/ui/components/InformationCard';
 import translate from '@doorward/common/lang/translate';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
+import { AssessmentSubmissionResult } from '@doorward/common/types/assessments';
 
 const GradeAssessment: React.FunctionComponent<GradeAssessmentProps> = (props): JSX.Element => {
   const match = useRouteMatch<{ submissionId: string }>();
   const [getSubmission, submissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getStudentSubmission);
   const [getAssessment, assessmentState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
   const [title, setTitle] = useState('');
+  const [results, setResults] = useState<AssessmentSubmissionResult>();
+
+  useEffect(() => {
+    if (submissionState.data?.submission) {
+      setResults(JSON.parse(submissionState.data?.submission.submissionResults));
+    }
+  }, [submissionState]);
 
   useEffect(() => {
     if (match.params.submissionId) {
@@ -55,8 +63,17 @@ const GradeAssessment: React.FunctionComponent<GradeAssessmentProps> = (props): 
                 <InformationCard.Item title={translate('status')} icon={'info'}>
                   {submission.status}
                 </InformationCard.Item>
-                <InformationCard.Item title={translate('gradedOn')} icon={'info'}>
-                  {submission.status}
+                <InformationCard.Item title={translate('gradedOn')} icon={'date_range'}>
+                  {Tools.normalDateTime(submission.gradedOn)}
+                </InformationCard.Item>
+                <InformationCard.Item title={translate('marksObtained')} icon={'grade'}>
+                  {`${(submission.grade)}`}
+                </InformationCard.Item>
+                <InformationCard.Item title={translate('totalPoints')} icon={'grade'}>
+                  {`${(results?.totalPoints)}`}
+                </InformationCard.Item>
+                <InformationCard.Item title={translate('percentage')} icon={'grade'}>
+                  {`${((+submission.grade / +results?.totalPoints) * 100).toFixed(1)}%`}
                 </InformationCard.Item>
               </InformationCard.Body>
             </InformationCard>
