@@ -4,9 +4,9 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
-  const isMobile = window.innerWidth <= 500;
+  const showOnMobile = window.innerWidth <= 500;
   return(
-   isMobile === true ?  <Table
+    showOnMobile === true ?  <Table
     {...props}
     className="student-table"
     columns={{
@@ -32,14 +32,8 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
     firstName: {
       title: translate('firstName'),
     },
-    lastName: {
-      title: translate('lastName'),
-    },
     email: {
       title: translate('email'),
-    },
-    phoneNumber: {
-      title: translate('phoneNumber'),
     },
     status: {
       title: translate('status'),
