@@ -1,3 +1,5 @@
+@import '../../../responsive';
+
 .ed-userProfileCard {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -7,12 +9,18 @@
 
   &__main {
     grid-column: 1 / 4;
+    @include mobile {
+      grid-column: 1 / 10;
+    }
     display: grid;
     grid-gap: var(--padding-xlg);
   }
 
   &__account {
     grid-column: 4 / 10;
+    @include mobile {
+      grid-column: 1 / 10;
+    }
     display: grid;
     grid-gap: var(--padding-xlg);
 
