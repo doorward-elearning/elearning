@@ -32,32 +32,11 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
             title: translate('email'),
             cellRenderer: (cell) => Tools.str(cell.rowData.student?.email),
           },
-          gradedOn: {
-            title: translate('gradedOn'),
-            cellRenderer: (cell) => Tools.normalDateTime(cell.cellData),
-          },
           marks: {
             title: translate('marksObtained'),
             cellRenderer: (cell) => {
               return Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? cell.rowData.grade : '');
             },
-          },
-          grade: {
-            title: translate('percentage'),
-            cellRenderer: (cell) =>
-              Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? calculateGrade(cell.rowData) : ''),
-          },
-          gradedBy: {
-            title: translate('gradedBy'),
-            cellRenderer: (cell) => {
-              const graded = cell.rowData.status === AssessmentSubmissionStatus.GRADED;
-
-              return Tools.str(graded ? cell.cellData?.fullName || translate('systemGraded') : '');
-            },
-          },
-          submittedOn: {
-            title: translate('submittedOn'),
-            cellRenderer: (cell) => Tools.normalDateTime(cell.cellData),
           },
           graded: {
             title: translate('status'),
