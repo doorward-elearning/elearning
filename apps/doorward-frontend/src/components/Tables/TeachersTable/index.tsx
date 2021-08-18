@@ -5,19 +5,17 @@ import translate from '@doorward/common/lang/translate';
 
 const TeachersTable: React.FunctionComponent<TeachersTableProps> = (props) => {
   return (
-    <Table
-      className="teachers-table"
-      sortable
-      columns={{
-        username: translate('username'),
-        firstName: translate('firstName'),
-        lastName: translate('lastName'),
-        email: translate('email'),
-        phoneNumber: translate('phoneNumber'),
-        status: translate('status'),
-      }}
-      data={props.teachers}
-    />
+   <Table
+    className="teachers-table"
+    sortable
+    columns={{
+      username: translate('username'),
+      firstName: translate('firstName'),
+      email: translate('email'),
+      status: translate('status'),
+    }}
+    data={props.teachers}
+  />
   );
 };
 
