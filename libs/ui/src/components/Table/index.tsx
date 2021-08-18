@@ -19,6 +19,7 @@ import Tools from '@doorward/common/utils/Tools';
 import translate from '@doorward/common/lang/translate';
 import Dropdown from '@doorward/ui/components/Dropdown';
 import Icon from '@doorward/ui/components/Icon';
+import useResponsiveness, { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 function Table<T, Columns extends ColumnProperties<T>>({
   sortable = true,
@@ -28,10 +29,11 @@ function Table<T, Columns extends ColumnProperties<T>>({
   const [sortInfo, setSortInfo] = useState();
   const [_data, _setData] = useState([]);
   const [columns, setColumns] = useState<ColumnProperties<T>>({});
+  const [displayDevice] = useResponsiveness();
 
   useEffect(() => {
     if (props.columns) {
-      const _columns: ColumnProperties<T> = props.columns;
+      const _columns: ColumnProperties<T> = { ...props.columns };
 
       if (props.actionMenu) {
         _columns.action = {
@@ -48,9 +50,16 @@ function Table<T, Columns extends ColumnProperties<T>>({
           },
         };
       }
+
+      Object.keys(_columns).forEach((columnKey) => {
+        if (_columns[columnKey].minDisplay && displayDevice < _columns[columnKey].minDisplay) {
+          delete _columns[columnKey];
+        }
+      });
+
       setColumns(_columns);
     }
-  }, [props.columns, props.actionMenu]);
+  }, [props.columns, props.actionMenu, displayDevice]);
 
   useEffect(() => {
     let _updated = [...data];
@@ -165,6 +174,7 @@ export type ColumnProperties<T> = Record<
     title: string;
     cellRenderer?: TableCellRenderer;
     headerRenderer?: TableHeaderRenderer;
+    minDisplay?: DisplayDeviceType;
   } & Partial<ColumnProps>
 >;
 
