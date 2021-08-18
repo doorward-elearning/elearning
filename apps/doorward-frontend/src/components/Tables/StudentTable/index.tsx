@@ -11,16 +11,16 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
     className="student-table"
     columns={{
       username: {
-        title: translate('username'),
+        title: translate('username'), 
       },
       firstName: {
         title: translate('firstName'),
       },
       
-      
+
     }}
     data={props.students}
-  
+
     onRowClick={props.onClickStudent}
   /> : <Table
   {...props}
