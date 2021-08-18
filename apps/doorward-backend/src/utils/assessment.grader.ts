@@ -6,6 +6,7 @@ import { AssessmentQuestionResult, AssessmentSubmissionResult } from '@doorward/
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
+import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 
 const gradeQuestion = async (questionEntity: QuestionEntity, response: string): Promise<AssessmentQuestionResult> => {
   const result = { ...questionEntity, points: 0, graded: true };
@@ -109,6 +110,7 @@ const assessmentGrader = async (submissionId: string, connection: Connection) =>
 
   if (allGraded) {
     submissionEntity.gradedOn = new Date();
+    submissionEntity.status = AssessmentSubmissionStatus.GRADED;
   }
 
   await assessmentSubmissionRepository.save(submissionEntity);
