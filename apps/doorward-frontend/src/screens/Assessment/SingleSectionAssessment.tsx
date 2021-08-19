@@ -18,6 +18,10 @@ import QuestionSectionEntity from '@doorward/common/entities/question.section.en
 import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Header from '@doorward/ui/components/Header';
+import SidePanel from './SidePanel';
+import { Draggable } from 'react-beautiful-dnd';
+import { ColumnSizer } from 'react-virtualized';
+import DisplayQuestion from './DisplayQuestion';
 
 const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentProps> = ({
   sections,
@@ -29,6 +33,11 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
   const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
   const [currentSection, setCurrentSection] = useState(0);
+  const [visible, setVisible] = useState(true);
+  const isMobile = window.innerWidth < 700;
+
+  const onOpen = () => setVisible(true);
+  const onClose = () => setVisible(false);
 
   useEffect(() => {
     onReadyToSave(JSON.stringify(formikProps.values.submission));
@@ -101,21 +110,20 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
               )}
               <HTMLContentView content={section.instructions} />
             </div>
-            {section.questions.map((question) => {
-              const questionsAnswered = getQuestionsAnswered(section);
-
-              let disableQuestion =
-                !section.config.questions.allCompulsory && !section.config.questions?.answers?.answerAll;
-
-              disableQuestion = disableQuestion && questionsAnswered.length === section.config.questions.numRequired;
-              disableQuestion = disableQuestion && !questionsAnswered.includes(question.id);
-
-              return <QuestionView disabled={disableQuestion} question={question} view={QuestionViewTypes.EXAM_MODE} />;
-            })}
-            <div>
-              <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                {translate('submitExam')}
-              </Button>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
+              <div style={{ gridRowStart: 1 }}>
+                <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
+              </div>
+              <div style={{ gridRowStart: 1 }}>
+                <Button onClick={() => (!visible ? onOpen() : onClose())}>{translate('openSidePanel')}</Button>
+                {visible && <SidePanel section={section} />}
+                <div>
+                  <Spacer />
+                  <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
+                    {translate('submitExam')}
+                  </Button>
+                </div>
+              </div>
             </div>
           </Tab>
         ))}
