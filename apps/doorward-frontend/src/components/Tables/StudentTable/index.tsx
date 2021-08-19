@@ -2,46 +2,34 @@ import React from 'react';
 import Table, { OnRowClick, TableProps } from '@doorward/ui/components/Table';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
+import { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
   const showOnMobile = window.innerWidth <= 500;
   return(
-    showOnMobile === true ?  <Table
+    <Table
     {...props}
     className="student-table"
-    columns={{
-      username: {
-        title: translate('username'), 
-      },
-      firstName: {
-        title: translate('firstName'),
-      },
-      
+      columns={{
+        username: {
+          title: translate('username'),
+        },
+        firstName: {
+          title: translate('firstName'),
+        },
+        email: {
+          title: translate('email'),
+          minDisplay: DisplayDeviceType.DESKTOP
 
-    }}
-    data={props.students}
+        },
+        status: {
+          title: translate('status'),
+          minDisplay: DisplayDeviceType.DESKTOP
+        },
+      }}
+      data={props.students}
+      onRowClick={props.onClickStudent}
 
-    onRowClick={props.onClickStudent}
-  /> : <Table
-  {...props}
-  className="student-table"
-  columns={{
-    username: {
-      title: translate('username'),
-    },
-    firstName: {
-      title: translate('firstName'),
-    },
-    email: {
-      title: translate('email'),
-    },
-    status: {
-      title: translate('status'),
-    },
-  }}
-  data={props.students}
-
-  onRowClick={props.onClickStudent}
 />
    
   );
