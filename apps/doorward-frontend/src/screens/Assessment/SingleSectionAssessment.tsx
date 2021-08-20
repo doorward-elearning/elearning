@@ -18,7 +18,6 @@ import QuestionSectionEntity from '@doorward/common/entities/question.section.en
 import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Header from '@doorward/ui/components/Header';
-import SidePanel from './SidePanel';
 import { Draggable } from 'react-beautiful-dnd';
 import { ColumnSizer } from 'react-virtualized';
 import DisplayQuestion from './DisplayQuestion';
@@ -110,20 +109,14 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
               )}
               <HTMLContentView content={section.instructions} />
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
-              <div style={{ gridRowStart: 1 }}>
-                <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
-              </div>
-              <div style={{ gridRowStart: 1 }}>
-                <Button onClick={() => (!visible ? onOpen() : onClose())}>{translate('openSidePanel')}</Button>
-                {visible && <SidePanel section={section} />}
-                <div>
-                  <Spacer />
-                  <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                    {translate('submitExam')}
-                  </Button>
-                </div>
-              </div>
+            <div>
+              <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
+            </div>
+            <div>
+              <Spacer />
+              <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
+                {translate('submitExam')}
+              </Button>
             </div>
           </Tab>
         ))}

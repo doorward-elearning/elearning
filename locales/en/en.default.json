@@ -316,6 +316,8 @@
   "resetPassword": "Reset password",
   "resetTokenRequired": "The reset token is required",
   "responses": "Responses",
+  "review": "Review",
+  "unReview": "Un-Review",
   "save": "Save",
   "schoolClassrooms": "{{classroom_plural, capitalize}}",
   "schoolHasBeenCreated": "The {{school}} has been created. You can now create {{classroom_plural}} for the {{school}}.",

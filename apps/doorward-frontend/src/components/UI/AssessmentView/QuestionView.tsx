@@ -18,6 +18,7 @@ import translate from '@doorward/common/lang/translate';
 import './styles/QuestionView.scss';
 import classNames from 'classnames';
 import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
+import Badge from '@doorward/ui/components/Badge';
 
 export enum QuestionViewTypes {
   /**
@@ -92,12 +93,19 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
         </HeaderGrid>
         <div>
           <Panel>
+            {view === QuestionViewTypes.EXAM_MODE && <Badge className="badge">Q{questionNumber}</Badge>}
             <HTMLContentView content={question.question} />
           </Panel>
           <Spacer />
           {question.type === AnswerTypes.MULTIPLE_CHOICE ||
           question.type === AnswerTypes.MULTIPLE_CHOICE_DESCRIPTIVE ? (
-            <AnswersView disabled={disabled} answers={answers} question={question} view={view} assessmentOptions={assessmentOptions} />
+            <AnswersView
+              disabled={disabled}
+              answers={answers}
+              question={question}
+              view={view}
+              assessmentOptions={assessmentOptions}
+            />
           ) : view === QuestionViewTypes.EXAM_MODE ? (
             <DraftTextArea editable={!disabled} fluid name={`submission[${question.id}]`} />
           ) : (
