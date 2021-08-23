@@ -50,7 +50,7 @@ const StudentList: React.FunctionComponent<StudentListProps> = (props) => {
         });
       }}
     >
-      <WebComponent data={studentList.data?.students} loading={studentList.fetching} style={{ flex: 1 }}>
+      <WebComponent data={studentList.data?.students} loading={studentList.fetching} style={{  flex: 1 }}>
         {(students) => (
           <StudentTable
             students={students}
