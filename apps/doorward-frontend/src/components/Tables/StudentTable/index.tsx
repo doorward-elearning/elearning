@@ -2,56 +2,41 @@ import React from 'react';
 import Table, { OnRowClick, TableProps } from '@doorward/ui/components/Table';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
+import { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
-  const isMobile = window.innerWidth <= 500;
-  return(
-   isMobile === true ?  <Table
-    {...props}
-    className="student-table"
-    columns={{
-      username: {
-        title: translate('username'),
-      },
-      firstName: {
-        title: translate('firstName'),
-      },
-      
-      
-    }}
-    data={props.students}
-  
-    onRowClick={props.onClickStudent}
-  /> : <Table
-  {...props}
-  className="student-table"
-  columns={{
-    username: {
-      title: translate('username'),
-    },
-    firstName: {
-      title: translate('firstName'),
-    },
-    lastName: {
-      title: translate('lastName'),
-    },
-    email: {
-      title: translate('email'),
-    },
-    phoneNumber: {
-      title: translate('phoneNumber'),
-    },
-    status: {
-      title: translate('status'),
-    },
-  }}
-  data={props.students}
-
-  onRowClick={props.onClickStudent}
-/>
-   
+  return (
+    <Table
+      {...props}
+      className="student-table"
+      columns={{
+        username: {
+          title: translate('username'),
+        },
+        firstName: {
+          title: translate('firstName'),
+        },
+        lastName: {
+          title: translate('lastName'),
+          minDisplay: DisplayDeviceType.DESKTOP,
+        },
+        email: {
+          title: translate('email'),
+          minDisplay: DisplayDeviceType.DESKTOP,
+        },
+        phoneNumber: {
+          title: translate('phoneNumber'),
+          minDisplay: DisplayDeviceType.DESKTOP,
+        },
+        status: {
+          title: translate('status'),
+          minDisplay: DisplayDeviceType.DESKTOP,
+        },
+      }}
+      data={props.students}
+      onRowClick={props.onClickStudent}
+    />
   );
-  
 };
 
 export interface StudentTableProps extends Omit<TableProps<UserEntity>, 'columns' | 'data'> {
