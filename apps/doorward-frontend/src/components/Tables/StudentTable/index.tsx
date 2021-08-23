@@ -5,7 +5,6 @@ import translate from '@doorward/common/lang/translate';
 import { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
-  const showOnMobile = window.innerWidth <= 500;
   return(
     <Table
     {...props}
