@@ -24,29 +24,41 @@ const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ sectio
   const onOpen = () => setVisible(true);
   const onClose = () => setVisible(false);
 
-  const previous = (index) => {
-    if (index > 0) {
-      setIndex(index - 1);
-    }
-  };
-  const next = (index) => {
-    if (index < section.questions.length - 1) {
-      setIndex(index + 1);
-    }
-  };
-  const onClickQuestionNumber = (index) => {
-    setIndex(index);
-    setCurrentQuestion(section.questions[index]);
-  };
+  const previous = useCallback(
+    (index) => {
+      if (index > 0) {
+        setIndex(index - 1);
+      }
+    },
+    [index]
+  );
+
+  const next = useCallback(
+    (index) => {
+      if (index < section.questions.length - 1) {
+        setIndex(index + 1);
+      }
+    },
+    [index]
+  );
+  const onClickQuestionNumber = useCallback(
+    (index) => {
+      setIndex(index);
+      setCurrentQuestion(section.questions[index]);
+    },
+    [index]
+  );
+  const mark = useCallback(
+    (index) => {
+      setReviewMark(reviewMark.filter((i) => i !== index));
+    },
+    [index]
+  );
+
   useEffect(() => {
     setCurrentQuestion(section.questions[index]);
     setIndex(index);
   }, [index]);
-
-  const mark =(index) =>{
-    setReviewMark(reviewMark.filter(i => i !== index));
-
-  }
 
   const getQuestionsAnswered = useCallback(
     (section: QuestionSectionEntity) => {

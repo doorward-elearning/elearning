@@ -32,11 +32,6 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
   const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
   const [currentSection, setCurrentSection] = useState(0);
-  const [visible, setVisible] = useState(true);
-  const isMobile = window.innerWidth < 700;
-
-  const onOpen = () => setVisible(true);
-  const onClose = () => setVisible(false);
 
   useEffect(() => {
     onReadyToSave(JSON.stringify(formikProps.values.submission));
