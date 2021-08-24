@@ -2,6 +2,7 @@ import React from 'react';
 import Table, { OnRowClick, TableProps } from '@doorward/ui/components/Table';
 import UserEntity from '@doorward/common/entities/user.entity';
 import translate from '@doorward/common/lang/translate';
+import { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
   return (
@@ -14,18 +15,22 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
         },
         firstName: {
           title: translate('firstName'),
+          minDisplay: DisplayDeviceType.DESKTOP,
         },
         lastName: {
           title: translate('lastName'),
+          minDisplay: DisplayDeviceType.DESKTOP,
         },
         email: {
           title: translate('email'),
         },
         phoneNumber: {
           title: translate('phoneNumber'),
+          minDisplay: DisplayDeviceType.DESKTOP,
         },
         status: {
           title: translate('status'),
+          minDisplay: DisplayDeviceType.DESKTOP,
         },
       }}
       data={props.students}
