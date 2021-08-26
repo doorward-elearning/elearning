@@ -167,11 +167,6 @@ export type FilterTable<T> = (data: Array<T>, text: string) => Array<T>;
 
 export type ActionMenu = (props: TableCellProps) => JSX.Element;
 
-/*export type ActionMenu<T> = {
-  data : any;
-  minDisplay?: DisplayDeviceType;
-}*/
-
 export type ColumnProperties<T> = Record<
   string,
   {
