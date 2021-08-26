@@ -35,7 +35,7 @@ function Table<T, Columns extends ColumnProperties<T>>({
     if (props.columns) {
       const _columns: ColumnProperties<T> = { ...props.columns };
 
-      if (props.actionMenu && displayDevice == 3 || displayDevice == 2) {
+      if (props.actionMenu && ( displayDevice === DisplayDeviceType.TABLET || displayDevice === DisplayDeviceType.DESKTOP)) {
         _columns.action = {
           title: translate('actionMenuTitle'),
           minWidth: 60,
