@@ -35,7 +35,7 @@ function Table<T, Columns extends ColumnProperties<T>>({
     if (props.columns) {
       const _columns: ColumnProperties<T> = { ...props.columns };
 
-      if (props.actionMenu) {
+      if (props.actionMenu && displayDevice == 3 || displayDevice == 2) {
         _columns.action = {
           title: translate('actionMenuTitle'),
           minWidth: 60,
@@ -166,6 +166,11 @@ export type OnRowClick = (info: RowMouseEventHandlerParams) => void;
 export type FilterTable<T> = (data: Array<T>, text: string) => Array<T>;
 
 export type ActionMenu = (props: TableCellProps) => JSX.Element;
+
+/*export type ActionMenu<T> = {
+  data : any;
+  minDisplay?: DisplayDeviceType;
+}*/
 
 export type ColumnProperties<T> = Record<
   string,
