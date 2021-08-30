@@ -12,7 +12,7 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
 
 const OrganizationExists = () =>
-  ModelExists({ key: 'organizationId', model: OrganizationEntity, message: '{{organization}} does not exist.' });
+  ModelExists({ key: 'organizationId', model: OrganizationEntity, message: translate('organizationNotExists') });
 
 @Controller('organizations')
 @ApiTags('organizations')

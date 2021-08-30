@@ -11,8 +11,7 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
-
-;
+import { CustomerTypes } from '@doorward/common/types/customerTypes';
 
 const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProps> = (props): JSX.Element => {
   const form = useForm();
@@ -20,11 +19,13 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
     name: '',
     icon: '',
     description: '',
+    customerType: CustomerTypes.COLLEGE_INDIA,
+    link: 'https://dooward.tech',
     ...(props.organization || {}),
   };
 
   const apiAction = useApiAction(DoorwardApi, (api) =>
-    props.organization ? api.organizations.createOrganization : api.organizations.updateOrganization
+    props.organization ? api.organizations.updateOrganization : api.organizations.createOrganization
   );
   return (
     <BasicForm

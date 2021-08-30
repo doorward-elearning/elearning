@@ -24,7 +24,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
         text: translate('createOrganization'),
         onClick: () => navigation.navigate(ROUTES.organizations.create),
       }}
-      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
     >
       <WebComponent data={organizations.data?.organizations} loading={organizations.fetching}>
         {(organizations) => <OrganizationsTable organizations={organizations} />}

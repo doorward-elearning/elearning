@@ -24,7 +24,7 @@ async function bootstrap() {
 
   logger.info('Fetched organization from ' + process.env.REACT_APP_BASE_URL + ' id: ' + organization?.id);
 
-  await configureLang(organization);
+  await configureLang();
 
   const app = await setUpNestApplication(AppModule, {
     logger: new DoorwardLogger(),
@@ -41,7 +41,7 @@ async function bootstrap() {
       tag: 'doorward',
       basePath: globalPrefix,
     },
-    'apps/doorward-chat-api/documentation/swagger.json'
+    'apps/doorward-chat-api/documentation/swagger.json',
   );
 
   const reflector = app.get(Reflector);
@@ -64,4 +64,5 @@ async function bootstrap() {
   });
 }
 
-bootstrap().then(() => {});
+bootstrap().then(() => {
+});

@@ -612,5 +612,6 @@
   "sectionPleaseChooseQuestions": "Choose {{count}} question from this section",
   "sectionAllQuestionsCompulsory": "All questions are compulsory in this section.",
   "answerAllQuestionsChooseBest": "Allow student to answer all questions. (Grading will choose the best)",
-  "results": "Results"
+  "results": "Results",
+  "organizationNotExists": "The organization does not exist."
 }
