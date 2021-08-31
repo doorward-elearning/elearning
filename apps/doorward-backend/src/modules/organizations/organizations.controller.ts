@@ -10,6 +10,7 @@ import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
+import { CurrentOrganization } from '@doorward/backend/decorators/organization.decorator';
 
 const OrganizationExists = () =>
   ModelExists({ key: 'organizationId', model: OrganizationEntity, message: translate('organizationNotExists') });
@@ -30,9 +31,9 @@ export class OrganizationsController {
     description: 'The current organization running this service',
     type: OrganizationResponse,
   })
-  async getCurrentOrganization(): Promise<OrganizationResponse> {
+  async getCurrentOrganization(@CurrentOrganization() organization: OrganizationEntity): Promise<OrganizationResponse> {
     return {
-      organization: await this.organizationService.get(),
+      organization,
     };
   }
 

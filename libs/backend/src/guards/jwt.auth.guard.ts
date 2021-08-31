@@ -1,6 +1,7 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { ExecutionContext, Injectable, UnauthorizedException } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
+import { ExceptionCause } from '@doorward/backend/exceptions/exception.cause';
 
 @Injectable()
 export default class JwtAuthGuard extends AuthGuard('jwt') {
@@ -18,7 +19,10 @@ export default class JwtAuthGuard extends AuthGuard('jwt') {
       canActivate = await (super.canActivate(context) as Promise<boolean>);
     } catch (error) {
       if (!isPublic) {
-        throw error;
+        throw new UnauthorizedException({
+          message: 'Unauthorized',
+          cause: ExceptionCause.invalid_jwt_token,
+        });
       }
     }
 

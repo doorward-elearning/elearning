@@ -14,11 +14,16 @@ import { LoginBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import LocalStrategy from './strategies/local.strategy';
 
 @Controller('auth')
 @ApiTags('auth')
 export class AuthController {
-  constructor(private authService: AuthService, private emailService: EmailsService) {}
+  constructor(
+    private authService: AuthService,
+    private emailService: EmailsService,
+    private localStrategy: LocalStrategy
+  ) {}
 
   @UseGuards(LocalAuthGuard)
   @Post('login')

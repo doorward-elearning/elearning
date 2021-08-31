@@ -12,7 +12,7 @@ const configureLang = (path = LOCALES_PATH, configure: (i18n: i18n) => i18n = (i
   return configure(i18next.use(Backend)).init({
     fallbackLng: 'en',
     lng: 'en',
-    debug: process.env.NODE_ENV === 'development',
+    debug: false,
     initImmediate: false,
     preload: readdirSync(join(__dirname, path)).filter((fileName) => {
       const joinedPath = join(__dirname, path, fileName);

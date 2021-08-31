@@ -35,9 +35,10 @@ export class TransformExceptionFilter implements ExceptionFilter {
     if ((response as string).toLowerCase) {
       data.message = exception.message as string;
     } else {
-      if (response.error) {
+      if (response.error || response.message) {
         data.message = response?.message || response?.error;
       }
+      data.cause = response.cause;
     }
     if (exception instanceof ForbiddenException) {
       data.message = 'You do not have sufficient privileges to perform this action.';

@@ -17,7 +17,7 @@ import { In } from 'typeorm';
 
 const chalk = require('chalk');
 
-export let ORGANIZATION: OrganizationEntity = undefined;
+export const ORGANIZATIONS: Record<string, OrganizationEntity> = {};
 
 export interface OrganizationConfig {
   id: string;
@@ -52,8 +52,8 @@ export interface OrganizationConfig {
   };
 }
 
-const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION) => {
-  const filePath = path.join(__dirname, './config', organization || 'default', fileName);
+const getConfigFile = (fileName: string) => {
+  const filePath = path.join(__dirname, './config', fileName);
   if (fs.existsSync(filePath)) {
     return filePath;
   }
@@ -62,13 +62,7 @@ const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION
 
 const parseConfigFile = <T = object>(fileName: string): T => {
   try {
-    let filePath;
-    try {
-      filePath = getConfigFile(fileName);
-    } catch (e) {
-      console.error(e);
-      filePath = getConfigFile(fileName, 'default');
-    }
+    const filePath = getConfigFile(fileName);
     const fileContents = fs.readFileSync(filePath).toString();
 
     return JSON.parse(fileContents) as T;
@@ -120,25 +114,11 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<
     const entityManager = queryRunner.manager;
 
     const organizationConfig = parseOrganization();
-    const {
-      id,
-      link,
-      name,
-      icons,
-      description,
-      admins,
-      models,
-      descriptiveLogo,
-      customerType,
-      meetingPlatform,
-      roles,
-    } = organizationConfig;
-    if (!organizationConfig.id) {
-      console.error('Organization id is required in the "organization.json" config file');
-      process.exit(1);
-    }
+    const { link, name, icons, description, admins, descriptiveLogo, customerType, meetingPlatform, roles } =
+      organizationConfig;
+
     organization = entityManager.create(OrganizationEntity, {
-      id,
+      id: process.env.DEFAULT_ORGANIZATION_ID,
       link,
       name,
       descriptiveLogo,
@@ -207,7 +187,6 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<
           name: roleName as Roles,
         });
 
-        role.displayName = models[roleName as Roles] || role.displayName;
         await entityManager.save(RoleEntity, role);
       })
     );
@@ -232,25 +211,18 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<
 
     await queryRunner.commitTransaction();
 
-    organization.models = Object.keys(models).reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur]: models[cur][0],
-        [cur + '_plural']: models[cur][1],
-      };
-    }, {} as any);
+    const organizations = await entityManager.find(OrganizationEntity);
 
-    organization.meetings = {
-      config: parseMeetingConfig(),
-      interface: parseMeetingInterfaceConfig(),
-    };
+    organizations.forEach((organization) => {
+      organization.meetings = {
+        config: parseMeetingConfig(),
+        interface: parseMeetingInterfaceConfig(),
+      };
+
+      ORGANIZATIONS[organization.id] = organization;
+    });
 
     console.log(chalk.cyan('Organization set up complete.'));
-
-    ORGANIZATION = organization;
-
-    //set it as an environment variable
-    process.env.ORGANIZATION_ID = ORGANIZATION.id;
   } catch (error) {
     console.error(error);
     await queryRunner.rollbackTransaction();

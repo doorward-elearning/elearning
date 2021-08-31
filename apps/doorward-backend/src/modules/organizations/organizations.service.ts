@@ -1,35 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common/dtos/body';
 import OrganizationsRepository from '@doorward/backend/repositories/organizations.repository';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
-import { Not } from 'typeorm';
 
 @Injectable()
 export class OrganizationsService {
-  organization: OrganizationEntity;
-
-  constructor(private organizationRepository: OrganizationsRepository) {
-    this.organization = ORGANIZATION;
-  }
-
-  /**
-   *
-   */
-  public get(): OrganizationEntity {
-    return this.organization;
-  }
+  constructor(private organizationRepository: OrganizationsRepository) {}
 
   /**
    *
    */
   public async getAll() {
-    return this.organizationRepository.find({
-      where: {
-        id: Not(process.env.DEFAULT_ORGANIZATION_ID),
-      },
-    });
+    return this.organizationRepository.find();
   }
 
   /**

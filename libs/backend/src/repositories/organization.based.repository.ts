@@ -10,8 +10,10 @@ import {
 import ModelRepository from './model.repository';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import _ from 'lodash';
+import { Injectable, Req, Scope } from '@nestjs/common';
 
 export default class OrganizationBasedRepository<Entity extends BaseEntity> extends ModelRepository<Entity> {
+
   createQueryBuilder(alias?: string, queryRunner?: QueryRunner): SelectQueryBuilder<Entity> {
     const queryBuilder = super.createQueryBuilder(alias, queryRunner);
     queryBuilder.where(

@@ -1,5 +1,4 @@
 {
-  "id": "Gfz4r7sBK6u81-nUxwXODMYhWrP3UA",
   "name": "Doorward",
   "link": "https://doorward.tech",
   "lang": "en",
@@ -11,26 +10,6 @@
   "description": "",
   "customerType": "college-india",
   "meetingPlatform": "Jitsi",
-  "models": {
-    "course": ["program", "programs"],
-    "module": ["module", "modules"],
-    "meeting": ["meeting", "meetings"],
-    "assignment": ["assignment", "assignments"],
-    "user": ["user", "users"],
-    "teacher": ["teacher", "teachers"],
-    "student": ["learner", "learners"],
-    "superAdministrator": ["super administrator", "super administrators"],
-    "moduleItem": ["module item", "module items"],
-    "courseManager": ["course manager", "course managers"],
-    "organization": ["organization", "organizations"],
-    "school": ["school", "schools"],
-    "classroom": ["classroom", "classrooms"],
-    "discussionGroup": ["discussion group", "discussion groups"],
-    "assessment": ["assessment", "assessments"],
-    "quiz": ["quiz", "quizzes"],
-    "exam": ["exam", "exams"],
-    "page": ["page", "pages"]
-  },
   "admins": [
     {
       "id": "Gfz4r7sBK6u81",

@@ -14,6 +14,8 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import ormConfig from '../ormconfig';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
+import { ORGANIZATIONS } from './bootstrap/organizationSetup';
+import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -41,6 +43,8 @@ async function bootstrap() {
   );
 
   const reflector = app.get(Reflector);
+
+  app.use(organizationDetectorMiddleware(ORGANIZATIONS));
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));

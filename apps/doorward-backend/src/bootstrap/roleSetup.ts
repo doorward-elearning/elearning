@@ -12,8 +12,8 @@ export interface RolesConfig {
   };
 }
 
-const getOrganizationRolesFile = (organization = process.env.ORGANIZATION) => {
-  const filePath = path.join(__dirname, './config', organization || 'default', 'roles.json');
+const getOrganizationRolesFile = () => {
+  const filePath = path.join(__dirname, './config', 'roles.json');
   if (fs.existsSync(filePath)) {
     return filePath;
   }
@@ -22,13 +22,7 @@ const getOrganizationRolesFile = (organization = process.env.ORGANIZATION) => {
 
 const parseRoles = (): RolesConfig => {
   try {
-    let filePath;
-    try {
-      filePath = getOrganizationRolesFile();
-    } catch (e) {
-      console.error(e);
-      filePath = getOrganizationRolesFile('default');
-    }
+    const filePath = getOrganizationRolesFile();
     const fileContents = fs.readFileSync(filePath).toString();
     return JSON.parse(fileContents) as RolesConfig;
   } catch (error) {
@@ -72,15 +66,14 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
             entityManager.create(PrivilegeEntity, {
               name,
               description,
-            }),
+            })
           );
         }
-      }),
+      })
     );
     await entityManager.save(privilegeEntities, {
       transaction: false,
     });
-
 
     await queryRunner.commitTransaction();
 

@@ -4,7 +4,6 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import MeetingEntity from '@doorward/common/entities/meeting.entity';
 import { MeetingRoomsService } from '../meeting-rooms/meeting-rooms.service';
 import { OpenviduWebHookEvents } from '@doorward/common/types/openvidu';
-import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import { MeetingResponse } from '@doorward/common/dtos/response/meetings.responses';
 import { OpenviduWebHookBody } from '@doorward/common/dtos/body/openvidu.body';
@@ -13,6 +12,7 @@ import translate from '@doorward/common/lang/translate';
 import { Request } from 'express';
 import { merge } from 'lodash';
 import { JitsiService } from '../jitsi/jitsi.service';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 @Injectable()
 export class MeetingsService {
@@ -55,12 +55,13 @@ export class MeetingsService {
    * @param user
    */
   public async joinJitsiMeeting(meeting: MeetingEntity, request: Request, user?: UserEntity) {
+    const organization = (request as any).organization;
     const isModerator = await user.hasPrivileges('meetings.moderate');
     const isPublisher = await user.hasPrivileges('meetings.publish');
 
-    let config = await this.buildJitsiConfig(isModerator, isPublisher);
+    let config = await this.buildJitsiConfig(isModerator, isPublisher, organization);
 
-    const interfaceConfig = await this.buildJitsiInterfaceConfig(isModerator, isPublisher);
+    const interfaceConfig = await this.buildJitsiInterfaceConfig(isModerator, isPublisher, organization);
 
     config = await this.overrideJitsiConfig(config, meeting, request);
 
@@ -72,8 +73,8 @@ export class MeetingsService {
     };
   }
 
-  public async buildJitsiInterfaceConfig(isModerator: boolean, isPublisher: boolean) {
-    const { base, moderator, publisher, subscriber } = ORGANIZATION.meetings.interface;
+  public async buildJitsiInterfaceConfig(isModerator: boolean, isPublisher: boolean, organization: OrganizationEntity) {
+    const { base, moderator, publisher, subscriber } = organization.meetings.interface;
 
     if (isModerator) {
       return { ...base, ...moderator };
@@ -84,8 +85,8 @@ export class MeetingsService {
     }
   }
 
-  public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean) {
-    const { base, moderator, publisher, subscriber } = ORGANIZATION.meetings.config;
+  public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean, organization: OrganizationEntity) {
+    const { base, moderator, publisher, subscriber } = organization.meetings.config;
 
     if (isModerator) {
       return merge({}, base, moderator);

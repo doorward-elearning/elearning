@@ -26,6 +26,8 @@ export class UseDefaultOrganization1630302910583 implements MigrationInterface {
       mainOrganization.id,
     ]);
 
+    const foreignKeys: Record<string, string> = {};
+
     // make the `organizationId` column not a primary key
     await Promise.all(
       tables.map(async (tableName) => {
@@ -33,16 +35,25 @@ export class UseDefaultOrganization1630302910583 implements MigrationInterface {
           `SELECT constraint_name FROM information_schema.key_column_usage WHERE table_name=$1 AND column_name=$2`,
           [tableName, 'organizationId']
         );
+        foreignKeys[tableName] = results[0].constraint_name;
+
         await queryRunner.query(`ALTER TABLE "${tableName}" DROP CONSTRAINT "${results[0].constraint_name}"`);
         await queryRunner.query(`UPDATE "${tableName}" SET "organizationId"=$1`, [defaultOrganizationId]);
-        // await queryRunner.query(`DELETE FROM "Organizations" WHERE id = $1`, [defaultOrganizationId]);
-        // await queryRunner.query(`UPDATE "Organizations" SET id = $1`, [defaultOrganizationId]);
       })
     );
 
-    console.log(await queryRunner.query('SELECT * FROM "Organizations"'));
+    await queryRunner.query(`DELETE FROM "Organizations" WHERE id = $1`, [defaultOrganizationId]);
+    await queryRunner.query(`UPDATE "Organizations" SET id = $1`, [defaultOrganizationId]);
 
-    throw new Error("Don't do anything.");
+    // make the `organizationId` column a primary key now
+    await Promise.all(
+      tables.map(async (tableName) => {
+        await queryRunner.query(
+          `ALTER TABLE "${tableName}" ADD CONSTRAINT "${foreignKeys[tableName]}" FOREIGN KEY ("organizationId")
+                        REFERENCES "Organizations"("id") ON DELETE CASCADE `
+        );
+      })
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {}

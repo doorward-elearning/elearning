@@ -72,7 +72,7 @@ export default class OrganizationEntity {
       subscriber: object;
     };
     interface: {
-      base: object,
+      base: object;
       moderator: object;
       publisher: object;
       subscriber: object;

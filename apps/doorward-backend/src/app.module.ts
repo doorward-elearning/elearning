@@ -1,5 +1,5 @@
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Global, Module } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { RolesModule } from './modules/roles/roles.module';
@@ -12,7 +12,6 @@ import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import entities from '@doorward/common/entities';
-import { ORGANIZATION } from './bootstrap/organizationSetup';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
 import { LoggerModule } from 'nestjs-pino/dist';
 import { GroupsModule } from '@doorward/backend/modules/groups/groups.module';
@@ -41,8 +40,8 @@ import { ResourcesModule } from './modules/resources/resources.module';
       },
       templatesDir: path.join(__dirname, 'emails/templates'),
       senderEmail: () => process.env.EMAIL_SENDER,
-      sender: () => `${ORGANIZATION.name + (ORGANIZATION.name === 'Doorward' ? '' : ' - Doorward')}`,
-      getData: () => ({ ORGANIZATION }),
+      sender: (organization) => `${organization.name + (organization.name === 'Doorward' ? '' : ' - Doorward')}`,
+      getData: () => ({}),
     }),
     TypeOrmModule.forFeature(entities),
     LoggerModule.forRoot({
@@ -75,6 +74,8 @@ import { ResourcesModule } from './modules/resources/resources.module';
   controllers: [HealthCheckController],
   providers: [],
 })
-export class AppModule {
+export class AppModule implements NestModule {
   constructor() {}
+
+  configure(consumer: MiddlewareConsumer): any {}
 }

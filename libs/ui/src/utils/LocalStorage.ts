@@ -9,6 +9,14 @@ export default class LocalStorage {
     }
   }
 
+  static getAndRemove<T>(key: string, defaultValue: T = null): T {
+    const value = LocalStorage.get(key, defaultValue);
+
+    LocalStorage.remove(key);
+
+    return value;
+  }
+
   static set<T>(key: string, data: T) {
     localStorage.setItem(key, Tools.encrypt(JSON.stringify(data)));
   }

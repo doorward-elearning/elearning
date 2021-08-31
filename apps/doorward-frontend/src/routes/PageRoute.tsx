@@ -1,5 +1,5 @@
 import React from 'react';
-import { Redirect, Route, RouteProps } from 'react-router';
+import { Redirect, Route, RouteProps, useLocation } from 'react-router';
 import usePrivileges from '@doorward/ui/hooks/usePrivileges';
 import Tools from '@doorward/common/utils/Tools';
 import LoadingPage from '../screens/LoadingPage';
@@ -7,11 +7,13 @@ import useAuth from '../hooks/useAuth';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import DoorwardApi from '../services/apis/doorward.api';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import LocalStorage from '@doorward/ui/utils/LocalStorage';
 
 function PageRoute(props: AuthenticatedRouteProps): JSX.Element {
   const { authenticated } = useAuth();
   const [, user] = useApiAction(DoorwardApi, (api) => api.auth.getCurrentUser);
   const hasPrivileges = usePrivileges(user.data?.user);
+  const location = useLocation();
 
   if (props.public) {
     return <Route {...props} />;
@@ -19,6 +21,7 @@ function PageRoute(props: AuthenticatedRouteProps): JSX.Element {
 
   if (user.errors?.message || user.errors?.errors || !authenticated) {
     Tools.clearToken();
+    LocalStorage.set('redirectTo', location.pathname);
     return <Redirect to={props.unAuthenticatedPath} />;
   } else if (authenticated && user.data?.user) {
     if (hasPrivileges(...props.privileges)) {
