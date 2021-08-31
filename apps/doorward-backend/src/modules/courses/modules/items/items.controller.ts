@@ -44,6 +44,7 @@ export class ItemsController {
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
   async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
@@ -61,8 +62,8 @@ export class ItemsController {
    */
   @Put(':itemId')
   @Privileges('moduleItems.update')
-  @PayloadSize(dataSize.MB(1))
   @ModuleItemExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, type: ModuleItemResponse, description: 'The module item that was updated.' })
   @ApiBody({
     schema: {
