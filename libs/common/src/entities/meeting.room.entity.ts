@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { AfterLoad, Column, Entity, OneToMany, OneToOne } from 'typeorm';
 import MeetingRoomMemberEntity from './meeting.room.member.entity';
 import MeetingEntity from './meeting.entity';
@@ -6,7 +6,7 @@ import CourseEntity from './course.entity';
 import { MeetingRoomTypes, MeetingStatus } from '@doorward/common/types/meeting';
 
 @Entity('MeetingRooms')
-export default class MeetingRoomEntity extends BaseOrganizationEntity {
+export default class MeetingRoomEntity extends BaseEntity {
   @Column()
   title: string;
 

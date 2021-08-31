@@ -40,6 +40,13 @@ CHAT_API_PORT=7001
 CHAT_API_PREFIX=/api/v1/
 
 #----------------------------------------------------------------------------------------------------
+# Doorward Organizations
+#----------------------------------------------------------------------------------------------------
+ORGANIZATION_API_PORT=7002
+ORGANIZATION_API_PREFIX=/api/v1/
+ORGANIZATION_DATABASE=organizations
+
+#----------------------------------------------------------------------------------------------------
 # Doorward Backend
 #----------------------------------------------------------------------------------------------------
 API_PORT=7000
@@ -48,7 +55,6 @@ DOORWARD_DATABASE_USERNAME=moses
 DOORWARD_DATABASE_PASSWORD=password
 DOORWARD_DATABASE_HOST=doorward.local
 DOORWARD_DATABASE_PORT=5432
-DOORWARD_DATABASE=doorward-migrations-test
 EMAILS_DIRECTORY=emails/
 JWT_SECRET_KEY=TO91kKfg9BySaZrs19JIFSsoUrvOptTPIhTRn3qsDKdRDiLgZ8kqKdZLsOWQQSHIrSpSI2edGrUFeiiRS6U9rpt5TBtx4vpaGzovqqyqEr1DaMtFM5PZafR4QMbOxthCzZwCMZqmk8E361tf7cB8DP
 JWT_EXPIRY_TIME=21d

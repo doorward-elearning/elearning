@@ -1,12 +1,12 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import BaseOrganizationEntity from '@doorward/common/entities/base.organization.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
 import { QuestionSectionOptions } from '@doorward/common/types/assessments';
+import BaseEntity from '@doorward/common/entities/base.entity';
 
 @Entity('QuestionSections')
-export default class QuestionSectionEntity extends BaseOrganizationEntity {
+export default class QuestionSectionEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   instructions: string;
 

@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToOne, TableInheritance } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
@@ -12,7 +12,7 @@ import FileEntity from '@doorward/common/entities/file.entity';
     enum: ModuleItemType,
   },
 })
-export default class ModuleItemEntity extends BaseOrganizationEntity {
+export default class ModuleItemEntity extends BaseEntity {
   @Column()
   title: string;
 

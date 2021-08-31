@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
@@ -16,7 +16,7 @@ import CourseEntity from '@doorward/common/entities/course.entity';
 import FileEntity from '@doorward/common/entities/file.entity';
 
 @Entity('Users')
-export default class UserEntity extends BaseOrganizationEntity {
+export default class UserEntity extends BaseEntity {
   @Column({ nullable: false })
   username: string;
 

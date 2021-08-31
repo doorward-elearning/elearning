@@ -1,10 +1,10 @@
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import CourseEntity from './course.entity';
 import ModuleItemEntity from './module.item.entity';
 
 @Entity('Modules')
-export default class ModuleEntity extends BaseOrganizationEntity {
+export default class ModuleEntity extends BaseEntity {
   @Column({ type: 'text', nullable: true })
   description: string;
 

@@ -1,11 +1,11 @@
-import BaseOrganizationEntity from '@doorward/common/entities/base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
+import BaseEntity from '@doorward/common/entities/base.entity';
 
 @Entity({ name: 'AssessmentSubmission' })
-export default class AssessmentSubmissionEntity extends BaseOrganizationEntity {
+export default class AssessmentSubmissionEntity extends BaseEntity{
   @Column({ type: 'text' })
   submission: string;
 

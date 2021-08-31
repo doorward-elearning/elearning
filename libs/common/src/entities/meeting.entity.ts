@@ -1,11 +1,11 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import MeetingRoomEntity from './meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 
 @Entity('Meetings')
-export default class MeetingEntity extends BaseOrganizationEntity {
+export default class MeetingEntity extends BaseEntity {
   @Column({ nullable: false })
   sessionId: string;
 

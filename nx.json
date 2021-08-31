@@ -55,7 +55,9 @@
     },
     "doorward-meeting-e2e": {
       "tags": [],
-      "implicitDependencies": ["doorward-meeting"]
+      "implicitDependencies": [
+        "doorward-meeting"
+      ]
     },
     "romeeting": {
       "tags": []
@@ -64,6 +66,9 @@
       "tags": []
     },
     "api-actions": {
+      "tags": []
+    },
+    "doorward-organizations": {
       "tags": []
     }
   }

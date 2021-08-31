@@ -2,7 +2,7 @@ import * as yargs from 'yargs';
 const chalk = require('chalk');
 import { ConnectionOptionsReader } from 'typeorm';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
-import { camelCase } from '@doorward/common/utils/StringUtils';
+import { camelCase } from 'typeorm/util/StringUtils';
 
 export default class SeederCreateCommand implements yargs.CommandModule {
   command = 'seeder:create';
