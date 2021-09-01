@@ -1,6 +1,6 @@
 import { CallHandler, ExecutionContext, HttpStatus, Injectable, NestInterceptor } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { ResponseBuilder } from '@doorward/backend/api/ResponseBuilder';
 import { Reflector } from '@nestjs/core';
 import DApiResponse from '@doorward/common/dtos/response/base.response';

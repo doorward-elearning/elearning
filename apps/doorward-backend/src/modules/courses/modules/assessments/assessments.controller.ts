@@ -16,6 +16,8 @@ import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 import translate from '@doorward/common/lang/translate';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
+import dataSize from '@doorward/common/utils/dataSize';
 
 const AssessmentExists = () =>
   ModelExists({
@@ -39,6 +41,7 @@ export class AssessmentsController {
 
   @Post('submissions/save/:assessmentId')
   @Privileges('assessments.submit')
+  @PayloadSize(dataSize.MB(1))
   @AssessmentExists()
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -58,6 +61,7 @@ export class AssessmentsController {
 
   @Get('submissions/:assessmentId')
   @Privileges('assessments.submit')
+  @PayloadSize(dataSize.MB(2))
   @AssessmentExists()
   @ApiResponse({
     status: HttpStatus.OK,
@@ -73,6 +77,7 @@ export class AssessmentsController {
 
   @Post('submissions/submit/:assessmentId')
   @Privileges('assessments.submit')
+  @PayloadSize(dataSize.MB(1))
   @AssessmentExists()
   @ApiResponse({
     status: HttpStatus.CREATED,
@@ -93,6 +98,7 @@ export class AssessmentsController {
   @Get(':assessmentId/studentSubmissions')
   @Privileges('assessments.grade')
   @AssessmentExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({
     status: HttpStatus.OK,
     type: AssessmentSubmissionsResponse,
@@ -108,6 +114,7 @@ export class AssessmentsController {
   @Get('studentSubmission/:submissionId')
   @Privileges('assessments.grade')
   @SubmissionExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({
     status: HttpStatus.OK,
     type: AssessmentSubmissionResponse,
