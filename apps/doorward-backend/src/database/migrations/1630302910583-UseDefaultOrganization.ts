@@ -8,7 +8,7 @@ const tables =
 const defaultOrganizationId = '0000000000000000000000';
 
 export class UseDefaultOrganization1630302910583 implements MigrationInterface {
-  public async up(queryRunner: QueryRunner): Promise<void> {
+  private async getMainOrganization(queryRunner: QueryRunner) {
     const defaultOrganization: any = await queryRunner.query(
       `SELECT * FROM "Organizations" WHERE id = $1 ORDER BY "createdAt" limit 1;`,
       [defaultOrganizationId]
@@ -23,7 +23,11 @@ export class UseDefaultOrganization1630302910583 implements MigrationInterface {
     } else {
       mainOrganization = mainOrganization[0] as OrganizationEntity;
     }
+    return mainOrganization;
+  }
 
+  public async up(queryRunner: QueryRunner): Promise<void> {
+    const mainOrganization = await this.getMainOrganization(queryRunner);
     // delete all other organizations.
 
     await queryRunner.query(`DELETE FROM "Organizations" WHERE id not in ($1, $2)`, [
@@ -43,24 +47,18 @@ export class UseDefaultOrganization1630302910583 implements MigrationInterface {
       })
     );
 
-    await queryRunner.query(`DROP TABLE "Organizations"`);
+    await queryRunner.query(`ALTER TABLE "Organizations" RENAME TO "Organizations_old"`);
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.query(
-      `CREATE TABLE "Organizations" ("id" character varying NOT NULL, "name" character varying NOT NULL, "description" character varying, "link" character varying NOT NULL, "descriptiveLogo" boolean NOT NULL DEFAULT false, "darkThemeIcon" character varying, "meetingPlatform" "Organizations_meetingplatform_enum" NOT NULL DEFAULT 'Openvidu', "customerType" "Organizations_customertype_enum" NOT NULL DEFAULT 'college-india', "icon" character varying, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, CONSTRAINT "UQ_de5935b2a69bb0d9c76f71754bd" UNIQUE ("name"), CONSTRAINT "PK_e0690a31419f6666194423526f2" PRIMARY KEY ("id"))`
-    );
+    await queryRunner.query(`ALTER TABLE "Organizations_old" RENAME TO "Organizations"`);
 
-    await queryRunner.query(`INSERT INTO "Organizations"("id", "name", "link") VALUES ($1, $2, $3)`, [
-      defaultOrganizationId,
-      process.env.DEFAULT_ORGANIZATION_NAME,
-      'https://doorward.tech',
-    ]);
+    const mainOrganization = await this.getMainOrganization(queryRunner);
 
     await Promise.all(
       tables.map(async (tableName) => {
         await queryRunner.query(
-          `ALTER TABLE "${tableName}" ADD "organizationId" CHARACTER VARYING NOT NULL DEFAULT '${defaultOrganizationId}'`
+          `ALTER TABLE "${tableName}" ADD "organizationId" CHARACTER VARYING NOT NULL DEFAULT '${mainOrganization.id}'`
         );
       })
     );
