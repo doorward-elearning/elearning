@@ -14,6 +14,10 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import ormConfig from '../ormconfig';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
+import { json } from 'express';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
+import { SizeLimitGuard } from '@doorward/backend/guards/size.limit.guard';
+import dataSize from '@doorward/common/utils/dataSize';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -22,8 +26,10 @@ async function bootstrap() {
 
   const app = await setUpNestApplication(AppModule);
 
+  const logger: DoorwardLogger = await app.resolve(PinoLogger);
+
   if (process.env.NODE_ENV === 'production') {
-    app.useLogger(await app.resolve(PinoLogger));
+    app.useLogger(logger);
   }
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
@@ -42,10 +48,12 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
+  app.use(json({ limit: '50mb' }));
+
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
+  app.useGlobalFilters(new TransformExceptionFilter(logger));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
-  app.useGlobalGuards(new ModelExistsGuard(reflector));
+  app.useGlobalGuards(new ModelExistsGuard(reflector), new SizeLimitGuard(reflector, dataSize.KB(100)));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();
