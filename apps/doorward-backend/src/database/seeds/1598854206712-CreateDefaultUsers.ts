@@ -3,7 +3,6 @@ import { EntityManager } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UserStatus } from '@doorward/common/types/users';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
 
@@ -22,10 +21,6 @@ export class CreateDefaultUsers1598854206712 extends SeederInterface {
     }
     const password = await bcrypt.hash(process.env.DEFAULT_ADMIN_PASSWORD, +process.env.BCRYPT_PASSWORD_SALT);
 
-    const organization = await entityManager
-      .createQueryBuilder(OrganizationEntity, 'organization')
-      .where('organization.id  = :id', { id: process.env.DEFAULT_ORGANIZATION_ID })
-      .getOne();
 
     const role = await entityManager
       .createQueryBuilder(RoleEntity, 'role')
@@ -38,12 +33,11 @@ export class CreateDefaultUsers1598854206712 extends SeederInterface {
       .into(UserEntity)
       .values([
         {
-          id: process.env.DEFAULT_ADMIN_ID,
+          id: process.env.DEFAULT_ADMIN_ID+"",
           username: process.env.DEFAULT_ADMIN_USERNAME,
           password,
           status: UserStatus.ACTIVE,
           email: process.env.DEFAULT_ADMIN_EMAIL,
-          organization,
           firstName: process.env.DEFAULT_ADMIN_FIRSTNAME,
           lastName: process.env.DEFAULT_ADMIN_LASTNAME,
           role,

@@ -6,7 +6,6 @@ import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
-import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import connectDatabase from '@doorward/backend/database/connectDatabase';
@@ -31,7 +30,6 @@ export interface OrganizationConfig {
   description: string;
   customerType: CustomerTypes;
   meetingPlatform: MeetingPlatform;
-  models: Record<OrganizationModels, string[2]>;
   admins: Array<{
     id: string;
     firstName: string;

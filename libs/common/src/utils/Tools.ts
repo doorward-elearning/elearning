@@ -269,6 +269,14 @@ class Tools {
     const parentNode = oldElement.parentNode;
     return parentNode.replaceChild(newElement, oldElement);
   }
+
+  static async sleep(duration: number) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, duration);
+    });
+  }
 }
 
 export default Tools;

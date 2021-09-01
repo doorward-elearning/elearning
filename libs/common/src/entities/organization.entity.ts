@@ -7,10 +7,7 @@ import {
   PrimaryColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import UserEntity from './user.entity';
 import Tools from '@doorward/common/utils/Tools';
-import RoleEntity from './role.entity';
-import { OrganizationModels } from '@doorward/common/types/organization.models';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { Expose } from 'class-transformer';
@@ -30,7 +27,7 @@ export default class OrganizationEntity {
   description: string;
 
   @Column()
-  link: string;
+  host: string;
 
   @Column({ default: false })
   descriptiveLogo: boolean;
@@ -47,6 +44,9 @@ export default class OrganizationEntity {
   @Column({ nullable: true })
   icon: string;
 
+  @Column({ nullable: false })
+  databaseName: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -55,13 +55,6 @@ export default class OrganizationEntity {
 
   @DeleteDateColumn()
   deletedAt: Date;
-
-  users: Array<UserEntity>;
-
-  roles: Array<RoleEntity>;
-
-  @Expose({ groups: ['organization-models'] })
-  models: Record<OrganizationModels, Array<string>>;
 
   @Expose({ groups: ['meeting-config'] })
   meetings: {
@@ -78,10 +71,6 @@ export default class OrganizationEntity {
       subscriber: object;
     };
   };
-
-  getDisplayName(model: OrganizationModels) {
-    return this.models[model];
-  }
 
   @BeforeInsert()
   generateUUID() {

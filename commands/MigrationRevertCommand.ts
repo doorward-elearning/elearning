@@ -1,11 +1,14 @@
 import * as yargs from 'yargs';
+import chalk from 'chalk';
 import { Connection, ConnectionOptionsReader, createConnection } from 'typeorm';
 
-const chalk = require('chalk');
-
-export default class SeederRevertCommand implements yargs.CommandModule {
-  command = 'seeder:revert';
-  describe = 'Reverts last executed seed.';
+/**
+ * Reverts last migration command.
+ */
+export class MigrationRevertCommand implements yargs.CommandModule {
+  command = 'migration:revert';
+  describe = 'Reverts last executed migration.';
+  aliases = 'migrations:revert';
 
   builder(args: yargs.Argv) {
     return args
@@ -17,7 +20,7 @@ export default class SeederRevertCommand implements yargs.CommandModule {
       .option('transaction', {
         alias: 't',
         default: 'default',
-        describe: 'Indicates if transaction should be used or not for seed revert. Enabled by default.',
+        describe: 'Indicates if transaction should be used or not for migration revert. Enabled by default.',
       })
       .option('f', {
         alias: 'config',
@@ -27,33 +30,29 @@ export default class SeederRevertCommand implements yargs.CommandModule {
   }
 
   async handler(args: yargs.Arguments) {
+    if (args._[0] === 'migrations:revert') {
+      console.log("'migrations:revert' is deprecated, please use 'migration:revert' instead");
+    }
+
     let connection: Connection | undefined = undefined;
     try {
       const connectionOptionsReader = new ConnectionOptionsReader({
         root: process.cwd(),
         configName: args.config as any,
       });
-      const connectionOptions: any =
-        args.connectionOptions || (await connectionOptionsReader.get(args.connection as any));
-      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-      // @ts-ignore
+      const connectionOptions =
+        (args.connectionOptions as any) || (await connectionOptionsReader.get(args.connection as any));
       Object.assign(connectionOptions, {
         subscribers: [],
         synchronize: false,
         migrationsRun: false,
         dropSchema: false,
         logging: ['query', 'error', 'schema'],
-        migrations: connectionOptions.seeds,
-        cli: {
-          ...connectionOptions.cli,
-          migrationsDir: connectionOptions.cli.seederDir,
-        },
-        migrationsTableName: connectionOptions.seedersTableName || 'seeds',
       });
       connection = await createConnection(connectionOptions);
 
       const options = {
-        transaction: 'all' as 'all' | 'none' | 'each',
+        transaction: connectionOptions.migrationsTransactionMode ?? ('all' as 'all' | 'none' | 'each'),
       };
 
       switch (args.t) {
@@ -76,7 +75,7 @@ export default class SeederRevertCommand implements yargs.CommandModule {
     } catch (err) {
       if (connection) await (connection as Connection).close();
 
-      console.log(chalk.black.bgRed('Error during seeder revert:'));
+      console.log(chalk.black.bgRed('Error during migration revert:'));
       console.error(err);
       process.exit(1);
     }
