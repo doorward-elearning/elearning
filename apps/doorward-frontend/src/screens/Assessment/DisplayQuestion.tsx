@@ -9,20 +9,19 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import { useSelector } from 'react-redux';
 import translate from '@doorward/common/lang/translate';
 import { FormContext } from '@doorward/ui/components/Form';
-import _, { add } from 'lodash';
+import _, { add, round } from 'lodash';
 import BadgeControl from '@doorward/ui/components/BadgeControl';
-import Grid from '@doorward/ui/components/Grid';
 import './styles/SingleQuestionAssessment.scss';
+import Panel from '@doorward/ui/components/Panel';
+import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
+import Grid from '@doorward/ui/components/Grid';
+import classNames from 'classnames';
 
 const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ section, view, questionNumber }) => {
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(section.questions[0]);
   const { formikProps } = useContext(FormContext);
-  const [visible, setVisible] = useState(true);
-  const [reviewMark, setReviewMark] = useState([]);
-
-  const onOpen = () => setVisible(true);
-  const onClose = () => setVisible(false);
+  const [bookMark, setBookMark] = useState([]);
 
   const previous = useCallback(
     (index) => {
@@ -50,10 +49,17 @@ const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ sectio
   );
   const mark = useCallback(
     (index) => {
-      setReviewMark(reviewMark.filter((i) => i !== index));
+      if (bookMark.includes(index)) {
+        setBookMark(bookMark.filter((i) => i !== index));
+      } else {
+        bookMark.push(index);
+      }
     },
     [index]
   );
+  useEffect(() => {
+    setBookMark(bookMark);
+  }, [bookMark]);
 
   useEffect(() => {
     setCurrentQuestion(section.questions[index]);
@@ -84,41 +90,102 @@ const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ sectio
   };
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr auto' }}>
-      <div style={{ gridRowStart: 1 }}>
+    <div>
+      <Panel>
+        <div style={{ display: 'grid', width: 'min-content', height: 'min-content', gridGap: '5px' }}>
+          {section.questions.map((question, index) => {
+            const questionsAnswered = getQuestionsAnswered(section);
+            if (currentQuestion.id === question.id) {
+              return (
+                <div style={{ gridRowStart: 1, gridRowEnd: -1 }}>
+                  <Button
+                    bordered={true}
+                    className={classNames('button', {
+                      primary: true,
+                    })}
+                    theme="primary"
+                    onClick={() => onClickQuestionNumber(index)}
+                  >
+                    {index + 1}
+                  </Button>
+                </div>
+              );
+            } else if (bookMark.includes(index)) {
+              return (
+                <div style={{ gridRowStart: 1, gridRowEnd: -1 }}>
+                  <BadgeControl value={null} bookmark={true}>
+                    <Button
+                      bordered={true}
+                      theme="success"
+                      className={classNames('button', {
+                        error: true,
+                      })}
+                      onClick={() => onClickQuestionNumber(index)}
+                    >
+                      {index + 1}
+                    </Button>
+                  </BadgeControl>
+                </div>
+              );
+            } else if (questionsAnswered.includes(question.id)) {
+              return (
+                <div style={{ gridRowStart: 1, gridRowEnd: -1 }}>
+                  <BadgeControl value={null} bookmark={false}>
+                    <Button
+                      bordered={true}
+                      theme="success"
+                      className={classNames('button', {
+                        success: true,
+                      })}
+                      onClick={() => onClickQuestionNumber(index)}
+                    >
+                      {index + 1}
+                    </Button>
+                  </BadgeControl>
+                </div>
+              );
+            } else
+              return (
+                <div style={{ gridRowStart: 1, gridRowEnd: -1 }}>
+                  <Button
+                    bordered={true}
+                    className={classNames('button', {
+                      default: true,
+                    })}
+                    theme="default"
+                    onClick={() => onClickQuestionNumber(index)}
+                  >
+                    {index + 1}
+                  </Button>
+                </div>
+              );
+          })}
+        </div>
+      </Panel>
+      <Spacer />
+
+      <Panel>
         {view === QuestionViewTypes.EXAM_MODE ? (
           <div>
             <QuestionView
               disabled={getDisabled(section)}
               question={currentQuestion}
               view={view}
+              bookMark={(index) => mark(index)}
               questionNumber={index + 1}
             />
             <div style={{ display: 'grid', gridColumnGap: 0 }}>
-              <div style={{ gridColumnStart: 10 }}>
+              <div style={{ gridColumnStart: 1 }}>
                 {index > 0 && (
-                  <Button theme="primary" onClick={() => previous(index)}>
+                  <Button theme="default" onClick={() => previous(index)}>
                     {translate('previous')}
                   </Button>
                 )}
               </div>
-              {reviewMark.includes(index) ? (
-                <div style={{ gridColumnStart: 11 }}>
-                  <Button theme="primary" onClick={() => mark(index)}>
-                    {translate('unReview')}
-                  </Button>
-                </div>
-              ) : (
-                <div style={{ gridColumnStart: 11 }}>
-                  <Button theme="primary" onClick={() => reviewMark.push(index)}>
-                    {translate('review')}
-                  </Button>
-                </div>
-              )}
 
               <div style={{ gridColumnStart: 12 }}>
                 {index < section.questions.length - 1 && (
-                  <Button theme="primary" onClick={() => next(index)}>
+                  <Button theme="default" onClick={() => next(index)}>
                     {translate('next')}
                   </Button>
                 )}
@@ -135,46 +202,7 @@ const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ sectio
             questionNumber={index + 1}
           />
         )}
-      </div>
-      <div style={{ gridRowStart: 1 }}>
-        <Button onClick={() => (!visible ? onOpen() : onClose())}>{translate('openSidePanel')}</Button>
-        {visible && (
-          <div className="question-list-wrapper">
-            <div className="question-list-inner">
-              <Grid columns="4">
-                {section.questions.map((question, index) => {
-                  const questionsAnswered = getQuestionsAnswered(section);
-                  if (questionsAnswered.includes(question.id)) {
-                    if (reviewMark.includes(index)) {
-                      return (
-                        <BadgeControl value="R">
-                          <Button theme="success" onClick={() => onClickQuestionNumber(index)}>
-                            {index + 1}
-                          </Button>
-                        </BadgeControl>
-                      );
-                    } else
-                      return (
-                        <BadgeControl value={null}>
-                          <Button theme="success" onClick={() => onClickQuestionNumber(index)}>
-                            {index + 1}
-                          </Button>
-                        </BadgeControl>
-                      );
-                  }
-                  return (
-                    <Button theme="danger" onClick={() => onClickQuestionNumber(index)}>
-                      {index + 1}
-                    </Button>
-                  );
-                })}
-              </Grid>
-            </div>
-          </div>
-        )}
-
-        <Spacer />
-      </div>
+      </Panel>
     </div>
   );
 };

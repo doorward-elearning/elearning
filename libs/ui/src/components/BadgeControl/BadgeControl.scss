@@ -17,4 +17,14 @@
     box-shadow: var(--box-shadow);
     color: white !important;
   }
+
+  &__bookmarkIcon {
+    position: absolute;
+    bottom: -5px;
+    left: 4px;
+    color: var(--text-error);
+    width: 15px;
+    height: 15px;
+    padding: 2px !important;
+  }
 }

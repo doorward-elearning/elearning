@@ -21,8 +21,12 @@
     }
   }
 
-  .badge{
-    color:white;
-    background-color:dimgray;
+  .badge {
+    color: white;
+    background-color: dimgray;
+  }
+
+  .icon {
+    color: var(--text-error);
   }
 }

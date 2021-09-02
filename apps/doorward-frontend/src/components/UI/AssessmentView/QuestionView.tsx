@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import _ from 'lodash';
 import { AssessmentContext } from './index';
@@ -19,6 +19,7 @@ import './styles/QuestionView.scss';
 import classNames from 'classnames';
 import { AssessmentOptions, AssessmentQuestionResult } from '@doorward/common/types/assessments';
 import Badge from '@doorward/ui/components/Badge';
+import { Index } from 'react-virtualized';
 
 export enum QuestionViewTypes {
   /**
@@ -48,12 +49,13 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
   disabled,
   assessmentOptions,
   questionNumber,
+  bookMark,
 }) => {
   const [answers, setAnswers] = useState(question.answers);
   const { assessment } = useContext(AssessmentContext);
 
   useEffect(() => {
-    if (view === QuestionViewTypes.EDIT_MODE) {
+    if (view === QuestionViewTypes.EDIT_MODE || view === QuestionViewTypes.EXAM_MODE) {
       setAnswers(question.answers);
     }
   }, [question.answers]);
@@ -89,6 +91,9 @@ const QuestionView: React.FunctionComponent<QuestionViewProps> = ({
               <Icon onClick={() => onDeleteQuestion(question)} icon="delete" title={translate('delete')} />
               <Icon onClick={() => onEditQuestion(question)} icon="edit" title={translate('edit')} />
             </Row>
+          )}
+          {view === QuestionViewTypes.EXAM_MODE && (
+            <Icon onClick={() => bookMark(questionNumber - 1)} icon="bookmark" title="Bookmark" />
           )}
         </HeaderGrid>
         <div>
@@ -130,6 +135,7 @@ export interface QuestionViewProps {
   assessmentOptions?: AssessmentOptions;
   questionNumber?: number;
   disabled?: boolean;
+  bookMark?: (index: number) => void;
 }
 
 export default QuestionView;

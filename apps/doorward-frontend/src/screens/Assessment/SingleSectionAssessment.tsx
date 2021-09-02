@@ -25,8 +25,6 @@ import DisplayQuestion from './DisplayQuestion';
 const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentProps> = ({
   sections,
   onReadyToSave,
-  onFinishAssessment,
-  savingState,
   ...props
 }): JSX.Element => {
   const { formikProps } = useContext(FormContext);
@@ -36,20 +34,6 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
   useEffect(() => {
     onReadyToSave(JSON.stringify(formikProps.values.submission));
   }, [formikProps.values]);
-
-  const getQuestionsAnswered = useCallback(
-    (section: QuestionSectionEntity) => {
-      const result = [];
-      section.questions.forEach((question) => {
-        if (Object.keys(_.pickBy(formikProps.values.submission, _.identity)).includes(question.id)) {
-          result.push(question.id);
-        }
-      });
-      return result;
-    },
-    [formikProps.values]
-  );
-
   const setPoints = useCallback(
     (section: QuestionSectionEntity) => {
       if (section.config.questions.allCompulsory) {
@@ -66,16 +50,6 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
 
   return (
     <div className="ed-single-question-assessment">
-      <ConfirmModal
-        defaultAction="negative"
-        onConfirm={() => {
-          onFinishAssessment(JSON.stringify(formikProps.values.submission));
-        }}
-        useModal={confirmModal}
-        title={`Submit ${props.type}`}
-      >
-        <p>{translate('confirmSubmissionWarning')}</p>
-      </ConfirmModal>
       <TabLayout
         stickyHeader
         selected={currentSection}
@@ -107,40 +81,18 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
             <div>
               <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
             </div>
-            <div>
-              <Spacer />
-              <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                {translate('submitExam')}
-              </Button>
-            </div>
           </Tab>
         ))}
       </TabLayout>
       <Spacer />
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        {savingState.data && (
-          <div className="saving-status">
-            {savingState.submitting ? (
-              <span>{translate('savingStatus')}</span>
-            ) : (
-              <div className="saving-status__saved">
-                <Icon icon="check" />
-                <span className="ml-4">{translate('saved')}</span>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
     </div>
   );
 };
 
 export interface SingleSectionAssessmentProps {
   sections: Array<QuestionSectionEntity>;
-  onReadyToSave: (submission: string) => void;
   type: AssessmentTypes;
-  onFinishAssessment: (submission: string) => void;
-  savingState: WebComponentState<AssessmentSubmissionResponse>;
+  onReadyToSave: (submission: string) => void;
 }
 
 export default SingleSectionAssessment;
