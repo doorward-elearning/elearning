@@ -42,7 +42,6 @@
     "db:org:migrate:generate": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts migration:generate -n ",
     "db:org:migrate:create": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js migration:create -n ",
     "db:org:migrate:rollback": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../node_modules/typeorm/cli.js schema:drop",
-    "db:org:migrate:sequelize": "yarn ts-node apps/doorward-organizations/src/database/sequelize/index.ts",
     "db:org:seeder:create": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:create -n ",
     "db:org:seed": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:run",
     "db:org:seed:undo": "cd apps/doorward-organizations && ts-node --compiler ttypescript --project ../../tsconfig.cli.json ../../scripts/cli.ts seeder:revert",

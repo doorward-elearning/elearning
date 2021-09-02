@@ -6,14 +6,12 @@ import { RolesModule } from './modules/roles/roles.module';
 import { CoursesModule } from './modules/courses/courses.module';
 import { ModulesModule } from './modules/courses/modules/modules.module';
 import { ItemsModule } from './modules/courses/modules/items/items.module';
-import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { StudentsModule } from './modules/students/students.module';
 import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import entities from '@doorward/common/entities';
 import { MeetingRoomsModule } from './modules/meeting-rooms/meeting-rooms.module';
-import { LoggerModule } from 'nestjs-pino/dist';
 import { GroupsModule } from '@doorward/backend/modules/groups/groups.module';
 import { HealthCheckController } from './modules/health-check/health-check.controller';
 import { JitsiModule } from './modules/jitsi/jitsi.module';
@@ -24,6 +22,7 @@ import { FilesModule } from './modules/files/files.module';
 import { SearchSuggestionsModule } from './modules/search-suggestions/search-suggestions.module';
 import { TeachersModule } from './modules/teachers/teachers.module';
 import { ResourcesModule } from './modules/resources/resources.module';
+import { DoorwardLoggerModule } from '@doorward/backend/modules/logging/doorward.logger.module';
 
 @Global()
 @Module({
@@ -44,21 +43,13 @@ import { ResourcesModule } from './modules/resources/resources.module';
       getData: () => ({}),
     }),
     TypeOrmModule.forFeature(entities),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        level: process.env.NODE_ENV === 'production' ? 'info' : 'debug',
-        autoLogging: process.env.NODE_ENV === 'production',
-        prettyPrint: false,
-        useLevelLabels: true,
-      },
-    }),
+    DoorwardLoggerModule,
     AuthModule,
     UsersModule,
     RolesModule,
     CoursesModule,
     ModulesModule,
     ItemsModule,
-    OrganizationsModule,
     StudentsModule,
     MeetingRoomsModule,
     GroupsModule,

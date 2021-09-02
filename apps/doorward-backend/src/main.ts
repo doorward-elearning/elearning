@@ -9,13 +9,13 @@ import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
-import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import ormConfig from '../ormconfig';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
 import { ORGANIZATIONS } from './bootstrap/organizationSetup';
 import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -23,10 +23,6 @@ async function bootstrap() {
   await initializeBackend(entities, ormConfig);
 
   const app = await setUpNestApplication(AppModule);
-
-  if (process.env.NODE_ENV === 'production') {
-    app.useLogger(await app.resolve(PinoLogger));
-  }
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
@@ -47,7 +43,7 @@ async function bootstrap() {
   app.use(organizationDetectorMiddleware(ORGANIZATIONS));
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
+  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();

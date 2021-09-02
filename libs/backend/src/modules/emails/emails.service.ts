@@ -4,9 +4,9 @@ import mail from '@sendgrid/mail';
 import Email from 'email-templates';
 import path from 'path';
 import EmailModel, { EmailRecipient } from '@doorward/backend/modules/emails/email.model';
-import { PinoLogger } from 'nestjs-pino/dist';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { REQUEST } from '@nestjs/core';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 export interface EmailOptions {
   template: string;
@@ -21,7 +21,7 @@ export default class EmailsService {
   constructor(
     @Inject('EMAIL_CONFIG') private options: EmailsModuleOptions,
     @Inject(REQUEST) private request: any,
-    private logger: PinoLogger
+    private logger: DoorwardLogger
   ) {
     mail.setApiKey(options.sendGrid.apiKey);
     this.logger.setContext('EmailsService');
@@ -58,7 +58,7 @@ export default class EmailsService {
       html: result,
     };
 
-    this.logger.info('Sending email to [%s]', options.recipient.email);
+    this.logger.info(`Sending email to [${options.recipient.email}]`);
 
     try {
       if (options.recipient.email) {
