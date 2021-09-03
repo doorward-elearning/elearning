@@ -1,6 +1,9 @@
 import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
-import { EntityRepository } from 'typeorm';
+import { ObjectType } from 'typeorm';
 import { PageEntity } from '@doorward/common/entities/page.entity';
 
-@EntityRepository(PageEntity)
-export default class PageRepository extends ModuleItemsRepository<PageEntity> {}
+export default class PageRepository extends ModuleItemsRepository<PageEntity> {
+  getEntity(): ObjectType<PageEntity> {
+    return PageEntity;
+  }
+}

@@ -12,12 +12,11 @@ import DocumentationBuilder from '@doorward/backend/documentation/documentation.
 import { Logger } from '@nestjs/common';
 import organizationSetup from './bootstrap/organizationSetup';
 import ormConfig from '../ormconfig';
-import organizationsEntities from '@doorward/backend/database/organizations.entities';
 
 const globalPrefix = process.env.ORGANIZATION_API_PREFIX;
 
 async function bootstrap() {
-  await organizationSetup(organizationsEntities, ormConfig);
+  await organizationSetup(ormConfig);
 
   const app = await setUpNestApplication(AppModule);
 

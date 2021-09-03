@@ -33,9 +33,7 @@ export class AuthService {
    * @param password
    */
   async validateUserLogin(username: string, password: string): Promise<UserEntity | undefined> {
-    const user = await this.usersService.findByUsername(username, {
-      relations: ['organization'],
-    });
+    const user = await this.usersService.findByUsername(username, {});
 
     if (!user) {
       throw new ValidationException({ username: translate('userWithUsernameDoesNotExist') });

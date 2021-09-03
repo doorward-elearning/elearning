@@ -9,6 +9,7 @@ import {
   ResponseObject,
   SchemaObject,
 } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
+import _ from 'lodash';
 
 export default class DocumentationBuilder {
   requestBody = new Set();
@@ -26,13 +27,21 @@ export default class DocumentationBuilder {
         ignoreGlobalPrefix: true,
       });
 
-      const documentation = this.scanPaths(result.paths);
+      const documentation = this.scanPaths(result.paths, this.generateObjectName(fileName));
       const directory = './libs/common/src/apis/' + fileName;
       // eslint-disable-next-line @typescript-eslint/camelcase
       fs.writeFileSync(directory, beautify(documentation, { indent_size: 2 }));
 
       console.log(chalk.cyan('[' + serviceName + '] - Api Endpoints generated. ') + chalk.yellow(directory));
     }
+  }
+
+  private generateObjectName(fileName: string) {
+    fileName = fileName.substring(fileName.lastIndexOf('.'));
+
+    fileName = fileName.replace('.', '_');
+
+    return _.camelCase(fileName);
   }
 
   private generatePathsByController(paths: PathsObject) {
@@ -68,7 +77,7 @@ export default class DocumentationBuilder {
     }, '');
   }
 
-  private scanPaths(paths: PathsObject): string {
+  private scanPaths(paths: PathsObject, objectName: string): string {
     const pathsByController = this.generatePathsByController(paths);
 
     const endpoints = Object.keys(pathsByController)
@@ -91,14 +100,14 @@ export default class DocumentationBuilder {
       import DApiResponse from '@doorward/common/dtos/response/base.response';
       import handleApiError from '@doorward/common/net/handleApiError';
       import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-      
+
       const { GET, PUT, POST, DELETE } = ApiRequest;
-    
-      const DoorwardBackendApi = (defaultConfig?: () => AxiosRequestConfig) => ({
+
+      const ${objectName} = (defaultConfig?: () => AxiosRequestConfig) => ({
         ${endpoints}
       })
-      
-      export default DoorwardBackendApi;
+
+      export default ${objectName};
     `;
   }
 
@@ -256,7 +265,7 @@ export default class DocumentationBuilder {
       config?: AxiosRequestConfig
     ): Promise<AxiosResponse<${singleFile ? 'FileResponse' : 'FilesResponse'}>> => {
       const formData = new FormData();
-      
+
       ${
         singleFile
           ? `formData.append('file', file); `
@@ -264,9 +273,7 @@ export default class DocumentationBuilder {
           formData.append('files', file);
         }); `
       }
-      
-      let data = null;
-      
+
       const result = await POST("${path}", formData, null, {
         onUploadProgress: (progressEvent) => {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -279,7 +286,7 @@ export default class DocumentationBuilder {
         }),
         ...(config || {}), ...(defaultConfig && defaultConfig())
       });
-      
+
       return result;
     }`;
   }

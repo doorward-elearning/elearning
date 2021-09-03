@@ -7,7 +7,7 @@ import { BadRequestException } from '@nestjs/common';
 export const ORGANIZATIONS: Record<string, OrganizationEntity> = {};
 
 export const getOrganizationByHost = (origin: string) => {
-  let currentOrganization;
+  let currentOrganization = null;
   Object.values(ORGANIZATIONS).forEach((organization) => {
     if (
       organization.hosts.split(',').find((host) => {
@@ -46,7 +46,10 @@ export const organizationDetectorMiddleware = async (entities: Array<any>, ormCo
       getConnection(request.organization.name);
       next();
     } catch (e) {
-      const createdConnection = await connectDatabase(entities, ormConfig);
+      const createdConnection = await connectDatabase(entities, {
+        ...ormConfig,
+        name: request.organization.name,
+      });
 
       if (createdConnection) {
         next();

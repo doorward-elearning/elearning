@@ -1,9 +1,8 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import FileEntity from '@doorward/common/entities/file.entity';
-import { EntityRepository } from 'typeorm';
 
-@EntityRepository(FileEntity)
-export class FilesRepository extends OrganizationBasedRepository<FileEntity> {
+export class FilesRepository extends MultiOrganizationRepository<FileEntity> {
   public async getAllByUser(userId: string) {
     return this.find({
       where: { owner: { id: userId } },
@@ -16,5 +15,9 @@ export class FilesRepository extends OrganizationBasedRepository<FileEntity> {
       where: { public: true },
       relations: ['owner'],
     });
+  }
+
+  getEntity(): ObjectType<FileEntity> {
+    return FileEntity;
   }
 }

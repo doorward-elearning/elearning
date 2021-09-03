@@ -2,12 +2,10 @@ import { DynamicModule, Global, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ORGANIZATIONS_CONNECTION_NAME } from '@doorward/backend/utils/createOrganizationsDbConnection';
 import organizationsEntities from '@doorward/backend/database/organizations.entities';
-import { Connection, getConnection } from 'typeorm';
+import { getConnection } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import { getOrganizationByHost } from '@doorward/backend/middleware/organization.detector.middleware';
-
-export const ORGANIZATION_CONNECTION = 'ORGANIZATION_CONNECTION';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
+import repositories from '@doorward/backend/repositories';
 
 @Global()
 export class MultiOrganizationModule {
@@ -34,8 +32,9 @@ export class MultiOrganizationModule {
             return getConnection(request.organization.name);
           },
         },
+        ...repositories,
       ],
-      exports: [ORGANIZATION_CONNECTION],
+      exports: [ORGANIZATION_CONNECTION, ...repositories],
     };
   }
 }

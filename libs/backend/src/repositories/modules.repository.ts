@@ -1,6 +1,9 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import ModuleEntity from '@doorward/common/entities/module.entity';
-import { EntityRepository } from 'typeorm';
 
-@EntityRepository(ModuleEntity)
-export default class ModulesRepository extends OrganizationBasedRepository<ModuleEntity> {}
+export default class ModulesRepository extends MultiOrganizationRepository<ModuleEntity> {
+  getEntity(): ObjectType<ModuleEntity> {
+    return ModuleEntity;
+  }
+}

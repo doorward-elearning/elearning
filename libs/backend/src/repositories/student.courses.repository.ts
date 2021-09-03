@@ -1,10 +1,14 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { FindConditions, ObjectType } from 'typeorm';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
-import { EntityRepository, FindConditions } from 'typeorm';
 import { StudentCourseStatus } from '@doorward/common/types/courses';
 
-@EntityRepository(StudentCoursesEntity)
-export default class StudentCoursesRepository extends OrganizationBasedRepository<StudentCoursesEntity> {
+export default class StudentCoursesRepository extends MultiOrganizationRepository<StudentCoursesEntity> {
+
+  getEntity(): ObjectType<StudentCoursesEntity> {
+    return StudentCoursesEntity;
+  }
+
   async courseHasStudent(
     courseId: string,
     studentId: string,

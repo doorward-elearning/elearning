@@ -1,10 +1,13 @@
-import OrganizationBasedRepository from '@doorward/backend/repositories/organization.based.repository';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { In, ObjectType } from 'typeorm';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
-import { EntityRepository, In } from 'typeorm';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 
-@EntityRepository(AssessmentSubmissionEntity)
-export default class AssessmentSubmissionRepository extends OrganizationBasedRepository<AssessmentSubmissionEntity> {
+export default class AssessmentSubmissionRepository extends MultiOrganizationRepository<AssessmentSubmissionEntity> {
+  getEntity(): ObjectType<AssessmentSubmissionEntity> {
+    return AssessmentSubmissionEntity;
+  }
+
   /**
    * Get assessment submissions for an assessment.
    *

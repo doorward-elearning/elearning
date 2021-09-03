@@ -1,6 +1,9 @@
-import OrganizationBasedRepository from '@doorward/backend/repositories/organization.based.repository';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
-import { EntityRepository } from 'typeorm';
 
-@EntityRepository(QuestionSectionEntity)
-export default class QuestionSectionRepository extends OrganizationBasedRepository<QuestionSectionEntity> {}
+export default class QuestionSectionRepository extends MultiOrganizationRepository<QuestionSectionEntity> {
+  getEntity(): ObjectType<QuestionSectionEntity> {
+    return QuestionSectionEntity;
+  }
+}

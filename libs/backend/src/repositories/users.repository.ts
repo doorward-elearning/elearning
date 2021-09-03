@@ -1,18 +1,14 @@
 import UserEntity from '@doorward/common/entities/user.entity';
-import { EntityRepository } from 'typeorm';
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import { Roles } from '@doorward/common/types/roles';
-import { Injectable, Req, Scope } from '@nestjs/common';
 
-@EntityRepository(UserEntity)
-@Injectable({ scope: Scope.REQUEST })
-export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
+export class UsersRepository extends MultiOrganizationRepository<UserEntity> {
   /**
    *
    * @param username
    */
-  async userExistsByUsername(username: string, @Req() organization?: any) {
-    console.log(organization, '--------------------------');
+  async userExistsByUsername(username: string) {
     return await this.createQueryBuilder('user')
       .where('LOWER(username) = LOWER(:username)', {
         username: username.trim(),
@@ -52,5 +48,9 @@ export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
       .getMany();
 
     return result;
+  }
+
+  getEntity(): ObjectType<UserEntity> {
+    return UserEntity;
   }
 }

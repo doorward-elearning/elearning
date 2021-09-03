@@ -1,10 +1,8 @@
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
-import { EntityRepository } from 'typeorm';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 
-@EntityRepository(UserEntity)
 export class StudentsRepository extends UsersRepository {
   /**
    *

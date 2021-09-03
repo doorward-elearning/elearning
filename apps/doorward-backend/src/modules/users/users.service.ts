@@ -1,6 +1,7 @@
 import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { Connection, FindOneOptions, Repository } from 'typeorm';
+import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import { Connection, FindOneOptions } from 'typeorm';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -23,22 +24,20 @@ import translate from '@doorward/common/lang/translate';
 import { FilesService } from '../files/files.service';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import { MultiOrganizationService } from '@doorward/backend/modules/multi-organization/multi.organization.service';
-import { ORGANIZATION_CONNECTION } from '@doorward/backend/modules/multi-organization/multi.organization.module';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 
 @Injectable()
 @MultiOrganizationService()
 export class UsersService {
-  private usersRepository: Repository<UserEntity>;
   constructor(
     @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
+    private usersRepository: UsersRepository,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
     private emailsService: EmailsService,
     private privilegeRepository: PrivilegeRepository,
     private filesService: FilesService
-  ) {
-    this.usersRepository = this.connection.getRepository(UserEntity);
-  }
+  ) {}
 
   async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
     const where = id ? { id } : { username };
@@ -49,7 +48,7 @@ export class UsersService {
 
     const user = await this.usersRepository.findOne({
       where,
-      relations: ['organization', 'role', 'role.privileges'],
+      relations: ['role', 'role.privileges'],
     });
 
     user.role.privileges = await this.privilegeRepository

@@ -1,10 +1,9 @@
 import RoleEntity from '@doorward/common/entities/role.entity';
 import { Roles } from '@doorward/common/types/roles';
-import { EntityRepository } from 'typeorm';
-import ModelRepository from './model.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(RoleEntity)
-export default class RolesRepository extends ModelRepository<RoleEntity> {
+export default class RolesRepository extends MultiOrganizationRepository<RoleEntity> {
   async administrator(): Promise<RoleEntity> {
     return this.findOne({
       name: Roles.SUPER_ADMINISTRATOR,
@@ -21,5 +20,9 @@ export default class RolesRepository extends ModelRepository<RoleEntity> {
     return this.findOne({
       name: Roles.STUDENT,
     });
+  }
+
+  getEntity(): ObjectType<RoleEntity> {
+    return RoleEntity;
   }
 }

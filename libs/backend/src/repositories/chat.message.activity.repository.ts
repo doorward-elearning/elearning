@@ -1,11 +1,10 @@
-import { EntityRepository, Not } from 'typeorm';
+import { Not, ObjectType } from 'typeorm';
 import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
-import ModelRepository from '@doorward/backend/repositories/model.repository';
 import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 import { MessageStatus } from '@doorward/chat/types';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
 
-@EntityRepository(ChatMessageActivityEntity)
-export default class ChatMessageActivityRepository extends ModelRepository<ChatMessageActivityEntity> {
+export default class ChatMessageActivityRepository extends MultiOrganizationRepository<ChatMessageActivityEntity> {
   public async findOrCreateActivity(messageId: string, userId: string) {
     let activity = await this.findOne({
       where: {
@@ -91,5 +90,9 @@ export default class ChatMessageActivityRepository extends ModelRepository<ChatM
         return message;
       }
     }
+  }
+
+  getEntity(): ObjectType<ChatMessageActivityEntity> {
+    return ChatMessageActivityEntity;
   }
 }

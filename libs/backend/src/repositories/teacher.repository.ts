@@ -1,9 +1,7 @@
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
-import { EntityRepository } from 'typeorm';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 
-@EntityRepository(UserEntity)
 export default class TeacherRepository extends UsersRepository {
   public async getAll() {
     return this.getUsersByRole(Roles.TEACHER);
