@@ -31,8 +31,10 @@ const parseRoles = (): RolesConfig => {
 };
 
 const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> => {
-  const connectionManager = await connectDatabase(entities, ormConfig);
-  const connection = connectionManager.get();
+  const connection = await connectDatabase(entities, {
+    ...ormConfig,
+    migrationsRun: false,
+  });
   const queryRunner = connection.createQueryRunner();
   try {
     const { privileges: rawPrivileges, delimiter } = parseRoles();
@@ -83,7 +85,6 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
-    await connection.close();
   }
 };
 

@@ -1,7 +1,6 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { UsersRepository } from '@doorward/backend/repositories/users.repository';
-import { FindOneOptions } from 'typeorm';
+import { Connection, FindOneOptions, Repository } from 'typeorm';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -23,17 +22,23 @@ import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { FilesService } from '../files/files.service';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import { MultiOrganizationService } from '@doorward/backend/modules/multi-organization/multi.organization.service';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/modules/multi-organization/multi.organization.module';
 
 @Injectable()
+@MultiOrganizationService()
 export class UsersService {
+  private usersRepository: Repository<UserEntity>;
   constructor(
-    private usersRepository: UsersRepository,
+    @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
     private emailsService: EmailsService,
     private privilegeRepository: PrivilegeRepository,
     private filesService: FilesService
-  ) {}
+  ) {
+    this.usersRepository = this.connection.getRepository(UserEntity);
+  }
 
   async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
     const where = id ? { id } : { username };

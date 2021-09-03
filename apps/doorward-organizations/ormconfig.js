@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const entities = require('./src/database/entities').default;
+const entities = require('../../libs/backend/src/database/organizations.entities.ts').default;
 
 dotenv.config();
 dotenv.config({ path: '../../.env' });

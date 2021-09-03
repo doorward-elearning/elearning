@@ -1,9 +1,12 @@
-import connectDatabase from '@doorward/backend/database/connectDatabase';
 import parseOrganizationFile from '@doorward/backend/utils/parseOrganizationFile';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import chalk from 'chalk';
 import path from 'path';
 import fs from 'fs';
+import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
+import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
+import Tools from '@doorward/common/utils/Tools';
+import createOrganizationsDbConnection from '@doorward/backend/utils/createOrganizationsDbConnection';
 
 const getConfigFile = (fileName: string) => {
   const filePath = path.join(__dirname, './config', fileName);
@@ -24,7 +27,7 @@ const parseConfigFile = <T = object>(fileName: string): T => {
   }
 };
 
-const parseMeetingConfig = () => {
+export const parseMeetingConfig = () => {
   const base = parseConfigFile('meetings.config.json');
   const moderator = parseConfigFile('meetings.config.moderator.json');
   const publisher = parseConfigFile('meetings.config.publisher.json');
@@ -38,7 +41,7 @@ const parseMeetingConfig = () => {
   };
 };
 
-const parseMeetingInterfaceConfig = () => {
+export const parseMeetingInterfaceConfig = () => {
   const base = parseConfigFile('meetings.interface.json');
   const moderator = parseConfigFile('meetings.interface.moderator.json');
   const publisher = parseConfigFile('meetings.interface.publisher.json');
@@ -52,11 +55,8 @@ const parseMeetingInterfaceConfig = () => {
   };
 };
 
-const organizationSetup = async (entities: Array<any>, ormConfig: any) => {
-  const connectionManager = await connectDatabase(entities, {
-    ...ormConfig,
-    migrationsRun: false,
-  });
+const organizationSetup = async (ormConfig: any) => {
+  const connectionManager = await createOrganizationsDbConnection(ormConfig);
   const connection = connectionManager.get();
 
   const queryRunner = connection.createQueryRunner();
@@ -77,7 +77,27 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any) => {
 
     await entityManager.save(OrganizationEntity, organization);
 
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into(OrganizationConfigEntity)
+      .values([
+        {
+          id: Tools.generateId(),
 
+          key: OrganizationConfigKey.MEETING,
+          value: JSON.stringify(parseMeetingConfig()),
+          organization,
+        },
+        {
+          id: Tools.generateId(),
+          key: OrganizationConfigKey.MEETING_INTERFACE,
+          value: JSON.stringify(parseMeetingInterfaceConfig()),
+          organization,
+        },
+      ])
+      .onConflict(`("key") DO NOTHING`)
+      .execute();
 
     await queryRunner.commitTransaction();
 
@@ -87,7 +107,6 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any) => {
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
-    await connection.close();
   }
 };
 

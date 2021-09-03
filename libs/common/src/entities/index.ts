@@ -32,6 +32,7 @@ import ConversationEntity from '@doorward/common/entities/conversation.entity';
 import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
+import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
 
 const entities = [
   AnswerEntity,
@@ -63,6 +64,8 @@ const entities = [
   ExamEntity,
   AssessmentEntity,
   AssessmentSubmissionEntity,
+  OrganizationEntity,
+  OrganizationConfigEntity,
   ModuleVideoEntity,
   ConversationEntity,
   ChatMessageEntity,

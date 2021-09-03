@@ -17,9 +17,9 @@ export class JitsiController {
     @CurrentOrganization() organization: OrganizationEntity
   ): Promise<JitsiBrandingResponse> {
     return {
-      logoClickUrl: organization.link,
+      logoClickUrl: organization.logo,
       logoImageUrl: organization.logo,
-      inviteDomain: organization.link,
+      inviteDomain: organization.hosts.split(',')[0],
     };
   }
 }

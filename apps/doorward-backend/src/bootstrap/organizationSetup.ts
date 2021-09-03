@@ -1,5 +1,3 @@
-import * as fs from 'fs';
-import * as path from 'path';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
@@ -13,10 +11,8 @@ import parseOrganizationFile from '@doorward/backend/utils/parseOrganizationFile
 
 const chalk = require('chalk');
 
-
 const organizationSetup = async (entities: Array<any>, ormConfig: any) => {
-  const connectionManager = await connectDatabase(entities, ormConfig);
-  const connection = connectionManager.get();
+  const connection = await connectDatabase(entities, ormConfig);
   const queryRunner = connection.createQueryRunner();
   try {
     await queryRunner.startTransaction();
@@ -113,7 +109,6 @@ const organizationSetup = async (entities: Array<any>, ormConfig: any) => {
     await queryRunner.rollbackTransaction();
   } finally {
     await queryRunner.release();
-    await connection.close();
   }
 };
 

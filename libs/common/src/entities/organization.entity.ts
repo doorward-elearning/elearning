@@ -5,6 +5,7 @@ import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { Expose } from 'class-transformer';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
+import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -45,6 +46,10 @@ export default class OrganizationEntity extends BaseEntity {
   @Expose({ groups: ['organization-config'] })
   @OneToMany(() => OrganizationConfigEntity, (config) => config.organization)
   configuration: Array<OrganizationConfigEntity>;
+
+  public getConfiguration(key: OrganizationConfigKey): string {
+    if (this.configuration) return this.configuration.find((config) => config.key === key)?.value;
+  }
 
   @BeforeInsert()
   generateUUID() {

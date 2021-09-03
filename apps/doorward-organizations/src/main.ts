@@ -11,13 +11,13 @@ import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
 import organizationSetup from './bootstrap/organizationSetup';
-import entities from './database/entities';
 import ormConfig from '../ormconfig';
+import organizationsEntities from '@doorward/backend/database/organizations.entities';
 
 const globalPrefix = process.env.ORGANIZATION_API_PREFIX;
 
 async function bootstrap() {
-  await organizationSetup(entities, ormConfig);
+  await organizationSetup(organizationsEntities, ormConfig);
 
   const app = await setUpNestApplication(AppModule);
 

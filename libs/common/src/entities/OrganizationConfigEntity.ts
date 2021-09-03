@@ -5,7 +5,7 @@ import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig
 
 @Entity('Configurations')
 export default class OrganizationConfigEntity extends BaseEntity {
-  @Column({ type: 'enum', enum: OrganizationConfigEntity, nullable: false })
+  @Column({ enum: OrganizationConfigKey, type: 'enum', unique: true })
   key: OrganizationConfigKey;
 
   @Column({ nullable: true, type: 'text' })

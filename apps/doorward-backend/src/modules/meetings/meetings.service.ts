@@ -13,6 +13,7 @@ import { Request } from 'express';
 import { merge } from 'lodash';
 import { JitsiService } from '../jitsi/jitsi.service';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
+import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
 
 @Injectable()
 export class MeetingsService {
@@ -74,7 +75,9 @@ export class MeetingsService {
   }
 
   public async buildJitsiInterfaceConfig(isModerator: boolean, isPublisher: boolean, organization: OrganizationEntity) {
-    const { base, moderator, publisher, subscriber } = organization.meetings.interface;
+    const { base, moderator, publisher, subscriber } = JSON.parse(
+      organization.getConfiguration(OrganizationConfigKey.MEETING_INTERFACE)
+    );
 
     if (isModerator) {
       return { ...base, ...moderator };
@@ -86,7 +89,9 @@ export class MeetingsService {
   }
 
   public async buildJitsiConfig(isModerator: boolean, isPublisher: boolean, organization: OrganizationEntity) {
-    const { base, moderator, publisher, subscriber } = organization.meetings.config;
+    const { base, moderator, publisher, subscriber } = JSON.parse(
+      organization.getConfiguration(OrganizationConfigKey.MEETING)
+    );
 
     if (isModerator) {
       return merge({}, base, moderator);
