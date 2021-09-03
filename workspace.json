@@ -15,13 +15,8 @@
             "main": "apps/doorward-frontend/src/main.tsx",
             "polyfills": "apps/doorward-frontend/src/polyfills.ts",
             "tsConfig": "apps/doorward-frontend/tsconfig.app.json",
-            "assets": [
-              "apps/doorward-frontend/src/favicon.ico",
-              "apps/doorward-frontend/src/assets"
-            ],
-            "styles": [
-              "apps/doorward-frontend/src/styles.scss"
-            ],
+            "assets": ["apps/doorward-frontend/src/favicon.ico", "apps/doorward-frontend/src/assets"],
+            "styles": ["apps/doorward-frontend/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -69,14 +64,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-frontend/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-frontend/tsconfig.app.json",
-              "apps/doorward-frontend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-frontend/**"
-            ]
+            "tsConfig": ["apps/doorward-frontend/tsconfig.app.json", "apps/doorward-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-frontend/**"]
           }
         },
         "test": {
@@ -111,13 +100,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-frontend-e2e/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-frontend-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-frontend-e2e/**"
-            ]
+            "tsConfig": ["apps/doorward-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-frontend-e2e/**"]
           }
         }
       }
@@ -133,14 +117,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/ui/.eslintrc",
-            "tsConfig": [
-              "libs/ui/tsconfig.lib.json",
-              "libs/ui/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/ui/**"
-            ]
+            "tsConfig": ["libs/ui/tsconfig.lib.json", "libs/ui/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/ui/**"]
           }
         },
         "test": {
@@ -163,14 +141,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/common/.eslintrc",
-            "tsConfig": [
-              "libs/common/tsconfig.lib.json",
-              "libs/common/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/common/**"
-            ]
+            "tsConfig": ["libs/common/tsconfig.lib.json", "libs/common/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/common/**"]
           }
         },
         "test": {
@@ -196,13 +168,8 @@
             "main": "apps/doorward-website/src/main.tsx",
             "polyfills": "apps/doorward-website/src/polyfills.ts",
             "tsConfig": "apps/doorward-website/tsconfig.app.json",
-            "assets": [
-              "apps/doorward-website/src/favicon.ico",
-              "apps/doorward-website/src/assets/"
-            ],
-            "styles": [
-              "apps/doorward-website/src/styles.scss"
-            ],
+            "assets": ["apps/doorward-website/src/favicon.ico", "apps/doorward-website/src/assets/"],
+            "styles": ["apps/doorward-website/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -250,14 +217,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-website/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-website/tsconfig.app.json",
-              "apps/doorward-website/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-website/**"
-            ]
+            "tsConfig": ["apps/doorward-website/tsconfig.app.json", "apps/doorward-website/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-website/**"]
           }
         },
         "test": {
@@ -292,13 +253,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-website-e2e/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-website-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-website-e2e/**"
-            ]
+            "tsConfig": ["apps/doorward-website-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-website-e2e/**"]
           }
         }
       }
@@ -314,14 +270,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/backend/.eslintrc",
-            "tsConfig": [
-              "libs/backend/tsconfig.lib.json",
-              "libs/backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/backend/**"
-            ]
+            "tsConfig": ["libs/backend/tsconfig.lib.json", "libs/backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/backend/**"]
           }
         },
         "test": {
@@ -344,14 +294,8 @@
           "options": {
             "linter": "eslint",
             "config": "libs/chat/.eslintrc",
-            "tsConfig": [
-              "libs/chat/tsconfig.lib.json",
-              "libs/chat/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/chat/**"
-            ]
+            "tsConfig": ["libs/chat/tsconfig.lib.json", "libs/chat/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/chat/**"]
           }
         },
         "test": {
@@ -404,14 +348,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-chat-api/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-chat-api/tsconfig.app.json",
-              "apps/doorward-chat-api/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-chat-api/**"
-            ]
+            "tsConfig": ["apps/doorward-chat-api/tsconfig.app.json", "apps/doorward-chat-api/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-chat-api/**"]
           }
         },
         "test": {
@@ -469,14 +407,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/doorward-backend/.eslintrc",
-            "tsConfig": [
-              "apps/doorward-backend/tsconfig.app.json",
-              "apps/doorward-backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-backend/**"
-            ]
+            "tsConfig": ["apps/doorward-backend/tsconfig.app.json", "apps/doorward-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-backend/**"]
           }
         },
         "test": {
@@ -508,13 +440,8 @@
             "polyfills": "apps/openvidu-frontend/src/polyfills.ts",
             "tsConfig": "apps/openvidu-frontend/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/openvidu-frontend/src/favicon.ico",
-              "apps/openvidu-frontend/src/assets"
-            ],
-            "styles": [
-              "apps/openvidu-frontend/src/styles.css"
-            ],
+            "assets": ["apps/openvidu-frontend/src/favicon.ico", "apps/openvidu-frontend/src/assets"],
+            "styles": ["apps/openvidu-frontend/src/styles.css"],
             "scripts": []
           },
           "configurations": {
@@ -576,14 +503,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/openvidu-frontend/tsconfig.app.json",
-              "apps/openvidu-frontend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-frontend/**"
-            ]
+            "tsConfig": ["apps/openvidu-frontend/tsconfig.app.json", "apps/openvidu-frontend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend/**"]
           }
         },
         "test": {
@@ -617,13 +538,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "apps/openvidu-frontend-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-frontend-e2e/**"
-            ]
+            "tsConfig": ["apps/openvidu-frontend-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-frontend-e2e/**"]
           }
         }
       }
@@ -641,9 +557,7 @@
             "outputPath": "dist/apps/openvidu-backend",
             "main": "apps/openvidu-backend/src/main.ts",
             "tsConfig": "apps/openvidu-backend/tsconfig.app.json",
-            "assets": [
-              "apps/openvidu-backend/src/assets"
-            ]
+            "assets": ["apps/openvidu-backend/src/assets"]
           },
           "configurations": {
             "production": {
@@ -671,14 +585,8 @@
           "options": {
             "linter": "eslint",
             "config": "apps/openvidu-backend/.eslintrc",
-            "tsConfig": [
-              "apps/openvidu-backend/tsconfig.app.json",
-              "apps/openvidu-backend/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/openvidu-backend/**"
-            ]
+            "tsConfig": ["apps/openvidu-backend/tsconfig.app.json", "apps/openvidu-backend/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/openvidu-backend/**"]
           }
         },
         "test": {
@@ -699,14 +607,8 @@
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
-            "tsConfig": [
-              "libs/whiteboard/tsconfig.lib.json",
-              "libs/whiteboard/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/whiteboard/**"
-            ]
+            "tsConfig": ["libs/whiteboard/tsconfig.lib.json", "libs/whiteboard/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/whiteboard/**"]
           }
         },
         "test": {
@@ -738,13 +640,8 @@
             "main": "apps/doorward-meeting/src/main.tsx",
             "polyfills": "apps/doorward-meeting/src/polyfills.ts",
             "tsConfig": "apps/doorward-meeting/tsconfig.app.json",
-            "assets": [
-              "apps/doorward-meeting/src/favicon.ico",
-              "apps/doorward-meeting/src/assets"
-            ],
-            "styles": [
-              "apps/doorward-meeting/src/styles.scss"
-            ],
+            "assets": ["apps/doorward-meeting/src/favicon.ico", "apps/doorward-meeting/src/assets"],
+            "styles": ["apps/doorward-meeting/src/styles.scss"],
             "scripts": [],
             "webpackConfig": "webpack.config.js"
           },
@@ -790,14 +687,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "apps/doorward-meeting/tsconfig.app.json",
-              "apps/doorward-meeting/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-meeting/**/*"
-            ]
+            "tsConfig": ["apps/doorward-meeting/tsconfig.app.json", "apps/doorward-meeting/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-meeting/**/*"]
           }
         },
         "test": {
@@ -832,13 +723,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "apps/doorward-meeting-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-meeting-e2e/**/*"
-            ]
+            "tsConfig": ["apps/doorward-meeting-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/doorward-meeting-e2e/**/*"]
           }
         }
       }
@@ -853,14 +739,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/romeeting/tsconfig.lib.json",
-              "libs/romeeting/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/romeeting/**/*"
-            ]
+            "tsConfig": ["libs/romeeting/tsconfig.lib.json", "libs/romeeting/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/romeeting/**/*"]
           }
         },
         "test": {
@@ -883,14 +763,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/draft-editor/tsconfig.lib.json",
-              "libs/draft-editor/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/draft-editor/**/*"
-            ]
+            "tsConfig": ["libs/draft-editor/tsconfig.lib.json", "libs/draft-editor/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/draft-editor/**/*"]
           }
         },
         "test": {
@@ -913,14 +787,8 @@
           "builder": "@nrwl/linter:lint",
           "options": {
             "linter": "eslint",
-            "tsConfig": [
-              "libs/api-actions/tsconfig.lib.json",
-              "libs/api-actions/tsconfig.spec.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!libs/api-actions/**/*"
-            ]
+            "tsConfig": ["libs/api-actions/tsconfig.lib.json", "libs/api-actions/tsconfig.spec.json"],
+            "exclude": ["**/node_modules/**", "!libs/api-actions/**/*"]
           }
         },
         "test": {
@@ -947,7 +815,8 @@
             "main": "apps/doorward-organizations/src/main.ts",
             "tsConfig": "apps/doorward-organizations/tsconfig.app.json",
             "assets": [
-              "apps/doorward-organizations/src/assets"
+              "apps/doorward-organizations/src/assets",
+              "apps/doorward-organizations/src/config"
             ]
           },
           "configurations": {
@@ -978,10 +847,7 @@
               "apps/doorward-organizations/tsconfig.app.json",
               "apps/doorward-organizations/tsconfig.spec.json"
             ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/doorward-organizations/**/*"
-            ]
+            "exclude": ["**/node_modules/**", "!apps/doorward-organizations/**/*"]
           }
         },
         "test": {

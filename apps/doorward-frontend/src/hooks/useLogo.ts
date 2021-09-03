@@ -7,9 +7,9 @@ const useLogo = (): string => {
   const theme = useTheme();
   const organization = useOrganization();
 
-  const [icon, setIcon] = useState(organization?.icon);
+  const [icon, setIcon] = useState(organization?.logo);
   useEffect(() => {
-    setIcon(theme.theme === themes.dark ? organization?.darkThemeIcon || organization?.icon : organization?.icon);
+    setIcon(theme.theme === themes.dark ? organization?.darkThemeLogo || organization?.logo : organization?.logo);
   }, [theme]);
 
   return icon;

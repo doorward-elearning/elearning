@@ -10,10 +10,14 @@ import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
+import organizationSetup from './bootstrap/organizationSetup';
+import entities from './database/entities';
+import ormConfig from '../ormconfig';
 
 const globalPrefix = process.env.ORGANIZATION_API_PREFIX;
 
 async function bootstrap() {
+  await organizationSetup(entities, ormConfig);
 
   const app = await setUpNestApplication(AppModule);
 
@@ -36,7 +40,6 @@ async function bootstrap() {
 
     Logger.log('Listening at ' + hostPrefix + '://localhost:' + port + '/' + globalPrefix);
   });
-
 }
 
 bootstrap().then(() => {});

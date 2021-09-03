@@ -10,7 +10,7 @@ const LoadingPage: React.FunctionComponent<LoadingPageProps> = props => {
   return (
     <div className="loading-page__content">
       <div className="loading-page__content--loader">
-        {organization ? <EImage src={organization.icon} size="medium" /> : <span>{CONSTANTS.APP_NAME}</span>}
+        {organization ? <EImage src={organization.logo} size="medium" /> : <span>{CONSTANTS.APP_NAME}</span>}
         <Spinner type="TailSpin" />
       </div>
     </div>

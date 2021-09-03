@@ -14,10 +14,11 @@ export class CreateDefaultOrganization1597834370368 extends SeederInterface {
           description:
             'The default organization for the application. A user from this organization can access all other organizations',
           name: process.env.DEFAULT_ORGANIZATION_NAME,
+          displayName: process.env.DEFAULT_ORGANIZATION_DISPLAY_NAME,
           databaseName: process.env.DOORWARD_DATABASE,
-          icon: '',
-          darkThemeIcon: '',
-          host: 'https://doorward.tech',
+          logo: '',
+          darkThemeLogo: '',
+          hosts: 'localhost:3000,doorward.local:3000',
         },
       ])
       .execute();

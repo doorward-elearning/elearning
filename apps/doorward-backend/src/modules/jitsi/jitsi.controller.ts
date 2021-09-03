@@ -18,7 +18,7 @@ export class JitsiController {
   ): Promise<JitsiBrandingResponse> {
     return {
       logoClickUrl: organization.link,
-      logoImageUrl: organization.icon,
+      logoImageUrl: organization.logo,
       inviteDomain: organization.link,
     };
   }
