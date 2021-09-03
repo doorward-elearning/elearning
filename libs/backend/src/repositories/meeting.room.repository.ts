@@ -4,6 +4,6 @@ import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 
 export default class MeetingRoomRepository extends MultiOrganizationRepository<MeetingRoomEntity> {
   getEntity(): ObjectType<MeetingRoomEntity> {
-    return MeetingRoomRepository;
+    return MeetingRoomEntity;
   }
 }

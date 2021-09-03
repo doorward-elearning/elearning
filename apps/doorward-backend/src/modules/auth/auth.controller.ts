@@ -15,6 +15,7 @@ import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import LocalStrategy from './strategies/local.strategy';
+import JwtStrategy from '@doorward/backend/modules/base-auth/jwt.strategy';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -22,7 +23,8 @@ export class AuthController {
   constructor(
     private authService: AuthService,
     private emailService: EmailsService,
-    private localStrategy: LocalStrategy
+    private localStrategy: LocalStrategy,
+    private jwtStrategy: JwtStrategy
   ) {}
 
   @UseGuards(LocalAuthGuard)

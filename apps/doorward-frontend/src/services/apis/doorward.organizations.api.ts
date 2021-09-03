@@ -1,8 +1,9 @@
 import Tools from '@doorward/common/utils/Tools';
 import buildApiReducer from '@doorward/api-actions/build.api.reducer';
+import DoorwardOrganizationApi from '@doorward/common/apis/doorward.organization.api';
 
-const DoorwardApi = buildApiReducer(
-  DoorwardOrganizationsApi(() => {
+const DoorwardOrganizationsApi = buildApiReducer(
+  DoorwardOrganizationApi(() => {
     return {
       baseURL: process.env.REACT_APP_ORGANIZATIONS_API_BASE_URL,
       headers: {
@@ -13,4 +14,4 @@ const DoorwardApi = buildApiReducer(
   'DoorwardOrganizationsApi'
 );
 
-export default DoorwardApi;
+export default DoorwardOrganizationsApi;

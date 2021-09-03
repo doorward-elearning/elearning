@@ -39,7 +39,7 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
-  app.use(await organizationDetectorMiddleware(entities, ormConfig));
+  app.use(await organizationDetectorMiddleware(ormConfig, entities));
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));

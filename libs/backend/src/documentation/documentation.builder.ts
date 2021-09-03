@@ -37,11 +37,11 @@ export default class DocumentationBuilder {
   }
 
   private generateObjectName(fileName: string) {
-    fileName = fileName.substring(fileName.lastIndexOf('.'));
+    fileName = fileName.substring(0, fileName.lastIndexOf('.'));
 
-    fileName = fileName.replace('.', '_');
+    fileName = fileName.replace(/\./g, '-');
 
-    return _.camelCase(fileName);
+    return _.startCase(_.camelCase(fileName)).replace(/ /g, '');
   }
 
   private generatePathsByController(paths: PathsObject) {

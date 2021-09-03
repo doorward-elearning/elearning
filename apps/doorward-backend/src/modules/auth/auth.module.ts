@@ -3,14 +3,16 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import LocalStrategy from './strategies/local.strategy';
-import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base.auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import JwtStrategy from '@doorward/backend/modules/base-auth/jwt.strategy';
+import { PassportModule } from '@nestjs/passport';
+import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 
 @Global()
 @Module({
   imports: [
+    PassportModule,
     UsersModule,
-    BaseAuthModule,
     JwtModule.register({
       secret: process.env.JWT_SECRET_KEY,
       signOptions: {
@@ -19,7 +21,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService, LocalStrategy],
-  exports: [AuthService],
+  providers: [AuthService, LocalStrategy, JwtStrategy, JwtAuthGuard],
+  exports: [AuthService, JwtAuthGuard],
 })
 export class AuthModule {}

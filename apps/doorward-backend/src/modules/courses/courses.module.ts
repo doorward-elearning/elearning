@@ -9,15 +9,7 @@ import { MeetingsModule } from '../meetings/meetings.module';
 import { MeetingRoomsModule } from '../meeting-rooms/meeting-rooms.module';
 
 @Module({
-  imports: [
-    ModulesModule,
-    ItemsModule,
-    ,
-    ManagersModule,
-    DiscussionGroupsModule,
-    MeetingsModule,
-    MeetingRoomsModule,
-  ],
+  imports: [ModulesModule, ItemsModule, ManagersModule, DiscussionGroupsModule, MeetingsModule, MeetingRoomsModule],
   controllers: [CoursesController],
   providers: [CoursesService],
   exports: [CoursesService],

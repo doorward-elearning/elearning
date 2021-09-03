@@ -32,7 +32,6 @@ import translate from '@doorward/common/lang/translate';
 import ModuleVideoRepository from '@doorward/backend/repositories/module-video.repository';
 import QuestionSectionRepository from '@doorward/backend/repositories/question.section.repository';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
-import ModelRepository from '@doorward/backend/repositories/model.repository';
 
 @Injectable()
 export class ItemsService {

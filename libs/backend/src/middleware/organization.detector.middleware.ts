@@ -24,7 +24,7 @@ export const getOrganizationByHost = (origin: string) => {
   return currentOrganization;
 };
 
-export const organizationDetectorMiddleware = async (entities: Array<any>, ormConfig: any) => {
+export const organizationDetectorMiddleware = async (ormConfig: any, entities?: Array<any>) => {
   const connection = getConnection(ORGANIZATIONS_CONNECTION_NAME);
 
   const organizations = await connection.manager.find(OrganizationEntity);
@@ -42,20 +42,24 @@ export const organizationDetectorMiddleware = async (entities: Array<any>, ormCo
 
     request.organization = getOrganizationByHost(origin);
 
-    try {
-      getConnection(request.organization.name);
-      next();
-    } catch (e) {
-      const createdConnection = await connectDatabase(entities, {
-        ...ormConfig,
-        name: request.organization.name,
-      });
-
-      if (createdConnection) {
+    if (entities?.length) {
+      try {
+        getConnection(request.organization.name);
         next();
-      } else {
-        throw new BadRequestException('Database connection error', 'There is an error with the database');
+      } catch (e) {
+        const createdConnection = await connectDatabase(entities, {
+          ...ormConfig,
+          name: request.organization.name,
+        });
+
+        if (createdConnection) {
+          next();
+        } else {
+          throw new BadRequestException('Database connection error', 'There is an error with the database');
+        }
       }
+    } else {
+      next();
     }
   };
 };

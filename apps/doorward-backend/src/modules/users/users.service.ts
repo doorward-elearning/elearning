@@ -1,7 +1,7 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
-import { Connection, FindOneOptions } from 'typeorm';
+import { FindOneOptions } from 'typeorm';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
 import ValidationException from '@doorward/backend/exceptions/validation.exception';
@@ -23,14 +23,10 @@ import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { FilesService } from '../files/files.service';
 import ROUTES from '@doorward/common/frontend/routes/main';
-import { MultiOrganizationService } from '@doorward/backend/modules/multi-organization/multi.organization.service';
-import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 
 @Injectable()
-@MultiOrganizationService()
 export class UsersService {
   constructor(
-    @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
     private usersRepository: UsersRepository,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,

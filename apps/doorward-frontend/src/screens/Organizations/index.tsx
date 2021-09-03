@@ -3,15 +3,15 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import OrganizationsTable from '../../components/Tables/OrganizationsTable';
-import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import DoorwardOrganizationsApi from '../../services/apis/doorward.organizations.api';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
   const navigation = useNavigation();
-  const [fetch, organizations] = useApiAction(DoorwardApi, (api) => api.organizations.getAllOrganizations);
+  const [fetch, organizations] = useApiAction(DoorwardOrganizationsApi, (api) => api.organizations.getAllOrganizations);
 
   useEffect(() => {
     fetch();

@@ -56,8 +56,7 @@ export const parseMeetingInterfaceConfig = () => {
 };
 
 const organizationSetup = async (ormConfig: any) => {
-  const connectionManager = await createOrganizationsDbConnection(ormConfig);
-  const connection = connectionManager.get();
+  const connection = await createOrganizationsDbConnection(ormConfig);
 
   const queryRunner = connection.createQueryRunner();
 

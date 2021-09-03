@@ -5,7 +5,7 @@ import { MeetingRoomsModule } from '../meeting-rooms/meeting-rooms.module';
 import { MeetingsModule } from '../meetings/meetings.module';
 
 @Module({
-  imports: [, MeetingRoomsModule, MeetingsModule],
+  imports: [MeetingRoomsModule, MeetingsModule],
   controllers: [SchoolsController],
   providers: [SchoolsService],
   exports: [SchoolsService],

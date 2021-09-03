@@ -19,6 +19,7 @@ export default class JwtAuthGuard extends AuthGuard('jwt') {
       canActivate = await (super.canActivate(context) as Promise<boolean>);
     } catch (error) {
       if (!isPublic) {
+        console.error(error);
         throw new UnauthorizedException({
           message: 'Unauthorized',
           cause: ExceptionCause.invalid_jwt_token,

@@ -5,7 +5,7 @@ import { MeetingRoomsModule } from '../meeting-rooms/meeting-rooms.module';
 import { JitsiModule } from '../jitsi/jitsi.module';
 
 @Module({
-  imports: [, MeetingRoomsModule, JitsiModule],
+  imports: [MeetingRoomsModule, JitsiModule],
   controllers: [MeetingsController],
   providers: [MeetingsService],
   exports: [MeetingsService],

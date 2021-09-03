@@ -6,12 +6,13 @@ import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.valida
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { TransformInterceptor } from '@doorward/backend/interceptors/transform.interceptor';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
 import organizationSetup from './bootstrap/organizationSetup';
 import ormConfig from '../ormconfig';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
+import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
 
 const globalPrefix = process.env.ORGANIZATION_API_PREFIX;
 
@@ -24,8 +25,10 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
+  app.use(await organizationDetectorMiddleware(ormConfig));
+
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(PinoLogger)));
+  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
