@@ -20,4 +20,13 @@
       background: var(--text-error);
     }
   }
+
+  .badge {
+    color: white;
+    background-color: dimgray;
+  }
+
+  .icon {
+    color: var(--text-error);
+  }
 }
