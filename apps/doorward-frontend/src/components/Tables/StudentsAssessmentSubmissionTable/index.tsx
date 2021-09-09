@@ -6,6 +6,7 @@ import Tools from '@doorward/common/utils/Tools';
 import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import { AssessmentSubmissionResult } from '@doorward/common/types/assessments';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
+import { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const calculateGrade = (submission: AssessmentSubmissionEntity): number => {
   const results = JSON.parse(submission.submissionResults) as AssessmentSubmissionResult;
@@ -31,33 +32,14 @@ const StudentsAssessmentSubmissionTable: React.FunctionComponent<StudentsAssessm
           email: {
             title: translate('email'),
             cellRenderer: (cell) => Tools.str(cell.rowData.student?.email),
-          },
-          gradedOn: {
-            title: translate('gradedOn'),
-            cellRenderer: (cell) => Tools.normalDateTime(cell.cellData),
+            minDisplay: DisplayDeviceType.DESKTOP,
           },
           marks: {
             title: translate('marksObtained'),
             cellRenderer: (cell) => {
               return Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? cell.rowData.grade : '');
             },
-          },
-          grade: {
-            title: translate('percentage'),
-            cellRenderer: (cell) =>
-              Tools.str(cell.rowData.status === AssessmentSubmissionStatus.GRADED ? calculateGrade(cell.rowData) : ''),
-          },
-          gradedBy: {
-            title: translate('gradedBy'),
-            cellRenderer: (cell) => {
-              const graded = cell.rowData.status === AssessmentSubmissionStatus.GRADED;
-
-              return Tools.str(graded ? cell.cellData?.fullName || translate('systemGraded') : '');
-            },
-          },
-          submittedOn: {
-            title: translate('submittedOn'),
-            cellRenderer: (cell) => Tools.normalDateTime(cell.cellData),
+            minDisplay: DisplayDeviceType.DESKTOP,
           },
           graded: {
             title: translate('status'),
