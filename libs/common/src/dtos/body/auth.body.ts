@@ -4,6 +4,7 @@ import { ObjectSchema } from 'yup';
 import DApiBody from '@doorward/common/dtos/body/base.body';
 import * as Yup from 'yup';
 import translate from '@doorward/common/lang/translate';
+import { arrayOf } from 'prop-types';
 
 export class ForgotPasswordBody extends DApiBody {
   @Expose()
@@ -65,10 +66,17 @@ export class ResetPasswordBody extends DApiBody {
   @Expose()
   password: string;
 
+  @Expose()
+  confirmPassword: string;
+
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
       resetToken: Yup.string().required(translate('resetTokenRequired')).nullable(),
       password: Yup.string().required(translate('newPasswordRequired')).nullable(),
+      confirmPassword: Yup.string()
+      .required('Re-enter the new password') 
+      .oneOf(  [Yup.ref( 'password'),null], translate( 'passwordsMustMatch')),
+
     });
   }
 }
