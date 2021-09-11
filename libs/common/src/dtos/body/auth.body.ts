@@ -74,7 +74,7 @@ export class ResetPasswordBody extends DApiBody {
       resetToken: Yup.string().required(translate('resetTokenRequired')).nullable(),
       password: Yup.string().required(translate('newPasswordRequired')).nullable(),
       confirmPassword: Yup.string()
-      .required('Re-enter the new password') 
+      .required(translate('reEnterPassword')) 
       .oneOf(  [Yup.ref( 'password'),null], translate( 'passwordsMustMatch')),
 
     });
