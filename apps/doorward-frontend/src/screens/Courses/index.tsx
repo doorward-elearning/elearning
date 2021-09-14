@@ -9,6 +9,7 @@ import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import { SearchSuggestionTypes } from '@doorward/common/types/suggestions';
 
 const Courses: React.FunctionComponent<CoursesProps> = (props) => {
   const addCourseModal = useModal(props.location.pathname === ROUTES.courses.create);
@@ -32,6 +33,7 @@ const Courses: React.FunctionComponent<CoursesProps> = (props) => {
     <Layout
       {...props}
       features={[LayoutFeatures.HEADER, LayoutFeatures.ACTION_BUTTON, LayoutFeatures.BREAD_CRUMBS]}
+      suggestionsType = {SearchSuggestionTypes.COURSES}
       header={translate('courses')}
       actionBtnProps={{
         text: TITLE,

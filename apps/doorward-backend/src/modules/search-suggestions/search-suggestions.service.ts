@@ -4,10 +4,11 @@ import GroupsRepository from '@doorward/backend/repositories/groups.repository';
 import { Roles } from '@doorward/common/types/roles';
 import { SearchSuggestion } from '@doorward/common/types/api';
 import { SearchSuggestionTypes } from '@doorward/common/types/suggestions';
+import CoursesRepository from '@doorward/backend/repositories/courses.repository';
 
 @Injectable()
 export class SearchSuggestionsService {
-  constructor(private usersRepository: UsersRepository, private groupsRepository: GroupsRepository) {}
+  constructor(private usersRepository: UsersRepository, private groupsRepository: GroupsRepository, private coursesRepository: CoursesRepository) {}
 
   public async getSearchSuggestions(type: SearchSuggestionTypes) {
   }
@@ -22,4 +23,11 @@ export class SearchSuggestionsService {
   public async getGroupSuggestions(type?: string): Promise<SearchSuggestion[]> {
     return (await this.groupsRepository.getGroupsByType(type)).map((group) => ({ text: group.name }));
   }
+  public async getCourseSuggestions() : Promise<Array<SearchSuggestion>> {
+    return (await this.coursesRepository.getAllCourseNames()).map(function(courseName){
+          return {
+                  text : courseName,
+                 } 
+          });
+    }
 }

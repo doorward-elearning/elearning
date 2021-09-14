@@ -174,6 +174,7 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
       });
     },
     getCourses: (query ? : {
+      search ? : string,
       page ? : number,
       limit ? : number,
       noPagination ? : boolean

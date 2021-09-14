@@ -53,26 +53,26 @@ export class CoursesService {
     return course;
   }
 
-  async getCourses(user: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
+  async getCourses(user: UserEntity, page: PaginationQuery, search?: string): Promise<PaginatedEntities<CourseEntity>> {
     if (user.isSuperAdmin()) {
-      return this.getAllCourses(user, page);
+      return this.getAllCourses(user, page, search);
     } else if (user.isTeacher()) {
-      return this.getCoursesForAuthor(user, page);
+      return this.getCoursesForAuthor(user, page, search);
     } else {
-      return this.getCoursesForLearner(user, page);
+      return this.getCoursesForLearner(user, page, search);
     }
   }
 
-  async getCoursesForLearner(student: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesForStudent(student.id, page);
+  async getCoursesForLearner(student: UserEntity, page: PaginationQuery, search?: string): Promise<PaginatedEntities<CourseEntity>> {
+    return this.coursesRepository.getCoursesForStudent(student.id, page, search);
   }
 
-  async getCoursesForAuthor(author: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesByTeacher(author.id, true, page);
+  async getCoursesForAuthor(author: UserEntity, page: PaginationQuery, search?: string): Promise<PaginatedEntities<CourseEntity>> {
+    return this.coursesRepository.getCoursesByTeacher(author.id, true, page, search);
   }
 
-  async getAllCourses(admin: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesByAdmin(admin.id, page);
+  async getAllCourses(admin: UserEntity, page: PaginationQuery, search?: string): Promise<PaginatedEntities<CourseEntity>> {
+    return this.coursesRepository.getCoursesByAdmin(admin.id, page, search);
   }
 
   async getCourse(id: string) {

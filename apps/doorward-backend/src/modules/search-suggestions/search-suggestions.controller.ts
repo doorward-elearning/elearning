@@ -5,6 +5,7 @@ import { SearchSuggestionTypes } from '@doorward/common/types/suggestions';
 import { Roles } from '@doorward/common/types/roles';
 import { SearchSuggestionsService } from './search-suggestions.service';
 import { SuggestionsResponse } from '@doorward/common/dtos/response';
+import { PresignedPost } from 'aws-sdk/clients/s3';
 
 @Controller('search-suggestions')
 @ApiTags('searchSuggestions')
@@ -32,6 +33,9 @@ export class SearchSuggestionsController {
       case SearchSuggestionTypes.GROUPS:
         suggestions = await this.searchSuggestionService.getGroupSuggestions(groupType);
         break;
+      case SearchSuggestionTypes.COURSES:
+          suggestions = await this.searchSuggestionService.getCourseSuggestions();
+          break;
       default:
         suggestions = [];
         break;

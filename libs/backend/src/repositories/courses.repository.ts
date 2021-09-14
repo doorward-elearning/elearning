@@ -16,6 +16,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
   public async getCoursesForStudent(
     studentId: string,
     page: PaginationQuery,
+    search?: string
   ): Promise<PaginatedEntities<CourseEntity>> {
     const queryBuilder = this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
@@ -25,7 +26,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
     return this.paginate(queryBuilder, page);
   }
 
-  public async getCoursesByTeacher(teacherId: string, includeManaged = true, page: PaginationQuery) {
+  public async getCoursesByTeacher(teacherId: string, includeManaged = true, page: PaginationQuery, search ?: string) {
     const queryBuilder = await this.createQueryBuilder('course')
       .where('course."createdBy" = :teacherId', { teacherId })
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
@@ -58,8 +59,8 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
     return queryBuilder.getMany();
   }
 
-  public async getCoursesByAdmin(adminId: string, page: PaginationQuery) {
-    const queryBuilder = await this.createQueryBuilder('course')
+  public async getCoursesByAdmin(adminId: string, page: PaginationQuery, search ?: string) {
+    const queryBuilder = await this.createSearchQueryBuilder('course', ['title','id'], search)
       .leftJoinAndSelect('course.author', 'author')
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .addOrderBy('course.createdAt', 'DESC');
@@ -156,4 +157,11 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
 
     return { ...count, ...assessments };
   }
+  public async getAllCourseNames() : Promise<Array <string>>{
+    const courses = await this.createQueryBuilder('course').getMany();
+        return courses.map(function(course)
+        {
+             return course.title;
+        });
+    }
 }

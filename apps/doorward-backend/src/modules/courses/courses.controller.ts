@@ -65,9 +65,10 @@ export class CoursesController {
     description: 'The list of courses based on the user privileges',
     type: CoursesResponse,
   })
+  @ApiQuery({ name: 'search', required: false })
   @ApiPaginationQuery()
-  async getCourses(@CurrentUser() user: UserEntity, @Query() pagination: PaginationQuery): Promise<CoursesResponse> {
-    const courses = await this.coursesService.getCourses(user, pagination);
+  async getCourses(@Query('search') search: string,@CurrentUser() user: UserEntity, @Query() pagination: PaginationQuery): Promise<CoursesResponse> {
+    const courses = await this.coursesService.getCourses(user, pagination,search);
 
     return { pagination: courses.pagination, courses: courses.entities };
   }
