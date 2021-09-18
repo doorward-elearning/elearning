@@ -129,6 +129,7 @@
     "express-validator": "^5.3.1",
     "fast-xml-parser": "^3.13.0",
     "file-loader": "3.0.1",
+    "file-saver": "^2.0.5",
     "formik": "^1.5.8",
     "fs-extra": "7.0.1",
     "helmet": "^3.23.3",
@@ -191,6 +192,7 @@
     "react-beautiful-dnd": "^12.1.1",
     "react-circular-progressbar": "^2.0.3",
     "react-compound-timer": "^1.2.0",
+    "react-csv": "^2.0.3",
     "react-datepicker": "^2.10.1",
     "react-dev-utils": "^9.1.0",
     "react-dom": "16.12.0",
@@ -237,6 +239,7 @@
     "winston": "^3.3.3",
     "workbox-webpack-plugin": "4.3.1",
     "ws": "^7.4.2",
+    "xlsx": "^0.17.2",
     "yup": "^0.27.0",
     "zone.js": "^0.10.2"
   },
