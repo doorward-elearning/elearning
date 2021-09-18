@@ -24,10 +24,6 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
         email: {
           title: translate('email'),
         },
-        phoneNumber: {
-          title: translate('phoneNumber'),
-          minDisplay: DisplayDeviceType.DESKTOP,
-        },
         status: {
           title: translate('status'),
           minDisplay: DisplayDeviceType.DESKTOP,
