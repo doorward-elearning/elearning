@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
@@ -8,10 +8,13 @@ import { ForceChangePasswordBody, RegisterBody } from '@doorward/common/dtos/bod
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import PasswordChangeEmail from '../../emails/password-change.email';
 import translate from '@doorward/common/lang/translate';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
     private usersService: UsersService,
     private jwtService: JwtService,
     private emailService: EmailsService
@@ -65,7 +68,7 @@ export class AuthService {
       role: user.role.id,
     };
 
-    await user.updatePrivileges();
+    await user.updatePrivileges(this.connection);
 
     const token = await this.jwtService.sign(payload);
 

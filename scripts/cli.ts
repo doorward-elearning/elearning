@@ -6,7 +6,6 @@ import MultiOrgMigrationRunCommand from '../commands/organization/MultiOrgMigrat
 import { MigrationGenerateCreateDbCommand } from '../commands/MigrationGenerateCreateDbCommand';
 import { MigrationRunCreateDbCommand } from '../commands/MigrationRunCreateDbCommand';
 import { MultiOrgMigrationRevertCommand } from '../commands/organization/MultiOrgMigrationRevertCommand';
-import { MultiOrgMigrationGenerateCommand } from '../commands/organization/MultiOrgMigrationGenerateCommand';
 import MultiOrgSchemaDropCommand from '../commands/organization/MultiOrgSchemaDropCommand';
 import { MultiOrgSeederRunCommand } from '../commands/organization/MultiOrgSeederRunCommand';
 import { MultiOrgSeederRevertCommand } from '../commands/organization/MultiOrgSeederRevertCommand';
@@ -21,7 +20,6 @@ yargs
   // Multi Organization commands
   .command(new MultiOrgMigrationRunCommand())
   .command(new MultiOrgMigrationRevertCommand())
-  .command(new MultiOrgMigrationGenerateCommand())
   .command(new MultiOrgSchemaDropCommand())
   .command(new MultiOrgSeederRunCommand())
   .command(new MultiOrgSeederRevertCommand())

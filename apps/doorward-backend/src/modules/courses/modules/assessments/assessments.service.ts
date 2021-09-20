@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, Inject } from '@nestjs/common';
 import AssessmentSubmissionRepository from '@doorward/backend/repositories/assessment.submission.repository';
 import moment from 'moment';
 import { SaveAssessmentBody } from '@doorward/common/dtos/body';
@@ -8,12 +8,15 @@ import { AssessmentSubmissionStatus } from '@doorward/common/types/courses';
 import translate from '@doorward/common/lang/translate';
 import assessmentGrader from '../../../../utils/assessment.grader';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
+import { Connection } from 'typeorm';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 
 @Injectable()
 export class AssessmentsService {
   constructor(
     private submissionRepository: AssessmentSubmissionRepository,
-    private assessmentRepository: AssessmentRepository
+    private assessmentRepository: AssessmentRepository,
+    @Inject(ORGANIZATION_CONNECTION) private connection: Connection
   ) {}
 
   private async getSubmissionByAssessmentId(assessmentId: string, user: UserEntity) {
@@ -87,7 +90,7 @@ export class AssessmentsService {
       await this.submissionRepository.save(submission);
 
       // grade the assessment
-      await assessmentGrader(submission.id, submission.getConnection());
+      await assessmentGrader(submission.id, this.connection);
 
       submission = await this.getSubmissionByAssessmentId(assessmentId, user);
     } else {

@@ -1,5 +1,5 @@
 import { ConnectionManager } from 'typeorm';
-import * as ormconfig from '../../../ormconfig.js';
+import * as ormconfig from '../../../../ormconfig.js';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as colors from 'colors';
@@ -39,7 +39,7 @@ const convertMigrations = async () => {
 (
     id SERIAL NOT NULL CONSTRAINT "PK_8c82d7f526340ab734260ea46be" PRIMARY KEY,
     timestamp BIGINT NOT NULL,
-    name VARCHAR NOT NULL 
+    name VARCHAR NOT NULL
 )`);
 
     await Promise.all(

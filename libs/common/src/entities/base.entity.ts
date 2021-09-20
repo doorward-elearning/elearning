@@ -1,8 +1,8 @@
 import {
   BeforeInsert,
+  Connection,
   CreateDateColumn,
   DeleteDateColumn,
-  getConnectionManager,
   ObjectType,
   PrimaryColumn,
   UpdateDateColumn,
@@ -32,11 +32,7 @@ export default class BaseEntity {
     }
   }
 
-  getConnection() {
-    return getConnectionManager().get();
-  }
-
-  getRepository<Entity>(model: ObjectType<Entity>) {
-    return this.getConnection().getRepository<Entity>(model);
+  getRepository<Entity>(connection: Connection, model: ObjectType<Entity>) {
+    return connection.getRepository<Entity>(model);
   }
 }

@@ -1,9 +1,19 @@
 organization:
+  name: "doorward"
+  displayName: "Doorward E-Learning"
+  hosts: localhost:3000,doorward.local:3000
+  lang: en
+  descriptiveLogo: false
+  email: info@doorward.tech
+  logos:
+    light: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+    dark: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862550/Doorward/logo/Doorward_Logo_Small_Dark.png"
+  description: ''
+  meetingPlatform: Jitsi
   admins:
-    - id: Gfz4r7sBK6u8134d
-      firstName: jntua
+    - firstName: system
       lastName: admin
-      email: info@doorward.tech
+      email: gitaumoses4@gmail.com
       username: administrator
       password: password
       zipCode: ''
@@ -12,12 +22,26 @@ organization:
       status: Active
   roles:
     SUPER_ADMINISTRATOR:
+      displayName: Super Administrator
+      description: Has full access to the system
+      rootOrganizationRole: true
       privileges:
         - "*"
       exclude:
         - assignments.submit
         - assessments.submit
+    ADMINISTRATOR:
+      displayName: Administrator
+      description: Has access to managing the organization
+      privileges:
+        - "*"
+      exclude:
+        - assignments.submit
+        - assessments.submit
+        - organizations.*
     TEACHER:
+      displayName: Teacher
+      description: Manages students
       privileges:
         - courses.*
         - modules.*
@@ -34,6 +58,8 @@ organization:
       exclude:
         - courses.view-all
     STUDENT:
+      displayName: Student
+      description: This is just a student
       privileges:
         - modules.read
         - moduleItems.read

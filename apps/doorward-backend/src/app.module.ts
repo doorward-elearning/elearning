@@ -1,10 +1,8 @@
 import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
-import ormConfig from '../ormconfig.js';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import { HealthCheckController } from './modules/health-check/health-check.controller';
 import { DoorwardLoggerModule } from '@doorward/backend/modules/logging/doorward.logger.module';
-import { MultiOrganizationModule } from '@doorward/backend/modules/multi-organization/multi.organization.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { ResourcesModule } from './modules/resources/resources.module';
 import { SearchSuggestionsModule } from './modules/search-suggestions/search-suggestions.module';
@@ -22,6 +20,9 @@ import { ModulesModule } from './modules/courses/modules/modules.module';
 import { GroupsModule } from '@doorward/backend/modules/groups/groups.module';
 import { SchoolsModule } from './modules/schools/schools.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
+import { OrganizationsModule } from './modules/organizations/organizations.module';
+import { MultiOrganizationModule } from '@doorward/backend/modules/multi-organization/multi.organization.module';
+import ormConfig from '../ormconfig-organizations';
 
 @Global()
 @Module({
@@ -54,11 +55,14 @@ import { MeetingsModule } from './modules/meetings/meetings.module';
     SearchSuggestionsModule,
     TeachersModule,
     ResourcesModule,
+    OrganizationsModule,
   ],
   controllers: [HealthCheckController],
 })
 export class AppModule implements NestModule {
-  constructor() {}
+  constructor() {
+  }
 
-  configure(consumer: MiddlewareConsumer): any {}
+  configure(consumer: MiddlewareConsumer): any {
+  }
 }

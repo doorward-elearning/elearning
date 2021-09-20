@@ -1,0 +1,23 @@
+{
+  "TOOLBAR_BUTTONS": [
+    "microphone",
+    "camera",
+    "closedcaptions",
+    "desktop",
+    "embedmeeting",
+    "fullscreen",
+    "fodeviceselection",
+    "hangup",
+    "profile",
+    "chat",
+    "recording",
+    "etherpad",
+    "sharedvideo",
+    "settings",
+    "raisehand",
+    "filmstrip",
+    "shortcuts",
+    "tileview",
+    "videobackgroundblur"
+  ]
+}

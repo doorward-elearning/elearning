@@ -1,4 +1,4 @@
-import { BeforeInsert, Column, Entity, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity, getConnection, OneToMany } from 'typeorm';
 import Tools from '@doorward/common/utils/Tools';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
@@ -6,6 +6,7 @@ import { Expose } from 'class-transformer';
 import BaseEntity from '@doorward/common/entities/base.entity';
 import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
 import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
+import { TaskStatus } from '@doorward/common/types/enums';
 
 /**
  * Do not define relationships in this file as it will create cyclic imports.
@@ -43,6 +44,9 @@ export default class OrganizationEntity extends BaseEntity {
   @Column({ nullable: false })
   databaseName: string;
 
+  @Column({ enum: TaskStatus, type: 'enum', default: TaskStatus.PENDING })
+  rolesSetupStatus: TaskStatus;
+
   @Expose({ groups: ['organization-config'] })
   @OneToMany(() => OrganizationConfigEntity, (config) => config.organization)
   configuration: Array<OrganizationConfigEntity>;
@@ -57,5 +61,9 @@ export default class OrganizationEntity extends BaseEntity {
       this.id = Tools.generateId();
     }
     this.name = this.name.toLowerCase();
+  }
+
+  getConnection() {
+    return getConnection(this.name);
   }
 }

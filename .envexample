@@ -4,13 +4,9 @@
 ENCRYPTION_SECRET=CrBrlW68Gy6XYki4e27XX6qeaaxk5w4o6kaa6MM8XuXjJVCegbGhbUynxt8A
 DATA_ENCRYPTION_KEY=2C7t98YtREHB4odKfz55hbwQy4hDPcZ6cAnAsPPdt6tQSisMG5umNYcLOT1mSuFh0EmK0fwBzaMaF5UMieOZCahqNmCKCbdsGBm7TRcaE0OeBQJlNegXhtuQ7UJd8ch05m3PnHbqd66hm9y2DJ1zpA
 DEFAULT_ORGANIZATION_ID=0000000000000000000000
-DEFAULT_ORGANIZATION_NAME=Doorward
-DEFAULT_ADMIN_FIRSTNAME=Basil
-DEFAULT_ADMIN_LASTNAME=Varghese
-DEFAULT_ADMIN_ID=00000000000000000000
-DEFAULT_ADMIN_PASSWORD=openolat
-DEFAULT_ADMIN_USERNAME=administrator
-DEFAULT_ADMIN_EMAIL=gitaumoses4@gmail.com
+DEFAULT_ORGANIZATION_NAME=doorward
+DEFAULT_ORGANIZATION_DISPLAY_NAME="Doorward E-Learning"
+DEFAULT_ORGANIZATION_DATABASE_NAME=doorward
 CLOUDINARY_IMAGE_DIRECTORY=https://res.cloudinary.com/dldhztrbs/image/upload/v1594386273/Doorward/
 CLOUDINARY_UPLOAD_URL=https://api.cloudinary.com/v1_1/dldhztrbs/upload
 CLOUDINARY_UPLOAD_PRESET=doorward
@@ -40,13 +36,6 @@ CHAT_API_PORT=7001
 CHAT_API_PREFIX=/api/v1/
 
 #----------------------------------------------------------------------------------------------------
-# Doorward Organizations
-#----------------------------------------------------------------------------------------------------
-ORGANIZATION_API_PORT=7002
-ORGANIZATION_API_PREFIX=/api/v1/
-ORGANIZATION_DATABASE=organizations
-
-#----------------------------------------------------------------------------------------------------
 # Doorward Backend
 #----------------------------------------------------------------------------------------------------
 API_PORT=7000
@@ -55,6 +44,7 @@ DOORWARD_DATABASE_USERNAME=moses
 DOORWARD_DATABASE_PASSWORD=password
 DOORWARD_DATABASE_HOST=doorward.local
 DOORWARD_DATABASE_PORT=5432
+ORGANIZATION_DATABASE=organizations
 EMAILS_DIRECTORY=emails/
 JWT_SECRET_KEY=TO91kKfg9BySaZrs19JIFSsoUrvOptTPIhTRn3qsDKdRDiLgZ8kqKdZLsOWQQSHIrSpSI2edGrUFeiiRS6U9rpt5TBtx4vpaGzovqqyqEr1DaMtFM5PZafR4QMbOxthCzZwCMZqmk8E361tf7cB8DP
 JWT_EXPIRY_TIME=21d

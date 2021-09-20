@@ -28,6 +28,8 @@ import {
   CreateSchoolBody,
   CreateClassroomBody,
   CreateFileBody,
+  CreateOrganizationBody,
+  UpdateOrganizationBody,
   AddCourseManagerBody,
   CreateDiscussionGroupBody,
   PostDiscussionCommentBody,
@@ -64,6 +66,8 @@ import {
   SuggestionsResponse,
   TeacherResponse,
   TeachersResponse,
+  OrganizationResponse,
+  OrganizationsResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   DiscussionGroupResponse,
@@ -442,6 +446,38 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
     },
     updateCourseModules: (body: UpdateModulesBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < UpdateModulesOrderResponse >> => {
       return PUT(`/modules`, body, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+  },
+  "organizations": {
+    getCurrentOrganization: (config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
+      return GET(`/organizations/current`, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    createOrganization: (body: CreateOrganizationBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
+      return POST(`/organizations`, body, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    getAllOrganizations: (config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationsResponse >> => {
+      return GET(`/organizations`, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    getOrganization: (organizationId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
+      return GET(`/organizations/${organizationId}`, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
+    updateOrganization: (organizationId: string, body: UpdateOrganizationBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < OrganizationResponse >> => {
+      return PUT(`/organizations/${organizationId}`, body, {}, {
         ...(config || {}),
         ...(defaultConfig && defaultConfig())
       });

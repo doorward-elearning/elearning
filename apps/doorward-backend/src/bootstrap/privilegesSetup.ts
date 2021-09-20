@@ -1,11 +1,11 @@
 import * as path from 'path';
 import * as fs from 'fs';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
-import connectDatabase from '@doorward/backend/database/connectDatabase';
+import { Connection } from 'typeorm';
+import multiOrganizationSetup from './multiOrganizationSetup';
+import chalk from 'chalk';
 
-const chalk = require('chalk').default;
-
-export interface RolesConfig {
+export interface PrivilegesConfig {
   delimiter: string;
   privileges: {
     [base: string]: Array<string | { name: string; description: string }>;
@@ -13,28 +13,24 @@ export interface RolesConfig {
 }
 
 const getOrganizationRolesFile = () => {
-  const filePath = path.join(__dirname, './config', 'roles.json');
+  const filePath = path.join(__dirname, './config', 'privileges.json');
   if (fs.existsSync(filePath)) {
     return filePath;
   }
-  throw new Error('Roles config does not exist in path: ' + filePath);
+  throw new Error('Privileges config does not exist in path: ' + filePath);
 };
 
-const parseRoles = (): RolesConfig => {
+const parseRoles = (): PrivilegesConfig => {
   try {
     const filePath = getOrganizationRolesFile();
     const fileContents = fs.readFileSync(filePath).toString();
-    return JSON.parse(fileContents) as RolesConfig;
+    return JSON.parse(fileContents) as PrivilegesConfig;
   } catch (error) {
     console.error(error);
   }
 };
 
-const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> => {
-  const connection = await connectDatabase(entities, {
-    ...ormConfig,
-    migrationsRun: false,
-  });
+const privilegesSetup = async (connection: Connection): Promise<void> => {
   const queryRunner = connection.createQueryRunner();
   try {
     const { privileges: rawPrivileges, delimiter } = parseRoles();
@@ -79,7 +75,7 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
 
     await queryRunner.commitTransaction();
 
-    console.log(chalk.cyan('Roles set up complete.'));
+    console.log(chalk.cyan(`Org[${connection.name}]: Privileges set up complete.`));
   } catch (error) {
     console.error(error);
     await queryRunner.rollbackTransaction();
@@ -88,4 +84,4 @@ const rolesSetup = async (entities: Array<any>, ormConfig: any): Promise<void> =
   }
 };
 
-export default rolesSetup;
+export default multiOrganizationSetup(privilegesSetup);

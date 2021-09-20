@@ -11,7 +11,6 @@ import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import MeetingRoomMemberEntity from '@doorward/common/entities/meeting.room.member.entity';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import QuestionEntity from '@doorward/common/entities/question.entity';
 import RoleEntity from '@doorward/common/entities/role.entity';
@@ -32,9 +31,8 @@ import ConversationEntity from '@doorward/common/entities/conversation.entity';
 import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
-import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
 
-const entities = [
+const backendMigrationEntities = [
   AnswerEntity,
   AssignmentSubmissionEntity,
   ClassroomEntity,
@@ -63,8 +61,6 @@ const entities = [
   ExamEntity,
   AssessmentEntity,
   AssessmentSubmissionEntity,
-  OrganizationEntity,
-  OrganizationConfigEntity,
   ModuleVideoEntity,
   ConversationEntity,
   ChatMessageEntity,
@@ -72,4 +68,4 @@ const entities = [
   QuestionSectionEntity,
 ];
 
-export default entities;
+export default backendMigrationEntities;

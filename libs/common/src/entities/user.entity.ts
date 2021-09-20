@@ -1,5 +1,5 @@
 import BaseEntity from './base.entity';
-import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Connection, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
 import MeetingRoomMemberEntity from './meeting.room.member.entity';
@@ -103,17 +103,17 @@ export default class UserEntity extends BaseEntity {
     return this.role?.name === role;
   }
 
-  async updatePrivileges() {
-    this.role.privileges = await this.getRepository(PrivilegeEntity)
+  async updatePrivileges(connection: Connection) {
+    this.role.privileges = await this.getRepository(connection, PrivilegeEntity)
       .createQueryBuilder('privilege')
       .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
       .where('"rolePrivilege"."roleId" = :roleId', { roleId: this.role.id })
       .getMany();
   }
 
-  async hasPrivileges(...privileges: Array<string>): Promise<boolean> {
+  async hasPrivileges(connection: Connection, ...privileges: Array<string>): Promise<boolean> {
     if (!this.role.privileges) {
-      await this.updatePrivileges();
+      await this.updatePrivileges(connection);
     }
     return privileges.reduce((acc, privilege) => {
       return acc && this?.role?.privileges?.some((_privilege) => wildcardPattern(_privilege.name, privilege));

@@ -11,6 +11,7 @@ import DocumentationBuilder from '@doorward/backend/documentation/documentation.
 import { Logger } from '@nestjs/common';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import ormConfig from '../ormconfig';
+import orgOrmConfig from '../ormconfig-organizations';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
 import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
@@ -19,7 +20,7 @@ import { organizationDetectorMiddleware } from '@doorward/backend/middleware/org
 const globalPrefix = process.env.API_PREFIX;
 
 async function bootstrap() {
-  await initializeBackend(entities, ormConfig);
+  await initializeBackend(entities, ormConfig, orgOrmConfig);
 
   const app = await setUpNestApplication(AppModule);
 

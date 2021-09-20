@@ -1,5 +1,5 @@
 import { MigrationInterface, QueryRunner } from 'typeorm';
-import assessmentGrader from '../../utils/assessment.grader';
+import assessmentGrader from '../../../utils/assessment.grader';
 
 export class AddAssessmentSubmissionResult1614521811846 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {

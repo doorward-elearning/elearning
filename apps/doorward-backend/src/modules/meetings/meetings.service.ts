@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException, Inject } from '@nestjs/common';
 import MeetingsRepository from '@doorward/backend/repositories/meetings.repository';
 import UserEntity from '@doorward/common/entities/user.entity';
 import MeetingEntity from '@doorward/common/entities/meeting.entity';
@@ -14,10 +14,16 @@ import { merge } from 'lodash';
 import { JitsiService } from '../jitsi/jitsi.service';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
+import { Connection } from 'typeorm';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 
 @Injectable()
 export class MeetingsService {
-  constructor(private meetingsRepository: MeetingsRepository, private meetingRoomsService: MeetingRoomsService) {}
+  constructor(
+    @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
+    private meetingsRepository: MeetingsRepository,
+    private meetingRoomsService: MeetingRoomsService
+  ) {}
 
   /**
    *
@@ -57,8 +63,8 @@ export class MeetingsService {
    */
   public async joinJitsiMeeting(meeting: MeetingEntity, request: Request, user?: UserEntity) {
     const organization = (request as any).organization;
-    const isModerator = await user.hasPrivileges('meetings.moderate');
-    const isPublisher = await user.hasPrivileges('meetings.publish');
+    const isModerator = await user.hasPrivileges(this.connection, 'meetings.moderate');
+    const isPublisher = await user.hasPrivileges(this.connection, 'meetings.publish');
 
     let config = await this.buildJitsiConfig(isModerator, isPublisher, organization);
 

@@ -1,0 +1,9 @@
+{
+  "videoQuality": {
+    "maxBitratesVideo": {
+      "low": 20000,
+      "standard": 50000,
+      "high": 100000
+    }
+  }
+}

@@ -14,11 +14,8 @@ export class MultiOrganizationModule {
       module: MultiOrganizationModule,
       imports: [
         TypeOrmModule.forRootAsync({
-          name: ORGANIZATIONS_CONNECTION_NAME,
           useFactory: () => ({
             ...(ormConfig as any),
-            name: ORGANIZATIONS_CONNECTION_NAME,
-            database: process.env.ORGANIZATION_DATABASE,
             entities: organizationsEntities,
           }),
         }),
