@@ -26,7 +26,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
     return this.paginate(queryBuilder, page);
   }
 
-  public async getCoursesByTeacher(teacherId: string, includeManaged = true, page: PaginationQuery, search ?: string) {
+  public async getCoursesByTeacher(teacherId: string, includeManaged = true, page: PaginationQuery) {
     const queryBuilder = await this.createQueryBuilder('course')
       .where('course."createdBy" = :teacherId', { teacherId })
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
