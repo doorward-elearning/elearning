@@ -18,8 +18,8 @@ export default class RoleEntity extends BaseEntity {
   @OneToMany(() => UserEntity, (user) => user.role)
   users: Array<UserEntity>;
 
-  @ManyToMany(() => PrivilegeEntity, (privilege) => privilege.roles, { onDelete: 'CASCADE' })
+  @ManyToMany(() => PrivilegeEntity, (privilege) => privilege.roles, { onDelete: 'CASCADE', lazy: true })
   @JoinTable({ name: 'RolePrivileges', joinColumn: { name: 'roleId' }, inverseJoinColumn: { name: 'privilegeId' } })
   @Expose({ groups: ['privileges'] })
-  privileges: Array<PrivilegeEntity>;
+  privileges: Promise<Array<PrivilegeEntity>> | Array<PrivilegeEntity>;
 }

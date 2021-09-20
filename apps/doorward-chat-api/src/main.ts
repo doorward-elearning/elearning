@@ -41,7 +41,7 @@ async function bootstrap() {
       tag: 'doorward',
       basePath: globalPrefix,
     },
-    'apps/doorward-chat-api/documentation/swagger.json',
+    'apps/doorward-chat-api/documentation/swagger.json'
   );
 
   const reflector = app.get(Reflector);
@@ -50,7 +50,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(new DoorwardLogger()));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
-  app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();
@@ -64,5 +63,4 @@ async function bootstrap() {
   });
 }
 
-bootstrap().then(() => {
-});
+bootstrap().then(() => {});

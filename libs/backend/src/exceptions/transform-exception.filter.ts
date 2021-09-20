@@ -19,14 +19,14 @@ export class TransformExceptionFilter implements ExceptionFilter {
   constructor(private logger: DoorwardLogger) {
     logger.setContext('ExceptionFilter');
   }
-  performTransform(exception: HttpException): DApiResponse {
+  async performTransform(exception: HttpException): Promise<DApiResponse> {
     console.error({ ...exception });
     this.logger.error(exception);
     const status = exception.getStatus ? exception.getStatus() : HttpStatus.BAD_REQUEST;
 
     const response = exception.getResponse() as any;
 
-    const data = ResponseBuilder.create(status);
+    const data = await ResponseBuilder.create(status);
 
     if (exception instanceof ValidationException) {
       data.errors = response;
@@ -47,10 +47,10 @@ export class TransformExceptionFilter implements ExceptionFilter {
     return data;
   }
 
-  catch(exception: HttpException, host: ArgumentsHost): any {
+  async catch(exception: HttpException, host: ArgumentsHost): Promise<any> {
     const context = host.switchToHttp();
     const response = context.getResponse<Response>();
-    const data = this.performTransform(exception);
+    const data = await this.performTransform(exception);
 
     response.status(data.statusCode).json(data);
   }

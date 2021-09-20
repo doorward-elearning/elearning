@@ -103,20 +103,14 @@ export default class UserEntity extends BaseEntity {
     return this.role?.name === role;
   }
 
-  async updatePrivileges(connection: Connection) {
-    this.role.privileges = await this.getRepository(connection, PrivilegeEntity)
-      .createQueryBuilder('privilege')
-      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
-      .where('"rolePrivilege"."roleId" = :roleId', { roleId: this.role.id })
-      .getMany();
-  }
-
-  async hasPrivileges(connection: Connection, ...privileges: Array<string>): Promise<boolean> {
-    if (!this.role.privileges) {
-      await this.updatePrivileges(connection);
+  async hasPrivileges(...privileges: Array<string>): Promise<boolean> {
+    const userPrivileges = await this.role.privileges;
+    if (!userPrivileges) {
+      return false;
     }
+
     return privileges.reduce((acc, privilege) => {
-      return acc && this?.role?.privileges?.some((_privilege) => wildcardPattern(_privilege.name, privilege));
+      return acc && userPrivileges.some((_privilege) => wildcardPattern(_privilege.name, privilege));
     }, true);
   }
 

@@ -2,12 +2,10 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import DoorwardApi from '../services/apis/doorward.api';
 import DoorwardChatApi from '@doorward/ui/services/doorward.chat.api';
 import combineApiReducers from '@doorward/api-actions/combine.api.reducers';
-import DoorwardOrganizationsApi from '../services/apis/doorward.organizations.api';
 
 const apis = combineApiReducers({
   DoorwardApi,
   DoorwardChatApi,
-  DoorwardOrganizationsApi,
 });
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

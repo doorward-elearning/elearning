@@ -42,12 +42,10 @@ export class UsersRepository extends MultiOrganizationRepository<UserEntity> {
    * @param role
    */
   async getUsersByRole(role: Roles) {
-    const result = await this.createQueryBuilder('user')
+    return await this.createQueryBuilder('user')
       .innerJoin('user.role', 'role')
       .where('role.name = :role', { role })
       .getMany();
-
-    return result;
   }
 
   getEntity(): ObjectType<UserEntity> {

@@ -18,3 +18,7 @@ export type OptionalKeys<T extends {}> = { [name in keyof T]?: T[name] };
 
 export type OptionalKeysExcept<T extends {}, K extends keyof T = {}> = Pick<T, K> &
   { [name in keyof Omit<T, K>]?: T[name] };
+
+export type ClassType<T> = {
+  new (): T;
+};

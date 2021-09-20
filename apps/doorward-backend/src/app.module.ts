@@ -1,4 +1,4 @@
-import { Global, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { Global, MiddlewareConsumer, Module, NestModule, Scope } from '@nestjs/common';
 import EmailsModule from '@doorward/backend/modules/emails/emails.module';
 import path from 'path';
 import { HealthCheckController } from './modules/health-check/health-check.controller';
@@ -23,6 +23,8 @@ import { MeetingsModule } from './modules/meetings/meetings.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { MultiOrganizationModule } from '@doorward/backend/modules/multi-organization/multi.organization.module';
 import ormConfig from '../ormconfig-organizations';
+import { APP_GUARD } from '@nestjs/core';
+import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 
 @Global()
 @Module({
@@ -58,11 +60,16 @@ import ormConfig from '../ormconfig-organizations';
     OrganizationsModule,
   ],
   controllers: [HealthCheckController],
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ModelExistsGuard,
+      scope: Scope.REQUEST,
+    },
+  ],
 })
 export class AppModule implements NestModule {
-  constructor() {
-  }
+  constructor() {}
 
-  configure(consumer: MiddlewareConsumer): any {
-  }
+  configure(consumer: MiddlewareConsumer): any {}
 }

@@ -34,7 +34,7 @@ export default abstract class MultiOrganizationRepository<Entity extends BaseEnt
 
     this.metadata = repository.metadata;
     this.manager = connection.manager;
-    this.queryRunner = connection.createQueryRunner();
+    this.queryRunner = this.manager.queryRunner;
   }
 
   public abstract getEntity(): ObjectType<Entity>;

@@ -12,7 +12,6 @@ import { CreateOrganizationBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
-import DoorwardOrganizationsApi from '../../../services/apis/doorward.organizations.api';
 
 const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProps> = (props): JSX.Element => {
   const form = useForm();
@@ -25,7 +24,7 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
     ...(props.organization || {}),
   };
 
-  const apiAction = useApiAction(DoorwardOrganizationsApi, (api) =>
+  const apiAction = useApiAction(DoorwardApi, (api) =>
     props.organization ? api.organizations.updateOrganization : api.organizations.createOrganization
   );
   return (

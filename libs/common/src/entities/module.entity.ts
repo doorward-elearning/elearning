@@ -18,7 +18,7 @@ export default class ModuleEntity extends BaseEntity {
     onDelete: 'CASCADE',
     lazy: true,
   })
-  course?: CourseEntity;
+  course: Promise<CourseEntity> | CourseEntity;
 
   @OneToMany(() => ModuleItemEntity, (moduleItem) => moduleItem.module)
   items?: Array<ModuleItemEntity>;

@@ -61,13 +61,13 @@ const organizationRolesSetup = async (
         );
 
         if (newPrivileges.length) {
-          createdRole.privileges = await entityManager.find(PrivilegeEntity, {
+          createdRole.privileges = entityManager.find(PrivilegeEntity, {
             where: {
               name: In(newPrivileges),
             },
           });
         } else {
-          createdRole.privileges = [];
+          createdRole.privileges = new Promise((resolve) => resolve([]));
         }
 
         rolesToCreate.push(createdRole);

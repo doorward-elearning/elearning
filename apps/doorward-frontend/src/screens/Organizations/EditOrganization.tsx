@@ -8,11 +8,11 @@ import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import { useRouteMatch } from 'react-router';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
-import DoorwardOrganizationsApi from '../../services/apis/doorward.organizations.api';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const EditOrganization: React.FunctionComponent<EditOrganizationProps> = (props): JSX.Element => {
   const navigation = useNavigation();
-  const [getOrganization, state] = useApiAction(DoorwardOrganizationsApi, (api) => api.organizations.getOrganization);
+  const [getOrganization, state] = useApiAction(DoorwardApi, (api) => api.organizations.getOrganization);
   const {
     params: { organizationId },
   } = useRouteMatch();

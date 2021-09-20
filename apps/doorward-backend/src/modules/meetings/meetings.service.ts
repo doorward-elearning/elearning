@@ -63,8 +63,8 @@ export class MeetingsService {
    */
   public async joinJitsiMeeting(meeting: MeetingEntity, request: Request, user?: UserEntity) {
     const organization = (request as any).organization;
-    const isModerator = await user.hasPrivileges(this.connection, 'meetings.moderate');
-    const isPublisher = await user.hasPrivileges(this.connection, 'meetings.publish');
+    const isModerator = await user.hasPrivileges('meetings.moderate');
+    const isPublisher = await user.hasPrivileges('meetings.publish');
 
     let config = await this.buildJitsiConfig(isModerator, isPublisher, organization);
 

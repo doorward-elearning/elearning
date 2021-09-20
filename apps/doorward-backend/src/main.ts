@@ -45,7 +45,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
-  app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();

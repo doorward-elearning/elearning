@@ -69,7 +69,7 @@ export class ModulesService {
   async updateModule(moduleId: string, body: UpdateModuleBody): Promise<ModuleEntity> {
     const module = await this.modulesRepository.findOne(moduleId, { relations: ['course'] });
 
-    if (await this.checkModuleExists(module.course.id, body.title, module.id)) {
+    if (await this.checkModuleExists(module.courseId, body.title, module.id)) {
       throw new ValidationException({ title: translate('moduleWithThisTitleAlreadyExists') });
     }
 

@@ -102,7 +102,7 @@ export class ItemsController {
       await YupValidationPipe.validate(CreateVideoBody, body);
     }
     const existingItem = await this.itemsService.getModuleItem(itemId);
-    const moduleItem = await this.itemsService.createOrUpdateModuleItem(existingItem.module.id, body, author, itemId);
+    const moduleItem = await this.itemsService.createOrUpdateModuleItem(existingItem.moduleId, body, author, itemId);
 
     return {
       item: moduleItem,
