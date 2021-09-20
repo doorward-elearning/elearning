@@ -17,8 +17,7 @@ export interface OrganizationConfig {
   description: string;
   customerType: CustomerTypes;
   meetingPlatform: MeetingPlatform;
-  admins: Array<{
-    id: string;
+  users: Array<{
     firstName: string;
     lastName: string;
     email: string;
@@ -27,12 +26,17 @@ export interface OrganizationConfig {
     zipCode: string;
     country: string;
     city: string;
+    role: string;
     status: UserStatus;
+    rootOrganizationOnly: boolean;
   }>;
   roles: {
     [role: string]: {
       privileges: Array<string>;
       exclude: Array<string>;
+      displayName: string;
+      description: string;
+      rootOrganizationOnly: boolean;
     };
   };
 }

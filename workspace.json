@@ -800,65 +800,6 @@
           }
         }
       }
-    },
-    "doorward-organizations": {
-      "root": "apps/doorward-organizations",
-      "sourceRoot": "apps/doorward-organizations/src",
-      "projectType": "application",
-      "prefix": "doorward-organizations",
-      "schematics": {},
-      "architect": {
-        "build": {
-          "builder": "@nrwl/node:build",
-          "options": {
-            "outputPath": "dist/apps/doorward-organizations",
-            "main": "apps/doorward-organizations/src/main.ts",
-            "tsConfig": "apps/doorward-organizations/tsconfig.app.json",
-            "assets": [
-              "apps/doorward-organizations/src/assets",
-              "apps/doorward-organizations/src/config"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "optimization": true,
-              "extractLicenses": true,
-              "inspect": false,
-              "fileReplacements": [
-                {
-                  "replace": "apps/doorward-organizations/src/environments/environment.ts",
-                  "with": "apps/doorward-organizations/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          }
-        },
-        "serve": {
-          "builder": "@nrwl/node:execute",
-          "options": {
-            "buildTarget": "doorward-organizations:build"
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:lint",
-          "options": {
-            "linter": "eslint",
-            "tsConfig": [
-              "apps/doorward-organizations/tsconfig.app.json",
-              "apps/doorward-organizations/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/doorward-organizations/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/doorward-organizations/jest.config.js",
-            "tsConfig": "apps/doorward-organizations/tsconfig.spec.json",
-            "passWithNoTests": true
-          }
-        }
-      }
     }
   },
   "cli": {

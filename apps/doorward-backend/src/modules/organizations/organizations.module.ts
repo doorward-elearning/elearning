@@ -3,7 +3,6 @@ import { OrganizationsService } from './organizations.service';
 import { OrganizationsController } from './organizations.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import OrganizationsRepository from '@doorward/backend/repositories/organizations.repository';
-import { ORGANIZATIONS_CONNECTION_NAME } from '@doorward/backend/utils/createOrganizationsDbConnection';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrganizationsRepository])],

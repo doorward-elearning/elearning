@@ -67,9 +67,6 @@
     },
     "api-actions": {
       "tags": []
-    },
-    "doorward-organizations": {
-      "tags": []
     }
   }
 }

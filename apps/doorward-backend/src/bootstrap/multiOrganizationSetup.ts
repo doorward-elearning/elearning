@@ -4,7 +4,7 @@ import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import connectDatabase from '@doorward/backend/database/connectDatabase';
 
 const multiOrganizationSetup = (
-  setupFunction: (connection: Connection, organization: OrganizationEntity) => Promise<any>
+  setupFunction: (connection: Connection, organization: OrganizationEntity, orgConnection: Connection) => Promise<any>
 ) => {
   return async (entities: Array<any>, ormConfig: any, orgOrmConfig: any) => {
     const organizationsConnection = await createOrganizationsDbConnection(orgOrmConfig);
@@ -16,9 +16,10 @@ const multiOrganizationSetup = (
         const connection = await connectDatabase(entities, {
           ...ormConfig,
           name: organization.name,
+          database: organization.databaseName,
         });
 
-        await setupFunction(connection, organization);
+        await setupFunction(connection, organization, organizationsConnection);
       })
     );
   };

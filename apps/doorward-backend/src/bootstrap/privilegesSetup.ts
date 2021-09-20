@@ -33,6 +33,8 @@ const parseRoles = (): PrivilegesConfig => {
 const privilegesSetup = async (connection: Connection): Promise<void> => {
   const queryRunner = connection.createQueryRunner();
   try {
+    console.log(chalk.cyan(`Org[${connection.name}]: Privileges set up started.`));
+
     const { privileges: rawPrivileges, delimiter } = parseRoles();
     await queryRunner.startTransaction();
 

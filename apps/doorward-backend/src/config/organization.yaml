@@ -10,7 +10,7 @@ organization:
     dark: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862550/Doorward/logo/Doorward_Logo_Small_Dark.png"
   description: ''
   meetingPlatform: Jitsi
-  admins:
+  users:
     - firstName: system
       lastName: admin
       email: gitaumoses4@gmail.com
@@ -20,11 +20,13 @@ organization:
       country: India
       city: Anantapur
       status: Active
+      role: SUPER_ADMINISTRATOR
+      rootOrganizationOnly: true
   roles:
     SUPER_ADMINISTRATOR:
       displayName: Super Administrator
       description: Has full access to the system
-      rootOrganizationRole: true
+      rootOrganizationOnly: true
       privileges:
         - "*"
       exclude:

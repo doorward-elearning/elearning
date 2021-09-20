@@ -50,6 +50,7 @@ export const organizationDetectorMiddleware = async (ormConfig: any, entities?: 
         const createdConnection = await connectDatabase(entities, {
           ...ormConfig,
           name: request.organization.name,
+          database: request.organization.databaseName,
         });
 
         if (createdConnection) {

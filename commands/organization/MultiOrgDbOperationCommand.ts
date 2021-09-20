@@ -3,6 +3,8 @@ import { Connection, ConnectionOptionsReader, createConnection } from 'typeorm';
 import { Type } from '@nestjs/common';
 import OrganizationEntity from '../../libs/common/src/entities/organization.entity';
 import chalk from 'chalk';
+import organizationsEntities from '../../libs/backend/src/database/organizations.entities';
+import { ORGANIZATIONS_CONNECTION_NAME } from '../../libs/backend/src/utils/createOrganizationsDbConnection';
 
 const MultiOrgDbOperationCommand = <T, U>(CommandClass: Type<yargs.CommandModule<T, U>>) => {
   const commandInstance = new CommandClass();
@@ -41,7 +43,8 @@ const MultiOrgDbOperationCommand = <T, U>(CommandClass: Type<yargs.CommandModule
           ...connectionOptions,
           database: process.env.ORGANIZATION_DATABASE,
           migrationsRun: false,
-          name: 'organizations',
+          name: ORGANIZATIONS_CONNECTION_NAME,
+          entities: organizationsEntities,
         });
 
         let organizations;

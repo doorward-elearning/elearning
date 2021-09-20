@@ -1,9 +1,7 @@
 import UserEntity from '@doorward/common/entities/user.entity';
-import { Roles } from '@doorward/common/types/roles';
 import RoleEntity from '@doorward/common/entities/role.entity';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
-import compareLists from '@doorward/common/utils/compareLists';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import { Connection, In } from 'typeorm';
 import parseOrganizationFile from '@doorward/backend/utils/parseOrganizationFile';
@@ -13,8 +11,14 @@ import { TaskStatus } from '@doorward/common/types/enums';
 
 const chalk = require('chalk');
 
-const organizationRolesSetup = async (connection: Connection, organization: OrganizationEntity) => {
-  const organizationRepository = organization.getRepository(organization.getConnection(), OrganizationEntity);
+const ORGANIZATION_FILE_NAME = 'organization.yaml';
+
+const organizationRolesSetup = async (
+  connection: Connection,
+  organization: OrganizationEntity,
+  orgConnection: Connection
+) => {
+  const organizationRepository = orgConnection.getRepository(OrganizationEntity);
   const queryRunner = connection.createQueryRunner();
   try {
     if (organization.rolesSetupStatus === TaskStatus.DONE) {
@@ -26,85 +30,75 @@ const organizationRolesSetup = async (connection: Connection, organization: Orga
 
     const entityManager = queryRunner.manager;
 
-    const organizationConfig = parseOrganizationFile();
+    const organizationConfig = parseOrganizationFile(ORGANIZATION_FILE_NAME);
 
-    const { roles, admins } = organizationConfig;
+    const { roles, users } = organizationConfig;
 
     const privileges = await entityManager.query('SELECT name FROM "Privileges"');
 
     const privilegeNames = privileges.map((privilege) => privilege.name);
 
+    const rolesToCreate = [];
     // set up the role privileges
     await Promise.all(
       Object.keys(roles).map(async (role) => {
-        const roleExists = await entityManager.findOne(RoleEntity, {
-          where: {
-            name: role.trim(),
-          },
-          relations: ['privileges'],
-        });
-        if (roleExists) {
-          // get all existing privileges
-          const existingPrivileges = roleExists.privileges.map((x) => x.name);
-          const rolePrivileges = roles[role].privileges;
-          const excludedPrivileges = roles[role].exclude;
-
-          let newPrivileges = privilegeNames.filter(
-            (privilege) =>
-              rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
-              !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
-          );
-
-          const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);
-
-          newPrivileges = [...newItems, ...unchanged];
-
-          if (newPrivileges.length) {
-            roleExists.privileges = await entityManager.find(PrivilegeEntity, {
-              where: {
-                name: In(newPrivileges),
-              },
-            });
-          } else {
-            roleExists.privileges = [];
-          }
-
-          await entityManager.save(roleExists);
-        } else {
-          console.warn(role + ' does not exist.');
+        if (roles[role].rootOrganizationOnly && !organization.root) {
+          return;
         }
-      })
-    );
 
-    const role = await entityManager.findOne(RoleEntity, {
-      name: Roles.SUPER_ADMINISTRATOR,
-    });
-
-    // update the roles
-    await Promise.all(
-      Object.keys(Roles).map(async (roleName) => {
-        const role = await entityManager.findOne(RoleEntity, {
-          name: roleName as Roles,
+        const createdRole = await entityManager.create(RoleEntity, {
+          name: role.trim(),
+          displayName: roles[role].displayName,
+          description: roles[role].description,
         });
+        const rolePrivileges = roles[role].privileges;
+        const excludedPrivileges = roles[role].exclude;
 
-        await entityManager.save(RoleEntity, role);
+        const newPrivileges = privilegeNames.filter(
+          (privilege) =>
+            rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
+            !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
+        );
+
+        if (newPrivileges.length) {
+          createdRole.privileges = await entityManager.find(PrivilegeEntity, {
+            where: {
+              name: In(newPrivileges),
+            },
+          });
+        } else {
+          createdRole.privileges = [];
+        }
+
+        rolesToCreate.push(createdRole);
       })
     );
 
-    if (!admins?.length) {
-      console.error('Organization config file "organization.json" does not specify any admins');
+    await connection
+      .createQueryBuilder()
+      .useTransaction(true)
+      .insert()
+      .into(RoleEntity)
+      .values(rolesToCreate)
+      .onConflict(`("name") DO NOTHING`)
+      .execute();
+
+    if (!users?.length) {
+      console.error('Organization config file "' + ORGANIZATION_FILE_NAME + '" does not specify any users');
       process.exit(1);
     }
 
     await Promise.all(
-      admins.map(async (admin) => {
-        let user = await entityManager.findOne(UserEntity, admin.id);
-        user = entityManager.create(UserEntity, {
-          ...admin,
-          password: user ? user.password : PasswordUtils.hashPassword(admin.password),
+      users.map(async (user) => {
+        const role = await entityManager.findOne(RoleEntity, {
+          where: { name: user.role.trim() },
+        });
+        const createdUser = entityManager.create(UserEntity, {
+          ...user,
+          password: user ? user.password : PasswordUtils.hashPassword(user.password),
           role,
         });
-        await entityManager.save(UserEntity, user);
+        await entityManager.save(UserEntity, createdUser);
       })
     );
 

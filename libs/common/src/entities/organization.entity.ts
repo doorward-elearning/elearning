@@ -51,6 +51,10 @@ export default class OrganizationEntity extends BaseEntity {
   @OneToMany(() => OrganizationConfigEntity, (config) => config.organization)
   configuration: Array<OrganizationConfigEntity>;
 
+  public get root(): boolean {
+    return this.id === process.env.DEFAULT_ORGANIZATION_ID;
+  }
+
   public getConfiguration(key: OrganizationConfigKey): string {
     if (this.configuration) return this.configuration.find((config) => config.key === key)?.value;
   }
@@ -61,9 +65,5 @@ export default class OrganizationEntity extends BaseEntity {
       this.id = Tools.generateId();
     }
     this.name = this.name.toLowerCase();
-  }
-
-  getConnection() {
-    return getConnection(this.name);
   }
 }
