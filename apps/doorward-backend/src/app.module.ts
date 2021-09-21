@@ -25,6 +25,7 @@ import { MultiOrganizationModule } from '@doorward/backend/modules/multi-organiz
 import ormConfig from '../ormconfig-organizations';
 import { APP_GUARD } from '@nestjs/core';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
+import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base-auth.module';
 
 @Global()
 @Module({
@@ -39,6 +40,7 @@ import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
       sender: (organization) => `${organization.name + (organization.name === 'Doorward' ? '' : ' - Doorward')}`,
       getData: () => ({}),
     }),
+    BaseAuthModule,
     DoorwardLoggerModule,
     AuthModule,
     UsersModule,

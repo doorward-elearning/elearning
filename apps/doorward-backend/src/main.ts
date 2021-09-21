@@ -5,7 +5,6 @@ import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplicati
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
