@@ -1,11 +1,11 @@
 import { CanActivate, ExecutionContext, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ModelExistsDecoratorProps } from '@doorward/backend/decorators/model.exists.decorator';
-import { MultiOrganizationService } from '@doorward/backend/modules/multi-organization/multi.organization.service';
+import { RequestScopedInjectable } from '@doorward/backend/decorators/request.scoped.service.decorator';
 import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 import { Connection } from 'typeorm';
 
-@MultiOrganizationService()
+@RequestScopedInjectable()
 export default class ModelExistsGuard implements CanActivate {
   constructor(private reflector: Reflector, @Inject(ORGANIZATION_CONNECTION) private connection: Connection) {}
 

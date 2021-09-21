@@ -1,6 +1,5 @@
 import { DynamicModule, Global, Scope } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ORGANIZATIONS_CONNECTION_NAME } from '@doorward/backend/utils/createOrganizationsDbConnection';
 import organizationsEntities from '@doorward/backend/database/organizations.entities';
 import { getConnection } from 'typeorm';
 import { REQUEST } from '@nestjs/core';

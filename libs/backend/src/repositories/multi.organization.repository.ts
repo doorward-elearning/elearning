@@ -22,19 +22,19 @@ import {
 import BaseEntity from '@doorward/common/entities/base.entity';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 import { Inject } from '@nestjs/common';
-import { MultiOrganizationService } from '@doorward/backend/modules/multi-organization/multi.organization.service';
+import { RequestScopedInjectable } from '@doorward/backend/decorators/request.scoped.service.decorator';
 import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities, PaginationMetaData } from '@doorward/common/dtos/response/base.response';
 
-@MultiOrganizationService()
+@RequestScopedInjectable()
 export default abstract class MultiOrganizationRepository<Entity extends BaseEntity> {
   constructor(@Inject(ORGANIZATION_CONNECTION) private readonly connection: Connection) {
     const repository = connection.getRepository(this.getEntity());
 
     this.metadata = repository.metadata;
     this.manager = connection.manager;
-    this.queryRunner = this.manager.queryRunner;
+    this.queryRunner = connection.manager.queryRunner;
   }
 
   public abstract getEntity(): ObjectType<Entity>;
