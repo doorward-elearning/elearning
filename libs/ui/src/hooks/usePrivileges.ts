@@ -16,7 +16,8 @@ const usePrivileges = (currentUser?: UserEntity): UsePrivileges => {
   return (...userPrivileges: Array<string>) =>
     userPrivileges
       ? !userPrivileges.find(
-          (privilege) => !hasPrivilege(privilege, [...privileges, ...(currentUser?.role?.privileges || [])])
+          (privilege) =>
+            !hasPrivilege(privilege, [...privileges, ...((currentUser?.role?.privileges as PrivilegeEntity[]) || [])])
         )
       : true;
 };

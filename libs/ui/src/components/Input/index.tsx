@@ -59,7 +59,7 @@ function withInput<R extends InputProps>(
 
     const [changeEvent, setChangeEvent] = useState<ChangeEvent<HTMLInputElement>>();
     const [isRequired, setIsRequired] = useState(false);
-    const { formikProps, editable, validationSchema } = useContext(FormContext);
+    const { formikProps, editable, validationSchema, inputGuide } = useContext(FormContext);
     const { name } = props;
     const mountedRef = useRef<boolean>(false);
     const [id, setId] = useState(props.id || (props.idGenerator && props.idGenerator()));
@@ -157,6 +157,15 @@ function withInput<R extends InputProps>(
           <div className="eb-input__error-message">
             <ErrorMessage name={name} alwaysShowError={props.alwaysShowError} />
           </div>
+          {inputGuide?.[name]?.length && (
+            <div className="eb-input__input-guide">
+              <ul>
+                {inputGuide[name].map((guide) => {
+                  return <li>{guide}</li>;
+                })}
+              </ul>
+            </div>
+          )}
         </div>
       </FeatureProvider>
     );

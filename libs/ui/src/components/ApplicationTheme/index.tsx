@@ -6,10 +6,12 @@ import updateTheme from '@doorward/ui/themes/updateTheme';
 export interface ThemeContextProps {
   theme: Theme;
   changeTheme: () => void;
+  isDarkTheme: () => boolean;
 }
 export const ThemeContext: React.Context<ThemeContextProps> = React.createContext<ThemeContextProps>({
   theme: themes.base,
   changeTheme: () => {},
+  isDarkTheme: () => false,
 });
 
 const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'base', children }): JSX.Element => {
@@ -35,6 +37,7 @@ const ApplicationTheme: FunctionComponent<ApplicationThemeProps> = ({ theme = 'b
       value={{
         theme: themes[currentTheme],
         changeTheme: switchTheme,
+        isDarkTheme: () => currentTheme === 'dark',
       }}
     >
       {<div className="ed-app">{children}</div>}

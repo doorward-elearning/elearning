@@ -90,15 +90,17 @@ const organizationRolesSetup = async (
 
     await Promise.all(
       users.map(async (user) => {
-        const role = await entityManager.findOne(RoleEntity, {
-          where: { name: user.role.trim() },
-        });
-        const createdUser = entityManager.create(UserEntity, {
-          ...user,
-          password: user ? user.password : PasswordUtils.hashPassword(user.password),
-          role,
-        });
-        await entityManager.save(UserEntity, createdUser);
+        if (!user.rootOrganizationOnly || organization.root) {
+          const role = await entityManager.findOne(RoleEntity, {
+            where: { name: user.role.trim() },
+          });
+          const createdUser = entityManager.create(UserEntity, {
+            ...user,
+            password: user ? user.password : PasswordUtils.hashPassword(user.password),
+            role,
+          });
+          await entityManager.save(UserEntity, createdUser);
+        }
       })
     );
 

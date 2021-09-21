@@ -17,7 +17,7 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
   const form = useForm();
   const initialValues = {
     name: '',
-    icon: '',
+    logo: '',
     description: '',
     customerType: CustomerTypes.COLLEGE_INDIA,
     link: 'https://dooward.tech',
@@ -45,13 +45,14 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
       {(formikProps) => (
         <React.Fragment>
           <TextField name="name" label={translate('name')} />
-          <TextField name="icon" label={translate('icon')} placeholder="https://" />
-          <IfElse condition={formikProps.values.icon && !formikProps.errors.icon}>
+          <TextField name="logo" label={translate('logo')} />
+          <IfElse condition={formikProps.values.logo && !formikProps.errors.logo}>
             <div>
               <Header size={4}>{translate('iconPreview')}</Header>
-              <EImage size="medium" src={formikProps.values.icon} />
+              <EImage size="medium" src={formikProps.values.logo} />
             </div>
           </IfElse>
+          <TextField name="hosts" label={translate('hosts')} placeholder="https://" />
           <TextArea name="description" label={translate('description')} />
         </React.Fragment>
       )}

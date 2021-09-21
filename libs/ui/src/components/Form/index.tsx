@@ -30,8 +30,19 @@ function Form<T>({
   const [allProps, setAllProps] = useState<FormikProps<T>>();
   const { formikProps, setFormikProps } = form;
   const [validation, setValidation] = useState(null);
+  const [inputGuide, setInputGuide] = useState();
 
   usePromiseEffect(getValidationSchema(validationSchema), setValidation, [validationSchema]);
+
+  useEffect(() => {
+    try {
+      const inputGuide = (new validationSchema() as any).inputGuide();
+
+      setInputGuide(inputGuide);
+    } catch (error) {
+      // do nothing
+    }
+  }, [validationSchema]);
 
   useEffect(() => {
     if (allProps && state?.errors) {
@@ -70,7 +81,7 @@ function Form<T>({
 
         return (
           <div className="ed-form">
-            <FormContext.Provider value={{ formikProps: props, editable, validationSchema }}>
+            <FormContext.Provider value={{ formikProps: props, editable, validationSchema, inputGuide }}>
               {!hideFormMessage && <FormMessage state={state} formikProps={props} />}
               <form className={formClassName} onSubmit={props.handleSubmit}>
                 {(children as FormRenderProps<any>).apply ? (children as FormRenderProps<any>)(props) : children}
@@ -107,5 +118,7 @@ export interface FormContextProps {
   editable?: boolean;
   validationSchema?: any;
   isInitialValid?: boolean | (() => boolean);
+  inputGuide?: Record<string, string[]>;
 }
+
 export default Form;
