@@ -621,5 +621,6 @@
   "orgNameValidationMessage": "The organization name is invalid.",
   "orgNameValidationGuide": "Should contain only lower case letters and underscore (_).",
   "orgNameValidationGuide2": "Cannot have any spaces.",
-  "orgNameValidationGuide3": "Can only start and end with a lower case letter."
+  "orgNameValidationGuide3": "Can only start and end with a lower case letter.",
+  "darkThemeLogoLabel": "Dark theme logo"
 }

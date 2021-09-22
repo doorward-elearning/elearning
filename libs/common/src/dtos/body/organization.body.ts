@@ -41,7 +41,7 @@ export class CreateOrganizationBody extends DApiBody {
       displayName: Yup.string().required(translate('orgDisplayNameIsRequired')).nullable(),
       description: Yup.string().nullable().notRequired(),
       logo: Yup.string().required(translate('logoRequired')).nullable().url(translate('urlInvalid')),
-      hosts: Yup.string().required(translate('urlRequired')).nullable().url(translate('urlInvalid')),
+      hosts: Yup.string().required(translate('urlRequired')).nullable(),
       darkThemeLogo: Yup.string().nullable().url(translate('urlInvalid')).notRequired(),
       descriptiveLogo: Yup.bool().notRequired(),
       meetingPlatform: Yup.string()

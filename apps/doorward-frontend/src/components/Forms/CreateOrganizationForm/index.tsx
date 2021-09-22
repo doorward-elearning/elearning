@@ -4,8 +4,6 @@ import useForm from '@doorward/ui/hooks/useForm';
 import TextField from '@doorward/ui/components/Input/TextField';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import EImage from '@doorward/ui/components/Image';
-import Header from '@doorward/ui/components/Header';
-import IfElse from '@doorward/ui/components/IfElse';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
@@ -18,9 +16,10 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
   const initialValues = {
     name: '',
     logo: '',
+    darkThemeLogo: '',
     description: '',
     customerType: CustomerTypes.COLLEGE_INDIA,
-    link: 'https://dooward.tech',
+    hosts: window.location.host,
     ...(props.organization || {}),
   };
 
@@ -45,13 +44,15 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
       {(formikProps) => (
         <React.Fragment>
           <TextField name="name" label={translate('name')} />
+          <TextField name="displayName" label={translate('orgDisplayName')} />
           <TextField name="logo" label={translate('logo')} />
-          <IfElse condition={formikProps.values.logo && !formikProps.errors.logo}>
-            <div>
-              <Header size={4}>{translate('iconPreview')}</Header>
-              <EImage size="medium" src={formikProps.values.logo} />
-            </div>
-          </IfElse>
+          {formikProps.values.logo && !formikProps.errors.logo && (
+            <EImage size="medium" src={formikProps.values.logo} />
+          )}
+          <TextField name="darkThemeLogo" label={translate('darkThemeLogoLabel')} />
+          {formikProps.values.darkThemeLogo && !formikProps.errors.darkThemeLogo && (
+            <EImage size="medium" src={formikProps.values.darkThemeLogo} />
+          )}
           <TextField name="hosts" label={translate('hosts')} placeholder="https://" />
           <TextArea name="description" label={translate('description')} />
         </React.Fragment>
