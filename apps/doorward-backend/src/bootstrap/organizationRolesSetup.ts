@@ -13,12 +13,13 @@ const chalk = require('chalk');
 
 const ORGANIZATION_FILE_NAME = 'organization.yaml';
 
-const organizationRolesSetup = async (
+export const organizationRolesSetup = async (
   connection: Connection,
   organization: OrganizationEntity,
   orgConnection: Connection
 ) => {
   const organizationRepository = orgConnection.getRepository(OrganizationEntity);
+
   const queryRunner = connection.createQueryRunner();
   try {
     if (organization.rolesSetupStatus === TaskStatus.DONE) {
@@ -38,7 +39,6 @@ const organizationRolesSetup = async (
 
     const privilegeNames = privileges.map((privilege) => privilege.name);
 
-    const rolesToCreate = [];
     // set up the role privileges
     await Promise.all(
       Object.keys(roles).map(async (role) => {
@@ -61,27 +61,18 @@ const organizationRolesSetup = async (
         );
 
         if (newPrivileges.length) {
-          createdRole.privileges = entityManager.find(PrivilegeEntity, {
+          createdRole.privileges = await entityManager.find(PrivilegeEntity, {
             where: {
               name: In(newPrivileges),
             },
           });
         } else {
-          createdRole.privileges = new Promise((resolve) => resolve([]));
+          createdRole.privileges = [];
         }
 
-        rolesToCreate.push(createdRole);
+        await entityManager.save(createdRole);
       })
     );
-
-    await connection
-      .createQueryBuilder()
-      .useTransaction(true)
-      .insert()
-      .into(RoleEntity)
-      .values(rolesToCreate)
-      .onConflict(`("name") DO NOTHING`)
-      .execute();
 
     if (!users?.length) {
       console.error('Organization config file "' + ORGANIZATION_FILE_NAME + '" does not specify any users');
@@ -96,7 +87,7 @@ const organizationRolesSetup = async (
           });
           const createdUser = entityManager.create(UserEntity, {
             ...user,
-            password: user ? user.password : PasswordUtils.hashPassword(user.password),
+            password: PasswordUtils.hashPassword(user.password),
             role,
           });
           await entityManager.save(UserEntity, createdUser);
@@ -118,4 +109,4 @@ const organizationRolesSetup = async (
   }
 };
 
-export default multiOrganizationSetup(organizationRolesSetup);
+export const multiOrganizationRolesSetup = multiOrganizationSetup(organizationRolesSetup);

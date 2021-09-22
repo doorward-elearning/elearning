@@ -1,10 +1,8 @@
-import { BeforeInsert, Column, Entity, getConnection, OneToMany } from 'typeorm';
+import { BeforeInsert, Column, Entity } from 'typeorm';
 import Tools from '@doorward/common/utils/Tools';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
-import { Expose } from 'class-transformer';
 import BaseEntity from '@doorward/common/entities/base.entity';
-import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
 import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
 import { TaskStatus } from '@doorward/common/types/enums';
 
@@ -47,16 +45,12 @@ export default class OrganizationEntity extends BaseEntity {
   @Column({ enum: TaskStatus, type: 'enum', default: TaskStatus.PENDING })
   rolesSetupStatus: TaskStatus;
 
-  @Expose({ groups: ['organization-config'] })
-  @OneToMany(() => OrganizationConfigEntity, (config) => config.organization)
-  configuration: Array<OrganizationConfigEntity>;
-
   public get root(): boolean {
     return this.id === process.env.DEFAULT_ORGANIZATION_ID;
   }
 
   public getConfiguration(key: OrganizationConfigKey): string {
-    if (this.configuration) return this.configuration.find((config) => config.key === key)?.value;
+    return null;
   }
 
   @BeforeInsert()

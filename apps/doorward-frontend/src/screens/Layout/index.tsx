@@ -121,7 +121,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   return (
     <FeatureProvider features={features}>
       <Helmet>
-        <title>{organization.name + (title && ' - ' + title)}</title>
+        <title>{organization.displayName + (title && ' - ' + title)}</title>
       </Helmet>
       <div id="main-layout" className={className}>
         <div className="ed-page-layout__navBar">
@@ -132,7 +132,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
               location={location}
               loginLink="/login"
               features={navFeatures}
-              title={organization.name}
+              title={organization.displayName}
               onHamburgerClick={toggleSidebar}
               renderNavEnd={() => {
                 return (
@@ -165,7 +165,7 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
             sideBarRef={sideBarRef}
             navBarShown={!noNavBar}
             icon={icon}
-            title={organization.name}
+            title={organization.displayName}
             onHamburgerClick={toggleSidebar}
             auth={auth}
             onItemSelected={() => {

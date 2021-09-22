@@ -1,12 +1,15 @@
-import rolesSetup from './privilegesSetup';
-import organizationRolesSetup from './organizationRolesSetup';
+import { multiOrganizationRolesSetup } from './organizationRolesSetup';
 import configureLang from '@doorward/common/lang/backend.config';
-import organizationSetup from './organizationSetup';
+import { createDefaultOrganization, multiOrganizationConfigSetup } from './organizationSetup';
+import { multiOrganizationPrivilegesSetup } from './privilegesSetup';
 
 const initializeBackend = async <T>(entities: Array<T>, ormConfig: any, organizationOrmConfig: any) => {
-  await organizationSetup(organizationOrmConfig);
-  await rolesSetup(entities, ormConfig, organizationOrmConfig);
-  await organizationRolesSetup(entities, ormConfig, organizationOrmConfig);
+  await createDefaultOrganization(organizationOrmConfig);
+
+  await multiOrganizationConfigSetup(entities, ormConfig, organizationOrmConfig);
+  await multiOrganizationPrivilegesSetup(entities, ormConfig, organizationOrmConfig);
+  await multiOrganizationRolesSetup(entities, ormConfig, organizationOrmConfig);
+
   await configureLang();
 };
 

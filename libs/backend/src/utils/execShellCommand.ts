@@ -1,11 +1,18 @@
-const util = require('util');
-const exec = util.promisify(require('child_process').exec);
+const { spawn } = require('child_process');
 
 const execShellCommand = async (command: string): Promise<any> => {
-  const { stdout, stderr } = await exec(command);
+  return new Promise((resolve, reject) => {
+    const commandArgs = command.split(/\s+/);
+    const result = spawn(commandArgs[0], commandArgs.slice(1));
 
-  console.log(stdout);
-  console.error(stderr);
+    result.stdout.on('data', (data) => console.log(data.toString()));
+
+    result.stderr.on('data', (data) => console.error(data.toString()));
+
+    result.on('error', reject);
+
+    result.on('close', resolve);
+  });
 };
 
 export default execShellCommand;

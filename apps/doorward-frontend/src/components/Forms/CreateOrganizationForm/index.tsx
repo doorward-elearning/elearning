@@ -15,6 +15,7 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
   const form = useForm();
   const initialValues = {
     name: '',
+    displayName: '',
     logo: '',
     darkThemeLogo: '',
     description: '',

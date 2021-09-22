@@ -64,6 +64,7 @@ AWS_ACCESS_KEY_ID=CWY22ONNNC2AWYNSUJHW
 AWS_SECRET_ACCESS_KEY=mRPEHgtF9EVyqKS/T8oStzXn5YEJnOHRsp+XIV0tZE8
 DIGITAL_OCEAN_STORAGE_ENDPOINT=fra1.digitaloceanspaces.com
 DIGITAL_OCEAN_STORAGE_BUCKET=doorward
+ORGANIZATION_INGRESS_URL=https://argoevents.doorward.tech/organization-ingress
 
 
 #----------------------------------------------------------------------------------------------------

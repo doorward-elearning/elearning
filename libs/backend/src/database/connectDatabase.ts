@@ -9,6 +9,7 @@ const connectDatabase = async (entities: Array<any>, ormConfig: any): Promise<Co
     return await createConnection({
       ...ormConfig,
       entities: [...entities],
+      migrationsRun: false
     });
   }
 };

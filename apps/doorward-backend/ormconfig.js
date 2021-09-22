@@ -19,7 +19,7 @@ module.exports = {
   port: +process.env.DOORWARD_DATABASE_PORT,
   username: process.env.DOORWARD_DATABASE_USERNAME,
   password: process.env.DOORWARD_DATABASE_PASSWORD,
-  database: process.env.DOORWARD_DATABASE,
+  database: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
   cli: {
     migrationsDir: './src/database/main/migrations/',
     seederDir: './src/database/main/seeds/',

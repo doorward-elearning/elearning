@@ -8,7 +8,7 @@ export default class DiscussionCommentEntity extends BaseEntity {
   @Column({ type: 'text' })
   comment: string;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   author: UserEntity;
 
   @ManyToOne(() => DiscussionGroupEntity, (discussionGroup) => discussionGroup.comments)

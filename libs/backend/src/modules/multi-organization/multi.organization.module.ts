@@ -3,18 +3,22 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import organizationsEntities from '@doorward/backend/database/organizations.entities';
 import { getConnection } from 'typeorm';
 import { REQUEST } from '@nestjs/core';
-import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
+import {
+  MAIN_CONNECTION_OPTIONS,
+  ORGANIZATION_CONNECTION,
+  ORGANIZATIONS_CONNECTION_OPTIONS,
+} from '@doorward/backend/constants';
 import repositories from '@doorward/backend/repositories';
 
 @Global()
 export class MultiOrganizationModule {
-  static register(ormConfig: any): DynamicModule {
+  static register(ormConfig: any, organizationOrmConfig: any): DynamicModule {
     return {
       module: MultiOrganizationModule,
       imports: [
         TypeOrmModule.forRootAsync({
           useFactory: () => ({
-            ...(ormConfig as any),
+            ...(organizationOrmConfig as any),
             entities: organizationsEntities,
           }),
         }),
@@ -28,9 +32,11 @@ export class MultiOrganizationModule {
             return getConnection(request.organization.name);
           },
         },
+        { provide: MAIN_CONNECTION_OPTIONS, useValue: ormConfig },
+        { provide: ORGANIZATIONS_CONNECTION_OPTIONS, useValue: organizationOrmConfig },
         ...repositories,
       ],
-      exports: [ORGANIZATION_CONNECTION, ...repositories],
+      exports: [ORGANIZATION_CONNECTION, MAIN_CONNECTION_OPTIONS, ORGANIZATIONS_CONNECTION_OPTIONS, ...repositories],
     };
   }
 }

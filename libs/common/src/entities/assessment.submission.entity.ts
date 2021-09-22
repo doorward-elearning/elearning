@@ -35,7 +35,7 @@ export default class AssessmentSubmissionEntity extends BaseEntity{
   @Column()
   studentId: string;
 
-  @ManyToOne(() => AssessmentEntity)
+  @ManyToOne(() => AssessmentEntity, { onDelete: 'CASCADE'})
   @JoinColumn()
   assessment: AssessmentEntity;
 

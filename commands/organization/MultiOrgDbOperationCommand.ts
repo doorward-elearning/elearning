@@ -20,7 +20,7 @@ const MultiOrgDbOperationCommand = <T, U>(CommandClass: Type<yargs.CommandModule
       return (commandInstance.builder as (args: yargs.Argv<T>) => yargs.Argv<U>)(args).option('x', {
         alias: 'organization',
         default: 'none',
-        describe: 'The name of the organization to run the command in',
+        describe: 'The id of the organization to run the command in',
         demand: false,
       });
     };

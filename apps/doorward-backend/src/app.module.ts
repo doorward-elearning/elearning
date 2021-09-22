@@ -22,7 +22,8 @@ import { SchoolsModule } from './modules/schools/schools.module';
 import { MeetingsModule } from './modules/meetings/meetings.module';
 import { OrganizationsModule } from './modules/organizations/organizations.module';
 import { MultiOrganizationModule } from '@doorward/backend/modules/multi-organization/multi.organization.module';
-import ormConfig from '../ormconfig-organizations';
+import orgOrmConfig from '../ormconfig-organizations';
+import ormConfig from '../ormconfig';
 import { APP_GUARD } from '@nestjs/core';
 import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base-auth.module';
@@ -30,12 +31,12 @@ import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base-auth.mo
 @Global()
 @Module({
   imports: [
-    MultiOrganizationModule.register(ormConfig),
+    MultiOrganizationModule.register(ormConfig, orgOrmConfig),
     EmailsModule.register({
       sendGrid: {
         apiKey: process.env.SENDGRID_API_KEY,
       },
-      templatesDir: path.join(__dirname, 'emails/templates'),
+      templatesDir: path.join(__dirname, 'templates'),
       senderEmail: () => process.env.EMAIL_SENDER,
       sender: (organization) => `${organization.name + (organization.name === 'Doorward' ? '' : ' - Doorward')}`,
       getData: () => ({}),

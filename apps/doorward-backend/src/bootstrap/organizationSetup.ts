@@ -7,6 +7,9 @@ import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConf
 import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
 import Tools from '@doorward/common/utils/Tools';
 import createOrganizationsDbConnection from '@doorward/backend/utils/createOrganizationsDbConnection';
+import { Connection } from 'typeorm';
+import { EntityManager } from 'typeorm/browser';
+import multiOrganizationSetup from './multiOrganizationSetup';
 
 const getConfigFile = (fileName: string) => {
   const filePath = path.join(__dirname, './config', fileName);
@@ -55,32 +58,51 @@ export const parseMeetingInterfaceConfig = () => {
   };
 };
 
-const organizationSetup = async (ormConfig: any) => {
+export const createDefaultOrganization = async (ormConfig: any) => {
   const connection = await createOrganizationsDbConnection(ormConfig);
+
+  const organizationConfig = parseOrganizationFile();
 
   const queryRunner = connection.createQueryRunner();
 
+  let organization = await queryRunner.manager.findOne(OrganizationEntity, process.env.DEFAULT_ORGANIZATION_ID);
+
+  if (!organization) {
+    try {
+      await queryRunner.startTransaction();
+
+      const entityManager = queryRunner.manager;
+
+      const createdOrganization = entityManager.create(OrganizationEntity, {
+        name: process.env.DEFAULT_ORGANIZATION_NAME,
+        displayName: process.env.DEFAULT_ORGANIZATION_DISPLAY_NAME,
+        databaseName: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
+
+        ...organizationConfig,
+
+        id: process.env.DEFAULT_ORGANIZATION_ID,
+        logo: organizationConfig.logos?.light,
+        darkThemeLogo: organizationConfig.logos?.dark,
+      });
+
+      await entityManager.save(OrganizationEntity, createdOrganization);
+
+      organization = await queryRunner.manager.findOne(OrganizationEntity, process.env.DEFAULT_ORGANIZATION_ID);
+
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      console.error(error);
+      queryRunner.rollbackTransaction();
+    } finally {
+      queryRunner.release();
+    }
+  }
+
+  return organization;
+};
+
+const organizationConfigSetup = async (connection: Connection) => {
   try {
-    await queryRunner.startTransaction();
-
-    const entityManager = queryRunner.manager;
-
-    const organizationConfig = parseOrganizationFile();
-
-    const organization = entityManager.create(OrganizationEntity, {
-      name: process.env.DEFAULT_ORGANIZATION_NAME,
-      displayName: process.env.DEFAULT_ORGANIZATION_DISPLAY_NAME,
-      databaseName: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
-
-      ...organizationConfig,
-
-      id: process.env.DEFAULT_ORGANIZATION_ID,
-      logo: organizationConfig.logos?.light,
-      darkThemeLogo: organizationConfig.logos?.dark,
-    });
-
-    await entityManager.save(OrganizationEntity, organization);
-
     await connection
       .createQueryBuilder()
       .insert()
@@ -90,27 +112,22 @@ const organizationSetup = async (ormConfig: any) => {
           id: Tools.generateId(),
           key: OrganizationConfigKey.MEETING,
           value: JSON.stringify(parseMeetingConfig()),
-          organization,
         },
         {
           id: Tools.generateId(),
           key: OrganizationConfigKey.MEETING_INTERFACE,
           value: JSON.stringify(parseMeetingInterfaceConfig()),
-          organization,
         },
       ])
       .onConflict(`("key") DO NOTHING`)
       .execute();
 
-    await queryRunner.commitTransaction();
-
-    console.log(chalk.cyan('Root organization set up complete.'));
+    console.log(chalk.cyan('Organization[' + connection.name + '] config set up complete.'));
   } catch (e) {
     console.error(e);
-    await queryRunner.rollbackTransaction();
-  } finally {
-    await queryRunner.release();
   }
 };
 
-export default organizationSetup;
+export const multiOrganizationConfigSetup = multiOrganizationSetup(organizationConfigSetup);
+
+export default organizationConfigSetup;

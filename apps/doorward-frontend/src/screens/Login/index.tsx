@@ -33,7 +33,7 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   return (
     <Layout {...props} noNavBar withBackground hideBackButton>
       <div className="page page__login">
-        <Header size={1}>{organization.name}</Header>
+        <Header size={1}>{organization.displayName}</Header>
         {showMessage && (
           <Message>
             <Header size={4}>{translate('thankYouForTryingDoorwardLoginToProceed')}</Header>

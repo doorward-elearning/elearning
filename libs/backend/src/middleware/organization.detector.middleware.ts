@@ -11,7 +11,7 @@ export const getOrganizationByHost = (origin: string) => {
   Object.values(ORGANIZATIONS).forEach((organization) => {
     if (
       organization.hosts.split(',').find((host) => {
-        return origin.toLowerCase() === host.replace('http://', '').replace('https://', '');
+        return origin.toLowerCase() === host.replace('http://', '').replace('https://', '').toLowerCase().trim();
       })
     ) {
       currentOrganization = organization;
@@ -39,6 +39,8 @@ export const organizationDetectorMiddleware = async (ormConfig: any, entities?: 
       .trim()
       .replace('http://', '')
       .replace('https://', '');
+
+    console.log(origin);
 
     request.organization = getOrganizationByHost(origin);
 

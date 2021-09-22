@@ -1,5 +1,5 @@
 import BaseEntity from './base.entity';
-import { Column, Connection, Entity, ManyToOne, OneToMany } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
 import MeetingRoomMemberEntity from './meeting.room.member.entity';
@@ -11,12 +11,11 @@ import { Exclude, Expose } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
-import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import CourseEntity from '@doorward/common/entities/course.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseEntity {
-  @Column({ nullable: false })
+  @Column({ nullable: false, unique: true })
   username: string;
 
   @Column({ nullable: true })
@@ -78,7 +77,7 @@ export default class UserEntity extends BaseEntity {
   @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
   passwordResets: Array<PasswordsResetsEntity>;
 
-  @ManyToOne(() => UserEntity, { nullable: true })
+  @ManyToOne(() => UserEntity, { nullable: true, onDelete: 'SET NULL' })
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 

@@ -363,7 +363,7 @@
     },
     "doorward-backend": {
       "root": "apps/doorward-backend",
-      "sourceRoot": "apps/doorward-backend/src",
+      "sourceRoot": "apps/doorward-backend",
       "projectType": "application",
       "prefix": "doorward-backend",
       "schematics": {},
@@ -377,9 +377,10 @@
             "main": "apps/doorward-backend/src/main.ts",
             "tsConfig": "apps/doorward-backend/tsconfig.app.json",
             "assets": [
-              "apps/doorward-backend/src/assets",
-              "apps/doorward-backend/src/emails",
-              "apps/doorward-backend/src/config"
+              "apps/doorward-backend/assets",
+              "apps/doorward-backend/templates",
+              "apps/doorward-backend/config",
+              "apps/doorward-backend/src/database/main"
             ]
           },
           "configurations": {

@@ -22,6 +22,16 @@ organization:
       status: Active
       role: SUPER_ADMINISTRATOR
       rootOrganizationOnly: true
+    - firstName: system
+      lastName: admin
+      email: gitaumoses4@gmail.com
+      username: administrator
+      password: password
+      zipCode: ''
+      country: India
+      city: Anantapur
+      status: Active
+      role: ADMINISTRATOR
   roles:
     SUPER_ADMINISTRATOR:
       displayName: Super Administrator

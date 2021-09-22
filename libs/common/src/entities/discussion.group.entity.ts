@@ -15,7 +15,7 @@ export default class DiscussionGroupEntity extends BaseEntity {
   @ManyToOne(() => CourseEntity, (course) => course.discussionGroups)
   course: CourseEntity;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   creator: UserEntity;
 
   @OneToMany(() => DiscussionCommentEntity, (comment) => comment.discussionGroup)

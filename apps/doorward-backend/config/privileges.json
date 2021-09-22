@@ -23,7 +23,7 @@
     "student.groups": ["create", "view", "update", "delete", "add-member"],
     "teacher.groups": ["create", "view", "update", "delete", "add-member"],
     "meetings": ["moderate", "subscribe", "publish"],
-    "organizations": ["create", "view", "update"],
+    "organizations": ["create", "view", "update", "create-users"],
     "students": ["create", "update", "view", "list", "change-password"],
     "reports": ["students", "teachers"],
     "teachers": ["create", "update", "view", "list"],

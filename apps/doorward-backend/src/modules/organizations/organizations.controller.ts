@@ -51,6 +51,12 @@ export class OrganizationsController {
   async createOrganization(@Body() body: CreateOrganizationBody): Promise<OrganizationResponse> {
     const organization = await this.organizationService.createOrganization(body);
 
+    await this.organizationService.initializeOrganizationDatabase(organization);
+
+    if (process.env.NODE_ENV === 'production') {
+      await this.organizationService.createOrganizationIngress(organization);
+    }
+
     return { organization, message: translate('organizationCreated') };
   }
 
