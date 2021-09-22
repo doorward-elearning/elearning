@@ -21,6 +21,8 @@ import {
 } from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
+import dataSize from '@doorward/common/utils/dataSize';
 
 const ModuleItemExists = () =>
   ModelExists({
@@ -42,6 +44,7 @@ export class ItemsController {
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
   async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
@@ -60,6 +63,7 @@ export class ItemsController {
   @Put(':itemId')
   @Privileges('moduleItems.update')
   @ModuleItemExists()
+  @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, type: ModuleItemResponse, description: 'The module item that was updated.' })
   @ApiBody({
     schema: {

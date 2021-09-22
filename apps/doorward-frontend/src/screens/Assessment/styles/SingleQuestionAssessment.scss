@@ -14,3 +14,38 @@
     }
   }
 }
+
+.grid {
+  grid-column: auto;
+  grid-template-columns: 5px;
+}
+
+.button {
+  align-items: center;
+  border-radius: 50%;
+  max-width: 15px;
+  max-height: 15px;
+  padding: 15px;
+  font-size: 0.8em;
+
+  &.default {
+    background-color: rgba(247, 247, 247, 0.932);
+    border-color: white;
+    color: darkgrey;
+  }
+
+  &.success {
+    border-color: var(--text-success);
+    color: var(--text-success);
+    background-color: rgba(247, 247, 247, 0.932);
+  }
+  &.primary {
+    color: white;
+    background-color: darkblue;
+  }
+  &.error {
+    border-color: var(--text-error);
+    color: var(--text-error);
+    background-color: rgba(247, 247, 247, 0.932);
+  }
+}

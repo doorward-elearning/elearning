@@ -28,6 +28,8 @@ import {
 } from '@doorward/common/dtos/body';
 import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
+import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
+import dataSize from '@doorward/common/utils/dataSize';
 
 export const ModuleExists = () =>
   ModelExists({ key: 'moduleId', model: ModuleEntity, message: translate('moduleDoesNotExist') });
@@ -44,6 +46,7 @@ export class ModulesController {
    */
   @Get(':moduleId')
   @Privileges('modules.read')
+  @PayloadSize(dataSize.MB(1))
   @ModuleExists()
   @ApiResponse({ status: HttpStatus.OK, type: ModuleResponse, description: 'The module that was retrieved.' })
   async getModule(@Param('moduleId') moduleId: string): Promise<ModuleResponse> {
@@ -62,6 +65,7 @@ export class ModulesController {
    */
   @Post(':moduleId/items')
   @Privileges('moduleItems.create')
+  @PayloadSize(dataSize.MB(1))
   @ModuleExists()
   @ApiResponse({
     status: HttpStatus.CREATED,

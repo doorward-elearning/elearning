@@ -13,6 +13,9 @@ import ormConfig from '../ormconfig';
 import orgOrmConfig from '../ormconfig-organizations';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
+import { json } from 'express';
+import { SizeLimitGuard } from '@doorward/backend/guards/size.limit.guard';
+import dataSize from '@doorward/common/utils/dataSize';
 import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
 
@@ -41,9 +44,12 @@ async function bootstrap() {
 
   app.use(await organizationDetectorMiddleware(ormConfig, entities));
 
+  app.use(json({ limit: '50mb' }));
+
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
+  app.useGlobalGuards(new SizeLimitGuard(reflector, dataSize.KB(100)));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();

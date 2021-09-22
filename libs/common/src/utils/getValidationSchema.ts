@@ -11,10 +11,10 @@ const getValidationSchema = async (
   try {
     validationSchema = await new (validationSchema as any)().validation();
   } catch (e) {
-    return null;
+    return (await validationSchema) as ObjectSchema;
   }
 
-  return validationSchema as ObjectSchema;
+  return (await validationSchema) as ObjectSchema;
 };
 
 export default getValidationSchema;
