@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import { Gender } from '@doorward/common/types/genders';
 import { UserStatus } from '@doorward/common/types/users';
@@ -11,13 +11,11 @@ import { Exclude, Expose } from 'class-transformer';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
-import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import FileEntity from '@doorward/common/entities/file.entity';
 
 @Entity('Users')
-export default class UserEntity extends BaseOrganizationEntity {
-  @Column({ nullable: false })
+export default class UserEntity extends BaseEntity {
+  @Column({ nullable: false, unique: true })
   username: string;
 
   @Column({ nullable: true })
@@ -79,7 +77,7 @@ export default class UserEntity extends BaseOrganizationEntity {
   @OneToMany(() => PasswordsResetsEntity, (passwordReset) => passwordReset.user)
   passwordResets: Array<PasswordsResetsEntity>;
 
-  @ManyToOne(() => UserEntity, { nullable: true })
+  @ManyToOne(() => UserEntity, { nullable: true, onDelete: 'SET NULL' })
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 
@@ -104,20 +102,14 @@ export default class UserEntity extends BaseOrganizationEntity {
     return this.role?.name === role;
   }
 
-  async updatePrivileges() {
-    this.role.privileges = await this.getRepository(PrivilegeEntity)
-      .createQueryBuilder('privilege')
-      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
-      .where('"rolePrivilege"."roleId" = :roleId', { roleId: this.role.id })
-      .getMany();
-  }
-
   async hasPrivileges(...privileges: Array<string>): Promise<boolean> {
-    if (!this.role.privileges) {
-      await this.updatePrivileges();
+    const userPrivileges = await this.role.privileges;
+    if (!userPrivileges) {
+      return false;
     }
+
     return privileges.reduce((acc, privilege) => {
-      return acc && this?.role?.privileges?.some((_privilege) => wildcardPattern(_privilege.name, privilege));
+      return acc && userPrivileges.some((_privilege) => wildcardPattern(_privilege.name, privilege));
     }, true);
   }
 

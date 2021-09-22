@@ -1,35 +1,83 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import { ORGANIZATION } from '../../bootstrap/organizationSetup';
 import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common/dtos/body';
 import OrganizationsRepository from '@doorward/backend/repositories/organizations.repository';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
-import { Not } from 'typeorm';
+import { HttpService } from '@nestjs/axios';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
+import { ConnectionOptions } from 'typeorm';
+import { MAIN_CONNECTION_OPTIONS } from '@doorward/backend/constants';
+import execShellCommand from '@doorward/backend/utils/execShellCommand';
+import { privilegesSetup } from '../../bootstrap/privilegesSetup';
+import connectDatabase from '@doorward/backend/database/connectDatabase';
+import entities from '@doorward/common/entities';
+import organizationConfigSetup from '../../bootstrap/organizationSetup';
+import { organizationRolesSetup } from '../../bootstrap/organizationRolesSetup';
 
 @Injectable()
 export class OrganizationsService {
-  organization: OrganizationEntity;
-
-  constructor(private organizationRepository: OrganizationsRepository) {
-    this.organization = ORGANIZATION;
-  }
-
-  /**
-   *
-   */
-  public get(): OrganizationEntity {
-    return this.organization;
+  constructor(
+    @Inject(MAIN_CONNECTION_OPTIONS) private mainConnectionOptions: ConnectionOptions,
+    private organizationRepository: OrganizationsRepository,
+    private httpService: HttpService,
+    private logger: DoorwardLogger
+  ) {
+    logger.setContext('OrganizationsService');
   }
 
   /**
    *
    */
   public async getAll() {
-    return this.organizationRepository.find({
+    return this.organizationRepository.find();
+  }
+
+  public async getRootOrganization() {
+    return this.organizationRepository.findOne({
       where: {
-        id: Not(process.env.DEFAULT_ORGANIZATION_ID),
+        id: process.env.DEFAULT_ORGANIZATION_ID,
       },
     });
+  }
+
+  public async createOrganizationIngress(organization: OrganizationEntity) {
+    const rootOrganization = await this.getRootOrganization();
+
+    const hosts = organization.hosts.split(/\s*,\s*/);
+
+    const requestBody = {
+      namespace: rootOrganization.name + '-doorward',
+      'primary-org-name': rootOrganization.name,
+      'service-name': rootOrganization.name + '-chuchu',
+      'org-name': organization.name,
+      'org-host': '',
+    };
+
+    this.logger.info('Creating ingress for organization [' + organization.name + ']');
+
+    return Promise.all(
+      hosts.map(async (host) => {
+        this.logger.info('Creating host: ' + host);
+        let success = true;
+        try {
+          await this.httpService.post(
+            process.env.ORGANIZATION_INGRESS_URL,
+            { ...requestBody, 'org-host': host },
+            { headers: { 'Content-Type': 'application/json' } }
+          );
+
+          this.logger.info('Organization [' + organization.name + '] ingress created: ' + host);
+        } catch (e) {
+          success = false;
+          this.logger.error(
+            e,
+            'Organization [' + organization.name + '] failed to create organization ingress: ' + host
+          );
+        }
+
+        return { host, result: success };
+      })
+    );
   }
 
   /**
@@ -40,6 +88,7 @@ export class OrganizationsService {
     return this.organizationRepository.save(
       this.organizationRepository.create({
         ...body,
+        databaseName: body.name + '-doorward',
         meetingPlatform: body.meetingPlatform || MeetingPlatform.OPENVIDU,
         descriptiveLogo: !!body.descriptiveLogo,
       })
@@ -66,5 +115,19 @@ export class OrganizationsService {
    */
   public async getOrganizationById(organizationId) {
     return this.organizationRepository.findOne(organizationId);
+  }
+
+  public async initializeOrganizationDatabase(organization: OrganizationEntity) {
+    await execShellCommand('yarn db:thala:migrate -x ' + organization.id);
+
+    const connection = await connectDatabase(entities, {
+      ...this.mainConnectionOptions,
+      database: organization.databaseName,
+      name: organization.name,
+    });
+
+    await organizationConfigSetup(connection);
+    await privilegesSetup(connection);
+    await organizationRolesSetup(connection, organization, this.organizationRepository.manager.connection);
   }
 }

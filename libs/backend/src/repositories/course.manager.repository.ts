@@ -1,9 +1,8 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
-import { EntityRepository } from 'typeorm';
 
-@EntityRepository(CourseManagerEntity)
-export default class CourseManagerRepository extends OrganizationBasedRepository<CourseManagerEntity> {
+export default class CourseManagerRepository extends MultiOrganizationRepository<CourseManagerEntity> {
   public async courseManagerExists(courseId: string, userId: string) {
     return this.findOne({
       where: {
@@ -11,5 +10,9 @@ export default class CourseManagerRepository extends OrganizationBasedRepository
         manager: { id: userId },
       },
     });
+  }
+
+  getEntity(): ObjectType<CourseManagerEntity> {
+    return CourseManagerEntity;
   }
 }

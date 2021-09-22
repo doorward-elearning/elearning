@@ -18,7 +18,7 @@ const RolesManager: FunctionComponent<RolesManagerProps> = (props): JSX.Element 
 
   useEffect(() => {
     if (user && user.role) {
-      setPrivileges(user.role.privileges);
+      setPrivileges(user.role.privileges as PrivilegeEntity[]);
     }
   }, [user]);
 

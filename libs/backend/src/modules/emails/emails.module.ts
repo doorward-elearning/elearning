@@ -1,13 +1,14 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
 export interface EmailsModuleOptions {
   sendGrid: {
     apiKey: string;
   };
   templatesDir: string;
-  sender: () => string;
-  senderEmail: () => string;
+  sender: (organization: OrganizationEntity) => string;
+  senderEmail: (organization: OrganizationEntity) => string;
   getData: () => Record<string, any>;
 }
 

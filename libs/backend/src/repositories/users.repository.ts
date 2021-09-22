@@ -1,10 +1,9 @@
 import UserEntity from '@doorward/common/entities/user.entity';
-import { EntityRepository } from 'typeorm';
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import { Roles } from '@doorward/common/types/roles';
 
-@EntityRepository(UserEntity)
-export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
+export class UsersRepository extends MultiOrganizationRepository<UserEntity> {
   /**
    *
    * @param username
@@ -43,11 +42,13 @@ export class UsersRepository extends OrganizationBasedRepository<UserEntity> {
    * @param role
    */
   async getUsersByRole(role: Roles) {
-    const result = await this.createQueryBuilder('user')
+    return await this.createQueryBuilder('user')
       .innerJoin('user.role', 'role')
       .where('role.name = :role', { role })
       .getMany();
+  }
 
-    return result;
+  getEntity(): ObjectType<UserEntity> {
+    return UserEntity;
   }
 }

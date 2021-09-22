@@ -1,6 +1,9 @@
-import { EntityRepository } from 'typeorm';
 import DiscussionCommentEntity from '@doorward/common/entities/discussion.comment.entity';
-import OrganizationBasedRepository from '@doorward/backend/repositories/organization.based.repository';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(DiscussionCommentEntity)
-export default class DiscussionCommentRepository extends OrganizationBasedRepository<DiscussionCommentEntity> {}
+export default class DiscussionCommentRepository extends MultiOrganizationRepository<DiscussionCommentEntity> {
+  getEntity(): ObjectType<DiscussionCommentEntity> {
+    return DiscussionCommentEntity;
+  }
+}

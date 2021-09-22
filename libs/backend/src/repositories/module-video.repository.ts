@@ -1,6 +1,9 @@
-import { EntityRepository } from 'typeorm';
 import ModuleItemsRepository from '@doorward/backend/repositories/module.items.repository';
+import { ObjectType } from 'typeorm';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 
-@EntityRepository(ModuleVideoEntity)
-export default class ModuleVideoRepository extends ModuleItemsRepository<ModuleVideoEntity> {}
+export default class ModuleVideoRepository extends ModuleItemsRepository<ModuleVideoEntity> {
+  getEntity(): ObjectType<ModuleVideoEntity> {
+    return ModuleVideoEntity;
+  }
+}

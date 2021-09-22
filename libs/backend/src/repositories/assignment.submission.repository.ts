@@ -1,10 +1,9 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
-import { EntityRepository } from 'typeorm';
 import { AssignmentSubmissionStatus } from '@doorward/common/types/courses';
 
-@EntityRepository(AssignmentSubmissionEntity)
-export default class AssignmentSubmissionRepository extends OrganizationBasedRepository<AssignmentSubmissionEntity> {
+export default class AssignmentSubmissionRepository extends MultiOrganizationRepository<AssignmentSubmissionEntity> {
   async getNumberOfSubmissions(assignmentId: string, studentId: string): Promise<number> {
     return (await this.getAllSubmissions(assignmentId, studentId)).length;
   }
@@ -28,5 +27,9 @@ export default class AssignmentSubmissionRepository extends OrganizationBasedRep
   async canResubmit(assignmentId: string, studentId: string) {
     const submissions = await this.getAllSubmissions(assignmentId, studentId);
     return submissions.length && submissions[0].status === AssignmentSubmissionStatus.RESUBMIT;
+  }
+
+  getEntity(): ObjectType<AssignmentSubmissionEntity> {
+    return AssignmentSubmissionEntity;
   }
 }

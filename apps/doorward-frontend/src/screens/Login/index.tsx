@@ -12,6 +12,7 @@ import useAuth from '../../hooks/useAuth';
 import translate from '@doorward/common/lang/translate';
 import Layout from '../Layout';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import LocalStorage from '@doorward/ui/utils/LocalStorage';
 
 const Login: React.FunctionComponent<LoginProps> = (props) => {
   const [showMessage, setShowMessage] = useState(false);
@@ -26,12 +27,13 @@ const Login: React.FunctionComponent<LoginProps> = (props) => {
   }, []);
 
   if (authenticated) {
-    return <Redirect to={ROUTES.dashboard} />;
+    const path = LocalStorage.getAndRemove('redirectTo', ROUTES.dashboard);
+    return <Redirect to={path} />;
   }
   return (
     <Layout {...props} noNavBar withBackground hideBackButton>
       <div className="page page__login">
-        <Header size={1}>{organization.name}</Header>
+        <Header size={1}>{organization.displayName}</Header>
         {showMessage && (
           <Message>
             <Header size={4}>{translate('thankYouForTryingDoorwardLoginToProceed')}</Header>

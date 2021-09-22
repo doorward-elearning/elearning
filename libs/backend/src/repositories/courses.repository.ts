@@ -1,7 +1,7 @@
-import { EntityRepository } from 'typeorm';
 import _ from 'lodash';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
@@ -9,13 +9,17 @@ import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities } from '@doorward/common/dtos/response/base.response';
-import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 
-@EntityRepository(CourseEntity)
-export default class CoursesRepository extends OrganizationBasedRepository<CourseEntity> {
+export default class CoursesRepository extends MultiOrganizationRepository<CourseEntity> {
+
+
+  getEntity(): ObjectType<CourseEntity> {
+    return CourseEntity;
+  }
+
   public async getCoursesForStudent(
     studentId: string,
-    page: PaginationQuery,
+    page: PaginationQuery
   ): Promise<PaginatedEntities<CourseEntity>> {
     const queryBuilder = this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
@@ -77,7 +81,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
       courses.map(async (course) => {
         course.numStudents = await this.getRepository(StudentCoursesEntity).count({ course: { id: course.id } });
         return course;
-      }),
+      })
     );
   }
 
@@ -118,7 +122,7 @@ export default class CoursesRepository extends OrganizationBasedRepository<Cours
         'Meetings',
         'currentMeeting',
         '"meetingRoom".id = "currentMeeting"."meetingRoomId" AND' + ' "currentMeeting".status = :status',
-        { status: MeetingStatus.STARTED },
+        { status: MeetingStatus.STARTED }
       )
       .getOne();
   }

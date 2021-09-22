@@ -18,8 +18,6 @@ import {
   CreateExamBody,
   UpdateModulesBody,
   CreateVideoBody,
-  CreateOrganizationBody,
-  UpdateOrganizationBody,
   CreateUserBody,
   AddStudentsToCourseBody,
   UpdateUserBody,
@@ -30,6 +28,8 @@ import {
   CreateSchoolBody,
   CreateClassroomBody,
   CreateFileBody,
+  CreateOrganizationBody,
+  UpdateOrganizationBody,
   AddCourseManagerBody,
   CreateDiscussionGroupBody,
   PostDiscussionCommentBody,
@@ -50,8 +50,6 @@ import {
   DeleteModuleResponse,
   ModuleItemResponse,
   UpdateModulesOrderResponse,
-  OrganizationResponse,
-  OrganizationsResponse,
   StudentResponse,
   StudentsResponse,
   GroupResponse,
@@ -68,6 +66,8 @@ import {
   SuggestionsResponse,
   TeacherResponse,
   TeachersResponse,
+  OrganizationResponse,
+  OrganizationsResponse,
   CourseManagerResponse,
   CourseManagersResponse,
   DiscussionGroupResponse,
@@ -287,8 +287,6 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
 
       formData.append('file', file);
 
-      let data = null;
-
       const result = await POST("/files/upload", formData, null, {
         onUploadProgress: (progressEvent) => {
           const percentage = Math.round((progressEvent.loaded * 100) / progressEvent.total);
@@ -316,8 +314,6 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
       files.forEach((file) => {
         formData.append('files', file);
       });
-
-      let data = null;
 
       const result = await POST("/files/upload/multiple", formData, null, {
         onUploadProgress: (progressEvent) => {

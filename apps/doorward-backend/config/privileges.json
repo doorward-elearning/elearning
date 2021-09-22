@@ -1,0 +1,33 @@
+{
+  "delimiter": ".",
+  "privileges": {
+    "courses": [
+      {
+        "name": "create",
+        "description": "Can create a course"
+      },
+      "update",
+      "delete",
+      "view-all",
+      "read",
+      "start-meeting"
+    ],
+    "modules": ["create", "update", "delete", "read"],
+    "moduleItems": ["create", "update", "delete", "read"],
+    "profile": ["view", "update-password", "reset-password", "send-forgot-password-link", "update"],
+    "assignments": ["submit", "grade"],
+    "assessments": ["submit", "grade"],
+    "course-students": ["view", "create", "un-enroll"],
+    "course-managers": ["view", "create"],
+    "groups": ["create", "view", "update", "delete", "add-member"],
+    "student.groups": ["create", "view", "update", "delete", "add-member"],
+    "teacher.groups": ["create", "view", "update", "delete", "add-member"],
+    "meetings": ["moderate", "subscribe", "publish"],
+    "organizations": ["create", "view", "update", "create-users"],
+    "students": ["create", "update", "view", "list", "change-password"],
+    "reports": ["students", "teachers"],
+    "teachers": ["create", "update", "view", "list"],
+    "discussion-groups": ["create", "update", "view", "list", "post"],
+    "chat": ["directMessage", "createGroupChat"]
+  }
+}

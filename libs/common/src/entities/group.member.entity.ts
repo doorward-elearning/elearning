@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 import { GroupRoles } from '@doorward/common/types/groups';
 import UserEntity from './user.entity';
@@ -7,7 +7,7 @@ import GroupEntity from './group.entity';
 @Entity({
   name: 'GroupMembers',
 })
-export default class GroupMemberEntity extends BaseOrganizationEntity {
+export default class GroupMemberEntity extends BaseEntity {
   @Column({ type: 'enum', enum: GroupRoles, default: GroupRoles.MEMBER })
   role: GroupRoles;
 

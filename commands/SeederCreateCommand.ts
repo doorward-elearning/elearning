@@ -2,7 +2,7 @@ import * as yargs from 'yargs';
 const chalk = require('chalk');
 import { ConnectionOptionsReader } from 'typeorm';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
-import { camelCase } from '@doorward/common/utils/StringUtils';
+import { camelCase } from 'typeorm/util/StringUtils';
 
 export default class SeederCreateCommand implements yargs.CommandModule {
   command = 'seeder:create';
@@ -32,7 +32,9 @@ export default class SeederCreateCommand implements yargs.CommandModule {
           });
           const connectionOptions: any = await connectionOptionsReader.get(args.connection as any);
           directory = connectionOptions.cli ? connectionOptions.cli.seederDir : undefined;
-        } catch (err) {}
+        } catch (err) {
+          console.error(err);
+        }
       }
 
       const path = process.cwd() + '/' + (directory ? directory + '/' : '') + fileName;

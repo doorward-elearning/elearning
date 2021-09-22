@@ -24,7 +24,7 @@ async function bootstrap() {
 
   logger.info('Fetched organization from ' + process.env.REACT_APP_BASE_URL + ' id: ' + organization?.id);
 
-  await configureLang(organization);
+  await configureLang();
 
   const app = await setUpNestApplication(AppModule, {
     logger: new DoorwardLogger(),
@@ -50,7 +50,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(new DoorwardLogger()));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
-  app.useGlobalGuards(new ModelExistsGuard(reflector));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();

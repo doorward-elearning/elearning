@@ -1,4 +1,3 @@
-import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import { CourseStatus } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
@@ -7,9 +6,10 @@ import MeetingRoomEntity from './meeting.room.entity';
 import StudentCoursesEntity from '@doorward/common/entities/student.courses.entity';
 import { AssessmentTypes, ModuleItemType } from '@doorward/common/types/moduleItems';
 import DiscussionGroupEntity from '@doorward/common/entities/discussion.group.entity';
+import BaseEntity from '@doorward/common/entities/base.entity';
 
 @Entity('Courses')
-export default class CourseEntity extends BaseOrganizationEntity {
+export default class CourseEntity extends BaseEntity {
   @Column()
   title: string;
 

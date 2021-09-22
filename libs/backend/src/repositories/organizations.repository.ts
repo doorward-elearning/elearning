@@ -1,6 +1,5 @@
-import { EntityRepository } from 'typeorm';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import ModelRepository from './model.repository';
+import { EntityRepository, Repository } from 'typeorm';
 
 @EntityRepository(OrganizationEntity)
-export default class OrganizationsRepository extends ModelRepository<OrganizationEntity> {}
+export default class OrganizationsRepository extends Repository<OrganizationEntity> {}

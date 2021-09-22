@@ -1,6 +1,9 @@
-import ModelRepository from './model.repository';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
-import { EntityRepository } from 'typeorm';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(PasswordsResetsEntity)
-export default class PasswordResetsRepository extends ModelRepository<PasswordsResetsEntity> {}
+export default class PasswordResetsRepository extends MultiOrganizationRepository<PasswordsResetsEntity> {
+  getEntity(): ObjectType<PasswordsResetsEntity> {
+    return PasswordsResetsEntity;
+  }
+}

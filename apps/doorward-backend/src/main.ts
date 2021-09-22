@@ -5,32 +5,26 @@ import setUpNestApplication from '@doorward/backend/bootstrap/setUpNestApplicati
 import { swaggerDocumentation } from '@doorward/backend/bootstrap/swaggerDocumentation';
 import BodyFieldsValidationPipe from '@doorward/backend/pipes/body.fields.validation.pipe';
 import YupValidationPipe from '@doorward/backend/pipes/yup.validation.pipe';
-import ModelExistsGuard from '@doorward/backend/guards/model.exists.guard';
 import { Reflector } from '@nestjs/core';
 import DocumentationBuilder from '@doorward/backend/documentation/documentation.builder';
 import { Logger } from '@nestjs/common';
-import { PinoLogger } from 'nestjs-pino';
 import { TransformExceptionFilter } from '@doorward/backend/exceptions/transform-exception.filter';
 import ormConfig from '../ormconfig';
+import orgOrmConfig from '../ormconfig-organizations';
 import initializeBackend from './bootstrap/initializeBackend';
 import entities from '@doorward/common/entities';
 import { json } from 'express';
-import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 import { SizeLimitGuard } from '@doorward/backend/guards/size.limit.guard';
 import dataSize from '@doorward/common/utils/dataSize';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
+import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
 
 const globalPrefix = process.env.API_PREFIX;
 
 async function bootstrap() {
-  await initializeBackend(entities, ormConfig);
+  await initializeBackend(entities, ormConfig, orgOrmConfig);
 
   const app = await setUpNestApplication(AppModule);
-
-  const logger: DoorwardLogger = await app.resolve(PinoLogger);
-
-  if (process.env.NODE_ENV === 'production') {
-    app.useLogger(logger);
-  }
 
   app.setGlobalPrefix(globalPrefix.replace(/\/$/, ''));
 
@@ -48,12 +42,14 @@ async function bootstrap() {
 
   const reflector = app.get(Reflector);
 
+  app.use(await organizationDetectorMiddleware(ormConfig, entities));
+
   app.use(json({ limit: '50mb' }));
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
-  app.useGlobalFilters(new TransformExceptionFilter(logger));
+  app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
-  app.useGlobalGuards(new ModelExistsGuard(reflector), new SizeLimitGuard(reflector, dataSize.KB(100)));
+  app.useGlobalGuards(new SizeLimitGuard(reflector, dataSize.KB(100)));
   app.enableCors();
 
   const documentation = new DocumentationBuilder();

@@ -33,7 +33,10 @@ export default class SeederRevertCommand implements yargs.CommandModule {
         root: process.cwd(),
         configName: args.config as any,
       });
-      const connectionOptions: any = await connectionOptionsReader.get(args.connection as any);
+      const connectionOptions: any =
+        args.connectionOptions || (await connectionOptionsReader.get(args.connection as any));
+      // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+      // @ts-ignore
       Object.assign(connectionOptions, {
         subscribers: [],
         synchronize: false,

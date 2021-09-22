@@ -1,10 +1,9 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
-import { EntityRepository } from 'typeorm';
 import { GroupRoles } from '@doorward/common/types/groups';
 
-@EntityRepository(GroupMemberEntity)
-export default class GroupMembersRepository extends OrganizationBasedRepository<GroupMemberEntity> {
+export default class GroupMembersRepository extends MultiOrganizationRepository<GroupMemberEntity> {
   /**
    *
    * @param memberId
@@ -48,5 +47,9 @@ export default class GroupMembersRepository extends OrganizationBasedRepository<
       );
     }
     return this.findOne(groupMember.id, { relations: ['member'] });
+  }
+
+  getEntity(): ObjectType<GroupMemberEntity> {
+    return GroupMemberEntity;
   }
 }

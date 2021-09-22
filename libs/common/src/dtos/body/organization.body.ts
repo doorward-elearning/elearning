@@ -1,7 +1,6 @@
 import DApiBody from '@doorward/common/dtos/body/base.body';
-import { ObjectSchema } from 'yup';
 import * as Yup from 'yup';
-import { ApiProperty } from '@nestjs/swagger';
+import { ObjectSchema } from 'yup';
 import { Expose } from 'class-transformer';
 import { MeetingPlatform } from '@doorward/common/types/meeting';
 import { CustomerTypes } from '@doorward/common/types/customerTypes';
@@ -12,13 +11,16 @@ export class CreateOrganizationBody extends DApiBody {
   name: string;
 
   @Expose()
+  displayName: string;
+
+  @Expose()
   description: string;
 
   @Expose()
-  icon: string;
+  logo: string;
 
   @Expose()
-  link: string;
+  hosts: string;
 
   @Expose()
   darkThemeIcon: string;
@@ -34,10 +36,14 @@ export class CreateOrganizationBody extends DApiBody {
 
   async validation?(): Promise<ObjectSchema> {
     return Yup.object({
-      name: Yup.string().required(translate('nameRequired')).nullable(),
+      name: Yup.string()
+        .matches(/^[a-z](?!.*?[^a-z_]).*?[a-z]$/, translate('orgNameValidationMessage'))
+        .required(translate('nameRequired'))
+        .nullable(),
+      displayName: Yup.string().required(translate('orgDisplayNameIsRequired')).nullable(),
       description: Yup.string().nullable().notRequired(),
-      icon: Yup.string().required(translate('logoRequired')).nullable().url(translate('urlInvalid')),
-      link: Yup.string().required(translate('urlRequired')).nullable().url(translate('urlInvalid')),
+      logo: Yup.string().required(translate('logoRequired')).nullable().url(translate('urlInvalid')),
+      hosts: Yup.string().required(translate('urlRequired')).nullable(),
       darkThemeLogo: Yup.string().nullable().url(translate('urlInvalid')).notRequired(),
       descriptiveLogo: Yup.bool().notRequired(),
       meetingPlatform: Yup.string()
@@ -50,7 +56,16 @@ export class CreateOrganizationBody extends DApiBody {
         .nullable(),
     });
   }
+
+  inputGuide(): Record<string, string[]> {
+    return {
+      name: [
+        translate('orgNameValidationGuide'),
+        translate('orgNameValidationGuide2'),
+        translate('orgNameValidationGuide3'),
+      ],
+    };
+  }
 }
 
-export class UpdateOrganizationBody extends CreateOrganizationBody {
-}
+export class UpdateOrganizationBody extends CreateOrganizationBody {}

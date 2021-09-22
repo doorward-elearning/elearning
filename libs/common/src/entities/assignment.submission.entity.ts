@@ -1,12 +1,12 @@
-import BaseOrganizationEntity from './base.organization.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { AssignmentSubmissionStatus, AssignmentSubmissionType } from '@doorward/common/types/courses';
 import UserEntity from './user.entity';
 import ModuleItemEntity from './module.item.entity';
 import FileEntity from '@doorward/common/entities/file.entity';
+import BaseEntity from '@doorward/common/entities/base.entity';
 
 @Entity('AssignmentSubmissions')
-export default class AssignmentSubmissionEntity extends BaseOrganizationEntity {
+export default class AssignmentSubmissionEntity extends BaseEntity {
   @Column({ type: 'enum', enum: AssignmentSubmissionType })
   type: AssignmentSubmissionType;
 

@@ -1,11 +1,9 @@
 import { Global, Module } from '@nestjs/common';
 import { RolesService } from './roles.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import RolesRepository from '@doorward/backend/repositories/roles.repository';
 
 @Global()
 @Module({
-  imports: [TypeOrmModule.forFeature([RolesRepository])],
+  imports: [],
   providers: [RolesService],
   exports: [RolesService],
 })

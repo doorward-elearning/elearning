@@ -1,5 +1,4 @@
 import React, { FunctionComponent, useEffect, useMemo, useState } from 'react';
-import ItemArray from '../ItemArray';
 import './Pagination.scss';
 import Button from '../Buttons/Button';
 import IfElse from '../IfElse';

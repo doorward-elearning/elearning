@@ -1,11 +1,11 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne } from 'typeorm';
 import UserEntity from './user.entity';
 import GroupMemberEntity from './group.member.entity';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
 
 @Entity('Groups')
-export default class GroupEntity extends BaseOrganizationEntity {
+export default class GroupEntity extends BaseEntity {
   @Column()
   name: string;
 

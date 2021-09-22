@@ -1,13 +1,12 @@
-import { ORGANIZATION } from './organizationSetup';
+import OrganizationEntity from '@doorward/common/entities/organization.entity';
 
-const generateEmailData = () => {
-  const organizationName = ORGANIZATION.name;
-  const organizationLogo = ORGANIZATION.icon || ORGANIZATION.darkThemeIcon;
+const generateEmailData = (organization: OrganizationEntity) => {
+  const organizationName = organization.name;
+  const organizationLogo = organization.logo || organization.darkThemeLogo;
 
   return {
-    organizationName: ORGANIZATION.descriptiveLogo ? '' : organizationName,
+    organizationName: organization.descriptiveLogo ? '' : organizationName,
     organizationLogo,
-    models: ORGANIZATION.models,
   };
 };
 

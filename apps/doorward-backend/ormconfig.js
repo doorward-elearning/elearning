@@ -1,5 +1,5 @@
 const dotenv = require('dotenv');
-const entities = require('../../libs/common/src/entities').default;
+const entities = require('../../libs/backend/src/database/backendMigrationEntities').default;
 
 dotenv.config();
 dotenv.config({ path: '../../.env' });
@@ -7,8 +7,8 @@ dotenv.config({ path: '../../.env' });
 module.exports = {
   type: 'postgres',
   entities: [...entities],
-  migrations: ['./src/database/migrations/*.ts'],
-  seeds: ['./src/database/seeds/*.ts'],
+  migrations: ['./src/database/main/migrations/*.ts'],
+  seeds: ['./src/database/main/seeds/*.ts'],
   // logging: process.env.NODE_ENV === 'development',
   logging: true,
   synchronize: false,
@@ -19,9 +19,9 @@ module.exports = {
   port: +process.env.DOORWARD_DATABASE_PORT,
   username: process.env.DOORWARD_DATABASE_USERNAME,
   password: process.env.DOORWARD_DATABASE_PASSWORD,
-  database: process.env.DOORWARD_DATABASE,
+  database: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
   cli: {
-    migrationsDir: './src/database/migrations/',
-    seederDir: './src/database/seeds/',
+    migrationsDir: './src/database/main/migrations/',
+    seederDir: './src/database/main/seeds/',
   },
 };

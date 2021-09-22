@@ -1,6 +1,9 @@
-import { EntityRepository } from 'typeorm';
 import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
-import ModelRepository from './model.repository';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(PrivilegeEntity)
-export default class PrivilegeRepository extends ModelRepository<PrivilegeEntity> {}
+export default class PrivilegeRepository extends MultiOrganizationRepository<PrivilegeEntity> {
+  getEntity(): ObjectType<PrivilegeEntity> {
+    return PrivilegeEntity;
+  }
+}

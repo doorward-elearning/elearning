@@ -1,20 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
-import ValidationException from '@doorward/backend/exceptions/validation.exception';
 import { LoginResponse } from '@doorward/common/dtos/response/auth.responses';
 import { ForceChangePasswordBody, RegisterBody } from '@doorward/common/dtos/body/auth.body';
 import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import PasswordChangeEmail from '../../emails/password-change.email';
-import translate from '@doorward/common/lang/translate';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
+import { Connection } from 'typeorm';
 
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(ORGANIZATION_CONNECTION) private connection: Connection,
     private usersService: UsersService,
     private jwtService: JwtService,
-    private emailService: EmailsService
+    private emailService: EmailsService,
   ) {}
 
   /**
@@ -26,31 +27,6 @@ export class AuthService {
     return this.usersService.getUserDetails(id);
   }
 
-  /**
-   * Validate that a user with this username and password exists.
-   *
-   * @param username
-   * @param password
-   */
-  async validateUserLogin(username: string, password: string): Promise<UserEntity | undefined> {
-    const user = await this.usersService.findByUsername(username, {
-      relations: ['organization'],
-    });
-
-    if (!user) {
-      throw new ValidationException({ username: translate('userWithUsernameDoesNotExist') });
-    }
-
-    if (!user.password) {
-      throw new ValidationException({ password: translate('yourPasswordHasNotBeenSet') });
-    }
-
-    if (user.validatePassword(password)) {
-      return user;
-    } else {
-      throw new ValidationException({ password: 'Wrong password.' });
-    }
-  }
 
   async register(body: RegisterBody): Promise<LoginResponse> {
     const user = await this.usersService.registerUser(body);
@@ -66,8 +42,6 @@ export class AuthService {
       createdAt: user.createdAt,
       role: user.role.id,
     };
-
-    await user.updatePrivileges();
 
     const token = await this.jwtService.sign(payload);
 

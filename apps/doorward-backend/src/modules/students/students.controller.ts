@@ -19,7 +19,6 @@ import Privileges from '../../decorators/privileges.decorator';
 import { StudentsService } from './students.service';
 import { ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Origin } from '@doorward/backend/decorators/origin.decorator';
-import { PinoLogger } from 'nestjs-pino/dist';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { StudentResponse, StudentsResponse } from '@doorward/common/dtos/response/students.responses';
 import {
@@ -33,6 +32,7 @@ import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import TransformerGroups from '@doorward/backend/decorators/transformer.groups.decorator';
 import { ApiPaginationQuery, PaginationQuery } from '@doorward/common/dtos/query';
 import translate from '@doorward/common/lang/translate';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 const CourseExists = () =>
   ModelExists({ key: 'courseId', model: CourseEntity, message: translate('courseDoesNotExist') });
@@ -47,7 +47,7 @@ const StudentExists = () =>
 @ApiTags('students')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class StudentsController {
-  constructor(private studentsService: StudentsService, private logger: PinoLogger) {
+  constructor(private studentsService: StudentsService, private logger: DoorwardLogger) {
     logger.setContext('StudentsController');
   }
 

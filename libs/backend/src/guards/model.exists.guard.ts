@@ -1,11 +1,14 @@
-import { CanActivate, ExecutionContext, Injectable, NotFoundException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ModelExistsDecoratorProps } from '@doorward/backend/decorators/model.exists.decorator';
-import { getConnectionManager } from 'typeorm';
+import { RequestScopedInjectable } from '@doorward/backend/decorators/request.scoped.service.decorator';
+import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
+import { Connection } from 'typeorm';
 
-@Injectable()
+@RequestScopedInjectable()
 export default class ModelExistsGuard implements CanActivate {
-  constructor(private reflector: Reflector) {}
+  constructor(private reflector: Reflector, @Inject(ORGANIZATION_CONNECTION) private connection: Connection) {}
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const models: Array<ModelExistsDecoratorProps<any>> = [];
     const model = this.reflector.get<ModelExistsDecoratorProps<any>>('modelExists', context.getHandler());
@@ -39,7 +42,7 @@ export default class ModelExistsGuard implements CanActivate {
           const id = body[key] || params[key] || query[key];
 
           if (id) {
-            if (await getConnectionManager().get().getRepository(model).findOne(id)) {
+            if (await this.connection.getRepository(model).findOne(id)) {
               return true;
             } else {
               throw new NotFoundException(message || 'Resource not found.');

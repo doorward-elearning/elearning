@@ -1,11 +1,10 @@
-import ModelRepository from '@doorward/backend/repositories/model.repository';
 import ConversationEntity from '@doorward/common/entities/conversation.entity';
-import { EntityRepository } from 'typeorm';
 import GroupMemberEntity from '@doorward/common/entities/group.member.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
+import MultiOrganizationRepository from '@doorward/backend/repositories/multi.organization.repository';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(ConversationEntity)
-export default class ConversationRepository extends ModelRepository<ConversationEntity> {
+export default class ConversationRepository extends MultiOrganizationRepository<ConversationEntity> {
   /**
    *
    * @param userId
@@ -51,5 +50,9 @@ export default class ConversationRepository extends ModelRepository<Conversation
     const conversation = await queryBuilder.getOne();
 
     return conversation?.group?.members?.length || 0;
+  }
+
+  getEntity(): ObjectType<ConversationEntity> {
+    return ConversationEntity;
   }
 }

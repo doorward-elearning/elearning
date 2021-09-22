@@ -1,4 +1,4 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToOne, TableInheritance } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
@@ -12,7 +12,7 @@ import FileEntity from '@doorward/common/entities/file.entity';
     enum: ModuleItemType,
   },
 })
-export default class ModuleItemEntity extends BaseOrganizationEntity {
+export default class ModuleItemEntity extends BaseEntity {
   @Column()
   title: string;
 
@@ -35,10 +35,11 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
 
   @ManyToOne(() => ModuleEntity, (module) => module.items, {
     onDelete: 'CASCADE',
+    lazy: true,
   })
-  module: ModuleEntity;
+  module: Promise<ModuleEntity> | ModuleEntity;
 
-  @ManyToOne(() => UserEntity)
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE'})
   @JoinColumn({ name: 'createdBy' })
   author: UserEntity;
 
@@ -49,6 +50,6 @@ export default class ModuleItemEntity extends BaseOrganizationEntity {
   @AfterLoad()
   async populateModuleAndCourse() {
     this.moduleId = (await this.module)?.id;
-    this.courseId = (await this.module?.course)?.id;
+    this.courseId = (await (await this.module)?.course)?.id;
   }
 }

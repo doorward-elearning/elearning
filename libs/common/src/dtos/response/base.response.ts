@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
+import { ExceptionCause } from '@doorward/backend/exceptions/exception.cause';
 
 export type PaginatedEntities<Entity> = {
   entities: Array<Entity>;
@@ -32,6 +33,9 @@ export default class DApiResponse {
 
   @Expose()
   message?: string;
+
+  @Expose()
+  cause?: ExceptionCause;
 
   @Expose()
   errors?: Array<{ [name: string]: string }>;

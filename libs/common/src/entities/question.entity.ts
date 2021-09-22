@@ -1,11 +1,11 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 import AnswerEntity from './answer.entity';
 import { AnswerTypes } from '@doorward/common/types/exam';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 
 @Entity('Questions')
-export default class QuestionEntity extends BaseOrganizationEntity {
+export default class QuestionEntity extends BaseEntity {
   @Column({ type: 'text' })
   question: string;
 

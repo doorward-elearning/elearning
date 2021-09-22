@@ -4,27 +4,28 @@ import useForm from '@doorward/ui/hooks/useForm';
 import TextField from '@doorward/ui/components/Input/TextField';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import EImage from '@doorward/ui/components/Image';
-import Header from '@doorward/ui/components/Header';
-import IfElse from '@doorward/ui/components/IfElse';
 import DoorwardApi from '../../../services/apis/doorward.api';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import { CreateOrganizationBody } from '@doorward/common/dtos/body';
 import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
-
-;
+import { CustomerTypes } from '@doorward/common/types/customerTypes';
 
 const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProps> = (props): JSX.Element => {
   const form = useForm();
   const initialValues = {
     name: '',
-    icon: '',
+    displayName: '',
+    logo: '',
+    darkThemeLogo: '',
     description: '',
+    customerType: CustomerTypes.COLLEGE_INDIA,
+    hosts: window.location.host,
     ...(props.organization || {}),
   };
 
   const apiAction = useApiAction(DoorwardApi, (api) =>
-    props.organization ? api.organizations.createOrganization : api.organizations.updateOrganization
+    props.organization ? api.organizations.updateOrganization : api.organizations.createOrganization
   );
   return (
     <BasicForm
@@ -44,13 +45,16 @@ const CreateOrganizationForm: React.FunctionComponent<CreateOrganizationFormProp
       {(formikProps) => (
         <React.Fragment>
           <TextField name="name" label={translate('name')} />
-          <TextField name="icon" label={translate('icon')} placeholder="https://" />
-          <IfElse condition={formikProps.values.icon && !formikProps.errors.icon}>
-            <div>
-              <Header size={4}>{translate('iconPreview')}</Header>
-              <EImage size="medium" src={formikProps.values.icon} />
-            </div>
-          </IfElse>
+          <TextField name="displayName" label={translate('orgDisplayName')} />
+          <TextField name="logo" label={translate('logo')} />
+          {formikProps.values.logo && !formikProps.errors.logo && (
+            <EImage size="medium" src={formikProps.values.logo} />
+          )}
+          <TextField name="darkThemeLogo" label={translate('darkThemeLogoLabel')} />
+          {formikProps.values.darkThemeLogo && !formikProps.errors.darkThemeLogo && (
+            <EImage size="medium" src={formikProps.values.darkThemeLogo} />
+          )}
+          <TextField name="hosts" label={translate('hosts')} placeholder="https://" />
           <TextArea name="description" label={translate('description')} />
         </React.Fragment>
       )}

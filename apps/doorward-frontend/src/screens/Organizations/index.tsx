@@ -3,11 +3,11 @@ import Layout, { LayoutFeatures } from '../Layout';
 import { PageComponent } from '@doorward/ui/types';
 import WebComponent from '@doorward/ui/components/WebComponent';
 import OrganizationsTable from '../../components/Tables/OrganizationsTable';
-import DoorwardApi from '../../services/apis/doorward.api';
 import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import DoorwardApi from '../../services/apis/doorward.api';
 
 const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.Element => {
   const navigation = useNavigation();
@@ -24,7 +24,7 @@ const Organizations: React.FunctionComponent<OrganizationsProps> = (props): JSX.
         text: translate('createOrganization'),
         onClick: () => navigation.navigate(ROUTES.organizations.create),
       }}
-      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS]}
+      features={[LayoutFeatures.HEADER, LayoutFeatures.BREAD_CRUMBS, LayoutFeatures.ACTION_BUTTON]}
     >
       <WebComponent data={organizations.data?.organizations} loading={organizations.fetching}>
         {(organizations) => <OrganizationsTable organizations={organizations} />}

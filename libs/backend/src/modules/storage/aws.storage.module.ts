@@ -3,7 +3,6 @@ import { MulterModule } from '@nestjs/platform-express';
 import aws from 'aws-sdk';
 import path from 'path';
 import Tools from '@doorward/common/utils/Tools';
-import { ORGANIZATION } from '../../../../../apps/doorward-backend/src/bootstrap/organizationSetup';
 
 const multerS3 = require('multer-s3');
 
@@ -29,7 +28,7 @@ export default class AwsStorageModule {
           key: (request, file, cb) => {
             cb(
               null,
-              `${ORGANIZATION.id || 'default'}/${Tools.randomString(20)}_${Date.now()}${path.extname(
+              `${request.organization.id || 'default'}/${Tools.randomString(20)}_${Date.now()}${path.extname(
                 file.originalname
               )}`
             );

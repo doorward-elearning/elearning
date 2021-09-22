@@ -1,9 +1,8 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
+import { ObjectType } from 'typeorm';
 import GroupEntity from '@doorward/common/entities/group.entity';
-import { EntityRepository } from 'typeorm';
 
-@EntityRepository(GroupEntity)
-export default class GroupsRepository extends OrganizationBasedRepository<GroupEntity> {
+export default class GroupsRepository extends MultiOrganizationRepository<GroupEntity> {
   /**
    *
    * @param groupName
@@ -44,5 +43,9 @@ export default class GroupsRepository extends OrganizationBasedRepository<GroupE
     queryBuilder.leftJoinAndSelect('group.members', 'groupMember');
 
     return queryBuilder.getMany();
+  }
+
+  getEntity(): ObjectType<GroupEntity> {
+    return GroupEntity;
   }
 }

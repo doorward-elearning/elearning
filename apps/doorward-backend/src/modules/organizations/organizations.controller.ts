@@ -4,15 +4,16 @@ import Public from '@doorward/backend/decorators/public.decorator';
 import { OrganizationsService } from './organizations.service';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { OrganizationResponse, OrganizationsResponse } from '@doorward/common/dtos/response/organization.responses';
-import PrivilegesGuard from '../../guards/privileges.guard';
-import Privileges from '../../decorators/privileges.decorator';
+import PrivilegesGuard from '../../../../doorward-backend/src/guards/privileges.guard';
+import Privileges from '../../../../doorward-backend/src/decorators/privileges.decorator';
 import { CreateOrganizationBody, UpdateOrganizationBody } from '@doorward/common/dtos/body';
 import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
+import { CurrentOrganization } from '@doorward/backend/decorators/organization.decorator';
 
 const OrganizationExists = () =>
-  ModelExists({ key: 'organizationId', model: OrganizationEntity, message: '{{organization}} does not exist.' });
+  ModelExists({ key: 'organizationId', model: OrganizationEntity, message: translate('organizationNotExists') });
 
 @Controller('organizations')
 @ApiTags('organizations')
@@ -30,9 +31,9 @@ export class OrganizationsController {
     description: 'The current organization running this service',
     type: OrganizationResponse,
   })
-  async getCurrentOrganization(): Promise<OrganizationResponse> {
+  async getCurrentOrganization(@CurrentOrganization() organization: OrganizationEntity): Promise<OrganizationResponse> {
     return {
-      organization: await this.organizationService.get(),
+      organization,
     };
   }
 
@@ -49,6 +50,12 @@ export class OrganizationsController {
   })
   async createOrganization(@Body() body: CreateOrganizationBody): Promise<OrganizationResponse> {
     const organization = await this.organizationService.createOrganization(body);
+
+    await this.organizationService.initializeOrganizationDatabase(organization);
+
+    if (process.env.NODE_ENV === 'production') {
+      await this.organizationService.createOrganizationIngress(organization);
+    }
 
     return { organization, message: translate('organizationCreated') };
   }

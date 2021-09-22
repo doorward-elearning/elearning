@@ -1,13 +1,12 @@
-import OrganizationBasedRepository from './organization.based.repository';
+import MultiOrganizationRepository from './multi.organization.repository';
 import ModuleItemEntity from '@doorward/common/entities/module.item.entity';
-import { EntityRepository } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from '@doorward/common/entities/module.entity';
+import { ObjectType } from 'typeorm';
 
-@EntityRepository(ModuleItemEntity)
 export default class ModuleItemsRepository<
   T extends ModuleItemEntity = ModuleItemEntity
-> extends OrganizationBasedRepository<T> {
+> extends MultiOrganizationRepository<T> {
   private moduleItemsQueryBuilder() {
     return this.createQueryBuilder('moduleItem')
       .leftJoinAndSelect('moduleItem.module', 'module')
@@ -41,5 +40,9 @@ export default class ModuleItemsRepository<
       .andWhere('moduleItem.type = :type', { type });
 
     return (await queryBuilder.getCount()) > 0;
+  }
+
+  getEntity(): ObjectType<T> {
+    return ModuleItemEntity;
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpStatus, Param, Req, UseGuards } from '@nestjs/common';
 import Public from '@doorward/backend/decorators/public.decorator';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import { MeetingsService } from './meetings.service';

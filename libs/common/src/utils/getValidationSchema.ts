@@ -1,6 +1,6 @@
 import { ObjectSchema } from 'yup';
-import { ClassType } from 'class-transformer/ClassTransformer';
 import DApiBody from '@doorward/common/dtos/body/base.body';
+import { ClassType } from '@doorward/common/types';
 
 const getValidationSchema = async (
   validationSchema: ObjectSchema | ClassType<DApiBody>

@@ -1,9 +1,9 @@
-import BaseOrganizationEntity from './base.organization.entity';
+import BaseEntity from './base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import UserEntity from './user.entity';
 
 @Entity('Files')
-export default class FileEntity extends BaseOrganizationEntity {
+export default class FileEntity extends BaseEntity {
   @Column()
   name: string;
 

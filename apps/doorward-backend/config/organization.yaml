@@ -1,0 +1,89 @@
+organization:
+  name: "doorward"
+  displayName: "Doorward E-Learning"
+  hosts: localhost:3000,doorward.local:3000
+  lang: en
+  descriptiveLogo: false
+  email: info@doorward.tech
+  logos:
+    light: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+    dark: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862550/Doorward/logo/Doorward_Logo_Small_Dark.png"
+  description: ''
+  meetingPlatform: Jitsi
+  users:
+    - firstName: system
+      lastName: admin
+      email: gitaumoses4@gmail.com
+      username: administrator
+      password: password
+      zipCode: ''
+      country: India
+      city: Anantapur
+      status: Active
+      role: SUPER_ADMINISTRATOR
+      rootOrganizationOnly: true
+    - firstName: system
+      lastName: admin
+      email: gitaumoses4@gmail.com
+      username: administrator
+      password: password
+      zipCode: ''
+      country: India
+      city: Anantapur
+      status: Active
+      role: ADMINISTRATOR
+  roles:
+    SUPER_ADMINISTRATOR:
+      displayName: Super Administrator
+      description: Has full access to the system
+      rootOrganizationOnly: true
+      privileges:
+        - "*"
+      exclude:
+        - assignments.submit
+        - assessments.submit
+    ADMINISTRATOR:
+      displayName: Administrator
+      description: Has access to managing the organization
+      privileges:
+        - "*"
+      exclude:
+        - assignments.submit
+        - assessments.submit
+        - organizations.*
+    TEACHER:
+      displayName: Teacher
+      description: Manages students
+      privileges:
+        - courses.*
+        - modules.*
+        - moduleItems.*
+        - profile.*
+        - course-students.*
+        - course-managers.*
+        - groups.*
+        - meetings.moderate
+        - students.*
+        - student.groups.*
+        - discussion-groups.*
+        - chat.*
+      exclude:
+        - courses.view-all
+    STUDENT:
+      displayName: Student
+      description: This is just a student
+      privileges:
+        - modules.read
+        - moduleItems.read
+        - courses.read
+        - profile.*
+        - course-managers.view
+        - groups.*
+        - discussion-groups.view
+        - discussion-groups.list
+        - discussion-groups.post
+        - assessments.submit
+        - assignments.submit
+        - meetings.subscribe
+        - chat.directMessage
+      exclude: [ ]

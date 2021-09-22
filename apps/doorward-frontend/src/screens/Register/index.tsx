@@ -22,7 +22,7 @@ const Register: FunctionComponent<RegisterProps> = (props): JSX.Element => {
   return (
     <Layout {...props} noNavBar navFeatures={[NavbarFeatures.HAMBURGER]} withBackground hideBackButton>
       <div className="page page__login">
-        <Header size={1}>{organization.name}</Header>
+        <Header size={1}>{organization.displayName}</Header>
         <RegistrationForm />
         <div className="page__login--footer">
           <p>{translate('alreadyHaveAnAccount')}</p>

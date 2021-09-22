@@ -1,59 +1,18 @@
+import parseOrganizationFile from '@doorward/backend/utils/parseOrganizationFile';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
-import * as fs from 'fs';
-import * as path from 'path';
-import { UserStatus } from '@doorward/common/types/users';
-import UserEntity from '@doorward/common/entities/user.entity';
-import { Roles } from '@doorward/common/types/roles';
-import RoleEntity from '@doorward/common/entities/role.entity';
-import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
-import { OrganizationModels } from '@doorward/common/types/organization.models';
-import { CustomerTypes } from '@doorward/common/types/customerTypes';
-import { MeetingPlatform } from '@doorward/common/types/meeting';
-import connectDatabase from '@doorward/backend/database/connectDatabase';
-import wildcardPattern from '@doorward/common/utils/wildcardPattern';
-import compareLists from '@doorward/common/utils/compareLists';
-import PrivilegeEntity from '@doorward/common/entities/privilege.entity';
-import { In } from 'typeorm';
+import chalk from 'chalk';
+import path from 'path';
+import fs from 'fs';
+import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
+import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig';
+import Tools from '@doorward/common/utils/Tools';
+import createOrganizationsDbConnection from '@doorward/backend/utils/createOrganizationsDbConnection';
+import { Connection } from 'typeorm';
+import { EntityManager } from 'typeorm/browser';
+import multiOrganizationSetup from './multiOrganizationSetup';
 
-const chalk = require('chalk');
-
-export let ORGANIZATION: OrganizationEntity = undefined;
-
-export interface OrganizationConfig {
-  id: string;
-  name: string;
-  link: string;
-  descriptiveLogo: boolean;
-  icons: {
-    dark: string;
-    light: string;
-  };
-  description: string;
-  customerType: CustomerTypes;
-  meetingPlatform: MeetingPlatform;
-  models: Record<OrganizationModels, string[2]>;
-  admins: Array<{
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    username: string;
-    password: string;
-    zipCode: string;
-    country: string;
-    city: string;
-    status: UserStatus;
-  }>;
-  roles: {
-    [role: string]: {
-      privileges: Array<string>;
-      exclude: Array<string>;
-    };
-  };
-}
-
-const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION) => {
-  const filePath = path.join(__dirname, './config', organization || 'default', fileName);
+const getConfigFile = (fileName: string) => {
+  const filePath = path.join(__dirname, './config', fileName);
   if (fs.existsSync(filePath)) {
     return filePath;
   }
@@ -62,13 +21,7 @@ const getConfigFile = (fileName: string, organization = process.env.ORGANIZATION
 
 const parseConfigFile = <T = object>(fileName: string): T => {
   try {
-    let filePath;
-    try {
-      filePath = getConfigFile(fileName);
-    } catch (e) {
-      console.error(e);
-      filePath = getConfigFile(fileName, 'default');
-    }
+    const filePath = getConfigFile(fileName);
     const fileContents = fs.readFileSync(filePath).toString();
 
     return JSON.parse(fileContents) as T;
@@ -77,11 +30,7 @@ const parseConfigFile = <T = object>(fileName: string): T => {
   }
 };
 
-const parseOrganization = (): OrganizationConfig => {
-  return parseConfigFile('organization.json');
-};
-
-const parseMeetingConfig = () => {
+export const parseMeetingConfig = () => {
   const base = parseConfigFile('meetings.config.json');
   const moderator = parseConfigFile('meetings.config.moderator.json');
   const publisher = parseConfigFile('meetings.config.publisher.json');
@@ -95,7 +44,7 @@ const parseMeetingConfig = () => {
   };
 };
 
-const parseMeetingInterfaceConfig = () => {
+export const parseMeetingInterfaceConfig = () => {
   const base = parseConfigFile('meetings.interface.json');
   const moderator = parseConfigFile('meetings.interface.moderator.json');
   const publisher = parseConfigFile('meetings.interface.publisher.json');
@@ -109,156 +58,76 @@ const parseMeetingInterfaceConfig = () => {
   };
 };
 
-const organizationSetup = async (entities: Array<any>, ormConfig: any): Promise<OrganizationEntity> => {
-  const connectionManager = await connectDatabase(entities, ormConfig);
-  const connection = connectionManager.get();
+export const createDefaultOrganization = async (ormConfig: any) => {
+  const connection = await createOrganizationsDbConnection(ormConfig);
+
+  const organizationConfig = parseOrganizationFile();
+
   const queryRunner = connection.createQueryRunner();
-  let organization = null;
-  try {
-    await queryRunner.startTransaction();
 
-    const entityManager = queryRunner.manager;
+  let organization = await queryRunner.manager.findOne(OrganizationEntity, process.env.DEFAULT_ORGANIZATION_ID);
 
-    const organizationConfig = parseOrganization();
-    const {
-      id,
-      link,
-      name,
-      icons,
-      description,
-      admins,
-      models,
-      descriptiveLogo,
-      customerType,
-      meetingPlatform,
-      roles,
-    } = organizationConfig;
-    if (!organizationConfig.id) {
-      console.error('Organization id is required in the "organization.json" config file');
-      process.exit(1);
+  if (!organization) {
+    try {
+      await queryRunner.startTransaction();
+
+      const entityManager = queryRunner.manager;
+
+      const createdOrganization = entityManager.create(OrganizationEntity, {
+        name: process.env.DEFAULT_ORGANIZATION_NAME,
+        displayName: process.env.DEFAULT_ORGANIZATION_DISPLAY_NAME,
+        databaseName: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
+
+        ...organizationConfig,
+
+        id: process.env.DEFAULT_ORGANIZATION_ID,
+        logo: organizationConfig.logos?.light,
+        darkThemeLogo: organizationConfig.logos?.dark,
+      });
+
+      await entityManager.save(OrganizationEntity, createdOrganization);
+
+      organization = await queryRunner.manager.findOne(OrganizationEntity, process.env.DEFAULT_ORGANIZATION_ID);
+
+      await queryRunner.commitTransaction();
+    } catch (error) {
+      console.error(error);
+      queryRunner.rollbackTransaction();
+    } finally {
+      queryRunner.release();
     }
-    organization = entityManager.create(OrganizationEntity, {
-      id,
-      link,
-      name,
-      descriptiveLogo,
-      icon: icons?.light || '',
-      darkThemeIcon: icons?.dark || '',
-      description,
-      customerType,
-      meetingPlatform,
-    });
-    organization = await entityManager.save(OrganizationEntity, organization);
-
-    const privileges = await entityManager.query('SELECT name FROM "Privileges"');
-
-    const privilegeNames = privileges.map((privilege) => privilege.name);
-
-    // set up the role privileges
-    await Promise.all(
-      Object.keys(roles).map(async (role) => {
-        const roleExists = await entityManager.findOne(RoleEntity, {
-          where: {
-            name: role.trim(),
-          },
-          relations: ['privileges'],
-        });
-        if (roleExists) {
-          // get all existing privileges
-          const existingPrivileges = (await roleExists.privileges).map((x) => x.name);
-          const rolePrivileges = roles[role].privileges;
-          const excludedPrivileges = roles[role].exclude;
-
-          let newPrivileges = privilegeNames.filter(
-            (privilege) =>
-              rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
-              !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
-          );
-
-          const { newItems, unchanged } = compareLists(existingPrivileges, newPrivileges);
-
-          newPrivileges = [...newItems, ...unchanged];
-
-          if (newPrivileges.length) {
-            roleExists.privileges = await entityManager.find(PrivilegeEntity, {
-              where: {
-                name: In(newPrivileges),
-              },
-            });
-          } else {
-            roleExists.privileges = [];
-          }
-
-          await entityManager.save(roleExists);
-        } else {
-          console.warn(role + ' does not exist.');
-        }
-      })
-    );
-
-    const role = await entityManager.findOne(RoleEntity, {
-      name: Roles.SUPER_ADMINISTRATOR,
-    });
-
-    // update the roles
-    await Promise.all(
-      Object.keys(Roles).map(async (roleName) => {
-        const role = await entityManager.findOne(RoleEntity, {
-          name: roleName as Roles,
-        });
-
-        role.displayName = models[roleName as Roles] || role.displayName;
-        await entityManager.save(RoleEntity, role);
-      })
-    );
-
-    if (!admins?.length) {
-      console.error('Organization config file "organization.json" does not specify any admins');
-      process.exit(1);
-    }
-
-    await Promise.all(
-      admins.map(async (admin) => {
-        let user = await entityManager.findOne(UserEntity, admin.id);
-        user = entityManager.create(UserEntity, {
-          ...admin,
-          password: user ? user.password : PasswordUtils.hashPassword(admin.password),
-          organization,
-          role,
-        });
-        await entityManager.save(UserEntity, user);
-      })
-    );
-
-    await queryRunner.commitTransaction();
-
-    organization.models = Object.keys(models).reduce((acc, cur) => {
-      return {
-        ...acc,
-        [cur]: models[cur][0],
-        [cur + '_plural']: models[cur][1],
-      };
-    }, {} as any);
-
-    organization.meetings = {
-      config: parseMeetingConfig(),
-      interface: parseMeetingInterfaceConfig(),
-    };
-
-    console.log(chalk.cyan('Organization set up complete.'));
-
-    ORGANIZATION = organization;
-
-    //set it as an environment variable
-    process.env.ORGANIZATION_ID = ORGANIZATION.id;
-  } catch (error) {
-    console.error(error);
-    await queryRunner.rollbackTransaction();
-  } finally {
-    await queryRunner.release();
-    await connection.close();
   }
+
   return organization;
 };
 
-export default organizationSetup;
+const organizationConfigSetup = async (connection: Connection) => {
+  try {
+    await connection
+      .createQueryBuilder()
+      .insert()
+      .into(OrganizationConfigEntity)
+      .values([
+        {
+          id: Tools.generateId(),
+          key: OrganizationConfigKey.MEETING,
+          value: JSON.stringify(parseMeetingConfig()),
+        },
+        {
+          id: Tools.generateId(),
+          key: OrganizationConfigKey.MEETING_INTERFACE,
+          value: JSON.stringify(parseMeetingInterfaceConfig()),
+        },
+      ])
+      .onConflict(`("key") DO NOTHING`)
+      .execute();
+
+    console.log(chalk.cyan('Organization[' + connection.name + '] config set up complete.'));
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+export const multiOrganizationConfigSetup = multiOrganizationSetup(organizationConfigSetup);
+
+export default organizationConfigSetup;

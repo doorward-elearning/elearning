@@ -42,18 +42,9 @@ export class UsersService {
       throw new Error('Neither id nor username is specified.');
     }
 
-    const user = await this.usersRepository.findOne({
+    return await this.usersRepository.findOne({
       where,
-      relations: ['organization', 'role', 'role.privileges'],
     });
-
-    user.role.privileges = await this.privilegeRepository
-      .createQueryBuilder('privilege')
-      .leftJoin('RolePrivileges', 'rolePrivilege', 'privilege.id = "rolePrivilege"."privilegeId"')
-      .where('"rolePrivilege"."roleId" = :roleId', { roleId: user.role.id })
-      .getMany();
-
-    return user;
   }
   /**
    * Retrieve all users

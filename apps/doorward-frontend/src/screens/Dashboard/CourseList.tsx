@@ -40,6 +40,7 @@ const CourseList: FunctionComponent<CourseListProps> = (props): JSX.Element => {
       liveClassroomModal.openModal();
     }
   }, [classroomCourse]);
+  console.log(courses.data);
   return (
     <div style={{ flex: 1 }}>
       <PaginationContainer onChangePage={() => {}} state={courses} data={courses.data?.courses}>
