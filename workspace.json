@@ -379,8 +379,7 @@
             "assets": [
               "apps/doorward-backend/assets",
               "apps/doorward-backend/templates",
-              "apps/doorward-backend/config",
-              "apps/doorward-backend/src/database/main"
+              "apps/doorward-backend/config"
             ]
           },
           "configurations": {
