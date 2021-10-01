@@ -30,6 +30,9 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
       keepScore: ScoreToKeep.HIGHEST,
       max: null,
     },
+    publicExam: {
+      allow: false,
+    },
     questions: {
       oneAtATime: true,
       lockAfterAnswering: true,

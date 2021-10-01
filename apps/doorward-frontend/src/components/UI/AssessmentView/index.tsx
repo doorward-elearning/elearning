@@ -34,6 +34,7 @@ import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTota
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
+
 const evaluateStatus = (
   submission?: AssessmentSubmissionEntity,
   startDate?: Date | string,
@@ -69,10 +70,12 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
+  const [api, setApi]= useState('');
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
       setSubmission(data?.submission);
+      
     },
   });
 
@@ -146,6 +149,9 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
       <Form form={form} onSubmit={() => {}} editable={false} initialValues={initialValues}>
         {assessment.instructions && (
           <React.Fragment>
+            <RoleContainer privileges={['moduleItems.create']}>
+            {assessment.options.publicExam.allow  &&  <DisplayLabel> {`${process.env.DOORWARD_APPLICATION_LINK}/courses/modules/items/${assessment.id}`}</DisplayLabel>}
+            </RoleContainer>
             <Header padded size={2}>
               {translate('instructions')}
             </Header>

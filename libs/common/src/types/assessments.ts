@@ -21,6 +21,9 @@ export interface AssessmentOptions {
     keepScore: ScoreToKeep;
     max: number;
   };
+  publicExam:{
+      allow:boolean;
+  };
   questions: {
     oneAtATime: boolean;
     lockAfterAnswering: boolean;
