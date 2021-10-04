@@ -7,7 +7,6 @@ import { BaseAuthService } from '@doorward/backend/modules/base-auth/base-auth.s
 export default class LocalStrategy extends PassportStrategy(Strategy) {
   constructor(private authService: BaseAuthService) {
     super();
-    console.log('--------------------------------------------');
   }
 
   async validate(username: string, password: string): Promise<any> {

@@ -11,6 +11,7 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import OrganizationEntity from '@doorward/common/entities/organization.entity';
 import translate from '@doorward/common/lang/translate';
 import { CurrentOrganization } from '@doorward/backend/decorators/organization.decorator';
+import { ORGANIZATIONS } from '@doorward/backend/middleware/organization.detector.middleware';
 
 const OrganizationExists = () =>
   ModelExists({ key: 'organizationId', model: OrganizationEntity, message: translate('organizationNotExists') });
@@ -56,6 +57,12 @@ export class OrganizationsController {
     if (process.env.NODE_ENV === 'production') {
       await this.organizationService.createOrganizationIngress(organization);
     }
+
+    const organizations = await this.organizationService.getAll();
+
+    organizations.forEach((organization) => {
+      ORGANIZATIONS[organization.id] = organization;
+    });
 
     return { organization, message: translate('organizationCreated') };
   }

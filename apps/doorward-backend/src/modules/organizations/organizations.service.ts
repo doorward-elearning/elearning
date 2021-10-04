@@ -53,20 +53,22 @@ export class OrganizationsService {
       'org-host': '',
     };
 
-    this.logger.info('Creating ingress for organization [' + organization.name + ']');
+    this.logger.info('Creating ingress for organization [' + organization.name + '] - ' + requestBody);
 
     return Promise.all(
       hosts.map(async (host) => {
         this.logger.info('Creating host: ' + host);
         let success = true;
         try {
-          await this.httpService.post(
-            process.env.ORGANIZATION_INGRESS_URL,
-            { ...requestBody, 'org-host': host },
-            { headers: { 'Content-Type': 'application/json' } }
-          );
+          const response = await this.httpService
+            .post(
+              process.env.ORGANIZATION_INGRESS_URL,
+              { ...requestBody, 'org-host': host },
+              { headers: { 'Content-Type': 'application/json' } }
+            )
+            .toPromise();
 
-          this.logger.info('Organization [' + organization.name + '] ingress created: ' + host);
+          this.logger.info('Organization [' + organization.name + '] ingress created: ' + response.data);
         } catch (e) {
           success = false;
           this.logger.error(
