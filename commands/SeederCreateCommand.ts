@@ -1,4 +1,5 @@
 import * as yargs from 'yargs';
+
 const chalk = require('chalk');
 import { ConnectionOptionsReader } from 'typeorm';
 import { CommandUtils } from 'typeorm/commands/CommandUtils';
@@ -9,11 +10,17 @@ export default class SeederCreateCommand implements yargs.CommandModule {
   describe = 'Generates a seeder file';
 
   builder(args: yargs.Argv) {
-    return args.option('n', {
-      alias: 'name',
-      describe: 'The name of the seeder file',
-      demand: true,
-    });
+    return args
+      .option('n', {
+        alias: 'name',
+        describe: 'The name of the seeder file',
+        demand: true,
+      })
+      .option('f', {
+        alias: 'config',
+        default: 'ormconfig',
+        describe: 'Name of the file with connection configuration.',
+      });
   }
 
   async handler(args: yargs.Arguments) {

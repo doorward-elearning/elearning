@@ -8,8 +8,8 @@ import { OrganizationConfigKey } from '@doorward/common/types/organizationConfig
 import Tools from '@doorward/common/utils/Tools';
 import createOrganizationsDbConnection from '@doorward/backend/utils/createOrganizationsDbConnection';
 import { Connection } from 'typeorm';
-import { EntityManager } from 'typeorm/browser';
 import multiOrganizationSetup from './multiOrganizationSetup';
+import { TaskStatus } from '@doorward/common/types/enums';
 
 const getConfigFile = (fileName: string) => {
   const filePath = path.join(__dirname, './config', fileName);
@@ -67,7 +67,7 @@ export const createDefaultOrganization = async (ormConfig: any) => {
 
   let organization = await queryRunner.manager.findOne(OrganizationEntity, process.env.DEFAULT_ORGANIZATION_ID);
 
-  if (!organization) {
+  if (organization.rolesSetupStatus === TaskStatus.PENDING) {
     try {
       await queryRunner.startTransaction();
 

@@ -46,7 +46,14 @@ export const organizationRolesSetup = async (
           return;
         }
 
+        const existingRole = await entityManager.findOne(RoleEntity, {
+          where: {
+            name: role.trim(),
+          },
+        });
+
         const createdRole = await entityManager.create(RoleEntity, {
+          id: existingRole?.id,
           name: role.trim(),
           displayName: roles[role].displayName,
           description: roles[role].description,
@@ -85,9 +92,12 @@ export const organizationRolesSetup = async (
           const role = await entityManager.findOne(RoleEntity, {
             where: { name: user.role.trim() },
           });
+          const existingUser = await entityManager.findOne(UserEntity, { where: { username: user.username } });
+
           const createdUser = entityManager.create(UserEntity, {
             ...user,
-            password: PasswordUtils.hashPassword(user.password),
+            ...(existingUser || {}),
+            password: existingUser?.password || PasswordUtils.hashPassword(user.password),
             role,
           });
           await entityManager.save(UserEntity, createdUser);
