@@ -54,25 +54,7 @@ export class CoursesService {
   }
 
   async getCourses(user: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    if (user.isSuperAdmin()) {
-      return this.getAllCourses(user, page);
-    } else if (user.isTeacher()) {
-      return this.getCoursesForAuthor(user, page);
-    } else {
-      return this.getCoursesForLearner(user, page);
-    }
-  }
-
-  async getCoursesForLearner(student: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesForStudent(student.id, page);
-  }
-
-  async getCoursesForAuthor(author: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesByTeacher(author.id, true, page);
-  }
-
-  async getAllCourses(admin: UserEntity, page: PaginationQuery): Promise<PaginatedEntities<CourseEntity>> {
-    return this.coursesRepository.getCoursesByAdmin(admin.id, page);
+    return this.coursesRepository.getCoursesForUser(user, page);
   }
 
   async getCourse(id: string) {

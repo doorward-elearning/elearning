@@ -10,6 +10,7 @@
       "delete",
       "view-all",
       "read",
+      "manage",
       "start-meeting"
     ],
     "modules": ["create", "update", "delete", "read"],

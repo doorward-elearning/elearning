@@ -1,15 +1,14 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import CourseManagerRepository from '@doorward/backend/repositories/course.manager.repository';
 import CourseManagerEntity from '@doorward/common/entities/course.manager.entity';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
-import { Roles } from '@doorward/common/types/roles';
 import { AddCourseManagerBody } from '@doorward/common/dtos/body/course.managers.body';
-import translate from '@doorward/common/lang/translate';
 
 @Injectable()
 export class ManagersService {
-  constructor(private managersRepository: CourseManagerRepository, private usersRepository: UsersRepository) {}
+  constructor(private managersRepository: CourseManagerRepository, private usersRepository: UsersRepository) {
+  }
 
   /**
    *
@@ -25,13 +24,9 @@ export class ManagersService {
   public async createCourseManager(
     courseId: string,
     body: AddCourseManagerBody,
-    creator: UserEntity
+    creator: UserEntity,
   ): Promise<CourseManagerEntity> {
     let courseManager = await this.managersRepository.courseManagerExists(courseId, body.managerId);
-
-    if (await this.usersRepository.userExistsByRole(courseId, Roles.STUDENT)) {
-      throw new UnauthorizedException(translate('studentCannotBeACourseManager'));
-    }
 
     if (!courseManager) {
       courseManager = await this.managersRepository.save(
@@ -39,7 +34,7 @@ export class ManagersService {
           manager: { id: body.managerId },
           course: { id: courseId },
           creator,
-        })
+        }),
       );
     }
 
