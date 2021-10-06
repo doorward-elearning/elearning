@@ -17,6 +17,7 @@ export class InitializeDatabase1633362669801 extends SeederInterface {
           databaseName: process.env.DEFAULT_ORGANIZATION_DATABASE_NAME,
         },
       ])
+      .onConflict(`("id") DO NOTHING`)
       .execute();
   }
 

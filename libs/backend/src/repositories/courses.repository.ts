@@ -9,17 +9,16 @@ import MeetingRoomEntity from '@doorward/common/entities/meeting.room.entity';
 import { MeetingStatus } from '@doorward/common/types/meeting';
 import { PaginationQuery } from '@doorward/common/dtos/query';
 import { PaginatedEntities } from '@doorward/common/dtos/response/base.response';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 export default class CoursesRepository extends MultiOrganizationRepository<CourseEntity> {
-
-
   getEntity(): ObjectType<CourseEntity> {
     return CourseEntity;
   }
 
   public async getCoursesForStudent(
     studentId: string,
-    page: PaginationQuery
+    page: PaginationQuery,
   ): Promise<PaginatedEntities<CourseEntity>> {
     const queryBuilder = this.createQueryBuilder('course')
       .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
@@ -62,11 +61,19 @@ export default class CoursesRepository extends MultiOrganizationRepository<Cours
     return queryBuilder.getMany();
   }
 
-  public async getCoursesByAdmin(adminId: string, page: PaginationQuery) {
-    const queryBuilder = await this.createQueryBuilder('course')
-      .leftJoinAndSelect('course.author', 'author')
-      .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
-      .addOrderBy('course.createdAt', 'DESC');
+  public async getCoursesForUser(user: UserEntity, page: PaginationQuery) {
+    const queryBuilder = await this.createQueryBuilder('course');
+
+    queryBuilder.leftJoinAndSelect('course.author', 'author');
+    queryBuilder.leftJoinAndSelect('course.meetingRoom', 'meetingRoom');
+
+    if (await user.hasPrivileges('courses.manage', '!courses.view-all')) {
+      queryBuilder.leftJoin('CourseManagers', 'manager', 'manager."courseId" = course.id');
+      queryBuilder.where('manager."managerId" = :teacherId', { teacherId: user.id });
+      queryBuilder.orWhere('course."createdBy" = :teacherId', { teacherId: user.id });
+    }
+
+    queryBuilder.addOrderBy('course.createdAt', 'DESC');
 
     const { entities, pagination } = await this.paginate(queryBuilder, page);
 
@@ -81,7 +88,7 @@ export default class CoursesRepository extends MultiOrganizationRepository<Cours
       courses.map(async (course) => {
         course.numStudents = await this.getRepository(StudentCoursesEntity).count({ course: { id: course.id } });
         return course;
-      })
+      }),
     );
   }
 
@@ -122,7 +129,7 @@ export default class CoursesRepository extends MultiOrganizationRepository<Cours
         'Meetings',
         'currentMeeting',
         '"meetingRoom".id = "currentMeeting"."meetingRoomId" AND' + ' "currentMeeting".status = :status',
-        { status: MeetingStatus.STARTED }
+        { status: MeetingStatus.STARTED },
       )
       .getOne();
   }

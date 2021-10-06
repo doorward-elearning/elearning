@@ -22,11 +22,6 @@ export const organizationRolesSetup = async (
 
   const queryRunner = connection.createQueryRunner();
   try {
-    if (organization.rolesSetupStatus === TaskStatus.DONE) {
-      await queryRunner.release();
-      return;
-    }
-
     await queryRunner.startTransaction();
 
     const entityManager = queryRunner.manager;

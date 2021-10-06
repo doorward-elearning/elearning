@@ -16,7 +16,8 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private emailService: EmailsService,
-  ) {}
+  ) {
+  }
 
   /**
    * Retrieve the current user details
@@ -59,7 +60,7 @@ export class AuthService {
           subject: 'Password changed',
           recipient: user,
           data: body,
-        })
+        }),
       )
       .then();
   }

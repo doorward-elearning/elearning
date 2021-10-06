@@ -108,9 +108,16 @@ export default class UserEntity extends BaseEntity {
       return false;
     }
 
-    return privileges.reduce((acc, privilege) => {
-      return acc && userPrivileges.some((_privilege) => wildcardPattern(_privilege.name, privilege));
-    }, true);
+    function userHasPrivilege(privilege: string) {
+      return userPrivileges.some((_privilege) => wildcardPattern(_privilege.name, privilege));
+    }
+
+    return privileges.reduce(
+      (acc, privilege) =>
+        acc &&
+        (privilege.startsWith('!') ? !userHasPrivilege(privilege.replace(/^!/, '')) : userHasPrivilege(privilege)),
+      true
+    );
   }
 
   validatePassword(password: string): boolean {
