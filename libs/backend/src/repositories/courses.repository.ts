@@ -72,6 +72,11 @@ export default class CoursesRepository extends MultiOrganizationRepository<Cours
       queryBuilder.where('manager."managerId" = :teacherId', { teacherId: user.id });
       queryBuilder.orWhere('course."createdBy" = :teacherId', { teacherId: user.id });
     }
+    if (await user.hasPrivileges('courses.read', '!courses.create', '!courses.view-all', '!courses.manage')) {
+      queryBuilder
+        .leftJoin('StudentCourses', 'studentCourses', '"studentCourses"."courseId" = course.id')
+        .where('"studentCourses"."studentId" = :studentId', { studentId: user.id });
+    }
 
     queryBuilder.addOrderBy('course.createdAt', 'DESC');
 
