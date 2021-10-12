@@ -69,6 +69,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
+  const publicUrl = new URL((process as { env: { [key: string]: string } }).env.PUBLIC_URL, window.location.href);
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -144,6 +145,16 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   return (
     <AssessmentContext.Provider value={{ assessment: assessment }}>
       <Form form={form} onSubmit={() => {}} editable={false} initialValues={initialValues}>
+        <React.Fragment>
+          <RoleContainer privileges={['moduleItems.create']}>
+            {assessment.options.publicExam.allow && (
+              <DisplayLabel>
+                {`${publicUrl.protocol}//${publicUrl.host}/courses/modules/items/${assessment.id}`}
+              </DisplayLabel>
+            )}
+          </RoleContainer>
+        </React.Fragment>
+
         {assessment.instructions && (
           <React.Fragment>
             <Header padded size={2}>
