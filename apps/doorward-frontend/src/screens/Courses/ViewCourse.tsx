@@ -30,6 +30,7 @@ import useCourse from '../../hooks/useCourse';
 import NavLink from '@doorward/ui/components/NavLink';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 
 const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
   const addModuleModal = useModal(false);
@@ -185,6 +186,9 @@ const ViewCourse: React.FunctionComponent<ViewCourseProps> = (props) => {
                       </Pill>
                     </div>
                   </Grid>
+                  <React.Fragment>
+                    {course.description && <HTMLContentView content={course?.description} />}
+                  </React.Fragment>
                   <CourseModuleList
                     course={course}
                     onDeleteModule={() => {
