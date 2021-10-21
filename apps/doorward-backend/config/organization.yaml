@@ -1,6 +1,4 @@
 organization:
-  name: "doorward"
-  displayName: "Doorward E-Learning"
   hosts: localhost:3000,doorward.local:3000
   lang: en
   descriptiveLogo: false

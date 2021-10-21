@@ -41,14 +41,14 @@ export class OrganizationsService {
   }
 
   public async createOrganizationIngress(organization: OrganizationEntity) {
-    const rootOrganization = await this.getRootOrganization();
-
     const hosts = organization.hosts.split(/\s*,\s*/);
 
+    const namespace = process.env.DEFAULT_ORGANIZATION_NAME;
+
     const requestBody = {
-      namespace: rootOrganization.name + '-doorward',
-      'primary-org-name': rootOrganization.name,
-      'service-name': rootOrganization.name + '-chuchu',
+      namespace: namespace + '-doorward',
+      'primary-org-name': namespace,
+      'service-name': namespace + '-chuchu',
       'org-name': organization.name,
       'org-host': '',
     };
