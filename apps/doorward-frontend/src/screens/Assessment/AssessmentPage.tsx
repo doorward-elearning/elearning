@@ -25,6 +25,7 @@ import Button from '@doorward/ui/components/Buttons/Button';
 import Spacer from '@doorward/ui/components/Spacer';
 import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
@@ -46,15 +47,29 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
   const navigation = useNavigation();
   const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
+  const [publicExam, setPublicExam] = useState(assessment.options.publicExam.allow);
+  const [user, setUser] = useState<UserEntity>();
 
-  const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
-    onSuccess: (data) => {
-      setSubmission(data?.submission);
-    },
-  });
+  useEffect(() => {
+    if (publicExam) {
+      user.internal = false;
+      setUser(user);
+    }
+  }, []);
+
+  const [saveSubmission, saveSubmissionState] = useApiAction(
+    DoorwardApi,
+    (api) =>  api.assessments.saveAssessment ,
+    {
+      onSuccess: (data) => {
+        setSubmission(data?.submission);
+      },
+    }
+  );
+
   const [submitAssessment, submitAssessmentState] = useApiAction(
     DoorwardApi,
-    (api) => api.assessments.submitAssignment,
+    (api) =>(user.internal? api.assessments.submitAssignment: api.assessments.submitPublictAssessment) ,
     {
       onSuccess: () => {
         navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });

@@ -111,6 +111,12 @@ const DoorwardBackendApi = (defaultConfig ? : () => AxiosRequestConfig) => ({
         ...(defaultConfig && defaultConfig())
       });
     },
+    submitPublictAssessment: (assessmentId: string, body: SaveAssessmentBody, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionResponse >> => {
+      return POST(`/assessments/submissions/public/submit/${assessmentId}`, body, {}, {
+        ...(config || {}),
+        ...(defaultConfig && defaultConfig())
+      });
+    },
     getStudentSubmissions: (assessmentId: string, config ? : AxiosRequestConfig): Promise < AxiosResponse < AssessmentSubmissionsResponse >> => {
       return GET(`/assessments/${assessmentId}/studentSubmissions`, {}, {
         ...(config || {}),
