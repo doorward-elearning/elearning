@@ -5,8 +5,9 @@ metadata:
   name: {{ template "postgresql.fullname" . }}
   labels:
   {{- include "common.labels.standard" . | nindent 4 }}
+  customer: {{ .Values.customer }}
   {{- if .Values.commonAnnotations }}
-  annotations: {{- include "postgresql.tplValue" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 spec:
   podSelector:
@@ -28,9 +29,11 @@ spec:
         - podSelector:
             matchLabels:
             {{- include "common.labels.matchLabels" . | nindent 14 }}
-              role: slave
+              role: read
       {{- end }}
+    {{- if .Values.metrics.enabled }}
     # Allow prometheus scrapes
     - ports:
         - port: 9187
+    {{- end }}
 {{- end }}

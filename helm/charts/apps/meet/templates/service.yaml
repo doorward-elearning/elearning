@@ -5,6 +5,7 @@ metadata:
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "meet.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 spec:
   type: {{ .Values.service.type }}
   ports:

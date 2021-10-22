@@ -5,8 +5,9 @@ metadata:
   name: {{ template "postgresql.fullname" . }}
   labels:
   {{- include "common.labels.standard" . | nindent 4 }}
+  customer: {{ .Values.customer }}
   {{- if .Values.commonAnnotations }}
-  annotations: {{- include "postgresql.tplValue" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
+  annotations: {{- include "common.tplvalues.render" ( dict "value" .Values.commonAnnotations "context" $ ) | nindent 4 }}
   {{- end }}
 roleRef:
   kind: Role

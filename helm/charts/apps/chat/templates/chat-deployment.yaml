@@ -5,6 +5,7 @@ metadata:
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "chat.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -69,16 +70,25 @@ spec:
           - name: DOORWARD_DATABASE_PASSWORD
             valueFrom:
               configMapKeyRef:
-                key: DATABASE_PASSWORD
+                key: POSTGRES_PASSWORD
                 name: {{ .Values.customer -}}-config
           - name: REACT_APP_BASE_URL
             valueFrom:
               configMapKeyRef:
                 key: REACT_APP_BASE_URL
                 name: {{ .Values.customer -}}-config
+          - name: DEFAULT_ORGANIZATION_NAME
+            value: {{ .Values.DEFAULT_ORGANIZATION_NAME }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
+          volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/{{- .Values.timezone}}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
       {{- end }}

@@ -5,6 +5,7 @@ metadata:
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "meeting.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -55,7 +56,13 @@ spec:
                   name: myaccount-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
       volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/{{- .Values.timezone}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -7,5 +7,6 @@ metadata:
   creationTimestamp: "2019-12-14T06:23:11Z"
   labels:
     {{- include "swagat.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
   name: {{ include "swagat.fullname" . }}
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

@@ -1,0 +1,117 @@
+# Name of the Customer / Website
+customer: housetutoring
+
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: housetutoring.doorward.tech
+
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: beta.doorward.tech
+
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://housetutoring.doorward.tech
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.housetutoring.doorward.tech
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.housetutoring.doorward.tech
+
+# Public Domain of meet ui
+meet_domain: meet.housetutoring.doorward.tech
+
+# Public Chat Domain
+chat_domain: chat.housetutoring.doorward.tech
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.housetutoring.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.housetutoring.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.edudoor.org
+
+# Name of the Website. Default Value: <Customer-Name>
+websitename: housetutoring
+
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: housetutoring-doorward
+
+chatdbpassword: xLOJpF13cT
+postgres_password: xLOJpF13cT
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-mumbai
+
+timezone: "Asia/Kolkata"
+
+# Override default variables for stage environments
+image:
+  swagat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/swagat@sha256
+    version: 6818d42ea1ccecdfaeb6e213f127fa26027711a24d3cd590d5f94457d0388596
+    pullPolicy: Always
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/thala
+    version: 1.2.2-dev
+    pullPolicy: Always
+  samvadam:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/chuchu
+    version: 1.2.2-dev
+    pullPolicy: Always
+  vidu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/vidu
+    version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/meet
+    version: 1.0.0
+    pullPolicy: Always
+  chat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/chat
+    version: 1.2.2-dev
+    pullPolicy: Always
+organization:
+  id: Gfz4r7sBK6u81-nUxwXODMYhWrP3UA
+  name: "House Tutoring"
+  link: https://doorward.tech
+  lang: en
+  descriptiveLogo: false
+  logo: "https://housetutoring.s3.ap-south-1.amazonaws.com/logo.png"
+  email: harsha@housetutoring.com
+  website: housetutoring.doorward.tech
+  icons:
+    light: "https://housetutoring.s3.ap-south-1.amazonaws.com/logo.png"
+    dark: "https://housetutoring.s3.ap-south-1.amazonaws.com/logo.png"
+  description: ''
+  meetingPlatform: Jitsi
+  models:
+    course:
+      - course
+      - courses
+  admins:
+    - id: Gfz4r7sBK6u81
+      firstName: House
+      lastName: Tutoring
+      email: harsha@housetutoring.com
+      username: administrator
+      password: password
+      zipCode: ''
+      country: India
+      city: Banglore
+      status: Active

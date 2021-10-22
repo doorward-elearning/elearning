@@ -26,11 +26,11 @@ We truncate at 63 chars because some Kubernetes name fields are limited to this 
 Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "postgresql.master.fullname" -}}
+{{- define "postgresql.primary.fullname" -}}
 {{- $name := default .Chart.Name .Values.nameOverride -}}
 {{- $fullname := default (printf "%s-%s" .Release.Name $name) .Values.fullnameOverride -}}
 {{- if .Values.replication.enabled -}}
-{{- printf "%s-%s" $fullname "master" | trunc 63 | trimSuffix "-" -}}
+{{- printf "%s-%s" $fullname "primary" | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
 {{- printf "%s" $fullname | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
@@ -221,12 +221,19 @@ Get the password secret.
 {{- end -}}
 
 {{/*
+Return true if we should use an existingSecret.
+*/}}
+{{- define "postgresql.useExistingSecret" -}}
+{{- if or .Values.global.postgresql.existingSecret .Values.existingSecret -}}
+    {{- true -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Return true if a secret object should be created
 */}}
 {{- define "postgresql.createSecret" -}}
-{{- if .Values.global.postgresql.existingSecret }}
-{{- else if .Values.existingSecret -}}
-{{- else -}}
+{{- if not (include "postgresql.useExistingSecret" .) -}}
     {{- true -}}
 {{- end -}}
 {{- end -}}
@@ -376,19 +383,6 @@ but Helm 2.9 and 2.10 does not support it, so we need to implement this if-else 
         {{- end -}}
     {{- end -}}
 {{- end -}}
-{{- end -}}
-
-{{/*
-Renders a value that contains template.
-Usage:
-{{ include "postgresql.tplValue" ( dict "value" .Values.path.to.the.Value "context" $) }}
-*/}}
-{{- define "postgresql.tplValue" -}}
-    {{- if typeIs "string" .value }}
-        {{- tpl .value .context }}
-    {{- else }}
-        {{- tpl (.value | toYaml) .context }}
-    {{- end }}
 {{- end -}}
 
 {{/*

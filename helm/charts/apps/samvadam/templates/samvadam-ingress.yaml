@@ -8,6 +8,7 @@ metadata:
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "samvadam.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 
 spec:
   rules:

@@ -8,6 +8,7 @@ metadata:
   namespace: myaccount-doorward
   labels:
     {{- include "meeting.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 
 spec:
   rules:

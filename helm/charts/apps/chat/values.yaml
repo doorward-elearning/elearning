@@ -6,12 +6,10 @@ replicaCount: 1
 
 image:
   chat:
-    repository: core.harbor.doorward.tech/doorward/chat
-    version: 1.1.0
     pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - name: deploy-pull-harbor
+  - name: deploy-pull-mumbai
 nameOverride: ""
 fullnameOverride: ""
 
@@ -73,7 +71,7 @@ affinity: {}
 #chatdburl: postgres://postgres:postgres@doorward-database-service:5434/doorward
 chatdbname: doorward
 chatdbuser: postgres
-chatdbpassword: postgres
+chatdbpassword: 6EpnyaJkHS
 chatdbhostpostfix: chatdb
 chatdbport: 5434
 

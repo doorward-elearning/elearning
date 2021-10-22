@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+    {{- include "config.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
+  name: {{ include "config.fullname" . -}}-file
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
+data:
+  config: |-
+    {{ printf "%s.yaml" .Values.customer | .Files.Get | b64enc }}

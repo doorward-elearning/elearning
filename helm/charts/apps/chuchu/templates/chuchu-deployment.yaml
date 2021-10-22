@@ -5,6 +5,7 @@ metadata:
   namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
   labels:
     {{- include "chuchu.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -82,9 +83,20 @@ spec:
                 configMapKeyRef:
                   key: JITSI_MEET_DOMAIN
                   name: {{ .Values.customer -}}-config
+            - name: TINY_MCE_API_KEY
+              valueFrom:
+                configMapKeyRef:
+                  key: TINY_MCE_API_KEY
+                  name: {{ .Values.customer -}}-config
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
       volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/{{- .Values.timezone}}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

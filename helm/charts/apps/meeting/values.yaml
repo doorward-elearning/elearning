@@ -6,12 +6,12 @@ replicaCount: 1
 
 image:
   meeting:
-    repository: core.harbor.doorward.tech/doorward/meeting
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/meeting
     version: 1.1.0
     pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - name: deploy-pull-harbor
+  - name: deploy-pull-mumbai
 nameOverride: ""
 fullnameOverride: ""
 
@@ -86,5 +86,5 @@ classrooms_url: classrooms.doorward.tech
 
 image:
   meeting:
-    repository: core.harbor.doorward.tech/doorward/meeting
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/meeting
     version: 1.1.1

@@ -6,12 +6,12 @@ replicaCount: 1
 
 image:
   samvadam:
-    repository: core.harbor.doorward.tech/doorward/samvadam
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
     version: 1.0.0
     pullPolicy: IfNotPresent
 
 imagePullSecrets:
-  - name: deploy-pull-harbor
+  - name: deploy-pull-mumbai
 nameOverride: ""
 fullnameOverride: ""
 
