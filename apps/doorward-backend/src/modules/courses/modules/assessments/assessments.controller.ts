@@ -19,6 +19,7 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
 import dataSize from '@doorward/common/utils/dataSize';
 import { UsersService } from '../../../users/users.service';
+import Tools from '@doorward/common/utils/Tools';
 
 const AssessmentExists = () =>
   ModelExists({
@@ -38,8 +39,7 @@ const SubmissionExists = () =>
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 @ApiTags('assessments')
 export class AssessmentsController {
-  userService: UsersService;
-  constructor(private assessmentsService: AssessmentsService) {}
+  constructor(private assessmentsService: AssessmentsService, private usersService: UsersService) {}
 
   @Post('submissions/save/:assessmentId')
   @Privileges('assessments.submit')
@@ -107,22 +107,13 @@ export class AssessmentsController {
     description: 'The assessment submission model',
   })
   @TransformerGroups('timestamps')
-  async submitPublictAssessment(@Param('assessmentId') assessmentId: string, @Body() body: SaveAssessmentBody ) {
-    function randomString(len) {
-      var str = '';
-      for (var i = 0; i < len; i++) {
-        var rand = Math.floor(Math.random() * 62);
-        var charCode = (rand += rand > 9 ? (rand < 36 ? 55 : 61) : 48);
-        str += String.fromCharCode(charCode);
-      }
-      return str;
-    }
+  async submitPublictAssessment(@Param('assessmentId') assessmentId: string, @Body() body: SaveAssessmentBody) {
     let currentUser = new UserEntity();
     let userBody = new CreateUserBody();
     currentUser.firstName = 'Anonymous';
     currentUser.lastName = 'User';
-    currentUser.username = randomString(10);
-    const user = await this.userService.createUser(userBody, currentUser);
+    currentUser.username = Tools.randomString(10);
+    const user = await this.usersService.createUser(userBody, currentUser);
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, user.user);
 
     return { submission, message: translate('assessmentSubmittedForReview') };

@@ -64,7 +64,8 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
       <PageRoute public path={ROUTES.auth.password.forgot} component={ForgotPassword} />
       <PageRoute public path={ROUTES.meeting.join} component={VideoCallPage} />
       <PageRoute path={ROUTES.dashboard} component={Dashboard} />
-      <PageRoute path={ROUTES.assessments.exam} public={true} component={Assessment} />
+      <PageRoute path={ROUTES.assessments.exam} component={Assessment} />
+      <PageRoute path={ROUTES.assessments.publicExam} public={true} component={Assessment} />
       <PageRoute path={ROUTES.assessments.quiz} component={Assessment} />
       <PageRoute path={ROUTES.courses.list} component={Courses} />
       <PageRoute path={ROUTES.courses.create} component={Courses} />

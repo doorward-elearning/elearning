@@ -81,8 +81,8 @@ export default class UserEntity extends BaseEntity {
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 
-  @Column({nullable:true })
-  internal: Boolean;
+  @Column({ default:true})
+  internal: boolean;
 
   @Expose()
   get fullName() {

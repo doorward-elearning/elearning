@@ -39,7 +39,10 @@ export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, ass
   }
 };
 
-const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assessment, ...props }): JSX.Element => {
+const StartAssessment: React.FunctionComponent<StartAssessmentProps> = (
+  { assessment, ...props },
+  user: UserEntity
+): JSX.Element => {
   const [sections, setSections] = useState([]);
   const form = useForm();
   const [submission, setSubmission] = useState(props.submission);
@@ -48,28 +51,23 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({ assess
   const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
   const [publicExam, setPublicExam] = useState(assessment.options.publicExam.allow);
-  const [user, setUser] = useState<UserEntity>();
+  const [internal, setInternal] = useState(user.internal);
 
   useEffect(() => {
     if (publicExam) {
-      user.internal = false;
-      setUser(user);
+      setInternal(false);
     }
   }, []);
 
-  const [saveSubmission, saveSubmissionState] = useApiAction(
-    DoorwardApi,
-    (api) =>  api.assessments.saveAssessment ,
-    {
-      onSuccess: (data) => {
-        setSubmission(data?.submission);
-      },
-    }
-  );
+  const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
+    onSuccess: (data) => {
+      setSubmission(data?.submission);
+    },
+  });
 
   const [submitAssessment, submitAssessmentState] = useApiAction(
     DoorwardApi,
-    (api) =>(user.internal? api.assessments.submitAssignment: api.assessments.submitPublictAssessment) ,
+    (api) => (internal ? api.assessments.submitAssignment : api.assessments.submitPublictAssessment),
     {
       onSuccess: () => {
         navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });

@@ -31,6 +31,7 @@ import TabLayout from '@doorward/ui/components/TabLayout';
 import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuilder';
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
 import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
+import { env } from 'process';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -69,7 +70,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
-  const publicUrl = new URL((process as { env: { [key: string]: string } }).env.PUBLIC_URL, window.location.href);
+  const publicUrl = new URL(location.href);
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -149,7 +150,7 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
           <RoleContainer privileges={['moduleItems.create']}>
             {assessment.options.publicExam.allow && (
               <DisplayLabel>
-                {`${publicUrl.protocol}//${publicUrl.host}/courses/modules/items/${assessment.id}`}
+                {`${publicUrl.protocol}//${publicUrl.host}${ROUTES.assessments.publicExam.replace(':assessmentId',assessment.id)}`}
               </DisplayLabel>
             )}
           </RoleContainer>

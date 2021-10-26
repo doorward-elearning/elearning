@@ -23,7 +23,7 @@ organization:
     - firstName: system
       lastName: admin
       email: gitaumoses4@gmail.com
-      username: administrator
+      username: admin
       password: password
       zipCode: ''
       country: India
