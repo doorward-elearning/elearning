@@ -61,7 +61,7 @@ replicaCount: 2
 image:
   swagat:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/swagat@sha256
-    version: 610b4524139f6aa3792945b3c8baa7b28d8b1fad9ea1317c2f9097f415c1b8b3
+    version: 15dfbebc79a326ddd238592cce97afe9a94b4da24e6a0b16a28fde8f3f385290
     pullPolicy: Always
   thaladb:
     repository: postgres
@@ -69,7 +69,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/thala@sha256
-    version: acf45d3bcd13423a8c33fea321dafc3364228c9063a808ad5a5858e068c314bc
+    version: fee8515fdac6f7f413a1ea01b61a2c6809afe1a8845d62454a1bbd4d4f9e0ca0
     pullPolicy: Always
   samvadam:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
@@ -77,7 +77,7 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chuchu@sha256
-    version: 6623d7fc19ee6ec350f48c901c77b9a67b17ed65fa73e102ac703cb2c7dd4ddd
+    version: fd046abc92053f6b04303a5f050d49ad1c825e3e1751291ae988544aed817644
     pullPolicy: Always
   vidu:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/vidu
@@ -89,7 +89,7 @@ image:
     pullPolicy: Always
   chat:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chat@sha256
-    version: 7e0047a4d09094e93de8142ec82fbbe3cd7a1a3928f11a740314f877ac0b3ca5
+    version: 9b9211973555d232e10b72896f11db146d4e4512cfc7cffd76071cea4a0943a2
     pullPolicy: Always
 organization:
   id: rmLHSfxI8VJGO3MC7j0h_6YdQ9
