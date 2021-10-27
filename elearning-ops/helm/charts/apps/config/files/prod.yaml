@@ -104,7 +104,7 @@ organization:
     - firstName: system
       lastName: admin
       email: gitaumoses4@gmail.com
-      username: administrator
+      username: superadmin
       password: password
       zipCode: ''
       country: India
