@@ -26,6 +26,8 @@ import Spacer from '@doorward/ui/components/Spacer';
 import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import UserEntity from '@doorward/common/entities/user.entity';
+import { useRouteMatch } from 'react-router';
+import { CreateUserBody } from '@doorward/common/dtos/body';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
@@ -39,22 +41,24 @@ export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, ass
   }
 };
 
-const StartAssessment: React.FunctionComponent<StartAssessmentProps> = (
-  { assessment, ...props },
-  user: UserEntity
-): JSX.Element => {
+const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
+  assessment,
+  currentUser,
+  ...props
+}): JSX.Element => {
   const [sections, setSections] = useState([]);
   const form = useForm();
+  const match: any = useRouteMatch();
   const [submission, setSubmission] = useState(props.submission);
   const [timeEnded, setTimeEnded] = useState(false);
   const navigation = useNavigation();
   const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
   const [publicExam, setPublicExam] = useState(assessment.options.publicExam.allow);
-  const [internal, setInternal] = useState(user.internal);
+  const [internal, setInternal] = useState(true);
 
   useEffect(() => {
-    if (publicExam) {
+    if (publicExam && !currentUser) {
       setInternal(false);
     }
   }, []);
@@ -67,7 +71,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = (
 
   const [submitAssessment, submitAssessmentState] = useApiAction(
     DoorwardApi,
-    (api) => (internal ? api.assessments.submitAssignment : api.assessments.submitPublictAssessment),
+    (api) => (internal ? api.assessments.submitAssignment : api.assessments.submitPublicAssessment),
     {
       onSuccess: () => {
         navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });
@@ -154,6 +158,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = (
 export interface StartAssessmentProps {
   assessment: AssessmentEntity;
   submission?: AssessmentSubmissionEntity;
+  currentUser?: UserEntity;
 }
 
 const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JSX.Element => {
@@ -178,7 +183,7 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
   return (
     <div>
       {isAvailable ? (
-        <StartAssessment assessment={props.assessment} submission={props.submission} />
+        <StartAssessment assessment={props.assessment} submission={props.submission} currentUser={props.currentUser} />
       ) : (
         <Empty message={`This ${props.assessment.assessmentType} is not available`} icon="assessment" />
       )}
@@ -189,6 +194,7 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
 export interface AssessmentPageProps {
   assessment: AssessmentEntity;
   submission?: AssessmentSubmissionEntity;
+  currentUser?: UserEntity;
 }
 
 export default AssessmentPage;

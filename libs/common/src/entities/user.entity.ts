@@ -12,6 +12,7 @@ import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import CourseEntity from '@doorward/common/entities/course.entity';
+import { AssessmentEntity } from './assessment.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseEntity {

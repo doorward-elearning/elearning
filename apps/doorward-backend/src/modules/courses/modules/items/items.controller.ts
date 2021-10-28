@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Put, UnauthorizedException, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
@@ -23,6 +23,7 @@ import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
 import dataSize from '@doorward/common/utils/dataSize';
+import Public from '@doorward/backend/decorators/public.decorator';
 
 const ModuleItemExists = () =>
   ModelExists({
@@ -32,6 +33,7 @@ const ModuleItemExists = () =>
   });
 
 @Controller('module/items')
+@Public()
 @ApiTags('moduleItems')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ItemsController {
@@ -42,14 +44,17 @@ export class ItemsController {
    * @param itemId
    */
   @Get(':itemId')
+  @Public()
   @Privileges('moduleItems.read')
   @ModuleItemExists()
   @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
-  async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
+  async getModuleItem(@Param('itemId') itemId: string,  @CurrentUser() currentuser: UserEntity): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
-
-    return {
+    if (!moduleItem && !currentuser) {
+      throw new UnauthorizedException('You are not authorized to access this module item');
+    }
+    else return {
       item: moduleItem,
     };
   }

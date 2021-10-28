@@ -13,21 +13,25 @@ import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import UserEntity from '@doorward/common/entities/user.entity';
 
 const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Element => {
   const [assessment, setAssessment] = useState<AssessmentEntity>();
+  const [currentUser, setCurrentUser]= useState<UserEntity>();
   const match: any = useRouteMatch();
   const navigation = useNavigation();
 
   const [fetchSubmission, submissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
   const [fetchItem, itemState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
+  const [fetchAuth, auth] = useApiAction(DoorwardApi,(api) => api.auth.getCurrentUser);
+ 
+  const getModuleItem = useApiAction(DoorwardApi, (state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
     fetchItem(match.params.assessmentId);
     fetchSubmission(match.params.assessmentId);
   }, []);
 
-  const getModuleItem = useApiAction(DoorwardApi, (state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
     const moduleItem = itemState.data?.item;
@@ -35,6 +39,14 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
       setAssessment(moduleItem as AssessmentEntity);
     }
   }, [itemState]);
+
+  useEffect(() => {
+    const currentUser = auth.data?.user;
+    if (currentUser) {
+      setCurrentUser(currentUser);
+      
+    }
+  }, [auth]);
 
   return (
     <Layout
@@ -55,7 +67,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
               onAction={() => navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id })}
             />
           ) : (
-            <AssessmentPage assessment={assessment} submission={submission} />
+            <AssessmentPage assessment={assessment} submission={submission} currentUser={currentUser} />
           );
         }}
       </WebComponent>
