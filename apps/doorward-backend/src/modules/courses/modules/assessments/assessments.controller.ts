@@ -54,6 +54,7 @@ export class AssessmentsController {
     @Body() body: SaveAssessmentBody,
     @CurrentUser() currentUser: UserEntity
   ) {
+
     const submission = await this.assessmentsService.saveAssessment(assessmentId, body, currentUser);
 
     return { submission };
