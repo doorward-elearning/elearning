@@ -32,8 +32,9 @@ export class UsersService {
     private passwordResetsRepository: PasswordResetsRepository,
     private emailsService: EmailsService,
     private privilegeRepository: PrivilegeRepository,
-    private filesService: FilesService
-  ) {}
+    private filesService: FilesService,
+  ) {
+  }
 
   async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
     const where = id ? { id } : { username };
@@ -46,6 +47,7 @@ export class UsersService {
       where,
     });
   }
+
   /**
    * Retrieve all users
    */
@@ -58,9 +60,19 @@ export class UsersService {
     return user;
   }
 
+  async createAnonymousUser(identifier: string) {
+    return this.usersRepository.createAndSave({
+      firstName: 'Anonymous',
+      lastName: 'User',
+      username: identifier,
+      internal: false,
+      status: UserStatus.ACTIVE,
+    });
+  }
+
   async createUser(
     body: CreateUserBody,
-    currentUser?: UserEntity
+    currentUser?: UserEntity,
   ): Promise<{ user: UserEntity; resetToken: string | null }> {
     const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
@@ -90,7 +102,7 @@ export class UsersService {
         this.passwordResetsRepository.create({
           token: resetToken,
           user: createdUser,
-        })
+        }),
       );
     }
     return {
@@ -169,7 +181,7 @@ export class UsersService {
         {
           token: resetToken,
         },
-        { relations: ['user'] }
+        { relations: ['user'] },
       );
 
       const user = passwordReset.user;
@@ -199,7 +211,7 @@ export class UsersService {
       this.passwordResetsRepository.create({
         token: resetToken,
         user,
-      })
+      }),
     );
 
     this.emailsService
@@ -210,7 +222,7 @@ export class UsersService {
             link: origin + Tools.createRoute(ROUTES.auth.password.reset, { resetToken }),
           },
           recipient: user,
-        })
+        }),
       )
       .then();
   }

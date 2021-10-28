@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Module, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
@@ -7,7 +7,7 @@ import {
   AssessmentSubmissionResponse,
   AssessmentSubmissionsResponse,
 } from '@doorward/common/dtos/response/assessment.responses';
-import { CreateUserBody, SaveAssessmentBody } from '@doorward/common/dtos/body';
+import { SaveAssessmentBody } from '@doorward/common/dtos/body';
 import { CurrentUser } from '@doorward/backend/decorators/user.decorator';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { AssessmentsService } from './assessments.service';
@@ -19,8 +19,6 @@ import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.sub
 import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
 import dataSize from '@doorward/common/utils/dataSize';
 import { UsersService } from '../../../users/users.service';
-import Tools from '@doorward/common/utils/Tools';
-import Public from '@doorward/backend/decorators/public.decorator';
 
 const AssessmentExists = () =>
   ModelExists({
@@ -40,10 +38,10 @@ const SubmissionExists = () =>
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 @ApiTags('assessments')
 export class AssessmentsController {
-  constructor(private assessmentsService: AssessmentsService, private usersService: UsersService) {}
+  constructor(private assessmentsService: AssessmentsService, private usersService: UsersService) {
+  }
 
   @Post('submissions/save/:assessmentId')
-  @Public()
   @Privileges('assessments.submit')
   @PayloadSize(dataSize.MB(1))
   @AssessmentExists()
@@ -56,26 +54,15 @@ export class AssessmentsController {
   async saveAssessment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,
-    @CurrentUser() currentUser: UserEntity
+    @CurrentUser() currentUser: UserEntity,
   ) {
-    if(!currentUser){
-      let currentUser = new UserEntity();
-    let userBody = new CreateUserBody();
-    currentUser.firstName = 'Anonymous';
-    currentUser.lastName = 'User';
-    currentUser.username = Tools.randomString(10);
-    const user = await this.usersService.createUser(userBody, currentUser);
-    const submission = await this.assessmentsService.saveAssessment(assessmentId, body, user.user);
-    return { submission };
 
-    }else {
     const submission = await this.assessmentsService.saveAssessment(assessmentId, body, currentUser);
 
-    return { submission };}
+    return { submission };
   }
 
   @Get('submissions/:assessmentId')
-  @Public()
   @Privileges('assessments.submit')
   @PayloadSize(dataSize.MB(2))
   @AssessmentExists()
@@ -104,32 +91,9 @@ export class AssessmentsController {
   async submitAssignment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,
-    @CurrentUser() currentUser: UserEntity
+    @CurrentUser() currentUser: UserEntity,
   ) {
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, currentUser);
-
-    return { submission, message: translate('assessmentSubmittedForReview') };
-  }
-
-  @Post('submissions/public/submit/:assessmentId')
-  @Public()
-  @Privileges('assessments.submit')
-  @PayloadSize(dataSize.MB(1))
-  @AssessmentExists()
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    type: AssessmentSubmissionResponse,
-    description: 'The assessment submission model',
-  })
-  @TransformerGroups('timestamps')
-  async submitPublicAssessment(@Param('assessmentId') assessmentId: string, @Body() body: SaveAssessmentBody) {
-    let currentUser = new UserEntity();
-    let userBody = new CreateUserBody();
-    currentUser.firstName = 'Anonymous';
-    currentUser.lastName = 'User';
-    currentUser.username = Tools.randomString(10);
-    const user = await this.usersService.createUser(userBody, currentUser);
-    const submission = await this.assessmentsService.submitAssessment(assessmentId, body, user.user);
 
     return { submission, message: translate('assessmentSubmittedForReview') };
   }

@@ -19,6 +19,8 @@ const simpleCrypto = new SimpleCrypto(process.env.ENCRYPTION_SECRET || '');
 class Tools {
   static AUTHORIZATION_TOKEN = 'jwtToken';
 
+  static IDENTITY_TOKEN = 'identityToken';
+
   static enumKeys<T extends Enum<S>, S>(enumeration: T): Array<T> {
     const keys: any[] = Object.keys(enumeration);
     return keys
@@ -50,8 +52,8 @@ class Tools {
     return str ? simpleCrypto.encrypt(str) : '';
   }
 
-  static setCookie(name: string, value: string, days: number) {
-    Cookies.set(name, value, { expires: days });
+  static setCookie(name: string, value: string, days?: number) {
+    Cookies.set(name, value, days ? { expires: days } : null);
   }
 
   static getCookie(name) {
@@ -60,6 +62,17 @@ class Tools {
 
   static eraseCookie(name) {
     Cookies.remove(name);
+  }
+
+  static getOrSetCookie(name: string, value: string, days?: number) {
+    let cookieValue = Tools.getCookie(name);
+
+    if (!cookieValue) {
+      cookieValue = value;
+      Tools.setCookie(name, value, days);
+    }
+
+    return cookieValue;
   }
 
   static decrypt(str: string | null): string {
@@ -86,6 +99,7 @@ class Tools {
     const tObj = parser.getTraversalObj(xml, options);
     return parser.convertToJson(tObj, options);
   }
+
   static findMatches(regex: RegExp, str: string, matches: Array<RegExpExecArray> = []): Array<RegExpExecArray> {
     const res = regex.exec(str);
     res && matches.push(res) && Tools.findMatches(regex, str, matches);
@@ -154,6 +168,7 @@ class Tools {
   static longDate(str: string | Date): string {
     return str ? moment(str).format('dddd, MMMM Do YYYY') : '--';
   }
+
   static shortDateTime(str: string | Date): string {
     return str ? moment(str).format('DD/MM/YYYY hh:mm a') : '--';
   }
@@ -261,6 +276,7 @@ class Tools {
       }
     }
   }
+
   static replaceElement(newElement: Element | ChildNode, oldElement: HTMLElement | ChildNode) {
     if (!(newElement instanceof HTMLElement)) {
       return;

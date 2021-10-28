@@ -7,11 +7,11 @@ const DoorwardApi = buildApiReducer(
     return {
       baseURL: process.env.REACT_APP_BASE_URL,
       headers: {
-        Authorization: 'Bearer ' + Tools.getToken(),
+        Authorization: 'Bearer ' + (Tools.getToken() || Tools.getOrSetCookie(Tools.IDENTITY_TOKEN, Tools.randomString(50))),
       },
     };
   }),
-  'DoorwardBackendApi'
+  'DoorwardBackendApi',
 );
 
 export default DoorwardApi;

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Put, UnauthorizedException, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpStatus, Param, Put, UseGuards } from '@nestjs/common';
 import JwtAuthGuard from '@doorward/backend/guards/jwt.auth.guard';
 import PrivilegesGuard from '../../../../guards/privileges.guard';
 import Privileges from '../../../../decorators/privileges.decorator';
@@ -37,24 +37,23 @@ const ModuleItemExists = () =>
 @ApiTags('moduleItems')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ItemsController {
-  constructor(private itemsService: ItemsService) {}
+  constructor(private itemsService: ItemsService) {
+  }
 
   /**
    *
    * @param itemId
+   * @param currentUser
    */
   @Get(':itemId')
-  @Public()
   @Privileges('moduleItems.read')
   @ModuleItemExists()
   @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
-  async getModuleItem(@Param('itemId') itemId: string,  @CurrentUser() currentuser: UserEntity): Promise<ModuleItemResponse> {
+  async getModuleItem(@Param('itemId') itemId: string, @CurrentUser() currentUser: UserEntity): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
-    if (!moduleItem && !currentuser) {
-      throw new UnauthorizedException('You are not authorized to access this module item');
-    }
-    else return {
+
+    return {
       item: moduleItem,
     };
   }
@@ -79,14 +78,14 @@ export class ItemsController {
         CreatePageBody,
         CreateQuizBody,
         CreateAssessmentBody,
-        CreateVideoBody
+        CreateVideoBody,
       ),
     },
   })
   async updateModuleItem(
     @Param('itemId') itemId: string,
     @Body()
-    body:
+      body:
       | CreateModuleItemBody
       | CreateAssessmentBody
       | CreateAssignmentBody
@@ -94,7 +93,7 @@ export class ItemsController {
       | CreateExamBody
       | CreateVideoBody
       | CreateQuizBody,
-    @CurrentUser() author: UserEntity
+    @CurrentUser() author: UserEntity,
   ): Promise<ModuleItemResponse> {
     if (body.type === ModuleItemType.ASSESSMENT) {
       await YupValidationPipe.validate(CreateAssessmentBody, body);

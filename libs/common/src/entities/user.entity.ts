@@ -12,7 +12,6 @@ import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import PasswordsResetsEntity from '@doorward/common/entities/passwords.resets.entity';
 import wildcardPattern from '@doorward/common/utils/wildcardPattern';
 import CourseEntity from '@doorward/common/entities/course.entity';
-import { AssessmentEntity } from './assessment.entity';
 
 @Entity('Users')
 export default class UserEntity extends BaseEntity {
@@ -82,7 +81,7 @@ export default class UserEntity extends BaseEntity {
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 
-  @Column({ default:true})
+  @Column({ default: true })
   internal: boolean;
 
   @Expose()
@@ -100,6 +99,10 @@ export default class UserEntity extends BaseEntity {
 
   isTeacher() {
     return this.role?.name === Roles.TEACHER;
+  }
+
+  isAnonymousUser() {
+    return !this.internal;
   }
 
   hasRole(role: Roles) {
@@ -120,7 +123,7 @@ export default class UserEntity extends BaseEntity {
       (acc, privilege) =>
         acc &&
         (privilege.startsWith('!') ? !userHasPrivilege(privilege.replace(/^!/, '')) : userHasPrivilege(privilege)),
-      true
+      true,
     );
   }
 

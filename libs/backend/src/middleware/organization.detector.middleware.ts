@@ -40,8 +40,6 @@ export const organizationDetectorMiddleware = async (ormConfig: any, entities?: 
       .replace('http://', '')
       .replace('https://', '');
 
-    console.log(origin);
-
     request.organization = getOrganizationByHost(origin);
 
     if (entities?.length) {

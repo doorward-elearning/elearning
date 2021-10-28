@@ -4,6 +4,9 @@ import DoorwardApi from '../services/apis/doorward.api';
 
 const useAuth = () => {
   const [, currentUser] = useApiAction(DoorwardApi, (state) => state.auth.getCurrentUser);
+
+
+
   return useBaseAuth(currentUser.data?.user);
 };
 

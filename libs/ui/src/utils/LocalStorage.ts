@@ -9,6 +9,13 @@ export default class LocalStorage {
     }
   }
 
+  static getOrSet<T>(key: string, valueToSet: T): T {
+    const value = LocalStorage.get(key, valueToSet) as T;
+    LocalStorage.set(key, value);
+
+    return value;
+  }
+
   static getAndRemove<T>(key: string, defaultValue: T = null): T {
     const value = LocalStorage.get(key, defaultValue);
 

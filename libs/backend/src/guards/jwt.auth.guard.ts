@@ -3,10 +3,11 @@ import { AuthGuard } from '@nestjs/passport';
 import { Reflector } from '@nestjs/core';
 import { ExceptionCause } from '@doorward/backend/exceptions/exception.cause';
 import JwtStrategy from '@doorward/backend/modules/base-auth/strategies/jwt.strategy';
+import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 
 @Injectable()
 export default class JwtAuthGuard extends AuthGuard('jwt') {
-  constructor(private readonly reflector: Reflector, private readonly jwtStrategy: JwtStrategy) {
+  constructor(private readonly reflector: Reflector, private readonly jwtStrategy: JwtStrategy, private readonly logger: DoorwardLogger) {
     super();
   }
 
@@ -20,7 +21,7 @@ export default class JwtAuthGuard extends AuthGuard('jwt') {
       canActivate = await (super.canActivate(context) as Promise<boolean>);
     } catch (error) {
       if (!isPublic) {
-        console.error(error);
+        this.logger.error(error, 'Invalid jwt token');
         throw new UnauthorizedException({
           message: 'Unauthorized',
           cause: ExceptionCause.invalid_jwt_token,
