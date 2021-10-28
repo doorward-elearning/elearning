@@ -1,0 +1,119 @@
+# Name of the Customer / Website
+customer: jntua
+
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: jntua.doorward.org
+
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: beta.doorward.org
+
+# Application URL. Default Value: https://<customer-name>.doorward.org
+app_url: https://jntua.doorward.org
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.org
+samvadam_domain: samvadam.jntua.doorward.org
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.org
+thala_domain: thala.jntua.doorward.org
+
+# Public Domain of meet ui
+meet_domain: meet.jntua.doorward.org
+
+# Public Chat Domain
+chat_domain: chat.jntua.doorward.org
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.jntua.doorward.org/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.jntua.doorward.org
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.edudoor.org
+
+# Name of the Website. Default Value: <Customer-Name>
+websitename: jntua
+
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: jntua-doorward
+
+chatdbpassword: fh53fLIFDfgs
+postgres_password: fh53fLIFDfgs
+
+timezone: "Asia/Kolkata"
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-mumbai
+
+DEFAULT_ORGANIZATION_NAME: jntua
+
+# Override default variables for stage environments
+image:
+  swagat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/swagat@sha256
+    version: b8cf9be7ac080f48f43c104c5dc0f35a78d5500230d49fbea49e46ef159742c3
+    pullPolicy: Always
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/thala@sha256
+    version: eeab90332b32f9a4b5f2ab9a05692aaaaacb0a3f575854d14a7314dd505cd0f0
+    pullPolicy: Always
+  samvadam:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chuchu@sha256
+    version: 1bdce4eabef90ad6f1899ba75f88b2f17beecc6f014b1de2e70c1bef1ba11663
+    pullPolicy: Always
+  vidu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/vidu
+    version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/meet
+    version: 1.0.0
+    pullPolicy: Always
+  chat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chat@sha256
+    version: 19beca520bfa3d34fb87248088e5a7ff64715eed1d53fef0128d78f42a3a6d9b
+    pullPolicy: Always
+organization:
+  id: Gfz4r7sBK6u81-Fghjhg4656ghgvbBHVF
+  name: "Dep of Mathemetics, JNTUA"
+  link: https://jntua.doorward.org
+  lang: en
+  descriptiveLogo: false
+  logo: "https://www.jntua.ac.in/wp-content/uploads/2020/01/cropped-logo-1.png"
+  email: info@doorward.tech
+  website: jntua.doorward.org
+  icons:
+    light: "https://www.jntua.ac.in/wp-content/uploads/2020/01/cropped-logo-1.png"
+    dark: "https://www.jntua.ac.in/wp-content/uploads/2020/01/cropped-logo-1.png"
+  description: ''
+  meetingPlatform: Jitsi
+  models:
+    course:
+      - course
+      - courses
+  admins:
+    - id: Gfz4r7sBK6u8134d
+      firstName: jntua
+      lastName: admin
+      email: info@doorward.tech
+      username: administrator
+      password: password
+      zipCode: ''
+      country: India
+      city: Anantapur
+      status: Active

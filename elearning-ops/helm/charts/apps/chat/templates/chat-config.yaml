@@ -1,0 +1,15 @@
+apiVersion: v1
+data:
+  DATABASE_USERNAME: {{ .Values.chatdbuser }}
+  DATABASE_HOST: {{ .Values.chatdbhostpostfix }}
+  DATABASE_PORT: "{{ .Values.chatdbport }}"
+  DATABASE_NAME: {{ .Values.chatdbname }}
+  REACT_APP_BASE_URL: https://{{ include "chat.thalapublicurl" . -}}/api/v1
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "chat.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
+  name: {{ include "chat.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

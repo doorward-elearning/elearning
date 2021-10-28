@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "vidu.fullname" . }}
+  labels:
+    {{- include "vidu.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "vidu.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "vidu.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "vidu.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.vidu.repository }}:{{ .Values.image.vidu.version }}"
+          imagePullPolicy: {{ .Values.image.vidu.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.openviduapi_containerport }}
+              protocol: TCP
+#          livenessProbe:
+#            httpGet:
+#              path: /
+#              port: http
+#          readinessProbe:
+#            initialDelaySeconds: 120
+#            httpGet:
+#              path: /
+#              port: http
+          env:
+          - name: OPENVIDU_URL
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_URL
+                name: {{ .Values.customer -}}-config
+          - name: OPENVIDU_USERNAME
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_USERNAME
+                name: {{ .Values.customer -}}-config
+          - name: OPENVIDU_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                key: OPENVIDU_PASSWORD
+                name: {{ .Values.customer -}}-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/{{- .Values.timezone}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}

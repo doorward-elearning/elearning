@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/issuer: letsencrypt-prod
+  name: {{ include "thala.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
+  labels:
+    {{- include "thala.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
+
+spec:
+  rules:
+    - host: {{ include "thala.thalapublicurl" . }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ include "thala.fullname" . }}
+              servicePort: 80
+  tls:
+  - hosts:
+    - {{ include "thala.thalapublicurl" . }}
+    secretName: {{ include "thala.thalapublicurl" . }}
+    # This section is only required if TLS is to be enabled for the Ingress
+#  tls:
+#      - hosts:
+#          - {{ .Values.customer -}}.doorward.tech
+#        secretName: example-tls

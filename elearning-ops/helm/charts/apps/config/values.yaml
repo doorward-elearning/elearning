@@ -1,0 +1,25 @@
+openviduapi_port: 80
+
+#db
+postgres_user: postgres
+postgres_password: 6EpnyaJkHS
+postgres_port: 5432
+postgres_db: doorward
+
+#classrooms
+classrooms:
+  url: classrooms.doorward.tech
+  username: OPENVIDUAPP
+  password: Bhdhghjfsjdsg57543ghdgfhuyjufdyguydfiuhjhgdsjhbgj
+
+# disable latency
+swagat_enable_latency: false
+
+#samvadam
+samvadamcontainerport: 4443
+samvadamsecretkey: password
+samvadamwebhook: true
+samvadamwebhookevents: ['sessionCreated', 'sessionDestroyed', 'recordingStatusChanged']
+samvadamsslenabled: false
+timezone: Asia/Kolkata
+TINY_MCE_API_KEY: lxqts5c11p1vabqdznfr5bftyw3jm1dq3xsiuplj7643ogg0

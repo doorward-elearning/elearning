@@ -1,0 +1,122 @@
+# Name of the Customer / Website
+customer: basil
+
+# Customer type (Options are school-india, school-international, college-india, college-international, institute-india, institute-international, corporate-india, corporate-international)
+customer-type: college-india
+
+# HOME Page of the website. Default Value: https://<customer-name>.doorward.tech.
+app_domain: basil.doorward.tech
+
+# Welcome Page Website. Customer should provide this value if they want us to design a custom website for them
+welcomepage_domain: welcome.basil.doorward.tech
+
+# Application URL. Default Value: https://<customer-name>.doorward.tech
+app_url: https://basil.doorward.tech
+
+# Public URL of OpenVidu: Default Value: samvadam:<customer-name>.doorward.tech
+samvadam_domain: samvadam.basil.doorward.tech
+
+# Public Domain of REST API: Default Value: thala:<customer-name>.doorward.tech
+thala_domain: thala.basil.doorward.tech
+
+# Public Domain of meet ui
+meet_domain: meet.basil.doorward.tech
+
+# Public Chat Domain
+chat_domain: chat.basil.doorward.tech
+
+# Public Domain for jitsi host
+meet_host: alpha.jitsi.net
+
+# Public Domain for openvidu API.
+openviduapi_url: https://vidu.basil.doorward.tech/api/
+
+# Public Domain for OpenVidu API
+openviduapi_domain: vidu.basil.doorward.tech
+
+# Public URL of Openvidu Server
+classrooms_url: classrooms.edudoor.org
+
+# Name of the Website. Default Value: <Customer-Name>
+websitename: basil
+
+# Namespace of Kubernetes. Namespace MUST be created in Kubernetes. Default Value: <Customer-name>-doorward
+namespace: basil-doorward
+
+#chatdbpassword: 2AdzevctnV
+#thaladbpassword: 2AdzevctnV
+
+chatdbpassword: kal5zjsP9a
+postgres_password: kal5zjsP9a
+
+# Secret to use to pull docker images for deployment
+imagePullSecrets:
+  - name: deploy-pull-mumbai
+timezone: "Asia/Kolkata"
+# Override default variables for stage environments
+
+DEFAULT_ORGANIZATION_NAME: basil
+# How many replicas
+replicaCount: 2
+image:
+  swagat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/swagat@sha256
+    version: 15dfbebc79a326ddd238592cce97afe9a94b4da24e6a0b16a28fde8f3f385290
+    pullPolicy: Always
+  thaladb:
+    repository: postgres
+    version: 9.6-alpine
+    pullPolicy: IfNotPresent
+  thala:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/thala@sha256
+    version: fee8515fdac6f7f413a1ea01b61a2c6809afe1a8845d62454a1bbd4d4f9e0ca0
+    pullPolicy: Always
+  samvadam:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
+    version: 1.0.0
+    pullPolicy: IfNotPresent
+  chuchu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chuchu@sha256
+    version: fd046abc92053f6b04303a5f050d49ad1c825e3e1751291ae988544aed817644
+    pullPolicy: Always
+  vidu:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/vidu
+    version: 1.1.2-beta
+    pullPolicy: Always
+  meet:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/meet
+    version: 1.0.0
+    pullPolicy: Always
+  chat:
+    repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chat@sha256
+    version: 9b9211973555d232e10b72896f11db146d4e4512cfc7cffd76071cea4a0943a2
+    pullPolicy: Always
+organization:
+  id: rmLHSfxI8VJGO3MC7j0h_6YdQ9
+  name: "Doorward E-Learning"
+  link: https://doorward.tech
+  lang: en
+  descriptiveLogo: false
+  logo: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+  email: basil@doorward.tech
+  website: basil.doorward.tech
+  icons:
+    light: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+    dark: "https://res.cloudinary.com/dldhztrbs/image/upload/v1605862570/Doorward/logo/Doorward_Logo_Small.png"
+  description: ''
+  meetingPlatform: Jitsi
+  models:
+    course:
+      - course
+      - courses
+  admins:
+    - id: Gfz4r7sBK6u81
+      firstName: Basil
+      lastName: Varghese
+      email: harsha@housetutoring.com
+      username: administrator
+      password: openolat
+      zipCode: ''
+      country: India
+      city: Banglore
+      status: Active

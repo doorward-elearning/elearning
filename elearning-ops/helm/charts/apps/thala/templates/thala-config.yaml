@@ -1,0 +1,24 @@
+apiVersion: v1
+data:
+  OPENVIDU_URL: https://{{- .Values.classrooms_url }}
+  OPENVIDU_USERNAME: {{ .Values.classrooms.username }}
+  OPENVIDU_PASSWORD: {{ .Values.classrooms.password }}
+  OPENVIDU_API_PORT: "{{ .Values.openviduapi_port }}"
+  OPENVIDU_API_URL: {{ .Values.openviduapi_url }}
+  DOORWARD_ADMIN_EMAIL: {{ .Values.organization.email }}
+  #ORGANIZATION_LOGO: {{ .Values.organization.logo }}
+  #ORGANIZATION_NAME: {{ .Values.organization.name }}
+  #ORGANIZATION_WEBSITE_LINK: https://{{ .Values.organization.website }}
+  DATABASE_USERNAME: {{ .Values.thaladbuser }}
+  DATABASE_HOST: {{ .Values.thaladbhostpostfix }}
+  DATABASE_PORT: "{{ .Values.thaladbport }}"
+  DATABASE_NAME: {{ .Values.thaladbname }}
+  USE_LATENCY: "{{ .Values.swagat_enable_latency }}"
+kind: ConfigMap
+metadata:
+  creationTimestamp: "2019-12-14T06:23:11Z"
+  labels:
+    {{- include "thala.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
+  name: {{ include "thala.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward

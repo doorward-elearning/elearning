@@ -1,0 +1,106 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "samvadam.fullname" . }}
+  namespace: {{ required "A valid foo is required!" .Values.customer -}}-doorward
+  labels:
+    {{- include "samvadam.labels" . | nindent 4 }}
+    customer: {{ .Values.customer }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "samvadam.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "samvadam.selectorLabels" . | nindent 8 }}
+    spec:
+    {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+      serviceAccountName: {{ include "samvadam.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.samvadam.repository }}:{{ .Values.image.samvadam.version }}"
+          imagePullPolicy: {{ .Values.image.samvadam.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.targetport }}
+              protocol: TCP
+          livenessProbe:
+            failureThreshold: 3
+            periodSeconds: 20
+            successThreshold: 1
+            timeoutSeconds: 3
+            tcpSocket:
+              port: {{ .Values.service.targetport }}
+          readinessProbe:
+            failureThreshold: 3
+            periodSeconds: {{ .Values.container.startupseconds }}
+            successThreshold: 1
+            timeoutSeconds: 2
+            tcpSocket:
+              port: {{ .Values.service.targetport }}
+          env:
+          - name: openvidu.secret
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.secret
+                name: {{ .Values.customer -}}-config
+          - name: openvidu.publicurl
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.publicurl
+                name: {{ .Values.customer -}}-config
+          - name: openvidu.webhook
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook
+                name: {{ .Values.customer -}}-config
+          - name: openvidu.webhook.endpoint
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook.endpoint
+                name: {{ .Values.customer -}}-config
+          - name: openvidu.webhook.events
+            valueFrom:
+              configMapKeyRef:
+                key: openvidu.webhook.events
+                name: {{ .Values.customer -}}-config
+          - name: server.ssl.enabled
+            valueFrom:
+              configMapKeyRef:
+                key: server.ssl.enabled
+                name: {{ .Values.customer -}}-config
+#          - name: server.servlet.context-path
+#            valueFrom:
+#              configMapKeyRef:
+#                key: server.servlet.context-path
+#                name: {{ .Values.customer -}}-config
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+          - name: tz-config
+            mountPath: /etc/localtime
+      volumes:
+      - name: tz-config
+        hostPath:
+          path: /usr/share/zoneinfo/{{- .Values.timezone}}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
