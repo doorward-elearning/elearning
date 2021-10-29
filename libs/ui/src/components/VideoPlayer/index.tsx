@@ -1,13 +1,13 @@
 import React from 'react';
 import Plyr from 'plyr-react';
-import isYoutubeVideo from '@doorward/common/regex/isYoutubeVideo';
+import isYoutubeVideo, { isVimeoVideo } from '@doorward/common/regex/isYoutubeVideo';
 
 const VideoPlayer: React.FunctionComponent<VideoPlayerProps> = React.memo(
   (props): JSX.Element => {
     return (
       <Plyr
         source={{
-          sources: [{ src: props.source, provider: isYoutubeVideo(props.source) ? 'youtube' : 'html5' }],
+          sources: [{ src: props.source, provider: isYoutubeVideo(props.source) ? 'youtube' : isVimeoVideo(props.source)? 'vimeo': 'html5' }],
           type: 'video',
         }}
         options={props.options}
