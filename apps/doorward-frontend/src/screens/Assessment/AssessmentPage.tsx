@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AssessmentEntity } from '@doorward/common/entities/assessment.entity';
 import moment from 'moment';
 import Empty from '@doorward/ui/components/Empty';
@@ -7,7 +7,7 @@ import AssessmentTimer from './AssessmentTimer';
 import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import _ from 'lodash';
-import Form, { FormContext } from '@doorward/ui/components/Form';
+import Form from '@doorward/ui/components/Form';
 import useForm from '@doorward/ui/hooks/useForm';
 import DoorwardApi from '../../services/apis/doorward.api';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
@@ -25,7 +25,6 @@ import Spacer from '@doorward/ui/components/Spacer';
 import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import UserEntity from '@doorward/common/entities/user.entity';
-import { useRouteMatch } from 'react-router';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
@@ -46,11 +45,9 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
                                                                         }): JSX.Element => {
   const [sections, setSections] = useState([]);
   const form = useForm();
-  const match: any = useRouteMatch();
   const [submission, setSubmission] = useState(props.submission);
   const [timeEnded, setTimeEnded] = useState(false);
   const navigation = useNavigation();
-  const { formikProps } = useContext(FormContext);
   const confirmModal = useModal();
 
   const [saveSubmission, saveSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.saveAssessment, {
@@ -61,7 +58,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
 
   const [submitAssessment, submitAssessmentState] = useApiAction(
     DoorwardApi,
-    (api) => (api.assessments.submitAssignment),
+    (api) => api.assessments.submitAssignment,
     {
       onSuccess: () => {
         navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });
@@ -86,53 +83,52 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
       <ConfirmModal
         defaultAction="negative"
         onConfirm={() => {
-          submitAssessment(assessment.id, formikProps.values.submission);
+          submitAssessment(assessment.id, form.formikProps.values);
         }}
         useModal={confirmModal}
         title={`Submit ${assessment.assessmentType}`}
       >
         <p>{translate('confirmSubmissionWarning')}</p>
       </ConfirmModal>
-      {assessment?.options?.timeLimit?.minutes > 0 && (
-        <HeaderGrid>
-          <DisplayLabel>
-            {translate('points')} : {calculateTotalAssessmentPoints(assessment)}
-          </DisplayLabel>
+      <HeaderGrid>
+        <DisplayLabel>
+          {translate('points')} : {calculateTotalAssessmentPoints(assessment)}
+        </DisplayLabel>
 
-          <div style={{ display: 'grid' }}>
-            <div
-              className="ed-single-question-assessment"
-              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gridRowStart: 1 }}
-            >
-              {saveSubmissionState.data && (
-                <div className="saving-status">
-                  {saveSubmissionState.submitting ? (
-                    <span>{translate('savingStatus')}</span>
-                  ) : (
-                    <div className="saving-status__saved">
-                      <Icon icon="check"/>
-                      <span className="ml-4">{translate('saved')}</span>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-            <div style={{ gridRowStart: 1, display: 'grid' }}>
+        <div style={{ display: 'grid' }}>
+          <div
+            className="ed-single-question-assessment"
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gridRowStart: 1 }}
+          >
+            {saveSubmissionState.data && (
+              <div className="saving-status">
+                {saveSubmissionState.submitting ? (
+                  <span>{translate('savingStatus')}</span>
+                ) : (
+                  <div className="saving-status__saved">
+                    <Icon icon="check"/>
+                    <span className="ml-4">{translate('saved')}</span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+          <div style={{ gridRowStart: 1, display: 'grid' }}>
+            {assessment.options?.timeLimit?.allow && (
               <AssessmentTimer
                 totalTimeSeconds={calculateElapsedTime(props.submission, assessment)}
                 onTimeEnded={() => setTimeEnded(true)}
               />
-              <div>
-                <Spacer/>
-                <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
-                  {translate('submitExam')}
-                </Button>
-              </div>
+            )}
+            <div>
+              <Spacer/>
+              <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
+                {translate('submitExam')}
+              </Button>
             </div>
-            {' '}
           </div>
-        </HeaderGrid>
-      )}
+        </div>
+      </HeaderGrid>
       <Form
         form={form}
         initialValues={{
