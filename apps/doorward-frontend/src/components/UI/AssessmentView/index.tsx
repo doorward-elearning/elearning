@@ -32,6 +32,8 @@ import { QuestionSectionConfig } from '../../Forms/AssessmentForm/AssessmentBuil
 import { calculateElapsedTime } from '../../../screens/Assessment/AssessmentPage';
 import calculateTotalAssessmentPoints from '@doorward/common/utils/calculateTotalAssessmentPoints';
 import { env } from 'process';
+import CopyButton from '@doorward/ui/components/CopyButton';
+import Row from '@doorward/ui/components/Row';
 
 export const AssessmentContext = React.createContext<AssessmentContextProps>({});
 
@@ -70,7 +72,11 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
   const [points, setPoints] = useState(0);
   const [submission, setSubmission] = useState<AssessmentSubmissionEntity>();
   const navigation = useNavigation();
-  const publicUrl = new URL(location.href);
+  const hostUrl = new URL(window.location.href);
+  const publicLink = `${hostUrl.protocol}//${hostUrl.host}${ROUTES.assessments.publicExam.replace(
+    ':assessmentId',
+    assessment.id
+  )}`;
 
   const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
     onSuccess: (data) => {
@@ -149,9 +155,10 @@ const AssessmentView: React.FunctionComponent<AssessmentViewProps> = ({ assessme
         <React.Fragment>
           <RoleContainer privileges={['moduleItems.create']}>
             {assessment.options.publicExam.allow && (
-              <DisplayLabel>
-                {`${publicUrl.protocol}//${publicUrl.host}${ROUTES.assessments.publicExam.replace(':assessmentId',assessment.id)}`}
-              </DisplayLabel>
+              <Row style={{ display: 'inline-grid' }}>
+                <DisplayLabel>{publicLink}</DisplayLabel>
+                <CopyButton text={publicLink} />
+              </Row>
             )}
           </RoleContainer>
         </React.Fragment>

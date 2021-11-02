@@ -73,6 +73,7 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
       <PageRoute path={ROUTES.courses.students.list} component={CourseStudentList} />
       <PageRoute path={ROUTES.courses.students.create} component={AddCourseStudent} />
       <PageRoute path={ROUTES.courses.modules.items.view} component={ViewModuleItem} />
+      <PageRoute path={ROUTES.courses.modules.items.view} component={ViewModuleItem} />
       <PageRoute
         path={[ROUTES.courses.modules.items.update]}
         component={ViewModuleItem}

@@ -25,6 +25,10 @@ import Spacer from '@doorward/ui/components/Spacer';
 import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import UserEntity from '@doorward/common/entities/user.entity';
+import AssessmentView from '../../components/UI/AssessmentView';
+import RoleContainer from '@doorward/ui/components/RolesManager/RoleContainer';
+import Header from '@doorward/ui/components/Header';
+import AssessmentSubmissionView from '../../components/UI/AssessmentView/AssessmentSubmissionView';
 
 export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, assessment: AssessmentEntity) => {
   if (submission) {
@@ -39,10 +43,10 @@ export const calculateElapsedTime = (submission: AssessmentSubmissionEntity, ass
 };
 
 const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
-                                                                          assessment,
-                                                                          currentUser,
-                                                                          ...props
-                                                                        }): JSX.Element => {
+  assessment,
+  currentUser,
+  ...props
+}): JSX.Element => {
   const [sections, setSections] = useState([]);
   const form = useForm();
   const [submission, setSubmission] = useState(props.submission);
@@ -56,14 +60,24 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
     },
   });
 
+  const [getSubmission, getSubmissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission, {
+    onSuccess: (data) => {
+      setSubmission(data?.submission);
+    },
+  });
+
   const [submitAssessment, submitAssessmentState] = useApiAction(
     DoorwardApi,
     (api) => api.assessments.submitAssignment,
     {
       onSuccess: () => {
-        navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });
+        if (assessment.options?.publicExam?.allow) {
+          getSubmission(assessment.id);
+        } else {
+          navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id });
+        }
       },
-    },
+    }
   );
 
   const onReadyToSave = _.debounce((submission) => saveSubmission(assessment.id, { submission }), 1000);
@@ -106,7 +120,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
                   <span>{translate('savingStatus')}</span>
                 ) : (
                   <div className="saving-status__saved">
-                    <Icon icon="check"/>
+                    <Icon icon="check" />
                     <span className="ml-4">{translate('saved')}</span>
                   </div>
                 )}
@@ -121,7 +135,7 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
               />
             )}
             <div>
-              <Spacer/>
+              <Spacer />
               <Button type="button" onClick={() => confirmModal.openModal()} theme="success">
                 {translate('submitExam')}
               </Button>
@@ -134,10 +148,9 @@ const StartAssessment: React.FunctionComponent<StartAssessmentProps> = ({
         initialValues={{
           submission: submission ? JSON.parse(submission.submission) : {},
         }}
-        onSubmit={() => {
-        }}
+        onSubmit={() => {}}
       >
-        <SingleSectionAssessment sections={sections} type={assessment.assessmentType} onReadyToSave={onReadyToSave}/>
+        <SingleSectionAssessment sections={sections} type={assessment.assessmentType} onReadyToSave={onReadyToSave} />
       </Form>
     </div>
   );
@@ -151,6 +164,8 @@ export interface StartAssessmentProps {
 
 const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JSX.Element => {
   const [isAvailable, setIsAvailable] = useState(false);
+  const [assessment, setAssessment] = useState(props.assessment);
+  const form = useForm();
 
   useEffect(() => {
     const availability = props.assessment?.options?.availability;
@@ -159,24 +174,31 @@ const AssessmentPage: React.FunctionComponent<AssessmentPageProps> = (props): JS
 
     if (startDate.isSameOrBefore(moment())) {
       setIsAvailable(
-        !endDate ||
-        endDate.isSameOrAfter(moment()) ||
-        (props.submission && props.submission?.status === AssessmentSubmissionStatus.DRAFT),
+        (endDate && endDate.isSameOrAfter(moment())) ||
+          (props.submission ? props.submission?.status === AssessmentSubmissionStatus.DRAFT : true)
       );
     } else {
       setIsAvailable(true);
     }
+    if (props.assessment) {
+      setAssessment(props.assessment);
+    }
   }, [props.assessment]);
 
-  return (
-    <div>
-      {isAvailable ? (
-        <StartAssessment assessment={props.assessment} submission={props.submission}/>
-      ) : (
-        <Empty message={`This ${props.assessment.assessmentType} is not available`} icon="assessment"/>
-      )}
-    </div>
-  );
+  if (isAvailable) {
+    return <StartAssessment assessment={assessment} submission={props.submission} />;
+  }
+  if (assessment?.options?.publicExam?.allow && props.submission) {
+    return (
+      <Form form={form} initialValues={{ ...props.assessment }} onSubmit={() => {}}>
+        <Header padded size={2} className="mb-8">
+          {translate('results', { count: 1 })}
+        </Header>
+        <AssessmentSubmissionView submission={props.submission} assessment={assessment} />
+      </Form>
+    );
+  }
+  return <Empty message={`This ${props.assessment.assessmentType} is not available`} icon="assessment" />;
 };
 
 export interface AssessmentPageProps {
