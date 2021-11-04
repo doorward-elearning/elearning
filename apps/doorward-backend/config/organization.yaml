@@ -23,7 +23,7 @@ organization:
     - firstName: system
       lastName: admin
       email: gitaumoses4@gmail.com
-      username: administrator
+      username: admin
       password: password
       zipCode: ''
       country: India
@@ -85,3 +85,9 @@ organization:
         - meetings.subscribe
         - chat.directMessage
       exclude: [ ]
+    ANONYMOUS_USER:
+      displayName: Anonymous User
+      description: The role for an anonymous user
+      privileges:
+        - assessments.submit
+        - moduleItems.read

@@ -18,6 +18,7 @@ const ROUTES = {
   },
   dashboard: '/dashboard',
   assessments: {
+    publicExam: '/assessments/public/exam/:assessmentId',
     exam: '/assessments/exam/:assessmentId',
     quiz: '/assessments/quiz/:assessmentId',
     submissions: {

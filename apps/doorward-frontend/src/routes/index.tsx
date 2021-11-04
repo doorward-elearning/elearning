@@ -65,12 +65,14 @@ const Router: React.FunctionComponent = (props): JSX.Element => {
       <PageRoute public path={ROUTES.meeting.join} component={VideoCallPage} />
       <PageRoute path={ROUTES.dashboard} component={Dashboard} />
       <PageRoute path={ROUTES.assessments.exam} component={Assessment} />
+      <PageRoute path={ROUTES.assessments.publicExam} public={true} component={Assessment} />
       <PageRoute path={ROUTES.assessments.quiz} component={Assessment} />
       <PageRoute path={ROUTES.courses.list} component={Courses} />
       <PageRoute path={ROUTES.courses.create} component={Courses} />
       <PageRoute path={ROUTES.courses.view} component={ViewCourse} />
       <PageRoute path={ROUTES.courses.students.list} component={CourseStudentList} />
       <PageRoute path={ROUTES.courses.students.create} component={AddCourseStudent} />
+      <PageRoute path={ROUTES.courses.modules.items.view} component={ViewModuleItem} />
       <PageRoute path={ROUTES.courses.modules.items.view} component={ViewModuleItem} />
       <PageRoute
         path={[ROUTES.courses.modules.items.update]}

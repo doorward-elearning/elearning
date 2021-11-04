@@ -23,6 +23,7 @@ import { ModuleItemResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
 import dataSize from '@doorward/common/utils/dataSize';
+import Public from '@doorward/backend/decorators/public.decorator';
 
 const ModuleItemExists = () =>
   ModelExists({
@@ -32,21 +33,24 @@ const ModuleItemExists = () =>
   });
 
 @Controller('module/items')
+@Public()
 @ApiTags('moduleItems')
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 export class ItemsController {
-  constructor(private itemsService: ItemsService) {}
+  constructor(private itemsService: ItemsService) {
+  }
 
   /**
    *
    * @param itemId
+   * @param currentUser
    */
   @Get(':itemId')
   @Privileges('moduleItems.read')
   @ModuleItemExists()
   @PayloadSize(dataSize.MB(1))
   @ApiResponse({ status: HttpStatus.OK, description: 'A single module item', type: ModuleItemResponse })
-  async getModuleItem(@Param('itemId') itemId: string): Promise<ModuleItemResponse> {
+  async getModuleItem(@Param('itemId') itemId: string, @CurrentUser() currentUser: UserEntity): Promise<ModuleItemResponse> {
     const moduleItem = await this.itemsService.getModuleItem(itemId);
 
     return {
@@ -74,14 +78,14 @@ export class ItemsController {
         CreatePageBody,
         CreateQuizBody,
         CreateAssessmentBody,
-        CreateVideoBody
+        CreateVideoBody,
       ),
     },
   })
   async updateModuleItem(
     @Param('itemId') itemId: string,
     @Body()
-    body:
+      body:
       | CreateModuleItemBody
       | CreateAssessmentBody
       | CreateAssignmentBody
@@ -89,7 +93,7 @@ export class ItemsController {
       | CreateExamBody
       | CreateVideoBody
       | CreateQuizBody,
-    @CurrentUser() author: UserEntity
+    @CurrentUser() author: UserEntity,
   ): Promise<ModuleItemResponse> {
     if (body.type === ModuleItemType.ASSESSMENT) {
       await YupValidationPipe.validate(CreateAssessmentBody, body);

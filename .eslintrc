@@ -240,7 +240,7 @@
       "rxjs/Rx"
     ],
     "no-self-assign": "error",
-    "no-shadow": "error",
+    "no-shadow": "off",
     "no-shadow-restricted-names": "error",
     "no-space-before-semi": "off",
     "no-spaced-func": "off",

@@ -59,7 +59,7 @@ export const organizationRolesSetup = async (
         const newPrivileges = privilegeNames.filter(
           (privilege) =>
             rolePrivileges.find((_rolePrivilege) => wildcardPattern(privilege, _rolePrivilege)) &&
-            !excludedPrivileges.find((_excluded) => wildcardPattern(privilege, _excluded))
+            !excludedPrivileges?.find((_excluded) => wildcardPattern(privilege, _excluded))
         );
 
         if (newPrivileges.length) {

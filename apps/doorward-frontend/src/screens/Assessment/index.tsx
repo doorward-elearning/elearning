@@ -22,12 +22,12 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
   const [fetchSubmission, submissionState] = useApiAction(DoorwardApi, (api) => api.assessments.getSubmission);
   const [fetchItem, itemState] = useApiAction(DoorwardApi, (api) => api.moduleItems.getModuleItem);
 
+
   useEffect(() => {
     fetchItem(match.params.assessmentId);
     fetchSubmission(match.params.assessmentId);
   }, []);
 
-  const getModuleItem = useApiAction(DoorwardApi, (state) => state.moduleItems.getModuleItem);
 
   useEffect(() => {
     const moduleItem = itemState.data?.item;
@@ -35,6 +35,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
       setAssessment(moduleItem as AssessmentEntity);
     }
   }, [itemState]);
+
 
   return (
     <Layout
@@ -55,7 +56,7 @@ const Assessment: React.FunctionComponent<AssessmentProps> = (props): JSX.Elemen
               onAction={() => navigation.navigate(ROUTES.courses.modules.items.view, { itemId: assessment.id })}
             />
           ) : (
-            <AssessmentPage assessment={assessment} submission={submission} />
+            <AssessmentPage assessment={assessment} submission={submission}  />
           );
         }}
       </WebComponent>

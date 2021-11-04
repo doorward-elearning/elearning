@@ -42,6 +42,9 @@ export interface AssessmentOptions {
       };
     };
   };
+  publicExam: {
+    allow: boolean;
+  };
   availability: {
     from: string | Date | null;
     to: string | Date | null;

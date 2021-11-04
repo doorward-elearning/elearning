@@ -18,6 +18,7 @@ import translate from '@doorward/common/lang/translate';
 import AssessmentSubmissionEntity from '@doorward/common/entities/assessment.submission.entity';
 import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
 import dataSize from '@doorward/common/utils/dataSize';
+import { UsersService } from '../../../users/users.service';
 
 const AssessmentExists = () =>
   ModelExists({
@@ -37,7 +38,8 @@ const SubmissionExists = () =>
 @UseGuards(JwtAuthGuard, PrivilegesGuard)
 @ApiTags('assessments')
 export class AssessmentsController {
-  constructor(private assessmentsService: AssessmentsService) {}
+  constructor(private assessmentsService: AssessmentsService, private usersService: UsersService) {
+  }
 
   @Post('submissions/save/:assessmentId')
   @Privileges('assessments.submit')
@@ -52,7 +54,7 @@ export class AssessmentsController {
   async saveAssessment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,
-    @CurrentUser() currentUser: UserEntity
+    @CurrentUser() currentUser: UserEntity,
   ) {
 
     const submission = await this.assessmentsService.saveAssessment(assessmentId, body, currentUser);
@@ -89,7 +91,7 @@ export class AssessmentsController {
   async submitAssignment(
     @Param('assessmentId') assessmentId: string,
     @Body() body: SaveAssessmentBody,
-    @CurrentUser() currentUser: UserEntity
+    @CurrentUser() currentUser: UserEntity,
   ) {
     const submission = await this.assessmentsService.submitAssessment(assessmentId, body, currentUser);
 

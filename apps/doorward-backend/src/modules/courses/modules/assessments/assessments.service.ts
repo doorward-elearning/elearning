@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, Inject } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
 import AssessmentSubmissionRepository from '@doorward/backend/repositories/assessment.submission.repository';
 import moment from 'moment';
 import { SaveAssessmentBody } from '@doorward/common/dtos/body';
@@ -35,7 +35,10 @@ export class AssessmentsService {
       if (submission.status === AssessmentSubmissionStatus.DRAFT) {
         const assessment = await this.assessmentRepository.findOne({ id: assessmentId });
 
-        if (moment(submission.createdAt).add(assessment.options.timeLimit, 'minutes').isBefore(moment())) {
+        if (
+          assessment.options.timeLimit.allow &&
+          moment(submission.createdAt).add(assessment.options.timeLimit.minutes, 'minutes').isBefore(moment())
+        ) {
           await this.submitAssessment(
             assessmentId,
             {
@@ -49,6 +52,16 @@ export class AssessmentsService {
       }
     }
     return submission;
+  }
+
+  /**
+   * A function to help us know whether an assessment is a public exam
+   * @param assessmentId
+   */
+  public async isPublicExam(assessmentId: string) {
+    const assessment = await this.assessmentRepository.findOne(assessmentId);
+
+    return assessment?.options?.publicExam?.allow;
   }
 
   public async saveAssessment(assessmentId: string, body: SaveAssessmentBody, user: UserEntity) {

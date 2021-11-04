@@ -51,6 +51,9 @@ const defaultAssessment = (type: AssessmentTypes, title?: string) => ({
         },
       },
     },
+    publicExam: {
+      allow: false,
+    },
     availability: {
       from: new Date(),
       to: null,

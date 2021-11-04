@@ -77,6 +77,11 @@ const AssessmentOptions: React.FunctionComponent<AssessmentOptionsProps> = (prop
             </Panel>
             <Spacer />
             <Panel noBackground>
+              <Header size={3}>{'Public Exam Link'}</Header>
+              <Checkbox name="options.publicExam.allow" label={'Make this exam public'} />
+            </Panel>
+            <Spacer />
+            <Panel noBackground>
               <Header size={3}>{translate('availability')}</Header>
               <Row>
                 <DateInput

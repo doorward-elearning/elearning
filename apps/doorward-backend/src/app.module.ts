@@ -72,7 +72,10 @@ import { BaseAuthModule } from '@doorward/backend/modules/base-auth/base-auth.mo
   ],
 })
 export class AppModule implements NestModule {
-  constructor() {}
+  constructor() {
+  }
 
-  configure(consumer: MiddlewareConsumer): any {}
+  configure(consumer: MiddlewareConsumer): any {
+
+  }
 }

@@ -81,6 +81,9 @@ export default class UserEntity extends BaseEntity {
   @Expose({ groups: ['fullUserProfile'] })
   createdBy: UserEntity;
 
+  @Column({ default: true })
+  internal: boolean;
+
   @Expose()
   get fullName() {
     return (this.firstName || '') + ((this.firstName ? ' ' : '') + this.lastName || '') || this.username;
@@ -96,6 +99,10 @@ export default class UserEntity extends BaseEntity {
 
   isTeacher() {
     return this.role?.name === Roles.TEACHER;
+  }
+
+  isAnonymousUser() {
+    return !this.internal;
   }
 
   hasRole(role: Roles) {
@@ -116,7 +123,7 @@ export default class UserEntity extends BaseEntity {
       (acc, privilege) =>
         acc &&
         (privilege.startsWith('!') ? !userHasPrivilege(privilege.replace(/^!/, '')) : userHasPrivilege(privilege)),
-      true
+      true,
     );
   }
 

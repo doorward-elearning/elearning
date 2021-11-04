@@ -39,7 +39,7 @@ export default class ModuleItemEntity extends BaseEntity {
   })
   module: Promise<ModuleEntity> | ModuleEntity;
 
-  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE'})
+  @ManyToOne(() => UserEntity, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'createdBy' })
   author: UserEntity;
 
@@ -52,4 +52,6 @@ export default class ModuleItemEntity extends BaseEntity {
     this.moduleId = (await this.module)?.id;
     this.courseId = (await (await this.module)?.course)?.id;
   }
+
+  
 }

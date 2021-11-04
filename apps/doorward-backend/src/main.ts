@@ -18,6 +18,10 @@ import { SizeLimitGuard } from '@doorward/backend/guards/size.limit.guard';
 import dataSize from '@doorward/common/utils/dataSize';
 import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
+import anonymousUserMiddleware from '@doorward/backend/middleware/anonymous.user.middleware';
+import { JwtService } from '@nestjs/jwt';
+
+const uuid = require('uuid');
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -37,12 +41,13 @@ async function bootstrap() {
       tag: 'doorward',
       basePath: globalPrefix,
     },
-    'apps/doorward-backend/documentation/swagger.json'
+    'apps/doorward-backend/documentation/swagger.json',
   );
 
   const reflector = app.get(Reflector);
 
   app.use(await organizationDetectorMiddleware(ormConfig, entities));
+  app.use(anonymousUserMiddleware(await app.resolve(JwtService), await app.resolve(DoorwardLogger)));
 
   app.use(json({ limit: '50mb' }));
 
@@ -63,4 +68,5 @@ async function bootstrap() {
   });
 }
 
-bootstrap().then(() => {});
+bootstrap().then(() => {
+});
