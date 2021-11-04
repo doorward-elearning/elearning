@@ -15,11 +15,20 @@ import { FileResponse, FilesResponse, SimpleFileResponse } from '@doorward/commo
 import { AxiosResponse } from 'axios';
 import { FileDrop } from 'react-file-drop';
 import ImageFileRender from '@doorward/ui/components/Files/ImageFileRender';
+import Button from '@doorward/ui/components/Buttons/Button';
+import Row from '@doorward/ui/components/Row';
+import Draggable from 'react-draggable';
 
 type PreviewRenderer = Record<string, React.ComponentType<{ source: string }>>;
 
+type FileUploadStatus = 'idle' | 'uploading' | 'uploaded' | 'failed';
+
 const defaultRenderer = {
   'image/*': ImageFileRender,
+};
+
+const getFileId = (file: File) => {
+  return file.name + file.size + file.lastModified;
 };
 
 const fileRenderer = (renderer?: PreviewRenderer) => (type: string, source?: string) => {
@@ -31,7 +40,7 @@ const fileRenderer = (renderer?: PreviewRenderer) => (type: string, source?: str
 };
 
 const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Element => {
-  const [status, setStatus] = useState<'uploading' | 'uploaded' | 'failed'>('uploading');
+  const [status, setStatus] = useState<FileUploadStatus>('uploading');
   const { file } = props;
   const [percentage, setPercentage] = useState(0);
   const [cancelFunction, setCancelFunction] = useState(() => () => {});
@@ -112,7 +121,9 @@ const ChosenFile: React.FunctionComponent<ChosenFileProps> = (props): JSX.Elemen
   );
 };
 
-const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): JSX.Element => {
+const FileUploadField: React.FunctionComponent<FileUploadFieldProps & { isButton?: boolean }> = (
+  props
+): JSX.Element => {
   const maxFiles = props.multiple ? props.maxFiles || 10 : 1;
   const inputRef = useRef(null);
   const [files, setFiles] = useState([]);
@@ -157,63 +168,153 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
 
   return (
     <div className="ed-file-upload-field">
-      {maxFilesUploaded && (
-        <React.Fragment>
-          <input
-            type="file"
-            accept={(props.fileTypes || []).join(',')}
-            multiple={props.multiple}
-            onChange={(e) => onChooseFile({ ...e }.target.files)}
-            style={{ visibility: 'hidden' }}
-            ref={inputRef}
-          />
-          <FileDrop
-            onDragOver={() => setDragOver(true)}
-            onDragLeave={(e) => setDragOver(false)}
-            onDrop={(files: any, event) => {
-              event.preventDefault();
-              event.stopPropagation();
-
-              let result: any = [...files].filter((file) => {
-                return (
-                  !props.fileTypes ||
-                  props.fileTypes.find((type) => new RegExp(type.replace('*', '.*')).test(file.type))
-                );
-              });
-              if (result.length) {
-                if (!props.multiple) {
-                  result = result?.length ? [result[0]] : null;
-                }
-                onChooseFile(result);
-              }
-              setDragOver(false);
+      <React.Fragment>
+        <input
+          type="file"
+          accept={(props.fileTypes || []).join(',')}
+          multiple={props.multiple}
+          onChange={(e) => onChooseFile({ ...e }.target.files)}
+          style={{ visibility: 'hidden' }}
+          ref={inputRef}
+        />
+        {props.isButton ? (
+          <Button
+            type={'button'}
+            icon={'cloud_upload'}
+            onClick={() => {
+              inputRef.current.click();
             }}
           >
-            <div
-              className={classNames('upload-field', {
-                dragOver,
-              })}
-              onClick={() => {
-                inputRef.current && inputRef.current.click();
-              }}
-            >
-              <span>
-                {translate('dragAndDropFilesHere')} {translate('or')}{' '}
-                <span className="upload-field__browse">{translate('browse')}</span>
-              </span>
-            </div>
-          </FileDrop>
-          <div className="meta instructions">
-            <IfElse condition={maxFiles > 0}>
-              <span>{translate('uploadUpToWithCount', { count: maxFiles })}. &nbsp;</span>
-            </IfElse>
-            <span>{translate('maxFileSize', { size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
+            {props.label || translate('uploadLabel')}
+          </Button>
+        ) : (
+          <div>
+            {maxFilesUploaded && (
+              <React.Fragment>
+                <FileDrop
+                  onDragOver={() => setDragOver(true)}
+                  onDragLeave={(e) => setDragOver(false)}
+                  onDrop={(files: any, event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    let result: any = [...files].filter((file) => {
+                      return (
+                        !props.fileTypes ||
+                        props.fileTypes.find((type) => new RegExp(type.replace('*', '.*')).test(file.type))
+                      );
+                    });
+                    if (result.length) {
+                      if (!props.multiple) {
+                        result = result?.length ? [result[0]] : null;
+                      }
+                      onChooseFile(result);
+                    }
+                    setDragOver(false);
+                  }}
+                >
+                  <div
+                    className={classNames('upload-field', {
+                      dragOver,
+                    })}
+                    onClick={() => {
+                      inputRef.current && inputRef.current.click();
+                    }}
+                  >
+                    <span>
+                      {translate('dragAndDropFilesHere')} {translate('or')}{' '}
+                      <span className="upload-field__browse">{translate('browse')}</span>
+                    </span>
+                  </div>
+                </FileDrop>
+                <div className="meta instructions">
+                  <IfElse condition={maxFiles > 0}>
+                    <span>{translate('uploadUpToWithCount', { count: maxFiles })}. &nbsp;</span>
+                  </IfElse>
+                  <span>{translate('maxFileSize', { size: `${process.env.MAX_UPLOAD_SIZE}MB` })}</span>
+                </div>
+              </React.Fragment>
+            )}
           </div>
-        </React.Fragment>
-      )}
-      <div className="selected-files">
+        )}
+      </React.Fragment>
+      {files.length ? (
+        <FileUploadProgress
+          value={value}
+          setValue={setValue}
+          files={files}
+          setFiles={setFiles}
+          uploadHandler={props.uploadHandler}
+          floating={props.isButton}
+          previewRenderer={props.previewRenderer}
+        />
+      ) : null}
+    </div>
+  );
+};
+
+export const FileUploadProgress: React.FunctionComponent<FileUploadProgressProps> = ({
+  files,
+  value,
+  setValue,
+  setFiles,
+  floating,
+  ...props
+}): JSX.Element => {
+  const [showContent, setShowContent] = useState(true);
+  const [numFailed, setNumFailed] = useState(0);
+  const [uploadComplete, setUploadComplete] = useState(false);
+
+  useEffect(() => {
+    setNumFailed(Object.keys(value).reduce((acc, cur) => acc + (cur ? 1 : 0), 0));
+  }, [value]);
+
+  useEffect(() => {
+    const uploading = files.find((file) => {
+      const hasUploaded = Object.keys(value).find((fileId) => fileId === getFileId(file));
+      return !hasUploaded;
+    });
+    setUploadComplete(!uploading);
+  }, [value, files]);
+
+  return (
+    <Draggable handle=".selected-files-header">
+      <div className={classNames('selected-files', { floating, showContent })}>
+        {floating && (
+          <div
+            className="selected-files-header"
+            onDoubleClick={() => {
+              setShowContent(!showContent);
+            }}
+          >
+            <span>
+              {translate(
+                uploadComplete
+                  ? numFailed == 0
+                    ? 'uploadCompleteTitle'
+                    : 'uploadCompleteFailedTitle'
+                  : 'uploadingItemsTitle',
+                { count: files.length }
+              )}
+            </span>
+            <Row>
+              <Icon
+                icon={showContent ? 'keyboard_arrow_down' : 'keyboard_arrow_up'}
+                onClick={() => setShowContent(!showContent)}
+              />
+              {uploadComplete && (
+                <Icon
+                  icon="close"
+                  onClick={() => {
+                    setFiles([]);
+                  }}
+                />
+              )}
+            </Row>
+          </div>
+        )}
         {files.map((file) => {
-          const fileId = file.name + file.size + file.lastModified;
+          const fileId = getFileId(file);
           return (
             <ChosenFile
               file={file}
@@ -240,9 +341,23 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps> = (props): 
           );
         })}
       </div>
-    </div>
+    </Draggable>
   );
 };
+
+export const FileUploadButton: React.FunctionComponent<FileUploadButtonProps> = (props): JSX.Element => {
+  return <FileUploadField {...props} isButton onChange={() => {}} />;
+};
+
+interface FileUploadProgressProps {
+  uploadHandler?: UploadHandler;
+  value: Record<string, SimpleFileResponse>;
+  setValue: (value: Record<string, SimpleFileResponse>) => void;
+  files: Array<File>;
+  setFiles: (files: Array<File>) => void;
+  previewRenderer?: PreviewRenderer;
+  floating?: boolean;
+}
 
 export type UploadHandler = (
   file: Blob,
@@ -264,6 +379,7 @@ export type FileUploadFieldProps =
       valueField?: 'id' | 'publicUrl';
       uploadHandler?: UploadHandler;
       previewRenderer?: PreviewRenderer;
+      label?: string;
     })
   | (InputProps & {
       maxFiles?: number;
@@ -273,7 +389,10 @@ export type FileUploadFieldProps =
       uploadHandler: UploadHandler;
       onFilesChanged?: (files: Array<SimpleFileResponse>) => void;
       previewRenderer?: PreviewRenderer;
+      label?: string;
     });
+
+export type FileUploadButtonProps = FileUploadFieldProps & {};
 
 export interface ChosenFileProps {
   file: File;
@@ -283,4 +402,5 @@ export interface ChosenFileProps {
   onFailure: (error: string) => void;
   renderer: (type: string, source: string) => JSX.Element | undefined;
 }
+
 export default withInput(FileUploadField, [InputFeatures.LABEL], { labelPosition: 'top', multiple: false });

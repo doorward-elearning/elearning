@@ -20,8 +20,8 @@ import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 import { organizationDetectorMiddleware } from '@doorward/backend/middleware/organization.detector.middleware';
 import anonymousUserMiddleware from '@doorward/backend/middleware/anonymous.user.middleware';
 import { JwtService } from '@nestjs/jwt';
-
-const uuid = require('uuid');
+import express from 'express';
+import path from 'path';
 
 const globalPrefix = process.env.API_PREFIX;
 
@@ -41,7 +41,7 @@ async function bootstrap() {
       tag: 'doorward',
       basePath: globalPrefix,
     },
-    'apps/doorward-backend/documentation/swagger.json',
+    'apps/doorward-backend/documentation/swagger.json'
   );
 
   const reflector = app.get(Reflector);
@@ -50,6 +50,11 @@ async function bootstrap() {
   app.use(anonymousUserMiddleware(await app.resolve(JwtService), await app.resolve(DoorwardLogger)));
 
   app.use(json({ limit: '50mb' }));
+
+  if (process.env.NODE_ENV === 'development') {
+    const uploadsPath = path.join(__dirname, '../../../uploads/');
+    app.use('uploads/', express.static(uploadsPath));
+  }
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
@@ -68,5 +73,4 @@ async function bootstrap() {
   });
 }
 
-bootstrap().then(() => {
-});
+bootstrap().then(() => {});

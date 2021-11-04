@@ -3,40 +3,49 @@ import { MulterModule } from '@nestjs/platform-express';
 import aws from 'aws-sdk';
 import path from 'path';
 import Tools from '@doorward/common/utils/Tools';
+import multer from 'multer';
+import * as fs from 'fs';
 
 const multerS3 = require('multer-s3');
 
-export interface DigitalOceanStorageModuleOptions {
-  endpoint: string;
+export interface AWSStorageOptions {
   bucket: string;
 }
 
 @Injectable()
 @Global()
 export default class AwsStorageModule {
-  static register(options: DigitalOceanStorageModuleOptions): DynamicModule {
+  static register(options: AWSStorageOptions): DynamicModule {
     return MulterModule.registerAsync({
       useFactory: async () => {
-        const spacesEndpoint = new aws.Endpoint(options.endpoint);
+        const s3 = new aws.S3({});
 
-        const s3 = new aws.S3({ endpoint: spacesEndpoint });
+        const directory = (request) => `uploads/${request.organization.name || 'default'}/`;
+        const fileName = (file) => `${Tools.randomString(20)}_${Date.now()}${path.extname(file.originalname)}`;
 
-        const storage = multerS3({
+        const awsStorage = multerS3({
           s3,
           bucket: options.bucket,
           acl: 'public-read',
           key: (request, file, cb) => {
-            cb(
-              null,
-              `${request.organization.id || 'default'}/${Tools.randomString(20)}_${Date.now()}${path.extname(
-                file.originalname
-              )}`
-            );
+            cb(null, directory(request) + fileName(file));
+          },
+        });
+
+        const localStorage = multer.diskStorage({
+          destination: (request, file, cb) => {
+            const directoryPath = directory(request);
+            fs.mkdirSync(directoryPath, { recursive: true });
+
+            cb(null, directoryPath);
+          },
+          filename: (request, file, cb) => {
+            cb(null, fileName(file));
           },
         });
 
         return {
-          storage,
+          storage: process.env.NODE_ENV === 'production' ? awsStorage : localStorage,
         };
       },
     });

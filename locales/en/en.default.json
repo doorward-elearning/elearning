@@ -625,5 +625,11 @@
   "orgNameValidationGuide": "Should contain only lower case letters and underscore (_).",
   "orgNameValidationGuide2": "Cannot have any spaces.",
   "orgNameValidationGuide3": "Can only start and end with a lower case letter.",
-  "darkThemeLogoLabel": "Dark theme logo"
+  "darkThemeLogoLabel": "Dark theme logo",
+  "pdfUploadTitle": "PDF Upload",
+  "uploadLabel": "Upload",
+  "uploadingItemsTitle": "Uploading {{count}} item",
+  "uploadingItemsTitle_plural": "Uploading {{count}} items",
+  "uploadCompleteTitle": "Upload complete",
+  "uploadCompleteFailedTitle": "Upload complete. {{count}} failed."
 }

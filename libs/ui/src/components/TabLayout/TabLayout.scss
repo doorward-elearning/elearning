@@ -2,6 +2,7 @@
   display: grid;
   grid-template-rows: auto 1fr;
   grid-gap: var(--padding);
+  width: 100%;
 
   &.stickyHeader {
     .ed-tabLayout__header {
@@ -79,6 +80,7 @@
   &__content {
     &Tab {
       display: none;
+
       &.selected {
         display: block;
       }

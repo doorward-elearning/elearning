@@ -5,6 +5,7 @@ import {
   HttpStatus,
   Param,
   Post,
+  Req,
   UploadedFile,
   UploadedFiles,
   UseGuards,
@@ -83,7 +84,10 @@ export class FilesController {
   @Post('upload')
   @ApiTags('upload-file')
   @UseInterceptors(FileInterceptor('file'))
-  async uploadFile(@UploadedFile() file, @CurrentUser() currentUser: UserEntity): Promise<FileResponse> {
+  async uploadFile(@UploadedFile() file, @CurrentUser() currentUser: UserEntity, @Req() req): Promise<FileResponse> {
+    if (process.env.NODE_ENV === 'development') {
+      file.location = req.headers.host + '/' + file.path;
+    }
     const createdFile = new SimpleFileResponse(
       await this.filesService.createFile(
         {

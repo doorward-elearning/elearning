@@ -3,6 +3,9 @@
     display: grid;
     place-items: center;
     height: 150px;
+    max-width: calc(500px - var(--padding-sm));
+    padding: var(--padding);
+    box-sizing: content-box;
     background: var(--bg-primary);
     border: 3px dotted var(--line-color);
     cursor: pointer;
@@ -24,23 +27,57 @@
   .instructions {
     margin: var(--padding-sm) 0;
   }
+
   .selected-files {
     display: grid;
     grid-gap: var(--padding);
     max-height: 500px;
     overflow: scroll;
+
+    &.floating {
+      position: fixed;
+      max-width: 400px;
+      width: 100%;
+      bottom: var(--padding-xlg);
+      right: var(--padding-xlg);
+      overflow: unset;
+      box-shadow: var(--box-shadow);
+      border: 1px solid var(--line-color);
+      background: var(--bg-primary);
+      z-index: 100;
+
+      .selected-files-header {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        align-items: center;
+        padding: var(--padding-lg);
+        background: #292929;
+        color: white;
+        border-bottom: 1px solid var(--line-color);
+        cursor: grab;
+      }
+
+      &:not(.showContent) {
+        .chosen-file {
+          display: none;
+        }
+      }
+
+      .chosen-file {
+      }
+    }
   }
 
   .chosen-file {
     .meta {
       opacity: 1;
     }
+    margin: 0 var(--padding) var(--padding);
+
     &.failed {
-      &:last-child {
-        margin-bottom: 50px;
-      }
       .chosen-file-content {
         color: var(--text-error);
+
         .file-name {
         }
       }
@@ -58,8 +95,8 @@
       }
 
       .file-preview {
-        width: 50px;
-        height: 50px;
+        max-width: 50px;
+        max-height: 50px;
         display: grid;
         place-items: center;
 

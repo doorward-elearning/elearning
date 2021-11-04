@@ -6,8 +6,7 @@ import AwsStorageModule from '@doorward/backend/modules/storage/aws.storage.modu
 @Module({
   imports: [
     AwsStorageModule.register({
-      endpoint: process.env.DIGITAL_OCEAN_STORAGE_ENDPOINT,
-      bucket: process.env.DIGITAL_OCEAN_STORAGE_BUCKET,
+      bucket: process.env.AWS_STORAGE_BUCKET,
     }),
   ],
   providers: [FilesService],
