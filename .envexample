@@ -62,6 +62,7 @@ OPENVIDU_URL=https://openvidu.doorward.local:443
 DOORWARD_ADMIN_EMAIL=gitaumoses4@gmail.com
 ITEMS_PER_PAGE=25
 AWS_STORAGE_BUCKET=doorwardstatic
+AWS_STORAGE_ENDPOINT=http://s3.ap-south-1.amazonaws.com/
 ORGANIZATION_INGRESS_URL=https://argoevents.doorward.tech/organization-ingress
 
 

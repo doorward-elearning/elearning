@@ -631,5 +631,10 @@
   "uploadingItemsTitle": "Uploading {{count}} item",
   "uploadingItemsTitle_plural": "Uploading {{count}} items",
   "uploadCompleteTitle": "Upload complete",
-  "uploadCompleteFailedTitle": "Upload complete. {{count}} failed."
+  "uploadCompleteFailedTitle": "Upload complete. {{count}} failed.",
+  "firstPageTitle": "First page",
+  "nextPageTitle": "Next page",
+  "previousPageTitle": "Previous page",
+  "lastPageTitle": "Last page",
+  "pageCountLabel": "{{currentPage}} out of {{numPages}} "
 }

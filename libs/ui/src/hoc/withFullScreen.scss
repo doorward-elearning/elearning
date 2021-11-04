@@ -1,0 +1,19 @@
+.ed-fullscreen-component {
+  position: relative;
+  display: inline-grid;
+  overflow: hidden;
+  background: var(--bg-primary);
+
+  .fullscreen-trigger {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    top: 0;
+    right: 0;
+    z-index: 1000;
+    border-radius: 50%;
+    margin: var(--padding);
+    padding: var(--padding);
+    background: var(--bg-primary);
+  }
+}

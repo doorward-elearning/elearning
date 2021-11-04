@@ -309,6 +309,7 @@
     "@types/react-datepicker": "^2.9.4",
     "@types/react-dom": "16.9.8",
     "@types/react-helmet": "^5.0.14",
+    "@types/react-pdf": "^5.0.9",
     "@types/react-redux": "^7.1.4",
     "@types/react-router": "^5.1.1",
     "@types/react-router-dom": "^5.1.0",
@@ -372,6 +373,7 @@
     "ttypescript": "^1.5.10",
     "typedoc": "0.17.6",
     "typescript": "3.7.4",
+    "utility-types": "^3.10.0",
     "webpack-bundle-analyzer": "^3.9.0",
     "yaml": "^1.10.0",
     "yargs": "^15.4.1"

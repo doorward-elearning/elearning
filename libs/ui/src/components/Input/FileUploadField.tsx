@@ -266,7 +266,7 @@ export const FileUploadProgress: React.FunctionComponent<FileUploadProgressProps
   const [uploadComplete, setUploadComplete] = useState(false);
 
   useEffect(() => {
-    setNumFailed(Object.keys(value).reduce((acc, cur) => acc + (cur ? 1 : 0), 0));
+    setNumFailed(Object.keys(value).reduce((acc, cur) => acc + (value[cur] ? 0 : 1), 0));
   }, [value]);
 
   useEffect(() => {
@@ -290,7 +290,7 @@ export const FileUploadProgress: React.FunctionComponent<FileUploadProgressProps
             <span>
               {translate(
                 uploadComplete
-                  ? numFailed == 0
+                  ? numFailed === 0
                     ? 'uploadCompleteTitle'
                     : 'uploadCompleteFailedTitle'
                   : 'uploadingItemsTitle',
@@ -346,7 +346,22 @@ export const FileUploadProgress: React.FunctionComponent<FileUploadProgressProps
 };
 
 export const FileUploadButton: React.FunctionComponent<FileUploadButtonProps> = (props): JSX.Element => {
-  return <FileUploadField {...props} isButton onChange={() => {}} />;
+  const [value, setValue] = useState<Array<SimpleFileResponse>>([]);
+  const [updated, setUpdated] = useState<Record<string, SimpleFileResponse>>({});
+
+  useEffect(() => {
+    const _updated = { ...updated };
+
+    value.forEach((file) => {
+      if (!updated[file.id]) {
+        props.onNewFileUploaded(file);
+        _updated[file.id] = file;
+      }
+    });
+    setUpdated(_updated);
+  }, [value]);
+
+  return <FileUploadField {...props} isButton onFilesChanged={setValue} onChange={() => {}} />;
 };
 
 interface FileUploadProgressProps {
@@ -392,7 +407,9 @@ export type FileUploadFieldProps =
       label?: string;
     });
 
-export type FileUploadButtonProps = FileUploadFieldProps & {};
+export type FileUploadButtonProps = FileUploadFieldProps & {
+  onNewFileUploaded: (file: SimpleFileResponse) => void;
+};
 
 export interface ChosenFileProps {
   file: File;

@@ -1,0 +1,44 @@
+.ed-pdf-viewer {
+  .next-page {
+    display: none;
+  }
+
+  .pdf-loading-view {
+    display: grid;
+    place-items: center;
+  }
+
+  .ed-pdf-viewer-toolbar {
+    display: grid;
+    grid-auto-flow: column;
+    grid-gap: var(--padding);
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--padding) var(--padding-lg) 0;
+    border-top: 1px solid var(--line-color);
+
+    .page-navigation {
+      display: grid;
+      grid-auto-flow: column;
+      justify-content: space-between;
+      align-items: center;
+      grid-gap: var(--padding-lg);
+    }
+  }
+
+  .ed-pdf-viewer-pages {
+    &.horizontal {
+      display: flex;
+      flex-direction: row;
+    }
+
+    &.vertical {
+      display: grid;
+      justify-content: center;
+
+      .react-pdf__Page__canvas {
+        margin: auto;
+      }
+    }
+  }
+}

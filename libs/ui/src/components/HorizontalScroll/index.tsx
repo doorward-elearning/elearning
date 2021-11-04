@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import './HorizontalScroll.scss';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import IfElse from '../IfElse';
+import Button from '@doorward/ui/components/Buttons/Button';
 
-const HorizontalScroll: React.FunctionComponent<HorizontalScrollProps> = props => {
+const HorizontalScroll: React.FunctionComponent<HorizontalScrollProps> = (props) => {
   const scroll = useRef(null);
   const [scrollValue, setScrollValue] = useState(0);
   const [maxScroll, setMaxScroll] = useState(500);
@@ -28,7 +29,7 @@ const HorizontalScroll: React.FunctionComponent<HorizontalScrollProps> = props =
         left: delta * (props.scrollBy || 500),
         behavior: 'smooth',
       });
-      setTimeout(checkScroll, 500);
+      setTimeout(checkScroll, 200);
     }
   };
 
@@ -36,25 +37,42 @@ const HorizontalScroll: React.FunctionComponent<HorizontalScrollProps> = props =
 
   return (
     <div className="ed-horizontal-scroll__parent">
-      <IfElse condition={scrollValue > 0}>
+      {scrollValue > 0 && (
         <div className="indicator indicator__left">
-          <Icon icon="chevron_left" className="icon" onClick={() => scrollBy(-1)} />
+          <Button
+            type="button"
+            mini
+            fab
+            theme="primary"
+            icon="chevron_left"
+            className="icon"
+            onClick={() => scrollBy(-1)}
+          />
         </div>
-      </IfElse>
+      )}
       <div
         ref={scroll}
         className={classNames({
           'ed-horizontal-scroll': true,
           [props.className || '']: true,
         })}
+        style={props.style}
       >
         {props.children}
       </div>
-      <IfElse condition={scrollValue < maxScroll}>
+      {scrollValue < maxScroll && (
         <div className="indicator indicator__right">
-          <Icon icon="chevron_left" className="icon" onClick={() => scrollBy(1)} />
+          <Button
+            type="button"
+            mini
+            fab
+            theme="primary"
+            icon="chevron_left"
+            className="icon"
+            onClick={() => scrollBy(1)}
+          />
         </div>
-      </IfElse>
+      )}
     </div>
   );
 };
@@ -62,6 +80,7 @@ const HorizontalScroll: React.FunctionComponent<HorizontalScrollProps> = props =
 export interface HorizontalScrollProps {
   className?: string;
   scrollBy?: number;
+  style?: CSSProperties;
 }
 
 export default HorizontalScroll;

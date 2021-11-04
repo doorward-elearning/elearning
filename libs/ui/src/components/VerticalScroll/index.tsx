@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, ReactNode, useEffect, useRef, useState } from 'react';
 import './VerticalScroll.scss';
 import Button from '@doorward/ui/components/Buttons/Button';
 import classNames from 'classnames';
@@ -58,11 +58,12 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
         />
       </span>
       <div
-        className="ed-verticalScroll__content"
+        className={classNames('ed-verticalScroll__content', props.className)}
         onScroll={(e) => setScrollEvent({ ...e })}
         ref={content}
         style={{
-          maxHeight: props.maxHeight + 'px',
+          ...props.style,
+          maxHeight: props.maxHeight,
         }}
       >
         {props.children}
@@ -96,6 +97,8 @@ const VerticalScroll: React.FunctionComponent<VerticalScrollProps> = (props): JS
 export interface VerticalScrollProps {
   maxHeight: number;
   children: ReactNode;
+  style?: CSSProperties;
+  className?: string;
 }
 
 export default VerticalScroll;

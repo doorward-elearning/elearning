@@ -10,6 +10,7 @@ const multerS3 = require('multer-s3');
 
 export interface AWSStorageOptions {
   bucket: string;
+  endpoint: string;
 }
 
 @Injectable()
@@ -18,7 +19,8 @@ export default class AwsStorageModule {
   static register(options: AWSStorageOptions): DynamicModule {
     return MulterModule.registerAsync({
       useFactory: async () => {
-        const s3 = new aws.S3({});
+        const endpoint = new aws.Endpoint(options.endpoint);
+        const s3 = new aws.S3({ endpoint });
 
         const directory = (request) => `uploads/${request.organization.name || 'default'}/`;
         const fileName = (file) => `${Tools.randomString(20)}_${Date.now()}${path.extname(file.originalname)}`;

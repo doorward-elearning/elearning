@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import './AddModulePageForm.scss';
@@ -13,6 +13,8 @@ import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import { FileUploadButton } from '@doorward/ui/components/Input/FileUploadField';
 import DoorwardApi from '../../../services/apis/doorward.api';
+import { SimpleFileResponse } from '@doorward/common/dtos/response';
+import PDFViewer from '@doorward/ui/components/PDFViewer';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -21,6 +23,8 @@ function AddModulePageForm<T extends AddModulePageFormState>({
   page,
   onCancel,
 }: AddModulePageFormProps<T>) {
+  const [pdfs, setPdfs] = useState<Array<SimpleFileResponse>>([]);
+
   const initialValues: Partial<CreatePageBody> = page || {
     title: translate('untitledPage'),
     page: null,
@@ -46,7 +50,21 @@ function AddModulePageForm<T extends AddModulePageFormState>({
             </div>
           </Tab>
           <Tab title={translate('pdfUploadTitle')}>
-            <FileUploadButton uploadHandler={DoorwardApi.api.files.uploadFile} />
+            <PDFViewer
+              width={500}
+              height={1000}
+              file="https://doorward.local:7000/uploads/doorward/of1eaHhoBMNx0YpaCnE0_1636018563167.pdf"
+            />
+            {pdfs.map((pdf) => (
+              <div></div>
+            ))}
+            <FileUploadButton
+              fileTypes={['application/pdf']}
+              onNewFileUploaded={(file) => {
+                setPdfs([...pdfs, file]);
+              }}
+              uploadHandler={DoorwardApi.api.files.uploadFile}
+            />
           </Tab>
         </TabLayout>
       </div>

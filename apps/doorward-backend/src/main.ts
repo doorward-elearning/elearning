@@ -50,17 +50,17 @@ async function bootstrap() {
   app.use(anonymousUserMiddleware(await app.resolve(JwtService), await app.resolve(DoorwardLogger)));
 
   app.use(json({ limit: '50mb' }));
+  app.enableCors();
 
   if (process.env.NODE_ENV === 'development') {
     const uploadsPath = path.join(__dirname, '../../../uploads/');
-    app.use('uploads/', express.static(uploadsPath));
+    app.use('/uploads/', express.static(uploadsPath));
   }
 
   app.useGlobalInterceptors(new TransformInterceptor(reflector));
   app.useGlobalFilters(new TransformExceptionFilter(await app.resolve(DoorwardLogger)));
   app.useGlobalPipes(new BodyFieldsValidationPipe(), new YupValidationPipe());
   app.useGlobalGuards(new SizeLimitGuard(reflector, dataSize.KB(100)));
-  app.enableCors();
 
   const documentation = new DocumentationBuilder();
   documentation.scanApplication(app, 'doorward.backend.api.ts', 'Doorward Backend');

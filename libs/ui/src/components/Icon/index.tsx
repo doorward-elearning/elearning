@@ -9,6 +9,7 @@ const Icon: React.FunctionComponent<IconProps> = (props): JSX.Element => {
     'material-icons': true,
     [props.className || '']: true,
     clickable: !!props.onClick || props.clickable,
+    disabled: props.disabled,
   });
   const ref = useRef();
 
@@ -32,6 +33,7 @@ export interface IconProps {
   title?: string;
   clickable?: boolean;
   ref?: MutableRefObject<any>;
+  disabled?: boolean;
 }
 
 export default Icon;

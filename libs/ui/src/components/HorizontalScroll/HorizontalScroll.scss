@@ -20,29 +20,16 @@
       transition: 0.5s font-size, 0.5s transform;
       cursor: pointer;
       z-index: 1;
-      .icon {
-        font-size: 40px;
-        background: var(--bg-primary);
-        border-radius: 50%;
-        transition: 0.5s font-size, 0.5s transform;
-        box-shadow: var(--box-shadow);
-      }
-
-      &:hover {
-        .icon {
-          font-size: 45px;
-          transform: translateX(-10px);
-        }
-      }
+      background: linear-gradient(to right, var(--bg-primary), transparent);
 
       &__right {
-        right: 22px;
+        right: 40px;
         transform: rotateY(180deg) translateX(-100%);
       }
 
       &__left {
         transform: translateX(-100%);
-        left: 22px;
+        left: 40px;
       }
     }
   }
