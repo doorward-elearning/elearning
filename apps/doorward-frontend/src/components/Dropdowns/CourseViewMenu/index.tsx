@@ -14,6 +14,7 @@ import translate from '@doorward/common/lang/translate';
 import useApiAction from '@doorward/api-actions/hooks/useApiAction';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import AddDescriptionModal from '../../Modals/AddDescriptionModal';
 
 const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> = ({ course, deleteCourseModal }) => {
   const deleteForm = useForm();
@@ -66,6 +67,7 @@ const CourseViewMenuModals: React.FunctionComponent<CourseViewMenuModalsProps> =
 
 const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => {
   const deleteCourseModal = useModal(false);
+  const addDescriptionModal = useModal(false);
 
   return (
     <React.Fragment>
@@ -73,6 +75,9 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
         <Dropdown positionX="right">
           <Icon icon="more_vert" />
           <Dropdown.Menu>
+            <Dropdown.Item icon="keyboard" onClick={addDescriptionModal.openModal}>
+              {translate('addDescription')}
+            </Dropdown.Item>
             {/*<Dropdown.Item icon="account_circle">Participants</Dropdown.Item>*/}
             {/*<Dropdown.Item icon="event">Calendar</Dropdown.Item>*/}
             {/*<Dropdown.Item icon="settings">Settings</Dropdown.Item>*/}
@@ -86,6 +91,7 @@ const CourseViewMenu: React.FunctionComponent<CourseViewMenuProps> = (props) => 
         </Dropdown>
       </RoleContainer>
       <CourseViewMenuModals course={props.course} deleteCourseModal={deleteCourseModal} />
+      <AddDescriptionModal course={props.course} modal={addDescriptionModal} />
     </React.Fragment>
   );
 };
