@@ -8,7 +8,22 @@
     .ed-dropdown__content {
       pointer-events: auto;
       opacity: 1;
+
       &--body {
+      }
+
+      .ed-dropdown-trigger-pointer {
+        content: '';
+        position: absolute;
+        width: 7px;
+        height: 7px;
+        top: 0;
+        left: 0;
+        background: var(--bg-primary);
+        border: solid var(--line-color);
+        border-width: 0 1px 1px 0;
+        transform-origin: 50% 50%;
+        clip-path: polygon(100% 0, 0 100%, 100% 100%);
       }
     }
 
@@ -23,83 +38,9 @@
     cursor: pointer;
     z-index: 0;
     transition: 0.5s background;
-    //@include darkenHover();
 
     .dropdown-arrow {
       transition: 0.5s transform;
-    }
-  }
-
-  &.left {
-    .ed-dropdown__content {
-      left: 0;
-      &:before {
-        left: 0;
-        transform: translateX(50%) rotate(45deg);
-      }
-    }
-  }
-
-  &.right {
-    .ed-dropdown__content {
-      right: 0;
-      &:before {
-        right: 0;
-        transform: translateX(-50%) rotate(45deg);
-      }
-    }
-  }
-
-  &.center {
-    .ed-dropdown__content {
-      left: 50%;
-      transform: translateX(-50%);
-      &:before {
-        left: 50%;
-        transform: translateX(-50%) rotate(45deg);
-      }
-    }
-  }
-
-  &.top {
-    .ed-dropdown__content {
-      bottom: 0;
-      margin-bottom: var(--padding-lg);
-      &:before {
-        top: auto;
-        bottom: -8px;
-        border-left: none;
-        border-top: none;
-        border-right: 1px solid var(--line-color);
-        border-bottom: 1px solid var(--line-color);
-      }
-      &--body {
-      }
-    }
-
-    &.open {
-      .ed-dropdown__content {
-        bottom: 100%;
-        &--body {
-          transition: 0.5s transform;
-        }
-      }
-    }
-  }
-  &.bottom {
-    .ed-dropdown__content {
-      top: calc(90%);
-      &--body {
-        transition: 0.5s transform;
-      }
-    }
-    &.open {
-      .ed-dropdown__content {
-        top: 100%;
-        &--body {
-          transition: 0.5s transform;
-        }
-      }
     }
   }
 
@@ -110,14 +51,15 @@
   }
 
   &__content {
-    position: absolute;
+    position: fixed;
     background: var(--bg-primary);
     border: 1px solid var(--line-color);
     box-shadow: var(--box-shadow);
-    transition: 0.1s max-height, 0.2s top, 0.2s bottom, 0.1s opacity;
+    max-width: 300px;
     pointer-events: none;
-    z-index: 10;
+    z-index: 100;
     opacity: 0;
+    transition: 0.2s transform, 0.2s opacity;
 
     &:before {
       content: '';
@@ -150,6 +92,7 @@
 
         &:hover {
           background: var(--bg-secondary);
+
           a {
             color: var(--primary);
           }

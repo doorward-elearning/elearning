@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack';
 import classNames from 'classnames';
 import _ from 'lodash';
@@ -9,7 +9,13 @@ import { Props } from 'react-pdf/dist/Document';
 import PdfToolbar from '@doorward/ui/components/PDFViewer/PDFToolbar';
 import { PDFPageProxy } from 'react-pdf';
 import ScrollLayout from '@doorward/ui/components/ScrollLayout';
-import withFullScreen, { FullScreenComponentProps } from '@doorward/ui/hoc/withFullScreen';
+import getViewPort from '@doorward/ui/utils/getViewPort';
+import Modal from '@doorward/ui/components/Modal';
+import useModal from '@doorward/ui/hooks/useModal';
+import Dropdown, { DropdownMenuProps } from '@doorward/ui/components/Dropdown';
+import Icon from '@doorward/ui/components/Icon';
+
+const pdfToolbarHeight = 60;
 
 const PDFLoadingView: React.FunctionComponent<PDFLoadingViewProps> = ({ width, height }): JSX.Element => (
   <Panel>
@@ -25,19 +31,11 @@ const PDFViewer: React.FunctionComponent<PDFViewerProps> = (props): JSX.Element 
   const [page, setPage] = useState(1);
   const [numPages, setNumPages] = useState(1);
   const [pageDimensions, setPageDimensions] = useState({ width: 0, height: 0 });
-  const [dimensions, setDimensions] = useState({ width: props.width, height: props.height });
+  let [viewportWidth, viewportHeight] = getViewPort();
+  const modal = useModal();
 
-  useEffect(() => {
-    if (props.isFullScreen) {
-      if (props.viewPortWidth !== dimensions.width || props.viewPortHeight !== dimensions.height) {
-        setDimensions({ width: props.viewPortWidth, height: props.viewPortHeight });
-      }
-    } else {
-      if (props.width !== dimensions.width || props.height !== dimensions.height) {
-        setDimensions({ width: props.width, height: props.height });
-      }
-    }
-  }, [props.width, props.height, props.isFullScreen, props.viewPortWidth, props.viewPortHeight]);
+  viewportHeight = viewportHeight - props.paddingVertical * 2;
+  viewportWidth = viewportWidth - props.paddingHorizontal * 2;
 
   const onLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
@@ -54,69 +52,96 @@ const PDFViewer: React.FunctionComponent<PDFViewerProps> = (props): JSX.Element 
 
   return (
     <div className={classNames('ed-pdf-viewer')}>
-      <Document
-        {...props}
-        file={props.file}
-        onLoadSuccess={(data) => {
-          onLoadSuccess(data);
-          if (props.onLoadSuccess) {
-            props.onLoadSuccess(data);
-          }
-        }}
-        loading={<PDFLoadingView width={dimensions.width} height={dimensions.height} />}
+      <div
+        className="ed-pdf-viewer-preview"
+        style={{ width: props.width, height: props.height }}
+        onClick={() => modal.openModal()}
       >
-        {props.displayType === 'stack' ? (
-          <Panel className="ed-pdf-viewer-stack">
-            <Page
-              onLoadSuccess={onPageLoad}
-              pageNumber={page}
-              width={props.isFullScreen ? 0 : dimensions.width}
-              height={dimensions.height - 100}
-              loading={<PDFLoadingView {...pageDimensions} />}
-            />
-            {!props.hideToolbar && <PdfToolbar numPages={numPages} currentPage={page} onChangePage={setPage} />}
-          </Panel>
-        ) : (
-          <ScrollLayout
-            scrollType={props.displayType as any}
-            maxHeight={dimensions.height}
-            scrollBy={pageDimensions.width}
-            className={classNames('ed-pdf-viewer-pages', props.displayType)}
-            style={{ width: dimensions.width, height: dimensions.height }}
-          >
-            {_.range(0, numPages).map((page) => {
-              const padding = 20;
-              const width = props.isFullScreen
-                ? 0
-                : props.displayType === 'horizontal'
-                ? 0
-                : dimensions.width - padding;
-              const height = props.isFullScreen
-                ? dimensions.height
-                : props.displayType === 'vertical'
-                ? 0
-                : dimensions.height - padding;
-              return (
-                <Panel className="ed-pdf-viewer-page">
-                  <Page
-                    pageNumber={page + 1}
-                    onLoadSuccess={onPageLoad}
-                    width={width}
-                    height={height}
-                    loading={<PDFLoadingView {...pageDimensions} />}
-                  />
-                </Panel>
-              );
-            })}
-          </ScrollLayout>
+        {props.actionMenu && (
+          <span className="ed-pdf-viewer-preview__action" onClick={(e) => e.stopPropagation()}>
+            <Dropdown positionX="right" positionY="center">
+              <Icon icon="keyboard_arrow_down" />
+              {props.actionMenu}
+            </Dropdown>
+          </span>
         )}
-      </Document>
+        <Document file={props.file} loading={<PDFLoadingView width={props.width} height={props.height} />}>
+          <Page
+            onLoadSuccess={onPageLoad}
+            pageNumber={1}
+            width={props.width}
+            height={props.height}
+            loading={<PDFLoadingView {...pageDimensions} />}
+          />
+        </Document>
+      </div>
+      <Modal useModal={modal}>
+        <Document
+          {...props}
+          file={props.file}
+          onLoadSuccess={(data) => {
+            onLoadSuccess(data);
+            if (props.onLoadSuccess) {
+              props.onLoadSuccess(data);
+            }
+          }}
+          loading={<PDFLoadingView width={props.width} height={props.height} />}
+        >
+          <Modal.Body style={{ padding: 0, display: 'grid', placeItems: 'center' }}>
+            <div className={'ed-pdf-viewer'}>
+              {props.displayType === 'stack' ? (
+                <Panel className="ed-pdf-viewer-stack">
+                  <Page
+                    onLoadSuccess={onPageLoad}
+                    pageNumber={page}
+                    loading={<PDFLoadingView {...pageDimensions} />}
+                    height={viewportHeight - pdfToolbarHeight}
+                  />
+                  {!props.hideToolbar && (
+                    <PdfToolbar
+                      height={pdfToolbarHeight}
+                      numPages={numPages}
+                      currentPage={page}
+                      onChangePage={setPage}
+                    />
+                  )}
+                </Panel>
+              ) : (
+                <ScrollLayout
+                  scrollType={props.displayType as any}
+                  maxHeight={viewportHeight}
+                  scrollBy={pageDimensions.width}
+                  className={classNames('ed-pdf-viewer-pages', props.displayType)}
+                  style={{ height: viewportHeight }}
+                >
+                  {_.range(0, numPages).map((page) => {
+                    return (
+                      <Panel className="ed-pdf-viewer-page">
+                        <Page
+                          pageNumber={page + 1}
+                          onLoadSuccess={onPageLoad}
+                          height={viewportHeight}
+                          loading={<PDFLoadingView {...pageDimensions} />}
+                        />
+                      </Panel>
+                    );
+                  })}
+                </ScrollLayout>
+              )}
+            </div>
+          </Modal.Body>
+        </Document>
+      </Modal>
     </div>
   );
 };
 
 PDFViewer.defaultProps = {
   displayType: 'stack',
+  width: 300,
+  height: 200,
+  paddingVertical: 50,
+  paddingHorizontal: 150,
 };
 
 export type PDFDisplayType = 'horizontal' | 'vertical' | 'stack';
@@ -126,21 +151,22 @@ export interface PDFLoadingViewProps {
   height?: number;
 }
 
-export interface PDFViewerBaseProps extends Props, FullScreenComponentProps {
+export interface PDFViewerBaseProps extends Props {
   displayType?: PDFDisplayType;
+  width?: number;
+  height?: number;
+  paddingVertical?: number;
+  paddingHorizontal?: number;
+  actionMenu?: JSX.Element;
 }
 
 export type PDFViewerProps =
   | (PDFViewerBaseProps & {
       displayType: 'horizontal' | 'vertical';
-      width: number;
-      height: number;
     })
   | (PDFViewerBaseProps & {
       displayType?: 'stack';
-      width?: number;
-      height?: number;
       hideToolbar?: boolean;
     });
 
-export default withFullScreen(PDFViewer, 'pdf-viewer-box');
+export default PDFViewer;

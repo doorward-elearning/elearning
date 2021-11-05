@@ -15,6 +15,7 @@ import { FileUploadButton } from '@doorward/ui/components/Input/FileUploadField'
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { SimpleFileResponse } from '@doorward/common/dtos/response';
 import PDFViewer from '@doorward/ui/components/PDFViewer';
+import Dropdown from '@doorward/ui/components/Dropdown';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -51,9 +52,13 @@ function AddModulePageForm<T extends AddModulePageFormState>({
           </Tab>
           <Tab title={translate('pdfUploadTitle')}>
             <PDFViewer
-              width={500}
-              height={1000}
+              displayType="vertical"
               file="https://doorward.local:7000/uploads/doorward/of1eaHhoBMNx0YpaCnE0_1636018563167.pdf"
+              actionMenu={
+                <Dropdown.Menu>
+                  <Dropdown.Item>Remove</Dropdown.Item>
+                </Dropdown.Menu>
+              }
             />
             {pdfs.map((pdf) => (
               <div></div>

@@ -1,4 +1,4 @@
-import React, { Component, MouseEvent, MouseEventHandler } from 'react';
+import React, { Component, CSSProperties, MouseEvent, MouseEventHandler } from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.scss';
 import Feature from '../FeatureProvider/Feature';
@@ -58,7 +58,7 @@ const ModalHeader: React.FunctionComponent<ModalHeaderProps> = (props) => {
 };
 
 const Body: React.FunctionComponent<ModalBodyProps> = (props) => {
-  return <div className="ed-modal__content__body">{props.children}</div>;
+  return <div className="ed-modal__content__body" style={props.style}>{props.children}</div>;
 };
 
 const ModalFooterButton: React.FunctionComponent<ModalFooterButtonProps> = ({ feature, children, props, onClick }) => {
@@ -150,7 +150,9 @@ export interface ModalHeaderProps {
   onSearch?: (search: string) => void;
 }
 
-export interface ModalBodyProps {}
+export interface ModalBodyProps {
+  style?: CSSProperties;
+}
 
 export interface ModalFooterProps {
   buttons?: { positive?: string; negative?: string; neutral?: string };
