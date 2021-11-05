@@ -31,8 +31,8 @@ const DraftTextArea: React.FunctionComponent<DraftTextAreaProps> = ({
               min_height: 300,
               toolbar_mode: 'floating',
               plugins:
-                'a11ychecker advcode casechange formatpainter linkchecker autolink lists checklist media fullscreen' +
-                ' mediaembed pageembed permanentpen powerpaste table advtable tinymcespellchecker tiny_mce_wiris',
+                ' advcode casechange formatpainter  autolink lists checklist media fullscreen' +
+                ' mediaembed pageembed permanentpen powerpaste table advtable tiny_mce_wiris',
               toolbar:
                 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify |' +
                 ' outdent indent | tiny_mce_wiris_formulaEditor tiny_mce_wiris_formulaEditorChemistry | fullscreen',
