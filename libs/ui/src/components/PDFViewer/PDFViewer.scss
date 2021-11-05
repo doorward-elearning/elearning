@@ -51,7 +51,15 @@
       top: 0;
       right: 0;
       z-index: 2;
+      display: grid;
+      justify-content: end;
+      align-items: start;
       padding: var(--padding);
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(225deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.01), transparent);
+      clip-path: polygon(100% 0, 0 0, 100% 100%);
+      color: white;
     }
   }
 

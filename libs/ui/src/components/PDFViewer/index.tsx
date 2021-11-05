@@ -59,7 +59,7 @@ const PDFViewer: React.FunctionComponent<PDFViewerProps> = (props): JSX.Element 
       >
         {props.actionMenu && (
           <span className="ed-pdf-viewer-preview__action" onClick={(e) => e.stopPropagation()}>
-            <Dropdown positionX="right" positionY="center">
+            <Dropdown positionX="right" positionY="bottom">
               <Icon icon="keyboard_arrow_down" />
               {props.actionMenu}
             </Dropdown>

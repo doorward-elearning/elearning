@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import Icon from '../Icon';
 import { Link } from 'react-router-dom';
 import { Icons } from '../../types/icons';
+import ReactDOM from 'react-dom';
+import { Simulate } from 'react-dom/test-utils';
 
 const Item: React.FunctionComponent<DropdownItemProps> = ({ children, link, onClick, icon, title }) => {
   return (
@@ -55,11 +57,11 @@ class Dropdown extends Component<DropdownProps> {
   }
 
   computePositions = () => {
+    // eslint-disable-next-line prefer-const
     let { positionX, positionY } = this.props;
     const contentPosition = this.dropdownContent?.current?.getBoundingClientRect();
     const triggerPosition = this.dropdownTrigger?.current?.getBoundingClientRect();
     const pointerSize = 7;
-    const pointerPadding = 10;
 
     if (positionX === 'center' && positionY === 'center') {
       positionY = 'bottom';
@@ -113,16 +115,14 @@ class Dropdown extends Component<DropdownProps> {
     const { open } = this.state;
     const { left, top, pointerX, pointerY, pointerRotation } = this.computePositions();
 
+    const dropdownClassNames = classNames({
+      'ed-dropdown': true,
+      [positionX]: true,
+      [positionY]: true,
+      open,
+    });
     return (
-      <div
-        ref={this.dropdown}
-        className={classNames({
-          'ed-dropdown': true,
-          [positionX]: true,
-          [positionY]: true,
-          open,
-        })}
-      >
+      <div ref={this.dropdown} className={dropdownClassNames}>
         <div
           className="ed-dropdown__trigger"
           ref={this.dropdownTrigger}
@@ -144,19 +144,24 @@ class Dropdown extends Component<DropdownProps> {
         >
           {children[0]}
         </div>
-        {!disabled && (
-          <div
-            className="ed-dropdown__content"
-            style={{ left, top, transformOrigin: `0 0` }}
-            ref={this.dropdownContent}
-          >
-            <span
-              className="ed-dropdown-trigger-pointer"
-              style={{ left: pointerX, top: pointerY, transform: `rotate(${pointerRotation}deg)` }}
-            />
-            <div className="ed-dropdown__content--body">{children[1]}</div>
-          </div>
-        )}
+        {!disabled &&
+          ReactDOM.createPortal(
+            <div className={dropdownClassNames}>
+              <div
+                className="ed-dropdown__content"
+                style={{ left, top, transformOrigin: `0 0` }}
+                ref={this.dropdownContent}
+                onMouseOver={(e) => e.stopPropagation()}
+              >
+                <span
+                  className="ed-dropdown-trigger-pointer"
+                  style={{ left: pointerX, top: pointerY, transform: `rotate(${pointerRotation}deg)` }}
+                />
+                <div className="ed-dropdown__content--body">{children[1]}</div>
+              </div>
+            </div>,
+            document.getElementById('dropdown-box')
+          )}
       </div>
     );
   }

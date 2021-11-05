@@ -57,7 +57,7 @@
     box-shadow: var(--box-shadow);
     max-width: 300px;
     pointer-events: none;
-    z-index: 100;
+    z-index: 1000;
     opacity: 0;
     transition: 0.2s transform, 0.2s opacity;
 
