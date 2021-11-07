@@ -88,6 +88,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
                 <PDFViewer
                   displayType="vertical"
                   file={pdf.publicUrl}
+                  title={pdf.name}
                   actionButton={<Icon icon="close" title={translate('remove')} />}
                   onActionButtonClicked={() => {
                     setPdfs(pdfs.filter((_pdf) => _pdf.id !== pdf.id));
