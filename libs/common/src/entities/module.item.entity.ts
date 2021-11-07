@@ -1,5 +1,5 @@
 import BaseEntity from './base.entity';
-import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToOne, TableInheritance } from 'typeorm';
+import { AfterLoad, Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, TableInheritance } from 'typeorm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import ModuleEntity from './module.entity';
 import UserEntity from './user.entity';
@@ -19,13 +19,11 @@ export default class ModuleItemEntity extends BaseEntity {
   // Keep this to prevent migration types from failing
   content?: string;
 
-  @OneToOne(() => FileEntity, {
+  @OneToMany(() => FileEntity, file => file.moduleItem, {
     cascade: true,
-    onDelete: 'SET NULL',
-    nullable: true,
+    onDelete: "CASCADE"
   })
-  @JoinColumn()
-  file: FileEntity;
+  files: FileEntity[];
 
   @Column({ type: 'enum', enum: ModuleItemType })
   type: ModuleItemType;
@@ -53,5 +51,5 @@ export default class ModuleItemEntity extends BaseEntity {
     this.courseId = (await (await this.module)?.course)?.id;
   }
 
-  
+
 }

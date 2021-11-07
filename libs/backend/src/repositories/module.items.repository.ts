@@ -12,6 +12,7 @@ export default class ModuleItemsRepository<
       .leftJoinAndSelect('moduleItem.module', 'module')
       .leftJoinAndSelect('moduleItem.sections', 'section')
       .leftJoinAndSelect('section.questions', 'question')
+      .leftJoinAndSelect('moduleItem.files', 'files')
       .leftJoinAndSelect('question.answers', 'answer');
   }
   async getModuleItems(type: ModuleItemType, modules: ModuleEntity[]) {

@@ -24,6 +24,8 @@ import ModelExists from '@doorward/backend/decorators/model.exists.decorator';
 import FileEntity from '@doorward/common/entities/file.entity';
 import translate from '@doorward/common/lang/translate';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import PayloadSize from '@doorward/backend/decorators/payload.size.decorator';
+import dataSize from '@doorward/common/utils/dataSize';
 
 const FileExists = () =>
   ModelExists({
@@ -84,9 +86,10 @@ export class FilesController {
   @Post('upload')
   @ApiTags('upload-file')
   @UseInterceptors(FileInterceptor('file'))
+  @PayloadSize(dataSize.MB(+process.env.MAX_UPLOAD_SIZE))
   async uploadFile(@UploadedFile() file, @CurrentUser() currentUser: UserEntity, @Req() req): Promise<FileResponse> {
     if (process.env.NODE_ENV === 'development') {
-      file.location = req.headers.host + '/' + file.path;
+      file.location = 'https://' + req.headers.host + '/' + file.path;
     }
     const createdFile = new SimpleFileResponse(
       await this.filesService.createFile(
@@ -115,6 +118,7 @@ export class FilesController {
   @Post('upload/multiple')
   @UseInterceptors(FilesInterceptor('files'))
   @ApiTags('upload-multiple-files')
+  @PayloadSize(dataSize.MB(+process.env.MAX_UPLOAD_SIZE))
   async uploadMultipleFiles(
     @UploadedFiles() files: Array<any>,
     @CurrentUser() currentUser: UserEntity

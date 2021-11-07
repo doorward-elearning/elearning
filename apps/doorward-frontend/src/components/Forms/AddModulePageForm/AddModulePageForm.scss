@@ -9,4 +9,18 @@
   input {
     width: 500px;
   }
+
+  .uploaded-pdfs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > div {
+      margin: var(--padding-sm);
+    }
+
+    &--empty {
+
+    }
+  }
 }

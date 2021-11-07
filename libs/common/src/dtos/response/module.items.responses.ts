@@ -1,4 +1,3 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Expose } from 'class-transformer';
 import AssignmentSubmissionEntity from '@doorward/common/entities/assignment.submission.entity';
 import DApiResponse from '@doorward/common/dtos/response/base.response';

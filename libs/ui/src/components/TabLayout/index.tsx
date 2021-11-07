@@ -132,22 +132,27 @@ const TabLayout: FunctionComponent<TabLayoutProps> = (props): JSX.Element => {
     >
       {!props.hiddenTabs && (
         <div className="ed-tabLayout__header">
-          <TabHeader
-            controlled={props.controlled}
-            tabs={tabs}
-            disabled={props.disabled}
-            setSelected={(tab) => {
-              if (tab !== selected) {
-                if (props.controlled) {
-                  props.onTabChange(tab);
-                } else {
-                  setSelected(tab);
+          <div className="ed-tabLayout__header--tabs">
+            <TabHeader
+              controlled={props.controlled}
+              tabs={tabs}
+              disabled={props.disabled}
+              setSelected={(tab) => {
+                if (tab !== selected) {
+                  if (props.controlled) {
+                    props.onTabChange(tab);
+                  } else {
+                    setSelected(tab);
+                  }
                 }
-              }
-            }}
-            selected={selected}
-          />
-          {props.contentRight}
+              }}
+              selected={selected}
+            />
+          </div>
+          <div className={'ed-tabLayout__header-right'}>
+            {tabs?.[selected]?.action}
+            {props.contentRight}
+          </div>
         </div>
       )}
       <div className="ed-tabLayout__content">

@@ -11,6 +11,9 @@ const getValidationSchema = async (
   try {
     validationSchema = await new (validationSchema as any)().validation();
   } catch (e) {
+    if (typeof validationSchema === 'function') {
+      throw e;
+    }
     return (await validationSchema) as ObjectSchema;
   }
 

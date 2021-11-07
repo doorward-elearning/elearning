@@ -117,10 +117,17 @@ export class CreatePageBody extends CreateModuleItemBody {
   @Expose()
   page: string;
 
+  @Expose()
+  files: Array<string>;
+
   async validation?(): Promise<ObjectSchema> {
     return (await super.validation()).concat(
       Yup.object({
-        page: Yup.string().required(translate('contentRequired')),
+        page: Yup.string().when(['files'], {
+          is: (files) => !files?.length,
+          then: Yup.string().required(translate('contentRequired')),
+        }),
+        files: Yup.array(Yup.string()),
       })
     );
   }

@@ -12,6 +12,7 @@ export interface TabProps {
   title: string;
   badge?: string;
   id?: string;
+  action?: JSX.Element;
 }
 
 export default Tab;
