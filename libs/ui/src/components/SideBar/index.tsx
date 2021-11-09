@@ -8,11 +8,13 @@ import useSidebarSchema, { MenuItem, SideBarSchema } from '../../hooks/useSideba
 import { UseAuth } from '../../hooks/useAuth';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
 import UserPanel from '@doorward/ui/components/SideBar/UserPanel';
+import useResponsiveness, { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 function SideBar(props: SideBarProps) {
   const { collapsed } = props;
   const schema = useSidebarSchema(props);
   const { authenticated } = props.auth;
+  const [displayDevice] = useResponsiveness();
 
   const className = classNames({
     'eb-sideBar': true,
@@ -21,7 +23,7 @@ function SideBar(props: SideBarProps) {
   return (
     <IfElse condition={authenticated}>
       <div className={className} ref={props.sideBarRef}>
-        {!props.navBarShown && (
+        {displayDevice === DisplayDeviceType.MOBILE && !props.navBarShown && (
           <div className="sidebar-logo">
             <NavLogo
               features={[NavbarFeatures.HAMBURGER, NavbarFeatures.PAGE_LOGO]}
@@ -32,7 +34,9 @@ function SideBar(props: SideBarProps) {
           </div>
         )}
         <ul className="sidemenu">
-          <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />
+          {displayDevice === DisplayDeviceType.MOBILE && (
+            <UserPanel collapsed={collapsed} profilePicture="" auth={props.auth} />
+          )}
           <SideBarMenu
             menu={schema.sidebar}
             selected={schema.selected}
