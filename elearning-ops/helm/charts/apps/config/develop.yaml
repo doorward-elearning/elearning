@@ -45,7 +45,7 @@ timezone: "Asia/Kolkata"
 image:
   swagat:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/swagat@sha256
-    version: 902d583086f1451465900cbe6cc1f48bf34f93ca1ae3bcff1a8c1e16de9f05c2
+    version: 9d2bb6c60f3524e237a1771cc6cb0e956c64c94a65d56cd7478fb35543ec98c6
     pullPolicy: Always
   thaladb:
     repository: postgres
@@ -53,7 +53,7 @@ image:
     pullPolicy: IfNotPresent
   thala:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/thala@sha256
-    version: a5a6c5b18881a118953f9912dd60f86ea3c0761d7901e72038a06574965aab05
+    version: 618d72d759e456303aeaca09ef3d454eb768866ddd2ef57dff636e4b3453ce7b
     pullPolicy: Always
   samvadam:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/samvadam
@@ -61,7 +61,7 @@ image:
     pullPolicy: IfNotPresent
   chuchu:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chuchu@sha256
-    version: f4e00e9c423f39d8bc2470c94f49089c796c977507022ed2817365af6de00e98
+    version: 10b4663123a811ad7ad6902998b0ca8714482ea526a09f8007b3e926639067d8
     pullPolicy: Always
   vidu:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward/vidu
@@ -73,7 +73,7 @@ image:
     pullPolicy: Always
   chat:
     repository: 210607809234.dkr.ecr.ap-south-1.amazonaws.com/doorward-elearning/chat@sha256
-    version: be560e41c3f51f9225450c6091d84ed2b1f57889c047dd50f9ab229242229c88
+    version: c1c96be7e60cd63d0850209c26afa9da8e5b8d71fdd3811b06ec7f6692185d73
     pullPolicy: Always
 organization:
   # Organization Logo
