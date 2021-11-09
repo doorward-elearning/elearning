@@ -25,7 +25,7 @@ const ModulesSideBar: React.FunctionComponent<ModulesSideBarProps> = ({ courseId
       size="small"
     >
       {({ modules }) => (
-        <div>
+        <div style={{ overflow: 'auto' }}>
           <Header size={2}>{translate('courseContent')}</Header>
           <Spacer size="large" />
           <ContentList>

@@ -3,5 +3,15 @@
     &__header {
       padding: var(--padding) 0;
     }
+    &__list {
+      border-color: white;
+      border-style: none;
+      padding-bottom: 15px;
+      color: dimgrey;
+      font-size: 13px;
+    }
+  }
+  &-menuItem {
+    padding-bottom: 5px;
   }
 }

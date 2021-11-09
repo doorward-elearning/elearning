@@ -64,6 +64,7 @@
     padding: var(--padding-lg);
     background: var(--bg-primary);
     border-left: 1px solid var(--line-color);
+    overflow: auto;
 
     @include mobile {
       display: none;
