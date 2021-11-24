@@ -34,6 +34,7 @@ import StudentCoursesRepository from '@doorward/backend/repositories/student.cou
 import { StudentsRepository } from '@doorward/backend/repositories/students.repository';
 import TeacherRepository from '@doorward/backend/repositories/teacher.repository';
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import { UserSessionRepository } from './user.session.repository';
 
 const repositories = [
   AnswerRepository,
@@ -71,6 +72,7 @@ const repositories = [
   StudentsRepository,
   TeacherRepository,
   UsersRepository,
+  UserSessionRepository
 ];
 
 export default repositories;

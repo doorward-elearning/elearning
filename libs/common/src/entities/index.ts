@@ -33,8 +33,10 @@ import ChatMessageEntity from '@doorward/common/entities/chat.message.entity';
 import ChatMessageActivityEntity from '@doorward/common/entities/chat.message.activity.entity';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 import OrganizationConfigEntity from '@doorward/common/entities/OrganizationConfigEntity';
+import UserSessionEntity from '@doorward/common/entities/user.session.entity';
 
 const entities = [
+  UserSessionEntity,
   AnswerEntity,
   AssignmentSubmissionEntity,
   ClassroomEntity,

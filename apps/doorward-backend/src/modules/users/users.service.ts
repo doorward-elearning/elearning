@@ -1,6 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import UserEntity from '@doorward/common/entities/user.entity';
 import { UsersRepository } from '@doorward/backend/repositories/users.repository';
+import { UserSessionRepository } from '@doorward/backend/repositories/user.session.repository';
 import { FindOneOptions } from 'typeorm';
 import PasswordUtils from '@doorward/backend/utils/PasswordUtils';
 import { RolesService } from '../roles/roles.service';
@@ -23,18 +24,20 @@ import { UserResponse } from '@doorward/common/dtos/response';
 import translate from '@doorward/common/lang/translate';
 import { FilesService } from '../files/files.service';
 import ROUTES from '@doorward/common/frontend/routes/main';
+import UserSessionEntity from '@doorward/common/entities/user.session.entity';
+import { use } from 'passport';
 
 @Injectable()
 export class UsersService {
   constructor(
     private usersRepository: UsersRepository,
+    private userSessionRepository: UserSessionRepository,
     private rolesService: RolesService,
     private passwordResetsRepository: PasswordResetsRepository,
     private emailsService: EmailsService,
     private privilegeRepository: PrivilegeRepository,
-    private filesService: FilesService,
-  ) {
-  }
+    private filesService: FilesService
+  ) {}
 
   async getUserDetails(id?: string, username?: string): Promise<UserEntity> {
     const where = id ? { id } : { username };
@@ -70,9 +73,17 @@ export class UsersService {
     });
   }
 
+  async createUserSession(authToken: string, user: UserEntity, ipAddress?: string) {
+    return this.userSessionRepository.createAndSave({
+      authToken: authToken,
+      user: user,
+      ipAddress: ipAddress,
+    });
+  }
+
   async createUser(
     body: CreateUserBody,
-    currentUser?: UserEntity,
+    currentUser?: UserEntity
   ): Promise<{ user: UserEntity; resetToken: string | null }> {
     const existingUser = await this.usersRepository.userExistsByUsername(body.username);
     if (existingUser) {
@@ -102,7 +113,7 @@ export class UsersService {
         this.passwordResetsRepository.create({
           token: resetToken,
           user: createdUser,
-        }),
+        })
       );
     }
     return {
@@ -181,7 +192,7 @@ export class UsersService {
         {
           token: resetToken,
         },
-        { relations: ['user'] },
+        { relations: ['user'] }
       );
 
       const user = passwordReset.user;
@@ -211,7 +222,7 @@ export class UsersService {
       this.passwordResetsRepository.create({
         token: resetToken,
         user,
-      }),
+      })
     );
 
     this.emailsService
@@ -222,7 +233,7 @@ export class UsersService {
             link: origin + Tools.createRoute(ROUTES.auth.password.reset, { resetToken }),
           },
           recipient: user,
-        }),
+        })
       )
       .then();
   }
