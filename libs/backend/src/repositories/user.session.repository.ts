@@ -12,8 +12,8 @@ export class UserSessionRepository extends MultiOrganizationRepository<UserSessi
   async userSessionDelete(user: UserEntity) {
     return await this.softDelete({ user: user, deletedAt: null });
   }
-  async getActiveUserSession(user?: UserEntity) {
-    return await this.findOne({ user: user });
+  async getActiveUserSession(authToken: string) {
+    return await this.findOne({ authToken: authToken});
   }
 
   getEntity(): ObjectType<UserSessionEntity> {

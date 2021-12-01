@@ -6,6 +6,7 @@ import DoorwardLogger from '@doorward/backend/modules/logging/doorward.logger';
 import { UserSessionRepository } from '../repositories/user.session.repository';
 import Tools from '@doorward/common/utils/Tools';
 import UserEntity from '@doorward/common/entities/user.entity';
+import { getConnection } from 'typeorm';
 
 @Injectable()
 export default class JwtAuthGuard extends AuthGuard('jwt') {
@@ -20,17 +21,13 @@ export default class JwtAuthGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.get<boolean>('isPublic', context.getHandler());
 
-    const user = context.switchToHttp().getRequest().currentUser;
-    const token = Tools.getToken();
-
-    const session = await this.userSessionRepository.getActiveUserSession(user);
+    const token = context.switchToHttp().getRequest().headers.authorization?.split(' ')?.[1];
+    const session = await this.userSessionRepository.getActiveUserSession(token);
     let canActivate = false;
     // This is to ensure that when a user is logged in, their token is
     // processed regardless of whether the route is public or not.
     try {
-      if (session.authToken === token) {
-        canActivate = await (super.canActivate(context) as Promise<boolean>);
-      }
+      canActivate = await (super.canActivate(context) as Promise<boolean>);
     } catch (error) {
       if (!isPublic) {
         this.logger.error(error, 'Invalid jwt token');
