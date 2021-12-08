@@ -20,11 +20,16 @@ const StudentDropdownMenu: React.FunctionComponent<{
   student: UserEntity;
   onUnEnroll: (student: UserEntity) => void;
 }> = ({ student, onUnEnroll }) => {
+  const navigation = useNavigation();
+
   return (
     <Dropdown.Menu>
       <RoleContainer privileges={['course-students.un-enroll']}>
         <Dropdown.Item onClick={() => onUnEnroll(student)} icon="delete">
           {translate('unEnroll')}
+        </Dropdown.Item>
+        <Dropdown.Item onClick={() => navigation.navigate(ROUTES.students.view, { studentId: student.id })} icon="face">
+          {translate('userProfile')}
         </Dropdown.Item>
       </RoleContainer>
     </Dropdown.Menu>
@@ -74,9 +79,9 @@ const CourseStudentList: React.FunctionComponent<StudentListProps> = (props) => 
               actionMenu={({ rowData: student }) => (
                 <StudentDropdownMenu student={student} onUnEnroll={setUnEnrollStudent} />
               )}
-              onClickStudent={({ rowData: student }) => {
-                navigation.navigate(ROUTES.students.view, { studentId: student.id });
-              }}
+              // onClickStudent={({ rowData: student }) => {
+              // navigation.navigate(ROUTES.students.view, { studentId: student.id });
+              //}}
               students={students}
             />
           );
