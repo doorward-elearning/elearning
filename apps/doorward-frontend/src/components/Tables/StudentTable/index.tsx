@@ -23,6 +23,7 @@ const StudentTable: React.FunctionComponent<StudentTableProps> = (props) => {
         },
         email: {
           title: translate('email'),
+          minDisplay: DisplayDeviceType.DESKTOP,
         },
         phoneNumber: {
           title: translate('phoneNumber'),
