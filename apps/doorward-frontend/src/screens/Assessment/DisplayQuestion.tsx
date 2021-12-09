@@ -17,11 +17,20 @@ import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
 import Grid from '@doorward/ui/components/Grid';
 import classNames from 'classnames';
 
-const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ section, view, questionNumber }) => {
+const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({
+  section,
+  view,
+  questionNumber,
+  onReadyToSave,
+}) => {
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(section.questions[0]);
   const { formikProps } = useContext(FormContext);
   const [bookMark, setBookMark] = useState([]);
+
+  useEffect(() => {
+    onReadyToSave(JSON.stringify(formikProps.values.submission));
+  }, [formikProps.values]);
 
   const previous = useCallback(
     (index) => {
@@ -211,6 +220,7 @@ export interface DisplayQuestionProps {
   section: QuestionSectionEntity;
   view?: QuestionViewTypes;
   questionNumber?: number;
+  onReadyToSave: (submission: string) => void;
 }
 
 export default DisplayQuestion;

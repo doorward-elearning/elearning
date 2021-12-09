@@ -34,6 +34,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
   useEffect(() => {
     onReadyToSave(JSON.stringify(formikProps.values.submission));
   }, [formikProps.values]);
+
   const setPoints = useCallback(
     (section: QuestionSectionEntity) => {
       if (section.config.questions.allCompulsory) {
@@ -79,7 +80,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
               <HTMLContentView content={section.instructions} />
             </div>
             <div>
-              <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
+              <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} onReadyToSave={onReadyToSave} />
             </div>
           </Tab>
         ))}
