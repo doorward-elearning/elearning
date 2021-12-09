@@ -3,6 +3,7 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
+import { UserSessionRepository } from '@doorward/backend/repositories/user.session.repository';
 
 @Global()
 @Module({
@@ -16,7 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
     }),
   ],
   controllers: [AuthController],
-  providers: [AuthService],
+  providers: [AuthService, UserSessionRepository],
   exports: [AuthService],
 })
 export class AuthModule {}

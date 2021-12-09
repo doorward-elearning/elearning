@@ -5,6 +5,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './jwt.strategy';
 import { JwtAuthGuard } from './jwt-auth.guard';
+import { UserSessionRepository } from '@doorward/backend/repositories/user.session.repository';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { JwtAuthGuard } from './jwt-auth.guard';
       signOptions: { expiresIn: process.env.OPENVIDU_API_JWT_EXPIRY_SECONDS + 's' },
     }),
   ],
-  providers: [AuthService, JwtStrategy, JwtAuthGuard],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, UserSessionRepository],
   exports: [AuthService],
 })
 export class AuthModule {}

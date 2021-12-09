@@ -8,6 +8,7 @@ import EmailsService from '@doorward/backend/modules/emails/emails.service';
 import PasswordChangeEmail from '../../emails/password-change.email';
 import { ORGANIZATION_CONNECTION } from '@doorward/backend/constants';
 import { Connection } from 'typeorm';
+import { UserSessionRepository } from '@doorward/backend/repositories/user.session.repository';
 
 @Injectable()
 export class AuthService {
@@ -16,8 +17,8 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private emailService: EmailsService,
-  ) {
-  }
+    private userSessionRepository: UserSessionRepository
+  ) {}
 
   /**
    * Retrieve the current user details
@@ -27,7 +28,6 @@ export class AuthService {
   async getCurrentUser(id: string): Promise<UserEntity> {
     return this.usersService.getUserDetails(id);
   }
-
 
   async register(body: RegisterBody): Promise<LoginResponse> {
     const user = await this.usersService.registerUser(body);
@@ -46,6 +46,9 @@ export class AuthService {
 
     const token = await this.jwtService.sign(payload);
 
+    await this.userSessionRepository.userSessionDelete(user);
+    await this.usersService.createUserSession(token, user);
+
     return {
       token,
       user,
@@ -60,7 +63,7 @@ export class AuthService {
           subject: 'Password changed',
           recipient: user,
           data: body,
-        }),
+        })
       )
       .then();
   }
