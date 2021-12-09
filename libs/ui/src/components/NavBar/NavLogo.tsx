@@ -6,22 +6,29 @@ import { Link, useHistory } from 'react-router-dom';
 import './NavLogo.scss';
 import EImage from '../Image';
 import { NavbarFeatures } from '@doorward/ui/components/NavBar/features';
+import useResponsiveness, { DisplayDeviceType } from '@doorward/ui/hooks/useResponsiveness';
 
 const NavLogo: React.FunctionComponent<NavLogoProps> = (props) => {
   const history = useHistory();
+  const [displayDevice] = useResponsiveness();
+
   return (
     <div className="nav-logo">
       <FeatureProvider features={props.features}>
         <Feature feature={NavbarFeatures.HAMBURGER}>
-          <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />
+          {displayDevice === DisplayDeviceType.MOBILE && (
+            <Icon className="hamburger" icon="menu" onClick={props.onHamburgerClick} />
+          )}
         </Feature>
         <Feature feature={NavbarFeatures.BACK_BUTTON} excludeIfHas={NavbarFeatures.HAMBURGER}>
-          <Icon
-            icon="arrow_back"
-            onClick={(): void => {
-              history.goBack();
-            }}
-          />
+          {displayDevice === DisplayDeviceType.MOBILE && (
+            <Icon
+              icon="arrow_back"
+              onClick={(): void => {
+                history.goBack();
+              }}
+            />
+          )}
         </Feature>
         <Feature feature={NavbarFeatures.PAGE_LOGO}>
           <div className="page-logo">
