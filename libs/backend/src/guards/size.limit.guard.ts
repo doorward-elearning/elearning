@@ -10,10 +10,10 @@ export class SizeLimitGuard implements CanActivate {
 
     const limit = this.reflector.get('payloadSizeLimit', context.getHandler()) || this.sizeLimit;
 
-    if (limit > request.socket.bytesRead) {
-      return true;
+    if (request.socket.bytesRead > limit) {
+      throw new PayloadTooLargeException('Request Entity Too Large Error');
     }
 
-    throw new PayloadTooLargeException('Request Entity Too Large Error');
+    return true;
   }
 }

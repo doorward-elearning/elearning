@@ -140,9 +140,9 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps & { isButton
         props.onFilesChanged(result);
       }
     } else {
-      _value = result?.[0]?.[props.valueField || 'id'];
+      _value = result?.[result?.length - 1]?.[props.valueField || 'id'];
       if (props.onFileChanged) {
-        props.onFileChanged(result?.[0]);
+        props.onFileChanged(result?.[result?.length - 1]);
       }
     }
 
@@ -167,7 +167,7 @@ const FileUploadField: React.FunctionComponent<FileUploadFieldProps & { isButton
   const maxFilesUploaded = Object.values(files).filter((v) => !!v).length < maxFiles;
 
   return (
-    <div className="ed-file-upload-field">
+    <div className={classNames('ed-file-upload-field', { "with-button": props.isButton })}>
       <React.Fragment>
         <input
           type="file"
@@ -352,8 +352,10 @@ export const FileUploadButton: React.FunctionComponent<FileUploadButtonProps> = 
   useEffect(() => {
     const _updated = { ...updated };
 
+    console.log(value, updated);
+
     value.forEach((file) => {
-      if (!updated[file.id]) {
+      if (file && !updated[file.id]) {
         props.onNewFileUploaded(file);
         _updated[file.id] = file;
       }
@@ -361,7 +363,12 @@ export const FileUploadButton: React.FunctionComponent<FileUploadButtonProps> = 
     setUpdated(_updated);
   }, [value]);
 
-  return <FileUploadField {...props} isButton onFilesChanged={setValue} onChange={() => {}} />;
+  const changeHandler = {
+    onFileChanged: (file) => setValue([file]),
+    onFilesChanged: setValue,
+  };
+
+  return <FileUploadField {...props} isButton {...changeHandler} onChange={() => {}} />;
 };
 
 interface FileUploadProgressProps {

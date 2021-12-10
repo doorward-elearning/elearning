@@ -32,6 +32,7 @@ import translate from '@doorward/common/lang/translate';
 import ModuleVideoRepository from '@doorward/backend/repositories/module-video.repository';
 import QuestionSectionRepository from '@doorward/backend/repositories/question.section.repository';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
+import { FilesRepository } from '@doorward/backend/repositories/files.repository';
 
 @Injectable()
 export class ItemsService {
@@ -45,7 +46,8 @@ export class ItemsService {
     private quizRepository: QuizRepository,
     private examRepository: ExamRepository,
     private videoRepository: ModuleVideoRepository,
-    private questionSectionRepository: QuestionSectionRepository
+    private questionSectionRepository: QuestionSectionRepository,
+    private filesRepository: FilesRepository
   ) {}
 
   /**
@@ -165,10 +167,11 @@ export class ItemsService {
    * @param defaultProperties
    */
   private async createPageModuleItem(body: CreateModuleItemBody, defaultProperties: Partial<CreateModuleItemBody>) {
-    const { order, page } = body as CreatePageBody;
+    const { order, page, files } = body as CreatePageBody;
     return this.pageRepository.createAndSave({
       order,
       page,
+      files: await this.filesRepository.findByIds(files),
       ...defaultProperties,
     });
   }

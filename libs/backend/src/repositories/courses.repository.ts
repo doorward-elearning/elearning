@@ -103,7 +103,7 @@ export default class CoursesRepository extends MultiOrganizationRepository<Cours
       .leftJoinAndSelect('course.author', 'author')
       .leftJoinAndSelect('course.modules', 'module')
       .leftJoinAndSelect('module.items', 'items')
-      .leftJoinAndSelect('items.file', 'file')
+      .leftJoinAndSelect('items.files', 'files')
       .leftJoinAndSelect('course.meetingRoom', 'meetingRoom')
       .leftJoin('StudentCourses', 'studentCourse', '"studentCourse"."courseId" = :courseId', { courseId })
       .leftJoinAndMapMany('course.students', 'Users', 'student', 'student.id = "studentCourse"."studentId"')

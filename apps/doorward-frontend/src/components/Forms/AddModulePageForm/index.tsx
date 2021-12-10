@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { UseForm } from '@doorward/ui/hooks/useForm';
 import DraftTextArea from '@doorward/ui/components/Input/DraftTextArea';
 import './AddModulePageForm.scss';
 import TextField from '@doorward/ui/components/Input/TextField';
 import AddModuleItemForm from '../AddModuleItemForm';
 import { ModuleItemType } from '@doorward/common/types/moduleItems';
-import { CreateModuleItemBody, CreatePageBody } from '@doorward/common/dtos/body';
+import { CreatePageBody } from '@doorward/common/dtos/body';
 import ModuleEntity from '@doorward/common/entities/module.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
 import translate from '@doorward/common/lang/translate';
@@ -15,6 +15,8 @@ import { FileUploadButton } from '@doorward/ui/components/Input/FileUploadField'
 import DoorwardApi from '../../../services/apis/doorward.api';
 import { SimpleFileResponse } from '@doorward/common/dtos/response';
 import PDFViewer from '@doorward/ui/components/PDFViewer';
+import Icon from '@doorward/ui/components/Icon';
+import Empty from '@doorward/ui/components/Empty';
 
 function AddModulePageForm<T extends AddModulePageFormState>({
   useForm,
@@ -25,10 +27,29 @@ function AddModulePageForm<T extends AddModulePageFormState>({
 }: AddModulePageFormProps<T>) {
   const [pdfs, setPdfs] = useState<Array<SimpleFileResponse>>([]);
 
-  const initialValues: Partial<CreatePageBody> = page || {
-    title: translate('untitledPage'),
-    page: null,
+  const initialValues: Partial<CreatePageBody> = {
+    ...(page || {
+      title: translate('untitledPage'),
+      page: null,
+    }),
+    files: [],
   };
+
+  useEffect(() => {
+    if (useForm.formikProps) {
+      useForm.formikProps.setFieldValue(
+        'files',
+        pdfs.map((pdf) => pdf.id)
+      );
+    }
+  }, [pdfs]);
+
+  useEffect(() => {
+    if (page?.files) {
+      setPdfs(page.files as any);
+    }
+  }, [page]);
+
   return (
     <AddModuleItemForm
       onSuccess={onSuccess}
@@ -36,7 +57,7 @@ function AddModulePageForm<T extends AddModulePageFormState>({
       type={ModuleItemType.PAGE}
       key={page?.id}
       onCancel={onCancel}
-      validationSchema={CreateModuleItemBody}
+      validationSchema={CreatePageBody}
       item={page}
       initialValues={initialValues}
       form={useForm}
@@ -49,22 +70,32 @@ function AddModulePageForm<T extends AddModulePageFormState>({
               <DraftTextArea fluid name="page" placeholder={translate('emptySpaceIsBoringAddSomeContent')} />
             </div>
           </Tab>
-          <Tab title={translate('pdfUploadTitle')}>
-            <PDFViewer
-              width={500}
-              height={1000}
-              file="https://doorward.local:7000/uploads/doorward/of1eaHhoBMNx0YpaCnE0_1636018563167.pdf"
-            />
-            {pdfs.map((pdf) => (
-              <div></div>
-            ))}
-            <FileUploadButton
-              fileTypes={['application/pdf']}
-              onNewFileUploaded={(file) => {
-                setPdfs([...pdfs, file]);
-              }}
-              uploadHandler={DoorwardApi.api.files.uploadFile}
-            />
+          <Tab
+            title={translate('pdfUploadTitle')}
+            action={
+              <FileUploadButton
+                fileTypes={['application/pdf']}
+                onNewFileUploaded={(file) => {
+                  setPdfs([...pdfs, file]);
+                }}
+                uploadHandler={DoorwardApi.api.files.uploadFile}
+              />
+            }
+          >
+            {!pdfs.length && <Empty size="small" icon="attach_file" message={translate('addAtLeastOnePDF')} />}
+            <div className="uploaded-pdfs">
+              {pdfs.map((pdf) => (
+                <PDFViewer
+                  displayType="vertical"
+                  file={pdf.publicUrl}
+                  title={pdf.name}
+                  actionButton={<Icon icon="close" title={translate('remove')} />}
+                  onActionButtonClicked={() => {
+                    setPdfs(pdfs.filter((_pdf) => _pdf.id !== pdf.id));
+                  }}
+                />
+              ))}
+            </div>
           </Tab>
         </TabLayout>
       </div>

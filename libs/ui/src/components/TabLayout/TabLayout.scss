@@ -15,9 +15,11 @@
 
   &.wrapTabs {
     .ed-tabLayout__header {
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
+      &--tabs {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
     }
   }
 
@@ -27,12 +29,26 @@
   }
 
   &__header {
-    height: calc(var(--tabLayout-header-height));
-    display: flex;
-    justify-content: start;
-    position: relative;
-    padding: var(--padding-sm) 0;
-    overflow-x: scroll;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+
+    &--tabs {
+      height: calc(var(--tabLayout-header-height));
+      display: flex;
+      justify-content: start;
+      position: relative;
+      align-items: start;
+      padding: var(--padding-sm) 0;
+      overflow-x: scroll;
+    }
+
+    &-right {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
 
     .ed-tabLayout__tabTitle {
       padding: var(--padding) var(--padding-lg);

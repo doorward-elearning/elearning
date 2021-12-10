@@ -5,4 +5,14 @@
     background: var(--bg-secondary);
     z-index: 2;
   }
+
+  &__pdfs {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    > div {
+      margin: var(--padding-sm);
+    }
+  }
 }

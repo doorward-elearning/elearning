@@ -1,4 +1,14 @@
 .ed-file-upload-field {
+  input {
+    width: 0;
+    height: 0;
+  }
+
+  &.with-button {
+    display: grid;
+    align-items: center;
+  }
+
   .upload-field {
     display: grid;
     place-items: center;

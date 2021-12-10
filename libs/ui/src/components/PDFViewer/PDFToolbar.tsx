@@ -2,9 +2,14 @@ import React from 'react';
 import Icon from '@doorward/ui/components/Icon';
 import translate from '@doorward/common/lang/translate';
 
-const PdfToolbar: React.FunctionComponent<PdfToolbarProps> = ({ numPages, currentPage, onChangePage }): JSX.Element => {
+const PdfToolbar: React.FunctionComponent<PdfToolbarProps> = ({
+  numPages,
+  currentPage,
+  onChangePage,
+  height,
+}): JSX.Element => {
   return (
-    <div className="ed-pdf-viewer-toolbar">
+    <div className="ed-pdf-viewer-toolbar" style={{ height }}>
       <Icon
         onClick={() => onChangePage(1)}
         icon="first_page"
@@ -40,6 +45,7 @@ export interface PdfToolbarProps {
   numPages: number;
   currentPage: number;
   onChangePage: (page) => void;
+  height: number;
 }
 
 export default PdfToolbar;

@@ -9,6 +9,7 @@ import ModuleEntity from '@doorward/common/entities/module.entity';
 import { PageEntity } from '@doorward/common/entities/page.entity';
 import ROUTES from '@doorward/common/frontend/routes/main';
 import useNavigation from '@doorward/ui/hooks/useNavigation';
+import PDFViewer from '@doorward/ui/components/PDFViewer';
 
 const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, item, ...props }) => {
   const form = useForm();
@@ -28,9 +29,17 @@ const ViewPages: React.FunctionComponent<ViewPagesProps> = ({ editing, module, i
         }
         viewerView={
           <div>
-            <Panel>
-              <HTMLContentView content={item.page} />
-            </Panel>
+            {item.files?.length ? (
+              <div className={'view-module-pages__pdfs'}>
+                {item.files.map((file) => (
+                  <PDFViewer file={file.publicUrl} title={file.name} />
+                ))}
+              </div>
+            ) : (
+              <Panel>
+                <HTMLContentView content={item.page} />
+              </Panel>
+            )}
           </div>
         }
         creatorPrivileges={['moduleItems.create']}

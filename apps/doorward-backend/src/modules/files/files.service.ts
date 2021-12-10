@@ -40,7 +40,7 @@ export class FilesService {
   public async getFile(fileId: string, user?: UserEntity) {
     const file = await this.getFileById(fileId);
 
-    if (!file.public && !user) {
+    if (!file.public && !user?.internal) {
       throw new NotFoundException(translate('fileDoesNotExist'));
     }
     return file;

@@ -8,13 +8,13 @@ import { ModuleItemType } from '@doorward/common/types/moduleItems';
 import TextField from '@doorward/ui/components/Input/TextField';
 import { ModuleVideoEntity } from '@doorward/common/entities/module-video.entity';
 import FileUploadField from '@doorward/ui/components/Input/FileUploadField';
-import DoorwardBackendApi from '@doorward/common/apis/doorward.backend.api';
 import FieldGroup from '@doorward/ui/components/Input/FieldGroup';
 import TabLayout from '@doorward/ui/components/TabLayout';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
 import TextArea from '@doorward/ui/components/Input/TextArea';
 import VideoPlayer from '@doorward/ui/components/VideoPlayer';
 import Spacer from '@doorward/ui/components/Spacer';
+import DoorwardApi from '../../../services/apis/doorward.api';
 
 const AddModuleVideoForm: React.FunctionComponent<AddModuleVideoFormProps> = ({
   useForm,
@@ -62,7 +62,7 @@ const AddModuleVideoForm: React.FunctionComponent<AddModuleVideoFormProps> = ({
                   placeholder={translate('video')}
                   name="fileId"
                   fileTypes={['video/*']}
-                  uploadHandler={DoorwardBackendApi().files.uploadFile}
+                  uploadHandler={DoorwardApi.api.files.uploadFile}
                   onFileChanged={(file) => {
                     if (file) {
                       const title = formikProps.values.title;

@@ -636,5 +636,9 @@
   "nextPageTitle": "Next page",
   "previousPageTitle": "Previous page",
   "lastPageTitle": "Last page",
-  "pageCountLabel": "{{currentPage}} out of {{numPages}} "
+  "pageCountLabel": "{{currentPage}} out of {{numPages}} ",
+  "addAtLeastOnePDF": "Upload at least one PDF",
+  "remove": "Remove",
+  "totalPagesCount": "{{count}} page",
+  "totalPagesCount_plural": "{{count}} pages"
 }
