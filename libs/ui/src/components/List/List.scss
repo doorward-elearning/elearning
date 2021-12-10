@@ -28,8 +28,8 @@
       }
 
       &.selected {
-        background: var(--primary);
-        color: white;
+        background: lightgray;
+        color: black;
       }
 
       &.clickable {
@@ -41,7 +41,7 @@
       }
 
       &:not(:last-child) {
-        border-bottom: 1px solid var(--line-color);
+        border-bottom: 0px solid var(--line-color);
       }
 
       &.no-border {

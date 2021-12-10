@@ -12,16 +12,16 @@ interface ContentListType extends React.FunctionComponent<ContentListProps> {
 
 const Menu: React.FunctionComponent<MenuProps> = (props): JSX.Element => {
   return (
-    <div className="ed-contentList-menu">
+    <div className="ed-contentList-menu" style={{ marginBottom: '15px' }}>
       <Accordion
-        open
+        open={false}
         title={
           typeof props.title === 'string'
             ? () => <div className="ed-contentList-menu__header">{props.title}</div>
             : props.title
         }
       >
-        <List>{props.children}</List>
+        <List className="ed-contentList-menu__list">{props.children}</List>
       </Accordion>
     </div>
   );

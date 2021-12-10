@@ -33,7 +33,6 @@ export default class ModuleItemEntity extends BaseEntity {
 
   @ManyToOne(() => ModuleEntity, (module) => module.items, {
     onDelete: 'CASCADE',
-    lazy: true,
   })
   module: Promise<ModuleEntity> | ModuleEntity;
 
@@ -50,6 +49,4 @@ export default class ModuleItemEntity extends BaseEntity {
     this.moduleId = (await this.module)?.id;
     this.courseId = (await (await this.module)?.course)?.id;
   }
-
-
 }
