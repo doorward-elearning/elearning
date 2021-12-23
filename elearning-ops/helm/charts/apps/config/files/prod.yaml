@@ -36,8 +36,8 @@ imagePullSecrets:
 # Resources
 resources:
   requests:
-    cpu: 150m
-    memory: 256Mi
+    cpu: 100m
+    memory: 100Mi
 # How many replicas
 replicaCount: 2
 # Override default variables for stage environments
