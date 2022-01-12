@@ -1,36 +1,21 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import QuestionEntity from '@doorward/common/entities/question.entity';
-import { CreateQuestionBody } from '@doorward/common/dtos/body';
 import Spacer from '@doorward/ui/components/Spacer';
-import Icon from '@doorward/ui/components/Icon';
 import QuestionView, { QuestionViewTypes } from '../../components/UI/AssessmentView/QuestionView';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 import Button from '@doorward/ui/components/Buttons/Button';
-import { useSelector } from 'react-redux';
 import translate from '@doorward/common/lang/translate';
 import { FormContext } from '@doorward/ui/components/Form';
-import _, { add, round } from 'lodash';
+import _ from 'lodash';
 import BadgeControl from '@doorward/ui/components/BadgeControl';
 import './styles/SingleQuestionAssessment.scss';
 import Panel from '@doorward/ui/components/Panel';
-import HeaderGrid from '@doorward/ui/components/Grid/HeaderGrid';
-import Grid from '@doorward/ui/components/Grid';
 import classNames from 'classnames';
 
-const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({
-  section,
-  view,
-  questionNumber,
-  onReadyToSave,
-}) => {
+const DisplayQuestion: React.FunctionComponent<DisplayQuestionProps> = ({ section, view, questionNumber }) => {
   const [index, setIndex] = useState(0);
   const [currentQuestion, setCurrentQuestion] = useState(section.questions[0]);
   const { formikProps } = useContext(FormContext);
   const [bookMark, setBookMark] = useState([]);
-
-  useEffect(() => {
-    onReadyToSave(JSON.stringify(formikProps.values.submission));
-  }, [formikProps.values]);
 
   const previous = useCallback(
     (index) => {
@@ -220,7 +205,6 @@ export interface DisplayQuestionProps {
   section: QuestionSectionEntity;
   view?: QuestionViewTypes;
   questionNumber?: number;
-  onReadyToSave: (submission: string) => void;
 }
 
 export default DisplayQuestion;

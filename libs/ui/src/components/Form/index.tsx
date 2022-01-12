@@ -75,7 +75,7 @@ function Form<T>({
         if (!allProps) {
           setAllProps(props);
         }
-        if (!formikProps || formikProps.isValid !== props.isValid) {
+        if (!formikProps || formikProps.isValid !== props.isValid || formikProps.values !== props.values) {
           setFormikProps(props);
         }
 

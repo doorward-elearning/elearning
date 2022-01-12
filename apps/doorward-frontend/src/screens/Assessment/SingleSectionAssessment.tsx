@@ -1,25 +1,17 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import './styles/SingleQuestionAssessment.scss';
-import _ from 'lodash';
 import TabLayout from '@doorward/ui/components/TabLayout';
-import QuestionView, { QuestionViewTypes } from '../../components/UI/AssessmentView/QuestionView';
+import { QuestionViewTypes } from '../../components/UI/AssessmentView/QuestionView';
 import Tab from '@doorward/ui/components/TabLayout/Tab';
-import Button from '@doorward/ui/components/Buttons/Button';
 import Spacer from '@doorward/ui/components/Spacer';
 import { FormContext } from '@doorward/ui/components/Form';
-import ConfirmModal from '@doorward/ui/components/ConfirmModal';
 import useModal from '@doorward/ui/hooks/useModal';
 import { AssessmentTypes } from '@doorward/common/types/moduleItems';
 import translate from '@doorward/common/lang/translate';
-import { WebComponentState } from '@doorward/api-actions/types';
-import { AssessmentSubmissionResponse } from '@doorward/common/dtos/response';
-import Icon from '@doorward/ui/components/Icon';
 import QuestionSectionEntity from '@doorward/common/entities/question.section.entity';
 import HTMLContentView from '@doorward/ui/components/HTMLContentView';
 import DisplayLabel from '@doorward/ui/components/DisplayLabel';
 import Header from '@doorward/ui/components/Header';
-import { Draggable } from 'react-beautiful-dnd';
-import { ColumnSizer } from 'react-virtualized';
 import DisplayQuestion from './DisplayQuestion';
 
 const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentProps> = ({
@@ -80,7 +72,7 @@ const SingleSectionAssessment: React.FunctionComponent<SingleSectionAssessmentPr
               <HTMLContentView content={section.instructions} />
             </div>
             <div>
-              <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} onReadyToSave={onReadyToSave} />
+              <DisplayQuestion view={QuestionViewTypes.EXAM_MODE} section={section} />
             </div>
           </Tab>
         ))}
