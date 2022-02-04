@@ -1,6 +1,8 @@
 import configureLang from './libs/common/src/lang/frontend.config';
 import Enzyme from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
+import '@testing-library/jest-dom';
+
 
 const dotenv = require('dotenv');
 

@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BadgeControl component test should render a badge control component with icon  1`] = `ShallowWrapper {}`;
+
+exports[`BadgeControl component test should render a badge control component with value 1`] = `ShallowWrapper {}`;
