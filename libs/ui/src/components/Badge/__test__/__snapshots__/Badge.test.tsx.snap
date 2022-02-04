@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Badge component test should render a badge component with classname 1`] = `ShallowWrapper {}`;
+
+exports[`Badge component test should render a badge component with theme  1`] = `ShallowWrapper {}`;
+
+exports[`Badge component test should render a default component with nothing 1`] = `ShallowWrapper {}`;
+
+exports[`Badge with only icon should render a badge component with classname 1`] = `ShallowWrapper {}`;
+
+exports[`Badge with only icon should render a badge component with theme  1`] = `ShallowWrapper {}`;
+
+exports[`Badge with only icon should render a default component with nothing 1`] = `ShallowWrapper {}`;
+
+exports[`should render a badge component with theme  1`] = `ShallowWrapper {}`;
+
+exports[`should render a default component with nothing 1`] = `ShallowWrapper {}`;
